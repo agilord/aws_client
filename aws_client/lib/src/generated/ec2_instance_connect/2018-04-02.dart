@@ -50,9 +50,8 @@ class Ec2InstanceConnect {
   /// May throw [ServiceException].
   /// May throw [ThrottlingException].
   /// May throw [EC2InstanceNotFoundException].
-  ///
-  /// Parameter [availabilityZone] :
-  /// The Availability Zone in which the EC2 instance was launched.
+  /// May throw [EC2InstanceStateInvalidException].
+  /// May throw [EC2InstanceUnavailableException].
   ///
   /// Parameter [instanceId] :
   /// The ID of the EC2 instance.
@@ -64,13 +63,15 @@ class Ec2InstanceConnect {
   /// Parameter [sSHPublicKey] :
   /// The public key material. To use the public key, you must have the matching
   /// private key.
+  ///
+  /// Parameter [availabilityZone] :
+  /// The Availability Zone in which the EC2 instance was launched.
   Future<SendSSHPublicKeyResponse> sendSSHPublicKey({
-    required String availabilityZone,
     required String instanceId,
     required String instanceOSUser,
     required String sSHPublicKey,
+    String? availabilityZone,
   }) async {
-    ArgumentError.checkNotNull(availabilityZone, 'availabilityZone');
     ArgumentError.checkNotNull(instanceId, 'instanceId');
     ArgumentError.checkNotNull(instanceOSUser, 'instanceOSUser');
     ArgumentError.checkNotNull(sSHPublicKey, 'sSHPublicKey');
@@ -85,10 +86,10 @@ class Ec2InstanceConnect {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AvailabilityZone': availabilityZone,
         'InstanceId': instanceId,
         'InstanceOSUser': instanceOSUser,
         'SSHPublicKey': sSHPublicKey,
+        if (availabilityZone != null) 'AvailabilityZone': availabilityZone,
       },
     );
 
@@ -110,6 +111,8 @@ class Ec2InstanceConnect {
   /// May throw [EC2InstanceTypeInvalidException].
   /// May throw [SerialConsoleSessionLimitExceededException].
   /// May throw [SerialConsoleSessionUnavailableException].
+  /// May throw [EC2InstanceStateInvalidException].
+  /// May throw [EC2InstanceUnavailableException].
   ///
   /// Parameter [instanceId] :
   /// The ID of the EC2 instance.
@@ -232,11 +235,27 @@ class EC2InstanceNotFoundException extends _s.GenericAwsException {
             type: type, code: 'EC2InstanceNotFoundException', message: message);
 }
 
+class EC2InstanceStateInvalidException extends _s.GenericAwsException {
+  EC2InstanceStateInvalidException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'EC2InstanceStateInvalidException',
+            message: message);
+}
+
 class EC2InstanceTypeInvalidException extends _s.GenericAwsException {
   EC2InstanceTypeInvalidException({String? type, String? message})
       : super(
             type: type,
             code: 'EC2InstanceTypeInvalidException',
+            message: message);
+}
+
+class EC2InstanceUnavailableException extends _s.GenericAwsException {
+  EC2InstanceUnavailableException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'EC2InstanceUnavailableException',
             message: message);
 }
 
@@ -285,8 +304,12 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       AuthException(type: type, message: message),
   'EC2InstanceNotFoundException': (type, message) =>
       EC2InstanceNotFoundException(type: type, message: message),
+  'EC2InstanceStateInvalidException': (type, message) =>
+      EC2InstanceStateInvalidException(type: type, message: message),
   'EC2InstanceTypeInvalidException': (type, message) =>
       EC2InstanceTypeInvalidException(type: type, message: message),
+  'EC2InstanceUnavailableException': (type, message) =>
+      EC2InstanceUnavailableException(type: type, message: message),
   'InvalidArgsException': (type, message) =>
       InvalidArgsException(type: type, message: message),
   'SerialConsoleAccessDisabledException': (type, message) =>

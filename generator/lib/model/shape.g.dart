@@ -38,7 +38,8 @@ Shape _$ShapeFromJson(Map<String, dynamic> json) {
     'xmlNamespace',
     'eventstream',
     'union',
-    'requiresLength'
+    'requiresLength',
+    'document'
   ]);
   return Shape(
     json['type'] as String,
@@ -85,6 +86,7 @@ Shape _$ShapeFromJson(Map<String, dynamic> json) {
     json['eventstream'] as bool ?? false,
     json['union'] as bool ?? false,
     json['requiresLength'] as bool ?? false,
+    json['document'] as bool ?? false,
   );
 }
 

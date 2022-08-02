@@ -68,6 +68,8 @@ class Shape {
   @JsonKey(defaultValue: false)
   final bool requiresLength;
   List<Member> _members;
+  @JsonKey(defaultValue: false)
+  final bool document;
 
   Shape(
     this.type,
@@ -101,6 +103,7 @@ class Shape {
     this.eventstream,
     this.union,
     this.requiresLength,
+    this.document,
   ) {
     membersMap?.entries?.forEach((e) {
       e.value.name = e.key;
@@ -318,6 +321,7 @@ extension NameStuff on String {
         'continue',
         'default',
         'do',
+        'else',
         'enum',
         'false',
         'for',

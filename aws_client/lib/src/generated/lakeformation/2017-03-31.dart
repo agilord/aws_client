@@ -1922,9 +1922,6 @@ class LakeFormation {
   /// Parameter [tableName] :
   /// The governed table to update.
   ///
-  /// Parameter [transactionId] :
-  /// The transaction at which to do the write.
-  ///
   /// Parameter [writeOperations] :
   /// A list of <code>WriteOperation</code> objects that define an object to add
   /// to or delete from the manifest for a governed table.
@@ -1932,23 +1929,25 @@ class LakeFormation {
   /// Parameter [catalogId] :
   /// The catalog containing the governed table to update. Defaults to the
   /// caller’s account ID.
+  ///
+  /// Parameter [transactionId] :
+  /// The transaction at which to do the write.
   Future<void> updateTableObjects({
     required String databaseName,
     required String tableName,
-    required String transactionId,
     required List<WriteOperation> writeOperations,
     String? catalogId,
+    String? transactionId,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
     ArgumentError.checkNotNull(tableName, 'tableName');
-    ArgumentError.checkNotNull(transactionId, 'transactionId');
     ArgumentError.checkNotNull(writeOperations, 'writeOperations');
     final $payload = <String, dynamic>{
       'DatabaseName': databaseName,
       'TableName': tableName,
-      'TransactionId': transactionId,
       'WriteOperations': writeOperations,
       if (catalogId != null) 'CatalogId': catalogId,
+      if (transactionId != null) 'TransactionId': transactionId,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -4174,10 +4173,7 @@ enum Permission {
   createTable,
   dataLocationAccess,
   createTag,
-  alterTag,
-  deleteTag,
-  describeTag,
-  associateTag,
+  associate,
 }
 
 extension on Permission {
@@ -4205,14 +4201,8 @@ extension on Permission {
         return 'DATA_LOCATION_ACCESS';
       case Permission.createTag:
         return 'CREATE_TAG';
-      case Permission.alterTag:
-        return 'ALTER_TAG';
-      case Permission.deleteTag:
-        return 'DELETE_TAG';
-      case Permission.describeTag:
-        return 'DESCRIBE_TAG';
-      case Permission.associateTag:
-        return 'ASSOCIATE_TAG';
+      case Permission.associate:
+        return 'ASSOCIATE';
     }
   }
 }
@@ -4242,14 +4232,8 @@ extension on String {
         return Permission.dataLocationAccess;
       case 'CREATE_TAG':
         return Permission.createTag;
-      case 'ALTER_TAG':
-        return Permission.alterTag;
-      case 'DELETE_TAG':
-        return Permission.deleteTag;
-      case 'DESCRIBE_TAG':
-        return Permission.describeTag;
-      case 'ASSOCIATE_TAG':
-        return Permission.associateTag;
+      case 'ASSOCIATE':
+        return Permission.associate;
     }
     throw Exception('$this is not known in enum Permission');
   }

@@ -81,7 +81,18 @@ class Imagebuilder {
   }
 
   /// Creates a new component that can be used to build, validate, test, and
-  /// assess your image.
+  /// assess your image. The component is based on a YAML document that you
+  /// specify using exactly one of the following methods:
+  ///
+  /// <ul>
+  /// <li>
+  /// Inline, using the <code>data</code> property in the request body.
+  /// </li>
+  /// <li>
+  /// A URL that points to a YAML document file stored in Amazon S3, using the
+  /// <code>uri</code> property in the request body.
+  /// </li>
+  /// </ul>
   ///
   /// May throw [ServiceException].
   /// May throw [ClientException].
@@ -129,9 +140,10 @@ class Imagebuilder {
   /// The idempotency token of the component.
   ///
   /// Parameter [data] :
-  /// The data of the component. Used to specify the data inline. Either
-  /// <code>data</code> or <code>uri</code> can be used to specify the data
-  /// within the component.
+  /// Component <code>data</code> contains inline YAML document content for the
+  /// component. Alternatively, you can specify the <code>uri</code> of a YAML
+  /// document file stored in Amazon S3. However, you cannot specify both
+  /// properties.
   ///
   /// Parameter [description] :
   /// The description of the component. Describes the contents of the component.
@@ -148,11 +160,13 @@ class Imagebuilder {
   /// The tags of the component.
   ///
   /// Parameter [uri] :
-  /// The uri of the component. Must be an Amazon S3 URL and the requester must
-  /// have permission to access the Amazon S3 bucket. If you use Amazon S3, you
-  /// can specify component content up to your service quota. Either
-  /// <code>data</code> or <code>uri</code> can be used to specify the data
-  /// within the component.
+  /// The <code>uri</code> of a YAML component document file. This must be an S3
+  /// URL (<code>s3://bucket/key</code>), and the requester must have permission
+  /// to access the S3 bucket it points to. If you use Amazon S3, you can
+  /// specify component content up to your service quota.
+  ///
+  /// Alternatively, you can specify the YAML document inline, using the
+  /// component <code>data</code> property. You cannot specify both properties.
   Future<CreateComponentResponse> createComponent({
     required String name,
     required Platform platform,
@@ -2814,11 +2828,21 @@ class AdditionalInstanceConfiguration {
 
   /// Use this property to provide commands or a command script to run when you
   /// launch your build instance.
-  /// <note>
+  ///
   /// The userDataOverride property replaces any commands that Image Builder might
   /// have added to ensure that Systems Manager is installed on your Linux build
   /// instance. If you override the user data, make sure that you add commands to
   /// install Systems Manager, if it is not pre-installed on your base image.
+  /// <note>
+  /// The user data is always base 64 encoded. For example, the following commands
+  /// are encoded as
+  /// <code>IyEvYmluL2Jhc2gKbWtkaXIgLXAgL3Zhci9iYi8KdG91Y2ggL3Zhci$</code>:
+  ///
+  /// <i>#!/bin/bash</i>
+  ///
+  /// mkdir -p /var/bb/
+  ///
+  /// touch /var
   /// </note>
   final String? userDataOverride;
 
@@ -3053,7 +3077,7 @@ class Component {
   /// The change description of the component.
   final String? changeDescription;
 
-  /// The data of the component.
+  /// Component data contains the YAML document content for the component.
   final String? data;
 
   /// The date that the component was created.
@@ -4558,6 +4582,9 @@ class Distribution {
   /// specific Region.
   final ContainerDistributionConfiguration? containerDistributionConfiguration;
 
+  /// The Windows faster-launching configurations to use for AMI distribution.
+  final List<FastLaunchConfiguration>? fastLaunchConfigurations;
+
   /// A group of launchTemplateConfiguration settings that apply to image
   /// distribution for specified accounts.
   final List<LaunchTemplateConfiguration>? launchTemplateConfigurations;
@@ -4574,6 +4601,7 @@ class Distribution {
     required this.region,
     this.amiDistributionConfiguration,
     this.containerDistributionConfiguration,
+    this.fastLaunchConfigurations,
     this.launchTemplateConfigurations,
     this.licenseConfigurationArns,
     this.s3ExportConfiguration,
@@ -4592,6 +4620,11 @@ class Distribution {
                   json['containerDistributionConfiguration']
                       as Map<String, dynamic>)
               : null,
+      fastLaunchConfigurations: (json['fastLaunchConfigurations'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              FastLaunchConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
       launchTemplateConfigurations: (json['launchTemplateConfigurations']
               as List?)
           ?.whereNotNull()
@@ -4614,6 +4647,7 @@ class Distribution {
     final amiDistributionConfiguration = this.amiDistributionConfiguration;
     final containerDistributionConfiguration =
         this.containerDistributionConfiguration;
+    final fastLaunchConfigurations = this.fastLaunchConfigurations;
     final launchTemplateConfigurations = this.launchTemplateConfigurations;
     final licenseConfigurationArns = this.licenseConfigurationArns;
     final s3ExportConfiguration = this.s3ExportConfiguration;
@@ -4624,6 +4658,8 @@ class Distribution {
       if (containerDistributionConfiguration != null)
         'containerDistributionConfiguration':
             containerDistributionConfiguration,
+      if (fastLaunchConfigurations != null)
+        'fastLaunchConfigurations': fastLaunchConfigurations,
       if (launchTemplateConfigurations != null)
         'launchTemplateConfigurations': launchTemplateConfigurations,
       if (licenseConfigurationArns != null)
@@ -4905,6 +4941,143 @@ extension on String {
         return EbsVolumeType.st1;
     }
     throw Exception('$this is not known in enum EbsVolumeType');
+  }
+}
+
+/// Define and configure faster launching for output Windows AMIs.
+class FastLaunchConfiguration {
+  /// A Boolean that represents the current state of faster launching for the
+  /// Windows AMI. Set to <code>true</code> to start using Windows faster
+  /// launching, or <code>false</code> to stop using it.
+  final bool enabled;
+
+  /// The owner account ID for the fast-launch enabled Windows AMI.
+  final String? accountId;
+
+  /// The launch template that the fast-launch enabled Windows AMI uses when it
+  /// launches Windows instances to create pre-provisioned snapshots.
+  final FastLaunchLaunchTemplateSpecification? launchTemplate;
+
+  /// The maximum number of parallel instances that are launched for creating
+  /// resources.
+  final int? maxParallelLaunches;
+
+  /// Configuration settings for managing the number of snapshots that are created
+  /// from pre-provisioned instances for the Windows AMI when faster launching is
+  /// enabled.
+  final FastLaunchSnapshotConfiguration? snapshotConfiguration;
+
+  FastLaunchConfiguration({
+    required this.enabled,
+    this.accountId,
+    this.launchTemplate,
+    this.maxParallelLaunches,
+    this.snapshotConfiguration,
+  });
+
+  factory FastLaunchConfiguration.fromJson(Map<String, dynamic> json) {
+    return FastLaunchConfiguration(
+      enabled: json['enabled'] as bool,
+      accountId: json['accountId'] as String?,
+      launchTemplate: json['launchTemplate'] != null
+          ? FastLaunchLaunchTemplateSpecification.fromJson(
+              json['launchTemplate'] as Map<String, dynamic>)
+          : null,
+      maxParallelLaunches: json['maxParallelLaunches'] as int?,
+      snapshotConfiguration: json['snapshotConfiguration'] != null
+          ? FastLaunchSnapshotConfiguration.fromJson(
+              json['snapshotConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final accountId = this.accountId;
+    final launchTemplate = this.launchTemplate;
+    final maxParallelLaunches = this.maxParallelLaunches;
+    final snapshotConfiguration = this.snapshotConfiguration;
+    return {
+      'enabled': enabled,
+      if (accountId != null) 'accountId': accountId,
+      if (launchTemplate != null) 'launchTemplate': launchTemplate,
+      if (maxParallelLaunches != null)
+        'maxParallelLaunches': maxParallelLaunches,
+      if (snapshotConfiguration != null)
+        'snapshotConfiguration': snapshotConfiguration,
+    };
+  }
+}
+
+/// Identifies the launch template that the associated Windows AMI uses for
+/// launching an instance when faster launching is enabled.
+/// <note>
+/// You can specify either the <code>launchTemplateName</code> or the
+/// <code>launchTemplateId</code>, but not both.
+/// </note>
+class FastLaunchLaunchTemplateSpecification {
+  /// The ID of the launch template to use for faster launching for a Windows AMI.
+  final String? launchTemplateId;
+
+  /// The name of the launch template to use for faster launching for a Windows
+  /// AMI.
+  final String? launchTemplateName;
+
+  /// The version of the launch template to use for faster launching for a Windows
+  /// AMI.
+  final String? launchTemplateVersion;
+
+  FastLaunchLaunchTemplateSpecification({
+    this.launchTemplateId,
+    this.launchTemplateName,
+    this.launchTemplateVersion,
+  });
+
+  factory FastLaunchLaunchTemplateSpecification.fromJson(
+      Map<String, dynamic> json) {
+    return FastLaunchLaunchTemplateSpecification(
+      launchTemplateId: json['launchTemplateId'] as String?,
+      launchTemplateName: json['launchTemplateName'] as String?,
+      launchTemplateVersion: json['launchTemplateVersion'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final launchTemplateId = this.launchTemplateId;
+    final launchTemplateName = this.launchTemplateName;
+    final launchTemplateVersion = this.launchTemplateVersion;
+    return {
+      if (launchTemplateId != null) 'launchTemplateId': launchTemplateId,
+      if (launchTemplateName != null) 'launchTemplateName': launchTemplateName,
+      if (launchTemplateVersion != null)
+        'launchTemplateVersion': launchTemplateVersion,
+    };
+  }
+}
+
+/// Configuration settings for creating and managing pre-provisioned snapshots
+/// for a fast-launch enabled Windows AMI.
+class FastLaunchSnapshotConfiguration {
+  /// The number of pre-provisioned snapshots to keep on hand for a fast-launch
+  /// enabled Windows AMI.
+  final int? targetResourceCount;
+
+  FastLaunchSnapshotConfiguration({
+    this.targetResourceCount,
+  });
+
+  factory FastLaunchSnapshotConfiguration.fromJson(Map<String, dynamic> json) {
+    return FastLaunchSnapshotConfiguration(
+      targetResourceCount: json['targetResourceCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final targetResourceCount = this.targetResourceCount;
+    return {
+      if (targetResourceCount != null)
+        'targetResourceCount': targetResourceCount,
+    };
   }
 }
 

@@ -239,7 +239,11 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "shape": "LogTypeList",
         "flattened": false
       },
-      "DeletionProtection": {"shape": "BooleanOptional", "flattened": false}
+      "DeletionProtection": {"shape": "BooleanOptional", "flattened": false},
+      "GlobalClusterIdentifier": {
+        "shape": "GlobalClusterIdentifier",
+        "flattened": false
+      }
     },
     "flattened": false
   },
@@ -411,6 +415,28 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "type": "structure",
     "members": {
       "EventSubscription": {"shape": "EventSubscription", "flattened": false}
+    },
+    "flattened": false
+  },
+  "CreateGlobalClusterMessage": {
+    "type": "structure",
+    "members": {
+      "GlobalClusterIdentifier": {
+        "shape": "GlobalClusterIdentifier",
+        "flattened": false
+      },
+      "SourceDBClusterIdentifier": {"shape": "String", "flattened": false},
+      "Engine": {"shape": "String", "flattened": false},
+      "EngineVersion": {"shape": "String", "flattened": false},
+      "DeletionProtection": {"shape": "BooleanOptional", "flattened": false},
+      "StorageEncrypted": {"shape": "BooleanOptional", "flattened": false}
+    },
+    "flattened": false
+  },
+  "CreateGlobalClusterResult": {
+    "type": "structure",
+    "members": {
+      "GlobalCluster": {"shape": "GlobalCluster", "flattened": false}
     },
     "flattened": false
   },
@@ -716,7 +742,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "shape": "Boolean",
         "flattened": false
       },
-      "SupportsReadReplica": {"shape": "Boolean", "flattened": false}
+      "SupportsReadReplica": {"shape": "Boolean", "flattened": false},
+      "SupportsGlobalDatabases": {"shape": "Boolean", "flattened": false}
     },
     "flattened": false
   },
@@ -1066,6 +1093,23 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     },
     "flattened": false
   },
+  "DeleteGlobalClusterMessage": {
+    "type": "structure",
+    "members": {
+      "GlobalClusterIdentifier": {
+        "shape": "GlobalClusterIdentifier",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
+  "DeleteGlobalClusterResult": {
+    "type": "structure",
+    "members": {
+      "GlobalCluster": {"shape": "GlobalCluster", "flattened": false}
+    },
+    "flattened": false
+  },
   "DescribeDBClusterEndpointsMessage": {
     "type": "structure",
     "members": {
@@ -1260,6 +1304,18 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "Duration": {"shape": "IntegerOptional", "flattened": false},
       "EventCategories": {"shape": "EventCategoriesList", "flattened": false},
       "Filters": {"shape": "FilterList", "flattened": false},
+      "MaxRecords": {"shape": "IntegerOptional", "flattened": false},
+      "Marker": {"shape": "String", "flattened": false}
+    },
+    "flattened": false
+  },
+  "DescribeGlobalClustersMessage": {
+    "type": "structure",
+    "members": {
+      "GlobalClusterIdentifier": {
+        "shape": "GlobalClusterIdentifier",
+        "flattened": false
+      },
       "MaxRecords": {"shape": "IntegerOptional", "flattened": false},
       "Marker": {"shape": "String", "flattened": false}
     },
@@ -1463,6 +1519,24 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     },
     "flattened": false
   },
+  "FailoverGlobalClusterMessage": {
+    "type": "structure",
+    "members": {
+      "GlobalClusterIdentifier": {
+        "shape": "GlobalClusterIdentifier",
+        "flattened": false
+      },
+      "TargetDbClusterIdentifier": {"shape": "String", "flattened": false}
+    },
+    "flattened": false
+  },
+  "FailoverGlobalClusterResult": {
+    "type": "structure",
+    "members": {
+      "GlobalCluster": {"shape": "GlobalCluster", "flattened": false}
+    },
+    "flattened": false
+  },
   "Filter": {
     "type": "structure",
     "members": {
@@ -1479,6 +1553,58 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   "FilterValueList": {
     "type": "list",
     "member": {"shape": "String", "locationName": "Value"},
+    "flattened": false
+  },
+  "GlobalCluster": {
+    "type": "structure",
+    "members": {
+      "GlobalClusterIdentifier": {
+        "shape": "GlobalClusterIdentifier",
+        "flattened": false
+      },
+      "GlobalClusterResourceId": {"shape": "String", "flattened": false},
+      "GlobalClusterArn": {"shape": "String", "flattened": false},
+      "Status": {"shape": "String", "flattened": false},
+      "Engine": {"shape": "String", "flattened": false},
+      "EngineVersion": {"shape": "String", "flattened": false},
+      "StorageEncrypted": {"shape": "BooleanOptional", "flattened": false},
+      "DeletionProtection": {"shape": "BooleanOptional", "flattened": false},
+      "GlobalClusterMembers": {
+        "shape": "GlobalClusterMemberList",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
+  "GlobalClusterIdentifier": {"type": "string", "flattened": false},
+  "GlobalClusterList": {
+    "type": "list",
+    "member": {"shape": "GlobalCluster", "locationName": "GlobalClusterMember"},
+    "flattened": false
+  },
+  "GlobalClusterMember": {
+    "type": "structure",
+    "members": {
+      "DBClusterArn": {"shape": "String", "flattened": false},
+      "Readers": {"shape": "ReadersArnList", "flattened": false},
+      "IsWriter": {"shape": "Boolean", "flattened": false}
+    },
+    "flattened": false
+  },
+  "GlobalClusterMemberList": {
+    "type": "list",
+    "member": {
+      "shape": "GlobalClusterMember",
+      "locationName": "GlobalClusterMember"
+    },
+    "flattened": false
+  },
+  "GlobalClustersMessage": {
+    "type": "structure",
+    "members": {
+      "Marker": {"shape": "String", "flattened": false},
+      "GlobalClusters": {"shape": "GlobalClusterList", "flattened": false}
+    },
     "flattened": false
   },
   "Integer": {"type": "integer", "flattened": false},
@@ -1708,6 +1834,33 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     },
     "flattened": false
   },
+  "ModifyGlobalClusterMessage": {
+    "type": "structure",
+    "members": {
+      "GlobalClusterIdentifier": {
+        "shape": "GlobalClusterIdentifier",
+        "flattened": false
+      },
+      "NewGlobalClusterIdentifier": {
+        "shape": "GlobalClusterIdentifier",
+        "flattened": false
+      },
+      "DeletionProtection": {"shape": "BooleanOptional", "flattened": false},
+      "EngineVersion": {"shape": "String", "flattened": false},
+      "AllowMajorVersionUpgrade": {
+        "shape": "BooleanOptional",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
+  "ModifyGlobalClusterResult": {
+    "type": "structure",
+    "members": {
+      "GlobalCluster": {"shape": "GlobalCluster", "flattened": false}
+    },
+    "flattened": false
+  },
   "OptionGroupMembership": {
     "type": "structure",
     "members": {
@@ -1752,7 +1905,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "MinIopsPerDbInstance": {"shape": "IntegerOptional", "flattened": false},
       "MaxIopsPerDbInstance": {"shape": "IntegerOptional", "flattened": false},
       "MinIopsPerGib": {"shape": "DoubleOptional", "flattened": false},
-      "MaxIopsPerGib": {"shape": "DoubleOptional", "flattened": false}
+      "MaxIopsPerGib": {"shape": "DoubleOptional", "flattened": false},
+      "SupportsGlobalDatabases": {"shape": "Boolean", "flattened": false}
     },
     "flattened": false
   },
@@ -1915,6 +2069,11 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "member": {"shape": "String", "locationName": "ReadReplicaIdentifier"},
     "flattened": false
   },
+  "ReadersArnList": {
+    "type": "list",
+    "member": {"shape": "String"},
+    "flattened": false
+  },
   "RebootDBInstanceMessage": {
     "type": "structure",
     "members": {
@@ -1927,6 +2086,24 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "type": "structure",
     "members": {
       "DBInstance": {"shape": "DBInstance", "flattened": false}
+    },
+    "flattened": false
+  },
+  "RemoveFromGlobalClusterMessage": {
+    "type": "structure",
+    "members": {
+      "GlobalClusterIdentifier": {
+        "shape": "GlobalClusterIdentifier",
+        "flattened": false
+      },
+      "DbClusterIdentifier": {"shape": "String", "flattened": false}
+    },
+    "flattened": false
+  },
+  "RemoveFromGlobalClusterResult": {
+    "type": "structure",
+    "members": {
+      "GlobalCluster": {"shape": "GlobalCluster", "flattened": false}
     },
     "flattened": false
   },
@@ -2174,7 +2351,11 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "EngineVersion": {"shape": "String", "flattened": false},
       "Description": {"shape": "String", "flattened": false},
       "AutoUpgrade": {"shape": "Boolean", "flattened": false},
-      "IsMajorVersionUpgrade": {"shape": "Boolean", "flattened": false}
+      "IsMajorVersionUpgrade": {"shape": "Boolean", "flattened": false},
+      "SupportsGlobalDatabases": {
+        "shape": "BooleanOptional",
+        "flattened": false
+      }
     },
     "flattened": false
   },

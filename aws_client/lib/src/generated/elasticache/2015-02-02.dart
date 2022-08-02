@@ -559,7 +559,8 @@ class ElastiCache {
   /// <code>cache.t2.small</code>, <code>cache.t2.medium</code>
   /// </li>
   /// <li>
-  /// Previous generation: (not recommended)
+  /// Previous generation: (not recommended. Existing clusters are still
+  /// supported but creation of new clusters is not supported for these types.)
   ///
   /// <b>T1 node types:</b> <code>cache.t1.micro</code>
   ///
@@ -577,24 +578,10 @@ class ElastiCache {
   ///
   /// <ul>
   /// <li>
-  /// Previous generation: (not recommended)
+  /// Previous generation: (not recommended. Existing clusters are still
+  /// supported but creation of new clusters is not supported for these types.)
   ///
   /// <b>C1 node types:</b> <code>cache.c1.xlarge</code>
-  /// </li>
-  /// </ul> </li>
-  /// <li>
-  /// Memory optimized with data tiering:
-  ///
-  /// <ul>
-  /// <li>
-  /// Current generation:
-  ///
-  /// <b>R6gd node types</b> (available only for Redis engine version 6.2
-  /// onward).
-  ///
-  /// <code>cache.r6gd.xlarge</code>, <code>cache.r6gd.2xlarge</code>,
-  /// <code>cache.r6gd.4xlarge</code>, <code>cache.r6gd.8xlarge</code>,
-  /// <code>cache.r6gd.12xlarge</code>, <code>cache.r6gd.16xlarge</code>
   /// </li>
   /// </ul> </li>
   /// <li>
@@ -627,7 +614,8 @@ class ElastiCache {
   /// <code>cache.r4.16xlarge</code>
   /// </li>
   /// <li>
-  /// Previous generation: (not recommended)
+  /// Previous generation: (not recommended. Existing clusters are still
+  /// supported but creation of new clusters is not supported for these types.)
   ///
   /// <b>M2 node types:</b> <code>cache.m2.xlarge</code>,
   /// <code>cache.m2.2xlarge</code>, <code>cache.m2.4xlarge</code>
@@ -760,7 +748,7 @@ class ElastiCache {
   /// Specifies the weekly time range during which maintenance on the cluster is
   /// performed. It is specified as a range in the format
   /// ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is
-  /// a 60 minute period. Valid values for <code>ddd</code> are:
+  /// a 60 minute period.
   ///
   /// Parameter [preferredOutpostArn] :
   /// The outpost ARN in which the cache cluster is created.
@@ -836,6 +824,16 @@ class ElastiCache {
   ///
   /// Parameter [tags] :
   /// A list of tags to be added to this resource.
+  ///
+  /// Parameter [transitEncryptionEnabled] :
+  /// A flag that enables in-transit encryption when set to true. You cannot
+  /// modify the value of <code>TransitEncryptionEnabled</code> after the
+  /// cluster is created. To enable in-transit encryption on a cluster you must
+  /// set <code>TransitEncryptionEnabled</code> to true when you create a
+  /// cluster.
+  ///
+  /// <b>Required:</b> Only available when creating a cache cluster in an Amazon
+  /// VPC using Memcached version <code>1.6.12</code> or later.
   Future<CreateCacheClusterResult> createCacheCluster({
     required String cacheClusterId,
     AZMode? aZMode,
@@ -864,6 +862,7 @@ class ElastiCache {
     int? snapshotRetentionLimit,
     String? snapshotWindow,
     List<Tag>? tags,
+    bool? transitEncryptionEnabled,
   }) async {
     ArgumentError.checkNotNull(cacheClusterId, 'cacheClusterId');
     final $request = <String, dynamic>{};
@@ -902,6 +901,8 @@ class ElastiCache {
         ?.also((arg) => $request['SnapshotRetentionLimit'] = arg);
     snapshotWindow?.also((arg) => $request['SnapshotWindow'] = arg);
     tags?.also((arg) => $request['Tags'] = arg);
+    transitEncryptionEnabled
+        ?.also((arg) => $request['TransitEncryptionEnabled'] = arg);
     final $result = await _protocol.send(
       $request,
       action: 'CreateCacheCluster',
@@ -953,7 +954,7 @@ class ElastiCache {
   /// Valid values are: <code>memcached1.4</code> | <code>memcached1.5</code> |
   /// <code>memcached1.6</code> | <code>redis2.6</code> | <code>redis2.8</code>
   /// | <code>redis3.2</code> | <code>redis4.0</code> | <code>redis5.0</code> |
-  /// <code>redis6.0</code> | <code>redis6.2</code>
+  /// <code>redis6.x</code>
   ///
   /// Parameter [cacheParameterGroupName] :
   /// A user-specified name for the cache parameter group.
@@ -1374,7 +1375,8 @@ class ElastiCache {
   /// <code>cache.t2.small</code>, <code>cache.t2.medium</code>
   /// </li>
   /// <li>
-  /// Previous generation: (not recommended)
+  /// Previous generation: (not recommended. Existing clusters are still
+  /// supported but creation of new clusters is not supported for these types.)
   ///
   /// <b>T1 node types:</b> <code>cache.t1.micro</code>
   ///
@@ -1392,7 +1394,8 @@ class ElastiCache {
   ///
   /// <ul>
   /// <li>
-  /// Previous generation: (not recommended)
+  /// Previous generation: (not recommended. Existing clusters are still
+  /// supported but creation of new clusters is not supported for these types.)
   ///
   /// <b>C1 node types:</b> <code>cache.c1.xlarge</code>
   /// </li>
@@ -1442,7 +1445,8 @@ class ElastiCache {
   /// <code>cache.r4.16xlarge</code>
   /// </li>
   /// <li>
-  /// Previous generation: (not recommended)
+  /// Previous generation: (not recommended. Existing clusters are still
+  /// supported but creation of new clusters is not supported for these types.)
   ///
   /// <b>M2 node types:</b> <code>cache.m2.xlarge</code>,
   /// <code>cache.m2.2xlarge</code>, <code>cache.m2.4xlarge</code>
@@ -3239,7 +3243,8 @@ class ElastiCache {
   /// <code>cache.t2.small</code>, <code>cache.t2.medium</code>
   /// </li>
   /// <li>
-  /// Previous generation: (not recommended)
+  /// Previous generation: (not recommended. Existing clusters are still
+  /// supported but creation of new clusters is not supported for these types.)
   ///
   /// <b>T1 node types:</b> <code>cache.t1.micro</code>
   ///
@@ -3257,7 +3262,8 @@ class ElastiCache {
   ///
   /// <ul>
   /// <li>
-  /// Previous generation: (not recommended)
+  /// Previous generation: (not recommended. Existing clusters are still
+  /// supported but creation of new clusters is not supported for these types.)
   ///
   /// <b>C1 node types:</b> <code>cache.c1.xlarge</code>
   /// </li>
@@ -3307,7 +3313,8 @@ class ElastiCache {
   /// <code>cache.r4.16xlarge</code>
   /// </li>
   /// <li>
-  /// Previous generation: (not recommended)
+  /// Previous generation: (not recommended. Existing clusters are still
+  /// supported but creation of new clusters is not supported for these types.)
   ///
   /// <b>M2 node types:</b> <code>cache.m2.xlarge</code>,
   /// <code>cache.m2.2xlarge</code>, <code>cache.m2.4xlarge</code>
@@ -3466,7 +3473,8 @@ class ElastiCache {
   /// <code>cache.t2.small</code>, <code>cache.t2.medium</code>
   /// </li>
   /// <li>
-  /// Previous generation: (not recommended)
+  /// Previous generation: (not recommended. Existing clusters are still
+  /// supported but creation of new clusters is not supported for these types.)
   ///
   /// <b>T1 node types:</b> <code>cache.t1.micro</code>
   ///
@@ -3484,7 +3492,8 @@ class ElastiCache {
   ///
   /// <ul>
   /// <li>
-  /// Previous generation: (not recommended)
+  /// Previous generation: (not recommended. Existing clusters are still
+  /// supported but creation of new clusters is not supported for these types.)
   ///
   /// <b>C1 node types:</b> <code>cache.c1.xlarge</code>
   /// </li>
@@ -3534,7 +3543,8 @@ class ElastiCache {
   /// <code>cache.r4.16xlarge</code>
   /// </li>
   /// <li>
-  /// Previous generation: (not recommended)
+  /// Previous generation: (not recommended. Existing clusters are still
+  /// supported but creation of new clusters is not supported for these types.)
   ///
   /// <b>M2 node types:</b> <code>cache.m2.xlarge</code>,
   /// <code>cache.m2.2xlarge</code>, <code>cache.m2.4xlarge</code>
@@ -5446,7 +5456,7 @@ class ElastiCache {
   ///
   /// If you make changes to parameters that require a Redis (cluster mode
   /// enabled) cluster reboot for the changes to be applied, see <a
-  /// href="http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/Clusters.Rebooting.html">Rebooting
+  /// href="http://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/nodes.rebooting.html">Rebooting
   /// a Cluster</a> for an alternate process.
   ///
   /// May throw [InvalidCacheClusterStateFault].
@@ -6205,7 +6215,8 @@ class CacheCluster {
   /// <code>cache.t2.small</code>, <code>cache.t2.medium</code>
   /// </li>
   /// <li>
-  /// Previous generation: (not recommended)
+  /// Previous generation: (not recommended. Existing clusters are still supported
+  /// but creation of new clusters is not supported for these types.)
   ///
   /// <b>T1 node types:</b> <code>cache.t1.micro</code>
   ///
@@ -6223,7 +6234,8 @@ class CacheCluster {
   ///
   /// <ul>
   /// <li>
-  /// Previous generation: (not recommended)
+  /// Previous generation: (not recommended. Existing clusters are still supported
+  /// but creation of new clusters is not supported for these types.)
   ///
   /// <b>C1 node types:</b> <code>cache.c1.xlarge</code>
   /// </li>
@@ -6272,7 +6284,8 @@ class CacheCluster {
   /// <code>cache.r4.16xlarge</code>
   /// </li>
   /// <li>
-  /// Previous generation: (not recommended)
+  /// Previous generation: (not recommended. Existing clusters are still supported
+  /// but creation of new clusters is not supported for these types.)
   ///
   /// <b>M2 node types:</b> <code>cache.m2.xlarge</code>,
   /// <code>cache.m2.2xlarge</code>, <code>cache.m2.4xlarge</code>
@@ -6738,7 +6751,7 @@ class CacheEngineVersion {
   /// Valid values are: <code>memcached1.4</code> | <code>memcached1.5</code> |
   /// <code>memcached1.6</code> | <code>redis2.6</code> | <code>redis2.8</code> |
   /// <code>redis3.2</code> | <code>redis4.0</code> | <code>redis5.0</code> |
-  /// <code>redis6.0</code> | <code>redis6.2</code>
+  /// <code>redis6.x</code>
   final String? cacheParameterGroupFamily;
 
   /// The name of the cache engine.
@@ -6893,7 +6906,8 @@ class CacheEngineVersionMessage {
 /// <code>cache.t2.small</code>, <code>cache.t2.medium</code>
 /// </li>
 /// <li>
-/// Previous generation: (not recommended)
+/// Previous generation: (not recommended. Existing clusters are still supported
+/// but creation of new clusters is not supported for these types.)
 ///
 /// <b>T1 node types:</b> <code>cache.t1.micro</code>
 ///
@@ -6911,7 +6925,8 @@ class CacheEngineVersionMessage {
 ///
 /// <ul>
 /// <li>
-/// Previous generation: (not recommended)
+/// Previous generation: (not recommended. Existing clusters are still supported
+/// but creation of new clusters is not supported for these types.)
 ///
 /// <b>C1 node types:</b> <code>cache.c1.xlarge</code>
 /// </li>
@@ -6960,7 +6975,8 @@ class CacheEngineVersionMessage {
 /// <code>cache.r4.16xlarge</code>
 /// </li>
 /// <li>
-/// Previous generation: (not recommended)
+/// Previous generation: (not recommended. Existing clusters are still supported
+/// but creation of new clusters is not supported for these types.)
 ///
 /// <b>M2 node types:</b> <code>cache.m2.xlarge</code>,
 /// <code>cache.m2.2xlarge</code>, <code>cache.m2.4xlarge</code>
@@ -7356,7 +7372,7 @@ class CacheParameterGroup {
   /// Valid values are: <code>memcached1.4</code> | <code>memcached1.5</code> |
   /// <code>memcached1.6</code> | <code>redis2.6</code> | <code>redis2.8</code> |
   /// <code>redis3.2</code> | <code>redis4.0</code> | <code>redis5.0</code> |
-  /// <code>redis6.0</code> |
+  /// <code>redis6.x</code> |
   final String? cacheParameterGroupFamily;
 
   /// The name of the cache parameter group.
@@ -9020,7 +9036,7 @@ class EngineDefaults {
   /// Valid values are: <code>memcached1.4</code> | <code>memcached1.5</code> |
   /// <code>memcached1.6</code> | <code>redis2.6</code> | <code>redis2.8</code> |
   /// <code>redis3.2</code> | <code>redis4.0</code> | <code>redis5.0</code> |
-  /// <code>redis6.0</code> | <code>redis6.2</code>
+  /// <code>redis6.0</code> | <code>redis6.x</code>
   final String? cacheParameterGroupFamily;
 
   /// Provides an identifier to allow retrieval of paginated results.
@@ -9691,7 +9707,8 @@ class LogDeliveryConfiguration {
   /// Returns the log format, either JSON or TEXT.
   final LogFormat? logFormat;
 
-  /// Refers to <a href="https://redis.io/commands/slowlog">slow-log</a>.
+  /// Refers to <a href="https://redis.io/commands/slowlog">slow-log</a> or
+  /// engine-log.
   final LogType? logType;
 
   /// Returns an error message for the log delivery configuration.
@@ -9777,7 +9794,8 @@ class LogDeliveryConfigurationRequest {
   /// Specifies either JSON or TEXT
   final LogFormat? logFormat;
 
-  /// Refers to <a href="https://redis.io/commands/slowlog">slow-log</a>.
+  /// Refers to <a href="https://redis.io/commands/slowlog">slow-log</a> or
+  /// engine-log..
   final LogType? logType;
 
   LogDeliveryConfigurationRequest({
@@ -9892,6 +9910,7 @@ extension on String {
 
 enum LogType {
   slowLog,
+  engineLog,
 }
 
 extension on LogType {
@@ -9899,6 +9918,8 @@ extension on LogType {
     switch (this) {
       case LogType.slowLog:
         return 'slow-log';
+      case LogType.engineLog:
+        return 'engine-log';
     }
   }
 }
@@ -9908,6 +9929,8 @@ extension on String {
     switch (this) {
       case 'slow-log':
         return LogType.slowLog;
+      case 'engine-log':
+        return LogType.engineLog;
     }
     throw Exception('$this is not known in enum LogType');
   }
@@ -10944,7 +10967,8 @@ class PendingLogDeliveryConfiguration {
   /// Returns the log format, either JSON or TEXT
   final LogFormat? logFormat;
 
-  /// Refers to <a href="https://redis.io/commands/slowlog">slow-log</a>.
+  /// Refers to <a href="https://redis.io/commands/slowlog">slow-log</a> or
+  /// engine-log..
   final LogType? logType;
 
   PendingLogDeliveryConfiguration({
@@ -11355,6 +11379,11 @@ class ReplicationGroup {
   /// The date the auth token was last modified
   final DateTime? authTokenLastModifiedDate;
 
+  /// If you are running Redis engine version 6.0 or later, set this parameter to
+  /// yes if you want to opt-in to the next auto minor version upgrade campaign.
+  /// This parameter is disabled for previous versions.
+  final bool? autoMinorVersionUpgrade;
+
   /// Indicates the status of automatic failover for this Redis replication group.
   final AutomaticFailoverStatus? automaticFailover;
 
@@ -11475,6 +11504,7 @@ class ReplicationGroup {
     this.atRestEncryptionEnabled,
     this.authTokenEnabled,
     this.authTokenLastModifiedDate,
+    this.autoMinorVersionUpgrade,
     this.automaticFailover,
     this.cacheNodeType,
     this.clusterEnabled,
@@ -11506,6 +11536,7 @@ class ReplicationGroup {
       authTokenEnabled: json['AuthTokenEnabled'] as bool?,
       authTokenLastModifiedDate:
           timeStampFromJson(json['AuthTokenLastModifiedDate']),
+      autoMinorVersionUpgrade: json['AutoMinorVersionUpgrade'] as bool?,
       automaticFailover:
           (json['AutomaticFailover'] as String?)?.toAutomaticFailoverStatus(),
       cacheNodeType: json['CacheNodeType'] as String?,
@@ -11566,6 +11597,8 @@ class ReplicationGroup {
       authTokenEnabled: _s.extractXmlBoolValue(elem, 'AuthTokenEnabled'),
       authTokenLastModifiedDate:
           _s.extractXmlDateTimeValue(elem, 'AuthTokenLastModifiedDate'),
+      autoMinorVersionUpgrade:
+          _s.extractXmlBoolValue(elem, 'AutoMinorVersionUpgrade'),
       automaticFailover: _s
           .extractXmlStringValue(elem, 'AutomaticFailover')
           ?.toAutomaticFailoverStatus(),
@@ -11622,6 +11655,7 @@ class ReplicationGroup {
     final atRestEncryptionEnabled = this.atRestEncryptionEnabled;
     final authTokenEnabled = this.authTokenEnabled;
     final authTokenLastModifiedDate = this.authTokenLastModifiedDate;
+    final autoMinorVersionUpgrade = this.autoMinorVersionUpgrade;
     final automaticFailover = this.automaticFailover;
     final cacheNodeType = this.cacheNodeType;
     final clusterEnabled = this.clusterEnabled;
@@ -11652,6 +11686,8 @@ class ReplicationGroup {
       if (authTokenLastModifiedDate != null)
         'AuthTokenLastModifiedDate':
             unixTimestampToJson(authTokenLastModifiedDate),
+      if (autoMinorVersionUpgrade != null)
+        'AutoMinorVersionUpgrade': autoMinorVersionUpgrade,
       if (automaticFailover != null)
         'AutomaticFailover': automaticFailover.toValue(),
       if (cacheNodeType != null) 'CacheNodeType': cacheNodeType,
@@ -11885,7 +11921,8 @@ class ReservedCacheNode {
   /// <code>cache.t2.small</code>, <code>cache.t2.medium</code>
   /// </li>
   /// <li>
-  /// Previous generation: (not recommended)
+  /// Previous generation: (not recommended. Existing clusters are still supported
+  /// but creation of new clusters is not supported for these types.)
   ///
   /// <b>T1 node types:</b> <code>cache.t1.micro</code>
   ///
@@ -11903,7 +11940,8 @@ class ReservedCacheNode {
   ///
   /// <ul>
   /// <li>
-  /// Previous generation: (not recommended)
+  /// Previous generation: (not recommended. Existing clusters are still supported
+  /// but creation of new clusters is not supported for these types.)
   ///
   /// <b>C1 node types:</b> <code>cache.c1.xlarge</code>
   /// </li>
@@ -11952,7 +11990,8 @@ class ReservedCacheNode {
   /// <code>cache.r4.16xlarge</code>
   /// </li>
   /// <li>
-  /// Previous generation: (not recommended)
+  /// Previous generation: (not recommended. Existing clusters are still supported
+  /// but creation of new clusters is not supported for these types.)
   ///
   /// <b>M2 node types:</b> <code>cache.m2.xlarge</code>,
   /// <code>cache.m2.2xlarge</code>, <code>cache.m2.4xlarge</code>
@@ -12209,7 +12248,8 @@ class ReservedCacheNodesOffering {
   /// <code>cache.t2.small</code>, <code>cache.t2.medium</code>
   /// </li>
   /// <li>
-  /// Previous generation: (not recommended)
+  /// Previous generation: (not recommended. Existing clusters are still supported
+  /// but creation of new clusters is not supported for these types.)
   ///
   /// <b>T1 node types:</b> <code>cache.t1.micro</code>
   ///
@@ -12227,7 +12267,8 @@ class ReservedCacheNodesOffering {
   ///
   /// <ul>
   /// <li>
-  /// Previous generation: (not recommended)
+  /// Previous generation: (not recommended. Existing clusters are still supported
+  /// but creation of new clusters is not supported for these types.)
   ///
   /// <b>C1 node types:</b> <code>cache.c1.xlarge</code>
   /// </li>
@@ -12276,7 +12317,8 @@ class ReservedCacheNodesOffering {
   /// <code>cache.r4.16xlarge</code>
   /// </li>
   /// <li>
-  /// Previous generation: (not recommended)
+  /// Previous generation: (not recommended. Existing clusters are still supported
+  /// but creation of new clusters is not supported for these types.)
   ///
   /// <b>M2 node types:</b> <code>cache.m2.xlarge</code>,
   /// <code>cache.m2.2xlarge</code>, <code>cache.m2.4xlarge</code>
@@ -13017,7 +13059,8 @@ class Snapshot {
   /// <code>cache.t2.small</code>, <code>cache.t2.medium</code>
   /// </li>
   /// <li>
-  /// Previous generation: (not recommended)
+  /// Previous generation: (not recommended. Existing clusters are still supported
+  /// but creation of new clusters is not supported for these types.)
   ///
   /// <b>T1 node types:</b> <code>cache.t1.micro</code>
   ///
@@ -13035,7 +13078,8 @@ class Snapshot {
   ///
   /// <ul>
   /// <li>
-  /// Previous generation: (not recommended)
+  /// Previous generation: (not recommended. Existing clusters are still supported
+  /// but creation of new clusters is not supported for these types.)
   ///
   /// <b>C1 node types:</b> <code>cache.c1.xlarge</code>
   /// </li>
@@ -13088,7 +13132,8 @@ class Snapshot {
   /// <code>cache.r4.16xlarge</code>
   /// </li>
   /// <li>
-  /// Previous generation: (not recommended)
+  /// Previous generation: (not recommended. Existing clusters are still supported
+  /// but creation of new clusters is not supported for these types.)
   ///
   /// <b>M2 node types:</b> <code>cache.m2.xlarge</code>,
   /// <code>cache.m2.2xlarge</code>, <code>cache.m2.4xlarge</code>

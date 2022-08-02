@@ -1139,5 +1139,42 @@
   },
   "amplifyuibuilder": {
     "name": "AmplifyUIBuilder"
+  },
+  "keyspaces": {
+    "name": "Keyspaces"
+  },
+  "billingconductor": {
+    "name": "Billingconductor"
+  },
+  "gamesparks": {
+    "name": "GameSparks"
+  },
+  "pinpointsmsvoicev2": {
+    "prefix": "pinpoint-sms-voice-v2",
+    "name": "PinpointSMSVoiceV2"
+  },
+  "ivschat": {
+    "name": "Ivschat"
+  },
+  "chimesdkmediapipelines": {
+    "prefix": "chime-sdk-media-pipelines",
+    "name": "ChimeSDKMediaPipelines"
+  },
+  "emrserverless": {
+    "prefix": "emr-serverless",
+    "name": "EMRServerless"
+  },
+  "m2": {
+    "name": "M2"
+  },
+  "connectcampaigns": {
+    "name": "ConnectCampaigns"
+  },
+  "redshiftserverless": {
+    "prefix": "redshift-serverless",
+    "name": "RedshiftServerless"
+  },
+  "rolesanywhere": {
+    "name": "RolesAnywhere"
   }
 }

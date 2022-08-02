@@ -159,10 +159,16 @@ class Redshift {
   /// Parameter [consumerArn] :
   /// The Amazon Resource Name (ARN) of the consumer that is associated with the
   /// datashare.
+  ///
+  /// Parameter [consumerRegion] :
+  /// From a datashare consumer account, associates a datashare with all
+  /// existing and future namespaces in the specified Amazon Web Services
+  /// Region.
   Future<DataShare> associateDataShareConsumer({
     required String dataShareArn,
     bool? associateEntireAccount,
     String? consumerArn,
+    String? consumerRegion,
   }) async {
     ArgumentError.checkNotNull(dataShareArn, 'dataShareArn');
     final $request = <String, dynamic>{};
@@ -170,6 +176,7 @@ class Redshift {
     associateEntireAccount
         ?.also((arg) => $request['AssociateEntireAccount'] = arg);
     consumerArn?.also((arg) => $request['ConsumerArn'] = arg);
+    consumerRegion?.also((arg) => $request['ConsumerRegion'] = arg);
     final $result = await _protocol.send(
       $request,
       action: 'AssociateDataShareConsumer',
@@ -261,7 +268,7 @@ class Redshift {
   /// From a data producer account, authorizes the sharing of a datashare with
   /// one or more consumer accounts or managing entities. To authorize a
   /// datashare for a data consumer, the producer account must have the correct
-  /// access privileges.
+  /// access permissions.
   ///
   /// May throw [InvalidDataShareFault].
   ///
@@ -351,6 +358,7 @@ class Redshift {
   /// May throw [DependentServiceRequestThrottlingFault].
   /// May throw [InvalidClusterSnapshotStateFault].
   /// May throw [LimitExceededFault].
+  /// May throw [UnsupportedOperationFault].
   ///
   /// Parameter [accountWithRestoreAccess] :
   /// The identifier of the Amazon Web Services account authorized to restore
@@ -359,27 +367,31 @@ class Redshift {
   /// To share a snapshot with Amazon Web Services Support, specify
   /// amazon-redshift-support.
   ///
-  /// Parameter [snapshotIdentifier] :
-  /// The identifier of the snapshot the account is authorized to restore.
+  /// Parameter [snapshotArn] :
+  /// The Amazon Resource Name (ARN) of the snapshot to authorize access to.
   ///
   /// Parameter [snapshotClusterIdentifier] :
   /// The identifier of the cluster the snapshot was created from. This
   /// parameter is required if your IAM user has a policy containing a snapshot
   /// resource element that specifies anything other than * for the cluster
   /// name.
+  ///
+  /// Parameter [snapshotIdentifier] :
+  /// The identifier of the snapshot the account is authorized to restore.
   Future<AuthorizeSnapshotAccessResult> authorizeSnapshotAccess({
     required String accountWithRestoreAccess,
-    required String snapshotIdentifier,
+    String? snapshotArn,
     String? snapshotClusterIdentifier,
+    String? snapshotIdentifier,
   }) async {
     ArgumentError.checkNotNull(
         accountWithRestoreAccess, 'accountWithRestoreAccess');
-    ArgumentError.checkNotNull(snapshotIdentifier, 'snapshotIdentifier');
     final $request = <String, dynamic>{};
     $request['AccountWithRestoreAccess'] = accountWithRestoreAccess;
-    $request['SnapshotIdentifier'] = snapshotIdentifier;
+    snapshotArn?.also((arg) => $request['SnapshotArn'] = arg);
     snapshotClusterIdentifier
         ?.also((arg) => $request['SnapshotClusterIdentifier'] = arg);
+    snapshotIdentifier?.also((arg) => $request['SnapshotIdentifier'] = arg);
     final $result = await _protocol.send(
       $request,
       action: 'AuthorizeSnapshotAccess',
@@ -723,8 +735,9 @@ class Redshift {
   /// Must contain one number.
   /// </li>
   /// <li>
-  /// Can be any printable ASCII character (ASCII code 33 to 126) except '
-  /// (single quote), " (double quote), \, /, @, or space.
+  /// Can be any printable ASCII character (ASCII code 33-126) except
+  /// <code>'</code> (single quote), <code>"</code> (double quote),
+  /// <code>\</code>, <code>/</code>, or <code>@</code>.
   /// </li>
   /// </ul>
   ///
@@ -917,7 +930,9 @@ class Redshift {
   /// for the cluster when the cluster was created.
   ///
   /// Parameter [elasticIp] :
-  /// The Elastic IP (EIP) address for the cluster.
+  /// The Elastic IP (EIP) address for the cluster. You don't have to specify
+  /// the EIP for a publicly accessible cluster with AvailabilityZoneRelocation
+  /// turned on.
   ///
   /// Constraints: The cluster must be provisioned in EC2-VPC and
   /// publicly-accessible through an Internet gateway. For more information
@@ -953,14 +968,20 @@ class Redshift {
   /// Parameter [iamRoles] :
   /// A list of Identity and Access Management (IAM) roles that can be used by
   /// the cluster to access other Amazon Web Services services. You must supply
-  /// the IAM roles in their Amazon Resource Name (ARN) format. You can supply
-  /// up to 10 IAM roles in a single request.
+  /// the IAM roles in their Amazon Resource Name (ARN) format.
   ///
-  /// A cluster can have up to 10 IAM roles associated with it at any time.
+  /// The maximum number of IAM roles that you can associate is subject to a
+  /// quota. For more information, go to <a
+  /// href="https://docs.aws.amazon.com/redshift/latest/mgmt/amazon-redshift-limits.html">Quotas
+  /// and limits</a> in the <i>Amazon Redshift Cluster Management Guide</i>.
   ///
   /// Parameter [kmsKeyId] :
   /// The Key Management Service (KMS) key ID of the encryption key that you
   /// want to use to encrypt data in the cluster.
+  ///
+  /// Parameter [loadSampleData] :
+  /// A flag that specifies whether to load sample data once the cluster is
+  /// created.
   ///
   /// Parameter [maintenanceTrackName] :
   /// An optional parameter for the name of the maintenance track for the
@@ -1058,6 +1079,7 @@ class Redshift {
     String? hsmConfigurationIdentifier,
     List<String>? iamRoles,
     String? kmsKeyId,
+    String? loadSampleData,
     String? maintenanceTrackName,
     int? manualSnapshotRetentionPeriod,
     int? numberOfNodes,
@@ -1105,6 +1127,7 @@ class Redshift {
         ?.also((arg) => $request['HsmConfigurationIdentifier'] = arg);
     iamRoles?.also((arg) => $request['IamRoles'] = arg);
     kmsKeyId?.also((arg) => $request['KmsKeyId'] = arg);
+    loadSampleData?.also((arg) => $request['LoadSampleData'] = arg);
     maintenanceTrackName?.also((arg) => $request['MaintenanceTrackName'] = arg);
     manualSnapshotRetentionPeriod
         ?.also((arg) => $request['ManualSnapshotRetentionPeriod'] = arg);
@@ -1848,8 +1871,8 @@ class Redshift {
     return ScheduledAction.fromXml($result);
   }
 
-  /// Creates a snapshot copy grant that permits Amazon Redshift to use a
-  /// customer master key (CMK) from Key Management Service (KMS) to encrypt
+  /// Creates a snapshot copy grant that permits Amazon Redshift to use an
+  /// encrypted symmetric key from Key Management Service (KMS) to encrypt
   /// copied snapshots in a destination region.
   ///
   /// For more information about managing snapshot copy grants, go to <a
@@ -1889,7 +1912,7 @@ class Redshift {
   /// </ul>
   ///
   /// Parameter [kmsKeyId] :
-  /// The unique identifier of the customer master key (CMK) to which to grant
+  /// The unique identifier of the encrypted symmetric key to which to grant
   /// Amazon Redshift permission. If no key is specified, the default key is
   /// used.
   ///
@@ -2051,7 +2074,9 @@ class Redshift {
   /// <code>spectrum</code>, then <code>LimitType</code> must be
   /// <code>data-scanned</code>. If <code>FeatureType</code> is
   /// <code>concurrency-scaling</code>, then <code>LimitType</code> must be
-  /// <code>time</code>.
+  /// <code>time</code>. If <code>FeatureType</code> is
+  /// <code>cross-region-datasharing</code>, then <code>LimitType</code> must be
+  /// <code>data-scanned</code>.
   ///
   /// Parameter [breachAction] :
   /// The action that Amazon Redshift takes when the limit is reached. The
@@ -2099,8 +2124,8 @@ class Redshift {
     return UsageLimit.fromXml($result);
   }
 
-  /// From the producer account, removes authorization from the specified
-  /// datashare.
+  /// From a datashare producer account, removes authorization from the
+  /// specified datashare.
   ///
   /// May throw [InvalidDataShareFault].
   ///
@@ -3113,6 +3138,7 @@ class Redshift {
   /// May throw [ClusterNotFoundFault].
   /// May throw [ClusterSnapshotNotFoundFault].
   /// May throw [InvalidTagFault].
+  /// May throw [UnsupportedOperationFault].
   ///
   /// Parameter [clusterExists] :
   /// A value that indicates whether to return snapshots only for an existing
@@ -3179,6 +3205,10 @@ class Redshift {
   /// account. To describe snapshots you own, either specify your Amazon Web
   /// Services account, or do not specify the parameter.
   ///
+  /// Parameter [snapshotArn] :
+  /// The Amazon Resource Name (ARN) of the snapshot associated with the message
+  /// to describe cluster snapshots.
+  ///
   /// Parameter [snapshotIdentifier] :
   /// The snapshot identifier of the snapshot about which to return information.
   ///
@@ -3222,6 +3252,7 @@ class Redshift {
     String? marker,
     int? maxRecords,
     String? ownerAccount,
+    String? snapshotArn,
     String? snapshotIdentifier,
     String? snapshotType,
     List<SnapshotSortingEntity>? sortingEntities,
@@ -3236,6 +3267,7 @@ class Redshift {
     marker?.also((arg) => $request['Marker'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     ownerAccount?.also((arg) => $request['OwnerAccount'] = arg);
+    snapshotArn?.also((arg) => $request['SnapshotArn'] = arg);
     snapshotIdentifier?.also((arg) => $request['SnapshotIdentifier'] = arg);
     snapshotType?.also((arg) => $request['SnapshotType'] = arg);
     sortingEntities?.also((arg) => $request['SortingEntities'] = arg);
@@ -4339,6 +4371,7 @@ class Redshift {
   /// May throw [InvalidClusterSnapshotStateFault].
   /// May throw [ClusterNotFoundFault].
   /// May throw [AccessToSnapshotDeniedFault].
+  /// May throw [UnsupportedOperationFault].
   ///
   /// Parameter [actionType] :
   /// The action type to evaluate for possible node configurations. Specify
@@ -4380,6 +4413,10 @@ class Redshift {
   /// Required if you are restoring a snapshot you do not own, optional if you
   /// own the snapshot.
   ///
+  /// Parameter [snapshotArn] :
+  /// The Amazon Resource Name (ARN) of the snapshot associated with the message
+  /// to describe node configuration.
+  ///
   /// Parameter [snapshotIdentifier] :
   /// The identifier of the snapshot to evaluate for possible node
   /// configurations.
@@ -4390,6 +4427,7 @@ class Redshift {
     String? marker,
     int? maxRecords,
     String? ownerAccount,
+    String? snapshotArn,
     String? snapshotIdentifier,
   }) async {
     ArgumentError.checkNotNull(actionType, 'actionType');
@@ -4400,6 +4438,7 @@ class Redshift {
     marker?.also((arg) => $request['Marker'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     ownerAccount?.also((arg) => $request['OwnerAccount'] = arg);
+    snapshotArn?.also((arg) => $request['SnapshotArn'] = arg);
     snapshotIdentifier?.also((arg) => $request['SnapshotIdentifier'] = arg);
     final $result = await _protocol.send(
       $request,
@@ -5307,10 +5346,10 @@ class Redshift {
   /// Disables the automatic copying of snapshots from one region to another
   /// region for a specified cluster.
   ///
-  /// If your cluster and its snapshots are encrypted using a customer master
-  /// key (CMK) from Key Management Service, use <a>DeleteSnapshotCopyGrant</a>
-  /// to delete the grant that grants Amazon Redshift permission to the CMK in
-  /// the destination region.
+  /// If your cluster and its snapshots are encrypted using an encrypted
+  /// symmetric key from Key Management Service, use
+  /// <a>DeleteSnapshotCopyGrant</a> to delete the grant that grants Amazon
+  /// Redshift permission to the key in the destination region.
   ///
   /// May throw [ClusterNotFoundFault].
   /// May throw [SnapshotCopyAlreadyDisabledFault].
@@ -5343,7 +5382,8 @@ class Redshift {
     return DisableSnapshotCopyResult.fromXml($result);
   }
 
-  /// From a consumer account, remove association for the specified datashare.
+  /// From a datashare consumer account, remove association for the specified
+  /// datashare.
   ///
   /// May throw [InvalidDataShareFault].
   /// May throw [InvalidNamespaceFault].
@@ -5355,18 +5395,25 @@ class Redshift {
   /// The Amazon Resource Name (ARN) of the consumer that association for the
   /// datashare is removed from.
   ///
+  /// Parameter [consumerRegion] :
+  /// From a datashare consumer account, removes association of a datashare from
+  /// all the existing and future namespaces in the specified Amazon Web
+  /// Services Region.
+  ///
   /// Parameter [disassociateEntireAccount] :
   /// A value that specifies whether association for the datashare is removed
   /// from the entire account.
   Future<DataShare> disassociateDataShareConsumer({
     required String dataShareArn,
     String? consumerArn,
+    String? consumerRegion,
     bool? disassociateEntireAccount,
   }) async {
     ArgumentError.checkNotNull(dataShareArn, 'dataShareArn');
     final $request = <String, dynamic>{};
     $request['DataShareArn'] = dataShareArn;
     consumerArn?.also((arg) => $request['ConsumerArn'] = arg);
+    consumerRegion?.also((arg) => $request['ConsumerRegion'] = arg);
     disassociateEntireAccount
         ?.also((arg) => $request['DisassociateEntireAccount'] = arg);
     final $result = await _protocol.send(
@@ -5393,6 +5440,11 @@ class Redshift {
   /// May throw [InvalidS3BucketNameFault].
   /// May throw [InvalidClusterStateFault].
   ///
+  /// Parameter [clusterIdentifier] :
+  /// The identifier of the cluster on which logging is to be started.
+  ///
+  /// Example: <code>examplecluster</code>
+  ///
   /// Parameter [bucketName] :
   /// The name of an existing S3 bucket where the log files are to be stored.
   ///
@@ -5407,10 +5459,13 @@ class Redshift {
   /// </li>
   /// </ul>
   ///
-  /// Parameter [clusterIdentifier] :
-  /// The identifier of the cluster on which logging is to be started.
+  /// Parameter [logDestinationType] :
+  /// The log destination type. An enum with possible values of <code>s3</code>
+  /// and <code>cloudwatch</code>.
   ///
-  /// Example: <code>examplecluster</code>
+  /// Parameter [logExports] :
+  /// The collection of exported log types. Log types include the connection
+  /// log, user log and user activity log.
   ///
   /// Parameter [s3KeyPrefix] :
   /// The prefix applied to the log file names.
@@ -5445,15 +5500,19 @@ class Redshift {
   /// </ul> </li>
   /// </ul>
   Future<LoggingStatus> enableLogging({
-    required String bucketName,
     required String clusterIdentifier,
+    String? bucketName,
+    LogDestinationType? logDestinationType,
+    List<String>? logExports,
     String? s3KeyPrefix,
   }) async {
-    ArgumentError.checkNotNull(bucketName, 'bucketName');
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
     final $request = <String, dynamic>{};
-    $request['BucketName'] = bucketName;
     $request['ClusterIdentifier'] = clusterIdentifier;
+    bucketName?.also((arg) => $request['BucketName'] = arg);
+    logDestinationType
+        ?.also((arg) => $request['LogDestinationType'] = arg.toValue());
+    logExports?.also((arg) => $request['LogExports'] = arg);
     s3KeyPrefix?.also((arg) => $request['S3KeyPrefix'] = arg);
     final $result = await _protocol.send(
       $request,
@@ -5576,7 +5635,7 @@ class Redshift {
   ///
   /// In addition, if the <code>AutoCreate</code> parameter is set to
   /// <code>True</code>, then the policy must include the
-  /// <code>redshift:CreateClusterUser</code> privilege.
+  /// <code>redshift:CreateClusterUser</code> permission.
   ///
   /// If the <code>DbName</code> parameter is specified, the IAM policy must
   /// allow access to the resource <code>dbname</code> for the specified
@@ -5587,7 +5646,7 @@ class Redshift {
   ///
   /// Parameter [clusterIdentifier] :
   /// The unique identifier of the cluster that contains the database for which
-  /// your are requesting credentials. This parameter is case sensitive.
+  /// you are requesting credentials. This parameter is case sensitive.
   ///
   /// Parameter [dbUser] :
   /// The name of a database user. If a user name matching <code>DbUser</code>
@@ -5724,6 +5783,62 @@ class Redshift {
       resultWrapper: 'GetClusterCredentialsResult',
     );
     return ClusterCredentials.fromXml($result);
+  }
+
+  /// Returns a database user name and temporary password with temporary
+  /// authorization to log in to an Amazon Redshift database. The database user
+  /// is mapped 1:1 to the source Identity and Access Management (IAM) identity.
+  /// For more information about IAM identities, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id.html">IAM
+  /// Identities (users, user groups, and roles)</a> in the Amazon Web Services
+  /// Identity and Access Management User Guide.
+  ///
+  /// The Identity and Access Management (IAM) identity that runs this operation
+  /// must have an IAM policy attached that allows access to all necessary
+  /// actions and resources. For more information about permissions, see <a
+  /// href="https://docs.aws.amazon.com/redshift/latest/mgmt/redshift-iam-access-control-identity-based.html">Using
+  /// identity-based policies (IAM policies)</a> in the Amazon Redshift Cluster
+  /// Management Guide.
+  ///
+  /// May throw [ClusterNotFoundFault].
+  /// May throw [UnsupportedOperationFault].
+  ///
+  /// Parameter [clusterIdentifier] :
+  /// The unique identifier of the cluster that contains the database for which
+  /// you are requesting credentials.
+  ///
+  /// Parameter [dbName] :
+  /// The name of the database for which you are requesting credentials. If the
+  /// database name is specified, the IAM policy must allow access to the
+  /// resource <code>dbname</code> for the specified database name. If the
+  /// database name is not specified, access to all databases is allowed.
+  ///
+  /// Parameter [durationSeconds] :
+  /// The number of seconds until the returned temporary password expires.
+  ///
+  /// Range: 900-3600. Default: 900.
+  Future<ClusterExtendedCredentials> getClusterCredentialsWithIAM({
+    required String clusterIdentifier,
+    String? dbName,
+    int? durationSeconds,
+  }) async {
+    ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
+    final $request = <String, dynamic>{};
+    $request['ClusterIdentifier'] = clusterIdentifier;
+    dbName?.also((arg) => $request['DbName'] = arg);
+    durationSeconds?.also((arg) => $request['DurationSeconds'] = arg);
+    final $result = await _protocol.send(
+      $request,
+      action: 'GetClusterCredentialsWithIAM',
+      version: '2012-12-01',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['GetClusterCredentialsWithIAMMessage'],
+      shapes: shapes,
+      resultWrapper: 'GetClusterCredentialsWithIAMResult',
+    );
+    return ClusterExtendedCredentials.fromXml($result);
   }
 
   /// Gets the configuration options for the reserved-node exchange. These
@@ -6145,8 +6260,9 @@ class Redshift {
   /// Must contain one number.
   /// </li>
   /// <li>
-  /// Can be any printable ASCII character (ASCII code 33 to 126) except '
-  /// (single quote), " (double quote), \, /, @, or space.
+  /// Can be any printable ASCII character (ASCII code 33-126) except
+  /// <code>'</code> (single quote), <code>"</code> (double quote),
+  /// <code>\</code>, <code>/</code>, or <code>@</code>.
   /// </li>
   /// </ul>
   ///
@@ -6347,7 +6463,10 @@ class Redshift {
   /// Modifies the list of Identity and Access Management (IAM) roles that can
   /// be used by the cluster to access other Amazon Web Services services.
   ///
-  /// A cluster can have up to 10 IAM roles associated at any time.
+  /// The maximum number of IAM roles that you can associate is subject to a
+  /// quota. For more information, go to <a
+  /// href="https://docs.aws.amazon.com/redshift/latest/mgmt/amazon-redshift-limits.html">Quotas
+  /// and limits</a> in the <i>Amazon Redshift Cluster Management Guide</i>.
   ///
   /// May throw [InvalidClusterStateFault].
   /// May throw [ClusterNotFoundFault].
@@ -6358,17 +6477,14 @@ class Redshift {
   ///
   /// Parameter [addIamRoles] :
   /// Zero or more IAM roles to associate with the cluster. The roles must be in
-  /// their Amazon Resource Name (ARN) format. You can associate up to 10 IAM
-  /// roles with a single cluster in a single request.
+  /// their Amazon Resource Name (ARN) format.
   ///
   /// Parameter [defaultIamRoleArn] :
   /// The Amazon Resource Name (ARN) for the IAM role that was set as default
   /// for the cluster when the cluster was last modified.
   ///
   /// Parameter [removeIamRoles] :
-  /// Zero or more IAM roles in ARN format to disassociate from the cluster. You
-  /// can disassociate up to 10 IAM roles from a single cluster in a single
-  /// request.
+  /// Zero or more IAM roles in ARN format to disassociate from the cluster.
   Future<ModifyClusterIamRolesResult> modifyClusterIamRoles({
     required String clusterIdentifier,
     List<String>? addIamRoles,
@@ -7095,7 +7211,7 @@ class Redshift {
     return RebootClusterResult.fromXml($result);
   }
 
-  /// From the consumer account, rejects the specified datashare.
+  /// From a datashare consumer account, rejects the specified datashare.
   ///
   /// May throw [InvalidDataShareFault].
   ///
@@ -7361,12 +7477,6 @@ class Redshift {
   /// </li>
   /// </ul>
   ///
-  /// Parameter [snapshotIdentifier] :
-  /// The name of the snapshot from which to create the new cluster. This
-  /// parameter isn't case sensitive.
-  ///
-  /// Example: <code>my-snapshot-id</code>
-  ///
   /// Parameter [additionalInfo] :
   /// Reserved.
   ///
@@ -7461,7 +7571,13 @@ class Redshift {
   /// from a snapshot.
   ///
   /// Parameter [elasticIp] :
-  /// The elastic IP (EIP) address for the cluster.
+  /// The elastic IP (EIP) address for the cluster. You don't have to specify
+  /// the EIP for a publicly accessible cluster with AvailabilityZoneRelocation
+  /// turned on.
+  ///
+  /// Parameter [encrypted] :
+  /// Enables support for restoring an unencrypted snapshot to a cluster
+  /// encrypted with Key Management Service (KMS) and a customer managed key.
   ///
   /// Parameter [enhancedVpcRouting] :
   /// An option that specifies whether to create the cluster with enhanced VPC
@@ -7485,15 +7601,21 @@ class Redshift {
   /// Parameter [iamRoles] :
   /// A list of Identity and Access Management (IAM) roles that can be used by
   /// the cluster to access other Amazon Web Services services. You must supply
-  /// the IAM roles in their Amazon Resource Name (ARN) format. You can supply
-  /// up to 10 IAM roles in a single request.
+  /// the IAM roles in their Amazon Resource Name (ARN) format.
   ///
-  /// A cluster can have up to 10 IAM roles associated at any time.
+  /// The maximum number of IAM roles that you can associate is subject to a
+  /// quota. For more information, go to <a
+  /// href="https://docs.aws.amazon.com/redshift/latest/mgmt/amazon-redshift-limits.html">Quotas
+  /// and limits</a> in the <i>Amazon Redshift Cluster Management Guide</i>.
   ///
   /// Parameter [kmsKeyId] :
-  /// The Key Management Service (KMS) key ID of the encryption key that you
-  /// want to use to encrypt data in the cluster that you restore from a shared
-  /// snapshot.
+  /// The Key Management Service (KMS) key ID of the encryption key that
+  /// encrypts data in the cluster restored from a shared snapshot. You can also
+  /// provide the key ID when you restore from an unencrypted snapshot to an
+  /// encrypted cluster in the same account. Additionally, you can specify a new
+  /// KMS key ID when you restore from an encrypted snapshot in the same account
+  /// in order to change it. In that case, the restored cluster is encrypted
+  /// with the new KMS key ID.
   ///
   /// Parameter [maintenanceTrackName] :
   /// The name of the maintenance track for the restored cluster. When you take
@@ -7564,11 +7686,21 @@ class Redshift {
   /// Parameter [reservedNodeId] :
   /// The identifier of the target reserved node offering.
   ///
+  /// Parameter [snapshotArn] :
+  /// The Amazon Resource Name (ARN) of the snapshot associated with the message
+  /// to restore from a cluster.
+  ///
   /// Parameter [snapshotClusterIdentifier] :
   /// The name of the cluster the source snapshot was created from. This
   /// parameter is required if your IAM user has a policy containing a snapshot
   /// resource element that specifies anything other than * for the cluster
   /// name.
+  ///
+  /// Parameter [snapshotIdentifier] :
+  /// The name of the snapshot from which to create the new cluster. This
+  /// parameter isn't case sensitive.
+  ///
+  /// Example: <code>my-snapshot-id</code>
   ///
   /// Parameter [snapshotScheduleIdentifier] :
   /// A unique identifier for the snapshot schedule.
@@ -7585,7 +7717,6 @@ class Redshift {
   /// VPC security groups only apply to clusters in VPCs.
   Future<RestoreFromClusterSnapshotResult> restoreFromClusterSnapshot({
     required String clusterIdentifier,
-    required String snapshotIdentifier,
     String? additionalInfo,
     bool? allowVersionUpgrade,
     AquaConfigurationStatus? aquaConfigurationStatus,
@@ -7597,6 +7728,7 @@ class Redshift {
     String? clusterSubnetGroupName,
     String? defaultIamRoleArn,
     String? elasticIp,
+    bool? encrypted,
     bool? enhancedVpcRouting,
     String? hsmClientCertificateIdentifier,
     String? hsmConfigurationIdentifier,
@@ -7611,16 +7743,16 @@ class Redshift {
     String? preferredMaintenanceWindow,
     bool? publiclyAccessible,
     String? reservedNodeId,
+    String? snapshotArn,
     String? snapshotClusterIdentifier,
+    String? snapshotIdentifier,
     String? snapshotScheduleIdentifier,
     String? targetReservedNodeOfferingId,
     List<String>? vpcSecurityGroupIds,
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
-    ArgumentError.checkNotNull(snapshotIdentifier, 'snapshotIdentifier');
     final $request = <String, dynamic>{};
     $request['ClusterIdentifier'] = clusterIdentifier;
-    $request['SnapshotIdentifier'] = snapshotIdentifier;
     additionalInfo?.also((arg) => $request['AdditionalInfo'] = arg);
     allowVersionUpgrade?.also((arg) => $request['AllowVersionUpgrade'] = arg);
     aquaConfigurationStatus
@@ -7638,6 +7770,7 @@ class Redshift {
         ?.also((arg) => $request['ClusterSubnetGroupName'] = arg);
     defaultIamRoleArn?.also((arg) => $request['DefaultIamRoleArn'] = arg);
     elasticIp?.also((arg) => $request['ElasticIp'] = arg);
+    encrypted?.also((arg) => $request['Encrypted'] = arg);
     enhancedVpcRouting?.also((arg) => $request['EnhancedVpcRouting'] = arg);
     hsmClientCertificateIdentifier
         ?.also((arg) => $request['HsmClientCertificateIdentifier'] = arg);
@@ -7656,8 +7789,10 @@ class Redshift {
         ?.also((arg) => $request['PreferredMaintenanceWindow'] = arg);
     publiclyAccessible?.also((arg) => $request['PubliclyAccessible'] = arg);
     reservedNodeId?.also((arg) => $request['ReservedNodeId'] = arg);
+    snapshotArn?.also((arg) => $request['SnapshotArn'] = arg);
     snapshotClusterIdentifier
         ?.also((arg) => $request['SnapshotClusterIdentifier'] = arg);
+    snapshotIdentifier?.also((arg) => $request['SnapshotIdentifier'] = arg);
     snapshotScheduleIdentifier
         ?.also((arg) => $request['SnapshotScheduleIdentifier'] = arg);
     targetReservedNodeOfferingId
@@ -7928,32 +8063,38 @@ class Redshift {
   /// May throw [AccessToSnapshotDeniedFault].
   /// May throw [AuthorizationNotFoundFault].
   /// May throw [ClusterSnapshotNotFoundFault].
+  /// May throw [UnsupportedOperationFault].
   ///
   /// Parameter [accountWithRestoreAccess] :
   /// The identifier of the Amazon Web Services account that can no longer
   /// restore the specified snapshot.
   ///
-  /// Parameter [snapshotIdentifier] :
-  /// The identifier of the snapshot that the account can no longer access.
+  /// Parameter [snapshotArn] :
+  /// The Amazon Resource Name (ARN) of the snapshot associated with the message
+  /// to revoke access.
   ///
   /// Parameter [snapshotClusterIdentifier] :
   /// The identifier of the cluster the snapshot was created from. This
   /// parameter is required if your IAM user has a policy containing a snapshot
   /// resource element that specifies anything other than * for the cluster
   /// name.
+  ///
+  /// Parameter [snapshotIdentifier] :
+  /// The identifier of the snapshot that the account can no longer access.
   Future<RevokeSnapshotAccessResult> revokeSnapshotAccess({
     required String accountWithRestoreAccess,
-    required String snapshotIdentifier,
+    String? snapshotArn,
     String? snapshotClusterIdentifier,
+    String? snapshotIdentifier,
   }) async {
     ArgumentError.checkNotNull(
         accountWithRestoreAccess, 'accountWithRestoreAccess');
-    ArgumentError.checkNotNull(snapshotIdentifier, 'snapshotIdentifier');
     final $request = <String, dynamic>{};
     $request['AccountWithRestoreAccess'] = accountWithRestoreAccess;
-    $request['SnapshotIdentifier'] = snapshotIdentifier;
+    snapshotArn?.also((arg) => $request['SnapshotArn'] = arg);
     snapshotClusterIdentifier
         ?.also((arg) => $request['SnapshotClusterIdentifier'] = arg);
+    snapshotIdentifier?.also((arg) => $request['SnapshotIdentifier'] = arg);
     final $result = await _protocol.send(
       $request,
       action: 'RevokeSnapshotAccess',
@@ -9480,8 +9621,8 @@ class ClusterCredentials {
   /// A database user name that is authorized to log on to the database
   /// <code>DbName</code> using the password <code>DbPassword</code>. If the
   /// specified DbUser exists in the database, the new user name has the same
-  /// database privileges as the the user named in DbUser. By default, the user is
-  /// added to PUBLIC. If the <code>DbGroups</code> parameter is specifed,
+  /// database permissions as the the user named in DbUser. By default, the user
+  /// is added to PUBLIC. If the <code>DbGroups</code> parameter is specifed,
   /// <code>DbUser</code> is added to the listed groups for any sessions created
   /// using these credentials.
   final String? dbUser;
@@ -9633,6 +9774,61 @@ class ClusterDbRevisionsMessage {
     return {
       if (clusterDbRevisions != null) 'ClusterDbRevisions': clusterDbRevisions,
       if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+class ClusterExtendedCredentials {
+  /// A temporary password that you provide when you connect to a database.
+  final String? dbPassword;
+
+  /// A database user name that you provide when you connect to a database. The
+  /// database user is mapped 1:1 to the source IAM identity.
+  final String? dbUser;
+
+  /// The time (UTC) when the temporary password expires. After this timestamp, a
+  /// log in with the temporary password fails.
+  final DateTime? expiration;
+
+  /// Reserved for future use.
+  final DateTime? nextRefreshTime;
+
+  ClusterExtendedCredentials({
+    this.dbPassword,
+    this.dbUser,
+    this.expiration,
+    this.nextRefreshTime,
+  });
+
+  factory ClusterExtendedCredentials.fromJson(Map<String, dynamic> json) {
+    return ClusterExtendedCredentials(
+      dbPassword: json['DbPassword'] as String?,
+      dbUser: json['DbUser'] as String?,
+      expiration: timeStampFromJson(json['Expiration']),
+      nextRefreshTime: timeStampFromJson(json['NextRefreshTime']),
+    );
+  }
+
+  factory ClusterExtendedCredentials.fromXml(_s.XmlElement elem) {
+    return ClusterExtendedCredentials(
+      dbPassword: _s.extractXmlStringValue(elem, 'DbPassword'),
+      dbUser: _s.extractXmlStringValue(elem, 'DbUser'),
+      expiration: _s.extractXmlDateTimeValue(elem, 'Expiration'),
+      nextRefreshTime: _s.extractXmlDateTimeValue(elem, 'NextRefreshTime'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dbPassword = this.dbPassword;
+    final dbUser = this.dbUser;
+    final expiration = this.expiration;
+    final nextRefreshTime = this.nextRefreshTime;
+    return {
+      if (dbPassword != null) 'DbPassword': dbPassword,
+      if (dbUser != null) 'DbUser': dbUser,
+      if (expiration != null) 'Expiration': unixTimestampToJson(expiration),
+      if (nextRefreshTime != null)
+        'NextRefreshTime': unixTimestampToJson(nextRefreshTime),
     };
   }
 }
@@ -11006,7 +11202,7 @@ class DataShare {
   /// format.
   final String? dataShareArn;
 
-  /// A value that specifies when the datashare has an association between a
+  /// A value that specifies when the datashare has an association between
   /// producer and data consumers.
   final List<DataShareAssociation>? dataShareAssociations;
 
@@ -11079,6 +11275,10 @@ class DataShareAssociation {
   /// datashare.
   final String? consumerIdentifier;
 
+  /// The Amazon Web Services Region of the consumer accounts that have an
+  /// association with a producer datashare.
+  final String? consumerRegion;
+
   /// The creation date of the datashare that is associated.
   final DateTime? createdDate;
 
@@ -11090,6 +11290,7 @@ class DataShareAssociation {
 
   DataShareAssociation({
     this.consumerIdentifier,
+    this.consumerRegion,
     this.createdDate,
     this.status,
     this.statusChangeDate,
@@ -11098,6 +11299,7 @@ class DataShareAssociation {
   factory DataShareAssociation.fromJson(Map<String, dynamic> json) {
     return DataShareAssociation(
       consumerIdentifier: json['ConsumerIdentifier'] as String?,
+      consumerRegion: json['ConsumerRegion'] as String?,
       createdDate: timeStampFromJson(json['CreatedDate']),
       status: (json['Status'] as String?)?.toDataShareStatus(),
       statusChangeDate: timeStampFromJson(json['StatusChangeDate']),
@@ -11107,6 +11309,7 @@ class DataShareAssociation {
   factory DataShareAssociation.fromXml(_s.XmlElement elem) {
     return DataShareAssociation(
       consumerIdentifier: _s.extractXmlStringValue(elem, 'ConsumerIdentifier'),
+      consumerRegion: _s.extractXmlStringValue(elem, 'ConsumerRegion'),
       createdDate: _s.extractXmlDateTimeValue(elem, 'CreatedDate'),
       status: _s.extractXmlStringValue(elem, 'Status')?.toDataShareStatus(),
       statusChangeDate: _s.extractXmlDateTimeValue(elem, 'StatusChangeDate'),
@@ -11115,11 +11318,13 @@ class DataShareAssociation {
 
   Map<String, dynamic> toJson() {
     final consumerIdentifier = this.consumerIdentifier;
+    final consumerRegion = this.consumerRegion;
     final createdDate = this.createdDate;
     final status = this.status;
     final statusChangeDate = this.statusChangeDate;
     return {
       if (consumerIdentifier != null) 'ConsumerIdentifier': consumerIdentifier,
+      if (consumerRegion != null) 'ConsumerRegion': consumerRegion,
       if (createdDate != null) 'CreatedDate': unixTimestampToJson(createdDate),
       if (status != null) 'Status': status.toValue(),
       if (statusChangeDate != null)
@@ -13355,6 +13560,34 @@ class IPRange {
   }
 }
 
+enum LogDestinationType {
+  s3,
+  cloudwatch,
+}
+
+extension on LogDestinationType {
+  String toValue() {
+    switch (this) {
+      case LogDestinationType.s3:
+        return 's3';
+      case LogDestinationType.cloudwatch:
+        return 'cloudwatch';
+    }
+  }
+}
+
+extension on String {
+  LogDestinationType toLogDestinationType() {
+    switch (this) {
+      case 's3':
+        return LogDestinationType.s3;
+      case 'cloudwatch':
+        return LogDestinationType.cloudwatch;
+    }
+    throw Exception('$this is not known in enum LogDestinationType');
+  }
+}
+
 /// Describes the status of logging for a cluster.
 class LoggingStatus {
   /// The name of the S3 bucket where the log files are stored.
@@ -13369,6 +13602,14 @@ class LoggingStatus {
   /// The last time that logs were delivered.
   final DateTime? lastSuccessfulDeliveryTime;
 
+  /// The log destination type. An enum with possible values of <code>s3</code>
+  /// and <code>cloudwatch</code>.
+  final LogDestinationType? logDestinationType;
+
+  /// The collection of exported log types. Log types include the connection log,
+  /// user log and user activity log.
+  final List<String>? logExports;
+
   /// <code>true</code> if logging is on, <code>false</code> if logging is off.
   final bool? loggingEnabled;
 
@@ -13380,6 +13621,8 @@ class LoggingStatus {
     this.lastFailureMessage,
     this.lastFailureTime,
     this.lastSuccessfulDeliveryTime,
+    this.logDestinationType,
+    this.logExports,
     this.loggingEnabled,
     this.s3KeyPrefix,
   });
@@ -13391,6 +13634,12 @@ class LoggingStatus {
       lastFailureTime: timeStampFromJson(json['LastFailureTime']),
       lastSuccessfulDeliveryTime:
           timeStampFromJson(json['LastSuccessfulDeliveryTime']),
+      logDestinationType:
+          (json['LogDestinationType'] as String?)?.toLogDestinationType(),
+      logExports: (json['LogExports'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
       loggingEnabled: json['LoggingEnabled'] as bool?,
       s3KeyPrefix: json['S3KeyPrefix'] as String?,
     );
@@ -13403,6 +13652,12 @@ class LoggingStatus {
       lastFailureTime: _s.extractXmlDateTimeValue(elem, 'LastFailureTime'),
       lastSuccessfulDeliveryTime:
           _s.extractXmlDateTimeValue(elem, 'LastSuccessfulDeliveryTime'),
+      logDestinationType: _s
+          .extractXmlStringValue(elem, 'LogDestinationType')
+          ?.toLogDestinationType(),
+      logExports: _s
+          .extractXmlChild(elem, 'LogExports')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       loggingEnabled: _s.extractXmlBoolValue(elem, 'LoggingEnabled'),
       s3KeyPrefix: _s.extractXmlStringValue(elem, 'S3KeyPrefix'),
     );
@@ -13413,6 +13668,8 @@ class LoggingStatus {
     final lastFailureMessage = this.lastFailureMessage;
     final lastFailureTime = this.lastFailureTime;
     final lastSuccessfulDeliveryTime = this.lastSuccessfulDeliveryTime;
+    final logDestinationType = this.logDestinationType;
+    final logExports = this.logExports;
     final loggingEnabled = this.loggingEnabled;
     final s3KeyPrefix = this.s3KeyPrefix;
     return {
@@ -13423,6 +13680,9 @@ class LoggingStatus {
       if (lastSuccessfulDeliveryTime != null)
         'LastSuccessfulDeliveryTime':
             unixTimestampToJson(lastSuccessfulDeliveryTime),
+      if (logDestinationType != null)
+        'LogDestinationType': logDestinationType.toValue(),
+      if (logExports != null) 'LogExports': logExports,
       if (loggingEnabled != null) 'LoggingEnabled': loggingEnabled,
       if (s3KeyPrefix != null) 'S3KeyPrefix': s3KeyPrefix,
     };
@@ -17002,16 +17262,16 @@ extension on String {
 }
 
 /// The snapshot copy grant that grants Amazon Redshift permission to encrypt
-/// copied snapshots with the specified customer master key (CMK) from Amazon
-/// Web Services KMS in the destination region.
+/// copied snapshots with the specified encrypted symmetric key from Amazon Web
+/// Services KMS in the destination region.
 ///
 /// For more information about managing snapshot copy grants, go to <a
 /// href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-db-encryption.html">Amazon
 /// Redshift Database Encryption</a> in the <i>Amazon Redshift Cluster
 /// Management Guide</i>.
 class SnapshotCopyGrant {
-  /// The unique identifier of the customer master key (CMK) in Amazon Web
-  /// Services KMS to which Amazon Redshift is granted permission.
+  /// The unique identifier of the encrypted symmetric key in Amazon Web Services
+  /// KMS to which Amazon Redshift is granted permission.
   final String? kmsKeyId;
 
   /// The name of the snapshot copy grant.
@@ -18185,6 +18445,7 @@ extension on String {
 enum UsageLimitFeatureType {
   spectrum,
   concurrencyScaling,
+  crossRegionDatasharing,
 }
 
 extension on UsageLimitFeatureType {
@@ -18194,6 +18455,8 @@ extension on UsageLimitFeatureType {
         return 'spectrum';
       case UsageLimitFeatureType.concurrencyScaling:
         return 'concurrency-scaling';
+      case UsageLimitFeatureType.crossRegionDatasharing:
+        return 'cross-region-datasharing';
     }
   }
 }
@@ -18205,6 +18468,8 @@ extension on String {
         return UsageLimitFeatureType.spectrum;
       case 'concurrency-scaling':
         return UsageLimitFeatureType.concurrencyScaling;
+      case 'cross-region-datasharing':
+        return UsageLimitFeatureType.crossRegionDatasharing;
     }
     throw Exception('$this is not known in enum UsageLimitFeatureType');
   }

@@ -762,6 +762,8 @@ enum LanguageCode {
   trTr,
   enNz,
   enZa,
+  caEs,
+  deAt,
 }
 
 extension on LanguageCode {
@@ -829,6 +831,10 @@ extension on LanguageCode {
         return 'en-NZ';
       case LanguageCode.enZa:
         return 'en-ZA';
+      case LanguageCode.caEs:
+        return 'ca-ES';
+      case LanguageCode.deAt:
+        return 'de-AT';
     }
   }
 }
@@ -898,6 +904,10 @@ extension on String {
         return LanguageCode.enNz;
       case 'en-ZA':
         return LanguageCode.enZa;
+      case 'ca-ES':
+        return LanguageCode.caEs;
+      case 'de-AT':
+        return LanguageCode.deAt;
     }
     throw Exception('$this is not known in enum LanguageCode');
   }
@@ -1394,7 +1404,7 @@ class SynthesizeSpeechOutput {
   /// </li>
   /// <li>
   /// If you request <code>json</code> as the <code>OutputFormat</code>, the
-  /// <code>ContentType</code> returned is audio/json.
+  /// <code>ContentType</code> returned is application/x-json-stream.
   /// </li>
   /// </ul>
   ///
@@ -1642,6 +1652,13 @@ enum VoiceId {
   zhiyu,
   aria,
   ayanda,
+  arlet,
+  hannah,
+  arthur,
+  daniel,
+  liam,
+  pedro,
+  kajal,
 }
 
 extension on VoiceId {
@@ -1777,6 +1794,20 @@ extension on VoiceId {
         return 'Aria';
       case VoiceId.ayanda:
         return 'Ayanda';
+      case VoiceId.arlet:
+        return 'Arlet';
+      case VoiceId.hannah:
+        return 'Hannah';
+      case VoiceId.arthur:
+        return 'Arthur';
+      case VoiceId.daniel:
+        return 'Daniel';
+      case VoiceId.liam:
+        return 'Liam';
+      case VoiceId.pedro:
+        return 'Pedro';
+      case VoiceId.kajal:
+        return 'Kajal';
     }
   }
 }
@@ -1914,6 +1945,20 @@ extension on String {
         return VoiceId.aria;
       case 'Ayanda':
         return VoiceId.ayanda;
+      case 'Arlet':
+        return VoiceId.arlet;
+      case 'Hannah':
+        return VoiceId.hannah;
+      case 'Arthur':
+        return VoiceId.arthur;
+      case 'Daniel':
+        return VoiceId.daniel;
+      case 'Liam':
+        return VoiceId.liam;
+      case 'Pedro':
+        return VoiceId.pedro;
+      case 'Kajal':
+        return VoiceId.kajal;
     }
     throw Exception('$this is not known in enum VoiceId');
   }

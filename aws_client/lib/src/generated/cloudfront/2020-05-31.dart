@@ -790,6 +790,7 @@ class CloudFront {
   /// May throw [ResponseHeadersPolicyAlreadyExists].
   /// May throw [TooManyResponseHeadersPolicies].
   /// May throw [TooManyCustomHeadersInResponseHeadersPolicy].
+  /// May throw [TooLongCSPInResponseHeadersPolicy].
   ///
   /// Parameter [responseHeadersPolicyConfig] :
   /// Contains metadata about the response headers policy, and a set of
@@ -4112,6 +4113,7 @@ class CloudFront {
   /// May throw [PreconditionFailed].
   /// May throw [ResponseHeadersPolicyAlreadyExists].
   /// May throw [TooManyCustomHeadersInResponseHeadersPolicy].
+  /// May throw [TooLongCSPInResponseHeadersPolicy].
   ///
   /// Parameter [id] :
   /// The identifier for the response headers policy that you are updating.
@@ -16890,12 +16892,18 @@ class ResponseHeadersPolicyConfig {
   /// A configuration for a set of security-related HTTP response headers.
   final ResponseHeadersPolicySecurityHeadersConfig? securityHeadersConfig;
 
+  /// A configuration for enabling the <code>Server-Timing</code> header in HTTP
+  /// responses sent from CloudFront.
+  final ResponseHeadersPolicyServerTimingHeadersConfig?
+      serverTimingHeadersConfig;
+
   ResponseHeadersPolicyConfig({
     required this.name,
     this.comment,
     this.corsConfig,
     this.customHeadersConfig,
     this.securityHeadersConfig,
+    this.serverTimingHeadersConfig,
   });
 
   factory ResponseHeadersPolicyConfig.fromJson(Map<String, dynamic> json) {
@@ -16914,6 +16922,10 @@ class ResponseHeadersPolicyConfig {
           ? ResponseHeadersPolicySecurityHeadersConfig.fromJson(
               json['SecurityHeadersConfig'] as Map<String, dynamic>)
           : null,
+      serverTimingHeadersConfig: json['ServerTimingHeadersConfig'] != null
+          ? ResponseHeadersPolicyServerTimingHeadersConfig.fromJson(
+              json['ServerTimingHeadersConfig'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -16930,6 +16942,9 @@ class ResponseHeadersPolicyConfig {
       securityHeadersConfig: _s
           .extractXmlChild(elem, 'SecurityHeadersConfig')
           ?.let(ResponseHeadersPolicySecurityHeadersConfig.fromXml),
+      serverTimingHeadersConfig: _s
+          .extractXmlChild(elem, 'ServerTimingHeadersConfig')
+          ?.let(ResponseHeadersPolicyServerTimingHeadersConfig.fromXml),
     );
   }
 
@@ -16939,6 +16954,7 @@ class ResponseHeadersPolicyConfig {
     final corsConfig = this.corsConfig;
     final customHeadersConfig = this.customHeadersConfig;
     final securityHeadersConfig = this.securityHeadersConfig;
+    final serverTimingHeadersConfig = this.serverTimingHeadersConfig;
     return {
       'Name': name,
       if (comment != null) 'Comment': comment,
@@ -16947,6 +16963,8 @@ class ResponseHeadersPolicyConfig {
         'CustomHeadersConfig': customHeadersConfig,
       if (securityHeadersConfig != null)
         'SecurityHeadersConfig': securityHeadersConfig,
+      if (serverTimingHeadersConfig != null)
+        'ServerTimingHeadersConfig': serverTimingHeadersConfig,
     };
   }
 
@@ -16956,6 +16974,7 @@ class ResponseHeadersPolicyConfig {
     final corsConfig = this.corsConfig;
     final customHeadersConfig = this.customHeadersConfig;
     final securityHeadersConfig = this.securityHeadersConfig;
+    final serverTimingHeadersConfig = this.serverTimingHeadersConfig;
     final $children = <_s.XmlNode>[
       if (comment != null) _s.encodeXmlStringValue('Comment', comment),
       _s.encodeXmlStringValue('Name', name),
@@ -16964,6 +16983,8 @@ class ResponseHeadersPolicyConfig {
         securityHeadersConfig.toXml('SecurityHeadersConfig'),
       if (customHeadersConfig != null)
         customHeadersConfig.toXml('CustomHeadersConfig'),
+      if (serverTimingHeadersConfig != null)
+        serverTimingHeadersConfig.toXml('ServerTimingHeadersConfig'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -17795,6 +17816,85 @@ class ResponseHeadersPolicySecurityHeadersConfig {
         contentTypeOptions.toXml('ContentTypeOptions'),
       if (strictTransportSecurity != null)
         strictTransportSecurity.toXml('StrictTransportSecurity'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// A configuration for enabling the <code>Server-Timing</code> header in HTTP
+/// responses sent from CloudFront. CloudFront adds this header to HTTP
+/// responses that it sends in response to requests that match a cache behavior
+/// that's associated with this response headers policy.
+///
+/// You can use the <code>Server-Timing</code> header to view metrics that can
+/// help you gain insights about the behavior and performance of CloudFront. For
+/// example, you can see which cache layer served a cache hit, or the first byte
+/// latency from the origin when there was a cache miss. You can use the metrics
+/// in the <code>Server-Timing</code> header to troubleshoot issues or test the
+/// efficiency of your CloudFront configuration. For more information, see <a
+/// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/understanding-response-headers-policies.html#server-timing-header">Server-Timing
+/// header</a> in the <i>Amazon CloudFront Developer Guide</i>.
+class ResponseHeadersPolicyServerTimingHeadersConfig {
+  /// A Boolean that determines whether CloudFront adds the
+  /// <code>Server-Timing</code> header to HTTP responses that it sends in
+  /// response to requests that match a cache behavior that's associated with this
+  /// response headers policy.
+  final bool enabled;
+
+  /// A number 0–100 (inclusive) that specifies the percentage of responses that
+  /// you want CloudFront to add the <code>Server-Timing</code> header to. When
+  /// you set the sampling rate to 100, CloudFront adds the
+  /// <code>Server-Timing</code> header to the HTTP response for every request
+  /// that matches the cache behavior that this response headers policy is
+  /// attached to. When you set it to 50, CloudFront adds the header to 50% of the
+  /// responses for requests that match the cache behavior. You can set the
+  /// sampling rate to any number 0–100 with up to four decimal places.
+  final double? samplingRate;
+
+  ResponseHeadersPolicyServerTimingHeadersConfig({
+    required this.enabled,
+    this.samplingRate,
+  });
+
+  factory ResponseHeadersPolicyServerTimingHeadersConfig.fromJson(
+      Map<String, dynamic> json) {
+    return ResponseHeadersPolicyServerTimingHeadersConfig(
+      enabled: json['Enabled'] as bool,
+      samplingRate: json['SamplingRate'] as double?,
+    );
+  }
+
+  factory ResponseHeadersPolicyServerTimingHeadersConfig.fromXml(
+      _s.XmlElement elem) {
+    return ResponseHeadersPolicyServerTimingHeadersConfig(
+      enabled: _s.extractXmlBoolValue(elem, 'Enabled')!,
+      samplingRate: _s.extractXmlDoubleValue(elem, 'SamplingRate'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final samplingRate = this.samplingRate;
+    return {
+      'Enabled': enabled,
+      if (samplingRate != null) 'SamplingRate': samplingRate,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final enabled = this.enabled;
+    final samplingRate = this.samplingRate;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlBoolValue('Enabled', enabled),
+      if (samplingRate != null)
+        _s.encodeXmlDoubleValue('SamplingRate', samplingRate),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -20877,6 +20977,14 @@ class TestFunctionFailed extends _s.GenericAwsException {
       : super(type: type, code: 'TestFunctionFailed', message: message);
 }
 
+class TooLongCSPInResponseHeadersPolicy extends _s.GenericAwsException {
+  TooLongCSPInResponseHeadersPolicy({String? type, String? message})
+      : super(
+            type: type,
+            code: 'TooLongCSPInResponseHeadersPolicy',
+            message: message);
+}
+
 class TooManyCacheBehaviors extends _s.GenericAwsException {
   TooManyCacheBehaviors({String? type, String? message})
       : super(type: type, code: 'TooManyCacheBehaviors', message: message);
@@ -21389,6 +21497,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       StreamingDistributionNotDisabled(type: type, message: message),
   'TestFunctionFailed': (type, message) =>
       TestFunctionFailed(type: type, message: message),
+  'TooLongCSPInResponseHeadersPolicy': (type, message) =>
+      TooLongCSPInResponseHeadersPolicy(type: type, message: message),
   'TooManyCacheBehaviors': (type, message) =>
       TooManyCacheBehaviors(type: type, message: message),
   'TooManyCachePolicies': (type, message) =>

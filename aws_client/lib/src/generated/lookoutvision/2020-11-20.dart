@@ -614,7 +614,9 @@ class LookoutForVision {
   ///
   /// The response from <code>DetectAnomalies</code> includes a boolean
   /// prediction that the image contains one or more anomalies and a confidence
-  /// value for the prediction.
+  /// value for the prediction. If the model is an image segmentation model, the
+  /// response also includes segmentation information for each type of anomaly
+  /// found in the image.
   /// <note>
   /// Before calling <code>DetectAnomalies</code>, you must first start your
   /// model with the <a>StartModel</a> operation. You are charged for the amount
@@ -622,6 +624,9 @@ class LookoutForVision {
   /// detection units that your model uses. If you are not using a model, use
   /// the <a>StopModel</a> operation to stop your model.
   /// </note>
+  /// For more information, see <i>Detecting anomalies in an image</i> in the
+  /// Amazon Lookout for Vision developer guide.
+  ///
   /// This operation requires permissions to perform the
   /// <code>lookoutvision:DetectAnomalies</code> operation.
   ///
@@ -880,7 +885,8 @@ class LookoutForVision {
     return ListModelsResponse.fromJson(response);
   }
 
-  /// Lists the Amazon Lookout for Vision projects in your AWS account.
+  /// Lists the Amazon Lookout for Vision projects in your AWS account that are
+  /// in the AWS Region in which you call <code>ListProjects</code>.
   ///
   /// The <code>ListProjects</code> operation is eventually consistent. Recent
   /// calls to <code>CreateProject</code> and <code>DeleteProject</code> might
@@ -1011,11 +1017,17 @@ class LookoutForVision {
   /// first request. Using a different value for <code>ClientToken</code> is
   /// considered a new call to <code>StartModel</code>. An idempotency token is
   /// active for 8 hours.
+  ///
+  /// Parameter [maxInferenceUnits] :
+  /// The maximum number of inference units to use for auto-scaling the model.
+  /// If you don't specify a value, Amazon Lookout for Vision doesn't auto-scale
+  /// the model.
   Future<StartModelResponse> startModel({
     required int minInferenceUnits,
     required String modelVersion,
     required String projectName,
     String? clientToken,
+    int? maxInferenceUnits,
   }) async {
     ArgumentError.checkNotNull(minInferenceUnits, 'minInferenceUnits');
     _s.validateNumRange(
@@ -1027,11 +1039,18 @@ class LookoutForVision {
     );
     ArgumentError.checkNotNull(modelVersion, 'modelVersion');
     ArgumentError.checkNotNull(projectName, 'projectName');
+    _s.validateNumRange(
+      'maxInferenceUnits',
+      maxInferenceUnits,
+      1,
+      1152921504606846976,
+    );
     final headers = <String, String>{
       if (clientToken != null) 'X-Amzn-Client-Token': clientToken.toString(),
     };
     final $payload = <String, dynamic>{
       'MinInferenceUnits': minInferenceUnits,
+      if (maxInferenceUnits != null) 'MaxInferenceUnits': maxInferenceUnits,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1062,7 +1081,7 @@ class LookoutForVision {
   ///
   /// <ul>
   /// <li>
-  /// <code>lookoutvision:StartModelPackagingJobs</code>
+  /// <code>lookoutvision:StartModelPackagingJob</code>
   /// </li>
   /// <li>
   /// <code>s3:PutObject</code>
@@ -1374,6 +1393,43 @@ class LookoutForVision {
       exceptionFnMap: _exceptionFns,
     );
     return UpdateDatasetEntriesResponse.fromJson(response);
+  }
+}
+
+/// Information about an anomaly type found on an image by an image segmentation
+/// model. For more information, see <a>DetectAnomalies</a>.
+class Anomaly {
+  /// The name of an anomaly type found in an image. <code>Name</code> maps to an
+  /// anomaly type in the training dataset, apart from the anomaly type
+  /// <code>background</code>. The service automatically inserts the
+  /// <code>background</code> anomaly type into the response from
+  /// <code>DetectAnomalies</code>.
+  final String? name;
+
+  /// Information about the pixel mask that covers an anomaly type.
+  final PixelAnomaly? pixelAnomaly;
+
+  Anomaly({
+    this.name,
+    this.pixelAnomaly,
+  });
+
+  factory Anomaly.fromJson(Map<String, dynamic> json) {
+    return Anomaly(
+      name: json['Name'] as String?,
+      pixelAnomaly: json['PixelAnomaly'] != null
+          ? PixelAnomaly.fromJson(json['PixelAnomaly'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final pixelAnomaly = this.pixelAnomaly;
+    return {
+      if (name != null) 'Name': name,
+      if (pixelAnomaly != null) 'PixelAnomaly': pixelAnomaly,
+    };
   }
 }
 
@@ -1922,12 +1978,43 @@ class DetectAnomaliesResponse {
 }
 
 /// The prediction results from a call to <a>DetectAnomalies</a>.
+/// <code>DetectAnomalyResult</code> includes classification information for the
+/// prediction (<code>IsAnomalous</code> and <code>Confidence</code>). If the
+/// model you use is an image segementation model,
+/// <code>DetectAnomalyResult</code> also includes segmentation information
+/// (<code>Anomalies</code> and <code>AnomalyMask</code>). Classification
+/// information is calculated separately from segmentation information and you
+/// shouldn't assume a relationship between them.
 class DetectAnomalyResult {
-  /// The confidence that Amazon Lookout for Vision has in the accuracy of the
-  /// prediction.
+  /// If the model is an image segmentation model, <code>Anomalies</code> contains
+  /// a list of anomaly types found in the image. There is one entry for each type
+  /// of anomaly found (even if multiple instances of an anomaly type exist on the
+  /// image). The first element in the list is always an anomaly type representing
+  /// the image background ('background') and shouldn't be considered an anomaly.
+  /// Amazon Lookout for Vision automatically add the background anomaly type to
+  /// the response, and you don't need to declare a background anomaly type in
+  /// your dataset.
+  ///
+  /// If the list has one entry ('background'), no anomalies were found on the
+  /// image.
+  /// <p/>
+  /// An image classification model doesn't return an <code>Anomalies</code> list.
+  final List<Anomaly>? anomalies;
+
+  /// If the model is an image segmentation model, <code>AnomalyMask</code>
+  /// contains pixel masks that covers all anomaly types found on the image. Each
+  /// anomaly type has a different mask color. To map a color to an anomaly type,
+  /// see the <code>color</code> field of the <a>PixelAnomaly</a> object.
+  ///
+  /// An image classification model doesn't return an <code>Anomalies</code> list.
+  final Uint8List? anomalyMask;
+
+  /// The confidence that Lookout for Vision has in the accuracy of the
+  /// classification in <code>IsAnomalous</code>.
   final double? confidence;
 
-  /// True if the image contains an anomaly, otherwise false.
+  /// True if Amazon Lookout for Vision classifies the image as containing an
+  /// anomaly, otherwise false.
   final bool? isAnomalous;
 
   /// The source of the image that was analyzed. <code>direct</code> means that
@@ -1936,6 +2023,8 @@ class DetectAnomalyResult {
   final ImageSource? source;
 
   DetectAnomalyResult({
+    this.anomalies,
+    this.anomalyMask,
     this.confidence,
     this.isAnomalous,
     this.source,
@@ -1943,6 +2032,11 @@ class DetectAnomalyResult {
 
   factory DetectAnomalyResult.fromJson(Map<String, dynamic> json) {
     return DetectAnomalyResult(
+      anomalies: (json['Anomalies'] as List?)
+          ?.whereNotNull()
+          .map((e) => Anomaly.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      anomalyMask: _s.decodeNullableUint8List(json['AnomalyMask'] as String?),
       confidence: json['Confidence'] as double?,
       isAnomalous: json['IsAnomalous'] as bool?,
       source: json['Source'] != null
@@ -1952,10 +2046,14 @@ class DetectAnomalyResult {
   }
 
   Map<String, dynamic> toJson() {
+    final anomalies = this.anomalies;
+    final anomalyMask = this.anomalyMask;
     final confidence = this.confidence;
     final isAnomalous = this.isAnomalous;
     final source = this.source;
     return {
+      if (anomalies != null) 'Anomalies': anomalies,
+      if (anomalyMask != null) 'AnomalyMask': base64Encode(anomalyMask),
       if (confidence != null) 'Confidence': confidence,
       if (isAnomalous != null) 'IsAnomalous': isAnomalous,
       if (source != null) 'Source': source,
@@ -1972,18 +2070,20 @@ class DetectAnomalyResult {
 /// component name and component version.
 /// </note>
 class GreengrassConfiguration {
-  /// Additional compiler options for the Greengrass component. Currently, only
-  /// NVIDIA Graphics Processing Units (GPU) are supported.
-  ///
-  /// For more information, see <i>Compiler options</i> in the Amazon Lookout for
-  /// Vision Developer Guide.
-  final String compilerOptions;
-
   /// A name for the AWS IoT Greengrass component.
   final String componentName;
 
   /// An S3 location in which Lookout for Vision stores the component artifacts.
   final S3Location s3OutputLocation;
+
+  /// Additional compiler options for the Greengrass component. Currently, only
+  /// NVIDIA Graphics Processing Units (GPU) and CPU accelerators are supported.
+  /// If you specify <code>TargetDevice</code>, don't specify
+  /// <code>CompilerOptions</code>.
+  ///
+  /// For more information, see <i>Compiler options</i> in the Amazon Lookout for
+  /// Vision Developer Guide.
+  final String? compilerOptions;
 
   /// A description for the AWS IoT Greengrass component.
   final String? componentDescription;
@@ -2006,9 +2106,9 @@ class GreengrassConfiguration {
   final TargetPlatform? targetPlatform;
 
   GreengrassConfiguration({
-    required this.compilerOptions,
     required this.componentName,
     required this.s3OutputLocation,
+    this.compilerOptions,
     this.componentDescription,
     this.componentVersion,
     this.tags,
@@ -2018,10 +2118,10 @@ class GreengrassConfiguration {
 
   factory GreengrassConfiguration.fromJson(Map<String, dynamic> json) {
     return GreengrassConfiguration(
-      compilerOptions: json['CompilerOptions'] as String,
       componentName: json['ComponentName'] as String,
       s3OutputLocation:
           S3Location.fromJson(json['S3OutputLocation'] as Map<String, dynamic>),
+      compilerOptions: json['CompilerOptions'] as String?,
       componentDescription: json['ComponentDescription'] as String?,
       componentVersion: json['ComponentVersion'] as String?,
       tags: (json['Tags'] as List?)
@@ -2037,18 +2137,18 @@ class GreengrassConfiguration {
   }
 
   Map<String, dynamic> toJson() {
-    final compilerOptions = this.compilerOptions;
     final componentName = this.componentName;
     final s3OutputLocation = this.s3OutputLocation;
+    final compilerOptions = this.compilerOptions;
     final componentDescription = this.componentDescription;
     final componentVersion = this.componentVersion;
     final tags = this.tags;
     final targetDevice = this.targetDevice;
     final targetPlatform = this.targetPlatform;
     return {
-      'CompilerOptions': compilerOptions,
       'ComponentName': componentName,
       'S3OutputLocation': s3OutputLocation,
+      if (compilerOptions != null) 'CompilerOptions': compilerOptions,
       if (componentDescription != null)
         'ComponentDescription': componentDescription,
       if (componentVersion != null) 'ComponentVersion': componentVersion,
@@ -2345,6 +2445,14 @@ class ModelDescription {
   /// to encrypt the model during training.
   final String? kmsKeyId;
 
+  /// The maximum number of inference units Amazon Lookout for Vision uses to
+  /// auto-scale the model. For more information, see <a>StartModel</a>.
+  final int? maxInferenceUnits;
+
+  /// The minimum number of inference units used by the model. For more
+  /// information, see <a>StartModel</a>
+  final int? minInferenceUnits;
+
   /// The Amazon Resource Name (ARN) of the model.
   final String? modelArn;
 
@@ -2370,6 +2478,8 @@ class ModelDescription {
     this.evaluationManifest,
     this.evaluationResult,
     this.kmsKeyId,
+    this.maxInferenceUnits,
+    this.minInferenceUnits,
     this.modelArn,
     this.modelVersion,
     this.outputConfig,
@@ -2392,6 +2502,8 @@ class ModelDescription {
               json['EvaluationResult'] as Map<String, dynamic>)
           : null,
       kmsKeyId: json['KmsKeyId'] as String?,
+      maxInferenceUnits: json['MaxInferenceUnits'] as int?,
+      minInferenceUnits: json['MinInferenceUnits'] as int?,
       modelArn: json['ModelArn'] as String?,
       modelVersion: json['ModelVersion'] as String?,
       outputConfig: json['OutputConfig'] != null
@@ -2413,6 +2525,8 @@ class ModelDescription {
     final evaluationManifest = this.evaluationManifest;
     final evaluationResult = this.evaluationResult;
     final kmsKeyId = this.kmsKeyId;
+    final maxInferenceUnits = this.maxInferenceUnits;
+    final minInferenceUnits = this.minInferenceUnits;
     final modelArn = this.modelArn;
     final modelVersion = this.modelVersion;
     final outputConfig = this.outputConfig;
@@ -2428,6 +2542,8 @@ class ModelDescription {
       if (evaluationManifest != null) 'EvaluationManifest': evaluationManifest,
       if (evaluationResult != null) 'EvaluationResult': evaluationResult,
       if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+      if (maxInferenceUnits != null) 'MaxInferenceUnits': maxInferenceUnits,
+      if (minInferenceUnits != null) 'MinInferenceUnits': minInferenceUnits,
       if (modelArn != null) 'ModelArn': modelArn,
       if (modelVersion != null) 'ModelVersion': modelVersion,
       if (outputConfig != null) 'OutputConfig': outputConfig,
@@ -2995,6 +3111,41 @@ class OutputS3Object {
   }
 }
 
+/// Information about the pixels in an anomaly mask. For more information, see
+/// <a>Anomaly</a>. <code>PixelAnomaly</code> is only returned by image
+/// segmentation models.
+class PixelAnomaly {
+  /// A hex color value for the mask that covers an anomaly type. Each anomaly
+  /// type has a different mask color. The color maps to the color of the anomaly
+  /// type used in the training dataset.
+  final String? color;
+
+  /// The percentage area of the image that the anomaly type covers.
+  final double? totalPercentageArea;
+
+  PixelAnomaly({
+    this.color,
+    this.totalPercentageArea,
+  });
+
+  factory PixelAnomaly.fromJson(Map<String, dynamic> json) {
+    return PixelAnomaly(
+      color: json['Color'] as String?,
+      totalPercentageArea: json['TotalPercentageArea'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final color = this.color;
+    final totalPercentageArea = this.totalPercentageArea;
+    return {
+      if (color != null) 'Color': color,
+      if (totalPercentageArea != null)
+        'TotalPercentageArea': totalPercentageArea,
+    };
+  }
+}
+
 /// Describe an Amazon Lookout for Vision project. For more information, see
 /// <a>DescribeProject</a>.
 class ProjectDescription {
@@ -3252,12 +3403,6 @@ extension on String {
 
 /// The platform on which a model runs on an AWS IoT Greengrass core device.
 class TargetPlatform {
-  /// The target accelerator for the model. NVIDIA (Nvidia graphics processing
-  /// unit) is the only accelerator that is currently supported. You must also
-  /// specify the <code>gpu-code</code>, <code>trt-ver</code>, and
-  /// <code>cuda-ver</code> compiler options.
-  final TargetPlatformAccelerator accelerator;
-
   /// The target architecture for the model. The currently supported architectures
   /// are X86_64 (64-bit version of the x86 instruction set) and ARM_64 (ARMv8
   /// 64-bit CPU).
@@ -3267,29 +3412,50 @@ class TargetPlatform {
   /// system that is currently supported.
   final TargetPlatformOs os;
 
+  /// The target accelerator for the model. Currently, Amazon Lookout for Vision
+  /// only supports NVIDIA (Nvidia graphics processing unit) and CPU accelerators.
+  /// If you specify NVIDIA as an accelerator, you must also specify the
+  /// <code>gpu-code</code>, <code>trt-ver</code>, and <code>cuda-ver</code>
+  /// compiler options. If you don't specify an accelerator, Lookout for Vision
+  /// uses the CPU for compilation and we highly recommend that you use the
+  /// <a>GreengrassConfiguration$CompilerOptions</a> field. For example, you can
+  /// use the following compiler options for CPU:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>mcpu</code>: CPU micro-architecture. For example, <code>{'mcpu':
+  /// 'skylake-avx512'}</code>
+  /// </li>
+  /// <li>
+  /// <code>mattr</code>: CPU flags. For example, <code>{'mattr': ['+neon',
+  /// '+vfpv4']}</code>
+  /// </li>
+  /// </ul>
+  final TargetPlatformAccelerator? accelerator;
+
   TargetPlatform({
-    required this.accelerator,
     required this.arch,
     required this.os,
+    this.accelerator,
   });
 
   factory TargetPlatform.fromJson(Map<String, dynamic> json) {
     return TargetPlatform(
-      accelerator:
-          (json['Accelerator'] as String).toTargetPlatformAccelerator(),
       arch: (json['Arch'] as String).toTargetPlatformArch(),
       os: (json['Os'] as String).toTargetPlatformOs(),
+      accelerator:
+          (json['Accelerator'] as String?)?.toTargetPlatformAccelerator(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final accelerator = this.accelerator;
     final arch = this.arch;
     final os = this.os;
+    final accelerator = this.accelerator;
     return {
-      'Accelerator': accelerator.toValue(),
       'Arch': arch.toValue(),
       'Os': os.toValue(),
+      if (accelerator != null) 'Accelerator': accelerator.toValue(),
     };
   }
 }

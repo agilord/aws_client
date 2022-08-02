@@ -167,6 +167,7 @@ class DataExchange {
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   ///
   /// Parameter [details] :
   /// The details for the CreateJob request.
@@ -708,6 +709,45 @@ class DataExchange {
     return ListTagsForResourceResponse.fromJson(response);
   }
 
+  /// This operation revokes subscribers' access to a revision.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [dataSetId] :
+  /// The unique identifier for a data set.
+  ///
+  /// Parameter [revisionId] :
+  /// The unique identifier for a revision.
+  ///
+  /// Parameter [revocationComment] :
+  /// A required comment to inform subscribers of the reason their access to the
+  /// revision was revoked.
+  Future<RevokeRevisionResponse> revokeRevision({
+    required String dataSetId,
+    required String revisionId,
+    required String revocationComment,
+  }) async {
+    ArgumentError.checkNotNull(dataSetId, 'dataSetId');
+    ArgumentError.checkNotNull(revisionId, 'revisionId');
+    ArgumentError.checkNotNull(revocationComment, 'revocationComment');
+    final $payload = <String, dynamic>{
+      'RevocationComment': revocationComment,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/v1/data-sets/${Uri.encodeComponent(dataSetId)}/revisions/${Uri.encodeComponent(revisionId)}/revoke',
+      exceptionFnMap: _exceptionFns,
+    );
+    return RevokeRevisionResponse.fromJson(response);
+  }
+
   /// This operation invokes an API Gateway API asset. The request is proxied to
   /// the provider’s API Gateway API.
   ///
@@ -1216,9 +1256,9 @@ class AssetDetails {
 /// fulfilling data (Amazon Redshift datashare or Amazon API Gateway API). The
 /// asset can be a structured data file, an image file, or some other data file
 /// that can be stored as an S3 object, an Amazon API Gateway API, or an Amazon
-/// Redshift datashare (Preview). When you create an import job for your files,
-/// API Gateway APIs, or Amazon Redshift datashares, you create an asset in AWS
-/// Data Exchange.
+/// Redshift datashare. When you create an import job for your files, API
+/// Gateway APIs, or Amazon Redshift datashares, you create an asset in AWS Data
+/// Exchange.
 class AssetEntry {
   /// The ARN for the asset.
   final String arn;
@@ -1764,6 +1804,16 @@ class CreateRevisionResponse {
   /// The unique identifier for the revision.
   final String? id;
 
+  /// A required comment to inform subscribers of the reason their access to the
+  /// revision was revoked.
+  final String? revocationComment;
+
+  /// A status indicating that subscribers' access to the revision was revoked.
+  final bool? revoked;
+
+  /// The date and time that the revision was revoked, in ISO 8601 format.
+  final DateTime? revokedAt;
+
   /// The revision ID of the owned revision corresponding to the entitled revision
   /// being viewed. This parameter is returned when a revision owner is viewing
   /// the entitled copy of its owned revision.
@@ -1782,6 +1832,9 @@ class CreateRevisionResponse {
     this.dataSetId,
     this.finalized,
     this.id,
+    this.revocationComment,
+    this.revoked,
+    this.revokedAt,
     this.sourceId,
     this.tags,
     this.updatedAt,
@@ -1795,6 +1848,9 @@ class CreateRevisionResponse {
       dataSetId: json['DataSetId'] as String?,
       finalized: json['Finalized'] as bool?,
       id: json['Id'] as String?,
+      revocationComment: json['RevocationComment'] as String?,
+      revoked: json['Revoked'] as bool?,
+      revokedAt: timeStampFromJson(json['RevokedAt']),
       sourceId: json['SourceId'] as String?,
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -1809,6 +1865,9 @@ class CreateRevisionResponse {
     final dataSetId = this.dataSetId;
     final finalized = this.finalized;
     final id = this.id;
+    final revocationComment = this.revocationComment;
+    final revoked = this.revoked;
+    final revokedAt = this.revokedAt;
     final sourceId = this.sourceId;
     final tags = this.tags;
     final updatedAt = this.updatedAt;
@@ -1819,6 +1878,9 @@ class CreateRevisionResponse {
       if (dataSetId != null) 'DataSetId': dataSetId,
       if (finalized != null) 'Finalized': finalized,
       if (id != null) 'Id': id,
+      if (revocationComment != null) 'RevocationComment': revocationComment,
+      if (revoked != null) 'Revoked': revoked,
+      if (revokedAt != null) 'RevokedAt': iso8601ToJson(revokedAt),
       if (sourceId != null) 'SourceId': sourceId,
       if (tags != null) 'Tags': tags,
       if (updatedAt != null) 'UpdatedAt': iso8601ToJson(updatedAt),
@@ -2732,6 +2794,16 @@ class GetRevisionResponse {
   /// The unique identifier for the revision.
   final String? id;
 
+  /// A required comment to inform subscribers of the reason their access to the
+  /// revision was revoked.
+  final String? revocationComment;
+
+  /// A status indicating that subscribers' access to the revision was revoked.
+  final bool? revoked;
+
+  /// The date and time that the revision was revoked, in ISO 8601 format.
+  final DateTime? revokedAt;
+
   /// The revision ID of the owned revision corresponding to the entitled revision
   /// being viewed. This parameter is returned when a revision owner is viewing
   /// the entitled copy of its owned revision.
@@ -2750,6 +2822,9 @@ class GetRevisionResponse {
     this.dataSetId,
     this.finalized,
     this.id,
+    this.revocationComment,
+    this.revoked,
+    this.revokedAt,
     this.sourceId,
     this.tags,
     this.updatedAt,
@@ -2763,6 +2838,9 @@ class GetRevisionResponse {
       dataSetId: json['DataSetId'] as String?,
       finalized: json['Finalized'] as bool?,
       id: json['Id'] as String?,
+      revocationComment: json['RevocationComment'] as String?,
+      revoked: json['Revoked'] as bool?,
+      revokedAt: timeStampFromJson(json['RevokedAt']),
       sourceId: json['SourceId'] as String?,
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -2777,6 +2855,9 @@ class GetRevisionResponse {
     final dataSetId = this.dataSetId;
     final finalized = this.finalized;
     final id = this.id;
+    final revocationComment = this.revocationComment;
+    final revoked = this.revoked;
+    final revokedAt = this.revokedAt;
     final sourceId = this.sourceId;
     final tags = this.tags;
     final updatedAt = this.updatedAt;
@@ -2787,6 +2868,9 @@ class GetRevisionResponse {
       if (dataSetId != null) 'DataSetId': dataSetId,
       if (finalized != null) 'Finalized': finalized,
       if (id != null) 'Id': id,
+      if (revocationComment != null) 'RevocationComment': revocationComment,
+      if (revoked != null) 'Revoked': revoked,
+      if (revokedAt != null) 'RevokedAt': iso8601ToJson(revokedAt),
       if (sourceId != null) 'SourceId': sourceId,
       if (tags != null) 'Tags': tags,
       if (updatedAt != null) 'UpdatedAt': iso8601ToJson(updatedAt),
@@ -4065,6 +4149,16 @@ class RevisionEntry {
   /// their ARN.
   final bool? finalized;
 
+  /// A required comment to inform subscribers of the reason their access to the
+  /// revision was revoked.
+  final String? revocationComment;
+
+  /// A status indicating that subscribers' access to the revision was revoked.
+  final bool? revoked;
+
+  /// The date and time that the revision was revoked, in ISO 8601 format.
+  final DateTime? revokedAt;
+
   /// The revision ID of the owned revision corresponding to the entitled revision
   /// being viewed. This parameter is returned when a revision owner is viewing
   /// the entitled copy of its owned revision.
@@ -4078,6 +4172,9 @@ class RevisionEntry {
     required this.updatedAt,
     this.comment,
     this.finalized,
+    this.revocationComment,
+    this.revoked,
+    this.revokedAt,
     this.sourceId,
   });
 
@@ -4090,6 +4187,9 @@ class RevisionEntry {
       updatedAt: nonNullableTimeStampFromJson(json['UpdatedAt'] as Object),
       comment: json['Comment'] as String?,
       finalized: json['Finalized'] as bool?,
+      revocationComment: json['RevocationComment'] as String?,
+      revoked: json['Revoked'] as bool?,
+      revokedAt: timeStampFromJson(json['RevokedAt']),
       sourceId: json['SourceId'] as String?,
     );
   }
@@ -4102,6 +4202,9 @@ class RevisionEntry {
     final updatedAt = this.updatedAt;
     final comment = this.comment;
     final finalized = this.finalized;
+    final revocationComment = this.revocationComment;
+    final revoked = this.revoked;
+    final revokedAt = this.revokedAt;
     final sourceId = this.sourceId;
     return {
       'Arn': arn,
@@ -4111,6 +4214,9 @@ class RevisionEntry {
       'UpdatedAt': iso8601ToJson(updatedAt),
       if (comment != null) 'Comment': comment,
       if (finalized != null) 'Finalized': finalized,
+      if (revocationComment != null) 'RevocationComment': revocationComment,
+      if (revoked != null) 'Revoked': revoked,
+      if (revokedAt != null) 'RevokedAt': iso8601ToJson(revokedAt),
       if (sourceId != null) 'SourceId': sourceId,
     };
   }
@@ -4135,6 +4241,109 @@ class RevisionPublished {
     final dataSetId = this.dataSetId;
     return {
       'DataSetId': dataSetId,
+    };
+  }
+}
+
+class RevokeRevisionResponse {
+  /// The ARN for the revision.
+  final String? arn;
+
+  /// An optional comment about the revision.
+  final String? comment;
+
+  /// The date and time that the revision was created, in ISO 8601 format.
+  final DateTime? createdAt;
+
+  /// The unique identifier for the data set associated with this revision.
+  final String? dataSetId;
+
+  /// To publish a revision to a data set in a product, the revision must first be
+  /// finalized. Finalizing a revision tells AWS Data Exchange that changes to the
+  /// assets in the revision are complete. After it's in this read-only state, you
+  /// can publish the revision to your products.
+  ///
+  /// Finalized revisions can be published through the AWS Data Exchange console
+  /// or the AWS Marketplace Catalog API, using the StartChangeSet AWS Marketplace
+  /// Catalog API action. When using the API, revisions are uniquely identified by
+  /// their ARN.
+  final bool? finalized;
+
+  /// The unique identifier for the revision.
+  final String? id;
+
+  /// A required comment to inform subscribers of the reason their access to the
+  /// revision was revoked.
+  final String? revocationComment;
+
+  /// A status indicating that subscribers' access to the revision was revoked.
+  final bool? revoked;
+
+  /// The date and time that the revision was revoked, in ISO 8601 format.
+  final DateTime? revokedAt;
+
+  /// The revision ID of the owned revision corresponding to the entitled revision
+  /// being viewed. This parameter is returned when a revision owner is viewing
+  /// the entitled copy of its owned revision.
+  final String? sourceId;
+
+  /// The date and time that the revision was last updated, in ISO 8601 format.
+  final DateTime? updatedAt;
+
+  RevokeRevisionResponse({
+    this.arn,
+    this.comment,
+    this.createdAt,
+    this.dataSetId,
+    this.finalized,
+    this.id,
+    this.revocationComment,
+    this.revoked,
+    this.revokedAt,
+    this.sourceId,
+    this.updatedAt,
+  });
+
+  factory RevokeRevisionResponse.fromJson(Map<String, dynamic> json) {
+    return RevokeRevisionResponse(
+      arn: json['Arn'] as String?,
+      comment: json['Comment'] as String?,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      dataSetId: json['DataSetId'] as String?,
+      finalized: json['Finalized'] as bool?,
+      id: json['Id'] as String?,
+      revocationComment: json['RevocationComment'] as String?,
+      revoked: json['Revoked'] as bool?,
+      revokedAt: timeStampFromJson(json['RevokedAt']),
+      sourceId: json['SourceId'] as String?,
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final comment = this.comment;
+    final createdAt = this.createdAt;
+    final dataSetId = this.dataSetId;
+    final finalized = this.finalized;
+    final id = this.id;
+    final revocationComment = this.revocationComment;
+    final revoked = this.revoked;
+    final revokedAt = this.revokedAt;
+    final sourceId = this.sourceId;
+    final updatedAt = this.updatedAt;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (comment != null) 'Comment': comment,
+      if (createdAt != null) 'CreatedAt': iso8601ToJson(createdAt),
+      if (dataSetId != null) 'DataSetId': dataSetId,
+      if (finalized != null) 'Finalized': finalized,
+      if (id != null) 'Id': id,
+      if (revocationComment != null) 'RevocationComment': revocationComment,
+      if (revoked != null) 'Revoked': revoked,
+      if (revokedAt != null) 'RevokedAt': iso8601ToJson(revokedAt),
+      if (sourceId != null) 'SourceId': sourceId,
+      if (updatedAt != null) 'UpdatedAt': iso8601ToJson(updatedAt),
     };
   }
 }
@@ -4607,6 +4816,16 @@ class UpdateRevisionResponse {
   /// The unique identifier for the revision.
   final String? id;
 
+  /// A required comment to inform subscribers of the reason their access to the
+  /// revision was revoked.
+  final String? revocationComment;
+
+  /// A status indicating that subscribers' access to the revision was revoked.
+  final bool? revoked;
+
+  /// The date and time that the revision was revoked, in ISO 8601 format.
+  final DateTime? revokedAt;
+
   /// The revision ID of the owned revision corresponding to the entitled revision
   /// being viewed. This parameter is returned when a revision owner is viewing
   /// the entitled copy of its owned revision.
@@ -4622,6 +4841,9 @@ class UpdateRevisionResponse {
     this.dataSetId,
     this.finalized,
     this.id,
+    this.revocationComment,
+    this.revoked,
+    this.revokedAt,
     this.sourceId,
     this.updatedAt,
   });
@@ -4634,6 +4856,9 @@ class UpdateRevisionResponse {
       dataSetId: json['DataSetId'] as String?,
       finalized: json['Finalized'] as bool?,
       id: json['Id'] as String?,
+      revocationComment: json['RevocationComment'] as String?,
+      revoked: json['Revoked'] as bool?,
+      revokedAt: timeStampFromJson(json['RevokedAt']),
       sourceId: json['SourceId'] as String?,
       updatedAt: timeStampFromJson(json['UpdatedAt']),
     );
@@ -4646,6 +4871,9 @@ class UpdateRevisionResponse {
     final dataSetId = this.dataSetId;
     final finalized = this.finalized;
     final id = this.id;
+    final revocationComment = this.revocationComment;
+    final revoked = this.revoked;
+    final revokedAt = this.revokedAt;
     final sourceId = this.sourceId;
     final updatedAt = this.updatedAt;
     return {
@@ -4655,6 +4883,9 @@ class UpdateRevisionResponse {
       if (dataSetId != null) 'DataSetId': dataSetId,
       if (finalized != null) 'Finalized': finalized,
       if (id != null) 'Id': id,
+      if (revocationComment != null) 'RevocationComment': revocationComment,
+      if (revoked != null) 'Revoked': revoked,
+      if (revokedAt != null) 'RevokedAt': iso8601ToJson(revokedAt),
       if (sourceId != null) 'SourceId': sourceId,
       if (updatedAt != null) 'UpdatedAt': iso8601ToJson(updatedAt),
     };

@@ -49,10 +49,9 @@ class Shield {
   ///
   /// To use the services of the SRT and make an
   /// <code>AssociateDRTLogBucket</code> request, you must be subscribed to the
-  /// <a
-  /// href="https://docs.aws.amazon.com/premiumsupport/business-support/">Business
+  /// <a href="http://aws.amazon.com/premiumsupport/business-support/">Business
   /// Support plan</a> or the <a
-  /// href="https://docs.aws.amazon.com/premiumsupport/enterprise-support/">Enterprise
+  /// href="http://aws.amazon.com/premiumsupport/enterprise-support/">Enterprise
   /// Support plan</a>.
   ///
   /// May throw [InternalErrorException].
@@ -121,9 +120,9 @@ class Shield {
   ///
   /// To use the services of the SRT and make an <code>AssociateDRTRole</code>
   /// request, you must be subscribed to the <a
-  /// href="https://docs.aws.amazon.com/premiumsupport/business-support/">Business
+  /// href="http://aws.amazon.com/premiumsupport/business-support/">Business
   /// Support plan</a> or the <a
-  /// href="https://docs.aws.amazon.com/premiumsupport/enterprise-support/">Enterprise
+  /// href="http://aws.amazon.com/premiumsupport/enterprise-support/">Enterprise
   /// Support plan</a>.
   ///
   /// May throw [InternalErrorException].
@@ -270,9 +269,11 @@ class Shield {
   }
 
   /// Enables Shield Advanced for a specific Amazon Web Services resource. The
-  /// resource can be an Amazon CloudFront distribution, Elastic Load Balancing
-  /// load balancer, Global Accelerator accelerator, Elastic IP Address, or an
-  /// Amazon Route 53 hosted zone.
+  /// resource can be an Amazon CloudFront distribution, Amazon Route 53 hosted
+  /// zone, Global Accelerator standard accelerator, Elastic IP Address,
+  /// Application Load Balancer, or a Classic Load Balancer. You can protect
+  /// Amazon EC2 instances and Network Load Balancers by association with
+  /// protected Amazon EC2 Elastic IP addresses.
   ///
   /// You can add protection to only a single resource with each
   /// <code>CreateProtection</code> request. You can add protection to multiple
@@ -318,7 +319,7 @@ class Shield {
   /// </code>
   /// </li>
   /// <li>
-  /// For an Global Accelerator accelerator:
+  /// For an Global Accelerator standard accelerator:
   /// <code>arn:aws:globalaccelerator::<i>account-id</i>:accelerator/<i>accelerator-id</i>
   /// </code>
   /// </li>
@@ -457,8 +458,12 @@ class Shield {
   }
 
   /// Activates Shield Advanced for an account.
-  ///
-  /// When you initally create a subscription, your subscription is set to be
+  /// <note>
+  /// For accounts that are members of an Organizations organization, Shield
+  /// Advanced subscriptions are billed against the organization's payer
+  /// account, regardless of whether the payer account itself is subscribed.
+  /// </note>
+  /// When you initially create a subscription, your subscription is set to be
   /// automatically renewed at the end of the existing subscription period. You
   /// can change this by submitting an <code>UpdateSubscription</code> request.
   ///
@@ -672,16 +677,15 @@ class Shield {
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [protectionId] :
-  /// The unique identifier (ID) for the <a>Protection</a> object that is
-  /// described. When submitting the <code>DescribeProtection</code> request you
-  /// must provide either the <code>ResourceArn</code> or the
-  /// <code>ProtectionID</code>, but not both.
+  /// The unique identifier (ID) for the <a>Protection</a> object to describe.
+  /// You must provide either the <code>ResourceArn</code> of the protected
+  /// resource or the <code>ProtectionID</code> of the protection, but not both.
   ///
   /// Parameter [resourceArn] :
-  /// The ARN (Amazon Resource Name) of the Amazon Web Services resource for the
-  /// <a>Protection</a> object that is described. When submitting the
-  /// <code>DescribeProtection</code> request you must provide either the
-  /// <code>ResourceArn</code> or the <code>ProtectionID</code>, but not both.
+  /// The ARN (Amazon Resource Name) of the protected Amazon Web Services
+  /// resource. You must provide either the <code>ResourceArn</code> of the
+  /// protected resource or the <code>ProtectionID</code> of the protection, but
+  /// not both.
   Future<DescribeProtectionResponse> describeProtection({
     String? protectionId,
     String? resourceArn,
@@ -757,9 +761,9 @@ class Shield {
   }
 
   /// Disable the Shield Advanced automatic application layer DDoS mitigation
-  /// feature for the resource. This stops Shield Advanced from creating,
-  /// verifying, and applying WAF rules for attacks that it detects for the
-  /// resource.
+  /// feature for the protected resource. This stops Shield Advanced from
+  /// creating, verifying, and applying WAF rules for attacks that it detects
+  /// for the resource.
   ///
   /// May throw [InternalErrorException].
   /// May throw [InvalidParameterException].
@@ -768,7 +772,7 @@ class Shield {
   /// May throw [InvalidOperationException].
   ///
   /// Parameter [resourceArn] :
-  /// The ARN (Amazon Resource Name) of the resource.
+  /// The ARN (Amazon Resource Name) of the protected resource.
   Future<void> disableApplicationLayerAutomaticResponse({
     required String resourceArn,
   }) async {
@@ -913,9 +917,10 @@ class Shield {
   }
 
   /// Enable the Shield Advanced automatic application layer DDoS mitigation for
-  /// the resource.
+  /// the protected resource.
   /// <note>
-  /// This feature is available for Amazon CloudFront distributions only.
+  /// This feature is available for Amazon CloudFront distributions and
+  /// Application Load Balancers only.
   /// </note>
   /// This causes Shield Advanced to create, verify, and apply WAF rules for
   /// DDoS attacks that it detects for the resource. Shield Advanced applies the
@@ -924,11 +929,11 @@ class Shield {
   /// and the requirements for using it, see <a
   /// href="https://docs.aws.amazon.com/waf/latest/developerguide/ddos-advanced-automatic-app-layer-response.html">Shield
   /// Advanced automatic application layer DDoS mitigation</a>.
-  ///
+  /// <note>
   /// Don't use this action to make changes to automatic mitigation settings
   /// when it's already enabled for a resource. Instead, use
   /// <a>UpdateApplicationLayerAutomaticResponse</a>.
-  ///
+  /// </note>
   /// To use this feature, you must associate a web ACL with the protected
   /// resource. The web ACL must be created using the latest version of WAF
   /// (v2). You can associate the web ACL through the Shield Advanced console at
@@ -936,10 +941,9 @@ class Shield {
   /// href="https://console.aws.amazon.com/wafv2/shieldv2#/">https://console.aws.amazon.com/wafv2/shieldv2#/</a>.
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/waf/latest/developerguide/getting-started-ddos.html">Getting
-  /// Started with Shield Advanced</a>.
-  ///
-  /// You can also do this through the WAF console or the WAF API, but you must
-  /// manage Shield Advanced automatic mitigation through Shield Advanced. For
+  /// Started with Shield Advanced</a>. You can also associate the web ACL to
+  /// the resource through the WAF console or the WAF API, but you must manage
+  /// Shield Advanced automatic mitigation through Shield Advanced. For
   /// information about WAF, see <a
   /// href="https://docs.aws.amazon.com/waf/latest/developerguide/">WAF
   /// Developer Guide</a>.
@@ -961,7 +965,7 @@ class Shield {
   /// associated with the resource.
   ///
   /// Parameter [resourceArn] :
-  /// The ARN (Amazon Resource Name) of the resource.
+  /// The ARN (Amazon Resource Name) of the protected resource.
   Future<void> enableApplicationLayerAutomaticResponse({
     required ResponseAction action,
     required String resourceArn,
@@ -1117,11 +1121,21 @@ class Shield {
     return ListAttacksResponse.fromJson(jsonResponse.body);
   }
 
-  /// Retrieves the <a>ProtectionGroup</a> objects for the account.
+  /// Retrieves <a>ProtectionGroup</a> objects for the account. You can retrieve
+  /// all protection groups or you can provide filtering criteria and retrieve
+  /// just the subset of protection groups that match the criteria.
   ///
   /// May throw [InternalErrorException].
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidPaginationTokenException].
+  ///
+  /// Parameter [inclusionFilters] :
+  /// Narrows the set of protection groups that the call retrieves. You can
+  /// retrieve a single protection group by its name and you can retrieve all
+  /// protection groups that are configured with specific pattern or aggregation
+  /// settings. You can provide up to one criteria per filter type. Shield
+  /// Advanced returns the protection groups that exactly match all of the
+  /// search criteria that you provide.
   ///
   /// Parameter [maxResults] :
   /// The greatest number of objects that you want Shield Advanced to return to
@@ -1149,6 +1163,7 @@ class Shield {
   ///
   /// On your first call to a list operation, leave this setting empty.
   Future<ListProtectionGroupsResponse> listProtectionGroups({
+    InclusionProtectionGroupFilters? inclusionFilters,
     int? maxResults,
     String? nextToken,
   }) async {
@@ -1169,6 +1184,7 @@ class Shield {
       // TODO queryParams
       headers: headers,
       payload: {
+        if (inclusionFilters != null) 'InclusionFilters': inclusionFilters,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
       },
@@ -1177,11 +1193,21 @@ class Shield {
     return ListProtectionGroupsResponse.fromJson(jsonResponse.body);
   }
 
-  /// Lists all <a>Protection</a> objects for the account.
+  /// Retrieves <a>Protection</a> objects for the account. You can retrieve all
+  /// protections or you can provide filtering criteria and retrieve just the
+  /// subset of protections that match the criteria.
   ///
   /// May throw [InternalErrorException].
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidPaginationTokenException].
+  ///
+  /// Parameter [inclusionFilters] :
+  /// Narrows the set of protections that the call retrieves. You can retrieve a
+  /// single protection by providing its name or the ARN (Amazon Resource Name)
+  /// of its protected resource. You can also retrieve all protections for a
+  /// specific resource type. You can provide up to one criteria per filter
+  /// type. Shield Advanced returns protections that exactly match all of the
+  /// filter criteria that you provide.
   ///
   /// Parameter [maxResults] :
   /// The greatest number of objects that you want Shield Advanced to return to
@@ -1209,6 +1235,7 @@ class Shield {
   ///
   /// On your first call to a list operation, leave this setting empty.
   Future<ListProtectionsResponse> listProtections({
+    InclusionProtectionFilters? inclusionFilters,
     int? maxResults,
     String? nextToken,
   }) async {
@@ -1229,6 +1256,7 @@ class Shield {
       // TODO queryParams
       headers: headers,
       payload: {
+        if (inclusionFilters != null) 'InclusionFilters': inclusionFilters,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
       },
@@ -1576,6 +1604,11 @@ class Shield {
 
   /// Updates the details of an existing subscription. Only enter values for
   /// parameters you want to change. Empty parameters are not updated.
+  /// <note>
+  /// For accounts that are members of an Organizations organization, Shield
+  /// Advanced subscriptions are billed against the organization's payer
+  /// account, regardless of whether the payer account itself is subscribed.
+  /// </note>
   ///
   /// May throw [InternalErrorException].
   /// May throw [LockedSubscriptionException].
@@ -1616,6 +1649,13 @@ class Shield {
 /// automatically manages rules in the web ACL in order to respond to
 /// application layer events that Shield Advanced determines to be DDoS attacks.
 class ApplicationLayerAutomaticResponseConfiguration {
+  /// Specifies the action setting that Shield Advanced should use in the WAF
+  /// rules that it creates on behalf of the protected resource in response to
+  /// DDoS attacks. You specify this as part of the configuration for the
+  /// automatic application layer DDoS mitigation feature, when you enable or
+  /// update automatic mitigation. Shield Advanced creates the WAF rules in a
+  /// Shield Advanced-managed rule group, inside the web ACL that you have
+  /// associated with the resource.
   final ResponseAction action;
 
   /// Indicates whether automatic application layer DDoS mitigation is enabled for
@@ -2400,7 +2440,7 @@ class DeleteSubscriptionResponse {
 }
 
 class DescribeAttackResponse {
-  /// The attack that is described.
+  /// The attack that you requested.
   final AttackDetail? attack;
 
   DescribeAttackResponse({
@@ -2426,6 +2466,8 @@ class DescribeAttackResponse {
 class DescribeAttackStatisticsResponse {
   /// The data that describes the attacks detected during the time period.
   final List<AttackStatisticsDataItem> dataItems;
+
+  /// The time range of the attack.
   final TimeRange timeRange;
 
   DescribeAttackStatisticsResponse({
@@ -2542,7 +2584,7 @@ class DescribeProtectionGroupResponse {
 }
 
 class DescribeProtectionResponse {
-  /// The <a>Protection</a> object that is described.
+  /// The <a>Protection</a> that you requested.
   final Protection? protection;
 
   DescribeProtectionResponse({
@@ -2733,6 +2775,127 @@ class GetSubscriptionStateResponse {
     final subscriptionState = this.subscriptionState;
     return {
       'SubscriptionState': subscriptionState.toValue(),
+    };
+  }
+}
+
+/// Narrows the set of protections that the call retrieves. You can retrieve a
+/// single protection by providing its name or the ARN (Amazon Resource Name) of
+/// its protected resource. You can also retrieve all protections for a specific
+/// resource type. You can provide up to one criteria per filter type. Shield
+/// Advanced returns protections that exactly match all of the filter criteria
+/// that you provide.
+class InclusionProtectionFilters {
+  /// The name of the protection that you want to retrieve.
+  final List<String>? protectionNames;
+
+  /// The ARN (Amazon Resource Name) of the resource whose protection you want to
+  /// retrieve.
+  final List<String>? resourceArns;
+
+  /// The type of protected resource whose protections you want to retrieve.
+  final List<ProtectedResourceType>? resourceTypes;
+
+  InclusionProtectionFilters({
+    this.protectionNames,
+    this.resourceArns,
+    this.resourceTypes,
+  });
+
+  factory InclusionProtectionFilters.fromJson(Map<String, dynamic> json) {
+    return InclusionProtectionFilters(
+      protectionNames: (json['ProtectionNames'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      resourceArns: (json['ResourceArns'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      resourceTypes: (json['ResourceTypes'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toProtectedResourceType())
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final protectionNames = this.protectionNames;
+    final resourceArns = this.resourceArns;
+    final resourceTypes = this.resourceTypes;
+    return {
+      if (protectionNames != null) 'ProtectionNames': protectionNames,
+      if (resourceArns != null) 'ResourceArns': resourceArns,
+      if (resourceTypes != null)
+        'ResourceTypes': resourceTypes.map((e) => e.toValue()).toList(),
+    };
+  }
+}
+
+/// Narrows the set of protection groups that the call retrieves. You can
+/// retrieve a single protection group by its name and you can retrieve all
+/// protection groups that are configured with a specific pattern, aggregation,
+/// or resource type. You can provide up to one criteria per filter type. Shield
+/// Advanced returns the protection groups that exactly match all of the search
+/// criteria that you provide.
+class InclusionProtectionGroupFilters {
+  /// The aggregation setting of the protection groups that you want to retrieve.
+  final List<ProtectionGroupAggregation>? aggregations;
+
+  /// The pattern specification of the protection groups that you want to
+  /// retrieve.
+  final List<ProtectionGroupPattern>? patterns;
+
+  /// The ID of the protection group that you want to retrieve.
+  final List<String>? protectionGroupIds;
+
+  /// The resource type configuration of the protection groups that you want to
+  /// retrieve. In the protection group configuration, you specify the resource
+  /// type when you set the group's <code>Pattern</code> to
+  /// <code>BY_RESOURCE_TYPE</code>.
+  final List<ProtectedResourceType>? resourceTypes;
+
+  InclusionProtectionGroupFilters({
+    this.aggregations,
+    this.patterns,
+    this.protectionGroupIds,
+    this.resourceTypes,
+  });
+
+  factory InclusionProtectionGroupFilters.fromJson(Map<String, dynamic> json) {
+    return InclusionProtectionGroupFilters(
+      aggregations: (json['Aggregations'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toProtectionGroupAggregation())
+          .toList(),
+      patterns: (json['Patterns'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toProtectionGroupPattern())
+          .toList(),
+      protectionGroupIds: (json['ProtectionGroupIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      resourceTypes: (json['ResourceTypes'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toProtectedResourceType())
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final aggregations = this.aggregations;
+    final patterns = this.patterns;
+    final protectionGroupIds = this.protectionGroupIds;
+    final resourceTypes = this.resourceTypes;
+    return {
+      if (aggregations != null)
+        'Aggregations': aggregations.map((e) => e.toValue()).toList(),
+      if (patterns != null)
+        'Patterns': patterns.map((e) => e.toValue()).toList(),
+      if (protectionGroupIds != null) 'ProtectionGroupIds': protectionGroupIds,
+      if (resourceTypes != null)
+        'ResourceTypes': resourceTypes.map((e) => e.toValue()).toList(),
     };
   }
 }
@@ -3178,7 +3341,7 @@ class ProtectionGroup {
   /// </ul>
   final ProtectionGroupAggregation aggregation;
 
-  /// The Amazon Resource Names (ARNs) of the resources to include in the
+  /// The ARNs (Amazon Resource Names) of the resources to include in the
   /// protection group. You must set this when you set <code>Pattern</code> to
   /// <code>ARBITRARY</code> and you must not set it for any other
   /// <code>Pattern</code> setting.
@@ -3186,7 +3349,7 @@ class ProtectionGroup {
 
   /// The criteria to use to choose the protected resources for inclusion in the
   /// group. You can include all resources that have protections, provide a list
-  /// of resource Amazon Resource Names (ARNs), or include all resources of a
+  /// of resource ARNs (Amazon Resource Names), or include all resources of a
   /// specified resource type.
   final ProtectionGroupPattern pattern;
 

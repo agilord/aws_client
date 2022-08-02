@@ -91,7 +91,7 @@ class Backup {
 
   /// Creates a JSON document that specifies a set of resources to assign to a
   /// backup plan. For examples, see <a
-  /// href="https://docs.aws.amazon.com/assigning-resources.html#assigning-resources-json">Assigning
+  /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/assigning-resources.html#assigning-resources-json">Assigning
   /// resources programmatically</a>.
   ///
   /// May throw [LimitExceededException].
@@ -1126,6 +1126,14 @@ class Backup {
   /// account used to create them and the Amazon Web Services Region where they
   /// are created. They consist of lowercase letters, numbers, and hyphens.
   ///
+  /// Parameter [byCompleteAfter] :
+  /// Returns only backup jobs completed after a date expressed in Unix format
+  /// and Coordinated Universal Time (UTC).
+  ///
+  /// Parameter [byCompleteBefore] :
+  /// Returns only backup jobs completed before a date expressed in Unix format
+  /// and Coordinated Universal Time (UTC).
+  ///
   /// Parameter [byCreatedAfter] :
   /// Returns only backup jobs that were created after the specified date.
   ///
@@ -1141,6 +1149,12 @@ class Backup {
   ///
   /// <ul>
   /// <li>
+  /// <code>Aurora</code> for Amazon Aurora
+  /// </li>
+  /// <li>
+  /// <code>DocumentDB</code> for Amazon DocumentDB (with MongoDB compatibility)
+  /// </li>
+  /// <li>
   /// <code>DynamoDB</code> for Amazon DynamoDB
   /// </li>
   /// <li>
@@ -1153,13 +1167,22 @@ class Backup {
   /// <code>EFS</code> for Amazon Elastic File System
   /// </li>
   /// <li>
+  /// <code>FSx</code> for Amazon FSx
+  /// </li>
+  /// <li>
+  /// <code>Neptune</code> for Amazon Neptune
+  /// </li>
+  /// <li>
   /// <code>RDS</code> for Amazon Relational Database Service
   /// </li>
   /// <li>
-  /// <code>Aurora</code> for Amazon Aurora
+  /// <code>Storage Gateway</code> for Storage Gateway
   /// </li>
   /// <li>
-  /// <code>Storage Gateway</code> for Storage Gateway
+  /// <code>S3</code> for Amazon S3
+  /// </li>
+  /// <li>
+  /// <code>VirtualMachine</code> for virtual machines
   /// </li>
   /// </ul>
   ///
@@ -1177,6 +1200,8 @@ class Backup {
   Future<ListBackupJobsOutput> listBackupJobs({
     String? byAccountId,
     String? byBackupVaultName,
+    DateTime? byCompleteAfter,
+    DateTime? byCompleteBefore,
     DateTime? byCreatedAfter,
     DateTime? byCreatedBefore,
     String? byResourceArn,
@@ -1194,6 +1219,10 @@ class Backup {
     final $query = <String, List<String>>{
       if (byAccountId != null) 'accountId': [byAccountId],
       if (byBackupVaultName != null) 'backupVaultName': [byBackupVaultName],
+      if (byCompleteAfter != null)
+        'completeAfter': [_s.iso8601ToJson(byCompleteAfter).toString()],
+      if (byCompleteBefore != null)
+        'completeBefore': [_s.iso8601ToJson(byCompleteBefore).toString()],
       if (byCreatedAfter != null)
         'createdAfter': [_s.iso8601ToJson(byCreatedAfter).toString()],
       if (byCreatedBefore != null)
@@ -1444,6 +1473,14 @@ class Backup {
   /// The account ID to list the jobs from. Returns only copy jobs associated
   /// with the specified account ID.
   ///
+  /// Parameter [byCompleteAfter] :
+  /// Returns only copy jobs completed after a date expressed in Unix format and
+  /// Coordinated Universal Time (UTC).
+  ///
+  /// Parameter [byCompleteBefore] :
+  /// Returns only copy jobs completed before a date expressed in Unix format
+  /// and Coordinated Universal Time (UTC).
+  ///
   /// Parameter [byCreatedAfter] :
   /// Returns only copy jobs that were created after the specified date.
   ///
@@ -1464,6 +1501,12 @@ class Backup {
   ///
   /// <ul>
   /// <li>
+  /// <code>Aurora</code> for Amazon Aurora
+  /// </li>
+  /// <li>
+  /// <code>DocumentDB</code> for Amazon DocumentDB (with MongoDB compatibility)
+  /// </li>
+  /// <li>
   /// <code>DynamoDB</code> for Amazon DynamoDB
   /// </li>
   /// <li>
@@ -1476,13 +1519,22 @@ class Backup {
   /// <code>EFS</code> for Amazon Elastic File System
   /// </li>
   /// <li>
+  /// <code>FSx</code> for Amazon FSx
+  /// </li>
+  /// <li>
+  /// <code>Neptune</code> for Amazon Neptune
+  /// </li>
+  /// <li>
   /// <code>RDS</code> for Amazon Relational Database Service
   /// </li>
   /// <li>
-  /// <code>Aurora</code> for Amazon Aurora
+  /// <code>Storage Gateway</code> for Storage Gateway
   /// </li>
   /// <li>
-  /// <code>Storage Gateway</code> for Storage Gateway
+  /// <code>S3</code> for Amazon S3
+  /// </li>
+  /// <li>
+  /// <code>VirtualMachine</code> for virtual machines
   /// </li>
   /// </ul>
   ///
@@ -1499,6 +1551,8 @@ class Backup {
   /// by the next token.
   Future<ListCopyJobsOutput> listCopyJobs({
     String? byAccountId,
+    DateTime? byCompleteAfter,
+    DateTime? byCompleteBefore,
     DateTime? byCreatedAfter,
     DateTime? byCreatedBefore,
     String? byDestinationVaultArn,
@@ -1516,6 +1570,10 @@ class Backup {
     );
     final $query = <String, List<String>>{
       if (byAccountId != null) 'accountId': [byAccountId],
+      if (byCompleteAfter != null)
+        'completeAfter': [_s.iso8601ToJson(byCompleteAfter).toString()],
+      if (byCompleteBefore != null)
+        'completeBefore': [_s.iso8601ToJson(byCompleteBefore).toString()],
       if (byCreatedAfter != null)
         'createdAfter': [_s.iso8601ToJson(byCreatedAfter).toString()],
       if (byCreatedBefore != null)
@@ -1868,6 +1926,14 @@ class Backup {
   /// The account ID to list the jobs from. Returns only restore jobs associated
   /// with the specified account ID.
   ///
+  /// Parameter [byCompleteAfter] :
+  /// Returns only copy jobs completed after a date expressed in Unix format and
+  /// Coordinated Universal Time (UTC).
+  ///
+  /// Parameter [byCompleteBefore] :
+  /// Returns only copy jobs completed before a date expressed in Unix format
+  /// and Coordinated Universal Time (UTC).
+  ///
   /// Parameter [byCreatedAfter] :
   /// Returns only restore jobs that were created after the specified date.
   ///
@@ -1887,6 +1953,8 @@ class Backup {
   /// starting at the location pointed to by the next token.
   Future<ListRestoreJobsOutput> listRestoreJobs({
     String? byAccountId,
+    DateTime? byCompleteAfter,
+    DateTime? byCompleteBefore,
     DateTime? byCreatedAfter,
     DateTime? byCreatedBefore,
     RestoreJobStatus? byStatus,
@@ -1901,6 +1969,10 @@ class Backup {
     );
     final $query = <String, List<String>>{
       if (byAccountId != null) 'accountId': [byAccountId],
+      if (byCompleteAfter != null)
+        'completeAfter': [_s.iso8601ToJson(byCompleteAfter).toString()],
+      if (byCompleteBefore != null)
+        'completeBefore': [_s.iso8601ToJson(byCompleteBefore).toString()],
       if (byCreatedAfter != null)
         'createdAfter': [_s.iso8601ToJson(byCreatedAfter).toString()],
       if (byCreatedBefore != null)
@@ -1921,10 +1993,12 @@ class Backup {
 
   /// Returns a list of key-value pairs assigned to a target recovery point,
   /// backup plan, or backup vault.
-  /// <note>
-  /// <code>ListTags</code> are currently only supported with Amazon EFS
-  /// backups.
-  /// </note>
+  ///
+  /// <code>ListTags</code> only works for resource types that support full
+  /// Backup management of their backups. Those resource types are listed in the
+  /// "Full Backup management" section of the <a
+  /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/whatisbackup.html#features-by-resource">
+  /// Feature availability by resource</a> table.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParameterValueException].
@@ -2063,8 +2137,9 @@ class Backup {
   /// the maximum retention period. If the job's retention period is longer than
   /// that maximum retention period, then the vault fails the backup or copy
   /// job, and you should either modify your lifecycle settings or use a
-  /// different vault. Recovery points already saved in the vault prior to Vault
-  /// Lock are not affected.
+  /// different vault. The longest maximum retention period you can specify is
+  /// 36500 days (approximately 100 years). Recovery points already saved in the
+  /// vault prior to Vault Lock are not affected.
   ///
   /// Parameter [minRetentionDays] :
   /// The Backup Vault Lock configuration that specifies the minimum retention
@@ -2080,8 +2155,9 @@ class Backup {
   /// the minimum retention period. If the job's retention period is shorter
   /// than that minimum retention period, then the vault fails that backup or
   /// copy job, and you should either modify your lifecycle settings or use a
-  /// different vault. Recovery points already saved in the vault prior to Vault
-  /// Lock are not affected.
+  /// different vault. The shortest minimum retention period you can specify is
+  /// 1 day. Recovery points already saved in the vault prior to Vault Lock are
+  /// not affected.
   Future<void> putBackupVaultLockConfiguration({
     required String backupVaultName,
     int? changeableForDays,
@@ -2132,6 +2208,10 @@ class Backup {
   /// <li>
   /// <code>RESTORE_JOB_STARTED</code> | <code>RESTORE_JOB_COMPLETED</code> |
   /// <code>RECOVERY_POINT_MODIFIED</code>
+  /// </li>
+  /// <li>
+  /// <code>S3_BACKUP_OBJECT_FAILED</code> |
+  /// <code>S3_RESTORE_OBJECT_FAILED</code>
   /// </li>
   /// </ul> <note>
   /// Ignore the list below because it includes deprecated events. Refer to the
@@ -2203,10 +2283,10 @@ class Backup {
   ///
   /// Parameter [completeWindowMinutes] :
   /// A value in minutes during which a successfully started backup must
-  /// complete, or else AWS Backup will cancel the job. This value is optional.
-  /// This value begins counting down from when the backup was scheduled. It
-  /// does not add additional time for <code>StartWindowMinutes</code>, or if
-  /// the backup started later than scheduled.
+  /// complete, or else Backup will cancel the job. This value is optional. This
+  /// value begins counting down from when the backup was scheduled. It does not
+  /// add additional time for <code>StartWindowMinutes</code>, or if the backup
+  /// started later than scheduled.
   ///
   /// Parameter [idempotencyToken] :
   /// A customer-chosen string that you can use to distinguish between otherwise
@@ -2220,12 +2300,16 @@ class Backup {
   /// automatically according to the lifecycle that you define.
   ///
   /// Backups transitioned to cold storage must be stored in cold storage for a
-  /// minimum of 90 days. Therefore, the “expire after days” setting must be 90
-  /// days greater than the “transition to cold after days” setting. The
-  /// “transition to cold after days” setting cannot be changed after a backup
-  /// has been transitioned to cold.
+  /// minimum of 90 days. Therefore, the “retention” setting must be 90 days
+  /// greater than the “transition to cold after days” setting. The “transition
+  /// to cold after days” setting cannot be changed after a backup has been
+  /// transitioned to cold.
   ///
-  /// Only Amazon EFS file system backups can be transitioned to cold storage.
+  /// Resource types that are able to be transitioned to cold storage are listed
+  /// in the "Lifecycle to cold storage" section of the <a
+  /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/whatisbackup.html#features-by-resource">
+  /// Feature availability by resource</a> table. Backup ignores this expression
+  /// for other resource types.
   ///
   /// Parameter [recoveryPointTags] :
   /// To help organize your resources, you can assign your own metadata to the
@@ -2375,11 +2459,6 @@ class Backup {
   /// May throw [MissingParameterValueException].
   /// May throw [ServiceUnavailableException].
   ///
-  /// Parameter [iamRoleArn] :
-  /// The Amazon Resource Name (ARN) of the IAM role that Backup uses to create
-  /// the target recovery point; for example,
-  /// <code>arn:aws:iam::123456789012:role/S3Access</code>.
-  ///
   /// Parameter [metadata] :
   /// A set of metadata key-value pairs. Contains information, such as a
   /// resource name, required to restore a recovery point.
@@ -2435,6 +2514,11 @@ class Backup {
   /// An ARN that uniquely identifies a recovery point; for example,
   /// <code>arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45</code>.
   ///
+  /// Parameter [iamRoleArn] :
+  /// The Amazon Resource Name (ARN) of the IAM role that Backup uses to create
+  /// the target recovery point; for example,
+  /// <code>arn:aws:iam::123456789012:role/S3Access</code>.
+  ///
   /// Parameter [idempotencyToken] :
   /// A customer-chosen string that you can use to distinguish between otherwise
   /// identical calls to <code>StartRestoreJob</code>. Retrying a successful
@@ -2446,6 +2530,12 @@ class Backup {
   /// resources:
   ///
   /// <ul>
+  /// <li>
+  /// <code>Aurora</code> for Amazon Aurora
+  /// </li>
+  /// <li>
+  /// <code>DocumentDB</code> for Amazon DocumentDB (with MongoDB compatibility)
+  /// </li>
   /// <li>
   /// <code>DynamoDB</code> for Amazon DynamoDB
   /// </li>
@@ -2459,29 +2549,37 @@ class Backup {
   /// <code>EFS</code> for Amazon Elastic File System
   /// </li>
   /// <li>
-  /// <code>RDS</code> for Amazon Relational Database Service
+  /// <code>FSx</code> for Amazon FSx
   /// </li>
   /// <li>
-  /// <code>Aurora</code> for Amazon Aurora
+  /// <code>Neptune</code> for Amazon Neptune
+  /// </li>
+  /// <li>
+  /// <code>RDS</code> for Amazon Relational Database Service
   /// </li>
   /// <li>
   /// <code>Storage Gateway</code> for Storage Gateway
   /// </li>
+  /// <li>
+  /// <code>S3</code> for Amazon S3
+  /// </li>
+  /// <li>
+  /// <code>VirtualMachine</code> for virtual machines
+  /// </li>
   /// </ul>
   Future<StartRestoreJobOutput> startRestoreJob({
-    required String iamRoleArn,
     required Map<String, String> metadata,
     required String recoveryPointArn,
+    String? iamRoleArn,
     String? idempotencyToken,
     String? resourceType,
   }) async {
-    ArgumentError.checkNotNull(iamRoleArn, 'iamRoleArn');
     ArgumentError.checkNotNull(metadata, 'metadata');
     ArgumentError.checkNotNull(recoveryPointArn, 'recoveryPointArn');
     final $payload = <String, dynamic>{
-      'IamRoleArn': iamRoleArn,
       'Metadata': metadata,
       'RecoveryPointArn': recoveryPointArn,
+      if (iamRoleArn != null) 'IamRoleArn': iamRoleArn,
       if (idempotencyToken != null) 'IdempotencyToken': idempotencyToken,
       if (resourceType != null) 'ResourceType': resourceType,
     };
@@ -2700,14 +2798,18 @@ class Backup {
   /// automatically according to the lifecycle that you define.
   ///
   /// Backups transitioned to cold storage must be stored in cold storage for a
-  /// minimum of 90 days. Therefore, the “expire after days” setting must be 90
-  /// days greater than the “transition to cold after days” setting. The
-  /// “transition to cold after days” setting cannot be changed after a backup
-  /// has been transitioned to cold.
+  /// minimum of 90 days. Therefore, the “retention” setting must be 90 days
+  /// greater than the “transition to cold after days” setting. The “transition
+  /// to cold after days” setting cannot be changed after a backup has been
+  /// transitioned to cold.
   ///
-  /// Only Amazon EFS file system backups can be transitioned to cold storage.
+  /// Resource types that are able to be transitioned to cold storage are listed
+  /// in the "Lifecycle to cold storage" section of the <a
+  /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/whatisbackup.html#features-by-resource">
+  /// Feature availability by resource</a> table. Backup ignores this expression
+  /// for other resource types.
   ///
-  /// Does not support continuous backups.
+  /// This operation does not support continuous backups.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParameterValueException].
@@ -2732,10 +2834,10 @@ class Backup {
   /// automatically according to the lifecycle that you define.
   ///
   /// Backups transitioned to cold storage must be stored in cold storage for a
-  /// minimum of 90 days. Therefore, the “expire after days” setting must be 90
-  /// days greater than the “transition to cold after days” setting. The
-  /// “transition to cold after days” setting cannot be changed after a backup
-  /// has been transitioned to cold.
+  /// minimum of 90 days. Therefore, the “retention” setting must be 90 days
+  /// greater than the “transition to cold after days” setting. The “transition
+  /// to cold after days” setting cannot be changed after a backup has been
+  /// transitioned to cold.
   Future<UpdateRecoveryPointLifecycleOutput> updateRecoveryPointLifecycle({
     required String backupVaultName,
     required String recoveryPointArn,
@@ -2769,9 +2871,12 @@ class Backup {
   /// May throw [InvalidParameterValueException].
   ///
   /// Parameter [resourceTypeManagementPreference] :
-  /// Enables or disables <a
+  /// Enables or disables full Backup management of backups for a resource type.
+  /// To enable full Backup management for DynamoDB along with <a
   /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/advanced-ddb-backup.html">
-  /// Backup's advanced DynamoDB backup features</a> for the Region.
+  /// Backup's advanced DynamoDB backup features</a>, follow the procedure to <a
+  /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/advanced-ddb-backup.html#advanced-ddb-backup-enable-cli">
+  /// enable advanced DynamoDB backup programmatically</a>.
   ///
   /// Parameter [resourceTypeOptInPreference] :
   /// Updates the list of services along with the opt-in preferences for the
@@ -3440,12 +3545,16 @@ class BackupRule {
   /// automatically according to the lifecycle that you define.
   ///
   /// Backups transitioned to cold storage must be stored in cold storage for a
-  /// minimum of 90 days. Therefore, the “expire after days” setting must be 90
-  /// days greater than the “transition to cold after days” setting. The
-  /// “transition to cold after days” setting cannot be changed after a backup has
-  /// been transitioned to cold.
+  /// minimum of 90 days. Therefore, the “retention” setting must be 90 days
+  /// greater than the “transition to cold after days” setting. The “transition to
+  /// cold after days” setting cannot be changed after a backup has been
+  /// transitioned to cold.
   ///
-  /// Only Amazon EFS file system backups can be transitioned to cold storage.
+  /// Resource types that are able to be transitioned to cold storage are listed
+  /// in the "Lifecycle to cold storage" section of the <a
+  /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/whatisbackup.html#features-by-resource">
+  /// Feature availability by resource</a> table. Backup ignores this expression
+  /// for other resource types.
   final Lifecycle? lifecycle;
 
   /// An array of key-value pair strings that are assigned to resources that are
@@ -3562,12 +3671,16 @@ class BackupRuleInput {
   /// automatically according to the lifecycle that you define.
   ///
   /// Backups transitioned to cold storage must be stored in cold storage for a
-  /// minimum of 90 days. Therefore, the “expire after days” setting must be 90
-  /// days greater than the “transition to cold after days” setting. The
-  /// “transition to cold after days” setting cannot be changed after a backup has
-  /// been transitioned to cold.
+  /// minimum of 90 days. Therefore, the “retention” setting must be 90 days
+  /// greater than the “transition to cold after days” setting. The “transition to
+  /// cold after days” setting cannot be changed after a backup has been
+  /// transitioned to cold.
   ///
-  /// Only Amazon EFS file system backups can be transitioned to cold storage.
+  /// Resource types that are able to be transitioned to cold storage are listed
+  /// in the "Lifecycle to cold storage" section of the <a
+  /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/whatisbackup.html#features-by-resource">
+  /// Feature availability by resource</a> table. Backup ignores this expression
+  /// for other resource types.
   final Lifecycle? lifecycle;
 
   /// To help organize your resources, you can assign your own metadata to the
@@ -3640,6 +3753,11 @@ class BackupRuleInput {
 }
 
 /// Used to specify a set of resources to a backup plan.
+///
+/// Specifying your desired <code>Conditions</code>, <code>ListOfTags</code>,
+/// <code>NotResources</code>, and/or <code>Resources</code> is recommended. If
+/// none of these are specified, Backup will attempt to select all supported and
+/// opted-in storage resources, which could have unintended cost implications.
 class BackupSelection {
   /// The ARN of the IAM role that Backup uses to authenticate when backing up the
   /// target resource; for example,
@@ -3651,8 +3769,9 @@ class BackupSelection {
   final String selectionName;
 
   /// A list of conditions that you define to assign resources to your backup
-  /// plans using tags. For example, <code>"StringEquals": {"Department":
-  /// "accounting"</code>. Condition operators are case sensitive.
+  /// plans using tags. For example, <code>"StringEquals": { "ConditionKey":
+  /// "aws:ResourceTag/CreatedByCryo", "ConditionValue": "true" },</code>.
+  /// Condition operators are case sensitive.
   ///
   /// <code>Conditions</code> differs from <code>ListOfTags</code> as follows:
   ///
@@ -3671,8 +3790,9 @@ class BackupSelection {
   final Conditions? conditions;
 
   /// A list of conditions that you define to assign resources to your backup
-  /// plans using tags. For example, <code>"StringEquals": {"Department":
-  /// "accounting"</code>. Condition operators are case sensitive.
+  /// plans using tags. For example, <code>"StringEquals": { "ConditionKey":
+  /// "aws:ResourceTag/CreatedByCryo", "ConditionValue": "true" },</code>.
+  /// Condition operators are case sensitive.
   ///
   /// <code>ListOfTags</code> differs from <code>Conditions</code> as follows:
   ///
@@ -3840,6 +3960,8 @@ enum BackupVaultEvent {
   recoveryPointModified,
   backupPlanCreated,
   backupPlanModified,
+  s3BackupObjectFailed,
+  s3RestoreObjectFailed,
 }
 
 extension on BackupVaultEvent {
@@ -3875,6 +3997,10 @@ extension on BackupVaultEvent {
         return 'BACKUP_PLAN_CREATED';
       case BackupVaultEvent.backupPlanModified:
         return 'BACKUP_PLAN_MODIFIED';
+      case BackupVaultEvent.s3BackupObjectFailed:
+        return 'S3_BACKUP_OBJECT_FAILED';
+      case BackupVaultEvent.s3RestoreObjectFailed:
+        return 'S3_RESTORE_OBJECT_FAILED';
     }
   }
 }
@@ -3912,6 +4038,10 @@ extension on String {
         return BackupVaultEvent.backupPlanCreated;
       case 'BACKUP_PLAN_MODIFIED':
         return BackupVaultEvent.backupPlanModified;
+      case 'S3_BACKUP_OBJECT_FAILED':
+        return BackupVaultEvent.s3BackupObjectFailed;
+      case 'S3_RESTORE_OBJECT_FAILED':
+        return BackupVaultEvent.s3RestoreObjectFailed;
     }
     throw Exception('$this is not known in enum BackupVaultEvent');
   }
@@ -3944,9 +4074,17 @@ class BackupVaultListMember {
   /// characters.
   final String? creatorRequestId;
 
-  /// The server-side encryption key that is used to protect your backups; for
-  /// example,
+  /// A server-side encryption key you can specify to encrypt your backups from
+  /// services that support full Backup management; for example,
   /// <code>arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>.
+  /// If you specify a key, you must specify its ARN, not its alias. If you do not
+  /// specify a key, Backup creates a KMS key for you by default.
+  ///
+  /// To learn which Backup services support full Backup management and how Backup
+  /// handles encryption for backups from services that do not yet support full
+  /// Backup, see <a
+  /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/encryption.html">
+  /// Encryption for backups in Backup</a>
   final String? encryptionKeyArn;
 
   /// The date and time when Backup Vault Lock configuration becomes immutable,
@@ -4059,12 +4197,16 @@ class BackupVaultListMember {
 /// automatically according to the lifecycle that you define.
 ///
 /// Backups transitioned to cold storage must be stored in cold storage for a
-/// minimum of 90 days. Therefore, the “expire after days” setting must be 90
-/// days greater than the “transition to cold after days” setting. The
-/// “transition to cold after days” setting cannot be changed after a backup has
-/// been transitioned to cold.
+/// minimum of 90 days. Therefore, the “retention” setting must be 90 days
+/// greater than the “transition to cold after days” setting. The “transition to
+/// cold after days” setting cannot be changed after a backup has been
+/// transitioned to cold.
 ///
-/// Only Amazon EFS file system backups can be transitioned to cold storage.
+/// Resource types that are able to be transitioned to cold storage are listed
+/// in the "Lifecycle to cold storage" section of the <a
+/// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/whatisbackup.html#features-by-resource">
+/// Feature availability by resource</a> table. Backup ignores this expression
+/// for other resource types.
 class CalculatedLifecycle {
   /// A timestamp that specifies when to delete a recovery point.
   final DateTime? deleteAt;
@@ -4106,7 +4248,7 @@ class Condition {
 
   /// An operation applied to a key-value pair used to assign resources to your
   /// backup plan. Condition only supports <code>StringEquals</code>. For more
-  /// flexible assignment options, incluidng <code>StringLike</code> and the
+  /// flexible assignment options, including <code>StringLike</code> and the
   /// ability to exclude resources from your backup plan, use
   /// <code>Conditions</code> (with an "s" on the end) for your <a
   /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/API_BackupSelection.html">
@@ -5441,12 +5583,16 @@ class DescribeRecoveryPointOutput {
   /// automatically according to the lifecycle that you define.
   ///
   /// Backups that are transitioned to cold storage must be stored in cold storage
-  /// for a minimum of 90 days. Therefore, the “expire after days” setting must be
-  /// 90 days greater than the “transition to cold after days” setting. The
-  /// “transition to cold after days” setting cannot be changed after a backup has
-  /// been transitioned to cold.
+  /// for a minimum of 90 days. Therefore, the “retention” setting must be 90 days
+  /// greater than the “transition to cold after days” setting. The “transition to
+  /// cold after days” setting cannot be changed after a backup has been
+  /// transitioned to cold.
   ///
-  /// Only Amazon EFS file system backups can be transitioned to cold storage.
+  /// Resource types that are able to be transitioned to cold storage are listed
+  /// in the "Lifecycle to cold storage" section of the <a
+  /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/whatisbackup.html#features-by-resource">
+  /// Feature availability by resource</a> table. Backup ignores this expression
+  /// for other resource types.
   final Lifecycle? lifecycle;
 
   /// An ARN that uniquely identifies a recovery point; for example,
@@ -5598,8 +5744,20 @@ class DescribeRecoveryPointOutput {
 }
 
 class DescribeRegionSettingsOutput {
-  /// Returns whether a DynamoDB recovery point was taken using <a
-  /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/advanced-ddb-backup.html">
+  /// Returns whether Backup fully manages the backups for a resource type.
+  ///
+  /// For the benefits of full Backup management, see <a
+  /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/whatisbackup.html#full-management">
+  /// Full Backup management</a>.
+  ///
+  /// For a list of resource types and whether each supports full Backup
+  /// management, see the <a
+  /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/whatisbackup.html#features-by-resource">
+  /// Feature availability by resource</a> table.
+  ///
+  /// If <code>"DynamoDB":false</code>, you can enable full Backup management for
+  /// DynamoDB backup by enabling <a
+  /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/advanced-ddb-backup.html#advanced-ddb-backup-enable-cli">
   /// Backup's advanced DynamoDB backup features</a>.
   final Map<String, bool>? resourceTypeManagementPreference;
 
@@ -5922,7 +6080,8 @@ class FrameworkControl {
   /// The scope of a control. The control scope defines what the control will
   /// evaluate. Three examples of control scopes are: a specific backup plan, all
   /// backup plans with a specific tag, or all backup plans. For more information,
-  /// see <code>ControlScope</code>.
+  /// see <a href="aws-backup/latest/devguide/API_ControlScope.html">
+  /// <code>ControlScope</code>.</a>
   final ControlScope? controlScope;
 
   FrameworkControl({
@@ -6338,6 +6497,12 @@ class GetSupportedResourceTypesOutput {
   /// <li>
   /// <code>Storage Gateway</code> for Storage Gateway
   /// </li>
+  /// <li>
+  /// <code>DocDB</code> for Amazon DocumentDB (with MongoDB compatibility)
+  /// </li>
+  /// <li>
+  /// <code>Neptune</code> for Amazon Neptune
+  /// </li>
   /// </ul>
   final List<String>? resourceTypes;
 
@@ -6366,12 +6531,16 @@ class GetSupportedResourceTypesOutput {
 /// days before a recovery point transitions to cold storage or is deleted.
 ///
 /// Backups transitioned to cold storage must be stored in cold storage for a
-/// minimum of 90 days. Therefore, on the console, the “expire after days”
-/// setting must be 90 days greater than the “transition to cold after days”
-/// setting. The “transition to cold after days” setting cannot be changed after
-/// a backup has been transitioned to cold.
+/// minimum of 90 days. Therefore, on the console, the “retention” setting must
+/// be 90 days greater than the “transition to cold after days” setting. The
+/// “transition to cold after days” setting cannot be changed after a backup has
+/// been transitioned to cold.
 ///
-/// Only Amazon EFS file system backups can be transitioned to cold storage.
+/// Resource types that are able to be transitioned to cold storage are listed
+/// in the "Lifecycle to cold storage" section of the <a
+/// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/whatisbackup.html#features-by-resource">
+/// Feature availability by resource</a> table. Backup ignores this expression
+/// for other resource types.
 class Lifecycle {
   /// Specifies the number of days after creation that a recovery point is
   /// deleted. Must be greater than 90 days plus
@@ -7061,12 +7230,16 @@ class RecoveryPointByBackupVault {
   /// automatically according to the lifecycle that you define.
   ///
   /// Backups transitioned to cold storage must be stored in cold storage for a
-  /// minimum of 90 days. Therefore, the “expire after days” setting must be 90
-  /// days greater than the “transition to cold after days” setting. The
-  /// “transition to cold after days” setting cannot be changed after a backup has
-  /// been transitioned to cold.
+  /// minimum of 90 days. Therefore, the “retention” setting must be 90 days
+  /// greater than the “transition to cold after days” setting. The “transition to
+  /// cold after days” setting cannot be changed after a backup has been
+  /// transitioned to cold.
   ///
-  /// Only Amazon EFS file system backups can be transitioned to cold storage.
+  /// Resource types that are able to be transitioned to cold storage are listed
+  /// in the "Lifecycle to cold storage" section of the <a
+  /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/whatisbackup.html#features-by-resource">
+  /// Feature availability by resource</a> table. Backup ignores this expression
+  /// for other resource types.
   final Lifecycle? lifecycle;
 
   /// An Amazon Resource Name (ARN) that uniquely identifies a recovery point; for
@@ -8140,12 +8313,16 @@ class UpdateRecoveryPointLifecycleOutput {
   /// automatically according to the lifecycle that you define.
   ///
   /// Backups transitioned to cold storage must be stored in cold storage for a
-  /// minimum of 90 days. Therefore, the “expire after days” setting must be 90
-  /// days greater than the “transition to cold after days” setting. The
-  /// “transition to cold after days” setting cannot be changed after a backup has
-  /// been transitioned to cold.
+  /// minimum of 90 days. Therefore, the “retention” setting must be 90 days
+  /// greater than the “transition to cold after days” setting. The “transition to
+  /// cold after days” setting cannot be changed after a backup has been
+  /// transitioned to cold.
   ///
-  /// Only Amazon EFS file system backups can be transitioned to cold storage.
+  /// Resource types that are able to be transitioned to cold storage are listed
+  /// in the "Lifecycle to cold storage" section of the <a
+  /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/whatisbackup.html#features-by-resource">
+  /// Feature availability by resource</a> table. Backup ignores this expression
+  /// for other resource types.
   final Lifecycle? lifecycle;
 
   /// An Amazon Resource Name (ARN) that uniquely identifies a recovery point; for

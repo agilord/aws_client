@@ -143,21 +143,27 @@ class Ebs {
   /// May throw [InternalServerException].
   ///
   /// Parameter [blockIndex] :
-  /// The block index of the block from which to get data.
-  ///
-  /// Obtain the <code>BlockIndex</code> by running the
-  /// <code>ListChangedBlocks</code> or <code>ListSnapshotBlocks</code>
-  /// operations.
+  /// The block index of the block in which to read the data. A block index is a
+  /// logical index in units of <code>512</code> KiB blocks. To identify the
+  /// block index, divide the logical offset of the data in the logical volume
+  /// by the block size (logical offset of data/<code>524288</code>). The
+  /// logical offset of the data must be <code>512</code> KiB aligned.
   ///
   /// Parameter [blockToken] :
-  /// The block token of the block from which to get data.
-  ///
-  /// Obtain the <code>BlockToken</code> by running the
-  /// <code>ListChangedBlocks</code> or <code>ListSnapshotBlocks</code>
-  /// operations.
+  /// The block token of the block from which to get data. You can obtain the
+  /// <code>BlockToken</code> by running the <code>ListChangedBlocks</code> or
+  /// <code>ListSnapshotBlocks</code> operations.
   ///
   /// Parameter [snapshotId] :
   /// The ID of the snapshot containing the block from which to get data.
+  /// <important>
+  /// If the specified snapshot is encrypted, you must have permission to use
+  /// the KMS key that was used to encrypt the snapshot. For more information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebsapis-using-encryption.html">
+  /// Using encryption</a> in the <i>Amazon Elastic Compute Cloud User
+  /// Guide</i>.
+  /// </important>
   Future<GetSnapshotBlockResponse> getSnapshotBlock({
     required int blockIndex,
     required String blockToken,
@@ -221,16 +227,29 @@ class Ebs {
   /// </important>
   ///
   /// Parameter [maxResults] :
-  /// The number of results to return.
+  /// The maximum number of blocks to be returned by the request.
+  ///
+  /// Even if additional blocks can be retrieved from the snapshot, the request
+  /// can return less blocks than <b>MaxResults</b> or an empty array of blocks.
+  ///
+  /// To retrieve the next set of blocks from the snapshot, make another request
+  /// with the returned <b>NextToken</b> value. The value of <b>NextToken</b> is
+  /// <code>null</code> when there are no more blocks to return.
   ///
   /// Parameter [nextToken] :
   /// The token to request the next page of results.
+  ///
+  /// If you specify <b>NextToken</b>, then <b>StartingBlockIndex</b> is
+  /// ignored.
   ///
   /// Parameter [startingBlockIndex] :
   /// The block index from which the comparison should start.
   ///
   /// The list in the response will start from this block index or the next
   /// valid block index in the snapshots.
+  ///
+  /// If you specify <b>NextToken</b>, then <b>StartingBlockIndex</b> is
+  /// ignored.
   Future<ListChangedBlocksResponse> listChangedBlocks({
     required String secondSnapshotId,
     String? firstSnapshotId,
@@ -283,15 +302,28 @@ class Ebs {
   /// The ID of the snapshot from which to get block indexes and block tokens.
   ///
   /// Parameter [maxResults] :
-  /// The number of results to return.
+  /// The maximum number of blocks to be returned by the request.
+  ///
+  /// Even if additional blocks can be retrieved from the snapshot, the request
+  /// can return less blocks than <b>MaxResults</b> or an empty array of blocks.
+  ///
+  /// To retrieve the next set of blocks from the snapshot, make another request
+  /// with the returned <b>NextToken</b> value. The value of <b>NextToken</b> is
+  /// <code>null</code> when there are no more blocks to return.
   ///
   /// Parameter [nextToken] :
   /// The token to request the next page of results.
+  ///
+  /// If you specify <b>NextToken</b>, then <b>StartingBlockIndex</b> is
+  /// ignored.
   ///
   /// Parameter [startingBlockIndex] :
   /// The block index from which the list should start. The list in the response
   /// will start from this block index or the next valid block index in the
   /// snapshot.
+  ///
+  /// If you specify <b>NextToken</b>, then <b>StartingBlockIndex</b> is
+  /// ignored.
   Future<ListSnapshotBlocksResponse> listSnapshotBlocks({
     required String snapshotId,
     int? maxResults,
@@ -379,6 +411,14 @@ class Ebs {
   ///
   /// Parameter [snapshotId] :
   /// The ID of the snapshot.
+  /// <important>
+  /// If the specified snapshot is encrypted, you must have permission to use
+  /// the KMS key that was used to encrypt the snapshot. For more information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebsapis-using-encryption.html">
+  /// Using encryption</a> in the <i>Amazon Elastic Compute Cloud User
+  /// Guide</i>..
+  /// </important>
   ///
   /// Parameter [progress] :
   /// The progress of the write process, as a percentage.
@@ -474,51 +514,76 @@ class Ebs {
   /// A description for the snapshot.
   ///
   /// Parameter [encrypted] :
-  /// Indicates whether to encrypt the snapshot. To create an encrypted
-  /// snapshot, specify <code>true</code>. To create an unencrypted snapshot,
-  /// omit this parameter.
+  /// Indicates whether to encrypt the snapshot.
   ///
-  /// If you specify a value for <b>ParentSnapshotId</b>, omit this parameter.
+  /// You can't specify <b>Encrypted</b> and <b> ParentSnapshotId</b> in the
+  /// same request. If you specify both parameters, the request fails with
+  /// <code>ValidationException</code>.
   ///
-  /// If you specify <code>true</code>, the snapshot is encrypted using the KMS
-  /// key specified using the <b>KmsKeyArn</b> parameter. If no value is
-  /// specified for <b>KmsKeyArn</b>, the default KMS key for your account is
-  /// used. If no default KMS key has been specified for your account, the
-  /// Amazon Web Services managed KMS key is used. To set a default KMS key for
-  /// your account, use <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ModifyEbsDefaultKmsKeyId.html">
-  /// ModifyEbsDefaultKmsKeyId</a>.
-  ///
-  /// If your account is enabled for encryption by default, you cannot set this
-  /// parameter to <code>false</code>. In this case, you can omit this
-  /// parameter.
-  ///
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-accessing-snapshot.html#ebsapis-using-encryption">
+  /// The encryption status of the snapshot depends on the values that you
+  /// specify for <b>Encrypted</b>, <b>KmsKeyArn</b>, and
+  /// <b>ParentSnapshotId</b>, and whether your Amazon Web Services account is
+  /// enabled for <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html#encryption-by-default">
+  /// encryption by default</a>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebsapis-using-encryption.html">
   /// Using encryption</a> in the <i>Amazon Elastic Compute Cloud User
   /// Guide</i>.
+  /// <important>
+  /// To create an encrypted snapshot, you must have permission to use the KMS
+  /// key. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebsapi-permissions.html#ebsapi-kms-permissions">
+  /// Permissions to use Key Management Service keys</a> in the <i>Amazon
+  /// Elastic Compute Cloud User Guide</i>.
+  /// </important>
   ///
   /// Parameter [kmsKeyArn] :
   /// The Amazon Resource Name (ARN) of the Key Management Service (KMS) key to
-  /// be used to encrypt the snapshot. If you do not specify a KMS key, the
-  /// default Amazon Web Services managed KMS key is used.
+  /// be used to encrypt the snapshot.
   ///
-  /// If you specify a <b>ParentSnapshotId</b>, omit this parameter; the
-  /// snapshot will be encrypted using the same KMS key that was used to encrypt
-  /// the parent snapshot.
-  ///
-  /// If <b>Encrypted</b> is set to <code>true</code>, you must specify a KMS
-  /// key ARN.
+  /// The encryption status of the snapshot depends on the values that you
+  /// specify for <b>Encrypted</b>, <b>KmsKeyArn</b>, and
+  /// <b>ParentSnapshotId</b>, and whether your Amazon Web Services account is
+  /// enabled for <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html#encryption-by-default">
+  /// encryption by default</a>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebsapis-using-encryption.html">
+  /// Using encryption</a> in the <i>Amazon Elastic Compute Cloud User
+  /// Guide</i>.
+  /// <important>
+  /// To create an encrypted snapshot, you must have permission to use the KMS
+  /// key. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebsapi-permissions.html#ebsapi-kms-permissions">
+  /// Permissions to use Key Management Service keys</a> in the <i>Amazon
+  /// Elastic Compute Cloud User Guide</i>.
+  /// </important>
   ///
   /// Parameter [parentSnapshotId] :
   /// The ID of the parent snapshot. If there is no parent snapshot, or if you
   /// are creating the first snapshot for an on-premises volume, omit this
   /// parameter.
   ///
-  /// If your account is enabled for encryption by default, you cannot use an
-  /// unencrypted snapshot as a parent snapshot. You must first create an
-  /// encrypted copy of the parent snapshot using <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CopySnapshot.html">CopySnapshot</a>.
+  /// You can't specify <b>ParentSnapshotId</b> and <b>Encrypted</b> in the same
+  /// request. If you specify both parameters, the request fails with
+  /// <code>ValidationException</code>.
+  ///
+  /// The encryption status of the snapshot depends on the values that you
+  /// specify for <b>Encrypted</b>, <b>KmsKeyArn</b>, and
+  /// <b>ParentSnapshotId</b>, and whether your Amazon Web Services account is
+  /// enabled for <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html#encryption-by-default">
+  /// encryption by default</a>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebsapis-using-encryption.html">
+  /// Using encryption</a> in the <i>Amazon Elastic Compute Cloud User
+  /// Guide</i>.
+  /// <important>
+  /// If you specify an encrypted parent snapshot, you must have permission to
+  /// use the KMS key that was used to encrypt the parent snapshot. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebsapi-permissions.html#ebsapi-kms-permissions">
+  /// Permissions to use Key Management Service keys</a> in the <i>Amazon
+  /// Elastic Compute Cloud User Guide</i>.
+  /// </important>
   ///
   /// Parameter [tags] :
   /// The tags to apply to the snapshot.
@@ -558,7 +623,7 @@ class Ebs {
       'timeout',
       timeout,
       10,
-      60,
+      4320,
     );
     final $payload = <String, dynamic>{
       'VolumeSize': volumeSize,

@@ -40,10 +40,7 @@ class ApiGateway {
           endpointUrl: endpointUrl,
         );
 
-  /// Create an <a>ApiKey</a> resource.
-  /// <div class="seeAlso"><a
-  /// href="https://docs.aws.amazon.com/cli/latest/reference/apigateway/create-api-key.html">AWS
-  /// CLI</a></div>
+  /// Create an ApiKey resource.
   ///
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
@@ -57,10 +54,10 @@ class ApiGateway {
   /// SaaS Marketplace.
   ///
   /// Parameter [description] :
-  /// The description of the <a>ApiKey</a>.
+  /// The description of the ApiKey.
   ///
   /// Parameter [enabled] :
-  /// Specifies whether the <a>ApiKey</a> can be used by callers.
+  /// Specifies whether the ApiKey can be used by callers.
   ///
   /// Parameter [generateDistinctId] :
   /// Specifies whether (<code>true</code>) or not (<code>false</code>) the key
@@ -68,7 +65,7 @@ class ApiGateway {
   /// deprecated and should not be used.
   ///
   /// Parameter [name] :
-  /// The name of the <a>ApiKey</a>.
+  /// The name of the ApiKey.
   ///
   /// Parameter [stageKeys] :
   /// DEPRECATED FOR USAGE PLANS - Specifies stages associated with the API key.
@@ -109,11 +106,7 @@ class ApiGateway {
     return ApiKey.fromJson(response);
   }
 
-  /// Adds a new <a>Authorizer</a> resource to an existing <a>RestApi</a>
-  /// resource.
-  /// <div class="seeAlso"><a
-  /// href="https://docs.aws.amazon.com/cli/latest/reference/apigateway/create-authorizer.html">AWS
-  /// CLI</a></div>
+  /// Adds a new Authorizer resource to an existing RestApi resource.
   ///
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
@@ -123,15 +116,15 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [name] :
-  /// [Required] The name of the authorizer.
+  /// The name of the authorizer.
   ///
   /// Parameter [restApiId] :
-  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   ///
   /// Parameter [type] :
-  /// [Required] The authorizer type. Valid values are <code>TOKEN</code> for a
-  /// Lambda function using a single authorization token submitted in a custom
-  /// header, <code>REQUEST</code> for a Lambda function using incoming request
+  /// The authorizer type. Valid values are <code>TOKEN</code> for a Lambda
+  /// function using a single authorization token submitted in a custom header,
+  /// <code>REQUEST</code> for a Lambda function using incoming request
   /// parameters, and <code>COGNITO_USER_POOLS</code> for using an Amazon
   /// Cognito user pool.
   ///
@@ -165,19 +158,17 @@ class ApiGateway {
   /// <code>/2015-03-31/functions/[FunctionARN]/invocations</code>.
   ///
   /// Parameter [identitySource] :
-  /// The identity source for which authorization is requested.
-  /// <ul>
-  /// <li>For a <code>TOKEN</code> or <code>COGNITO_USER_POOLS</code>
-  /// authorizer, this is required and specifies the request header mapping
-  /// expression for the custom header holding the authorization token submitted
-  /// by the client. For example, if the token header name is <code>Auth</code>,
-  /// the header mapping expression is
-  /// <code>method.request.header.Auth</code>.</li>
-  /// <li>For the <code>REQUEST</code> authorizer, this is required when
-  /// authorization caching is enabled. The value is a comma-separated string of
-  /// one or more mapping expressions of the specified request parameters. For
-  /// example, if an <code>Auth</code> header, a <code>Name</code> query string
-  /// parameter are defined as identity sources, this value is
+  /// The identity source for which authorization is requested. For a
+  /// <code>TOKEN</code> or <code>COGNITO_USER_POOLS</code> authorizer, this is
+  /// required and specifies the request header mapping expression for the
+  /// custom header holding the authorization token submitted by the client. For
+  /// example, if the token header name is <code>Auth</code>, the header mapping
+  /// expression is <code>method.request.header.Auth</code>. For the
+  /// <code>REQUEST</code> authorizer, this is required when authorization
+  /// caching is enabled. The value is a comma-separated string of one or more
+  /// mapping expressions of the specified request parameters. For example, if
+  /// an <code>Auth</code> header, a <code>Name</code> query string parameter
+  /// are defined as identity sources, this value is
   /// <code>method.request.header.Auth, method.request.querystring.Name</code>.
   /// These parameters will be used to derive the authorization caching key and
   /// to perform runtime validation of the <code>REQUEST</code> authorizer by
@@ -187,8 +178,7 @@ class ApiGateway {
   /// response without calling the Lambda function. The valid value is a string
   /// of comma-separated mapping expressions of the specified request
   /// parameters. When the authorization caching is not enabled, this property
-  /// is optional.</li>
-  /// </ul>
+  /// is optional.
   ///
   /// Parameter [identityValidationExpression] :
   /// A validation expression for the incoming identity token. For
@@ -245,7 +235,7 @@ class ApiGateway {
     return Authorizer.fromJson(response);
   }
 
-  /// Creates a new <a>BasePathMapping</a> resource.
+  /// Creates a new BasePathMapping resource.
   ///
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
@@ -255,11 +245,10 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [domainName] :
-  /// [Required] The domain name of the <a>BasePathMapping</a> resource to
-  /// create.
+  /// The domain name of the BasePathMapping resource to create.
   ///
   /// Parameter [restApiId] :
-  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   ///
   /// Parameter [basePath] :
   /// The base path name that callers of the API must provide as part of the URL
@@ -294,8 +283,8 @@ class ApiGateway {
     return BasePathMapping.fromJson(response);
   }
 
-  /// Creates a <a>Deployment</a> resource, which makes a specified
-  /// <a>RestApi</a> callable over the internet.
+  /// Creates a Deployment resource, which makes a specified RestApi callable
+  /// over the internet.
   ///
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
@@ -306,39 +295,36 @@ class ApiGateway {
   /// May throw [ServiceUnavailableException].
   ///
   /// Parameter [restApiId] :
-  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   ///
   /// Parameter [cacheClusterEnabled] :
-  /// Enables a cache cluster for the <a>Stage</a> resource specified in the
-  /// input.
+  /// Enables a cache cluster for the Stage resource specified in the input.
   ///
   /// Parameter [cacheClusterSize] :
-  /// Specifies the cache cluster size for the <a>Stage</a> resource specified
-  /// in the input, if a cache cluster is enabled.
+  /// Specifies the cache cluster size for the Stage resource specified in the
+  /// input, if a cache cluster is enabled.
   ///
   /// Parameter [canarySettings] :
   /// The input configuration for the canary deployment when the deployment is a
   /// canary release deployment.
   ///
   /// Parameter [description] :
-  /// The description for the <a>Deployment</a> resource to create.
+  /// The description for the Deployment resource to create.
   ///
   /// Parameter [stageDescription] :
-  /// The description of the <a>Stage</a> resource for the <a>Deployment</a>
-  /// resource to create.
+  /// The description of the Stage resource for the Deployment resource to
+  /// create.
   ///
   /// Parameter [stageName] :
-  /// The name of the <a>Stage</a> resource for the <a>Deployment</a> resource
-  /// to create.
+  /// The name of the Stage resource for the Deployment resource to create.
   ///
   /// Parameter [tracingEnabled] :
-  /// Specifies whether active tracing with X-ray is enabled for the
-  /// <a>Stage</a>.
+  /// Specifies whether active tracing with X-ray is enabled for the Stage.
   ///
   /// Parameter [variables] :
-  /// A map that defines the stage variables for the <a>Stage</a> resource that
-  /// is associated with the new deployment. Variable names can have
-  /// alphanumeric and underscore characters, and the values must match
+  /// A map that defines the stage variables for the Stage resource that is
+  /// associated with the new deployment. Variable names can have alphanumeric
+  /// and underscore characters, and the values must match
   /// <code>[A-Za-z0-9-._~:/?#&amp;=,]+</code>.
   Future<Deployment> createDeployment({
     required String restApiId,
@@ -373,6 +359,7 @@ class ApiGateway {
     return Deployment.fromJson(response);
   }
 
+  /// Creates a documentation part.
   ///
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
@@ -382,16 +369,16 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [location] :
-  /// [Required] The location of the targeted API entity of the to-be-created
-  /// documentation part.
+  /// The location of the targeted API entity of the to-be-created documentation
+  /// part.
   ///
   /// Parameter [properties] :
-  /// [Required] The new documentation content map of the targeted API entity.
-  /// Enclosed key-value pairs are API-specific, but only OpenAPI-compliant
-  /// key-value pairs can be exported and, hence, published.
+  /// The new documentation content map of the targeted API entity. Enclosed
+  /// key-value pairs are API-specific, but only OpenAPI-compliant key-value
+  /// pairs can be exported and, hence, published.
   ///
   /// Parameter [restApiId] :
-  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   Future<DocumentationPart> createDocumentationPart({
     required DocumentationPartLocation location,
     required String properties,
@@ -414,6 +401,7 @@ class ApiGateway {
     return DocumentationPart.fromJson(response);
   }
 
+  /// Creates a documentation version
   ///
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
@@ -423,10 +411,10 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [documentationVersion] :
-  /// [Required] The version identifier of the new snapshot.
+  /// The version identifier of the new snapshot.
   ///
   /// Parameter [restApiId] :
-  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   ///
   /// Parameter [description] :
   /// A description about the new documentation snapshot.
@@ -465,7 +453,7 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [domainName] :
-  /// [Required] The name of the <a>DomainName</a> resource.
+  /// The name of the DomainName resource.
   ///
   /// Parameter [certificateArn] :
   /// The reference to an AWS-managed certificate that will be used by
@@ -495,8 +483,8 @@ class ApiGateway {
   /// private key.
   ///
   /// Parameter [endpointConfiguration] :
-  /// The endpoint configuration of this <a>DomainName</a> showing the endpoint
-  /// types of the domain name.
+  /// The endpoint configuration of this DomainName showing the endpoint types
+  /// of the domain name.
   ///
   /// Parameter [ownershipVerificationCertificateArn] :
   /// The ARN of the public certificate issued by ACM to validate ownership of
@@ -514,7 +502,7 @@ class ApiGateway {
   ///
   /// Parameter [securityPolicy] :
   /// The Transport Layer Security (TLS) version + cipher suite for this
-  /// <a>DomainName</a>. The valid values are <code>TLS_1_0</code> and
+  /// DomainName. The valid values are <code>TLS_1_0</code> and
   /// <code>TLS_1_2</code>.
   ///
   /// Parameter [tags] :
@@ -568,7 +556,7 @@ class ApiGateway {
     return DomainName.fromJson(response);
   }
 
-  /// Adds a new <a>Model</a> resource to an existing <a>RestApi</a> resource.
+  /// Adds a new Model resource to an existing RestApi resource.
   ///
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
@@ -578,22 +566,20 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [contentType] :
-  /// [Required] The content-type for the model.
+  /// The content-type for the model.
   ///
   /// Parameter [name] :
-  /// [Required] The name of the model. Must be alphanumeric.
+  /// The name of the model. Must be alphanumeric.
   ///
   /// Parameter [restApiId] :
-  /// [Required] The <a>RestApi</a> identifier under which the <a>Model</a> will
-  /// be created.
+  /// The RestApi identifier under which the Model will be created.
   ///
   /// Parameter [description] :
   /// The description of the model.
   ///
   /// Parameter [schema] :
   /// The schema for the model. For <code>application/json</code> models, this
-  /// should be <a href="https://tools.ietf.org/html/draft-zyp-json-schema-04"
-  /// target="_blank">JSON schema draft 4</a> model.
+  /// should be JSON schema draft 4 model.
   Future<Model> createModel({
     required String contentType,
     required String name,
@@ -619,7 +605,7 @@ class ApiGateway {
     return Model.fromJson(response);
   }
 
-  /// Creates a <a>ReqeustValidator</a> of a given <a>RestApi</a>.
+  /// Creates a RequestValidator of a given RestApi.
   ///
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
@@ -629,10 +615,10 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [restApiId] :
-  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   ///
   /// Parameter [name] :
-  /// The name of the to-be-created <a>RequestValidator</a>.
+  /// The name of the to-be-created RequestValidator.
   ///
   /// Parameter [validateRequestBody] :
   /// A Boolean flag to indicate whether to validate request body according to
@@ -666,7 +652,7 @@ class ApiGateway {
     return RequestValidator.fromJson(response);
   }
 
-  /// Creates a <a>Resource</a> resource.
+  /// Creates a Resource resource.
   ///
   /// May throw [UnauthorizedException].
   /// May throw [NotFoundException].
@@ -676,13 +662,13 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [parentId] :
-  /// [Required] The parent resource's identifier.
+  /// The parent resource's identifier.
   ///
   /// Parameter [pathPart] :
   /// The last path segment for this resource.
   ///
   /// Parameter [restApiId] :
-  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   Future<Resource> createResource({
     required String parentId,
     required String pathPart,
@@ -704,7 +690,7 @@ class ApiGateway {
     return Resource.fromJson(response);
   }
 
-  /// Creates a new <a>RestApi</a> resource.
+  /// Creates a new RestApi resource.
   ///
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
@@ -713,38 +699,36 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [name] :
-  /// [Required] The name of the <a>RestApi</a>.
+  /// The name of the RestApi.
   ///
   /// Parameter [apiKeySource] :
   /// The source of the API key for metering requests according to a usage plan.
-  /// Valid values are:
-  /// <ul>
-  /// <li><code>HEADER</code> to read the API key from the
-  /// <code>X-API-Key</code> header of a request. </li>
-  /// <li><code>AUTHORIZER</code> to read the API key from the
-  /// <code>UsageIdentifierKey</code> from a custom authorizer.</li>
-  /// </ul>
+  /// Valid values are: &gt;<code>HEADER</code> to read the API key from the
+  /// <code>X-API-Key</code> header of a request. <code>AUTHORIZER</code> to
+  /// read the API key from the <code>UsageIdentifierKey</code> from a custom
+  /// authorizer.
   ///
   /// Parameter [binaryMediaTypes] :
-  /// The list of binary media types supported by the <a>RestApi</a>. By
-  /// default, the <a>RestApi</a> supports only UTF-8-encoded text payloads.
+  /// The list of binary media types supported by the RestApi. By default, the
+  /// RestApi supports only UTF-8-encoded text payloads.
   ///
   /// Parameter [cloneFrom] :
-  /// The ID of the <a>RestApi</a> that you want to clone from.
+  /// The ID of the RestApi that you want to clone from.
   ///
   /// Parameter [description] :
-  /// The description of the <a>RestApi</a>.
+  /// The description of the RestApi.
   ///
   /// Parameter [disableExecuteApiEndpoint] :
   /// Specifies whether clients can invoke your API by using the default
   /// <code>execute-api</code> endpoint. By default, clients can invoke your API
-  /// with the default https://{api_id}.execute-api.{region}.amazonaws.com
-  /// endpoint. To require that clients use a custom domain name to invoke your
-  /// API, disable the default endpoint.
+  /// with the default
+  /// <code>https://{api_id}.execute-api.{region}.amazonaws.com</code> endpoint.
+  /// To require that clients use a custom domain name to invoke your API,
+  /// disable the default endpoint
   ///
   /// Parameter [endpointConfiguration] :
-  /// The endpoint configuration of this <a>RestApi</a> showing the endpoint
-  /// types of the API.
+  /// The endpoint configuration of this RestApi showing the endpoint types of
+  /// the API.
   ///
   /// Parameter [minimumCompressionSize] :
   /// A nullable integer that is used to enable compression (with non-negative
@@ -756,7 +740,7 @@ class ApiGateway {
   ///
   /// Parameter [policy] :
   /// A stringified JSON policy document that applies to this RestApi regardless
-  /// of the caller and <a>Method</a> configuration.
+  /// of the caller and Method configuration.
   ///
   /// Parameter [tags] :
   /// The key-value map of strings. The valid character set is [a-zA-Z+-=._:/].
@@ -804,8 +788,8 @@ class ApiGateway {
     return RestApi.fromJson(response);
   }
 
-  /// Creates a new <a>Stage</a> resource that references a pre-existing
-  /// <a>Deployment</a> for the API.
+  /// Creates a new Stage resource that references a pre-existing Deployment for
+  /// the API.
   ///
   /// May throw [UnauthorizedException].
   /// May throw [BadRequestException].
@@ -815,16 +799,14 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [deploymentId] :
-  /// [Required] The identifier of the <a>Deployment</a> resource for the
-  /// <a>Stage</a> resource.
+  /// The identifier of the Deployment resource for the Stage resource.
   ///
   /// Parameter [restApiId] :
-  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   ///
   /// Parameter [stageName] :
-  /// [Required] The name for the <a>Stage</a> resource. Stage names can only
-  /// contain alphanumeric characters, hyphens, and underscores. Maximum length
-  /// is 128 characters.
+  /// The name for the Stage resource. Stage names can only contain alphanumeric
+  /// characters, hyphens, and underscores. Maximum length is 128 characters.
   ///
   /// Parameter [cacheClusterEnabled] :
   /// Whether cache clustering is enabled for the stage.
@@ -836,7 +818,7 @@ class ApiGateway {
   /// The canary deployment settings of this stage.
   ///
   /// Parameter [description] :
-  /// The description of the <a>Stage</a> resource.
+  /// The description of the Stage resource.
   ///
   /// Parameter [documentationVersion] :
   /// The version of the associated API documentation.
@@ -847,11 +829,10 @@ class ApiGateway {
   /// <code>aws:</code>. The tag value can be up to 256 characters.
   ///
   /// Parameter [tracingEnabled] :
-  /// Specifies whether active tracing with X-ray is enabled for the
-  /// <a>Stage</a>.
+  /// Specifies whether active tracing with X-ray is enabled for the Stage.
   ///
   /// Parameter [variables] :
-  /// A map that defines the stage variables for the new <a>Stage</a> resource.
+  /// A map that defines the stage variables for the new Stage resource.
   /// Variable names can have alphanumeric and underscore characters, and the
   /// values must match <code>[A-Za-z0-9-._~:/?#&amp;=,]+</code>.
   Future<Stage> createStage({
@@ -905,7 +886,7 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [name] :
-  /// [Required] The name of the usage plan.
+  /// The name of the usage plan.
   ///
   /// Parameter [apiStages] :
   /// The associated API stages of the usage plan.
@@ -959,16 +940,14 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [keyId] :
-  /// [Required] The identifier of a <a>UsagePlanKey</a> resource for a plan
-  /// customer.
+  /// The identifier of a UsagePlanKey resource for a plan customer.
   ///
   /// Parameter [keyType] :
-  /// [Required] The type of a <a>UsagePlanKey</a> resource for a plan customer.
+  /// The type of a UsagePlanKey resource for a plan customer.
   ///
   /// Parameter [usagePlanId] :
-  /// [Required] The Id of the <a>UsagePlan</a> resource representing the usage
-  /// plan containing the to-be-created <a>UsagePlanKey</a> resource
-  /// representing a plan customer.
+  /// The Id of the UsagePlan resource representing the usage plan containing
+  /// the to-be-created UsagePlanKey resource representing a plan customer.
   Future<UsagePlanKey> createUsagePlanKey({
     required String keyId,
     required String keyType,
@@ -1002,12 +981,12 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [name] :
-  /// [Required] The name used to label and identify the VPC link.
+  /// The name used to label and identify the VPC link.
   ///
   /// Parameter [targetArns] :
-  /// [Required] The ARN of the network load balancer of the VPC targeted by the
-  /// VPC link. The network load balancer must be owned by the same AWS account
-  /// of the API owner.
+  /// The ARN of the network load balancer of the VPC targeted by the VPC link.
+  /// The network load balancer must be owned by the same AWS account of the API
+  /// owner.
   ///
   /// Parameter [description] :
   /// The description of the VPC link.
@@ -1039,7 +1018,7 @@ class ApiGateway {
     return VpcLink.fromJson(response);
   }
 
-  /// Deletes the <a>ApiKey</a> resource.
+  /// Deletes the ApiKey resource.
   ///
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
@@ -1048,7 +1027,7 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [apiKey] :
-  /// [Required] The identifier of the <a>ApiKey</a> resource to be deleted.
+  /// The identifier of the ApiKey resource to be deleted.
   Future<void> deleteApiKey({
     required String apiKey,
   }) async {
@@ -1061,10 +1040,7 @@ class ApiGateway {
     );
   }
 
-  /// Deletes an existing <a>Authorizer</a> resource.
-  /// <div class="seeAlso"><a
-  /// href="https://docs.aws.amazon.com/cli/latest/reference/apigateway/delete-authorizer.html">AWS
-  /// CLI</a></div>
+  /// Deletes an existing Authorizer resource.
   ///
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
@@ -1073,10 +1049,10 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [authorizerId] :
-  /// [Required] The identifier of the <a>Authorizer</a> resource.
+  /// The identifier of the Authorizer resource.
   ///
   /// Parameter [restApiId] :
-  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   Future<void> deleteAuthorizer({
     required String authorizerId,
     required String restApiId,
@@ -1092,7 +1068,7 @@ class ApiGateway {
     );
   }
 
-  /// Deletes the <a>BasePathMapping</a> resource.
+  /// Deletes the BasePathMapping resource.
   ///
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
@@ -1101,15 +1077,13 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [basePath] :
-  /// [Required] The base path name of the <a>BasePathMapping</a> resource to
-  /// delete.
+  /// The base path name of the BasePathMapping resource to delete.
   ///
   /// To specify an empty base path, set this parameter to
   /// <code>'(none)'</code>.
   ///
   /// Parameter [domainName] :
-  /// [Required] The domain name of the <a>BasePathMapping</a> resource to
-  /// delete.
+  /// The domain name of the BasePathMapping resource to delete.
   Future<void> deleteBasePathMapping({
     required String basePath,
     required String domainName,
@@ -1125,7 +1099,7 @@ class ApiGateway {
     );
   }
 
-  /// Deletes the <a>ClientCertificate</a> resource.
+  /// Deletes the ClientCertificate resource.
   ///
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
@@ -1134,8 +1108,7 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [clientCertificateId] :
-  /// [Required] The identifier of the <a>ClientCertificate</a> resource to be
-  /// deleted.
+  /// The identifier of the ClientCertificate resource to be deleted.
   Future<void> deleteClientCertificate({
     required String clientCertificateId,
   }) async {
@@ -1149,8 +1122,8 @@ class ApiGateway {
     );
   }
 
-  /// Deletes a <a>Deployment</a> resource. Deleting a deployment will only
-  /// succeed if there are no <a>Stage</a> resources associated with it.
+  /// Deletes a Deployment resource. Deleting a deployment will only succeed if
+  /// there are no Stage resources associated with it.
   ///
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
@@ -1160,10 +1133,10 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [deploymentId] :
-  /// [Required] The identifier of the <a>Deployment</a> resource to delete.
+  /// The identifier of the Deployment resource to delete.
   ///
   /// Parameter [restApiId] :
-  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   Future<void> deleteDeployment({
     required String deploymentId,
     required String restApiId,
@@ -1179,6 +1152,7 @@ class ApiGateway {
     );
   }
 
+  /// Deletes a documentation part
   ///
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
@@ -1187,10 +1161,10 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [documentationPartId] :
-  /// [Required] The identifier of the to-be-deleted documentation part.
+  /// The identifier of the to-be-deleted documentation part.
   ///
   /// Parameter [restApiId] :
-  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   Future<void> deleteDocumentationPart({
     required String documentationPartId,
     required String restApiId,
@@ -1206,6 +1180,7 @@ class ApiGateway {
     );
   }
 
+  /// Deletes a documentation version.
   ///
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
@@ -1214,11 +1189,10 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [documentationVersion] :
-  /// [Required] The version identifier of a to-be-deleted documentation
-  /// snapshot.
+  /// The version identifier of a to-be-deleted documentation snapshot.
   ///
   /// Parameter [restApiId] :
-  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   Future<void> deleteDocumentationVersion({
     required String documentationVersion,
     required String restApiId,
@@ -1234,7 +1208,7 @@ class ApiGateway {
     );
   }
 
-  /// Deletes the <a>DomainName</a> resource.
+  /// Deletes the DomainName resource.
   ///
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
@@ -1243,7 +1217,7 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [domainName] :
-  /// [Required] The name of the <a>DomainName</a> resource to be deleted.
+  /// The name of the DomainName resource to be deleted.
   Future<void> deleteDomainName({
     required String domainName,
   }) async {
@@ -1256,9 +1230,8 @@ class ApiGateway {
     );
   }
 
-  /// Clears any customization of a <a>GatewayResponse</a> of a specified
-  /// response type on the given <a>RestApi</a> and resets it with the default
-  /// settings.
+  /// Clears any customization of a GatewayResponse of a specified response type
+  /// on the given RestApi and resets it with the default settings.
   ///
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
@@ -1267,12 +1240,10 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [responseType] :
-  /// [Required]
-  /// The response type of the associated <a>GatewayResponse</a>.
-  ///
+  /// The response type of the associated GatewayResponse.
   ///
   /// Parameter [restApiId] :
-  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   Future<void> deleteGatewayResponse({
     required GatewayResponseType responseType,
     required String restApiId,
@@ -1297,13 +1268,13 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [httpMethod] :
-  /// [Required] Specifies a delete integration request's HTTP method.
+  /// Specifies a delete integration request's HTTP method.
   ///
   /// Parameter [resourceId] :
-  /// [Required] Specifies a delete integration request's resource identifier.
+  /// Specifies a delete integration request's resource identifier.
   ///
   /// Parameter [restApiId] :
-  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   Future<void> deleteIntegration({
     required String httpMethod,
     required String resourceId,
@@ -1330,17 +1301,16 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [httpMethod] :
-  /// [Required] Specifies a delete integration response request's HTTP method.
+  /// Specifies a delete integration response request's HTTP method.
   ///
   /// Parameter [resourceId] :
-  /// [Required] Specifies a delete integration response request's resource
-  /// identifier.
+  /// Specifies a delete integration response request's resource identifier.
   ///
   /// Parameter [restApiId] :
-  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   ///
   /// Parameter [statusCode] :
-  /// [Required] Specifies a delete integration response request's status code.
+  /// Specifies a delete integration response request's status code.
   Future<void> deleteIntegrationResponse({
     required String httpMethod,
     required String resourceId,
@@ -1360,7 +1330,7 @@ class ApiGateway {
     );
   }
 
-  /// Deletes an existing <a>Method</a> resource.
+  /// Deletes an existing Method resource.
   ///
   /// May throw [UnauthorizedException].
   /// May throw [NotFoundException].
@@ -1368,13 +1338,13 @@ class ApiGateway {
   /// May throw [ConflictException].
   ///
   /// Parameter [httpMethod] :
-  /// [Required] The HTTP verb of the <a>Method</a> resource.
+  /// The HTTP verb of the Method resource.
   ///
   /// Parameter [resourceId] :
-  /// [Required] The <a>Resource</a> identifier for the <a>Method</a> resource.
+  /// The Resource identifier for the Method resource.
   ///
   /// Parameter [restApiId] :
-  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   Future<void> deleteMethod({
     required String httpMethod,
     required String resourceId,
@@ -1392,7 +1362,7 @@ class ApiGateway {
     );
   }
 
-  /// Deletes an existing <a>MethodResponse</a> resource.
+  /// Deletes an existing MethodResponse resource.
   ///
   /// May throw [UnauthorizedException].
   /// May throw [NotFoundException].
@@ -1401,18 +1371,16 @@ class ApiGateway {
   /// May throw [ConflictException].
   ///
   /// Parameter [httpMethod] :
-  /// [Required] The HTTP verb of the <a>Method</a> resource.
+  /// The HTTP verb of the Method resource.
   ///
   /// Parameter [resourceId] :
-  /// [Required] The <a>Resource</a> identifier for the <a>MethodResponse</a>
-  /// resource.
+  /// The Resource identifier for the MethodResponse resource.
   ///
   /// Parameter [restApiId] :
-  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   ///
   /// Parameter [statusCode] :
-  /// [Required] The status code identifier for the <a>MethodResponse</a>
-  /// resource.
+  /// The status code identifier for the MethodResponse resource.
   Future<void> deleteMethodResponse({
     required String httpMethod,
     required String resourceId,
@@ -1441,10 +1409,10 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [modelName] :
-  /// [Required] The name of the model to delete.
+  /// The name of the model to delete.
   ///
   /// Parameter [restApiId] :
-  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   Future<void> deleteModel({
     required String modelName,
     required String restApiId,
@@ -1460,7 +1428,7 @@ class ApiGateway {
     );
   }
 
-  /// Deletes a <a>RequestValidator</a> of a given <a>RestApi</a>.
+  /// Deletes a RequestValidator of a given RestApi.
   ///
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
@@ -1469,10 +1437,10 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [requestValidatorId] :
-  /// [Required] The identifier of the <a>RequestValidator</a> to be deleted.
+  /// The identifier of the RequestValidator to be deleted.
   ///
   /// Parameter [restApiId] :
-  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   Future<void> deleteRequestValidator({
     required String requestValidatorId,
     required String restApiId,
@@ -1488,7 +1456,7 @@ class ApiGateway {
     );
   }
 
-  /// Deletes a <a>Resource</a> resource.
+  /// Deletes a Resource resource.
   ///
   /// May throw [UnauthorizedException].
   /// May throw [NotFoundException].
@@ -1497,10 +1465,10 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [resourceId] :
-  /// [Required] The identifier of the <a>Resource</a> resource.
+  /// The identifier of the Resource resource.
   ///
   /// Parameter [restApiId] :
-  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   Future<void> deleteResource({
     required String resourceId,
     required String restApiId,
@@ -1525,7 +1493,7 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [restApiId] :
-  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   Future<void> deleteRestApi({
     required String restApiId,
   }) async {
@@ -1538,7 +1506,7 @@ class ApiGateway {
     );
   }
 
-  /// Deletes a <a>Stage</a> resource.
+  /// Deletes a Stage resource.
   ///
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
@@ -1548,10 +1516,10 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [restApiId] :
-  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   ///
   /// Parameter [stageName] :
-  /// [Required] The name of the <a>Stage</a> resource to delete.
+  /// The name of the Stage resource to delete.
   Future<void> deleteStage({
     required String restApiId,
     required String stageName,
@@ -1576,7 +1544,7 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [usagePlanId] :
-  /// [Required] The Id of the to-be-deleted usage plan.
+  /// The Id of the to-be-deleted usage plan.
   Future<void> deleteUsagePlan({
     required String usagePlanId,
   }) async {
@@ -1599,12 +1567,11 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [keyId] :
-  /// [Required] The Id of the <a>UsagePlanKey</a> resource to be deleted.
+  /// The Id of the UsagePlanKey resource to be deleted.
   ///
   /// Parameter [usagePlanId] :
-  /// [Required] The Id of the <a>UsagePlan</a> resource representing the usage
-  /// plan containing the to-be-deleted <a>UsagePlanKey</a> resource
-  /// representing a plan customer.
+  /// The Id of the UsagePlan resource representing the usage plan containing
+  /// the to-be-deleted UsagePlanKey resource representing a plan customer.
   Future<void> deleteUsagePlanKey({
     required String keyId,
     required String usagePlanId,
@@ -1620,7 +1587,7 @@ class ApiGateway {
     );
   }
 
-  /// Deletes an existing <a>VpcLink</a> of a specified identifier.
+  /// Deletes an existing VpcLink of a specified identifier.
   ///
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
@@ -1629,8 +1596,8 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [vpcLinkId] :
-  /// [Required] The identifier of the <a>VpcLink</a>. It is used in an
-  /// <a>Integration</a> to reference this <a>VpcLink</a>.
+  /// The identifier of the VpcLink. It is used in an Integration to reference
+  /// this VpcLink.
   Future<void> deleteVpcLink({
     required String vpcLinkId,
   }) async {
@@ -1653,7 +1620,7 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [restApiId] :
-  /// The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   ///
   /// Parameter [stageName] :
   /// The name of the stage to flush.
@@ -1682,10 +1649,10 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [restApiId] :
-  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   ///
   /// Parameter [stageName] :
-  /// [Required] The name of the stage to flush its cache.
+  /// The name of the stage to flush its cache.
   Future<void> flushStageCache({
     required String restApiId,
     required String stageName,
@@ -1701,7 +1668,7 @@ class ApiGateway {
     );
   }
 
-  /// Generates a <a>ClientCertificate</a> resource.
+  /// Generates a ClientCertificate resource.
   ///
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
@@ -1710,7 +1677,7 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [description] :
-  /// The description of the <a>ClientCertificate</a>.
+  /// The description of the ClientCertificate.
   ///
   /// Parameter [tags] :
   /// The key-value map of strings. The valid character set is [a-zA-Z+-=._:/].
@@ -1733,7 +1700,7 @@ class ApiGateway {
     return ClientCertificate.fromJson(response);
   }
 
-  /// Gets information about the current <a>Account</a> resource.
+  /// Gets information about the current Account resource.
   ///
   /// May throw [BadRequestException].
   /// May throw [NotFoundException].
@@ -1749,7 +1716,7 @@ class ApiGateway {
     return Account.fromJson(response);
   }
 
-  /// Gets information about the current <a>ApiKey</a> resource.
+  /// Gets information about the current ApiKey resource.
   ///
   /// May throw [BadRequestException].
   /// May throw [NotFoundException].
@@ -1757,7 +1724,7 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [apiKey] :
-  /// [Required] The identifier of the <a>ApiKey</a> resource.
+  /// The identifier of the ApiKey resource.
   ///
   /// Parameter [includeValue] :
   /// A boolean flag to specify whether (<code>true</code>) or not
@@ -1780,7 +1747,7 @@ class ApiGateway {
     return ApiKey.fromJson(response);
   }
 
-  /// Gets information about the current <a>ApiKeys</a> resource.
+  /// Gets information about the current ApiKeys resource.
   ///
   /// May throw [BadRequestException].
   /// May throw [NotFoundException].
@@ -1828,10 +1795,7 @@ class ApiGateway {
     return ApiKeys.fromJson(response);
   }
 
-  /// Describe an existing <a>Authorizer</a> resource.
-  /// <div class="seeAlso"><a
-  /// href="https://docs.aws.amazon.com/cli/latest/reference/apigateway/get-authorizer.html">AWS
-  /// CLI</a></div>
+  /// Describe an existing Authorizer resource.
   ///
   /// May throw [BadRequestException].
   /// May throw [NotFoundException].
@@ -1839,10 +1803,10 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [authorizerId] :
-  /// [Required] The identifier of the <a>Authorizer</a> resource.
+  /// The identifier of the Authorizer resource.
   ///
   /// Parameter [restApiId] :
-  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   Future<Authorizer> getAuthorizer({
     required String authorizerId,
     required String restApiId,
@@ -1859,10 +1823,7 @@ class ApiGateway {
     return Authorizer.fromJson(response);
   }
 
-  /// Describe an existing <a>Authorizers</a> resource.
-  /// <div class="seeAlso"><a
-  /// href="https://docs.aws.amazon.com/cli/latest/reference/apigateway/get-authorizers.html">AWS
-  /// CLI</a></div>
+  /// Describe an existing Authorizers resource.
   ///
   /// May throw [BadRequestException].
   /// May throw [NotFoundException].
@@ -1870,7 +1831,7 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [restApiId] :
-  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   ///
   /// Parameter [limit] :
   /// The maximum number of returned results per page. The default value is 25
@@ -1898,7 +1859,7 @@ class ApiGateway {
     return Authorizers.fromJson(response);
   }
 
-  /// Describe a <a>BasePathMapping</a> resource.
+  /// Describe a BasePathMapping resource.
   ///
   /// May throw [BadRequestException].
   /// May throw [NotFoundException].
@@ -1906,14 +1867,13 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [basePath] :
-  /// [Required] The base path name that callers of the API must provide as part
-  /// of the URL after the domain name. This value must be unique for all of the
-  /// mappings across a single API. Specify '(none)' if you do not want callers
-  /// to specify any base path name after the domain name.
+  /// The base path name that callers of the API must provide as part of the URL
+  /// after the domain name. This value must be unique for all of the mappings
+  /// across a single API. Specify '(none)' if you do not want callers to
+  /// specify any base path name after the domain name.
   ///
   /// Parameter [domainName] :
-  /// [Required] The domain name of the <a>BasePathMapping</a> resource to be
-  /// described.
+  /// The domain name of the BasePathMapping resource to be described.
   Future<BasePathMapping> getBasePathMapping({
     required String basePath,
     required String domainName,
@@ -1930,7 +1890,7 @@ class ApiGateway {
     return BasePathMapping.fromJson(response);
   }
 
-  /// Represents a collection of <a>BasePathMapping</a> resources.
+  /// Represents a collection of BasePathMapping resources.
   ///
   /// May throw [BadRequestException].
   /// May throw [NotFoundException].
@@ -1938,7 +1898,7 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [domainName] :
-  /// [Required] The domain name of a <a>BasePathMapping</a> resource.
+  /// The domain name of a BasePathMapping resource.
   ///
   /// Parameter [limit] :
   /// The maximum number of returned results per page. The default value is 25
@@ -1967,7 +1927,7 @@ class ApiGateway {
     return BasePathMappings.fromJson(response);
   }
 
-  /// Gets information about the current <a>ClientCertificate</a> resource.
+  /// Gets information about the current ClientCertificate resource.
   ///
   /// May throw [BadRequestException].
   /// May throw [NotFoundException].
@@ -1975,8 +1935,7 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [clientCertificateId] :
-  /// [Required] The identifier of the <a>ClientCertificate</a> resource to be
-  /// described.
+  /// The identifier of the ClientCertificate resource to be described.
   Future<ClientCertificate> getClientCertificate({
     required String clientCertificateId,
   }) async {
@@ -1991,7 +1950,7 @@ class ApiGateway {
     return ClientCertificate.fromJson(response);
   }
 
-  /// Gets a collection of <a>ClientCertificate</a> resources.
+  /// Gets a collection of ClientCertificate resources.
   ///
   /// May throw [BadRequestException].
   /// May throw [NotFoundException].
@@ -2022,7 +1981,7 @@ class ApiGateway {
     return ClientCertificates.fromJson(response);
   }
 
-  /// Gets information about a <a>Deployment</a> resource.
+  /// Gets information about a Deployment resource.
   ///
   /// May throw [BadRequestException].
   /// May throw [NotFoundException].
@@ -2031,17 +1990,16 @@ class ApiGateway {
   /// May throw [ServiceUnavailableException].
   ///
   /// Parameter [deploymentId] :
-  /// [Required] The identifier of the <a>Deployment</a> resource to get
-  /// information about.
+  /// The identifier of the Deployment resource to get information about.
   ///
   /// Parameter [restApiId] :
-  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   ///
   /// Parameter [embed] :
   /// A query parameter to retrieve the specified embedded resources of the
-  /// returned <a>Deployment</a> resource in the response. In a REST API call,
-  /// this <code>embed</code> parameter value is a list of comma-separated
-  /// strings, as in <code>GET
+  /// returned Deployment resource in the response. In a REST API call, this
+  /// <code>embed</code> parameter value is a list of comma-separated strings,
+  /// as in <code>GET
   /// /restapis/{restapi_id}/deployments/{deployment_id}?embed=var1,var2</code>.
   /// The SDK and other platform-dependent libraries might use a different
   /// format for the list. Currently, this request supports only retrieval of
@@ -2070,7 +2028,7 @@ class ApiGateway {
     return Deployment.fromJson(response);
   }
 
-  /// Gets information about a <a>Deployments</a> collection.
+  /// Gets information about a Deployments collection.
   ///
   /// May throw [BadRequestException].
   /// May throw [NotFoundException].
@@ -2079,7 +2037,7 @@ class ApiGateway {
   /// May throw [ServiceUnavailableException].
   ///
   /// Parameter [restApiId] :
-  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   ///
   /// Parameter [limit] :
   /// The maximum number of returned results per page. The default value is 25
@@ -2107,6 +2065,7 @@ class ApiGateway {
     return Deployments.fromJson(response);
   }
 
+  /// Gets a documentation part.
   ///
   /// May throw [BadRequestException].
   /// May throw [NotFoundException].
@@ -2114,10 +2073,10 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [documentationPartId] :
-  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   ///
   /// Parameter [restApiId] :
-  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   Future<DocumentationPart> getDocumentationPart({
     required String documentationPartId,
     required String restApiId,
@@ -2134,6 +2093,7 @@ class ApiGateway {
     return DocumentationPart.fromJson(response);
   }
 
+  /// Gets documentation parts.
   ///
   /// May throw [BadRequestException].
   /// May throw [NotFoundException].
@@ -2141,7 +2101,7 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [restApiId] :
-  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   ///
   /// Parameter [limit] :
   /// The maximum number of returned results per page. The default value is 25
@@ -2149,9 +2109,9 @@ class ApiGateway {
   ///
   /// Parameter [locationStatus] :
   /// The status of the API documentation parts to retrieve. Valid values are
-  /// <code>DOCUMENTED</code> for retrieving <a>DocumentationPart</a> resources
-  /// with content and <code>UNDOCUMENTED</code> for <a>DocumentationPart</a>
-  /// resources without content.
+  /// <code>DOCUMENTED</code> for retrieving DocumentationPart resources with
+  /// content and <code>UNDOCUMENTED</code> for DocumentationPart resources
+  /// without content.
   ///
   /// Parameter [nameQuery] :
   /// The name of API entities of the to-be-retrieved documentation parts.
@@ -2193,17 +2153,17 @@ class ApiGateway {
     return DocumentationParts.fromJson(response);
   }
 
+  /// Gets a documentation version.
   ///
   /// May throw [UnauthorizedException].
   /// May throw [NotFoundException].
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [documentationVersion] :
-  /// [Required] The version identifier of the to-be-retrieved documentation
-  /// snapshot.
+  /// The version identifier of the to-be-retrieved documentation snapshot.
   ///
   /// Parameter [restApiId] :
-  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   Future<DocumentationVersion> getDocumentationVersion({
     required String documentationVersion,
     required String restApiId,
@@ -2220,6 +2180,7 @@ class ApiGateway {
     return DocumentationVersion.fromJson(response);
   }
 
+  /// Gets documentation versions.
   ///
   /// May throw [BadRequestException].
   /// May throw [UnauthorizedException].
@@ -2227,7 +2188,7 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [restApiId] :
-  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   ///
   /// Parameter [limit] :
   /// The maximum number of returned results per page. The default value is 25
@@ -2265,7 +2226,7 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [domainName] :
-  /// [Required] The name of the <a>DomainName</a> resource.
+  /// The name of the DomainName resource.
   Future<DomainName> getDomainName({
     required String domainName,
   }) async {
@@ -2279,7 +2240,7 @@ class ApiGateway {
     return DomainName.fromJson(response);
   }
 
-  /// Represents a collection of <a>DomainName</a> resources.
+  /// Represents a collection of DomainName resources.
   ///
   /// May throw [BadRequestException].
   /// May throw [NotFoundException].
@@ -2310,7 +2271,7 @@ class ApiGateway {
     return DomainNames.fromJson(response);
   }
 
-  /// Exports a deployed version of a <a>RestApi</a> in a specified format.
+  /// Exports a deployed version of a RestApi in a specified format.
   ///
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
@@ -2320,14 +2281,14 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [exportType] :
-  /// [Required] The type of export. Acceptable values are 'oas30' for OpenAPI
-  /// 3.0.x and 'swagger' for Swagger/OpenAPI 2.0.
+  /// The type of export. Acceptable values are 'oas30' for OpenAPI 3.0.x and
+  /// 'swagger' for Swagger/OpenAPI 2.0.
   ///
   /// Parameter [restApiId] :
-  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   ///
   /// Parameter [stageName] :
-  /// [Required] The name of the <a>Stage</a> that will be exported.
+  /// The name of the Stage that will be exported.
   ///
   /// Parameter [accepts] :
   /// The content-type of the export, for example <code>application/json</code>.
@@ -2383,8 +2344,7 @@ class ApiGateway {
     );
   }
 
-  /// Gets a <a>GatewayResponse</a> of a specified response type on the given
-  /// <a>RestApi</a>.
+  /// Gets a GatewayResponse of a specified response type on the given RestApi.
   ///
   /// May throw [BadRequestException].
   /// May throw [NotFoundException].
@@ -2392,12 +2352,10 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [responseType] :
-  /// [Required]
-  /// The response type of the associated <a>GatewayResponse</a>.
-  ///
+  /// The response type of the associated GatewayResponse.
   ///
   /// Parameter [restApiId] :
-  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   Future<GatewayResponse> getGatewayResponse({
     required GatewayResponseType responseType,
     required String restApiId,
@@ -2414,10 +2372,10 @@ class ApiGateway {
     return GatewayResponse.fromJson(response);
   }
 
-  /// Gets the <a>GatewayResponses</a> collection on the given <a>RestApi</a>.
-  /// If an API developer has not added any definitions for gateway responses,
-  /// the result will be the API Gateway-generated default
-  /// <a>GatewayResponses</a> collection for the supported response types.
+  /// Gets the GatewayResponses collection on the given RestApi. If an API
+  /// developer has not added any definitions for gateway responses, the result
+  /// will be the API Gateway-generated default GatewayResponses collection for
+  /// the supported response types.
   ///
   /// May throw [BadRequestException].
   /// May throw [NotFoundException].
@@ -2425,17 +2383,17 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [restApiId] :
-  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   ///
   /// Parameter [limit] :
   /// The maximum number of returned results per page. The default value is 25
-  /// and the maximum value is 500. The <a>GatewayResponses</a> collection does
-  /// not support pagination and the limit does not apply here.
+  /// and the maximum value is 500. The GatewayResponses collection does not
+  /// support pagination and the limit does not apply here.
   ///
   /// Parameter [position] :
   /// The current pagination position in the paged result set. The
-  /// <a>GatewayResponse</a> collection does not support pagination and the
-  /// position does not apply here.
+  /// GatewayResponse collection does not support pagination and the position
+  /// does not apply here.
   Future<GatewayResponses> getGatewayResponses({
     required String restApiId,
     int? limit,
@@ -2465,13 +2423,13 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [httpMethod] :
-  /// [Required] Specifies a get integration request's HTTP method.
+  /// Specifies a get integration request's HTTP method.
   ///
   /// Parameter [resourceId] :
-  /// [Required] Specifies a get integration request's resource identifier
+  /// Specifies a get integration request's resource identifier
   ///
   /// Parameter [restApiId] :
-  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   Future<Integration> getIntegration({
     required String httpMethod,
     required String resourceId,
@@ -2498,17 +2456,16 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [httpMethod] :
-  /// [Required] Specifies a get integration response request's HTTP method.
+  /// Specifies a get integration response request's HTTP method.
   ///
   /// Parameter [resourceId] :
-  /// [Required] Specifies a get integration response request's resource
-  /// identifier.
+  /// Specifies a get integration response request's resource identifier.
   ///
   /// Parameter [restApiId] :
-  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   ///
   /// Parameter [statusCode] :
-  /// [Required] Specifies a get integration response request's status code.
+  /// Specifies a get integration response request's status code.
   Future<IntegrationResponse> getIntegrationResponse({
     required String httpMethod,
     required String resourceId,
@@ -2529,20 +2486,20 @@ class ApiGateway {
     return IntegrationResponse.fromJson(response);
   }
 
-  /// Describe an existing <a>Method</a> resource.
+  /// Describe an existing Method resource.
   ///
   /// May throw [UnauthorizedException].
   /// May throw [NotFoundException].
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [httpMethod] :
-  /// [Required] Specifies the method request's HTTP method type.
+  /// Specifies the method request's HTTP method type.
   ///
   /// Parameter [resourceId] :
-  /// [Required] The <a>Resource</a> identifier for the <a>Method</a> resource.
+  /// The Resource identifier for the Method resource.
   ///
   /// Parameter [restApiId] :
-  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   Future<Method> getMethod({
     required String httpMethod,
     required String resourceId,
@@ -2561,24 +2518,23 @@ class ApiGateway {
     return Method.fromJson(response);
   }
 
-  /// Describes a <a>MethodResponse</a> resource.
+  /// Describes a MethodResponse resource.
   ///
   /// May throw [UnauthorizedException].
   /// May throw [NotFoundException].
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [httpMethod] :
-  /// [Required] The HTTP verb of the <a>Method</a> resource.
+  /// The HTTP verb of the Method resource.
   ///
   /// Parameter [resourceId] :
-  /// [Required] The <a>Resource</a> identifier for the <a>MethodResponse</a>
-  /// resource.
+  /// The Resource identifier for the MethodResponse resource.
   ///
   /// Parameter [restApiId] :
-  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   ///
   /// Parameter [statusCode] :
-  /// [Required] The status code for the <a>MethodResponse</a> resource.
+  /// The status code for the MethodResponse resource.
   Future<MethodResponse> getMethodResponse({
     required String httpMethod,
     required String resourceId,
@@ -2599,7 +2555,7 @@ class ApiGateway {
     return MethodResponse.fromJson(response);
   }
 
-  /// Describes an existing model defined for a <a>RestApi</a> resource.
+  /// Describes an existing model defined for a RestApi resource.
   ///
   /// May throw [BadRequestException].
   /// May throw [NotFoundException].
@@ -2607,11 +2563,10 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [modelName] :
-  /// [Required] The name of the model as an identifier.
+  /// The name of the model as an identifier.
   ///
   /// Parameter [restApiId] :
-  /// [Required] The <a>RestApi</a> identifier under which the <a>Model</a>
-  /// exists.
+  /// The RestApi identifier under which the Model exists.
   ///
   /// Parameter [flatten] :
   /// A query parameter of a Boolean value to resolve (<code>true</code>) all
@@ -2647,10 +2602,10 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [modelName] :
-  /// [Required] The name of the model for which to generate a template.
+  /// The name of the model for which to generate a template.
   ///
   /// Parameter [restApiId] :
-  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   Future<Template> getModelTemplate({
     required String modelName,
     required String restApiId,
@@ -2667,7 +2622,7 @@ class ApiGateway {
     return Template.fromJson(response);
   }
 
-  /// Describes existing <a>Models</a> defined for a <a>RestApi</a> resource.
+  /// Describes existing Models defined for a RestApi resource.
   ///
   /// May throw [BadRequestException].
   /// May throw [UnauthorizedException].
@@ -2675,7 +2630,7 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [restApiId] :
-  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   ///
   /// Parameter [limit] :
   /// The maximum number of returned results per page. The default value is 25
@@ -2703,7 +2658,7 @@ class ApiGateway {
     return Models.fromJson(response);
   }
 
-  /// Gets a <a>RequestValidator</a> of a given <a>RestApi</a>.
+  /// Gets a RequestValidator of a given RestApi.
   ///
   /// May throw [BadRequestException].
   /// May throw [NotFoundException].
@@ -2711,10 +2666,10 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [requestValidatorId] :
-  /// [Required] The identifier of the <a>RequestValidator</a> to be retrieved.
+  /// The identifier of the RequestValidator to be retrieved.
   ///
   /// Parameter [restApiId] :
-  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   Future<RequestValidator> getRequestValidator({
     required String requestValidatorId,
     required String restApiId,
@@ -2731,7 +2686,7 @@ class ApiGateway {
     return RequestValidator.fromJson(response);
   }
 
-  /// Gets the <a>RequestValidators</a> collection of a given <a>RestApi</a>.
+  /// Gets the RequestValidators collection of a given RestApi.
   ///
   /// May throw [BadRequestException].
   /// May throw [NotFoundException].
@@ -2739,7 +2694,7 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [restApiId] :
-  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   ///
   /// Parameter [limit] :
   /// The maximum number of returned results per page. The default value is 25
@@ -2775,19 +2730,18 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [resourceId] :
-  /// [Required] The identifier for the <a>Resource</a> resource.
+  /// The identifier for the Resource resource.
   ///
   /// Parameter [restApiId] :
-  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   ///
   /// Parameter [embed] :
   /// A query parameter to retrieve the specified resources embedded in the
-  /// returned <a>Resource</a> representation in the response. This
-  /// <code>embed</code> parameter value is a list of comma-separated strings.
-  /// Currently, the request supports only retrieval of the embedded
-  /// <a>Method</a> resources this way. The query parameter value must be a
-  /// single-valued list and contain the <code>"methods"</code> string. For
-  /// example, <code>GET
+  /// returned Resource representation in the response. This <code>embed</code>
+  /// parameter value is a list of comma-separated strings. Currently, the
+  /// request supports only retrieval of the embedded Method resources this way.
+  /// The query parameter value must be a single-valued list and contain the
+  /// <code>"methods"</code> string. For example, <code>GET
   /// /restapis/{restapi_id}/resources/{resource_id}?embed=methods</code>.
   Future<Resource> getResource({
     required String resourceId,
@@ -2810,7 +2764,7 @@ class ApiGateway {
     return Resource.fromJson(response);
   }
 
-  /// Lists information about a collection of <a>Resource</a> resources.
+  /// Lists information about a collection of Resource resources.
   ///
   /// May throw [BadRequestException].
   /// May throw [UnauthorizedException].
@@ -2818,16 +2772,16 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [restApiId] :
-  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   ///
   /// Parameter [embed] :
   /// A query parameter used to retrieve the specified resources embedded in the
-  /// returned <a>Resources</a> resource in the response. This
-  /// <code>embed</code> parameter value is a list of comma-separated strings.
-  /// Currently, the request supports only retrieval of the embedded
-  /// <a>Method</a> resources this way. The query parameter value must be a
-  /// single-valued list and contain the <code>"methods"</code> string. For
-  /// example, <code>GET /restapis/{restapi_id}/resources?embed=methods</code>.
+  /// returned Resources resource in the response. This <code>embed</code>
+  /// parameter value is a list of comma-separated strings. Currently, the
+  /// request supports only retrieval of the embedded Method resources this way.
+  /// The query parameter value must be a single-valued list and contain the
+  /// <code>"methods"</code> string. For example, <code>GET
+  /// /restapis/{restapi_id}/resources?embed=methods</code>.
   ///
   /// Parameter [limit] :
   /// The maximum number of returned results per page. The default value is 25
@@ -2857,7 +2811,7 @@ class ApiGateway {
     return Resources.fromJson(response);
   }
 
-  /// Lists the <a>RestApi</a> resource in the collection.
+  /// Lists the RestApi resource in the collection.
   ///
   /// May throw [BadRequestException].
   /// May throw [NotFoundException].
@@ -2865,7 +2819,7 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [restApiId] :
-  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   Future<RestApi> getRestApi({
     required String restApiId,
   }) async {
@@ -2879,7 +2833,7 @@ class ApiGateway {
     return RestApi.fromJson(response);
   }
 
-  /// Lists the <a>RestApis</a> resources for your collection.
+  /// Lists the RestApis resources for your collection.
   ///
   /// May throw [BadRequestException].
   /// May throw [NotFoundException].
@@ -2910,7 +2864,7 @@ class ApiGateway {
     return RestApis.fromJson(response);
   }
 
-  /// Generates a client SDK for a <a>RestApi</a> and <a>Stage</a>.
+  /// Generates a client SDK for a RestApi and Stage.
   ///
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
@@ -2920,16 +2874,16 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [restApiId] :
-  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   ///
   /// Parameter [sdkType] :
-  /// [Required] The language for the generated SDK. Currently
-  /// <code>java</code>, <code>javascript</code>, <code>android</code>,
-  /// <code>objectivec</code> (for iOS), <code>swift</code> (for iOS), and
-  /// <code>ruby</code> are supported.
+  /// The language for the generated SDK. Currently <code>java</code>,
+  /// <code>javascript</code>, <code>android</code>, <code>objectivec</code>
+  /// (for iOS), <code>swift</code> (for iOS), and <code>ruby</code> are
+  /// supported.
   ///
   /// Parameter [stageName] :
-  /// [Required] The name of the <a>Stage</a> that the SDK will use.
+  /// The name of the Stage that the SDK will use.
   ///
   /// Parameter [parameters] :
   /// A string-to-string key-value map of query parameters
@@ -2971,6 +2925,7 @@ class ApiGateway {
     );
   }
 
+  /// Gets an SDK type.
   ///
   /// May throw [BadRequestException].
   /// May throw [NotFoundException].
@@ -2978,7 +2933,7 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [id] :
-  /// [Required] The identifier of the queried <a>SdkType</a> instance.
+  /// The identifier of the queried SdkType instance.
   Future<SdkType> getSdkType({
     required String id,
   }) async {
@@ -2992,6 +2947,7 @@ class ApiGateway {
     return SdkType.fromJson(response);
   }
 
+  /// Gets SDK types
   ///
   /// May throw [BadRequestException].
   /// May throw [NotFoundException].
@@ -3022,7 +2978,7 @@ class ApiGateway {
     return SdkTypes.fromJson(response);
   }
 
-  /// Gets information about a <a>Stage</a> resource.
+  /// Gets information about a Stage resource.
   ///
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
@@ -3032,10 +2988,10 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [restApiId] :
-  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   ///
   /// Parameter [stageName] :
-  /// [Required] The name of the <a>Stage</a> resource to get information about.
+  /// The name of the Stage resource to get information about.
   Future<Stage> getStage({
     required String restApiId,
     required String stageName,
@@ -3052,7 +3008,7 @@ class ApiGateway {
     return Stage.fromJson(response);
   }
 
-  /// Gets information about one or more <a>Stage</a> resources.
+  /// Gets information about one or more Stage resources.
   ///
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
@@ -3062,7 +3018,7 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [restApiId] :
-  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   ///
   /// Parameter [deploymentId] :
   /// The stages' deployment identifiers.
@@ -3084,7 +3040,7 @@ class ApiGateway {
     return Stages.fromJson(response);
   }
 
-  /// Gets the <a>Tags</a> collection for a given resource.
+  /// Gets the Tags collection for a given resource.
   ///
   /// May throw [BadRequestException].
   /// May throw [NotFoundException].
@@ -3092,7 +3048,7 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [resourceArn] :
-  /// [Required] The ARN of a resource that can be tagged.
+  /// The ARN of a resource that can be tagged.
   ///
   /// Parameter [limit] :
   /// (Not currently supported) The maximum number of returned results per page.
@@ -3129,13 +3085,13 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [endDate] :
-  /// [Required] The ending date (e.g., 2016-12-31) of the usage data.
+  /// The ending date (e.g., 2016-12-31) of the usage data.
   ///
   /// Parameter [startDate] :
-  /// [Required] The starting date (e.g., 2016-01-01) of the usage data.
+  /// The starting date (e.g., 2016-01-01) of the usage data.
   ///
   /// Parameter [usagePlanId] :
-  /// [Required] The Id of the usage plan associated with the usage data.
+  /// The Id of the usage plan associated with the usage data.
   ///
   /// Parameter [keyId] :
   /// The Id of the API key associated with the resultant usage data.
@@ -3182,8 +3138,7 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [usagePlanId] :
-  /// [Required] The identifier of the <a>UsagePlan</a> resource to be
-  /// retrieved.
+  /// The identifier of the UsagePlan resource to be retrieved.
   Future<UsagePlan> getUsagePlan({
     required String usagePlanId,
   }) async {
@@ -3205,13 +3160,12 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [keyId] :
-  /// [Required] The key Id of the to-be-retrieved <a>UsagePlanKey</a> resource
-  /// representing a plan customer.
+  /// The key Id of the to-be-retrieved UsagePlanKey resource representing a
+  /// plan customer.
   ///
   /// Parameter [usagePlanId] :
-  /// [Required] The Id of the <a>UsagePlan</a> resource representing the usage
-  /// plan containing the to-be-retrieved <a>UsagePlanKey</a> resource
-  /// representing a plan customer.
+  /// The Id of the UsagePlan resource representing the usage plan containing
+  /// the to-be-retrieved UsagePlanKey resource representing a plan customer.
   Future<UsagePlanKey> getUsagePlanKey({
     required String keyId,
     required String usagePlanId,
@@ -3237,9 +3191,8 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [usagePlanId] :
-  /// [Required] The Id of the <a>UsagePlan</a> resource representing the usage
-  /// plan containing the to-be-retrieved <a>UsagePlanKey</a> resource
-  /// representing a plan customer.
+  /// The Id of the UsagePlan resource representing the usage plan containing
+  /// the to-be-retrieved UsagePlanKey resource representing a plan customer.
   ///
   /// Parameter [limit] :
   /// The maximum number of returned results per page. The default value is 25
@@ -3317,8 +3270,8 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [vpcLinkId] :
-  /// [Required] The identifier of the <a>VpcLink</a>. It is used in an
-  /// <a>Integration</a> to reference this <a>VpcLink</a>.
+  /// The identifier of the VpcLink. It is used in an Integration to reference
+  /// this VpcLink.
   Future<VpcLink> getVpcLink({
     required String vpcLinkId,
   }) async {
@@ -3332,8 +3285,8 @@ class ApiGateway {
     return VpcLink.fromJson(response);
   }
 
-  /// Gets the <a>VpcLinks</a> collection under the caller's account in a
-  /// selected region.
+  /// Gets the VpcLinks collection under the caller's account in a selected
+  /// region.
   ///
   /// May throw [BadRequestException].
   /// May throw [NotFoundException].
@@ -3375,18 +3328,15 @@ class ApiGateway {
   ///
   /// Parameter [body] :
   /// The payload of the POST request to import API keys. For the payload
-  /// format, see <a
-  /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/api-key-file-format.html">API
-  /// Key File Format</a>.
+  /// format, see API Key File Format.
   ///
   /// Parameter [format] :
   /// A query parameter to specify the input format to imported API keys.
   /// Currently, only the <code>csv</code> format is supported.
   ///
   /// Parameter [failOnWarnings] :
-  /// A query parameter to indicate whether to rollback <a>ApiKey</a>
-  /// importation (<code>true</code>) or not (<code>false</code>) when error is
-  /// encountered.
+  /// A query parameter to indicate whether to rollback ApiKey importation
+  /// (<code>true</code>) or not (<code>false</code>) when error is encountered.
   Future<ApiKeyIds> importApiKeys({
     required Uint8List body,
     required ApiKeysFormat format,
@@ -3408,6 +3358,7 @@ class ApiGateway {
     return ApiKeyIds.fromJson(response);
   }
 
+  /// Imports documentation parts
   ///
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
@@ -3417,11 +3368,11 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [body] :
-  /// [Required] Raw byte array representing the to-be-imported documentation
-  /// parts. To import from an OpenAPI file, this is a JSON object.
+  /// Raw byte array representing the to-be-imported documentation parts. To
+  /// import from an OpenAPI file, this is a JSON object.
   ///
   /// Parameter [restApiId] :
-  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   ///
   /// Parameter [failOnWarnings] :
   /// A query parameter to specify whether to rollback the documentation
@@ -3430,9 +3381,9 @@ class ApiGateway {
   ///
   /// Parameter [mode] :
   /// A query parameter to indicate whether to overwrite
-  /// (<code>OVERWRITE</code>) any existing <a>DocumentationParts</a> definition
-  /// or to merge (<code>MERGE</code>) the new definition into the existing one.
-  /// The default value is <code>MERGE</code>.
+  /// (<code>OVERWRITE</code>) any existing DocumentationParts definition or to
+  /// merge (<code>MERGE</code>) the new definition into the existing one. The
+  /// default value is <code>MERGE</code>.
   Future<DocumentationPartIds> importDocumentationParts({
     required Uint8List body,
     required String restApiId,
@@ -3467,9 +3418,9 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [body] :
-  /// [Required] The POST request body containing external API definitions.
-  /// Currently, only OpenAPI definition JSON/YAML files are supported. The
-  /// maximum size of the API definition file is 6MB.
+  /// The POST request body containing external API definitions. Currently, only
+  /// OpenAPI definition JSON/YAML files are supported. The maximum size of the
+  /// API definition file is 6MB.
   ///
   /// Parameter [failOnWarnings] :
   /// A query parameter to indicate whether to rollback the API creation
@@ -3481,8 +3432,8 @@ class ApiGateway {
   /// behavior of different API importing operations. The following shows
   /// operation-specific parameters and their supported values.
   ///
-  /// To exclude <a>DocumentationParts</a> from the import, set
-  /// <code>parameters</code> as <code>ignore=documentation</code>.
+  /// To exclude DocumentationParts from the import, set <code>parameters</code>
+  /// as <code>ignore=documentation</code>.
   ///
   /// To configure the endpoint type, set <code>parameters</code> as
   /// <code>endpointConfigurationTypes=EDGE</code>,
@@ -3496,13 +3447,8 @@ class ApiGateway {
   ///
   /// For example, the AWS CLI command to exclude documentation from the
   /// imported API is:
-  /// <pre><code>aws apigateway import-rest-api --parameters
-  /// ignore=documentation --body
-  /// 'file:///path/to/imported-api-body.json'</code></pre>
+  ///
   /// The AWS CLI command to set the regional endpoint on the imported API is:
-  /// <pre><code>aws apigateway import-rest-api --parameters
-  /// endpointConfigurationTypes=REGIONAL --body
-  /// 'file:///path/to/imported-api-body.json'</code></pre>
   Future<RestApi> importRestApi({
     required Uint8List body,
     bool? failOnWarnings,
@@ -3524,8 +3470,8 @@ class ApiGateway {
     return RestApi.fromJson(response);
   }
 
-  /// Creates a customization of a <a>GatewayResponse</a> of a specified
-  /// response type and status code on the given <a>RestApi</a>.
+  /// Creates a customization of a GatewayResponse of a specified response type
+  /// and status code on the given RestApi.
   ///
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
@@ -3535,27 +3481,21 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [responseType] :
-  /// [Required]
-  /// The response type of the associated <a>GatewayResponse</a>.
-  ///
+  /// The response type of the associated GatewayResponse
   ///
   /// Parameter [restApiId] :
-  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   ///
   /// Parameter [responseParameters] :
-  ///
   /// Response parameters (paths, query strings and headers) of the
-  /// <a>GatewayResponse</a> as a string-to-string map of key-value pairs.
-  ///
+  /// GatewayResponse as a string-to-string map of key-value pairs.
   ///
   /// Parameter [responseTemplates] :
-  ///
-  /// Response templates of the <a>GatewayResponse</a> as a string-to-string map
-  /// of key-value pairs.
-  ///
+  /// Response templates of the GatewayResponse as a string-to-string map of
+  /// key-value pairs.
   ///
   /// Parameter [statusCode] :
-  /// The HTTP status code of the <a>GatewayResponse</a>.
+  /// The HTTP status code of the GatewayResponse.
   Future<GatewayResponse> putGatewayResponse({
     required GatewayResponseType responseType,
     required String restApiId,
@@ -3590,21 +3530,21 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [httpMethod] :
-  /// [Required] Specifies a put integration request's HTTP method.
+  /// Specifies the HTTP method for the integration.
   ///
   /// Parameter [resourceId] :
-  /// [Required] Specifies a put integration request's resource ID.
+  /// Specifies a put integration request's resource ID.
   ///
   /// Parameter [restApiId] :
-  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   ///
   /// Parameter [type] :
-  /// [Required] Specifies a put integration input's type.
+  /// Specifies a put integration input's type.
   ///
   /// Parameter [cacheKeyParameters] :
   /// A list of request parameters whose values API Gateway caches. To be valid
   /// values for <code>cacheKeyParameters</code>, these parameters must also be
-  /// specified for <a>Method</a> <code>requestParameters</code>.
+  /// specified for Method <code>requestParameters</code>.
   ///
   /// Parameter [cacheNamespace] :
   /// Specifies a group of related cached parameters. By default, API Gateway
@@ -3613,10 +3553,8 @@ class ApiGateway {
   /// cached data for requests to different resources.
   ///
   /// Parameter [connectionId] :
-  /// The (<a
-  /// href="https://docs.aws.amazon.com/apigateway/api-reference/resource/vpc-link/#id"><code>id</code></a>)
-  /// of the <a>VpcLink</a> used for the integration when
-  /// <code>connectionType=VPC_LINK</code> and undefined, otherwise.
+  /// The ID of the VpcLink used for the integration. Specify this value only if
+  /// you specify <code>VPC_LINK</code> as the connection type.
   ///
   /// Parameter [connectionType] :
   /// The type of the network connection to the integration endpoint. The valid
@@ -3630,16 +3568,6 @@ class ApiGateway {
   /// Supported values are <code>CONVERT_TO_BINARY</code> and
   /// <code>CONVERT_TO_TEXT</code>, with the following behaviors:
   ///
-  /// <ul>
-  /// <li>
-  /// <code>CONVERT_TO_BINARY</code>: Converts a request payload from a
-  /// Base64-encoded string to the corresponding binary blob.
-  /// </li>
-  /// <li>
-  /// <code>CONVERT_TO_TEXT</code>: Converts a request payload from a binary
-  /// blob to a Base64-encoded string.
-  /// </li>
-  /// </ul>
   /// If this property is not defined, the request payload will be passed
   /// through from the method request to integration request without
   /// modification, provided that the <code>passthroughBehavior</code> is
@@ -3649,8 +3577,7 @@ class ApiGateway {
   /// Specifies whether credentials are required for a put integration.
   ///
   /// Parameter [integrationHttpMethod] :
-  /// Specifies a put integration HTTP method. When the integration type is HTTP
-  /// or AWS, this field is required.
+  /// The HTTP method for the integration.
   ///
   /// Parameter [passthroughBehavior] :
   /// Specifies the pass-through behavior for incoming requests based on the
@@ -3658,23 +3585,6 @@ class ApiGateway {
   /// specified as the <code>requestTemplates</code> property on the Integration
   /// resource. There are three valid values: <code>WHEN_NO_MATCH</code>,
   /// <code>WHEN_NO_TEMPLATES</code>, and <code>NEVER</code>.
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>WHEN_NO_MATCH</code> passes the request body for unmapped content
-  /// types through to the integration back end without transformation.
-  /// </li>
-  /// <li>
-  /// <code>NEVER</code> rejects unmapped content types with an HTTP 415
-  /// 'Unsupported Media Type' response.
-  /// </li>
-  /// <li>
-  /// <code>WHEN_NO_TEMPLATES</code> allows pass-through when the integration
-  /// has NO content types mapped to templates. However if there is at least one
-  /// content type defined, unmapped content types will be rejected with the
-  /// same 415 response.
-  /// </li>
-  /// </ul>
   ///
   /// Parameter [requestParameters] :
   /// A key-value map specifying request parameters that are passed from the
@@ -3700,41 +3610,29 @@ class ApiGateway {
   ///
   /// Parameter [uri] :
   /// Specifies Uniform Resource Identifier (URI) of the integration endpoint.
-  ///
-  /// <ul>
-  /// <li>
-  /// For <code>HTTP</code> or <code>HTTP_PROXY</code> integrations, the URI
-  /// must be a fully formed, encoded HTTP(S) URL according to the <a
-  /// href="https://en.wikipedia.org/wiki/Uniform_Resource_Identifier"
-  /// target="_blank">RFC-3986 specification</a>, for either standard
-  /// integration, where <code>connectionType</code> is not
+  /// For HTTP or <code>HTTP_PROXY</code> integrations, the URI must be a fully
+  /// formed, encoded HTTP(S) URL according to the RFC-3986 specification, for
+  /// either standard integration, where <code>connectionType</code> is not
   /// <code>VPC_LINK</code>, or private integration, where
   /// <code>connectionType</code> is <code>VPC_LINK</code>. For a private HTTP
-  /// integration, the URI is not used for routing.
-  /// </li>
-  /// <li>
-  /// For <code>AWS</code> or <code>AWS_PROXY</code> integrations, the URI is of
-  /// the form
-  /// <code>arn:aws:apigateway:{region}:{subdomain.service|service}:path|action/{service_api}</code>.
-  /// Here, <code>{Region}</code> is the API Gateway region (e.g.,
-  /// <code>us-east-1</code>); <code>{service}</code> is the name of the
-  /// integrated AWS service (e.g., <code>s3</code>); and
-  /// <code>{subdomain}</code> is a designated subdomain supported by certain
-  /// AWS service for fast host-name lookup. <code>action</code> can be used for
-  /// an AWS service action-based API, using an
-  /// <code>Action={name}&amp;{p1}={v1}&amp;p2={v2}...</code> query string. The
-  /// ensuing <code>{service_api}</code> refers to a supported action
-  /// <code>{name}</code> plus any required input parameters. Alternatively,
-  /// <code>path</code> can be used for an AWS service path-based API. The
-  /// ensuing <code>service_api</code> refers to the path to an AWS service
-  /// resource, including the region of the integrated AWS service, if
-  /// applicable. For example, for integration with the S3 API of <code><a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectGET.html">GetObject</a></code>,
-  /// the <code>uri</code> can be either
+  /// integration, the URI is not used for routing. For <code>AWS</code> or
+  /// <code>AWS_PROXY</code> integrations, the URI is of the form
+  /// <code>arn:aws:apigateway:{region}:{subdomain.service|service}:path|action/{service_api</code>}.
+  /// Here, {Region} is the API Gateway region (e.g., us-east-1); {service} is
+  /// the name of the integrated Amazon Web Services service (e.g., s3); and
+  /// {subdomain} is a designated subdomain supported by certain Amazon Web
+  /// Services service for fast host-name lookup. action can be used for an
+  /// Amazon Web Services service action-based API, using an
+  /// Action={name}&amp;{p1}={v1}&amp;p2={v2}... query string. The ensuing
+  /// {service_api} refers to a supported action {name} plus any required input
+  /// parameters. Alternatively, path can be used for an Amazon Web Services
+  /// service path-based API. The ensuing service_api refers to the path to an
+  /// Amazon Web Services service resource, including the region of the
+  /// integrated Amazon Web Services service, if applicable. For example, for
+  /// integration with the S3 API of <code>GetObject</code>, the
+  /// <code>uri</code> can be either
   /// <code>arn:aws:apigateway:us-west-2:s3:action/GetObject&amp;Bucket={bucket}&amp;Key={key}</code>
-  /// or <code>arn:aws:apigateway:us-west-2:s3:path/{bucket}/{key}</code>
-  /// </li>
-  /// </ul>
+  /// or <code>arn:aws:apigateway:us-west-2:s3:path/{bucket}/{key}</code>.
   Future<Integration> putIntegration({
     required String httpMethod,
     required String resourceId,
@@ -3795,34 +3693,23 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [httpMethod] :
-  /// [Required] Specifies a put integration response request's HTTP method.
+  /// Specifies a put integration response request's HTTP method.
   ///
   /// Parameter [resourceId] :
-  /// [Required] Specifies a put integration response request's resource
-  /// identifier.
+  /// Specifies a put integration response request's resource identifier.
   ///
   /// Parameter [restApiId] :
-  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   ///
   /// Parameter [statusCode] :
-  /// [Required] Specifies the status code that is used to map the integration
-  /// response to an existing <a>MethodResponse</a>.
+  /// Specifies the status code that is used to map the integration response to
+  /// an existing MethodResponse.
   ///
   /// Parameter [contentHandling] :
   /// Specifies how to handle response payload content type conversions.
   /// Supported values are <code>CONVERT_TO_BINARY</code> and
   /// <code>CONVERT_TO_TEXT</code>, with the following behaviors:
   ///
-  /// <ul>
-  /// <li>
-  /// <code>CONVERT_TO_BINARY</code>: Converts a response payload from a
-  /// Base64-encoded string to the corresponding binary blob.
-  /// </li>
-  /// <li>
-  /// <code>CONVERT_TO_TEXT</code>: Converts a response payload from a binary
-  /// blob to a Base64-encoded string.
-  /// </li>
-  /// </ul>
   /// If this property is not defined, the response payload will be passed
   /// through from the integration response to the method response without
   /// modification.
@@ -3877,7 +3764,7 @@ class ApiGateway {
     return IntegrationResponse.fromJson(response);
   }
 
-  /// Add a method to an existing <a>Resource</a> resource.
+  /// Add a method to an existing Resource resource.
   ///
   /// May throw [BadRequestException].
   /// May throw [UnauthorizedException].
@@ -3887,23 +3774,22 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [authorizationType] :
-  /// [Required] The method's authorization type. Valid values are
-  /// <code>NONE</code> for open access, <code>AWS_IAM</code> for using AWS IAM
-  /// permissions, <code>CUSTOM</code> for using a custom authorizer, or
+  /// The method's authorization type. Valid values are <code>NONE</code> for
+  /// open access, <code>AWS_IAM</code> for using AWS IAM permissions,
+  /// <code>CUSTOM</code> for using a custom authorizer, or
   /// <code>COGNITO_USER_POOLS</code> for using a Cognito user pool.
   ///
   /// Parameter [httpMethod] :
-  /// [Required] Specifies the method request's HTTP method type.
+  /// Specifies the method request's HTTP method type.
   ///
   /// Parameter [resourceId] :
-  /// [Required] The <a>Resource</a> identifier for the new <a>Method</a>
-  /// resource.
+  /// The Resource identifier for the new Method resource.
   ///
   /// Parameter [restApiId] :
-  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   ///
   /// Parameter [apiKeyRequired] :
-  /// Specifies whether the method required a valid <a>ApiKey</a>.
+  /// Specifies whether the method required a valid ApiKey.
   ///
   /// Parameter [authorizationScopes] :
   /// A list of authorization scopes configured on the method. The scopes are
@@ -3916,8 +3802,8 @@ class ApiGateway {
   /// token instead of an identity token for authorization purposes.
   ///
   /// Parameter [authorizerId] :
-  /// Specifies the identifier of an <a>Authorizer</a> to use on this Method, if
-  /// the type is CUSTOM or COGNITO_USER_POOLS. The authorizer identifier is
+  /// Specifies the identifier of an Authorizer to use on this Method, if the
+  /// type is CUSTOM or COGNITO_USER_POOLS. The authorizer identifier is
   /// generated by API Gateway when you created the authorizer.
   ///
   /// Parameter [operationName] :
@@ -3926,9 +3812,9 @@ class ApiGateway {
   /// <code>GET /pets</code> method in the <code>PetStore</code> example.
   ///
   /// Parameter [requestModels] :
-  /// Specifies the <a>Model</a> resources used for the request's content type.
-  /// Request models are represented as a key/value map, with a content type as
-  /// the key and a <a>Model</a> name as the value.
+  /// Specifies the Model resources used for the request's content type. Request
+  /// models are represented as a key/value map, with a content type as the key
+  /// and a Model name as the value.
   ///
   /// Parameter [requestParameters] :
   /// A key-value map defining required or optional method request parameters
@@ -3939,13 +3825,11 @@ class ApiGateway {
   /// <code>name</code> is a valid and unique parameter name. The value
   /// associated with the key is a Boolean flag indicating whether the parameter
   /// is required (<code>true</code>) or optional (<code>false</code>). The
-  /// method request parameter names defined here are available in
-  /// <a>Integration</a> to be mapped to integration request parameters or
-  /// body-mapping templates.
+  /// method request parameter names defined here are available in Integration
+  /// to be mapped to integration request parameters or body-mapping templates.
   ///
   /// Parameter [requestValidatorId] :
-  /// The identifier of a <a>RequestValidator</a> for validating the method
-  /// request.
+  /// The identifier of a RequestValidator for validating the method request.
   Future<Method> putMethod({
     required String authorizationType,
     required String httpMethod,
@@ -3984,7 +3868,7 @@ class ApiGateway {
     return Method.fromJson(response);
   }
 
-  /// Adds a <a>MethodResponse</a> to an existing <a>Method</a> resource.
+  /// Adds a MethodResponse to an existing Method resource.
   ///
   /// May throw [UnauthorizedException].
   /// May throw [NotFoundException].
@@ -3994,21 +3878,21 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [httpMethod] :
-  /// [Required] The HTTP verb of the <a>Method</a> resource.
+  /// The HTTP verb of the Method resource.
   ///
   /// Parameter [resourceId] :
-  /// [Required] The <a>Resource</a> identifier for the <a>Method</a> resource.
+  /// The Resource identifier for the Method resource.
   ///
   /// Parameter [restApiId] :
-  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   ///
   /// Parameter [statusCode] :
-  /// [Required] The method response's status code.
+  /// The method response's status code.
   ///
   /// Parameter [responseModels] :
-  /// Specifies the <a>Model</a> resources used for the response's content type.
+  /// Specifies the Model resources used for the response's content type.
   /// Response models are represented as a key/value map, with a content type as
-  /// the key and a <a>Model</a> name as the value.
+  /// the key and a Model name as the value.
   ///
   /// Parameter [responseParameters] :
   /// A key-value map specifying required or optional response parameters that
@@ -4065,12 +3949,12 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [body] :
-  /// [Required] The PUT request body containing external API definitions.
-  /// Currently, only OpenAPI definition JSON/YAML files are supported. The
-  /// maximum size of the API definition file is 6MB.
+  /// The PUT request body containing external API definitions. Currently, only
+  /// OpenAPI definition JSON/YAML files are supported. The maximum size of the
+  /// API definition file is 6MB.
   ///
   /// Parameter [restApiId] :
-  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   ///
   /// Parameter [failOnWarnings] :
   /// A query parameter to indicate whether to rollback the API update
@@ -4084,7 +3968,7 @@ class ApiGateway {
   ///
   /// Parameter [parameters] :
   /// Custom header parameters as part of the request. For example, to exclude
-  /// <a>DocumentationParts</a> from an imported API, set
+  /// DocumentationParts from an imported API, set
   /// <code>ignore=documentation</code> as a <code>parameters</code> value, as
   /// in the AWS CLI command of <code>aws apigateway import-rest-api
   /// --parameters ignore=documentation --body
@@ -4124,12 +4008,12 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [resourceArn] :
-  /// [Required] The ARN of a resource that can be tagged.
+  /// The ARN of a resource that can be tagged.
   ///
   /// Parameter [tags] :
-  /// [Required] The key-value map of strings. The valid character set is
-  /// [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not
-  /// start with <code>aws:</code>. The tag value can be up to 256 characters.
+  /// The key-value map of strings. The valid character set is [a-zA-Z+-=._:/].
+  /// The tag key can be up to 128 characters and must not start with
+  /// <code>aws:</code>. The tag value can be up to 256 characters.
   Future<void> tagResource({
     required String resourceArn,
     required Map<String, String> tags,
@@ -4147,13 +4031,8 @@ class ApiGateway {
     );
   }
 
-  /// Simulate the execution of an <a>Authorizer</a> in your <a>RestApi</a> with
-  /// headers, parameters, and an incoming request body.
-  /// <div class="seeAlso"> <a
-  /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-use-lambda-authorizer.html">Use
-  /// Lambda Function as Authorizer</a> <a
-  /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-integrate-with-cognito.html">Use
-  /// Cognito User Pool as Authorizer</a> </div>
+  /// Simulate the execution of an Authorizer in your RestApi with headers,
+  /// parameters, and an incoming request body.
   ///
   /// May throw [BadRequestException].
   /// May throw [UnauthorizedException].
@@ -4161,36 +4040,34 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [authorizerId] :
-  /// [Required] Specifies a test invoke authorizer request's <a>Authorizer</a>
-  /// ID.
+  /// Specifies a test invoke authorizer request's Authorizer ID.
   ///
   /// Parameter [restApiId] :
-  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   ///
   /// Parameter [additionalContext] :
-  /// [Optional] A key-value map of additional context variables.
+  /// A key-value map of additional context variables.
   ///
   /// Parameter [body] :
-  /// [Optional] The simulated request body of an incoming invocation request.
+  /// The simulated request body of an incoming invocation request.
   ///
   /// Parameter [headers] :
-  /// [Required] A key-value map of headers to simulate an incoming invocation
-  /// request. This is where the incoming authorization token, or identity
-  /// source, should be specified.
+  /// A key-value map of headers to simulate an incoming invocation request.
+  /// This is where the incoming authorization token, or identity source, should
+  /// be specified.
   ///
   /// Parameter [multiValueHeaders] :
-  /// [Optional] The headers as a map from string to list of values to simulate
-  /// an incoming invocation request. This is where the incoming authorization
-  /// token, or identity source, may be specified.
+  /// The headers as a map from string to list of values to simulate an incoming
+  /// invocation request. This is where the incoming authorization token, or
+  /// identity source, may be specified.
   ///
   /// Parameter [pathWithQueryString] :
-  /// [Optional] The URI path, including query string, of the simulated
-  /// invocation request. Use this to specify path parameters and query string
-  /// parameters.
+  /// The URI path, including query string, of the simulated invocation request.
+  /// Use this to specify path parameters and query string parameters.
   ///
   /// Parameter [stageVariables] :
   /// A key-value map of stage variables to simulate an invocation on a deployed
-  /// <a>Stage</a>.
+  /// Stage.
   Future<TestInvokeAuthorizerResponse> testInvokeAuthorizer({
     required String authorizerId,
     required String restApiId,
@@ -4222,8 +4099,8 @@ class ApiGateway {
     return TestInvokeAuthorizerResponse.fromJson(response);
   }
 
-  /// Simulate the execution of a <a>Method</a> in your <a>RestApi</a> with
-  /// headers, parameters, and an incoming request body.
+  /// Simulate the invocation of a Method in your RestApi with headers,
+  /// parameters, and an incoming request body.
   ///
   /// May throw [BadRequestException].
   /// May throw [UnauthorizedException].
@@ -4231,21 +4108,21 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [httpMethod] :
-  /// [Required] Specifies a test invoke method request's HTTP method.
+  /// Specifies a test invoke method request's HTTP method.
   ///
   /// Parameter [resourceId] :
-  /// [Required] Specifies a test invoke method request's resource ID.
+  /// Specifies a test invoke method request's resource ID.
   ///
   /// Parameter [restApiId] :
-  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   ///
   /// Parameter [body] :
   /// The simulated request body of an incoming invocation request.
   ///
   /// Parameter [clientCertificateId] :
-  /// A <a>ClientCertificate</a> identifier to use in the test invocation. API
-  /// Gateway will use the certificate when making the HTTPS request to the
-  /// defined back-end endpoint.
+  /// A ClientCertificate identifier to use in the test invocation. API Gateway
+  /// will use the certificate when making the HTTPS request to the defined
+  /// back-end endpoint.
   ///
   /// Parameter [headers] :
   /// A key-value map of headers to simulate an incoming invocation request.
@@ -4260,7 +4137,7 @@ class ApiGateway {
   ///
   /// Parameter [stageVariables] :
   /// A key-value map of stage variables to simulate an invocation on a deployed
-  /// <a>Stage</a>.
+  /// Stage.
   Future<TestInvokeMethodResponse> testInvokeMethod({
     required String httpMethod,
     required String resourceId,
@@ -4305,10 +4182,10 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [resourceArn] :
-  /// [Required] The ARN of a resource that can be tagged.
+  /// The ARN of a resource that can be tagged.
   ///
   /// Parameter [tagKeys] :
-  /// [Required] The Tag keys to delete.
+  /// The Tag keys to delete.
   Future<void> untagResource({
     required String resourceArn,
     required List<String> tagKeys,
@@ -4327,7 +4204,7 @@ class ApiGateway {
     );
   }
 
-  /// Changes information about the current <a>Account</a> resource.
+  /// Changes information about the current Account resource.
   ///
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
@@ -4337,8 +4214,9 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [patchOperations] :
-  /// A list of update operations to be applied to the specified resource and in
-  /// the order specified in this list.
+  /// For more information about supported patch operations, see <a
+  /// href="https://docs.aws.amazon.com/apigateway/latest/api/patch-operations.html">Patch
+  /// Operations</a>.
   Future<Account> updateAccount({
     List<PatchOperation>? patchOperations,
   }) async {
@@ -4354,7 +4232,7 @@ class ApiGateway {
     return Account.fromJson(response);
   }
 
-  /// Changes information about an <a>ApiKey</a> resource.
+  /// Changes information about an ApiKey resource.
   ///
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
@@ -4364,11 +4242,12 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [apiKey] :
-  /// [Required] The identifier of the <a>ApiKey</a> resource to be updated.
+  /// The identifier of the ApiKey resource to be updated.
   ///
   /// Parameter [patchOperations] :
-  /// A list of update operations to be applied to the specified resource and in
-  /// the order specified in this list.
+  /// For more information about supported patch operations, see <a
+  /// href="https://docs.aws.amazon.com/apigateway/latest/api/patch-operations.html">Patch
+  /// Operations</a>.
   Future<ApiKey> updateApiKey({
     required String apiKey,
     List<PatchOperation>? patchOperations,
@@ -4386,10 +4265,7 @@ class ApiGateway {
     return ApiKey.fromJson(response);
   }
 
-  /// Updates an existing <a>Authorizer</a> resource.
-  /// <div class="seeAlso"><a
-  /// href="https://docs.aws.amazon.com/cli/latest/reference/apigateway/update-authorizer.html">AWS
-  /// CLI</a></div>
+  /// Updates an existing Authorizer resource.
   ///
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
@@ -4399,14 +4275,15 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [authorizerId] :
-  /// [Required] The identifier of the <a>Authorizer</a> resource.
+  /// The identifier of the Authorizer resource.
   ///
   /// Parameter [restApiId] :
-  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   ///
   /// Parameter [patchOperations] :
-  /// A list of update operations to be applied to the specified resource and in
-  /// the order specified in this list.
+  /// For more information about supported patch operations, see <a
+  /// href="https://docs.aws.amazon.com/apigateway/latest/api/patch-operations.html">Patch
+  /// Operations</a>.
   Future<Authorizer> updateAuthorizer({
     required String authorizerId,
     required String restApiId,
@@ -4427,7 +4304,7 @@ class ApiGateway {
     return Authorizer.fromJson(response);
   }
 
-  /// Changes information about the <a>BasePathMapping</a> resource.
+  /// Changes information about the BasePathMapping resource.
   ///
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
@@ -4437,18 +4314,18 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [basePath] :
-  /// [Required] The base path of the <a>BasePathMapping</a> resource to change.
+  /// The base path of the BasePathMapping resource to change.
   ///
   /// To specify an empty base path, set this parameter to
   /// <code>'(none)'</code>.
   ///
   /// Parameter [domainName] :
-  /// [Required] The domain name of the <a>BasePathMapping</a> resource to
-  /// change.
+  /// The domain name of the BasePathMapping resource to change.
   ///
   /// Parameter [patchOperations] :
-  /// A list of update operations to be applied to the specified resource and in
-  /// the order specified in this list.
+  /// For more information about supported patch operations, see <a
+  /// href="https://docs.aws.amazon.com/apigateway/latest/api/patch-operations.html">Patch
+  /// Operations</a>.
   Future<BasePathMapping> updateBasePathMapping({
     required String basePath,
     required String domainName,
@@ -4469,7 +4346,7 @@ class ApiGateway {
     return BasePathMapping.fromJson(response);
   }
 
-  /// Changes information about an <a>ClientCertificate</a> resource.
+  /// Changes information about an ClientCertificate resource.
   ///
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
@@ -4479,12 +4356,12 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [clientCertificateId] :
-  /// [Required] The identifier of the <a>ClientCertificate</a> resource to be
-  /// updated.
+  /// The identifier of the ClientCertificate resource to be updated.
   ///
   /// Parameter [patchOperations] :
-  /// A list of update operations to be applied to the specified resource and in
-  /// the order specified in this list.
+  /// For more information about supported patch operations, see <a
+  /// href="https://docs.aws.amazon.com/apigateway/latest/api/patch-operations.html">Patch
+  /// Operations</a>.
   Future<ClientCertificate> updateClientCertificate({
     required String clientCertificateId,
     List<PatchOperation>? patchOperations,
@@ -4503,7 +4380,7 @@ class ApiGateway {
     return ClientCertificate.fromJson(response);
   }
 
-  /// Changes information about a <a>Deployment</a> resource.
+  /// Changes information about a Deployment resource.
   ///
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
@@ -4514,15 +4391,16 @@ class ApiGateway {
   /// May throw [ServiceUnavailableException].
   ///
   /// Parameter [deploymentId] :
-  /// The replacement identifier for the <a>Deployment</a> resource to change
+  /// The replacement identifier for the Deployment resource to change
   /// information about.
   ///
   /// Parameter [restApiId] :
-  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   ///
   /// Parameter [patchOperations] :
-  /// A list of update operations to be applied to the specified resource and in
-  /// the order specified in this list.
+  /// For more information about supported patch operations, see <a
+  /// href="https://docs.aws.amazon.com/apigateway/latest/api/patch-operations.html">Patch
+  /// Operations</a>.
   Future<Deployment> updateDeployment({
     required String deploymentId,
     required String restApiId,
@@ -4543,6 +4421,7 @@ class ApiGateway {
     return Deployment.fromJson(response);
   }
 
+  /// Updates a documentation part.
   ///
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
@@ -4552,14 +4431,15 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [documentationPartId] :
-  /// [Required] The identifier of the to-be-updated documentation part.
+  /// The identifier of the to-be-updated documentation part.
   ///
   /// Parameter [restApiId] :
-  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   ///
   /// Parameter [patchOperations] :
-  /// A list of update operations to be applied to the specified resource and in
-  /// the order specified in this list.
+  /// For more information about supported patch operations, see <a
+  /// href="https://docs.aws.amazon.com/apigateway/latest/api/patch-operations.html">Patch
+  /// Operations</a>.
   Future<DocumentationPart> updateDocumentationPart({
     required String documentationPartId,
     required String restApiId,
@@ -4580,6 +4460,7 @@ class ApiGateway {
     return DocumentationPart.fromJson(response);
   }
 
+  /// Updates a documentation version.
   ///
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
@@ -4589,15 +4470,15 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [documentationVersion] :
-  /// [Required] The version identifier of the to-be-updated documentation
-  /// version.
+  /// The version identifier of the to-be-updated documentation version.
   ///
   /// Parameter [restApiId] :
-  /// [Required] The string identifier of the associated <a>RestApi</a>..
+  /// The string identifier of the associated RestApi..
   ///
   /// Parameter [patchOperations] :
-  /// A list of update operations to be applied to the specified resource and in
-  /// the order specified in this list.
+  /// For more information about supported patch operations, see <a
+  /// href="https://docs.aws.amazon.com/apigateway/latest/api/patch-operations.html">Patch
+  /// Operations</a>.
   Future<DocumentationVersion> updateDocumentationVersion({
     required String documentationVersion,
     required String restApiId,
@@ -4618,7 +4499,7 @@ class ApiGateway {
     return DocumentationVersion.fromJson(response);
   }
 
-  /// Changes information about the <a>DomainName</a> resource.
+  /// Changes information about the DomainName resource.
   ///
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
@@ -4628,11 +4509,12 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [domainName] :
-  /// [Required] The name of the <a>DomainName</a> resource to be changed.
+  /// The name of the DomainName resource to be changed.
   ///
   /// Parameter [patchOperations] :
-  /// A list of update operations to be applied to the specified resource and in
-  /// the order specified in this list.
+  /// For more information about supported patch operations, see <a
+  /// href="https://docs.aws.amazon.com/apigateway/latest/api/patch-operations.html">Patch
+  /// Operations</a>.
   Future<DomainName> updateDomainName({
     required String domainName,
     List<PatchOperation>? patchOperations,
@@ -4650,8 +4532,8 @@ class ApiGateway {
     return DomainName.fromJson(response);
   }
 
-  /// Updates a <a>GatewayResponse</a> of a specified response type on the given
-  /// <a>RestApi</a>.
+  /// Updates a GatewayResponse of a specified response type on the given
+  /// RestApi.
   ///
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
@@ -4661,16 +4543,15 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [responseType] :
-  /// [Required]
-  /// The response type of the associated <a>GatewayResponse</a>.
-  ///
+  /// The response type of the associated GatewayResponse.
   ///
   /// Parameter [restApiId] :
-  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   ///
   /// Parameter [patchOperations] :
-  /// A list of update operations to be applied to the specified resource and in
-  /// the order specified in this list.
+  /// For more information about supported patch operations, see <a
+  /// href="https://docs.aws.amazon.com/apigateway/latest/api/patch-operations.html">Patch
+  /// Operations</a>.
   Future<GatewayResponse> updateGatewayResponse({
     required GatewayResponseType responseType,
     required String restApiId,
@@ -4701,17 +4582,18 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [httpMethod] :
-  /// [Required] Represents an update integration request's HTTP method.
+  /// Represents an update integration request's HTTP method.
   ///
   /// Parameter [resourceId] :
-  /// [Required] Represents an update integration request's resource identifier.
+  /// Represents an update integration request's resource identifier.
   ///
   /// Parameter [restApiId] :
-  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   ///
   /// Parameter [patchOperations] :
-  /// A list of update operations to be applied to the specified resource and in
-  /// the order specified in this list.
+  /// For more information about supported patch operations, see <a
+  /// href="https://docs.aws.amazon.com/apigateway/latest/api/patch-operations.html">Patch
+  /// Operations</a>.
   Future<Integration> updateIntegration({
     required String httpMethod,
     required String resourceId,
@@ -4744,21 +4626,21 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [httpMethod] :
-  /// [Required] Specifies an update integration response request's HTTP method.
+  /// Specifies an update integration response request's HTTP method.
   ///
   /// Parameter [resourceId] :
-  /// [Required] Specifies an update integration response request's resource
-  /// identifier.
+  /// Specifies an update integration response request's resource identifier.
   ///
   /// Parameter [restApiId] :
-  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   ///
   /// Parameter [statusCode] :
-  /// [Required] Specifies an update integration response request's status code.
+  /// Specifies an update integration response request's status code.
   ///
   /// Parameter [patchOperations] :
-  /// A list of update operations to be applied to the specified resource and in
-  /// the order specified in this list.
+  /// For more information about supported patch operations, see <a
+  /// href="https://docs.aws.amazon.com/apigateway/latest/api/patch-operations.html">Patch
+  /// Operations</a>.
   Future<IntegrationResponse> updateIntegrationResponse({
     required String httpMethod,
     required String resourceId,
@@ -4783,7 +4665,7 @@ class ApiGateway {
     return IntegrationResponse.fromJson(response);
   }
 
-  /// Updates an existing <a>Method</a> resource.
+  /// Updates an existing Method resource.
   ///
   /// May throw [UnauthorizedException].
   /// May throw [NotFoundException].
@@ -4792,17 +4674,18 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [httpMethod] :
-  /// [Required] The HTTP verb of the <a>Method</a> resource.
+  /// The HTTP verb of the Method resource.
   ///
   /// Parameter [resourceId] :
-  /// [Required] The <a>Resource</a> identifier for the <a>Method</a> resource.
+  /// The Resource identifier for the Method resource.
   ///
   /// Parameter [restApiId] :
-  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   ///
   /// Parameter [patchOperations] :
-  /// A list of update operations to be applied to the specified resource and in
-  /// the order specified in this list.
+  /// For more information about supported patch operations, see <a
+  /// href="https://docs.aws.amazon.com/apigateway/latest/api/patch-operations.html">Patch
+  /// Operations</a>.
   Future<Method> updateMethod({
     required String httpMethod,
     required String resourceId,
@@ -4825,7 +4708,7 @@ class ApiGateway {
     return Method.fromJson(response);
   }
 
-  /// Updates an existing <a>MethodResponse</a> resource.
+  /// Updates an existing MethodResponse resource.
   ///
   /// May throw [UnauthorizedException].
   /// May throw [NotFoundException].
@@ -4835,21 +4718,21 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [httpMethod] :
-  /// [Required] The HTTP verb of the <a>Method</a> resource.
+  /// The HTTP verb of the Method resource.
   ///
   /// Parameter [resourceId] :
-  /// [Required] The <a>Resource</a> identifier for the <a>MethodResponse</a>
-  /// resource.
+  /// The Resource identifier for the MethodResponse resource.
   ///
   /// Parameter [restApiId] :
-  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   ///
   /// Parameter [statusCode] :
-  /// [Required] The status code for the <a>MethodResponse</a> resource.
+  /// The status code for the MethodResponse resource.
   ///
   /// Parameter [patchOperations] :
-  /// A list of update operations to be applied to the specified resource and in
-  /// the order specified in this list.
+  /// For more information about supported patch operations, see <a
+  /// href="https://docs.aws.amazon.com/apigateway/latest/api/patch-operations.html">Patch
+  /// Operations</a>.
   Future<MethodResponse> updateMethodResponse({
     required String httpMethod,
     required String resourceId,
@@ -4884,14 +4767,15 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [modelName] :
-  /// [Required] The name of the model to update.
+  /// The name of the model to update.
   ///
   /// Parameter [restApiId] :
-  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   ///
   /// Parameter [patchOperations] :
-  /// A list of update operations to be applied to the specified resource and in
-  /// the order specified in this list.
+  /// For more information about supported patch operations, see <a
+  /// href="https://docs.aws.amazon.com/apigateway/latest/api/patch-operations.html">Patch
+  /// Operations</a>.
   Future<Model> updateModel({
     required String modelName,
     required String restApiId,
@@ -4912,7 +4796,7 @@ class ApiGateway {
     return Model.fromJson(response);
   }
 
-  /// Updates a <a>RequestValidator</a> of a given <a>RestApi</a>.
+  /// Updates a RequestValidator of a given RestApi.
   ///
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
@@ -4922,14 +4806,15 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [requestValidatorId] :
-  /// [Required] The identifier of <a>RequestValidator</a> to be updated.
+  /// The identifier of RequestValidator to be updated.
   ///
   /// Parameter [restApiId] :
-  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   ///
   /// Parameter [patchOperations] :
-  /// A list of update operations to be applied to the specified resource and in
-  /// the order specified in this list.
+  /// For more information about supported patch operations, see <a
+  /// href="https://docs.aws.amazon.com/apigateway/latest/api/patch-operations.html">Patch
+  /// Operations</a>.
   Future<RequestValidator> updateRequestValidator({
     required String requestValidatorId,
     required String restApiId,
@@ -4950,7 +4835,7 @@ class ApiGateway {
     return RequestValidator.fromJson(response);
   }
 
-  /// Changes information about a <a>Resource</a> resource.
+  /// Changes information about a Resource resource.
   ///
   /// May throw [UnauthorizedException].
   /// May throw [NotFoundException].
@@ -4959,14 +4844,15 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [resourceId] :
-  /// [Required] The identifier of the <a>Resource</a> resource.
+  /// The identifier of the Resource resource.
   ///
   /// Parameter [restApiId] :
-  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   ///
   /// Parameter [patchOperations] :
-  /// A list of update operations to be applied to the specified resource and in
-  /// the order specified in this list.
+  /// For more information about supported patch operations, see <a
+  /// href="https://docs.aws.amazon.com/apigateway/latest/api/patch-operations.html">Patch
+  /// Operations</a>.
   Future<Resource> updateResource({
     required String resourceId,
     required String restApiId,
@@ -4997,11 +4883,12 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [restApiId] :
-  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   ///
   /// Parameter [patchOperations] :
-  /// A list of update operations to be applied to the specified resource and in
-  /// the order specified in this list.
+  /// For more information about supported patch operations, see <a
+  /// href="https://docs.aws.amazon.com/apigateway/latest/api/patch-operations.html">Patch
+  /// Operations</a>.
   Future<RestApi> updateRestApi({
     required String restApiId,
     List<PatchOperation>? patchOperations,
@@ -5019,7 +4906,7 @@ class ApiGateway {
     return RestApi.fromJson(response);
   }
 
-  /// Changes information about a <a>Stage</a> resource.
+  /// Changes information about a Stage resource.
   ///
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
@@ -5029,15 +4916,15 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [restApiId] :
-  /// [Required] The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   ///
   /// Parameter [stageName] :
-  /// [Required] The name of the <a>Stage</a> resource to change information
-  /// about.
+  /// The name of the Stage resource to change information about.
   ///
   /// Parameter [patchOperations] :
-  /// A list of update operations to be applied to the specified resource and in
-  /// the order specified in this list.
+  /// For more information about supported patch operations, see <a
+  /// href="https://docs.aws.amazon.com/apigateway/latest/api/patch-operations.html">Patch
+  /// Operations</a>.
   Future<Stage> updateStage({
     required String restApiId,
     required String stageName,
@@ -5069,15 +4956,16 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [keyId] :
-  /// [Required] The identifier of the API key associated with the usage plan in
-  /// which a temporary extension is granted to the remaining quota.
+  /// The identifier of the API key associated with the usage plan in which a
+  /// temporary extension is granted to the remaining quota.
   ///
   /// Parameter [usagePlanId] :
-  /// [Required] The Id of the usage plan associated with the usage data.
+  /// The Id of the usage plan associated with the usage data.
   ///
   /// Parameter [patchOperations] :
-  /// A list of update operations to be applied to the specified resource and in
-  /// the order specified in this list.
+  /// For more information about supported patch operations, see <a
+  /// href="https://docs.aws.amazon.com/apigateway/latest/api/patch-operations.html">Patch
+  /// Operations</a>.
   Future<Usage> updateUsage({
     required String keyId,
     required String usagePlanId,
@@ -5108,11 +4996,12 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [usagePlanId] :
-  /// [Required] The Id of the to-be-updated usage plan.
+  /// The Id of the to-be-updated usage plan.
   ///
   /// Parameter [patchOperations] :
-  /// A list of update operations to be applied to the specified resource and in
-  /// the order specified in this list.
+  /// For more information about supported patch operations, see <a
+  /// href="https://docs.aws.amazon.com/apigateway/latest/api/patch-operations.html">Patch
+  /// Operations</a>.
   Future<UsagePlan> updateUsagePlan({
     required String usagePlanId,
     List<PatchOperation>? patchOperations,
@@ -5130,7 +5019,7 @@ class ApiGateway {
     return UsagePlan.fromJson(response);
   }
 
-  /// Updates an existing <a>VpcLink</a> of a specified identifier.
+  /// Updates an existing VpcLink of a specified identifier.
   ///
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
@@ -5140,12 +5029,13 @@ class ApiGateway {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [vpcLinkId] :
-  /// [Required] The identifier of the <a>VpcLink</a>. It is used in an
-  /// <a>Integration</a> to reference this <a>VpcLink</a>.
+  /// The identifier of the VpcLink. It is used in an Integration to reference
+  /// this VpcLink.
   ///
   /// Parameter [patchOperations] :
-  /// A list of update operations to be applied to the specified resource and in
-  /// the order specified in this list.
+  /// For more information about supported patch operations, see <a
+  /// href="https://docs.aws.amazon.com/apigateway/latest/api/patch-operations.html">Patch
+  /// Operations</a>.
   Future<VpcLink> updateVpcLink({
     required String vpcLinkId,
     List<PatchOperation>? patchOperations,
@@ -5173,9 +5063,8 @@ class AccessLogSettings {
   /// <code>amazon-apigateway-</code>.
   final String? destinationArn;
 
-  /// A single line format of the access logs of data, as specified by selected <a
-  /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-mapping-template-reference.html#context-variable-reference">$context
-  /// variables</a>. The format must include at least
+  /// A single line format of the access logs of data, as specified by selected
+  /// $context variables. The format must include at least
   /// <code>$context.requestId</code>.
   final String? format;
 
@@ -5202,56 +5091,18 @@ class AccessLogSettings {
 }
 
 /// Represents an AWS account that is associated with API Gateway.
-/// <div class="remarks">
-/// To view the account info, call <code>GET</code> on this resource.
-/// <h4>Error Codes</h4>
-/// The following exception may be thrown when the request fails.
-///
-/// <ul>
-/// <li>UnauthorizedException</li>
-/// <li>NotFoundException</li>
-/// <li>TooManyRequestsException</li>
-/// </ul>
-/// For detailed error code information, including the corresponding HTTP Status
-/// Codes, see <a
-/// href="https://docs.aws.amazon.com/apigateway/api-reference/handling-errors/#api-error-codes">API
-/// Gateway Error Codes</a>
-/// <h4>Example: Get the information about an account.</h4> <h5>Request</h5>
-/// <pre><code>GET /account HTTP/1.1 Content-Type: application/json Host:
-/// apigateway.us-east-1.amazonaws.com X-Amz-Date: 20160531T184618Z
-/// Authorization: AWS4-HMAC-SHA256
-/// Credential={access_key_ID}/us-east-1/apigateway/aws4_request,
-/// SignedHeaders=content-type;host;x-amz-date, Signature={sig4_hash}
-/// </code></pre> <h5>Response</h5>
-/// The successful response returns a <code>200 OK</code> status code and a
-/// payload similar to the following:
-/// <pre><code>{ "_links": { "curies": { "href":
-/// "https://docs.aws.amazon.com/apigateway/latest/developerguide/account-apigateway-{rel}.html",
-/// "name": "account", "templated": true }, "self": { "href": "/account" },
-/// "account:update": { "href": "/account" } }, "cloudwatchRoleArn":
-/// "arn:aws:iam::123456789012:role/apigAwsProxyRole", "throttleSettings": {
-/// "rateLimit": 500, "burstLimit": 1000 } } </code></pre>
-/// In addition to making the REST API call directly, you can use the AWS CLI
-/// and an AWS SDK to access this resource.
-/// </div> <div class="seeAlso"> <a
-/// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-limits.html">API
-/// Gateway Limits</a> <a
-/// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html">Developer
-/// Guide</a>, <a
-/// href="https://docs.aws.amazon.com/cli/latest/reference/apigateway/get-account.html">AWS
-/// CLI</a> </div>
 class Account {
   /// The version of the API keys used for the account.
   final String? apiKeyVersion;
 
-  /// The ARN of an Amazon CloudWatch role for the current <a>Account</a>.
+  /// The ARN of an Amazon CloudWatch role for the current Account.
   final String? cloudwatchRoleArn;
 
   /// A list of features supported for the account. When usage plans are enabled,
   /// the features list will include an entry of <code>"UsagePlans"</code>.
   final List<String>? features;
 
-  /// Specifies the API request limits configured for the current <a>Account</a>.
+  /// Specifies the API request limits configured for the current Account.
   final ThrottleSettings? throttleSettings;
 
   Account({
@@ -5290,13 +5141,10 @@ class Account {
   }
 }
 
-/// A resource that can be distributed to callers for executing <a>Method</a>
-/// resources that require an API key. API keys can be mapped to any
-/// <a>Stage</a> on any <a>RestApi</a>, which indicates that the callers with
-/// the API key can make requests to that stage.
-/// <div class="seeAlso"> <a
-/// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/how-to-api-keys.html">Use
-/// API Keys</a> </div>
+/// A resource that can be distributed to callers for executing Method resources
+/// that require an API key. API keys can be mapped to any Stage on any RestApi,
+/// which indicates that the callers with the API key can make requests to that
+/// stage.
 class ApiKey {
   /// The timestamp when the API Key was created.
   final DateTime? createdDate;
@@ -5320,8 +5168,7 @@ class ApiKey {
   /// The name of the API Key.
   final String? name;
 
-  /// A list of <a>Stage</a> resources that are associated with the <a>ApiKey</a>
-  /// resource.
+  /// A list of Stage resources that are associated with the ApiKey resource.
   final List<String>? stageKeys;
 
   /// The collection of tags. Each tag element is associated with a given
@@ -5390,9 +5237,9 @@ class ApiKey {
   }
 }
 
-/// The identifier of an <a>ApiKey</a> used in a <a>UsagePlan</a>.
+/// The identifier of an ApiKey used in a UsagePlan.
 class ApiKeyIds {
-  /// A list of all the <a>ApiKey</a> identifiers.
+  /// A list of all the ApiKey identifiers.
   final List<String>? ids;
 
   /// A list of warning messages.
@@ -5454,11 +5301,7 @@ extension on String {
   }
 }
 
-/// Represents a collection of API keys as represented by an <a>ApiKeys</a>
-/// resource.
-/// <div class="seeAlso"> <a
-/// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/how-to-api-keys.html">Use
-/// API Keys</a> </div>
+/// Represents a collection of API keys as represented by an ApiKeys resource.
 class ApiKeys {
   /// The current page of elements from this collection.
   final List<ApiKey>? items;
@@ -5564,11 +5407,6 @@ class ApiStage {
 
 /// Represents an authorization layer for methods. If enabled on a method, API
 /// Gateway will activate the authorizer when a client calls the method.
-/// <div class="seeAlso"> <a
-/// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-use-lambda-authorizer.html">Use
-/// Lambda Function as Authorizer</a> <a
-/// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-integrate-with-cognito.html">Use
-/// Cognito User Pool as Authorizer</a> </div>
 class Authorizer {
   /// Optional customer-defined field, used in OpenAPI imports and exports without
   /// functional impact.
@@ -5602,29 +5440,26 @@ class Authorizer {
   /// The identifier for the authorizer resource.
   final String? id;
 
-  /// The identity source for which authorization is requested.
-  /// <ul>
-  /// <li>For a <code>TOKEN</code> or <code>COGNITO_USER_POOLS</code> authorizer,
-  /// this is required and specifies the request header mapping expression for the
-  /// custom header holding the authorization token submitted by the client. For
-  /// example, if the token header name is <code>Auth</code>, the header mapping
-  /// expression is <code>method.request.header.Auth</code>.</li>
-  /// <li>For the <code>REQUEST</code> authorizer, this is required when
-  /// authorization caching is enabled. The value is a comma-separated string of
-  /// one or more mapping expressions of the specified request parameters. For
-  /// example, if an <code>Auth</code> header, a <code>Name</code> query string
-  /// parameter are defined as identity sources, this value is
-  /// <code>method.request.header.Auth, method.request.querystring.Name</code>.
-  /// These parameters will be used to derive the authorization caching key and to
-  /// perform runtime validation of the <code>REQUEST</code> authorizer by
-  /// verifying all of the identity-related request parameters are present, not
-  /// null and non-empty. Only when this is true does the authorizer invoke the
-  /// authorizer Lambda function, otherwise, it returns a 401 Unauthorized
-  /// response without calling the Lambda function. The valid value is a string of
-  /// comma-separated mapping expressions of the specified request parameters.
-  /// When the authorization caching is not enabled, this property is
-  /// optional.</li>
-  /// </ul>
+  /// The identity source for which authorization is requested. For a
+  /// <code>TOKEN</code> or <code>COGNITO_USER_POOLS</code> authorizer, this is
+  /// required and specifies the request header mapping expression for the custom
+  /// header holding the authorization token submitted by the client. For example,
+  /// if the token header name is <code>Auth</code>, the header mapping expression
+  /// is <code>method.request.header.Auth</code>. For the <code>REQUEST</code>
+  /// authorizer, this is required when authorization caching is enabled. The
+  /// value is a comma-separated string of one or more mapping expressions of the
+  /// specified request parameters. For example, if an <code>Auth</code> header, a
+  /// <code>Name</code> query string parameter are defined as identity sources,
+  /// this value is <code>method.request.header.Auth</code>,
+  /// <code>method.request.querystring.Name</code>. These parameters will be used
+  /// to derive the authorization caching key and to perform runtime validation of
+  /// the <code>REQUEST</code> authorizer by verifying all of the identity-related
+  /// request parameters are present, not null and non-empty. Only when this is
+  /// true does the authorizer invoke the authorizer Lambda function, otherwise,
+  /// it returns a 401 Unauthorized response without calling the Lambda function.
+  /// The valid value is a string of comma-separated mapping expressions of the
+  /// specified request parameters. When the authorization caching is not enabled,
+  /// this property is optional.
   final String? identitySource;
 
   /// A validation expression for the incoming identity token. For
@@ -5637,7 +5472,7 @@ class Authorizer {
   /// not apply to the <code>REQUEST</code> authorizer.
   final String? identityValidationExpression;
 
-  /// [Required] The name of the authorizer.
+  /// The name of the authorizer.
   final String? name;
 
   /// A list of the Amazon Cognito user pool ARNs for the
@@ -5754,12 +5589,7 @@ extension on String {
   }
 }
 
-/// Represents a collection of <a>Authorizer</a> resources.
-/// <div class="seeAlso"> <a
-/// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-use-lambda-authorizer.html">Use
-/// Lambda Function as Authorizer</a> <a
-/// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-integrate-with-cognito.html">Use
-/// Cognito User Pool as Authorizer</a> </div>
+/// Represents a collection of Authorizer resources.
 class Authorizers {
   /// The current page of elements from this collection.
   final List<Authorizer>? items;
@@ -5792,18 +5622,12 @@ class Authorizers {
 
 /// Represents the base path that callers of the API must provide as part of the
 /// URL after the domain name.
-/// <div class="remarks">A custom domain name plus a
-/// <code>BasePathMapping</code> specification identifies a deployed
-/// <a>RestApi</a> in a given stage of the owner <a>Account</a>.</div> <div
-/// class="seeAlso"> <a
-/// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/how-to-custom-domains.html">Use
-/// Custom Domain Names</a> </div>
 class BasePathMapping {
   /// The base path name that callers of the API must provide as part of the URL
   /// after the domain name.
   final String? basePath;
 
-  /// The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   final String? restApiId;
 
   /// The name of the associated stage.
@@ -5835,10 +5659,7 @@ class BasePathMapping {
   }
 }
 
-/// Represents a collection of <a>BasePathMapping</a> resources.
-/// <div class="seeAlso"> <a
-/// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/how-to-custom-domains.html">Use
-/// Custom Domain Names</a> </div>
+/// Represents a collection of BasePathMapping resources.
 class BasePathMappings {
   /// The current page of elements from this collection.
   final List<BasePathMapping>? items;
@@ -5869,7 +5690,7 @@ class BasePathMappings {
   }
 }
 
-/// Returns the size of the <b>CacheCluster</b>.
+/// Returns the size of the CacheCluster.
 enum CacheClusterSize {
   $0_5,
   $1_6,
@@ -5928,7 +5749,7 @@ extension on String {
   }
 }
 
-/// Returns the status of the <b>CacheCluster</b>.
+/// Returns the status of the CacheCluster.
 enum CacheClusterStatus {
   createInProgress,
   available,
@@ -6025,12 +5846,6 @@ class CanarySettings {
 
 /// Represents a client certificate used to configure client-side SSL
 /// authentication while sending requests to the integration endpoint.
-/// <div class="remarks">Client certificates are used to authenticate an API by
-/// the backend server. To authenticate an API client (or user), use IAM roles
-/// and policies, a custom <a>Authorizer</a> or an Amazon Cognito user
-/// pool.</div> <div class="seeAlso"> <a
-/// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/getting-started-client-side-ssl-authentication.html">Use
-/// Client-Side Certificate</a> </div>
 class ClientCertificate {
   /// The identifier of the client certificate.
   final String? clientCertificateId;
@@ -6094,10 +5909,7 @@ class ClientCertificate {
   }
 }
 
-/// Represents a collection of <a>ClientCertificate</a> resources.
-/// <div class="seeAlso"> <a
-/// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/getting-started-client-side-ssl-authentication.html">Use
-/// Client-Side Certificate</a> </div>
+/// Represents a collection of ClientCertificate resources.
 class ClientCertificates {
   /// The current page of elements from this collection.
   final List<ClientCertificate>? items;
@@ -6184,20 +5996,12 @@ extension on String {
   }
 }
 
-/// An immutable representation of a <a>RestApi</a> resource that can be called
-/// by users using <a>Stages</a>. A deployment must be associated with a
-/// <a>Stage</a> for it to be callable over the Internet.
-/// <div class="remarks">To create a deployment, call <code>POST</code> on the
-/// <a>Deployments</a> resource of a <a>RestApi</a>. To view, update, or delete
-/// a deployment, call <code>GET</code>, <code>PATCH</code>, or
-/// <code>DELETE</code> on the specified deployment resource
-/// (<code>/restapis/{restapi_id}/deployments/{deployment_id}</code>).</div>
-/// <div class="seeAlso"><a>RestApi</a>, <a>Deployments</a>, <a>Stage</a>, <a
-/// href="https://docs.aws.amazon.com/cli/latest/reference/apigateway/get-deployment.html">AWS
-/// CLI</a>, <a href="https://aws.amazon.com/tools/">AWS SDKs</a> </div>
+/// An immutable representation of a RestApi resource that can be called by
+/// users using Stages. A deployment must be associated with a Stage for it to
+/// be callable over the Internet.
 class Deployment {
-  /// A summary of the <a>RestApi</a> at the date and time that the deployment
-  /// resource was created.
+  /// A summary of the RestApi at the date and time that the deployment resource
+  /// was created.
   final Map<String, Map<String, MethodSnapshot>>? apiSummary;
 
   /// The date and time that the deployment resource was created.
@@ -6291,15 +6095,6 @@ class DeploymentCanarySettings {
 /// your existing deployments, and links that guide you on how to interact with
 /// your collection. The collection offers a paginated view of the contained
 /// deployments.
-/// <div class="remarks">To create a new deployment of a <a>RestApi</a>, make a
-/// <code>POST</code> request against this resource. To view, update, or delete
-/// an existing deployment, make a <code>GET</code>, <code>PATCH</code>, or
-/// <code>DELETE</code> request, respectively, on a specified <a>Deployment</a>
-/// resource.</div> <div class="seeAlso"> <a
-/// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/how-to-deploy-api.html">Deploying
-/// an API</a>, <a
-/// href="https://docs.aws.amazon.com/cli/latest/reference/apigateway/get-deployment.html">AWS
-/// CLI</a>, <a href="https://aws.amazon.com/tools/">AWS SDKs</a> </div>
 class Deployments {
   /// The current page of elements from this collection.
   final List<Deployment>? items;
@@ -6331,27 +6126,8 @@ class Deployments {
 }
 
 /// A documentation part for a targeted API entity.
-/// <div class="remarks">
-/// A documentation part consists of a content map (<code>properties</code>) and
-/// a target (<code>location</code>). The target specifies an API entity to
-/// which the documentation content applies. The supported API entity types are
-/// <code>API</code>, <code>AUTHORIZER</code>, <code>MODEL</code>,
-/// <code>RESOURCE</code>, <code>METHOD</code>, <code>PATH_PARAMETER</code>,
-/// <code>QUERY_PARAMETER</code>, <code>REQUEST_HEADER</code>,
-/// <code>REQUEST_BODY</code>, <code>RESPONSE</code>,
-/// <code>RESPONSE_HEADER</code>, and <code>RESPONSE_BODY</code>. Valid
-/// <code>location</code> fields depend on the API entity type. All valid fields
-/// are not required.
-///
-/// The content map is a JSON string of API-specific key-value pairs. Although
-/// an API can use any shape for the content map, only the OpenAPI-compliant
-/// documentation fields will be injected into the associated API entity
-/// definition in the exported OpenAPI definition file.
-/// </div> <div class="seeAlso"> <a
-/// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-documenting-api.html">Documenting
-/// an API</a>, <a>DocumentationParts</a> </div>
 class DocumentationPart {
-  /// The <a>DocumentationPart</a> identifier, generated by API Gateway when the
+  /// The DocumentationPart identifier, generated by API Gateway when the
   /// <code>DocumentationPart</code> is created.
   final String? id;
 
@@ -6365,9 +6141,9 @@ class DocumentationPart {
   /// A content map of API-specific key-value pairs describing the targeted API
   /// entity. The map must be encoded as a JSON string, e.g., <code>"{
   /// \"description\": \"The API does ...\" }"</code>. Only OpenAPI-compliant
-  /// documentation-related fields from the <literal>properties</literal> map are
-  /// exported and, hence, published as part of the API entity definitions, while
-  /// the original documentation parts are exported in a OpenAPI extension of
+  /// documentation-related fields from the properties map are exported and,
+  /// hence, published as part of the API entity definitions, while the original
+  /// documentation parts are exported in a OpenAPI extension of
   /// <code>x-amazon-apigateway-documentation</code>.
   final String? properties;
 
@@ -6400,14 +6176,7 @@ class DocumentationPart {
   }
 }
 
-/// A collection of the imported <a>DocumentationPart</a> identifiers.
-/// <div class="remarks">This is used to return the result when documentation
-/// parts in an external (e.g., OpenAPI) file are imported into API
-/// Gateway</div> <div class="seeAlso"> <a
-/// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-documenting-api.html">Documenting
-/// an API</a>, <a
-/// href="https://docs.aws.amazon.com/apigateway/api-reference/link-relation/documentationpart-import/">documentationpart:import</a>,
-/// <a>DocumentationPart</a> </div>
+/// A collection of the imported DocumentationPart identifiers.
 class DocumentationPartIds {
   /// A list of the returned documentation part identifiers.
   final List<String>? ids;
@@ -6445,16 +6214,15 @@ class DocumentationPartIds {
 
 /// Specifies the target API entity to which the documentation applies.
 class DocumentationPartLocation {
-  /// [Required] The type of API entity to which the documentation content
-  /// applies. Valid values are <code>API</code>, <code>AUTHORIZER</code>,
-  /// <code>MODEL</code>, <code>RESOURCE</code>, <code>METHOD</code>,
-  /// <code>PATH_PARAMETER</code>, <code>QUERY_PARAMETER</code>,
-  /// <code>REQUEST_HEADER</code>, <code>REQUEST_BODY</code>,
-  /// <code>RESPONSE</code>, <code>RESPONSE_HEADER</code>, and
-  /// <code>RESPONSE_BODY</code>. Content inheritance does not apply to any entity
-  /// of the <code>API</code>, <code>AUTHORIZER</code>, <code>METHOD</code>,
-  /// <code>MODEL</code>, <code>REQUEST_BODY</code>, or <code>RESOURCE</code>
-  /// type.
+  /// The type of API entity to which the documentation content applies. Valid
+  /// values are <code>API</code>, <code>AUTHORIZER</code>, <code>MODEL</code>,
+  /// <code>RESOURCE</code>, <code>METHOD</code>, <code>PATH_PARAMETER</code>,
+  /// <code>QUERY_PARAMETER</code>, <code>REQUEST_HEADER</code>,
+  /// <code>REQUEST_BODY</code>, <code>RESPONSE</code>,
+  /// <code>RESPONSE_HEADER</code>, and <code>RESPONSE_BODY</code>. Content
+  /// inheritance does not apply to any entity of the <code>API</code>,
+  /// <code>AUTHORIZER</code>, <code>METHOD</code>, <code>MODEL</code>,
+  /// <code>REQUEST_BODY</code>, or <code>RESOURCE</code> type.
   final DocumentationPartType type;
 
   /// The HTTP verb of a method. It is a valid field for the API entity types of
@@ -6611,9 +6379,6 @@ extension on String {
 }
 
 /// The collection of documentation parts of an API.
-/// <div class="remarks"/> <div class="seeAlso"> <a
-/// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-documenting-api.html">Documenting
-/// an API</a>, <a>DocumentationPart</a> </div>
 class DocumentationParts {
   /// The current page of elements from this collection.
   final List<DocumentationPart>? items;
@@ -6645,13 +6410,6 @@ class DocumentationParts {
 }
 
 /// A snapshot of the documentation of an API.
-/// <div class="remarks">
-/// Publishing API documentation involves creating a documentation version
-/// associated with an API stage and exporting the versioned documentation to an
-/// external (e.g., OpenAPI) file.
-/// </div> <div class="seeAlso"> <a
-/// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-documenting-api.html">Documenting
-/// an API</a>, <a>DocumentationPart</a>, <a>DocumentationVersions</a> </div>
 class DocumentationVersion {
   /// The date when the API documentation snapshot is created.
   final DateTime? createdDate;
@@ -6689,12 +6447,6 @@ class DocumentationVersion {
 }
 
 /// The collection of documentation snapshots of an API.
-/// <div class="remarks">
-/// Use the <a>DocumentationVersions</a> to manage documentation snapshots
-/// associated with various API stages.
-/// </div> <div class="seeAlso"> <a
-/// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-documenting-api.html">Documenting
-/// an API</a>, <a>DocumentationPart</a>, <a>DocumentationVersion</a> </div>
 class DocumentationVersions {
   /// The current page of elements from this collection.
   final List<DocumentationVersion>? items;
@@ -6726,22 +6478,7 @@ class DocumentationVersions {
 }
 
 /// Represents a custom domain name as a user-friendly host name of an API
-/// (<a>RestApi</a>).
-/// <div class="Remarks">
-/// When you deploy an API, API Gateway creates a default host name for the API.
-/// This default API host name is of the
-/// <code>{restapi-id}.execute-api.{region}.amazonaws.com</code> format. With
-/// the default host name, you can access the API's root resource with the URL
-/// of
-/// <code>https://{restapi-id}.execute-api.{region}.amazonaws.com/{stage}/</code>.
-/// When you set up a custom domain name of <code>apis.example.com</code> for
-/// this API, you can then access the same resource using the URL of the
-/// <code>https://apis.examples.com/myApi</code>, where <code>myApi</code> is
-/// the base path mapping (<a>BasePathMapping</a>) of your API under the custom
-/// domain name.
-/// </div> <div class="seeAlso"> <a
-/// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/how-to-custom-domains.html">Set
-/// a Custom Host Name for an API</a> </div>
+/// (RestApi).
 class DomainName {
   /// The reference to an AWS-managed certificate that will be used by
   /// edge-optimized endpoint for this domain name. AWS Certificate Manager is the
@@ -6760,38 +6497,32 @@ class DomainName {
   /// custom domain name for an edge-optimized endpoint. You set up this
   /// association when adding a DNS record pointing the custom domain name to this
   /// distribution name. For more information about CloudFront distributions, see
-  /// the <a href="https://aws.amazon.com/documentation/cloudfront/"
-  /// target="_blank">Amazon CloudFront documentation</a>.
+  /// the Amazon CloudFront documentation.
   final String? distributionDomainName;
 
   /// The region-agnostic Amazon Route 53 Hosted Zone ID of the edge-optimized
   /// endpoint. The valid value is <code>Z2FDTNDATAQYW2</code> for all the
-  /// regions. For more information, see <a
-  /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-regional-api-custom-domain-create.html">Set
-  /// up a Regional Custom Domain Name</a> and <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/rande.html#apigateway_region">AWS
-  /// Regions and Endpoints for API Gateway</a>.
+  /// regions. For more information, see Set up a Regional Custom Domain Name and
+  /// AWS Regions and Endpoints for API Gateway.
   final String? distributionHostedZoneId;
 
   /// The custom domain name as an API host name, for example,
   /// <code>my-api.example.com</code>.
   final String? domainName;
 
-  /// The status of the <a>DomainName</a> migration. The valid values are
-  /// <code>AVAILABLE</code>, <code>UPDATING</code>,
-  /// <code>PENDING_CERTIFICATE_REIMPORT</code>, and
-  /// <code>PENDING_OWNERSHIP_VERIFICATION</code>. If the status is
+  /// The status of the DomainName migration. The valid values are
+  /// <code>AVAILABLE</code> and <code>UPDATING</code>. If the status is
   /// <code>UPDATING</code>, the domain cannot be modified further until the
   /// existing operation is complete. If it is <code>AVAILABLE</code>, the domain
   /// can be updated.
   final DomainNameStatus? domainNameStatus;
 
   /// An optional text message containing detailed information about status of the
-  /// <a>DomainName</a> migration.
+  /// DomainName migration.
   final String? domainNameStatusMessage;
 
-  /// The endpoint configuration of this <a>DomainName</a> showing the endpoint
-  /// types of the domain name.
+  /// The endpoint configuration of this DomainName showing the endpoint types of
+  /// the domain name.
   final EndpointConfiguration? endpointConfiguration;
 
   /// The mutual TLS authentication configuration for a custom domain name. If
@@ -6821,15 +6552,12 @@ class DomainName {
   final String? regionalDomainName;
 
   /// The region-specific Amazon Route 53 Hosted Zone ID of the regional endpoint.
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-regional-api-custom-domain-create.html">Set
-  /// up a Regional Custom Domain Name</a> and <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/rande.html#apigateway_region">AWS
-  /// Regions and Endpoints for API Gateway</a>.
+  /// For more information, see Set up a Regional Custom Domain Name and AWS
+  /// Regions and Endpoints for API Gateway.
   final String? regionalHostedZoneId;
 
   /// The Transport Layer Security (TLS) version + cipher suite for this
-  /// <a>DomainName</a>. The valid values are <code>TLS_1_0</code> and
+  /// DomainName. The valid values are <code>TLS_1_0</code> and
   /// <code>TLS_1_2</code>.
   final SecurityPolicy? securityPolicy;
 
@@ -6984,10 +6712,7 @@ extension on String {
   }
 }
 
-/// Represents a collection of <a>DomainName</a> resources.
-/// <div class="seeAlso"> <a
-/// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/how-to-custom-domains.html">Use
-/// Client-Side Certificate</a> </div>
+/// Represents a collection of DomainName resources.
 class DomainNames {
   /// The current page of elements from this collection.
   final List<DomainName>? items;
@@ -7019,18 +6744,17 @@ class DomainNames {
 }
 
 /// The endpoint configuration to indicate the types of endpoints an API
-/// (<a>RestApi</a>) or its custom domain name (<a>DomainName</a>) has.
+/// (RestApi) or its custom domain name (DomainName) has.
 class EndpointConfiguration {
-  /// A list of endpoint types of an API (<a>RestApi</a>) or its custom domain
-  /// name (<a>DomainName</a>). For an edge-optimized API and its custom domain
-  /// name, the endpoint type is <code>"EDGE"</code>. For a regional API and its
-  /// custom domain name, the endpoint type is <code>REGIONAL</code>. For a
-  /// private API, the endpoint type is <code>PRIVATE</code>.
+  /// A list of endpoint types of an API (RestApi) or its custom domain name
+  /// (DomainName). For an edge-optimized API and its custom domain name, the
+  /// endpoint type is <code>"EDGE"</code>. For a regional API and its custom
+  /// domain name, the endpoint type is <code>REGIONAL</code>. For a private API,
+  /// the endpoint type is <code>PRIVATE</code>.
   final List<EndpointType>? types;
 
-  /// A list of VpcEndpointIds of an API (<a>RestApi</a>) against which to create
-  /// Route53 ALIASes. It is only supported for <code>PRIVATE</code> endpoint
-  /// type.
+  /// A list of VpcEndpointIds of an API (RestApi) against which to create Route53
+  /// ALIASes. It is only supported for <code>PRIVATE</code> endpoint type.
   final List<String>? vpcEndpointIds;
 
   EndpointConfiguration({
@@ -7098,10 +6822,9 @@ extension on String {
   }
 }
 
-/// The binary blob response to <a>GetExport</a>, which contains the generated
-/// SDK.
+/// The binary blob response to GetExport, which contains the generated SDK.
 class ExportResponse {
-  /// The binary blob response to <a>GetExport</a>, which contains the export.
+  /// The binary blob response to GetExport, which contains the export.
   final Uint8List? body;
 
   /// The content-disposition header value in the HTTP response.
@@ -7137,70 +6860,25 @@ class ExportResponse {
 
 /// A gateway response of a given response type and status code, with optional
 /// response parameters and mapping templates.
-/// <div class="remarks"> For more information about valid gateway response
-/// types, see <a
-/// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/supported-gateway-response-types.html">Gateway
-/// Response Types Supported by API Gateway</a> <div class="example">
-/// <h4>Example: Get a Gateway Response of a given response type</h4>
-/// <h5>Request</h5>
-/// This example shows how to get a gateway response of the
-/// <code>MISSING_AUTHENTICATION_TOKEN</code> type.
-/// <pre><code>GET
-/// /restapis/o81lxisefl/gatewayresponses/MISSING_AUTHENTICATION_TOKEN HTTP/1.1
-/// Host: beta-apigateway.us-east-1.amazonaws.com Content-Type: application/json
-/// X-Amz-Date: 20170503T202516Z Authorization: AWS4-HMAC-SHA256
-/// Credential={access-key-id}/20170503/us-east-1/apigateway/aws4_request,
-/// SignedHeaders=content-type;host;x-amz-date,
-/// Signature=1b52460e3159c1a26cff29093855d50ea141c1c5b937528fecaf60f51129697a
-/// Cache-Control: no-cache Postman-Token: 3b2a1ce9-c848-2e26-2e2f-9c2caefbed45
-/// </code></pre>
-/// The response type is specified as a URL path.
-/// <h5>Response</h5>
-/// The successful operation returns the <code>200 OK</code> status code and a
-/// payload similar to the following:
-/// <pre><code>{ "_links": { "curies": { "href":
-/// "http://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-gatewayresponse-{rel}.html",
-/// "name": "gatewayresponse", "templated": true }, "self": { "href":
-/// "/restapis/o81lxisefl/gatewayresponses/MISSING_AUTHENTICATION_TOKEN" },
-/// "gatewayresponse:delete": { "href":
-/// "/restapis/o81lxisefl/gatewayresponses/MISSING_AUTHENTICATION_TOKEN" },
-/// "gatewayresponse:put": { "href":
-/// "/restapis/o81lxisefl/gatewayresponses/{response_type}", "templated": true
-/// }, "gatewayresponse:update": { "href":
-/// "/restapis/o81lxisefl/gatewayresponses/MISSING_AUTHENTICATION_TOKEN" } },
-/// "defaultResponse": false, "responseParameters": {
-/// "gatewayresponse.header.x-request-path": "method.request.path.petId",
-/// "gatewayresponse.header.Access-Control-Allow-Origin": "&apos;a.b.c&apos;",
-/// "gatewayresponse.header.x-request-query": "method.request.querystring.q",
-/// "gatewayresponse.header.x-request-header": "method.request.header.Accept" },
-/// "responseTemplates": { "application/json": "{\n \"message\":
-/// $context.error.messageString,\n \"type\": \"$context.error.responseType\",\n
-/// \"stage\": \"$context.stage\",\n \"resourcePath\":
-/// \"$context.resourcePath\",\n \"stageVariables.a\": \"$stageVariables.a\",\n
-/// \"statusCode\": \"&apos;404&apos;\"\n}" }, "responseType":
-/// "MISSING_AUTHENTICATION_TOKEN", "statusCode": "404" }</code></pre> <p/>
-/// </div> </div> <div class="seeAlso"> <a
-/// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/customize-gateway-responses.html">Customize
-/// Gateway Responses</a> </div>
 class GatewayResponse {
-  /// A Boolean flag to indicate whether this <a>GatewayResponse</a> is the
-  /// default gateway response (<code>true</code>) or not (<code>false</code>). A
-  /// default gateway response is one generated by API Gateway without any
-  /// customization by an API developer.
+  /// A Boolean flag to indicate whether this GatewayResponse is the default
+  /// gateway response (<code>true</code>) or not (<code>false</code>). A default
+  /// gateway response is one generated by API Gateway without any customization
+  /// by an API developer.
   final bool? defaultResponse;
 
   /// Response parameters (paths, query strings and headers) of the
-  /// <a>GatewayResponse</a> as a string-to-string map of key-value pairs.
+  /// GatewayResponse as a string-to-string map of key-value pairs.
   final Map<String, String>? responseParameters;
 
-  /// Response templates of the <a>GatewayResponse</a> as a string-to-string map
-  /// of key-value pairs.
+  /// Response templates of the GatewayResponse as a string-to-string map of
+  /// key-value pairs.
   final Map<String, String>? responseTemplates;
 
-  /// The response type of the associated <a>GatewayResponse</a>.
+  /// The response type of the associated GatewayResponse.
   final GatewayResponseType? responseType;
 
-  /// The HTTP status code for this <a>GatewayResponse</a>.
+  /// The HTTP status code for this GatewayResponse.
   final String? statusCode;
 
   GatewayResponse({
@@ -7362,225 +7040,9 @@ extension on String {
   }
 }
 
-/// The collection of the <a>GatewayResponse</a> instances of a <a>RestApi</a>
-/// as a <code>responseType</code>-to-<a>GatewayResponse</a> object map of
-/// key-value pairs. As such, pagination is not supported for querying this
-/// collection.
-/// <div class="remarks"> For more information about valid gateway response
-/// types, see <a
-/// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/supported-gateway-response-types.html">Gateway
-/// Response Types Supported by API Gateway</a> <div class="example">
-/// <h4>Example: Get the collection of gateway responses of an API</h4>
-/// <h5>Request</h5>
-/// This example request shows how to retrieve the <a>GatewayResponses</a>
-/// collection from an API.
-/// <pre><code>GET /restapis/o81lxisefl/gatewayresponses HTTP/1.1 Host:
-/// beta-apigateway.us-east-1.amazonaws.com Content-Type: application/json
-/// X-Amz-Date: 20170503T220604Z Authorization: AWS4-HMAC-SHA256
-/// Credential={access-key-id}/20170503/us-east-1/apigateway/aws4_request,
-/// SignedHeaders=content-type;host;x-amz-date,
-/// Signature=59b42fe54a76a5de8adf2c67baa6d39206f8e9ad49a1d77ccc6a5da3103a398a
-/// Cache-Control: no-cache Postman-Token: 5637af27-dc29-fc5c-9dfe-0645d52cb515
-/// </code></pre> <p/> <h5>Response</h5>
-/// The successful operation returns the <code>200 OK</code> status code and a
-/// payload similar to the following:
-/// <pre><code>{ "_links": { "curies": { "href":
-/// "http://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-gatewayresponse-{rel}.html",
-/// "name": "gatewayresponse", "templated": true }, "self": { "href":
-/// "/restapis/o81lxisefl/gatewayresponses" }, "first": { "href":
-/// "/restapis/o81lxisefl/gatewayresponses" }, "gatewayresponse:by-type": {
-/// "href": "/restapis/o81lxisefl/gatewayresponses/{response_type}",
-/// "templated": true }, "item": [ { "href":
-/// "/restapis/o81lxisefl/gatewayresponses/INTEGRATION_FAILURE" }, { "href":
-/// "/restapis/o81lxisefl/gatewayresponses/RESOURCE_NOT_FOUND" }, { "href":
-/// "/restapis/o81lxisefl/gatewayresponses/REQUEST_TOO_LARGE" }, { "href":
-/// "/restapis/o81lxisefl/gatewayresponses/THROTTLED" }, { "href":
-/// "/restapis/o81lxisefl/gatewayresponses/UNSUPPORTED_MEDIA_TYPE" }, { "href":
-/// "/restapis/o81lxisefl/gatewayresponses/AUTHORIZER_CONFIGURATION_ERROR" }, {
-/// "href": "/restapis/o81lxisefl/gatewayresponses/DEFAULT_5XX" }, { "href":
-/// "/restapis/o81lxisefl/gatewayresponses/DEFAULT_4XX" }, { "href":
-/// "/restapis/o81lxisefl/gatewayresponses/BAD_REQUEST_PARAMETERS" }, { "href":
-/// "/restapis/o81lxisefl/gatewayresponses/BAD_REQUEST_BODY" }, { "href":
-/// "/restapis/o81lxisefl/gatewayresponses/EXPIRED_TOKEN" }, { "href":
-/// "/restapis/o81lxisefl/gatewayresponses/ACCESS_DENIED" }, { "href":
-/// "/restapis/o81lxisefl/gatewayresponses/INVALID_API_KEY" }, { "href":
-/// "/restapis/o81lxisefl/gatewayresponses/UNAUTHORIZED" }, { "href":
-/// "/restapis/o81lxisefl/gatewayresponses/API_CONFIGURATION_ERROR" }, { "href":
-/// "/restapis/o81lxisefl/gatewayresponses/QUOTA_EXCEEDED" }, { "href":
-/// "/restapis/o81lxisefl/gatewayresponses/INTEGRATION_TIMEOUT" }, { "href":
-/// "/restapis/o81lxisefl/gatewayresponses/MISSING_AUTHENTICATION_TOKEN" }, {
-/// "href": "/restapis/o81lxisefl/gatewayresponses/INVALID_SIGNATURE" }, {
-/// "href": "/restapis/o81lxisefl/gatewayresponses/AUTHORIZER_FAILURE" } ] },
-/// "_embedded": { "item": [ { "_links": { "self": { "href":
-/// "/restapis/o81lxisefl/gatewayresponses/INTEGRATION_FAILURE" },
-/// "gatewayresponse:put": { "href":
-/// "/restapis/o81lxisefl/gatewayresponses/{response_type}", "templated": true
-/// }, "gatewayresponse:update": { "href":
-/// "/restapis/o81lxisefl/gatewayresponses/INTEGRATION_FAILURE" } },
-/// "defaultResponse": true, "responseParameters": {}, "responseTemplates": {
-/// "application/json": "{\"message\":$context.error.messageString}" },
-/// "responseType": "INTEGRATION_FAILURE", "statusCode": "504" }, { "_links": {
-/// "self": { "href": "/restapis/o81lxisefl/gatewayresponses/RESOURCE_NOT_FOUND"
-/// }, "gatewayresponse:put": { "href":
-/// "/restapis/o81lxisefl/gatewayresponses/{response_type}", "templated": true
-/// }, "gatewayresponse:update": { "href":
-/// "/restapis/o81lxisefl/gatewayresponses/RESOURCE_NOT_FOUND" } },
-/// "defaultResponse": true, "responseParameters": {}, "responseTemplates": {
-/// "application/json": "{\"message\":$context.error.messageString}" },
-/// "responseType": "RESOURCE_NOT_FOUND", "statusCode": "404" }, { "_links": {
-/// "self": { "href": "/restapis/o81lxisefl/gatewayresponses/REQUEST_TOO_LARGE"
-/// }, "gatewayresponse:put": { "href":
-/// "/restapis/o81lxisefl/gatewayresponses/{response_type}", "templated": true
-/// }, "gatewayresponse:update": { "href":
-/// "/restapis/o81lxisefl/gatewayresponses/REQUEST_TOO_LARGE" } },
-/// "defaultResponse": true, "responseParameters": {}, "responseTemplates": {
-/// "application/json": "{\"message\":$context.error.messageString}" },
-/// "responseType": "REQUEST_TOO_LARGE", "statusCode": "413" }, { "_links": {
-/// "self": { "href": "/restapis/o81lxisefl/gatewayresponses/THROTTLED" },
-/// "gatewayresponse:put": { "href":
-/// "/restapis/o81lxisefl/gatewayresponses/{response_type}", "templated": true
-/// }, "gatewayresponse:update": { "href":
-/// "/restapis/o81lxisefl/gatewayresponses/THROTTLED" } }, "defaultResponse":
-/// true, "responseParameters": {}, "responseTemplates": { "application/json":
-/// "{\"message\":$context.error.messageString}" }, "responseType": "THROTTLED",
-/// "statusCode": "429" }, { "_links": { "self": { "href":
-/// "/restapis/o81lxisefl/gatewayresponses/UNSUPPORTED_MEDIA_TYPE" },
-/// "gatewayresponse:put": { "href":
-/// "/restapis/o81lxisefl/gatewayresponses/{response_type}", "templated": true
-/// }, "gatewayresponse:update": { "href":
-/// "/restapis/o81lxisefl/gatewayresponses/UNSUPPORTED_MEDIA_TYPE" } },
-/// "defaultResponse": true, "responseParameters": {}, "responseTemplates": {
-/// "application/json": "{\"message\":$context.error.messageString}" },
-/// "responseType": "UNSUPPORTED_MEDIA_TYPE", "statusCode": "415" }, { "_links":
-/// { "self": { "href":
-/// "/restapis/o81lxisefl/gatewayresponses/AUTHORIZER_CONFIGURATION_ERROR" },
-/// "gatewayresponse:put": { "href":
-/// "/restapis/o81lxisefl/gatewayresponses/{response_type}", "templated": true
-/// }, "gatewayresponse:update": { "href":
-/// "/restapis/o81lxisefl/gatewayresponses/AUTHORIZER_CONFIGURATION_ERROR" } },
-/// "defaultResponse": true, "responseParameters": {}, "responseTemplates": {
-/// "application/json": "{\"message\":$context.error.messageString}" },
-/// "responseType": "AUTHORIZER_CONFIGURATION_ERROR", "statusCode": "500" }, {
-/// "_links": { "self": { "href":
-/// "/restapis/o81lxisefl/gatewayresponses/DEFAULT_5XX" },
-/// "gatewayresponse:put": { "href":
-/// "/restapis/o81lxisefl/gatewayresponses/{response_type}", "templated": true
-/// }, "gatewayresponse:update": { "href":
-/// "/restapis/o81lxisefl/gatewayresponses/DEFAULT_5XX" } }, "defaultResponse":
-/// true, "responseParameters": {}, "responseTemplates": { "application/json":
-/// "{\"message\":$context.error.messageString}" }, "responseType":
-/// "DEFAULT_5XX" }, { "_links": { "self": { "href":
-/// "/restapis/o81lxisefl/gatewayresponses/DEFAULT_4XX" },
-/// "gatewayresponse:put": { "href":
-/// "/restapis/o81lxisefl/gatewayresponses/{response_type}", "templated": true
-/// }, "gatewayresponse:update": { "href":
-/// "/restapis/o81lxisefl/gatewayresponses/DEFAULT_4XX" } }, "defaultResponse":
-/// true, "responseParameters": {}, "responseTemplates": { "application/json":
-/// "{\"message\":$context.error.messageString}" }, "responseType":
-/// "DEFAULT_4XX" }, { "_links": { "self": { "href":
-/// "/restapis/o81lxisefl/gatewayresponses/BAD_REQUEST_PARAMETERS" },
-/// "gatewayresponse:put": { "href":
-/// "/restapis/o81lxisefl/gatewayresponses/{response_type}", "templated": true
-/// }, "gatewayresponse:update": { "href":
-/// "/restapis/o81lxisefl/gatewayresponses/BAD_REQUEST_PARAMETERS" } },
-/// "defaultResponse": true, "responseParameters": {}, "responseTemplates": {
-/// "application/json": "{\"message\":$context.error.messageString}" },
-/// "responseType": "BAD_REQUEST_PARAMETERS", "statusCode": "400" }, { "_links":
-/// { "self": { "href": "/restapis/o81lxisefl/gatewayresponses/BAD_REQUEST_BODY"
-/// }, "gatewayresponse:put": { "href":
-/// "/restapis/o81lxisefl/gatewayresponses/{response_type}", "templated": true
-/// }, "gatewayresponse:update": { "href":
-/// "/restapis/o81lxisefl/gatewayresponses/BAD_REQUEST_BODY" } },
-/// "defaultResponse": true, "responseParameters": {}, "responseTemplates": {
-/// "application/json": "{\"message\":$context.error.messageString}" },
-/// "responseType": "BAD_REQUEST_BODY", "statusCode": "400" }, { "_links": {
-/// "self": { "href": "/restapis/o81lxisefl/gatewayresponses/EXPIRED_TOKEN" },
-/// "gatewayresponse:put": { "href":
-/// "/restapis/o81lxisefl/gatewayresponses/{response_type}", "templated": true
-/// }, "gatewayresponse:update": { "href":
-/// "/restapis/o81lxisefl/gatewayresponses/EXPIRED_TOKEN" } },
-/// "defaultResponse": true, "responseParameters": {}, "responseTemplates": {
-/// "application/json": "{\"message\":$context.error.messageString}" },
-/// "responseType": "EXPIRED_TOKEN", "statusCode": "403" }, { "_links": {
-/// "self": { "href": "/restapis/o81lxisefl/gatewayresponses/ACCESS_DENIED" },
-/// "gatewayresponse:put": { "href":
-/// "/restapis/o81lxisefl/gatewayresponses/{response_type}", "templated": true
-/// }, "gatewayresponse:update": { "href":
-/// "/restapis/o81lxisefl/gatewayresponses/ACCESS_DENIED" } },
-/// "defaultResponse": true, "responseParameters": {}, "responseTemplates": {
-/// "application/json": "{\"message\":$context.error.messageString}" },
-/// "responseType": "ACCESS_DENIED", "statusCode": "403" }, { "_links": {
-/// "self": { "href": "/restapis/o81lxisefl/gatewayresponses/INVALID_API_KEY" },
-/// "gatewayresponse:put": { "href":
-/// "/restapis/o81lxisefl/gatewayresponses/{response_type}", "templated": true
-/// }, "gatewayresponse:update": { "href":
-/// "/restapis/o81lxisefl/gatewayresponses/INVALID_API_KEY" } },
-/// "defaultResponse": true, "responseParameters": {}, "responseTemplates": {
-/// "application/json": "{\"message\":$context.error.messageString}" },
-/// "responseType": "INVALID_API_KEY", "statusCode": "403" }, { "_links": {
-/// "self": { "href": "/restapis/o81lxisefl/gatewayresponses/UNAUTHORIZED" },
-/// "gatewayresponse:put": { "href":
-/// "/restapis/o81lxisefl/gatewayresponses/{response_type}", "templated": true
-/// }, "gatewayresponse:update": { "href":
-/// "/restapis/o81lxisefl/gatewayresponses/UNAUTHORIZED" } }, "defaultResponse":
-/// true, "responseParameters": {}, "responseTemplates": { "application/json":
-/// "{\"message\":$context.error.messageString}" }, "responseType":
-/// "UNAUTHORIZED", "statusCode": "401" }, { "_links": { "self": { "href":
-/// "/restapis/o81lxisefl/gatewayresponses/API_CONFIGURATION_ERROR" },
-/// "gatewayresponse:put": { "href":
-/// "/restapis/o81lxisefl/gatewayresponses/{response_type}", "templated": true
-/// }, "gatewayresponse:update": { "href":
-/// "/restapis/o81lxisefl/gatewayresponses/API_CONFIGURATION_ERROR" } },
-/// "defaultResponse": true, "responseParameters": {}, "responseTemplates": {
-/// "application/json": "{\"message\":$context.error.messageString}" },
-/// "responseType": "API_CONFIGURATION_ERROR", "statusCode": "500" }, {
-/// "_links": { "self": { "href":
-/// "/restapis/o81lxisefl/gatewayresponses/QUOTA_EXCEEDED" },
-/// "gatewayresponse:put": { "href":
-/// "/restapis/o81lxisefl/gatewayresponses/{response_type}", "templated": true
-/// }, "gatewayresponse:update": { "href":
-/// "/restapis/o81lxisefl/gatewayresponses/QUOTA_EXCEEDED" } },
-/// "defaultResponse": true, "responseParameters": {}, "responseTemplates": {
-/// "application/json": "{\"message\":$context.error.messageString}" },
-/// "responseType": "QUOTA_EXCEEDED", "statusCode": "429" }, { "_links": {
-/// "self": { "href":
-/// "/restapis/o81lxisefl/gatewayresponses/INTEGRATION_TIMEOUT" },
-/// "gatewayresponse:put": { "href":
-/// "/restapis/o81lxisefl/gatewayresponses/{response_type}", "templated": true
-/// }, "gatewayresponse:update": { "href":
-/// "/restapis/o81lxisefl/gatewayresponses/INTEGRATION_TIMEOUT" } },
-/// "defaultResponse": true, "responseParameters": {}, "responseTemplates": {
-/// "application/json": "{\"message\":$context.error.messageString}" },
-/// "responseType": "INTEGRATION_TIMEOUT", "statusCode": "504" }, { "_links": {
-/// "self": { "href":
-/// "/restapis/o81lxisefl/gatewayresponses/MISSING_AUTHENTICATION_TOKEN" },
-/// "gatewayresponse:put": { "href":
-/// "/restapis/o81lxisefl/gatewayresponses/{response_type}", "templated": true
-/// }, "gatewayresponse:update": { "href":
-/// "/restapis/o81lxisefl/gatewayresponses/MISSING_AUTHENTICATION_TOKEN" } },
-/// "defaultResponse": true, "responseParameters": {}, "responseTemplates": {
-/// "application/json": "{\"message\":$context.error.messageString}" },
-/// "responseType": "MISSING_AUTHENTICATION_TOKEN", "statusCode": "403" }, {
-/// "_links": { "self": { "href":
-/// "/restapis/o81lxisefl/gatewayresponses/INVALID_SIGNATURE" },
-/// "gatewayresponse:put": { "href":
-/// "/restapis/o81lxisefl/gatewayresponses/{response_type}", "templated": true
-/// }, "gatewayresponse:update": { "href":
-/// "/restapis/o81lxisefl/gatewayresponses/INVALID_SIGNATURE" } },
-/// "defaultResponse": true, "responseParameters": {}, "responseTemplates": {
-/// "application/json": "{\"message\":$context.error.messageString}" },
-/// "responseType": "INVALID_SIGNATURE", "statusCode": "403" }, { "_links": {
-/// "self": { "href": "/restapis/o81lxisefl/gatewayresponses/AUTHORIZER_FAILURE"
-/// }, "gatewayresponse:put": { "href":
-/// "/restapis/o81lxisefl/gatewayresponses/{response_type}", "templated": true
-/// }, "gatewayresponse:update": { "href":
-/// "/restapis/o81lxisefl/gatewayresponses/AUTHORIZER_FAILURE" } },
-/// "defaultResponse": true, "responseParameters": {}, "responseTemplates": {
-/// "application/json": "{\"message\":$context.error.messageString}" },
-/// "responseType": "AUTHORIZER_FAILURE", "statusCode": "500" } ] }
-/// }</code></pre> <p/> </div> </div> <div class="seeAlso"> <a
-/// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/customize-gateway-responses.html">Customize
-/// Gateway Responses</a> </div>
+/// The collection of the GatewayResponse instances of a RestApi as a
+/// <code>responseType</code>-to-GatewayResponse object map of key-value pairs.
+/// As such, pagination is not supported for querying this collection.
 class GatewayResponses {
   /// Returns the entire collection, because of no pagination support.
   final List<GatewayResponse>? items;
@@ -7612,14 +7074,10 @@ class GatewayResponses {
 }
 
 /// Represents an HTTP, HTTP_PROXY, AWS, AWS_PROXY, or Mock integration.
-/// <div class="remarks">In the API Gateway console, the built-in Lambda
-/// integration is an AWS integration.</div> <div class="seeAlso"> <a
-/// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/how-to-create-api.html">Creating
-/// an API</a> </div>
 class Integration {
   /// A list of request parameters whose values API Gateway caches. To be valid
   /// values for <code>cacheKeyParameters</code>, these parameters must also be
-  /// specified for <a>Method</a> <code>requestParameters</code>.
+  /// specified for Method <code>requestParameters</code>.
   final List<String>? cacheKeyParameters;
 
   /// Specifies a group of related cached parameters. By default, API Gateway uses
@@ -7628,9 +7086,7 @@ class Integration {
   /// for requests to different resources.
   final String? cacheNamespace;
 
-  /// The (<a
-  /// href="https://docs.aws.amazon.com/apigateway/api-reference/resource/vpc-link/#id"><code>id</code></a>)
-  /// of the <a>VpcLink</a> used for the integration when
+  /// The ID of the VpcLink used for the integration when
   /// <code>connectionType=VPC_LINK</code> and undefined, otherwise.
   final String? connectionId;
 
@@ -7645,16 +7101,6 @@ class Integration {
   /// values are <code>CONVERT_TO_BINARY</code> and <code>CONVERT_TO_TEXT</code>,
   /// with the following behaviors:
   ///
-  /// <ul>
-  /// <li>
-  /// <code>CONVERT_TO_BINARY</code>: Converts a request payload from a
-  /// Base64-encoded string to the corresponding binary blob.
-  /// </li>
-  /// <li>
-  /// <code>CONVERT_TO_TEXT</code>: Converts a request payload from a binary blob
-  /// to a Base64-encoded string.
-  /// </li>
-  /// </ul>
   /// If this property is not defined, the request payload will be passed through
   /// from the method request to integration request without modification,
   /// provided that the <code>passthroughBehavior</code> is configured to support
@@ -7673,59 +7119,27 @@ class Integration {
   final String? httpMethod;
 
   /// Specifies the integration's responses.
-  /// <div class="remarks"> <p/> <h4>Example: Get integration responses of a
-  /// method</h4> <h5>Request</h5> <p/> <pre><code>GET
-  /// /restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200
-  /// HTTP/1.1 Content-Type: application/json Host:
-  /// apigateway.us-east-1.amazonaws.com X-Amz-Date: 20160607T191449Z
-  /// Authorization: AWS4-HMAC-SHA256
-  /// Credential={access_key_ID}/20160607/us-east-1/apigateway/aws4_request,
-  /// SignedHeaders=content-type;host;x-amz-date, Signature={sig4_hash}
-  /// </code></pre> <h5>Response</h5>
-  /// The successful response returns <code>200 OK</code> status and a payload as
-  /// follows:
-  /// <pre><code>{ "_links": { "curies": { "href":
-  /// "https://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-integration-response-{rel}.html",
-  /// "name": "integrationresponse", "templated": true }, "self": { "href":
-  /// "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200",
-  /// "title": "200" }, "integrationresponse:delete": { "href":
-  /// "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200"
-  /// }, "integrationresponse:update": { "href":
-  /// "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200"
-  /// } }, "responseParameters": { "method.response.header.Content-Type":
-  /// "'application/xml'" }, "responseTemplates": { "application/json":
-  /// "$util.urlDecode(\"%3CkinesisStreams%3E#foreach($stream in
-  /// $input.path('$.StreamNames'))%3Cstream%3E%3Cname%3E$stream%3C/name%3E%3C/stream%3E#end%3C/kinesisStreams%3E\")\n"
-  /// }, "statusCode": "200" }</code></pre> <p/> </div> <div class="seeAlso"> <a
-  /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/how-to-create-api.html">Creating
-  /// an API</a> </div>
   final Map<String, IntegrationResponse>? integrationResponses;
 
-  /// <div>
   /// Specifies how the method request body of an unmapped content type will be
   /// passed through the integration request to the back end without
   /// transformation. A content type is unmapped if no mapping template is defined
   /// in the integration or the content type does not match any of the mapped
   /// content types, as specified in <code>requestTemplates</code>. The valid
-  /// value is one of the following:
-  ///
-  /// <ul>
-  /// <li> <code>WHEN_NO_MATCH</code>: passes the method request body through the
-  /// integration request to the back end without transformation when the method
-  /// request content type does not match any content type associated with the
-  /// mapping templates defined in the integration request. </li>
-  /// <li> <code>WHEN_NO_TEMPLATES</code>: passes the method request body through
-  /// the integration request to the back end without transformation when no
-  /// mapping template is defined in the integration request. If a template is
-  /// defined when this option is selected, the method request of an unmapped
-  /// content-type will be rejected with an HTTP <code>415 Unsupported Media
-  /// Type</code> response. </li>
-  /// <li> <code>NEVER</code>: rejects the method request with an HTTP <code>415
-  /// Unsupported Media Type</code> response when either the method request
-  /// content type does not match any content type associated with the mapping
-  /// templates defined in the integration request or no mapping template is
-  /// defined in the integration request. </li>
-  /// </ul> </div>
+  /// value is one of the following: <code>WHEN_NO_MATCH</code>: passes the method
+  /// request body through the integration request to the back end without
+  /// transformation when the method request content type does not match any
+  /// content type associated with the mapping templates defined in the
+  /// integration request. <code>WHEN_NO_TEMPLATES</code>: passes the method
+  /// request body through the integration request to the back end without
+  /// transformation when no mapping template is defined in the integration
+  /// request. If a template is defined when this option is selected, the method
+  /// request of an unmapped content-type will be rejected with an HTTP 415
+  /// Unsupported Media Type response. <code>NEVER</code>: rejects the method
+  /// request with an HTTP 415 Unsupported Media Type response when either the
+  /// method request content type does not match any content type associated with
+  /// the mapping templates defined in the integration request or no mapping
+  /// template is defined in the integration request.
   final String? passthroughBehavior;
 
   /// A key-value map specifying request parameters that are passed from the
@@ -7755,69 +7169,39 @@ class Integration {
   /// Specifies an API method integration type. The valid value is one of the
   /// following:
   ///
-  /// <ul>
-  /// <li><code>AWS</code>: for integrating the API method request with an AWS
-  /// service action, including the Lambda function-invoking action. With the
-  /// Lambda function-invoking action, this is referred to as the Lambda custom
-  /// integration. With any other AWS service action, this is known as AWS
-  /// integration.</li>
-  /// <li><code>AWS_PROXY</code>: for integrating the API method request with the
-  /// Lambda function-invoking action with the client request passed through
-  /// as-is. This integration is also referred to as the Lambda proxy
-  /// integration.</li>
-  /// <li><code>HTTP</code>: for integrating the API method request with an HTTP
-  /// endpoint, including a private HTTP endpoint within a VPC. This integration
-  /// is also referred to as the HTTP custom integration.</li>
-  /// <li><code>HTTP_PROXY</code>: for integrating the API method request with an
-  /// HTTP endpoint, including a private HTTP endpoint within a VPC, with the
-  /// client request passed through as-is. This is also referred to as the HTTP
-  /// proxy integration.</li>
-  /// <li><code>MOCK</code>: for integrating the API method request with API
-  /// Gateway as a "loop-back" endpoint without invoking any backend.</li>
-  /// </ul>
   /// For the HTTP and HTTP proxy integrations, each integration can specify a
   /// protocol (<code>http/https</code>), port and path. Standard 80 and 443 ports
   /// are supported as well as custom ports above 1024. An HTTP or HTTP proxy
   /// integration with a <code>connectionType</code> of <code>VPC_LINK</code> is
-  /// referred to as a private integration and uses a <a>VpcLink</a> to connect
-  /// API Gateway to a network load balancer of a VPC.
+  /// referred to as a private integration and uses a VpcLink to connect API
+  /// Gateway to a network load balancer of a VPC.
   final IntegrationType? type;
 
   /// Specifies Uniform Resource Identifier (URI) of the integration endpoint.
   ///
-  /// <ul>
-  /// <li>
   /// For <code>HTTP</code> or <code>HTTP_PROXY</code> integrations, the URI must
-  /// be a fully formed, encoded HTTP(S) URL according to the <a
-  /// href="https://en.wikipedia.org/wiki/Uniform_Resource_Identifier"
-  /// target="_blank">RFC-3986 specification</a>, for either standard integration,
-  /// where <code>connectionType</code> is not <code>VPC_LINK</code>, or private
+  /// be a fully formed, encoded HTTP(S) URL according to the RFC-3986
+  /// specification, for either standard integration, where
+  /// <code>connectionType</code> is not <code>VPC_LINK</code>, or private
   /// integration, where <code>connectionType</code> is <code>VPC_LINK</code>. For
-  /// a private HTTP integration, the URI is not used for routing.
-  /// </li>
-  /// <li>
-  /// For <code>AWS</code> or <code>AWS_PROXY</code> integrations, the URI is of
-  /// the form
+  /// a private HTTP integration, the URI is not used for routing. For
+  /// <code>AWS</code> or <code>AWS_PROXY</code> integrations, the URI is of the
+  /// form
   /// <code>arn:aws:apigateway:{region}:{subdomain.service|service}:path|action/{service_api}</code>.
-  /// Here, <code>{Region}</code> is the API Gateway region (e.g.,
-  /// <code>us-east-1</code>); <code>{service}</code> is the name of the
-  /// integrated AWS service (e.g., <code>s3</code>); and <code>{subdomain}</code>
-  /// is a designated subdomain supported by certain AWS service for fast
-  /// host-name lookup. <code>action</code> can be used for an AWS service
-  /// action-based API, using an
-  /// <code>Action={name}&amp;{p1}={v1}&amp;p2={v2}...</code> query string. The
-  /// ensuing <code>{service_api}</code> refers to a supported action
-  /// <code>{name}</code> plus any required input parameters. Alternatively,
-  /// <code>path</code> can be used for an AWS service path-based API. The ensuing
-  /// <code>service_api</code> refers to the path to an AWS service resource,
-  /// including the region of the integrated AWS service, if applicable. For
-  /// example, for integration with the S3 API of <code><a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectGET.html">GetObject</a></code>,
-  /// the <code>uri</code> can be either
+  /// Here, {Region} is the API Gateway region (e.g., us-east-1); {service} is the
+  /// name of the integrated Amazon Web Services service (e.g., s3); and
+  /// {subdomain} is a designated subdomain supported by certain Amazon Web
+  /// Services service for fast host-name lookup. action can be used for an Amazon
+  /// Web Services service action-based API, using an
+  /// Action={name}&amp;{p1}={v1}&amp;p2={v2}... query string. The ensuing
+  /// {service_api} refers to a supported action {name} plus any required input
+  /// parameters. Alternatively, path can be used for an AWS service path-based
+  /// API. The ensuing service_api refers to the path to an Amazon Web Services
+  /// service resource, including the region of the integrated Amazon Web Services
+  /// service, if applicable. For example, for integration with the S3 API of
+  /// GetObject, the uri can be either
   /// <code>arn:aws:apigateway:us-west-2:s3:action/GetObject&amp;Bucket={bucket}&amp;Key={key}</code>
   /// or <code>arn:aws:apigateway:us-west-2:s3:path/{bucket}/{key}</code>
-  /// </li>
-  /// </ul>
   final String? uri;
 
   Integration({
@@ -7908,26 +7292,13 @@ class Integration {
 }
 
 /// Represents an integration response. The status code must map to an existing
-/// <a>MethodResponse</a>, and parameters and templates can be used to transform
-/// the back-end response.
-/// <div class="seeAlso"> <a
-/// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/how-to-create-api.html">Creating
-/// an API</a> </div>
+/// MethodResponse, and parameters and templates can be used to transform the
+/// back-end response.
 class IntegrationResponse {
   /// Specifies how to handle response payload content type conversions. Supported
   /// values are <code>CONVERT_TO_BINARY</code> and <code>CONVERT_TO_TEXT</code>,
   /// with the following behaviors:
   ///
-  /// <ul>
-  /// <li>
-  /// <code>CONVERT_TO_BINARY</code>: Converts a response payload from a
-  /// Base64-encoded string to the corresponding binary blob.
-  /// </li>
-  /// <li>
-  /// <code>CONVERT_TO_TEXT</code>: Converts a response payload from a binary blob
-  /// to a Base64-encoded string.
-  /// </li>
-  /// </ul>
   /// If this property is not defined, the response payload will be passed through
   /// from the integration response to the method response without modification.
   final ContentHandlingStrategy? contentHandling;
@@ -7962,7 +7333,7 @@ class IntegrationResponse {
   final String? selectionPattern;
 
   /// Specifies the status code that is used to map the integration response to an
-  /// existing <a>MethodResponse</a>.
+  /// existing MethodResponse.
   final String? statusCode;
 
   IntegrationResponse({
@@ -8080,104 +7451,18 @@ extension on String {
 }
 
 /// Represents a client-facing interface by which the client calls the API to
-/// access back-end resources. A <b>Method</b> resource is integrated with an
-/// <a>Integration</a> resource. Both consist of a request and one or more
-/// responses. The method request takes the client input that is passed to the
-/// back end through the integration request. A method response returns the
-/// output from the back end to the client through an integration response. A
-/// method request is embodied in a <b>Method</b> resource, whereas an
-/// integration request is embodied in an <a>Integration</a> resource. On the
-/// other hand, a method response is represented by a <a>MethodResponse</a>
-/// resource, whereas an integration response is represented by an
-/// <a>IntegrationResponse</a> resource.
-/// <div class="remarks"> <p/> <h4>Example: Retrive the GET method on a
-/// specified resource</h4> <h5>Request</h5>
-/// The following example request retrieves the information about the GET method
-/// on an API resource (<code>3kzxbg5sa2</code>) of an API
-/// (<code>fugvjdxtri</code>).
-/// <pre><code>GET /restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET
-/// HTTP/1.1 Content-Type: application/json Host:
-/// apigateway.us-east-1.amazonaws.com X-Amz-Date: 20160603T210259Z
-/// Authorization: AWS4-HMAC-SHA256
-/// Credential={access_key_ID}/20160603/us-east-1/apigateway/aws4_request,
-/// SignedHeaders=content-type;host;x-amz-date,
-/// Signature={sig4_hash}</code></pre> <h5>Response</h5>
-/// The successful response returns a <code>200 OK</code> status code and a
-/// payload similar to the following:
-/// <pre><code>{ "_links": { "curies": [ { "href":
-/// "https://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-integration-{rel}.html",
-/// "name": "integration", "templated": true }, { "href":
-/// "https://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-integration-response-{rel}.html",
-/// "name": "integrationresponse", "templated": true }, { "href":
-/// "https://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-method-{rel}.html",
-/// "name": "method", "templated": true }, { "href":
-/// "https://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-method-response-{rel}.html",
-/// "name": "methodresponse", "templated": true } ], "self": { "href":
-/// "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET", "name": "GET",
-/// "title": "GET" }, "integration:put": { "href":
-/// "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration" },
-/// "method:delete": { "href":
-/// "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET" },
-/// "method:integration": { "href":
-/// "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration" },
-/// "method:responses": { "href":
-/// "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/200",
-/// "name": "200", "title": "200" }, "method:update": { "href":
-/// "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET" },
-/// "methodresponse:put": { "href":
-/// "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/{status_code}",
-/// "templated": true } }, "apiKeyRequired": true, "authorizationType": "NONE",
-/// "httpMethod": "GET", "_embedded": { "method:integration": { "_links": {
-/// "self": { "href":
-/// "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration" },
-/// "integration:delete": { "href":
-/// "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration" },
-/// "integration:responses": { "href":
-/// "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200",
-/// "name": "200", "title": "200" }, "integration:update": { "href":
-/// "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration" },
-/// "integrationresponse:put": { "href":
-/// "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/{status_code}",
-/// "templated": true } }, "cacheKeyParameters": [], "cacheNamespace":
-/// "3kzxbg5sa2", "credentials":
-/// "arn:aws:iam::123456789012:role/apigAwsProxyRole", "httpMethod": "POST",
-/// "passthroughBehavior": "WHEN_NO_MATCH", "requestParameters": {
-/// "integration.request.header.Content-Type": "'application/x-amz-json-1.1'" },
-/// "requestTemplates": { "application/json": "{\n}" }, "type": "AWS", "uri":
-/// "arn:aws:apigateway:us-east-1:kinesis:action/ListStreams", "_embedded": {
-/// "integration:responses": { "_links": { "self": { "href":
-/// "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200",
-/// "name": "200", "title": "200" }, "integrationresponse:delete": { "href":
-/// "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200"
-/// }, "integrationresponse:update": { "href":
-/// "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200"
-/// } }, "responseParameters": { "method.response.header.Content-Type":
-/// "'application/xml'" }, "responseTemplates": { "application/json":
-/// "$util.urlDecode(\"%3CkinesisStreams%3E%23foreach(%24stream%20in%20%24input.path(%27%24.StreamNames%27))%3Cstream%3E%3Cname%3E%24stream%3C%2Fname%3E%3C%2Fstream%3E%23end%3C%2FkinesisStreams%3E\")"
-/// }, "statusCode": "200" } } }, "method:responses": { "_links": { "self": {
-/// "href":
-/// "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/200",
-/// "name": "200", "title": "200" }, "methodresponse:delete": { "href":
-/// "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/200" },
-/// "methodresponse:update": { "href":
-/// "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/200" } },
-/// "responseModels": { "application/json": "Empty" }, "responseParameters": {
-/// "method.response.header.Content-Type": false }, "statusCode": "200" } }
-/// }</code></pre>
-/// In the example above, the response template for the <code>200 OK</code>
-/// response maps the JSON output from the <code>ListStreams</code> action in
-/// the back end to an XML output. The mapping template is URL-encoded as
-/// <code>%3CkinesisStreams%3E%23foreach(%24stream%20in%20%24input.path(%27%24.StreamNames%27))%3Cstream%3E%3Cname%3E%24stream%3C%2Fname%3E%3C%2Fstream%3E%23end%3C%2FkinesisStreams%3E</code>
-/// and the output is decoded using the <a
-/// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-mapping-template-reference.html#util-templat-reference">$util.urlDecode()</a>
-/// helper function.
-/// </div> <div class="seeAlso"> <a>MethodResponse</a>, <a>Integration</a>,
-/// <a>IntegrationResponse</a>, <a>Resource</a>, <a
-/// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/how-to-method-settings.html">Set
-/// up an API's method</a> </div>
+/// access back-end resources. A Method resource is integrated with an
+/// Integration resource. Both consist of a request and one or more responses.
+/// The method request takes the client input that is passed to the back end
+/// through the integration request. A method response returns the output from
+/// the back end to the client through an integration response. A method request
+/// is embodied in a Method resource, whereas an integration request is embodied
+/// in an Integration resource. On the other hand, a method response is
+/// represented by a MethodResponse resource, whereas an integration response is
+/// represented by an IntegrationResponse resource.
 class Method {
-  /// A boolean flag specifying whether a valid <a>ApiKey</a> is required to
-  /// invoke this method.
+  /// A boolean flag specifying whether a valid ApiKey is required to invoke this
+  /// method.
   final bool? apiKeyRequired;
 
   /// A list of authorization scopes configured on the method. The scopes are used
@@ -8196,7 +7481,7 @@ class Method {
   /// <code>COGNITO_USER_POOLS</code> for using a Cognito user pool.
   final String? authorizationType;
 
-  /// The identifier of an <a>Authorizer</a> to use on this method. The
+  /// The identifier of an Authorizer to use on this method. The
   /// <code>authorizationType</code> must be <code>CUSTOM</code>.
   final String? authorizerId;
 
@@ -8206,87 +7491,9 @@ class Method {
   /// Gets the method's integration responsible for passing the client-submitted
   /// request to the back end and performing necessary transformations to make the
   /// request compliant with the back end.
-  /// <div class="remarks"> <p/> <h4>Example: </h4> <h5>Request</h5> <p/>
-  /// <pre><code>GET /restapis/uojnr9hd57/resources/0cjtch/methods/GET/integration
-  /// HTTP/1.1 Content-Type: application/json Host:
-  /// apigateway.us-east-1.amazonaws.com Content-Length: 117 X-Amz-Date:
-  /// 20160613T213210Z Authorization: AWS4-HMAC-SHA256
-  /// Credential={access_key_ID}/20160613/us-east-1/apigateway/aws4_request,
-  /// SignedHeaders=content-type;host;x-amz-date,
-  /// Signature={sig4_hash}</code></pre> <h5>Response</h5>
-  /// The successful response returns a <code>200 OK</code> status code and a
-  /// payload similar to the following:
-  /// <pre><code>{ "_links": { "curies": [ { "href":
-  /// "https://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-integration-{rel}.html",
-  /// "name": "integration", "templated": true }, { "href":
-  /// "https://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-integration-response-{rel}.html",
-  /// "name": "integrationresponse", "templated": true } ], "self": { "href":
-  /// "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/integration" },
-  /// "integration:delete": { "href":
-  /// "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/integration" },
-  /// "integration:responses": { "href":
-  /// "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/integration/responses/200",
-  /// "name": "200", "title": "200" }, "integration:update": { "href":
-  /// "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/integration" },
-  /// "integrationresponse:put": { "href":
-  /// "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/integration/responses/{status_code}",
-  /// "templated": true } }, "cacheKeyParameters": [], "cacheNamespace": "0cjtch",
-  /// "credentials": "arn:aws:iam::123456789012:role/apigAwsProxyRole",
-  /// "httpMethod": "POST", "passthroughBehavior": "WHEN_NO_MATCH",
-  /// "requestTemplates": { "application/json": "{\n \"a\":
-  /// \"$input.params('operand1')\",\n \"b\": \"$input.params('operand2')\", \n
-  /// \"op\": \"$input.params('operator')\" \n}" }, "type": "AWS", "uri":
-  /// "arn:aws:apigateway:us-west-2:lambda:path//2015-03-31/functions/arn:aws:lambda:us-west-2:123456789012:function:Calc/invocations",
-  /// "_embedded": { "integration:responses": { "_links": { "self": { "href":
-  /// "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/integration/responses/200",
-  /// "name": "200", "title": "200" }, "integrationresponse:delete": { "href":
-  /// "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/integration/responses/200"
-  /// }, "integrationresponse:update": { "href":
-  /// "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/integration/responses/200"
-  /// } }, "responseParameters": { "method.response.header.operator":
-  /// "integration.response.body.op", "method.response.header.operand_2":
-  /// "integration.response.body.b", "method.response.header.operand_1":
-  /// "integration.response.body.a" }, "responseTemplates": { "application/json":
-  /// "#set($res = $input.path('$'))\n{\n \"result\": \"$res.a, $res.b, $res.op =>
-  /// $res.c\",\n \"a\" : \"$res.a\",\n \"b\" : \"$res.b\",\n \"op\" :
-  /// \"$res.op\",\n \"c\" : \"$res.c\"\n}" }, "selectionPattern": "",
-  /// "statusCode": "200" } } }</code></pre> <p/> </div> <div class="seeAlso"> <a
-  /// href="https://docs.aws.amazon.com/cli/latest/reference/apigateway/get-integration.html">AWS
-  /// CLI</a> </div>
   final Integration? methodIntegration;
 
   /// Gets a method response associated with a given HTTP status code.
-  /// <div class="remarks">
-  /// The collection of method responses are encapsulated in a key-value map,
-  /// where the key is a response's HTTP status code and the value is a
-  /// <a>MethodResponse</a> resource that specifies the response returned to the
-  /// caller from the back end through the integration response.
-  /// <h4>Example: Get a 200 OK response of a GET method</h4> <h5>Request</h5>
-  /// <p/> <pre><code>GET
-  /// /restapis/uojnr9hd57/resources/0cjtch/methods/GET/responses/200 HTTP/1.1
-  /// Content-Type: application/json Host: apigateway.us-east-1.amazonaws.com
-  /// Content-Length: 117 X-Amz-Date: 20160613T215008Z Authorization:
-  /// AWS4-HMAC-SHA256
-  /// Credential={access_key_ID}/20160613/us-east-1/apigateway/aws4_request,
-  /// SignedHeaders=content-type;host;x-amz-date,
-  /// Signature={sig4_hash}</code></pre> <h5>Response</h5>
-  /// The successful response returns a <code>200 OK</code> status code and a
-  /// payload similar to the following:
-  /// <pre><code>{ "_links": { "curies": { "href":
-  /// "https://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-method-response-{rel}.html",
-  /// "name": "methodresponse", "templated": true }, "self": { "href":
-  /// "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/responses/200", "title":
-  /// "200" }, "methodresponse:delete": { "href":
-  /// "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/responses/200" },
-  /// "methodresponse:update": { "href":
-  /// "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/responses/200" } },
-  /// "responseModels": { "application/json": "Empty" }, "responseParameters": {
-  /// "method.response.header.operator": false,
-  /// "method.response.header.operand_2": false,
-  /// "method.response.header.operand_1": false }, "statusCode": "200"
-  /// }</code></pre> <p/> </div> <div class="seeAlso"> <a
-  /// href="https://docs.aws.amazon.com/cli/latest/reference/apigateway/get-method-response.html">AWS
-  /// CLI</a> </div>
   final Map<String, MethodResponse>? methodResponses;
 
   /// A human-friendly operation identifier for the method. For example, you can
@@ -8294,9 +7501,9 @@ class Method {
   /// <code>GET /pets</code> method in the <code>PetStore</code> example.
   final String? operationName;
 
-  /// A key-value map specifying data schemas, represented by <a>Model</a>
-  /// resources, (as the mapped value) of the request payloads of given content
-  /// types (as the mapping key).
+  /// A key-value map specifying data schemas, represented by Model resources, (as
+  /// the mapped value) of the request payloads of given content types (as the
+  /// mapping key).
   final Map<String, String>? requestModels;
 
   /// A key-value map defining required or optional method request parameters that
@@ -8307,11 +7514,11 @@ class Method {
   /// name. The value associated with the key is a Boolean flag indicating whether
   /// the parameter is required (<code>true</code>) or optional
   /// (<code>false</code>). The method request parameter names defined here are
-  /// available in <a>Integration</a> to be mapped to integration request
-  /// parameters or templates.
+  /// available in Integration to be mapped to integration request parameters or
+  /// templates.
   final Map<String, bool>? requestParameters;
 
-  /// The identifier of a <a>RequestValidator</a> for request validation.
+  /// The identifier of a RequestValidator for request validation.
   final String? requestValidatorId;
 
   Method({
@@ -8387,37 +7594,10 @@ class Method {
 /// client. The method response is passed from the back end through the
 /// associated integration response that can be transformed using a mapping
 /// template.
-/// <div class="remarks"> <p/> <h4>Example: A <b>MethodResponse</b> instance of
-/// an API</h4> <h5>Request</h5>
-/// The example request retrieves a <b>MethodResponse</b> of the 200 status
-/// code.
-/// <pre><code>GET
-/// /restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/200 HTTP/1.1
-/// Content-Type: application/json Host: apigateway.us-east-1.amazonaws.com
-/// X-Amz-Date: 20160603T222952Z Authorization: AWS4-HMAC-SHA256
-/// Credential={access_key_ID}/20160603/us-east-1/apigateway/aws4_request,
-/// SignedHeaders=content-type;host;x-amz-date,
-/// Signature={sig4_hash}</code></pre> <h5>Response</h5>
-/// The successful response returns <code>200 OK</code> status and a payload as
-/// follows:
-/// <pre><code>{ "_links": { "curies": { "href":
-/// "https://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-method-response-{rel}.html",
-/// "name": "methodresponse", "templated": true }, "self": { "href":
-/// "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/200",
-/// "title": "200" }, "methodresponse:delete": { "href":
-/// "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/200" },
-/// "methodresponse:update": { "href":
-/// "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/200" } },
-/// "responseModels": { "application/json": "Empty" }, "responseParameters": {
-/// "method.response.header.Content-Type": false }, "statusCode": "200"
-/// }</code></pre> <p/> </div> <div class="seeAlso"> <a>Method</a>,
-/// <a>IntegrationResponse</a>, <a>Integration</a> <a
-/// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/how-to-create-api.html">Creating
-/// an API</a> </div>
 class MethodResponse {
-  /// Specifies the <a>Model</a> resources used for the response's content-type.
-  /// Response models are represented as a key/value map, with a content-type as
-  /// the key and a <a>Model</a> name as the value.
+  /// Specifies the Model resources used for the response's content-type. Response
+  /// models are represented as a key/value map, with a content-type as the key
+  /// and a Model name as the value.
   final Map<String, String>? responseModels;
 
   /// A key-value map specifying required or optional response parameters that API
@@ -8427,10 +7607,10 @@ class MethodResponse {
   /// <code>method.response.header.{name}</code>, where <code>name</code> is a
   /// valid and unique header name. API Gateway passes certain integration
   /// response data to the method response headers specified here according to the
-  /// mapping you prescribe in the API's <a>IntegrationResponse</a>. The
-  /// integration response data that can be mapped include an integration response
-  /// header expressed in <code>integration.response.header.{name}</code>, a
-  /// static value enclosed within a pair of single quotes (e.g.,
+  /// mapping you prescribe in the API's IntegrationResponse. The integration
+  /// response data that can be mapped include an integration response header
+  /// expressed in <code>integration.response.header.{name}</code>, a static value
+  /// enclosed within a pair of single quotes (e.g.,
   /// <code>'application/json'</code>), or a JSON expression from the back-end
   /// response payload in the form of
   /// <code>integration.response.body.{JSON-expression}</code>, where
@@ -8489,13 +7669,10 @@ class MethodSetting {
   /// Boolean.
   final bool? cachingEnabled;
 
-  /// Specifies whether full requests and responses are logged for this method,
-  /// which affects the log entries pushed to Amazon CloudWatch Logs. This can be
-  /// useful to troubleshoot APIs, but can result in logging sensitive data. We
-  /// recommend that you don't enable this option for production APIs. The PATCH
-  /// path for this setting is
-  /// <code>/{method_setting_key}/logging/dataTrace</code>, and the value is a
-  /// Boolean.
+  /// Specifies whether data trace logging is enabled for this method, which
+  /// affects the log entries pushed to Amazon CloudWatch Logs. The PATCH path for
+  /// this setting is <code>/{method_setting_key}/logging/dataTrace</code>, and
+  /// the value is a Boolean.
   final bool? dataTraceEnabled;
 
   /// Specifies the logging level for this method, which affects the log entries
@@ -8603,10 +7780,9 @@ class MethodSetting {
   }
 }
 
-/// Represents a summary of a <a>Method</a> resource, given a particular date
-/// and time.
+/// Represents a summary of a Method resource, given a particular date and time.
 class MethodSnapshot {
-  /// Specifies whether the method requires a valid <a>ApiKey</a>.
+  /// Specifies whether the method requires a valid ApiKey.
   final bool? apiKeyRequired;
 
   /// The method's authorization type. Valid values are <code>NONE</code> for open
@@ -8638,17 +7814,6 @@ class MethodSnapshot {
 }
 
 /// Represents the data structure of a method's request or response payload.
-/// <div class="remarks">
-/// A request model defines the data structure of the client-supplied request
-/// payload. A response model defines the data structure of the response payload
-/// returned by the back end. Although not required, models are useful for
-/// mapping payloads between the front end and back end.
-///
-/// A model is used for generating an API's SDK, validating the input request
-/// body, and creating a skeletal mapping template.
-/// </div> <div class="seeAlso"> <a>Method</a>, <a>MethodResponse</a>, <a
-/// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/models-mappings.html">Models
-/// and Mappings</a> </div>
 class Model {
   /// The content-type for the model.
   final String? contentType;
@@ -8663,12 +7828,11 @@ class Model {
   final String? name;
 
   /// The schema for the model. For <code>application/json</code> models, this
-  /// should be <a href="https://tools.ietf.org/html/draft-zyp-json-schema-04"
-  /// target="_blank">JSON schema draft 4</a> model. Do not include "\*/"
-  /// characters in the description of any properties because such "\*/"
-  /// characters may be interpreted as the closing marker for comments in some
-  /// languages, such as Java or JavaScript, causing the installation of your
-  /// API's SDK generated by API Gateway to fail.
+  /// should be JSON schema draft 4 model. Do not include "\*/" characters in the
+  /// description of any properties because such "\*/" characters may be
+  /// interpreted as the closing marker for comments in some languages, such as
+  /// Java or JavaScript, causing the installation of your API's SDK generated by
+  /// API Gateway to fail.
   final String? schema;
 
   Model({
@@ -8705,10 +7869,7 @@ class Model {
   }
 }
 
-/// Represents a collection of <a>Model</a> resources.
-/// <div class="seeAlso"> <a>Method</a>, <a>MethodResponse</a>, <a
-/// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/models-mappings.html">Models
-/// and Mappings</a> </div>
+/// Represents a collection of Model resources.
 class Models {
   /// The current page of elements from this collection.
   final List<Model>? items;
@@ -8739,9 +7900,10 @@ class Models {
   }
 }
 
-/// If specified, API Gateway performs two-way authentication between the client
+/// The mutual TLS authentication configuration for a custom domain name. If
+/// specified, API Gateway performs two-way authentication between the client
 /// and the server. Clients must present a trusted certificate to access your
-/// custom domain name.
+/// API.
 class MutualTlsAuthentication {
   /// An Amazon S3 URL that specifies the truststore for mutual TLS
   /// authentication, for example <code>s3://bucket-name/key-name</code>. The
@@ -8791,12 +7953,13 @@ class MutualTlsAuthentication {
   }
 }
 
-/// If specified, API Gateway performs two-way authentication between the client
+/// The mutual TLS authentication configuration for a custom domain name. If
+/// specified, API Gateway performs two-way authentication between the client
 /// and the server. Clients must present a trusted certificate to access your
-/// custom domain name.
+/// API.
 class MutualTlsAuthenticationInput {
-  /// An Amazon S3 resource ARN that specifies the truststore for mutual TLS
-  /// authentication, for example, <code>s3://bucket-name/key-name</code>. The
+  /// An Amazon S3 URL that specifies the truststore for mutual TLS
+  /// authentication, for example <code>s3://bucket-name/key-name</code>. The
   /// truststore can contain certificates from public or private certificate
   /// authorities. To update the truststore, upload a new version to S3, and then
   /// update your custom domain name to use the new version. To update the
@@ -8804,7 +7967,7 @@ class MutualTlsAuthenticationInput {
   final String? truststoreUri;
 
   /// The version of the S3 object that contains your truststore. To specify a
-  /// version, you must have versioning enabled for the S3 bucket.
+  /// version, you must have versioning enabled for the S3 bucket
   final String? truststoreVersion;
 
   MutualTlsAuthenticationInput({
@@ -8877,47 +8040,39 @@ extension on String {
   }
 }
 
-/// A single patch operation to apply to the specified resource. Please refer to
-/// http://tools.ietf.org/html/rfc6902#section-4 for an explanation of how each
-/// operation is used.
+/// For more information about supported patch operations, see <a
+/// href="https://docs.aws.amazon.com/apigateway/latest/api/patch-operations.html">Patch
+/// Operations</a>.
 class PatchOperation {
-  /// The <code>copy</code> update operation's source as identified by a
-  /// <code>JSON-Pointer</code> value referencing the location within the targeted
-  /// resource to copy the value from. For example, to promote a canary
-  /// deployment, you copy the canary deployment ID to the affiliated deployment
-  /// ID by calling a PATCH request on a <a>Stage</a> resource with
-  /// <code>"op":"copy"</code>, <code>"from":"/canarySettings/deploymentId"</code>
-  /// and <code>"path":"/deploymentId"</code>.
+  /// The copy update operation's source as identified by a JSON-Pointer value
+  /// referencing the location within the targeted resource to copy the value
+  /// from. For example, to promote a canary deployment, you copy the canary
+  /// deployment ID to the affiliated deployment ID by calling a PATCH request on
+  /// a Stage resource with "op":"copy", "from":"/canarySettings/deploymentId" and
+  /// "path":"/deploymentId".
   final String? from;
 
   /// An update operation to be performed with this PATCH request. The valid value
-  /// can be <code>add</code>, <code>remove</code>, <code>replace</code> or
-  /// <code>copy</code>. Not all valid operations are supported for a given
-  /// resource. Support of the operations depends on specific operational
-  /// contexts. Attempts to apply an unsupported operation on a resource will
-  /// return an error message.
+  /// can be add, remove, replace or copy. Not all valid operations are supported
+  /// for a given resource. Support of the operations depends on specific
+  /// operational contexts. Attempts to apply an unsupported operation on a
+  /// resource will return an error message..
   final Op? op;
 
-  /// The <code>op</code> operation's target, as identified by a <a
-  /// href="https://tools.ietf.org/html/draft-ietf-appsawg-json-pointer-08">JSON
-  /// Pointer</a> value that references a location within the targeted resource.
-  /// For example, if the target resource has an updateable property of
-  /// <code>{"name":"value"}</code>, the path for this property is
-  /// <code>/name</code>. If the <code>name</code> property value is a JSON object
-  /// (e.g., <code>{"name": {"child/name": "child-value"}}</code>), the path for
-  /// the <code>child/name</code> property will be <code>/name/child~1name</code>.
-  /// Any slash ("/") character appearing in path names must be escaped with "~1",
-  /// as shown in the example above. Each <code>op</code> operation can have only
-  /// one <code>path</code> associated with it.
+  /// The op operation's target, as identified by a JSON Pointer value that
+  /// references a location within the targeted resource. For example, if the
+  /// target resource has an updateable property of {"name":"value"}, the path for
+  /// this property is /name. If the name property value is a JSON object (e.g.,
+  /// {"name": {"child/name": "child-value"}}), the path for the child/name
+  /// property will be /name/child~1name. Any slash ("/") character appearing in
+  /// path names must be escaped with "~1", as shown in the example above. Each op
+  /// operation can have only one path associated with it.
   final String? path;
 
-  /// The new target value of the update operation. It is applicable for the
-  /// <code>add</code> or <code>replace</code> operation. When using AWS CLI to
-  /// update a property of a JSON value, enclose the JSON object with a pair of
-  /// single quotes in a Linux shell, e.g., '{"a": ...}'. In a Windows shell, see
-  /// <a
-  /// href="https://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#cli-using-param-json">Using
-  /// JSON for Parameters</a>.
+  /// The new target value of the update operation. It is applicable for the add
+  /// or replace operation. When using AWS CLI to update a property of a JSON
+  /// value, enclose the JSON object with a pair of single quotes in a Linux
+  /// shell, e.g., '{"a": ...}'.
   final String? value;
 
   PatchOperation({
@@ -9017,9 +8172,8 @@ class QuotaSettings {
   /// period.
   final int? limit;
 
-  /// The day that a time period starts. For example, with a time period of
-  /// <code>WEEK</code>, an offset of <code>0</code> starts on Sunday, and an
-  /// offset of <code>1</code> starts on Monday.
+  /// The number of requests subtracted from the given limit in the initial time
+  /// period.
   final int? offset;
 
   /// The time period in which the limit applies. Valid values are "DAY", "WEEK"
@@ -9052,25 +8206,16 @@ class QuotaSettings {
   }
 }
 
-/// A set of validation rules for incoming <a>Method</a> requests.
-/// <div class="remarks">
-/// In OpenAPI, a <a>RequestValidator</a> of an API is defined by the <a
-/// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-swagger-extensions.html#api-gateway-swagger-extensions-request-validators.requestValidator.html">x-amazon-apigateway-request-validators.requestValidator</a>
-/// object. It the referenced using the <a
-/// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-swagger-extensions.html#api-gateway-swagger-extensions-request-validator">x-amazon-apigateway-request-validator</a>
-/// property.
-/// </div> <div class="seeAlso"><a
-/// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-method-request-validation.html">Enable
-/// Basic Request Validation in API Gateway</a></div>
+/// A set of validation rules for incoming Method requests.
 class RequestValidator {
-  /// The identifier of this <a>RequestValidator</a>.
+  /// The identifier of this RequestValidator.
   final String? id;
 
-  /// The name of this <a>RequestValidator</a>
+  /// The name of this RequestValidator
   final String? name;
 
   /// A Boolean flag to indicate whether to validate a request body according to
-  /// the configured <a>Model</a> schema.
+  /// the configured Model schema.
   final bool? validateRequestBody;
 
   /// A Boolean flag to indicate whether to validate request parameters
@@ -9109,14 +8254,7 @@ class RequestValidator {
   }
 }
 
-/// A collection of <a>RequestValidator</a> resources of a given <a>RestApi</a>.
-/// <div class="remarks">
-/// In OpenAPI, the <a>RequestValidators</a> of an API is defined by the <a
-/// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-swagger-extensions.html#api-gateway-swagger-extensions-request-validators.html">x-amazon-apigateway-request-validators</a>
-/// extension.
-/// </div> <div class="seeAlso"><a
-/// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-method-request-validation.html">Enable
-/// Basic Request Validation in API Gateway</a></div>
+/// A collection of RequestValidator resources of a given RestApi.
 class RequestValidators {
   /// The current page of elements from this collection.
   final List<RequestValidator>? items;
@@ -9148,9 +8286,6 @@ class RequestValidators {
 }
 
 /// Represents an API resource.
-/// <div class="seeAlso"> <a
-/// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/how-to-create-api.html">Create
-/// an API</a> </div>
 class Resource {
   /// The resource's identifier.
   final String? id;
@@ -9165,85 +8300,6 @@ class Resource {
   final String? pathPart;
 
   /// Gets an API resource's method of a given HTTP verb.
-  /// <div class="remarks">
-  /// The resource methods are a map of methods indexed by methods' HTTP verbs
-  /// enabled on the resource. This method map is included in the <code>200
-  /// OK</code> response of the <code>GET
-  /// /restapis/{restapi_id}/resources/{resource_id}</code> or <code>GET
-  /// /restapis/{restapi_id}/resources/{resource_id}?embed=methods</code> request.
-  /// <h4>Example: Get the GET method of an API resource</h4> <h5>Request</h5>
-  /// <pre><code>GET /restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET
-  /// HTTP/1.1 Content-Type: application/json Host:
-  /// apigateway.us-east-1.amazonaws.com X-Amz-Date: 20170223T031827Z
-  /// Authorization: AWS4-HMAC-SHA256
-  /// Credential={access_key_ID}/20170223/us-east-1/apigateway/aws4_request,
-  /// SignedHeaders=content-type;host;x-amz-date,
-  /// Signature={sig4_hash}</code></pre> <h5>Response</h5> <pre><code>{ "_links":
-  /// { "curies": [ { "href":
-  /// "https://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-integration-{rel}.html",
-  /// "name": "integration", "templated": true }, { "href":
-  /// "https://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-integration-response-{rel}.html",
-  /// "name": "integrationresponse", "templated": true }, { "href":
-  /// "https://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-method-{rel}.html",
-  /// "name": "method", "templated": true }, { "href":
-  /// "https://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-method-response-{rel}.html",
-  /// "name": "methodresponse", "templated": true } ], "self": { "href":
-  /// "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET", "name": "GET",
-  /// "title": "GET" }, "integration:put": { "href":
-  /// "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration" },
-  /// "method:delete": { "href":
-  /// "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET" },
-  /// "method:integration": { "href":
-  /// "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration" },
-  /// "method:responses": { "href":
-  /// "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/200",
-  /// "name": "200", "title": "200" }, "method:update": { "href":
-  /// "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET" },
-  /// "methodresponse:put": { "href":
-  /// "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/{status_code}",
-  /// "templated": true } }, "apiKeyRequired": false, "authorizationType": "NONE",
-  /// "httpMethod": "GET", "_embedded": { "method:integration": { "_links": {
-  /// "self": { "href":
-  /// "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration" },
-  /// "integration:delete": { "href":
-  /// "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration" },
-  /// "integration:responses": { "href":
-  /// "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200",
-  /// "name": "200", "title": "200" }, "integration:update": { "href":
-  /// "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration" },
-  /// "integrationresponse:put": { "href":
-  /// "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/{status_code}",
-  /// "templated": true } }, "cacheKeyParameters": [], "cacheNamespace":
-  /// "3kzxbg5sa2", "credentials":
-  /// "arn:aws:iam::123456789012:role/apigAwsProxyRole", "httpMethod": "POST",
-  /// "passthroughBehavior": "WHEN_NO_MATCH", "requestParameters": {
-  /// "integration.request.header.Content-Type": "'application/x-amz-json-1.1'" },
-  /// "requestTemplates": { "application/json": "{\n}" }, "type": "AWS", "uri":
-  /// "arn:aws:apigateway:us-east-1:kinesis:action/ListStreams", "_embedded": {
-  /// "integration:responses": { "_links": { "self": { "href":
-  /// "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200",
-  /// "name": "200", "title": "200" }, "integrationresponse:delete": { "href":
-  /// "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200"
-  /// }, "integrationresponse:update": { "href":
-  /// "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200"
-  /// } }, "responseParameters": { "method.response.header.Content-Type":
-  /// "'application/xml'" }, "responseTemplates": { "application/json":
-  /// "$util.urlDecode(\"%3CkinesisStreams%3E#foreach($stream in
-  /// $input.path('$.StreamNames'))%3Cstream%3E%3Cname%3E$stream%3C/name%3E%3C/stream%3E#end%3C/kinesisStreams%3E\")\n"
-  /// }, "statusCode": "200" } } }, "method:responses": { "_links": { "self": {
-  /// "href":
-  /// "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/200",
-  /// "name": "200", "title": "200" }, "methodresponse:delete": { "href":
-  /// "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/200" },
-  /// "methodresponse:update": { "href":
-  /// "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/200" } },
-  /// "responseModels": { "application/json": "Empty" }, "responseParameters": {
-  /// "method.response.header.Content-Type": false }, "statusCode": "200" } }
-  /// }</code></pre>
-  /// If the <code>OPTIONS</code> is enabled on the resource, you can follow the
-  /// example here to get that method. Just replace the <code>GET</code> of the
-  /// last path segment in the request URL with <code>OPTIONS</code>.
-  /// </div> <div class="seeAlso"> </div>
   final Map<String, Method>? resourceMethods;
 
   Resource({
@@ -9281,10 +8337,7 @@ class Resource {
   }
 }
 
-/// Represents a collection of <a>Resource</a> resources.
-/// <div class="seeAlso"> <a
-/// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/how-to-create-api.html">Create
-/// an API</a> </div>
+/// Represents a collection of Resource resources.
 class Resources {
   /// The current page of elements from this collection.
   final List<Resource>? items;
@@ -9316,22 +8369,16 @@ class Resources {
 }
 
 /// Represents a REST API.
-/// <div class="seeAlso"> <a
-/// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/how-to-create-api.html">Create
-/// an API</a> </div>
 class RestApi {
   /// The source of the API key for metering requests according to a usage plan.
-  /// Valid values are:
-  /// <ul>
-  /// <li><code>HEADER</code> to read the API key from the <code>X-API-Key</code>
-  /// header of a request. </li>
-  /// <li><code>AUTHORIZER</code> to read the API key from the
-  /// <code>UsageIdentifierKey</code> from a custom authorizer.</li>
-  /// </ul>
+  /// Valid values are: &gt;<code>HEADER</code> to read the API key from the
+  /// <code>X-API-Key</code> header of a request. <code>AUTHORIZER</code> to read
+  /// the API key from the <code>UsageIdentifierKey</code> from a custom
+  /// authorizer.
   final ApiKeySourceType? apiKeySource;
 
-  /// The list of binary media types supported by the <a>RestApi</a>. By default,
-  /// the <a>RestApi</a> supports only UTF-8-encoded text payloads.
+  /// The list of binary media types supported by the RestApi. By default, the
+  /// RestApi supports only UTF-8-encoded text payloads.
   final List<String>? binaryMediaTypes;
 
   /// The timestamp when the API was created.
@@ -9342,13 +8389,14 @@ class RestApi {
 
   /// Specifies whether clients can invoke your API by using the default
   /// <code>execute-api</code> endpoint. By default, clients can invoke your API
-  /// with the default https://{api_id}.execute-api.{region}.amazonaws.com
-  /// endpoint. To require that clients use a custom domain name to invoke your
-  /// API, disable the default endpoint.
+  /// with the default
+  /// <code>https://{api_id}.execute-api.{region}.amazonaws.com</code> endpoint.
+  /// To require that clients use a custom domain name to invoke your API, disable
+  /// the default endpoint.
   final bool? disableExecuteApiEndpoint;
 
-  /// The endpoint configuration of this <a>RestApi</a> showing the endpoint types
-  /// of the API.
+  /// The endpoint configuration of this RestApi showing the endpoint types of the
+  /// API.
   final EndpointConfiguration? endpointConfiguration;
 
   /// The API's identifier. This identifier is unique across all of your APIs in
@@ -9366,7 +8414,7 @@ class RestApi {
   final String? name;
 
   /// A stringified JSON policy document that applies to this RestApi regardless
-  /// of the caller and <a>Method</a> configuration.
+  /// of the caller and Method configuration.
   final String? policy;
 
   /// The collection of tags. Each tag element is associated with a given
@@ -9461,9 +8509,6 @@ class RestApi {
 
 /// Contains references to your APIs and links that guide you in how to interact
 /// with your collection. A collection offers a paginated view of your APIs.
-/// <div class="seeAlso"> <a
-/// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/how-to-create-api.html">Create
-/// an API</a> </div>
 class RestApis {
   /// The current page of elements from this collection.
   final List<RestApi>? items;
@@ -9496,21 +8541,21 @@ class RestApis {
 
 /// A configuration property of an SDK type.
 class SdkConfigurationProperty {
-  /// The default value of an <a>SdkType</a> configuration property.
+  /// The default value of an SdkType configuration property.
   final String? defaultValue;
 
-  /// The description of an <a>SdkType</a> configuration property.
+  /// The description of an SdkType configuration property.
   final String? description;
 
-  /// The user-friendly name of an <a>SdkType</a> configuration property.
+  /// The user-friendly name of an SdkType configuration property.
   final String? friendlyName;
 
-  /// The name of a an <a>SdkType</a> configuration property.
+  /// The name of a an SdkType configuration property.
   final String? name;
 
-  /// A boolean flag of an <a>SdkType</a> configuration property to indicate if
-  /// the associated SDK configuration property is required (<code>true</code>) or
-  /// not (<code>false</code>).
+  /// A boolean flag of an SdkType configuration property to indicate if the
+  /// associated SDK configuration property is required (<code>true</code>) or not
+  /// (<code>false</code>).
   final bool? required;
 
   SdkConfigurationProperty({
@@ -9547,9 +8592,9 @@ class SdkConfigurationProperty {
   }
 }
 
-/// The binary blob response to <a>GetSdk</a>, which contains the generated SDK.
+/// The binary blob response to GetSdk, which contains the generated SDK.
 class SdkResponse {
-  /// The binary blob response to <a>GetSdk</a>, which contains the generated SDK.
+  /// The binary blob response to GetSdk, which contains the generated SDK.
   final Uint8List? body;
 
   /// The content-disposition header value in the HTTP response.
@@ -9584,16 +8629,16 @@ class SdkResponse {
 
 /// A type of SDK that API Gateway can generate.
 class SdkType {
-  /// A list of configuration properties of an <a>SdkType</a>.
+  /// A list of configuration properties of an SdkType.
   final List<SdkConfigurationProperty>? configurationProperties;
 
-  /// The description of an <a>SdkType</a>.
+  /// The description of an SdkType.
   final String? description;
 
-  /// The user-friendly name of an <a>SdkType</a> instance.
+  /// The user-friendly name of an SdkType instance.
   final String? friendlyName;
 
-  /// The identifier of an <a>SdkType</a> instance.
+  /// The identifier of an SdkType instance.
   final String? id;
 
   SdkType({
@@ -9631,7 +8676,7 @@ class SdkType {
   }
 }
 
-/// The collection of <a>SdkType</a> instances.
+/// The collection of SdkType instances.
 class SdkTypes {
   /// The current page of elements from this collection.
   final List<SdkType>? items;
@@ -9690,11 +8735,8 @@ extension on String {
   }
 }
 
-/// Represents a unique identifier for a version of a deployed <a>RestApi</a>
-/// that is callable by users.
-/// <div class="seeAlso"> <a
-/// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/how-to-deploy-api.html">Deploy
-/// an API</a> </div>
+/// Represents a unique identifier for a version of a deployed RestApi that is
+/// callable by users.
 class Stage {
   /// Settings for logging access in this stage.
   final AccessLogSettings? accessLogSettings;
@@ -9717,7 +8759,7 @@ class Stage {
   /// The timestamp when the stage was created.
   final DateTime? createdDate;
 
-  /// The identifier of the <a>Deployment</a> that the stage points to.
+  /// The identifier of the Deployment that the stage points to.
   final String? deploymentId;
 
   /// The stage's description.
@@ -9729,7 +8771,7 @@ class Stage {
   /// The timestamp when the stage last updated.
   final DateTime? lastUpdatedDate;
 
-  /// A map that defines the method settings for a <a>Stage</a> resource. Keys
+  /// A map that defines the method settings for a Stage resource. Keys
   /// (designated as <code>/{method_setting_key</code> below) are method paths
   /// defined as <code>{resource_path}/{http_method}</code> for an individual
   /// method override, or <code>/\*/\*</code> for overriding all methods in the
@@ -9746,15 +8788,15 @@ class Stage {
   /// resource.
   final Map<String, String>? tags;
 
-  /// Specifies whether active tracing with X-ray is enabled for the <a>Stage</a>.
+  /// Specifies whether active tracing with X-ray is enabled for the Stage.
   final bool? tracingEnabled;
 
-  /// A map that defines the stage variables for a <a>Stage</a> resource. Variable
-  /// names can have alphanumeric and underscore characters, and the values must
-  /// match <code>[A-Za-z0-9-._~:/?#&amp;=,]+</code>.
+  /// A map that defines the stage variables for a Stage resource. Variable names
+  /// can have alphanumeric and underscore characters, and the values must match
+  /// <code>[A-Za-z0-9-._~:/?#&amp;=,]+</code>.
   final Map<String, String>? variables;
 
-  /// The ARN of the WebAcl associated with the <a>Stage</a>.
+  /// The ARN of the WebAcl associated with the Stage.
   final String? webAclArn;
 
   Stage({
@@ -9860,7 +8902,7 @@ class Stage {
 /// A reference to a unique stage identified in the format
 /// <code>{restApiId}/{stage}</code>.
 class StageKey {
-  /// The string identifier of the associated <a>RestApi</a>.
+  /// The string identifier of the associated RestApi.
   final String? restApiId;
 
   /// The stage name associated with the stage key.
@@ -9888,11 +8930,7 @@ class StageKey {
   }
 }
 
-/// A list of <a>Stage</a> resources that are associated with the <a>ApiKey</a>
-/// resource.
-/// <div class="seeAlso"><a
-/// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/stages.html">Deploying
-/// API in Stages</a></div>
+/// A list of Stage resources that are associated with the ApiKey resource.
 class Stages {
   /// The current page of elements from this collection.
   final List<Stage>? item;
@@ -9945,14 +8983,9 @@ class Tags {
 }
 
 /// Represents a mapping template used to transform a payload.
-/// <div class="seeAlso"> <a
-/// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/models-mappings.html#models-mappings-mappings">Mapping
-/// Templates</a> </div>
 class Template {
-  /// The Apache <a
-  /// href="https://velocity.apache.org/engine/devel/vtl-reference.html"
-  /// target="_blank">Velocity Template Language (VTL)</a> template content used
-  /// for the template resource.
+  /// The Apache Velocity Template Language (VTL) template content used for the
+  /// template resource.
   final String? value;
 
   Template({
@@ -9973,15 +9006,13 @@ class Template {
   }
 }
 
-/// Represents the response of the test invoke request for a custom
-/// <a>Authorizer</a>
+/// Represents the response of the test invoke request for a custom Authorizer
 class TestInvokeAuthorizerResponse {
+  /// The authorization response.
   final Map<String, List<String>>? authorization;
 
-  /// The <a
-  /// href="https://openid.net/specs/openid-connect-core-1_0.html#StandardClaims">open
-  /// identity claims</a>, with any supported custom attributes, returned from the
-  /// Cognito Your User Pool configured for the API.
+  /// The open identity claims, with any supported custom attributes, returned
+  /// from the Cognito Your User Pool configured for the API.
   final Map<String, String>? claims;
 
   /// The HTTP status code that the client would have received. Value is 0 if the
@@ -9994,10 +9025,10 @@ class TestInvokeAuthorizerResponse {
   /// The API Gateway execution log for the test authorizer request.
   final String? log;
 
-  /// The JSON policy document returned by the <a>Authorizer</a>
+  /// The JSON policy document returned by the Authorizer
   final String? policy;
 
-  /// The principal identity returned by the <a>Authorizer</a>
+  /// The principal identity returned by the Authorizer
   final String? principalId;
 
   TestInvokeAuthorizerResponse({
@@ -10046,9 +9077,6 @@ class TestInvokeAuthorizerResponse {
 }
 
 /// Represents the response of the test invoke request in the HTTP method.
-/// <div class="seeAlso"> <a
-/// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/how-to-test-method.html#how-to-test-method-console">Test
-/// API using the API Gateway console</a> </div>
 class TestInvokeMethodResponse {
   /// The body of the HTTP response.
   final String? body;
@@ -10140,17 +9168,22 @@ class ThrottleSettings {
   }
 }
 
+/// Specifies the TLS configuration for an integration.
 class TlsConfig {
   /// Specifies whether or not API Gateway skips verification that the certificate
-  /// for an integration endpoint is issued by a <a
-  /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-supported-certificate-authorities-for-http-endpoints.html">supported
-  /// certificate authority</a>. This isn’t recommended, but it enables you to use
-  /// certificates that are signed by private certificate authorities, or
-  /// certificates that are self-signed. If enabled, API Gateway still performs
-  /// basic certificate validation, which includes checking the certificate's
-  /// expiration date, hostname, and presence of a root certificate authority.
-  /// Supported only for <code>HTTP</code> and <code>HTTP_PROXY</code>
-  /// integrations.
+  /// for an integration endpoint is issued by a supported certificate authority.
+  /// This isn’t recommended, but it enables you to use certificates that are
+  /// signed by private certificate authorities, or certificates that are
+  /// self-signed. If enabled, API Gateway still performs basic certificate
+  /// validation, which includes checking the certificate's expiration date,
+  /// hostname, and presence of a root certificate authority. Supported only for
+  /// <code>HTTP</code> and <code>HTTP_PROXY</code> integrations.
+  /// <important>
+  /// Enabling <code>insecureSkipVerification</code> isn't recommended, especially
+  /// for integrations with public HTTPS endpoints. If you enable
+  /// <code>insecureSkipVerification</code>, you increase the risk of
+  /// man-in-the-middle attacks.
+  /// </important>
   final bool? insecureSkipVerification;
 
   TlsConfig({
@@ -10209,11 +9242,6 @@ extension on String {
 }
 
 /// Represents the usage data of a usage plan.
-/// <div class="remarks"/> <div class="seeAlso"> <a
-/// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-api-usage-plans.html">Create
-/// and Use Usage Plans</a>, <a
-/// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-create-usage-plans-with-console.html#api-gateway-usage-plan-manage-usage">Manage
-/// Usage in a Usage Plan</a> </div>
 class Usage {
   /// The ending date of the usage data.
   final String? endDate;
@@ -10277,17 +9305,10 @@ class Usage {
 /// stages. Optionally, target request rate and quota limits can be set. In some
 /// cases clients can exceed the targets that you set. Don’t rely on usage plans
 /// to control costs. Consider using <a
-/// href="https://docs.aws.amazon.com/cost-management/latest/userguide/budgets-managing-costs.html">AWS
-/// Budgets</a> to monitor costs and <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
-/// WAF</a> to manage API requests.
-/// <div class="remarks">
-/// In a usage plan, you associate an API by specifying the API's Id and a stage
-/// name of the specified API. You add plan customers by adding API keys to the
-/// plan.
-/// </div> <div class="seeAlso"> <a
-/// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-api-usage-plans.html">Create
-/// and Use Usage Plans</a> </div>
+/// href="https://docs.aws.amazon.com/cost-management/latest/userguide/budgets-managing-costs.html">Amazon
+/// Web Services Budgets</a> to monitor costs and <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">WAF</a>
+/// to manage API requests.
 class UsagePlan {
   /// The associated API stages of a usage plan.
   final List<ApiStage>? apiStages;
@@ -10295,7 +9316,7 @@ class UsagePlan {
   /// The description of a usage plan.
   final String? description;
 
-  /// The identifier of a <a>UsagePlan</a> resource.
+  /// The identifier of a UsagePlan resource.
   final String? id;
 
   /// The name of a usage plan.
@@ -10313,8 +9334,8 @@ class UsagePlan {
   /// resource.
   final Map<String, String>? tags;
 
-  /// Map containing method level throttling information for API stage in a usage
-  /// plan.
+  /// A map containing method level throttling information for API stage in a
+  /// usage plan.
   final ThrottleSettings? throttle;
 
   UsagePlan({
@@ -10372,12 +9393,6 @@ class UsagePlan {
 }
 
 /// Represents a usage plan key to identify a plan customer.
-/// <div class="remarks">
-/// To associate an API stage with a selected API key in a usage plan, you must
-/// create a UsagePlanKey resource to represent the selected <a>ApiKey</a>.
-/// </div>" <div class="seeAlso"> <a
-/// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-api-usage-plans.html">Create
-/// and Use Usage Plans</a> </div>
 class UsagePlanKey {
   /// The Id of a usage plan key.
   final String? id;
@@ -10424,9 +9439,6 @@ class UsagePlanKey {
 
 /// Represents the collection of usage plan keys added to usage plans for the
 /// associated API keys and, possibly, other types of keys.
-/// <div class="seeAlso"> <a
-/// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-api-usage-plans.html">Create
-/// and Use Usage Plans</a> </div>
 class UsagePlanKeys {
   /// The current page of elements from this collection.
   final List<UsagePlanKey>? items;
@@ -10458,9 +9470,6 @@ class UsagePlanKeys {
 }
 
 /// Represents a collection of usage plans for an AWS account.
-/// <div class="seeAlso"> <a
-/// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-api-usage-plans.html">Create
-/// and Use Usage Plans</a> </div>
 class UsagePlans {
   /// The current page of elements from this collection.
   final List<UsagePlan>? items;
@@ -10491,26 +9500,14 @@ class UsagePlans {
   }
 }
 
-/// An API Gateway VPC link for a <a>RestApi</a> to access resources in an
-/// Amazon Virtual Private Cloud (VPC).
-/// <div class="remarks">
-///
-/// To enable access to a resource in an Amazon Virtual Private Cloud through
-/// Amazon API Gateway, you, as an API developer, create a <a>VpcLink</a>
-/// resource targeted for one or more network load balancers of the VPC and then
-/// integrate an API method with a private integration that uses the
-/// <a>VpcLink</a>. The private integration has an integration type of
-/// <code>HTTP</code> or <code>HTTP_PROXY</code> and has a connection type of
-/// <code>VPC_LINK</code>. The integration uses the <code>connectionId</code>
-/// property to identify the <a>VpcLink</a> used.
-///
-/// </div>
+/// An API Gateway VPC link for a RestApi to access resources in an Amazon
+/// Virtual Private Cloud (VPC).
 class VpcLink {
   /// The description of the VPC link.
   final String? description;
 
-  /// The identifier of the <a>VpcLink</a>. It is used in an <a>Integration</a> to
-  /// reference this <a>VpcLink</a>.
+  /// The identifier of the VpcLink. It is used in an Integration to reference
+  /// this VpcLink.
   final String? id;
 
   /// The name used to label and identify the VPC link.
@@ -10619,11 +9616,6 @@ extension on String {
 }
 
 /// The collection of VPC links under the caller's account in a region.
-/// <div class="seeAlso"> <a
-/// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/getting-started-with-private-integration.html">Getting
-/// Started with Private Integrations</a>, <a
-/// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-private-integration.html">Set
-/// up Private Integrations</a> </div>
 class VpcLinks {
   /// The current page of elements from this collection.
   final List<VpcLink>? items;

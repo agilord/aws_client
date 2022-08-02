@@ -148,6 +148,37 @@
       ],
       "documentation": "<p>Copies the specified image from the specified Region to the current Region. For more information about copying images, see <a href=\"https://docs.aws.amazon.com/workspaces/latest/adminguide/copy-custom-image.html\"> Copy a Custom WorkSpaces Image</a>.</p> <p>In the China (Ningxia) Region, you can copy images only within the same Region.</p> <p>In Amazon Web Services GovCloud (US), to copy images to and from other Regions, contact Amazon Web Services Support.</p> <important> <p>Before copying a shared image, be sure to verify that it has been shared from the correct Amazon Web Services account. To determine if an image has been shared and to see the ID of the Amazon Web Services account that owns an image, use the <a href=\"https://docs.aws.amazon.com/workspaces/latest/api/API_DescribeWorkspaceImages.html\">DescribeWorkSpaceImages</a> and <a href=\"https://docs.aws.amazon.com/workspaces/latest/api/API_DescribeWorkspaceImagePermissions.html\">DescribeWorkspaceImagePermissions</a> API operations. </p> </important>"
     },
+    "CreateConnectClientAddIn": {
+      "name": "CreateConnectClientAddIn",
+      "http": {
+        "method": "POST",
+        "requestUri": "/"
+      },
+      "input": {
+        "shape": "CreateConnectClientAddInRequest"
+      },
+      "output": {
+        "shape": "CreateConnectClientAddInResult"
+      },
+      "errors": [
+        {
+          "shape": "InvalidParameterValuesException"
+        },
+        {
+          "shape": "ResourceNotFoundException"
+        },
+        {
+          "shape": "ResourceCreationFailedException"
+        },
+        {
+          "shape": "ResourceAlreadyExistsException"
+        },
+        {
+          "shape": "AccessDeniedException"
+        }
+      ],
+      "documentation": "<p>Creates a client-add-in for Amazon Connect within a directory. You can create only one Amazon Connect client add-in within a directory.</p> <p>This client add-in allows WorkSpaces users to seamlessly connect to Amazon Connect.</p>"
+    },
     "CreateConnectionAlias": {
       "name": "CreateConnectionAlias",
       "http": {
@@ -309,6 +340,43 @@
       ],
       "documentation": "<p>Creates the specified WorkSpace bundle. For more information about creating WorkSpace bundles, see <a href=\"https://docs.aws.amazon.com/workspaces/latest/adminguide/create-custom-bundle.html\"> Create a Custom WorkSpaces Image and Bundle</a>.</p>"
     },
+    "CreateWorkspaceImage": {
+      "name": "CreateWorkspaceImage",
+      "http": {
+        "method": "POST",
+        "requestUri": "/"
+      },
+      "input": {
+        "shape": "CreateWorkspaceImageRequest"
+      },
+      "output": {
+        "shape": "CreateWorkspaceImageResult"
+      },
+      "errors": [
+        {
+          "shape": "ResourceLimitExceededException"
+        },
+        {
+          "shape": "ResourceAlreadyExistsException"
+        },
+        {
+          "shape": "ResourceNotFoundException"
+        },
+        {
+          "shape": "OperationNotSupportedException"
+        },
+        {
+          "shape": "InvalidResourceStateException"
+        },
+        {
+          "shape": "AccessDeniedException"
+        },
+        {
+          "shape": "InvalidParameterValuesException"
+        }
+      ],
+      "documentation": "<p>Creates a new WorkSpace image from an existing WorkSpace.</p>"
+    },
     "CreateWorkspaces": {
       "name": "CreateWorkspaces",
       "http": {
@@ -330,6 +398,56 @@
         }
       ],
       "documentation": "<p>Creates one or more WorkSpaces.</p> <p>This operation is asynchronous and returns before the WorkSpaces are created.</p>"
+    },
+    "DeleteClientBranding": {
+      "name": "DeleteClientBranding",
+      "http": {
+        "method": "POST",
+        "requestUri": "/"
+      },
+      "input": {
+        "shape": "DeleteClientBrandingRequest"
+      },
+      "output": {
+        "shape": "DeleteClientBrandingResult"
+      },
+      "errors": [
+        {
+          "shape": "InvalidParameterValuesException"
+        },
+        {
+          "shape": "ResourceNotFoundException"
+        },
+        {
+          "shape": "AccessDeniedException"
+        }
+      ],
+      "documentation": "<p>Deletes customized client branding. Client branding allows you to customize your WorkSpace's client login portal. You can tailor your login portal company logo, the support email address, support link, link to reset password, and a custom message for users trying to sign in.</p> <p>After you delete your customized client branding, your login portal reverts to the default client branding.</p>"
+    },
+    "DeleteConnectClientAddIn": {
+      "name": "DeleteConnectClientAddIn",
+      "http": {
+        "method": "POST",
+        "requestUri": "/"
+      },
+      "input": {
+        "shape": "DeleteConnectClientAddInRequest"
+      },
+      "output": {
+        "shape": "DeleteConnectClientAddInResult"
+      },
+      "errors": [
+        {
+          "shape": "InvalidParameterValuesException"
+        },
+        {
+          "shape": "ResourceNotFoundException"
+        },
+        {
+          "shape": "AccessDeniedException"
+        }
+      ],
+      "documentation": "<p>Deletes a client-add-in for Amazon Connect that is configured within a directory.</p>"
     },
     "DeleteConnectionAlias": {
       "name": "DeleteConnectionAlias",
@@ -537,6 +655,31 @@
       ],
       "documentation": "<p>Retrieves a list that describes modifications to the configuration of Bring Your Own License (BYOL) for the specified account.</p>"
     },
+    "DescribeClientBranding": {
+      "name": "DescribeClientBranding",
+      "http": {
+        "method": "POST",
+        "requestUri": "/"
+      },
+      "input": {
+        "shape": "DescribeClientBrandingRequest"
+      },
+      "output": {
+        "shape": "DescribeClientBrandingResult"
+      },
+      "errors": [
+        {
+          "shape": "InvalidParameterValuesException"
+        },
+        {
+          "shape": "ResourceNotFoundException"
+        },
+        {
+          "shape": "AccessDeniedException"
+        }
+      ],
+      "documentation": "<p>Describes the specified client branding. Client branding allows you to customize the log in page of various device types for your users. You can add your company logo, the support email address, support link, link to reset password, and a custom message for users trying to sign in.</p> <note> <p>Only device types that have branding information configured will be shown in the response.</p> </note>"
+    },
     "DescribeClientProperties": {
       "name": "DescribeClientProperties",
       "http": {
@@ -561,6 +704,31 @@
         }
       ],
       "documentation": "<p>Retrieves a list that describes one or more specified Amazon WorkSpaces clients.</p>"
+    },
+    "DescribeConnectClientAddIns": {
+      "name": "DescribeConnectClientAddIns",
+      "http": {
+        "method": "POST",
+        "requestUri": "/"
+      },
+      "input": {
+        "shape": "DescribeConnectClientAddInsRequest"
+      },
+      "output": {
+        "shape": "DescribeConnectClientAddInsResult"
+      },
+      "errors": [
+        {
+          "shape": "InvalidParameterValuesException"
+        },
+        {
+          "shape": "ResourceNotFoundException"
+        },
+        {
+          "shape": "AccessDeniedException"
+        }
+      ],
+      "documentation": "<p>Retrieves a list of Amazon Connect client add-ins that have been created.</p>"
     },
     "DescribeConnectionAliasPermissions": {
       "name": "DescribeConnectionAliasPermissions",
@@ -863,6 +1031,34 @@
       ],
       "documentation": "<p>Disassociates the specified IP access control group from the specified directory.</p>"
     },
+    "ImportClientBranding": {
+      "name": "ImportClientBranding",
+      "http": {
+        "method": "POST",
+        "requestUri": "/"
+      },
+      "input": {
+        "shape": "ImportClientBrandingRequest"
+      },
+      "output": {
+        "shape": "ImportClientBrandingResult"
+      },
+      "errors": [
+        {
+          "shape": "InvalidParameterValuesException"
+        },
+        {
+          "shape": "ResourceLimitExceededException"
+        },
+        {
+          "shape": "ResourceNotFoundException"
+        },
+        {
+          "shape": "AccessDeniedException"
+        }
+      ],
+      "documentation": "<p>Imports client branding. Client branding allows you to customize your WorkSpace's client login portal. You can tailor your login portal company logo, the support email address, support link, link to reset password, and a custom message for users trying to sign in.</p> <p>After you import client branding, the default branding experience for the specified platform type is replaced with the imported experience</p> <note> <ul> <li> <p>You must specify at least one platform type when importing client branding.</p> </li> <li> <p>You can import up to 6 MB of data with each request. If your request exceeds this limit, you can import client branding for different platform types using separate requests.</p> </li> <li> <p>In each platform type, the <code>SupportEmail</code> and <code>SupportLink</code> parameters are mutually exclusive. You can specify only one parameter for each platform type, but not both.</p> </li> <li> <p>Imported data can take up to a minute to appear in the WorkSpaces client.</p> </li> </ul> </note>"
+    },
     "ImportWorkspaceImage": {
       "name": "ImportWorkspaceImage",
       "http": {
@@ -1008,6 +1204,34 @@
         }
       ],
       "documentation": "<p>Modifies the properties of the specified Amazon WorkSpaces clients.</p>"
+    },
+    "ModifySamlProperties": {
+      "name": "ModifySamlProperties",
+      "http": {
+        "method": "POST",
+        "requestUri": "/"
+      },
+      "input": {
+        "shape": "ModifySamlPropertiesRequest"
+      },
+      "output": {
+        "shape": "ModifySamlPropertiesResult"
+      },
+      "errors": [
+        {
+          "shape": "AccessDeniedException"
+        },
+        {
+          "shape": "InvalidParameterValuesException"
+        },
+        {
+          "shape": "OperationNotSupportedException"
+        },
+        {
+          "shape": "ResourceNotFoundException"
+        }
+      ],
+      "documentation": "<p>Modifies multiple properties related to SAML 2.0 authentication, including the enablement status, user access URL, and relay state parameter name that are used for configuring federation with an SAML 2.0 identity provider.</p>"
     },
     "ModifySelfservicePermissions": {
       "name": "ModifySelfservicePermissions",
@@ -1309,6 +1533,31 @@
       },
       "documentation": "<p>Terminates the specified WorkSpaces.</p> <important> <p>Terminating a WorkSpace is a permanent action and cannot be undone. The user's data is destroyed. If you need to archive any user data, contact Amazon Web Services Support before terminating the WorkSpace.</p> </important> <p>You can terminate a WorkSpace that is in any state except <code>SUSPENDED</code>.</p> <p>This operation is asynchronous and returns before the WorkSpaces have been completely terminated. After a WorkSpace is terminated, the <code>TERMINATED</code> state is returned only briefly before the WorkSpace directory metadata is cleaned up, so this state is rarely returned. To confirm that a WorkSpace is terminated, check for the WorkSpace ID by using <a href=\"https://docs.aws.amazon.com/workspaces/latest/api/API_DescribeWorkspaces.html\"> DescribeWorkSpaces</a>. If the WorkSpace ID isn't returned, then the WorkSpace has been successfully terminated.</p> <note> <p>Simple AD and AD Connector are made available to you free of charge to use with WorkSpaces. If there are no WorkSpaces being used with your Simple AD or AD Connector directory for 30 consecutive days, this directory will be automatically deregistered for use with Amazon WorkSpaces, and you will be charged for this directory as per the <a href=\"http://aws.amazon.com/directoryservice/pricing/\">Directory Service pricing terms</a>.</p> <p>To delete empty directories, see <a href=\"https://docs.aws.amazon.com/workspaces/latest/adminguide/delete-workspaces-directory.html\"> Delete the Directory for Your WorkSpaces</a>. If you delete your Simple AD or AD Connector directory, you can always create a new one when you want to start using WorkSpaces again.</p> </note>"
     },
+    "UpdateConnectClientAddIn": {
+      "name": "UpdateConnectClientAddIn",
+      "http": {
+        "method": "POST",
+        "requestUri": "/"
+      },
+      "input": {
+        "shape": "UpdateConnectClientAddInRequest"
+      },
+      "output": {
+        "shape": "UpdateConnectClientAddInResult"
+      },
+      "errors": [
+        {
+          "shape": "InvalidParameterValuesException"
+        },
+        {
+          "shape": "ResourceNotFoundException"
+        },
+        {
+          "shape": "AccessDeniedException"
+        }
+      ],
+      "documentation": "<p>Updates a Amazon Connect client add-in. Use this action to update the name and endpoint URL of a Amazon Connect client add-in.</p>"
+    },
     "UpdateConnectionAliasPermission": {
       "name": "UpdateConnectionAliasPermission",
       "http": {
@@ -1485,8 +1734,26 @@
         "shape": "AccountModification"
       }
     },
+    "AddInName": {
+      "type": "string",
+      "max": 64,
+      "min": 1,
+      "pattern": "^.*$"
+    },
+    "AddInUrl": {
+      "type": "string",
+      "max": 1024,
+      "min": 1,
+      "pattern": "^(http|https)\\://\\S+"
+    },
     "Alias": {
       "type": "string"
+    },
+    "AmazonUuid": {
+      "type": "string",
+      "max": 36,
+      "min": 36,
+      "pattern": "[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}"
     },
     "Application": {
       "type": "string",
@@ -1609,6 +1876,43 @@
     "BundleOwner": {
       "type": "string"
     },
+    "ClientDeviceType": {
+      "type": "string",
+      "enum": [
+        "DeviceTypeWindows",
+        "DeviceTypeOsx",
+        "DeviceTypeAndroid",
+        "DeviceTypeIos",
+        "DeviceTypeLinux",
+        "DeviceTypeWeb"
+      ]
+    },
+    "ClientDeviceTypeList": {
+      "type": "list",
+      "member": {
+        "shape": "ClientDeviceType"
+      },
+      "max": 6,
+      "min": 1
+    },
+    "ClientEmail": {
+      "type": "string",
+      "max": 64,
+      "min": 6,
+      "pattern": "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$"
+    },
+    "ClientLocale": {
+      "type": "string",
+      "max": 5,
+      "min": 5,
+      "pattern": "^[a-z]{2}_[A-Z]{2}$"
+    },
+    "ClientLoginMessage": {
+      "type": "string",
+      "max": 2000,
+      "min": 0,
+      "pattern": "^.*$"
+    },
     "ClientProperties": {
       "type": "structure",
       "members": {
@@ -1639,6 +1943,12 @@
       },
       "documentation": "<p>Information about the Amazon WorkSpaces client.</p>"
     },
+    "ClientUrl": {
+      "type": "string",
+      "max": 200,
+      "min": 1,
+      "pattern": "^(http|https)\\://\\S+"
+    },
     "Compute": {
       "type": "string",
       "enum": [
@@ -1648,7 +1958,9 @@
         "POWER",
         "GRAPHICS",
         "POWERPRO",
-        "GRAPHICSPRO"
+        "GRAPHICSPRO",
+        "GRAPHICS_G4DN",
+        "GRAPHICSPRO_G4DN"
       ]
     },
     "ComputeType": {
@@ -1663,6 +1975,34 @@
     },
     "ComputerName": {
       "type": "string"
+    },
+    "ConnectClientAddIn": {
+      "type": "structure",
+      "members": {
+        "AddInId": {
+          "shape": "AmazonUuid",
+          "documentation": "<p>The client add-in identifier.</p>"
+        },
+        "ResourceId": {
+          "shape": "DirectoryId",
+          "documentation": "<p>The directory identifier for which the client add-in is configured.</p>"
+        },
+        "Name": {
+          "shape": "AddInName",
+          "documentation": "<p>The name of the client add in.</p>"
+        },
+        "URL": {
+          "shape": "AddInUrl",
+          "documentation": "<p>The endpoint URL of the client add-in.</p>"
+        }
+      },
+      "documentation": "<p>Describes an Amazon Connect client add-in.</p>"
+    },
+    "ConnectClientAddInList": {
+      "type": "list",
+      "member": {
+        "shape": "ConnectClientAddIn"
+      }
     },
     "ConnectionAlias": {
       "type": "structure",
@@ -1835,6 +2175,37 @@
         }
       }
     },
+    "CreateConnectClientAddInRequest": {
+      "type": "structure",
+      "required": [
+        "ResourceId",
+        "Name",
+        "URL"
+      ],
+      "members": {
+        "ResourceId": {
+          "shape": "DirectoryId",
+          "documentation": "<p>The directory identifier for which to configure the client add-in.</p>"
+        },
+        "Name": {
+          "shape": "AddInName",
+          "documentation": "<p>The name of the client add-in.</p>"
+        },
+        "URL": {
+          "shape": "AddInUrl",
+          "documentation": "<p>The endpoint URL of the Amazon Connect client add-in.</p>"
+        }
+      }
+    },
+    "CreateConnectClientAddInResult": {
+      "type": "structure",
+      "members": {
+        "AddInId": {
+          "shape": "AmazonUuid",
+          "documentation": "<p>The client add-in identifier.</p>"
+        }
+      }
+    },
     "CreateConnectionAliasRequest": {
       "type": "structure",
       "required": [
@@ -1994,6 +2365,69 @@
         }
       }
     },
+    "CreateWorkspaceImageRequest": {
+      "type": "structure",
+      "required": [
+        "Name",
+        "Description",
+        "WorkspaceId"
+      ],
+      "members": {
+        "Name": {
+          "shape": "WorkspaceImageName",
+          "documentation": "<p>The name of the new WorkSpace image.</p>"
+        },
+        "Description": {
+          "shape": "WorkspaceImageDescription",
+          "documentation": "<p>The description of the new WorkSpace image.</p>"
+        },
+        "WorkspaceId": {
+          "shape": "WorkspaceId",
+          "documentation": "<p>The identifier of the source WorkSpace</p>"
+        },
+        "Tags": {
+          "shape": "TagList",
+          "documentation": "<p>The tags that you want to add to the new WorkSpace image. To add tags when you're creating the image, you must create an IAM policy that grants your IAM user permission to use <code>workspaces:CreateTags</code>.</p>"
+        }
+      }
+    },
+    "CreateWorkspaceImageResult": {
+      "type": "structure",
+      "members": {
+        "ImageId": {
+          "shape": "WorkspaceImageId",
+          "documentation": "<p>The identifier of the new WorkSpace image.</p>"
+        },
+        "Name": {
+          "shape": "WorkspaceImageName",
+          "documentation": "<p>The name of the image.</p>"
+        },
+        "Description": {
+          "shape": "WorkspaceImageDescription",
+          "documentation": "<p>The description of the image.</p>"
+        },
+        "OperatingSystem": {
+          "shape": "OperatingSystem",
+          "documentation": "<p>The operating system that the image is running.</p>"
+        },
+        "State": {
+          "shape": "WorkspaceImageState",
+          "documentation": "<p>The availability status of the image.</p>"
+        },
+        "RequiredTenancy": {
+          "shape": "WorkspaceImageRequiredTenancy",
+          "documentation": "<p>Specifies whether the image is running on dedicated hardware. When Bring Your Own License (BYOL) is enabled, this value is set to DEDICATED. For more information, see <a href=\"https://docs.aws.amazon.com/workspaces/latest/adminguide/byol-windows-images.htm\"> Bring Your Own Windows Desktop Images.</a> </p>"
+        },
+        "Created": {
+          "shape": "Timestamp",
+          "documentation": "<p>The date when the image was created.</p>"
+        },
+        "OwnerAccountId": {
+          "shape": "AwsAccount",
+          "documentation": "<p>The identifier of the AWS account that owns the image.</p>"
+        }
+      }
+    },
     "CreateWorkspacesRequest": {
       "type": "structure",
       "required": [
@@ -2050,6 +2484,63 @@
         "DISABLED"
       ]
     },
+    "DefaultClientBrandingAttributes": {
+      "type": "structure",
+      "members": {
+        "LogoUrl": {
+          "shape": "ClientUrl",
+          "documentation": "<p>The logo. The only image format accepted is a binary data object that is converted from a <code>.png</code> file.</p>"
+        },
+        "SupportEmail": {
+          "shape": "ClientEmail",
+          "documentation": "<p>The support email. The company's customer support email address.</p> <note> <ul> <li> <p>In each platform type, the <code>SupportEmail</code> and <code>SupportLink</code> parameters are mutually exclusive. You can specify one parameter for each platform type, but not both.</p> </li> <li> <p>The default email is <code>workspaces-feedback@amazon.com</code>.</p> </li> </ul> </note>"
+        },
+        "SupportLink": {
+          "shape": "ClientUrl",
+          "documentation": "<p>The support link. The link for the company's customer support page for their WorkSpace.</p> <note> <ul> <li> <p>In each platform type, the <code>SupportEmail</code> and <code>SupportLink</code> parameters are mutually exclusive.You can specify one parameter for each platform type, but not both.</p> </li> <li> <p>The default support link is <code>workspaces-feedback@amazon.com</code>.</p> </li> </ul> </note>"
+        },
+        "ForgotPasswordLink": {
+          "shape": "ClientUrl",
+          "documentation": "<p>The forgotten password link. This is the web address that users can go to if they forget the password for their WorkSpace.</p>"
+        },
+        "LoginMessage": {
+          "shape": "LoginMessage",
+          "documentation": "<p>The login message. Specified as a key value pair, in which the key is a locale and the value is the localized message for that locale. The only key supported is <code>en_US</code>. The HTML tags supported include the following: <code>a, b, blockquote, br, cite, code, dd, dl, dt, div, em, i, li, ol, p, pre, q, small, span, strike, strong, sub, sup, u, ul</code>.</p>"
+        }
+      },
+      "documentation": "<p>Returns default client branding attributes that were imported. These attributes display on the client login screen.</p> <important> <p>Client branding attributes are public facing. Ensure that you don't include sensitive information.</p> </important>"
+    },
+    "DefaultImportClientBrandingAttributes": {
+      "type": "structure",
+      "members": {
+        "Logo": {
+          "shape": "DefaultLogo",
+          "documentation": "<p>The logo. The only image format accepted is a binary data object that is converted from a <code>.png</code> file.</p>"
+        },
+        "SupportEmail": {
+          "shape": "ClientEmail",
+          "documentation": "<p>The support email. The company's customer support email address.</p> <note> <ul> <li> <p>In each platform type, the <code>SupportEmail</code> and <code>SupportLink</code> parameters are mutually exclusive. You can specify one parameter for each platform type, but not both.</p> </li> <li> <p>The default email is <code>workspaces-feedback@amazon.com</code>.</p> </li> </ul> </note>"
+        },
+        "SupportLink": {
+          "shape": "ClientUrl",
+          "documentation": "<p>The support link. The link for the company's customer support page for their WorkSpace.</p> <note> <ul> <li> <p>In each platform type, the <code>SupportEmail</code> and <code>SupportLink</code> parameters are mutually exclusive. You can specify one parameter for each platform type, but not both.</p> </li> <li> <p>The default support link is <code>workspaces-feedback@amazon.com</code>.</p> </li> </ul> </note>"
+        },
+        "ForgotPasswordLink": {
+          "shape": "ClientUrl",
+          "documentation": "<p>The forgotten password link. This is the web address that users can go to if they forget the password for their WorkSpace.</p>"
+        },
+        "LoginMessage": {
+          "shape": "LoginMessage",
+          "documentation": "<p>The login message. Specified as a key value pair, in which the key is a locale and the value is the localized message for that locale. The only key supported is <code>en_US</code>. The HTML tags supported include the following: <code>a, b, blockquote, br, cite, code, dd, dl, dt, div, em, i, li, ol, p, pre, q, small, span, strike, strong, sub, sup, u, ul</code>.</p>"
+        }
+      },
+      "documentation": "<p>The default client branding attributes to be imported. These attributes display on the client login screen.</p> <important> <p>Client branding attributes are public facing. Ensure that you do not include sensitive information.</p> </important>"
+    },
+    "DefaultLogo": {
+      "type": "blob",
+      "max": 1500000,
+      "min": 1
+    },
     "DefaultOu": {
       "type": "string"
     },
@@ -2082,6 +2573,61 @@
         }
       },
       "documentation": "<p>Describes the default values that are used to create WorkSpaces. For more information, see <a href=\"https://docs.aws.amazon.com/workspaces/latest/adminguide/update-directory-details.html\">Update Directory Details for Your WorkSpaces</a>.</p>"
+    },
+    "DeletableSamlPropertiesList": {
+      "type": "list",
+      "member": {
+        "shape": "DeletableSamlProperty"
+      }
+    },
+    "DeletableSamlProperty": {
+      "type": "string",
+      "enum": [
+        "SAML_PROPERTIES_USER_ACCESS_URL",
+        "SAML_PROPERTIES_RELAY_STATE_PARAMETER_NAME"
+      ]
+    },
+    "DeleteClientBrandingRequest": {
+      "type": "structure",
+      "required": [
+        "ResourceId",
+        "Platforms"
+      ],
+      "members": {
+        "ResourceId": {
+          "shape": "DirectoryId",
+          "documentation": "<p>The directory identifier of the WorkSpace for which you want to delete client branding.</p>"
+        },
+        "Platforms": {
+          "shape": "ClientDeviceTypeList",
+          "documentation": "<p>The device type for which you want to delete client branding.</p>"
+        }
+      }
+    },
+    "DeleteClientBrandingResult": {
+      "type": "structure",
+      "members": {}
+    },
+    "DeleteConnectClientAddInRequest": {
+      "type": "structure",
+      "required": [
+        "AddInId",
+        "ResourceId"
+      ],
+      "members": {
+        "AddInId": {
+          "shape": "AmazonUuid",
+          "documentation": "<p>The identifier of the client add-in to delete.</p>"
+        },
+        "ResourceId": {
+          "shape": "DirectoryId",
+          "documentation": "<p>The directory identifier for which the client add-in is configured.</p>"
+        }
+      }
+    },
+    "DeleteConnectClientAddInResult": {
+      "type": "structure",
+      "members": {}
     },
     "DeleteConnectionAliasRequest": {
       "type": "structure",
@@ -2220,6 +2766,47 @@
         }
       }
     },
+    "DescribeClientBrandingRequest": {
+      "type": "structure",
+      "required": [
+        "ResourceId"
+      ],
+      "members": {
+        "ResourceId": {
+          "shape": "DirectoryId",
+          "documentation": "<p>The directory identifier of the WorkSpace for which you want to view client branding information.</p>"
+        }
+      }
+    },
+    "DescribeClientBrandingResult": {
+      "type": "structure",
+      "members": {
+        "DeviceTypeWindows": {
+          "shape": "DefaultClientBrandingAttributes",
+          "documentation": "<p>The branding information for Windows devices.</p>"
+        },
+        "DeviceTypeOsx": {
+          "shape": "DefaultClientBrandingAttributes",
+          "documentation": "<p>The branding information for macOS devices.</p>"
+        },
+        "DeviceTypeAndroid": {
+          "shape": "DefaultClientBrandingAttributes",
+          "documentation": "<p>The branding information for Android devices.</p>"
+        },
+        "DeviceTypeIos": {
+          "shape": "IosClientBrandingAttributes",
+          "documentation": "<p>The branding information for iOS devices.</p>"
+        },
+        "DeviceTypeLinux": {
+          "shape": "DefaultClientBrandingAttributes",
+          "documentation": "<p>The branding information for Linux devices.</p>"
+        },
+        "DeviceTypeWeb": {
+          "shape": "DefaultClientBrandingAttributes",
+          "documentation": "<p>The branding information for Web access.</p>"
+        }
+      }
+    },
     "DescribeClientPropertiesRequest": {
       "type": "structure",
       "required": [
@@ -2238,6 +2825,39 @@
         "ClientPropertiesList": {
           "shape": "ClientPropertiesList",
           "documentation": "<p>Information about the specified Amazon WorkSpaces clients.</p>"
+        }
+      }
+    },
+    "DescribeConnectClientAddInsRequest": {
+      "type": "structure",
+      "required": [
+        "ResourceId"
+      ],
+      "members": {
+        "ResourceId": {
+          "shape": "DirectoryId",
+          "documentation": "<p>The directory identifier for which the client add-in is configured.</p>"
+        },
+        "NextToken": {
+          "shape": "PaginationToken",
+          "documentation": "<p>If you received a <code>NextToken</code> from a previous call that was paginated, provide this token to receive the next set of results.</p>"
+        },
+        "MaxResults": {
+          "shape": "Limit",
+          "documentation": "<p>The maximum number of items to return.</p>"
+        }
+      }
+    },
+    "DescribeConnectClientAddInsResult": {
+      "type": "structure",
+      "members": {
+        "AddIns": {
+          "shape": "ConnectClientAddInList",
+          "documentation": "<p>Information about client add-ins.</p>"
+        },
+        "NextToken": {
+          "shape": "PaginationToken",
+          "documentation": "<p>The token to use to retrieve the next page of results. This value is null when there are no more results to return. </p>"
         }
       }
     },
@@ -2758,6 +3378,71 @@
         "SHARED"
       ]
     },
+    "ImportClientBrandingRequest": {
+      "type": "structure",
+      "required": [
+        "ResourceId"
+      ],
+      "members": {
+        "ResourceId": {
+          "shape": "DirectoryId",
+          "documentation": "<p>The directory identifier of the WorkSpace for which you want to import client branding.</p>"
+        },
+        "DeviceTypeWindows": {
+          "shape": "DefaultImportClientBrandingAttributes",
+          "documentation": "<p>The branding information to import for Windows devices.</p>"
+        },
+        "DeviceTypeOsx": {
+          "shape": "DefaultImportClientBrandingAttributes",
+          "documentation": "<p>The branding information to import for macOS devices.</p>"
+        },
+        "DeviceTypeAndroid": {
+          "shape": "DefaultImportClientBrandingAttributes",
+          "documentation": "<p>The branding information to import for Android devices.</p>"
+        },
+        "DeviceTypeIos": {
+          "shape": "IosImportClientBrandingAttributes",
+          "documentation": "<p>The branding information to import for iOS devices.</p>"
+        },
+        "DeviceTypeLinux": {
+          "shape": "DefaultImportClientBrandingAttributes",
+          "documentation": "<p>The branding information to import for Linux devices.</p>"
+        },
+        "DeviceTypeWeb": {
+          "shape": "DefaultImportClientBrandingAttributes",
+          "documentation": "<p>The branding information to import for web access.</p>"
+        }
+      }
+    },
+    "ImportClientBrandingResult": {
+      "type": "structure",
+      "members": {
+        "DeviceTypeWindows": {
+          "shape": "DefaultClientBrandingAttributes",
+          "documentation": "<p>The branding information configured for Windows devices.</p>"
+        },
+        "DeviceTypeOsx": {
+          "shape": "DefaultClientBrandingAttributes",
+          "documentation": "<p>The branding information configured for macOS devices.</p>"
+        },
+        "DeviceTypeAndroid": {
+          "shape": "DefaultClientBrandingAttributes",
+          "documentation": "<p>The branding information configured for Android devices.</p>"
+        },
+        "DeviceTypeIos": {
+          "shape": "IosClientBrandingAttributes",
+          "documentation": "<p>The branding information configured for iOS devices.</p>"
+        },
+        "DeviceTypeLinux": {
+          "shape": "DefaultClientBrandingAttributes",
+          "documentation": "<p>The branding information configured for Linux devices.</p>"
+        },
+        "DeviceTypeWeb": {
+          "shape": "DefaultClientBrandingAttributes",
+          "documentation": "<p>The branding information configured for web access.</p>"
+        }
+      }
+    },
     "ImportWorkspaceImageRequest": {
       "type": "structure",
       "required": [
@@ -2801,6 +3486,89 @@
           "documentation": "<p>The identifier of the WorkSpace image.</p>"
         }
       }
+    },
+    "Ios2XLogo": {
+      "type": "blob",
+      "max": 1770000,
+      "min": 1
+    },
+    "Ios3XLogo": {
+      "type": "blob",
+      "max": 1770000,
+      "min": 1
+    },
+    "IosClientBrandingAttributes": {
+      "type": "structure",
+      "members": {
+        "LogoUrl": {
+          "shape": "ClientUrl",
+          "documentation": "<p>The logo. This is the standard-resolution display that has a 1:1 pixel density (or @1x), where one pixel is equal to one point. The only image format accepted is a binary data object that is converted from a <code>.png</code> file.</p>"
+        },
+        "Logo2xUrl": {
+          "shape": "ClientUrl",
+          "documentation": "<p>The @2x version of the logo. This is the higher resolution display that offers a scale factor of 2.0 (or @2x). The only image format accepted is a binary data object that is converted from a <code>.png</code> file.</p> <note> <p> For more information about iOS image size and resolution, see <a href=\"https://developer.apple.com/design/human-interface-guidelines/ios/icons-and-images/image-size-and-resolution/\">Image Size and Resolution </a> in the <i>Apple Human Interface Guidelines</i>.</p> </note>"
+        },
+        "Logo3xUrl": {
+          "shape": "ClientUrl",
+          "documentation": "<p>The @3x version of the logo. This is the higher resolution display that offers a scale factor of 3.0 (or @3x).The only image format accepted is a binary data object that is converted from a <code>.png</code> file.</p> <note> <p> For more information about iOS image size and resolution, see <a href=\"https://developer.apple.com/design/human-interface-guidelines/ios/icons-and-images/image-size-and-resolution/\">Image Size and Resolution </a> in the <i>Apple Human Interface Guidelines</i>.</p> </note>"
+        },
+        "SupportEmail": {
+          "shape": "ClientEmail",
+          "documentation": "<p>The support email. The company's customer support email address.</p> <note> <ul> <li> <p>In each platform type, the <code>SupportEmail</code> and <code>SupportLink</code> parameters are mutually exclusive. You can specify one parameter for each platform type, but not both.</p> </li> <li> <p>The default email is <code>workspaces-feedback@amazon.com</code>.</p> </li> </ul> </note>"
+        },
+        "SupportLink": {
+          "shape": "ClientUrl",
+          "documentation": "<p>The support link. The link for the company's customer support page for their WorkSpace.</p> <note> <ul> <li> <p>In each platform type, the <code>SupportEmail</code> and <code>SupportLink</code> parameters are mutually exclusive. You can specify one parameter for each platform type, but not both.</p> </li> <li> <p>The default support link is <code>workspaces-feedback@amazon.com</code>.</p> </li> </ul> </note>"
+        },
+        "ForgotPasswordLink": {
+          "shape": "ClientUrl",
+          "documentation": "<p>The forgotten password link. This is the web address that users can go to if they forget the password for their WorkSpace.</p>"
+        },
+        "LoginMessage": {
+          "shape": "LoginMessage",
+          "documentation": "<p>The login message. Specified as a key value pair, in which the key is a locale and the value is the localized message for that locale. The only key supported is <code>en_US</code>. The HTML tags supported include the following: <code>a, b, blockquote, br, cite, code, dd, dl, dt, div, em, i, li, ol, p, pre, q, small, span, strike, strong, sub, sup, u, ul</code>.</p>"
+        }
+      },
+      "documentation": "<p>The client branding attributes for iOS device types. These attributes are displayed on the iOS client login screen only.</p> <important> <p>Client branding attributes are public facing. Ensure you do not include sensitive information.</p> </important>"
+    },
+    "IosImportClientBrandingAttributes": {
+      "type": "structure",
+      "members": {
+        "Logo": {
+          "shape": "IosLogo",
+          "documentation": "<p>The logo. This is the standard-resolution display that has a 1:1 pixel density (or @1x), where one pixel is equal to one point. The only image format accepted is a binary data object that is converted from a <code>.png</code> file.</p>"
+        },
+        "Logo2x": {
+          "shape": "Ios2XLogo",
+          "documentation": "<p>The @2x version of the logo. This is the higher resolution display that offers a scale factor of 2.0 (or @2x). The only image format accepted is a binary data object that is converted from a <code>.png</code> file.</p> <note> <p> For more information about iOS image size and resolution, see <a href=\"https://developer.apple.com/design/human-interface-guidelines/ios/icons-and-images/image-size-and-resolution/\">Image Size and Resolution </a> in the <i>Apple Human Interface Guidelines</i>.</p> </note>"
+        },
+        "Logo3x": {
+          "shape": "Ios3XLogo",
+          "documentation": "<p>The @3x version of the logo. This is the higher resolution display that offers a scale factor of 3.0 (or @3x). The only image format accepted is a binary data object that is converted from a <code>.png</code> file.</p> <note> <p> For more information about iOS image size and resolution, see <a href=\"https://developer.apple.com/design/human-interface-guidelines/ios/icons-and-images/image-size-and-resolution/\">Image Size and Resolution </a> in the <i>Apple Human Interface Guidelines</i>.</p> </note>"
+        },
+        "SupportEmail": {
+          "shape": "ClientEmail",
+          "documentation": "<p>The support email. The company's customer support email address.</p> <note> <ul> <li> <p>In each platform type, the <code>SupportEmail</code> and <code>SupportLink</code> parameters are mutually exclusive. You can specify one parameter for each platform type, but not both.</p> </li> <li> <p>The default email is <code>workspaces-feedback@amazon.com</code>.</p> </li> </ul> </note>"
+        },
+        "SupportLink": {
+          "shape": "ClientUrl",
+          "documentation": "<p>The support link. The link for the company's customer support page for their WorkSpace.</p> <note> <ul> <li> <p>In each platform type, the <code>SupportEmail</code> and <code>SupportLink</code> parameters are mutually exclusive. You can specify one parameter for each platform type, but not both.</p> </li> <li> <p>The default support link is <code>workspaces-feedback@amazon.com</code>.</p> </li> </ul> </note>"
+        },
+        "ForgotPasswordLink": {
+          "shape": "ClientUrl",
+          "documentation": "<p>The forgotten password link. This is the web address that users can go to if they forget the password for their WorkSpace.</p>"
+        },
+        "LoginMessage": {
+          "shape": "LoginMessage",
+          "documentation": "<p>The login message. Specified as a key value pair, in which the key is a locale and the value is the localized message for that locale. The only key supported is <code>en_US</code>. The HTML tags supported include the following: <code>a, b, blockquote, br, cite, code, dd, dl, dt, div, em, i, li, ol, p, pre, q, small, span, strike, strong, sub, sup, u, ul</code>.</p>"
+        }
+      },
+      "documentation": "<p>The client branding attributes to import for iOS device types. These attributes are displayed on the iOS client login screen.</p> <important> <p>Client branding attributes are public facing. Ensure you do not include sensitive information.</p> </important>"
+    },
+    "IosLogo": {
+      "type": "blob",
+      "max": 447000,
+      "min": 1
     },
     "IpAddress": {
       "type": "string"
@@ -2889,6 +3657,15 @@
           "shape": "PaginationToken",
           "documentation": "<p>The token to use to retrieve the next page of results. This value is null when there are no more results to return. </p>"
         }
+      }
+    },
+    "LoginMessage": {
+      "type": "map",
+      "key": {
+        "shape": "ClientLocale"
+      },
+      "value": {
+        "shape": "ClientLoginMessage"
       }
     },
     "ManagementCidrRangeConstraint": {
@@ -3000,6 +3777,30 @@
       }
     },
     "ModifyClientPropertiesResult": {
+      "type": "structure",
+      "members": {}
+    },
+    "ModifySamlPropertiesRequest": {
+      "type": "structure",
+      "required": [
+        "ResourceId"
+      ],
+      "members": {
+        "ResourceId": {
+          "shape": "DirectoryId",
+          "documentation": "<p>The directory identifier for which you want to configure SAML properties.</p>"
+        },
+        "SamlProperties": {
+          "shape": "SamlProperties",
+          "documentation": "<p>The properties for configuring SAML 2.0 authentication.</p>"
+        },
+        "PropertiesToDelete": {
+          "shape": "DeletableSamlPropertiesList",
+          "documentation": "<p>The SAML properties to delete as part of your request.</p> <p>Specify one of the following options:</p> <ul> <li> <p> <code>SAML_PROPERTIES_USER_ACCESS_URL</code> to delete the user access URL.</p> </li> <li> <p> <code>SAML_PROPERTIES_RELAY_STATE_PARAMETER_NAME</code> to delete the relay state parameter name.</p> </li> </ul>"
+        }
+      }
+    },
+    "ModifySamlPropertiesResult": {
       "type": "structure",
       "members": {}
     },
@@ -3341,6 +4142,38 @@
     "RunningModeAutoStopTimeoutInMinutes": {
       "type": "integer"
     },
+    "SamlProperties": {
+      "type": "structure",
+      "members": {
+        "Status": {
+          "shape": "SamlStatusEnum",
+          "documentation": "<p>Indicates the status of SAML 2.0 authentication. These statuses include the following.</p> <ul> <li> <p>If the setting is <code>DISABLED</code>, end users will be directed to login with their directory credentials.</p> </li> <li> <p>If the setting is <code>ENABLED</code>, end users will be directed to login via the user access URL. Users attempting to connect to WorkSpaces from a client application that does not support SAML 2.0 authentication will not be able to connect.</p> </li> <li> <p>If the setting is <code>ENABLED_WITH_DIRECTORY_LOGIN_FALLBACK</code>, end users will be directed to login via the user access URL on supported client applications, but will not prevent clients that do not support SAML 2.0 authentication from connecting as if SAML 2.0 authentication was disabled.</p> </li> </ul>"
+        },
+        "UserAccessUrl": {
+          "shape": "SamlUserAccessUrl",
+          "documentation": "<p>The SAML 2.0 identity provider (IdP) user access URL is the URL a user would navigate to in their web browser in order to federate from the IdP and directly access the application, without any SAML 2.0 service provider (SP) bindings.</p>"
+        },
+        "RelayStateParameterName": {
+          "shape": "NonEmptyString",
+          "documentation": "<p>The relay state parameter name supported by the SAML 2.0 identity provider (IdP). When the end user is redirected to the user access URL from the WorkSpaces client application, this relay state parameter name is appended as a query parameter to the URL along with the relay state endpoint to return the user to the client application session.</p> <p>To use SAML 2.0 authentication with WorkSpaces, the IdP must support IdP-initiated deep linking for the relay state URL. Consult your IdP documentation for more information.</p>"
+        }
+      },
+      "documentation": "<p>Describes the enablement status, user access URL, and relay state parameter name that are used for configuring federation with an SAML 2.0 identity provider.</p>"
+    },
+    "SamlStatusEnum": {
+      "type": "string",
+      "enum": [
+        "DISABLED",
+        "ENABLED",
+        "ENABLED_WITH_DIRECTORY_LOGIN_FALLBACK"
+      ]
+    },
+    "SamlUserAccessUrl": {
+      "type": "string",
+      "max": 200,
+      "min": 8,
+      "pattern": "^(http|https)\\://\\S+$"
+    },
     "SecurityGroupId": {
       "type": "string",
       "max": 20,
@@ -3576,6 +4409,35 @@
     },
     "Timestamp": {
       "type": "timestamp"
+    },
+    "UpdateConnectClientAddInRequest": {
+      "type": "structure",
+      "required": [
+        "AddInId",
+        "ResourceId"
+      ],
+      "members": {
+        "AddInId": {
+          "shape": "AmazonUuid",
+          "documentation": "<p>The identifier of the client add-in to update.</p>"
+        },
+        "ResourceId": {
+          "shape": "DirectoryId",
+          "documentation": "<p>The directory identifier for which the client add-in is configured.</p>"
+        },
+        "Name": {
+          "shape": "AddInName",
+          "documentation": "<p>The name of the client add-in.</p>"
+        },
+        "URL": {
+          "shape": "AddInUrl",
+          "documentation": "<p>The endpoint URL of the Amazon Connect client add-in.</p>"
+        }
+      }
+    },
+    "UpdateConnectClientAddInResult": {
+      "type": "structure",
+      "members": {}
     },
     "UpdateConnectionAliasPermissionRequest": {
       "type": "structure",
@@ -3989,6 +4851,10 @@
         "SelfservicePermissions": {
           "shape": "SelfservicePermissions",
           "documentation": "<p>The default self-service permissions for WorkSpaces in the directory.</p>"
+        },
+        "SamlProperties": {
+          "shape": "SamlProperties",
+          "documentation": "<p>Describes the enablement status, user access URL, and relay state parameter name that are used for configuring federation with an SAML 2.0 identity provider.</p>"
         }
       },
       "documentation": "<p>Describes a directory that is used with Amazon WorkSpaces.</p>"
@@ -4102,6 +4968,7 @@
         "BYOL_REGULAR",
         "BYOL_GRAPHICS",
         "BYOL_GRAPHICSPRO",
+        "BYOL_GRAPHICS_G4DN",
         "BYOL_REGULAR_WSP"
       ]
     },
@@ -4266,5 +5133,5 @@
       }
     }
   },
-  "documentation": "<fullname>Amazon WorkSpaces Service</fullname> <p>Amazon WorkSpaces enables you to provision virtual, cloud-based Microsoft Windows and Amazon Linux desktops for your users.</p>"
+  "documentation": "<fullname>Amazon WorkSpaces Service</fullname> <p>Amazon WorkSpaces enables you to provision virtual, cloud-based Microsoft Windows or Amazon Linux desktops for your users, known as <i>WorkSpaces</i>. WorkSpaces eliminates the need to procure and deploy hardware or install complex software. You can quickly add or remove users as your needs change. Users can access their virtual desktops from multiple devices or web browsers.</p> <p>This API Reference provides detailed information about the actions, data types, parameters, and errors of the WorkSpaces service. For more information about the supported Amazon Web Services Regions, endpoints, and service quotas of the Amazon WorkSpaces service, see <a href=\"https://docs.aws.amazon.com/general/latest/gr/wsp.html\">WorkSpaces endpoints and quotas</a> in the <i>Amazon Web Services General Reference</i>.</p> <p>You can also manage your WorkSpaces resources using the WorkSpaces console, Command Line Interface (CLI), and SDKs. For more information about administering WorkSpaces, see the <a href=\"https://docs.aws.amazon.com/workspaces/latest/adminguide/\">Amazon WorkSpaces Administration Guide</a>. For more information about using the Amazon WorkSpaces client application or web browser to access provisioned WorkSpaces, see the <a href=\"https://docs.aws.amazon.com/workspaces/latest/userguide/\">Amazon WorkSpaces User Guide</a>. For more information about using the CLI to manage your WorkSpaces resources, see the <a href=\"https://docs.aws.amazon.com/cli/latest/reference/workspaces/index.html\">WorkSpaces section of the CLI Reference</a>.</p>"
 }

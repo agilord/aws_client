@@ -1758,29 +1758,40 @@ class BrokerEBSVolumeInfo {
   ///
   final String kafkaBrokerNodeId;
 
+  /// EBS volume provisioned throughput information.
+  final ProvisionedThroughput? provisionedThroughput;
+
   ///
   /// Size of the EBS volume to update.
   ///
-  final int volumeSizeGB;
+  final int? volumeSizeGB;
 
   BrokerEBSVolumeInfo({
     required this.kafkaBrokerNodeId,
-    required this.volumeSizeGB,
+    this.provisionedThroughput,
+    this.volumeSizeGB,
   });
 
   factory BrokerEBSVolumeInfo.fromJson(Map<String, dynamic> json) {
     return BrokerEBSVolumeInfo(
       kafkaBrokerNodeId: json['kafkaBrokerNodeId'] as String,
-      volumeSizeGB: json['volumeSizeGB'] as int,
+      provisionedThroughput: json['provisionedThroughput'] != null
+          ? ProvisionedThroughput.fromJson(
+              json['provisionedThroughput'] as Map<String, dynamic>)
+          : null,
+      volumeSizeGB: json['volumeSizeGB'] as int?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final kafkaBrokerNodeId = this.kafkaBrokerNodeId;
+    final provisionedThroughput = this.provisionedThroughput;
     final volumeSizeGB = this.volumeSizeGB;
     return {
       'kafkaBrokerNodeId': kafkaBrokerNodeId,
-      'volumeSizeGB': volumeSizeGB,
+      if (provisionedThroughput != null)
+        'provisionedThroughput': provisionedThroughput,
+      if (volumeSizeGB != null) 'volumeSizeGB': volumeSizeGB,
     };
   }
 }
@@ -1831,7 +1842,7 @@ class BrokerNodeGroupInfo {
   /// The list of subnets to connect to in the client virtual private cloud (VPC).
   /// AWS creates elastic network interfaces inside these subnets. Client
   /// applications use elastic network interfaces to produce and consume data.
-  /// Client subnets can't be in Availability Zone us-east-1e.
+  /// Client subnets can't occupy the Availability Zone with ID use use1-az3.
   ///
   final List<String> clientSubnets;
 
@@ -3969,24 +3980,35 @@ class BatchDisassociateScramSecretResponse {
 /// broker nodes.
 ///
 class EBSStorageInfo {
+  /// EBS volume provisioned throughput information.
+  final ProvisionedThroughput? provisionedThroughput;
+
   ///
   /// The size in GiB of the EBS volume for the data drive on each broker node.
   ///
   final int? volumeSize;
 
   EBSStorageInfo({
+    this.provisionedThroughput,
     this.volumeSize,
   });
 
   factory EBSStorageInfo.fromJson(Map<String, dynamic> json) {
     return EBSStorageInfo(
+      provisionedThroughput: json['provisionedThroughput'] != null
+          ? ProvisionedThroughput.fromJson(
+              json['provisionedThroughput'] as Map<String, dynamic>)
+          : null,
       volumeSize: json['volumeSize'] as int?,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final provisionedThroughput = this.provisionedThroughput;
     final volumeSize = this.volumeSize;
     return {
+      if (provisionedThroughput != null)
+        'provisionedThroughput': provisionedThroughput,
       if (volumeSize != null) 'volumeSize': volumeSize,
     };
   }
@@ -5139,6 +5161,38 @@ class PrometheusInfo {
     return {
       if (jmxExporter != null) 'jmxExporter': jmxExporter,
       if (nodeExporter != null) 'nodeExporter': nodeExporter,
+    };
+  }
+}
+
+/// Contains information about provisioned throughput for EBS storage volumes
+/// attached to kafka broker nodes.
+class ProvisionedThroughput {
+  /// Provisioned throughput is enabled or not.
+  final bool? enabled;
+
+  /// Throughput value of the EBS volumes for the data drive on each kafka broker
+  /// node in MiB per second.
+  final int? volumeThroughput;
+
+  ProvisionedThroughput({
+    this.enabled,
+    this.volumeThroughput,
+  });
+
+  factory ProvisionedThroughput.fromJson(Map<String, dynamic> json) {
+    return ProvisionedThroughput(
+      enabled: json['enabled'] as bool?,
+      volumeThroughput: json['volumeThroughput'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final volumeThroughput = this.volumeThroughput;
+    return {
+      if (enabled != null) 'enabled': enabled,
+      if (volumeThroughput != null) 'volumeThroughput': volumeThroughput,
     };
   }
 }

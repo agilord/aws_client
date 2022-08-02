@@ -378,7 +378,7 @@ class S3Control {
   /// You can use S3 Batch Operations to perform large-scale batch actions on
   /// Amazon S3 objects. Batch Operations can run a single action on lists of
   /// Amazon S3 objects that you specify. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/batch-ops-basics.html">S3
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/batch-ops.html">S3
   /// Batch Operations</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// This action creates a S3 Batch Operations job.
@@ -416,9 +416,6 @@ class S3Control {
   /// Parameter [accountId] :
   /// The Amazon Web Services account ID that creates the job.
   ///
-  /// Parameter [manifest] :
-  /// Configuration parameters for the manifest.
-  ///
   /// Parameter [operation] :
   /// The action that you want this job to perform on every object listed in the
   /// manifest. For more information about the available actions, see <a
@@ -451,12 +448,18 @@ class S3Control {
   /// length. Descriptions don't need to be unique and can be used for multiple
   /// jobs.
   ///
+  /// Parameter [manifest] :
+  /// Configuration parameters for the manifest.
+  ///
+  /// Parameter [manifestGenerator] :
+  /// The attribute container for the ManifestGenerator details. Jobs must be
+  /// created with either a manifest file or a ManifestGenerator, but not both.
+  ///
   /// Parameter [tags] :
   /// A set of tags to associate with the S3 Batch Operations job. This is an
   /// optional parameter.
   Future<CreateJobResult> createJob({
     required String accountId,
-    required JobManifest manifest,
     required JobOperation operation,
     required int priority,
     required JobReport report,
@@ -464,10 +467,11 @@ class S3Control {
     String? clientRequestToken,
     bool? confirmationRequired,
     String? description,
+    JobManifest? manifest,
+    JobManifestGenerator? manifestGenerator,
     List<S3Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    ArgumentError.checkNotNull(manifest, 'manifest');
     ArgumentError.checkNotNull(operation, 'operation');
     ArgumentError.checkNotNull(priority, 'priority');
     _s.validateNumRange(
@@ -489,7 +493,6 @@ class S3Control {
       headers: headers,
       payload: CreateJobRequest(
               accountId: accountId,
-              manifest: manifest,
               operation: operation,
               priority: priority,
               report: report,
@@ -497,6 +500,8 @@ class S3Control {
               clientRequestToken: clientRequestToken,
               confirmationRequired: confirmationRequired,
               description: description,
+              manifest: manifest,
+              manifestGenerator: manifestGenerator,
               tags: tags)
           .toXml(
         'CreateJobRequest',
@@ -1351,7 +1356,7 @@ class S3Control {
 
   /// Retrieves the configuration parameters and status for a Batch Operations
   /// job. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/batch-ops-basics.html">S3
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/batch-ops.html">S3
   /// Batch Operations</a> in the <i>Amazon S3 User Guide</i>.
   /// <p/>
   /// Related actions include:
@@ -2564,11 +2569,10 @@ class S3Control {
     return ListAccessPointsResult.fromXml($result.body);
   }
 
-  /// Returns a list of the access points associated with the Object Lambda
-  /// Access Point. You can retrieve up to 1000 access points per call. If there
-  /// are more than 1,000 access points (or the number specified in
-  /// <code>maxResults</code>, whichever is less), the response will include a
-  /// continuation token that you can use to list the additional access points.
+  /// Returns some or all (up to 1,000) access points associated with the Object
+  /// Lambda Access Point per call. If there are more access points than what
+  /// can be returned in one call, the response will include a continuation
+  /// token that you can use to list the additional access points.
   ///
   /// The following actions are related to
   /// <code>ListAccessPointsForObjectLambda</code>:
@@ -2594,6 +2598,7 @@ class S3Control {
   ///
   /// Parameter [maxResults] :
   /// The maximum number of access points that you want to include in the list.
+  /// The response may contain fewer access points but will never contain more.
   /// If there are more than this number of access points, then the response
   /// will include a continuation token in the <code>NextToken</code> field that
   /// you can use to retrieve the next page of access points.
@@ -2635,7 +2640,7 @@ class S3Control {
   /// Lists current S3 Batch Operations jobs and jobs that have ended within the
   /// last 30 days for the Amazon Web Services account making the request. For
   /// more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/batch-ops-basics.html">S3
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/batch-ops.html">S3
   /// Batch Operations</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// Related actions include:
@@ -3452,7 +3457,7 @@ class S3Control {
   /// <ul>
   /// <li>
   /// <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateJob.html">CreatJob</a>
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateJob.html">CreateJob</a>
   /// </li>
   /// <li>
   /// <a
@@ -3573,7 +3578,9 @@ class S3Control {
   }
 
   /// Creates or modifies the <code>PublicAccessBlock</code> configuration for
-  /// an Amazon Web Services account. For more information, see <a
+  /// an Amazon Web Services account. For this operation, users must have the
+  /// <code>s3:PutBucketPublicAccessBlock</code> permission. For more
+  /// information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html">
   /// Using Amazon S3 block public access</a>.
   ///
@@ -3733,7 +3740,7 @@ class S3Control {
 
   /// Updates an existing S3 Batch Operations job's priority. For more
   /// information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/batch-ops-basics.html">S3
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/batch-ops.html">S3
   /// Batch Operations</a> in the <i>Amazon S3 User Guide</i>.
   /// <p/>
   /// Related actions include:
@@ -3805,7 +3812,7 @@ class S3Control {
   /// Updates the status for the specified job. Use this action to confirm that
   /// you want to run a job or to cancel an existing job. For more information,
   /// see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/batch-ops-basics.html">S3
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/batch-ops.html">S3
   /// Batch Operations</a> in the <i>Amazon S3 User Guide</i>.
   /// <p/>
   /// Related actions include:
@@ -5011,9 +5018,6 @@ class CreateJobRequest {
   /// The Amazon Web Services account ID that creates the job.
   final String accountId;
 
-  /// Configuration parameters for the manifest.
-  final JobManifest manifest;
-
   /// The action that you want this job to perform on every object listed in the
   /// manifest. For more information about the available actions, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/batch-ops-actions.html">Operations</a>
@@ -5046,13 +5050,19 @@ class CreateJobRequest {
   /// jobs.
   final String? description;
 
+  /// Configuration parameters for the manifest.
+  final JobManifest? manifest;
+
+  /// The attribute container for the ManifestGenerator details. Jobs must be
+  /// created with either a manifest file or a ManifestGenerator, but not both.
+  final JobManifestGenerator? manifestGenerator;
+
   /// A set of tags to associate with the S3 Batch Operations job. This is an
   /// optional parameter.
   final List<S3Tag>? tags;
 
   CreateJobRequest({
     required this.accountId,
-    required this.manifest,
     required this.operation,
     required this.priority,
     required this.report,
@@ -5060,13 +5070,14 @@ class CreateJobRequest {
     this.clientRequestToken,
     this.confirmationRequired,
     this.description,
+    this.manifest,
+    this.manifestGenerator,
     this.tags,
   });
 
   factory CreateJobRequest.fromJson(Map<String, dynamic> json) {
     return CreateJobRequest(
       accountId: json['x-amz-account-id'] as String,
-      manifest: JobManifest.fromJson(json['Manifest'] as Map<String, dynamic>),
       operation:
           JobOperation.fromJson(json['Operation'] as Map<String, dynamic>),
       priority: json['Priority'] as int,
@@ -5075,6 +5086,13 @@ class CreateJobRequest {
       clientRequestToken: json['ClientRequestToken'] as String?,
       confirmationRequired: json['ConfirmationRequired'] as bool?,
       description: json['Description'] as String?,
+      manifest: json['Manifest'] != null
+          ? JobManifest.fromJson(json['Manifest'] as Map<String, dynamic>)
+          : null,
+      manifestGenerator: json['ManifestGenerator'] != null
+          ? JobManifestGenerator.fromJson(
+              json['ManifestGenerator'] as Map<String, dynamic>)
+          : null,
       tags: (json['Tags'] as List?)
           ?.whereNotNull()
           .map((e) => S3Tag.fromJson(e as Map<String, dynamic>))
@@ -5084,7 +5102,6 @@ class CreateJobRequest {
 
   Map<String, dynamic> toJson() {
     final accountId = this.accountId;
-    final manifest = this.manifest;
     final operation = this.operation;
     final priority = this.priority;
     final report = this.report;
@@ -5092,9 +5109,10 @@ class CreateJobRequest {
     final clientRequestToken = this.clientRequestToken;
     final confirmationRequired = this.confirmationRequired;
     final description = this.description;
+    final manifest = this.manifest;
+    final manifestGenerator = this.manifestGenerator;
     final tags = this.tags;
     return {
-      'Manifest': manifest,
       'Operation': operation,
       'Priority': priority,
       'Report': report,
@@ -5103,13 +5121,14 @@ class CreateJobRequest {
       if (confirmationRequired != null)
         'ConfirmationRequired': confirmationRequired,
       if (description != null) 'Description': description,
+      if (manifest != null) 'Manifest': manifest,
+      if (manifestGenerator != null) 'ManifestGenerator': manifestGenerator,
       if (tags != null) 'Tags': tags,
     };
   }
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
     final accountId = this.accountId;
-    final manifest = this.manifest;
     final operation = this.operation;
     final priority = this.priority;
     final report = this.report;
@@ -5117,6 +5136,8 @@ class CreateJobRequest {
     final clientRequestToken = this.clientRequestToken;
     final confirmationRequired = this.confirmationRequired;
     final description = this.description;
+    final manifest = this.manifest;
+    final manifestGenerator = this.manifestGenerator;
     final tags = this.tags;
     final $children = <_s.XmlNode>[
       if (confirmationRequired != null)
@@ -5125,7 +5146,7 @@ class CreateJobRequest {
       report.toXml('Report'),
       if (clientRequestToken != null)
         _s.encodeXmlStringValue('ClientRequestToken', clientRequestToken),
-      manifest.toXml('Manifest'),
+      if (manifest != null) manifest.toXml('Manifest'),
       if (description != null)
         _s.encodeXmlStringValue('Description', description),
       _s.encodeXmlIntValue('Priority', priority),
@@ -5133,6 +5154,8 @@ class CreateJobRequest {
       if (tags != null)
         _s.XmlElement(
             _s.XmlName('Tags'), [], tags.map((e) => e.toXml('member'))),
+      if (manifestGenerator != null)
+        manifestGenerator.toXml('ManifestGenerator'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -5741,6 +5764,89 @@ extension on String {
         return Format.parquet;
     }
     throw Exception('$this is not known in enum Format');
+  }
+}
+
+/// The encryption configuration to use when storing the generated manifest.
+class GeneratedManifestEncryption {
+  /// Configuration details on how SSE-KMS is used to encrypt generated manifest
+  /// objects.
+  final SSEKMSEncryption? ssekms;
+
+  /// Specifies the use of SSE-S3 to encrypt generated manifest objects.
+  final SSES3Encryption? sses3;
+
+  GeneratedManifestEncryption({
+    this.ssekms,
+    this.sses3,
+  });
+
+  factory GeneratedManifestEncryption.fromJson(Map<String, dynamic> json) {
+    return GeneratedManifestEncryption(
+      ssekms: json['SSE-KMS'] != null
+          ? SSEKMSEncryption.fromJson(json['SSE-KMS'] as Map<String, dynamic>)
+          : null,
+      sses3: json['SSE-S3'] != null
+          ? SSES3Encryption.fromJson(json['SSE-S3'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  factory GeneratedManifestEncryption.fromXml(_s.XmlElement elem) {
+    return GeneratedManifestEncryption(
+      ssekms:
+          _s.extractXmlChild(elem, 'SSE-KMS')?.let(SSEKMSEncryption.fromXml),
+      sses3: _s.extractXmlChild(elem, 'SSE-S3')?.let(SSES3Encryption.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ssekms = this.ssekms;
+    final sses3 = this.sses3;
+    return {
+      if (ssekms != null) 'SSE-KMS': ssekms,
+      if (sses3 != null) 'SSE-S3': sses3,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final ssekms = this.ssekms;
+    final sses3 = this.sses3;
+    final $children = <_s.XmlNode>[
+      if (sses3 != null) sses3.toXml('SSE-S3'),
+      if (ssekms != null) ssekms.toXml('SSE-KMS'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+enum GeneratedManifestFormat {
+  s3InventoryReportCsv_20211130,
+}
+
+extension on GeneratedManifestFormat {
+  String toValue() {
+    switch (this) {
+      case GeneratedManifestFormat.s3InventoryReportCsv_20211130:
+        return 'S3InventoryReport_CSV_20211130';
+    }
+  }
+}
+
+extension on String {
+  GeneratedManifestFormat toGeneratedManifestFormat() {
+    switch (this) {
+      case 'S3InventoryReport_CSV_20211130':
+        return GeneratedManifestFormat.s3InventoryReportCsv_20211130;
+    }
+    throw Exception('$this is not known in enum GeneratedManifestFormat');
   }
 }
 
@@ -6529,6 +6635,10 @@ class JobDescriptor {
   /// failure.
   final List<JobFailure>? failureReasons;
 
+  /// The attribute of the JobDescriptor containing details about the job's
+  /// generated manifest.
+  final S3GeneratedManifestDescriptor? generatedManifestDescriptor;
+
   /// The Amazon Resource Name (ARN) for this job.
   final String? jobArn;
 
@@ -6537,6 +6647,10 @@ class JobDescriptor {
 
   /// The configuration information for the specified job's manifest object.
   final JobManifest? manifest;
+
+  /// The manifest generator that was used to generate a job manifest for this
+  /// job.
+  final JobManifestGenerator? manifestGenerator;
 
   /// The operation that the specified job is configured to run on the objects
   /// listed in the manifest.
@@ -6582,9 +6696,11 @@ class JobDescriptor {
     this.creationTime,
     this.description,
     this.failureReasons,
+    this.generatedManifestDescriptor,
     this.jobArn,
     this.jobId,
     this.manifest,
+    this.manifestGenerator,
     this.operation,
     this.priority,
     this.progressSummary,
@@ -6606,10 +6722,18 @@ class JobDescriptor {
           ?.whereNotNull()
           .map((e) => JobFailure.fromJson(e as Map<String, dynamic>))
           .toList(),
+      generatedManifestDescriptor: json['GeneratedManifestDescriptor'] != null
+          ? S3GeneratedManifestDescriptor.fromJson(
+              json['GeneratedManifestDescriptor'] as Map<String, dynamic>)
+          : null,
       jobArn: json['JobArn'] as String?,
       jobId: json['JobId'] as String?,
       manifest: json['Manifest'] != null
           ? JobManifest.fromJson(json['Manifest'] as Map<String, dynamic>)
+          : null,
+      manifestGenerator: json['ManifestGenerator'] != null
+          ? JobManifestGenerator.fromJson(
+              json['ManifestGenerator'] as Map<String, dynamic>)
           : null,
       operation: json['Operation'] != null
           ? JobOperation.fromJson(json['Operation'] as Map<String, dynamic>)
@@ -6639,9 +6763,15 @@ class JobDescriptor {
       description: _s.extractXmlStringValue(elem, 'Description'),
       failureReasons: _s.extractXmlChild(elem, 'FailureReasons')?.let((elem) =>
           elem.findElements('member').map(JobFailure.fromXml).toList()),
+      generatedManifestDescriptor: _s
+          .extractXmlChild(elem, 'GeneratedManifestDescriptor')
+          ?.let(S3GeneratedManifestDescriptor.fromXml),
       jobArn: _s.extractXmlStringValue(elem, 'JobArn'),
       jobId: _s.extractXmlStringValue(elem, 'JobId'),
       manifest: _s.extractXmlChild(elem, 'Manifest')?.let(JobManifest.fromXml),
+      manifestGenerator: _s
+          .extractXmlChild(elem, 'ManifestGenerator')
+          ?.let(JobManifestGenerator.fromXml),
       operation:
           _s.extractXmlChild(elem, 'Operation')?.let(JobOperation.fromXml),
       priority: _s.extractXmlIntValue(elem, 'Priority'),
@@ -6663,9 +6793,11 @@ class JobDescriptor {
     final creationTime = this.creationTime;
     final description = this.description;
     final failureReasons = this.failureReasons;
+    final generatedManifestDescriptor = this.generatedManifestDescriptor;
     final jobArn = this.jobArn;
     final jobId = this.jobId;
     final manifest = this.manifest;
+    final manifestGenerator = this.manifestGenerator;
     final operation = this.operation;
     final priority = this.priority;
     final progressSummary = this.progressSummary;
@@ -6683,9 +6815,12 @@ class JobDescriptor {
         'CreationTime': unixTimestampToJson(creationTime),
       if (description != null) 'Description': description,
       if (failureReasons != null) 'FailureReasons': failureReasons,
+      if (generatedManifestDescriptor != null)
+        'GeneratedManifestDescriptor': generatedManifestDescriptor,
       if (jobArn != null) 'JobArn': jobArn,
       if (jobId != null) 'JobId': jobId,
       if (manifest != null) 'Manifest': manifest,
+      if (manifestGenerator != null) 'ManifestGenerator': manifestGenerator,
       if (operation != null) 'Operation': operation,
       if (priority != null) 'Priority': priority,
       if (progressSummary != null) 'ProgressSummary': progressSummary,
@@ -6960,6 +7095,157 @@ extension on String {
   }
 }
 
+/// Configures the type of the job's ManifestGenerator.
+class JobManifestGenerator {
+  /// The S3 job ManifestGenerator's configuration details.
+  final S3JobManifestGenerator? s3JobManifestGenerator;
+
+  JobManifestGenerator({
+    this.s3JobManifestGenerator,
+  });
+
+  factory JobManifestGenerator.fromJson(Map<String, dynamic> json) {
+    return JobManifestGenerator(
+      s3JobManifestGenerator: json['S3JobManifestGenerator'] != null
+          ? S3JobManifestGenerator.fromJson(
+              json['S3JobManifestGenerator'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  factory JobManifestGenerator.fromXml(_s.XmlElement elem) {
+    return JobManifestGenerator(
+      s3JobManifestGenerator: _s
+          .extractXmlChild(elem, 'S3JobManifestGenerator')
+          ?.let(S3JobManifestGenerator.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3JobManifestGenerator = this.s3JobManifestGenerator;
+    return {
+      if (s3JobManifestGenerator != null)
+        'S3JobManifestGenerator': s3JobManifestGenerator,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final s3JobManifestGenerator = this.s3JobManifestGenerator;
+    final $children = <_s.XmlNode>[
+      if (s3JobManifestGenerator != null)
+        s3JobManifestGenerator.toXml('S3JobManifestGenerator'),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// The filter used to describe a set of objects for the job's manifest.
+class JobManifestGeneratorFilter {
+  /// If provided, the generated manifest should include only source bucket
+  /// objects that were created after this time.
+  final DateTime? createdAfter;
+
+  /// If provided, the generated manifest should include only source bucket
+  /// objects that were created before this time.
+  final DateTime? createdBefore;
+
+  /// Include objects in the generated manifest only if they are eligible for
+  /// replication according to the Replication configuration on the source bucket.
+  final bool? eligibleForReplication;
+
+  /// If provided, the generated manifest should include only source bucket
+  /// objects that have one of the specified Replication statuses.
+  final List<ReplicationStatus>? objectReplicationStatuses;
+
+  JobManifestGeneratorFilter({
+    this.createdAfter,
+    this.createdBefore,
+    this.eligibleForReplication,
+    this.objectReplicationStatuses,
+  });
+
+  factory JobManifestGeneratorFilter.fromJson(Map<String, dynamic> json) {
+    return JobManifestGeneratorFilter(
+      createdAfter: timeStampFromJson(json['CreatedAfter']),
+      createdBefore: timeStampFromJson(json['CreatedBefore']),
+      eligibleForReplication: json['EligibleForReplication'] as bool?,
+      objectReplicationStatuses: (json['ObjectReplicationStatuses'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toReplicationStatus())
+          .toList(),
+    );
+  }
+
+  factory JobManifestGeneratorFilter.fromXml(_s.XmlElement elem) {
+    return JobManifestGeneratorFilter(
+      createdAfter: _s.extractXmlDateTimeValue(elem, 'CreatedAfter'),
+      createdBefore: _s.extractXmlDateTimeValue(elem, 'CreatedBefore'),
+      eligibleForReplication:
+          _s.extractXmlBoolValue(elem, 'EligibleForReplication'),
+      objectReplicationStatuses: _s
+          .extractXmlChild(elem, 'ObjectReplicationStatuses')
+          ?.let((elem) => _s
+              .extractXmlStringListValues(elem, 'member')
+              .map((s) => s.toReplicationStatus())
+              .toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAfter = this.createdAfter;
+    final createdBefore = this.createdBefore;
+    final eligibleForReplication = this.eligibleForReplication;
+    final objectReplicationStatuses = this.objectReplicationStatuses;
+    return {
+      if (createdAfter != null)
+        'CreatedAfter': unixTimestampToJson(createdAfter),
+      if (createdBefore != null)
+        'CreatedBefore': unixTimestampToJson(createdBefore),
+      if (eligibleForReplication != null)
+        'EligibleForReplication': eligibleForReplication,
+      if (objectReplicationStatuses != null)
+        'ObjectReplicationStatuses':
+            objectReplicationStatuses.map((e) => e.toValue()).toList(),
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final createdAfter = this.createdAfter;
+    final createdBefore = this.createdBefore;
+    final eligibleForReplication = this.eligibleForReplication;
+    final objectReplicationStatuses = this.objectReplicationStatuses;
+    final $children = <_s.XmlNode>[
+      if (eligibleForReplication != null)
+        _s.encodeXmlBoolValue('EligibleForReplication', eligibleForReplication),
+      if (createdAfter != null)
+        _s.encodeXmlDateTimeValue('CreatedAfter', createdAfter),
+      if (createdBefore != null)
+        _s.encodeXmlDateTimeValue('CreatedBefore', createdBefore),
+      if (objectReplicationStatuses != null)
+        _s.XmlElement(
+            _s.XmlName('ObjectReplicationStatuses'),
+            [],
+            objectReplicationStatuses
+                .map((e) => _s.encodeXmlStringValue('member', e.toValue()))),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
 /// Contains the information required to locate a manifest object.
 class JobManifestLocation {
   /// The ETag for the specified manifest object.
@@ -7128,6 +7414,10 @@ class JobOperation {
   /// in the manifest.
   final S3SetObjectTaggingOperation? s3PutObjectTagging;
 
+  /// Directs the specified job to invoke <code>ReplicateObject</code> on every
+  /// object in the job's manifest.
+  final S3ReplicateObjectOperation? s3ReplicateObject;
+
   JobOperation({
     this.lambdaInvoke,
     this.s3DeleteObjectTagging,
@@ -7137,6 +7427,7 @@ class JobOperation {
     this.s3PutObjectLegalHold,
     this.s3PutObjectRetention,
     this.s3PutObjectTagging,
+    this.s3ReplicateObject,
   });
 
   factory JobOperation.fromJson(Map<String, dynamic> json) {
@@ -7173,6 +7464,10 @@ class JobOperation {
           ? S3SetObjectTaggingOperation.fromJson(
               json['S3PutObjectTagging'] as Map<String, dynamic>)
           : null,
+      s3ReplicateObject: json['S3ReplicateObject'] != null
+          ? S3ReplicateObjectOperation.fromJson(
+              json['S3ReplicateObject'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -7202,6 +7497,9 @@ class JobOperation {
       s3PutObjectTagging: _s
           .extractXmlChild(elem, 'S3PutObjectTagging')
           ?.let(S3SetObjectTaggingOperation.fromXml),
+      s3ReplicateObject: _s
+          .extractXmlChild(elem, 'S3ReplicateObject')
+          ?.let(S3ReplicateObjectOperation.fromXml),
     );
   }
 
@@ -7214,6 +7512,7 @@ class JobOperation {
     final s3PutObjectLegalHold = this.s3PutObjectLegalHold;
     final s3PutObjectRetention = this.s3PutObjectRetention;
     final s3PutObjectTagging = this.s3PutObjectTagging;
+    final s3ReplicateObject = this.s3ReplicateObject;
     return {
       if (lambdaInvoke != null) 'LambdaInvoke': lambdaInvoke,
       if (s3DeleteObjectTagging != null)
@@ -7227,6 +7526,7 @@ class JobOperation {
       if (s3PutObjectRetention != null)
         'S3PutObjectRetention': s3PutObjectRetention,
       if (s3PutObjectTagging != null) 'S3PutObjectTagging': s3PutObjectTagging,
+      if (s3ReplicateObject != null) 'S3ReplicateObject': s3ReplicateObject,
     };
   }
 
@@ -7239,6 +7539,7 @@ class JobOperation {
     final s3PutObjectLegalHold = this.s3PutObjectLegalHold;
     final s3PutObjectRetention = this.s3PutObjectRetention;
     final s3PutObjectTagging = this.s3PutObjectTagging;
+    final s3ReplicateObject = this.s3ReplicateObject;
     final $children = <_s.XmlNode>[
       if (lambdaInvoke != null) lambdaInvoke.toXml('LambdaInvoke'),
       if (s3PutObjectCopy != null) s3PutObjectCopy.toXml('S3PutObjectCopy'),
@@ -7253,6 +7554,8 @@ class JobOperation {
         s3PutObjectLegalHold.toXml('S3PutObjectLegalHold'),
       if (s3PutObjectRetention != null)
         s3PutObjectRetention.toXml('S3PutObjectRetention'),
+      if (s3ReplicateObject != null)
+        s3ReplicateObject.toXml('S3ReplicateObject'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -7274,12 +7577,16 @@ class JobProgressSummary {
   /// <p/>
   final int? numberOfTasksSucceeded;
 
+  /// The JobTimers attribute of a job's progress summary.
+  final JobTimers? timers;
+
   /// <p/>
   final int? totalNumberOfTasks;
 
   JobProgressSummary({
     this.numberOfTasksFailed,
     this.numberOfTasksSucceeded,
+    this.timers,
     this.totalNumberOfTasks,
   });
 
@@ -7287,6 +7594,9 @@ class JobProgressSummary {
     return JobProgressSummary(
       numberOfTasksFailed: json['NumberOfTasksFailed'] as int?,
       numberOfTasksSucceeded: json['NumberOfTasksSucceeded'] as int?,
+      timers: json['Timers'] != null
+          ? JobTimers.fromJson(json['Timers'] as Map<String, dynamic>)
+          : null,
       totalNumberOfTasks: json['TotalNumberOfTasks'] as int?,
     );
   }
@@ -7296,6 +7606,7 @@ class JobProgressSummary {
       numberOfTasksFailed: _s.extractXmlIntValue(elem, 'NumberOfTasksFailed'),
       numberOfTasksSucceeded:
           _s.extractXmlIntValue(elem, 'NumberOfTasksSucceeded'),
+      timers: _s.extractXmlChild(elem, 'Timers')?.let(JobTimers.fromXml),
       totalNumberOfTasks: _s.extractXmlIntValue(elem, 'TotalNumberOfTasks'),
     );
   }
@@ -7303,12 +7614,14 @@ class JobProgressSummary {
   Map<String, dynamic> toJson() {
     final numberOfTasksFailed = this.numberOfTasksFailed;
     final numberOfTasksSucceeded = this.numberOfTasksSucceeded;
+    final timers = this.timers;
     final totalNumberOfTasks = this.totalNumberOfTasks;
     return {
       if (numberOfTasksFailed != null)
         'NumberOfTasksFailed': numberOfTasksFailed,
       if (numberOfTasksSucceeded != null)
         'NumberOfTasksSucceeded': numberOfTasksSucceeded,
+      if (timers != null) 'Timers': timers,
       if (totalNumberOfTasks != null) 'TotalNumberOfTasks': totalNumberOfTasks,
     };
   }
@@ -7535,6 +7848,38 @@ extension on String {
         return JobStatus.suspended;
     }
     throw Exception('$this is not known in enum JobStatus');
+  }
+}
+
+/// Provides timing details for the job.
+class JobTimers {
+  /// Indicates the elapsed time in seconds the job has been in the Active job
+  /// state.
+  final int? elapsedTimeInActiveSeconds;
+
+  JobTimers({
+    this.elapsedTimeInActiveSeconds,
+  });
+
+  factory JobTimers.fromJson(Map<String, dynamic> json) {
+    return JobTimers(
+      elapsedTimeInActiveSeconds: json['ElapsedTimeInActiveSeconds'] as int?,
+    );
+  }
+
+  factory JobTimers.fromXml(_s.XmlElement elem) {
+    return JobTimers(
+      elapsedTimeInActiveSeconds:
+          _s.extractXmlIntValue(elem, 'ElapsedTimeInActiveSeconds'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final elapsedTimeInActiveSeconds = this.elapsedTimeInActiveSeconds;
+    return {
+      if (elapsedTimeInActiveSeconds != null)
+        'ElapsedTimeInActiveSeconds': elapsedTimeInActiveSeconds,
+    };
   }
 }
 
@@ -9096,6 +9441,7 @@ enum OperationName {
   s3InitiateRestoreObject,
   s3PutObjectLegalHold,
   s3PutObjectRetention,
+  s3ReplicateObject,
 }
 
 extension on OperationName {
@@ -9117,6 +9463,8 @@ extension on OperationName {
         return 'S3PutObjectLegalHold';
       case OperationName.s3PutObjectRetention:
         return 'S3PutObjectRetention';
+      case OperationName.s3ReplicateObject:
+        return 'S3ReplicateObject';
     }
   }
 }
@@ -9140,6 +9488,8 @@ extension on String {
         return OperationName.s3PutObjectLegalHold;
       case 'S3PutObjectRetention':
         return OperationName.s3PutObjectRetention;
+      case 'S3ReplicateObject':
+        return OperationName.s3ReplicateObject;
     }
     throw Exception('$this is not known in enum OperationName');
   }
@@ -10233,6 +10583,44 @@ class RegionalBucket {
   }
 }
 
+enum ReplicationStatus {
+  completed,
+  failed,
+  replica,
+  none,
+}
+
+extension on ReplicationStatus {
+  String toValue() {
+    switch (this) {
+      case ReplicationStatus.completed:
+        return 'COMPLETED';
+      case ReplicationStatus.failed:
+        return 'FAILED';
+      case ReplicationStatus.replica:
+        return 'REPLICA';
+      case ReplicationStatus.none:
+        return 'NONE';
+    }
+  }
+}
+
+extension on String {
+  ReplicationStatus toReplicationStatus() {
+    switch (this) {
+      case 'COMPLETED':
+        return ReplicationStatus.completed;
+      case 'FAILED':
+        return ReplicationStatus.failed;
+      case 'REPLICA':
+        return ReplicationStatus.replica;
+      case 'NONE':
+        return ReplicationStatus.none;
+    }
+    throw Exception('$this is not known in enum ReplicationStatus');
+  }
+}
+
 enum RequestedJobStatus {
   cancelled,
   ready,
@@ -10548,6 +10936,44 @@ extension on String {
   }
 }
 
+enum S3ChecksumAlgorithm {
+  crc32,
+  crc32c,
+  sha1,
+  sha256,
+}
+
+extension on S3ChecksumAlgorithm {
+  String toValue() {
+    switch (this) {
+      case S3ChecksumAlgorithm.crc32:
+        return 'CRC32';
+      case S3ChecksumAlgorithm.crc32c:
+        return 'CRC32C';
+      case S3ChecksumAlgorithm.sha1:
+        return 'SHA1';
+      case S3ChecksumAlgorithm.sha256:
+        return 'SHA256';
+    }
+  }
+}
+
+extension on String {
+  S3ChecksumAlgorithm toS3ChecksumAlgorithm() {
+    switch (this) {
+      case 'CRC32':
+        return S3ChecksumAlgorithm.crc32;
+      case 'CRC32C':
+        return S3ChecksumAlgorithm.crc32c;
+      case 'SHA1':
+        return S3ChecksumAlgorithm.sha1;
+      case 'SHA256':
+        return S3ChecksumAlgorithm.sha256;
+    }
+    throw Exception('$this is not known in enum S3ChecksumAlgorithm');
+  }
+}
+
 /// Contains the configuration parameters for a PUT Copy object operation. S3
 /// Batch Operations passes every object to the underlying PUT Copy object API.
 /// For more information about the parameters for this operation, see <a
@@ -10569,13 +10995,21 @@ class S3CopyObjectOperation {
   /// <p/>
   final S3CannedAccessControlList? cannedAccessControlList;
 
+  /// Indicates the algorithm you want Amazon S3 to use to create the checksum.
+  /// For more information see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/CheckingObjectIntegrity.xml">
+  /// Checking object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  final S3ChecksumAlgorithm? checksumAlgorithm;
+
   /// <p/>
   final S3MetadataDirective? metadataDirective;
 
   /// <p/>
   final DateTime? modifiedSinceConstraint;
 
-  /// <p/>
+  /// If you don't provide this parameter, Amazon S3 copies all the metadata from
+  /// the original objects. If you specify an empty set, the new objects will have
+  /// no tags. Otherwise, Amazon S3 assigns the supplied tags to the new objects.
   final S3ObjectMetadata? newObjectMetadata;
 
   /// <p/>
@@ -10607,8 +11041,9 @@ class S3CopyObjectOperation {
   final S3StorageClass? storageClass;
 
   /// Specifies the folder prefix into which you would like the objects to be
-  /// copied. For example, to copy objects into a folder named "Folder1" in the
-  /// destination bucket, set the TargetKeyPrefix to "Folder1/".
+  /// copied. For example, to copy objects into a folder named
+  /// <code>Folder1</code> in the destination bucket, set the TargetKeyPrefix to
+  /// <code>Folder1</code>.
   final String? targetKeyPrefix;
 
   /// Specifies the destination bucket ARN for the batch copy operation. For
@@ -10623,6 +11058,7 @@ class S3CopyObjectOperation {
     this.accessControlGrants,
     this.bucketKeyEnabled,
     this.cannedAccessControlList,
+    this.checksumAlgorithm,
     this.metadataDirective,
     this.modifiedSinceConstraint,
     this.newObjectMetadata,
@@ -10648,6 +11084,8 @@ class S3CopyObjectOperation {
       bucketKeyEnabled: json['BucketKeyEnabled'] as bool?,
       cannedAccessControlList: (json['CannedAccessControlList'] as String?)
           ?.toS3CannedAccessControlList(),
+      checksumAlgorithm:
+          (json['ChecksumAlgorithm'] as String?)?.toS3ChecksumAlgorithm(),
       metadataDirective:
           (json['MetadataDirective'] as String?)?.toS3MetadataDirective(),
       modifiedSinceConstraint:
@@ -10684,6 +11122,9 @@ class S3CopyObjectOperation {
       cannedAccessControlList: _s
           .extractXmlStringValue(elem, 'CannedAccessControlList')
           ?.toS3CannedAccessControlList(),
+      checksumAlgorithm: _s
+          .extractXmlStringValue(elem, 'ChecksumAlgorithm')
+          ?.toS3ChecksumAlgorithm(),
       metadataDirective: _s
           .extractXmlStringValue(elem, 'MetadataDirective')
           ?.toS3MetadataDirective(),
@@ -10718,6 +11159,7 @@ class S3CopyObjectOperation {
     final accessControlGrants = this.accessControlGrants;
     final bucketKeyEnabled = this.bucketKeyEnabled;
     final cannedAccessControlList = this.cannedAccessControlList;
+    final checksumAlgorithm = this.checksumAlgorithm;
     final metadataDirective = this.metadataDirective;
     final modifiedSinceConstraint = this.modifiedSinceConstraint;
     final newObjectMetadata = this.newObjectMetadata;
@@ -10738,6 +11180,8 @@ class S3CopyObjectOperation {
       if (bucketKeyEnabled != null) 'BucketKeyEnabled': bucketKeyEnabled,
       if (cannedAccessControlList != null)
         'CannedAccessControlList': cannedAccessControlList.toValue(),
+      if (checksumAlgorithm != null)
+        'ChecksumAlgorithm': checksumAlgorithm.toValue(),
       if (metadataDirective != null)
         'MetadataDirective': metadataDirective.toValue(),
       if (modifiedSinceConstraint != null)
@@ -10766,6 +11210,7 @@ class S3CopyObjectOperation {
     final accessControlGrants = this.accessControlGrants;
     final bucketKeyEnabled = this.bucketKeyEnabled;
     final cannedAccessControlList = this.cannedAccessControlList;
+    final checksumAlgorithm = this.checksumAlgorithm;
     final metadataDirective = this.metadataDirective;
     final modifiedSinceConstraint = this.modifiedSinceConstraint;
     final newObjectMetadata = this.newObjectMetadata;
@@ -10823,6 +11268,9 @@ class S3CopyObjectOperation {
             'ObjectLockRetainUntilDate', objectLockRetainUntilDate),
       if (bucketKeyEnabled != null)
         _s.encodeXmlBoolValue('BucketKeyEnabled', bucketKeyEnabled),
+      if (checksumAlgorithm != null)
+        _s.encodeXmlStringValue(
+            'ChecksumAlgorithm', checksumAlgorithm.toValue()),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -10865,6 +11313,49 @@ class S3DeleteObjectTaggingOperation {
       $attributes,
       $children,
     );
+  }
+}
+
+/// Describes the specified job's generated manifest. Batch Operations jobs
+/// created with a ManifestGenerator populate details of this descriptor after
+/// execution of the ManifestGenerator.
+class S3GeneratedManifestDescriptor {
+  /// The format of the generated manifest.
+  final GeneratedManifestFormat? format;
+  final JobManifestLocation? location;
+
+  S3GeneratedManifestDescriptor({
+    this.format,
+    this.location,
+  });
+
+  factory S3GeneratedManifestDescriptor.fromJson(Map<String, dynamic> json) {
+    return S3GeneratedManifestDescriptor(
+      format: (json['Format'] as String?)?.toGeneratedManifestFormat(),
+      location: json['Location'] != null
+          ? JobManifestLocation.fromJson(
+              json['Location'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  factory S3GeneratedManifestDescriptor.fromXml(_s.XmlElement elem) {
+    return S3GeneratedManifestDescriptor(
+      format:
+          _s.extractXmlStringValue(elem, 'Format')?.toGeneratedManifestFormat(),
+      location: _s
+          .extractXmlChild(elem, 'Location')
+          ?.let(JobManifestLocation.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final format = this.format;
+    final location = this.location;
+    return {
+      if (format != null) 'Format': format.toValue(),
+      if (location != null) 'Location': location,
+    };
   }
 }
 
@@ -11062,11 +11553,10 @@ extension on String {
 /// see <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectPOSTrestore.html#RESTObjectPOSTrestore-restore-request">RestoreObject</a>.
 class S3InitiateRestoreObjectOperation {
-  /// This argument specifies how long the S3 Glacier Flexible Retrieval or S3
-  /// Glacier Deep Archive object remains available in Amazon S3. S3 Initiate
-  /// Restore Object jobs that target S3 Glacier Flexible Retrieval and S3 Glacier
-  /// Deep Archive objects require <code>ExpirationInDays</code> set to 1 or
-  /// greater.
+  /// This argument specifies how long the S3 Glacier or S3 Glacier Deep Archive
+  /// object remains available in Amazon S3. S3 Initiate Restore Object jobs that
+  /// target S3 Glacier and S3 Glacier Deep Archive objects require
+  /// <code>ExpirationInDays</code> set to 1 or greater.
   ///
   /// Conversely, do <i>not</i> set <code>ExpirationInDays</code> when creating S3
   /// Initiate Restore Object jobs that target S3 Intelligent-Tiering Archive
@@ -11075,11 +11565,11 @@ class S3InitiateRestoreObjectOperation {
   /// so specifying <code>ExpirationInDays</code> results in restore request
   /// failure.
   ///
-  /// S3 Batch Operations jobs can operate either on S3 Glacier Flexible Retrieval
-  /// and S3 Glacier Deep Archive storage class objects or on S3
-  /// Intelligent-Tiering Archive Access and Deep Archive Access storage tier
-  /// objects, but not both types in the same job. If you need to restore objects
-  /// of both types you <i>must</i> create separate Batch Operations jobs.
+  /// S3 Batch Operations jobs can operate either on S3 Glacier and S3 Glacier
+  /// Deep Archive storage class objects or on S3 Intelligent-Tiering Archive
+  /// Access and Deep Archive Access storage tier objects, but not both types in
+  /// the same job. If you need to restore objects of both types you <i>must</i>
+  /// create separate Batch Operations jobs.
   final int? expirationInDays;
 
   /// S3 Batch Operations supports <code>STANDARD</code> and <code>BULK</code>
@@ -11124,6 +11614,210 @@ class S3InitiateRestoreObjectOperation {
         _s.encodeXmlIntValue('ExpirationInDays', expirationInDays),
       if (glacierJobTier != null)
         _s.encodeXmlStringValue('GlacierJobTier', glacierJobTier.toValue()),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// The container for the service that will create the S3 manifest.
+class S3JobManifestGenerator {
+  /// Determines whether or not to write the job's generated manifest to a bucket.
+  final bool enableManifestOutput;
+
+  /// The source bucket used by the ManifestGenerator.
+  final String sourceBucket;
+
+  /// The Amazon Web Services account ID that owns the bucket the generated
+  /// manifest is written to. If provided the generated manifest bucket's owner
+  /// Amazon Web Services account ID must match this value, else the job fails.
+  final String? expectedBucketOwner;
+
+  /// Specifies rules the S3JobManifestGenerator should use to use to decide
+  /// whether an object in the source bucket should or should not be included in
+  /// the generated job manifest.
+  final JobManifestGeneratorFilter? filter;
+
+  /// Specifies the location the generated manifest will be written to.
+  final S3ManifestOutputLocation? manifestOutputLocation;
+
+  S3JobManifestGenerator({
+    required this.enableManifestOutput,
+    required this.sourceBucket,
+    this.expectedBucketOwner,
+    this.filter,
+    this.manifestOutputLocation,
+  });
+
+  factory S3JobManifestGenerator.fromJson(Map<String, dynamic> json) {
+    return S3JobManifestGenerator(
+      enableManifestOutput: json['EnableManifestOutput'] as bool,
+      sourceBucket: json['SourceBucket'] as String,
+      expectedBucketOwner: json['ExpectedBucketOwner'] as String?,
+      filter: json['Filter'] != null
+          ? JobManifestGeneratorFilter.fromJson(
+              json['Filter'] as Map<String, dynamic>)
+          : null,
+      manifestOutputLocation: json['ManifestOutputLocation'] != null
+          ? S3ManifestOutputLocation.fromJson(
+              json['ManifestOutputLocation'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  factory S3JobManifestGenerator.fromXml(_s.XmlElement elem) {
+    return S3JobManifestGenerator(
+      enableManifestOutput:
+          _s.extractXmlBoolValue(elem, 'EnableManifestOutput')!,
+      sourceBucket: _s.extractXmlStringValue(elem, 'SourceBucket')!,
+      expectedBucketOwner:
+          _s.extractXmlStringValue(elem, 'ExpectedBucketOwner'),
+      filter: _s
+          .extractXmlChild(elem, 'Filter')
+          ?.let(JobManifestGeneratorFilter.fromXml),
+      manifestOutputLocation: _s
+          .extractXmlChild(elem, 'ManifestOutputLocation')
+          ?.let(S3ManifestOutputLocation.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enableManifestOutput = this.enableManifestOutput;
+    final sourceBucket = this.sourceBucket;
+    final expectedBucketOwner = this.expectedBucketOwner;
+    final filter = this.filter;
+    final manifestOutputLocation = this.manifestOutputLocation;
+    return {
+      'EnableManifestOutput': enableManifestOutput,
+      'SourceBucket': sourceBucket,
+      if (expectedBucketOwner != null)
+        'ExpectedBucketOwner': expectedBucketOwner,
+      if (filter != null) 'Filter': filter,
+      if (manifestOutputLocation != null)
+        'ManifestOutputLocation': manifestOutputLocation,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final enableManifestOutput = this.enableManifestOutput;
+    final sourceBucket = this.sourceBucket;
+    final expectedBucketOwner = this.expectedBucketOwner;
+    final filter = this.filter;
+    final manifestOutputLocation = this.manifestOutputLocation;
+    final $children = <_s.XmlNode>[
+      if (expectedBucketOwner != null)
+        _s.encodeXmlStringValue('ExpectedBucketOwner', expectedBucketOwner),
+      _s.encodeXmlStringValue('SourceBucket', sourceBucket),
+      if (manifestOutputLocation != null)
+        manifestOutputLocation.toXml('ManifestOutputLocation'),
+      if (filter != null) filter.toXml('Filter'),
+      _s.encodeXmlBoolValue('EnableManifestOutput', enableManifestOutput),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// Location details for where the generated manifest should be written.
+class S3ManifestOutputLocation {
+  /// The bucket ARN the generated manifest should be written to.
+  final String bucket;
+
+  /// The format of the generated manifest.
+  final GeneratedManifestFormat manifestFormat;
+
+  /// The Account ID that owns the bucket the generated manifest is written to.
+  final String? expectedManifestBucketOwner;
+
+  /// Specifies what encryption should be used when the generated manifest objects
+  /// are written.
+  final GeneratedManifestEncryption? manifestEncryption;
+
+  /// Prefix identifying one or more objects to which the manifest applies.
+  final String? manifestPrefix;
+
+  S3ManifestOutputLocation({
+    required this.bucket,
+    required this.manifestFormat,
+    this.expectedManifestBucketOwner,
+    this.manifestEncryption,
+    this.manifestPrefix,
+  });
+
+  factory S3ManifestOutputLocation.fromJson(Map<String, dynamic> json) {
+    return S3ManifestOutputLocation(
+      bucket: json['Bucket'] as String,
+      manifestFormat:
+          (json['ManifestFormat'] as String).toGeneratedManifestFormat(),
+      expectedManifestBucketOwner:
+          json['ExpectedManifestBucketOwner'] as String?,
+      manifestEncryption: json['ManifestEncryption'] != null
+          ? GeneratedManifestEncryption.fromJson(
+              json['ManifestEncryption'] as Map<String, dynamic>)
+          : null,
+      manifestPrefix: json['ManifestPrefix'] as String?,
+    );
+  }
+
+  factory S3ManifestOutputLocation.fromXml(_s.XmlElement elem) {
+    return S3ManifestOutputLocation(
+      bucket: _s.extractXmlStringValue(elem, 'Bucket')!,
+      manifestFormat: _s
+          .extractXmlStringValue(elem, 'ManifestFormat')!
+          .toGeneratedManifestFormat(),
+      expectedManifestBucketOwner:
+          _s.extractXmlStringValue(elem, 'ExpectedManifestBucketOwner'),
+      manifestEncryption: _s
+          .extractXmlChild(elem, 'ManifestEncryption')
+          ?.let(GeneratedManifestEncryption.fromXml),
+      manifestPrefix: _s.extractXmlStringValue(elem, 'ManifestPrefix'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucket = this.bucket;
+    final manifestFormat = this.manifestFormat;
+    final expectedManifestBucketOwner = this.expectedManifestBucketOwner;
+    final manifestEncryption = this.manifestEncryption;
+    final manifestPrefix = this.manifestPrefix;
+    return {
+      'Bucket': bucket,
+      'ManifestFormat': manifestFormat.toValue(),
+      if (expectedManifestBucketOwner != null)
+        'ExpectedManifestBucketOwner': expectedManifestBucketOwner,
+      if (manifestEncryption != null) 'ManifestEncryption': manifestEncryption,
+      if (manifestPrefix != null) 'ManifestPrefix': manifestPrefix,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final bucket = this.bucket;
+    final manifestFormat = this.manifestFormat;
+    final expectedManifestBucketOwner = this.expectedManifestBucketOwner;
+    final manifestEncryption = this.manifestEncryption;
+    final manifestPrefix = this.manifestPrefix;
+    final $children = <_s.XmlNode>[
+      if (expectedManifestBucketOwner != null)
+        _s.encodeXmlStringValue(
+            'ExpectedManifestBucketOwner', expectedManifestBucketOwner),
+      _s.encodeXmlStringValue('Bucket', bucket),
+      if (manifestPrefix != null)
+        _s.encodeXmlStringValue('ManifestPrefix', manifestPrefix),
+      if (manifestEncryption != null)
+        manifestEncryption.toXml('ManifestEncryption'),
+      _s.encodeXmlStringValue('ManifestFormat', manifestFormat.toValue()),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -11566,6 +12260,38 @@ extension on String {
   }
 }
 
+/// Directs the specified job to invoke <code>ReplicateObject</code> on every
+/// object in the job's manifest.
+class S3ReplicateObjectOperation {
+  S3ReplicateObjectOperation();
+
+  factory S3ReplicateObjectOperation.fromJson(Map<String, dynamic> _) {
+    return S3ReplicateObjectOperation();
+  }
+
+  factory S3ReplicateObjectOperation.fromXml(
+      // ignore: avoid_unused_constructor_parameters
+      _s.XmlElement elem) {
+    return S3ReplicateObjectOperation();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final $children = <_s.XmlNode>[];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
 /// Contains the S3 Object Lock retention mode to be applied to all objects in
 /// the S3 Batch Operations job. If you don't provide <code>Mode</code> and
 /// <code>RetainUntilDate</code> data types in your operation, you will remove
@@ -11896,6 +12622,7 @@ enum S3StorageClass {
   glacier,
   intelligentTiering,
   deepArchive,
+  glacierIr,
 }
 
 extension on S3StorageClass {
@@ -11913,6 +12640,8 @@ extension on S3StorageClass {
         return 'INTELLIGENT_TIERING';
       case S3StorageClass.deepArchive:
         return 'DEEP_ARCHIVE';
+      case S3StorageClass.glacierIr:
+        return 'GLACIER_IR';
     }
   }
 }
@@ -11932,6 +12661,8 @@ extension on String {
         return S3StorageClass.intelligentTiering;
       case 'DEEP_ARCHIVE':
         return S3StorageClass.deepArchive;
+      case 'GLACIER_IR':
+        return S3StorageClass.glacierIr;
     }
     throw Exception('$this is not known in enum S3StorageClass');
   }
@@ -12038,6 +12769,52 @@ class SSEKMS {
   }
 }
 
+/// Configuration for the use of SSE-KMS to encrypt generated manifest objects.
+class SSEKMSEncryption {
+  /// Specifies the ID of the Amazon Web Services Key Management Service (Amazon
+  /// Web Services KMS) symmetric customer managed key to use for encrypting
+  /// generated manifest objects.
+  final String keyId;
+
+  SSEKMSEncryption({
+    required this.keyId,
+  });
+
+  factory SSEKMSEncryption.fromJson(Map<String, dynamic> json) {
+    return SSEKMSEncryption(
+      keyId: json['KeyId'] as String,
+    );
+  }
+
+  factory SSEKMSEncryption.fromXml(_s.XmlElement elem) {
+    return SSEKMSEncryption(
+      keyId: _s.extractXmlStringValue(elem, 'KeyId')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final keyId = this.keyId;
+    return {
+      'KeyId': keyId,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final keyId = this.keyId;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('KeyId', keyId),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
 /// <p/>
 class SSES3 {
   SSES3();
@@ -12050,6 +12827,37 @@ class SSES3 {
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
     return SSES3();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final $children = <_s.XmlNode>[];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// Configuration for the use of SSE-S3 to encrypt generated manifest objects.
+class SSES3Encryption {
+  SSES3Encryption();
+
+  factory SSES3Encryption.fromJson(Map<String, dynamic> _) {
+    return SSES3Encryption();
+  }
+
+  factory SSES3Encryption.fromXml(
+      // ignore: avoid_unused_constructor_parameters
+      _s.XmlElement elem) {
+    return SSES3Encryption();
   }
 
   Map<String, dynamic> toJson() {

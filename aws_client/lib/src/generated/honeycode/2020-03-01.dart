@@ -340,6 +340,7 @@ class Honeycode {
   /// May throw [ServiceUnavailableException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
+  /// May throw [RequestTimeoutException].
   ///
   /// Parameter [jobId] :
   /// The ID of the job that was returned by the StartTableDataImportJob
@@ -390,7 +391,7 @@ class Honeycode {
   /// May throw [ValidationException].
   ///
   /// Parameter [appId] :
-  /// The ID of the app that contains the screem.
+  /// The ID of the app that contains the screen.
   ///
   /// Parameter [screenId] :
   /// The ID of the screen.
@@ -467,6 +468,7 @@ class Honeycode {
   /// May throw [AutomationExecutionException].
   /// May throw [AutomationExecutionTimeoutException].
   /// May throw [RequestTimeoutException].
+  /// May throw [ServiceQuotaExceededException].
   ///
   /// Parameter [appId] :
   /// The ID of the app that contains the screen automation.
@@ -701,6 +703,31 @@ class Honeycode {
     return ListTablesResult.fromJson(response);
   }
 
+  /// The ListTagsForResource API allows you to return a resource's tags.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [RequestTimeoutException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The resource's Amazon Resource Name (ARN).
+  Future<ListTagsForResourceResult> listTagsForResource({
+    required String resourceArn,
+  }) async {
+    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListTagsForResourceResult.fromJson(response);
+  }
+
   /// The QueryTableRows API allows you to use a filter formula to query for
   /// specific rows in a table.
   ///
@@ -779,6 +806,8 @@ class Honeycode {
   /// May throw [ServiceUnavailableException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
+  /// May throw [RequestTimeoutException].
+  /// May throw [ServiceQuotaExceededException].
   ///
   /// Parameter [clientRequestToken] :
   /// The request token for performing the update action. Request tokens help to
@@ -842,6 +871,73 @@ class Honeycode {
       exceptionFnMap: _exceptionFns,
     );
     return StartTableDataImportJobResult.fromJson(response);
+  }
+
+  /// The TagResource API allows you to add tags to an ARN-able resource.
+  /// Resource includes workbook, table, screen and screen-automation.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [RequestTimeoutException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The resource's Amazon Resource Name (ARN).
+  ///
+  /// Parameter [tags] :
+  /// A list of tags to apply to the resource.
+  Future<void> tagResource({
+    required String resourceArn,
+    required Map<String, String> tags,
+  }) async {
+    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
+    ArgumentError.checkNotNull(tags, 'tags');
+    final $payload = <String, dynamic>{
+      'tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// The UntagResource API allows you to removes tags from an ARN-able
+  /// resource. Resource includes workbook, table, screen and screen-automation.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [RequestTimeoutException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The resource's Amazon Resource Name (ARN).
+  ///
+  /// Parameter [tagKeys] :
+  /// A list of tag keys to remove from the resource.
+  Future<void> untagResource({
+    required String resourceArn,
+    required List<String> tagKeys,
+  }) async {
+    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
+    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
+    final $query = <String, List<String>>{
+      'tagKeys': tagKeys,
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
   }
 }
 
@@ -1022,6 +1118,12 @@ class Cell {
   /// have different raw and formatted values.
   final String? formattedValue;
 
+  /// A list of formatted values of the cell. This field is only returned when the
+  /// cell is ROWSET format (aka multi-select or multi-record picklist). Values in
+  /// the list are always represented as strings. The formattedValue field will be
+  /// empty if this field is returned.
+  final List<String>? formattedValues;
+
   /// The formula contained in the cell. This field is empty if a cell does not
   /// have a formula.
   final String? formula;
@@ -1065,6 +1167,21 @@ class Cell {
   /// "row:dfcefaee-5b37-4355-8f28-40c3e4ff5dd4/ca432b2f-b8eb-431d-9fb5-cbe0342f9f03"
   /// as the raw value.
   ///
+  /// Cells with format ROWSET (aka multi-select or multi-record picklist) will by
+  /// default have the first column of each of the linked rows as the formatted
+  /// value in the list, and the rowset id of the linked rows as the raw value.
+  /// For example, a cell containing a multi-select picklist to a table that
+  /// contains items might have "Item A", "Item B" in the formatted value list and
+  /// "rows:b742c1f4-6cb0-4650-a845-35eb86fcc2bb/
+  /// [fdea123b-8f68-474a-aa8a-5ff87aa333af,6daf41f0-a138-4eee-89da-123086d36ecf]"
+  /// as the raw value.
+  ///
+  /// Cells with format ATTACHMENT will have the name of the attachment as the
+  /// formatted value and the attachment id as the raw value. For example, a cell
+  /// containing an attachment named "image.jpeg" will have "image.jpeg" as the
+  /// formatted value and "attachment:ca432b2f-b8eb-431d-9fb5-cbe0342f9f03" as the
+  /// raw value.
+  ///
   /// Cells with format AUTO or cells without any format that are auto-detected as
   /// one of the formats above will contain the raw and formatted values as
   /// mentioned above, based on the auto-detected formats. If there is no
@@ -1075,6 +1192,7 @@ class Cell {
   Cell({
     this.format,
     this.formattedValue,
+    this.formattedValues,
     this.formula,
     this.rawValue,
   });
@@ -1083,6 +1201,10 @@ class Cell {
     return Cell(
       format: (json['format'] as String?)?.toFormat(),
       formattedValue: json['formattedValue'] as String?,
+      formattedValues: (json['formattedValues'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
       formula: json['formula'] as String?,
       rawValue: json['rawValue'] as String?,
     );
@@ -1091,11 +1213,13 @@ class Cell {
   Map<String, dynamic> toJson() {
     final format = this.format;
     final formattedValue = this.formattedValue;
+    final formattedValues = this.formattedValues;
     final formula = this.formula;
     final rawValue = this.rawValue;
     return {
       if (format != null) 'format': format.toValue(),
       if (formattedValue != null) 'formattedValue': formattedValue,
+      if (formattedValues != null) 'formattedValues': formattedValues,
       if (formula != null) 'formula': formula,
       if (rawValue != null) 'rawValue': rawValue,
     };
@@ -1104,25 +1228,41 @@ class Cell {
 
 /// CellInput object contains the data needed to create or update cells in a
 /// table.
+/// <note>
+/// CellInput object has only a facts field or a fact field, but not both. A 400
+/// bad request will be thrown if both fact and facts field are present.
+/// </note>
 class CellInput {
   /// Fact represents the data that is entered into a cell. This data can be free
   /// text or a formula. Formulas need to start with the equals (=) sign.
   final String? fact;
 
+  /// A list representing the values that are entered into a ROWSET cell. Facts
+  /// list can have either only values or rowIDs, and rowIDs should from the same
+  /// table.
+  final List<String>? facts;
+
   CellInput({
     this.fact,
+    this.facts,
   });
 
   factory CellInput.fromJson(Map<String, dynamic> json) {
     return CellInput(
       fact: json['fact'] as String?,
+      facts: (json['facts'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
     final fact = this.fact;
+    final facts = this.facts;
     return {
       if (fact != null) 'fact': fact,
+      if (facts != null) 'facts': facts,
     };
   }
 }
@@ -1293,10 +1433,14 @@ class DescribeTableDataImportJobResult {
   /// A message providing more details about the current status of the import job.
   final String message;
 
+  /// If job status is failed, error code to understand reason for the failure.
+  final ErrorCode? errorCode;
+
   DescribeTableDataImportJobResult({
     required this.jobMetadata,
     required this.jobStatus,
     required this.message,
+    this.errorCode,
   });
 
   factory DescribeTableDataImportJobResult.fromJson(Map<String, dynamic> json) {
@@ -1305,6 +1449,7 @@ class DescribeTableDataImportJobResult {
           json['jobMetadata'] as Map<String, dynamic>),
       jobStatus: (json['jobStatus'] as String).toTableDataImportJobStatus(),
       message: json['message'] as String,
+      errorCode: (json['errorCode'] as String?)?.toErrorCode(),
     );
   }
 
@@ -1312,10 +1457,12 @@ class DescribeTableDataImportJobResult {
     final jobMetadata = this.jobMetadata;
     final jobStatus = this.jobStatus;
     final message = this.message;
+    final errorCode = this.errorCode;
     return {
       'jobMetadata': jobMetadata,
       'jobStatus': jobStatus.toValue(),
       'message': message,
+      if (errorCode != null) 'errorCode': errorCode.toValue(),
     };
   }
 }
@@ -1343,6 +1490,94 @@ class DestinationOptions {
     return {
       if (columnMap != null) 'columnMap': columnMap,
     };
+  }
+}
+
+enum ErrorCode {
+  accessDenied,
+  invalidUrlError,
+  invalidImportOptionsError,
+  invalidTableIdError,
+  invalidTableColumnIdError,
+  tableNotFoundError,
+  fileEmptyError,
+  invalidFileTypeError,
+  fileParsingError,
+  fileSizeLimitError,
+  fileNotFoundError,
+  unknownError,
+  resourceNotFoundError,
+  systemLimitError,
+}
+
+extension on ErrorCode {
+  String toValue() {
+    switch (this) {
+      case ErrorCode.accessDenied:
+        return 'ACCESS_DENIED';
+      case ErrorCode.invalidUrlError:
+        return 'INVALID_URL_ERROR';
+      case ErrorCode.invalidImportOptionsError:
+        return 'INVALID_IMPORT_OPTIONS_ERROR';
+      case ErrorCode.invalidTableIdError:
+        return 'INVALID_TABLE_ID_ERROR';
+      case ErrorCode.invalidTableColumnIdError:
+        return 'INVALID_TABLE_COLUMN_ID_ERROR';
+      case ErrorCode.tableNotFoundError:
+        return 'TABLE_NOT_FOUND_ERROR';
+      case ErrorCode.fileEmptyError:
+        return 'FILE_EMPTY_ERROR';
+      case ErrorCode.invalidFileTypeError:
+        return 'INVALID_FILE_TYPE_ERROR';
+      case ErrorCode.fileParsingError:
+        return 'FILE_PARSING_ERROR';
+      case ErrorCode.fileSizeLimitError:
+        return 'FILE_SIZE_LIMIT_ERROR';
+      case ErrorCode.fileNotFoundError:
+        return 'FILE_NOT_FOUND_ERROR';
+      case ErrorCode.unknownError:
+        return 'UNKNOWN_ERROR';
+      case ErrorCode.resourceNotFoundError:
+        return 'RESOURCE_NOT_FOUND_ERROR';
+      case ErrorCode.systemLimitError:
+        return 'SYSTEM_LIMIT_ERROR';
+    }
+  }
+}
+
+extension on String {
+  ErrorCode toErrorCode() {
+    switch (this) {
+      case 'ACCESS_DENIED':
+        return ErrorCode.accessDenied;
+      case 'INVALID_URL_ERROR':
+        return ErrorCode.invalidUrlError;
+      case 'INVALID_IMPORT_OPTIONS_ERROR':
+        return ErrorCode.invalidImportOptionsError;
+      case 'INVALID_TABLE_ID_ERROR':
+        return ErrorCode.invalidTableIdError;
+      case 'INVALID_TABLE_COLUMN_ID_ERROR':
+        return ErrorCode.invalidTableColumnIdError;
+      case 'TABLE_NOT_FOUND_ERROR':
+        return ErrorCode.tableNotFoundError;
+      case 'FILE_EMPTY_ERROR':
+        return ErrorCode.fileEmptyError;
+      case 'INVALID_FILE_TYPE_ERROR':
+        return ErrorCode.invalidFileTypeError;
+      case 'FILE_PARSING_ERROR':
+        return ErrorCode.fileParsingError;
+      case 'FILE_SIZE_LIMIT_ERROR':
+        return ErrorCode.fileSizeLimitError;
+      case 'FILE_NOT_FOUND_ERROR':
+        return ErrorCode.fileNotFoundError;
+      case 'UNKNOWN_ERROR':
+        return ErrorCode.unknownError;
+      case 'RESOURCE_NOT_FOUND_ERROR':
+        return ErrorCode.resourceNotFoundError;
+      case 'SYSTEM_LIMIT_ERROR':
+        return ErrorCode.systemLimitError;
+    }
+    throw Exception('$this is not known in enum ErrorCode');
   }
 }
 
@@ -1429,6 +1664,7 @@ enum Format {
   accounting,
   contact,
   rowlink,
+  rowset,
 }
 
 extension on Format {
@@ -1456,6 +1692,8 @@ extension on Format {
         return 'CONTACT';
       case Format.rowlink:
         return 'ROWLINK';
+      case Format.rowset:
+        return 'ROWSET';
     }
   }
 }
@@ -1485,6 +1723,8 @@ extension on String {
         return Format.contact;
       case 'ROWLINK':
         return Format.rowlink;
+      case 'ROWSET':
+        return Format.rowset;
     }
     throw Exception('$this is not known in enum Format');
   }
@@ -1893,6 +2133,29 @@ class ListTablesResult {
   }
 }
 
+class ListTagsForResourceResult {
+  /// The resource's tags.
+  final Map<String, String>? tags;
+
+  ListTagsForResourceResult({
+    this.tags,
+  });
+
+  factory ListTagsForResourceResult.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResult(
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
 class QueryTableRowsResult {
   /// The list of columns in the table whose row data is returned in the result.
   final List<String> columnIds;
@@ -2269,6 +2532,30 @@ class TableRow {
       'cells': cells,
       'rowId': rowId,
     };
+  }
+}
+
+class TagResourceResult {
+  TagResourceResult();
+
+  factory TagResourceResult.fromJson(Map<String, dynamic> _) {
+    return TagResourceResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UntagResourceResult {
+  UntagResourceResult();
+
+  factory UntagResourceResult.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 

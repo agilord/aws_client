@@ -246,7 +246,13 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       },
       "Tags": {"shape": "TagList", "flattened": false},
       "DBClusterIdentifier": {"shape": "String", "flattened": false},
-      "PromotionTier": {"shape": "IntegerOptional", "flattened": false}
+      "CopyTagsToSnapshot": {"shape": "BooleanOptional", "flattened": false},
+      "PromotionTier": {"shape": "IntegerOptional", "flattened": false},
+      "EnablePerformanceInsights": {
+        "shape": "BooleanOptional",
+        "flattened": false
+      },
+      "PerformanceInsightsKMSKeyId": {"shape": "String", "flattened": false}
     },
     "flattened": false
   },
@@ -354,6 +360,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "DbClusterResourceId": {"shape": "String", "flattened": false},
       "DBClusterArn": {"shape": "String", "flattened": false},
       "AssociatedRoles": {"shape": "DBClusterRoles", "flattened": false},
+      "CloneGroupId": {"shape": "String", "flattened": false},
       "ClusterCreateTime": {"shape": "TStamp", "flattened": false},
       "EnabledCloudwatchLogsExports": {
         "shape": "LogTypeList",
@@ -582,6 +589,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "KmsKeyId": {"shape": "String", "flattened": false},
       "DbiResourceId": {"shape": "String", "flattened": false},
       "CACertificateIdentifier": {"shape": "String", "flattened": false},
+      "CopyTagsToSnapshot": {"shape": "BooleanOptional", "flattened": false},
       "PromotionTier": {"shape": "IntegerOptional", "flattened": false},
       "DBInstanceArn": {"shape": "String", "flattened": false},
       "EnabledCloudwatchLogsExports": {
@@ -1224,7 +1232,13 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       },
       "NewDBInstanceIdentifier": {"shape": "String", "flattened": false},
       "CACertificateIdentifier": {"shape": "String", "flattened": false},
-      "PromotionTier": {"shape": "IntegerOptional", "flattened": false}
+      "CopyTagsToSnapshot": {"shape": "BooleanOptional", "flattened": false},
+      "PromotionTier": {"shape": "IntegerOptional", "flattened": false},
+      "EnablePerformanceInsights": {
+        "shape": "BooleanOptional",
+        "flattened": false
+      },
+      "PerformanceInsightsKMSKeyId": {"shape": "String", "flattened": false}
     },
     "flattened": false
   },
@@ -1537,6 +1551,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "type": "structure",
     "members": {
       "DBClusterIdentifier": {"shape": "String", "flattened": false},
+      "RestoreType": {"shape": "String", "flattened": false},
       "SourceDBClusterIdentifier": {"shape": "String", "flattened": false},
       "RestoreToTime": {"shape": "TStamp", "flattened": false},
       "UseLatestRestorableTime": {"shape": "Boolean", "flattened": false},

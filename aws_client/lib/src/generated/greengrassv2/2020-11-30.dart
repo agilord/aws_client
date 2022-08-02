@@ -239,13 +239,22 @@ class GreengrassV2 {
   /// Python 3.8 – <code>python3.8</code>
   /// </li>
   /// <li>
+  /// Python 3.9 – <code>python3.9</code>
+  /// </li>
+  /// <li>
   /// Java 8 – <code>java8</code>
+  /// </li>
+  /// <li>
+  /// Java 11 – <code>java11</code>
   /// </li>
   /// <li>
   /// Node.js 10 – <code>nodejs10.x</code>
   /// </li>
   /// <li>
   /// Node.js 12 – <code>nodejs12.x</code>
+  /// </li>
+  /// <li>
+  /// Node.js 14 – <code>nodejs14.x</code>
   /// </li>
   /// </ul>
   /// To create a component from a Lambda function, specify
@@ -326,8 +335,7 @@ class GreengrassV2 {
   ///
   /// Every deployment has a revision number that indicates how many deployment
   /// revisions you define for a target. Use this operation to create a new
-  /// revision of an existing deployment. This operation returns the revision
-  /// number of the new deployment when you create it.
+  /// revision of an existing deployment.
   ///
   /// For more information, see the <a
   /// href="https://docs.aws.amazon.com/greengrass/v2/developerguide/create-deployments.html">Create
@@ -338,6 +346,7 @@ class GreengrassV2 {
   /// May throw [AccessDeniedException].
   /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
+  /// May throw [ConflictException].
   /// May throw [RequestAlreadyInProgressException].
   ///
   /// Parameter [targetArn] :
@@ -466,6 +475,37 @@ class GreengrassV2 {
     );
   }
 
+  /// Deletes a deployment. To delete an active deployment, you must first
+  /// cancel it. For more information, see <a
+  /// href="https://docs.aws.amazon.com/iot/latest/apireference/API_CancelDeployment.html">CancelDeployment</a>.
+  ///
+  /// Deleting a deployment doesn't affect core devices that run that
+  /// deployment, because core devices store the deployment's configuration on
+  /// the device. Additionally, core devices can roll back to a previous
+  /// deployment that has been deleted.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ConflictException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [deploymentId] :
+  /// The ID of the deployment.
+  Future<void> deleteDeployment({
+    required String deploymentId,
+  }) async {
+    ArgumentError.checkNotNull(deploymentId, 'deploymentId');
+    await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/greengrass/v2/deployments/${Uri.encodeComponent(deploymentId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Retrieves metadata for a version of a component.
   ///
   /// May throw [ValidationException].
@@ -548,9 +588,9 @@ class GreengrassV2 {
     return GetComponentResponse.fromJson(response);
   }
 
-  /// Gets the pre-signed URL to download a public component artifact. Core
-  /// devices call this operation to identify the URL that they can use to
-  /// download an artifact to install.
+  /// Gets the pre-signed URL to download a public or a Lambda component
+  /// artifact. Core devices call this operation to identify the URL that they
+  /// can use to download an artifact to install.
   ///
   /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
@@ -561,7 +601,8 @@ class GreengrassV2 {
   /// Parameter [arn] :
   /// The <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
-  /// of the component version. Specify the ARN of a public component version.
+  /// of the component version. Specify the ARN of a public or a Lambda
+  /// component version.
   ///
   /// Parameter [artifactName] :
   /// The name of the artifact.
@@ -593,10 +634,10 @@ class GreengrassV2 {
   /// Connectivity information includes endpoints and ports where client devices
   /// can connect to an MQTT broker on the core device. When a client device
   /// calls the <a
-  /// href="https://docs.aws.amazon.com/greengrass/v2/developerguide/greengrass-discover-api.html">Greengrass
-  /// discovery API</a>, IoT Greengrass returns connectivity information for all
-  /// of the core devices where the client device can connect. For more
-  /// information, see <a
+  /// href="https://docs.aws.amazon.com/greengrass/v2/developerguide/greengrass-discover-api.html">IoT
+  /// Greengrass discovery API</a>, IoT Greengrass returns connectivity
+  /// information for all of the core devices where the client device can
+  /// connect. For more information, see <a
   /// href="https://docs.aws.amazon.com/greengrass/v2/developerguide/connect-client-devices.html">Connect
   /// client devices to core devices</a> in the <i>IoT Greengrass Version 2
   /// Developer Guide</i>.
@@ -621,6 +662,34 @@ class GreengrassV2 {
   }
 
   /// Retrieves metadata for a Greengrass core device.
+  /// <note>
+  /// IoT Greengrass relies on individual devices to send status updates to the
+  /// Amazon Web Services Cloud. If the IoT Greengrass Core software isn't
+  /// running on the device, or if device isn't connected to the Amazon Web
+  /// Services Cloud, then the reported status of that device might not reflect
+  /// its current status. The status timestamp indicates when the device status
+  /// was last updated.
+  ///
+  /// Core devices send status updates at the following times:
+  ///
+  /// <ul>
+  /// <li>
+  /// When the IoT Greengrass Core software starts
+  /// </li>
+  /// <li>
+  /// When the core device receives a deployment from the Amazon Web Services
+  /// Cloud
+  /// </li>
+  /// <li>
+  /// When the status of any component on the core device becomes
+  /// <code>BROKEN</code>
+  /// </li>
+  /// <li>
+  /// At a <a
+  /// href="https://docs.aws.amazon.com/greengrass/v2/developerguide/greengrass-nucleus-component.html#greengrass-nucleus-component-configuration-fss">regular
+  /// interval that you can configure</a>, which defaults to 24 hours
+  /// </li>
+  /// </ul> </note>
   ///
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
@@ -744,7 +813,7 @@ class GreengrassV2 {
   /// Parameter [arn] :
   /// The <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
-  /// of the component version.
+  /// of the component.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to be returned per paginated request.
@@ -783,6 +852,7 @@ class GreengrassV2 {
   ///
   /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
   ///
@@ -823,6 +893,34 @@ class GreengrassV2 {
   }
 
   /// Retrieves a paginated list of Greengrass core devices.
+  /// <note>
+  /// IoT Greengrass relies on individual devices to send status updates to the
+  /// Amazon Web Services Cloud. If the IoT Greengrass Core software isn't
+  /// running on the device, or if device isn't connected to the Amazon Web
+  /// Services Cloud, then the reported status of that device might not reflect
+  /// its current status. The status timestamp indicates when the device status
+  /// was last updated.
+  ///
+  /// Core devices send status updates at the following times:
+  ///
+  /// <ul>
+  /// <li>
+  /// When the IoT Greengrass Core software starts
+  /// </li>
+  /// <li>
+  /// When the core device receives a deployment from the Amazon Web Services
+  /// Cloud
+  /// </li>
+  /// <li>
+  /// When the status of any component on the core device becomes
+  /// <code>BROKEN</code>
+  /// </li>
+  /// <li>
+  /// At a <a
+  /// href="https://docs.aws.amazon.com/greengrass/v2/developerguide/greengrass-nucleus-component.html#greengrass-nucleus-component-configuration-fss">regular
+  /// interval that you can configure</a>, which defaults to 24 hours
+  /// </li>
+  /// </ul> </note>
   ///
   /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
@@ -855,7 +953,9 @@ class GreengrassV2 {
   /// The <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
   /// of the IoT thing group by which to filter. If you specify this parameter,
-  /// the list includes only core devices that are members of this thing group.
+  /// the list includes only core devices that have successfully deployed a
+  /// deployment that targets the thing group. When you remove a core device
+  /// from a thing group, the list continues to include that core device.
   Future<ListCoreDevicesResponse> listCoreDevices({
     int? maxResults,
     String? nextToken,
@@ -989,7 +1089,37 @@ class GreengrassV2 {
   }
 
   /// Retrieves a paginated list of the components that a Greengrass core device
-  /// runs.
+  /// runs. This list doesn't include components that are deployed from local
+  /// deployments or components that are deployed as dependencies of other
+  /// components.
+  /// <note>
+  /// IoT Greengrass relies on individual devices to send status updates to the
+  /// Amazon Web Services Cloud. If the IoT Greengrass Core software isn't
+  /// running on the device, or if device isn't connected to the Amazon Web
+  /// Services Cloud, then the reported status of that device might not reflect
+  /// its current status. The status timestamp indicates when the device status
+  /// was last updated.
+  ///
+  /// Core devices send status updates at the following times:
+  ///
+  /// <ul>
+  /// <li>
+  /// When the IoT Greengrass Core software starts
+  /// </li>
+  /// <li>
+  /// When the core device receives a deployment from the Amazon Web Services
+  /// Cloud
+  /// </li>
+  /// <li>
+  /// When the status of any component on the core device becomes
+  /// <code>BROKEN</code>
+  /// </li>
+  /// <li>
+  /// At a <a
+  /// href="https://docs.aws.amazon.com/greengrass/v2/developerguide/greengrass-nucleus-component.html#greengrass-nucleus-component-configuration-fss">regular
+  /// interval that you can configure</a>, which defaults to 24 hours
+  /// </li>
+  /// </ul> </note>
   ///
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
@@ -1082,9 +1212,9 @@ class GreengrassV2 {
   /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
   /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
-  /// May throw [ConflictException].
   ///
   /// Parameter [componentCandidates] :
   /// The list of components to resolve.
@@ -1092,14 +1222,13 @@ class GreengrassV2 {
   /// Parameter [platform] :
   /// The platform to use to resolve compatible components.
   Future<ResolveComponentCandidatesResponse> resolveComponentCandidates({
-    required List<ComponentCandidate> componentCandidates,
-    required ComponentPlatform platform,
+    List<ComponentCandidate>? componentCandidates,
+    ComponentPlatform? platform,
   }) async {
-    ArgumentError.checkNotNull(componentCandidates, 'componentCandidates');
-    ArgumentError.checkNotNull(platform, 'platform');
     final $payload = <String, dynamic>{
-      'componentCandidates': componentCandidates,
-      'platform': platform,
+      if (componentCandidates != null)
+        'componentCandidates': componentCandidates,
+      if (platform != null) 'platform': platform,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1180,10 +1309,10 @@ class GreengrassV2 {
   /// Connectivity information includes endpoints and ports where client devices
   /// can connect to an MQTT broker on the core device. When a client device
   /// calls the <a
-  /// href="https://docs.aws.amazon.com/greengrass/v2/developerguide/greengrass-discover-api.html">Greengrass
-  /// discovery API</a>, IoT Greengrass returns connectivity information for all
-  /// of the core devices where the client device can connect. For more
-  /// information, see <a
+  /// href="https://docs.aws.amazon.com/greengrass/v2/developerguide/greengrass-discover-api.html">IoT
+  /// Greengrass discovery API</a>, IoT Greengrass returns connectivity
+  /// information for all of the core devices where the client device can
+  /// connect. For more information, see <a
   /// href="https://docs.aws.amazon.com/greengrass/v2/developerguide/connect-client-devices.html">Connect
   /// client devices to core devices</a> in the <i>IoT Greengrass Version 2
   /// Developer Guide</i>.
@@ -1461,25 +1590,54 @@ extension on String {
   }
 }
 
-/// Contains the status of a component in the IoT Greengrass service.
+/// Contains the status of a component version in the IoT Greengrass service.
 class CloudComponentStatus {
-  /// The state of the component.
+  /// The state of the component version.
   final CloudComponentState? componentState;
 
-  /// A dictionary of errors that communicate why the component is in an error
-  /// state. For example, if IoT Greengrass can't access an artifact for the
-  /// component, then <code>errors</code> contains the artifact's URI as a key,
-  /// and the error message as the value for that key.
+  /// A dictionary of errors that communicate why the component version is in an
+  /// error state. For example, if IoT Greengrass can't access an artifact for the
+  /// component version, then <code>errors</code> contains the artifact's URI as a
+  /// key, and the error message as the value for that key.
   final Map<String, String>? errors;
 
   /// A message that communicates details, such as errors, about the status of the
-  /// component.
+  /// component version.
   final String? message;
+
+  /// The vendor guidance state for the component version. This state indicates
+  /// whether the component version has any issues that you should consider before
+  /// you deploy it. The vendor guidance state can be:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ACTIVE</code> – This component version is available and recommended
+  /// for use.
+  /// </li>
+  /// <li>
+  /// <code>DISCONTINUED</code> – This component version has been discontinued by
+  /// its publisher. You can deploy this component version, but we recommend that
+  /// you use a different version of this component.
+  /// </li>
+  /// <li>
+  /// <code>DELETED</code> – This component version has been deleted by its
+  /// publisher, so you can't deploy it. If you have any existing deployments that
+  /// specify this component version, those deployments will fail.
+  /// </li>
+  /// </ul>
+  final VendorGuidance? vendorGuidance;
+
+  /// A message that communicates details about the vendor guidance state of the
+  /// component version. This message communicates why a component version is
+  /// discontinued or deleted.
+  final String? vendorGuidanceMessage;
 
   CloudComponentStatus({
     this.componentState,
     this.errors,
     this.message,
+    this.vendorGuidance,
+    this.vendorGuidanceMessage,
   });
 
   factory CloudComponentStatus.fromJson(Map<String, dynamic> json) {
@@ -1489,6 +1647,8 @@ class CloudComponentStatus {
       errors: (json['errors'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       message: json['message'] as String?,
+      vendorGuidance: (json['vendorGuidance'] as String?)?.toVendorGuidance(),
+      vendorGuidanceMessage: json['vendorGuidanceMessage'] as String?,
     );
   }
 
@@ -1496,10 +1656,15 @@ class CloudComponentStatus {
     final componentState = this.componentState;
     final errors = this.errors;
     final message = this.message;
+    final vendorGuidance = this.vendorGuidance;
+    final vendorGuidanceMessage = this.vendorGuidanceMessage;
     return {
       if (componentState != null) 'componentState': componentState.toValue(),
       if (errors != null) 'errors': errors,
       if (message != null) 'message': message,
+      if (vendorGuidance != null) 'vendorGuidance': vendorGuidance.toValue(),
+      if (vendorGuidanceMessage != null)
+        'vendorGuidanceMessage': vendorGuidanceMessage,
     };
   }
 }
@@ -4637,14 +4802,43 @@ class ResolvedComponentVersion {
   /// The version of the component.
   final String? componentVersion;
 
+  /// A message that communicates details about the vendor guidance state of the
+  /// component version. This message communicates why a component version is
+  /// discontinued or deleted.
+  final String? message;
+
   /// The recipe of the component version.
   final Uint8List? recipe;
+
+  /// The vendor guidance state for the component version. This state indicates
+  /// whether the component version has any issues that you should consider before
+  /// you deploy it. The vendor guidance state can be:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ACTIVE</code> – This component version is available and recommended
+  /// for use.
+  /// </li>
+  /// <li>
+  /// <code>DISCONTINUED</code> – This component version has been discontinued by
+  /// its publisher. You can deploy this component version, but we recommend that
+  /// you use a different version of this component.
+  /// </li>
+  /// <li>
+  /// <code>DELETED</code> – This component version has been deleted by its
+  /// publisher, so you can't deploy it. If you have any existing deployments that
+  /// specify this component version, those deployments will fail.
+  /// </li>
+  /// </ul>
+  final VendorGuidance? vendorGuidance;
 
   ResolvedComponentVersion({
     this.arn,
     this.componentName,
     this.componentVersion,
+    this.message,
     this.recipe,
+    this.vendorGuidance,
   });
 
   factory ResolvedComponentVersion.fromJson(Map<String, dynamic> json) {
@@ -4652,7 +4846,9 @@ class ResolvedComponentVersion {
       arn: json['arn'] as String?,
       componentName: json['componentName'] as String?,
       componentVersion: json['componentVersion'] as String?,
+      message: json['message'] as String?,
       recipe: _s.decodeNullableUint8List(json['recipe'] as String?),
+      vendorGuidance: (json['vendorGuidance'] as String?)?.toVendorGuidance(),
     );
   }
 
@@ -4660,12 +4856,16 @@ class ResolvedComponentVersion {
     final arn = this.arn;
     final componentName = this.componentName;
     final componentVersion = this.componentVersion;
+    final message = this.message;
     final recipe = this.recipe;
+    final vendorGuidance = this.vendorGuidance;
     return {
       if (arn != null) 'arn': arn,
       if (componentName != null) 'componentName': componentName,
       if (componentVersion != null) 'componentVersion': componentVersion,
+      if (message != null) 'message': message,
       if (recipe != null) 'recipe': base64Encode(recipe),
+      if (vendorGuidance != null) 'vendorGuidance': vendorGuidance.toValue(),
     };
   }
 }
@@ -4763,6 +4963,39 @@ class UpdateConnectivityInfoResponse {
       if (message != null) 'Message': message,
       if (version != null) 'Version': version,
     };
+  }
+}
+
+enum VendorGuidance {
+  active,
+  discontinued,
+  deleted,
+}
+
+extension on VendorGuidance {
+  String toValue() {
+    switch (this) {
+      case VendorGuidance.active:
+        return 'ACTIVE';
+      case VendorGuidance.discontinued:
+        return 'DISCONTINUED';
+      case VendorGuidance.deleted:
+        return 'DELETED';
+    }
+  }
+}
+
+extension on String {
+  VendorGuidance toVendorGuidance() {
+    switch (this) {
+      case 'ACTIVE':
+        return VendorGuidance.active;
+      case 'DISCONTINUED':
+        return VendorGuidance.discontinued;
+      case 'DELETED':
+        return VendorGuidance.deleted;
+    }
+    throw Exception('$this is not known in enum VendorGuidance');
   }
 }
 

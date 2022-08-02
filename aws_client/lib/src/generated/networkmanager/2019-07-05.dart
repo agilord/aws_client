@@ -18,9 +18,9 @@ import '../../shared/shared.dart'
 
 export '../../shared/shared.dart' show AwsClientCredentials;
 
-/// Transit Gateway Network Manager (Network Manager) enables you to create a
-/// global network, in which you can monitor your Amazon Web Services and
-/// on-premises networks that are built around transit gateways.
+/// Amazon Web Services enables you to centrally manage your Amazon Web Services
+/// Cloud WAN core network and your Transit Gateway network across Amazon Web
+/// Services accounts, Regions, and on-premises locations.
 class NetworkManager {
   final _s.RestJsonProtocol _protocol;
   NetworkManager({
@@ -120,8 +120,8 @@ class NetworkManager {
   /// If you specify a link, it must be associated with the specified device.
   ///
   /// You can only associate customer gateways that are connected to a VPN
-  /// attachment on a transit gateway. The transit gateway must be registered in
-  /// your global network. When you register a transit gateway, customer
+  /// attachment on a transit gateway or core network registered in your global
+  /// network. When you register a transit gateway or core network, customer
   /// gateways that are connected to the transit gateway are automatically
   /// included in the global network. To list customer gateways that are
   /// connected to a transit gateway, use the <a
@@ -332,7 +332,7 @@ class NetworkManager {
     return CreateConnectAttachmentResponse.fromJson(response);
   }
 
-  /// Creates a core network connect peer for a specified core network connect
+  /// Creates a core network Connect peer for a specified core network connect
   /// attachment between a core network and an appliance. The peer address and
   /// transit gateway address must be the same IP address family (IPv4 or IPv6).
   ///
@@ -750,8 +750,8 @@ class NetworkManager {
     return CreateSiteResponse.fromJson(response);
   }
 
-  /// Creates a site-to-site VPN attachment on an edge location of a core
-  /// network.
+  /// Creates an Amazon Web Services site-to-site VPN attachment on an edge
+  /// location of a core network.
   ///
   /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
@@ -793,6 +793,94 @@ class NetworkManager {
       exceptionFnMap: _exceptionFns,
     );
     return CreateSiteToSiteVpnAttachmentResponse.fromJson(response);
+  }
+
+  /// Creates a transit gateway peering connection.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [coreNetworkId] :
+  /// The ID of a core network.
+  ///
+  /// Parameter [transitGatewayArn] :
+  /// The ARN of the transit gateway for the peering request.
+  ///
+  /// Parameter [clientToken] :
+  /// The client token associated with the request.
+  ///
+  /// Parameter [tags] :
+  /// The list of key-value tags associated with the request.
+  Future<CreateTransitGatewayPeeringResponse> createTransitGatewayPeering({
+    required String coreNetworkId,
+    required String transitGatewayArn,
+    String? clientToken,
+    List<Tag>? tags,
+  }) async {
+    ArgumentError.checkNotNull(coreNetworkId, 'coreNetworkId');
+    ArgumentError.checkNotNull(transitGatewayArn, 'transitGatewayArn');
+    final $payload = <String, dynamic>{
+      'CoreNetworkId': coreNetworkId,
+      'TransitGatewayArn': transitGatewayArn,
+      'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (tags != null) 'Tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/transit-gateway-peerings',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateTransitGatewayPeeringResponse.fromJson(response);
+  }
+
+  /// Creates a transit gateway route table attachment.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [peeringId] :
+  /// The ID of the peer for the
+  ///
+  /// Parameter [transitGatewayRouteTableArn] :
+  /// The ARN of the transit gateway route table for the attachment request.
+  ///
+  /// Parameter [clientToken] :
+  /// The client token associated with the request.
+  ///
+  /// Parameter [tags] :
+  /// The list of key-value tags associated with the request.
+  Future<CreateTransitGatewayRouteTableAttachmentResponse>
+      createTransitGatewayRouteTableAttachment({
+    required String peeringId,
+    required String transitGatewayRouteTableArn,
+    String? clientToken,
+    List<Tag>? tags,
+  }) async {
+    ArgumentError.checkNotNull(peeringId, 'peeringId');
+    ArgumentError.checkNotNull(
+        transitGatewayRouteTableArn, 'transitGatewayRouteTableArn');
+    final $payload = <String, dynamic>{
+      'PeeringId': peeringId,
+      'TransitGatewayRouteTableArn': transitGatewayRouteTableArn,
+      'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (tags != null) 'Tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/transit-gateway-route-table-attachments',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateTransitGatewayRouteTableAttachmentResponse.fromJson(response);
   }
 
   /// Creates a VPC attachment on an edge location of a core network.
@@ -1016,8 +1104,8 @@ class NetworkManager {
   }
 
   /// Deletes an existing global network. You must first delete all global
-  /// network objects (devices, links, and sites) and deregister all transit
-  /// gateways.
+  /// network objects (devices, links, and sites), deregister all transit
+  /// gateways, and delete any core networks.
   ///
   /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
@@ -1070,6 +1158,30 @@ class NetworkManager {
       exceptionFnMap: _exceptionFns,
     );
     return DeleteLinkResponse.fromJson(response);
+  }
+
+  /// Deletes an existing peering connection.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [peeringId] :
+  /// The ID of the peering connection to delete.
+  Future<DeletePeeringResponse> deletePeering({
+    required String peeringId,
+  }) async {
+    ArgumentError.checkNotNull(peeringId, 'peeringId');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/peerings/${Uri.encodeComponent(peeringId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeletePeeringResponse.fromJson(response);
   }
 
   /// Deletes a resource policy for the specified resource. This revokes the
@@ -1516,8 +1628,7 @@ class NetworkManager {
     return GetConnectionsResponse.fromJson(response);
   }
 
-  /// Returns information about a core network. By default it returns the LIVE
-  /// policy.
+  /// Returns information about the LIVE policy for a core network.
   ///
   /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
@@ -1538,6 +1649,54 @@ class NetworkManager {
       exceptionFnMap: _exceptionFns,
     );
     return GetCoreNetworkResponse.fromJson(response);
+  }
+
+  /// Returns information about a core network change event.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [coreNetworkId] :
+  /// The ID of a core network.
+  ///
+  /// Parameter [policyVersionId] :
+  /// The ID of the policy version.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next page of results.
+  Future<GetCoreNetworkChangeEventsResponse> getCoreNetworkChangeEvents({
+    required String coreNetworkId,
+    required int policyVersionId,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    ArgumentError.checkNotNull(coreNetworkId, 'coreNetworkId');
+    ArgumentError.checkNotNull(policyVersionId, 'policyVersionId');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      500,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/core-networks/${Uri.encodeComponent(coreNetworkId)}/core-network-change-events/${Uri.encodeComponent(policyVersionId.toString())}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetCoreNetworkChangeEventsResponse.fromJson(response);
   }
 
   /// Returns a change set between the LIVE core network policy and a submitted
@@ -1589,8 +1748,8 @@ class NetworkManager {
     return GetCoreNetworkChangeSetResponse.fromJson(response);
   }
 
-  /// Gets details about a core network policy. You can get details about your
-  /// current live policy or any previous policy version.
+  /// Returns details about a core network policy. You can get details about
+  /// your current live policy or any previous policy version.
   ///
   /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
@@ -2599,6 +2758,29 @@ class NetworkManager {
     return GetTransitGatewayConnectPeerAssociationsResponse.fromJson(response);
   }
 
+  /// Returns information about a transit gateway peer.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [peeringId] :
+  /// The ID of the peering request.
+  Future<GetTransitGatewayPeeringResponse> getTransitGatewayPeering({
+    required String peeringId,
+  }) async {
+    ArgumentError.checkNotNull(peeringId, 'peeringId');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/transit-gateway-peerings/${Uri.encodeComponent(peeringId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetTransitGatewayPeeringResponse.fromJson(response);
+  }
+
   /// Gets information about the transit gateway registrations in a specified
   /// global network.
   ///
@@ -2648,6 +2830,31 @@ class NetworkManager {
       exceptionFnMap: _exceptionFns,
     );
     return GetTransitGatewayRegistrationsResponse.fromJson(response);
+  }
+
+  /// Returns information about a transit gateway route table attachment.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [attachmentId] :
+  /// The ID of the transit gateway route table attachment.
+  Future<GetTransitGatewayRouteTableAttachmentResponse>
+      getTransitGatewayRouteTableAttachment({
+    required String attachmentId,
+  }) async {
+    ArgumentError.checkNotNull(attachmentId, 'attachmentId');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/transit-gateway-route-table-attachments/${Uri.encodeComponent(attachmentId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetTransitGatewayRouteTableAttachmentResponse.fromJson(response);
   }
 
   /// Returns information about a VPC attachment.
@@ -2855,6 +3062,95 @@ class NetworkManager {
     return ListCoreNetworksResponse.fromJson(response);
   }
 
+  /// Gets the status of the Service Linked Role (SLR) deployment for the
+  /// accounts in a given Amazon Web Services Organization.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next page of results.
+  Future<ListOrganizationServiceAccessStatusResponse>
+      listOrganizationServiceAccessStatus({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      500,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/organizations/service-access',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListOrganizationServiceAccessStatusResponse.fromJson(response);
+  }
+
+  /// Lists the peerings for a core network.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [coreNetworkId] :
+  /// The ID of a core network.
+  ///
+  /// Parameter [edgeLocation] :
+  /// Returns a list edge locations for the
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next page of results.
+  ///
+  /// Parameter [peeringType] :
+  /// Returns a list of a peering requests.
+  ///
+  /// Parameter [state] :
+  /// Returns a list of the peering request states.
+  Future<ListPeeringsResponse> listPeerings({
+    String? coreNetworkId,
+    String? edgeLocation,
+    int? maxResults,
+    String? nextToken,
+    PeeringType? peeringType,
+    PeeringState? state,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      500,
+    );
+    final $query = <String, List<String>>{
+      if (coreNetworkId != null) 'coreNetworkId': [coreNetworkId],
+      if (edgeLocation != null) 'edgeLocation': [edgeLocation],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+      if (peeringType != null) 'peeringType': [peeringType.toValue()],
+      if (state != null) 'state': [state.toValue()],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/peerings',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListPeeringsResponse.fromJson(response);
+  }
+
   /// Lists the tags for a specified resource.
   ///
   /// May throw [ValidationException].
@@ -3051,6 +3347,37 @@ class NetworkManager {
       exceptionFnMap: _exceptionFns,
     );
     return RestoreCoreNetworkPolicyVersionResponse.fromJson(response);
+  }
+
+  /// Enables for the Network Manager service for an Amazon Web Services
+  /// Organization. This can only be called by a management account within the
+  /// organization.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [action] :
+  /// The action to take for the update request. This can be either
+  /// <code>ENABLE</code> or <code>DISABLE</code>.
+  Future<StartOrganizationServiceAccessUpdateResponse>
+      startOrganizationServiceAccessUpdate({
+    required String action,
+  }) async {
+    ArgumentError.checkNotNull(action, 'action');
+    final $payload = <String, dynamic>{
+      'Action': action,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/organizations/service-access',
+      exceptionFnMap: _exceptionFns,
+    );
+    return StartOrganizationServiceAccessUpdateResponse.fromJson(response);
   }
 
   /// Starts analyzing the routing path between the specified source and
@@ -3617,6 +3944,38 @@ class AcceptAttachmentResponse {
   }
 }
 
+/// Describes the current status of an account within an Amazon Web Services
+/// Organization, including service-linked roles (SLRs).
+class AccountStatus {
+  /// The ID of an account within the Amazon Web Services Organization.
+  final String? accountId;
+
+  /// The status of SLR deployment for the account.
+  final String? sLRDeploymentStatus;
+
+  AccountStatus({
+    this.accountId,
+    this.sLRDeploymentStatus,
+  });
+
+  factory AccountStatus.fromJson(Map<String, dynamic> json) {
+    return AccountStatus(
+      accountId: json['AccountId'] as String?,
+      sLRDeploymentStatus: json['SLRDeploymentStatus'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final sLRDeploymentStatus = this.sLRDeploymentStatus;
+    return {
+      if (accountId != null) 'AccountId': accountId,
+      if (sLRDeploymentStatus != null)
+        'SLRDeploymentStatus': sLRDeploymentStatus,
+    };
+  }
+}
+
 class AssociateConnectPeerResponse {
   /// The response to the Connect peer request.
   final ConnectPeerAssociation? connectPeerAssociation;
@@ -3740,7 +4099,7 @@ class Attachment {
   /// The ARN of a core network.
   final String? coreNetworkArn;
 
-  /// A core network ID.
+  /// The ID of a core network.
   final String? coreNetworkId;
 
   /// The timestamp when the attachment was created.
@@ -3915,6 +4274,7 @@ enum AttachmentType {
   connect,
   siteToSiteVpn,
   vpc,
+  transitGatewayRouteTable,
 }
 
 extension on AttachmentType {
@@ -3926,6 +4286,8 @@ extension on AttachmentType {
         return 'SITE_TO_SITE_VPN';
       case AttachmentType.vpc:
         return 'VPC';
+      case AttachmentType.transitGatewayRouteTable:
+        return 'TRANSIT_GATEWAY_ROUTE_TABLE';
     }
   }
 }
@@ -3939,6 +4301,8 @@ extension on String {
         return AttachmentType.siteToSiteVpn;
       case 'VPC':
         return AttachmentType.vpc;
+      case 'TRANSIT_GATEWAY_ROUTE_TABLE':
+        return AttachmentType.transitGatewayRouteTable;
     }
     throw Exception('$this is not known in enum AttachmentType');
   }
@@ -4078,12 +4442,54 @@ extension on String {
   }
 }
 
+enum ChangeStatus {
+  notStarted,
+  inProgress,
+  complete,
+  failed,
+}
+
+extension on ChangeStatus {
+  String toValue() {
+    switch (this) {
+      case ChangeStatus.notStarted:
+        return 'NOT_STARTED';
+      case ChangeStatus.inProgress:
+        return 'IN_PROGRESS';
+      case ChangeStatus.complete:
+        return 'COMPLETE';
+      case ChangeStatus.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension on String {
+  ChangeStatus toChangeStatus() {
+    switch (this) {
+      case 'NOT_STARTED':
+        return ChangeStatus.notStarted;
+      case 'IN_PROGRESS':
+        return ChangeStatus.inProgress;
+      case 'COMPLETE':
+        return ChangeStatus.complete;
+      case 'FAILED':
+        return ChangeStatus.failed;
+    }
+    throw Exception('$this is not known in enum ChangeStatus');
+  }
+}
+
 enum ChangeType {
   coreNetworkSegment,
   coreNetworkEdge,
   attachmentMapping,
   attachmentRoutePropagation,
   attachmentRouteStatic,
+  coreNetworkConfiguration,
+  segmentsConfiguration,
+  segmentActionsConfiguration,
+  attachmentPoliciesConfiguration,
 }
 
 extension on ChangeType {
@@ -4099,6 +4505,14 @@ extension on ChangeType {
         return 'ATTACHMENT_ROUTE_PROPAGATION';
       case ChangeType.attachmentRouteStatic:
         return 'ATTACHMENT_ROUTE_STATIC';
+      case ChangeType.coreNetworkConfiguration:
+        return 'CORE_NETWORK_CONFIGURATION';
+      case ChangeType.segmentsConfiguration:
+        return 'SEGMENTS_CONFIGURATION';
+      case ChangeType.segmentActionsConfiguration:
+        return 'SEGMENT_ACTIONS_CONFIGURATION';
+      case ChangeType.attachmentPoliciesConfiguration:
+        return 'ATTACHMENT_POLICIES_CONFIGURATION';
     }
   }
 }
@@ -4116,6 +4530,14 @@ extension on String {
         return ChangeType.attachmentRoutePropagation;
       case 'ATTACHMENT_ROUTE_STATIC':
         return ChangeType.attachmentRouteStatic;
+      case 'CORE_NETWORK_CONFIGURATION':
+        return ChangeType.coreNetworkConfiguration;
+      case 'SEGMENTS_CONFIGURATION':
+        return ChangeType.segmentsConfiguration;
+      case 'SEGMENT_ACTIONS_CONFIGURATION':
+        return ChangeType.segmentActionsConfiguration;
+      case 'ATTACHMENT_POLICIES_CONFIGURATION':
+        return ChangeType.attachmentPoliciesConfiguration;
     }
     throw Exception('$this is not known in enum ChangeType');
   }
@@ -4210,7 +4632,7 @@ class ConnectPeer {
   /// The state of the Connect peer.
   final ConnectPeerState? state;
 
-  /// The tags associated with the Connect peer.
+  /// The list of key-value tags associated with the Connect peer.
   final List<Tag>? tags;
 
   ConnectPeer({
@@ -4515,7 +4937,7 @@ class ConnectPeerSummary {
   /// The Region where the edge is located.
   final String? edgeLocation;
 
-  /// The tags associated with a Connect peer summary.
+  /// The list of key-value tags associated with the Connect peer summary.
   final List<Tag>? tags;
 
   ConnectPeerSummary({
@@ -4819,7 +5241,7 @@ class CoreNetwork {
   /// The current state of a core network.
   final CoreNetworkState? state;
 
-  /// The tags associated with a core network.
+  /// The list of key-value tags associated with a core network.
   final List<Tag>? tags;
 
   CoreNetwork({
@@ -4889,6 +5311,11 @@ class CoreNetworkChange {
   /// The resource identifier.
   final String? identifier;
 
+  /// Uniquely identifies the path for a change within the changeset. For example,
+  /// the <code>IdentifierPath</code> for a core network segment change might be
+  /// <code>"CORE_NETWORK_SEGMENT/us-east-1/devsegment"</code>.
+  final String? identifierPath;
+
   /// The new value for a core network
   final CoreNetworkChangeValues? newValues;
 
@@ -4901,6 +5328,7 @@ class CoreNetworkChange {
   CoreNetworkChange({
     this.action,
     this.identifier,
+    this.identifierPath,
     this.newValues,
     this.previousValues,
     this.type,
@@ -4910,6 +5338,7 @@ class CoreNetworkChange {
     return CoreNetworkChange(
       action: (json['Action'] as String?)?.toChangeAction(),
       identifier: json['Identifier'] as String?,
+      identifierPath: json['IdentifierPath'] as String?,
       newValues: json['NewValues'] != null
           ? CoreNetworkChangeValues.fromJson(
               json['NewValues'] as Map<String, dynamic>)
@@ -4925,15 +5354,126 @@ class CoreNetworkChange {
   Map<String, dynamic> toJson() {
     final action = this.action;
     final identifier = this.identifier;
+    final identifierPath = this.identifierPath;
     final newValues = this.newValues;
     final previousValues = this.previousValues;
     final type = this.type;
     return {
       if (action != null) 'Action': action.toValue(),
       if (identifier != null) 'Identifier': identifier,
+      if (identifierPath != null) 'IdentifierPath': identifierPath,
       if (newValues != null) 'NewValues': newValues,
       if (previousValues != null) 'PreviousValues': previousValues,
       if (type != null) 'Type': type.toValue(),
+    };
+  }
+}
+
+/// Describes a core network change event. This can be a change to a segment,
+/// attachment, route, etc.
+class CoreNetworkChangeEvent {
+  /// The action taken for the change event.
+  final ChangeAction? action;
+
+  /// The timestamp for an event change in status.
+  final DateTime? eventTime;
+
+  /// Uniquely identifies the path for a change within the changeset. For example,
+  /// the <code>IdentifierPath</code> for a core network segment change might be
+  /// <code>"CORE_NETWORK_SEGMENT/us-east-1/devsegment"</code>.
+  final String? identifierPath;
+
+  /// The status of the core network change event.
+  final ChangeStatus? status;
+
+  /// Describes the type of change event.
+  final ChangeType? type;
+
+  /// Details of the change event.
+  final CoreNetworkChangeEventValues? values;
+
+  CoreNetworkChangeEvent({
+    this.action,
+    this.eventTime,
+    this.identifierPath,
+    this.status,
+    this.type,
+    this.values,
+  });
+
+  factory CoreNetworkChangeEvent.fromJson(Map<String, dynamic> json) {
+    return CoreNetworkChangeEvent(
+      action: (json['Action'] as String?)?.toChangeAction(),
+      eventTime: timeStampFromJson(json['EventTime']),
+      identifierPath: json['IdentifierPath'] as String?,
+      status: (json['Status'] as String?)?.toChangeStatus(),
+      type: (json['Type'] as String?)?.toChangeType(),
+      values: json['Values'] != null
+          ? CoreNetworkChangeEventValues.fromJson(
+              json['Values'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final eventTime = this.eventTime;
+    final identifierPath = this.identifierPath;
+    final status = this.status;
+    final type = this.type;
+    final values = this.values;
+    return {
+      if (action != null) 'Action': action.toValue(),
+      if (eventTime != null) 'EventTime': unixTimestampToJson(eventTime),
+      if (identifierPath != null) 'IdentifierPath': identifierPath,
+      if (status != null) 'Status': status.toValue(),
+      if (type != null) 'Type': type.toValue(),
+      if (values != null) 'Values': values,
+    };
+  }
+}
+
+/// Describes a core network change event.
+class CoreNetworkChangeEventValues {
+  /// The ID of the attachment if the change event is associated with an
+  /// attachment.
+  final String? attachmentId;
+
+  /// For a <code>STATIC_ROUTE</code> event, this is the IP address.
+  final String? cidr;
+
+  /// The edge location for the core network change event.
+  final String? edgeLocation;
+
+  /// The segment name if the change event is associated with a segment.
+  final String? segmentName;
+
+  CoreNetworkChangeEventValues({
+    this.attachmentId,
+    this.cidr,
+    this.edgeLocation,
+    this.segmentName,
+  });
+
+  factory CoreNetworkChangeEventValues.fromJson(Map<String, dynamic> json) {
+    return CoreNetworkChangeEventValues(
+      attachmentId: json['AttachmentId'] as String?,
+      cidr: json['Cidr'] as String?,
+      edgeLocation: json['EdgeLocation'] as String?,
+      segmentName: json['SegmentName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attachmentId = this.attachmentId;
+    final cidr = this.cidr;
+    final edgeLocation = this.edgeLocation;
+    final segmentName = this.segmentName;
+    return {
+      if (attachmentId != null) 'AttachmentId': attachmentId,
+      if (cidr != null) 'Cidr': cidr,
+      if (edgeLocation != null) 'EdgeLocation': edgeLocation,
+      if (segmentName != null) 'SegmentName': segmentName,
     };
   }
 }
@@ -5664,6 +6204,65 @@ class CreateSiteToSiteVpnAttachmentResponse {
   }
 }
 
+class CreateTransitGatewayPeeringResponse {
+  /// Returns information about the transit gateway peering connection request.
+  final TransitGatewayPeering? transitGatewayPeering;
+
+  CreateTransitGatewayPeeringResponse({
+    this.transitGatewayPeering,
+  });
+
+  factory CreateTransitGatewayPeeringResponse.fromJson(
+      Map<String, dynamic> json) {
+    return CreateTransitGatewayPeeringResponse(
+      transitGatewayPeering: json['TransitGatewayPeering'] != null
+          ? TransitGatewayPeering.fromJson(
+              json['TransitGatewayPeering'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final transitGatewayPeering = this.transitGatewayPeering;
+    return {
+      if (transitGatewayPeering != null)
+        'TransitGatewayPeering': transitGatewayPeering,
+    };
+  }
+}
+
+class CreateTransitGatewayRouteTableAttachmentResponse {
+  /// The route table associated with the create transit gateway route table
+  /// attachment request.
+  final TransitGatewayRouteTableAttachment? transitGatewayRouteTableAttachment;
+
+  CreateTransitGatewayRouteTableAttachmentResponse({
+    this.transitGatewayRouteTableAttachment,
+  });
+
+  factory CreateTransitGatewayRouteTableAttachmentResponse.fromJson(
+      Map<String, dynamic> json) {
+    return CreateTransitGatewayRouteTableAttachmentResponse(
+      transitGatewayRouteTableAttachment:
+          json['TransitGatewayRouteTableAttachment'] != null
+              ? TransitGatewayRouteTableAttachment.fromJson(
+                  json['TransitGatewayRouteTableAttachment']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final transitGatewayRouteTableAttachment =
+        this.transitGatewayRouteTableAttachment;
+    return {
+      if (transitGatewayRouteTableAttachment != null)
+        'TransitGatewayRouteTableAttachment':
+            transitGatewayRouteTableAttachment,
+    };
+  }
+}
+
 class CreateVpcAttachmentResponse {
   /// Provides details about the VPC attachment.
   final VpcAttachment? vpcAttachment;
@@ -5970,6 +6569,30 @@ class DeleteLinkResponse {
     final link = this.link;
     return {
       if (link != null) 'Link': link,
+    };
+  }
+}
+
+class DeletePeeringResponse {
+  /// Information about a deleted peering connection.
+  final Peering? peering;
+
+  DeletePeeringResponse({
+    this.peering,
+  });
+
+  factory DeletePeeringResponse.fromJson(Map<String, dynamic> json) {
+    return DeletePeeringResponse(
+      peering: json['Peering'] != null
+          ? Peering.fromJson(json['Peering'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final peering = this.peering;
+    return {
+      if (peering != null) 'Peering': peering,
     };
   }
 }
@@ -6460,6 +7083,41 @@ class GetConnectionsResponse {
     final nextToken = this.nextToken;
     return {
       if (connections != null) 'Connections': connections,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class GetCoreNetworkChangeEventsResponse {
+  /// The response to <code>GetCoreNetworkChangeEventsRequest</code>.
+  final List<CoreNetworkChangeEvent>? coreNetworkChangeEvents;
+
+  /// The token for the next page of results.
+  final String? nextToken;
+
+  GetCoreNetworkChangeEventsResponse({
+    this.coreNetworkChangeEvents,
+    this.nextToken,
+  });
+
+  factory GetCoreNetworkChangeEventsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetCoreNetworkChangeEventsResponse(
+      coreNetworkChangeEvents: (json['CoreNetworkChangeEvents'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => CoreNetworkChangeEvent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final coreNetworkChangeEvents = this.coreNetworkChangeEvents;
+    final nextToken = this.nextToken;
+    return {
+      if (coreNetworkChangeEvents != null)
+        'CoreNetworkChangeEvents': coreNetworkChangeEvents,
       if (nextToken != null) 'NextToken': nextToken,
     };
   }
@@ -7013,6 +7671,32 @@ class GetTransitGatewayConnectPeerAssociationsResponse {
   }
 }
 
+class GetTransitGatewayPeeringResponse {
+  /// Returns information about a transit gateway peering.
+  final TransitGatewayPeering? transitGatewayPeering;
+
+  GetTransitGatewayPeeringResponse({
+    this.transitGatewayPeering,
+  });
+
+  factory GetTransitGatewayPeeringResponse.fromJson(Map<String, dynamic> json) {
+    return GetTransitGatewayPeeringResponse(
+      transitGatewayPeering: json['TransitGatewayPeering'] != null
+          ? TransitGatewayPeering.fromJson(
+              json['TransitGatewayPeering'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final transitGatewayPeering = this.transitGatewayPeering;
+    return {
+      if (transitGatewayPeering != null)
+        'TransitGatewayPeering': transitGatewayPeering,
+    };
+  }
+}
+
 class GetTransitGatewayRegistrationsResponse {
   /// The token for the next page of results.
   final String? nextToken;
@@ -7049,6 +7733,37 @@ class GetTransitGatewayRegistrationsResponse {
   }
 }
 
+class GetTransitGatewayRouteTableAttachmentResponse {
+  /// Returns information about the transit gateway route table attachment.
+  final TransitGatewayRouteTableAttachment? transitGatewayRouteTableAttachment;
+
+  GetTransitGatewayRouteTableAttachmentResponse({
+    this.transitGatewayRouteTableAttachment,
+  });
+
+  factory GetTransitGatewayRouteTableAttachmentResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetTransitGatewayRouteTableAttachmentResponse(
+      transitGatewayRouteTableAttachment:
+          json['TransitGatewayRouteTableAttachment'] != null
+              ? TransitGatewayRouteTableAttachment.fromJson(
+                  json['TransitGatewayRouteTableAttachment']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final transitGatewayRouteTableAttachment =
+        this.transitGatewayRouteTableAttachment;
+    return {
+      if (transitGatewayRouteTableAttachment != null)
+        'TransitGatewayRouteTableAttachment':
+            transitGatewayRouteTableAttachment,
+    };
+  }
+}
+
 class GetVpcAttachmentResponse {
   /// Returns details about a VPC attachment.
   final VpcAttachment? vpcAttachment;
@@ -7076,7 +7791,7 @@ class GetVpcAttachmentResponse {
 
 /// Describes a global network. This is a single private network acting as a
 /// high-level container for your network objects, including an Amazon Web
-/// Services-manged Core Network.
+/// Services-managed Core Network.
 class GlobalNetwork {
   /// The date and time that the global network was created.
   final DateTime? createdAt;
@@ -7526,6 +8241,72 @@ class ListCoreNetworksResponse {
   }
 }
 
+class ListOrganizationServiceAccessStatusResponse {
+  /// The token for the next page of results.
+  final String? nextToken;
+
+  /// Displays the status of an Amazon Web Services Organization.
+  final OrganizationStatus? organizationStatus;
+
+  ListOrganizationServiceAccessStatusResponse({
+    this.nextToken,
+    this.organizationStatus,
+  });
+
+  factory ListOrganizationServiceAccessStatusResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListOrganizationServiceAccessStatusResponse(
+      nextToken: json['NextToken'] as String?,
+      organizationStatus: json['OrganizationStatus'] != null
+          ? OrganizationStatus.fromJson(
+              json['OrganizationStatus'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final organizationStatus = this.organizationStatus;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (organizationStatus != null) 'OrganizationStatus': organizationStatus,
+    };
+  }
+}
+
+class ListPeeringsResponse {
+  /// The token for the next page of results.
+  final String? nextToken;
+
+  /// Lists the transit gateway peerings for the <code>ListPeerings</code>
+  /// request.
+  final List<Peering>? peerings;
+
+  ListPeeringsResponse({
+    this.nextToken,
+    this.peerings,
+  });
+
+  factory ListPeeringsResponse.fromJson(Map<String, dynamic> json) {
+    return ListPeeringsResponse(
+      nextToken: json['NextToken'] as String?,
+      peerings: (json['Peerings'] as List?)
+          ?.whereNotNull()
+          .map((e) => Peering.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final peerings = this.peerings;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (peerings != null) 'Peerings': peerings,
+    };
+  }
+}
+
 class ListTagsForResourceResponse {
   /// The list of tags.
   final List<Tag>? tagList;
@@ -7596,7 +8377,7 @@ class NetworkResource {
   /// The Amazon Web Services Region.
   final String? awsRegion;
 
-  /// a core network ID.
+  /// The ID of a core network.
   final String? coreNetworkId;
 
   /// Information about the resource, in JSON format. Network Manager gets this
@@ -8030,6 +8811,63 @@ class NetworkTelemetry {
   }
 }
 
+/// The status of an Amazon Web Services Organization and the accounts within
+/// that organization.
+class OrganizationStatus {
+  /// The current service-linked role (SLR) deployment status for an Amazon Web
+  /// Services Organization's accounts. This will be either <code>SUCCEEDED</code>
+  /// or <code>IN_PROGRESS</code>.
+  final List<AccountStatus>? accountStatusList;
+
+  /// The status of the organization's AWS service access. This will be
+  /// <code>ENABLED</code> or <code>DISABLED</code>.
+  final String? organizationAwsServiceAccessStatus;
+
+  /// The ID of an Amazon Web Services Organization.
+  final String? organizationId;
+
+  /// The status of the SLR deployment for the account. This will be either
+  /// <code>SUCCEEDED</code> or <code>IN_PROGRESS</code>.
+  final String? sLRDeploymentStatus;
+
+  OrganizationStatus({
+    this.accountStatusList,
+    this.organizationAwsServiceAccessStatus,
+    this.organizationId,
+    this.sLRDeploymentStatus,
+  });
+
+  factory OrganizationStatus.fromJson(Map<String, dynamic> json) {
+    return OrganizationStatus(
+      accountStatusList: (json['AccountStatusList'] as List?)
+          ?.whereNotNull()
+          .map((e) => AccountStatus.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      organizationAwsServiceAccessStatus:
+          json['OrganizationAwsServiceAccessStatus'] as String?,
+      organizationId: json['OrganizationId'] as String?,
+      sLRDeploymentStatus: json['SLRDeploymentStatus'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountStatusList = this.accountStatusList;
+    final organizationAwsServiceAccessStatus =
+        this.organizationAwsServiceAccessStatus;
+    final organizationId = this.organizationId;
+    final sLRDeploymentStatus = this.sLRDeploymentStatus;
+    return {
+      if (accountStatusList != null) 'AccountStatusList': accountStatusList,
+      if (organizationAwsServiceAccessStatus != null)
+        'OrganizationAwsServiceAccessStatus':
+            organizationAwsServiceAccessStatus,
+      if (organizationId != null) 'OrganizationId': organizationId,
+      if (sLRDeploymentStatus != null)
+        'SLRDeploymentStatus': sLRDeploymentStatus,
+    };
+  }
+}
+
 /// Describes a path component.
 class PathComponent {
   /// The destination CIDR block in the route table.
@@ -8071,6 +8909,156 @@ class PathComponent {
   }
 }
 
+/// Describes a peering connection.
+class Peering {
+  /// The ARN of a core network.
+  final String? coreNetworkArn;
+
+  /// The ID of the core network for the peering request.
+  final String? coreNetworkId;
+
+  /// The timestamp when the attachment peer was created.
+  final DateTime? createdAt;
+
+  /// The edge location for the peer.
+  final String? edgeLocation;
+
+  /// The ID of the account owner.
+  final String? ownerAccountId;
+
+  /// The ID of the peering attachment.
+  final String? peeringId;
+
+  /// The type of peering. This will be <code>TRANSIT_GATEWAY</code>.
+  final PeeringType? peeringType;
+
+  /// The resource ARN of the peer.
+  final String? resourceArn;
+
+  /// The current state of the peering connection.
+  final PeeringState? state;
+
+  /// The list of key-value tags associated with the peering.
+  final List<Tag>? tags;
+
+  Peering({
+    this.coreNetworkArn,
+    this.coreNetworkId,
+    this.createdAt,
+    this.edgeLocation,
+    this.ownerAccountId,
+    this.peeringId,
+    this.peeringType,
+    this.resourceArn,
+    this.state,
+    this.tags,
+  });
+
+  factory Peering.fromJson(Map<String, dynamic> json) {
+    return Peering(
+      coreNetworkArn: json['CoreNetworkArn'] as String?,
+      coreNetworkId: json['CoreNetworkId'] as String?,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      edgeLocation: json['EdgeLocation'] as String?,
+      ownerAccountId: json['OwnerAccountId'] as String?,
+      peeringId: json['PeeringId'] as String?,
+      peeringType: (json['PeeringType'] as String?)?.toPeeringType(),
+      resourceArn: json['ResourceArn'] as String?,
+      state: (json['State'] as String?)?.toPeeringState(),
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final coreNetworkArn = this.coreNetworkArn;
+    final coreNetworkId = this.coreNetworkId;
+    final createdAt = this.createdAt;
+    final edgeLocation = this.edgeLocation;
+    final ownerAccountId = this.ownerAccountId;
+    final peeringId = this.peeringId;
+    final peeringType = this.peeringType;
+    final resourceArn = this.resourceArn;
+    final state = this.state;
+    final tags = this.tags;
+    return {
+      if (coreNetworkArn != null) 'CoreNetworkArn': coreNetworkArn,
+      if (coreNetworkId != null) 'CoreNetworkId': coreNetworkId,
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (edgeLocation != null) 'EdgeLocation': edgeLocation,
+      if (ownerAccountId != null) 'OwnerAccountId': ownerAccountId,
+      if (peeringId != null) 'PeeringId': peeringId,
+      if (peeringType != null) 'PeeringType': peeringType.toValue(),
+      if (resourceArn != null) 'ResourceArn': resourceArn,
+      if (state != null) 'State': state.toValue(),
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+enum PeeringState {
+  creating,
+  failed,
+  available,
+  deleting,
+}
+
+extension on PeeringState {
+  String toValue() {
+    switch (this) {
+      case PeeringState.creating:
+        return 'CREATING';
+      case PeeringState.failed:
+        return 'FAILED';
+      case PeeringState.available:
+        return 'AVAILABLE';
+      case PeeringState.deleting:
+        return 'DELETING';
+    }
+  }
+}
+
+extension on String {
+  PeeringState toPeeringState() {
+    switch (this) {
+      case 'CREATING':
+        return PeeringState.creating;
+      case 'FAILED':
+        return PeeringState.failed;
+      case 'AVAILABLE':
+        return PeeringState.available;
+      case 'DELETING':
+        return PeeringState.deleting;
+    }
+    throw Exception('$this is not known in enum PeeringState');
+  }
+}
+
+enum PeeringType {
+  transitGateway,
+}
+
+extension on PeeringType {
+  String toValue() {
+    switch (this) {
+      case PeeringType.transitGateway:
+        return 'TRANSIT_GATEWAY';
+    }
+  }
+}
+
+extension on String {
+  PeeringType toPeeringType() {
+    switch (this) {
+      case 'TRANSIT_GATEWAY':
+        return PeeringType.transitGateway;
+    }
+    throw Exception('$this is not known in enum PeeringType');
+  }
+}
+
 /// Describes a proposed segment change. In some cases, the segment change must
 /// first be evaluated and accepted.
 class ProposedSegmentChange {
@@ -8080,7 +9068,7 @@ class ProposedSegmentChange {
   /// The name of the segment to change.
   final String? segmentName;
 
-  /// The key-value tags that changed for the segment.
+  /// The list of key-value tags that changed for the segment.
   final List<Tag>? tags;
 
   ProposedSegmentChange({
@@ -8964,6 +9952,33 @@ class SiteToSiteVpnAttachment {
   }
 }
 
+class StartOrganizationServiceAccessUpdateResponse {
+  /// The status of the service access update request for an Amazon Web Services
+  /// Organization.
+  final OrganizationStatus? organizationStatus;
+
+  StartOrganizationServiceAccessUpdateResponse({
+    this.organizationStatus,
+  });
+
+  factory StartOrganizationServiceAccessUpdateResponse.fromJson(
+      Map<String, dynamic> json) {
+    return StartOrganizationServiceAccessUpdateResponse(
+      organizationStatus: json['OrganizationStatus'] != null
+          ? OrganizationStatus.fromJson(
+              json['OrganizationStatus'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final organizationStatus = this.organizationStatus;
+    return {
+      if (organizationStatus != null) 'OrganizationStatus': organizationStatus,
+    };
+  }
+}
+
 class StartRouteAnalysisResponse {
   /// The route analysis.
   final RouteAnalysis? routeAnalysis;
@@ -9130,6 +10145,38 @@ extension on String {
   }
 }
 
+/// Describes a transit gateway peering attachment.
+class TransitGatewayPeering {
+  /// Describes a transit gateway peer connection.
+  final Peering? peering;
+
+  /// The ARN of the transit gateway.
+  final String? transitGatewayArn;
+
+  TransitGatewayPeering({
+    this.peering,
+    this.transitGatewayArn,
+  });
+
+  factory TransitGatewayPeering.fromJson(Map<String, dynamic> json) {
+    return TransitGatewayPeering(
+      peering: json['Peering'] != null
+          ? Peering.fromJson(json['Peering'] as Map<String, dynamic>)
+          : null,
+      transitGatewayArn: json['TransitGatewayArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final peering = this.peering;
+    final transitGatewayArn = this.transitGatewayArn;
+    return {
+      if (peering != null) 'Peering': peering,
+      if (transitGatewayArn != null) 'TransitGatewayArn': transitGatewayArn,
+    };
+  }
+}
+
 /// Describes the registration of a transit gateway to a global network.
 class TransitGatewayRegistration {
   /// The ID of the global network.
@@ -9241,6 +10288,47 @@ class TransitGatewayRegistrationStateReason {
     return {
       if (code != null) 'Code': code.toValue(),
       if (message != null) 'Message': message,
+    };
+  }
+}
+
+/// Describes a transit gateway route table attachment.
+class TransitGatewayRouteTableAttachment {
+  final Attachment? attachment;
+
+  /// The ID of the peering attachment.
+  final String? peeringId;
+
+  /// The ARN of the transit gateway attachment route table.
+  final String? transitGatewayRouteTableArn;
+
+  TransitGatewayRouteTableAttachment({
+    this.attachment,
+    this.peeringId,
+    this.transitGatewayRouteTableArn,
+  });
+
+  factory TransitGatewayRouteTableAttachment.fromJson(
+      Map<String, dynamic> json) {
+    return TransitGatewayRouteTableAttachment(
+      attachment: json['Attachment'] != null
+          ? Attachment.fromJson(json['Attachment'] as Map<String, dynamic>)
+          : null,
+      peeringId: json['PeeringId'] as String?,
+      transitGatewayRouteTableArn:
+          json['TransitGatewayRouteTableArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attachment = this.attachment;
+    final peeringId = this.peeringId;
+    final transitGatewayRouteTableArn = this.transitGatewayRouteTableArn;
+    return {
+      if (attachment != null) 'Attachment': attachment,
+      if (peeringId != null) 'PeeringId': peeringId,
+      if (transitGatewayRouteTableArn != null)
+        'TransitGatewayRouteTableArn': transitGatewayRouteTableArn,
     };
   }
 }

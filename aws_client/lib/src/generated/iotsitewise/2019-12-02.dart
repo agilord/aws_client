@@ -222,6 +222,156 @@ class IoTSiteWise {
     return BatchDisassociateProjectAssetsResponse.fromJson(response);
   }
 
+  /// Gets aggregated values (for example, average, minimum, and maximum) for
+  /// one or more asset properties. For more information, see <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/query-industrial-data.html#aggregates">Querying
+  /// aggregates</a> in the <i>IoT SiteWise User Guide</i>.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InternalFailureException].
+  /// May throw [ThrottlingException].
+  /// May throw [ServiceUnavailableException].
+  ///
+  /// Parameter [entries] :
+  /// The list of asset property aggregate entries for the batch get request.
+  /// You can specify up to 16 entries per request.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return for each paginated request. A
+  /// result set is returned in the two cases, whichever occurs first.
+  ///
+  /// <ul>
+  /// <li>
+  /// The size of the result set is less than 1 MB.
+  /// </li>
+  /// <li>
+  /// The number of data points in the result set is less than the value of
+  /// <code>maxResults</code>. The maximum value of <code>maxResults</code> is
+  /// 4000.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [nextToken] :
+  /// The token to be used for the next set of paginated results.
+  Future<BatchGetAssetPropertyAggregatesResponse>
+      batchGetAssetPropertyAggregates({
+    required List<BatchGetAssetPropertyAggregatesEntry> entries,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    ArgumentError.checkNotNull(entries, 'entries');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1152921504606846976,
+    );
+    final $payload = <String, dynamic>{
+      'entries': entries,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/properties/batch/aggregates',
+      exceptionFnMap: _exceptionFns,
+    );
+    return BatchGetAssetPropertyAggregatesResponse.fromJson(response);
+  }
+
+  /// Gets the current value for one or more asset properties. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/query-industrial-data.html#current-values">Querying
+  /// current values</a> in the <i>IoT SiteWise User Guide</i>.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InternalFailureException].
+  /// May throw [ThrottlingException].
+  /// May throw [ServiceUnavailableException].
+  ///
+  /// Parameter [entries] :
+  /// The list of asset property value entries for the batch get request. You
+  /// can specify up to 16 entries per request.
+  ///
+  /// Parameter [nextToken] :
+  /// The token to be used for the next set of paginated results.
+  Future<BatchGetAssetPropertyValueResponse> batchGetAssetPropertyValue({
+    required List<BatchGetAssetPropertyValueEntry> entries,
+    String? nextToken,
+  }) async {
+    ArgumentError.checkNotNull(entries, 'entries');
+    final $payload = <String, dynamic>{
+      'entries': entries,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/properties/batch/latest',
+      exceptionFnMap: _exceptionFns,
+    );
+    return BatchGetAssetPropertyValueResponse.fromJson(response);
+  }
+
+  /// Gets the historical values for one or more asset properties. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/query-industrial-data.html#historical-values">Querying
+  /// historical values</a> in the <i>IoT SiteWise User Guide</i>.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InternalFailureException].
+  /// May throw [ThrottlingException].
+  /// May throw [ServiceUnavailableException].
+  ///
+  /// Parameter [entries] :
+  /// The list of asset property historical value entries for the batch get
+  /// request. You can specify up to 16 entries per request.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return for each paginated request. A
+  /// result set is returned in the two cases, whichever occurs first.
+  ///
+  /// <ul>
+  /// <li>
+  /// The size of the result set is less than 1 MB.
+  /// </li>
+  /// <li>
+  /// The number of data points in the result set is less than the value of
+  /// <code>maxResults</code>. The maximum value of <code>maxResults</code> is
+  /// 4000.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [nextToken] :
+  /// The token to be used for the next set of paginated results.
+  Future<BatchGetAssetPropertyValueHistoryResponse>
+      batchGetAssetPropertyValueHistory({
+    required List<BatchGetAssetPropertyValueHistoryEntry> entries,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    ArgumentError.checkNotNull(entries, 'entries');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1152921504606846976,
+    );
+    final $payload = <String, dynamic>{
+      'entries': entries,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/properties/batch/history',
+      exceptionFnMap: _exceptionFns,
+    );
+    return BatchGetAssetPropertyValueHistoryResponse.fromJson(response);
+  }
+
   /// Sends a list of asset property values to IoT SiteWise. Each value is a
   /// timestamp-quality-value (TQV) data point. For more information, see <a
   /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/ingest-api.html">Ingesting
@@ -362,6 +512,9 @@ class IoTSiteWise {
   /// Parameter [assetName] :
   /// A unique, friendly name for the asset.
   ///
+  /// Parameter [assetDescription] :
+  /// A description for the asset.
+  ///
   /// Parameter [clientToken] :
   /// A unique case-sensitive identifier that you can provide to ensure the
   /// idempotency of the request. Don't reuse this client token if a new
@@ -375,6 +528,7 @@ class IoTSiteWise {
   Future<CreateAssetResponse> createAsset({
     required String assetModelId,
     required String assetName,
+    String? assetDescription,
     String? clientToken,
     Map<String, String>? tags,
   }) async {
@@ -383,6 +537,7 @@ class IoTSiteWise {
     final $payload = <String, dynamic>{
       'assetModelId': assetModelId,
       'assetName': assetName,
+      if (assetDescription != null) 'assetDescription': assetDescription,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (tags != null) 'tags': tags,
     };
@@ -486,6 +641,77 @@ class IoTSiteWise {
       exceptionFnMap: _exceptionFns,
     );
     return CreateAssetModelResponse.fromJson(response);
+  }
+
+  /// <note>
+  /// This API operation is in preview release for IoT SiteWise and is subject
+  /// to change. We recommend that you use this operation only with test data,
+  /// and not in production environments.
+  /// </note>
+  /// Defines a job to ingest data to IoT SiteWise from Amazon S3. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/CreateBulkImportJob.html">Create
+  /// a bulk import job (CLI)</a> in the <i>Amazon Simple Storage Service User
+  /// Guide</i>.
+  /// <important>
+  /// You must enable IoT SiteWise to export data to Amazon S3 before you create
+  /// a bulk import job. For more information about how to configure storage
+  /// settings, see <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_PutStorageConfiguration.html">PutStorageConfiguration</a>.
+  /// </important>
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceAlreadyExistsException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalFailureException].
+  /// May throw [ThrottlingException].
+  /// May throw [LimitExceededException].
+  /// May throw [ConflictingOperationException].
+  ///
+  /// Parameter [errorReportLocation] :
+  /// The Amazon S3 destination where errors associated with the job creation
+  /// request are saved.
+  ///
+  /// Parameter [files] :
+  /// The files in the specified Amazon S3 bucket that contain your data.
+  ///
+  /// Parameter [jobConfiguration] :
+  /// Contains the configuration information of a job, such as the file format
+  /// used to save data in Amazon S3.
+  ///
+  /// Parameter [jobName] :
+  /// The unique name that helps identify the job request.
+  ///
+  /// Parameter [jobRoleArn] :
+  /// The <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
+  /// of the IAM role that allows IoT SiteWise to read Amazon S3 data.
+  Future<CreateBulkImportJobResponse> createBulkImportJob({
+    required ErrorReportLocation errorReportLocation,
+    required List<File> files,
+    required JobConfiguration jobConfiguration,
+    required String jobName,
+    required String jobRoleArn,
+  }) async {
+    ArgumentError.checkNotNull(errorReportLocation, 'errorReportLocation');
+    ArgumentError.checkNotNull(files, 'files');
+    ArgumentError.checkNotNull(jobConfiguration, 'jobConfiguration');
+    ArgumentError.checkNotNull(jobName, 'jobName');
+    ArgumentError.checkNotNull(jobRoleArn, 'jobRoleArn');
+    final $payload = <String, dynamic>{
+      'errorReportLocation': errorReportLocation,
+      'files': files,
+      'jobConfiguration': jobConfiguration,
+      'jobName': jobName,
+      'jobRoleArn': jobRoleArn,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/jobs',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateBulkImportJobResponse.fromJson(response);
   }
 
   /// Creates a dashboard in an IoT SiteWise Monitor project.
@@ -1179,6 +1405,37 @@ class IoTSiteWise {
       exceptionFnMap: _exceptionFns,
     );
     return DescribeAssetPropertyResponse.fromJson(response);
+  }
+
+  /// <note>
+  /// This API operation is in preview release for IoT SiteWise and is subject
+  /// to change. We recommend that you use this operation only with test data,
+  /// and not in production environments.
+  /// </note>
+  /// Retrieves information about a bulk import job request. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/DescribeBulkImportJob.html">Describe
+  /// a bulk import job (CLI)</a> in the <i>Amazon Simple Storage Service User
+  /// Guide</i>.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalFailureException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [jobId] :
+  /// The ID of the job.
+  Future<DescribeBulkImportJobResponse> describeBulkImportJob({
+    required String jobId,
+  }) async {
+    ArgumentError.checkNotNull(jobId, 'jobId');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/jobs/${Uri.encodeComponent(jobId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeBulkImportJobResponse.fromJson(response);
   }
 
   /// Retrieves information about a dashboard.
@@ -1948,7 +2205,7 @@ class IoTSiteWise {
       'endTimeInSeconds',
       endTimeInSeconds,
       1,
-      31556889864403200,
+      9223372036854774,
       isRequired: true,
     );
     ArgumentError.checkNotNull(intervalInSeconds, 'intervalInSeconds');
@@ -1965,7 +2222,7 @@ class IoTSiteWise {
       'startTimeInSeconds',
       startTimeInSeconds,
       1,
-      31556889864403200,
+      9223372036854774,
       isRequired: true,
     );
     ArgumentError.checkNotNull(type, 'type');
@@ -2358,6 +2615,57 @@ class IoTSiteWise {
     return ListAssociatedAssetsResponse.fromJson(response);
   }
 
+  /// <note>
+  /// This API operation is in preview release for IoT SiteWise and is subject
+  /// to change. We recommend that you use this operation only with test data,
+  /// and not in production environments.
+  /// </note>
+  /// Retrieves a paginated list of bulk import job requests. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/ListBulkImportJobs.html">List
+  /// bulk import jobs (CLI)</a> in the <i>Amazon Simple Storage Service User
+  /// Guide</i>.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InternalFailureException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [filter] :
+  /// You can use a filter to select the bulk import jobs that you want to
+  /// retrieve.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return for each paginated request.
+  ///
+  /// Parameter [nextToken] :
+  /// The token to be used for the next set of paginated results.
+  Future<ListBulkImportJobsResponse> listBulkImportJobs({
+    ListBulkImportJobsFilter? filter,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      250,
+    );
+    final $query = <String, List<String>>{
+      if (filter != null) 'filter': [filter.toValue()],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/jobs',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListBulkImportJobsResponse.fromJson(response);
+  }
+
   /// Retrieves a paginated list of dashboards for an IoT SiteWise Monitor
   /// project.
   ///
@@ -2738,8 +3046,8 @@ class IoTSiteWise {
   /// </li>
   /// <li>
   /// <code>MULTI_LAYER_STORAGE</code> – IoT SiteWise saves your data in both
-  /// the cold tier and the cold tier. The cold tier is a customer-managed
-  /// Amazon S3 bucket.
+  /// the cold tier and the hot tier. The cold tier is a customer-managed Amazon
+  /// S3 bucket.
   /// </li>
   /// </ul>
   ///
@@ -2941,6 +3249,9 @@ class IoTSiteWise {
   /// Parameter [assetName] :
   /// A unique, friendly name for the asset.
   ///
+  /// Parameter [assetDescription] :
+  /// A description for the asset.
+  ///
   /// Parameter [clientToken] :
   /// A unique case-sensitive identifier that you can provide to ensure the
   /// idempotency of the request. Don't reuse this client token if a new
@@ -2948,12 +3259,14 @@ class IoTSiteWise {
   Future<UpdateAssetResponse> updateAsset({
     required String assetId,
     required String assetName,
+    String? assetDescription,
     String? clientToken,
   }) async {
     ArgumentError.checkNotNull(assetId, 'assetId');
     ArgumentError.checkNotNull(assetName, 'assetName');
     final $payload = <String, dynamic>{
       'assetName': assetName,
+      if (assetDescription != null) 'assetDescription': assetDescription,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
     };
     final response = await _protocol.send(
@@ -4569,6 +4882,9 @@ class AssetSummary {
   /// The current status of the asset.
   final AssetStatus status;
 
+  /// A description for the asset.
+  final String? description;
+
   AssetSummary({
     required this.arn,
     required this.assetModelId,
@@ -4578,6 +4894,7 @@ class AssetSummary {
     required this.lastUpdateDate,
     required this.name,
     required this.status,
+    this.description,
   });
 
   factory AssetSummary.fromJson(Map<String, dynamic> json) {
@@ -4595,6 +4912,7 @@ class AssetSummary {
           nonNullableTimeStampFromJson(json['lastUpdateDate'] as Object),
       name: json['name'] as String,
       status: AssetStatus.fromJson(json['status'] as Map<String, dynamic>),
+      description: json['description'] as String?,
     );
   }
 
@@ -4607,6 +4925,7 @@ class AssetSummary {
     final lastUpdateDate = this.lastUpdateDate;
     final name = this.name;
     final status = this.status;
+    final description = this.description;
     return {
       'arn': arn,
       'assetModelId': assetModelId,
@@ -4616,6 +4935,7 @@ class AssetSummary {
       'lastUpdateDate': unixTimestampToJson(lastUpdateDate),
       'name': name,
       'status': status,
+      if (description != null) 'description': description,
     };
   }
 }
@@ -4651,6 +4971,9 @@ class AssociatedAssetsSummary {
   /// The current status of the asset.
   final AssetStatus status;
 
+  /// A description for the asset.
+  final String? description;
+
   AssociatedAssetsSummary({
     required this.arn,
     required this.assetModelId,
@@ -4660,6 +4983,7 @@ class AssociatedAssetsSummary {
     required this.lastUpdateDate,
     required this.name,
     required this.status,
+    this.description,
   });
 
   factory AssociatedAssetsSummary.fromJson(Map<String, dynamic> json) {
@@ -4677,6 +5001,7 @@ class AssociatedAssetsSummary {
           nonNullableTimeStampFromJson(json['lastUpdateDate'] as Object),
       name: json['name'] as String,
       status: AssetStatus.fromJson(json['status'] as Map<String, dynamic>),
+      description: json['description'] as String?,
     );
   }
 
@@ -4689,6 +5014,7 @@ class AssociatedAssetsSummary {
     final lastUpdateDate = this.lastUpdateDate;
     final name = this.name;
     final status = this.status;
+    final description = this.description;
     return {
       'arn': arn,
       'assetModelId': assetModelId,
@@ -4698,6 +5024,7 @@ class AssociatedAssetsSummary {
       'lastUpdateDate': unixTimestampToJson(lastUpdateDate),
       'name': name,
       'status': status,
+      if (description != null) 'description': description,
     };
   }
 }
@@ -4807,6 +5134,1090 @@ class BatchDisassociateProjectAssetsResponse {
     final errors = this.errors;
     return {
       if (errors != null) 'errors': errors,
+    };
+  }
+}
+
+enum BatchEntryCompletionStatus {
+  success,
+  error,
+}
+
+extension on BatchEntryCompletionStatus {
+  String toValue() {
+    switch (this) {
+      case BatchEntryCompletionStatus.success:
+        return 'SUCCESS';
+      case BatchEntryCompletionStatus.error:
+        return 'ERROR';
+    }
+  }
+}
+
+extension on String {
+  BatchEntryCompletionStatus toBatchEntryCompletionStatus() {
+    switch (this) {
+      case 'SUCCESS':
+        return BatchEntryCompletionStatus.success;
+      case 'ERROR':
+        return BatchEntryCompletionStatus.error;
+    }
+    throw Exception('$this is not known in enum BatchEntryCompletionStatus');
+  }
+}
+
+/// Contains information for an asset property aggregate entry that is
+/// associated with the <a
+/// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchGetAssetPropertyAggregates.html">BatchGetAssetPropertyAggregates</a>
+/// API.
+///
+/// To identify an asset property, you must specify one of the following:
+///
+/// <ul>
+/// <li>
+/// The <code>assetId</code> and <code>propertyId</code> of an asset property.
+/// </li>
+/// <li>
+/// A <code>propertyAlias</code>, which is a data stream alias (for example,
+/// <code>/company/windfarm/3/turbine/7/temperature</code>). To define an asset
+/// property's alias, see <a
+/// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_UpdateAssetProperty.html">UpdateAssetProperty</a>.
+/// </li>
+/// </ul>
+class BatchGetAssetPropertyAggregatesEntry {
+  /// The data aggregating function.
+  final List<AggregateType> aggregateTypes;
+
+  /// The inclusive end of the range from which to query historical data,
+  /// expressed in seconds in Unix epoch time.
+  final DateTime endDate;
+
+  /// The ID of the entry.
+  final String entryId;
+
+  /// The time interval over which to aggregate data.
+  final String resolution;
+
+  /// The exclusive start of the range from which to query historical data,
+  /// expressed in seconds in Unix epoch time.
+  final DateTime startDate;
+
+  /// The ID of the asset in which the asset property was created.
+  final String? assetId;
+
+  /// The alias that identifies the property, such as an OPC-UA server data stream
+  /// path (for example, <code>/company/windfarm/3/turbine/7/temperature</code>).
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/connect-data-streams.html">Mapping
+  /// industrial data streams to asset properties</a> in the <i>IoT SiteWise User
+  /// Guide</i>.
+  final String? propertyAlias;
+
+  /// The ID of the asset property.
+  final String? propertyId;
+
+  /// The quality by which to filter asset data.
+  final List<Quality>? qualities;
+
+  /// The chronological sorting order of the requested information.
+  ///
+  /// Default: <code>ASCENDING</code>
+  final TimeOrdering? timeOrdering;
+
+  BatchGetAssetPropertyAggregatesEntry({
+    required this.aggregateTypes,
+    required this.endDate,
+    required this.entryId,
+    required this.resolution,
+    required this.startDate,
+    this.assetId,
+    this.propertyAlias,
+    this.propertyId,
+    this.qualities,
+    this.timeOrdering,
+  });
+
+  factory BatchGetAssetPropertyAggregatesEntry.fromJson(
+      Map<String, dynamic> json) {
+    return BatchGetAssetPropertyAggregatesEntry(
+      aggregateTypes: (json['aggregateTypes'] as List)
+          .whereNotNull()
+          .map((e) => (e as String).toAggregateType())
+          .toList(),
+      endDate: nonNullableTimeStampFromJson(json['endDate'] as Object),
+      entryId: json['entryId'] as String,
+      resolution: json['resolution'] as String,
+      startDate: nonNullableTimeStampFromJson(json['startDate'] as Object),
+      assetId: json['assetId'] as String?,
+      propertyAlias: json['propertyAlias'] as String?,
+      propertyId: json['propertyId'] as String?,
+      qualities: (json['qualities'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toQuality())
+          .toList(),
+      timeOrdering: (json['timeOrdering'] as String?)?.toTimeOrdering(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final aggregateTypes = this.aggregateTypes;
+    final endDate = this.endDate;
+    final entryId = this.entryId;
+    final resolution = this.resolution;
+    final startDate = this.startDate;
+    final assetId = this.assetId;
+    final propertyAlias = this.propertyAlias;
+    final propertyId = this.propertyId;
+    final qualities = this.qualities;
+    final timeOrdering = this.timeOrdering;
+    return {
+      'aggregateTypes': aggregateTypes.map((e) => e.toValue()).toList(),
+      'endDate': unixTimestampToJson(endDate),
+      'entryId': entryId,
+      'resolution': resolution,
+      'startDate': unixTimestampToJson(startDate),
+      if (assetId != null) 'assetId': assetId,
+      if (propertyAlias != null) 'propertyAlias': propertyAlias,
+      if (propertyId != null) 'propertyId': propertyId,
+      if (qualities != null)
+        'qualities': qualities.map((e) => e.toValue()).toList(),
+      if (timeOrdering != null) 'timeOrdering': timeOrdering.toValue(),
+    };
+  }
+}
+
+enum BatchGetAssetPropertyAggregatesErrorCode {
+  resourceNotFoundException,
+  invalidRequestException,
+  accessDeniedException,
+}
+
+extension on BatchGetAssetPropertyAggregatesErrorCode {
+  String toValue() {
+    switch (this) {
+      case BatchGetAssetPropertyAggregatesErrorCode.resourceNotFoundException:
+        return 'ResourceNotFoundException';
+      case BatchGetAssetPropertyAggregatesErrorCode.invalidRequestException:
+        return 'InvalidRequestException';
+      case BatchGetAssetPropertyAggregatesErrorCode.accessDeniedException:
+        return 'AccessDeniedException';
+    }
+  }
+}
+
+extension on String {
+  BatchGetAssetPropertyAggregatesErrorCode
+      toBatchGetAssetPropertyAggregatesErrorCode() {
+    switch (this) {
+      case 'ResourceNotFoundException':
+        return BatchGetAssetPropertyAggregatesErrorCode
+            .resourceNotFoundException;
+      case 'InvalidRequestException':
+        return BatchGetAssetPropertyAggregatesErrorCode.invalidRequestException;
+      case 'AccessDeniedException':
+        return BatchGetAssetPropertyAggregatesErrorCode.accessDeniedException;
+    }
+    throw Exception(
+        '$this is not known in enum BatchGetAssetPropertyAggregatesErrorCode');
+  }
+}
+
+/// Contains error information for an asset property aggregate entry that is
+/// associated with the <a
+/// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchGetAssetPropertyAggregates.html">BatchGetAssetPropertyAggregates</a>
+/// API.
+class BatchGetAssetPropertyAggregatesErrorEntry {
+  /// The ID of the entry.
+  final String entryId;
+
+  /// The error code.
+  final BatchGetAssetPropertyAggregatesErrorCode errorCode;
+
+  /// The associated error message.
+  final String errorMessage;
+
+  BatchGetAssetPropertyAggregatesErrorEntry({
+    required this.entryId,
+    required this.errorCode,
+    required this.errorMessage,
+  });
+
+  factory BatchGetAssetPropertyAggregatesErrorEntry.fromJson(
+      Map<String, dynamic> json) {
+    return BatchGetAssetPropertyAggregatesErrorEntry(
+      entryId: json['entryId'] as String,
+      errorCode: (json['errorCode'] as String)
+          .toBatchGetAssetPropertyAggregatesErrorCode(),
+      errorMessage: json['errorMessage'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final entryId = this.entryId;
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    return {
+      'entryId': entryId,
+      'errorCode': errorCode.toValue(),
+      'errorMessage': errorMessage,
+    };
+  }
+}
+
+/// Contains the error code and the timestamp for an asset property aggregate
+/// entry that is associated with the <a
+/// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchGetAssetPropertyAggregates.html">BatchGetAssetPropertyAggregates</a>
+/// API.
+class BatchGetAssetPropertyAggregatesErrorInfo {
+  /// The error code.
+  final BatchGetAssetPropertyAggregatesErrorCode errorCode;
+
+  /// The date the error occurred, in Unix epoch time.
+  final DateTime errorTimestamp;
+
+  BatchGetAssetPropertyAggregatesErrorInfo({
+    required this.errorCode,
+    required this.errorTimestamp,
+  });
+
+  factory BatchGetAssetPropertyAggregatesErrorInfo.fromJson(
+      Map<String, dynamic> json) {
+    return BatchGetAssetPropertyAggregatesErrorInfo(
+      errorCode: (json['errorCode'] as String)
+          .toBatchGetAssetPropertyAggregatesErrorCode(),
+      errorTimestamp:
+          nonNullableTimeStampFromJson(json['errorTimestamp'] as Object),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    final errorTimestamp = this.errorTimestamp;
+    return {
+      'errorCode': errorCode.toValue(),
+      'errorTimestamp': unixTimestampToJson(errorTimestamp),
+    };
+  }
+}
+
+class BatchGetAssetPropertyAggregatesResponse {
+  /// A list of the errors (if any) associated with the batch request. Each error
+  /// entry contains the <code>entryId</code> of the entry that failed.
+  final List<BatchGetAssetPropertyAggregatesErrorEntry> errorEntries;
+
+  /// A list of entries that were not processed by this batch request. because
+  /// these entries had been completely processed by previous paginated requests.
+  /// Each skipped entry contains the <code>entryId</code> of the entry that
+  /// skipped.
+  final List<BatchGetAssetPropertyAggregatesSkippedEntry> skippedEntries;
+
+  /// A list of entries that were processed successfully by this batch request.
+  /// Each success entry contains the <code>entryId</code> of the entry that
+  /// succeeded and the latest query result.
+  final List<BatchGetAssetPropertyAggregatesSuccessEntry> successEntries;
+
+  /// The token for the next set of results, or null if there are no additional
+  /// results.
+  final String? nextToken;
+
+  BatchGetAssetPropertyAggregatesResponse({
+    required this.errorEntries,
+    required this.skippedEntries,
+    required this.successEntries,
+    this.nextToken,
+  });
+
+  factory BatchGetAssetPropertyAggregatesResponse.fromJson(
+      Map<String, dynamic> json) {
+    return BatchGetAssetPropertyAggregatesResponse(
+      errorEntries: (json['errorEntries'] as List)
+          .whereNotNull()
+          .map((e) => BatchGetAssetPropertyAggregatesErrorEntry.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      skippedEntries: (json['skippedEntries'] as List)
+          .whereNotNull()
+          .map((e) => BatchGetAssetPropertyAggregatesSkippedEntry.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      successEntries: (json['successEntries'] as List)
+          .whereNotNull()
+          .map((e) => BatchGetAssetPropertyAggregatesSuccessEntry.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorEntries = this.errorEntries;
+    final skippedEntries = this.skippedEntries;
+    final successEntries = this.successEntries;
+    final nextToken = this.nextToken;
+    return {
+      'errorEntries': errorEntries,
+      'skippedEntries': skippedEntries,
+      'successEntries': successEntries,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+/// Contains information for an entry that has been processed by the previous <a
+/// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchGetAssetPropertyAggregates.html">BatchGetAssetPropertyAggregates</a>
+/// request.
+class BatchGetAssetPropertyAggregatesSkippedEntry {
+  /// The completion status of each entry that is associated with the <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchGetAssetPropertyAggregates.html">BatchGetAssetPropertyAggregates</a>
+  /// API.
+  final BatchEntryCompletionStatus completionStatus;
+
+  /// The ID of the entry.
+  final String entryId;
+
+  /// The error information, such as the error code and the timestamp.
+  final BatchGetAssetPropertyAggregatesErrorInfo? errorInfo;
+
+  BatchGetAssetPropertyAggregatesSkippedEntry({
+    required this.completionStatus,
+    required this.entryId,
+    this.errorInfo,
+  });
+
+  factory BatchGetAssetPropertyAggregatesSkippedEntry.fromJson(
+      Map<String, dynamic> json) {
+    return BatchGetAssetPropertyAggregatesSkippedEntry(
+      completionStatus:
+          (json['completionStatus'] as String).toBatchEntryCompletionStatus(),
+      entryId: json['entryId'] as String,
+      errorInfo: json['errorInfo'] != null
+          ? BatchGetAssetPropertyAggregatesErrorInfo.fromJson(
+              json['errorInfo'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final completionStatus = this.completionStatus;
+    final entryId = this.entryId;
+    final errorInfo = this.errorInfo;
+    return {
+      'completionStatus': completionStatus.toValue(),
+      'entryId': entryId,
+      if (errorInfo != null) 'errorInfo': errorInfo,
+    };
+  }
+}
+
+/// Contains success information for an entry that is associated with the <a
+/// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchGetAssetPropertyAggregates.html">BatchGetAssetPropertyAggregates</a>
+/// API.
+class BatchGetAssetPropertyAggregatesSuccessEntry {
+  /// The requested aggregated asset property values (for example, average,
+  /// minimum, and maximum).
+  final List<AggregatedValue> aggregatedValues;
+
+  /// The ID of the entry.
+  final String entryId;
+
+  BatchGetAssetPropertyAggregatesSuccessEntry({
+    required this.aggregatedValues,
+    required this.entryId,
+  });
+
+  factory BatchGetAssetPropertyAggregatesSuccessEntry.fromJson(
+      Map<String, dynamic> json) {
+    return BatchGetAssetPropertyAggregatesSuccessEntry(
+      aggregatedValues: (json['aggregatedValues'] as List)
+          .whereNotNull()
+          .map((e) => AggregatedValue.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      entryId: json['entryId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final aggregatedValues = this.aggregatedValues;
+    final entryId = this.entryId;
+    return {
+      'aggregatedValues': aggregatedValues,
+      'entryId': entryId,
+    };
+  }
+}
+
+/// Contains information for an asset property value entry that is associated
+/// with the <a
+/// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchGetAssetPropertyValue.html">BatchGetAssetPropertyValue</a>
+/// API.
+///
+/// To identify an asset property, you must specify one of the following:
+///
+/// <ul>
+/// <li>
+/// The <code>assetId</code> and <code>propertyId</code> of an asset property.
+/// </li>
+/// <li>
+/// A <code>propertyAlias</code>, which is a data stream alias (for example,
+/// <code>/company/windfarm/3/turbine/7/temperature</code>). To define an asset
+/// property's alias, see <a
+/// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_UpdateAssetProperty.html">UpdateAssetProperty</a>.
+/// </li>
+/// </ul>
+class BatchGetAssetPropertyValueEntry {
+  /// The ID of the entry.
+  final String entryId;
+
+  /// The ID of the asset in which the asset property was created.
+  final String? assetId;
+
+  /// The alias that identifies the property, such as an OPC-UA server data stream
+  /// path (for example, <code>/company/windfarm/3/turbine/7/temperature</code>).
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/connect-data-streams.html">Mapping
+  /// industrial data streams to asset properties</a> in the <i>IoT SiteWise User
+  /// Guide</i>.
+  final String? propertyAlias;
+
+  /// The ID of the asset property.
+  final String? propertyId;
+
+  BatchGetAssetPropertyValueEntry({
+    required this.entryId,
+    this.assetId,
+    this.propertyAlias,
+    this.propertyId,
+  });
+
+  factory BatchGetAssetPropertyValueEntry.fromJson(Map<String, dynamic> json) {
+    return BatchGetAssetPropertyValueEntry(
+      entryId: json['entryId'] as String,
+      assetId: json['assetId'] as String?,
+      propertyAlias: json['propertyAlias'] as String?,
+      propertyId: json['propertyId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final entryId = this.entryId;
+    final assetId = this.assetId;
+    final propertyAlias = this.propertyAlias;
+    final propertyId = this.propertyId;
+    return {
+      'entryId': entryId,
+      if (assetId != null) 'assetId': assetId,
+      if (propertyAlias != null) 'propertyAlias': propertyAlias,
+      if (propertyId != null) 'propertyId': propertyId,
+    };
+  }
+}
+
+enum BatchGetAssetPropertyValueErrorCode {
+  resourceNotFoundException,
+  invalidRequestException,
+  accessDeniedException,
+}
+
+extension on BatchGetAssetPropertyValueErrorCode {
+  String toValue() {
+    switch (this) {
+      case BatchGetAssetPropertyValueErrorCode.resourceNotFoundException:
+        return 'ResourceNotFoundException';
+      case BatchGetAssetPropertyValueErrorCode.invalidRequestException:
+        return 'InvalidRequestException';
+      case BatchGetAssetPropertyValueErrorCode.accessDeniedException:
+        return 'AccessDeniedException';
+    }
+  }
+}
+
+extension on String {
+  BatchGetAssetPropertyValueErrorCode toBatchGetAssetPropertyValueErrorCode() {
+    switch (this) {
+      case 'ResourceNotFoundException':
+        return BatchGetAssetPropertyValueErrorCode.resourceNotFoundException;
+      case 'InvalidRequestException':
+        return BatchGetAssetPropertyValueErrorCode.invalidRequestException;
+      case 'AccessDeniedException':
+        return BatchGetAssetPropertyValueErrorCode.accessDeniedException;
+    }
+    throw Exception(
+        '$this is not known in enum BatchGetAssetPropertyValueErrorCode');
+  }
+}
+
+/// Contains error information for an asset property value entry that is
+/// associated with the <a
+/// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchGetAssetPropertyValue.html">BatchGetAssetPropertyValue</a>
+/// API.
+class BatchGetAssetPropertyValueErrorEntry {
+  /// The ID of the entry.
+  final String entryId;
+
+  /// The error code.
+  final BatchGetAssetPropertyValueErrorCode errorCode;
+
+  /// The associated error message.
+  final String errorMessage;
+
+  BatchGetAssetPropertyValueErrorEntry({
+    required this.entryId,
+    required this.errorCode,
+    required this.errorMessage,
+  });
+
+  factory BatchGetAssetPropertyValueErrorEntry.fromJson(
+      Map<String, dynamic> json) {
+    return BatchGetAssetPropertyValueErrorEntry(
+      entryId: json['entryId'] as String,
+      errorCode:
+          (json['errorCode'] as String).toBatchGetAssetPropertyValueErrorCode(),
+      errorMessage: json['errorMessage'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final entryId = this.entryId;
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    return {
+      'entryId': entryId,
+      'errorCode': errorCode.toValue(),
+      'errorMessage': errorMessage,
+    };
+  }
+}
+
+/// The error information, such as the error code and the timestamp.
+class BatchGetAssetPropertyValueErrorInfo {
+  /// The error code.
+  final BatchGetAssetPropertyValueErrorCode errorCode;
+
+  /// The date the error occurred, in Unix epoch time.
+  final DateTime errorTimestamp;
+
+  BatchGetAssetPropertyValueErrorInfo({
+    required this.errorCode,
+    required this.errorTimestamp,
+  });
+
+  factory BatchGetAssetPropertyValueErrorInfo.fromJson(
+      Map<String, dynamic> json) {
+    return BatchGetAssetPropertyValueErrorInfo(
+      errorCode:
+          (json['errorCode'] as String).toBatchGetAssetPropertyValueErrorCode(),
+      errorTimestamp:
+          nonNullableTimeStampFromJson(json['errorTimestamp'] as Object),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    final errorTimestamp = this.errorTimestamp;
+    return {
+      'errorCode': errorCode.toValue(),
+      'errorTimestamp': unixTimestampToJson(errorTimestamp),
+    };
+  }
+}
+
+/// Contains information for an asset property historical value entry that is
+/// associated with the <a
+/// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchGetAssetPropertyValue.html">BatchGetAssetPropertyValueHistory</a>
+/// API.
+///
+/// To identify an asset property, you must specify one of the following:
+///
+/// <ul>
+/// <li>
+/// The <code>assetId</code> and <code>propertyId</code> of an asset property.
+/// </li>
+/// <li>
+/// A <code>propertyAlias</code>, which is a data stream alias (for example,
+/// <code>/company/windfarm/3/turbine/7/temperature</code>). To define an asset
+/// property's alias, see <a
+/// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_UpdateAssetProperty.html">UpdateAssetProperty</a>.
+/// </li>
+/// </ul>
+class BatchGetAssetPropertyValueHistoryEntry {
+  /// The ID of the entry.
+  final String entryId;
+
+  /// The ID of the asset in which the asset property was created.
+  final String? assetId;
+
+  /// The inclusive end of the range from which to query historical data,
+  /// expressed in seconds in Unix epoch time.
+  final DateTime? endDate;
+
+  /// The alias that identifies the property, such as an OPC-UA server data stream
+  /// path (for example, <code>/company/windfarm/3/turbine/7/temperature</code>).
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/connect-data-streams.html">Mapping
+  /// industrial data streams to asset properties</a> in the <i>IoT SiteWise User
+  /// Guide</i>.
+  final String? propertyAlias;
+
+  /// The ID of the asset property.
+  final String? propertyId;
+
+  /// The quality by which to filter asset data.
+  final List<Quality>? qualities;
+
+  /// The exclusive start of the range from which to query historical data,
+  /// expressed in seconds in Unix epoch time.
+  final DateTime? startDate;
+
+  /// The chronological sorting order of the requested information.
+  ///
+  /// Default: <code>ASCENDING</code>
+  final TimeOrdering? timeOrdering;
+
+  BatchGetAssetPropertyValueHistoryEntry({
+    required this.entryId,
+    this.assetId,
+    this.endDate,
+    this.propertyAlias,
+    this.propertyId,
+    this.qualities,
+    this.startDate,
+    this.timeOrdering,
+  });
+
+  factory BatchGetAssetPropertyValueHistoryEntry.fromJson(
+      Map<String, dynamic> json) {
+    return BatchGetAssetPropertyValueHistoryEntry(
+      entryId: json['entryId'] as String,
+      assetId: json['assetId'] as String?,
+      endDate: timeStampFromJson(json['endDate']),
+      propertyAlias: json['propertyAlias'] as String?,
+      propertyId: json['propertyId'] as String?,
+      qualities: (json['qualities'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toQuality())
+          .toList(),
+      startDate: timeStampFromJson(json['startDate']),
+      timeOrdering: (json['timeOrdering'] as String?)?.toTimeOrdering(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final entryId = this.entryId;
+    final assetId = this.assetId;
+    final endDate = this.endDate;
+    final propertyAlias = this.propertyAlias;
+    final propertyId = this.propertyId;
+    final qualities = this.qualities;
+    final startDate = this.startDate;
+    final timeOrdering = this.timeOrdering;
+    return {
+      'entryId': entryId,
+      if (assetId != null) 'assetId': assetId,
+      if (endDate != null) 'endDate': unixTimestampToJson(endDate),
+      if (propertyAlias != null) 'propertyAlias': propertyAlias,
+      if (propertyId != null) 'propertyId': propertyId,
+      if (qualities != null)
+        'qualities': qualities.map((e) => e.toValue()).toList(),
+      if (startDate != null) 'startDate': unixTimestampToJson(startDate),
+      if (timeOrdering != null) 'timeOrdering': timeOrdering.toValue(),
+    };
+  }
+}
+
+enum BatchGetAssetPropertyValueHistoryErrorCode {
+  resourceNotFoundException,
+  invalidRequestException,
+  accessDeniedException,
+}
+
+extension on BatchGetAssetPropertyValueHistoryErrorCode {
+  String toValue() {
+    switch (this) {
+      case BatchGetAssetPropertyValueHistoryErrorCode.resourceNotFoundException:
+        return 'ResourceNotFoundException';
+      case BatchGetAssetPropertyValueHistoryErrorCode.invalidRequestException:
+        return 'InvalidRequestException';
+      case BatchGetAssetPropertyValueHistoryErrorCode.accessDeniedException:
+        return 'AccessDeniedException';
+    }
+  }
+}
+
+extension on String {
+  BatchGetAssetPropertyValueHistoryErrorCode
+      toBatchGetAssetPropertyValueHistoryErrorCode() {
+    switch (this) {
+      case 'ResourceNotFoundException':
+        return BatchGetAssetPropertyValueHistoryErrorCode
+            .resourceNotFoundException;
+      case 'InvalidRequestException':
+        return BatchGetAssetPropertyValueHistoryErrorCode
+            .invalidRequestException;
+      case 'AccessDeniedException':
+        return BatchGetAssetPropertyValueHistoryErrorCode.accessDeniedException;
+    }
+    throw Exception(
+        '$this is not known in enum BatchGetAssetPropertyValueHistoryErrorCode');
+  }
+}
+
+/// A list of the errors (if any) associated with the batch request. Each error
+/// entry contains the <code>entryId</code> of the entry that failed.
+class BatchGetAssetPropertyValueHistoryErrorEntry {
+  /// The ID of the entry.
+  final String entryId;
+
+  /// The error code.
+  final BatchGetAssetPropertyValueHistoryErrorCode errorCode;
+
+  /// The associated error message.
+  final String errorMessage;
+
+  BatchGetAssetPropertyValueHistoryErrorEntry({
+    required this.entryId,
+    required this.errorCode,
+    required this.errorMessage,
+  });
+
+  factory BatchGetAssetPropertyValueHistoryErrorEntry.fromJson(
+      Map<String, dynamic> json) {
+    return BatchGetAssetPropertyValueHistoryErrorEntry(
+      entryId: json['entryId'] as String,
+      errorCode: (json['errorCode'] as String)
+          .toBatchGetAssetPropertyValueHistoryErrorCode(),
+      errorMessage: json['errorMessage'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final entryId = this.entryId;
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    return {
+      'entryId': entryId,
+      'errorCode': errorCode.toValue(),
+      'errorMessage': errorMessage,
+    };
+  }
+}
+
+/// The error information, such as the error code and the timestamp.
+class BatchGetAssetPropertyValueHistoryErrorInfo {
+  /// The error code.
+  final BatchGetAssetPropertyValueHistoryErrorCode errorCode;
+
+  /// The date the error occurred, in Unix epoch time.
+  final DateTime errorTimestamp;
+
+  BatchGetAssetPropertyValueHistoryErrorInfo({
+    required this.errorCode,
+    required this.errorTimestamp,
+  });
+
+  factory BatchGetAssetPropertyValueHistoryErrorInfo.fromJson(
+      Map<String, dynamic> json) {
+    return BatchGetAssetPropertyValueHistoryErrorInfo(
+      errorCode: (json['errorCode'] as String)
+          .toBatchGetAssetPropertyValueHistoryErrorCode(),
+      errorTimestamp:
+          nonNullableTimeStampFromJson(json['errorTimestamp'] as Object),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    final errorTimestamp = this.errorTimestamp;
+    return {
+      'errorCode': errorCode.toValue(),
+      'errorTimestamp': unixTimestampToJson(errorTimestamp),
+    };
+  }
+}
+
+class BatchGetAssetPropertyValueHistoryResponse {
+  /// A list of the errors (if any) associated with the batch request. Each error
+  /// entry contains the <code>entryId</code> of the entry that failed.
+  final List<BatchGetAssetPropertyValueHistoryErrorEntry> errorEntries;
+
+  /// A list of entries that were not processed by this batch request. because
+  /// these entries had been completely processed by previous paginated requests.
+  /// Each skipped entry contains the <code>entryId</code> of the entry that
+  /// skipped.
+  final List<BatchGetAssetPropertyValueHistorySkippedEntry> skippedEntries;
+
+  /// A list of entries that were processed successfully by this batch request.
+  /// Each success entry contains the <code>entryId</code> of the entry that
+  /// succeeded and the latest query result.
+  final List<BatchGetAssetPropertyValueHistorySuccessEntry> successEntries;
+
+  /// The token for the next set of results, or null if there are no additional
+  /// results.
+  final String? nextToken;
+
+  BatchGetAssetPropertyValueHistoryResponse({
+    required this.errorEntries,
+    required this.skippedEntries,
+    required this.successEntries,
+    this.nextToken,
+  });
+
+  factory BatchGetAssetPropertyValueHistoryResponse.fromJson(
+      Map<String, dynamic> json) {
+    return BatchGetAssetPropertyValueHistoryResponse(
+      errorEntries: (json['errorEntries'] as List)
+          .whereNotNull()
+          .map((e) => BatchGetAssetPropertyValueHistoryErrorEntry.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      skippedEntries: (json['skippedEntries'] as List)
+          .whereNotNull()
+          .map((e) => BatchGetAssetPropertyValueHistorySkippedEntry.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      successEntries: (json['successEntries'] as List)
+          .whereNotNull()
+          .map((e) => BatchGetAssetPropertyValueHistorySuccessEntry.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorEntries = this.errorEntries;
+    final skippedEntries = this.skippedEntries;
+    final successEntries = this.successEntries;
+    final nextToken = this.nextToken;
+    return {
+      'errorEntries': errorEntries,
+      'skippedEntries': skippedEntries,
+      'successEntries': successEntries,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+/// Contains information for an entry that has been processed by the previous <a
+/// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchGetAssetPropertyValue.html">BatchGetAssetPropertyValueHistory</a>
+/// request.
+class BatchGetAssetPropertyValueHistorySkippedEntry {
+  /// The completion status of each entry that is associated with the <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchGetAssetPropertyValueHistory.html">BatchGetAssetPropertyValueHistory</a>
+  /// API.
+  final BatchEntryCompletionStatus completionStatus;
+
+  /// The ID of the entry.
+  final String entryId;
+
+  /// The error information, such as the error code and the timestamp.
+  final BatchGetAssetPropertyValueHistoryErrorInfo? errorInfo;
+
+  BatchGetAssetPropertyValueHistorySkippedEntry({
+    required this.completionStatus,
+    required this.entryId,
+    this.errorInfo,
+  });
+
+  factory BatchGetAssetPropertyValueHistorySkippedEntry.fromJson(
+      Map<String, dynamic> json) {
+    return BatchGetAssetPropertyValueHistorySkippedEntry(
+      completionStatus:
+          (json['completionStatus'] as String).toBatchEntryCompletionStatus(),
+      entryId: json['entryId'] as String,
+      errorInfo: json['errorInfo'] != null
+          ? BatchGetAssetPropertyValueHistoryErrorInfo.fromJson(
+              json['errorInfo'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final completionStatus = this.completionStatus;
+    final entryId = this.entryId;
+    final errorInfo = this.errorInfo;
+    return {
+      'completionStatus': completionStatus.toValue(),
+      'entryId': entryId,
+      if (errorInfo != null) 'errorInfo': errorInfo,
+    };
+  }
+}
+
+/// Contains success information for an entry that is associated with the <a
+/// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchGetAssetPropertyValue.html">BatchGetAssetPropertyValueHistory</a>
+/// API.
+class BatchGetAssetPropertyValueHistorySuccessEntry {
+  /// The requested historical values for the specified asset property.
+  final List<AssetPropertyValue> assetPropertyValueHistory;
+
+  /// The ID of the entry.
+  final String entryId;
+
+  BatchGetAssetPropertyValueHistorySuccessEntry({
+    required this.assetPropertyValueHistory,
+    required this.entryId,
+  });
+
+  factory BatchGetAssetPropertyValueHistorySuccessEntry.fromJson(
+      Map<String, dynamic> json) {
+    return BatchGetAssetPropertyValueHistorySuccessEntry(
+      assetPropertyValueHistory: (json['assetPropertyValueHistory'] as List)
+          .whereNotNull()
+          .map((e) => AssetPropertyValue.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      entryId: json['entryId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assetPropertyValueHistory = this.assetPropertyValueHistory;
+    final entryId = this.entryId;
+    return {
+      'assetPropertyValueHistory': assetPropertyValueHistory,
+      'entryId': entryId,
+    };
+  }
+}
+
+class BatchGetAssetPropertyValueResponse {
+  /// A list of the errors (if any) associated with the batch request. Each error
+  /// entry contains the <code>entryId</code> of the entry that failed.
+  final List<BatchGetAssetPropertyValueErrorEntry> errorEntries;
+
+  /// A list of entries that were not processed by this batch request. because
+  /// these entries had been completely processed by previous paginated requests.
+  /// Each skipped entry contains the <code>entryId</code> of the entry that
+  /// skipped.
+  final List<BatchGetAssetPropertyValueSkippedEntry> skippedEntries;
+
+  /// A list of entries that were processed successfully by this batch request.
+  /// Each success entry contains the <code>entryId</code> of the entry that
+  /// succeeded and the latest query result.
+  final List<BatchGetAssetPropertyValueSuccessEntry> successEntries;
+
+  /// The token for the next set of results, or null if there are no additional
+  /// results.
+  final String? nextToken;
+
+  BatchGetAssetPropertyValueResponse({
+    required this.errorEntries,
+    required this.skippedEntries,
+    required this.successEntries,
+    this.nextToken,
+  });
+
+  factory BatchGetAssetPropertyValueResponse.fromJson(
+      Map<String, dynamic> json) {
+    return BatchGetAssetPropertyValueResponse(
+      errorEntries: (json['errorEntries'] as List)
+          .whereNotNull()
+          .map((e) => BatchGetAssetPropertyValueErrorEntry.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      skippedEntries: (json['skippedEntries'] as List)
+          .whereNotNull()
+          .map((e) => BatchGetAssetPropertyValueSkippedEntry.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      successEntries: (json['successEntries'] as List)
+          .whereNotNull()
+          .map((e) => BatchGetAssetPropertyValueSuccessEntry.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorEntries = this.errorEntries;
+    final skippedEntries = this.skippedEntries;
+    final successEntries = this.successEntries;
+    final nextToken = this.nextToken;
+    return {
+      'errorEntries': errorEntries,
+      'skippedEntries': skippedEntries,
+      'successEntries': successEntries,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+/// Contains information for an entry that has been processed by the previous <a
+/// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchGetAssetPropertyValue.html">BatchGetAssetPropertyValue</a>
+/// request.
+class BatchGetAssetPropertyValueSkippedEntry {
+  /// The completion status of each entry that is associated with the <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchGetAssetPropertyValue.html">BatchGetAssetPropertyValue</a>
+  /// request.
+  final BatchEntryCompletionStatus completionStatus;
+
+  /// The ID of the entry.
+  final String entryId;
+
+  /// The error information, such as the error code and the timestamp.
+  final BatchGetAssetPropertyValueErrorInfo? errorInfo;
+
+  BatchGetAssetPropertyValueSkippedEntry({
+    required this.completionStatus,
+    required this.entryId,
+    this.errorInfo,
+  });
+
+  factory BatchGetAssetPropertyValueSkippedEntry.fromJson(
+      Map<String, dynamic> json) {
+    return BatchGetAssetPropertyValueSkippedEntry(
+      completionStatus:
+          (json['completionStatus'] as String).toBatchEntryCompletionStatus(),
+      entryId: json['entryId'] as String,
+      errorInfo: json['errorInfo'] != null
+          ? BatchGetAssetPropertyValueErrorInfo.fromJson(
+              json['errorInfo'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final completionStatus = this.completionStatus;
+    final entryId = this.entryId;
+    final errorInfo = this.errorInfo;
+    return {
+      'completionStatus': completionStatus.toValue(),
+      'entryId': entryId,
+      if (errorInfo != null) 'errorInfo': errorInfo,
+    };
+  }
+}
+
+/// Contains success information for an entry that is associated with the <a
+/// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchGetAssetPropertyValue.html">BatchGetAssetPropertyValue</a>
+/// API.
+class BatchGetAssetPropertyValueSuccessEntry {
+  /// The ID of the entry.
+  final String entryId;
+  final AssetPropertyValue? assetPropertyValue;
+
+  BatchGetAssetPropertyValueSuccessEntry({
+    required this.entryId,
+    this.assetPropertyValue,
+  });
+
+  factory BatchGetAssetPropertyValueSuccessEntry.fromJson(
+      Map<String, dynamic> json) {
+    return BatchGetAssetPropertyValueSuccessEntry(
+      entryId: json['entryId'] as String,
+      assetPropertyValue: json['assetPropertyValue'] != null
+          ? AssetPropertyValue.fromJson(
+              json['assetPropertyValue'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final entryId = this.entryId;
+    final assetPropertyValue = this.assetPropertyValue;
+    return {
+      'entryId': entryId,
+      if (assetPropertyValue != null) 'assetPropertyValue': assetPropertyValue,
     };
   }
 }
@@ -5017,6 +6428,64 @@ extension on String {
         return CapabilitySyncStatus.unknown;
     }
     throw Exception('$this is not known in enum CapabilitySyncStatus');
+  }
+}
+
+enum ColumnName {
+  alias,
+  assetId,
+  propertyId,
+  dataType,
+  timestampSeconds,
+  timestampNanoOffset,
+  quality,
+  value,
+}
+
+extension on ColumnName {
+  String toValue() {
+    switch (this) {
+      case ColumnName.alias:
+        return 'ALIAS';
+      case ColumnName.assetId:
+        return 'ASSET_ID';
+      case ColumnName.propertyId:
+        return 'PROPERTY_ID';
+      case ColumnName.dataType:
+        return 'DATA_TYPE';
+      case ColumnName.timestampSeconds:
+        return 'TIMESTAMP_SECONDS';
+      case ColumnName.timestampNanoOffset:
+        return 'TIMESTAMP_NANO_OFFSET';
+      case ColumnName.quality:
+        return 'QUALITY';
+      case ColumnName.value:
+        return 'VALUE';
+    }
+  }
+}
+
+extension on String {
+  ColumnName toColumnName() {
+    switch (this) {
+      case 'ALIAS':
+        return ColumnName.alias;
+      case 'ASSET_ID':
+        return ColumnName.assetId;
+      case 'PROPERTY_ID':
+        return ColumnName.propertyId;
+      case 'DATA_TYPE':
+        return ColumnName.dataType;
+      case 'TIMESTAMP_SECONDS':
+        return ColumnName.timestampSeconds;
+      case 'TIMESTAMP_NANO_OFFSET':
+        return ColumnName.timestampNanoOffset;
+      case 'QUALITY':
+        return ColumnName.quality;
+      case 'VALUE':
+        return ColumnName.value;
+    }
+    throw Exception('$this is not known in enum ColumnName');
   }
 }
 
@@ -5300,6 +6769,70 @@ class CreateAssetResponse {
   }
 }
 
+class CreateBulkImportJobResponse {
+  /// The ID of the job.
+  final String jobId;
+
+  /// The unique name that helps identify the job request.
+  final String jobName;
+
+  /// The status of the bulk import job can be one of following values.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>PENDING</code> – IoT SiteWise is waiting for the current bulk import
+  /// job to finish.
+  /// </li>
+  /// <li>
+  /// <code>CANCELLED</code> – The bulk import job has been canceled.
+  /// </li>
+  /// <li>
+  /// <code>RUNNING</code> – IoT SiteWise is processing your request to import
+  /// your data from Amazon S3.
+  /// </li>
+  /// <li>
+  /// <code>COMPLETED</code> – IoT SiteWise successfully completed your request to
+  /// import data from Amazon S3.
+  /// </li>
+  /// <li>
+  /// <code>FAILED</code> – IoT SiteWise couldn't process your request to import
+  /// data from Amazon S3. You can use logs saved in the specified error report
+  /// location in Amazon S3 to troubleshoot issues.
+  /// </li>
+  /// <li>
+  /// <code>COMPLETED_WITH_FAILURES</code> – IoT SiteWise completed your request
+  /// to import data from Amazon S3 with errors. You can use logs saved in the
+  /// specified error report location in Amazon S3 to troubleshoot issues.
+  /// </li>
+  /// </ul>
+  final JobStatus jobStatus;
+
+  CreateBulkImportJobResponse({
+    required this.jobId,
+    required this.jobName,
+    required this.jobStatus,
+  });
+
+  factory CreateBulkImportJobResponse.fromJson(Map<String, dynamic> json) {
+    return CreateBulkImportJobResponse(
+      jobId: json['jobId'] as String,
+      jobName: json['jobName'] as String,
+      jobStatus: (json['jobStatus'] as String).toJobStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobId = this.jobId;
+    final jobName = this.jobName;
+    final jobStatus = this.jobStatus;
+    return {
+      'jobId': jobId,
+      'jobName': jobName,
+      'jobStatus': jobStatus.toValue(),
+    };
+  }
+}
+
 class CreateDashboardResponse {
   /// The <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
@@ -5456,6 +6989,33 @@ class CreateProjectResponse {
     return {
       'projectArn': projectArn,
       'projectId': projectId,
+    };
+  }
+}
+
+/// A .csv file.
+class Csv {
+  /// The column names specified in the .csv file.
+  final List<ColumnName>? columnNames;
+
+  Csv({
+    this.columnNames,
+  });
+
+  factory Csv.fromJson(Map<String, dynamic> json) {
+    return Csv(
+      columnNames: (json['columnNames'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toColumnName())
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final columnNames = this.columnNames;
+    return {
+      if (columnNames != null)
+        'columnNames': columnNames.map((e) => e.toValue()).toList(),
     };
   }
 }
@@ -5948,6 +7508,9 @@ class DescribeAssetResponse {
   /// The composite models for the asset.
   final List<AssetCompositeModel>? assetCompositeModels;
 
+  /// A description for the asset.
+  final String? assetDescription;
+
   DescribeAssetResponse({
     required this.assetArn,
     required this.assetCreationDate,
@@ -5959,6 +7522,7 @@ class DescribeAssetResponse {
     required this.assetProperties,
     required this.assetStatus,
     this.assetCompositeModels,
+    this.assetDescription,
   });
 
   factory DescribeAssetResponse.fromJson(Map<String, dynamic> json) {
@@ -5985,6 +7549,7 @@ class DescribeAssetResponse {
           ?.whereNotNull()
           .map((e) => AssetCompositeModel.fromJson(e as Map<String, dynamic>))
           .toList(),
+      assetDescription: json['assetDescription'] as String?,
     );
   }
 
@@ -5999,6 +7564,7 @@ class DescribeAssetResponse {
     final assetProperties = this.assetProperties;
     final assetStatus = this.assetStatus;
     final assetCompositeModels = this.assetCompositeModels;
+    final assetDescription = this.assetDescription;
     return {
       'assetArn': assetArn,
       'assetCreationDate': unixTimestampToJson(assetCreationDate),
@@ -6011,6 +7577,124 @@ class DescribeAssetResponse {
       'assetStatus': assetStatus,
       if (assetCompositeModels != null)
         'assetCompositeModels': assetCompositeModels,
+      if (assetDescription != null) 'assetDescription': assetDescription,
+    };
+  }
+}
+
+class DescribeBulkImportJobResponse {
+  /// The Amazon S3 destination where errors associated with the job creation
+  /// request are saved.
+  final ErrorReportLocation errorReportLocation;
+
+  /// The files in the specified Amazon S3 bucket that contain your data.
+  final List<File> files;
+
+  /// Contains the configuration information of a job, such as the file format
+  /// used to save data in Amazon S3.
+  final JobConfiguration jobConfiguration;
+
+  /// The date the job was created, in Unix epoch TIME.
+  final DateTime jobCreationDate;
+
+  /// The ID of the job.
+  final String jobId;
+
+  /// The date the job was last updated, in Unix epoch time.
+  final DateTime jobLastUpdateDate;
+
+  /// The unique name that helps identify the job request.
+  final String jobName;
+
+  /// The <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
+  /// of the IAM role that allows IoT SiteWise to read Amazon S3 data.
+  final String jobRoleArn;
+
+  /// The status of the bulk import job can be one of following values.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>PENDING</code> – IoT SiteWise is waiting for the current bulk import
+  /// job to finish.
+  /// </li>
+  /// <li>
+  /// <code>CANCELLED</code> – The bulk import job has been canceled.
+  /// </li>
+  /// <li>
+  /// <code>RUNNING</code> – IoT SiteWise is processing your request to import
+  /// your data from Amazon S3.
+  /// </li>
+  /// <li>
+  /// <code>COMPLETED</code> – IoT SiteWise successfully completed your request to
+  /// import data from Amazon S3.
+  /// </li>
+  /// <li>
+  /// <code>FAILED</code> – IoT SiteWise couldn't process your request to import
+  /// data from Amazon S3. You can use logs saved in the specified error report
+  /// location in Amazon S3 to troubleshoot issues.
+  /// </li>
+  /// <li>
+  /// <code>COMPLETED_WITH_FAILURES</code> – IoT SiteWise completed your request
+  /// to import data from Amazon S3 with errors. You can use logs saved in the
+  /// specified error report location in Amazon S3 to troubleshoot issues.
+  /// </li>
+  /// </ul>
+  final JobStatus jobStatus;
+
+  DescribeBulkImportJobResponse({
+    required this.errorReportLocation,
+    required this.files,
+    required this.jobConfiguration,
+    required this.jobCreationDate,
+    required this.jobId,
+    required this.jobLastUpdateDate,
+    required this.jobName,
+    required this.jobRoleArn,
+    required this.jobStatus,
+  });
+
+  factory DescribeBulkImportJobResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeBulkImportJobResponse(
+      errorReportLocation: ErrorReportLocation.fromJson(
+          json['errorReportLocation'] as Map<String, dynamic>),
+      files: (json['files'] as List)
+          .whereNotNull()
+          .map((e) => File.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      jobConfiguration: JobConfiguration.fromJson(
+          json['jobConfiguration'] as Map<String, dynamic>),
+      jobCreationDate:
+          nonNullableTimeStampFromJson(json['jobCreationDate'] as Object),
+      jobId: json['jobId'] as String,
+      jobLastUpdateDate:
+          nonNullableTimeStampFromJson(json['jobLastUpdateDate'] as Object),
+      jobName: json['jobName'] as String,
+      jobRoleArn: json['jobRoleArn'] as String,
+      jobStatus: (json['jobStatus'] as String).toJobStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorReportLocation = this.errorReportLocation;
+    final files = this.files;
+    final jobConfiguration = this.jobConfiguration;
+    final jobCreationDate = this.jobCreationDate;
+    final jobId = this.jobId;
+    final jobLastUpdateDate = this.jobLastUpdateDate;
+    final jobName = this.jobName;
+    final jobRoleArn = this.jobRoleArn;
+    final jobStatus = this.jobStatus;
+    return {
+      'errorReportLocation': errorReportLocation,
+      'files': files,
+      'jobConfiguration': jobConfiguration,
+      'jobCreationDate': unixTimestampToJson(jobCreationDate),
+      'jobId': jobId,
+      'jobLastUpdateDate': unixTimestampToJson(jobLastUpdateDate),
+      'jobName': jobName,
+      'jobRoleArn': jobRoleArn,
+      'jobStatus': jobStatus.toValue(),
     };
   }
 }
@@ -6533,7 +8217,7 @@ class DescribeStorageConfigurationResponse {
   /// </li>
   /// <li>
   /// <code>MULTI_LAYER_STORAGE</code> – IoT SiteWise saves your data in both the
-  /// cold tier and the cold tier. The cold tier is a customer-managed Amazon S3
+  /// cold tier and the hot tier. The cold tier is a customer-managed Amazon S3
   /// bucket.
   /// </li>
   /// </ul>
@@ -6885,6 +8569,44 @@ class ErrorDetails {
   }
 }
 
+/// The Amazon S3 destination where errors associated with the job creation
+/// request are saved.
+class ErrorReportLocation {
+  /// The name of the Amazon S3 bucket to which errors associated with the bulk
+  /// import job are sent.
+  final String bucket;
+
+  /// Amazon S3 uses the prefix as a folder name to organize data in the bucket.
+  /// Each Amazon S3 object has a key that is its unique identifier in the bucket.
+  /// Each object in a bucket has exactly one key. The prefix must end with a
+  /// forward slash (/). For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-prefixes.html">Organizing
+  /// objects using prefixes</a> in the <i>Amazon Simple Storage Service User
+  /// Guide</i>.
+  final String prefix;
+
+  ErrorReportLocation({
+    required this.bucket,
+    required this.prefix,
+  });
+
+  factory ErrorReportLocation.fromJson(Map<String, dynamic> json) {
+    return ErrorReportLocation(
+      bucket: json['bucket'] as String,
+      prefix: json['prefix'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucket = this.bucket;
+    final prefix = this.prefix;
+    return {
+      'bucket': bucket,
+      'prefix': prefix,
+    };
+  }
+}
+
 /// Contains expression variable information.
 class ExpressionVariable {
   /// The friendly name of the variable to be used in the expression.
@@ -6911,6 +8633,70 @@ class ExpressionVariable {
     return {
       'name': name,
       'value': value,
+    };
+  }
+}
+
+/// The file in Amazon S3 where your data is saved.
+class File {
+  /// The name of the Amazon S3 bucket from which data is imported.
+  final String bucket;
+
+  /// The key of the Amazon S3 object that contains your data. Each object has a
+  /// key that is a unique identifier. Each object has exactly one key.
+  final String key;
+
+  /// The version ID to identify a specific version of the Amazon S3 object that
+  /// contains your data.
+  final String? versionId;
+
+  File({
+    required this.bucket,
+    required this.key,
+    this.versionId,
+  });
+
+  factory File.fromJson(Map<String, dynamic> json) {
+    return File(
+      bucket: json['bucket'] as String,
+      key: json['key'] as String,
+      versionId: json['versionId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucket = this.bucket;
+    final key = this.key;
+    final versionId = this.versionId;
+    return {
+      'bucket': bucket,
+      'key': key,
+      if (versionId != null) 'versionId': versionId,
+    };
+  }
+}
+
+/// The file format of the data.
+class FileFormat {
+  /// The .csv file format.
+  final Csv? csv;
+
+  FileFormat({
+    this.csv,
+  });
+
+  factory FileFormat.fromJson(Map<String, dynamic> json) {
+    return FileFormat(
+      csv: json['csv'] != null
+          ? Csv.fromJson(json['csv'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final csv = this.csv;
+    return {
+      if (csv != null) 'csv': csv,
     };
   }
 }
@@ -7641,6 +9427,144 @@ class InterpolatedAssetPropertyValue {
   }
 }
 
+/// Contains the configuration information of a job, such as the file format
+/// used to save data in Amazon S3.
+class JobConfiguration {
+  /// The file format of the data in Amazon S3.
+  final FileFormat fileFormat;
+
+  JobConfiguration({
+    required this.fileFormat,
+  });
+
+  factory JobConfiguration.fromJson(Map<String, dynamic> json) {
+    return JobConfiguration(
+      fileFormat:
+          FileFormat.fromJson(json['fileFormat'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fileFormat = this.fileFormat;
+    return {
+      'fileFormat': fileFormat,
+    };
+  }
+}
+
+enum JobStatus {
+  pending,
+  cancelled,
+  running,
+  completed,
+  failed,
+  completedWithFailures,
+}
+
+extension on JobStatus {
+  String toValue() {
+    switch (this) {
+      case JobStatus.pending:
+        return 'PENDING';
+      case JobStatus.cancelled:
+        return 'CANCELLED';
+      case JobStatus.running:
+        return 'RUNNING';
+      case JobStatus.completed:
+        return 'COMPLETED';
+      case JobStatus.failed:
+        return 'FAILED';
+      case JobStatus.completedWithFailures:
+        return 'COMPLETED_WITH_FAILURES';
+    }
+  }
+}
+
+extension on String {
+  JobStatus toJobStatus() {
+    switch (this) {
+      case 'PENDING':
+        return JobStatus.pending;
+      case 'CANCELLED':
+        return JobStatus.cancelled;
+      case 'RUNNING':
+        return JobStatus.running;
+      case 'COMPLETED':
+        return JobStatus.completed;
+      case 'FAILED':
+        return JobStatus.failed;
+      case 'COMPLETED_WITH_FAILURES':
+        return JobStatus.completedWithFailures;
+    }
+    throw Exception('$this is not known in enum JobStatus');
+  }
+}
+
+/// Contains a job summary information.
+class JobSummary {
+  /// The ID of the job.
+  final String id;
+
+  /// The unique name that helps identify the job request.
+  final String name;
+
+  /// The status of the bulk import job can be one of following values.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>PENDING</code> – IoT SiteWise is waiting for the current bulk import
+  /// job to finish.
+  /// </li>
+  /// <li>
+  /// <code>CANCELLED</code> – The bulk import job has been canceled.
+  /// </li>
+  /// <li>
+  /// <code>RUNNING</code> – IoT SiteWise is processing your request to import
+  /// your data from Amazon S3.
+  /// </li>
+  /// <li>
+  /// <code>COMPLETED</code> – IoT SiteWise successfully completed your request to
+  /// import data from Amazon S3.
+  /// </li>
+  /// <li>
+  /// <code>FAILED</code> – IoT SiteWise couldn't process your request to import
+  /// data from Amazon S3. You can use logs saved in the specified error report
+  /// location in Amazon S3 to troubleshoot issues.
+  /// </li>
+  /// <li>
+  /// <code>COMPLETED_WITH_FAILURES</code> – IoT SiteWise completed your request
+  /// to import data from Amazon S3 with errors. You can use logs saved in the
+  /// specified error report location in Amazon S3 to troubleshoot issues.
+  /// </li>
+  /// </ul>
+  final JobStatus status;
+
+  JobSummary({
+    required this.id,
+    required this.name,
+    required this.status,
+  });
+
+  factory JobSummary.fromJson(Map<String, dynamic> json) {
+    return JobSummary(
+      id: json['id'] as String,
+      name: json['name'] as String,
+      status: (json['status'] as String).toJobStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final name = this.name;
+    final status = this.status;
+    return {
+      'id': id,
+      'name': name,
+      'status': status.toValue(),
+    };
+  }
+}
+
 class ListAccessPoliciesResponse {
   /// A list that summarizes each access policy.
   final List<AccessPolicySummary> accessPolicySummaries;
@@ -7831,6 +9755,92 @@ class ListAssociatedAssetsResponse {
     final nextToken = this.nextToken;
     return {
       'assetSummaries': assetSummaries,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+enum ListBulkImportJobsFilter {
+  all,
+  pending,
+  running,
+  cancelled,
+  failed,
+  completedWithFailures,
+  completed,
+}
+
+extension on ListBulkImportJobsFilter {
+  String toValue() {
+    switch (this) {
+      case ListBulkImportJobsFilter.all:
+        return 'ALL';
+      case ListBulkImportJobsFilter.pending:
+        return 'PENDING';
+      case ListBulkImportJobsFilter.running:
+        return 'RUNNING';
+      case ListBulkImportJobsFilter.cancelled:
+        return 'CANCELLED';
+      case ListBulkImportJobsFilter.failed:
+        return 'FAILED';
+      case ListBulkImportJobsFilter.completedWithFailures:
+        return 'COMPLETED_WITH_FAILURES';
+      case ListBulkImportJobsFilter.completed:
+        return 'COMPLETED';
+    }
+  }
+}
+
+extension on String {
+  ListBulkImportJobsFilter toListBulkImportJobsFilter() {
+    switch (this) {
+      case 'ALL':
+        return ListBulkImportJobsFilter.all;
+      case 'PENDING':
+        return ListBulkImportJobsFilter.pending;
+      case 'RUNNING':
+        return ListBulkImportJobsFilter.running;
+      case 'CANCELLED':
+        return ListBulkImportJobsFilter.cancelled;
+      case 'FAILED':
+        return ListBulkImportJobsFilter.failed;
+      case 'COMPLETED_WITH_FAILURES':
+        return ListBulkImportJobsFilter.completedWithFailures;
+      case 'COMPLETED':
+        return ListBulkImportJobsFilter.completed;
+    }
+    throw Exception('$this is not known in enum ListBulkImportJobsFilter');
+  }
+}
+
+class ListBulkImportJobsResponse {
+  /// One or more job summaries to list.
+  final List<JobSummary> jobSummaries;
+
+  /// The token for the next set of results, or null if there are no additional
+  /// results.
+  final String? nextToken;
+
+  ListBulkImportJobsResponse({
+    required this.jobSummaries,
+    this.nextToken,
+  });
+
+  factory ListBulkImportJobsResponse.fromJson(Map<String, dynamic> json) {
+    return ListBulkImportJobsResponse(
+      jobSummaries: (json['jobSummaries'] as List)
+          .whereNotNull()
+          .map((e) => JobSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobSummaries = this.jobSummaries;
+    final nextToken = this.nextToken;
+    return {
+      'jobSummaries': jobSummaries,
       if (nextToken != null) 'nextToken': nextToken,
     };
   }
@@ -9071,7 +11081,7 @@ class PutStorageConfigurationResponse {
   /// </li>
   /// <li>
   /// <code>MULTI_LAYER_STORAGE</code> – IoT SiteWise saves your data in both the
-  /// cold tier and the cold tier. The cold tier is a customer-managed Amazon S3
+  /// cold tier and the hot tier. The cold tier is a customer-managed Amazon S3
   /// bucket.
   /// </li>
   /// </ul>

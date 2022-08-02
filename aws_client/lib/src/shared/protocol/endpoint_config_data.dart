@@ -26,6 +26,16 @@ final rules = <String, RegionConfig>{
     signingRegion: 'cn-northwest-1',
   ),
   'us-gov-*/route53': _globalGovCloud,
+  'us-iso-*/route53': RegionConfig(
+    endpoint: '{service}.c2s.ic.gov',
+    globalEndpoint: true,
+    signingRegion: 'us-iso-east-1',
+  ),
+  'us-isob-*/route53': RegionConfig(
+    endpoint: '{service}.sc2s.sgov.gov',
+    globalEndpoint: true,
+    signingRegion: 'us-isob-east-1',
+  ),
   '*/waf': _globalSSL,
   '*/iam': _globalSSL,
   'cn-*/iam': RegionConfig(

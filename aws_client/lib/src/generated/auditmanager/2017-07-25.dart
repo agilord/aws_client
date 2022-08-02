@@ -302,6 +302,7 @@ class AuditManager {
   /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ServiceQuotaExceededException].
   ///
   /// Parameter [assessmentReportsDestination] :
   /// The assessment report storage destination for the assessment that's being
@@ -360,6 +361,7 @@ class AuditManager {
   /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ServiceQuotaExceededException].
   ///
   /// Parameter [controlSets] :
   /// The control sets that are associated with the framework.
@@ -442,6 +444,7 @@ class AuditManager {
   /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ServiceQuotaExceededException].
   ///
   /// Parameter [controlMappingSources] :
   /// The data mapping sources for the control.
@@ -567,7 +570,37 @@ class AuditManager {
     );
   }
 
-  /// Deletes an assessment report from an assessment in Audit Manager.
+  /// Deletes an assessment report in Audit Manager.
+  ///
+  /// When you run the <code>DeleteAssessmentReport</code> operation, Audit
+  /// Manager attempts to delete the following data:
+  /// <ol>
+  /// <li>
+  /// The specified assessment report that’s stored in your S3 bucket
+  /// </li>
+  /// <li>
+  /// The associated metadata that’s stored in Audit Manager
+  /// </li> </ol>
+  /// If Audit Manager can’t access the assessment report in your S3 bucket, the
+  /// report isn’t deleted. In this event, the
+  /// <code>DeleteAssessmentReport</code> operation doesn’t fail. Instead, it
+  /// proceeds to delete the associated metadata only. You must then delete the
+  /// assessment report from the S3 bucket yourself.
+  ///
+  /// This scenario happens when Audit Manager receives a <code>403
+  /// (Forbidden)</code> or <code>404 (Not Found)</code> error from Amazon S3.
+  /// To avoid this, make sure that your S3 bucket is available, and that you
+  /// configured the correct permissions for Audit Manager to delete resources
+  /// in your S3 bucket. For an example permissions policy that you can use, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/audit-manager/latest/userguide/security_iam_id-based-policy-examples.html#full-administrator-access-assessment-report-destination">Assessment
+  /// report destination permissions</a> in the <i>Audit Manager User Guide</i>.
+  /// For information about the issues that could cause a <code>403
+  /// (Forbidden)</code> or <code>404 (Not Found</code>) error from Amazon S3,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#ErrorCodeList">List
+  /// of Error Codes</a> in the <i>Amazon Simple Storage Service API
+  /// Reference</i>.
   ///
   /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
@@ -616,6 +649,56 @@ class AuditManager {
   }
 
   /// Deregisters an account in Audit Manager.
+  /// <note>
+  /// When you deregister your account from Audit Manager, your data isn’t
+  /// deleted. If you want to delete your resource data, you must perform that
+  /// task separately before you deregister your account. Either, you can do
+  /// this in the Audit Manager console. Or, you can use one of the delete API
+  /// operations that are provided by Audit Manager.
+  ///
+  /// To delete your Audit Manager resource data, see the following
+  /// instructions:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_DeleteAssessment.html">DeleteAssessment</a>
+  /// (see also: <a
+  /// href="https://docs.aws.amazon.com/audit-manager/latest/userguide/delete-assessment.html">Deleting
+  /// an assessment</a> in the <i>Audit Manager User Guide</i>)
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_DeleteAssessmentFramework.html">DeleteAssessmentFramework</a>
+  /// (see also: <a
+  /// href="https://docs.aws.amazon.com/audit-manager/latest/userguide/delete-custom-framework.html">Deleting
+  /// a custom framework</a> in the <i>Audit Manager User Guide</i>)
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_DeleteAssessmentFrameworkShare.html">DeleteAssessmentFrameworkShare</a>
+  /// (see also: <a
+  /// href="https://docs.aws.amazon.com/audit-manager/latest/userguide/deleting-shared-framework-requests.html">Deleting
+  /// a share request</a> in the <i>Audit Manager User Guide</i>)
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_DeleteAssessmentReport.html">DeleteAssessmentReport</a>
+  /// (see also: <a
+  /// href="https://docs.aws.amazon.com/audit-manager/latest/userguide/generate-assessment-report.html#delete-assessment-report-steps">Deleting
+  /// an assessment report</a> in the <i>Audit Manager User Guide</i>)
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_DeleteControl.html">DeleteControl</a>
+  /// (see also: <a
+  /// href="https://docs.aws.amazon.com/audit-manager/latest/userguide/delete-controls.html">Deleting
+  /// a custom control</a> in the <i>Audit Manager User Guide</i>)
+  /// </li>
+  /// </ul>
+  /// At this time, Audit Manager doesn't provide an option to delete evidence.
+  /// All available delete operations are listed above.
+  /// </note>
   ///
   /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
@@ -631,16 +714,66 @@ class AuditManager {
     return DeregisterAccountResponse.fromJson(response);
   }
 
-  /// Removes the specified member Amazon Web Services account as a delegated
+  /// Removes the specified Amazon Web Services account as a delegated
   /// administrator for Audit Manager.
   /// <important>
   /// When you remove a delegated administrator from your Audit Manager
   /// settings, you continue to have access to the evidence that you previously
   /// collected under that account. This is also the case when you deregister a
-  /// delegated administrator from Audit Manager. However, Audit Manager will
+  /// delegated administrator from Organizations. However, Audit Manager will
   /// stop collecting and attaching evidence to that delegated administrator
   /// account moving forward.
-  /// </important>
+  /// </important> <note>
+  /// When you deregister a delegated administrator account for Audit Manager,
+  /// the data for that account isn’t deleted. If you want to delete resource
+  /// data for a delegated administrator account, you must perform that task
+  /// separately before you deregister the account. Either, you can do this in
+  /// the Audit Manager console. Or, you can use one of the delete API
+  /// operations that are provided by Audit Manager.
+  ///
+  /// To delete your Audit Manager resource data, see the following
+  /// instructions:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_DeleteAssessment.html">DeleteAssessment</a>
+  /// (see also: <a
+  /// href="https://docs.aws.amazon.com/audit-manager/latest/userguide/delete-assessment.html">Deleting
+  /// an assessment</a> in the <i>Audit Manager User Guide</i>)
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_DeleteAssessmentFramework.html">DeleteAssessmentFramework</a>
+  /// (see also: <a
+  /// href="https://docs.aws.amazon.com/audit-manager/latest/userguide/delete-custom-framework.html">Deleting
+  /// a custom framework</a> in the <i>Audit Manager User Guide</i>)
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_DeleteAssessmentFrameworkShare.html">DeleteAssessmentFrameworkShare</a>
+  /// (see also: <a
+  /// href="https://docs.aws.amazon.com/audit-manager/latest/userguide/deleting-shared-framework-requests.html">Deleting
+  /// a share request</a> in the <i>Audit Manager User Guide</i>)
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_DeleteAssessmentReport.html">DeleteAssessmentReport</a>
+  /// (see also: <a
+  /// href="https://docs.aws.amazon.com/audit-manager/latest/userguide/generate-assessment-report.html#delete-assessment-report-steps">Deleting
+  /// an assessment report</a> in the <i>Audit Manager User Guide</i>)
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_DeleteControl.html">DeleteControl</a>
+  /// (see also: <a
+  /// href="https://docs.aws.amazon.com/audit-manager/latest/userguide/delete-controls.html">Deleting
+  /// a custom control</a> in the <i>Audit Manager User Guide</i>)
+  /// </li>
+  /// </ul>
+  /// At this time, Audit Manager doesn't provide an option to delete evidence.
+  /// All available delete operations are listed above.
+  /// </note>
   ///
   /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
@@ -1167,8 +1300,8 @@ class AuditManager {
     return GetOrganizationAdminAccountResponse.fromJson(response);
   }
 
-  /// Returns a list of the in-scope Amazon Web Services services for the
-  /// specified assessment.
+  /// Returns a list of the in-scope Amazon Web Services for the specified
+  /// assessment.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ValidationException].
@@ -1721,6 +1854,7 @@ class AuditManager {
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [delegatedAdminAccount] :
   /// The delegated administrator account for Audit Manager.
@@ -1777,6 +1911,38 @@ class AuditManager {
   /// The share request specifies a recipient and notifies them that a custom
   /// framework is available. Recipients have 120 days to accept or decline the
   /// request. If no action is taken, the share request expires.
+  ///
+  /// When you create a share request, Audit Manager stores a snapshot of your
+  /// custom framework in the US East (N. Virginia) Amazon Web Services Region.
+  /// Audit Manager also stores a backup of the same snapshot in the US West
+  /// (Oregon) Amazon Web Services Region.
+  ///
+  /// Audit Manager deletes the snapshot and the backup snapshot when one of the
+  /// following events occurs:
+  ///
+  /// <ul>
+  /// <li>
+  /// The sender revokes the share request.
+  /// </li>
+  /// <li>
+  /// The recipient declines the share request.
+  /// </li>
+  /// <li>
+  /// The recipient encounters an error and doesn't successfully accept the
+  /// share request.
+  /// </li>
+  /// <li>
+  /// The share request expires before the recipient responds to the request.
+  /// </li>
+  /// </ul>
+  /// When a sender <a
+  /// href="https://docs.aws.amazon.com/audit-manager/latest/userguide/framework-sharing.html#framework-sharing-resend">resends
+  /// a share request</a>, the snapshot is replaced with an updated version that
+  /// corresponds with the latest version of the custom framework.
+  ///
+  /// When a recipient accepts a share request, the snapshot is replicated into
+  /// their Amazon Web Services account under the Amazon Web Services Region
+  /// that was specified in the share request.
   /// <important>
   /// When you invoke the <code>StartAssessmentFrameworkShare</code> API, you
   /// are about to share a custom framework with another Amazon Web Services
@@ -2119,6 +2285,7 @@ class AuditManager {
   /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ServiceQuotaExceededException].
   ///
   /// Parameter [assessmentId] :
   /// The unique identifier for the assessment.
@@ -2698,7 +2865,7 @@ class AssessmentEvidenceFolder {
 
   /// The number of evidence that falls under the configuration data category.
   /// This evidence is collected from configuration snapshots of other Amazon Web
-  /// Services services such as Amazon EC2, Amazon S3, or IAM.
+  /// Services such as Amazon EC2, Amazon S3, or IAM.
   final int? evidenceByTypeConfigurationDataCount;
 
   /// The number of evidence that falls under the manual category. This evidence
@@ -4636,22 +4803,22 @@ extension on String {
 /// be added to a framework in Audit Manager.
 class CreateAssessmentFrameworkControl {
   /// The unique identifier of the control.
-  final String? id;
+  final String id;
 
   CreateAssessmentFrameworkControl({
-    this.id,
+    required this.id,
   });
 
   factory CreateAssessmentFrameworkControl.fromJson(Map<String, dynamic> json) {
     return CreateAssessmentFrameworkControl(
-      id: json['id'] as String?,
+      id: json['id'] as String,
     );
   }
 
   Map<String, dynamic> toJson() {
     final id = this.id;
     return {
-      if (id != null) 'id': id,
+      'id': id,
     };
   }
 }
@@ -6970,7 +7137,7 @@ class Resource {
 /// user. This includes the role type and IAM Amazon Resource Name (ARN).
 class Role {
   /// The Amazon Resource Name (ARN) of the IAM role.
-  final String? roleArn;
+  final String roleArn;
 
   /// The type of customer persona.
   /// <note>
@@ -6983,17 +7150,17 @@ class Role {
   /// In <code>BatchCreateDelegationByAssessment</code>, <code>roleType</code> can
   /// only be <code>RESOURCE_OWNER</code>.
   /// </note>
-  final RoleType? roleType;
+  final RoleType roleType;
 
   Role({
-    this.roleArn,
-    this.roleType,
+    required this.roleArn,
+    required this.roleType,
   });
 
   factory Role.fromJson(Map<String, dynamic> json) {
     return Role(
-      roleArn: json['roleArn'] as String?,
-      roleType: (json['roleType'] as String?)?.toRoleType(),
+      roleArn: json['roleArn'] as String,
+      roleType: (json['roleType'] as String).toRoleType(),
     );
   }
 
@@ -7001,8 +7168,8 @@ class Role {
     final roleArn = this.roleArn;
     final roleType = this.roleType;
     return {
-      if (roleArn != null) 'roleArn': roleArn,
-      if (roleType != null) 'roleType': roleType.toValue(),
+      'roleArn': roleArn,
+      'roleType': roleType.toValue(),
     };
   }
 }
@@ -7379,13 +7546,104 @@ extension on String {
 
 /// The keyword to search for in CloudTrail logs, Config rules, Security Hub
 /// checks, and Amazon Web Services API names.
+///
+/// To learn more about the supported keywords that you can use when mapping a
+/// control data source, see the following pages in the <i>Audit Manager User
+/// Guide</i>:
+///
+/// <ul>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-ash.html">Config
+/// rules supported by Audit Manager</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-config.html">Security
+/// Hub controls supported by Audit Manager</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-api.html">API
+/// calls supported by Audit Manager</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-cloudtrail.html">CloudTrail
+/// event names supported by Audit Manager</a>
+/// </li>
+/// </ul>
 class SourceKeyword {
-  /// The method of input for the keyword.
+  /// The input method for the keyword.
   final KeywordInputType? keywordInputType;
 
-  /// The value of the keyword that's used to search CloudTrail logs, Config
-  /// rules, Security Hub checks, and Amazon Web Services API names when mapping a
-  /// control data source.
+  /// The value of the keyword that's used when mapping a control data source. For
+  /// example, this can be a CloudTrail event name, a rule name for Config, a
+  /// Security Hub control, or the name of an Amazon Web Services API call.
+  ///
+  /// If you’re mapping a data source to a rule in Config, the
+  /// <code>keywordValue</code> that you specify depends on the type of rule:
+  ///
+  /// <ul>
+  /// <li>
+  /// For <a
+  /// href="https://docs.aws.amazon.com/config/latest/developerguide/evaluate-config_use-managed-rules.html">managed
+  /// rules</a>, you can use the rule identifier as the <code>keywordValue</code>.
+  /// You can find the rule identifier from the <a
+  /// href="https://docs.aws.amazon.com/config/latest/developerguide/managed-rules-by-aws-config.html">list
+  /// of Config managed rules</a>.
+  ///
+  /// <ul>
+  /// <li>
+  /// Managed rule name: <a
+  /// href="https://docs.aws.amazon.com/config/latest/developerguide/s3-bucket-acl-prohibited.html">s3-bucket-acl-prohibited</a>
+  ///
+  /// <code>keywordValue</code>: <code>S3_BUCKET_ACL_PROHIBITED</code>
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// For <a
+  /// href="https://docs.aws.amazon.com/config/latest/developerguide/evaluate-config_develop-rules.html">custom
+  /// rules</a>, you form the <code>keywordValue</code> by adding the
+  /// <code>Custom_</code> prefix to the rule name. This prefix distinguishes the
+  /// rule from a managed rule.
+  ///
+  /// <ul>
+  /// <li>
+  /// Custom rule name: my-custom-config-rule
+  ///
+  /// <code>keywordValue</code>: <code>Custom_my-custom-config-rule</code>
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// For <a
+  /// href="https://docs.aws.amazon.com/config/latest/developerguide/service-linked-awsconfig-rules.html">service-linked
+  /// rules</a>, you form the <code>keywordValue</code> by adding the
+  /// <code>Custom_</code> prefix to the rule name. In addition, you remove the
+  /// suffix ID that appears at the end of the rule name.
+  ///
+  /// <ul>
+  /// <li>
+  /// Service-linked rule name: CustomRuleForAccount-conformance-pack-szsm1uv0w
+  ///
+  /// <code>keywordValue</code>:
+  /// <code>Custom_CustomRuleForAccount-conformance-pack</code>
+  /// </li>
+  /// <li>
+  /// Service-linked rule name: securityhub-api-gw-cache-encrypted-101104e1
+  ///
+  /// <code>keywordValue</code>:
+  /// <code>Custom_securityhub-api-gw-cache-encrypted</code>
+  /// </li>
+  /// <li>
+  /// Service-linked rule name:
+  /// OrgConfigRule-s3-bucket-versioning-enabled-dbgzf8ba
+  ///
+  /// <code>keywordValue</code>:
+  /// <code>Custom_OrgConfigRule-s3-bucket-versioning-enabled</code>
+  /// </li>
+  /// </ul> </li>
+  /// </ul>
   final String? keywordValue;
 
   SourceKeyword({
@@ -7624,41 +7882,41 @@ class UpdateAssessmentControlSetStatusResponse {
 /// A <code>controlSet</code> entity that represents a collection of controls in
 /// Audit Manager. This doesn't contain the control set ID.
 class UpdateAssessmentFrameworkControlSet {
+  /// The list of controls that are contained within the control set.
+  final List<CreateAssessmentFrameworkControl> controls;
+
   /// The name of the control set.
   final String name;
-
-  /// The list of controls that are contained within the control set.
-  final List<CreateAssessmentFrameworkControl>? controls;
 
   /// The unique identifier for the control set.
   final String? id;
 
   UpdateAssessmentFrameworkControlSet({
+    required this.controls,
     required this.name,
-    this.controls,
     this.id,
   });
 
   factory UpdateAssessmentFrameworkControlSet.fromJson(
       Map<String, dynamic> json) {
     return UpdateAssessmentFrameworkControlSet(
-      name: json['name'] as String,
-      controls: (json['controls'] as List?)
-          ?.whereNotNull()
+      controls: (json['controls'] as List)
+          .whereNotNull()
           .map((e) => CreateAssessmentFrameworkControl.fromJson(
               e as Map<String, dynamic>))
           .toList(),
+      name: json['name'] as String,
       id: json['id'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final name = this.name;
     final controls = this.controls;
+    final name = this.name;
     final id = this.id;
     return {
+      'controls': controls,
       'name': name,
-      if (controls != null) 'controls': controls,
       if (id != null) 'id': id,
     };
   }
@@ -7889,6 +8147,19 @@ class ResourceNotFoundException extends _s.GenericAwsException {
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+class ServiceQuotaExceededException extends _s.GenericAwsException {
+  ServiceQuotaExceededException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'ServiceQuotaExceededException',
+            message: message);
+}
+
+class ThrottlingException extends _s.GenericAwsException {
+  ThrottlingException({String? type, String? message})
+      : super(type: type, code: 'ThrottlingException', message: message);
+}
+
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);
@@ -7901,6 +8172,10 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       InternalServerException(type: type, message: message),
   'ResourceNotFoundException': (type, message) =>
       ResourceNotFoundException(type: type, message: message),
+  'ServiceQuotaExceededException': (type, message) =>
+      ServiceQuotaExceededException(type: type, message: message),
+  'ThrottlingException': (type, message) =>
+      ThrottlingException(type: type, message: message),
   'ValidationException': (type, message) =>
       ValidationException(type: type, message: message),
 };

@@ -41,7 +41,7 @@ class TimestreamQuery {
   /// issued. Because cancellation is an idempotent operation, subsequent
   /// cancellation requests will return a <code>CancellationMessage</code>,
   /// indicating that the query has already been canceled. See <a
-  /// href="https://docs.aws.amazon.com/Timestream/latest/developerguide/code-samples.cancel-query.html">code
+  /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/code-samples.cancel-query.html">code
   /// sample</a> for details.
   ///
   /// May throw [AccessDeniedException].
@@ -244,7 +244,7 @@ class TimestreamQuery {
   /// <ul>
   /// <li>
   /// You are using <a
-  /// href="https://docs.aws.amazon.com/Timestream/latest/developerguide/VPCEndpoints">VPC
+  /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/VPCEndpoints">VPC
   /// endpoints (Amazon Web Services PrivateLink) with Timestream </a>
   /// </li>
   /// <li>
@@ -257,7 +257,7 @@ class TimestreamQuery {
   /// </ul>
   /// For detailed information on how and when to use and implement
   /// DescribeEndpoints, see <a
-  /// href="https://docs.aws.amazon.com/Timestream/latest/developerguide/Using.API.html#Using-API.endpoint-discovery">The
+  /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/Using.API.html#Using-API.endpoint-discovery">The
   /// Endpoint Discovery Pattern</a>.
   ///
   /// May throw [InternalServerException].
@@ -498,7 +498,7 @@ class TimestreamQuery {
   /// query against your Amazon Timestream data. <code>Query</code> will time
   /// out after 60 seconds. You must update the default timeout in the SDK to
   /// support a timeout of 60 seconds. See the <a
-  /// href="https://docs.aws.amazon.com/Timestream/latest/developerguide/code-samples.run-query.html">code
+  /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/code-samples.run-query.html">code
   /// sample</a> for details.
   ///
   /// Your query request will fail in the following cases:
@@ -1751,6 +1751,7 @@ enum ScalarMeasureValueType {
   boolean,
   double,
   varchar,
+  timestamp,
 }
 
 extension on ScalarMeasureValueType {
@@ -1764,6 +1765,8 @@ extension on ScalarMeasureValueType {
         return 'DOUBLE';
       case ScalarMeasureValueType.varchar:
         return 'VARCHAR';
+      case ScalarMeasureValueType.timestamp:
+        return 'TIMESTAMP';
     }
   }
 }
@@ -1779,6 +1782,8 @@ extension on String {
         return ScalarMeasureValueType.double;
       case 'VARCHAR':
         return ScalarMeasureValueType.varchar;
+      case 'TIMESTAMP':
+        return ScalarMeasureValueType.timestamp;
     }
     throw Exception('$this is not known in enum ScalarMeasureValueType');
   }

@@ -38,6 +38,35 @@ class SagemakerEdgeManager {
           endpointUrl: endpointUrl,
         );
 
+  /// Use to get the active deployments from a device.
+  ///
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [deviceFleetName] :
+  /// The name of the fleet that the device belongs to.
+  ///
+  /// Parameter [deviceName] :
+  /// The unique name of the device you want to get the configuration of active
+  /// deployments from.
+  Future<GetDeploymentsResult> getDeployments({
+    required String deviceFleetName,
+    required String deviceName,
+  }) async {
+    ArgumentError.checkNotNull(deviceFleetName, 'deviceFleetName');
+    ArgumentError.checkNotNull(deviceName, 'deviceName');
+    final $payload = <String, dynamic>{
+      'DeviceFleetName': deviceFleetName,
+      'DeviceName': deviceName,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/GetDeployments',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetDeploymentsResult.fromJson(response);
+  }
+
   /// Use to check if a device is registered with SageMaker Edge Manager.
   ///
   /// May throw [InternalServiceException].
@@ -85,6 +114,9 @@ class SagemakerEdgeManager {
   /// For internal use. Returns a list of SageMaker Edge Manager agent operating
   /// metrics.
   ///
+  /// Parameter [deploymentResult] :
+  /// Returns the result of a deployment on the device.
+  ///
   /// Parameter [models] :
   /// Returns a list of models deployed on the the device.
   Future<void> sendHeartbeat({
@@ -92,6 +124,7 @@ class SagemakerEdgeManager {
     required String deviceFleetName,
     required String deviceName,
     List<EdgeMetric>? agentMetrics,
+    DeploymentResult? deploymentResult,
     List<Model>? models,
   }) async {
     ArgumentError.checkNotNull(agentVersion, 'agentVersion');
@@ -102,6 +135,7 @@ class SagemakerEdgeManager {
       'DeviceFleetName': deviceFleetName,
       'DeviceName': deviceName,
       if (agentMetrics != null) 'AgentMetrics': agentMetrics,
+      if (deploymentResult != null) 'DeploymentResult': deploymentResult,
       if (models != null) 'Models': models,
     };
     await _protocol.send(
@@ -110,6 +144,346 @@ class SagemakerEdgeManager {
       requestUri: '/SendHeartbeat',
       exceptionFnMap: _exceptionFns,
     );
+  }
+}
+
+/// Information about the checksum of a model deployed on a device.
+class Checksum {
+  /// The checksum of the model.
+  final String? sum;
+
+  /// The type of the checksum.
+  final ChecksumType? type;
+
+  Checksum({
+    this.sum,
+    this.type,
+  });
+
+  factory Checksum.fromJson(Map<String, dynamic> json) {
+    return Checksum(
+      sum: json['Sum'] as String?,
+      type: (json['Type'] as String?)?.toChecksumType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sum = this.sum;
+    final type = this.type;
+    return {
+      if (sum != null) 'Sum': sum,
+      if (type != null) 'Type': type.toValue(),
+    };
+  }
+}
+
+enum ChecksumType {
+  sha1,
+}
+
+extension on ChecksumType {
+  String toValue() {
+    switch (this) {
+      case ChecksumType.sha1:
+        return 'SHA1';
+    }
+  }
+}
+
+extension on String {
+  ChecksumType toChecksumType() {
+    switch (this) {
+      case 'SHA1':
+        return ChecksumType.sha1;
+    }
+    throw Exception('$this is not known in enum ChecksumType');
+  }
+}
+
+/// <p/>
+class Definition {
+  /// The checksum information of the model.
+  final Checksum? checksum;
+
+  /// The unique model handle.
+  final String? modelHandle;
+
+  /// The absolute S3 location of the model.
+  final String? s3Url;
+
+  /// The desired state of the model.
+  final ModelState? state;
+
+  Definition({
+    this.checksum,
+    this.modelHandle,
+    this.s3Url,
+    this.state,
+  });
+
+  factory Definition.fromJson(Map<String, dynamic> json) {
+    return Definition(
+      checksum: json['Checksum'] != null
+          ? Checksum.fromJson(json['Checksum'] as Map<String, dynamic>)
+          : null,
+      modelHandle: json['ModelHandle'] as String?,
+      s3Url: json['S3Url'] as String?,
+      state: (json['State'] as String?)?.toModelState(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final checksum = this.checksum;
+    final modelHandle = this.modelHandle;
+    final s3Url = this.s3Url;
+    final state = this.state;
+    return {
+      if (checksum != null) 'Checksum': checksum,
+      if (modelHandle != null) 'ModelHandle': modelHandle,
+      if (s3Url != null) 'S3Url': s3Url,
+      if (state != null) 'State': state.toValue(),
+    };
+  }
+}
+
+/// <p/>
+class DeploymentModel {
+  /// The desired state of the model.
+  final ModelState? desiredState;
+
+  /// The unique handle of the model.
+  final String? modelHandle;
+
+  /// The name of the model.
+  final String? modelName;
+
+  /// The version of the model.
+  final String? modelVersion;
+
+  /// Returns the error message if there is a rollback.
+  final String? rollbackFailureReason;
+
+  /// Returns the current state of the model.
+  final ModelState? state;
+
+  /// Returns the deployment status of the model.
+  final DeploymentStatus? status;
+
+  /// Returns the error message for the deployment status result.
+  final String? statusReason;
+
+  DeploymentModel({
+    this.desiredState,
+    this.modelHandle,
+    this.modelName,
+    this.modelVersion,
+    this.rollbackFailureReason,
+    this.state,
+    this.status,
+    this.statusReason,
+  });
+
+  factory DeploymentModel.fromJson(Map<String, dynamic> json) {
+    return DeploymentModel(
+      desiredState: (json['DesiredState'] as String?)?.toModelState(),
+      modelHandle: json['ModelHandle'] as String?,
+      modelName: json['ModelName'] as String?,
+      modelVersion: json['ModelVersion'] as String?,
+      rollbackFailureReason: json['RollbackFailureReason'] as String?,
+      state: (json['State'] as String?)?.toModelState(),
+      status: (json['Status'] as String?)?.toDeploymentStatus(),
+      statusReason: json['StatusReason'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final desiredState = this.desiredState;
+    final modelHandle = this.modelHandle;
+    final modelName = this.modelName;
+    final modelVersion = this.modelVersion;
+    final rollbackFailureReason = this.rollbackFailureReason;
+    final state = this.state;
+    final status = this.status;
+    final statusReason = this.statusReason;
+    return {
+      if (desiredState != null) 'DesiredState': desiredState.toValue(),
+      if (modelHandle != null) 'ModelHandle': modelHandle,
+      if (modelName != null) 'ModelName': modelName,
+      if (modelVersion != null) 'ModelVersion': modelVersion,
+      if (rollbackFailureReason != null)
+        'RollbackFailureReason': rollbackFailureReason,
+      if (state != null) 'State': state.toValue(),
+      if (status != null) 'Status': status.toValue(),
+      if (statusReason != null) 'StatusReason': statusReason,
+    };
+  }
+}
+
+/// Information about the result of a deployment on an edge device that is
+/// registered with SageMaker Edge Manager.
+class DeploymentResult {
+  /// The timestamp of when the deployment was ended, and the agent got the
+  /// deployment results.
+  final DateTime? deploymentEndTime;
+
+  /// Returns a list of models deployed on the agent.
+  final List<DeploymentModel>? deploymentModels;
+
+  /// The name and unique ID of the deployment.
+  final String? deploymentName;
+
+  /// The timestamp of when the deployment was started on the agent.
+  final DateTime? deploymentStartTime;
+
+  /// Returns the bucket error code.
+  final String? deploymentStatus;
+
+  /// Returns the detailed error message.
+  final String? deploymentStatusMessage;
+
+  DeploymentResult({
+    this.deploymentEndTime,
+    this.deploymentModels,
+    this.deploymentName,
+    this.deploymentStartTime,
+    this.deploymentStatus,
+    this.deploymentStatusMessage,
+  });
+
+  factory DeploymentResult.fromJson(Map<String, dynamic> json) {
+    return DeploymentResult(
+      deploymentEndTime: timeStampFromJson(json['DeploymentEndTime']),
+      deploymentModels: (json['DeploymentModels'] as List?)
+          ?.whereNotNull()
+          .map((e) => DeploymentModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      deploymentName: json['DeploymentName'] as String?,
+      deploymentStartTime: timeStampFromJson(json['DeploymentStartTime']),
+      deploymentStatus: json['DeploymentStatus'] as String?,
+      deploymentStatusMessage: json['DeploymentStatusMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deploymentEndTime = this.deploymentEndTime;
+    final deploymentModels = this.deploymentModels;
+    final deploymentName = this.deploymentName;
+    final deploymentStartTime = this.deploymentStartTime;
+    final deploymentStatus = this.deploymentStatus;
+    final deploymentStatusMessage = this.deploymentStatusMessage;
+    return {
+      if (deploymentEndTime != null)
+        'DeploymentEndTime': unixTimestampToJson(deploymentEndTime),
+      if (deploymentModels != null) 'DeploymentModels': deploymentModels,
+      if (deploymentName != null) 'DeploymentName': deploymentName,
+      if (deploymentStartTime != null)
+        'DeploymentStartTime': unixTimestampToJson(deploymentStartTime),
+      if (deploymentStatus != null) 'DeploymentStatus': deploymentStatus,
+      if (deploymentStatusMessage != null)
+        'DeploymentStatusMessage': deploymentStatusMessage,
+    };
+  }
+}
+
+enum DeploymentStatus {
+  success,
+  fail,
+}
+
+extension on DeploymentStatus {
+  String toValue() {
+    switch (this) {
+      case DeploymentStatus.success:
+        return 'SUCCESS';
+      case DeploymentStatus.fail:
+        return 'FAIL';
+    }
+  }
+}
+
+extension on String {
+  DeploymentStatus toDeploymentStatus() {
+    switch (this) {
+      case 'SUCCESS':
+        return DeploymentStatus.success;
+      case 'FAIL':
+        return DeploymentStatus.fail;
+    }
+    throw Exception('$this is not known in enum DeploymentStatus');
+  }
+}
+
+enum DeploymentType {
+  model,
+}
+
+extension on DeploymentType {
+  String toValue() {
+    switch (this) {
+      case DeploymentType.model:
+        return 'Model';
+    }
+  }
+}
+
+extension on String {
+  DeploymentType toDeploymentType() {
+    switch (this) {
+      case 'Model':
+        return DeploymentType.model;
+    }
+    throw Exception('$this is not known in enum DeploymentType');
+  }
+}
+
+/// Information about a deployment on an edge device that is registered with
+/// SageMaker Edge Manager.
+class EdgeDeployment {
+  /// Returns a list of Definition objects.
+  final List<Definition>? definitions;
+
+  /// The name and unique ID of the deployment.
+  final String? deploymentName;
+
+  /// Determines whether to rollback to previous configuration if deployment
+  /// fails.
+  final FailureHandlingPolicy? failureHandlingPolicy;
+
+  /// The type of the deployment.
+  final DeploymentType? type;
+
+  EdgeDeployment({
+    this.definitions,
+    this.deploymentName,
+    this.failureHandlingPolicy,
+    this.type,
+  });
+
+  factory EdgeDeployment.fromJson(Map<String, dynamic> json) {
+    return EdgeDeployment(
+      definitions: (json['Definitions'] as List?)
+          ?.whereNotNull()
+          .map((e) => Definition.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      deploymentName: json['DeploymentName'] as String?,
+      failureHandlingPolicy:
+          (json['FailureHandlingPolicy'] as String?)?.toFailureHandlingPolicy(),
+      type: (json['Type'] as String?)?.toDeploymentType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final definitions = this.definitions;
+    final deploymentName = this.deploymentName;
+    final failureHandlingPolicy = this.failureHandlingPolicy;
+    final type = this.type;
+    return {
+      if (definitions != null) 'Definitions': definitions,
+      if (deploymentName != null) 'DeploymentName': deploymentName,
+      if (failureHandlingPolicy != null)
+        'FailureHandlingPolicy': failureHandlingPolicy.toValue(),
+      if (type != null) 'Type': type.toValue(),
+    };
   }
 }
 
@@ -153,6 +527,60 @@ class EdgeMetric {
       if (metricName != null) 'MetricName': metricName,
       if (timestamp != null) 'Timestamp': unixTimestampToJson(timestamp),
       if (value != null) 'Value': value,
+    };
+  }
+}
+
+enum FailureHandlingPolicy {
+  rollbackOnFailure,
+  doNothing,
+}
+
+extension on FailureHandlingPolicy {
+  String toValue() {
+    switch (this) {
+      case FailureHandlingPolicy.rollbackOnFailure:
+        return 'ROLLBACK_ON_FAILURE';
+      case FailureHandlingPolicy.doNothing:
+        return 'DO_NOTHING';
+    }
+  }
+}
+
+extension on String {
+  FailureHandlingPolicy toFailureHandlingPolicy() {
+    switch (this) {
+      case 'ROLLBACK_ON_FAILURE':
+        return FailureHandlingPolicy.rollbackOnFailure;
+      case 'DO_NOTHING':
+        return FailureHandlingPolicy.doNothing;
+    }
+    throw Exception('$this is not known in enum FailureHandlingPolicy');
+  }
+}
+
+class GetDeploymentsResult {
+  /// Returns a list of the configurations of the active deployments on the
+  /// device.
+  final List<EdgeDeployment>? deployments;
+
+  GetDeploymentsResult({
+    this.deployments,
+  });
+
+  factory GetDeploymentsResult.fromJson(Map<String, dynamic> json) {
+    return GetDeploymentsResult(
+      deployments: (json['Deployments'] as List?)
+          ?.whereNotNull()
+          .map((e) => EdgeDeployment.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deployments = this.deployments;
+    return {
+      if (deployments != null) 'Deployments': deployments,
     };
   }
 }
@@ -241,6 +669,34 @@ class Model {
       if (modelName != null) 'ModelName': modelName,
       if (modelVersion != null) 'ModelVersion': modelVersion,
     };
+  }
+}
+
+enum ModelState {
+  deploy,
+  undeploy,
+}
+
+extension on ModelState {
+  String toValue() {
+    switch (this) {
+      case ModelState.deploy:
+        return 'DEPLOY';
+      case ModelState.undeploy:
+        return 'UNDEPLOY';
+    }
+  }
+}
+
+extension on String {
+  ModelState toModelState() {
+    switch (this) {
+      case 'DEPLOY':
+        return ModelState.deploy;
+      case 'UNDEPLOY':
+        return ModelState.undeploy;
+    }
+    throw Exception('$this is not known in enum ModelState');
   }
 }
 

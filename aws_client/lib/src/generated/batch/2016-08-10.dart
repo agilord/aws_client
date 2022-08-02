@@ -113,13 +113,14 @@ class Batch {
   /// an Amazon ECS container instance</a> in the <i>Amazon Elastic Container
   /// Service Developer Guide</i>.
   /// <note>
-  /// Batch doesn't upgrade the AMIs in a compute environment after the
-  /// environment is created. For example, it doesn't update the AMIs when a
-  /// newer version of the Amazon ECS optimized AMI is available. Therefore,
-  /// you're responsible for managing the guest operating system (including its
-  /// updates and security patches) and any additional application software or
-  /// utilities that you install on the compute resources. To use a new AMI for
-  /// your Batch jobs, complete these steps:
+  /// Batch doesn't automatically upgrade the AMIs in a compute environment
+  /// after it's created. For example, it also doesn't update the AMIs in your
+  /// compute environment when a newer version of the Amazon ECS optimized AMI
+  /// is available. You're responsible for the management of the guest operating
+  /// system. This includes any updates and security patches. You're also
+  /// responsible for any additional application software or utilities that you
+  /// install on the compute resources. There are two ways to use a new AMI for
+  /// your Batch jobs. The original method is to complete these steps:
   /// <ol>
   /// <li>
   /// Create a new compute environment with the new AMI.
@@ -132,7 +133,54 @@ class Batch {
   /// </li>
   /// <li>
   /// Delete the earlier compute environment.
-  /// </li> </ol> </note>
+  /// </li> </ol>
+  /// In April 2022, Batch added enhanced support for updating compute
+  /// environments. For more information, see <a
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html">Updating
+  /// compute environments</a>. To use the enhanced updating of compute
+  /// environments to update AMIs, follow these rules:
+  ///
+  /// <ul>
+  /// <li>
+  /// Either do not set the service role (<code>serviceRole</code>) parameter or
+  /// set it to the <b>AWSBatchServiceRole</b> service-linked role.
+  /// </li>
+  /// <li>
+  /// Set the allocation strategy (<code>allocationStrategy</code>) parameter to
+  /// <code>BEST_FIT_PROGRESSIVE</code> or <code>SPOT_CAPACITY_OPTIMIZED</code>.
+  /// </li>
+  /// <li>
+  /// Set the update to latest image version
+  /// (<code>updateToLatestImageVersion</code>) parameter to <code>true</code>.
+  /// </li>
+  /// <li>
+  /// Do not specify an AMI ID in <code>imageId</code>,
+  /// <code>imageIdOverride</code> (in <a
+  /// href="https://docs.aws.amazon.com/batch/latest/APIReference/API_Ec2Configuration.html">
+  /// <code>ec2Configuration</code> </a>), or in the launch template
+  /// (<code>launchTemplate</code>). In that case Batch will select the latest
+  /// Amazon ECS optimized AMI supported by Batch at the time the infrastructure
+  /// update is initiated. Alternatively you can specify the AMI ID in the
+  /// <code>imageId</code> or <code>imageIdOverride</code> parameters, or the
+  /// launch template identified by the <code>LaunchTemplate</code> properties.
+  /// Changing any of these properties will trigger an infrastructure update. If
+  /// the AMI ID is specified in the launch template, it can not be replaced by
+  /// specifying an AMI ID in either the <code>imageId</code> or
+  /// <code>imageIdOverride</code> parameters. It can only be replaced by
+  /// specifying a different launch template, or if the launch template version
+  /// is set to <code>$Default</code> or <code>$Latest</code>, by setting either
+  /// a new default version for the launch template (if <code>$Default</code>)or
+  /// by adding a new version to the launch template (if <code>$Latest</code>).
+  /// </li>
+  /// </ul>
+  /// If these rules are followed, any update that triggers an infrastructure
+  /// update will cause the AMI ID to be re-selected. If the
+  /// <code>version</code> setting in the launch template
+  /// (<code>launchTemplate</code>) is set to <code>$Latest</code> or
+  /// <code>$Default</code>, the latest or default version of the launch
+  /// template will be evaluated up at the time of the infrastructure update,
+  /// even if the <code>launchTemplate</code> was not updated.
+  /// </note>
   ///
   /// May throw [ClientException].
   /// May throw [ServerException].
@@ -223,7 +271,7 @@ class Batch {
   /// share job queue, no vCPU capacity is reserved.
   /// <note>
   /// This parameter is only supported when the <code>type</code> parameter is
-  /// set to <code>UNMANAGED</code>/
+  /// set to <code>UNMANAGED</code>.
   /// </note>
   Future<CreateComputeEnvironmentResponse> createComputeEnvironment({
     required String computeEnvironmentName,
@@ -271,9 +319,9 @@ class Batch {
   /// Parameter [computeEnvironmentOrder] :
   /// The set of compute environments mapped to a job queue and their order
   /// relative to each other. The job scheduler uses this parameter to determine
-  /// which compute environment should run a specific job. Compute environments
-  /// must be in the <code>VALID</code> state before you can associate them with
-  /// a job queue. You can associate up to three compute environments with a job
+  /// which compute environment runs a specific job. Compute environments must
+  /// be in the <code>VALID</code> state before you can associate them with a
+  /// job queue. You can associate up to three compute environments with a job
   /// queue. All of the compute environments must be either EC2
   /// (<code>EC2</code> or <code>SPOT</code>) or Fargate (<code>FARGATE</code>
   /// or <code>FARGATE_SPOT</code>); EC2 and Fargate compute environments can't
@@ -509,8 +557,8 @@ class Batch {
   ///
   /// If you're using an unmanaged compute environment, you can use the
   /// <code>DescribeComputeEnvironment</code> operation to determine the
-  /// <code>ecsClusterArn</code> that you should launch your Amazon ECS
-  /// container instances into.
+  /// <code>ecsClusterArn</code> that you launch your Amazon ECS container
+  /// instances into.
   ///
   /// May throw [ClientException].
   /// May throw [ServerException].
@@ -1068,7 +1116,7 @@ class Batch {
   /// <code>resourceRequirements</code> objects in the job definition are the
   /// exception. They can't be overridden this way using the <code>memory</code>
   /// and <code>vcpus</code> parameters. Rather, you must specify updates to job
-  /// definition parameters in a <code>ResourceRequirements</code> object that's
+  /// definition parameters in a <code>resourceRequirements</code> object that's
   /// included in the <code>containerOverrides</code> parameter.
   /// <note>
   /// Job queues with a scheduling policy are limited to 500 active fair share
@@ -1107,11 +1155,11 @@ class Batch {
   ///
   /// Parameter [containerOverrides] :
   /// A list of container overrides in the JSON format that specify the name of
-  /// a container in the specified job definition and the overrides it should
-  /// receive. You can override the default command for a container, which is
-  /// specified in the job definition or the Docker image, with a
-  /// <code>command</code> override. You can also override existing environment
-  /// variables on a container or add new environment variables to it with an
+  /// a container in the specified job definition and the overrides it receives.
+  /// You can override the default command for a container, which is specified
+  /// in the job definition or the Docker image, with a <code>command</code>
+  /// override. You can also override existing environment variables on a
+  /// container or add new environment variables to it with an
   /// <code>environment</code> override.
   ///
   /// Parameter [dependsOn] :
@@ -1162,7 +1210,9 @@ class Batch {
   /// The minimum supported value is 0 and the maximum supported value is 9999.
   ///
   /// Parameter [shareIdentifier] :
-  /// The share identifier for the job.
+  /// The share identifier for the job. If the job queue does not have a
+  /// scheduling policy, then this parameter must not be specified. If the job
+  /// queue has a scheduling policy, then this parameter must be specified.
   ///
   /// Parameter [tags] :
   /// The tags that you apply to the job request to help you categorize and
@@ -1357,11 +1407,16 @@ class Batch {
   /// <important>
   /// If the compute environment has a service-linked role, it can't be changed
   /// to use a regular IAM role. Likewise, if the compute environment has a
-  /// regular IAM role, it can't be changed to use a service-linked role.
+  /// regular IAM role, it can't be changed to use a service-linked role. To
+  /// update the parameters for the compute environment that require an
+  /// infrastructure update to change, the <b>AWSServiceRoleForBatch</b>
+  /// service-linked role must be used. For more information, see <a
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html">Updating
+  /// compute environments</a> in the <i>Batch User Guide</i>.
   /// </important>
   /// If your specified role has a path other than <code>/</code>, then you must
-  /// either specify the full role ARN (this is recommended) or prefix the role
-  /// name with the path.
+  /// either specify the full role ARN (recommended) or prefix the role name
+  /// with the path.
   /// <note>
   /// Depending on how you created your Batch service role, its ARN might
   /// contain the <code>service-role</code> path prefix. When you only specify
@@ -1390,16 +1445,23 @@ class Batch {
   ///
   /// Parameter [unmanagedvCpus] :
   /// The maximum number of vCPUs expected to be used for an unmanaged compute
-  /// environment. This parameter should not be specified for a managed compute
+  /// environment. Do not specify this parameter for a managed compute
   /// environment. This parameter is only used for fair share scheduling to
   /// reserve vCPU capacity for new share identifiers. If this parameter is not
   /// provided for a fair share job queue, no vCPU capacity will be reserved.
+  ///
+  /// Parameter [updatePolicy] :
+  /// Specifies the updated infrastructure update policy for the compute
+  /// environment. For more information about infrastructure updates, see <a
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html">Updating
+  /// compute environments</a> in the <i>Batch User Guide</i>.
   Future<UpdateComputeEnvironmentResponse> updateComputeEnvironment({
     required String computeEnvironment,
     ComputeResourceUpdate? computeResources,
     String? serviceRole,
     CEState? state,
     int? unmanagedvCpus,
+    UpdatePolicy? updatePolicy,
   }) async {
     ArgumentError.checkNotNull(computeEnvironment, 'computeEnvironment');
     final $payload = <String, dynamic>{
@@ -1408,6 +1470,7 @@ class Batch {
       if (serviceRole != null) 'serviceRole': serviceRole,
       if (state != null) 'state': state.toValue(),
       if (unmanagedvCpus != null) 'unmanagedvCpus': unmanagedvCpus,
+      if (updatePolicy != null) 'updatePolicy': updatePolicy,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1429,10 +1492,10 @@ class Batch {
   /// Parameter [computeEnvironmentOrder] :
   /// Details the set of compute environments mapped to a job queue and their
   /// order relative to each other. This is one of the parameters used by the
-  /// job scheduler to determine which compute environment should run a given
-  /// job. Compute environments must be in the <code>VALID</code> state before
-  /// you can associate them with a job queue. All of the compute environments
-  /// must be either EC2 (<code>EC2</code> or <code>SPOT</code>) or Fargate
+  /// job scheduler to determine which compute environment runs a given job.
+  /// Compute environments must be in the <code>VALID</code> state before you
+  /// can associate them with a job queue. All of the compute environments must
+  /// be either EC2 (<code>EC2</code> or <code>SPOT</code>) or Fargate
   /// (<code>FARGATE</code> or <code>FARGATE_SPOT</code>). EC2 and Fargate
   /// compute environments can't be mixed.
   /// <note>
@@ -1445,7 +1508,7 @@ class Batch {
   /// The priority of the job queue. Job queues with a higher priority (or a
   /// higher integer value for the <code>priority</code> parameter) are
   /// evaluated first when associated with the same compute environment.
-  /// Priority is determined in descending order, for example, a job queue with
+  /// Priority is determined in descending order. For example, a job queue with
   /// a priority value of <code>10</code> is given scheduling preference over a
   /// job queue with a priority value of <code>1</code>. All of the compute
   /// environments must be either EC2 (<code>EC2</code> or <code>SPOT</code>) or
@@ -1967,6 +2030,34 @@ extension on String {
   }
 }
 
+enum CRUpdateAllocationStrategy {
+  bestFitProgressive,
+  spotCapacityOptimized,
+}
+
+extension on CRUpdateAllocationStrategy {
+  String toValue() {
+    switch (this) {
+      case CRUpdateAllocationStrategy.bestFitProgressive:
+        return 'BEST_FIT_PROGRESSIVE';
+      case CRUpdateAllocationStrategy.spotCapacityOptimized:
+        return 'SPOT_CAPACITY_OPTIMIZED';
+    }
+  }
+}
+
+extension on String {
+  CRUpdateAllocationStrategy toCRUpdateAllocationStrategy() {
+    switch (this) {
+      case 'BEST_FIT_PROGRESSIVE':
+        return CRUpdateAllocationStrategy.bestFitProgressive;
+      case 'SPOT_CAPACITY_OPTIMIZED':
+        return CRUpdateAllocationStrategy.spotCapacityOptimized;
+    }
+    throw Exception('$this is not known in enum CRUpdateAllocationStrategy');
+  }
+}
+
 class CancelJobResponse {
   CancelJobResponse();
 
@@ -1989,15 +2080,15 @@ class ComputeEnvironmentDetail {
   /// underscores (_).
   final String computeEnvironmentName;
 
-  /// The Amazon Resource Name (ARN) of the underlying Amazon ECS cluster used by
-  /// the compute environment.
-  final String ecsClusterArn;
-
   /// The compute resources defined for the compute environment. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/batch/latest/userguide/compute_environments.html">Compute
-  /// Environments</a> in the <i>Batch User Guide</i>.
+  /// environments</a> in the <i>Batch User Guide</i>.
   final ComputeResource? computeResources;
+
+  /// The Amazon Resource Name (ARN) of the underlying Amazon ECS cluster used by
+  /// the compute environment.
+  final String? ecsClusterArn;
 
   /// The service role associated with the compute environment that allows Batch
   /// to make calls to Amazon Web Services API operations on your behalf. For more
@@ -2036,18 +2127,24 @@ class ComputeEnvironmentDetail {
   /// The type of the compute environment: <code>MANAGED</code> or
   /// <code>UNMANAGED</code>. For more information, see <a
   /// href="https://docs.aws.amazon.com/batch/latest/userguide/compute_environments.html">Compute
-  /// Environments</a> in the <i>Batch User Guide</i>.
+  /// environments</a> in the <i>Batch User Guide</i>.
   final CEType? type;
 
   /// The maximum number of VCPUs expected to be used for an unmanaged compute
   /// environment.
   final int? unmanagedvCpus;
 
+  /// Specifies the infrastructure update policy for the compute environment. For
+  /// more information about infrastructure updates, see <a
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html">Updating
+  /// compute environments</a> in the <i>Batch User Guide</i>.
+  final UpdatePolicy? updatePolicy;
+
   ComputeEnvironmentDetail({
     required this.computeEnvironmentArn,
     required this.computeEnvironmentName,
-    required this.ecsClusterArn,
     this.computeResources,
+    this.ecsClusterArn,
     this.serviceRole,
     this.state,
     this.status,
@@ -2055,17 +2152,18 @@ class ComputeEnvironmentDetail {
     this.tags,
     this.type,
     this.unmanagedvCpus,
+    this.updatePolicy,
   });
 
   factory ComputeEnvironmentDetail.fromJson(Map<String, dynamic> json) {
     return ComputeEnvironmentDetail(
       computeEnvironmentArn: json['computeEnvironmentArn'] as String,
       computeEnvironmentName: json['computeEnvironmentName'] as String,
-      ecsClusterArn: json['ecsClusterArn'] as String,
       computeResources: json['computeResources'] != null
           ? ComputeResource.fromJson(
               json['computeResources'] as Map<String, dynamic>)
           : null,
+      ecsClusterArn: json['ecsClusterArn'] as String?,
       serviceRole: json['serviceRole'] as String?,
       state: (json['state'] as String?)?.toCEState(),
       status: (json['status'] as String?)?.toCEStatus(),
@@ -2074,14 +2172,17 @@ class ComputeEnvironmentDetail {
           ?.map((k, e) => MapEntry(k, e as String)),
       type: (json['type'] as String?)?.toCEType(),
       unmanagedvCpus: json['unmanagedvCpus'] as int?,
+      updatePolicy: json['updatePolicy'] != null
+          ? UpdatePolicy.fromJson(json['updatePolicy'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final computeEnvironmentArn = this.computeEnvironmentArn;
     final computeEnvironmentName = this.computeEnvironmentName;
-    final ecsClusterArn = this.ecsClusterArn;
     final computeResources = this.computeResources;
+    final ecsClusterArn = this.ecsClusterArn;
     final serviceRole = this.serviceRole;
     final state = this.state;
     final status = this.status;
@@ -2089,11 +2190,12 @@ class ComputeEnvironmentDetail {
     final tags = this.tags;
     final type = this.type;
     final unmanagedvCpus = this.unmanagedvCpus;
+    final updatePolicy = this.updatePolicy;
     return {
       'computeEnvironmentArn': computeEnvironmentArn,
       'computeEnvironmentName': computeEnvironmentName,
-      'ecsClusterArn': ecsClusterArn,
       if (computeResources != null) 'computeResources': computeResources,
+      if (ecsClusterArn != null) 'ecsClusterArn': ecsClusterArn,
       if (serviceRole != null) 'serviceRole': serviceRole,
       if (state != null) 'state': state.toValue(),
       if (status != null) 'status': status.toValue(),
@@ -2101,6 +2203,7 @@ class ComputeEnvironmentDetail {
       if (tags != null) 'tags': tags,
       if (type != null) 'type': type.toValue(),
       if (unmanagedvCpus != null) 'unmanagedvCpus': unmanagedvCpus,
+      if (updatePolicy != null) 'updatePolicy': updatePolicy,
     };
   }
 }
@@ -2154,7 +2257,7 @@ class ComputeEnvironmentOrder {
 /// An object representing an Batch compute resource. For more information, see
 /// <a
 /// href="https://docs.aws.amazon.com/batch/latest/userguide/compute_environments.html">Compute
-/// Environments</a> in the <i>Batch User Guide</i>.
+/// environments</a> in the <i>Batch User Guide</i>.
 class ComputeResource {
   /// The maximum number of Amazon EC2 vCPUs that a compute environment can reach.
   /// <note>
@@ -2171,20 +2274,20 @@ class ComputeResource {
   /// be within the same VPC. Fargate compute resources can contain up to 16
   /// subnets. For more information, see <a
   /// href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html">VPCs
-  /// and Subnets</a> in the <i>Amazon VPC User Guide</i>.
+  /// and subnets</a> in the <i>Amazon VPC User Guide</i>.
   final List<String> subnets;
 
   /// The type of compute environment: <code>EC2</code>, <code>SPOT</code>,
   /// <code>FARGATE</code>, or <code>FARGATE_SPOT</code>. For more information,
   /// see <a
   /// href="https://docs.aws.amazon.com/batch/latest/userguide/compute_environments.html">Compute
-  /// Environments</a> in the <i>Batch User Guide</i>.
+  /// environments</a> in the <i>Batch User Guide</i>.
   ///
   /// If you choose <code>SPOT</code>, you must also specify an Amazon EC2 Spot
   /// Fleet role with the <code>spotIamFleetRole</code> parameter. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/batch/latest/userguide/spot_fleet_IAM_role.html">Amazon
-  /// EC2 Spot Fleet role</a> in the <i>Batch User Guide</i>.
+  /// EC2 spot fleet role</a> in the <i>Batch User Guide</i>.
   final CRType type;
 
   /// The allocation strategy to use for the compute resource if not enough
@@ -2193,7 +2296,7 @@ class ComputeResource {
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-resource-limits.html">Amazon
   /// EC2 service limits</a>. For more information, see <a
   /// href="https://docs.aws.amazon.com/batch/latest/userguide/allocation-strategies.html">Allocation
-  /// Strategies</a> in the <i>Batch User Guide</i>.
+  /// strategies</a> in the <i>Batch User Guide</i>.
   /// <note>
   /// This parameter isn't applicable to jobs that are running on Fargate
   /// resources, and shouldn't be specified.
@@ -2207,7 +2310,11 @@ class ComputeResource {
   /// EC2 service limits</a> then additional jobs aren't run until the currently
   /// running jobs have completed. This allocation strategy keeps costs lower but
   /// can limit scaling. If you are using Spot Fleets with <code>BEST_FIT</code>
-  /// then the Spot Fleet IAM Role must be specified.
+  /// then the Spot Fleet IAM Role must be specified. Compute resources that use a
+  /// <code>BEST_FIT</code> allocation strategy don't support infrastructure
+  /// updates and can't update some parameters. For more information, see <a
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html">Updating
+  /// compute environments</a> in the <i>Batch User Guide</i>.
   /// </dd> <dt>BEST_FIT_PROGRESSIVE</dt> <dd>
   /// Batch will select additional instance types that are large enough to meet
   /// the requirements of the jobs in the queue, with a preference for instance
@@ -2295,7 +2402,7 @@ class ComputeResource {
   /// <code>arn:aws:iam::<i>&lt;aws_account_id&gt;</i>:instance-profile/<i>ecsInstanceRole</i>
   /// </code>. For more information, see <a
   /// href="https://docs.aws.amazon.com/batch/latest/userguide/instance_IAM_role.html">Amazon
-  /// ECS Instance Role</a> in the <i>Batch User Guide</i>.
+  /// ECS instance role</a> in the <i>Batch User Guide</i>.
   /// <note>
   /// This parameter isn't applicable to jobs that are running on Fargate
   /// resources, and shouldn't be specified.
@@ -2329,7 +2436,7 @@ class ComputeResource {
   /// specify either the launch template ID or launch template name in the
   /// request, but not both. For more information, see <a
   /// href="https://docs.aws.amazon.com/batch/latest/userguide/launch-templates.html">Launch
-  /// Template Support</a> in the <i>Batch User Guide</i>.
+  /// template support</a> in the <i>Batch User Guide</i>.
   /// <note>
   /// This parameter isn't applicable to jobs that are running on Fargate
   /// resources, and shouldn't be specified.
@@ -2351,7 +2458,7 @@ class ComputeResource {
   /// grouping of instances within a single Availability Zone with high network
   /// flow potential. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups.html">Placement
-  /// Groups</a> in the <i>Amazon EC2 User Guide for Linux Instances</i>.
+  /// groups</a> in the <i>Amazon EC2 User Guide for Linux Instances</i>.
   /// <note>
   /// This parameter isn't applicable to jobs that are running on Fargate
   /// resources, and shouldn't be specified.
@@ -2373,7 +2480,7 @@ class ComputeResource {
   /// allocation strategy set to <code>BEST_FIT</code> or if the allocation
   /// strategy isn't specified. For more information, see <a
   /// href="https://docs.aws.amazon.com/batch/latest/userguide/spot_fleet_IAM_role.html">Amazon
-  /// EC2 Spot Fleet Role</a> in the <i>Batch User Guide</i>.
+  /// EC2 spot fleet role</a> in the <i>Batch User Guide</i>.
   /// <note>
   /// This parameter isn't applicable to jobs that are running on Fargate
   /// resources, and shouldn't be specified.
@@ -2384,7 +2491,7 @@ class ComputeResource {
   /// doesn't have the required permissions to tag Spot Instances. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/batch/latest/userguide/troubleshooting.html#spot-instance-no-tag">Spot
-  /// Instances not tagged on creation</a> in the <i>Batch User Guide</i>.
+  /// instances not tagged on creation</a> in the <i>Batch User Guide</i>.
   /// </important>
   final String? spotIamFleetRole;
 
@@ -2392,11 +2499,12 @@ class ComputeResource {
   /// compute environment. For Batch, these take the form of "String1": "String2",
   /// where String1 is the tag key and String2 is the tag value−for example,
   /// <code>{ "Name": "Batch Instance - C4OnDemand" }</code>. This is helpful for
-  /// recognizing your Batch instances in the Amazon EC2 console. These tags can't
-  /// be updated or removed after the compute environment is created. Any changes
-  /// to these tags require that you create a new compute environment and remove
-  /// the old compute environment. These tags aren't seen when using the Batch
-  /// <code>ListTagsForResource</code> API operation.
+  /// recognizing your Batch instances in the Amazon EC2 console. Updating these
+  /// tags requires an infrastructure update to the compute environment. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html">Updating
+  /// compute environments</a> in the <i>Batch User Guide</i>. These tags aren't
+  /// seen when using the Batch <code>ListTagsForResource</code> API operation.
   /// <note>
   /// This parameter isn't applicable to jobs that are running on Fargate
   /// resources, and shouldn't be specified.
@@ -2505,15 +2613,203 @@ class ComputeResource {
 
 /// An object representing the attributes of a compute environment that can be
 /// updated. For more information, see <a
-/// href="https://docs.aws.amazon.com/batch/latest/userguide/compute_environments.html">Compute
-/// Environments</a> in the <i>Batch User Guide</i>.
+/// href="https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html">Updating
+/// compute environments</a> in the <i>Batch User Guide</i>.
 class ComputeResourceUpdate {
-  /// The desired number of Amazon EC2 vCPUS in the compute environment.
+  /// The allocation strategy to use for the compute resource if not enough
+  /// instances of the best fitting instance type can be allocated. This might be
+  /// because of availability of the instance type in the Region or <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-resource-limits.html">Amazon
+  /// EC2 service limits</a>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/allocation-strategies.html">Allocation
+  /// strategies</a> in the <i>Batch User Guide</i>.
+  ///
+  /// When updating a compute environment, changing the allocation strategy
+  /// requires an infrastructure update of the compute environment. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html">Updating
+  /// compute environments</a> in the <i>Batch User Guide</i>.
+  /// <code>BEST_FIT</code> isn't supported when updating a compute environment.
+  /// <note>
+  /// This parameter isn't applicable to jobs that are running on Fargate
+  /// resources, and shouldn't be specified.
+  /// </note> <dl> <dt>BEST_FIT_PROGRESSIVE</dt> <dd>
+  /// Batch will select additional instance types that are large enough to meet
+  /// the requirements of the jobs in the queue, with a preference for instance
+  /// types with a lower cost per unit vCPU. If additional instances of the
+  /// previously selected instance types aren't available, Batch will select new
+  /// instance types.
+  /// </dd> <dt>SPOT_CAPACITY_OPTIMIZED</dt> <dd>
+  /// Batch will select one or more instance types that are large enough to meet
+  /// the requirements of the jobs in the queue, with a preference for instance
+  /// types that are less likely to be interrupted. This allocation strategy is
+  /// only available for Spot Instance compute resources.
+  /// </dd> </dl>
+  /// With both <code>BEST_FIT_PROGRESSIVE</code> and
+  /// <code>SPOT_CAPACITY_OPTIMIZED</code> strategies, Batch might need to go
+  /// above <code>maxvCpus</code> to meet your capacity requirements. In this
+  /// event, Batch never exceeds <code>maxvCpus</code> by more than a single
+  /// instance.
+  final CRUpdateAllocationStrategy? allocationStrategy;
+
+  /// The maximum percentage that a Spot Instance price can be when compared with
+  /// the On-Demand price for that instance type before instances are launched.
+  /// For example, if your maximum percentage is 20%, then the Spot price must be
+  /// less than 20% of the current On-Demand price for that Amazon EC2 instance.
+  /// You always pay the lowest (market) price and never more than your maximum
+  /// percentage.
+  ///
+  /// When updating a compute environment, changing the bid percentage requires an
+  /// infrastructure update of the compute environment. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html">Updating
+  /// compute environments</a> in the <i>Batch User Guide</i>.
+  /// <note>
+  /// This parameter isn't applicable to jobs that are running on Fargate
+  /// resources, and shouldn't be specified.
+  /// </note>
+  final int? bidPercentage;
+
+  /// The desired number of Amazon EC2 vCPUS in the compute environment. Batch
+  /// modifies this value between the minimum and maximum values based on job
+  /// queue demand.
   /// <note>
   /// This parameter isn't applicable to jobs that are running on Fargate
   /// resources, and shouldn't be specified.
   /// </note>
   final int? desiredvCpus;
+
+  /// Provides information used to select Amazon Machine Images (AMIs) for EC2
+  /// instances in the compute environment. If <code>Ec2Configuration</code> isn't
+  /// specified, the default is <code>ECS_AL2</code>.
+  ///
+  /// When updating a compute environment, changing this setting requires an
+  /// infrastructure update of the compute environment. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html">Updating
+  /// compute environments</a> in the <i>Batch User Guide</i>. To remove the EC2
+  /// configuration and any custom AMI ID specified in
+  /// <code>imageIdOverride</code>, set this value to an empty string.
+  ///
+  /// One or two values can be provided.
+  /// <note>
+  /// This parameter isn't applicable to jobs that are running on Fargate
+  /// resources, and shouldn't be specified.
+  /// </note>
+  final List<Ec2Configuration>? ec2Configuration;
+
+  /// The Amazon EC2 key pair that's used for instances launched in the compute
+  /// environment. You can use this key pair to log in to your instances with SSH.
+  /// To remove the Amazon EC2 key pair, set this value to an empty string.
+  ///
+  /// When updating a compute environment, changing the EC2 key pair requires an
+  /// infrastructure update of the compute environment. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html">Updating
+  /// compute environments</a> in the <i>Batch User Guide</i>.
+  /// <note>
+  /// This parameter isn't applicable to jobs that are running on Fargate
+  /// resources, and shouldn't be specified.
+  /// </note>
+  final String? ec2KeyPair;
+
+  /// The Amazon Machine Image (AMI) ID used for instances launched in the compute
+  /// environment. This parameter is overridden by the
+  /// <code>imageIdOverride</code> member of the <code>Ec2Configuration</code>
+  /// structure. To remove the custom AMI ID and use the default AMI ID, set this
+  /// value to an empty string.
+  ///
+  /// When updating a compute environment, changing the AMI ID requires an
+  /// infrastructure update of the compute environment. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html">Updating
+  /// compute environments</a> in the <i>Batch User Guide</i>.
+  /// <note>
+  /// This parameter isn't applicable to jobs that are running on Fargate
+  /// resources, and shouldn't be specified.
+  /// </note> <note>
+  /// The AMI that you choose for a compute environment must match the
+  /// architecture of the instance types that you intend to use for that compute
+  /// environment. For example, if your compute environment uses A1 instance
+  /// types, the compute resource AMI that you choose must support ARM instances.
+  /// Amazon ECS vends both x86 and ARM versions of the Amazon ECS-optimized
+  /// Amazon Linux 2 AMI. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#ecs-optimized-ami-linux-variants.html">Amazon
+  /// ECS-optimized Amazon Linux 2 AMI</a> in the <i>Amazon Elastic Container
+  /// Service Developer Guide</i>.
+  /// </note>
+  final String? imageId;
+
+  /// The Amazon ECS instance profile applied to Amazon EC2 instances in a compute
+  /// environment. You can specify the short name or full Amazon Resource Name
+  /// (ARN) of an instance profile. For example, <code> <i>ecsInstanceRole</i>
+  /// </code> or
+  /// <code>arn:aws:iam::<i>&lt;aws_account_id&gt;</i>:instance-profile/<i>ecsInstanceRole</i>
+  /// </code>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/instance_IAM_role.html">Amazon
+  /// ECS instance role</a> in the <i>Batch User Guide</i>.
+  ///
+  /// When updating a compute environment, changing this setting requires an
+  /// infrastructure update of the compute environment. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html">Updating
+  /// compute environments</a> in the <i>Batch User Guide</i>.
+  /// <note>
+  /// This parameter isn't applicable to jobs that are running on Fargate
+  /// resources, and shouldn't be specified.
+  /// </note>
+  final String? instanceRole;
+
+  /// The instances types that can be launched. You can specify instance families
+  /// to launch any instance type within those families (for example,
+  /// <code>c5</code> or <code>p3</code>), or you can specify specific sizes
+  /// within a family (such as <code>c5.8xlarge</code>). You can also choose
+  /// <code>optimal</code> to select instance types (from the C4, M4, and R4
+  /// instance families) that match the demand of your job queues.
+  ///
+  /// When updating a compute environment, changing this setting requires an
+  /// infrastructure update of the compute environment. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html">Updating
+  /// compute environments</a> in the <i>Batch User Guide</i>.
+  /// <note>
+  /// This parameter isn't applicable to jobs that are running on Fargate
+  /// resources, and shouldn't be specified.
+  /// </note> <note>
+  /// When you create a compute environment, the instance types that you select
+  /// for the compute environment must share the same architecture. For example,
+  /// you can't mix x86 and ARM instances in the same compute environment.
+  /// </note> <note>
+  /// Currently, <code>optimal</code> uses instance types from the C4, M4, and R4
+  /// instance families. In Regions that don't have instance types from those
+  /// instance families, instance types from the C5, M5. and R5 instance families
+  /// are used.
+  /// </note>
+  final List<String>? instanceTypes;
+
+  /// The updated launch template to use for your compute resources. You must
+  /// specify either the launch template ID or launch template name in the
+  /// request, but not both. For more information, see <a
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/launch-templates.html">Launch
+  /// template support</a> in the <i>Batch User Guide</i>. To remove the custom
+  /// launch template and use the default launch template, set
+  /// <code>launchTemplateId</code> or <code>launchTemplateName</code> member of
+  /// the launch template specification to an empty string. Removing the launch
+  /// template from a compute environment will not remove the AMI specified in the
+  /// launch template. In order to update the AMI specified in a launch template,
+  /// the <code>updateToLatestImageVersion</code> parameter must be set to
+  /// <code>true</code>.
+  ///
+  /// When updating a compute environment, changing the launch template requires
+  /// an infrastructure update of the compute environment. For more information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html">Updating
+  /// compute environments</a> in the <i>Batch User Guide</i>.
+  /// <note>
+  /// This parameter isn't applicable to jobs that are running on Fargate
+  /// resources, and shouldn't be specified.
+  /// </note>
+  final LaunchTemplateSpecification? launchTemplate;
 
   /// The maximum number of Amazon EC2 vCPUs that an environment can reach.
   /// <note>
@@ -2526,41 +2822,164 @@ class ComputeResourceUpdate {
   /// </note>
   final int? maxvCpus;
 
-  /// The minimum number of Amazon EC2 vCPUs that an environment should maintain.
+  /// The minimum number of Amazon EC2 vCPUs that an environment should maintain
+  /// (even if the compute environment is <code>DISABLED</code>).
   /// <note>
   /// This parameter isn't applicable to jobs that are running on Fargate
   /// resources, and shouldn't be specified.
   /// </note>
   final int? minvCpus;
 
+  /// The Amazon EC2 placement group to associate with your compute resources. If
+  /// you intend to submit multi-node parallel jobs to your compute environment,
+  /// you should consider creating a cluster placement group and associate it with
+  /// your compute resources. This keeps your multi-node parallel job on a logical
+  /// grouping of instances within a single Availability Zone with high network
+  /// flow potential. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups.html">Placement
+  /// groups</a> in the <i>Amazon EC2 User Guide for Linux Instances</i>.
+  ///
+  /// When updating a compute environment, changing the placement group requires
+  /// an infrastructure update of the compute environment. For more information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html">Updating
+  /// compute environments</a> in the <i>Batch User Guide</i>.
+  /// <note>
+  /// This parameter isn't applicable to jobs that are running on Fargate
+  /// resources, and shouldn't be specified.
+  /// </note>
+  final String? placementGroup;
+
   /// The Amazon EC2 security groups associated with instances launched in the
   /// compute environment. This parameter is required for Fargate compute
-  /// resources, where it can contain up to 5 security groups. This can't be
-  /// specified for EC2 compute resources. Providing an empty list is handled as
-  /// if this parameter wasn't specified and no change is made.
+  /// resources, where it can contain up to 5 security groups. For Fargate compute
+  /// resources, providing an empty list is handled as if this parameter wasn't
+  /// specified and no change is made. For EC2 compute resources, providing an
+  /// empty list removes the security groups from the compute resource.
+  ///
+  /// When updating a compute environment, changing the EC2 security groups
+  /// requires an infrastructure update of the compute environment. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html">Updating
+  /// compute environments</a> in the <i>Batch User Guide</i>.
   final List<String>? securityGroupIds;
 
   /// The VPC subnets where the compute resources are launched. Fargate compute
-  /// resources can contain up to 16 subnets. Providing an empty list will be
-  /// handled as if this parameter wasn't specified and no change is made. This
-  /// can't be specified for EC2 compute resources. For more information, see <a
+  /// resources can contain up to 16 subnets. For Fargate compute resources,
+  /// providing an empty list will be handled as if this parameter wasn't
+  /// specified and no change is made. For EC2 compute resources, providing an
+  /// empty list removes the VPC subnets from the compute resource. For more
+  /// information, see <a
   /// href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html">VPCs
-  /// and Subnets</a> in the <i>Amazon VPC User Guide</i>.
+  /// and subnets</a> in the <i>Amazon VPC User Guide</i>.
+  ///
+  /// When updating a compute environment, changing the VPC subnets requires an
+  /// infrastructure update of the compute environment. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html">Updating
+  /// compute environments</a> in the <i>Batch User Guide</i>.
   final List<String>? subnets;
 
+  /// Key-value pair tags to be applied to EC2 resources that are launched in the
+  /// compute environment. For Batch, these take the form of "String1": "String2",
+  /// where String1 is the tag key and String2 is the tag value−for example,
+  /// <code>{ "Name": "Batch Instance - C4OnDemand" }</code>. This is helpful for
+  /// recognizing your Batch instances in the Amazon EC2 console. These tags
+  /// aren't seen when using the Batch <code>ListTagsForResource</code> API
+  /// operation.
+  ///
+  /// When updating a compute environment, changing this setting requires an
+  /// infrastructure update of the compute environment. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html">Updating
+  /// compute environments</a> in the <i>Batch User Guide</i>.
+  /// <note>
+  /// This parameter isn't applicable to jobs that are running on Fargate
+  /// resources, and shouldn't be specified.
+  /// </note>
+  final Map<String, String>? tags;
+
+  /// The type of compute environment: <code>EC2</code>, <code>SPOT</code>,
+  /// <code>FARGATE</code>, or <code>FARGATE_SPOT</code>. For more information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/compute_environments.html">Compute
+  /// environments</a> in the <i>Batch User Guide</i>.
+  ///
+  /// If you choose <code>SPOT</code>, you must also specify an Amazon EC2 Spot
+  /// Fleet role with the <code>spotIamFleetRole</code> parameter. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/spot_fleet_IAM_role.html">Amazon
+  /// EC2 spot fleet role</a> in the <i>Batch User Guide</i>.
+  ///
+  /// When updating a compute environment, changing the type of a compute
+  /// environment requires an infrastructure update of the compute environment.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html">Updating
+  /// compute environments</a> in the <i>Batch User Guide</i>.
+  final CRType? type;
+
+  /// Specifies whether the AMI ID is updated to the latest one that's supported
+  /// by Batch when the compute environment has an infrastructure update. The
+  /// default value is <code>false</code>.
+  /// <note>
+  /// If an AMI ID is specified in the <code>imageId</code> or
+  /// <code>imageIdOverride</code> parameters or by the launch template specified
+  /// in the <code>launchTemplate</code> parameter, this parameter is ignored. For
+  /// more information on updating AMI IDs during an infrastructure update, see <a
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html#updating-compute-environments-ami">Updating
+  /// the AMI ID</a> in the <i>Batch User Guide</i>.
+  /// </note>
+  /// When updating a compute environment, changing this setting requires an
+  /// infrastructure update of the compute environment. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html">Updating
+  /// compute environments</a> in the <i>Batch User Guide</i>.
+  final bool? updateToLatestImageVersion;
+
   ComputeResourceUpdate({
+    this.allocationStrategy,
+    this.bidPercentage,
     this.desiredvCpus,
+    this.ec2Configuration,
+    this.ec2KeyPair,
+    this.imageId,
+    this.instanceRole,
+    this.instanceTypes,
+    this.launchTemplate,
     this.maxvCpus,
     this.minvCpus,
+    this.placementGroup,
     this.securityGroupIds,
     this.subnets,
+    this.tags,
+    this.type,
+    this.updateToLatestImageVersion,
   });
 
   factory ComputeResourceUpdate.fromJson(Map<String, dynamic> json) {
     return ComputeResourceUpdate(
+      allocationStrategy: (json['allocationStrategy'] as String?)
+          ?.toCRUpdateAllocationStrategy(),
+      bidPercentage: json['bidPercentage'] as int?,
       desiredvCpus: json['desiredvCpus'] as int?,
+      ec2Configuration: (json['ec2Configuration'] as List?)
+          ?.whereNotNull()
+          .map((e) => Ec2Configuration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      ec2KeyPair: json['ec2KeyPair'] as String?,
+      imageId: json['imageId'] as String?,
+      instanceRole: json['instanceRole'] as String?,
+      instanceTypes: (json['instanceTypes'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      launchTemplate: json['launchTemplate'] != null
+          ? LaunchTemplateSpecification.fromJson(
+              json['launchTemplate'] as Map<String, dynamic>)
+          : null,
       maxvCpus: json['maxvCpus'] as int?,
       minvCpus: json['minvCpus'] as int?,
+      placementGroup: json['placementGroup'] as String?,
       securityGroupIds: (json['securityGroupIds'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -2569,21 +2988,51 @@ class ComputeResourceUpdate {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      type: (json['type'] as String?)?.toCRType(),
+      updateToLatestImageVersion: json['updateToLatestImageVersion'] as bool?,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final allocationStrategy = this.allocationStrategy;
+    final bidPercentage = this.bidPercentage;
     final desiredvCpus = this.desiredvCpus;
+    final ec2Configuration = this.ec2Configuration;
+    final ec2KeyPair = this.ec2KeyPair;
+    final imageId = this.imageId;
+    final instanceRole = this.instanceRole;
+    final instanceTypes = this.instanceTypes;
+    final launchTemplate = this.launchTemplate;
     final maxvCpus = this.maxvCpus;
     final minvCpus = this.minvCpus;
+    final placementGroup = this.placementGroup;
     final securityGroupIds = this.securityGroupIds;
     final subnets = this.subnets;
+    final tags = this.tags;
+    final type = this.type;
+    final updateToLatestImageVersion = this.updateToLatestImageVersion;
     return {
+      if (allocationStrategy != null)
+        'allocationStrategy': allocationStrategy.toValue(),
+      if (bidPercentage != null) 'bidPercentage': bidPercentage,
       if (desiredvCpus != null) 'desiredvCpus': desiredvCpus,
+      if (ec2Configuration != null) 'ec2Configuration': ec2Configuration,
+      if (ec2KeyPair != null) 'ec2KeyPair': ec2KeyPair,
+      if (imageId != null) 'imageId': imageId,
+      if (instanceRole != null) 'instanceRole': instanceRole,
+      if (instanceTypes != null) 'instanceTypes': instanceTypes,
+      if (launchTemplate != null) 'launchTemplate': launchTemplate,
       if (maxvCpus != null) 'maxvCpus': maxvCpus,
       if (minvCpus != null) 'minvCpus': minvCpus,
+      if (placementGroup != null) 'placementGroup': placementGroup,
       if (securityGroupIds != null) 'securityGroupIds': securityGroupIds,
       if (subnets != null) 'subnets': subnets,
+      if (tags != null) 'tags': tags,
+      if (type != null) 'type': type.toValue(),
+      if (updateToLatestImageVersion != null)
+        'updateToLatestImageVersion': updateToLatestImageVersion,
     };
   }
 }
@@ -2671,7 +3120,7 @@ class ContainerDetail {
   /// containers placed on that instance can use these log configuration options.
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-config.html">Amazon
-  /// ECS Container Agent Configuration</a> in the <i>Amazon Elastic Container
+  /// ECS container agent configuration</a> in the <i>Amazon Elastic Container
   /// Service Developer Guide</i>.
   /// </note>
   final LogConfiguration? logConfiguration;
@@ -2682,10 +3131,10 @@ class ContainerDetail {
   /// status.
   final String? logStreamName;
 
-  /// For jobs run on EC2 resources that didn't specify memory requirements using
-  /// <code>resourceRequirements</code>, the number of MiB of memory reserved for
-  /// the job. For other jobs, including all run on Fargate resources, see
-  /// <code>resourceRequirements</code>.
+  /// For jobs running on EC2 resources that didn't specify memory requirements
+  /// using <code>resourceRequirements</code>, the number of MiB of memory
+  /// reserved for the job. For other jobs, including all run on Fargate
+  /// resources, see <code>resourceRequirements</code>.
   final int? memory;
 
   /// The mount points for data volumes in your container.
@@ -2968,7 +3417,7 @@ class ContainerOverrides {
 
   /// This parameter is deprecated, use <code>resourceRequirements</code> to
   /// override the memory requirements specified in the job definition. It's not
-  /// supported for jobs that run on Fargate resources. For jobs run on EC2
+  /// supported for jobs running on Fargate resources. For jobs running on EC2
   /// resources, it overrides the <code>memory</code> parameter set in the job
   /// definition, but doesn't override any memory requirement specified in the
   /// <code>resourceRequirements</code> structure in the job definition. To
@@ -2990,9 +3439,9 @@ class ContainerOverrides {
 
   /// This parameter is deprecated, use <code>resourceRequirements</code> to
   /// override the <code>vcpus</code> parameter that's set in the job definition.
-  /// It's not supported for jobs that run on Fargate resources. For jobs run on
-  /// EC2 resources, it overrides the <code>vcpus</code> parameter set in the job
-  /// definition, but doesn't override any vCPU requirement specified in the
+  /// It's not supported for jobs running on Fargate resources. For jobs running
+  /// on EC2 resources, it overrides the <code>vcpus</code> parameter set in the
+  /// job definition, but doesn't override any vCPU requirement specified in the
   /// <code>resourceRequirements</code> structure in the job definition. To
   /// override vCPU requirements that are specified in the
   /// <code>resourceRequirements</code> structure in the job definition,
@@ -3114,6 +3563,13 @@ class ContainerProperties {
   /// </note>
   /// <ul>
   /// <li>
+  /// Images in Amazon ECR Public repositories use the full
+  /// <code>registry/repository[:tag]</code> or
+  /// <code>registry/repository[@digest]</code> naming conventions. For example,
+  /// <code>public.ecr.aws/<i>registry_alias</i>/<i>my-web-app</i>:<i>latest</i>
+  /// </code>.
+  /// </li>
+  /// <li>
   /// Images in Amazon ECR repositories use the full registry and repository URI
   /// (for example,
   /// <code>012345678910.dkr.ecr.&lt;region-name&gt;.amazonaws.com/&lt;repository-name&gt;</code>).
@@ -3144,7 +3600,7 @@ class ContainerProperties {
   /// The Amazon Resource Name (ARN) of the IAM role that the container can assume
   /// for Amazon Web Services permissions. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-iam-roles.html">IAM
-  /// Roles for Tasks</a> in the <i>Amazon Elastic Container Service Developer
+  /// roles for tasks</a> in the <i>Amazon Elastic Container Service Developer
   /// Guide</i>.
   final String? jobRoleArn;
 
@@ -3184,14 +3640,14 @@ class ContainerProperties {
   /// containers placed on that instance can use these log configuration options.
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-config.html">Amazon
-  /// ECS Container Agent Configuration</a> in the <i>Amazon Elastic Container
+  /// ECS container agent configuration</a> in the <i>Amazon Elastic Container
   /// Service Developer Guide</i>.
   /// </note>
   final LogConfiguration? logConfiguration;
 
   /// This parameter is deprecated, use <code>resourceRequirements</code> to
   /// specify the memory requirements for the job definition. It's not supported
-  /// for jobs that run on Fargate resources. For jobs run on EC2 resources, it
+  /// for jobs running on Fargate resources. For jobs running on EC2 resources, it
   /// specifies the memory hard limit (in MiB) for a container. If your container
   /// attempts to exceed the specified number, it's terminated. You must specify
   /// at least 4 MiB of memory for a job using this parameter. The memory hard
@@ -3270,7 +3726,7 @@ class ContainerProperties {
 
   /// This parameter is deprecated, use <code>resourceRequirements</code> to
   /// specify the vCPU requirements for the job definition. It's not supported for
-  /// jobs that run on Fargate resources. For jobs run on EC2 resources, it
+  /// jobs running on Fargate resources. For jobs running on EC2 resources, it
   /// specifies the number of vCPUs reserved for the job.
   ///
   /// Each vCPU is equivalent to 1,024 CPU shares. This parameter maps to
@@ -3845,7 +4301,7 @@ class EFSAuthorizationConfig {
   /// must be enabled in the <code>EFSVolumeConfiguration</code>. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/efs/latest/ug/efs-access-points.html">Working
-  /// with Amazon EFS Access Points</a> in the <i>Amazon Elastic File System User
+  /// with Amazon EFS access points</a> in the <i>Amazon Elastic File System User
   /// Guide</i>.
   final String? accessPointId;
 
@@ -3855,7 +4311,7 @@ class EFSAuthorizationConfig {
   /// parameter is omitted, the default value of <code>DISABLED</code> is used.
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/batch/latest/userguide/efs-volumes.html#efs-volume-accesspoints">Using
-  /// Amazon EFS Access Points</a> in the <i>Batch User Guide</i>. EFS IAM
+  /// Amazon EFS access points</a> in the <i>Batch User Guide</i>. EFS IAM
   /// authorization requires that <code>TransitEncryption</code> be
   /// <code>ENABLED</code> and that a <code>JobRoleArn</code> is specified.
   final EFSAuthorizationConfigIAM? iam;
@@ -3974,7 +4430,7 @@ class EFSVolumeConfiguration {
   /// uses the port selection strategy that the Amazon EFS mount helper uses. The
   /// value must be between 0 and 65,535. For more information, see <a
   /// href="https://docs.aws.amazon.com/efs/latest/ug/efs-mount-helper.html">EFS
-  /// Mount Helper</a> in the <i>Amazon Elastic File System User Guide</i>.
+  /// mount helper</a> in the <i>Amazon Elastic File System User Guide</i>.
   final int? transitEncryptionPort;
 
   EFSVolumeConfiguration({
@@ -4030,7 +4486,11 @@ class Ec2Configuration {
   /// The image type to match with the instance type to select an AMI. If the
   /// <code>imageIdOverride</code> parameter isn't specified, then a recent <a
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#al2ami">Amazon
-  /// ECS-optimized Amazon Linux 2 AMI</a> (<code>ECS_AL2</code>) is used.
+  /// ECS-optimized Amazon Linux 2 AMI</a> (<code>ECS_AL2</code>) is used. If a
+  /// new image type is specified in an update, but neither an
+  /// <code>imageId</code> nor a <code>imageIdOverride</code> parameter is
+  /// specified, then the latest Amazon ECS optimized AMI for that image type
+  /// that's supported by Batch is used.
   /// <dl> <dt>ECS_AL2</dt> <dd>
   /// <a
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#al2ami">Amazon
@@ -4053,6 +4513,17 @@ class Ec2Configuration {
   /// The AMI ID used for instances launched in the compute environment that match
   /// the image type. This setting overrides the <code>imageId</code> set in the
   /// <code>computeResource</code> object.
+  /// <note>
+  /// The AMI that you choose for a compute environment must match the
+  /// architecture of the instance types that you intend to use for that compute
+  /// environment. For example, if your compute environment uses A1 instance
+  /// types, the compute resource AMI that you choose must support ARM instances.
+  /// Amazon ECS vends both x86 and ARM versions of the Amazon ECS-optimized
+  /// Amazon Linux 2 AMI. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#ecs-optimized-ami-linux-variants.html">Amazon
+  /// ECS-optimized Amazon Linux 2 AMI</a> in the <i>Amazon Elastic Container
+  /// Service Developer Guide</i>.
+  /// </note>
   final String? imageIdOverride;
 
   Ec2Configuration({
@@ -4383,7 +4854,7 @@ class JobDefinition {
   /// parameter defaults from the job definition. For more information about
   /// specifying parameters, see <a
   /// href="https://docs.aws.amazon.com/batch/latest/userguide/job_definition_parameters.html">Job
-  /// Definition Parameters</a> in the <i>Batch User Guide</i>.
+  /// definition parameters</a> in the <i>Batch User Guide</i>.
   final Map<String, String>? parameters;
 
   /// The platform capabilities required by the job definition. If no value is
@@ -4568,7 +5039,8 @@ class JobDependency {
 
 /// An object representing an Batch job.
 class JobDetail {
-  /// The job definition that's used by this job.
+  /// The Amazon Resource Name (ARN) of the job definition that's used by this
+  /// job.
   final String jobDefinition;
 
   /// The ID for the job.
@@ -4591,7 +5063,7 @@ class JobDetail {
   /// <note>
   /// If your jobs don't progress to <code>STARTING</code>, see <a
   /// href="https://docs.aws.amazon.com/batch/latest/userguide/troubleshooting.html#job_stuck_in_runnable">Jobs
-  /// Stuck in RUNNABLE Status</a> in the troubleshooting section of the <i>Batch
+  /// stuck in RUNNABLE status</a> in the troubleshooting section of the <i>Batch
   /// User Guide</i>.
   /// </note>
   final JobStatus status;
@@ -5207,12 +5679,19 @@ class LaunchTemplateSpecification {
   /// template is used. If the value is <code>$Default</code>, the default version
   /// of the launch template is used.
   /// <important>
-  /// After the compute environment is created, the launch template version that's
-  /// used isn't changed, even if the <code>$Default</code> or
-  /// <code>$Latest</code> version for the launch template is updated. To use a
-  /// new launch template version, create a new compute environment, add the new
-  /// compute environment to the existing job queue, remove the old compute
-  /// environment from the job queue, and delete the old compute environment.
+  /// If the AMI ID that's used in a compute environment is from the launch
+  /// template, the AMI isn't changed when the compute environment is updated.
+  /// It's only changed if the <code>updateToLatestImageVersion</code> parameter
+  /// for the compute environment is set to <code>true</code>. During an
+  /// infrastructure update, if either <code>$Latest</code> or
+  /// <code>$Default</code> is specified, Batch re-evaluates the launch template
+  /// version, and it might use a different version of the launch template. This
+  /// is the case even if the launch template isn't specified in the update. When
+  /// updating a compute environment, changing the launch template requires an
+  /// infrastructure update of the compute environment. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html">Updating
+  /// compute environments</a> in the <i>Batch User Guide</i>.
   /// </important>
   /// Default: <code>$Default</code>.
   final String? version;
@@ -5321,7 +5800,7 @@ class LinuxParameters {
   /// enable swap on the instance to use this feature. For more information, see
   /// <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-store-swap-volumes.html">Instance
-  /// Store Swap Volumes</a> in the <i>Amazon EC2 User Guide for Linux
+  /// store swap volumes</a> in the <i>Amazon EC2 User Guide for Linux
   /// Instances</i> or <a
   /// href="http://aws.amazon.com/premiumsupport/knowledge-center/ec2-memory-swap-file/">How
   /// do I allocate memory to work as swap space in an Amazon EC2 instance by
@@ -5508,7 +5987,7 @@ class LogConfiguration {
   /// Specifies the Amazon CloudWatch Logs logging driver. For more information,
   /// see <a
   /// href="https://docs.aws.amazon.com/batch/latest/userguide/using_awslogs.html">Using
-  /// the awslogs Log Driver</a> in the <i>Batch User Guide</i> and <a
+  /// the awslogs log driver</a> in the <i>Batch User Guide</i> and <a
   /// href="https://docs.docker.com/config/containers/logging/awslogs/">Amazon
   /// CloudWatch Logs logging driver</a> in the Docker documentation.
   /// </dd> <dt>fluentd</dt> <dd>
@@ -5565,7 +6044,7 @@ class LogConfiguration {
 
   /// The secrets to pass to the log configuration. For more information, see <a
   /// href="https://docs.aws.amazon.com/batch/latest/userguide/specifying-sensitive-data.html">Specifying
-  /// Sensitive Data</a> in the <i>Batch User Guide</i>.
+  /// sensitive data</a> in the <i>Batch User Guide</i>.
   final List<Secret>? secretOptions;
 
   LogConfiguration({
@@ -6118,7 +6597,7 @@ class ResourceRequirement {
   /// If you're trying to maximize your resource utilization by providing your
   /// jobs as much memory as possible for a particular instance type, see <a
   /// href="https://docs.aws.amazon.com/batch/latest/userguide/memory-management.html">Memory
-  /// Management</a> in the <i>Batch User Guide</i>.
+  /// management</a> in the <i>Batch User Guide</i>.
   /// </note>
   /// For jobs that are running on Fargate resources, then <code>value</code> is
   /// the hard limit (in MiB), and must match one of the supported values and the
@@ -6316,7 +6795,7 @@ class SchedulingPolicyDetail {
   /// your resources. Each tag consists of a key and an optional value. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">Tagging
-  /// Amazon Web Services Resources</a> in <i>Amazon Web Services General
+  /// Amazon Web Services resources</a> in <i>Amazon Web Services General
   /// Reference</i>.
   final Map<String, String>? tags;
 
@@ -6708,6 +7187,44 @@ class UpdateJobQueueResponse {
     return {
       if (jobQueueArn != null) 'jobQueueArn': jobQueueArn,
       if (jobQueueName != null) 'jobQueueName': jobQueueName,
+    };
+  }
+}
+
+/// Specifies the infrastructure update policy for the compute environment. For
+/// more information about infrastructure updates, see <a
+/// href="https://docs.aws.amazon.com/batch/latest/userguide/infrastructure-updates.html">Infrastructure
+/// updates</a> in the <i>Batch User Guide</i>.
+class UpdatePolicy {
+  /// Specifies the job timeout, in minutes, when the compute environment
+  /// infrastructure is updated. The default value is 30.
+  final int? jobExecutionTimeoutMinutes;
+
+  /// Specifies whether jobs are automatically terminated when the computer
+  /// environment infrastructure is updated. The default value is
+  /// <code>false</code>.
+  final bool? terminateJobsOnUpdate;
+
+  UpdatePolicy({
+    this.jobExecutionTimeoutMinutes,
+    this.terminateJobsOnUpdate,
+  });
+
+  factory UpdatePolicy.fromJson(Map<String, dynamic> json) {
+    return UpdatePolicy(
+      jobExecutionTimeoutMinutes: json['jobExecutionTimeoutMinutes'] as int?,
+      terminateJobsOnUpdate: json['terminateJobsOnUpdate'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobExecutionTimeoutMinutes = this.jobExecutionTimeoutMinutes;
+    final terminateJobsOnUpdate = this.terminateJobsOnUpdate;
+    return {
+      if (jobExecutionTimeoutMinutes != null)
+        'jobExecutionTimeoutMinutes': jobExecutionTimeoutMinutes,
+      if (terminateJobsOnUpdate != null)
+        'terminateJobsOnUpdate': terminateJobsOnUpdate,
     };
   }
 }

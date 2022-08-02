@@ -22,7 +22,8 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// tables. You can run SQL statements, which are committed if the statement
 /// succeeds.
 ///
-/// For more information about the Amazon Redshift Data API, see <a
+/// For more information about the Amazon Redshift Data API and CLI usage
+/// examples, see <a
 /// href="https://docs.aws.amazon.com/redshift/latest/mgmt/data-api.html">Using
 /// the Amazon Redshift Data API</a> in the <i>Amazon Redshift Cluster
 /// Management Guide</i>.
@@ -53,15 +54,16 @@ class RedshiftDataApi {
   /// Secrets Manager - when connecting to a cluster, specify the Amazon
   /// Resource Name (ARN) of the secret, the database name, and the cluster
   /// identifier that matches the cluster in the secret. When connecting to a
-  /// serverless endpoint, specify the Amazon Resource Name (ARN) of the secret
+  /// serverless workgroup, specify the Amazon Resource Name (ARN) of the secret
   /// and the database name.
   /// </li>
   /// <li>
   /// Temporary credentials - when connecting to a cluster, specify the cluster
   /// identifier, the database name, and the database user name. Also,
   /// permission to call the <code>redshift:GetClusterCredentials</code>
-  /// operation is required. When connecting to a serverless endpoint, specify
-  /// the database name.
+  /// operation is required. When connecting to a serverless workgroup, specify
+  /// the workgroup name and database name. Also, permission to call the
+  /// <code>redshift-serverless:GetCredentials</code> operation is required.
   /// </li>
   /// </ul>
   ///
@@ -96,6 +98,11 @@ class RedshiftDataApi {
   /// Parameter [withEvent] :
   /// A value that indicates whether to send an event to the Amazon EventBridge
   /// event bus after the SQL statements run.
+  ///
+  /// Parameter [workgroupName] :
+  /// The serverless workgroup name. This parameter is required when connecting
+  /// to a serverless workgroup and authenticating using either Secrets Manager
+  /// or temporary credentials.
   Future<BatchExecuteStatementOutput> batchExecuteStatement({
     required String database,
     required List<String> sqls,
@@ -104,6 +111,7 @@ class RedshiftDataApi {
     String? secretArn,
     String? statementName,
     bool? withEvent,
+    String? workgroupName,
   }) async {
     ArgumentError.checkNotNull(database, 'database');
     ArgumentError.checkNotNull(sqls, 'sqls');
@@ -125,6 +133,7 @@ class RedshiftDataApi {
         if (secretArn != null) 'SecretArn': secretArn,
         if (statementName != null) 'StatementName': statementName,
         if (withEvent != null) 'WithEvent': withEvent,
+        if (workgroupName != null) 'WorkgroupName': workgroupName,
       },
     );
 
@@ -214,15 +223,16 @@ class RedshiftDataApi {
   /// Secrets Manager - when connecting to a cluster, specify the Amazon
   /// Resource Name (ARN) of the secret, the database name, and the cluster
   /// identifier that matches the cluster in the secret. When connecting to a
-  /// serverless endpoint, specify the Amazon Resource Name (ARN) of the secret
+  /// serverless workgroup, specify the Amazon Resource Name (ARN) of the secret
   /// and the database name.
   /// </li>
   /// <li>
   /// Temporary credentials - when connecting to a cluster, specify the cluster
   /// identifier, the database name, and the database user name. Also,
   /// permission to call the <code>redshift:GetClusterCredentials</code>
-  /// operation is required. When connecting to a serverless endpoint, specify
-  /// the database name.
+  /// operation is required. When connecting to a serverless workgroup, specify
+  /// the workgroup name and database name. Also, permission to call the
+  /// <code>redshift-serverless:GetCredentials</code> operation is required.
   /// </li>
   /// </ul>
   ///
@@ -273,6 +283,11 @@ class RedshiftDataApi {
   /// The table name. If no table is specified, then all tables for all matching
   /// schemas are returned. If no table and no schema is specified, then all
   /// tables for all schemas in the database are returned
+  ///
+  /// Parameter [workgroupName] :
+  /// The serverless workgroup name. This parameter is required when connecting
+  /// to a serverless workgroup and authenticating using either Secrets Manager
+  /// or temporary credentials.
   Future<DescribeTableResponse> describeTable({
     required String database,
     String? clusterIdentifier,
@@ -283,6 +298,7 @@ class RedshiftDataApi {
     String? schema,
     String? secretArn,
     String? table,
+    String? workgroupName,
   }) async {
     ArgumentError.checkNotNull(database, 'database');
     _s.validateNumRange(
@@ -311,6 +327,7 @@ class RedshiftDataApi {
         if (schema != null) 'Schema': schema,
         if (secretArn != null) 'SecretArn': secretArn,
         if (table != null) 'Table': table,
+        if (workgroupName != null) 'WorkgroupName': workgroupName,
       },
     );
 
@@ -327,15 +344,16 @@ class RedshiftDataApi {
   /// Secrets Manager - when connecting to a cluster, specify the Amazon
   /// Resource Name (ARN) of the secret, the database name, and the cluster
   /// identifier that matches the cluster in the secret. When connecting to a
-  /// serverless endpoint, specify the Amazon Resource Name (ARN) of the secret
+  /// serverless workgroup, specify the Amazon Resource Name (ARN) of the secret
   /// and the database name.
   /// </li>
   /// <li>
   /// Temporary credentials - when connecting to a cluster, specify the cluster
   /// identifier, the database name, and the database user name. Also,
   /// permission to call the <code>redshift:GetClusterCredentials</code>
-  /// operation is required. When connecting to a serverless endpoint, specify
-  /// the database name.
+  /// operation is required. When connecting to a serverless workgroup, specify
+  /// the workgroup name and database name. Also, permission to call the
+  /// <code>redshift-serverless:GetCredentials</code> operation is required.
   /// </li>
   /// </ul>
   ///
@@ -373,6 +391,11 @@ class RedshiftDataApi {
   /// Parameter [withEvent] :
   /// A value that indicates whether to send an event to the Amazon EventBridge
   /// event bus after the SQL statement runs.
+  ///
+  /// Parameter [workgroupName] :
+  /// The serverless workgroup name. This parameter is required when connecting
+  /// to a serverless workgroup and authenticating using either Secrets Manager
+  /// or temporary credentials.
   Future<ExecuteStatementOutput> executeStatement({
     required String database,
     required String sql,
@@ -382,6 +405,7 @@ class RedshiftDataApi {
     String? secretArn,
     String? statementName,
     bool? withEvent,
+    String? workgroupName,
   }) async {
     ArgumentError.checkNotNull(database, 'database');
     ArgumentError.checkNotNull(sql, 'sql');
@@ -404,6 +428,7 @@ class RedshiftDataApi {
         if (secretArn != null) 'SecretArn': secretArn,
         if (statementName != null) 'StatementName': statementName,
         if (withEvent != null) 'WithEvent': withEvent,
+        if (workgroupName != null) 'WorkgroupName': workgroupName,
       },
     );
 
@@ -467,15 +492,16 @@ class RedshiftDataApi {
   /// Secrets Manager - when connecting to a cluster, specify the Amazon
   /// Resource Name (ARN) of the secret, the database name, and the cluster
   /// identifier that matches the cluster in the secret. When connecting to a
-  /// serverless endpoint, specify the Amazon Resource Name (ARN) of the secret
+  /// serverless workgroup, specify the Amazon Resource Name (ARN) of the secret
   /// and the database name.
   /// </li>
   /// <li>
   /// Temporary credentials - when connecting to a cluster, specify the cluster
   /// identifier, the database name, and the database user name. Also,
   /// permission to call the <code>redshift:GetClusterCredentials</code>
-  /// operation is required. When connecting to a serverless endpoint, specify
-  /// the database name.
+  /// operation is required. When connecting to a serverless workgroup, specify
+  /// the workgroup name and database name. Also, permission to call the
+  /// <code>redshift-serverless:GetCredentials</code> operation is required.
   /// </li>
   /// </ul>
   ///
@@ -512,6 +538,11 @@ class RedshiftDataApi {
   /// Parameter [secretArn] :
   /// The name or ARN of the secret that enables access to the database. This
   /// parameter is required when authenticating using Secrets Manager.
+  ///
+  /// Parameter [workgroupName] :
+  /// The serverless workgroup name. This parameter is required when connecting
+  /// to a serverless workgroup and authenticating using either Secrets Manager
+  /// or temporary credentials.
   Future<ListDatabasesResponse> listDatabases({
     required String database,
     String? clusterIdentifier,
@@ -519,6 +550,7 @@ class RedshiftDataApi {
     int? maxResults,
     String? nextToken,
     String? secretArn,
+    String? workgroupName,
   }) async {
     ArgumentError.checkNotNull(database, 'database');
     _s.validateNumRange(
@@ -544,6 +576,7 @@ class RedshiftDataApi {
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
         if (secretArn != null) 'SecretArn': secretArn,
+        if (workgroupName != null) 'WorkgroupName': workgroupName,
       },
     );
 
@@ -559,15 +592,16 @@ class RedshiftDataApi {
   /// Secrets Manager - when connecting to a cluster, specify the Amazon
   /// Resource Name (ARN) of the secret, the database name, and the cluster
   /// identifier that matches the cluster in the secret. When connecting to a
-  /// serverless endpoint, specify the Amazon Resource Name (ARN) of the secret
+  /// serverless workgroup, specify the Amazon Resource Name (ARN) of the secret
   /// and the database name.
   /// </li>
   /// <li>
   /// Temporary credentials - when connecting to a cluster, specify the cluster
   /// identifier, the database name, and the database user name. Also,
   /// permission to call the <code>redshift:GetClusterCredentials</code>
-  /// operation is required. When connecting to a serverless endpoint, specify
-  /// the database name.
+  /// operation is required. When connecting to a serverless workgroup, specify
+  /// the workgroup name and database name. Also, permission to call the
+  /// <code>redshift-serverless:GetCredentials</code> operation is required.
   /// </li>
   /// </ul>
   ///
@@ -615,6 +649,11 @@ class RedshiftDataApi {
   /// Parameter [secretArn] :
   /// The name or ARN of the secret that enables access to the database. This
   /// parameter is required when authenticating using Secrets Manager.
+  ///
+  /// Parameter [workgroupName] :
+  /// The serverless workgroup name. This parameter is required when connecting
+  /// to a serverless workgroup and authenticating using either Secrets Manager
+  /// or temporary credentials.
   Future<ListSchemasResponse> listSchemas({
     required String database,
     String? clusterIdentifier,
@@ -624,6 +663,7 @@ class RedshiftDataApi {
     String? nextToken,
     String? schemaPattern,
     String? secretArn,
+    String? workgroupName,
   }) async {
     ArgumentError.checkNotNull(database, 'database');
     _s.validateNumRange(
@@ -651,6 +691,7 @@ class RedshiftDataApi {
         if (nextToken != null) 'NextToken': nextToken,
         if (schemaPattern != null) 'SchemaPattern': schemaPattern,
         if (secretArn != null) 'SecretArn': secretArn,
+        if (workgroupName != null) 'WorkgroupName': workgroupName,
       },
     );
 
@@ -765,15 +806,16 @@ class RedshiftDataApi {
   /// Secrets Manager - when connecting to a cluster, specify the Amazon
   /// Resource Name (ARN) of the secret, the database name, and the cluster
   /// identifier that matches the cluster in the secret. When connecting to a
-  /// serverless endpoint, specify the Amazon Resource Name (ARN) of the secret
+  /// serverless workgroup, specify the Amazon Resource Name (ARN) of the secret
   /// and the database name.
   /// </li>
   /// <li>
   /// Temporary credentials - when connecting to a cluster, specify the cluster
   /// identifier, the database name, and the database user name. Also,
   /// permission to call the <code>redshift:GetClusterCredentials</code>
-  /// operation is required. When connecting to a serverless endpoint, specify
-  /// the database name.
+  /// operation is required. When connecting to a serverless workgroup, specify
+  /// the workgroup name and database name. Also, permission to call the
+  /// <code>redshift-serverless:GetCredentials</code> operation is required.
   /// </li>
   /// </ul>
   ///
@@ -833,6 +875,11 @@ class RedshiftDataApi {
   /// that match <code>SchemaPattern</code>are returned. If neither
   /// <code>SchemaPattern</code> or <code>TablePattern</code> are specified,
   /// then all tables are returned.
+  ///
+  /// Parameter [workgroupName] :
+  /// The serverless workgroup name. This parameter is required when connecting
+  /// to a serverless workgroup and authenticating using either Secrets Manager
+  /// or temporary credentials.
   Future<ListTablesResponse> listTables({
     required String database,
     String? clusterIdentifier,
@@ -843,6 +890,7 @@ class RedshiftDataApi {
     String? schemaPattern,
     String? secretArn,
     String? tablePattern,
+    String? workgroupName,
   }) async {
     ArgumentError.checkNotNull(database, 'database');
     _s.validateNumRange(
@@ -871,6 +919,7 @@ class RedshiftDataApi {
         if (schemaPattern != null) 'SchemaPattern': schemaPattern,
         if (secretArn != null) 'SecretArn': secretArn,
         if (tablePattern != null) 'TablePattern': tablePattern,
+        if (workgroupName != null) 'WorkgroupName': workgroupName,
       },
     );
 
@@ -879,8 +928,8 @@ class RedshiftDataApi {
 }
 
 class BatchExecuteStatementOutput {
-  /// The cluster identifier. This parameter is not returned when connecting to a
-  /// serverless endpoint.
+  /// The cluster identifier. This element is not returned when connecting to a
+  /// serverless workgroup.
   final String? clusterIdentifier;
 
   /// The date and time (UTC) the statement was created.
@@ -900,6 +949,10 @@ class BatchExecuteStatementOutput {
   /// The name or ARN of the secret that enables access to the database.
   final String? secretArn;
 
+  /// The serverless workgroup name. This element is not returned when connecting
+  /// to a provisioned cluster.
+  final String? workgroupName;
+
   BatchExecuteStatementOutput({
     this.clusterIdentifier,
     this.createdAt,
@@ -907,6 +960,7 @@ class BatchExecuteStatementOutput {
     this.dbUser,
     this.id,
     this.secretArn,
+    this.workgroupName,
   });
 
   factory BatchExecuteStatementOutput.fromJson(Map<String, dynamic> json) {
@@ -917,6 +971,7 @@ class BatchExecuteStatementOutput {
       dbUser: json['DbUser'] as String?,
       id: json['Id'] as String?,
       secretArn: json['SecretArn'] as String?,
+      workgroupName: json['WorkgroupName'] as String?,
     );
   }
 
@@ -927,6 +982,7 @@ class BatchExecuteStatementOutput {
     final dbUser = this.dbUser;
     final id = this.id;
     final secretArn = this.secretArn;
+    final workgroupName = this.workgroupName;
     return {
       if (clusterIdentifier != null) 'ClusterIdentifier': clusterIdentifier,
       if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
@@ -934,6 +990,7 @@ class BatchExecuteStatementOutput {
       if (dbUser != null) 'DbUser': dbUser,
       if (id != null) 'Id': id,
       if (secretArn != null) 'SecretArn': secretArn,
+      if (workgroupName != null) 'WorkgroupName': workgroupName,
     };
   }
 }
@@ -1160,6 +1217,9 @@ class DescribeStatementResponse {
   /// updated. An example is the time the status last changed.
   final DateTime? updatedAt;
 
+  /// The serverless workgroup name.
+  final String? workgroupName;
+
   DescribeStatementResponse({
     required this.id,
     this.clusterIdentifier,
@@ -1179,6 +1239,7 @@ class DescribeStatementResponse {
     this.status,
     this.subStatements,
     this.updatedAt,
+    this.workgroupName,
   });
 
   factory DescribeStatementResponse.fromJson(Map<String, dynamic> json) {
@@ -1207,6 +1268,7 @@ class DescribeStatementResponse {
           .map((e) => SubStatementData.fromJson(e as Map<String, dynamic>))
           .toList(),
       updatedAt: timeStampFromJson(json['UpdatedAt']),
+      workgroupName: json['WorkgroupName'] as String?,
     );
   }
 
@@ -1229,6 +1291,7 @@ class DescribeStatementResponse {
     final status = this.status;
     final subStatements = this.subStatements;
     final updatedAt = this.updatedAt;
+    final workgroupName = this.workgroupName;
     return {
       'Id': id,
       if (clusterIdentifier != null) 'ClusterIdentifier': clusterIdentifier,
@@ -1248,6 +1311,7 @@ class DescribeStatementResponse {
       if (status != null) 'Status': status.toValue(),
       if (subStatements != null) 'SubStatements': subStatements,
       if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
+      if (workgroupName != null) 'WorkgroupName': workgroupName,
     };
   }
 }
@@ -1297,8 +1361,8 @@ class DescribeTableResponse {
 }
 
 class ExecuteStatementOutput {
-  /// The cluster identifier. This parameter is not returned when connecting to a
-  /// serverless endpoint.
+  /// The cluster identifier. This element is not returned when connecting to a
+  /// serverless workgroup.
   final String? clusterIdentifier;
 
   /// The date and time (UTC) the statement was created.
@@ -1318,6 +1382,10 @@ class ExecuteStatementOutput {
   /// The name or ARN of the secret that enables access to the database.
   final String? secretArn;
 
+  /// The serverless workgroup name. This element is not returned when connecting
+  /// to a provisioned cluster.
+  final String? workgroupName;
+
   ExecuteStatementOutput({
     this.clusterIdentifier,
     this.createdAt,
@@ -1325,6 +1393,7 @@ class ExecuteStatementOutput {
     this.dbUser,
     this.id,
     this.secretArn,
+    this.workgroupName,
   });
 
   factory ExecuteStatementOutput.fromJson(Map<String, dynamic> json) {
@@ -1335,6 +1404,7 @@ class ExecuteStatementOutput {
       dbUser: json['DbUser'] as String?,
       id: json['Id'] as String?,
       secretArn: json['SecretArn'] as String?,
+      workgroupName: json['WorkgroupName'] as String?,
     );
   }
 
@@ -1345,6 +1415,7 @@ class ExecuteStatementOutput {
     final dbUser = this.dbUser;
     final id = this.id;
     final secretArn = this.secretArn;
+    final workgroupName = this.workgroupName;
     return {
       if (clusterIdentifier != null) 'ClusterIdentifier': clusterIdentifier,
       if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
@@ -1352,6 +1423,7 @@ class ExecuteStatementOutput {
       if (dbUser != null) 'DbUser': dbUser,
       if (id != null) 'Id': id,
       if (secretArn != null) 'SecretArn': secretArn,
+      if (workgroupName != null) 'WorkgroupName': workgroupName,
     };
   }
 }

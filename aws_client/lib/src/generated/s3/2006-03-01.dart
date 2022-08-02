@@ -95,13 +95,13 @@ class S3 {
   ///
   /// When using this action with Amazon S3 on Outposts, you must direct
   /// requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
-  /// the form
-  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
-  /// When using this action using S3 on Outposts through the Amazon Web
-  /// Services SDKs, you provide the Outposts bucket ARN in place of the bucket
-  /// name. For more information about S3 on Outposts ARNs, see <a
+  /// the form <code>
+  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com</code>.
+  /// When using this action with S3 on Outposts through the Amazon Web Services
+  /// SDKs, you provide the Outposts bucket ARN in place of the bucket name. For
+  /// more information about S3 on Outposts ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
-  /// S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
+  /// Amazon S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// Parameter [key] :
   /// Key of the object for which the multipart upload was initiated.
@@ -111,8 +111,8 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   Future<AbortMultipartUploadOutput> abortMultipartUpload({
     required String bucket,
     required String key,
@@ -284,13 +284,13 @@ class S3 {
   ///
   /// When using this action with Amazon S3 on Outposts, you must direct
   /// requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
-  /// the form
-  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
-  /// When using this action using S3 on Outposts through the Amazon Web
-  /// Services SDKs, you provide the Outposts bucket ARN in place of the bucket
-  /// name. For more information about S3 on Outposts ARNs, see <a
+  /// the form <code>
+  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com</code>.
+  /// When using this action with S3 on Outposts through the Amazon Web Services
+  /// SDKs, you provide the Outposts bucket ARN in place of the bucket name. For
+  /// more information about S3 on Outposts ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
-  /// S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
+  /// Amazon S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// Parameter [key] :
   /// Object key for which the multipart upload was initiated.
@@ -298,28 +298,103 @@ class S3 {
   /// Parameter [uploadId] :
   /// ID for the initiated multipart upload.
   ///
+  /// Parameter [checksumCRC32] :
+  /// This header can be used as a data integrity check to verify that the data
+  /// received is the same data that was originally sent. This header specifies
+  /// the base64-encoded, 32-bit CRC32 checksum of the object. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html">Checking
+  /// object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// Parameter [checksumCRC32C] :
+  /// This header can be used as a data integrity check to verify that the data
+  /// received is the same data that was originally sent. This header specifies
+  /// the base64-encoded, 32-bit CRC32C checksum of the object. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html">Checking
+  /// object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// Parameter [checksumSHA1] :
+  /// This header can be used as a data integrity check to verify that the data
+  /// received is the same data that was originally sent. This header specifies
+  /// the base64-encoded, 160-bit SHA-1 digest of the object. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html">Checking
+  /// object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// Parameter [checksumSHA256] :
+  /// This header can be used as a data integrity check to verify that the data
+  /// received is the same data that was originally sent. This header specifies
+  /// the base64-encoded, 256-bit SHA-256 digest of the object. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html">Checking
+  /// object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   ///
   /// Parameter [multipartUpload] :
   /// The container for the multipart upload request information.
+  ///
+  /// Parameter [sSECustomerAlgorithm] :
+  /// The server-side encryption (SSE) algorithm used to encrypt the object.
+  /// This parameter is needed only when the object was created using a checksum
+  /// algorithm. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html">Protecting
+  /// data using SSE-C keys</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// Parameter [sSECustomerKey] :
+  /// The server-side encryption (SSE) customer managed key. This parameter is
+  /// needed only when the object was created using a checksum algorithm. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html">Protecting
+  /// data using SSE-C keys</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// Parameter [sSECustomerKeyMD5] :
+  /// The MD5 server-side encryption (SSE) customer managed key. This parameter
+  /// is needed only when the object was created using a checksum algorithm. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html">Protecting
+  /// data using SSE-C keys</a> in the <i>Amazon S3 User Guide</i>.
   Future<CompleteMultipartUploadOutput> completeMultipartUpload({
     required String bucket,
     required String key,
     required String uploadId,
+    String? checksumCRC32,
+    String? checksumCRC32C,
+    String? checksumSHA1,
+    String? checksumSHA256,
     String? expectedBucketOwner,
     CompletedMultipartUpload? multipartUpload,
     RequestPayer? requestPayer,
+    String? sSECustomerAlgorithm,
+    Uint8List? sSECustomerKey,
+    String? sSECustomerKeyMD5,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(key, 'key');
     ArgumentError.checkNotNull(uploadId, 'uploadId');
     final headers = <String, String>{
+      if (checksumCRC32 != null)
+        'x-amz-checksum-crc32': checksumCRC32.toString(),
+      if (checksumCRC32C != null)
+        'x-amz-checksum-crc32c': checksumCRC32C.toString(),
+      if (checksumSHA1 != null) 'x-amz-checksum-sha1': checksumSHA1.toString(),
+      if (checksumSHA256 != null)
+        'x-amz-checksum-sha256': checksumSHA256.toString(),
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
       if (requestPayer != null) 'x-amz-request-payer': requestPayer.toValue(),
+      if (sSECustomerAlgorithm != null)
+        'x-amz-server-side-encryption-customer-algorithm':
+            sSECustomerAlgorithm.toString(),
+      if (sSECustomerKey != null)
+        'x-amz-server-side-encryption-customer-key': sSECustomerKey.toString(),
+      if (sSECustomerKeyMD5 != null)
+        'x-amz-server-side-encryption-customer-key-MD5':
+            sSECustomerKeyMD5.toString(),
     };
     final $query = <String, List<String>>{
       'uploadId': [uploadId],
@@ -336,6 +411,10 @@ class S3 {
     final $elem = await _s.xmlFromResponse($result);
     return CompleteMultipartUploadOutput(
       bucket: _s.extractXmlStringValue($elem, 'Bucket'),
+      checksumCRC32: _s.extractXmlStringValue($elem, 'ChecksumCRC32'),
+      checksumCRC32C: _s.extractXmlStringValue($elem, 'ChecksumCRC32C'),
+      checksumSHA1: _s.extractXmlStringValue($elem, 'ChecksumSHA1'),
+      checksumSHA256: _s.extractXmlStringValue($elem, 'ChecksumSHA256'),
       eTag: _s.extractXmlStringValue($elem, 'ETag'),
       key: _s.extractXmlStringValue($elem, 'Key'),
       location: _s.extractXmlStringValue($elem, 'Location'),
@@ -362,7 +441,8 @@ class S3 {
   /// You can store individual objects of up to 5 TB in Amazon S3. You create a
   /// copy of your object up to 5 GB in size in a single atomic action using
   /// this API. However, to copy an object greater than 5 GB, you must use the
-  /// multipart upload Upload Part - Copy API. For more information, see <a
+  /// multipart upload Upload Part - Copy (UploadPartCopy) API. For more
+  /// information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/CopyingObjctsUsingRESTMPUapi.html">Copy
   /// Object Using the REST Multipart Upload API</a>.
   /// </note>
@@ -420,7 +500,7 @@ class S3 {
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/list_amazons3.html">Actions,
   /// Resources, and Condition Keys for Amazon S3</a>.
   ///
-  /// <b> <code>x-amz-copy-source-if</code> Headers</b>
+  /// <b>x-amz-copy-source-if Headers</b>
   ///
   /// To only copy an object under certain conditions, such as whether the
   /// <code>Etag</code> matches or whether the object was modified before or
@@ -517,6 +597,13 @@ class S3 {
   /// Ownership, all objects written to the bucket by any account will be owned
   /// by the bucket owner.
   /// </note>
+  /// <b>Checksums</b>
+  ///
+  /// When copying an object, if it has a checksum, that checksum will be copied
+  /// to the new object by default. When you copy the object over, you may
+  /// optionally specify a different checksum algorithm to use with the
+  /// <code>x-amz-checksum-algorithm</code> header.
+  ///
   /// <b>Storage Class Options</b>
   ///
   /// You can use the <code>CopyObject</code> action to change the storage class
@@ -578,13 +665,13 @@ class S3 {
   ///
   /// When using this action with Amazon S3 on Outposts, you must direct
   /// requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
-  /// the form
-  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
-  /// When using this action using S3 on Outposts through the Amazon Web
-  /// Services SDKs, you provide the Outposts bucket ARN in place of the bucket
-  /// name. For more information about S3 on Outposts ARNs, see <a
+  /// the form <code>
+  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com</code>.
+  /// When using this action with S3 on Outposts through the Amazon Web Services
+  /// SDKs, you provide the Outposts bucket ARN in place of the bucket name. For
+  /// more information about S3 on Outposts ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
-  /// S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
+  /// Amazon S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// Parameter [copySource] :
   /// Specifies the source object for the copy operation. You specify the value
@@ -599,8 +686,8 @@ class S3 {
   /// source bucket and the key of the source object, separated by a slash (/).
   /// For example, to copy the object <code>reports/january.pdf</code> from the
   /// bucket <code>awsexamplebucket</code>, use
-  /// <code>awsexamplebucket/reports/january.pdf</code>. The value must be URL
-  /// encoded.
+  /// <code>awsexamplebucket/reports/january.pdf</code>. The value must be
+  /// URL-encoded.
   /// </li>
   /// <li>
   /// For objects accessed through access points, specify the Amazon Resource
@@ -624,7 +711,7 @@ class S3 {
   /// outpost <code>my-outpost</code> owned by account <code>123456789012</code>
   /// in Region <code>us-west-2</code>, use the URL encoding of
   /// <code>arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/object/reports/january.pdf</code>.
-  /// The value must be URL encoded.
+  /// The value must be URL-encoded.
   /// </li>
   /// </ul>
   /// To copy a specific version of an object, append
@@ -652,6 +739,12 @@ class S3 {
   ///
   /// Parameter [cacheControl] :
   /// Specifies caching behavior along the request/reply chain.
+  ///
+  /// Parameter [checksumAlgorithm] :
+  /// Indicates the algorithm you want Amazon S3 to use to create the checksum
+  /// for the object. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html">Checking
+  /// object integrity</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// Parameter [contentDisposition] :
   /// Specifies presentational information for the object.
@@ -696,13 +789,13 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected destination bucket owner. If the
-  /// destination bucket is owned by a different account, the request will fail
-  /// with an HTTP <code>403 (Access Denied)</code> error.
+  /// destination bucket is owned by a different account, the request fails with
+  /// the HTTP status code <code>403 Forbidden</code> (access denied).
   ///
   /// Parameter [expectedSourceBucketOwner] :
   /// The account ID of the expected source bucket owner. If the source bucket
-  /// is owned by a different account, the request will fail with an HTTP
-  /// <code>403 (Access Denied)</code> error.
+  /// is owned by a different account, the request fails with the HTTP status
+  /// code <code>403 Forbidden</code> (access denied).
   ///
   /// Parameter [expires] :
   /// The date and time at which the object is no longer cacheable.
@@ -735,7 +828,7 @@ class S3 {
   /// replaced with metadata provided in the request.
   ///
   /// Parameter [objectLockLegalHoldStatus] :
-  /// Specifies whether you want to apply a Legal Hold to the copied object.
+  /// Specifies whether you want to apply a legal hold to the copied object.
   ///
   /// Parameter [objectLockMode] :
   /// The Object Lock mode that you want to apply to the copied object.
@@ -807,6 +900,7 @@ class S3 {
     ObjectCannedACL? acl,
     bool? bucketKeyEnabled,
     String? cacheControl,
+    ChecksumAlgorithm? checksumAlgorithm,
     String? contentDisposition,
     String? contentEncoding,
     String? contentLanguage,
@@ -852,6 +946,8 @@ class S3 {
         'x-amz-server-side-encryption-bucket-key-enabled':
             bucketKeyEnabled.toString(),
       if (cacheControl != null) 'Cache-Control': cacheControl.toString(),
+      if (checksumAlgorithm != null)
+        'x-amz-checksum-algorithm': checksumAlgorithm.toValue(),
       if (contentDisposition != null)
         'Content-Disposition': contentDisposition.toString(),
       if (contentEncoding != null)
@@ -1315,13 +1411,13 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  /// x-amz-server-side-encryption
+  /// <code>x-amz-server-side-encryption</code>
   /// </li>
   /// <li>
-  /// x-amz-server-side-encryption-aws-kms-key-id
+  /// <code>x-amz-server-side-encryption-aws-kms-key-id</code>
   /// </li>
   /// <li>
-  /// x-amz-server-side-encryption-context
+  /// <code>x-amz-server-side-encryption-context</code>
   /// </li>
   /// </ul> <note>
   /// If you specify <code>x-amz-server-side-encryption:aws:kms</code>, but
@@ -1343,13 +1439,13 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  /// x-amz-server-side-encryption-customer-algorithm
+  /// <code>x-amz-server-side-encryption-customer-algorithm</code>
   /// </li>
   /// <li>
-  /// x-amz-server-side-encryption-customer-key
+  /// <code>x-amz-server-side-encryption-customer-key</code>
   /// </li>
   /// <li>
-  /// x-amz-server-side-encryption-customer-key-MD5
+  /// <code>x-amz-server-side-encryption-customer-key-MD5</code>
   /// </li>
   /// </ul>
   /// For more information about server-side encryption with KMS keys (SSE-KMS),
@@ -1389,19 +1485,19 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  /// x-amz-grant-read
+  /// <code>x-amz-grant-read</code>
   /// </li>
   /// <li>
-  /// x-amz-grant-write
+  /// <code>x-amz-grant-write</code>
   /// </li>
   /// <li>
-  /// x-amz-grant-read-acp
+  /// <code>x-amz-grant-read-acp</code>
   /// </li>
   /// <li>
-  /// x-amz-grant-write-acp
+  /// <code>x-amz-grant-write-acp</code>
   /// </li>
   /// <li>
-  /// x-amz-grant-full-control
+  /// <code>x-amz-grant-full-control</code>
   /// </li>
   /// </ul>
   /// You specify each grantee as a type=value pair, where the type is one of
@@ -1500,13 +1596,13 @@ class S3 {
   ///
   /// When using this action with Amazon S3 on Outposts, you must direct
   /// requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
-  /// the form
-  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
-  /// When using this action using S3 on Outposts through the Amazon Web
-  /// Services SDKs, you provide the Outposts bucket ARN in place of the bucket
-  /// name. For more information about S3 on Outposts ARNs, see <a
+  /// the form <code>
+  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com</code>.
+  /// When using this action with S3 on Outposts through the Amazon Web Services
+  /// SDKs, you provide the Outposts bucket ARN in place of the bucket name. For
+  /// more information about S3 on Outposts ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
-  /// S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
+  /// Amazon S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// Parameter [key] :
   /// Object key for which the multipart upload is to be initiated.
@@ -1528,6 +1624,12 @@ class S3 {
   /// Parameter [cacheControl] :
   /// Specifies caching behavior along the request/reply chain.
   ///
+  /// Parameter [checksumAlgorithm] :
+  /// Indicates the algorithm you want Amazon S3 to use to create the checksum
+  /// for the object. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html">Checking
+  /// object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  ///
   /// Parameter [contentDisposition] :
   /// Specifies presentational information for the object.
   ///
@@ -1544,8 +1646,8 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   ///
   /// Parameter [expires] :
   /// The date and time at which the object is no longer cacheable.
@@ -1574,7 +1676,7 @@ class S3 {
   /// A map of metadata to store with the object in S3.
   ///
   /// Parameter [objectLockLegalHoldStatus] :
-  /// Specifies whether you want to apply a Legal Hold to the uploaded object.
+  /// Specifies whether you want to apply a legal hold to the uploaded object.
   ///
   /// Parameter [objectLockMode] :
   /// Specifies the Object Lock mode that you want to apply to the uploaded
@@ -1641,6 +1743,7 @@ class S3 {
     ObjectCannedACL? acl,
     bool? bucketKeyEnabled,
     String? cacheControl,
+    ChecksumAlgorithm? checksumAlgorithm,
     String? contentDisposition,
     String? contentEncoding,
     String? contentLanguage,
@@ -1674,6 +1777,8 @@ class S3 {
         'x-amz-server-side-encryption-bucket-key-enabled':
             bucketKeyEnabled.toString(),
       if (cacheControl != null) 'Cache-Control': cacheControl.toString(),
+      if (checksumAlgorithm != null)
+        'x-amz-checksum-algorithm': checksumAlgorithm.toValue(),
       if (contentDisposition != null)
         'Content-Disposition': contentDisposition.toString(),
       if (contentEncoding != null)
@@ -1738,6 +1843,9 @@ class S3 {
           _s.extractHeaderStringValue($result.headers, 'x-amz-abort-rule-id'),
       bucketKeyEnabled: _s.extractHeaderBoolValue(
           $result.headers, 'x-amz-server-side-encryption-bucket-key-enabled'),
+      checksumAlgorithm: _s
+          .extractHeaderStringValue($result.headers, 'x-amz-checksum-algorithm')
+          ?.toChecksumAlgorithm(),
       requestCharged: _s
           .extractHeaderStringValue($result.headers, 'x-amz-request-charged')
           ?.toRequestCharged(),
@@ -1777,8 +1885,8 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   Future<void> deleteBucket({
     required String bucket,
     String? expectedBucketOwner,
@@ -1838,8 +1946,8 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   Future<void> deleteBucketAnalyticsConfiguration({
     required String bucket,
     required String id,
@@ -1892,8 +2000,8 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   Future<void> deleteBucketCors({
     required String bucket,
     String? expectedBucketOwner,
@@ -1945,8 +2053,8 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   Future<void> deleteBucketEncryption({
     required String bucket,
     String? expectedBucketOwner,
@@ -2070,8 +2178,8 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   Future<void> deleteBucketInventoryConfiguration({
     required String bucket,
     required String id,
@@ -2131,8 +2239,8 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   Future<void> deleteBucketLifecycle({
     required String bucket,
     String? expectedBucketOwner,
@@ -2198,8 +2306,8 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   Future<void> deleteBucketMetricsConfiguration({
     required String bucket,
     required String id,
@@ -2252,8 +2360,8 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   Future<void> deleteBucketOwnershipControls({
     required String bucket,
     String? expectedBucketOwner,
@@ -2310,8 +2418,8 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   Future<void> deleteBucketPolicy({
     required String bucket,
     String? expectedBucketOwner,
@@ -2366,8 +2474,8 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   Future<void> deleteBucketReplication({
     required String bucket,
     String? expectedBucketOwner,
@@ -2409,8 +2517,8 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   Future<void> deleteBucketTagging({
     required String bucket,
     String? expectedBucketOwner,
@@ -2463,8 +2571,8 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   Future<void> deleteBucketWebsite({
     required String bucket,
     String? expectedBucketOwner,
@@ -2535,13 +2643,13 @@ class S3 {
   ///
   /// When using this action with Amazon S3 on Outposts, you must direct
   /// requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
-  /// the form
-  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
-  /// When using this action using S3 on Outposts through the Amazon Web
-  /// Services SDKs, you provide the Outposts bucket ARN in place of the bucket
-  /// name. For more information about S3 on Outposts ARNs, see <a
+  /// the form <code>
+  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com</code>.
+  /// When using this action with S3 on Outposts through the Amazon Web Services
+  /// SDKs, you provide the Outposts bucket ARN in place of the bucket name. For
+  /// more information about S3 on Outposts ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
-  /// S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
+  /// Amazon S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// Parameter [key] :
   /// Key name of the object to delete.
@@ -2549,12 +2657,12 @@ class S3 {
   /// Parameter [bypassGovernanceRetention] :
   /// Indicates whether S3 Object Lock should bypass Governance-mode
   /// restrictions to process this operation. To use this header, you must have
-  /// the <code>s3:PutBucketPublicAccessBlock</code> permission.
+  /// the <code>s3:BypassGovernanceRetention</code> permission.
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   ///
   /// Parameter [mfa] :
   /// The concatenation of the authentication device's serial number, a space,
@@ -2647,13 +2755,13 @@ class S3 {
   ///
   /// When using this action with Amazon S3 on Outposts, you must direct
   /// requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
-  /// the form
-  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
-  /// When using this action using S3 on Outposts through the Amazon Web
-  /// Services SDKs, you provide the Outposts bucket ARN in place of the bucket
-  /// name. For more information about S3 on Outposts ARNs, see <a
+  /// the form <code>
+  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com</code>.
+  /// When using this action with S3 on Outposts through the Amazon Web Services
+  /// SDKs, you provide the Outposts bucket ARN in place of the bucket name. For
+  /// more information about S3 on Outposts ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
-  /// S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
+  /// Amazon S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// Parameter [key] :
   /// The key that identifies the object in the bucket from which to remove all
@@ -2661,8 +2769,8 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   ///
   /// Parameter [versionId] :
   /// The versionId of the object that the tag-set will be removed from.
@@ -2769,13 +2877,13 @@ class S3 {
   ///
   /// When using this action with Amazon S3 on Outposts, you must direct
   /// requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
-  /// the form
-  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
-  /// When using this action using S3 on Outposts through the Amazon Web
-  /// Services SDKs, you provide the Outposts bucket ARN in place of the bucket
-  /// name. For more information about S3 on Outposts ARNs, see <a
+  /// the form <code>
+  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com</code>.
+  /// When using this action with S3 on Outposts through the Amazon Web Services
+  /// SDKs, you provide the Outposts bucket ARN in place of the bucket name. For
+  /// more information about S3 on Outposts ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
-  /// S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
+  /// Amazon S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// Parameter [delete] :
   /// Container for the request.
@@ -2783,12 +2891,28 @@ class S3 {
   /// Parameter [bypassGovernanceRetention] :
   /// Specifies whether you want to delete this object even if it has a
   /// Governance-type Object Lock in place. To use this header, you must have
-  /// the <code>s3:PutBucketPublicAccessBlock</code> permission.
+  /// the <code>s3:BypassGovernanceRetention</code> permission.
+  ///
+  /// Parameter [checksumAlgorithm] :
+  /// Indicates the algorithm used to create the checksum for the object when
+  /// using the SDK. This header will not provide any additional functionality
+  /// if not using the SDK. When sending this header, there must be a
+  /// corresponding <code>x-amz-checksum</code> or <code>x-amz-trailer</code>
+  /// header sent. Otherwise, Amazon S3 fails the request with the HTTP status
+  /// code <code>400 Bad Request</code>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html">Checking
+  /// object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// If you provide an individual checksum, Amazon S3 ignores any provided
+  /// <code>ChecksumAlgorithm</code> parameter.
+  ///
+  /// This checksum algorithm must be the same for all parts and it match the
+  /// checksum value supplied in the <code>CreateMultipartUpload</code> request.
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   ///
   /// Parameter [mfa] :
   /// The concatenation of the authentication device's serial number, a space,
@@ -2799,6 +2923,7 @@ class S3 {
     required String bucket,
     required Delete delete,
     bool? bypassGovernanceRetention,
+    ChecksumAlgorithm? checksumAlgorithm,
     String? expectedBucketOwner,
     String? mfa,
     RequestPayer? requestPayer,
@@ -2809,6 +2934,8 @@ class S3 {
       if (bypassGovernanceRetention != null)
         'x-amz-bypass-governance-retention':
             bypassGovernanceRetention.toString(),
+      if (checksumAlgorithm != null)
+        'x-amz-sdk-checksum-algorithm': checksumAlgorithm.toValue(),
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
       if (mfa != null) 'x-amz-mfa': mfa.toString(),
@@ -2870,8 +2997,8 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   Future<void> deletePublicAccessBlock({
     required String bucket,
     String? expectedBucketOwner,
@@ -2932,8 +3059,8 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   Future<GetBucketAccelerateConfigurationOutput>
       getBucketAccelerateConfiguration({
     required String bucket,
@@ -2981,8 +3108,8 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   Future<GetBucketAclOutput> getBucketAcl({
     required String bucket,
     String? expectedBucketOwner,
@@ -3043,8 +3170,8 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   Future<GetBucketAnalyticsConfigurationOutput>
       getBucketAnalyticsConfiguration({
     required String bucket,
@@ -3073,13 +3200,14 @@ class S3 {
     );
   }
 
-  /// Returns the cors configuration information set for the bucket.
+  /// Returns the Cross-Origin Resource Sharing (CORS) configuration information
+  /// set for the bucket.
   ///
   /// To use this operation, you must have permission to perform the
-  /// s3:GetBucketCORS action. By default, the bucket owner has this permission
-  /// and can grant it to others.
+  /// <code>s3:GetBucketCORS</code> action. By default, the bucket owner has
+  /// this permission and can grant it to others.
   ///
-  /// For more information about cors, see <a
+  /// For more information about CORS, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/cors.html"> Enabling
   /// Cross-Origin Resource Sharing</a>.
   ///
@@ -3101,8 +3229,8 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   Future<GetBucketCorsOutput> getBucketCors({
     required String bucket,
     String? expectedBucketOwner,
@@ -3158,8 +3286,8 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   Future<GetBucketEncryptionOutput> getBucketEncryption({
     required String bucket,
     String? expectedBucketOwner,
@@ -3293,8 +3421,8 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   Future<GetBucketInventoryConfigurationOutput>
       getBucketInventoryConfiguration({
     required String bucket,
@@ -3384,8 +3512,8 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   @Deprecated('Deprecated')
   Future<GetBucketLifecycleOutput> getBucketLifecycle({
     required String bucket,
@@ -3471,8 +3599,8 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   Future<GetBucketLifecycleConfigurationOutput>
       getBucketLifecycleConfiguration({
     required String bucket,
@@ -3520,8 +3648,8 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   Future<GetBucketLocationOutput> getBucketLocation({
     required String bucket,
     String? expectedBucketOwner,
@@ -3561,8 +3689,8 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   Future<GetBucketLoggingOutput> getBucketLogging({
     required String bucket,
     String? expectedBucketOwner,
@@ -3628,8 +3756,8 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   Future<GetBucketMetricsConfigurationOutput> getBucketMetricsConfiguration({
     required String bucket,
     required String id,
@@ -3665,8 +3793,8 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   @Deprecated('Deprecated')
   Future<NotificationConfigurationDeprecated> getBucketNotification({
     required String bucket,
@@ -3718,8 +3846,8 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   Future<NotificationConfiguration> getBucketNotificationConfiguration({
     required String bucket,
     String? expectedBucketOwner,
@@ -3767,8 +3895,8 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   Future<GetBucketOwnershipControlsOutput> getBucketOwnershipControls({
     required String bucket,
     String? expectedBucketOwner,
@@ -3824,8 +3952,8 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   Future<GetBucketPolicyOutput> getBucketPolicy({
     required String bucket,
     String? expectedBucketOwner,
@@ -3886,8 +4014,8 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   Future<GetBucketPolicyStatusOutput> getBucketPolicyStatus({
     required String bucket,
     String? expectedBucketOwner,
@@ -3952,8 +4080,8 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   Future<GetBucketReplicationOutput> getBucketReplication({
     required String bucket,
     String? expectedBucketOwner,
@@ -3996,8 +4124,8 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   Future<GetBucketRequestPaymentOutput> getBucketRequestPayment({
     required String bucket,
     String? expectedBucketOwner,
@@ -4026,7 +4154,7 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  /// Error code: <code>NoSuchTagSetError</code>
+  /// Error code: <code>NoSuchTagSet</code>
   ///
   /// <ul>
   /// <li>
@@ -4052,8 +4180,8 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   Future<GetBucketTaggingOutput> getBucketTagging({
     required String bucket,
     String? expectedBucketOwner,
@@ -4104,8 +4232,8 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   Future<GetBucketVersioningOutput> getBucketVersioning({
     required String bucket,
     String? expectedBucketOwner,
@@ -4154,8 +4282,8 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   Future<GetBucketWebsiteOutput> getBucketWebsite({
     required String bucket,
     String? expectedBucketOwner,
@@ -4198,11 +4326,7 @@ class S3 {
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/VirtualHosting.html#VirtualHostingSpecifyBucket">HTTP
   /// Host Header Bucket Specification</a>.
   ///
-  /// To distribute large files to many people, you can save bandwidth costs by
-  /// using BitTorrent. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3Torrent.html">Amazon
-  /// S3 Torrent</a>. For more information about returning the ACL of an object,
-  /// see <a
+  /// For more information about returning the ACL of an object, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectAcl.html">GetObjectAcl</a>.
   ///
   /// If the object you are retrieving is stored in the S3 Glacier or S3 Glacier
@@ -4292,8 +4416,9 @@ class S3 {
   /// <b>Overriding Response Header Values</b>
   ///
   /// There are times when you want to override certain response header values
-  /// in a GET response. For example, you might override the Content-Disposition
-  /// response header value in your GET request.
+  /// in a GET response. For example, you might override the
+  /// <code>Content-Disposition</code> response header value in your GET
+  /// request.
   ///
   /// You can override values for a set of response headers using the following
   /// query parameters. These response header values are sent only on a
@@ -4382,37 +4507,40 @@ class S3 {
   ///
   /// When using this action with Amazon S3 on Outposts, you must direct
   /// requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
-  /// the form
-  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
-  /// When using this action using S3 on Outposts through the Amazon Web
-  /// Services SDKs, you provide the Outposts bucket ARN in place of the bucket
-  /// name. For more information about S3 on Outposts ARNs, see <a
+  /// the form <code>
+  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com</code>.
+  /// When using this action with S3 on Outposts through the Amazon Web Services
+  /// SDKs, you provide the Outposts bucket ARN in place of the bucket name. For
+  /// more information about S3 on Outposts ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
-  /// S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
+  /// Amazon S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// Parameter [key] :
   /// Key of the object to get.
   ///
+  /// Parameter [checksumMode] :
+  /// To retrieve the checksum, this mode must be enabled.
+  ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   ///
   /// Parameter [ifMatch] :
   /// Return the object only if its entity tag (ETag) is the same as the one
-  /// specified, otherwise return a 412 (precondition failed).
+  /// specified; otherwise, return a 412 (precondition failed) error.
   ///
   /// Parameter [ifModifiedSince] :
-  /// Return the object only if it has been modified since the specified time,
-  /// otherwise return a 304 (not modified).
+  /// Return the object only if it has been modified since the specified time;
+  /// otherwise, return a 304 (not modified) error.
   ///
   /// Parameter [ifNoneMatch] :
   /// Return the object only if its entity tag (ETag) is different from the one
-  /// specified, otherwise return a 304 (not modified).
+  /// specified; otherwise, return a 304 (not modified) error.
   ///
   /// Parameter [ifUnmodifiedSince] :
   /// Return the object only if it has not been modified since the specified
-  /// time, otherwise return a 412 (precondition failed).
+  /// time; otherwise, return a 412 (precondition failed) error.
   ///
   /// Parameter [partNumber] :
   /// Part number of the object being read. This is a positive integer between 1
@@ -4467,6 +4595,7 @@ class S3 {
   Future<GetObjectOutput> getObject({
     required String bucket,
     required String key,
+    ChecksumMode? checksumMode,
     String? expectedBucketOwner,
     String? ifMatch,
     DateTime? ifModifiedSince,
@@ -4489,6 +4618,7 @@ class S3 {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(key, 'key');
     final headers = <String, String>{
+      if (checksumMode != null) 'x-amz-checksum-mode': checksumMode.toValue(),
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
       if (ifMatch != null) 'If-Match': ifMatch.toString(),
@@ -4540,6 +4670,14 @@ class S3 {
           $result.headers, 'x-amz-server-side-encryption-bucket-key-enabled'),
       cacheControl:
           _s.extractHeaderStringValue($result.headers, 'Cache-Control'),
+      checksumCRC32:
+          _s.extractHeaderStringValue($result.headers, 'x-amz-checksum-crc32'),
+      checksumCRC32C:
+          _s.extractHeaderStringValue($result.headers, 'x-amz-checksum-crc32c'),
+      checksumSHA1:
+          _s.extractHeaderStringValue($result.headers, 'x-amz-checksum-sha1'),
+      checksumSHA256:
+          _s.extractHeaderStringValue($result.headers, 'x-amz-checksum-sha256'),
       contentDisposition:
           _s.extractHeaderStringValue($result.headers, 'Content-Disposition'),
       contentEncoding:
@@ -4604,7 +4742,11 @@ class S3 {
   }
 
   /// Returns the access control list (ACL) of an object. To use this operation,
-  /// you must have <code>READ_ACP</code> access to the object.
+  /// you must have <code>s3:GetObjectAcl</code> permissions or
+  /// <code>READ_ACP</code> access to the object. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/acl-overview.html#acl-access-policy-permission-mapping">Mapping
+  /// of ACL permissions and access policy permissions</a> in the <i>Amazon S3
+  /// User Guide</i>
   ///
   /// This action is not supported by Amazon S3 on Outposts.
   ///
@@ -4628,6 +4770,10 @@ class S3 {
   /// <li>
   /// <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html">GetObject</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectAttributes.html">GetObjectAttributes</a>
   /// </li>
   /// <li>
   /// <a
@@ -4659,8 +4805,8 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   ///
   /// Parameter [versionId] :
   /// VersionId used to reference a specific version of the object.
@@ -4700,14 +4846,298 @@ class S3 {
     );
   }
 
-  /// Gets an object's current Legal Hold status. For more information, see <a
+  /// Retrieves all the metadata from an object without returning the object
+  /// itself. This action is useful if you're interested only in an object's
+  /// metadata. To use <code>GetObjectAttributes</code>, you must have READ
+  /// access to the object.
+  ///
+  /// <code>GetObjectAttributes</code> combines the functionality of
+  /// <code>GetObjectAcl</code>, <code>GetObjectLegalHold</code>,
+  /// <code>GetObjectLockConfiguration</code>, <code>GetObjectRetention</code>,
+  /// <code>GetObjectTagging</code>, <code>HeadObject</code>, and
+  /// <code>ListParts</code>. All of the data returned with each of those
+  /// individual calls can be returned with a single call to
+  /// <code>GetObjectAttributes</code>.
+  ///
+  /// If you encrypt an object by using server-side encryption with
+  /// customer-provided encryption keys (SSE-C) when you store the object in
+  /// Amazon S3, then when you retrieve the metadata from the object, you must
+  /// use the following headers:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>x-amz-server-side-encryption-customer-algorithm</code>
+  /// </li>
+  /// <li>
+  /// <code>x-amz-server-side-encryption-customer-key</code>
+  /// </li>
+  /// <li>
+  /// <code>x-amz-server-side-encryption-customer-key-MD5</code>
+  /// </li>
+  /// </ul>
+  /// For more information about SSE-C, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html">Server-Side
+  /// Encryption (Using Customer-Provided Encryption Keys)</a> in the <i>Amazon
+  /// S3 User Guide</i>.
+  /// <note>
+  /// <ul>
+  /// <li>
+  /// Encryption request headers, such as
+  /// <code>x-amz-server-side-encryption</code>, should not be sent for GET
+  /// requests if your object uses server-side encryption with Amazon Web
+  /// Services KMS keys stored in Amazon Web Services Key Management Service
+  /// (SSE-KMS) or server-side encryption with Amazon S3 managed encryption keys
+  /// (SSE-S3). If your object does use these types of keys, you'll get an HTTP
+  /// <code>400 Bad Request</code> error.
+  /// </li>
+  /// <li>
+  /// The last modified property in this case is the creation date of the
+  /// object.
+  /// </li>
+  /// </ul> </note>
+  /// Consider the following when using request headers:
+  ///
+  /// <ul>
+  /// <li>
+  /// If both of the <code>If-Match</code> and <code>If-Unmodified-Since</code>
+  /// headers are present in the request as follows, then Amazon S3 returns the
+  /// HTTP status code <code>200 OK</code> and the data requested:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>If-Match</code> condition evaluates to <code>true</code>.
+  /// </li>
+  /// <li>
+  /// <code>If-Unmodified-Since</code> condition evaluates to
+  /// <code>false</code>.
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// If both of the <code>If-None-Match</code> and
+  /// <code>If-Modified-Since</code> headers are present in the request as
+  /// follows, then Amazon S3 returns the HTTP status code <code>304 Not
+  /// Modified</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>If-None-Match</code> condition evaluates to <code>false</code>.
+  /// </li>
+  /// <li>
+  /// <code>If-Modified-Since</code> condition evaluates to <code>true</code>.
+  /// </li>
+  /// </ul> </li>
+  /// </ul>
+  /// For more information about conditional requests, see <a
+  /// href="https://tools.ietf.org/html/rfc7232">RFC 7232</a>.
+  ///
+  /// <b>Permissions</b>
+  ///
+  /// The permissions that you need to use this operation depend on whether the
+  /// bucket is versioned. If the bucket is versioned, you need both the
+  /// <code>s3:GetObjectVersion</code> and
+  /// <code>s3:GetObjectVersionAttributes</code> permissions for this operation.
+  /// If the bucket is not versioned, you need the <code>s3:GetObject</code> and
+  /// <code>s3:GetObjectAttributes</code> permissions. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html">Specifying
+  /// Permissions in a Policy</a> in the <i>Amazon S3 User Guide</i>. If the
+  /// object that you request does not exist, the error Amazon S3 returns
+  /// depends on whether you also have the <code>s3:ListBucket</code>
+  /// permission.
+  ///
+  /// <ul>
+  /// <li>
+  /// If you have the <code>s3:ListBucket</code> permission on the bucket,
+  /// Amazon S3 returns an HTTP status code <code>404 Not Found</code> ("no such
+  /// key") error.
+  /// </li>
+  /// <li>
+  /// If you don't have the <code>s3:ListBucket</code> permission, Amazon S3
+  /// returns an HTTP status code <code>403 Forbidden</code> ("access denied")
+  /// error.
+  /// </li>
+  /// </ul>
+  /// The following actions are related to <code>GetObjectAttributes</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html">GetObject</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectAcl.html">GetObjectAcl</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectLegalHold.html">GetObjectLegalHold</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectLockConfiguration.html">GetObjectLockConfiguration</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectRetention.html">GetObjectRetention</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectTagging.html">GetObjectTagging</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_HeadObject.html">HeadObject</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListParts.html">ListParts</a>
+  /// </li>
+  /// </ul>
+  ///
+  /// May throw [NoSuchKey].
+  ///
+  /// Parameter [bucket] :
+  /// The name of the bucket that contains the object.
+  ///
+  /// When using this action with an access point, you must direct requests to
+  /// the access point hostname. The access point hostname takes the form
+  /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
+  /// When using this action with an access point through the Amazon Web
+  /// Services SDKs, you provide the access point ARN in place of the bucket
+  /// name. For more information about access point ARNs, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html">Using
+  /// access points</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// When using this action with Amazon S3 on Outposts, you must direct
+  /// requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
+  /// the form <code>
+  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com</code>.
+  /// When using this action with S3 on Outposts through the Amazon Web Services
+  /// SDKs, you provide the Outposts bucket ARN in place of the bucket name. For
+  /// more information about S3 on Outposts ARNs, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
+  /// Amazon S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// Parameter [key] :
+  /// The object key.
+  ///
+  /// Parameter [objectAttributes] :
+  /// An XML header that specifies the fields at the root level that you want
+  /// returned in the response. Fields that you do not specify are not returned.
+  ///
+  /// Parameter [expectedBucketOwner] :
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
+  ///
+  /// Parameter [maxParts] :
+  /// Sets the maximum number of parts to return.
+  ///
+  /// Parameter [partNumberMarker] :
+  /// Specifies the part after which listing should begin. Only parts with
+  /// higher part numbers will be listed.
+  ///
+  /// Parameter [sSECustomerAlgorithm] :
+  /// Specifies the algorithm to use when encrypting the object (for example,
+  /// AES256).
+  ///
+  /// Parameter [sSECustomerKey] :
+  /// Specifies the customer-provided encryption key for Amazon S3 to use in
+  /// encrypting data. This value is used to store the object and then it is
+  /// discarded; Amazon S3 does not store the encryption key. The key must be
+  /// appropriate for use with the algorithm specified in the
+  /// <code>x-amz-server-side-encryption-customer-algorithm</code> header.
+  ///
+  /// Parameter [sSECustomerKeyMD5] :
+  /// Specifies the 128-bit MD5 digest of the encryption key according to RFC
+  /// 1321. Amazon S3 uses this header for a message integrity check to ensure
+  /// that the encryption key was transmitted without error.
+  ///
+  /// Parameter [versionId] :
+  /// The version ID used to reference a specific version of the object.
+  Future<GetObjectAttributesOutput> getObjectAttributes({
+    required String bucket,
+    required String key,
+    required List<ObjectAttributes> objectAttributes,
+    String? expectedBucketOwner,
+    int? maxParts,
+    int? partNumberMarker,
+    RequestPayer? requestPayer,
+    String? sSECustomerAlgorithm,
+    Uint8List? sSECustomerKey,
+    String? sSECustomerKeyMD5,
+    String? versionId,
+  }) async {
+    ArgumentError.checkNotNull(bucket, 'bucket');
+    ArgumentError.checkNotNull(key, 'key');
+    ArgumentError.checkNotNull(objectAttributes, 'objectAttributes');
+    final headers = <String, String>{
+      'x-amz-object-attributes': objectAttributes.toString(),
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+      if (maxParts != null) 'x-amz-max-parts': maxParts.toString(),
+      if (partNumberMarker != null)
+        'x-amz-part-number-marker': partNumberMarker.toString(),
+      if (requestPayer != null) 'x-amz-request-payer': requestPayer.toValue(),
+      if (sSECustomerAlgorithm != null)
+        'x-amz-server-side-encryption-customer-algorithm':
+            sSECustomerAlgorithm.toString(),
+      if (sSECustomerKey != null)
+        'x-amz-server-side-encryption-customer-key': sSECustomerKey.toString(),
+      if (sSECustomerKeyMD5 != null)
+        'x-amz-server-side-encryption-customer-key-MD5':
+            sSECustomerKeyMD5.toString(),
+    };
+    final $query = <String, List<String>>{
+      if (versionId != null) 'versionId': [versionId],
+    };
+    final $result = await _protocol.sendRaw(
+      method: 'GET',
+      requestUri:
+          '/${Uri.encodeComponent(bucket)}/${key.split('/').map(Uri.encodeComponent).join('/')}?attributes',
+      queryParams: $query,
+      headers: headers,
+      exceptionFnMap: _exceptionFns,
+    );
+    final $elem = await _s.xmlFromResponse($result);
+    return GetObjectAttributesOutput(
+      checksum: _s.extractXmlChild($elem, 'Checksum')?.let(Checksum.fromXml),
+      eTag: _s.extractXmlStringValue($elem, 'ETag'),
+      objectParts: _s
+          .extractXmlChild($elem, 'ObjectParts')
+          ?.let(GetObjectAttributesParts.fromXml),
+      objectSize: _s.extractXmlIntValue($elem, 'ObjectSize'),
+      storageClass:
+          _s.extractXmlStringValue($elem, 'StorageClass')?.toStorageClass(),
+      deleteMarker:
+          _s.extractHeaderBoolValue($result.headers, 'x-amz-delete-marker'),
+      lastModified:
+          _s.extractHeaderDateTimeValue($result.headers, 'Last-Modified'),
+      requestCharged: _s
+          .extractHeaderStringValue($result.headers, 'x-amz-request-charged')
+          ?.toRequestCharged(),
+      versionId:
+          _s.extractHeaderStringValue($result.headers, 'x-amz-version-id'),
+    );
+  }
+
+  /// Gets an object's current legal hold status. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lock.html">Locking
   /// Objects</a>.
   ///
   /// This action is not supported by Amazon S3 on Outposts.
   ///
+  /// The following action is related to <code>GetObjectLegalHold</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectAttributes.html">GetObjectAttributes</a>
+  /// </li>
+  /// </ul>
+  ///
   /// Parameter [bucket] :
-  /// The bucket name containing the object whose Legal Hold status you want to
+  /// The bucket name containing the object whose legal hold status you want to
   /// retrieve.
   ///
   /// When using this action with an access point, you must direct requests to
@@ -4720,15 +5150,15 @@ class S3 {
   /// access points</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// Parameter [key] :
-  /// The key name for the object whose Legal Hold status you want to retrieve.
+  /// The key name for the object whose legal hold status you want to retrieve.
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   ///
   /// Parameter [versionId] :
-  /// The version ID of the object whose Legal Hold status you want to retrieve.
+  /// The version ID of the object whose legal hold status you want to retrieve.
   Future<GetObjectLegalHoldOutput> getObjectLegalHold({
     required String bucket,
     required String key,
@@ -4766,6 +5196,16 @@ class S3 {
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lock.html">Locking
   /// Objects</a>.
   ///
+  /// The following action is related to
+  /// <code>GetObjectLockConfiguration</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectAttributes.html">GetObjectAttributes</a>
+  /// </li>
+  /// </ul>
+  ///
   /// Parameter [bucket] :
   /// The bucket whose Object Lock configuration you want to retrieve.
   ///
@@ -4780,8 +5220,8 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   Future<GetObjectLockConfigurationOutput> getObjectLockConfiguration({
     required String bucket,
     String? expectedBucketOwner,
@@ -4809,6 +5249,15 @@ class S3 {
   ///
   /// This action is not supported by Amazon S3 on Outposts.
   ///
+  /// The following action is related to <code>GetObjectRetention</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectAttributes.html">GetObjectAttributes</a>
+  /// </li>
+  /// </ul>
+  ///
   /// Parameter [bucket] :
   /// The bucket name containing the object whose retention settings you want to
   /// retrieve.
@@ -4827,8 +5276,8 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   ///
   /// Parameter [versionId] :
   /// The version ID for the object whose retention settings you want to
@@ -4882,16 +5331,20 @@ class S3 {
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/object-tagging.html">Object
   /// Tagging</a>.
   ///
-  /// The following action is related to <code>GetObjectTagging</code>:
+  /// The following actions are related to <code>GetObjectTagging</code>:
   ///
   /// <ul>
   /// <li>
   /// <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObjectTagging.html">PutObjectTagging</a>
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObjectTagging.html">DeleteObjectTagging</a>
   /// </li>
   /// <li>
   /// <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObjectTagging.html">DeleteObjectTagging</a>
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectAttributes.html">GetObjectAttributes</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObjectTagging.html">PutObjectTagging</a>
   /// </li>
   /// </ul>
   ///
@@ -4910,21 +5363,21 @@ class S3 {
   ///
   /// When using this action with Amazon S3 on Outposts, you must direct
   /// requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
-  /// the form
-  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
-  /// When using this action using S3 on Outposts through the Amazon Web
-  /// Services SDKs, you provide the Outposts bucket ARN in place of the bucket
-  /// name. For more information about S3 on Outposts ARNs, see <a
+  /// the form <code>
+  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com</code>.
+  /// When using this action with S3 on Outposts through the Amazon Web Services
+  /// SDKs, you provide the Outposts bucket ARN in place of the bucket name. For
+  /// more information about S3 on Outposts ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
-  /// S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
+  /// Amazon S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// Parameter [key] :
   /// Object key for which to get the tagging information.
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   ///
   /// Parameter [versionId] :
   /// The versionId of the object for which to get the tagging information.
@@ -4997,8 +5450,8 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   Future<GetObjectTorrentOutput> getObjectTorrent({
     required String bucket,
     required String key,
@@ -5075,8 +5528,8 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   Future<GetPublicAccessBlockOutput> getPublicAccessBlock({
     required String bucket,
     String? expectedBucketOwner,
@@ -5143,18 +5596,18 @@ class S3 {
   ///
   /// When using this action with Amazon S3 on Outposts, you must direct
   /// requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
-  /// the form
-  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
-  /// When using this action using S3 on Outposts through the Amazon Web
-  /// Services SDKs, you provide the Outposts bucket ARN in place of the bucket
-  /// name. For more information about S3 on Outposts ARNs, see <a
+  /// the form <code>
+  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com</code>.
+  /// When using this action with S3 on Outposts through the Amazon Web Services
+  /// SDKs, you provide the Outposts bucket ARN in place of the bucket name. For
+  /// more information about S3 on Outposts ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
-  /// S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
+  /// Amazon S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   Future<void> headBucket({
     required String bucket,
     String? expectedBucketOwner,
@@ -5278,12 +5731,16 @@ class S3 {
   /// returns an HTTP status code 403 ("access denied") error.
   /// </li>
   /// </ul>
-  /// The following action is related to <code>HeadObject</code>:
+  /// The following actions are related to <code>HeadObject</code>:
   ///
   /// <ul>
   /// <li>
   /// <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html">GetObject</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectAttributes.html">GetObjectAttributes</a>
   /// </li>
   /// </ul>
   ///
@@ -5303,37 +5760,45 @@ class S3 {
   ///
   /// When using this action with Amazon S3 on Outposts, you must direct
   /// requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
-  /// the form
-  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
-  /// When using this action using S3 on Outposts through the Amazon Web
-  /// Services SDKs, you provide the Outposts bucket ARN in place of the bucket
-  /// name. For more information about S3 on Outposts ARNs, see <a
+  /// the form <code>
+  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com</code>.
+  /// When using this action with S3 on Outposts through the Amazon Web Services
+  /// SDKs, you provide the Outposts bucket ARN in place of the bucket name. For
+  /// more information about S3 on Outposts ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
-  /// S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
+  /// Amazon S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// Parameter [key] :
   /// The object key.
   ///
+  /// Parameter [checksumMode] :
+  /// To retrieve the checksum, this parameter must be enabled.
+  ///
+  /// In addition, if you enable <code>ChecksumMode</code> and the object is
+  /// encrypted with Amazon Web Services Key Management Service (Amazon Web
+  /// Services KMS), you must have permission to use the
+  /// <code>kms:Decrypt</code> action for the request to succeed.
+  ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   ///
   /// Parameter [ifMatch] :
   /// Return the object only if its entity tag (ETag) is the same as the one
-  /// specified, otherwise return a 412 (precondition failed).
+  /// specified; otherwise, return a 412 (precondition failed) error.
   ///
   /// Parameter [ifModifiedSince] :
-  /// Return the object only if it has been modified since the specified time,
-  /// otherwise return a 304 (not modified).
+  /// Return the object only if it has been modified since the specified time;
+  /// otherwise, return a 304 (not modified) error.
   ///
   /// Parameter [ifNoneMatch] :
   /// Return the object only if its entity tag (ETag) is different from the one
-  /// specified, otherwise return a 304 (not modified).
+  /// specified; otherwise, return a 304 (not modified) error.
   ///
   /// Parameter [ifUnmodifiedSince] :
   /// Return the object only if it has not been modified since the specified
-  /// time, otherwise return a 412 (precondition failed).
+  /// time; otherwise, return a 412 (precondition failed) error.
   ///
   /// Parameter [partNumber] :
   /// Part number of the object being read. This is a positive integer between 1
@@ -5366,6 +5831,7 @@ class S3 {
   Future<HeadObjectOutput> headObject({
     required String bucket,
     required String key,
+    ChecksumMode? checksumMode,
     String? expectedBucketOwner,
     String? ifMatch,
     DateTime? ifModifiedSince,
@@ -5382,6 +5848,7 @@ class S3 {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(key, 'key');
     final headers = <String, String>{
+      if (checksumMode != null) 'x-amz-checksum-mode': checksumMode.toValue(),
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
       if (ifMatch != null) 'If-Match': ifMatch.toString(),
@@ -5424,6 +5891,14 @@ class S3 {
           $result.headers, 'x-amz-server-side-encryption-bucket-key-enabled'),
       cacheControl:
           _s.extractHeaderStringValue($result.headers, 'Cache-Control'),
+      checksumCRC32:
+          _s.extractHeaderStringValue($result.headers, 'x-amz-checksum-crc32'),
+      checksumCRC32C:
+          _s.extractHeaderStringValue($result.headers, 'x-amz-checksum-crc32c'),
+      checksumSHA1:
+          _s.extractHeaderStringValue($result.headers, 'x-amz-checksum-sha1'),
+      checksumSHA256:
+          _s.extractHeaderStringValue($result.headers, 'x-amz-checksum-sha256'),
       contentDisposition:
           _s.extractHeaderStringValue($result.headers, 'Content-Disposition'),
       contentEncoding:
@@ -5536,8 +6011,8 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   Future<ListBucketAnalyticsConfigurationsOutput>
       listBucketAnalyticsConfigurations({
     required String bucket,
@@ -5607,8 +6082,8 @@ class S3 {
   /// retrieve.
   ///
   /// Parameter [continuationToken] :
-  /// The ContinuationToken that represents a placeholder from where this
-  /// request should begin.
+  /// The <code>ContinuationToken</code> that represents a placeholder from
+  /// where this request should begin.
   Future<ListBucketIntelligentTieringConfigurationsOutput>
       listBucketIntelligentTieringConfigurations({
     required String bucket,
@@ -5684,8 +6159,8 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   Future<ListBucketInventoryConfigurationsOutput>
       listBucketInventoryConfigurations({
     required String bucket,
@@ -5768,8 +6243,8 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   Future<ListBucketMetricsConfigurationsOutput>
       listBucketMetricsConfigurations({
     required String bucket,
@@ -5795,7 +6270,8 @@ class S3 {
   }
 
   /// Returns a list of all buckets owned by the authenticated sender of the
-  /// request.
+  /// request. To use this operation, you must have the
+  /// <code>s3:ListAllMyBuckets</code> permission.
   Future<ListBucketsOutput> listBuckets() async {
     final $result = await _protocol.send(
       method: 'GET',
@@ -5872,13 +6348,13 @@ class S3 {
   ///
   /// When using this action with Amazon S3 on Outposts, you must direct
   /// requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
-  /// the form
-  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
-  /// When using this action using S3 on Outposts through the Amazon Web
-  /// Services SDKs, you provide the Outposts bucket ARN in place of the bucket
-  /// name. For more information about S3 on Outposts ARNs, see <a
+  /// the form <code>
+  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com</code>.
+  /// When using this action with S3 on Outposts through the Amazon Web Services
+  /// SDKs, you provide the Outposts bucket ARN in place of the bucket name. For
+  /// more information about S3 on Outposts ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
-  /// S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
+  /// Amazon S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// Parameter [delimiter] :
   /// Character you use to group keys.
@@ -5892,8 +6368,8 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   ///
   /// Parameter [keyMarker] :
   /// Together with upload-id-marker, this parameter specifies the multipart
@@ -6009,8 +6485,8 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   ///
   /// Parameter [keyMarker] :
   /// Specifies the key to start with when listing objects in a bucket.
@@ -6118,21 +6594,21 @@ class S3 {
   ///
   /// When using this action with Amazon S3 on Outposts, you must direct
   /// requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
-  /// the form
-  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
-  /// When using this action using S3 on Outposts through the Amazon Web
-  /// Services SDKs, you provide the Outposts bucket ARN in place of the bucket
-  /// name. For more information about S3 on Outposts ARNs, see <a
+  /// the form <code>
+  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com</code>.
+  /// When using this action with S3 on Outposts through the Amazon Web Services
+  /// SDKs, you provide the Outposts bucket ARN in place of the bucket name. For
+  /// more information about S3 on Outposts ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
-  /// S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
+  /// Amazon S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// Parameter [delimiter] :
   /// A delimiter is a character you use to group keys.
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   ///
   /// Parameter [marker] :
   /// Marker is where you want Amazon S3 to start listing from. Amazon S3 starts
@@ -6246,13 +6722,13 @@ class S3 {
   ///
   /// When using this action with Amazon S3 on Outposts, you must direct
   /// requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
-  /// the form
-  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
-  /// When using this action using S3 on Outposts through the Amazon Web
-  /// Services SDKs, you provide the Outposts bucket ARN in place of the bucket
-  /// name. For more information about S3 on Outposts ARNs, see <a
+  /// the form <code>
+  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com</code>.
+  /// When using this action with S3 on Outposts through the Amazon Web Services
+  /// SDKs, you provide the Outposts bucket ARN in place of the bucket name. For
+  /// more information about S3 on Outposts ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
-  /// S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
+  /// Amazon S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// Parameter [continuationToken] :
   /// ContinuationToken indicates Amazon S3 that the list is being continued on
@@ -6267,8 +6743,8 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   ///
   /// Parameter [fetchOwner] :
   /// The owner field is not present in listV2 by default, if you want to return
@@ -6343,6 +6819,10 @@ class S3 {
   /// query string parameter and set its value to the
   /// <code>NextPartNumberMarker</code> field value from the previous response.
   ///
+  /// If the upload was created using a checksum algorithm, you will need to
+  /// have permission to the <code>kms:Decrypt</code> action for the request to
+  /// succeed.
+  ///
   /// For more information on multipart uploads, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/uploadobjusingmpu.html">Uploading
   /// Objects Using Multipart Upload</a>.
@@ -6373,6 +6853,10 @@ class S3 {
   /// </li>
   /// <li>
   /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectAttributes.html">GetObjectAttributes</a>
+  /// </li>
+  /// <li>
+  /// <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListMultipartUploads.html">ListMultipartUploads</a>
   /// </li>
   /// </ul>
@@ -6391,13 +6875,13 @@ class S3 {
   ///
   /// When using this action with Amazon S3 on Outposts, you must direct
   /// requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
-  /// the form
-  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
-  /// When using this action using S3 on Outposts through the Amazon Web
-  /// Services SDKs, you provide the Outposts bucket ARN in place of the bucket
-  /// name. For more information about S3 on Outposts ARNs, see <a
+  /// the form <code>
+  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com</code>.
+  /// When using this action with S3 on Outposts through the Amazon Web Services
+  /// SDKs, you provide the Outposts bucket ARN in place of the bucket name. For
+  /// more information about S3 on Outposts ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
-  /// S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
+  /// Amazon S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// Parameter [key] :
   /// Object key for which the multipart upload was initiated.
@@ -6407,8 +6891,8 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   ///
   /// Parameter [maxParts] :
   /// Sets the maximum number of parts to return.
@@ -6416,6 +6900,27 @@ class S3 {
   /// Parameter [partNumberMarker] :
   /// Specifies the part after which listing should begin. Only parts with
   /// higher part numbers will be listed.
+  ///
+  /// Parameter [sSECustomerAlgorithm] :
+  /// The server-side encryption (SSE) algorithm used to encrypt the object.
+  /// This parameter is needed only when the object was created using a checksum
+  /// algorithm. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html">Protecting
+  /// data using SSE-C keys</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// Parameter [sSECustomerKey] :
+  /// The server-side encryption (SSE) customer managed key. This parameter is
+  /// needed only when the object was created using a checksum algorithm. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html">Protecting
+  /// data using SSE-C keys</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// Parameter [sSECustomerKeyMD5] :
+  /// The MD5 server-side encryption (SSE) customer managed key. This parameter
+  /// is needed only when the object was created using a checksum algorithm. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html">Protecting
+  /// data using SSE-C keys</a> in the <i>Amazon S3 User Guide</i>.
   Future<ListPartsOutput> listParts({
     required String bucket,
     required String key,
@@ -6424,6 +6929,9 @@ class S3 {
     int? maxParts,
     int? partNumberMarker,
     RequestPayer? requestPayer,
+    String? sSECustomerAlgorithm,
+    Uint8List? sSECustomerKey,
+    String? sSECustomerKeyMD5,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(key, 'key');
@@ -6432,6 +6940,14 @@ class S3 {
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
       if (requestPayer != null) 'x-amz-request-payer': requestPayer.toValue(),
+      if (sSECustomerAlgorithm != null)
+        'x-amz-server-side-encryption-customer-algorithm':
+            sSECustomerAlgorithm.toString(),
+      if (sSECustomerKey != null)
+        'x-amz-server-side-encryption-customer-key': sSECustomerKey.toString(),
+      if (sSECustomerKeyMD5 != null)
+        'x-amz-server-side-encryption-customer-key-MD5':
+            sSECustomerKeyMD5.toString(),
     };
     final $query = <String, List<String>>{
       'uploadId': [uploadId],
@@ -6450,6 +6966,9 @@ class S3 {
     final $elem = await _s.xmlFromResponse($result);
     return ListPartsOutput(
       bucket: _s.extractXmlStringValue($elem, 'Bucket'),
+      checksumAlgorithm: _s
+          .extractXmlStringValue($elem, 'ChecksumAlgorithm')
+          ?.toChecksumAlgorithm(),
       initiator: _s.extractXmlChild($elem, 'Initiator')?.let(Initiator.fromXml),
       isTruncated: _s.extractXmlBoolValue($elem, 'IsTruncated'),
       key: _s.extractXmlStringValue($elem, 'Key'),
@@ -6477,9 +6996,9 @@ class S3 {
   /// perform faster data transfers to Amazon S3.
   ///
   /// To use this operation, you must have permission to perform the
-  /// s3:PutAccelerateConfiguration action. The bucket owner has this permission
-  /// by default. The bucket owner can grant this permission to others. For more
-  /// information about permissions, see <a
+  /// <code>s3:PutAccelerateConfiguration</code> action. The bucket owner has
+  /// this permission by default. The bucket owner can grant this permission to
+  /// others. For more information about permissions, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
   /// Related to Bucket Subresource Operations</a> and <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html">Managing
@@ -6531,19 +7050,35 @@ class S3 {
   /// Parameter [bucket] :
   /// The name of the bucket for which the accelerate configuration is set.
   ///
+  /// Parameter [checksumAlgorithm] :
+  /// Indicates the algorithm used to create the checksum for the object when
+  /// using the SDK. This header will not provide any additional functionality
+  /// if not using the SDK. When sending this header, there must be a
+  /// corresponding <code>x-amz-checksum</code> or <code>x-amz-trailer</code>
+  /// header sent. Otherwise, Amazon S3 fails the request with the HTTP status
+  /// code <code>400 Bad Request</code>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html">Checking
+  /// object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// If you provide an individual checksum, Amazon S3 ignores any provided
+  /// <code>ChecksumAlgorithm</code> parameter.
+  ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   Future<void> putBucketAccelerateConfiguration({
     required AccelerateConfiguration accelerateConfiguration,
     required String bucket,
+    ChecksumAlgorithm? checksumAlgorithm,
     String? expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(
         accelerateConfiguration, 'accelerateConfiguration');
     ArgumentError.checkNotNull(bucket, 'bucket');
     final headers = <String, String>{
+      if (checksumAlgorithm != null)
+        'x-amz-sdk-checksum-algorithm': checksumAlgorithm.toValue(),
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
     };
@@ -6769,6 +7304,19 @@ class S3 {
   /// Contains the elements that set the ACL permissions for an object per
   /// grantee.
   ///
+  /// Parameter [checksumAlgorithm] :
+  /// Indicates the algorithm used to create the checksum for the object when
+  /// using the SDK. This header will not provide any additional functionality
+  /// if not using the SDK. When sending this header, there must be a
+  /// corresponding <code>x-amz-checksum</code> or <code>x-amz-trailer</code>
+  /// header sent. Otherwise, Amazon S3 fails the request with the HTTP status
+  /// code <code>400 Bad Request</code>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html">Checking
+  /// object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// If you provide an individual checksum, Amazon S3 ignores any provided
+  /// <code>ChecksumAlgorithm</code> parameter.
+  ///
   /// Parameter [contentMD5] :
   /// The base64-encoded 128-bit MD5 digest of the data. This header must be
   /// used as a message integrity check to verify that the request body was not
@@ -6780,8 +7328,8 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   ///
   /// Parameter [grantFullControl] :
   /// Allows grantee the read, write, read ACP, and write ACP permissions on the
@@ -6805,6 +7353,7 @@ class S3 {
     required String bucket,
     BucketCannedACL? acl,
     AccessControlPolicy? accessControlPolicy,
+    ChecksumAlgorithm? checksumAlgorithm,
     String? contentMD5,
     String? expectedBucketOwner,
     String? grantFullControl,
@@ -6816,6 +7365,8 @@ class S3 {
     ArgumentError.checkNotNull(bucket, 'bucket');
     final headers = <String, String>{
       if (acl != null) 'x-amz-acl': acl.toValue(),
+      if (checksumAlgorithm != null)
+        'x-amz-sdk-checksum-algorithm': checksumAlgorithm.toValue(),
       if (contentMD5 != null) 'Content-MD5': contentMD5.toString(),
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -6936,8 +7487,8 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   Future<void> putBucketAnalyticsConfiguration({
     required AnalyticsConfiguration analyticsConfiguration,
     required String bucket,
@@ -7036,6 +7587,19 @@ class S3 {
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/cors.html">Enabling
   /// Cross-Origin Resource Sharing</a> in the <i>Amazon S3 User Guide</i>.
   ///
+  /// Parameter [checksumAlgorithm] :
+  /// Indicates the algorithm used to create the checksum for the object when
+  /// using the SDK. This header will not provide any additional functionality
+  /// if not using the SDK. When sending this header, there must be a
+  /// corresponding <code>x-amz-checksum</code> or <code>x-amz-trailer</code>
+  /// header sent. Otherwise, Amazon S3 fails the request with the HTTP status
+  /// code <code>400 Bad Request</code>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html">Checking
+  /// object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// If you provide an individual checksum, Amazon S3 ignores any provided
+  /// <code>ChecksumAlgorithm</code> parameter.
+  ///
   /// Parameter [contentMD5] :
   /// The base64-encoded 128-bit MD5 digest of the data. This header must be
   /// used as a message integrity check to verify that the request body was not
@@ -7047,17 +7611,20 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   Future<void> putBucketCors({
     required String bucket,
     required CORSConfiguration cORSConfiguration,
+    ChecksumAlgorithm? checksumAlgorithm,
     String? contentMD5,
     String? expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(cORSConfiguration, 'cORSConfiguration');
     final headers = <String, String>{
+      if (checksumAlgorithm != null)
+        'x-amz-sdk-checksum-algorithm': checksumAlgorithm.toValue(),
       if (contentMD5 != null) 'Content-MD5': contentMD5.toString(),
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -7077,7 +7644,10 @@ class S3 {
   /// Default encryption for a bucket can use server-side encryption with Amazon
   /// S3-managed keys (SSE-S3) or customer managed keys (SSE-KMS). If you
   /// specify default encryption using SSE-KMS, you can also configure Amazon S3
-  /// Bucket Key. For information about default encryption, see <a
+  /// Bucket Key. When the default encryption is SSE-KMS, if you upload an
+  /// object to the bucket and do not specify the KMS key to use for encryption,
+  /// Amazon S3 uses the default Amazon Web Services managed KMS key for your
+  /// account. For information about default encryption, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/bucket-encryption.html">Amazon
   /// S3 default bucket encryption</a> in the <i>Amazon S3 User Guide</i>. For
   /// more information about S3 Bucket Keys, see <a
@@ -7118,6 +7688,19 @@ class S3 {
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/bucket-encryption.html">Amazon
   /// S3 Default Bucket Encryption</a> in the <i>Amazon S3 User Guide</i>.
   ///
+  /// Parameter [checksumAlgorithm] :
+  /// Indicates the algorithm used to create the checksum for the object when
+  /// using the SDK. This header will not provide any additional functionality
+  /// if not using the SDK. When sending this header, there must be a
+  /// corresponding <code>x-amz-checksum</code> or <code>x-amz-trailer</code>
+  /// header sent. Otherwise, Amazon S3 fails the request with the HTTP status
+  /// code <code>400 Bad Request</code>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html">Checking
+  /// object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// If you provide an individual checksum, Amazon S3 ignores any provided
+  /// <code>ChecksumAlgorithm</code> parameter.
+  ///
   /// Parameter [contentMD5] :
   /// The base64-encoded 128-bit MD5 digest of the server-side encryption
   /// configuration.
@@ -7127,12 +7710,13 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   Future<void> putBucketEncryption({
     required String bucket,
     required ServerSideEncryptionConfiguration
         serverSideEncryptionConfiguration,
+    ChecksumAlgorithm? checksumAlgorithm,
     String? contentMD5,
     String? expectedBucketOwner,
   }) async {
@@ -7140,6 +7724,8 @@ class S3 {
     ArgumentError.checkNotNull(
         serverSideEncryptionConfiguration, 'serverSideEncryptionConfiguration');
     final headers = <String, String>{
+      if (checksumAlgorithm != null)
+        'x-amz-sdk-checksum-algorithm': checksumAlgorithm.toValue(),
       if (contentMD5 != null) 'Content-MD5': contentMD5.toString(),
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -7365,8 +7951,8 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   Future<void> putBucketInventoryConfiguration({
     required String bucket,
     required String id,
@@ -7478,6 +8064,19 @@ class S3 {
   /// Parameter [bucket] :
   /// <p/>
   ///
+  /// Parameter [checksumAlgorithm] :
+  /// Indicates the algorithm used to create the checksum for the object when
+  /// using the SDK. This header will not provide any additional functionality
+  /// if not using the SDK. When sending this header, there must be a
+  /// corresponding <code>x-amz-checksum</code> or <code>x-amz-trailer</code>
+  /// header sent. Otherwise, Amazon S3 fails the request with the HTTP status
+  /// code <code>400 Bad Request</code>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html">Checking
+  /// object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// If you provide an individual checksum, Amazon S3 ignores any provided
+  /// <code>ChecksumAlgorithm</code> parameter.
+  ///
   /// Parameter [contentMD5] :
   /// <p/>
   /// For requests made using the Amazon Web Services Command Line Interface
@@ -7485,20 +8084,23 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   ///
   /// Parameter [lifecycleConfiguration] :
   /// <p/>
   @Deprecated('Deprecated')
   Future<void> putBucketLifecycle({
     required String bucket,
+    ChecksumAlgorithm? checksumAlgorithm,
     String? contentMD5,
     String? expectedBucketOwner,
     LifecycleConfiguration? lifecycleConfiguration,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     final headers = <String, String>{
+      if (checksumAlgorithm != null)
+        'x-amz-sdk-checksum-algorithm': checksumAlgorithm.toValue(),
       if (contentMD5 != null) 'Content-MD5': contentMD5.toString(),
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -7513,8 +8115,10 @@ class S3 {
   }
 
   /// Creates a new lifecycle configuration for the bucket or replaces an
-  /// existing lifecycle configuration. For information about lifecycle
-  /// configuration, see <a
+  /// existing lifecycle configuration. Keep in mind that this will overwrite an
+  /// existing lifecycle configuration, so if you want to retain any
+  /// configuration details, they must be included in the new lifecycle
+  /// configuration. For information about lifecycle configuration, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-lifecycle-mgmt.html">Managing
   /// your storage lifecycle</a>.
   /// <note>
@@ -7530,7 +8134,8 @@ class S3 {
   ///
   /// You specify the lifecycle configuration in your request body. The
   /// lifecycle configuration is specified as XML consisting of one or more
-  /// rules. Each rule consists of the following:
+  /// rules. An Amazon S3 Lifecycle configuration can have up to 1,000 rules.
+  /// This limit is not adjustable. Each rule consists of the following:
   ///
   /// <ul>
   /// <li>
@@ -7564,7 +8169,7 @@ class S3 {
   /// Web Services account that created it) can access the resource. The
   /// resource owner can optionally grant access permissions to others by
   /// writing an access policy. For this operation, a user must get the
-  /// s3:PutLifecycleConfiguration permission.
+  /// <code>s3:PutLifecycleConfiguration</code> permission.
   ///
   /// You can also explicitly deny permissions. Explicit deny also supersedes
   /// any other permissions. If you want to block users or accounts from
@@ -7573,13 +8178,13 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  /// s3:DeleteObject
+  /// <code>s3:DeleteObject</code>
   /// </li>
   /// <li>
-  /// s3:DeleteObjectVersion
+  /// <code>s3:DeleteObjectVersion</code>
   /// </li>
   /// <li>
-  /// s3:PutLifecycleConfiguration
+  /// <code>s3:PutLifecycleConfiguration</code>
   /// </li>
   /// </ul>
   /// For more information about permissions, see <a
@@ -7607,20 +8212,36 @@ class S3 {
   /// Parameter [bucket] :
   /// The name of the bucket for which to set the configuration.
   ///
+  /// Parameter [checksumAlgorithm] :
+  /// Indicates the algorithm used to create the checksum for the object when
+  /// using the SDK. This header will not provide any additional functionality
+  /// if not using the SDK. When sending this header, there must be a
+  /// corresponding <code>x-amz-checksum</code> or <code>x-amz-trailer</code>
+  /// header sent. Otherwise, Amazon S3 fails the request with the HTTP status
+  /// code <code>400 Bad Request</code>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html">Checking
+  /// object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// If you provide an individual checksum, Amazon S3 ignores any provided
+  /// <code>ChecksumAlgorithm</code> parameter.
+  ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   ///
   /// Parameter [lifecycleConfiguration] :
   /// Container for lifecycle rules. You can add as many as 1,000 rules.
   Future<void> putBucketLifecycleConfiguration({
     required String bucket,
+    ChecksumAlgorithm? checksumAlgorithm,
     String? expectedBucketOwner,
     BucketLifecycleConfiguration? lifecycleConfiguration,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     final headers = <String, String>{
+      if (checksumAlgorithm != null)
+        'x-amz-sdk-checksum-algorithm': checksumAlgorithm.toValue(),
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
     };
@@ -7725,6 +8346,19 @@ class S3 {
   /// Parameter [bucketLoggingStatus] :
   /// Container for logging status information.
   ///
+  /// Parameter [checksumAlgorithm] :
+  /// Indicates the algorithm used to create the checksum for the object when
+  /// using the SDK. This header will not provide any additional functionality
+  /// if not using the SDK. When sending this header, there must be a
+  /// corresponding <code>x-amz-checksum</code> or <code>x-amz-trailer</code>
+  /// header sent. Otherwise, Amazon S3 fails the request with the HTTP status
+  /// code <code>400 Bad Request</code>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html">Checking
+  /// object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// If you provide an individual checksum, Amazon S3 ignores any provided
+  /// <code>ChecksumAlgorithm</code> parameter.
+  ///
   /// Parameter [contentMD5] :
   /// The MD5 hash of the <code>PutBucketLogging</code> request body.
   ///
@@ -7733,17 +8367,20 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   Future<void> putBucketLogging({
     required String bucket,
     required BucketLoggingStatus bucketLoggingStatus,
+    ChecksumAlgorithm? checksumAlgorithm,
     String? contentMD5,
     String? expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(bucketLoggingStatus, 'bucketLoggingStatus');
     final headers = <String, String>{
+      if (checksumAlgorithm != null)
+        'x-amz-sdk-checksum-algorithm': checksumAlgorithm.toValue(),
       if (contentMD5 != null) 'Content-MD5': contentMD5.toString(),
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -7821,8 +8458,8 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   Future<void> putBucketMetricsConfiguration({
     required String bucket,
     required String id,
@@ -7859,6 +8496,19 @@ class S3 {
   /// Parameter [notificationConfiguration] :
   /// The container for the configuration.
   ///
+  /// Parameter [checksumAlgorithm] :
+  /// Indicates the algorithm used to create the checksum for the object when
+  /// using the SDK. This header will not provide any additional functionality
+  /// if not using the SDK. When sending this header, there must be a
+  /// corresponding <code>x-amz-checksum</code> or <code>x-amz-trailer</code>
+  /// header sent. Otherwise, Amazon S3 fails the request with the HTTP status
+  /// code <code>400 Bad Request</code>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html">Checking
+  /// object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// If you provide an individual checksum, Amazon S3 ignores any provided
+  /// <code>ChecksumAlgorithm</code> parameter.
+  ///
   /// Parameter [contentMD5] :
   /// The MD5 hash of the <code>PutPublicAccessBlock</code> request body.
   ///
@@ -7867,12 +8517,13 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   @Deprecated('Deprecated')
   Future<void> putBucketNotification({
     required String bucket,
     required NotificationConfigurationDeprecated notificationConfiguration,
+    ChecksumAlgorithm? checksumAlgorithm,
     String? contentMD5,
     String? expectedBucketOwner,
   }) async {
@@ -7880,6 +8531,8 @@ class S3 {
     ArgumentError.checkNotNull(
         notificationConfiguration, 'notificationConfiguration');
     final headers = <String, String>{
+      if (checksumAlgorithm != null)
+        'x-amz-sdk-checksum-algorithm': checksumAlgorithm.toValue(),
       if (contentMD5 != null) 'Content-MD5': contentMD5.toString(),
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -7928,6 +8581,11 @@ class S3 {
   /// You can disable notifications by adding the empty
   /// NotificationConfiguration element.
   ///
+  /// For more information about the number of event notification configurations
+  /// that you can create per bucket, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/s3.html#limits_s3">Amazon
+  /// S3 service quotas</a> in <i>Amazon Web Services General Reference</i>.
+  ///
   /// By default, only the bucket owner can configure notifications on a bucket.
   /// However, bucket owners can use a bucket policy to grant permission to
   /// other users to set this configuration with
@@ -7963,8 +8621,8 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   ///
   /// Parameter [skipDestinationValidation] :
   /// Skips validation of Amazon SQS, Amazon SNS, and Lambda destinations. True
@@ -8034,8 +8692,8 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   Future<void> putBucketOwnershipControls({
     required String bucket,
     required OwnershipControls ownershipControls,
@@ -8097,6 +8755,19 @@ class S3 {
   /// Parameter [policy] :
   /// The bucket policy as a JSON document.
   ///
+  /// Parameter [checksumAlgorithm] :
+  /// Indicates the algorithm used to create the checksum for the object when
+  /// using the SDK. This header will not provide any additional functionality
+  /// if not using the SDK. When sending this header, there must be a
+  /// corresponding <code>x-amz-checksum</code> or <code>x-amz-trailer</code>
+  /// header sent. Otherwise, Amazon S3 fails the request with the HTTP status
+  /// code <code>400 Bad Request</code>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html">Checking
+  /// object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// If you provide an individual checksum, Amazon S3 ignores any provided
+  /// <code>ChecksumAlgorithm</code> parameter.
+  ///
   /// Parameter [confirmRemoveSelfBucketAccess] :
   /// Set this parameter to true to confirm that you want to remove your
   /// permissions to change this bucket policy in the future.
@@ -8109,11 +8780,12 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   Future<void> putBucketPolicy({
     required String bucket,
     required String policy,
+    ChecksumAlgorithm? checksumAlgorithm,
     bool? confirmRemoveSelfBucketAccess,
     String? contentMD5,
     String? expectedBucketOwner,
@@ -8121,6 +8793,8 @@ class S3 {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(policy, 'policy');
     final headers = <String, String>{
+      if (checksumAlgorithm != null)
+        'x-amz-sdk-checksum-algorithm': checksumAlgorithm.toValue(),
       if (confirmRemoveSelfBucketAccess != null)
         'x-amz-confirm-remove-self-bucket-access':
             confirmRemoveSelfBucketAccess.toString(),
@@ -8222,6 +8896,19 @@ class S3 {
   /// Parameter [bucket] :
   /// The name of the bucket
   ///
+  /// Parameter [checksumAlgorithm] :
+  /// Indicates the algorithm used to create the checksum for the object when
+  /// using the SDK. This header will not provide any additional functionality
+  /// if not using the SDK. When sending this header, there must be a
+  /// corresponding <code>x-amz-checksum</code> or <code>x-amz-trailer</code>
+  /// header sent. Otherwise, Amazon S3 fails the request with the HTTP status
+  /// code <code>400 Bad Request</code>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html">Checking
+  /// object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// If you provide an individual checksum, Amazon S3 ignores any provided
+  /// <code>ChecksumAlgorithm</code> parameter.
+  ///
   /// Parameter [contentMD5] :
   /// The base64-encoded 128-bit MD5 digest of the data. You must use this
   /// header as a message integrity check to verify that the request body was
@@ -8233,14 +8920,15 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   ///
   /// Parameter [token] :
   /// A token to allow Object Lock to be enabled for an existing bucket.
   Future<void> putBucketReplication({
     required String bucket,
     required ReplicationConfiguration replicationConfiguration,
+    ChecksumAlgorithm? checksumAlgorithm,
     String? contentMD5,
     String? expectedBucketOwner,
     String? token,
@@ -8249,6 +8937,8 @@ class S3 {
     ArgumentError.checkNotNull(
         replicationConfiguration, 'replicationConfiguration');
     final headers = <String, String>{
+      if (checksumAlgorithm != null)
+        'x-amz-sdk-checksum-algorithm': checksumAlgorithm.toValue(),
       if (contentMD5 != null) 'Content-MD5': contentMD5.toString(),
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -8291,6 +8981,19 @@ class S3 {
   /// Parameter [requestPaymentConfiguration] :
   /// Container for Payer.
   ///
+  /// Parameter [checksumAlgorithm] :
+  /// Indicates the algorithm used to create the checksum for the object when
+  /// using the SDK. This header will not provide any additional functionality
+  /// if not using the SDK. When sending this header, there must be a
+  /// corresponding <code>x-amz-checksum</code> or <code>x-amz-trailer</code>
+  /// header sent. Otherwise, Amazon S3 fails the request with the HTTP status
+  /// code <code>400 Bad Request</code>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html">Checking
+  /// object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// If you provide an individual checksum, Amazon S3 ignores any provided
+  /// <code>ChecksumAlgorithm</code> parameter.
+  ///
   /// Parameter [contentMD5] :
   /// The base64-encoded 128-bit MD5 digest of the data. You must use this
   /// header as a message integrity check to verify that the request body was
@@ -8302,11 +9005,12 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   Future<void> putBucketRequestPayment({
     required String bucket,
     required RequestPaymentConfiguration requestPaymentConfiguration,
+    ChecksumAlgorithm? checksumAlgorithm,
     String? contentMD5,
     String? expectedBucketOwner,
   }) async {
@@ -8314,6 +9018,8 @@ class S3 {
     ArgumentError.checkNotNull(
         requestPaymentConfiguration, 'requestPaymentConfiguration');
     final headers = <String, String>{
+      if (checksumAlgorithm != null)
+        'x-amz-sdk-checksum-algorithm': checksumAlgorithm.toValue(),
       if (contentMD5 != null) 'Content-MD5': contentMD5.toString(),
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -8418,6 +9124,19 @@ class S3 {
   /// Parameter [tagging] :
   /// Container for the <code>TagSet</code> and <code>Tag</code> elements.
   ///
+  /// Parameter [checksumAlgorithm] :
+  /// Indicates the algorithm used to create the checksum for the object when
+  /// using the SDK. This header will not provide any additional functionality
+  /// if not using the SDK. When sending this header, there must be a
+  /// corresponding <code>x-amz-checksum</code> or <code>x-amz-trailer</code>
+  /// header sent. Otherwise, Amazon S3 fails the request with the HTTP status
+  /// code <code>400 Bad Request</code>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html">Checking
+  /// object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// If you provide an individual checksum, Amazon S3 ignores any provided
+  /// <code>ChecksumAlgorithm</code> parameter.
+  ///
   /// Parameter [contentMD5] :
   /// The base64-encoded 128-bit MD5 digest of the data. You must use this
   /// header as a message integrity check to verify that the request body was
@@ -8429,17 +9148,20 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   Future<void> putBucketTagging({
     required String bucket,
     required Tagging tagging,
+    ChecksumAlgorithm? checksumAlgorithm,
     String? contentMD5,
     String? expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(tagging, 'tagging');
     final headers = <String, String>{
+      if (checksumAlgorithm != null)
+        'x-amz-sdk-checksum-algorithm': checksumAlgorithm.toValue(),
       if (contentMD5 != null) 'Content-MD5': contentMD5.toString(),
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -8453,8 +9175,7 @@ class S3 {
     );
   }
 
-  /// Sets the versioning state of an existing bucket. To set the versioning
-  /// state, you must be the bucket owner.
+  /// Sets the versioning state of an existing bucket.
   ///
   /// You can set the versioning state with one of the following values:
   ///
@@ -8469,11 +9190,11 @@ class S3 {
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketVersioning.html">GetBucketVersioning</a>
   /// request does not return a versioning state value.
   ///
-  /// If the bucket owner enables MFA Delete in the bucket versioning
-  /// configuration, the bucket owner must include the <code>x-amz-mfa
-  /// request</code> header and the <code>Status</code> and the
-  /// <code>MfaDelete</code> request elements in a request to set the versioning
-  /// state of the bucket.
+  /// In order to enable MFA Delete, you must be the bucket owner. If you are
+  /// the bucket owner and want to enable MFA Delete in the bucket versioning
+  /// configuration, you must include the <code>x-amz-mfa request</code> header
+  /// and the <code>Status</code> and the <code>MfaDelete</code> request
+  /// elements in a request to set the versioning state of the bucket.
   /// <important>
   /// If you have an object expiration lifecycle policy in your non-versioned
   /// bucket and you want to maintain the same permanent delete behavior when
@@ -8507,6 +9228,19 @@ class S3 {
   /// Parameter [versioningConfiguration] :
   /// Container for setting the versioning state.
   ///
+  /// Parameter [checksumAlgorithm] :
+  /// Indicates the algorithm used to create the checksum for the object when
+  /// using the SDK. This header will not provide any additional functionality
+  /// if not using the SDK. When sending this header, there must be a
+  /// corresponding <code>x-amz-checksum</code> or <code>x-amz-trailer</code>
+  /// header sent. Otherwise, Amazon S3 fails the request with the HTTP status
+  /// code <code>400 Bad Request</code>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html">Checking
+  /// object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// If you provide an individual checksum, Amazon S3 ignores any provided
+  /// <code>ChecksumAlgorithm</code> parameter.
+  ///
   /// Parameter [contentMD5] :
   /// &gt;The base64-encoded 128-bit MD5 digest of the data. You must use this
   /// header as a message integrity check to verify that the request body was
@@ -8518,8 +9252,8 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   ///
   /// Parameter [mfa] :
   /// The concatenation of the authentication device's serial number, a space,
@@ -8527,6 +9261,7 @@ class S3 {
   Future<void> putBucketVersioning({
     required String bucket,
     required VersioningConfiguration versioningConfiguration,
+    ChecksumAlgorithm? checksumAlgorithm,
     String? contentMD5,
     String? expectedBucketOwner,
     String? mfa,
@@ -8535,6 +9270,8 @@ class S3 {
     ArgumentError.checkNotNull(
         versioningConfiguration, 'versioningConfiguration');
     final headers = <String, String>{
+      if (checksumAlgorithm != null)
+        'x-amz-sdk-checksum-algorithm': checksumAlgorithm.toValue(),
       if (contentMD5 != null) 'Content-MD5': contentMD5.toString(),
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -8650,6 +9387,19 @@ class S3 {
   /// Parameter [websiteConfiguration] :
   /// Container for the request.
   ///
+  /// Parameter [checksumAlgorithm] :
+  /// Indicates the algorithm used to create the checksum for the object when
+  /// using the SDK. This header will not provide any additional functionality
+  /// if not using the SDK. When sending this header, there must be a
+  /// corresponding <code>x-amz-checksum</code> or <code>x-amz-trailer</code>
+  /// header sent. Otherwise, Amazon S3 fails the request with the HTTP status
+  /// code <code>400 Bad Request</code>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html">Checking
+  /// object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// If you provide an individual checksum, Amazon S3 ignores any provided
+  /// <code>ChecksumAlgorithm</code> parameter.
+  ///
   /// Parameter [contentMD5] :
   /// The base64-encoded 128-bit MD5 digest of the data. You must use this
   /// header as a message integrity check to verify that the request body was
@@ -8661,17 +9411,20 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   Future<void> putBucketWebsite({
     required String bucket,
     required WebsiteConfiguration websiteConfiguration,
+    ChecksumAlgorithm? checksumAlgorithm,
     String? contentMD5,
     String? expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(websiteConfiguration, 'websiteConfiguration');
     final headers = <String, String>{
+      if (checksumAlgorithm != null)
+        'x-amz-sdk-checksum-algorithm': checksumAlgorithm.toValue(),
       if (contentMD5 != null) 'Content-MD5': contentMD5.toString(),
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -8818,13 +9571,13 @@ class S3 {
   ///
   /// When using this action with Amazon S3 on Outposts, you must direct
   /// requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
-  /// the form
-  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
-  /// When using this action using S3 on Outposts through the Amazon Web
-  /// Services SDKs, you provide the Outposts bucket ARN in place of the bucket
-  /// name. For more information about S3 on Outposts ARNs, see <a
+  /// the form <code>
+  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com</code>.
+  /// When using this action with S3 on Outposts through the Amazon Web Services
+  /// SDKs, you provide the Outposts bucket ARN in place of the bucket name. For
+  /// more information about S3 on Outposts ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
-  /// S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
+  /// Amazon S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// Parameter [key] :
   /// Object key for which the PUT action was initiated.
@@ -8852,6 +9605,51 @@ class S3 {
   /// Can be used to specify caching behavior along the request/reply chain. For
   /// more information, see <a
   /// href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9">http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9</a>.
+  ///
+  /// Parameter [checksumAlgorithm] :
+  /// Indicates the algorithm used to create the checksum for the object when
+  /// using the SDK. This header will not provide any additional functionality
+  /// if not using the SDK. When sending this header, there must be a
+  /// corresponding <code>x-amz-checksum</code> or <code>x-amz-trailer</code>
+  /// header sent. Otherwise, Amazon S3 fails the request with the HTTP status
+  /// code <code>400 Bad Request</code>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html">Checking
+  /// object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// If you provide an individual checksum, Amazon S3 ignores any provided
+  /// <code>ChecksumAlgorithm</code> parameter.
+  ///
+  /// Parameter [checksumCRC32] :
+  /// This header can be used as a data integrity check to verify that the data
+  /// received is the same data that was originally sent. This header specifies
+  /// the base64-encoded, 32-bit CRC32 checksum of the object. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html">Checking
+  /// object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// Parameter [checksumCRC32C] :
+  /// This header can be used as a data integrity check to verify that the data
+  /// received is the same data that was originally sent. This header specifies
+  /// the base64-encoded, 32-bit CRC32C checksum of the object. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html">Checking
+  /// object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// Parameter [checksumSHA1] :
+  /// This header can be used as a data integrity check to verify that the data
+  /// received is the same data that was originally sent. This header specifies
+  /// the base64-encoded, 160-bit SHA-1 digest of the object. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html">Checking
+  /// object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// Parameter [checksumSHA256] :
+  /// This header can be used as a data integrity check to verify that the data
+  /// received is the same data that was originally sent. This header specifies
+  /// the base64-encoded, 256-bit SHA-256 digest of the object. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html">Checking
+  /// object integrity</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// Parameter [contentDisposition] :
   /// Specifies presentational information for the object. For more information,
@@ -8889,8 +9687,8 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   ///
   /// Parameter [expires] :
   /// The date and time at which the object is no longer cacheable. For more
@@ -9012,6 +9810,11 @@ class S3 {
     Uint8List? body,
     bool? bucketKeyEnabled,
     String? cacheControl,
+    ChecksumAlgorithm? checksumAlgorithm,
+    String? checksumCRC32,
+    String? checksumCRC32C,
+    String? checksumSHA1,
+    String? checksumSHA256,
     String? contentDisposition,
     String? contentEncoding,
     String? contentLanguage,
@@ -9047,6 +9850,15 @@ class S3 {
         'x-amz-server-side-encryption-bucket-key-enabled':
             bucketKeyEnabled.toString(),
       if (cacheControl != null) 'Cache-Control': cacheControl.toString(),
+      if (checksumAlgorithm != null)
+        'x-amz-sdk-checksum-algorithm': checksumAlgorithm.toValue(),
+      if (checksumCRC32 != null)
+        'x-amz-checksum-crc32': checksumCRC32.toString(),
+      if (checksumCRC32C != null)
+        'x-amz-checksum-crc32c': checksumCRC32C.toString(),
+      if (checksumSHA1 != null) 'x-amz-checksum-sha1': checksumSHA1.toString(),
+      if (checksumSHA256 != null)
+        'x-amz-checksum-sha256': checksumSHA256.toString(),
       if (contentDisposition != null)
         'Content-Disposition': contentDisposition.toString(),
       if (contentEncoding != null)
@@ -9107,6 +9919,14 @@ class S3 {
     return PutObjectOutput(
       bucketKeyEnabled: _s.extractHeaderBoolValue(
           $result.headers, 'x-amz-server-side-encryption-bucket-key-enabled'),
+      checksumCRC32:
+          _s.extractHeaderStringValue($result.headers, 'x-amz-checksum-crc32'),
+      checksumCRC32C:
+          _s.extractHeaderStringValue($result.headers, 'x-amz-checksum-crc32c'),
+      checksumSHA1:
+          _s.extractHeaderStringValue($result.headers, 'x-amz-checksum-sha1'),
+      checksumSHA256:
+          _s.extractHeaderStringValue($result.headers, 'x-amz-checksum-sha256'),
       eTag: _s.extractHeaderStringValue($result.headers, 'ETag'),
       expiration:
           _s.extractHeaderStringValue($result.headers, 'x-amz-expiration'),
@@ -9354,13 +10174,13 @@ class S3 {
   ///
   /// When using this action with Amazon S3 on Outposts, you must direct
   /// requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
-  /// the form
-  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
-  /// When using this action using S3 on Outposts through the Amazon Web
-  /// Services SDKs, you provide the Outposts bucket ARN in place of the bucket
-  /// name. For more information about S3 on Outposts ARNs, see <a
+  /// the form <code>
+  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com</code>.
+  /// When using this action with S3 on Outposts through the Amazon Web Services
+  /// SDKs, you provide the Outposts bucket ARN in place of the bucket name. For
+  /// more information about S3 on Outposts ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
-  /// S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
+  /// Amazon S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// Parameter [acl] :
   /// The canned ACL to apply to the object. For more information, see <a
@@ -9370,6 +10190,19 @@ class S3 {
   /// Parameter [accessControlPolicy] :
   /// Contains the elements that set the ACL permissions for an object per
   /// grantee.
+  ///
+  /// Parameter [checksumAlgorithm] :
+  /// Indicates the algorithm used to create the checksum for the object when
+  /// using the SDK. This header will not provide any additional functionality
+  /// if not using the SDK. When sending this header, there must be a
+  /// corresponding <code>x-amz-checksum</code> or <code>x-amz-trailer</code>
+  /// header sent. Otherwise, Amazon S3 fails the request with the HTTP status
+  /// code <code>400 Bad Request</code>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html">Checking
+  /// object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// If you provide an individual checksum, Amazon S3 ignores any provided
+  /// <code>ChecksumAlgorithm</code> parameter.
   ///
   /// Parameter [contentMD5] :
   /// The base64-encoded 128-bit MD5 digest of the data. This header must be
@@ -9382,8 +10215,8 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   ///
   /// Parameter [grantFullControl] :
   /// Allows grantee the read, write, read ACP, and write ACP permissions on the
@@ -9419,6 +10252,7 @@ class S3 {
     required String key,
     ObjectCannedACL? acl,
     AccessControlPolicy? accessControlPolicy,
+    ChecksumAlgorithm? checksumAlgorithm,
     String? contentMD5,
     String? expectedBucketOwner,
     String? grantFullControl,
@@ -9433,6 +10267,8 @@ class S3 {
     ArgumentError.checkNotNull(key, 'key');
     final headers = <String, String>{
       if (acl != null) 'x-amz-acl': acl.toValue(),
+      if (checksumAlgorithm != null)
+        'x-amz-sdk-checksum-algorithm': checksumAlgorithm.toValue(),
       if (contentMD5 != null) 'Content-MD5': contentMD5.toString(),
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -9465,7 +10301,7 @@ class S3 {
     );
   }
 
-  /// Applies a Legal Hold configuration to the specified object. For more
+  /// Applies a legal hold configuration to the specified object. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lock.html">Locking
   /// Objects</a>.
@@ -9473,7 +10309,7 @@ class S3 {
   /// This action is not supported by Amazon S3 on Outposts.
   ///
   /// Parameter [bucket] :
-  /// The bucket name containing the object that you want to place a Legal Hold
+  /// The bucket name containing the object that you want to place a legal hold
   /// on.
   ///
   /// When using this action with an access point, you must direct requests to
@@ -9486,7 +10322,20 @@ class S3 {
   /// access points</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// Parameter [key] :
-  /// The key name for the object that you want to place a Legal Hold on.
+  /// The key name for the object that you want to place a legal hold on.
+  ///
+  /// Parameter [checksumAlgorithm] :
+  /// Indicates the algorithm used to create the checksum for the object when
+  /// using the SDK. This header will not provide any additional functionality
+  /// if not using the SDK. When sending this header, there must be a
+  /// corresponding <code>x-amz-checksum</code> or <code>x-amz-trailer</code>
+  /// header sent. Otherwise, Amazon S3 fails the request with the HTTP status
+  /// code <code>400 Bad Request</code>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html">Checking
+  /// object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// If you provide an individual checksum, Amazon S3 ignores any provided
+  /// <code>ChecksumAlgorithm</code> parameter.
   ///
   /// Parameter [contentMD5] :
   /// The MD5 hash for the request body.
@@ -9496,18 +10345,19 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   ///
   /// Parameter [legalHold] :
-  /// Container element for the Legal Hold configuration you want to apply to
+  /// Container element for the legal hold configuration you want to apply to
   /// the specified object.
   ///
   /// Parameter [versionId] :
-  /// The version ID of the object that you want to place a Legal Hold on.
+  /// The version ID of the object that you want to place a legal hold on.
   Future<PutObjectLegalHoldOutput> putObjectLegalHold({
     required String bucket,
     required String key,
+    ChecksumAlgorithm? checksumAlgorithm,
     String? contentMD5,
     String? expectedBucketOwner,
     ObjectLockLegalHold? legalHold,
@@ -9517,6 +10367,8 @@ class S3 {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(key, 'key');
     final headers = <String, String>{
+      if (checksumAlgorithm != null)
+        'x-amz-sdk-checksum-algorithm': checksumAlgorithm.toValue(),
       if (contentMD5 != null) 'Content-MD5': contentMD5.toString(),
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -9568,6 +10420,19 @@ class S3 {
   /// Parameter [bucket] :
   /// The bucket whose Object Lock configuration you want to create or replace.
   ///
+  /// Parameter [checksumAlgorithm] :
+  /// Indicates the algorithm used to create the checksum for the object when
+  /// using the SDK. This header will not provide any additional functionality
+  /// if not using the SDK. When sending this header, there must be a
+  /// corresponding <code>x-amz-checksum</code> or <code>x-amz-trailer</code>
+  /// header sent. Otherwise, Amazon S3 fails the request with the HTTP status
+  /// code <code>400 Bad Request</code>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html">Checking
+  /// object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// If you provide an individual checksum, Amazon S3 ignores any provided
+  /// <code>ChecksumAlgorithm</code> parameter.
+  ///
   /// Parameter [contentMD5] :
   /// The MD5 hash for the request body.
   ///
@@ -9576,8 +10441,8 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   ///
   /// Parameter [objectLockConfiguration] :
   /// The Object Lock configuration that you want to apply to the specified
@@ -9587,6 +10452,7 @@ class S3 {
   /// A token to allow Object Lock to be enabled for an existing bucket.
   Future<PutObjectLockConfigurationOutput> putObjectLockConfiguration({
     required String bucket,
+    ChecksumAlgorithm? checksumAlgorithm,
     String? contentMD5,
     String? expectedBucketOwner,
     ObjectLockConfiguration? objectLockConfiguration,
@@ -9595,6 +10461,8 @@ class S3 {
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     final headers = <String, String>{
+      if (checksumAlgorithm != null)
+        'x-amz-sdk-checksum-algorithm': checksumAlgorithm.toValue(),
       if (contentMD5 != null) 'Content-MD5': contentMD5.toString(),
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -9627,14 +10495,6 @@ class S3 {
   ///
   /// This action is not supported by Amazon S3 on Outposts.
   ///
-  /// <b>Permissions</b>
-  ///
-  /// When the Object Lock retention mode is set to compliance, you need
-  /// <code>s3:PutObjectRetention</code> and
-  /// <code>s3:BypassGovernanceRetention</code> permissions. For other requests
-  /// to <code>PutObjectRetention</code>, only
-  /// <code>s3:PutObjectRetention</code> permissions are required.
-  ///
   /// Parameter [bucket] :
   /// The bucket name that contains the object you want to apply this Object
   /// Retention configuration to.
@@ -9655,6 +10515,19 @@ class S3 {
   /// Parameter [bypassGovernanceRetention] :
   /// Indicates whether this action should bypass Governance-mode restrictions.
   ///
+  /// Parameter [checksumAlgorithm] :
+  /// Indicates the algorithm used to create the checksum for the object when
+  /// using the SDK. This header will not provide any additional functionality
+  /// if not using the SDK. When sending this header, there must be a
+  /// corresponding <code>x-amz-checksum</code> or <code>x-amz-trailer</code>
+  /// header sent. Otherwise, Amazon S3 fails the request with the HTTP status
+  /// code <code>400 Bad Request</code>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html">Checking
+  /// object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// If you provide an individual checksum, Amazon S3 ignores any provided
+  /// <code>ChecksumAlgorithm</code> parameter.
+  ///
   /// Parameter [contentMD5] :
   /// The MD5 hash for the request body.
   ///
@@ -9663,8 +10536,8 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   ///
   /// Parameter [retention] :
   /// The container element for the Object Retention configuration.
@@ -9676,6 +10549,7 @@ class S3 {
     required String bucket,
     required String key,
     bool? bypassGovernanceRetention,
+    ChecksumAlgorithm? checksumAlgorithm,
     String? contentMD5,
     String? expectedBucketOwner,
     RequestPayer? requestPayer,
@@ -9688,6 +10562,8 @@ class S3 {
       if (bypassGovernanceRetention != null)
         'x-amz-bypass-governance-retention':
             bypassGovernanceRetention.toString(),
+      if (checksumAlgorithm != null)
+        'x-amz-sdk-checksum-algorithm': checksumAlgorithm.toValue(),
       if (contentMD5 != null) 'Content-MD5': contentMD5.toString(),
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -9809,19 +10685,32 @@ class S3 {
   ///
   /// When using this action with Amazon S3 on Outposts, you must direct
   /// requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
-  /// the form
-  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
-  /// When using this action using S3 on Outposts through the Amazon Web
-  /// Services SDKs, you provide the Outposts bucket ARN in place of the bucket
-  /// name. For more information about S3 on Outposts ARNs, see <a
+  /// the form <code>
+  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com</code>.
+  /// When using this action with S3 on Outposts through the Amazon Web Services
+  /// SDKs, you provide the Outposts bucket ARN in place of the bucket name. For
+  /// more information about S3 on Outposts ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
-  /// S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
+  /// Amazon S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// Parameter [key] :
   /// Name of the object key.
   ///
   /// Parameter [tagging] :
   /// Container for the <code>TagSet</code> and <code>Tag</code> elements
+  ///
+  /// Parameter [checksumAlgorithm] :
+  /// Indicates the algorithm used to create the checksum for the object when
+  /// using the SDK. This header will not provide any additional functionality
+  /// if not using the SDK. When sending this header, there must be a
+  /// corresponding <code>x-amz-checksum</code> or <code>x-amz-trailer</code>
+  /// header sent. Otherwise, Amazon S3 fails the request with the HTTP status
+  /// code <code>400 Bad Request</code>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html">Checking
+  /// object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// If you provide an individual checksum, Amazon S3 ignores any provided
+  /// <code>ChecksumAlgorithm</code> parameter.
   ///
   /// Parameter [contentMD5] :
   /// The MD5 hash for the request body.
@@ -9831,8 +10720,8 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   ///
   /// Parameter [versionId] :
   /// The versionId of the object that the tag-set will be added to.
@@ -9840,6 +10729,7 @@ class S3 {
     required String bucket,
     required String key,
     required Tagging tagging,
+    ChecksumAlgorithm? checksumAlgorithm,
     String? contentMD5,
     String? expectedBucketOwner,
     RequestPayer? requestPayer,
@@ -9849,6 +10739,8 @@ class S3 {
     ArgumentError.checkNotNull(key, 'key');
     ArgumentError.checkNotNull(tagging, 'tagging');
     final headers = <String, String>{
+      if (checksumAlgorithm != null)
+        'x-amz-sdk-checksum-algorithm': checksumAlgorithm.toValue(),
       if (contentMD5 != null) 'Content-MD5': contentMD5.toString(),
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -9926,6 +10818,19 @@ class S3 {
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html#access-control-block-public-access-policy-status">The
   /// Meaning of "Public"</a> in the <i>Amazon S3 User Guide</i>.
   ///
+  /// Parameter [checksumAlgorithm] :
+  /// Indicates the algorithm used to create the checksum for the object when
+  /// using the SDK. This header will not provide any additional functionality
+  /// if not using the SDK. When sending this header, there must be a
+  /// corresponding <code>x-amz-checksum</code> or <code>x-amz-trailer</code>
+  /// header sent. Otherwise, Amazon S3 fails the request with the HTTP status
+  /// code <code>400 Bad Request</code>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html">Checking
+  /// object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// If you provide an individual checksum, Amazon S3 ignores any provided
+  /// <code>ChecksumAlgorithm</code> parameter.
+  ///
   /// Parameter [contentMD5] :
   /// The MD5 hash of the <code>PutPublicAccessBlock</code> request body.
   ///
@@ -9934,11 +10839,12 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   Future<void> putPublicAccessBlock({
     required String bucket,
     required PublicAccessBlockConfiguration publicAccessBlockConfiguration,
+    ChecksumAlgorithm? checksumAlgorithm,
     String? contentMD5,
     String? expectedBucketOwner,
   }) async {
@@ -9946,6 +10852,8 @@ class S3 {
     ArgumentError.checkNotNull(
         publicAccessBlockConfiguration, 'publicAccessBlockConfiguration');
     final headers = <String, String>{
+      if (checksumAlgorithm != null)
+        'x-amz-sdk-checksum-algorithm': checksumAlgorithm.toValue(),
       if (contentMD5 != null) 'Content-MD5': contentMD5.toString(),
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -10116,36 +11024,36 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  /// <b> <code>Expedited</code> </b> - Expedited retrievals allow you to
-  /// quickly access your data stored in the S3 Glacier storage class or S3
-  /// Intelligent-Tiering Archive tier when occasional urgent requests for a
-  /// subset of archives are required. For all but the largest archived objects
-  /// (250 MB+), data accessed using Expedited retrievals is typically made
-  /// available within 1–5 minutes. Provisioned capacity ensures that retrieval
-  /// capacity for Expedited retrievals is available when you need it. Expedited
-  /// retrievals and provisioned capacity are not available for objects stored
-  /// in the S3 Glacier Deep Archive storage class or S3 Intelligent-Tiering
-  /// Deep Archive tier.
+  /// <code>Expedited</code> - Expedited retrievals allow you to quickly access
+  /// your data stored in the S3 Glacier storage class or S3 Intelligent-Tiering
+  /// Archive tier when occasional urgent requests for a subset of archives are
+  /// required. For all but the largest archived objects (250 MB+), data
+  /// accessed using Expedited retrievals is typically made available within 1–5
+  /// minutes. Provisioned capacity ensures that retrieval capacity for
+  /// Expedited retrievals is available when you need it. Expedited retrievals
+  /// and provisioned capacity are not available for objects stored in the S3
+  /// Glacier Deep Archive storage class or S3 Intelligent-Tiering Deep Archive
+  /// tier.
   /// </li>
   /// <li>
-  /// <b> <code>Standard</code> </b> - Standard retrievals allow you to access
-  /// any of your archived objects within several hours. This is the default
-  /// option for retrieval requests that do not specify the retrieval option.
-  /// Standard retrievals typically finish within 3–5 hours for objects stored
-  /// in the S3 Glacier storage class or S3 Intelligent-Tiering Archive tier.
-  /// They typically finish within 12 hours for objects stored in the S3 Glacier
-  /// Deep Archive storage class or S3 Intelligent-Tiering Deep Archive tier.
+  /// <code>Standard</code> - Standard retrievals allow you to access any of
+  /// your archived objects within several hours. This is the default option for
+  /// retrieval requests that do not specify the retrieval option. Standard
+  /// retrievals typically finish within 3–5 hours for objects stored in the S3
+  /// Glacier storage class or S3 Intelligent-Tiering Archive tier. They
+  /// typically finish within 12 hours for objects stored in the S3 Glacier Deep
+  /// Archive storage class or S3 Intelligent-Tiering Deep Archive tier.
   /// Standard retrievals are free for objects stored in S3 Intelligent-Tiering.
   /// </li>
   /// <li>
-  /// <b> <code>Bulk</code> </b> - Bulk retrievals are the lowest-cost retrieval
-  /// option in S3 Glacier, enabling you to retrieve large amounts, even
-  /// petabytes, of data inexpensively. Bulk retrievals typically finish within
-  /// 5–12 hours for objects stored in the S3 Glacier storage class or S3
-  /// Intelligent-Tiering Archive tier. They typically finish within 48 hours
-  /// for objects stored in the S3 Glacier Deep Archive storage class or S3
-  /// Intelligent-Tiering Deep Archive tier. Bulk retrievals are free for
-  /// objects stored in S3 Intelligent-Tiering.
+  /// <code>Bulk</code> - Bulk retrievals are the lowest-cost retrieval option
+  /// in S3 Glacier, enabling you to retrieve large amounts, even petabytes, of
+  /// data inexpensively. Bulk retrievals typically finish within 5–12 hours for
+  /// objects stored in the S3 Glacier storage class or S3 Intelligent-Tiering
+  /// Archive tier. They typically finish within 48 hours for objects stored in
+  /// the S3 Glacier Deep Archive storage class or S3 Intelligent-Tiering Deep
+  /// Archive tier. Bulk retrievals are free for objects stored in S3
+  /// Intelligent-Tiering.
   /// </li>
   /// </ul>
   /// For more information about archive retrieval options and provisioned
@@ -10271,27 +11179,41 @@ class S3 {
   ///
   /// When using this action with Amazon S3 on Outposts, you must direct
   /// requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
-  /// the form
-  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
-  /// When using this action using S3 on Outposts through the Amazon Web
-  /// Services SDKs, you provide the Outposts bucket ARN in place of the bucket
-  /// name. For more information about S3 on Outposts ARNs, see <a
+  /// the form <code>
+  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com</code>.
+  /// When using this action with S3 on Outposts through the Amazon Web Services
+  /// SDKs, you provide the Outposts bucket ARN in place of the bucket name. For
+  /// more information about S3 on Outposts ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
-  /// S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
+  /// Amazon S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// Parameter [key] :
   /// Object key for which the action was initiated.
   ///
+  /// Parameter [checksumAlgorithm] :
+  /// Indicates the algorithm used to create the checksum for the object when
+  /// using the SDK. This header will not provide any additional functionality
+  /// if not using the SDK. When sending this header, there must be a
+  /// corresponding <code>x-amz-checksum</code> or <code>x-amz-trailer</code>
+  /// header sent. Otherwise, Amazon S3 fails the request with the HTTP status
+  /// code <code>400 Bad Request</code>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html">Checking
+  /// object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// If you provide an individual checksum, Amazon S3 ignores any provided
+  /// <code>ChecksumAlgorithm</code> parameter.
+  ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   ///
   /// Parameter [versionId] :
   /// VersionId used to reference a specific version of the object.
   Future<RestoreObjectOutput> restoreObject({
     required String bucket,
     required String key,
+    ChecksumAlgorithm? checksumAlgorithm,
     String? expectedBucketOwner,
     RequestPayer? requestPayer,
     RestoreRequest? restoreRequest,
@@ -10300,6 +11222,8 @@ class S3 {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(key, 'key');
     final headers = <String, String>{
+      if (checksumAlgorithm != null)
+        'x-amz-sdk-checksum-algorithm': checksumAlgorithm.toValue(),
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
       if (requestPayer != null) 'x-amz-request-payer': requestPayer.toValue(),
@@ -10471,26 +11395,32 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   ///
   /// Parameter [requestProgress] :
   /// Specifies if periodic request progress information should be enabled.
   ///
   /// Parameter [sSECustomerAlgorithm] :
-  /// The SSE Algorithm used to encrypt the object. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html">Server-Side
-  /// Encryption (Using Customer-Provided Encryption Keys</a>.
+  /// The server-side encryption (SSE) algorithm used to encrypt the object.
+  /// This parameter is needed only when the object was created using a checksum
+  /// algorithm. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html">Protecting
+  /// data using SSE-C keys</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// Parameter [sSECustomerKey] :
-  /// The SSE Customer Key. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html">Server-Side
-  /// Encryption (Using Customer-Provided Encryption Keys</a>.
+  /// The server-side encryption (SSE) customer managed key. This parameter is
+  /// needed only when the object was created using a checksum algorithm. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html">Protecting
+  /// data using SSE-C keys</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// Parameter [sSECustomerKeyMD5] :
-  /// The SSE Customer Key MD5. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html">Server-Side
-  /// Encryption (Using Customer-Provided Encryption Keys</a>.
+  /// The MD5 server-side encryption (SSE) customer managed key. This parameter
+  /// is needed only when the object was created using a checksum algorithm. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html">Protecting
+  /// data using SSE-C keys</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// Parameter [scanRange] :
   /// Specifies the byte range of the object to get the records from. A record
@@ -10599,8 +11529,12 @@ class S3 {
   /// uniquely identifies a part and also defines its position within the object
   /// being created. If you upload a new part using the same part number that
   /// was used with a previous part, the previously uploaded part is
-  /// overwritten. Each part must be at least 5 MB in size, except the last
-  /// part. There is no size limit on the last part of your multipart upload.
+  /// overwritten.
+  ///
+  /// For information about maximum and minimum part sizes and other multipart
+  /// upload specifications, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/qfacts.html">Multipart
+  /// upload limits</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// To ensure that data is not corrupted when traversing the network, specify
   /// the <code>Content-MD5</code> header in the upload part request. Amazon S3
@@ -10722,13 +11656,13 @@ class S3 {
   ///
   /// When using this action with Amazon S3 on Outposts, you must direct
   /// requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
-  /// the form
-  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
-  /// When using this action using S3 on Outposts through the Amazon Web
-  /// Services SDKs, you provide the Outposts bucket ARN in place of the bucket
-  /// name. For more information about S3 on Outposts ARNs, see <a
+  /// the form <code>
+  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com</code>.
+  /// When using this action with S3 on Outposts through the Amazon Web Services
+  /// SDKs, you provide the Outposts bucket ARN in place of the bucket name. For
+  /// more information about S3 on Outposts ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
-  /// S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
+  /// Amazon S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// Parameter [key] :
   /// Object key for which the multipart upload was initiated.
@@ -10743,6 +11677,54 @@ class S3 {
   /// Parameter [body] :
   /// Object data.
   ///
+  /// Parameter [checksumAlgorithm] :
+  /// Indicates the algorithm used to create the checksum for the object when
+  /// using the SDK. This header will not provide any additional functionality
+  /// if not using the SDK. When sending this header, there must be a
+  /// corresponding <code>x-amz-checksum</code> or <code>x-amz-trailer</code>
+  /// header sent. Otherwise, Amazon S3 fails the request with the HTTP status
+  /// code <code>400 Bad Request</code>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html">Checking
+  /// object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// If you provide an individual checksum, Amazon S3 ignores any provided
+  /// <code>ChecksumAlgorithm</code> parameter.
+  ///
+  /// This checksum algorithm must be the same for all parts and it match the
+  /// checksum value supplied in the <code>CreateMultipartUpload</code> request.
+  ///
+  /// Parameter [checksumCRC32] :
+  /// This header can be used as a data integrity check to verify that the data
+  /// received is the same data that was originally sent. This header specifies
+  /// the base64-encoded, 32-bit CRC32 checksum of the object. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html">Checking
+  /// object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// Parameter [checksumCRC32C] :
+  /// This header can be used as a data integrity check to verify that the data
+  /// received is the same data that was originally sent. This header specifies
+  /// the base64-encoded, 32-bit CRC32C checksum of the object. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html">Checking
+  /// object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// Parameter [checksumSHA1] :
+  /// This header can be used as a data integrity check to verify that the data
+  /// received is the same data that was originally sent. This header specifies
+  /// the base64-encoded, 160-bit SHA-1 digest of the object. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html">Checking
+  /// object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// Parameter [checksumSHA256] :
+  /// This header can be used as a data integrity check to verify that the data
+  /// received is the same data that was originally sent. This header specifies
+  /// the base64-encoded, 256-bit SHA-256 digest of the object. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html">Checking
+  /// object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  ///
   /// Parameter [contentLength] :
   /// Size of the body in bytes. This parameter is useful when the size of the
   /// body cannot be determined automatically.
@@ -10754,8 +11736,8 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   ///
   /// Parameter [sSECustomerAlgorithm] :
   /// Specifies the algorithm to use to when encrypting the object (for example,
@@ -10780,6 +11762,11 @@ class S3 {
     required int partNumber,
     required String uploadId,
     Uint8List? body,
+    ChecksumAlgorithm? checksumAlgorithm,
+    String? checksumCRC32,
+    String? checksumCRC32C,
+    String? checksumSHA1,
+    String? checksumSHA256,
     int? contentLength,
     String? contentMD5,
     String? expectedBucketOwner,
@@ -10793,6 +11780,15 @@ class S3 {
     ArgumentError.checkNotNull(partNumber, 'partNumber');
     ArgumentError.checkNotNull(uploadId, 'uploadId');
     final headers = <String, String>{
+      if (checksumAlgorithm != null)
+        'x-amz-sdk-checksum-algorithm': checksumAlgorithm.toValue(),
+      if (checksumCRC32 != null)
+        'x-amz-checksum-crc32': checksumCRC32.toString(),
+      if (checksumCRC32C != null)
+        'x-amz-checksum-crc32c': checksumCRC32C.toString(),
+      if (checksumSHA1 != null) 'x-amz-checksum-sha1': checksumSHA1.toString(),
+      if (checksumSHA256 != null)
+        'x-amz-checksum-sha256': checksumSHA256.toString(),
       if (contentLength != null) 'Content-Length': contentLength.toString(),
       if (contentMD5 != null) 'Content-MD5': contentMD5.toString(),
       if (expectedBucketOwner != null)
@@ -10824,6 +11820,14 @@ class S3 {
     return UploadPartOutput(
       bucketKeyEnabled: _s.extractHeaderBoolValue(
           $result.headers, 'x-amz-server-side-encryption-bucket-key-enabled'),
+      checksumCRC32:
+          _s.extractHeaderStringValue($result.headers, 'x-amz-checksum-crc32'),
+      checksumCRC32C:
+          _s.extractHeaderStringValue($result.headers, 'x-amz-checksum-crc32c'),
+      checksumSHA1:
+          _s.extractHeaderStringValue($result.headers, 'x-amz-checksum-sha1'),
+      checksumSHA256:
+          _s.extractHeaderStringValue($result.headers, 'x-amz-checksum-sha256'),
       eTag: _s.extractHeaderStringValue($result.headers, 'ETag'),
       requestCharged: _s
           .extractHeaderStringValue($result.headers, 'x-amz-request-charged')
@@ -10846,10 +11850,10 @@ class S3 {
   /// <code>x-amz-copy-source</code> in your request and a byte range by adding
   /// the request header <code>x-amz-copy-source-range</code> in your request.
   ///
-  /// The minimum allowable part size for a multipart upload is 5 MB. For more
-  /// information about multipart upload limits, go to <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/qfacts.html">Quick
-  /// Facts</a> in the <i>Amazon S3 User Guide</i>.
+  /// For information about maximum and minimum part sizes and other multipart
+  /// upload specifications, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/qfacts.html">Multipart
+  /// upload limits</a> in the <i>Amazon S3 User Guide</i>.
   /// <note>
   /// Instead of using an existing object as part data, you might use the <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPart.html">UploadPart</a>
@@ -10875,14 +11879,14 @@ class S3 {
   /// Upload and Permissions</a> in the <i>Amazon S3 User Guide</i>.
   /// </li>
   /// <li>
-  /// For information about copying objects using a single atomic action vs. the
+  /// For information about copying objects using a single atomic action vs. a
   /// multipart upload, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectOperations.html">Operations
   /// on Objects</a> in the <i>Amazon S3 User Guide</i>.
   /// </li>
   /// <li>
   /// For information about using server-side encryption with customer-provided
-  /// encryption keys with the UploadPartCopy operation, see <a
+  /// encryption keys with the <code>UploadPartCopy</code> operation, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_CopyObject.html">CopyObject</a>
   /// and <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPart.html">UploadPart</a>.
@@ -11017,13 +12021,13 @@ class S3 {
   ///
   /// When using this action with Amazon S3 on Outposts, you must direct
   /// requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
-  /// the form
-  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
-  /// When using this action using S3 on Outposts through the Amazon Web
-  /// Services SDKs, you provide the Outposts bucket ARN in place of the bucket
-  /// name. For more information about S3 on Outposts ARNs, see <a
+  /// the form <code>
+  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com</code>.
+  /// When using this action with S3 on Outposts through the Amazon Web Services
+  /// SDKs, you provide the Outposts bucket ARN in place of the bucket name. For
+  /// more information about S3 on Outposts ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
-  /// S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
+  /// Amazon S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// Parameter [copySource] :
   /// Specifies the source object for the copy operation. You specify the value
@@ -11038,8 +12042,8 @@ class S3 {
   /// source bucket and key of the source object, separated by a slash (/). For
   /// example, to copy the object <code>reports/january.pdf</code> from the
   /// bucket <code>awsexamplebucket</code>, use
-  /// <code>awsexamplebucket/reports/january.pdf</code>. The value must be URL
-  /// encoded.
+  /// <code>awsexamplebucket/reports/january.pdf</code>. The value must be
+  /// URL-encoded.
   /// </li>
   /// <li>
   /// For objects accessed through access points, specify the Amazon Resource
@@ -11063,7 +12067,7 @@ class S3 {
   /// outpost <code>my-outpost</code> owned by account <code>123456789012</code>
   /// in Region <code>us-west-2</code>, use the URL encoding of
   /// <code>arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/object/reports/january.pdf</code>.
-  /// The value must be URL encoded.
+  /// The value must be URL-encoded.
   /// </li>
   /// </ul>
   /// To copy a specific version of an object, append
@@ -11118,13 +12122,13 @@ class S3 {
   ///
   /// Parameter [expectedBucketOwner] :
   /// The account ID of the expected destination bucket owner. If the
-  /// destination bucket is owned by a different account, the request will fail
-  /// with an HTTP <code>403 (Access Denied)</code> error.
+  /// destination bucket is owned by a different account, the request fails with
+  /// the HTTP status code <code>403 Forbidden</code> (access denied).
   ///
   /// Parameter [expectedSourceBucketOwner] :
   /// The account ID of the expected source bucket owner. If the source bucket
-  /// is owned by a different account, the request will fail with an HTTP
-  /// <code>403 (Access Denied)</code> error.
+  /// is owned by a different account, the request fails with the HTTP status
+  /// code <code>403 Forbidden</code> (access denied).
   ///
   /// Parameter [sSECustomerAlgorithm] :
   /// Specifies the algorithm to use to when encrypting the object (for example,
@@ -11317,6 +12321,63 @@ class S3 {
   /// Parameter [cacheControl] :
   /// Specifies caching behavior along the request/reply chain.
   ///
+  /// Parameter [checksumCRC32] :
+  /// This header can be used as a data integrity check to verify that the data
+  /// received is the same data that was originally sent. This specifies the
+  /// base64-encoded, 32-bit CRC32 checksum of the object returned by the Object
+  /// Lambda function. This may not match the checksum for the object stored in
+  /// Amazon S3. Amazon S3 will perform validation of the checksum values only
+  /// when the original <code>GetObject</code> request required checksum
+  /// validation. For more information about checksums, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html">Checking
+  /// object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// Only one checksum header can be specified at a time. If you supply
+  /// multiple checksum headers, this request will fail.
+  /// <p/>
+  ///
+  /// Parameter [checksumCRC32C] :
+  /// This header can be used as a data integrity check to verify that the data
+  /// received is the same data that was originally sent. This specifies the
+  /// base64-encoded, 32-bit CRC32C checksum of the object returned by the
+  /// Object Lambda function. This may not match the checksum for the object
+  /// stored in Amazon S3. Amazon S3 will perform validation of the checksum
+  /// values only when the original <code>GetObject</code> request required
+  /// checksum validation. For more information about checksums, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html">Checking
+  /// object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// Only one checksum header can be specified at a time. If you supply
+  /// multiple checksum headers, this request will fail.
+  ///
+  /// Parameter [checksumSHA1] :
+  /// This header can be used as a data integrity check to verify that the data
+  /// received is the same data that was originally sent. This specifies the
+  /// base64-encoded, 160-bit SHA-1 digest of the object returned by the Object
+  /// Lambda function. This may not match the checksum for the object stored in
+  /// Amazon S3. Amazon S3 will perform validation of the checksum values only
+  /// when the original <code>GetObject</code> request required checksum
+  /// validation. For more information about checksums, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html">Checking
+  /// object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// Only one checksum header can be specified at a time. If you supply
+  /// multiple checksum headers, this request will fail.
+  ///
+  /// Parameter [checksumSHA256] :
+  /// This header can be used as a data integrity check to verify that the data
+  /// received is the same data that was originally sent. This specifies the
+  /// base64-encoded, 256-bit SHA-256 digest of the object returned by the
+  /// Object Lambda function. This may not match the checksum for the object
+  /// stored in Amazon S3. Amazon S3 will perform validation of the checksum
+  /// values only when the original <code>GetObject</code> request required
+  /// checksum validation. For more information about checksums, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html">Checking
+  /// object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// Only one checksum header can be specified at a time. If you supply
+  /// multiple checksum headers, this request will fail.
+  ///
   /// Parameter [contentDisposition] :
   /// Specifies presentational information for the object.
   ///
@@ -11350,8 +12411,8 @@ class S3 {
   /// &lt;Code&gt; tag of the error XML response for a corresponding
   /// <code>GetObject</code> call. Cannot be used with a successful
   /// <code>StatusCode</code> header or when the transformed object is provided
-  /// in the body. All error codes from S3 are sentence-cased. Regex value is
-  /// "^[A-Z][a-zA-Z]+$".
+  /// in the body. All error codes from S3 are sentence-cased. The regular
+  /// expression (regex) value is <code>"^[A-Z][a-zA-Z]+$"</code>.
   ///
   /// Parameter [errorMessage] :
   /// Contains a generic description of the error condition. Returned in the
@@ -11361,9 +12422,11 @@ class S3 {
   /// in body.
   ///
   /// Parameter [expiration] :
-  /// If object stored in Amazon S3 expiration is configured (see PUT Bucket
-  /// lifecycle) it includes expiry-date and rule-id key-value pairs providing
-  /// object expiration information. The value of the rule-id is URL encoded.
+  /// If the object expiration is configured (see PUT Bucket lifecycle), the
+  /// response includes this header. It includes the <code>expiry-date</code>
+  /// and <code>rule-id</code> key-value pairs that provide the object
+  /// expiration information. The value of the <code>rule-id</code> is
+  /// URL-encoded.
   ///
   /// Parameter [expires] :
   /// The date and time at which the object is no longer cacheable.
@@ -11434,51 +12497,56 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  /// <i>200 - OK</i>
+  /// <code>200 - OK</code>
   /// </li>
   /// <li>
-  /// <i>206 - Partial Content</i>
+  /// <code>206 - Partial Content</code>
   /// </li>
   /// <li>
-  /// <i>304 - Not Modified</i>
+  /// <code>304 - Not Modified</code>
   /// </li>
   /// <li>
-  /// <i>400 - Bad Request</i>
+  /// <code>400 - Bad Request</code>
   /// </li>
   /// <li>
-  /// <i>401 - Unauthorized</i>
+  /// <code>401 - Unauthorized</code>
   /// </li>
   /// <li>
-  /// <i>403 - Forbidden</i>
+  /// <code>403 - Forbidden</code>
   /// </li>
   /// <li>
-  /// <i>404 - Not Found</i>
+  /// <code>404 - Not Found</code>
   /// </li>
   /// <li>
-  /// <i>405 - Method Not Allowed</i>
+  /// <code>405 - Method Not Allowed</code>
   /// </li>
   /// <li>
-  /// <i>409 - Conflict</i>
+  /// <code>409 - Conflict</code>
   /// </li>
   /// <li>
-  /// <i>411 - Length Required</i>
+  /// <code>411 - Length Required</code>
   /// </li>
   /// <li>
-  /// <i>412 - Precondition Failed</i>
+  /// <code>412 - Precondition Failed</code>
   /// </li>
   /// <li>
-  /// <i>416 - Range Not Satisfiable</i>
+  /// <code>416 - Range Not Satisfiable</code>
   /// </li>
   /// <li>
-  /// <i>500 - Internal Server Error</i>
+  /// <code>500 - Internal Server Error</code>
   /// </li>
   /// <li>
-  /// <i>503 - Service Unavailable</i>
+  /// <code>503 - Service Unavailable</code>
   /// </li>
   /// </ul>
   ///
   /// Parameter [storageClass] :
-  /// The class of storage used to store object in Amazon S3.
+  /// Provides storage class information of the object. Amazon S3 returns this
+  /// header for all objects except for S3 Standard storage class objects.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-class-intro.html">Storage
+  /// Classes</a>.
   ///
   /// Parameter [tagCount] :
   /// The number of tags, if any, on the object.
@@ -11492,6 +12560,10 @@ class S3 {
     Uint8List? body,
     bool? bucketKeyEnabled,
     String? cacheControl,
+    String? checksumCRC32,
+    String? checksumCRC32C,
+    String? checksumSHA1,
+    String? checksumSHA256,
     String? contentDisposition,
     String? contentEncoding,
     String? contentLanguage,
@@ -11535,6 +12607,14 @@ class S3 {
             bucketKeyEnabled.toString(),
       if (cacheControl != null)
         'x-amz-fwd-header-Cache-Control': cacheControl.toString(),
+      if (checksumCRC32 != null)
+        'x-amz-fwd-header-x-amz-checksum-crc32': checksumCRC32.toString(),
+      if (checksumCRC32C != null)
+        'x-amz-fwd-header-x-amz-checksum-crc32c': checksumCRC32C.toString(),
+      if (checksumSHA1 != null)
+        'x-amz-fwd-header-x-amz-checksum-sha1': checksumSHA1.toString(),
+      if (checksumSHA256 != null)
+        'x-amz-fwd-header-x-amz-checksum-sha256': checksumSHA256.toString(),
       if (contentDisposition != null)
         'x-amz-fwd-header-Content-Disposition': contentDisposition.toString(),
       if (contentEncoding != null)
@@ -12813,8 +13893,8 @@ class CSVInput {
   final String? quoteCharacter;
 
   /// A single character used for escaping the quotation mark character inside an
-  /// already escaped value. For example, the value """ a , b """ is parsed as " a
-  /// , b ".
+  /// already escaped value. For example, the value <code>""" a , b """</code> is
+  /// parsed as <code>" a , b "</code>.
   final String? quoteEscapeCharacter;
 
   /// A single character used to separate individual records in the input. Instead
@@ -12994,6 +14074,140 @@ class CSVOutput {
   }
 }
 
+/// Contains all the possible checksum or digest values for an object.
+class Checksum {
+  /// The base64-encoded, 32-bit CRC32 checksum of the object. This will only be
+  /// present if it was uploaded with the object. With multipart uploads, this may
+  /// not be a checksum value of the object. For more information about how
+  /// checksums are calculated with multipart uploads, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums">
+  /// Checking object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  final String? checksumCRC32;
+
+  /// The base64-encoded, 32-bit CRC32C checksum of the object. This will only be
+  /// present if it was uploaded with the object. With multipart uploads, this may
+  /// not be a checksum value of the object. For more information about how
+  /// checksums are calculated with multipart uploads, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums">
+  /// Checking object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  final String? checksumCRC32C;
+
+  /// The base64-encoded, 160-bit SHA-1 digest of the object. This will only be
+  /// present if it was uploaded with the object. With multipart uploads, this may
+  /// not be a checksum value of the object. For more information about how
+  /// checksums are calculated with multipart uploads, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums">
+  /// Checking object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  final String? checksumSHA1;
+
+  /// The base64-encoded, 256-bit SHA-256 digest of the object. This will only be
+  /// present if it was uploaded with the object. With multipart uploads, this may
+  /// not be a checksum value of the object. For more information about how
+  /// checksums are calculated with multipart uploads, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums">
+  /// Checking object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  final String? checksumSHA256;
+
+  Checksum({
+    this.checksumCRC32,
+    this.checksumCRC32C,
+    this.checksumSHA1,
+    this.checksumSHA256,
+  });
+
+  factory Checksum.fromJson(Map<String, dynamic> json) {
+    return Checksum(
+      checksumCRC32: json['ChecksumCRC32'] as String?,
+      checksumCRC32C: json['ChecksumCRC32C'] as String?,
+      checksumSHA1: json['ChecksumSHA1'] as String?,
+      checksumSHA256: json['ChecksumSHA256'] as String?,
+    );
+  }
+
+  factory Checksum.fromXml(_s.XmlElement elem) {
+    return Checksum(
+      checksumCRC32: _s.extractXmlStringValue(elem, 'ChecksumCRC32'),
+      checksumCRC32C: _s.extractXmlStringValue(elem, 'ChecksumCRC32C'),
+      checksumSHA1: _s.extractXmlStringValue(elem, 'ChecksumSHA1'),
+      checksumSHA256: _s.extractXmlStringValue(elem, 'ChecksumSHA256'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final checksumCRC32 = this.checksumCRC32;
+    final checksumCRC32C = this.checksumCRC32C;
+    final checksumSHA1 = this.checksumSHA1;
+    final checksumSHA256 = this.checksumSHA256;
+    return {
+      if (checksumCRC32 != null) 'ChecksumCRC32': checksumCRC32,
+      if (checksumCRC32C != null) 'ChecksumCRC32C': checksumCRC32C,
+      if (checksumSHA1 != null) 'ChecksumSHA1': checksumSHA1,
+      if (checksumSHA256 != null) 'ChecksumSHA256': checksumSHA256,
+    };
+  }
+}
+
+enum ChecksumAlgorithm {
+  crc32,
+  crc32c,
+  sha1,
+  sha256,
+}
+
+extension on ChecksumAlgorithm {
+  String toValue() {
+    switch (this) {
+      case ChecksumAlgorithm.crc32:
+        return 'CRC32';
+      case ChecksumAlgorithm.crc32c:
+        return 'CRC32C';
+      case ChecksumAlgorithm.sha1:
+        return 'SHA1';
+      case ChecksumAlgorithm.sha256:
+        return 'SHA256';
+    }
+  }
+}
+
+extension on String {
+  ChecksumAlgorithm toChecksumAlgorithm() {
+    switch (this) {
+      case 'CRC32':
+        return ChecksumAlgorithm.crc32;
+      case 'CRC32C':
+        return ChecksumAlgorithm.crc32c;
+      case 'SHA1':
+        return ChecksumAlgorithm.sha1;
+      case 'SHA256':
+        return ChecksumAlgorithm.sha256;
+    }
+    throw Exception('$this is not known in enum ChecksumAlgorithm');
+  }
+}
+
+enum ChecksumMode {
+  enabled,
+}
+
+extension on ChecksumMode {
+  String toValue() {
+    switch (this) {
+      case ChecksumMode.enabled:
+        return 'ENABLED';
+    }
+  }
+}
+
+extension on String {
+  ChecksumMode toChecksumMode() {
+    switch (this) {
+      case 'ENABLED':
+        return ChecksumMode.enabled;
+    }
+    throw Exception('$this is not known in enum ChecksumMode');
+  }
+}
+
 /// Container for specifying the Lambda notification configuration.
 class CloudFunctionConfiguration {
   /// Lambda cloud function ARN that Amazon S3 can invoke when it detects events
@@ -13132,29 +14346,65 @@ class CompleteMultipartUploadOutput {
   ///
   /// When using this action with Amazon S3 on Outposts, you must direct requests
   /// to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
-  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
-  /// When using this action using S3 on Outposts through the Amazon Web Services
+  /// <code>
+  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com</code>.
+  /// When using this action with S3 on Outposts through the Amazon Web Services
   /// SDKs, you provide the Outposts bucket ARN in place of the bucket name. For
   /// more information about S3 on Outposts ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
-  /// S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
+  /// Amazon S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   final String? bucket;
 
   /// Indicates whether the multipart upload uses an S3 Bucket Key for server-side
   /// encryption with Amazon Web Services KMS (SSE-KMS).
   final bool? bucketKeyEnabled;
 
+  /// The base64-encoded, 32-bit CRC32 checksum of the object. This will only be
+  /// present if it was uploaded with the object. With multipart uploads, this may
+  /// not be a checksum value of the object. For more information about how
+  /// checksums are calculated with multipart uploads, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums">
+  /// Checking object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  final String? checksumCRC32;
+
+  /// The base64-encoded, 32-bit CRC32C checksum of the object. This will only be
+  /// present if it was uploaded with the object. With multipart uploads, this may
+  /// not be a checksum value of the object. For more information about how
+  /// checksums are calculated with multipart uploads, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums">
+  /// Checking object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  final String? checksumCRC32C;
+
+  /// The base64-encoded, 160-bit SHA-1 digest of the object. This will only be
+  /// present if it was uploaded with the object. With multipart uploads, this may
+  /// not be a checksum value of the object. For more information about how
+  /// checksums are calculated with multipart uploads, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums">
+  /// Checking object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  final String? checksumSHA1;
+
+  /// The base64-encoded, 256-bit SHA-256 digest of the object. This will only be
+  /// present if it was uploaded with the object. With multipart uploads, this may
+  /// not be a checksum value of the object. For more information about how
+  /// checksums are calculated with multipart uploads, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums">
+  /// Checking object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  final String? checksumSHA256;
+
   /// Entity tag that identifies the newly created object's data. Objects with
   /// different object data will have different entity tags. The entity tag is an
   /// opaque string. The entity tag may or may not be an MD5 digest of the object
   /// data. If the entity tag is not an MD5 digest of the object data, it will
   /// contain one or more nonhexadecimal characters and/or will consist of less
-  /// than 32 or more than 32 hexadecimal digits.
+  /// than 32 or more than 32 hexadecimal digits. For more information about how
+  /// the entity tag is calculated, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html">Checking
+  /// object integrity</a> in the <i>Amazon S3 User Guide</i>.
   final String? eTag;
 
   /// If the object expiration is configured, this will contain the expiration
-  /// date (expiry-date) and rule ID (rule-id). The value of rule-id is URL
-  /// encoded.
+  /// date (<code>expiry-date</code>) and rule ID (<code>rule-id</code>). The
+  /// value of <code>rule-id</code> is URL-encoded.
   final String? expiration;
 
   /// The object key of the newly created object.
@@ -13182,6 +14432,10 @@ class CompleteMultipartUploadOutput {
   CompleteMultipartUploadOutput({
     this.bucket,
     this.bucketKeyEnabled,
+    this.checksumCRC32,
+    this.checksumCRC32C,
+    this.checksumSHA1,
+    this.checksumSHA256,
     this.eTag,
     this.expiration,
     this.key,
@@ -13197,6 +14451,10 @@ class CompleteMultipartUploadOutput {
       bucket: json['Bucket'] as String?,
       bucketKeyEnabled:
           json['x-amz-server-side-encryption-bucket-key-enabled'] as bool?,
+      checksumCRC32: json['ChecksumCRC32'] as String?,
+      checksumCRC32C: json['ChecksumCRC32C'] as String?,
+      checksumSHA1: json['ChecksumSHA1'] as String?,
+      checksumSHA256: json['ChecksumSHA256'] as String?,
       eTag: json['ETag'] as String?,
       expiration: json['x-amz-expiration'] as String?,
       key: json['Key'] as String?,
@@ -13214,6 +14472,10 @@ class CompleteMultipartUploadOutput {
   Map<String, dynamic> toJson() {
     final bucket = this.bucket;
     final bucketKeyEnabled = this.bucketKeyEnabled;
+    final checksumCRC32 = this.checksumCRC32;
+    final checksumCRC32C = this.checksumCRC32C;
+    final checksumSHA1 = this.checksumSHA1;
+    final checksumSHA256 = this.checksumSHA256;
     final eTag = this.eTag;
     final expiration = this.expiration;
     final key = this.key;
@@ -13224,6 +14486,10 @@ class CompleteMultipartUploadOutput {
     final versionId = this.versionId;
     return {
       if (bucket != null) 'Bucket': bucket,
+      if (checksumCRC32 != null) 'ChecksumCRC32': checksumCRC32,
+      if (checksumCRC32C != null) 'ChecksumCRC32C': checksumCRC32C,
+      if (checksumSHA1 != null) 'ChecksumSHA1': checksumSHA1,
+      if (checksumSHA256 != null) 'ChecksumSHA256': checksumSHA256,
       if (eTag != null) 'ETag': eTag,
       if (key != null) 'Key': key,
       if (location != null) 'Location': location,
@@ -13277,6 +14543,38 @@ class CompletedMultipartUpload {
 
 /// Details of the parts that were uploaded.
 class CompletedPart {
+  /// The base64-encoded, 32-bit CRC32 checksum of the object. This will only be
+  /// present if it was uploaded with the object. With multipart uploads, this may
+  /// not be a checksum value of the object. For more information about how
+  /// checksums are calculated with multipart uploads, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums">
+  /// Checking object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  final String? checksumCRC32;
+
+  /// The base64-encoded, 32-bit CRC32C checksum of the object. This will only be
+  /// present if it was uploaded with the object. With multipart uploads, this may
+  /// not be a checksum value of the object. For more information about how
+  /// checksums are calculated with multipart uploads, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums">
+  /// Checking object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  final String? checksumCRC32C;
+
+  /// The base64-encoded, 160-bit SHA-1 digest of the object. This will only be
+  /// present if it was uploaded with the object. With multipart uploads, this may
+  /// not be a checksum value of the object. For more information about how
+  /// checksums are calculated with multipart uploads, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums">
+  /// Checking object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  final String? checksumSHA1;
+
+  /// The base64-encoded, 256-bit SHA-256 digest of the object. This will only be
+  /// present if it was uploaded with the object. With multipart uploads, this may
+  /// not be a checksum value of the object. For more information about how
+  /// checksums are calculated with multipart uploads, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums">
+  /// Checking object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  final String? checksumSHA256;
+
   /// Entity tag returned when the part was uploaded.
   final String? eTag;
 
@@ -13285,31 +14583,59 @@ class CompletedPart {
   final int? partNumber;
 
   CompletedPart({
+    this.checksumCRC32,
+    this.checksumCRC32C,
+    this.checksumSHA1,
+    this.checksumSHA256,
     this.eTag,
     this.partNumber,
   });
 
   factory CompletedPart.fromJson(Map<String, dynamic> json) {
     return CompletedPart(
+      checksumCRC32: json['ChecksumCRC32'] as String?,
+      checksumCRC32C: json['ChecksumCRC32C'] as String?,
+      checksumSHA1: json['ChecksumSHA1'] as String?,
+      checksumSHA256: json['ChecksumSHA256'] as String?,
       eTag: json['ETag'] as String?,
       partNumber: json['PartNumber'] as int?,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final checksumCRC32 = this.checksumCRC32;
+    final checksumCRC32C = this.checksumCRC32C;
+    final checksumSHA1 = this.checksumSHA1;
+    final checksumSHA256 = this.checksumSHA256;
     final eTag = this.eTag;
     final partNumber = this.partNumber;
     return {
+      if (checksumCRC32 != null) 'ChecksumCRC32': checksumCRC32,
+      if (checksumCRC32C != null) 'ChecksumCRC32C': checksumCRC32C,
+      if (checksumSHA1 != null) 'ChecksumSHA1': checksumSHA1,
+      if (checksumSHA256 != null) 'ChecksumSHA256': checksumSHA256,
       if (eTag != null) 'ETag': eTag,
       if (partNumber != null) 'PartNumber': partNumber,
     };
   }
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final checksumCRC32 = this.checksumCRC32;
+    final checksumCRC32C = this.checksumCRC32C;
+    final checksumSHA1 = this.checksumSHA1;
+    final checksumSHA256 = this.checksumSHA256;
     final eTag = this.eTag;
     final partNumber = this.partNumber;
     final $children = <_s.XmlNode>[
       if (eTag != null) _s.encodeXmlStringValue('ETag', eTag),
+      if (checksumCRC32 != null)
+        _s.encodeXmlStringValue('ChecksumCRC32', checksumCRC32),
+      if (checksumCRC32C != null)
+        _s.encodeXmlStringValue('ChecksumCRC32C', checksumCRC32C),
+      if (checksumSHA1 != null)
+        _s.encodeXmlStringValue('ChecksumSHA1', checksumSHA1),
+      if (checksumSHA256 != null)
+        _s.encodeXmlStringValue('ChecksumSHA256', checksumSHA256),
       if (partNumber != null) _s.encodeXmlIntValue('PartNumber', partNumber),
     ];
     final $attributes = <_s.XmlAttribute>[
@@ -13558,6 +14884,38 @@ class CopyObjectOutput {
 
 /// Container for all response elements.
 class CopyObjectResult {
+  /// The base64-encoded, 32-bit CRC32 checksum of the object. This will only be
+  /// present if it was uploaded with the object. With multipart uploads, this may
+  /// not be a checksum value of the object. For more information about how
+  /// checksums are calculated with multipart uploads, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums">
+  /// Checking object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  final String? checksumCRC32;
+
+  /// The base64-encoded, 32-bit CRC32C checksum of the object. This will only be
+  /// present if it was uploaded with the object. With multipart uploads, this may
+  /// not be a checksum value of the object. For more information about how
+  /// checksums are calculated with multipart uploads, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums">
+  /// Checking object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  final String? checksumCRC32C;
+
+  /// The base64-encoded, 160-bit SHA-1 digest of the object. This will only be
+  /// present if it was uploaded with the object. With multipart uploads, this may
+  /// not be a checksum value of the object. For more information about how
+  /// checksums are calculated with multipart uploads, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums">
+  /// Checking object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  final String? checksumSHA1;
+
+  /// The base64-encoded, 256-bit SHA-256 digest of the object. This will only be
+  /// present if it was uploaded with the object. With multipart uploads, this may
+  /// not be a checksum value of the object. For more information about how
+  /// checksums are calculated with multipart uploads, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums">
+  /// Checking object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  final String? checksumSHA256;
+
   /// Returns the ETag of the new object. The ETag reflects only changes to the
   /// contents of an object, not its metadata.
   final String? eTag;
@@ -13566,12 +14924,20 @@ class CopyObjectResult {
   final DateTime? lastModified;
 
   CopyObjectResult({
+    this.checksumCRC32,
+    this.checksumCRC32C,
+    this.checksumSHA1,
+    this.checksumSHA256,
     this.eTag,
     this.lastModified,
   });
 
   factory CopyObjectResult.fromJson(Map<String, dynamic> json) {
     return CopyObjectResult(
+      checksumCRC32: json['ChecksumCRC32'] as String?,
+      checksumCRC32C: json['ChecksumCRC32C'] as String?,
+      checksumSHA1: json['ChecksumSHA1'] as String?,
+      checksumSHA256: json['ChecksumSHA256'] as String?,
       eTag: json['ETag'] as String?,
       lastModified: timeStampFromJson(json['LastModified']),
     );
@@ -13579,15 +14945,27 @@ class CopyObjectResult {
 
   factory CopyObjectResult.fromXml(_s.XmlElement elem) {
     return CopyObjectResult(
+      checksumCRC32: _s.extractXmlStringValue(elem, 'ChecksumCRC32'),
+      checksumCRC32C: _s.extractXmlStringValue(elem, 'ChecksumCRC32C'),
+      checksumSHA1: _s.extractXmlStringValue(elem, 'ChecksumSHA1'),
+      checksumSHA256: _s.extractXmlStringValue(elem, 'ChecksumSHA256'),
       eTag: _s.extractXmlStringValue(elem, 'ETag'),
       lastModified: _s.extractXmlDateTimeValue(elem, 'LastModified'),
     );
   }
 
   Map<String, dynamic> toJson() {
+    final checksumCRC32 = this.checksumCRC32;
+    final checksumCRC32C = this.checksumCRC32C;
+    final checksumSHA1 = this.checksumSHA1;
+    final checksumSHA256 = this.checksumSHA256;
     final eTag = this.eTag;
     final lastModified = this.lastModified;
     return {
+      if (checksumCRC32 != null) 'ChecksumCRC32': checksumCRC32,
+      if (checksumCRC32C != null) 'ChecksumCRC32C': checksumCRC32C,
+      if (checksumSHA1 != null) 'ChecksumSHA1': checksumSHA1,
+      if (checksumSHA256 != null) 'ChecksumSHA256': checksumSHA256,
       if (eTag != null) 'ETag': eTag,
       if (lastModified != null)
         'LastModified': unixTimestampToJson(lastModified),
@@ -13597,6 +14975,38 @@ class CopyObjectResult {
 
 /// Container for all response elements.
 class CopyPartResult {
+  /// The base64-encoded, 32-bit CRC32 checksum of the object. This will only be
+  /// present if it was uploaded with the object. With multipart uploads, this may
+  /// not be a checksum value of the object. For more information about how
+  /// checksums are calculated with multipart uploads, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums">
+  /// Checking object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  final String? checksumCRC32;
+
+  /// The base64-encoded, 32-bit CRC32C checksum of the object. This will only be
+  /// present if it was uploaded with the object. With multipart uploads, this may
+  /// not be a checksum value of the object. For more information about how
+  /// checksums are calculated with multipart uploads, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums">
+  /// Checking object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  final String? checksumCRC32C;
+
+  /// The base64-encoded, 160-bit SHA-1 digest of the object. This will only be
+  /// present if it was uploaded with the object. With multipart uploads, this may
+  /// not be a checksum value of the object. For more information about how
+  /// checksums are calculated with multipart uploads, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums">
+  /// Checking object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  final String? checksumSHA1;
+
+  /// The base64-encoded, 256-bit SHA-256 digest of the object. This will only be
+  /// present if it was uploaded with the object. With multipart uploads, this may
+  /// not be a checksum value of the object. For more information about how
+  /// checksums are calculated with multipart uploads, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums">
+  /// Checking object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  final String? checksumSHA256;
+
   /// Entity tag of the object.
   final String? eTag;
 
@@ -13604,12 +15014,20 @@ class CopyPartResult {
   final DateTime? lastModified;
 
   CopyPartResult({
+    this.checksumCRC32,
+    this.checksumCRC32C,
+    this.checksumSHA1,
+    this.checksumSHA256,
     this.eTag,
     this.lastModified,
   });
 
   factory CopyPartResult.fromJson(Map<String, dynamic> json) {
     return CopyPartResult(
+      checksumCRC32: json['ChecksumCRC32'] as String?,
+      checksumCRC32C: json['ChecksumCRC32C'] as String?,
+      checksumSHA1: json['ChecksumSHA1'] as String?,
+      checksumSHA256: json['ChecksumSHA256'] as String?,
       eTag: json['ETag'] as String?,
       lastModified: timeStampFromJson(json['LastModified']),
     );
@@ -13617,15 +15035,27 @@ class CopyPartResult {
 
   factory CopyPartResult.fromXml(_s.XmlElement elem) {
     return CopyPartResult(
+      checksumCRC32: _s.extractXmlStringValue(elem, 'ChecksumCRC32'),
+      checksumCRC32C: _s.extractXmlStringValue(elem, 'ChecksumCRC32C'),
+      checksumSHA1: _s.extractXmlStringValue(elem, 'ChecksumSHA1'),
+      checksumSHA256: _s.extractXmlStringValue(elem, 'ChecksumSHA256'),
       eTag: _s.extractXmlStringValue(elem, 'ETag'),
       lastModified: _s.extractXmlDateTimeValue(elem, 'LastModified'),
     );
   }
 
   Map<String, dynamic> toJson() {
+    final checksumCRC32 = this.checksumCRC32;
+    final checksumCRC32C = this.checksumCRC32C;
+    final checksumSHA1 = this.checksumSHA1;
+    final checksumSHA256 = this.checksumSHA256;
     final eTag = this.eTag;
     final lastModified = this.lastModified;
     return {
+      if (checksumCRC32 != null) 'ChecksumCRC32': checksumCRC32,
+      if (checksumCRC32C != null) 'ChecksumCRC32C': checksumCRC32C,
+      if (checksumSHA1 != null) 'ChecksumSHA1': checksumSHA1,
+      if (checksumSHA256 != null) 'ChecksumSHA256': checksumSHA256,
       if (eTag != null) 'ETag': eTag,
       if (lastModified != null)
         'LastModified': unixTimestampToJson(lastModified),
@@ -13678,9 +15108,7 @@ class CreateBucketConfiguration {
 }
 
 class CreateBucketOutput {
-  /// Specifies the Region where the bucket will be created. If you are creating a
-  /// bucket on the US East (N. Virginia) Region (us-east-1), you do not need to
-  /// specify the location.
+  /// A forward slash followed by the name of the bucket.
   final String? location;
 
   CreateBucketOutput({
@@ -13732,17 +15160,21 @@ class CreateMultipartUploadOutput {
   ///
   /// When using this action with Amazon S3 on Outposts, you must direct requests
   /// to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
-  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
-  /// When using this action using S3 on Outposts through the Amazon Web Services
+  /// <code>
+  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com</code>.
+  /// When using this action with S3 on Outposts through the Amazon Web Services
   /// SDKs, you provide the Outposts bucket ARN in place of the bucket name. For
   /// more information about S3 on Outposts ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
-  /// S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
+  /// Amazon S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   final String? bucket;
 
   /// Indicates whether the multipart upload uses an S3 Bucket Key for server-side
   /// encryption with Amazon Web Services KMS (SSE-KMS).
   final bool? bucketKeyEnabled;
+
+  /// The algorithm that was used to create a checksum of the object.
+  final ChecksumAlgorithm? checksumAlgorithm;
 
   /// Object key for which the multipart upload was initiated.
   final String? key;
@@ -13780,6 +15212,7 @@ class CreateMultipartUploadOutput {
     this.abortRuleId,
     this.bucket,
     this.bucketKeyEnabled,
+    this.checksumAlgorithm,
     this.key,
     this.requestCharged,
     this.sSECustomerAlgorithm,
@@ -13797,6 +15230,8 @@ class CreateMultipartUploadOutput {
       bucket: json['Bucket'] as String?,
       bucketKeyEnabled:
           json['x-amz-server-side-encryption-bucket-key-enabled'] as bool?,
+      checksumAlgorithm:
+          (json['x-amz-checksum-algorithm'] as String?)?.toChecksumAlgorithm(),
       key: json['Key'] as String?,
       requestCharged:
           (json['x-amz-request-charged'] as String?)?.toRequestCharged(),
@@ -13819,6 +15254,7 @@ class CreateMultipartUploadOutput {
     final abortRuleId = this.abortRuleId;
     final bucket = this.bucket;
     final bucketKeyEnabled = this.bucketKeyEnabled;
+    final checksumAlgorithm = this.checksumAlgorithm;
     final key = this.key;
     final requestCharged = this.requestCharged;
     final sSECustomerAlgorithm = this.sSECustomerAlgorithm;
@@ -17229,8 +18665,173 @@ class GetObjectAclOutput {
   }
 }
 
+class GetObjectAttributesOutput {
+  /// The checksum or digest of the object.
+  final Checksum? checksum;
+
+  /// Specifies whether the object retrieved was (<code>true</code>) or was not
+  /// (<code>false</code>) a delete marker. If <code>false</code>, this response
+  /// header does not appear in the response.
+  final bool? deleteMarker;
+
+  /// An ETag is an opaque identifier assigned by a web server to a specific
+  /// version of a resource found at a URL.
+  final String? eTag;
+
+  /// The creation date of the object.
+  final DateTime? lastModified;
+
+  /// A collection of parts associated with a multipart upload.
+  final GetObjectAttributesParts? objectParts;
+
+  /// The size of the object in bytes.
+  final int? objectSize;
+  final RequestCharged? requestCharged;
+
+  /// Provides the storage class information of the object. Amazon S3 returns this
+  /// header for all objects except for S3 Standard storage class objects.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-class-intro.html">Storage
+  /// Classes</a>.
+  final StorageClass? storageClass;
+
+  /// The version ID of the object.
+  final String? versionId;
+
+  GetObjectAttributesOutput({
+    this.checksum,
+    this.deleteMarker,
+    this.eTag,
+    this.lastModified,
+    this.objectParts,
+    this.objectSize,
+    this.requestCharged,
+    this.storageClass,
+    this.versionId,
+  });
+
+  factory GetObjectAttributesOutput.fromJson(Map<String, dynamic> json) {
+    return GetObjectAttributesOutput(
+      checksum: json['Checksum'] != null
+          ? Checksum.fromJson(json['Checksum'] as Map<String, dynamic>)
+          : null,
+      deleteMarker: json['x-amz-delete-marker'] as bool?,
+      eTag: json['ETag'] as String?,
+      lastModified: timeStampFromJson(json['Last-Modified']),
+      objectParts: json['ObjectParts'] != null
+          ? GetObjectAttributesParts.fromJson(
+              json['ObjectParts'] as Map<String, dynamic>)
+          : null,
+      objectSize: json['ObjectSize'] as int?,
+      requestCharged:
+          (json['x-amz-request-charged'] as String?)?.toRequestCharged(),
+      storageClass: (json['StorageClass'] as String?)?.toStorageClass(),
+      versionId: json['x-amz-version-id'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final checksum = this.checksum;
+    final deleteMarker = this.deleteMarker;
+    final eTag = this.eTag;
+    final lastModified = this.lastModified;
+    final objectParts = this.objectParts;
+    final objectSize = this.objectSize;
+    final requestCharged = this.requestCharged;
+    final storageClass = this.storageClass;
+    final versionId = this.versionId;
+    return {
+      if (checksum != null) 'Checksum': checksum,
+      if (eTag != null) 'ETag': eTag,
+      if (objectParts != null) 'ObjectParts': objectParts,
+      if (objectSize != null) 'ObjectSize': objectSize,
+      if (storageClass != null) 'StorageClass': storageClass.toValue(),
+    };
+  }
+}
+
+/// A collection of parts associated with a multipart upload.
+class GetObjectAttributesParts {
+  /// Indicates whether the returned list of parts is truncated. A value of
+  /// <code>true</code> indicates that the list was truncated. A list can be
+  /// truncated if the number of parts exceeds the limit returned in the
+  /// <code>MaxParts</code> element.
+  final bool? isTruncated;
+
+  /// The maximum number of parts allowed in the response.
+  final int? maxParts;
+
+  /// When a list is truncated, this element specifies the last part in the list,
+  /// as well as the value to use for the <code>PartNumberMarker</code> request
+  /// parameter in a subsequent request.
+  final int? nextPartNumberMarker;
+
+  /// The marker for the current part.
+  final int? partNumberMarker;
+
+  /// A container for elements related to a particular part. A response can
+  /// contain zero or more <code>Parts</code> elements.
+  final List<ObjectPart>? parts;
+
+  /// The total number of parts.
+  final int? totalPartsCount;
+
+  GetObjectAttributesParts({
+    this.isTruncated,
+    this.maxParts,
+    this.nextPartNumberMarker,
+    this.partNumberMarker,
+    this.parts,
+    this.totalPartsCount,
+  });
+
+  factory GetObjectAttributesParts.fromJson(Map<String, dynamic> json) {
+    return GetObjectAttributesParts(
+      isTruncated: json['IsTruncated'] as bool?,
+      maxParts: json['MaxParts'] as int?,
+      nextPartNumberMarker: json['NextPartNumberMarker'] as int?,
+      partNumberMarker: json['PartNumberMarker'] as int?,
+      parts: (json['Part'] as List?)
+          ?.whereNotNull()
+          .map((e) => ObjectPart.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      totalPartsCount: json['PartsCount'] as int?,
+    );
+  }
+
+  factory GetObjectAttributesParts.fromXml(_s.XmlElement elem) {
+    return GetObjectAttributesParts(
+      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
+      maxParts: _s.extractXmlIntValue(elem, 'MaxParts'),
+      nextPartNumberMarker: _s.extractXmlIntValue(elem, 'NextPartNumberMarker'),
+      partNumberMarker: _s.extractXmlIntValue(elem, 'PartNumberMarker'),
+      parts: elem.findElements('Part').map(ObjectPart.fromXml).toList(),
+      totalPartsCount: _s.extractXmlIntValue(elem, 'PartsCount'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isTruncated = this.isTruncated;
+    final maxParts = this.maxParts;
+    final nextPartNumberMarker = this.nextPartNumberMarker;
+    final partNumberMarker = this.partNumberMarker;
+    final parts = this.parts;
+    final totalPartsCount = this.totalPartsCount;
+    return {
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (maxParts != null) 'MaxParts': maxParts,
+      if (nextPartNumberMarker != null)
+        'NextPartNumberMarker': nextPartNumberMarker,
+      if (partNumberMarker != null) 'PartNumberMarker': partNumberMarker,
+      if (parts != null) 'Part': parts,
+      if (totalPartsCount != null) 'PartsCount': totalPartsCount,
+    };
+  }
+}
+
 class GetObjectLegalHoldOutput {
-  /// The current Legal Hold status for the specified object.
+  /// The current legal hold status for the specified object.
   final ObjectLockLegalHold? legalHold;
 
   GetObjectLegalHoldOutput({
@@ -17294,6 +18895,38 @@ class GetObjectOutput {
   /// Specifies caching behavior along the request/reply chain.
   final String? cacheControl;
 
+  /// The base64-encoded, 32-bit CRC32 checksum of the object. This will only be
+  /// present if it was uploaded with the object. With multipart uploads, this may
+  /// not be a checksum value of the object. For more information about how
+  /// checksums are calculated with multipart uploads, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums">
+  /// Checking object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  final String? checksumCRC32;
+
+  /// The base64-encoded, 32-bit CRC32C checksum of the object. This will only be
+  /// present if it was uploaded with the object. With multipart uploads, this may
+  /// not be a checksum value of the object. For more information about how
+  /// checksums are calculated with multipart uploads, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums">
+  /// Checking object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  final String? checksumCRC32C;
+
+  /// The base64-encoded, 160-bit SHA-1 digest of the object. This will only be
+  /// present if it was uploaded with the object. With multipart uploads, this may
+  /// not be a checksum value of the object. For more information about how
+  /// checksums are calculated with multipart uploads, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums">
+  /// Checking object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  final String? checksumSHA1;
+
+  /// The base64-encoded, 256-bit SHA-256 digest of the object. This will only be
+  /// present if it was uploaded with the object. With multipart uploads, this may
+  /// not be a checksum value of the object. For more information about how
+  /// checksums are calculated with multipart uploads, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums">
+  /// Checking object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  final String? checksumSHA256;
+
   /// Specifies presentational information for the object.
   final String? contentDisposition;
 
@@ -17319,14 +18952,14 @@ class GetObjectOutput {
   /// response.
   final bool? deleteMarker;
 
-  /// An ETag is an opaque identifier assigned by a web server to a specific
-  /// version of a resource found at a URL.
+  /// An entity tag (ETag) is an opaque identifier assigned by a web server to a
+  /// specific version of a resource found at a URL.
   final String? eTag;
 
   /// If the object expiration is configured (see PUT Bucket lifecycle), the
-  /// response includes this header. It includes the expiry-date and rule-id
-  /// key-value pairs providing object expiration information. The value of the
-  /// rule-id is URL encoded.
+  /// response includes this header. It includes the <code>expiry-date</code> and
+  /// <code>rule-id</code> key-value pairs providing object expiration
+  /// information. The value of the <code>rule-id</code> is URL-encoded.
   final String? expiration;
 
   /// The date and time at which the object is no longer cacheable.
@@ -17355,7 +18988,9 @@ class GetObjectOutput {
   /// The date and time when this object's Object Lock will expire.
   final DateTime? objectLockRetainUntilDate;
 
-  /// The count of parts this object has.
+  /// The count of parts this object has. This value is only returned if you
+  /// specify <code>partNumber</code> in your request and the object was uploaded
+  /// as a multipart upload.
   final int? partsCount;
 
   /// Amazon S3 can return this if your request involves a bucket that is either a
@@ -17406,6 +19041,10 @@ class GetObjectOutput {
     this.body,
     this.bucketKeyEnabled,
     this.cacheControl,
+    this.checksumCRC32,
+    this.checksumCRC32C,
+    this.checksumSHA1,
+    this.checksumSHA256,
     this.contentDisposition,
     this.contentEncoding,
     this.contentLanguage,
@@ -17443,6 +19082,10 @@ class GetObjectOutput {
       bucketKeyEnabled:
           json['x-amz-server-side-encryption-bucket-key-enabled'] as bool?,
       cacheControl: json['Cache-Control'] as String?,
+      checksumCRC32: json['x-amz-checksum-crc32'] as String?,
+      checksumCRC32C: json['x-amz-checksum-crc32c'] as String?,
+      checksumSHA1: json['x-amz-checksum-sha1'] as String?,
+      checksumSHA256: json['x-amz-checksum-sha256'] as String?,
       contentDisposition: json['Content-Disposition'] as String?,
       contentEncoding: json['Content-Encoding'] as String?,
       contentLanguage: json['Content-Language'] as String?,
@@ -17491,6 +19134,10 @@ class GetObjectOutput {
     final body = this.body;
     final bucketKeyEnabled = this.bucketKeyEnabled;
     final cacheControl = this.cacheControl;
+    final checksumCRC32 = this.checksumCRC32;
+    final checksumCRC32C = this.checksumCRC32C;
+    final checksumSHA1 = this.checksumSHA1;
+    final checksumSHA256 = this.checksumSHA256;
     final contentDisposition = this.contentDisposition;
     final contentEncoding = this.contentEncoding;
     final contentLanguage = this.contentLanguage;
@@ -17867,6 +19514,38 @@ class HeadObjectOutput {
   /// Specifies caching behavior along the request/reply chain.
   final String? cacheControl;
 
+  /// The base64-encoded, 32-bit CRC32 checksum of the object. This will only be
+  /// present if it was uploaded with the object. With multipart uploads, this may
+  /// not be a checksum value of the object. For more information about how
+  /// checksums are calculated with multipart uploads, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums">
+  /// Checking object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  final String? checksumCRC32;
+
+  /// The base64-encoded, 32-bit CRC32C checksum of the object. This will only be
+  /// present if it was uploaded with the object. With multipart uploads, this may
+  /// not be a checksum value of the object. For more information about how
+  /// checksums are calculated with multipart uploads, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums">
+  /// Checking object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  final String? checksumCRC32C;
+
+  /// The base64-encoded, 160-bit SHA-1 digest of the object. This will only be
+  /// present if it was uploaded with the object. With multipart uploads, this may
+  /// not be a checksum value of the object. For more information about how
+  /// checksums are calculated with multipart uploads, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums">
+  /// Checking object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  final String? checksumSHA1;
+
+  /// The base64-encoded, 256-bit SHA-256 digest of the object. This will only be
+  /// present if it was uploaded with the object. With multipart uploads, this may
+  /// not be a checksum value of the object. For more information about how
+  /// checksums are calculated with multipart uploads, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums">
+  /// Checking object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  final String? checksumSHA256;
+
   /// Specifies presentational information for the object.
   final String? contentDisposition;
 
@@ -17889,14 +19568,14 @@ class HeadObjectOutput {
   /// response.
   final bool? deleteMarker;
 
-  /// An ETag is an opaque identifier assigned by a web server to a specific
-  /// version of a resource found at a URL.
+  /// An entity tag (ETag) is an opaque identifier assigned by a web server to a
+  /// specific version of a resource found at a URL.
   final String? eTag;
 
   /// If the object expiration is configured (see PUT Bucket lifecycle), the
-  /// response includes this header. It includes the expiry-date and rule-id
-  /// key-value pairs providing object expiration information. The value of the
-  /// rule-id is URL encoded.
+  /// response includes this header. It includes the <code>expiry-date</code> and
+  /// <code>rule-id</code> key-value pairs providing object expiration
+  /// information. The value of the <code>rule-id</code> is URL-encoded.
   final String? expiration;
 
   /// The date and time at which the object is no longer cacheable.
@@ -17936,7 +19615,9 @@ class HeadObjectOutput {
   /// permission.
   final DateTime? objectLockRetainUntilDate;
 
-  /// The count of parts this object has.
+  /// The count of parts this object has. This value is only returned if you
+  /// specify <code>partNumber</code> in your request and the object was uploaded
+  /// as a multipart upload.
   final int? partsCount;
 
   /// Amazon S3 can return this header if your request involves a bucket that is
@@ -17950,9 +19631,9 @@ class HeadObjectOutput {
   ///
   /// <ul>
   /// <li>
-  /// If requesting an object from the source bucket — Amazon S3 will return the
-  /// <code>x-amz-replication-status</code> header if the object in your request
-  /// is eligible for replication.
+  /// <b>If requesting an object from the source bucket</b>, Amazon S3 will return
+  /// the <code>x-amz-replication-status</code> header if the object in your
+  /// request is eligible for replication.
   ///
   /// For example, suppose that in your replication configuration, you specify
   /// object prefix <code>TaxDocs</code> requesting Amazon S3 to replicate objects
@@ -17963,13 +19644,13 @@ class HeadObjectOutput {
   /// PENDING, COMPLETED or FAILED indicating object replication status.
   /// </li>
   /// <li>
-  /// If requesting an object from a destination bucket — Amazon S3 will return
-  /// the <code>x-amz-replication-status</code> header with value REPLICA if the
-  /// object in your request is a replica that Amazon S3 created and there is no
-  /// replica modification replication in progress.
+  /// <b>If requesting an object from a destination bucket</b>, Amazon S3 will
+  /// return the <code>x-amz-replication-status</code> header with value REPLICA
+  /// if the object in your request is a replica that Amazon S3 created and there
+  /// is no replica modification replication in progress.
   /// </li>
   /// <li>
-  /// When replicating objects to multiple destination buckets the
+  /// <b>When replicating objects to multiple destination buckets</b>, the
   /// <code>x-amz-replication-status</code> header acts differently. The header of
   /// the source object will only return a value of COMPLETED when replication is
   /// successful to all destinations. The header will remain at value PENDING
@@ -18044,6 +19725,10 @@ class HeadObjectOutput {
     this.archiveStatus,
     this.bucketKeyEnabled,
     this.cacheControl,
+    this.checksumCRC32,
+    this.checksumCRC32C,
+    this.checksumSHA1,
+    this.checksumSHA256,
     this.contentDisposition,
     this.contentEncoding,
     this.contentLanguage,
@@ -18080,6 +19765,10 @@ class HeadObjectOutput {
       bucketKeyEnabled:
           json['x-amz-server-side-encryption-bucket-key-enabled'] as bool?,
       cacheControl: json['Cache-Control'] as String?,
+      checksumCRC32: json['x-amz-checksum-crc32'] as String?,
+      checksumCRC32C: json['x-amz-checksum-crc32c'] as String?,
+      checksumSHA1: json['x-amz-checksum-sha1'] as String?,
+      checksumSHA256: json['x-amz-checksum-sha256'] as String?,
       contentDisposition: json['Content-Disposition'] as String?,
       contentEncoding: json['Content-Encoding'] as String?,
       contentLanguage: json['Content-Language'] as String?,
@@ -18126,6 +19815,10 @@ class HeadObjectOutput {
     final archiveStatus = this.archiveStatus;
     final bucketKeyEnabled = this.bucketKeyEnabled;
     final cacheControl = this.cacheControl;
+    final checksumCRC32 = this.checksumCRC32;
+    final checksumCRC32C = this.checksumCRC32C;
+    final checksumSHA1 = this.checksumSHA1;
+    final checksumSHA256 = this.checksumSHA256;
     final contentDisposition = this.contentDisposition;
     final contentEncoding = this.contentEncoding;
     final contentLanguage = this.contentLanguage;
@@ -19000,6 +20693,7 @@ enum InventoryOptionalField {
   objectLockLegalHoldStatus,
   intelligentTieringAccessTier,
   bucketKeyStatus,
+  checksumAlgorithm,
 }
 
 extension on InventoryOptionalField {
@@ -19029,6 +20723,8 @@ extension on InventoryOptionalField {
         return 'IntelligentTieringAccessTier';
       case InventoryOptionalField.bucketKeyStatus:
         return 'BucketKeyStatus';
+      case InventoryOptionalField.checksumAlgorithm:
+        return 'ChecksumAlgorithm';
     }
   }
 }
@@ -19060,6 +20756,8 @@ extension on String {
         return InventoryOptionalField.intelligentTieringAccessTier;
       case 'BucketKeyStatus':
         return InventoryOptionalField.bucketKeyStatus;
+      case 'ChecksumAlgorithm':
+        return InventoryOptionalField.checksumAlgorithm;
     }
     throw Exception('$this is not known in enum InventoryOptionalField');
   }
@@ -19529,7 +21227,7 @@ class LifecycleRule {
   /// applies to. A <code>Filter</code> must have exactly one of
   /// <code>Prefix</code>, <code>Tag</code>, or <code>And</code> specified.
   /// <code>Filter</code> is required if the <code>LifecycleRule</code> does not
-  /// containt a <code>Prefix</code> element.
+  /// contain a <code>Prefix</code> element.
   final LifecycleRuleFilter? filter;
 
   /// Unique identifier for the rule. The value cannot be longer than 255
@@ -19946,8 +21644,8 @@ class ListBucketAnalyticsConfigurationsOutput {
 }
 
 class ListBucketIntelligentTieringConfigurationsOutput {
-  /// The ContinuationToken that represents a placeholder from where this request
-  /// should begin.
+  /// The <code>ContinuationToken</code> that represents a placeholder from where
+  /// this request should begin.
   final String? continuationToken;
 
   /// The list of S3 Intelligent-Tiering configurations for a bucket.
@@ -19955,8 +21653,9 @@ class ListBucketIntelligentTieringConfigurationsOutput {
       intelligentTieringConfigurationList;
 
   /// Indicates whether the returned list of analytics configurations is complete.
-  /// A value of true indicates that the list is not complete and the
-  /// NextContinuationToken will be provided for a subsequent request.
+  /// A value of <code>true</code> indicates that the list is not complete and the
+  /// <code>NextContinuationToken</code> will be provided for a subsequent
+  /// request.
   final bool? isTruncated;
 
   /// The marker used to continue this inventory configuration listing. Use the
@@ -20156,7 +21855,7 @@ class ListBucketMetricsConfigurationsOutput {
 }
 
 class ListBucketsOutput {
-  /// The list of buckets owned by the requestor.
+  /// The list of buckets owned by the requester.
   final List<Bucket>? buckets;
 
   /// The owner of the buckets listed.
@@ -20721,12 +22420,13 @@ class ListObjectsV2Output {
   ///
   /// When using this action with Amazon S3 on Outposts, you must direct requests
   /// to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
-  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
-  /// When using this action using S3 on Outposts through the Amazon Web Services
+  /// <code>
+  /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com</code>.
+  /// When using this action with S3 on Outposts through the Amazon Web Services
   /// SDKs, you provide the Outposts bucket ARN in place of the bucket name. For
   /// more information about S3 on Outposts ARNs, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
-  /// S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
+  /// Amazon S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   final String? name;
 
   /// <code>NextContinuationToken</code> is sent when <code>isTruncated</code> is
@@ -20856,6 +22556,9 @@ class ListPartsOutput {
   /// return the access point ARN or access point alias if used.
   final String? bucket;
 
+  /// The algorithm that was used to create a checksum of the object.
+  final ChecksumAlgorithm? checksumAlgorithm;
+
   /// Container element that identifies who initiated the multipart upload. If the
   /// initiator is an Amazon Web Services account, this element provides the same
   /// information as the <code>Owner</code> element. If the initiator is an IAM
@@ -20904,6 +22607,7 @@ class ListPartsOutput {
     this.abortDate,
     this.abortRuleId,
     this.bucket,
+    this.checksumAlgorithm,
     this.initiator,
     this.isTruncated,
     this.key,
@@ -20922,6 +22626,8 @@ class ListPartsOutput {
       abortDate: timeStampFromJson(json['x-amz-abort-date']),
       abortRuleId: json['x-amz-abort-rule-id'] as String?,
       bucket: json['Bucket'] as String?,
+      checksumAlgorithm:
+          (json['ChecksumAlgorithm'] as String?)?.toChecksumAlgorithm(),
       initiator: json['Initiator'] != null
           ? Initiator.fromJson(json['Initiator'] as Map<String, dynamic>)
           : null,
@@ -20948,6 +22654,7 @@ class ListPartsOutput {
     final abortDate = this.abortDate;
     final abortRuleId = this.abortRuleId;
     final bucket = this.bucket;
+    final checksumAlgorithm = this.checksumAlgorithm;
     final initiator = this.initiator;
     final isTruncated = this.isTruncated;
     final key = this.key;
@@ -20961,6 +22668,8 @@ class ListPartsOutput {
     final uploadId = this.uploadId;
     return {
       if (bucket != null) 'Bucket': bucket,
+      if (checksumAlgorithm != null)
+        'ChecksumAlgorithm': checksumAlgorithm.toValue(),
       if (initiator != null) 'Initiator': initiator,
       if (isTruncated != null) 'IsTruncated': isTruncated,
       if (key != null) 'Key': key,
@@ -21257,7 +22966,7 @@ class Metrics {
 /// metrics filter. The operator must have at least two predicates, and an
 /// object must match all of the predicates in order for the filter to apply.
 class MetricsAndOperator {
-  /// The access point ARN used when evaluating an AND predicate.
+  /// The access point ARN used when evaluating an <code>AND</code> predicate.
   final String? accessPointArn;
 
   /// The prefix used when evaluating an AND predicate.
@@ -21502,6 +23211,9 @@ extension on String {
 
 /// Container for the <code>MultipartUpload</code> for the Amazon S3 object.
 class MultipartUpload {
+  /// The algorithm that was used to create a checksum of the object.
+  final ChecksumAlgorithm? checksumAlgorithm;
+
   /// Date and time at which the multipart upload was initiated.
   final DateTime? initiated;
 
@@ -21521,6 +23233,7 @@ class MultipartUpload {
   final String? uploadId;
 
   MultipartUpload({
+    this.checksumAlgorithm,
     this.initiated,
     this.initiator,
     this.key,
@@ -21531,6 +23244,8 @@ class MultipartUpload {
 
   factory MultipartUpload.fromJson(Map<String, dynamic> json) {
     return MultipartUpload(
+      checksumAlgorithm:
+          (json['ChecksumAlgorithm'] as String?)?.toChecksumAlgorithm(),
       initiated: timeStampFromJson(json['Initiated']),
       initiator: json['Initiator'] != null
           ? Initiator.fromJson(json['Initiator'] as Map<String, dynamic>)
@@ -21546,6 +23261,9 @@ class MultipartUpload {
 
   factory MultipartUpload.fromXml(_s.XmlElement elem) {
     return MultipartUpload(
+      checksumAlgorithm: _s
+          .extractXmlStringValue(elem, 'ChecksumAlgorithm')
+          ?.toChecksumAlgorithm(),
       initiated: _s.extractXmlDateTimeValue(elem, 'Initiated'),
       initiator: _s.extractXmlChild(elem, 'Initiator')?.let(Initiator.fromXml),
       key: _s.extractXmlStringValue(elem, 'Key'),
@@ -21557,6 +23275,7 @@ class MultipartUpload {
   }
 
   Map<String, dynamic> toJson() {
+    final checksumAlgorithm = this.checksumAlgorithm;
     final initiated = this.initiated;
     final initiator = this.initiator;
     final key = this.key;
@@ -21564,6 +23283,8 @@ class MultipartUpload {
     final storageClass = this.storageClass;
     final uploadId = this.uploadId;
     return {
+      if (checksumAlgorithm != null)
+        'ChecksumAlgorithm': checksumAlgorithm.toValue(),
       if (initiated != null) 'Initiated': unixTimestampToJson(initiated),
       if (initiator != null) 'Initiator': initiator,
       if (key != null) 'Key': key,
@@ -21588,8 +23309,8 @@ class NoncurrentVersionExpiration {
   final int? newerNoncurrentVersions;
 
   /// Specifies the number of days an object is noncurrent before Amazon S3 can
-  /// perform the associated action. For information about the noncurrent days
-  /// calculations, see <a
+  /// perform the associated action. The value must be a non-zero positive
+  /// integer. For information about the noncurrent days calculations, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/intro-lifecycle-rules.html#non-current-days-calculations">How
   /// Amazon S3 Calculates When an Object Became Noncurrent</a> in the <i>Amazon
   /// S3 User Guide</i>.
@@ -21986,6 +23707,9 @@ class NotificationConfigurationFilter {
 
 /// An object consists of data and its descriptive metadata.
 class Object {
+  /// The algorithm that was used to create a checksum of the object.
+  final List<ChecksumAlgorithm>? checksumAlgorithm;
+
   /// The entity tag is a hash of the object. The ETag reflects changes only to
   /// the contents of an object, not its metadata. The ETag may or may not be an
   /// MD5 digest of the object data. Whether or not it is depends on how the
@@ -22006,7 +23730,9 @@ class Object {
   /// <li>
   /// If an object is created by either the Multipart Upload or Part Copy
   /// operation, the ETag is not an MD5 digest, regardless of the method of
-  /// encryption.
+  /// encryption. If an object is larger than 16 MB, the Amazon Web Services
+  /// Management Console will upload or copy that object as a Multipart Upload,
+  /// and therefore the ETag will not be an MD5 digest.
   /// </li>
   /// </ul>
   final String? eTag;
@@ -22028,6 +23754,7 @@ class Object {
   final ObjectStorageClass? storageClass;
 
   Object({
+    this.checksumAlgorithm,
     this.eTag,
     this.key,
     this.lastModified,
@@ -22038,6 +23765,10 @@ class Object {
 
   factory Object.fromJson(Map<String, dynamic> json) {
     return Object(
+      checksumAlgorithm: (json['ChecksumAlgorithm'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toChecksumAlgorithm())
+          .toList(),
       eTag: json['ETag'] as String?,
       key: json['Key'] as String?,
       lastModified: timeStampFromJson(json['LastModified']),
@@ -22051,6 +23782,10 @@ class Object {
 
   factory Object.fromXml(_s.XmlElement elem) {
     return Object(
+      checksumAlgorithm: _s
+          .extractXmlStringListValues(elem, 'ChecksumAlgorithm')
+          .map((s) => s.toChecksumAlgorithm())
+          .toList(),
       eTag: _s.extractXmlStringValue(elem, 'ETag'),
       key: _s.extractXmlStringValue(elem, 'Key'),
       lastModified: _s.extractXmlDateTimeValue(elem, 'LastModified'),
@@ -22063,6 +23798,7 @@ class Object {
   }
 
   Map<String, dynamic> toJson() {
+    final checksumAlgorithm = this.checksumAlgorithm;
     final eTag = this.eTag;
     final key = this.key;
     final lastModified = this.lastModified;
@@ -22070,6 +23806,8 @@ class Object {
     final size = this.size;
     final storageClass = this.storageClass;
     return {
+      if (checksumAlgorithm != null)
+        'ChecksumAlgorithm': checksumAlgorithm.map((e) => e.toValue()).toList(),
       if (eTag != null) 'ETag': eTag,
       if (key != null) 'Key': key,
       if (lastModified != null)
@@ -22078,6 +23816,49 @@ class Object {
       if (size != null) 'Size': size,
       if (storageClass != null) 'StorageClass': storageClass.toValue(),
     };
+  }
+}
+
+enum ObjectAttributes {
+  eTag,
+  checksum,
+  objectParts,
+  storageClass,
+  objectSize,
+}
+
+extension on ObjectAttributes {
+  String toValue() {
+    switch (this) {
+      case ObjectAttributes.eTag:
+        return 'ETag';
+      case ObjectAttributes.checksum:
+        return 'Checksum';
+      case ObjectAttributes.objectParts:
+        return 'ObjectParts';
+      case ObjectAttributes.storageClass:
+        return 'StorageClass';
+      case ObjectAttributes.objectSize:
+        return 'ObjectSize';
+    }
+  }
+}
+
+extension on String {
+  ObjectAttributes toObjectAttributes() {
+    switch (this) {
+      case 'ETag':
+        return ObjectAttributes.eTag;
+      case 'Checksum':
+        return ObjectAttributes.checksum;
+      case 'ObjectParts':
+        return ObjectAttributes.objectParts;
+      case 'StorageClass':
+        return ObjectAttributes.storageClass;
+      case 'ObjectSize':
+        return ObjectAttributes.objectSize;
+    }
+    throw Exception('$this is not known in enum ObjectAttributes');
   }
 }
 
@@ -22278,9 +24059,9 @@ extension on String {
   }
 }
 
-/// A Legal Hold configuration for an object.
+/// A legal hold configuration for an object.
 class ObjectLockLegalHold {
-  /// Indicates whether the specified object has a Legal Hold in place.
+  /// Indicates whether the specified object has a legal hold in place.
   final ObjectLockLegalHoldStatus? status;
 
   ObjectLockLegalHold({
@@ -22568,6 +24349,96 @@ extension on String {
   }
 }
 
+/// A container for elements related to an individual part.
+class ObjectPart {
+  /// This header can be used as a data integrity check to verify that the data
+  /// received is the same data that was originally sent. This header specifies
+  /// the base64-encoded, 32-bit CRC32 checksum of the object. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html">Checking
+  /// object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  final String? checksumCRC32;
+
+  /// The base64-encoded, 32-bit CRC32C checksum of the object. This will only be
+  /// present if it was uploaded with the object. With multipart uploads, this may
+  /// not be a checksum value of the object. For more information about how
+  /// checksums are calculated with multipart uploads, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums">
+  /// Checking object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  final String? checksumCRC32C;
+
+  /// The base64-encoded, 160-bit SHA-1 digest of the object. This will only be
+  /// present if it was uploaded with the object. With multipart uploads, this may
+  /// not be a checksum value of the object. For more information about how
+  /// checksums are calculated with multipart uploads, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums">
+  /// Checking object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  final String? checksumSHA1;
+
+  /// The base64-encoded, 256-bit SHA-256 digest of the object. This will only be
+  /// present if it was uploaded with the object. With multipart uploads, this may
+  /// not be a checksum value of the object. For more information about how
+  /// checksums are calculated with multipart uploads, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums">
+  /// Checking object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  final String? checksumSHA256;
+
+  /// The part number identifying the part. This value is a positive integer
+  /// between 1 and 10,000.
+  final int? partNumber;
+
+  /// The size of the uploaded part in bytes.
+  final int? size;
+
+  ObjectPart({
+    this.checksumCRC32,
+    this.checksumCRC32C,
+    this.checksumSHA1,
+    this.checksumSHA256,
+    this.partNumber,
+    this.size,
+  });
+
+  factory ObjectPart.fromJson(Map<String, dynamic> json) {
+    return ObjectPart(
+      checksumCRC32: json['ChecksumCRC32'] as String?,
+      checksumCRC32C: json['ChecksumCRC32C'] as String?,
+      checksumSHA1: json['ChecksumSHA1'] as String?,
+      checksumSHA256: json['ChecksumSHA256'] as String?,
+      partNumber: json['PartNumber'] as int?,
+      size: json['Size'] as int?,
+    );
+  }
+
+  factory ObjectPart.fromXml(_s.XmlElement elem) {
+    return ObjectPart(
+      checksumCRC32: _s.extractXmlStringValue(elem, 'ChecksumCRC32'),
+      checksumCRC32C: _s.extractXmlStringValue(elem, 'ChecksumCRC32C'),
+      checksumSHA1: _s.extractXmlStringValue(elem, 'ChecksumSHA1'),
+      checksumSHA256: _s.extractXmlStringValue(elem, 'ChecksumSHA256'),
+      partNumber: _s.extractXmlIntValue(elem, 'PartNumber'),
+      size: _s.extractXmlIntValue(elem, 'Size'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final checksumCRC32 = this.checksumCRC32;
+    final checksumCRC32C = this.checksumCRC32C;
+    final checksumSHA1 = this.checksumSHA1;
+    final checksumSHA256 = this.checksumSHA256;
+    final partNumber = this.partNumber;
+    final size = this.size;
+    return {
+      if (checksumCRC32 != null) 'ChecksumCRC32': checksumCRC32,
+      if (checksumCRC32C != null) 'ChecksumCRC32C': checksumCRC32C,
+      if (checksumSHA1 != null) 'ChecksumSHA1': checksumSHA1,
+      if (checksumSHA256 != null) 'ChecksumSHA256': checksumSHA256,
+      if (partNumber != null) 'PartNumber': partNumber,
+      if (size != null) 'Size': size,
+    };
+  }
+}
+
 enum ObjectStorageClass {
   standard,
   reducedRedundancy,
@@ -22633,6 +24504,9 @@ extension on String {
 
 /// The version of an object.
 class ObjectVersion {
+  /// The algorithm that was used to create a checksum of the object.
+  final List<ChecksumAlgorithm>? checksumAlgorithm;
+
   /// The entity tag is an MD5 hash of that version of the object.
   final String? eTag;
 
@@ -22659,6 +24533,7 @@ class ObjectVersion {
   final String? versionId;
 
   ObjectVersion({
+    this.checksumAlgorithm,
     this.eTag,
     this.isLatest,
     this.key,
@@ -22671,6 +24546,10 @@ class ObjectVersion {
 
   factory ObjectVersion.fromJson(Map<String, dynamic> json) {
     return ObjectVersion(
+      checksumAlgorithm: (json['ChecksumAlgorithm'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toChecksumAlgorithm())
+          .toList(),
       eTag: json['ETag'] as String?,
       isLatest: json['IsLatest'] as bool?,
       key: json['Key'] as String?,
@@ -22687,6 +24566,10 @@ class ObjectVersion {
 
   factory ObjectVersion.fromXml(_s.XmlElement elem) {
     return ObjectVersion(
+      checksumAlgorithm: _s
+          .extractXmlStringListValues(elem, 'ChecksumAlgorithm')
+          .map((s) => s.toChecksumAlgorithm())
+          .toList(),
       eTag: _s.extractXmlStringValue(elem, 'ETag'),
       isLatest: _s.extractXmlBoolValue(elem, 'IsLatest'),
       key: _s.extractXmlStringValue(elem, 'Key'),
@@ -22701,6 +24584,7 @@ class ObjectVersion {
   }
 
   Map<String, dynamic> toJson() {
+    final checksumAlgorithm = this.checksumAlgorithm;
     final eTag = this.eTag;
     final isLatest = this.isLatest;
     final key = this.key;
@@ -22710,6 +24594,8 @@ class ObjectVersion {
     final storageClass = this.storageClass;
     final versionId = this.versionId;
     return {
+      if (checksumAlgorithm != null)
+        'ChecksumAlgorithm': checksumAlgorithm.map((e) => e.toValue()).toList(),
       if (eTag != null) 'ETag': eTag,
       if (isLatest != null) 'IsLatest': isLatest,
       if (key != null) 'Key': key,
@@ -23036,6 +24922,38 @@ class ParquetInput {
 
 /// Container for elements related to a part.
 class Part {
+  /// This header can be used as a data integrity check to verify that the data
+  /// received is the same data that was originally sent. This header specifies
+  /// the base64-encoded, 32-bit CRC32 checksum of the object. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html">Checking
+  /// object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  final String? checksumCRC32;
+
+  /// The base64-encoded, 32-bit CRC32C checksum of the object. This will only be
+  /// present if it was uploaded with the object. With multipart uploads, this may
+  /// not be a checksum value of the object. For more information about how
+  /// checksums are calculated with multipart uploads, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums">
+  /// Checking object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  final String? checksumCRC32C;
+
+  /// The base64-encoded, 160-bit SHA-1 digest of the object. This will only be
+  /// present if it was uploaded with the object. With multipart uploads, this may
+  /// not be a checksum value of the object. For more information about how
+  /// checksums are calculated with multipart uploads, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums">
+  /// Checking object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  final String? checksumSHA1;
+
+  /// This header can be used as a data integrity check to verify that the data
+  /// received is the same data that was originally sent. This header specifies
+  /// the base64-encoded, 256-bit SHA-256 digest of the object. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html">Checking
+  /// object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  final String? checksumSHA256;
+
   /// Entity tag returned when the part was uploaded.
   final String? eTag;
 
@@ -23050,6 +24968,10 @@ class Part {
   final int? size;
 
   Part({
+    this.checksumCRC32,
+    this.checksumCRC32C,
+    this.checksumSHA1,
+    this.checksumSHA256,
     this.eTag,
     this.lastModified,
     this.partNumber,
@@ -23058,6 +24980,10 @@ class Part {
 
   factory Part.fromJson(Map<String, dynamic> json) {
     return Part(
+      checksumCRC32: json['ChecksumCRC32'] as String?,
+      checksumCRC32C: json['ChecksumCRC32C'] as String?,
+      checksumSHA1: json['ChecksumSHA1'] as String?,
+      checksumSHA256: json['ChecksumSHA256'] as String?,
       eTag: json['ETag'] as String?,
       lastModified: timeStampFromJson(json['LastModified']),
       partNumber: json['PartNumber'] as int?,
@@ -23067,6 +24993,10 @@ class Part {
 
   factory Part.fromXml(_s.XmlElement elem) {
     return Part(
+      checksumCRC32: _s.extractXmlStringValue(elem, 'ChecksumCRC32'),
+      checksumCRC32C: _s.extractXmlStringValue(elem, 'ChecksumCRC32C'),
+      checksumSHA1: _s.extractXmlStringValue(elem, 'ChecksumSHA1'),
+      checksumSHA256: _s.extractXmlStringValue(elem, 'ChecksumSHA256'),
       eTag: _s.extractXmlStringValue(elem, 'ETag'),
       lastModified: _s.extractXmlDateTimeValue(elem, 'LastModified'),
       partNumber: _s.extractXmlIntValue(elem, 'PartNumber'),
@@ -23075,11 +25005,19 @@ class Part {
   }
 
   Map<String, dynamic> toJson() {
+    final checksumCRC32 = this.checksumCRC32;
+    final checksumCRC32C = this.checksumCRC32C;
+    final checksumSHA1 = this.checksumSHA1;
+    final checksumSHA256 = this.checksumSHA256;
     final eTag = this.eTag;
     final lastModified = this.lastModified;
     final partNumber = this.partNumber;
     final size = this.size;
     return {
+      if (checksumCRC32 != null) 'ChecksumCRC32': checksumCRC32,
+      if (checksumCRC32C != null) 'ChecksumCRC32C': checksumCRC32C,
+      if (checksumSHA1 != null) 'ChecksumSHA1': checksumSHA1,
+      if (checksumSHA256 != null) 'ChecksumSHA256': checksumSHA256,
       if (eTag != null) 'ETag': eTag,
       if (lastModified != null)
         'LastModified': unixTimestampToJson(lastModified),
@@ -23309,7 +25247,7 @@ class PublicAccessBlockConfiguration {
   ///
   /// <ul>
   /// <li>
-  /// PUT Bucket acl and PUT Object acl calls fail if the specified ACL is public.
+  /// PUT Bucket ACL and PUT Object ACL calls fail if the specified ACL is public.
   /// </li>
   /// <li>
   /// PUT Object calls fail if the request includes a public ACL.
@@ -23479,14 +25417,46 @@ class PutObjectOutput {
   /// encryption with Amazon Web Services KMS (SSE-KMS).
   final bool? bucketKeyEnabled;
 
+  /// The base64-encoded, 32-bit CRC32 checksum of the object. This will only be
+  /// present if it was uploaded with the object. With multipart uploads, this may
+  /// not be a checksum value of the object. For more information about how
+  /// checksums are calculated with multipart uploads, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums">
+  /// Checking object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  final String? checksumCRC32;
+
+  /// The base64-encoded, 32-bit CRC32C checksum of the object. This will only be
+  /// present if it was uploaded with the object. With multipart uploads, this may
+  /// not be a checksum value of the object. For more information about how
+  /// checksums are calculated with multipart uploads, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums">
+  /// Checking object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  final String? checksumCRC32C;
+
+  /// The base64-encoded, 160-bit SHA-1 digest of the object. This will only be
+  /// present if it was uploaded with the object. With multipart uploads, this may
+  /// not be a checksum value of the object. For more information about how
+  /// checksums are calculated with multipart uploads, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums">
+  /// Checking object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  final String? checksumSHA1;
+
+  /// The base64-encoded, 256-bit SHA-256 digest of the object. This will only be
+  /// present if it was uploaded with the object. With multipart uploads, this may
+  /// not be a checksum value of the object. For more information about how
+  /// checksums are calculated with multipart uploads, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums">
+  /// Checking object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  final String? checksumSHA256;
+
   /// Entity tag for the uploaded object.
   final String? eTag;
 
   /// If the expiration is configured for the object (see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketLifecycleConfiguration.html">PutBucketLifecycleConfiguration</a>),
-  /// the response includes this header. It includes the expiry-date and rule-id
-  /// key-value pairs that provide information about object expiration. The value
-  /// of the rule-id is URL encoded.
+  /// the response includes this header. It includes the <code>expiry-date</code>
+  /// and <code>rule-id</code> key-value pairs that provide information about
+  /// object expiration. The value of the <code>rule-id</code> is URL-encoded.
   final String? expiration;
   final RequestCharged? requestCharged;
 
@@ -23522,6 +25492,10 @@ class PutObjectOutput {
 
   PutObjectOutput({
     this.bucketKeyEnabled,
+    this.checksumCRC32,
+    this.checksumCRC32C,
+    this.checksumSHA1,
+    this.checksumSHA256,
     this.eTag,
     this.expiration,
     this.requestCharged,
@@ -23537,6 +25511,10 @@ class PutObjectOutput {
     return PutObjectOutput(
       bucketKeyEnabled:
           json['x-amz-server-side-encryption-bucket-key-enabled'] as bool?,
+      checksumCRC32: json['x-amz-checksum-crc32'] as String?,
+      checksumCRC32C: json['x-amz-checksum-crc32c'] as String?,
+      checksumSHA1: json['x-amz-checksum-sha1'] as String?,
+      checksumSHA256: json['x-amz-checksum-sha256'] as String?,
       eTag: json['ETag'] as String?,
       expiration: json['x-amz-expiration'] as String?,
       requestCharged:
@@ -23557,6 +25535,10 @@ class PutObjectOutput {
 
   Map<String, dynamic> toJson() {
     final bucketKeyEnabled = this.bucketKeyEnabled;
+    final checksumCRC32 = this.checksumCRC32;
+    final checksumCRC32C = this.checksumCRC32C;
+    final checksumSHA1 = this.checksumSHA1;
+    final checksumSHA256 = this.checksumSHA256;
     final eTag = this.eTag;
     final expiration = this.expiration;
     final requestCharged = this.requestCharged;
@@ -24718,9 +26700,9 @@ extension on String {
 
 /// Confirms that the requester knows that they will be charged for the request.
 /// Bucket owners need not specify this parameter in their requests. For
-/// information about downloading objects from requester pays buckets, see <a
+/// information about downloading objects from Requester Pays buckets, see <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html">Downloading
-/// Objects in Requestor Pays Buckets</a> in the <i>Amazon S3 User Guide</i>.
+/// Objects in Requester Pays Buckets</a> in the <i>Amazon S3 User Guide</i>.
 enum RequestPayer {
   requester,
 }
@@ -25456,8 +27438,9 @@ class ScanRange {
   final int? end;
 
   /// Specifies the start of the byte range. This parameter is optional. Valid
-  /// values: non-negative integers. The default value is 0. If only start is
-  /// supplied, it means scan from that point to the end of the file.For example;
+  /// values: non-negative integers. The default value is 0. If only
+  /// <code>start</code> is supplied, it means scan from that point to the end of
+  /// the file. For example,
   /// <code>&lt;scanrange&gt;&lt;start&gt;50&lt;/start&gt;&lt;/scanrange&gt;</code>
   /// means scan from byte 50 until the end of the file.
   final int? start;
@@ -25628,26 +27611,32 @@ class SelectObjectContentRequest {
   final OutputSerialization outputSerialization;
 
   /// The account ID of the expected bucket owner. If the bucket is owned by a
-  /// different account, the request will fail with an HTTP <code>403 (Access
-  /// Denied)</code> error.
+  /// different account, the request fails with the HTTP status code <code>403
+  /// Forbidden</code> (access denied).
   final String? expectedBucketOwner;
 
   /// Specifies if periodic request progress information should be enabled.
   final RequestProgress? requestProgress;
 
-  /// The SSE Algorithm used to encrypt the object. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html">Server-Side
-  /// Encryption (Using Customer-Provided Encryption Keys</a>.
+  /// The server-side encryption (SSE) algorithm used to encrypt the object. This
+  /// parameter is needed only when the object was created using a checksum
+  /// algorithm. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html">Protecting
+  /// data using SSE-C keys</a> in the <i>Amazon S3 User Guide</i>.
   final String? sSECustomerAlgorithm;
 
-  /// The SSE Customer Key. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html">Server-Side
-  /// Encryption (Using Customer-Provided Encryption Keys</a>.
+  /// The server-side encryption (SSE) customer managed key. This parameter is
+  /// needed only when the object was created using a checksum algorithm. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html">Protecting
+  /// data using SSE-C keys</a> in the <i>Amazon S3 User Guide</i>.
   final Uint8List? sSECustomerKey;
 
-  /// The SSE Customer Key MD5. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html">Server-Side
-  /// Encryption (Using Customer-Provided Encryption Keys</a>.
+  /// The MD5 server-side encryption (SSE) customer managed key. This parameter is
+  /// needed only when the object was created using a checksum algorithm. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html">Protecting
+  /// data using SSE-C keys</a> in the <i>Amazon S3 User Guide</i>.
   final String? sSECustomerKeyMD5;
 
   /// Specifies the byte range of the object to get the records from. A record is
@@ -27229,6 +29218,38 @@ class UploadPartOutput {
   /// encryption with Amazon Web Services KMS (SSE-KMS).
   final bool? bucketKeyEnabled;
 
+  /// The base64-encoded, 32-bit CRC32 checksum of the object. This will only be
+  /// present if it was uploaded with the object. With multipart uploads, this may
+  /// not be a checksum value of the object. For more information about how
+  /// checksums are calculated with multipart uploads, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums">
+  /// Checking object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  final String? checksumCRC32;
+
+  /// The base64-encoded, 32-bit CRC32C checksum of the object. This will only be
+  /// present if it was uploaded with the object. With multipart uploads, this may
+  /// not be a checksum value of the object. For more information about how
+  /// checksums are calculated with multipart uploads, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums">
+  /// Checking object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  final String? checksumCRC32C;
+
+  /// The base64-encoded, 160-bit SHA-1 digest of the object. This will only be
+  /// present if it was uploaded with the object. With multipart uploads, this may
+  /// not be a checksum value of the object. For more information about how
+  /// checksums are calculated with multipart uploads, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums">
+  /// Checking object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  final String? checksumSHA1;
+
+  /// The base64-encoded, 256-bit SHA-256 digest of the object. This will only be
+  /// present if it was uploaded with the object. With multipart uploads, this may
+  /// not be a checksum value of the object. For more information about how
+  /// checksums are calculated with multipart uploads, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums">
+  /// Checking object integrity</a> in the <i>Amazon S3 User Guide</i>.
+  final String? checksumSHA256;
+
   /// Entity tag for the uploaded object.
   final String? eTag;
   final RequestCharged? requestCharged;
@@ -27254,6 +29275,10 @@ class UploadPartOutput {
 
   UploadPartOutput({
     this.bucketKeyEnabled,
+    this.checksumCRC32,
+    this.checksumCRC32C,
+    this.checksumSHA1,
+    this.checksumSHA256,
     this.eTag,
     this.requestCharged,
     this.sSECustomerAlgorithm,
@@ -27266,6 +29291,10 @@ class UploadPartOutput {
     return UploadPartOutput(
       bucketKeyEnabled:
           json['x-amz-server-side-encryption-bucket-key-enabled'] as bool?,
+      checksumCRC32: json['x-amz-checksum-crc32'] as String?,
+      checksumCRC32C: json['x-amz-checksum-crc32c'] as String?,
+      checksumSHA1: json['x-amz-checksum-sha1'] as String?,
+      checksumSHA256: json['x-amz-checksum-sha256'] as String?,
       eTag: json['ETag'] as String?,
       requestCharged:
           (json['x-amz-request-charged'] as String?)?.toRequestCharged(),
@@ -27282,6 +29311,10 @@ class UploadPartOutput {
 
   Map<String, dynamic> toJson() {
     final bucketKeyEnabled = this.bucketKeyEnabled;
+    final checksumCRC32 = this.checksumCRC32;
+    final checksumCRC32C = this.checksumCRC32C;
+    final checksumSHA1 = this.checksumSHA1;
+    final checksumSHA256 = this.checksumSHA256;
     final eTag = this.eTag;
     final requestCharged = this.requestCharged;
     final sSECustomerAlgorithm = this.sSECustomerAlgorithm;

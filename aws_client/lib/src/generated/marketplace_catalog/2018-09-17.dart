@@ -330,7 +330,7 @@ class MarketplaceCatalog {
       'Catalog': catalog,
       'ChangeSet': changeSet,
       if (changeSetName != null) 'ChangeSetName': changeSetName,
-      if (clientRequestToken != null) 'ClientRequestToken': clientRequestToken,
+      'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -701,7 +701,7 @@ class DescribeEntityResponse {
   /// This stringified JSON object includes the details of the entity.
   final String? details;
 
-  /// The ARN associated to the unique identifier for the change set referenced in
+  /// The ARN associated to the unique identifier for the entity referenced in
   /// this request.
   final String? entityArn;
 

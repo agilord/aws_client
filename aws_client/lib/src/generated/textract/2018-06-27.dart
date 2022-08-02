@@ -61,6 +61,11 @@ class Textract {
   /// detected in the document are returned (including text that doesn't have a
   /// relationship with the value of <code>FeatureTypes</code>).
   /// </li>
+  /// <li>
+  /// Queries.A QUERIES_RESULT Block object contains the answer to the query,
+  /// the alias associated and an ID that connect it to the query asked. This
+  /// Block also contains a location and attached confidence score.
+  /// </li>
   /// </ul>
   /// Selection elements such as check boxes and option buttons (radio buttons)
   /// can be detected in form data and in tables. A SELECTION_ELEMENT
@@ -93,7 +98,7 @@ class Textract {
   /// Parameter [document] :
   /// The input document as base64-encoded bytes or an Amazon S3 object. If you
   /// use the AWS CLI to call Amazon Textract operations, you can't pass image
-  /// bytes. The document must be an image in JPEG or PNG format.
+  /// bytes. The document must be an image in JPEG, PNG, PDF, or TIFF format.
   ///
   /// If you're using an AWS SDK to call Amazon Textract, you might not need to
   /// base64-encode image bytes that are passed using the <code>Bytes</code>
@@ -110,10 +115,15 @@ class Textract {
   /// Parameter [humanLoopConfig] :
   /// Sets the configuration for the human in the loop workflow for analyzing
   /// documents.
+  ///
+  /// Parameter [queriesConfig] :
+  /// Contains Queries and the alias for those Queries, as determined by the
+  /// input.
   Future<AnalyzeDocumentResponse> analyzeDocument({
     required Document document,
     required List<FeatureType> featureTypes,
     HumanLoopConfig? humanLoopConfig,
+    QueriesConfig? queriesConfig,
   }) async {
     ArgumentError.checkNotNull(document, 'document');
     ArgumentError.checkNotNull(featureTypes, 'featureTypes');
@@ -131,6 +141,7 @@ class Textract {
         'Document': document,
         'FeatureTypes': featureTypes.map((e) => e.toValue()).toList(),
         if (humanLoopConfig != null) 'HumanLoopConfig': humanLoopConfig,
+        if (queriesConfig != null) 'QueriesConfig': queriesConfig,
       },
     );
 
@@ -188,7 +199,9 @@ class Textract {
 
   /// Analyzes identity documents for relevant information. This information is
   /// extracted and returned as <code>IdentityDocumentFields</code>, which
-  /// records both the normalized field and value of the extracted text.
+  /// records both the normalized field and value of the extracted text.Unlike
+  /// other Amazon Textract operations, <code>AnalyzeID</code> doesn't return
+  /// any Geometry data.
   ///
   /// May throw [InvalidParameterException].
   /// May throw [InvalidS3ObjectException].
@@ -226,8 +239,9 @@ class Textract {
 
   /// Detects text in the input document. Amazon Textract can detect lines of
   /// text and the words that make up a line of text. The input document must be
-  /// an image in JPEG or PNG format. <code>DetectDocumentText</code> returns
-  /// the detected text in an array of <a>Block</a> objects.
+  /// an image in JPEG, PNG, PDF, or TIFF format.
+  /// <code>DetectDocumentText</code> returns the detected text in an array of
+  /// <a>Block</a> objects.
   ///
   /// Each document page has as an associated <code>Block</code> of type PAGE.
   /// Each PAGE <code>Block</code> object is the parent of LINE
@@ -320,6 +334,11 @@ class Textract {
   /// detected in the document are returned (including text that doesn't have a
   /// relationship with the value of the <code>StartDocumentAnalysis</code>
   /// <code>FeatureTypes</code> input parameter).
+  /// </li>
+  /// <li>
+  /// Queries. A QUERIES_RESULT Block object contains the answer to the query,
+  /// the alias associated and an ID that connect it to the query asked. This
+  /// Block also contains a location and attached confidence score
   /// </li>
   /// </ul>
   /// Selection elements such as check boxes and option buttons (radio buttons)
@@ -659,6 +678,7 @@ class Textract {
     String? kMSKeyId,
     NotificationChannel? notificationChannel,
     OutputConfig? outputConfig,
+    QueriesConfig? queriesConfig,
   }) async {
     ArgumentError.checkNotNull(documentLocation, 'documentLocation');
     ArgumentError.checkNotNull(featureTypes, 'featureTypes');
@@ -682,6 +702,7 @@ class Textract {
         if (notificationChannel != null)
           'NotificationChannel': notificationChannel,
         if (outputConfig != null) 'OutputConfig': outputConfig,
+        if (queriesConfig != null) 'QueriesConfig': queriesConfig,
       },
     );
 
@@ -1141,6 +1162,15 @@ class Block {
   /// value of <code>SelectionStatus</code> to determine the status of the
   /// selection element.
   /// </li>
+  /// <li>
+  /// <i>QUERY</i> - A question asked during the call of AnalyzeDocument. Contains
+  /// an alias and an ID that attachs it to its answer.
+  /// </li>
+  /// <li>
+  /// <i>QUERY_RESULT</i> - A response to a question asked during the call of
+  /// analyze document. Comes with an alias and ID for ease of locating in a
+  /// response. Also contains location and confidence score.
+  /// </li>
   /// </ul>
   final BlockType? blockType;
 
@@ -1192,6 +1222,9 @@ class Block {
   /// document is considered to be a single-page document.
   final int? page;
 
+  /// <p/>
+  final Query? query;
+
   /// A list of child blocks of the current block. For example, a LINE object has
   /// child blocks for each WORD block that's part of the line of text. There
   /// aren't Relationship objects in the list for relationships that don't exist,
@@ -1239,6 +1272,7 @@ class Block {
     this.geometry,
     this.id,
     this.page,
+    this.query,
     this.relationships,
     this.rowIndex,
     this.rowSpan,
@@ -1262,6 +1296,9 @@ class Block {
           : null,
       id: json['Id'] as String?,
       page: json['Page'] as int?,
+      query: json['Query'] != null
+          ? Query.fromJson(json['Query'] as Map<String, dynamic>)
+          : null,
       relationships: (json['Relationships'] as List?)
           ?.whereNotNull()
           .map((e) => Relationship.fromJson(e as Map<String, dynamic>))
@@ -1284,6 +1321,7 @@ class Block {
     final geometry = this.geometry;
     final id = this.id;
     final page = this.page;
+    final query = this.query;
     final relationships = this.relationships;
     final rowIndex = this.rowIndex;
     final rowSpan = this.rowSpan;
@@ -1300,6 +1338,7 @@ class Block {
       if (geometry != null) 'Geometry': geometry,
       if (id != null) 'Id': id,
       if (page != null) 'Page': page,
+      if (query != null) 'Query': query,
       if (relationships != null) 'Relationships': relationships,
       if (rowIndex != null) 'RowIndex': rowIndex,
       if (rowSpan != null) 'RowSpan': rowSpan,
@@ -1318,6 +1357,10 @@ enum BlockType {
   table,
   cell,
   selectionElement,
+  mergedCell,
+  title,
+  query,
+  queryResult,
 }
 
 extension on BlockType {
@@ -1337,6 +1380,14 @@ extension on BlockType {
         return 'CELL';
       case BlockType.selectionElement:
         return 'SELECTION_ELEMENT';
+      case BlockType.mergedCell:
+        return 'MERGED_CELL';
+      case BlockType.title:
+        return 'TITLE';
+      case BlockType.query:
+        return 'QUERY';
+      case BlockType.queryResult:
+        return 'QUERY_RESULT';
     }
   }
 }
@@ -1358,6 +1409,14 @@ extension on String {
         return BlockType.cell;
       case 'SELECTION_ELEMENT':
         return BlockType.selectionElement;
+      case 'MERGED_CELL':
+        return BlockType.mergedCell;
+      case 'TITLE':
+        return BlockType.title;
+      case 'QUERY':
+        return BlockType.query;
+      case 'QUERY_RESULT':
+        return BlockType.queryResult;
     }
     throw Exception('$this is not known in enum BlockType');
   }
@@ -1614,6 +1673,7 @@ class DocumentMetadata {
 enum EntityType {
   key,
   value,
+  columnHeader,
 }
 
 extension on EntityType {
@@ -1623,6 +1683,8 @@ extension on EntityType {
         return 'KEY';
       case EntityType.value:
         return 'VALUE';
+      case EntityType.columnHeader:
+        return 'COLUMN_HEADER';
     }
   }
 }
@@ -1634,6 +1696,8 @@ extension on String {
         return EntityType.key;
       case 'VALUE':
         return EntityType.value;
+      case 'COLUMN_HEADER':
+        return EntityType.columnHeader;
     }
     throw Exception('$this is not known in enum EntityType');
   }
@@ -1810,6 +1874,7 @@ class ExpenseType {
 enum FeatureType {
   tables,
   forms,
+  queries,
 }
 
 extension on FeatureType {
@@ -1819,6 +1884,8 @@ extension on FeatureType {
         return 'TABLES';
       case FeatureType.forms:
         return 'FORMS';
+      case FeatureType.queries:
+        return 'QUERIES';
     }
   }
 }
@@ -1830,6 +1897,8 @@ extension on String {
         return FeatureType.tables;
       case 'FORMS':
         return FeatureType.forms;
+      case 'QUERIES':
+        return FeatureType.queries;
     }
     throw Exception('$this is not known in enum FeatureType');
   }
@@ -2567,6 +2636,97 @@ class Point {
   }
 }
 
+/// <p/>
+class QueriesConfig {
+  /// <p/>
+  final List<Query> queries;
+
+  QueriesConfig({
+    required this.queries,
+  });
+
+  factory QueriesConfig.fromJson(Map<String, dynamic> json) {
+    return QueriesConfig(
+      queries: (json['Queries'] as List)
+          .whereNotNull()
+          .map((e) => Query.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final queries = this.queries;
+    return {
+      'Queries': queries,
+    };
+  }
+}
+
+/// Each query contains the question you want to ask in the Text and the alias
+/// you want to associate.
+class Query {
+  /// Question that Amazon Textract will apply to the document. An example would
+  /// be "What is the customer's SSN?"
+  final String text;
+
+  /// Alias attached to the query, for ease of location.
+  final String? alias;
+
+  /// List of pages associated with the query. The following is a list of rules
+  /// for using this parameter.
+  ///
+  /// <ul>
+  /// <li>
+  /// If a page is not specified, it is set to <code>["1"]</code> by default.
+  /// </li>
+  /// <li>
+  /// The following characters are allowed in the parameter's string: <code>0 1 2
+  /// 3 4 5 6 7 8 9 - *</code>. No whitespace is allowed.
+  /// </li>
+  /// <li>
+  /// When using <code>*</code> to indicate all pages, it must be the only element
+  /// in the string.
+  /// </li>
+  /// <li>
+  /// You can use page intervals, such as <code>[“1-3”, “1-1”, “4-*”]</code>.
+  /// Where <code>*</code> indicates last page of document.
+  /// </li>
+  /// <li>
+  /// Specified pages must be greater than 0 and less than or equal to the number
+  /// of pages in the document.
+  /// </li>
+  /// </ul>
+  final List<String>? pages;
+
+  Query({
+    required this.text,
+    this.alias,
+    this.pages,
+  });
+
+  factory Query.fromJson(Map<String, dynamic> json) {
+    return Query(
+      text: json['Text'] as String,
+      alias: json['Alias'] as String?,
+      pages: (json['Pages'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final text = this.text;
+    final alias = this.alias;
+    final pages = this.pages;
+    return {
+      'Text': text,
+      if (alias != null) 'Alias': alias,
+      if (pages != null) 'Pages': pages,
+    };
+  }
+}
+
 /// Information about how blocks are related to each other. A <code>Block</code>
 /// object contains 0 or more <code>Relation</code> objects in a list,
 /// <code>Relationships</code>. For more information, see <a>Block</a>.
@@ -2616,6 +2776,9 @@ enum RelationshipType {
   value,
   child,
   complexFeatures,
+  mergedCell,
+  title,
+  answer,
 }
 
 extension on RelationshipType {
@@ -2627,6 +2790,12 @@ extension on RelationshipType {
         return 'CHILD';
       case RelationshipType.complexFeatures:
         return 'COMPLEX_FEATURES';
+      case RelationshipType.mergedCell:
+        return 'MERGED_CELL';
+      case RelationshipType.title:
+        return 'TITLE';
+      case RelationshipType.answer:
+        return 'ANSWER';
     }
   }
 }
@@ -2640,6 +2809,12 @@ extension on String {
         return RelationshipType.child;
       case 'COMPLEX_FEATURES':
         return RelationshipType.complexFeatures;
+      case 'MERGED_CELL':
+        return RelationshipType.mergedCell;
+      case 'TITLE':
+        return RelationshipType.title;
+      case 'ANSWER':
+        return RelationshipType.answer;
     }
     throw Exception('$this is not known in enum RelationshipType');
   }

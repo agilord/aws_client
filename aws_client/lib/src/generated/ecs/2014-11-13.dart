@@ -20,10 +20,11 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Amazon Elastic Container Service (Amazon ECS) is a highly scalable, fast,
 /// container management service. It makes it easy to run, stop, and manage
-/// Docker containers on a cluster. You can host your cluster on a serverless
-/// infrastructure that's managed by Amazon ECS by launching your services or
-/// tasks on Fargate. For more control, you can host your tasks on a cluster of
-/// Amazon Elastic Compute Cloud (Amazon EC2) instances that you manage.
+/// Docker containers. You can host your cluster on a serverless infrastructure
+/// that's managed by Amazon ECS by launching your services or tasks on Fargate.
+/// For more control, you can host your tasks on a cluster of Amazon Elastic
+/// Compute Cloud (Amazon EC2) or External (on-premises) instances that you
+/// manage.
 class Ecs {
   final _s.JsonProtocol _protocol;
   Ecs({
@@ -145,7 +146,7 @@ class Ecs {
   /// doesn't have permissions to create the service-linked role, it isn't
   /// created. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using-service-linked-roles.html">Using
-  /// Service-Linked Roles for Amazon ECS</a> in the <i>Amazon Elastic Container
+  /// service-linked roles for Amazon ECS</a> in the <i>Amazon Elastic Container
   /// Service Developer Guide</i>.
   /// </note>
   ///
@@ -180,7 +181,7 @@ class Ecs {
   /// (uppercase and lowercase), numbers, underscores, and hyphens are allowed.
   ///
   /// Parameter [configuration] :
-  /// The execute command configuration for the cluster.
+  /// The <code>execute</code> command configuration for the cluster.
   ///
   /// Parameter [defaultCapacityProviderStrategy] :
   /// The capacity provider strategy to set as the default for the cluster.
@@ -194,8 +195,8 @@ class Ecs {
   /// <a>PutClusterCapacityProviders</a> API operation.
   ///
   /// Parameter [settings] :
-  /// The setting to use when creating a cluster. This parameter is used to
-  /// enable CloudWatch Container Insights for a cluster. If this value is
+  /// The setting to use when creating a cluster. This parameter is used to turn
+  /// on CloudWatch Container Insights for a cluster. If this value is
   /// specified, it overrides the <code>containerInsights</code> value set with
   /// <a>PutAccountSetting</a> or <a>PutAccountSettingDefault</a>.
   ///
@@ -272,22 +273,22 @@ class Ecs {
   /// Runs and maintains your desired number of tasks from a specified task
   /// definition. If the number of tasks running in a service drops below the
   /// <code>desiredCount</code>, Amazon ECS runs another copy of the task in the
-  /// specified cluster. To update an existing service, see the UpdateService
-  /// action.
+  /// specified cluster. To update an existing service, see the
+  /// <a>UpdateService</a> action.
   ///
   /// In addition to maintaining the desired count of tasks in your service, you
   /// can optionally run your service behind one or more load balancers. The
   /// load balancers distribute traffic across the tasks that are associated
   /// with the service. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-load-balancing.html">Service
-  /// Load Balancing</a> in the <i>Amazon Elastic Container Service Developer
+  /// load balancing</a> in the <i>Amazon Elastic Container Service Developer
   /// Guide</i>.
   ///
   /// Tasks for services that don't use a load balancer are considered healthy
   /// if they're in the <code>RUNNING</code> state. Tasks for services that use
   /// a load balancer are considered healthy if they're in the
-  /// <code>RUNNING</code> state and the container instance that they're hosted
-  /// on is reported as healthy by the load balancer.
+  /// <code>RUNNING</code> state and are reported as healthy by the load
+  /// balancer.
   ///
   /// There are two service scheduler strategies available:
   ///
@@ -299,7 +300,7 @@ class Ecs {
   /// task placement strategies and constraints to customize task placement
   /// decisions. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs_services.html">Service
-  /// Scheduler Concepts</a> in the <i>Amazon Elastic Container Service
+  /// scheduler concepts</a> in the <i>Amazon Elastic Container Service
   /// Developer Guide</i>.
   /// </li>
   /// <li>
@@ -312,7 +313,7 @@ class Ecs {
   /// placement strategy, or use Service Auto Scaling policies. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs_services.html">Service
-  /// Scheduler Concepts</a> in the <i>Amazon Elastic Container Service
+  /// scheduler concepts</a> in the <i>Amazon Elastic Container Service
   /// Developer Guide</i>.
   /// </li>
   /// </ul>
@@ -372,7 +373,7 @@ class Ecs {
   /// control your services using the <a>CreateTaskSet</a> operation. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-types.html">Amazon
-  /// ECS Deployment Types</a> in the <i>Amazon Elastic Container Service
+  /// ECS deployment types</a> in the <i>Amazon Elastic Container Service
   /// Developer Guide</i>.
   ///
   /// When the service scheduler launches new tasks, it determines task
@@ -461,10 +462,10 @@ class Ecs {
   /// required.
   ///
   /// Parameter [enableECSManagedTags] :
-  /// Specifies whether to enable Amazon ECS managed tags for the tasks within
+  /// Specifies whether to turn on Amazon ECS managed tags for the tasks within
   /// the service. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-using-tags.html">Tagging
-  /// Your Amazon ECS Resources</a> in the <i>Amazon Elastic Container Service
+  /// your Amazon ECS resources</a> in the <i>Amazon Elastic Container Service
   /// Developer Guide</i>.
   ///
   /// Parameter [enableExecuteCommand] :
@@ -479,6 +480,12 @@ class Ecs {
   /// use a load balancer. If your service has a load balancer defined and you
   /// don't specify a health check grace period value, the default value of
   /// <code>0</code> is used.
+  ///
+  /// If you do not use an Elastic Load Balancing, we recomend that you use the
+  /// <code>startPeriod</code> in the task definition healtch check parameters.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_HealthCheck.html">Health
+  /// check</a>.
   ///
   /// If your service's tasks take a while to start and respond to Elastic Load
   /// Balancing health checks, you can specify a health check grace period of up
@@ -516,7 +523,7 @@ class Ecs {
   /// A load balancer object representing the load balancers to use with your
   /// service. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-load-balancing.html">Service
-  /// Load Balancing</a> in the <i>Amazon Elastic Container Service Developer
+  /// load balancing</a> in the <i>Amazon Elastic Container Service Developer
   /// Guide</i>.
   ///
   /// If the service uses the rolling update (<code>ECS</code>) deployment
@@ -540,11 +547,8 @@ class Ecs {
   /// you can use to perform validation tests with Lambda functions before
   /// routing production traffic to it.
   ///
-  /// After you create a service using the <code>ECS</code> deployment
-  /// controller, the load balancer name or target group ARN, container name,
-  /// and container port that's specified in the service definition are
-  /// immutable. If you use the <code>CODE_DEPLOY</code> deployment controller,
-  /// these values can be changed when updating the service.
+  /// If you use the <code>CODE_DEPLOY</code> deployment controller, these
+  /// values can be changed when updating the service.
   ///
   /// For Application Load Balancers and Network Load Balancers, this object
   /// must contain the load balancer target group ARN, the container name, and
@@ -598,11 +602,10 @@ class Ecs {
   /// Guide</i>.
   ///
   /// Parameter [propagateTags] :
-  /// Specifies whether to propagate the tags from the task definition or the
-  /// service to the tasks in the service. If no value is specified, the tags
-  /// aren't propagated. Tags can only be propagated to the tasks within the
-  /// service during service creation. To add tags to a task after service
-  /// creation or task creation, use the <a>TagResource</a> API action.
+  /// Specifies whether to propagate the tags from the task definition to the
+  /// task. If no value is specified, the tags aren't propagated. Tags can only
+  /// be propagated to the task during task creation. To add tags to a task
+  /// after task creation, use the <a>TagResource</a> API action.
   ///
   /// Parameter [role] :
   /// The name or full Amazon Resource Name (ARN) of the IAM role that allows
@@ -798,7 +801,7 @@ class Ecs {
   /// a service uses the <code>EXTERNAL</code> deployment controller type. For
   /// more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-types.html">Amazon
-  /// ECS Deployment Types</a> in the <i>Amazon Elastic Container Service
+  /// ECS deployment types</a> in the <i>Amazon Elastic Container Service
   /// Developer Guide</i>.
   ///
   /// May throw [ServerException].
@@ -869,7 +872,7 @@ class Ecs {
   /// The launch type that new tasks in the task set uses. For more information,
   /// see <a
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/launch_types.html">Amazon
-  /// ECS Launch Types</a> in the <i>Amazon Elastic Container Service Developer
+  /// ECS launch types</a> in the <i>Amazon Elastic Container Service Developer
   /// Guide</i>.
   ///
   /// If a <code>launchType</code> is specified, the
@@ -896,7 +899,7 @@ class Ecs {
   /// The details of the service discovery registries to assign to this task
   /// set. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-discovery.html">Service
-  /// Discovery</a>.
+  /// discovery</a>.
   ///
   /// Parameter [tags] :
   /// The metadata that you apply to the task set to help you categorize and
@@ -1239,7 +1242,7 @@ class Ecs {
   /// uses the <code>EXTERNAL</code> deployment controller type. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-types.html">Amazon
-  /// ECS Deployment Types</a> in the <i>Amazon Elastic Container Service
+  /// ECS deployment types</a> in the <i>Amazon Elastic Container Service
   /// Developer Guide</i>.
   ///
   /// May throw [ServerException].
@@ -1323,12 +1326,9 @@ class Ecs {
   ///
   /// Parameter [containerInstance] :
   /// The container instance ID or full ARN of the container instance to
-  /// deregister. The ARN contains the <code>arn:aws:ecs</code> namespace,
-  /// followed by the Region of the container instance, the Amazon Web Services
-  /// account ID of the container instance owner, the
-  /// <code>container-instance</code> namespace, and then the container instance
-  /// ID. For example,
-  /// <code>arn:aws:ecs:region:aws_account_id:container-instance/container_instance_ID</code>.
+  /// deregister. For more information about the ARN format, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-account-settings.html#ecs-resource-ids">Amazon
+  /// Resource Name (ARN)</a> in the <i>Amazon ECS Developer Guide</i>.
   ///
   /// Parameter [cluster] :
   /// The short name or full Amazon Resource Name (ARN) of the cluster that
@@ -1763,6 +1763,9 @@ class Ecs {
 
   /// Describes a specified task or tasks.
   ///
+  /// Currently, stopped tasks appear in the returned results for at least one
+  /// hour.
+  ///
   /// May throw [ServerException].
   /// May throw [ClientException].
   /// May throw [InvalidParameterException].
@@ -1823,12 +1826,10 @@ class Ecs {
   /// container instance belongs to.
   ///
   /// Parameter [containerInstance] :
-  /// The container instance ID or full ARN of the container instance. The ARN
-  /// contains the <code>arn:aws:ecs</code> namespace, followed by the Region of
-  /// the container instance, the Amazon Web Services account ID of the
-  /// container instance owner, the <code>container-instance</code> namespace,
-  /// and then the container instance ID. For example,
-  /// <code>arn:aws:ecs:region:aws_account_id:container-instance/container_instance_ID</code>.
+  /// The container instance ID or full ARN of the container instance. For more
+  /// information about the ARN format, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-account-settings.html#ecs-resource-ids">Amazon
+  /// Resource Name (ARN)</a> in the <i>Amazon ECS Developer Guide</i>.
   Future<DiscoverPollEndpointResponse> discoverPollEndpoint({
     String? cluster,
     String? containerInstance,
@@ -1853,6 +1854,11 @@ class Ecs {
   }
 
   /// Runs a command remotely on a container within a task.
+  ///
+  /// If you use a condition key in your IAM policy to refine the conditions for
+  /// the policy statement, for example limit the actions to a specific cluster,
+  /// you recevie an <code>AccessDeniedException</code> when there is a mismatch
+  /// between the condition key value and the corresponding parameter value.
   ///
   /// May throw [ServerException].
   /// May throw [ClientException].
@@ -2609,7 +2615,7 @@ class Ecs {
   /// The opt-in and opt-out account setting must be set for each Amazon ECS
   /// resource separately. The ARN and resource ID format of a resource is
   /// defined by the opt-in status of the IAM user or role that created the
-  /// resource. You must enable this setting to use Amazon ECS features such as
+  /// resource. You must turn on this setting to use Amazon ECS features such as
   /// resource tagging.
   ///
   /// When <code>awsvpcTrunking</code> is specified, the elastic network
@@ -3283,10 +3289,10 @@ class Ecs {
   ///
   /// For tasks hosted on Amazon EC2 instances, the container instances require
   /// at least version <code>1.26.0</code> of the container agent and at least
-  /// version <code>1.26.0-1</code> of the <code>ecs-init</code> package to
-  /// enable a proxy configuration. If your container instances are launched
-  /// from the Amazon ECS-optimized AMI version <code>20190301</code> or later,
-  /// then they contain the required versions of the container agent and
+  /// version <code>1.26.0-1</code> of the <code>ecs-init</code> package to use
+  /// a proxy configuration. If your container instances are launched from the
+  /// Amazon ECS-optimized AMI version <code>20190301</code> or later, then they
+  /// contain the required versions of the container agent and
   /// <code>ecs-init</code>. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-ami-versions.html">Amazon
   /// ECS-optimized AMI versions</a> in the <i>Amazon Elastic Container Service
@@ -3470,12 +3476,30 @@ class Ecs {
   /// If a <code>revision</code> isn't specified, the latest <code>ACTIVE</code>
   /// revision is used.
   ///
+  /// When you create an IAM policy for run-task, you can set the resource to be
+  /// the latest task definition revision, or a specific revision.
+  ///
   /// The full ARN value must match the value that you specified as the
-  /// <code>Resource</code> of the IAM principal's permissions policy. For
-  /// example, if the <code>Resource</code> is
-  /// arn:aws:ecs:us-east-1:111122223333:task-definition/TaskFamilyName:*, the
-  /// <code>taskDefinition</code> ARN value must be
+  /// <code>Resource</code> of the IAM principal's permissions policy.
+  ///
+  /// When you specify the policy resource as the latest task definition version
+  /// (by setting the <code>Resource</code> in the policy to
+  /// <code>arn:aws:ecs:us-east-1:111122223333:task-definition/TaskFamilyName</code>),
+  /// then set this value to
   /// <code>arn:aws:ecs:us-east-1:111122223333:task-definition/TaskFamilyName</code>.
+  ///
+  /// When you specify the policy resource as a specific task definition version
+  /// (by setting the <code>Resource</code> in the policy to
+  /// <code>arn:aws:ecs:us-east-1:111122223333:task-definition/TaskFamilyName:1</code>
+  /// or
+  /// <code>arn:aws:ecs:us-east-1:111122223333:task-definition/TaskFamilyName:*</code>),
+  /// then set this value to
+  /// <code>arn:aws:ecs:us-east-1:111122223333:task-definition/TaskFamilyName:1</code>.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/security_iam_service-with-iam.html#security_iam_service-with-iam-id-based-policies-resources">Policy
+  /// Resources for Amazon ECS</a> in the Amazon Elastic Container Service
+  /// developer Guide.
   ///
   /// Parameter [capacityProviderStrategy] :
   /// The capacity provider strategy to use for the task.
@@ -3502,16 +3526,19 @@ class Ecs {
   /// cluster. You can specify up to 10 tasks for each call.
   ///
   /// Parameter [enableECSManagedTags] :
-  /// Specifies whether to enable Amazon ECS managed tags for the task. For more
+  /// Specifies whether to use Amazon ECS managed tags for the task. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-using-tags.html">Tagging
   /// Your Amazon ECS Resources</a> in the <i>Amazon Elastic Container Service
   /// Developer Guide</i>.
   ///
   /// Parameter [enableExecuteCommand] :
-  /// Determines whether to enable the execute command functionality for the
+  /// Determines whether to use the execute command functionality for the
   /// containers in this task. If <code>true</code>, this enables execute
   /// command functionality on all containers in the task.
+  ///
+  /// If <code>true</code>, then the task definition must have a task role, or
+  /// you must provide one as an override.
   ///
   /// Parameter [group] :
   /// The name of the task group to associate with the task. The default value
@@ -3739,7 +3766,7 @@ class Ecs {
   /// assumed.
   ///
   /// Parameter [enableECSManagedTags] :
-  /// Specifies whether to enable Amazon ECS managed tags for the task. For more
+  /// Specifies whether to use Amazon ECS managed tags for the task. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-using-tags.html">Tagging
   /// Your Amazon ECS Resources</a> in the <i>Amazon Elastic Container Service
@@ -4342,7 +4369,7 @@ class Ecs {
   ///
   /// Parameter [settings] :
   /// The setting to use by default for a cluster. This parameter is used to
-  /// enable CloudWatch Container Insights for a cluster. If this value is
+  /// turn on CloudWatch Container Insights for a cluster. If this value is
   /// specified, it overrides the <code>containerInsights</code> value set with
   /// <a>PutAccountSetting</a> or <a>PutAccountSettingDefault</a>.
   Future<UpdateClusterSettingsResponse> updateClusterSettings({
@@ -4468,8 +4495,7 @@ class Ecs {
   /// that do not use a load balancer are considered healthy if they're in the
   /// <code>RUNNING</code> state. Tasks for services that use a load balancer
   /// are considered healthy if they're in the <code>RUNNING</code> state and
-  /// the container instance they're hosted on is reported as healthy by the
-  /// load balancer.
+  /// are reported as healthy by the load balancer.
   /// </li>
   /// <li>
   /// The <code>maximumPercent</code> parameter represents an upper limit on the
@@ -4543,36 +4569,31 @@ class Ecs {
     return UpdateContainerInstancesStateResponse.fromJson(jsonResponse.body);
   }
 
-  /// <important>
-  /// Updating the task placement strategies and constraints on an Amazon ECS
-  /// service remains in preview and is a Beta Service as defined by and subject
-  /// to the Beta Service Participation Service Terms located at <a
-  /// href="https://aws.amazon.com/service-terms">https://aws.amazon.com/service-terms</a>
-  /// ("Beta Terms"). These Beta Terms apply to your participation in this
-  /// preview.
-  /// </important>
   /// Modifies the parameters of a service.
   ///
-  /// For services using the rolling update (<code>ECS</code>) deployment
-  /// controller, the desired count, deployment configuration, network
-  /// configuration, task placement constraints and strategies, or task
-  /// definition used can be updated.
+  /// For services using the rolling update (<code>ECS</code>) you can update
+  /// the desired count, deployment configuration, network configuration, load
+  /// balancers, service registries, enable ECS managed tags option, propagate
+  /// tags option, task placement constraints and strategies, and task
+  /// definition. When you update any of these parameters, Amazon ECS starts new
+  /// tasks with the new configuration.
   ///
   /// For services using the blue/green (<code>CODE_DEPLOY</code>) deployment
-  /// controller, only the desired count, deployment configuration, task
-  /// placement constraints and strategies, and health check grace period can be
-  /// updated using this API. If the network configuration, platform version, or
-  /// task definition need to be updated, a new CodeDeploy deployment is
-  /// created. For more information, see <a
+  /// controller, only the desired count, deployment configuration, health check
+  /// grace period, task placement constraints and strategies, enable ECS
+  /// managed tags option, and propagate tags can be updated using this API. If
+  /// the network configuration, platform version, task definition, or load
+  /// balancer need to be updated, create a new CodeDeploy deployment. For more
+  /// information, see <a
   /// href="https://docs.aws.amazon.com/codedeploy/latest/APIReference/API_CreateDeployment.html">CreateDeployment</a>
   /// in the <i>CodeDeploy API Reference</i>.
   ///
   /// For services using an external deployment controller, you can update only
-  /// the desired count, task placement constraints and strategies, and health
-  /// check grace period using this API. If the launch type, load balancer,
-  /// network configuration, platform version, or task definition need to be
-  /// updated, create a new task set. For more information, see
-  /// <a>CreateTaskSet</a>.
+  /// the desired count, task placement constraints and strategies, health check
+  /// grace period, enable ECS managed tags option, and propagate tags option,
+  /// using this API. If the launch type, load balancer, network configuration,
+  /// platform version, or task definition need to be updated, create a new task
+  /// set For more information, see <a>CreateTaskSet</a>.
   ///
   /// You can add to or subtract from the number of instantiations of a task
   /// definition in a service by specifying the cluster that the service is
@@ -4607,8 +4628,8 @@ class Ecs {
   /// tasks. Tasks for services that don't use a load balancer are considered
   /// healthy if they're in the <code>RUNNING</code> state. Tasks for services
   /// that use a load balancer are considered healthy if they're in the
-  /// <code>RUNNING</code> state and the container instance they're hosted on is
-  /// reported as healthy by the load balancer.
+  /// <code>RUNNING</code> state and are reported as healthy by the load
+  /// balancer.
   /// </li>
   /// <li>
   /// The <code>maximumPercent</code> parameter represents an upper limit on the
@@ -4673,7 +4694,24 @@ class Ecs {
   /// (based on the previous steps), favoring container instances with the
   /// largest number of running tasks for this service.
   /// </li>
-  /// </ul>
+  /// </ul> <note>
+  /// You must have a service-linked role when you update any of the following
+  /// service properties. If you specified a custom IAM role when you created
+  /// the service, Amazon ECS automatically replaces the <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_Service.html#ECS-Type-Service-roleArn">roleARN</a>
+  /// associated with the service with the ARN of your service-linked role. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using-service-linked-roles.html">Service-linked
+  /// roles</a> in the <i>Amazon Elastic Container Service Developer Guide</i>.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>loadBalancers,</code>
+  /// </li>
+  /// <li>
+  /// <code>serviceRegistries</code>
+  /// </li>
+  /// </ul> </note>
   ///
   /// May throw [ServerException].
   /// May throw [ClientException].
@@ -4733,6 +4771,18 @@ class Ecs {
   /// The number of instantiations of the task to place and keep running in your
   /// service.
   ///
+  /// Parameter [enableECSManagedTags] :
+  /// Determines whether to turn on Amazon ECS managed tags for the tasks in the
+  /// service. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-using-tags.html">Tagging
+  /// Your Amazon ECS Resources</a> in the <i>Amazon Elastic Container Service
+  /// Developer Guide</i>.
+  ///
+  /// Only tasks launched after the update will reflect the update. To update
+  /// the tags on all tasks, set <code>forceNewDeployment</code> to
+  /// <code>true</code>, so that Amazon ECS starts new tasks with the updated
+  /// tags.
+  ///
   /// Parameter [enableExecuteCommand] :
   /// If <code>true</code>, this enables execute command functionality on all
   /// task containers.
@@ -4760,6 +4810,42 @@ class Ecs {
   /// status. This grace period can prevent the ECS service scheduler from
   /// marking tasks as unhealthy and stopping them before they have time to come
   /// up.
+  ///
+  /// Parameter [loadBalancers] :
+  /// A list of Elastic Load Balancing load balancer objects. It contains the
+  /// load balancer name, the container name, and the container port to access
+  /// from the load balancer. The container name is as it appears in a container
+  /// definition.
+  ///
+  /// When you add, update, or remove a load balancer configuration, Amazon ECS
+  /// starts new tasks with the updated Elastic Load Balancing configuration,
+  /// and then stops the old tasks when the new tasks are running.
+  ///
+  /// For services that use rolling updates, you can add, update, or remove
+  /// Elastic Load Balancing target groups. You can update from a single target
+  /// group to multiple target groups and from multiple target groups to a
+  /// single target group.
+  ///
+  /// For services that use blue/green deployments, you can update Elastic Load
+  /// Balancing target groups by using <code> <a
+  /// href="https://docs.aws.amazon.com/codedeploy/latest/APIReference/API_CreateDeployment.html">CreateDeployment</a>
+  /// </code> through CodeDeploy. Note that multiple target groups are not
+  /// supported for blue/green deployments. For more information see <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/register-multiple-targetgroups.html">Register
+  /// multiple target groups with a service</a> in the <i>Amazon Elastic
+  /// Container Service Developer Guide</i>.
+  ///
+  /// For services that use the external deployment controller, you can add,
+  /// update, or remove load balancers by using <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateTaskSet.html">CreateTaskSet</a>.
+  /// Note that multiple target groups are not supported for external
+  /// deployments. For more information see <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/register-multiple-targetgroups.html">Register
+  /// multiple target groups with a service</a> in the <i>Amazon Elastic
+  /// Container Service Developer Guide</i>.
+  ///
+  /// You can remove existing <code>loadBalancers</code> by passing an empty
+  /// list.
   ///
   /// Parameter [networkConfiguration] :
   /// An object representing the network configuration for the service.
@@ -4793,6 +4879,29 @@ class Ecs {
   /// Platform Versions</a> in the <i>Amazon Elastic Container Service Developer
   /// Guide</i>.
   ///
+  /// Parameter [propagateTags] :
+  /// Determines whether to propagate the tags from the task definition or the
+  /// service to the task. If no value is specified, the tags aren't propagated.
+  ///
+  /// Only tasks launched after the update will reflect the update. To update
+  /// the tags on all tasks, set <code>forceNewDeployment</code> to
+  /// <code>true</code>, so that Amazon ECS starts new tasks with the updated
+  /// tags.
+  ///
+  /// Parameter [serviceRegistries] :
+  /// The details for the service discovery registries to assign to this
+  /// service. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-discovery.html">Service
+  /// Discovery</a>.
+  ///
+  /// When you add, update, or remove the service registries configuration,
+  /// Amazon ECS starts new tasks with the updated service registries
+  /// configuration, and then stops the old tasks when the new tasks are
+  /// running.
+  ///
+  /// You can remove existing <code>serviceRegistries</code> by passing an empty
+  /// list.
+  ///
   /// Parameter [taskDefinition] :
   /// The <code>family</code> and <code>revision</code>
   /// (<code>family:revision</code>) or full ARN of the task definition to run
@@ -4807,13 +4916,17 @@ class Ecs {
     String? cluster,
     DeploymentConfiguration? deploymentConfiguration,
     int? desiredCount,
+    bool? enableECSManagedTags,
     bool? enableExecuteCommand,
     bool? forceNewDeployment,
     int? healthCheckGracePeriodSeconds,
+    List<LoadBalancer>? loadBalancers,
     NetworkConfiguration? networkConfiguration,
     List<PlacementConstraint>? placementConstraints,
     List<PlacementStrategy>? placementStrategy,
     String? platformVersion,
+    PropagateTags? propagateTags,
+    List<ServiceRegistry>? serviceRegistries,
     String? taskDefinition,
   }) async {
     ArgumentError.checkNotNull(service, 'service');
@@ -4835,18 +4948,23 @@ class Ecs {
         if (deploymentConfiguration != null)
           'deploymentConfiguration': deploymentConfiguration,
         if (desiredCount != null) 'desiredCount': desiredCount,
+        if (enableECSManagedTags != null)
+          'enableECSManagedTags': enableECSManagedTags,
         if (enableExecuteCommand != null)
           'enableExecuteCommand': enableExecuteCommand,
         if (forceNewDeployment != null)
           'forceNewDeployment': forceNewDeployment,
         if (healthCheckGracePeriodSeconds != null)
           'healthCheckGracePeriodSeconds': healthCheckGracePeriodSeconds,
+        if (loadBalancers != null) 'loadBalancers': loadBalancers,
         if (networkConfiguration != null)
           'networkConfiguration': networkConfiguration,
         if (placementConstraints != null)
           'placementConstraints': placementConstraints,
         if (placementStrategy != null) 'placementStrategy': placementStrategy,
         if (platformVersion != null) 'platformVersion': platformVersion,
+        if (propagateTags != null) 'propagateTags': propagateTags.toValue(),
+        if (serviceRegistries != null) 'serviceRegistries': serviceRegistries,
         if (taskDefinition != null) 'taskDefinition': taskDefinition,
       },
     );
@@ -5136,8 +5254,8 @@ class AttachmentStateChange {
 }
 
 /// An attribute is a name-value pair that's associated with an Amazon ECS
-/// object. Attributes enable you to extend the Amazon ECS data model by adding
-/// custom metadata to your resources. For more information, see <a
+/// object. Use attributes to extend the Amazon ECS data model by adding custom
+/// metadata to your resources. For more information, see <a
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-placement-constraints.html#attributes">Attributes</a>
 /// in the <i>Amazon Elastic Container Service Developer Guide</i>.
 class Attribute {
@@ -5700,15 +5818,14 @@ class Cluster {
   final int? activeServicesCount;
 
   /// The resources attached to a cluster. When using a capacity provider with a
-  /// cluster, the Auto Scaling plan that's created is returned as a cluster
-  /// attachment.
+  /// cluster, the capacity provider and associated resources are returned as
+  /// cluster attachments.
   final List<Attachment>? attachments;
 
   /// The status of the capacity providers associated with the cluster. The
   /// following are the states that are returned.
   /// <dl> <dt>UPDATE_IN_PROGRESS</dt> <dd>
-  /// The available capacity providers for the cluster are updating. This occurs
-  /// when the Auto Scaling plan is provisioning or deprovisioning.
+  /// The available capacity providers for the cluster are updating.
   /// </dd> <dt>UPDATE_COMPLETE</dt> <dd>
   /// The capacity providers have successfully updated.
   /// </dd> <dt>UPDATE_FAILED</dt> <dd>
@@ -5719,11 +5836,10 @@ class Cluster {
   /// The capacity providers associated with the cluster.
   final List<String>? capacityProviders;
 
-  /// The Amazon Resource Name (ARN) that identifies the cluster. The ARN contains
-  /// the <code>arn:aws:ecs</code> namespace, followed by the Region of the
-  /// cluster, the Amazon Web Services account ID of the cluster owner, the
-  /// <code>cluster</code> namespace, and then the cluster name. For example,
-  /// <code>arn:aws:ecs:region:012345678910:cluster/test</code>.
+  /// The Amazon Resource Name (ARN) that identifies the cluster. For more
+  /// information about the ARN format, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-account-settings.html#ecs-resource-ids">Amazon
+  /// Resource Name (ARN)</a> in the <i>Amazon ECS Developer Guide</i>.
   final String? clusterArn;
 
   /// A user-generated string that you use to identify your cluster.
@@ -6019,8 +6135,8 @@ extension on String {
   }
 }
 
-/// The settings to use when creating a cluster. This parameter is used to
-/// enable CloudWatch Container Insights for a cluster.
+/// The settings to use when creating a cluster. This parameter is used to turn
+/// on CloudWatch Container Insights for a cluster.
 class ClusterSetting {
   /// The name of the cluster setting. The only supported value is
   /// <code>containerInsights</code>.
@@ -6414,7 +6530,7 @@ class ContainerDefinition {
   /// startup, for container shutdown it is reversed.
   ///
   /// For tasks using the EC2 launch type, the container instances require at
-  /// least version 1.26.0 of the container agent to enable container
+  /// least version 1.26.0 of the container agent to turn on container
   /// dependencies. However, we recommend using the latest container agent
   /// version. For information about checking your agent version and updating to
   /// the latest version, see <a
@@ -6800,12 +6916,12 @@ class ContainerDefinition {
   /// placed. Otherwise, the value of <code>memory</code> is used.
   ///
   /// The Docker 20.10.0 or later daemon reserves a minimum of 6 MiB of memory for
-  /// a container, so you should not specify fewer than 6 MiB of memory for your
+  /// a container. So, don't specify less than 6 MiB of memory for your
   /// containers.
   ///
   /// The Docker 19.03.13-ce or earlier daemon reserves a minimum of 4 MiB of
-  /// memory for a container, so you should not specify fewer than 4 MiB of memory
-  /// for your containers.
+  /// memory for a container. So, don't specify less than 4 MiB of memory for your
+  /// containers.
   final int? memory;
 
   /// The soft limit (in MiB) of memory to reserve for the container. When system
@@ -6980,10 +7096,10 @@ class ContainerDefinition {
   /// </li>
   /// </ul>
   /// For tasks using the EC2 launch type, your container instances require at
-  /// least version <code>1.26.0</code> of the container agent to enable a
-  /// container start timeout value. However, we recommend using the latest
-  /// container agent version. For information about checking your agent version
-  /// and updating to the latest version, see <a
+  /// least version <code>1.26.0</code> of the container agent to use a container
+  /// start timeout value. However, we recommend using the latest container agent
+  /// version. For information about checking your agent version and updating to
+  /// the latest version, see <a
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-update.html">Updating
   /// the Amazon ECS Container Agent</a> in the <i>Amazon Elastic Container
   /// Service Developer Guide</i>. If you're using an Amazon ECS-optimized Linux
@@ -7021,10 +7137,10 @@ class ContainerDefinition {
   /// <code>ECS_CONTAINER_STOP_TIMEOUT</code> agent configuration variable are
   /// set, then the default values of 30 seconds for Linux containers and 30
   /// seconds on Windows containers are used. Your container instances require at
-  /// least version 1.26.0 of the container agent to enable a container stop
-  /// timeout value. However, we recommend using the latest container agent
-  /// version. For information about checking your agent version and updating to
-  /// the latest version, see <a
+  /// least version 1.26.0 of the container agent to use a container stop timeout
+  /// value. However, we recommend using the latest container agent version. For
+  /// information about checking your agent version and updating to the latest
+  /// version, see <a
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-update.html">Updating
   /// the Amazon ECS Container Agent</a> in the <i>Amazon Elastic Container
   /// Service Developer Guide</i>. If you're using an Amazon ECS-optimized Linux
@@ -7390,9 +7506,9 @@ class ContainerDefinition {
 /// startup, for container shutdown it is reversed.
 ///
 /// Your Amazon ECS container instances require at least version 1.26.0 of the
-/// container agent to enable container dependencies. However, we recommend
-/// using the latest container agent version. For information about checking
-/// your agent version and updating to the latest version, see <a
+/// container agent to use container dependencies. However, we recommend using
+/// the latest container agent version. For information about checking your
+/// agent version and updating to the latest version, see <a
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-update.html">Updating
 /// the Amazon ECS Container Agent</a> in the <i>Amazon Elastic Container
 /// Service Developer Guide</i>. If you're using an Amazon ECS-optimized Linux
@@ -7471,12 +7587,12 @@ class ContainerDependency {
   }
 }
 
-/// An EC2 instance that's running the Amazon ECS agent and has been registered
-/// with a cluster.
+/// An Amazon EC2 or External instance that's running the Amazon ECS agent and
+/// has been registered with a cluster.
 class ContainerInstance {
   /// This parameter returns <code>true</code> if the agent is connected to Amazon
-  /// ECS. Registered instances with an agent that may be unhealthy or stopped
-  /// return <code>false</code>. Only instances connected to an agent can accept
+  /// ECS. An instance with an agent that may be unhealthy or stopped return
+  /// <code>false</code>. Only instances connected to an agent can accept task
   /// placement requests.
   final bool? agentConnected;
 
@@ -7484,8 +7600,8 @@ class ContainerInstance {
   /// requested, this value is <code>NULL</code>.
   final AgentUpdateStatus? agentUpdateStatus;
 
-  /// The resources attached to a container instance, such as elastic network
-  /// interfaces.
+  /// The resources attached to a container instance, such as an elastic network
+  /// interface.
   final List<Attachment>? attachments;
 
   /// The attributes set for the container instance, either by the Amazon ECS
@@ -7496,12 +7612,10 @@ class ContainerInstance {
   /// The capacity provider that's associated with the container instance.
   final String? capacityProviderName;
 
-  /// The Amazon Resource Name (ARN) of the container instance. The ARN contains
-  /// the <code>arn:aws:ecs</code> namespace, followed by the Region of the
-  /// container instance, the Amazon Web Services account ID of the container
-  /// instance owner, the <code>container-instance</code> namespace, and then the
-  /// container instance ID. For example,
-  /// <code>arn:aws:ecs:region:aws_account_id:container-instance/container_instance_ID</code>.
+  /// The Amazon Resource Name (ARN) of the container instance. For more
+  /// information about the ARN format, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-account-settings.html#ecs-resource-ids">Amazon
+  /// Resource Name (ARN)</a> in the <i>Amazon ECS Developer Guide</i>.
   final String? containerInstanceArn;
 
   /// The ID of the container instance. For Amazon EC2 instances, this value is
@@ -7562,7 +7676,7 @@ class ContainerInstance {
   /// placed on the container instance and any service tasks running on the
   /// container instance are removed if possible. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/container-instance-draining.html">Container
-  /// Instance Draining</a> in the <i>Amazon Elastic Container Service Developer
+  /// instance draining</a> in the <i>Amazon Elastic Container Service Developer
   /// Guide</i>.
   final String? status;
 
@@ -8471,16 +8585,16 @@ class Deployment {
 /// The <b>deployment circuit breaker</b> determines whether a service
 /// deployment will fail if the service can't reach a steady state. If enabled,
 /// a service deployment will transition to a failed state and stop launching
-/// new tasks. You can also enable Amazon ECS to roll back your service to the
-/// last completed deployment after a failure. For more information, see <a
+/// new tasks. You can also configure Amazon ECS to roll back your service to
+/// the last completed deployment after a failure. For more information, see <a
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-type-ecs.html">Rolling
 /// update</a> in the <i>Amazon Elastic Container Service Developer Guide</i>.
 class DeploymentCircuitBreaker {
-  /// Determines whether to enable the deployment circuit breaker logic for the
+  /// Determines whether to use the deployment circuit breaker logic for the
   /// service.
   final bool enable;
 
-  /// Determines whether to enable Amazon ECS to roll back the service if a
+  /// Determines whether to configure Amazon ECS to roll back the service if a
   /// service deployment fails. If rollback is enabled, when a service deployment
   /// fails, the service is rolled back to the last deployment that completed
   /// successfully.
@@ -8524,19 +8638,19 @@ class DeploymentConfiguration {
   final DeploymentCircuitBreaker? deploymentCircuitBreaker;
 
   /// If a service is using the rolling update (<code>ECS</code>) deployment type,
-  /// the <b>maximum percent</b> parameter represents an upper limit on the number
-  /// of tasks in a service that are allowed in the <code>RUNNING</code> or
-  /// <code>PENDING</code> state during a deployment, as a percentage of the
-  /// desired number of tasks (rounded down to the nearest integer), and while any
-  /// container instances are in the <code>DRAINING</code> state if the service
-  /// contains tasks using the EC2 launch type. This parameter enables you to
-  /// define the deployment batch size. For example, if your service has a desired
-  /// number of four tasks and a maximum percent value of 200%, the scheduler may
-  /// start four new tasks before stopping the four older tasks (provided that the
-  /// cluster resources required to do this are available). The default value for
-  /// maximum percent is 200%.
+  /// the <code>maximumPercent</code> parameter represents an upper limit on the
+  /// number of your service's tasks that are allowed in the <code>RUNNING</code>
+  /// or <code>PENDING</code> state during a deployment, as a percentage of the
+  /// <code>desiredCount</code> (rounded down to the nearest integer). This
+  /// parameter enables you to define the deployment batch size. For example, if
+  /// your service is using the <code>REPLICA</code> service scheduler and has a
+  /// <code>desiredCount</code> of four tasks and a <code>maximumPercent</code>
+  /// value of 200%, the scheduler may start four new tasks before stopping the
+  /// four older tasks (provided that the cluster resources required to do this
+  /// are available). The default <code>maximumPercent</code> value for a service
+  /// using the <code>REPLICA</code> service scheduler is 200%.
   ///
-  /// If a service is using the blue/green (<code>CODE_DEPLOY</code>) or
+  /// If a service is using either the blue/green (<code>CODE_DEPLOY</code>) or
   /// <code>EXTERNAL</code> deployment types and tasks that use the EC2 launch
   /// type, the <b>maximum percent</b> value is set to the default value and is
   /// used to define the upper limit on the number of the tasks in the service
@@ -8547,29 +8661,66 @@ class DeploymentConfiguration {
   final int? maximumPercent;
 
   /// If a service is using the rolling update (<code>ECS</code>) deployment type,
-  /// the <b>minimum healthy percent</b> represents a lower limit on the number of
-  /// tasks in a service that must remain in the <code>RUNNING</code> state during
-  /// a deployment, as a percentage of the desired number of tasks (rounded up to
-  /// the nearest integer), and while any container instances are in the
-  /// <code>DRAINING</code> state if the service contains tasks using the EC2
-  /// launch type. This parameter enables you to deploy without using additional
-  /// cluster capacity. For example, if your service has a desired number of four
-  /// tasks and a minimum healthy percent of 50%, the scheduler may stop two
-  /// existing tasks to free up cluster capacity before starting two new tasks.
-  /// Tasks for services that <i>do not</i> use a load balancer are considered
-  /// healthy if they're in the <code>RUNNING</code> state; tasks for services
-  /// that <i>do</i> use a load balancer are considered healthy if they're in the
-  /// <code>RUNNING</code> state and they're reported as healthy by the load
-  /// balancer. The default value for minimum healthy percent is 100%.
+  /// the <code>minimumHealthyPercent</code> represents a lower limit on the
+  /// number of your service's tasks that must remain in the <code>RUNNING</code>
+  /// state during a deployment, as a percentage of the <code>desiredCount</code>
+  /// (rounded up to the nearest integer). This parameter enables you to deploy
+  /// without using additional cluster capacity. For example, if your service has
+  /// a <code>desiredCount</code> of four tasks and a
+  /// <code>minimumHealthyPercent</code> of 50%, the service scheduler may stop
+  /// two existing tasks to free up cluster capacity before starting two new
+  /// tasks.
   ///
-  /// If a service is using the blue/green (<code>CODE_DEPLOY</code>) or
-  /// <code>EXTERNAL</code> deployment types and tasks that use the EC2 launch
-  /// type, the <b>minimum healthy percent</b> value is set to the default value
-  /// and is used to define the lower limit on the number of the tasks in the
-  /// service that remain in the <code>RUNNING</code> state while the container
-  /// instances are in the <code>DRAINING</code> state. If the tasks in the
-  /// service use the Fargate launch type, the minimum healthy percent value is
-  /// not used, although it is returned when describing your service.
+  /// For services that <i>do not</i> use a load balancer, the following should be
+  /// noted:
+  ///
+  /// <ul>
+  /// <li>
+  /// A service is considered healthy if all essential containers within the tasks
+  /// in the service pass their health checks.
+  /// </li>
+  /// <li>
+  /// If a task has no essential containers with a health check defined, the
+  /// service scheduler will wait for 40 seconds after a task reaches a
+  /// <code>RUNNING</code> state before the task is counted towards the minimum
+  /// healthy percent total.
+  /// </li>
+  /// <li>
+  /// If a task has one or more essential containers with a health check defined,
+  /// the service scheduler will wait for the task to reach a healthy status
+  /// before counting it towards the minimum healthy percent total. A task is
+  /// considered healthy when all essential containers within the task have passed
+  /// their health checks. The amount of time the service scheduler can wait for
+  /// is determined by the container health check settings.
+  /// </li>
+  /// </ul>
+  /// For services are that <i>do</i> use a load balancer, the following should be
+  /// noted:
+  ///
+  /// <ul>
+  /// <li>
+  /// If a task has no essential containers with a health check defined, the
+  /// service scheduler will wait for the load balancer target group health check
+  /// to return a healthy status before counting the task towards the minimum
+  /// healthy percent total.
+  /// </li>
+  /// <li>
+  /// If a task has an essential container with a health check defined, the
+  /// service scheduler will wait for both the task to reach a healthy status and
+  /// the load balancer target group health check to return a healthy status
+  /// before counting the task towards the minimum healthy percent total.
+  /// </li>
+  /// </ul>
+  /// If a service is using either the blue/green (<code>CODE_DEPLOY</code>) or
+  /// <code>EXTERNAL</code> deployment types and is running tasks that use the EC2
+  /// launch type, the <b>minimum healthy percent</b> value is set to the default
+  /// value and is used to define the lower limit on the number of the tasks in
+  /// the service that remain in the <code>RUNNING</code> state while the
+  /// container instances are in the <code>DRAINING</code> state. If a service is
+  /// using either the blue/green (<code>CODE_DEPLOY</code>) or
+  /// <code>EXTERNAL</code> deployment types and is running tasks that use the
+  /// Fargate launch type, the minimum healthy percent value is not used, although
+  /// it is returned when describing your service.
   final int? minimumHealthyPercent;
 
   DeploymentConfiguration({
@@ -8606,7 +8757,7 @@ class DeploymentConfiguration {
 /// The deployment controller to use for the service. For more information, see
 /// <a
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-types.html">Amazon
-/// ECS Deployment Types</a> in the <i>Amazon Elastic Container Service
+/// ECS deployment types</a> in the <i>Amazon Elastic Container Service
 /// Developer Guide</i>.
 class DeploymentController {
   /// The deployment controller type to use.
@@ -9298,7 +9449,7 @@ class EFSAuthorizationConfig {
   /// must be enabled in the <code>EFSVolumeConfiguration</code>. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/efs/latest/ug/efs-access-points.html">Working
-  /// with Amazon EFS Access Points</a> in the <i>Amazon Elastic File System User
+  /// with Amazon EFS access points</a> in the <i>Amazon Elastic File System User
   /// Guide</i>.
   final String? accessPointId;
 
@@ -9308,7 +9459,7 @@ class EFSAuthorizationConfig {
   /// this parameter is omitted, the default value of <code>DISABLED</code> is
   /// used. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/efs-volumes.html#efs-volume-accesspoints">Using
-  /// Amazon EFS Access Points</a> in the <i>Amazon Elastic Container Service
+  /// Amazon EFS access points</a> in the <i>Amazon Elastic Container Service
   /// Developer Guide</i>.
   final EFSAuthorizationConfigIAM? iam;
 
@@ -9393,7 +9544,7 @@ extension on String {
 /// This parameter is specified when you're using an Amazon Elastic File System
 /// file system for task storage. For more information, see <a
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/efs-volumes.html">Amazon
-/// EFS Volumes</a> in the <i>Amazon Elastic Container Service Developer
+/// EFS volumes</a> in the <i>Amazon Elastic Container Service Developer
 /// Guide</i>.
 class EFSVolumeConfiguration {
   /// The Amazon EFS file system ID to use.
@@ -9413,13 +9564,13 @@ class EFSVolumeConfiguration {
   /// </important>
   final String? rootDirectory;
 
-  /// Determines whether to enable encryption for Amazon EFS data in transit
-  /// between the Amazon ECS host and the Amazon EFS server. Transit encryption
-  /// must be enabled if Amazon EFS IAM authorization is used. If this parameter
-  /// is omitted, the default value of <code>DISABLED</code> is used. For more
+  /// Determines whether to use encryption for Amazon EFS data in transit between
+  /// the Amazon ECS host and the Amazon EFS server. Transit encryption must be
+  /// enabled if Amazon EFS IAM authorization is used. If this parameter is
+  /// omitted, the default value of <code>DISABLED</code> is used. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/efs/latest/ug/encryption-in-transit.html">Encrypting
-  /// Data in Transit</a> in the <i>Amazon Elastic File System User Guide</i>.
+  /// data in transit</a> in the <i>Amazon Elastic File System User Guide</i>.
   final EFSTransitEncryption? transitEncryption;
 
   /// The port to use when sending encrypted data between the Amazon ECS host and
@@ -9427,7 +9578,7 @@ class EFSVolumeConfiguration {
   /// will use the port selection strategy that the Amazon EFS mount helper uses.
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/efs/latest/ug/efs-mount-helper.html">EFS
-  /// Mount Helper</a> in the <i>Amazon Elastic File System User Guide</i>.
+  /// mount helper</a> in the <i>Amazon Elastic File System User Guide</i>.
   final int? transitEncryptionPort;
 
   EFSVolumeConfiguration({
@@ -9560,17 +9711,10 @@ extension on String {
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/userguide/using_data_volumes.html">Fargate
 /// task storage</a> in the <i>Amazon ECS User Guide for Fargate</i>.
 /// <note>
-/// This parameter is only supported for tasks hosted on Fargate using the
-/// following platform versions:
-///
-/// <ul>
-/// <li>
-/// Linux platform version <code>1.4.0</code> or later.
-/// </li>
-/// <li>
-/// Windows platform version <code>1.0.0</code> or later.
-/// </li>
-/// </ul> </note>
+/// This parameter is only supported for tasks hosted on Fargate using Linux
+/// platform version <code>1.4.0</code> or later. This parameter is not
+/// supported for Windows containers on Fargate.
+/// </note>
 class EphemeralStorage {
   /// The total amount, in GiB, of ephemeral storage to set for the task. The
   /// minimum supported value is <code>21</code> GiB and the maximum supported
@@ -9660,7 +9804,7 @@ class ExecuteCommandConfiguration {
 /// The log configuration for the results of the execute command actions. The
 /// logs can be sent to CloudWatch Logs or an Amazon S3 bucket.
 class ExecuteCommandLogConfiguration {
-  /// Determines whether to enable encryption on the CloudWatch logs. If not
+  /// Determines whether to use encryption on the CloudWatch logs. If not
   /// specified, encryption will be disabled.
   final bool? cloudWatchEncryptionEnabled;
 
@@ -9818,7 +9962,7 @@ class ExecuteCommandResponse {
 /// The authorization configuration details for Amazon FSx for Windows File
 /// Server file system. See <a
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_FSxWindowsFileServerVolumeConfiguration.html">FSxWindowsFileServerVolumeConfiguration</a>
-/// in the <i>Amazon Elastic Container Service API Reference</i>.
+/// in the <i>Amazon ECS API Reference</i>.
 ///
 /// For more information and the input format, see <a
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/wfsx-volumes.html">Amazon
@@ -9827,7 +9971,7 @@ class ExecuteCommandResponse {
 class FSxWindowsFileServerAuthorizationConfig {
   /// The authorization credential option to use. The authorization credential
   /// options can be provided using either the Amazon Resource Name (ARN) of an
-  /// Secrets Manager secret or SSM Parameter Store parameter. The ARNs refer to
+  /// Secrets Manager secret or SSM Parameter Store parameter. The ARN refers to
   /// the stored credentials.
   final String credentialsParameter;
 
@@ -9866,7 +10010,7 @@ class FSxWindowsFileServerAuthorizationConfig {
 ///
 /// For more information and the input format, see <a
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/wfsx-volumes.html">Amazon
-/// FSx for Windows File Server Volumes</a> in the <i>Amazon Elastic Container
+/// FSx for Windows File Server volumes</a> in the <i>Amazon Elastic Container
 /// Service Developer Guide</i>.
 class FSxWindowsFileServerVolumeConfiguration {
   /// The authorization configuration details for the Amazon FSx for Windows File
@@ -9951,7 +10095,7 @@ class Failure {
 /// The FireLens configuration for the container. This is used to specify and
 /// configure a log router for container logs. For more information, see <a
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_firelens.html">Custom
-/// Log Routing</a> in the <i>Amazon Elastic Container Service Developer
+/// log routing</a> in the <i>Amazon Elastic Container Service Developer
 /// Guide</i>.
 class FirelensConfiguration {
   /// The log router to use. The valid values are <code>fluentd</code> or
@@ -9965,7 +10109,7 @@ class FirelensConfiguration {
   /// <code>"options":{"enable-ecs-log-metadata":"true|false","config-file-type:"s3|file","config-file-value":"arn:aws:s3:::mybucket/fluent.conf|filepath"}</code>.
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_firelens.html#firelens-taskdef">Creating
-  /// a Task Definition that Uses a FireLens Configuration</a> in the <i>Amazon
+  /// a task definition that uses a FireLens configuration</a> in the <i>Amazon
   /// Elastic Container Service Developer Guide</i>.
   /// <note>
   /// Tasks hosted on Fargate only support the <code>file</code> configuration
@@ -10028,7 +10172,14 @@ extension on String {
 /// that are specified in a container definition override any Docker health
 /// checks that exist in the container image (such as those specified in a
 /// parent image or from the image's Dockerfile).
-///
+/// <note>
+/// The Amazon ECS container agent only monitors and reports on the health
+/// checks specified in the task definition. Amazon ECS does not monitor Docker
+/// health checks that are embedded in a container image and not specified in
+/// the container definition. Health check parameters that are specified in a
+/// container definition override any Docker health checks that exist in the
+/// container image.
+/// </note>
 /// You can view the health status of both individual containers and a task with
 /// the DescribeTasks API operation or when viewing the task details in the
 /// console.
@@ -10079,13 +10230,13 @@ extension on String {
 /// Container health checks require version 1.17.0 or greater of the Amazon ECS
 /// container agent. For more information, see <a
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-update.html">Updating
-/// the Amazon ECS Container Agent</a>.
+/// the Amazon ECS container agent</a>.
 /// </li>
 /// <li>
 /// Container health checks are supported for Fargate tasks if you're using
-/// platform version 1.1.0 or greater. For more information, see <a
+/// platform version <code>1.1.0</code> or greater. For more information, see <a
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/platform_versions.html">Fargate
-/// Platform Versions</a>.
+/// platform versions</a>.
 /// </li>
 /// <li>
 /// Container health checks aren't supported for tasks that are part of a
@@ -11104,6 +11255,20 @@ class ListTasksResponse {
 ///
 /// For specific notes and restrictions regarding the use of load balancers with
 /// services and task sets, see the CreateService and CreateTaskSet actions.
+///
+/// When you add, update, or remove a load balancer configuration, Amazon ECS
+/// starts a new deployment with the updated Elastic Load Balancing
+/// configuration. This causes tasks to register to and deregister from load
+/// balancers.
+///
+/// We recommend that you verify this on a test environment before you update
+/// the Elastic Load Balancing configuration.
+///
+/// A service-linked role is required for services that use multiple target
+/// groups. For more information, see <a
+/// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using-service-linked-roles.html">Using
+/// service-linked roles</a> in the <i>Amazon Elastic Container Service
+/// Developer Guide</i>.
 class LoadBalancer {
   /// The name of the container (as it appears in a container definition) to
   /// associate with the load balancer.
@@ -11134,14 +11299,14 @@ class LoadBalancer {
   /// For services using the <code>ECS</code> deployment controller, you can
   /// specify one or multiple target groups. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/register-multiple-targetgroups.html">Registering
-  /// Multiple Target Groups with a Service</a> in the <i>Amazon Elastic Container
+  /// multiple target groups with a service</a> in the <i>Amazon Elastic Container
   /// Service Developer Guide</i>.
   ///
   /// For services using the <code>CODE_DEPLOY</code> deployment controller,
   /// you're required to define two target groups for the load balancer. For more
   /// information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-type-bluegreen.html">Blue/Green
-  /// Deployment with CodeDeploy</a> in the <i>Amazon Elastic Container Service
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-type-bluegreen.html">Blue/green
+  /// deployment with CodeDeploy</a> in the <i>Amazon Elastic Container Service
   /// Developer Guide</i>.
   /// <important>
   /// If your service's task definition uses the <code>awsvpc</code> network mode,
@@ -11271,7 +11436,7 @@ class LogConfiguration {
 
   /// The secrets to pass to the log configuration. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/specifying-sensitive-data.html">Specifying
-  /// Sensitive Data</a> in the <i>Amazon Elastic Container Service Developer
+  /// sensitive data</a> in the <i>Amazon Elastic Container Service Developer
   /// Guide</i>.
   final List<Secret>? secretOptions;
 
@@ -11485,7 +11650,7 @@ class ManagedAgentStateChange {
 /// the specified <code>targetCapacity</code> value as the target value for the
 /// metric. For more information, see <a
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/asg-capacity-providers.html#asg-capacity-providers-managed-scaling">Using
-/// Managed Scaling</a> in the <i>Amazon Elastic Container Service Developer
+/// managed scaling</a> in the <i>Amazon Elastic Container Service Developer
 /// Guide</i>.
 ///
 /// If managed scaling is disabled, the user must manage the scaling of the Auto
@@ -11506,7 +11671,7 @@ class ManagedScaling {
   /// <code>1</code> is used.
   final int? minimumScalingStepSize;
 
-  /// Determines whether to enable managed scaling for the capacity provider.
+  /// Determines whether to use managed scaling for the capacity provider.
   final ManagedScalingStatus? status;
 
   /// The target capacity value for the capacity provider. The specified value
@@ -11890,7 +12055,7 @@ extension on String {
 /// An object representing a constraint on task placement. For more information,
 /// see <a
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-placement-constraints.html">Task
-/// Placement Constraints</a> in the <i>Amazon Elastic Container Service
+/// placement constraints</a> in the <i>Amazon Elastic Container Service
 /// Developer Guide</i>.
 /// <note>
 /// If you're using the Fargate launch type, task placement constraints aren't
@@ -11965,7 +12130,7 @@ extension on String {
 /// The task placement strategy for a task or service. For more information, see
 /// <a
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-placement-strategies.html">Task
-/// Placement Strategies</a> in the <i>Amazon Elastic Container Service
+/// placement strategies</a> in the <i>Amazon Elastic Container Service
 /// Developer Guide</i>.
 class PlacementStrategy {
   /// The field to apply the placement strategy against. For the
@@ -12199,6 +12364,7 @@ class PortMapping {
 enum PropagateTags {
   taskDefinition,
   service,
+  none,
 }
 
 extension on PropagateTags {
@@ -12208,6 +12374,8 @@ extension on PropagateTags {
         return 'TASK_DEFINITION';
       case PropagateTags.service:
         return 'SERVICE';
+      case PropagateTags.none:
+        return 'NONE';
     }
   }
 }
@@ -12219,6 +12387,8 @@ extension on String {
         return PropagateTags.taskDefinition;
       case 'SERVICE':
         return PropagateTags.service;
+      case 'NONE':
+        return PropagateTags.none;
     }
     throw Exception('$this is not known in enum PropagateTags');
   }
@@ -12228,7 +12398,7 @@ extension on String {
 ///
 /// For tasks that use the EC2 launch type, the container instances require at
 /// least version 1.26.0 of the container agent and at least version 1.26.0-1 of
-/// the <code>ecs-init</code> package to enable a proxy configuration. If your
+/// the <code>ecs-init</code> package to use a proxy configuration. If your
 /// container instances are launched from the Amazon ECS optimized AMI version
 /// <code>20190301</code> or later, then they contain the required versions of
 /// the container agent and <code>ecs-init</code>. For more information, see <a
@@ -12713,7 +12883,7 @@ class RuntimePlatform {
   /// The CPU architecture.
   ///
   /// You can run your Linux tasks on an ARM-based platform by setting the value
-  /// to <code>ARM64</code>. This option is avaiable for tasks that run on Linuc
+  /// to <code>ARM64</code>. This option is avaiable for tasks that run on Linux
   /// Amazon EC2 instance or Linux containers on Fargate.
   final CPUArchitecture? cpuArchitecture;
 
@@ -12872,7 +13042,7 @@ extension on String {
 /// </ul>
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/specifying-sensitive-data.html">Specifying
-/// Sensitive Data</a> in the <i>Amazon Elastic Container Service Developer
+/// sensitive data</a> in the <i>Amazon Elastic Container Service Developer
 /// Guide</i>.
 class Secret {
   /// The name of the secret.
@@ -12881,6 +13051,14 @@ class Secret {
   /// The secret to expose to the container. The supported values are either the
   /// full ARN of the Secrets Manager secret or the full ARN of the parameter in
   /// the SSM Parameter Store.
+  ///
+  /// For information about the require Identity and Access Management
+  /// permissions, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/specifying-sensitive-data-secrets.html#secrets-iam">Required
+  /// IAM permissions for Amazon ECS secrets</a> (for Secrets Manager) or <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/specifying-sensitive-data-parameters.html">Required
+  /// IAM permissions for Amazon ECS secrets</a> (for Systems Manager Parameter
+  /// store) in the <i>Amazon Elastic Container Service Developer Guide</i>.
   /// <note>
   /// If the SSM Parameter Store parameter exists in the same Region as the task
   /// you're launching, then you can use either the full ARN or name of the
@@ -12944,7 +13122,7 @@ class Service {
   /// <a>CreateService</a>, and it can be modified with <a>UpdateService</a>.
   final int? desiredCount;
 
-  /// Determines whether to enable Amazon ECS managed tags for the tasks in the
+  /// Determines whether to use Amazon ECS managed tags for the tasks in the
   /// service. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-using-tags.html">Tagging
   /// Your Amazon ECS Resources</a> in the <i>Amazon Elastic Container Service
@@ -13034,7 +13212,7 @@ class Service {
   /// </li>
   /// <li>
   /// <code>DAEMON</code>-The daemon scheduling strategy deploys exactly one task
-  /// on each active container instance. This taskmeets all of the task placement
+  /// on each active container instance. This task meets all of the task placement
   /// constraints that you specify in your cluster. The service scheduler also
   /// evaluates the task placement constraints for running tasks. It stop tasks
   /// that don't meet the placement constraints.
@@ -13044,11 +13222,10 @@ class Service {
   /// </ul>
   final SchedulingStrategy? schedulingStrategy;
 
-  /// The ARN that identifies the service. The ARN contains the
-  /// <code>arn:aws:ecs</code> namespace, followed by the Region of the service,
-  /// the Amazon Web Services account ID of the service owner, the
-  /// <code>service</code> namespace, and then the service name. For example,
-  /// <code>arn:aws:ecs:region:012345678910:service/my-service</code>.
+  /// The ARN that identifies the service. For more information about the ARN
+  /// format, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-account-settings.html#ecs-resource-ids">Amazon
+  /// Resource Name (ARN)</a> in the <i>Amazon ECS Developer Guide</i>.
   final String? serviceArn;
 
   /// The name of your service. Up to 255 letters (uppercase and lowercase),
@@ -13364,6 +13541,13 @@ extension on String {
 }
 
 /// The details for the service registry.
+///
+/// Each service may be associated with one service registry. Multiple service
+/// registries for each service are not supported.
+///
+/// When you add, update, or remove the service registries configuration, Amazon
+/// ECS starts a new deployment. New tasks are registered and deregistered to
+/// the updated service registry configuration.
 class ServiceRegistry {
   /// The container name value to be used for your service discovery service. It's
   /// already specified in the task definition. If the task definition that your
@@ -13432,7 +13616,7 @@ class Session {
   /// The ID of the execute command session.
   final String? sessionId;
 
-  /// A URL back to managed agent on the container that the SSM Session Manager
+  /// A URL to the managed agent on the container that the SSM Session Manager
   /// client uses to send commands and receive output from the container.
   final String? streamUrl;
 
@@ -14095,6 +14279,29 @@ class Task {
 
   /// The stop code indicating why a task was stopped. The
   /// <code>stoppedReason</code> might contain additional details.
+  ///
+  /// The following are valid values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>TaskFailedToStart</code>
+  /// </li>
+  /// <li>
+  /// <code>EssentialContainerExited</code>
+  /// </li>
+  /// <li>
+  /// <code>UserInitiated</code>
+  /// </li>
+  /// <li>
+  /// <code>TerminationNotice</code>
+  /// </li>
+  /// <li>
+  /// <code>ServiceSchedulerInitiated</code>
+  /// </li>
+  /// <li>
+  /// <code>SpotInterruption</code>
+  /// </li>
+  /// </ul>
   final TaskStopCode? stopCode;
 
   /// The Unix timestamp for the time when the task was stopped. More
@@ -14584,7 +14791,7 @@ class TaskDefinition {
   ///
   /// Your Amazon ECS container instances require at least version 1.26.0 of the
   /// container agent and at least version 1.26.0-1 of the <code>ecs-init</code>
-  /// package to enable a proxy configuration. If your container instances are
+  /// package to use a proxy configuration. If your container instances are
   /// launched from the Amazon ECS optimized AMI version <code>20190301</code> or
   /// later, they contain the required versions of the container agent and
   /// <code>ecs-init</code>. For more information, see <a
@@ -15818,7 +16025,7 @@ class UpdateContainerInstancesStateResponse {
 }
 
 class UpdateServicePrimaryTaskSetResponse {
-  /// Details about the task set.
+  /// etails about the task set.
   final TaskSet? taskSet;
 
   UpdateServicePrimaryTaskSetResponse({

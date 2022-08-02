@@ -208,13 +208,13 @@ class DocDB {
   /// Must specify a valid cluster parameter group.
   /// </li>
   /// <li>
-  /// If the source cluster parameter group is in the same Region as the copy,
-  /// specify a valid parameter group identifier; for example,
-  /// <code>my-db-cluster-param-group</code>, or a valid ARN.
+  /// If the source cluster parameter group is in the same Amazon Web Services
+  /// Region as the copy, specify a valid parameter group identifier; for
+  /// example, <code>my-db-cluster-param-group</code>, or a valid ARN.
   /// </li>
   /// <li>
-  /// If the source parameter group is in a different Region than the copy,
-  /// specify a valid cluster parameter group ARN; for example,
+  /// If the source parameter group is in a different Amazon Web Services Region
+  /// than the copy, specify a valid cluster parameter group ARN; for example,
   /// <code>arn:aws:rds:us-east-1:123456789012:sample-cluster:sample-parameter-group</code>.
   /// </li>
   /// </ul>
@@ -284,7 +284,8 @@ class DocDB {
   /// To copy a cluster snapshot from a shared manual cluster snapshot,
   /// <code>SourceDBClusterSnapshotIdentifier</code> must be the Amazon Resource
   /// Name (ARN) of the shared cluster snapshot. You can only copy a shared DB
-  /// cluster snapshot, whether encrypted or not, in the same Region.
+  /// cluster snapshot, whether encrypted or not, in the same Amazon Web
+  /// Services Region.
   ///
   /// To cancel the copy operation after it is in progress, delete the target
   /// cluster snapshot identified by
@@ -309,12 +310,12 @@ class DocDB {
   /// Must specify a valid system snapshot in the <i>available</i> state.
   /// </li>
   /// <li>
-  /// If the source snapshot is in the same Region as the copy, specify a valid
-  /// snapshot identifier.
+  /// If the source snapshot is in the same Amazon Web Services Region as the
+  /// copy, specify a valid snapshot identifier.
   /// </li>
   /// <li>
-  /// If the source snapshot is in a different Region than the copy, specify a
-  /// valid cluster snapshot ARN.
+  /// If the source snapshot is in a different Amazon Web Services Region than
+  /// the copy, specify a valid cluster snapshot ARN.
   /// </li>
   /// </ul>
   /// Example: <code>my-cluster-snapshot1</code>
@@ -348,41 +349,45 @@ class DocDB {
   /// Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for
   /// the KMS encryption key.
   ///
-  /// If you copy an encrypted cluster snapshot from your account, you can
-  /// specify a value for <code>KmsKeyId</code> to encrypt the copy with a new
-  /// KMS encryption key. If you don't specify a value for
+  /// If you copy an encrypted cluster snapshot from your Amazon Web Services
+  /// account, you can specify a value for <code>KmsKeyId</code> to encrypt the
+  /// copy with a new KMS encryption key. If you don't specify a value for
   /// <code>KmsKeyId</code>, then the copy of the cluster snapshot is encrypted
   /// with the same KMS key as the source cluster snapshot.
   ///
   /// If you copy an encrypted cluster snapshot that is shared from another
-  /// account, then you must specify a value for <code>KmsKeyId</code>.
+  /// Amazon Web Services account, then you must specify a value for
+  /// <code>KmsKeyId</code>.
   ///
-  /// To copy an encrypted cluster snapshot to another Region, set
-  /// <code>KmsKeyId</code> to the KMS key ID that you want to use to encrypt
-  /// the copy of the cluster snapshot in the destination Region. KMS encryption
-  /// keys are specific to the Region that they are created in, and you can't
-  /// use encryption keys from one Region in another Region.
+  /// To copy an encrypted cluster snapshot to another Amazon Web Services
+  /// Region, set <code>KmsKeyId</code> to the KMS key ID that you want to use
+  /// to encrypt the copy of the cluster snapshot in the destination Region. KMS
+  /// encryption keys are specific to the Amazon Web Services Region that they
+  /// are created in, and you can't use encryption keys from one Amazon Web
+  /// Services Region in another Amazon Web Services Region.
   ///
   /// If you copy an unencrypted cluster snapshot and specify a value for the
   /// <code>KmsKeyId</code> parameter, an error is returned.
   ///
   /// Parameter [preSignedUrl] :
   /// The URL that contains a Signature Version 4 signed request for
-  /// the<code>CopyDBClusterSnapshot</code> API action in the Region that
-  /// contains the source cluster snapshot to copy. You must use the
-  /// <code>PreSignedUrl</code> parameter when copying a cluster snapshot from
-  /// another Region.
+  /// the<code>CopyDBClusterSnapshot</code> API action in the Amazon Web
+  /// Services Region that contains the source cluster snapshot to copy. You
+  /// must use the <code>PreSignedUrl</code> parameter when copying a cluster
+  /// snapshot from another Amazon Web Services Region.
   ///
   /// If you are using an Amazon Web Services SDK tool or the CLI, you can
   /// specify <code>SourceRegion</code> (or <code>--source-region</code> for the
   /// CLI) instead of specifying <code>PreSignedUrl</code> manually. Specifying
   /// <code>SourceRegion</code> autogenerates a pre-signed URL that is a valid
-  /// request for the operation that can be executed in the source Region.
+  /// request for the operation that can be executed in the source Amazon Web
+  /// Services Region.
   ///
   /// The presigned URL must be a valid request for the
   /// <code>CopyDBClusterSnapshot</code> API action that can be executed in the
-  /// source Region that contains the cluster snapshot to be copied. The
-  /// presigned URL request must contain the following parameter values:
+  /// source Amazon Web Services Region that contains the cluster snapshot to be
+  /// copied. The presigned URL request must contain the following parameter
+  /// values:
   ///
   /// <ul>
   /// <li>
@@ -392,10 +397,11 @@ class DocDB {
   /// <li>
   /// <code>SourceDBClusterSnapshotIdentifier</code> - The identifier for the
   /// the encrypted cluster snapshot to be copied. This identifier must be in
-  /// the Amazon Resource Name (ARN) format for the source Region. For example,
-  /// if you are copying an encrypted cluster snapshot from the us-east-1
-  /// Region, then your <code>SourceDBClusterSnapshotIdentifier</code> looks
-  /// something like the following:
+  /// the Amazon Resource Name (ARN) format for the source Amazon Web Services
+  /// Region. For example, if you are copying an encrypted cluster snapshot from
+  /// the us-east-1 Amazon Web Services Region, then your
+  /// <code>SourceDBClusterSnapshotIdentifier</code> looks something like the
+  /// following:
   /// <code>arn:aws:rds:us-east-1:12345678012:sample-cluster:sample-cluster-snapshot</code>.
   /// </li>
   /// <li>
@@ -542,9 +548,10 @@ class DocDB {
   /// The KMS key identifier for an encrypted cluster.
   ///
   /// The KMS key identifier is the Amazon Resource Name (ARN) for the KMS
-  /// encryption key. If you are creating a cluster using the same account that
-  /// owns the KMS encryption key that is used to encrypt the new cluster, you
-  /// can use the KMS key alias instead of the ARN for the KMS encryption key.
+  /// encryption key. If you are creating a cluster using the same Amazon Web
+  /// Services account that owns the KMS encryption key that is used to encrypt
+  /// the new cluster, you can use the KMS key alias instead of the ARN for the
+  /// KMS encryption key.
   ///
   /// If an encryption key is not specified in <code>KmsKeyId</code>:
   ///
@@ -554,8 +561,9 @@ class DocDB {
   /// Amazon DocumentDB uses your default encryption key.
   /// </li>
   /// </ul>
-  /// KMS creates the default encryption key for your account. Your account has
-  /// a different default encryption key for each Regions.
+  /// KMS creates the default encryption key for your Amazon Web Services
+  /// account. Your Amazon Web Services account has a different default
+  /// encryption key for each Amazon Web Services Regions.
   ///
   /// Parameter [masterUserPassword] :
   /// The password for the master database user. This password can contain any
@@ -593,7 +601,7 @@ class DocDB {
   /// parameter.
   ///
   /// The default is a 30-minute window selected at random from an 8-hour block
-  /// of time for each Region.
+  /// of time for each Amazon Web Services Region.
   ///
   /// Constraints:
   ///
@@ -619,7 +627,8 @@ class DocDB {
   /// Format: <code>ddd:hh24:mi-ddd:hh24:mi</code>
   ///
   /// The default is a 30-minute window selected at random from an 8-hour block
-  /// of time for each Region, occurring on a random day of the week.
+  /// of time for each Amazon Web Services Region, occurring on a random day of
+  /// the week.
   ///
   /// Valid days: Mon, Tue, Wed, Thu, Fri, Sat, Sun
   ///
@@ -900,9 +909,30 @@ class DocDB {
   /// The Amazon EC2 Availability Zone that the instance is created in.
   ///
   /// Default: A random, system-chosen Availability Zone in the endpoint's
-  /// Region.
+  /// Amazon Web Services Region.
   ///
   /// Example: <code>us-east-1d</code>
+  ///
+  /// Parameter [copyTagsToSnapshot] :
+  /// A value that indicates whether to copy tags from the DB instance to
+  /// snapshots of the DB instance. By default, tags are not copied.
+  ///
+  /// Parameter [enablePerformanceInsights] :
+  /// A value that indicates whether to enable Performance Insights for the DB
+  /// Instance. For more information, see <a
+  /// href="https://docs.aws.amazon.com/documentdb/latest/developerguide/performance-insights.html">Using
+  /// Amazon Performance Insights</a>.
+  ///
+  /// Parameter [performanceInsightsKMSKeyId] :
+  /// The KMS key identifier for encryption of Performance Insights data.
+  ///
+  /// The KMS key identifier is the key ARN, key ID, alias ARN, or alias name
+  /// for the KMS key.
+  ///
+  /// If you do not specify a value for PerformanceInsightsKMSKeyId, then Amazon
+  /// DocumentDB uses your default KMS key. There is a default KMS key for your
+  /// Amazon Web Services account. Your Amazon Web Services account has a
+  /// different default KMS key for each Amazon Web Services region.
   ///
   /// Parameter [preferredMaintenanceWindow] :
   /// The time range each week during which system maintenance can occur, in
@@ -911,7 +941,8 @@ class DocDB {
   /// Format: <code>ddd:hh24:mi-ddd:hh24:mi</code>
   ///
   /// The default is a 30-minute window selected at random from an 8-hour block
-  /// of time for each Region, occurring on a random day of the week.
+  /// of time for each Amazon Web Services Region, occurring on a random day of
+  /// the week.
   ///
   /// Valid days: Mon, Tue, Wed, Thu, Fri, Sat, Sun
   ///
@@ -936,6 +967,9 @@ class DocDB {
     required String engine,
     bool? autoMinorVersionUpgrade,
     String? availabilityZone,
+    bool? copyTagsToSnapshot,
+    bool? enablePerformanceInsights,
+    String? performanceInsightsKMSKeyId,
     String? preferredMaintenanceWindow,
     int? promotionTier,
     List<Tag>? tags,
@@ -952,6 +986,11 @@ class DocDB {
     autoMinorVersionUpgrade
         ?.also((arg) => $request['AutoMinorVersionUpgrade'] = arg);
     availabilityZone?.also((arg) => $request['AvailabilityZone'] = arg);
+    copyTagsToSnapshot?.also((arg) => $request['CopyTagsToSnapshot'] = arg);
+    enablePerformanceInsights
+        ?.also((arg) => $request['EnablePerformanceInsights'] = arg);
+    performanceInsightsKMSKeyId
+        ?.also((arg) => $request['PerformanceInsightsKMSKeyId'] = arg);
     preferredMaintenanceWindow
         ?.also((arg) => $request['PreferredMaintenanceWindow'] = arg);
     promotionTier?.also((arg) => $request['PromotionTier'] = arg);
@@ -971,7 +1010,7 @@ class DocDB {
   }
 
   /// Creates a new subnet group. subnet groups must contain at least one subnet
-  /// in at least two Availability Zones in the Region.
+  /// in at least two Availability Zones in the Amazon Web Services Region.
   ///
   /// May throw [DBSubnetGroupAlreadyExistsFault].
   /// May throw [DBSubnetGroupQuotaExceededFault].
@@ -1154,11 +1193,11 @@ class DocDB {
   }
 
   /// Creates an Amazon DocumentDB global cluster that can span multiple
-  /// multiple Regions. The global cluster contains one primary cluster with
-  /// read-write capability, and up-to give read-only secondary clusters. Global
-  /// clusters uses storage-based fast replication across regions with latencies
-  /// less than one second, using dedicated infrastructure with no impact to
-  /// your workload’s performance.
+  /// multiple Amazon Web Services Regions. The global cluster contains one
+  /// primary cluster with read-write capability, and up-to give read-only
+  /// secondary clusters. Global clusters uses storage-based fast replication
+  /// across regions with latencies less than one second, using dedicated
+  /// infrastructure with no impact to your workload’s performance.
   /// <p/>
   /// You can create a global cluster that is initially empty, and then add a
   /// primary and a secondary to it. Or you can specify an existing cluster
@@ -1527,7 +1566,7 @@ class DocDB {
   }
 
   /// Returns a list of certificate authority (CA) certificates provided by
-  /// Amazon DocumentDB for this account.
+  /// Amazon DocumentDB for this Amazon Web Services account.
   ///
   /// May throw [CertificateNotFoundFault].
   ///
@@ -1731,13 +1770,14 @@ class DocDB {
   /// Returns a list of cluster snapshot attribute names and values for a manual
   /// DB cluster snapshot.
   ///
-  /// When you share snapshots with other accounts,
+  /// When you share snapshots with other Amazon Web Services accounts,
   /// <code>DescribeDBClusterSnapshotAttributes</code> returns the
-  /// <code>restore</code> attribute and a list of IDs for the accounts that are
-  /// authorized to copy or restore the manual cluster snapshot. If
-  /// <code>all</code> is included in the list of values for the
-  /// <code>restore</code> attribute, then the manual cluster snapshot is public
-  /// and can be copied or restored by all accounts.
+  /// <code>restore</code> attribute and a list of IDs for the Amazon Web
+  /// Services accounts that are authorized to copy or restore the manual
+  /// cluster snapshot. If <code>all</code> is included in the list of values
+  /// for the <code>restore</code> attribute, then the manual cluster snapshot
+  /// is public and can be copied or restored by all Amazon Web Services
+  /// accounts.
   ///
   /// May throw [DBClusterSnapshotNotFoundFault].
   ///
@@ -1807,14 +1847,14 @@ class DocDB {
   ///
   /// Parameter [includePublic] :
   /// Set to <code>true</code> to include manual cluster snapshots that are
-  /// public and can be copied or restored by any account, and otherwise
-  /// <code>false</code>. The default is <code>false</code>.
+  /// public and can be copied or restored by any Amazon Web Services account,
+  /// and otherwise <code>false</code>. The default is <code>false</code>.
   ///
   /// Parameter [includeShared] :
   /// Set to <code>true</code> to include shared manual cluster snapshots from
-  /// other accounts that this account has been given permission to copy or
-  /// restore, and otherwise <code>false</code>. The default is
-  /// <code>false</code>.
+  /// other Amazon Web Services accounts that this Amazon Web Services account
+  /// has been given permission to copy or restore, and otherwise
+  /// <code>false</code>. The default is <code>false</code>.
   ///
   /// Parameter [marker] :
   /// An optional pagination token provided by a previous request. If this
@@ -1838,15 +1878,15 @@ class DocDB {
   /// <ul>
   /// <li>
   /// <code>automated</code> - Return all cluster snapshots that Amazon
-  /// DocumentDB has automatically created for your account.
+  /// DocumentDB has automatically created for your Amazon Web Services account.
   /// </li>
   /// <li>
   /// <code>manual</code> - Return all cluster snapshots that you have manually
-  /// created for your account.
+  /// created for your Amazon Web Services account.
   /// </li>
   /// <li>
   /// <code>shared</code> - Return all manual cluster snapshots that have been
-  /// shared to your account.
+  /// shared to your Amazon Web Services account.
   /// </li>
   /// <li>
   /// <code>public</code> - Return all cluster snapshots that have been marked
@@ -2849,7 +2889,7 @@ class DocDB {
   /// <code>BackupRetentionPeriod</code> parameter.
   ///
   /// The default is a 30-minute window selected at random from an 8-hour block
-  /// of time for each Region.
+  /// of time for each Amazon Web Services Region.
   ///
   /// Constraints:
   ///
@@ -2875,7 +2915,8 @@ class DocDB {
   /// Format: <code>ddd:hh24:mi-ddd:hh24:mi</code>
   ///
   /// The default is a 30-minute window selected at random from an 8-hour block
-  /// of time for each Region, occurring on a random day of the week.
+  /// of time for each Amazon Web Services Region, occurring on a random day of
+  /// the week.
   ///
   /// Valid days: Mon, Tue, Wed, Thu, Fri, Sat, Sun
   ///
@@ -2988,16 +3029,17 @@ class DocDB {
   /// Adds an attribute and values to, or removes an attribute and values from,
   /// a manual cluster snapshot.
   ///
-  /// To share a manual cluster snapshot with other accounts, specify
-  /// <code>restore</code> as the <code>AttributeName</code>, and use the
-  /// <code>ValuesToAdd</code> parameter to add a list of IDs of the accounts
-  /// that are authorized to restore the manual cluster snapshot. Use the value
-  /// <code>all</code> to make the manual cluster snapshot public, which means
-  /// that it can be copied or restored by all accounts. Do not add the
-  /// <code>all</code> value for any manual cluster snapshots that contain
-  /// private information that you don't want available to all accounts. If a
-  /// manual cluster snapshot is encrypted, it can be shared, but only by
-  /// specifying a list of authorized account IDs for the
+  /// To share a manual cluster snapshot with other Amazon Web Services
+  /// accounts, specify <code>restore</code> as the <code>AttributeName</code>,
+  /// and use the <code>ValuesToAdd</code> parameter to add a list of IDs of the
+  /// Amazon Web Services accounts that are authorized to restore the manual
+  /// cluster snapshot. Use the value <code>all</code> to make the manual
+  /// cluster snapshot public, which means that it can be copied or restored by
+  /// all Amazon Web Services accounts. Do not add the <code>all</code> value
+  /// for any manual cluster snapshots that contain private information that you
+  /// don't want available to all Amazon Web Services accounts. If a manual
+  /// cluster snapshot is encrypted, it can be shared, but only by specifying a
+  /// list of authorized Amazon Web Services account IDs for the
   /// <code>ValuesToAdd</code> parameter. You can't use <code>all</code> as a
   /// value for that parameter in this case.
   ///
@@ -3008,8 +3050,8 @@ class DocDB {
   /// Parameter [attributeName] :
   /// The name of the cluster snapshot attribute to modify.
   ///
-  /// To manage authorization for other accounts to copy or restore a manual
-  /// cluster snapshot, set this value to <code>restore</code>.
+  /// To manage authorization for other Amazon Web Services accounts to copy or
+  /// restore a manual cluster snapshot, set this value to <code>restore</code>.
   ///
   /// Parameter [dBClusterSnapshotIdentifier] :
   /// The identifier for the cluster snapshot to modify the attributes for.
@@ -3018,22 +3060,24 @@ class DocDB {
   /// A list of cluster snapshot attributes to add to the attribute specified by
   /// <code>AttributeName</code>.
   ///
-  /// To authorize other accounts to copy or restore a manual cluster snapshot,
-  /// set this list to include one or more account IDs. To make the manual
-  /// cluster snapshot restorable by any account, set it to <code>all</code>. Do
-  /// not add the <code>all</code> value for any manual cluster snapshots that
-  /// contain private information that you don't want to be available to all
-  /// accounts.
+  /// To authorize other Amazon Web Services accounts to copy or restore a
+  /// manual cluster snapshot, set this list to include one or more Amazon Web
+  /// Services account IDs. To make the manual cluster snapshot restorable by
+  /// any Amazon Web Services account, set it to <code>all</code>. Do not add
+  /// the <code>all</code> value for any manual cluster snapshots that contain
+  /// private information that you don't want to be available to all Amazon Web
+  /// Services accounts.
   ///
   /// Parameter [valuesToRemove] :
   /// A list of cluster snapshot attributes to remove from the attribute
   /// specified by <code>AttributeName</code>.
   ///
-  /// To remove authorization for other accounts to copy or restore a manual
-  /// cluster snapshot, set this list to include one or more account
-  /// identifiers. To remove authorization for any account to copy or restore
-  /// the cluster snapshot, set it to <code>all</code> . If you specify
-  /// <code>all</code>, an account whose account ID is explicitly added to the
+  /// To remove authorization for other Amazon Web Services accounts to copy or
+  /// restore a manual cluster snapshot, set this list to include one or more
+  /// Amazon Web Services account identifiers. To remove authorization for any
+  /// Amazon Web Services account to copy or restore the cluster snapshot, set
+  /// it to <code>all</code> . If you specify <code>all</code>, an Amazon Web
+  /// Services account whose account ID is explicitly added to the
   /// <code>restore</code> attribute can still copy or restore a manual cluster
   /// snapshot.
   Future<ModifyDBClusterSnapshotAttributeResult>
@@ -3112,10 +3156,14 @@ class DocDB {
   /// Parameter [cACertificateIdentifier] :
   /// Indicates the certificate that needs to be associated with the instance.
   ///
+  /// Parameter [copyTagsToSnapshot] :
+  /// A value that indicates whether to copy all tags from the DB instance to
+  /// snapshots of the DB instance. By default, tags are not copied.
+  ///
   /// Parameter [dBInstanceClass] :
   /// The new compute and memory capacity of the instance; for example,
   /// <code>db.r5.large</code>. Not all instance classes are available in all
-  /// Regions.
+  /// Amazon Web Services Regions.
   ///
   /// If you modify the instance class, an outage occurs during the change. The
   /// change is applied during the next maintenance window, unless
@@ -3123,6 +3171,12 @@ class DocDB {
   /// request.
   ///
   /// Default: Uses existing setting.
+  ///
+  /// Parameter [enablePerformanceInsights] :
+  /// A value that indicates whether to enable Performance Insights for the DB
+  /// Instance. For more information, see <a
+  /// href="https://docs.aws.amazon.com/documentdb/latest/developerguide/performance-insights.html">Using
+  /// Amazon Performance Insights</a>.
   ///
   /// Parameter [newDBInstanceIdentifier] :
   /// The new instance identifier for the instance when renaming an instance.
@@ -3146,6 +3200,17 @@ class DocDB {
   /// </li>
   /// </ul>
   /// Example: <code>mydbinstance</code>
+  ///
+  /// Parameter [performanceInsightsKMSKeyId] :
+  /// The KMS key identifier for encryption of Performance Insights data.
+  ///
+  /// The KMS key identifier is the key ARN, key ID, alias ARN, or alias name
+  /// for the KMS key.
+  ///
+  /// If you do not specify a value for PerformanceInsightsKMSKeyId, then Amazon
+  /// DocumentDB uses your default KMS key. There is a default KMS key for your
+  /// Amazon Web Services account. Your Amazon Web Services account has a
+  /// different default KMS key for each Amazon Web Services region.
   ///
   /// Parameter [preferredMaintenanceWindow] :
   /// The weekly time range (in UTC) during which system maintenance can occur,
@@ -3179,8 +3244,11 @@ class DocDB {
     bool? applyImmediately,
     bool? autoMinorVersionUpgrade,
     String? cACertificateIdentifier,
+    bool? copyTagsToSnapshot,
     String? dBInstanceClass,
+    bool? enablePerformanceInsights,
     String? newDBInstanceIdentifier,
+    String? performanceInsightsKMSKeyId,
     String? preferredMaintenanceWindow,
     int? promotionTier,
   }) async {
@@ -3192,9 +3260,14 @@ class DocDB {
         ?.also((arg) => $request['AutoMinorVersionUpgrade'] = arg);
     cACertificateIdentifier
         ?.also((arg) => $request['CACertificateIdentifier'] = arg);
+    copyTagsToSnapshot?.also((arg) => $request['CopyTagsToSnapshot'] = arg);
     dBInstanceClass?.also((arg) => $request['DBInstanceClass'] = arg);
+    enablePerformanceInsights
+        ?.also((arg) => $request['EnablePerformanceInsights'] = arg);
     newDBInstanceIdentifier
         ?.also((arg) => $request['NewDBInstanceIdentifier'] = arg);
+    performanceInsightsKMSKeyId
+        ?.also((arg) => $request['PerformanceInsightsKMSKeyId'] = arg);
     preferredMaintenanceWindow
         ?.also((arg) => $request['PreferredMaintenanceWindow'] = arg);
     promotionTier?.also((arg) => $request['PromotionTier'] = arg);
@@ -3213,7 +3286,8 @@ class DocDB {
   }
 
   /// Modifies an existing subnet group. subnet groups must contain at least one
-  /// subnet in at least two Availability Zones in the Region.
+  /// subnet in at least two Availability Zones in the Amazon Web Services
+  /// Region.
   ///
   /// May throw [DBSubnetGroupNotFoundFault].
   /// May throw [DBSubnetQuotaExceededFault].
@@ -3701,9 +3775,10 @@ class DocDB {
   /// DB snapshot or cluster snapshot.
   ///
   /// The KMS key identifier is the Amazon Resource Name (ARN) for the KMS
-  /// encryption key. If you are restoring a cluster with the same account that
-  /// owns the KMS encryption key used to encrypt the new cluster, then you can
-  /// use the KMS key alias instead of the ARN for the KMS encryption key.
+  /// encryption key. If you are restoring a cluster with the same Amazon Web
+  /// Services account that owns the KMS encryption key used to encrypt the new
+  /// cluster, then you can use the KMS key alias instead of the ARN for the KMS
+  /// encryption key.
   ///
   /// If you do not specify a value for the <code>KmsKeyId</code> parameter,
   /// then the following occurs:
@@ -3853,9 +3928,10 @@ class DocDB {
   /// encrypted cluster.
   ///
   /// The KMS key identifier is the Amazon Resource Name (ARN) for the KMS
-  /// encryption key. If you are restoring a cluster with the same account that
-  /// owns the KMS encryption key used to encrypt the new cluster, then you can
-  /// use the KMS key alias instead of the ARN for the KMS encryption key.
+  /// encryption key. If you are restoring a cluster with the same Amazon Web
+  /// Services account that owns the KMS encryption key used to encrypt the new
+  /// cluster, then you can use the KMS key alias instead of the ARN for the KMS
+  /// encryption key.
   ///
   /// You can restore to a new cluster and encrypt the new cluster with an KMS
   /// key that is different from the KMS key used to encrypt the source cluster.
@@ -3911,6 +3987,26 @@ class DocDB {
   /// </ul>
   /// Example: <code>2015-03-07T23:45:00Z</code>
   ///
+  /// Parameter [restoreType] :
+  /// The type of restore to be performed. You can specify one of the following
+  /// values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>full-copy</code> - The new DB cluster is restored as a full copy of
+  /// the source DB cluster.
+  /// </li>
+  /// <li>
+  /// <code>copy-on-write</code> - The new DB cluster is restored as a clone of
+  /// the source DB cluster.
+  /// </li>
+  /// </ul>
+  /// Constraints: You can't specify <code>copy-on-write</code> if the engine
+  /// version of the source DB cluster is earlier than 1.11.
+  ///
+  /// If you don't specify a <code>RestoreType</code> value, then the new DB
+  /// cluster is restored as a full copy of the source DB cluster.
+  ///
   /// Parameter [tags] :
   /// The tags to be assigned to the restored cluster.
   ///
@@ -3934,6 +4030,7 @@ class DocDB {
     String? kmsKeyId,
     int? port,
     DateTime? restoreToTime,
+    String? restoreType,
     List<Tag>? tags,
     bool? useLatestRestorableTime,
     List<String>? vpcSecurityGroupIds,
@@ -3952,6 +4049,7 @@ class DocDB {
     port?.also((arg) => $request['Port'] = arg);
     restoreToTime
         ?.also((arg) => $request['RestoreToTime'] = _s.iso8601ToJson(arg));
+    restoreType?.also((arg) => $request['RestoreType'] = arg);
     tags?.also((arg) => $request['Tags'] = arg);
     useLatestRestorableTime
         ?.also((arg) => $request['UseLatestRestorableTime'] = arg);
@@ -4163,7 +4261,7 @@ class AvailabilityZone {
   }
 }
 
-/// A certificate authority (CA) certificate for an account.
+/// A certificate authority (CA) certificate for an Amazon Web Services account.
 class Certificate {
   /// The Amazon Resource Name (ARN) for the certificate.
   ///
@@ -4245,7 +4343,7 @@ class Certificate {
 }
 
 class CertificateMessage {
-  /// A list of certificates for this account.
+  /// A list of certificates for this Amazon Web Services account.
   final List<Certificate>? certificates;
 
   /// An optional pagination token provided if the number of records retrieved is
@@ -4630,6 +4728,9 @@ class DBCluster {
   /// Specifies the number of days for which automatic snapshots are retained.
   final int? backupRetentionPeriod;
 
+  /// Identifies the clone group to which the DB cluster is associated.
+  final String? cloneGroupId;
+
   /// Specifies the time when the cluster was created, in Universal Coordinated
   /// Time (UTC).
   final DateTime? clusterCreateTime;
@@ -4651,9 +4752,9 @@ class DBCluster {
   /// cluster, including the name, description, and subnets in the subnet group.
   final String? dBSubnetGroup;
 
-  /// The Region-unique, immutable identifier for the cluster. This identifier is
-  /// found in CloudTrail log entries whenever the KMS key for the cluster is
-  /// accessed.
+  /// The Amazon Web Services Region-unique, immutable identifier for the cluster.
+  /// This identifier is found in CloudTrail log entries whenever the KMS key for
+  /// the cluster is accessed.
   final String? dbClusterResourceId;
 
   /// Specifies whether this cluster can be deleted. If
@@ -4748,6 +4849,7 @@ class DBCluster {
     this.associatedRoles,
     this.availabilityZones,
     this.backupRetentionPeriod,
+    this.cloneGroupId,
     this.clusterCreateTime,
     this.dBClusterArn,
     this.dBClusterIdentifier,
@@ -4789,6 +4891,7 @@ class DBCluster {
           .map((e) => e as String)
           .toList(),
       backupRetentionPeriod: json['BackupRetentionPeriod'] as int?,
+      cloneGroupId: json['CloneGroupId'] as String?,
       clusterCreateTime: timeStampFromJson(json['ClusterCreateTime']),
       dBClusterArn: json['DBClusterArn'] as String?,
       dBClusterIdentifier: json['DBClusterIdentifier'] as String?,
@@ -4846,6 +4949,7 @@ class DBCluster {
           (elem) => _s.extractXmlStringListValues(elem, 'AvailabilityZone')),
       backupRetentionPeriod:
           _s.extractXmlIntValue(elem, 'BackupRetentionPeriod'),
+      cloneGroupId: _s.extractXmlStringValue(elem, 'CloneGroupId'),
       clusterCreateTime: _s.extractXmlDateTimeValue(elem, 'ClusterCreateTime'),
       dBClusterArn: _s.extractXmlStringValue(elem, 'DBClusterArn'),
       dBClusterIdentifier:
@@ -4902,6 +5006,7 @@ class DBCluster {
     final associatedRoles = this.associatedRoles;
     final availabilityZones = this.availabilityZones;
     final backupRetentionPeriod = this.backupRetentionPeriod;
+    final cloneGroupId = this.cloneGroupId;
     final clusterCreateTime = this.clusterCreateTime;
     final dBClusterArn = this.dBClusterArn;
     final dBClusterIdentifier = this.dBClusterIdentifier;
@@ -4935,6 +5040,7 @@ class DBCluster {
       if (availabilityZones != null) 'AvailabilityZones': availabilityZones,
       if (backupRetentionPeriod != null)
         'BackupRetentionPeriod': backupRetentionPeriod,
+      if (cloneGroupId != null) 'CloneGroupId': cloneGroupId,
       if (clusterCreateTime != null)
         'ClusterCreateTime': unixTimestampToJson(clusterCreateTime),
       if (dBClusterArn != null) 'DBClusterArn': dBClusterArn,
@@ -5523,22 +5629,23 @@ class DBClusterSnapshot {
 
 /// Contains the name and values of a manual cluster snapshot attribute.
 ///
-/// Manual cluster snapshot attributes are used to authorize other accounts to
-/// restore a manual cluster snapshot.
+/// Manual cluster snapshot attributes are used to authorize other Amazon Web
+/// Services accounts to restore a manual cluster snapshot.
 class DBClusterSnapshotAttribute {
   /// The name of the manual cluster snapshot attribute.
   ///
-  /// The attribute named <code>restore</code> refers to the list of accounts that
-  /// have permission to copy or restore the manual cluster snapshot.
+  /// The attribute named <code>restore</code> refers to the list of Amazon Web
+  /// Services accounts that have permission to copy or restore the manual cluster
+  /// snapshot.
   final String? attributeName;
 
   /// The values for the manual cluster snapshot attribute.
   ///
   /// If the <code>AttributeName</code> field is set to <code>restore</code>, then
-  /// this element returns a list of IDs of the accounts that are authorized to
-  /// copy or restore the manual cluster snapshot. If a value of <code>all</code>
-  /// is in the list, then the manual cluster snapshot is public and available for
-  /// any account to copy or restore.
+  /// this element returns a list of IDs of the Amazon Web Services accounts that
+  /// are authorized to copy or restore the manual cluster snapshot. If a value of
+  /// <code>all</code> is in the list, then the manual cluster snapshot is public
+  /// and available for any Amazon Web Services account to copy or restore.
   final List<String>? attributeValues;
 
   DBClusterSnapshotAttribute({
@@ -5846,6 +5953,10 @@ class DBInstance {
   /// The identifier of the CA certificate for this DB instance.
   final String? cACertificateIdentifier;
 
+  /// A value that indicates whether to copy tags from the DB instance to
+  /// snapshots of the DB instance. By default, tags are not copied.
+  final bool? copyTagsToSnapshot;
+
   /// Contains the name of the cluster that the instance is a member of if the
   /// instance is a member of a cluster.
   final String? dBClusterIdentifier;
@@ -5867,9 +5978,9 @@ class DBInstance {
   /// instance, including the name, description, and subnets in the subnet group.
   final DBSubnetGroup? dBSubnetGroup;
 
-  /// The Region-unique, immutable identifier for the instance. This identifier is
-  /// found in CloudTrail log entries whenever the KMS key for the instance is
-  /// accessed.
+  /// The Amazon Web Services Region-unique, immutable identifier for the
+  /// instance. This identifier is found in CloudTrail log entries whenever the
+  /// KMS key for the instance is accessed.
   final String? dbiResourceId;
 
   /// A list of log types that this instance is configured to export to CloudWatch
@@ -5935,6 +6046,7 @@ class DBInstance {
     this.availabilityZone,
     this.backupRetentionPeriod,
     this.cACertificateIdentifier,
+    this.copyTagsToSnapshot,
     this.dBClusterIdentifier,
     this.dBInstanceArn,
     this.dBInstanceClass,
@@ -5965,6 +6077,7 @@ class DBInstance {
       availabilityZone: json['AvailabilityZone'] as String?,
       backupRetentionPeriod: json['BackupRetentionPeriod'] as int?,
       cACertificateIdentifier: json['CACertificateIdentifier'] as String?,
+      copyTagsToSnapshot: json['CopyTagsToSnapshot'] as bool?,
       dBClusterIdentifier: json['DBClusterIdentifier'] as String?,
       dBInstanceArn: json['DBInstanceArn'] as String?,
       dBInstanceClass: json['DBInstanceClass'] as String?,
@@ -6018,6 +6131,7 @@ class DBInstance {
           _s.extractXmlIntValue(elem, 'BackupRetentionPeriod'),
       cACertificateIdentifier:
           _s.extractXmlStringValue(elem, 'CACertificateIdentifier'),
+      copyTagsToSnapshot: _s.extractXmlBoolValue(elem, 'CopyTagsToSnapshot'),
       dBClusterIdentifier:
           _s.extractXmlStringValue(elem, 'DBClusterIdentifier'),
       dBInstanceArn: _s.extractXmlStringValue(elem, 'DBInstanceArn'),
@@ -6066,6 +6180,7 @@ class DBInstance {
     final availabilityZone = this.availabilityZone;
     final backupRetentionPeriod = this.backupRetentionPeriod;
     final cACertificateIdentifier = this.cACertificateIdentifier;
+    final copyTagsToSnapshot = this.copyTagsToSnapshot;
     final dBClusterIdentifier = this.dBClusterIdentifier;
     final dBInstanceArn = this.dBInstanceArn;
     final dBInstanceClass = this.dBInstanceClass;
@@ -6096,6 +6211,7 @@ class DBInstance {
         'BackupRetentionPeriod': backupRetentionPeriod,
       if (cACertificateIdentifier != null)
         'CACertificateIdentifier': cACertificateIdentifier,
+      if (copyTagsToSnapshot != null) 'CopyTagsToSnapshot': copyTagsToSnapshot,
       if (dBClusterIdentifier != null)
         'DBClusterIdentifier': dBClusterIdentifier,
       if (dBInstanceArn != null) 'DBInstanceArn': dBInstanceArn,
@@ -7146,9 +7262,9 @@ class GlobalCluster {
   /// Currently limited to one item.
   final List<GlobalClusterMember>? globalClusterMembers;
 
-  /// The Region-unique, immutable identifier for the global database cluster.
-  /// This identifier is found in AWS CloudTrail log entries whenever the AWS KMS
-  /// customer master key (CMK) for the cluster is accessed.
+  /// The Amazon Web Services Region-unique, immutable identifier for the global
+  /// database cluster. This identifier is found in AWS CloudTrail log entries
+  /// whenever the AWS KMS customer master key (CMK) for the cluster is accessed.
   final String? globalClusterResourceId;
 
   /// Specifies the current state of this global cluster.

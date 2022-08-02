@@ -18,14 +18,14 @@ import '../../shared/shared.dart'
 
 export '../../shared/shared.dart' show AwsClientCredentials;
 
-/// AWS IoT Events monitors your equipment or device fleets for failures or
-/// changes in operation, and triggers actions when such events occur. You can
-/// use AWS IoT Events Data API commands to send inputs to detectors, list
-/// detectors, and view or update a detector's status.
+/// IoT Events monitors your equipment or device fleets for failures or changes
+/// in operation, and triggers actions when such events occur. You can use IoT
+/// Events Data API commands to send inputs to detectors, list detectors, and
+/// view or update a detector's status.
 ///
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/iotevents/latest/developerguide/what-is-iotevents.html">What
-/// is AWS IoT Events?</a> in the <i>AWS IoT Events Developer Guide</i>.
+/// is IoT Events?</a> in the <i>IoT Events Developer Guide</i>.
 class IoTEventsData {
   final _s.RestJsonProtocol _protocol;
   IoTEventsData({
@@ -70,6 +70,36 @@ class IoTEventsData {
       exceptionFnMap: _exceptionFns,
     );
     return BatchAcknowledgeAlarmResponse.fromJson(response);
+  }
+
+  /// Deletes one or more detectors that were created. When a detector is
+  /// deleted, its state will be cleared and the detector will be removed from
+  /// the list of detectors. The deleted detector will no longer appear if
+  /// referenced in the <a
+  /// href="https://docs.aws.amazon.com/iotevents/latest/apireference/API_iotevents-data_ListDetectors.html">ListDetectors</a>
+  /// API call.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InternalFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [detectors] :
+  /// The list of one or more detectors to be deleted.
+  Future<BatchDeleteDetectorResponse> batchDeleteDetector({
+    required List<DeleteDetectorRequest> detectors,
+  }) async {
+    ArgumentError.checkNotNull(detectors, 'detectors');
+    final $payload = <String, dynamic>{
+      'detectors': detectors,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/detectors/delete',
+      exceptionFnMap: _exceptionFns,
+    );
+    return BatchDeleteDetectorResponse.fromJson(response);
   }
 
   /// Disables one or more alarms. The alarms change to the
@@ -126,8 +156,8 @@ class IoTEventsData {
     return BatchEnableAlarmResponse.fromJson(response);
   }
 
-  /// Sends a set of messages to the AWS IoT Events system. Each message payload
-  /// is transformed into the input you specify (<code>"inputName"</code>) and
+  /// Sends a set of messages to the IoT Events system. Each message payload is
+  /// transformed into the input you specify (<code>"inputName"</code>) and
   /// ingested into any detectors that monitor that input. If multiple messages
   /// are sent, the order in which the messages are processed isn't guaranteed.
   /// To guarantee ordering, you must send messages one at a time and wait for a
@@ -857,6 +887,77 @@ class BatchAlarmActionErrorEntry {
   }
 }
 
+/// Contains error messages associated with the deletion request.
+class BatchDeleteDetectorErrorEntry {
+  /// The error code.
+  final ErrorCode? errorCode;
+
+  /// A message that describes the error.
+  final String? errorMessage;
+
+  /// The ID of the message that caused the error. (See the value of the
+  /// <code>"messageId"</code> in the <a
+  /// href="https://docs.aws.amazon.com/iotevents/latest/apireference/API_iotevents-data_BatchDeleteDetector.html#iotevents-iotevents-data_BatchDeleteDetector-request-detectors">detectors</a>
+  /// object of the <code>DeleteDetectorRequest</code>.)
+  final String? messageId;
+
+  BatchDeleteDetectorErrorEntry({
+    this.errorCode,
+    this.errorMessage,
+    this.messageId,
+  });
+
+  factory BatchDeleteDetectorErrorEntry.fromJson(Map<String, dynamic> json) {
+    return BatchDeleteDetectorErrorEntry(
+      errorCode: (json['errorCode'] as String?)?.toErrorCode(),
+      errorMessage: json['errorMessage'] as String?,
+      messageId: json['messageId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    final messageId = this.messageId;
+    return {
+      if (errorCode != null) 'errorCode': errorCode.toValue(),
+      if (errorMessage != null) 'errorMessage': errorMessage,
+      if (messageId != null) 'messageId': messageId,
+    };
+  }
+}
+
+class BatchDeleteDetectorResponse {
+  /// A list of errors associated with the request, or an empty array
+  /// (<code>[]</code>) if there are no errors. Each error entry contains a
+  /// <code>messageId</code> that helps you identify the entry that failed.
+  final List<BatchDeleteDetectorErrorEntry>? batchDeleteDetectorErrorEntries;
+
+  BatchDeleteDetectorResponse({
+    this.batchDeleteDetectorErrorEntries,
+  });
+
+  factory BatchDeleteDetectorResponse.fromJson(Map<String, dynamic> json) {
+    return BatchDeleteDetectorResponse(
+      batchDeleteDetectorErrorEntries: (json['batchDeleteDetectorErrorEntries']
+              as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              BatchDeleteDetectorErrorEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final batchDeleteDetectorErrorEntries =
+        this.batchDeleteDetectorErrorEntries;
+    return {
+      if (batchDeleteDetectorErrorEntries != null)
+        'batchDeleteDetectorErrorEntries': batchDeleteDetectorErrorEntries,
+    };
+  }
+}
+
 class BatchDisableAlarmResponse {
   /// A list of errors associated with the request, or <code>null</code> if there
   /// are no errors. Each error entry contains an entry ID that helps you identify
@@ -1299,6 +1400,47 @@ extension on String {
         return CustomerActionName.reset;
     }
     throw Exception('$this is not known in enum CustomerActionName');
+  }
+}
+
+/// Information used to delete the detector model.
+class DeleteDetectorRequest {
+  /// The name of the detector model that was used to create the detector
+  /// instance.
+  final String detectorModelName;
+
+  /// The ID to assign to the <code>DeleteDetectorRequest</code>. Each
+  /// <code>"messageId"</code> must be unique within each batch sent.
+  final String messageId;
+
+  /// The value of the <a
+  /// href="https://docs.aws.amazon.com/iotevents/latest/apireference/API_CreateDetectorModel.html#iotevents-CreateDetectorModel-request-key">key</a>
+  /// used to identify the detector.
+  final String? keyValue;
+
+  DeleteDetectorRequest({
+    required this.detectorModelName,
+    required this.messageId,
+    this.keyValue,
+  });
+
+  factory DeleteDetectorRequest.fromJson(Map<String, dynamic> json) {
+    return DeleteDetectorRequest(
+      detectorModelName: json['detectorModelName'] as String,
+      messageId: json['messageId'] as String,
+      keyValue: json['keyValue'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final detectorModelName = this.detectorModelName;
+    final messageId = this.messageId;
+    final keyValue = this.keyValue;
+    return {
+      'detectorModelName': detectorModelName,
+      'messageId': messageId,
+      if (keyValue != null) 'keyValue': keyValue,
+    };
   }
 }
 
@@ -2192,7 +2334,7 @@ class Timer {
   /// The name of the timer.
   final String name;
 
-  /// The number of seconds which have elapsed on the timer.
+  /// The expiration time for the timer.
   final DateTime timestamp;
 
   Timer({

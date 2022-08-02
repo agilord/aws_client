@@ -24,6 +24,21 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// Detector features, see the <a
 /// href="https://docs.aws.amazon.com/frauddetector/latest/ug/">Amazon Fraud
 /// Detector User Guide</a>.
+///
+/// We provide the Query API as well as AWS software development kits (SDK) for
+/// Amazon Fraud Detector in Java and Python programming languages.
+///
+/// The Amazon Fraud Detector Query API provides HTTPS requests that use the
+/// HTTP verb GET or POST and a Query parameter <code>Action</code>. AWS SDK
+/// provides libraries, sample code, tutorials, and other resources for software
+/// developers who prefer to build applications using language-specific APIs
+/// instead of submitting a request over HTTP or HTTPS. These libraries provide
+/// basic functions that automatically take care of tasks such as
+/// cryptographically signing your requests, retrying requests, and handling
+/// error responses, so that it is easier for you to get started. For more
+/// information about the AWS SDKs, see <a
+/// href="https://docs.aws.amazon.com/https:/aws.amazon.com/tools/">Tools to
+/// build on AWS</a>.
 class FraudDetector {
   final _s.JsonProtocol _protocol;
   FraudDetector({
@@ -643,7 +658,8 @@ class FraudDetector {
     );
   }
 
-  /// Deletes data that was batch imported to Amazon Fraud Detector.
+  /// Deletes the specified batch import job ID record. This action does not
+  /// delete the data that was batch imported.
   ///
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
@@ -1728,6 +1744,70 @@ class FraudDetector {
     return GetEventPredictionResult.fromJson(jsonResponse.body);
   }
 
+  /// Gets details of the past fraud predictions for the specified event ID,
+  /// event type, detector ID, and detector version ID that was generated in the
+  /// specified time period.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [detectorId] :
+  /// The detector ID.
+  ///
+  /// Parameter [detectorVersionId] :
+  /// The detector version ID.
+  ///
+  /// Parameter [eventId] :
+  /// The event ID.
+  ///
+  /// Parameter [eventTypeName] :
+  /// The event type associated with the detector specified for the prediction.
+  ///
+  /// Parameter [predictionTimestamp] :
+  /// The timestamp that defines when the prediction was generated. The
+  /// timestamp must be specified using ISO 8601 standard in UTC.
+  ///
+  /// We recommend calling <a
+  /// href="https://docs.aws.amazon.com/frauddetector/latest/api/API_ListEventPredictions.html">ListEventPredictions</a>
+  /// first, and using the <code>predictionTimestamp</code> value in the
+  /// response to provide an accurate prediction timestamp value.
+  Future<GetEventPredictionMetadataResult> getEventPredictionMetadata({
+    required String detectorId,
+    required String detectorVersionId,
+    required String eventId,
+    required String eventTypeName,
+    required String predictionTimestamp,
+  }) async {
+    ArgumentError.checkNotNull(detectorId, 'detectorId');
+    ArgumentError.checkNotNull(detectorVersionId, 'detectorVersionId');
+    ArgumentError.checkNotNull(eventId, 'eventId');
+    ArgumentError.checkNotNull(eventTypeName, 'eventTypeName');
+    ArgumentError.checkNotNull(predictionTimestamp, 'predictionTimestamp');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSHawksNestServiceFacade.GetEventPredictionMetadata'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'detectorId': detectorId,
+        'detectorVersionId': detectorVersionId,
+        'eventId': eventId,
+        'eventTypeName': eventTypeName,
+        'predictionTimestamp': predictionTimestamp,
+      },
+    );
+
+    return GetEventPredictionMetadataResult.fromJson(jsonResponse.body);
+  }
+
   /// Gets all event types or a specific event type if name is provided. This is
   /// a paginated API. If you provide a null <code>maxResults</code>, this
   /// action retrieves a maximum of 10 records per page. If you provide a
@@ -2188,6 +2268,88 @@ class FraudDetector {
     );
 
     return GetVariablesResult.fromJson(jsonResponse.body);
+  }
+
+  /// Gets a list of past predictions. The list can be filtered by detector ID,
+  /// detector version ID, event ID, event type, or by specifying a time period.
+  /// If filter is not specified, the most recent prediction is returned.
+  ///
+  /// For example, the following filter lists all past predictions for
+  /// <code>xyz</code> event type - <code>{ "eventType":{ "value": "xyz" }” }
+  /// </code>
+  ///
+  /// This is a paginated API. If you provide a null <code>maxResults</code>,
+  /// this action will retrieve a maximum of 10 records per page. If you provide
+  /// a <code>maxResults</code>, the value must be between 50 and 100. To get
+  /// the next page results, provide the <code>nextToken</code> from the
+  /// response as part of your request. A null <code>nextToken</code> fetches
+  /// the records from the beginning.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [detectorId] :
+  /// The detector ID.
+  ///
+  /// Parameter [detectorVersionId] :
+  /// The detector version ID.
+  ///
+  /// Parameter [eventId] :
+  /// The event ID.
+  ///
+  /// Parameter [eventType] :
+  /// The event type associated with the detector.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of predictions to return for the request.
+  ///
+  /// Parameter [nextToken] :
+  /// Identifies the next page of results to return. Use the token to make the
+  /// call again to retrieve the next page. Keep all other arguments unchanged.
+  /// Each pagination token expires after 24 hours.
+  ///
+  /// Parameter [predictionTimeRange] :
+  /// The time period for when the predictions were generated.
+  Future<ListEventPredictionsResult> listEventPredictions({
+    FilterCondition? detectorId,
+    FilterCondition? detectorVersionId,
+    FilterCondition? eventId,
+    FilterCondition? eventType,
+    int? maxResults,
+    String? nextToken,
+    PredictionTimeRange? predictionTimeRange,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      50,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSHawksNestServiceFacade.ListEventPredictions'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (detectorId != null) 'detectorId': detectorId,
+        if (detectorVersionId != null) 'detectorVersionId': detectorVersionId,
+        if (eventId != null) 'eventId': eventId,
+        if (eventType != null) 'eventType': eventType,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+        if (predictionTimeRange != null)
+          'predictionTimeRange': predictionTimeRange,
+      },
+    );
+
+    return ListEventPredictionsResult.fromJson(jsonResponse.body);
   }
 
   /// Lists all tags associated with the resource. This is a paginated API. To
@@ -3061,6 +3223,10 @@ class FraudDetector {
   /// You can perform the following status updates:
   /// <ol>
   /// <li>
+  /// Change the <code>TRAINING_IN_PROGRESS</code> status to
+  /// <code>TRAINING_CANCELLED</code>.
+  /// </li>
+  /// <li>
   /// Change the <code>TRAINING_COMPLETE</code> status to <code>ACTIVE</code>.
   /// </li>
   /// <li>
@@ -3259,6 +3425,265 @@ class FraudDetector {
         if (variableType != null) 'variableType': variableType,
       },
     );
+  }
+}
+
+/// The Account Takeover Insights (ATI) model performance metrics data points.
+class ATIMetricDataPoint {
+  /// The anomaly discovery rate. This metric quantifies the percentage of
+  /// anomalies that can be detected by the model at the selected score threshold.
+  /// A lower score threshold increases the percentage of anomalies captured by
+  /// the model, but would also require challenging a larger percentage of login
+  /// events, leading to a higher customer friction.
+  final double? adr;
+
+  /// The account takeover discovery rate. This metric quantifies the percentage
+  /// of account compromise events that can be detected by the model at the
+  /// selected score threshold. This metric is only available if 50 or more
+  /// entities with at-least one labeled account takeover event is present in the
+  /// ingested dataset.
+  final double? atodr;
+
+  /// The challenge rate. This indicates the percentage of login events that the
+  /// model recommends to challenge such as one-time password, multi-factor
+  /// authentication, and investigations.
+  final double? cr;
+
+  /// The model's threshold that specifies an acceptable fraud capture rate. For
+  /// example, a threshold of 500 means any model score 500 or above is labeled as
+  /// fraud.
+  final double? threshold;
+
+  ATIMetricDataPoint({
+    this.adr,
+    this.atodr,
+    this.cr,
+    this.threshold,
+  });
+
+  factory ATIMetricDataPoint.fromJson(Map<String, dynamic> json) {
+    return ATIMetricDataPoint(
+      adr: json['adr'] as double?,
+      atodr: json['atodr'] as double?,
+      cr: json['cr'] as double?,
+      threshold: json['threshold'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final adr = this.adr;
+    final atodr = this.atodr;
+    final cr = this.cr;
+    final threshold = this.threshold;
+    return {
+      if (adr != null) 'adr': adr,
+      if (atodr != null) 'atodr': atodr,
+      if (cr != null) 'cr': cr,
+      if (threshold != null) 'threshold': threshold,
+    };
+  }
+}
+
+/// The Account Takeover Insights (ATI) model performance score.
+class ATIModelPerformance {
+  /// The anomaly separation index (ASI) score. This metric summarizes the overall
+  /// ability of the model to separate anomalous activities from the normal
+  /// behavior. Depending on the business, a large fraction of these anomalous
+  /// activities can be malicious and correspond to the account takeover attacks.
+  /// A model with no separability power will have the lowest possible ASI score
+  /// of 0.5, whereas the a model with a high separability power will have the
+  /// highest possible ASI score of 1.0
+  final double? asi;
+
+  ATIModelPerformance({
+    this.asi,
+  });
+
+  factory ATIModelPerformance.fromJson(Map<String, dynamic> json) {
+    return ATIModelPerformance(
+      asi: json['asi'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final asi = this.asi;
+    return {
+      if (asi != null) 'asi': asi,
+    };
+  }
+}
+
+/// The Account Takeover Insights (ATI) model training metric details.
+class ATITrainingMetricsValue {
+  /// The model's performance metrics data points.
+  final List<ATIMetricDataPoint>? metricDataPoints;
+
+  /// The model's overall performance scores.
+  final ATIModelPerformance? modelPerformance;
+
+  ATITrainingMetricsValue({
+    this.metricDataPoints,
+    this.modelPerformance,
+  });
+
+  factory ATITrainingMetricsValue.fromJson(Map<String, dynamic> json) {
+    return ATITrainingMetricsValue(
+      metricDataPoints: (json['metricDataPoints'] as List?)
+          ?.whereNotNull()
+          .map((e) => ATIMetricDataPoint.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      modelPerformance: json['modelPerformance'] != null
+          ? ATIModelPerformance.fromJson(
+              json['modelPerformance'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metricDataPoints = this.metricDataPoints;
+    final modelPerformance = this.modelPerformance;
+    return {
+      if (metricDataPoints != null) 'metricDataPoints': metricDataPoints,
+      if (modelPerformance != null) 'modelPerformance': modelPerformance,
+    };
+  }
+}
+
+/// The log odds metric details.
+///
+/// Account Takeover Insights (ATI) model uses event variables from the login
+/// data you provide to continuously calculate a set of variables (aggregated
+/// variables) based on historical events. For example, your ATI model might
+/// calculate the number of times an user has logged in using the same IP
+/// address. In this case, event variables used to derive the aggregated
+/// variables are <code>IP address</code> and <code>user</code>.
+class AggregatedLogOddsMetric {
+  /// The relative importance of the variables in the list to the other event
+  /// variable.
+  final double aggregatedVariablesImportance;
+
+  /// The names of all the variables.
+  final List<String> variableNames;
+
+  AggregatedLogOddsMetric({
+    required this.aggregatedVariablesImportance,
+    required this.variableNames,
+  });
+
+  factory AggregatedLogOddsMetric.fromJson(Map<String, dynamic> json) {
+    return AggregatedLogOddsMetric(
+      aggregatedVariablesImportance:
+          json['aggregatedVariablesImportance'] as double,
+      variableNames: (json['variableNames'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final aggregatedVariablesImportance = this.aggregatedVariablesImportance;
+    final variableNames = this.variableNames;
+    return {
+      'aggregatedVariablesImportance': aggregatedVariablesImportance,
+      'variableNames': variableNames,
+    };
+  }
+}
+
+/// The details of the impact of aggregated variables on the prediction score.
+///
+/// Account Takeover Insights (ATI) model uses the login data you provide to
+/// continuously calculate a set of variables (aggregated variables) based on
+/// historical events. For example, the model might calculate the number of
+/// times an user has logged in using the same IP address. In this case, event
+/// variables used to derive the aggregated variables are <code>IP
+/// address</code> and <code>user</code>.
+class AggregatedVariablesImpactExplanation {
+  /// The names of all the event variables that were used to derive the aggregated
+  /// variables.
+  final List<String>? eventVariableNames;
+
+  /// The raw, uninterpreted value represented as log-odds of the fraud. These
+  /// values are usually between -10 to +10, but range from -infinity to
+  /// +infinity.
+  ///
+  /// <ul>
+  /// <li>
+  /// A positive value indicates that the variables drove the risk score up.
+  /// </li>
+  /// <li>
+  /// A negative value indicates that the variables drove the risk score down.
+  /// </li>
+  /// </ul>
+  final double? logOddsImpact;
+
+  /// The relative impact of the aggregated variables in terms of magnitude on the
+  /// prediction scores.
+  final String? relativeImpact;
+
+  AggregatedVariablesImpactExplanation({
+    this.eventVariableNames,
+    this.logOddsImpact,
+    this.relativeImpact,
+  });
+
+  factory AggregatedVariablesImpactExplanation.fromJson(
+      Map<String, dynamic> json) {
+    return AggregatedVariablesImpactExplanation(
+      eventVariableNames: (json['eventVariableNames'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      logOddsImpact: json['logOddsImpact'] as double?,
+      relativeImpact: json['relativeImpact'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eventVariableNames = this.eventVariableNames;
+    final logOddsImpact = this.logOddsImpact;
+    final relativeImpact = this.relativeImpact;
+    return {
+      if (eventVariableNames != null) 'eventVariableNames': eventVariableNames,
+      if (logOddsImpact != null) 'logOddsImpact': logOddsImpact,
+      if (relativeImpact != null) 'relativeImpact': relativeImpact,
+    };
+  }
+}
+
+/// The details of the relative importance of the aggregated variables.
+///
+/// Account Takeover Insights (ATI) model uses event variables from the login
+/// data you provide to continuously calculate a set of variables (aggregated
+/// variables) based on historical events. For example, your ATI model might
+/// calculate the number of times an user has logged in using the same IP
+/// address. In this case, event variables used to derive the aggregated
+/// variables are <code>IP address</code> and <code>user</code>.
+class AggregatedVariablesImportanceMetrics {
+  /// List of variables' metrics.
+  final List<AggregatedLogOddsMetric>? logOddsMetrics;
+
+  AggregatedVariablesImportanceMetrics({
+    this.logOddsMetrics,
+  });
+
+  factory AggregatedVariablesImportanceMetrics.fromJson(
+      Map<String, dynamic> json) {
+    return AggregatedVariablesImportanceMetrics(
+      logOddsMetrics: (json['logOddsMetrics'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              AggregatedLogOddsMetric.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final logOddsMetrics = this.logOddsMetrics;
+    return {
+      if (logOddsMetrics != null) 'logOddsMetrics': logOddsMetrics,
+    };
   }
 }
 
@@ -3922,12 +4347,12 @@ extension on String {
   }
 }
 
-/// The model training validation messages.
+/// The model training data validation metrics.
 class DataValidationMetrics {
   /// The field-specific model training validation messages.
   final List<FieldValidationMessage>? fieldLevelMessages;
 
-  /// The file-specific model training validation messages.
+  /// The file-specific model training data validation messages.
   final List<FileValidationMessage>? fileLevelMessages;
 
   DataValidationMetrics({
@@ -4455,6 +4880,173 @@ class EntityType {
   }
 }
 
+/// The details of the external (Amazon Sagemaker) model evaluated for
+/// generating predictions.
+class EvaluatedExternalModel {
+  /// Input variables use for generating predictions.
+  final Map<String, String>? inputVariables;
+
+  /// The endpoint of the external (Amazon Sagemaker) model.
+  final String? modelEndpoint;
+
+  /// Output variables.
+  final Map<String, String>? outputVariables;
+
+  /// Indicates whether event variables were used to generate predictions.
+  final bool? useEventVariables;
+
+  EvaluatedExternalModel({
+    this.inputVariables,
+    this.modelEndpoint,
+    this.outputVariables,
+    this.useEventVariables,
+  });
+
+  factory EvaluatedExternalModel.fromJson(Map<String, dynamic> json) {
+    return EvaluatedExternalModel(
+      inputVariables: (json['inputVariables'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      modelEndpoint: json['modelEndpoint'] as String?,
+      outputVariables: (json['outputVariables'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      useEventVariables: json['useEventVariables'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inputVariables = this.inputVariables;
+    final modelEndpoint = this.modelEndpoint;
+    final outputVariables = this.outputVariables;
+    final useEventVariables = this.useEventVariables;
+    return {
+      if (inputVariables != null) 'inputVariables': inputVariables,
+      if (modelEndpoint != null) 'modelEndpoint': modelEndpoint,
+      if (outputVariables != null) 'outputVariables': outputVariables,
+      if (useEventVariables != null) 'useEventVariables': useEventVariables,
+    };
+  }
+}
+
+/// The model version evaluated for generating prediction.
+class EvaluatedModelVersion {
+  /// Evaluations generated for the model version.
+  final List<ModelVersionEvaluation>? evaluations;
+
+  /// The model ID.
+  final String? modelId;
+
+  /// The model type.
+  ///
+  /// Valid values: <code>ONLINE_FRAUD_INSIGHTS</code> |
+  /// <code>TRANSACTION_FRAUD_INSIGHTS</code>
+  final String? modelType;
+
+  /// The model version.
+  final String? modelVersion;
+
+  EvaluatedModelVersion({
+    this.evaluations,
+    this.modelId,
+    this.modelType,
+    this.modelVersion,
+  });
+
+  factory EvaluatedModelVersion.fromJson(Map<String, dynamic> json) {
+    return EvaluatedModelVersion(
+      evaluations: (json['evaluations'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => ModelVersionEvaluation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      modelId: json['modelId'] as String?,
+      modelType: json['modelType'] as String?,
+      modelVersion: json['modelVersion'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final evaluations = this.evaluations;
+    final modelId = this.modelId;
+    final modelType = this.modelType;
+    final modelVersion = this.modelVersion;
+    return {
+      if (evaluations != null) 'evaluations': evaluations,
+      if (modelId != null) 'modelId': modelId,
+      if (modelType != null) 'modelType': modelType,
+      if (modelVersion != null) 'modelVersion': modelVersion,
+    };
+  }
+}
+
+/// The details of the rule used for evaluating variable values.
+class EvaluatedRule {
+  /// Indicates whether the rule was evaluated.
+  final bool? evaluated;
+
+  /// The rule expression.
+  final String? expression;
+
+  /// The rule expression value.
+  final String? expressionWithValues;
+
+  /// Indicates whether the rule matched.
+  final bool? matched;
+
+  /// The rule outcome.
+  final List<String>? outcomes;
+
+  /// The rule ID.
+  final String? ruleId;
+
+  /// The rule version.
+  final String? ruleVersion;
+
+  EvaluatedRule({
+    this.evaluated,
+    this.expression,
+    this.expressionWithValues,
+    this.matched,
+    this.outcomes,
+    this.ruleId,
+    this.ruleVersion,
+  });
+
+  factory EvaluatedRule.fromJson(Map<String, dynamic> json) {
+    return EvaluatedRule(
+      evaluated: json['evaluated'] as bool?,
+      expression: json['expression'] as String?,
+      expressionWithValues: json['expressionWithValues'] as String?,
+      matched: json['matched'] as bool?,
+      outcomes: (json['outcomes'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      ruleId: json['ruleId'] as String?,
+      ruleVersion: json['ruleVersion'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final evaluated = this.evaluated;
+    final expression = this.expression;
+    final expressionWithValues = this.expressionWithValues;
+    final matched = this.matched;
+    final outcomes = this.outcomes;
+    final ruleId = this.ruleId;
+    final ruleVersion = this.ruleVersion;
+    return {
+      if (evaluated != null) 'evaluated': evaluated,
+      if (expression != null) 'expression': expression,
+      if (expressionWithValues != null)
+        'expressionWithValues': expressionWithValues,
+      if (matched != null) 'matched': matched,
+      if (outcomes != null) 'outcomes': outcomes,
+      if (ruleId != null) 'ruleId': ruleId,
+      if (ruleVersion != null) 'ruleVersion': ruleVersion,
+    };
+  }
+}
+
 /// The event details.
 class Event {
   /// The label associated with the event.
@@ -4553,6 +5145,65 @@ extension on String {
         return EventIngestion.disabled;
     }
     throw Exception('$this is not known in enum EventIngestion');
+  }
+}
+
+/// Information about the summary of an event prediction.
+class EventPredictionSummary {
+  /// The detector ID.
+  final String? detectorId;
+
+  /// The detector version ID.
+  final String? detectorVersionId;
+
+  /// The event ID.
+  final String? eventId;
+
+  /// The timestamp of the event.
+  final String? eventTimestamp;
+
+  /// The event type.
+  final String? eventTypeName;
+
+  /// The timestamp when the prediction was generated.
+  final String? predictionTimestamp;
+
+  EventPredictionSummary({
+    this.detectorId,
+    this.detectorVersionId,
+    this.eventId,
+    this.eventTimestamp,
+    this.eventTypeName,
+    this.predictionTimestamp,
+  });
+
+  factory EventPredictionSummary.fromJson(Map<String, dynamic> json) {
+    return EventPredictionSummary(
+      detectorId: json['detectorId'] as String?,
+      detectorVersionId: json['detectorVersionId'] as String?,
+      eventId: json['eventId'] as String?,
+      eventTimestamp: json['eventTimestamp'] as String?,
+      eventTypeName: json['eventTypeName'] as String?,
+      predictionTimestamp: json['predictionTimestamp'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final detectorId = this.detectorId;
+    final detectorVersionId = this.detectorVersionId;
+    final eventId = this.eventId;
+    final eventTimestamp = this.eventTimestamp;
+    final eventTypeName = this.eventTypeName;
+    final predictionTimestamp = this.predictionTimestamp;
+    return {
+      if (detectorId != null) 'detectorId': detectorId,
+      if (detectorVersionId != null) 'detectorVersionId': detectorVersionId,
+      if (eventId != null) 'eventId': eventId,
+      if (eventTimestamp != null) 'eventTimestamp': eventTimestamp,
+      if (eventTypeName != null) 'eventTypeName': eventTypeName,
+      if (predictionTimestamp != null)
+        'predictionTimestamp': predictionTimestamp,
+    };
   }
 }
 
@@ -4655,6 +5306,44 @@ class EventType {
       if (labels != null) 'labels': labels,
       if (lastUpdatedTime != null) 'lastUpdatedTime': lastUpdatedTime,
       if (name != null) 'name': name,
+    };
+  }
+}
+
+/// Information about the summary of an event variable that was evaluated for
+/// generating prediction.
+class EventVariableSummary {
+  /// The event variable name.
+  final String? name;
+
+  /// The event variable source.
+  final String? source;
+
+  /// The value of the event variable.
+  final String? value;
+
+  EventVariableSummary({
+    this.name,
+    this.source,
+    this.value,
+  });
+
+  factory EventVariableSummary.fromJson(Map<String, dynamic> json) {
+    return EventVariableSummary(
+      name: json['name'] as String?,
+      source: json['source'] as String?,
+      value: json['value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final source = this.source;
+    final value = this.value;
+    return {
+      if (name != null) 'name': name,
+      if (source != null) 'source': source,
+      if (value != null) 'value': value,
     };
   }
 }
@@ -4931,6 +5620,30 @@ class FileValidationMessage {
   }
 }
 
+/// A conditional statement for filtering a list of past predictions.
+class FilterCondition {
+  /// A statement containing a resource property and a value to specify filter
+  /// condition.
+  final String? value;
+
+  FilterCondition({
+    this.value,
+  });
+
+  factory FilterCondition.fromJson(Map<String, dynamic> json) {
+    return FilterCondition(
+      value: json['value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final value = this.value;
+    return {
+      if (value != null) 'value': value,
+    };
+  }
+}
+
 class GetBatchImportJobsResult {
   /// An array containing the details of each batch import job.
   final List<BatchImport>? batchImports;
@@ -5200,6 +5913,151 @@ class GetEntityTypesResult {
     return {
       if (entityTypes != null) 'entityTypes': entityTypes,
       if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class GetEventPredictionMetadataResult {
+  /// The detector ID.
+  final String? detectorId;
+
+  /// The detector version ID.
+  final String? detectorVersionId;
+
+  /// The status of the detector version.
+  final String? detectorVersionStatus;
+
+  /// The entity ID.
+  final String? entityId;
+
+  /// The entity type.
+  final String? entityType;
+
+  /// External (Amazon SageMaker) models that were evaluated for generating
+  /// predictions.
+  final List<EvaluatedExternalModel>? evaluatedExternalModels;
+
+  /// Model versions that were evaluated for generating predictions.
+  final List<EvaluatedModelVersion>? evaluatedModelVersions;
+
+  /// The event ID.
+  final String? eventId;
+
+  /// The timestamp for when the prediction was generated for the associated event
+  /// ID.
+  final String? eventTimestamp;
+
+  /// The event type associated with the detector specified for this prediction.
+  final String? eventTypeName;
+
+  /// A list of event variables that influenced the prediction scores.
+  final List<EventVariableSummary>? eventVariables;
+
+  /// The outcomes of the matched rule, based on the rule execution mode.
+  final List<String>? outcomes;
+
+  /// The timestamp that defines when the prediction was generated.
+  final String? predictionTimestamp;
+
+  /// The execution mode of the rule used for evaluating variable values.
+  final RuleExecutionMode? ruleExecutionMode;
+
+  /// List of rules associated with the detector version that were used for
+  /// evaluating variable values.
+  final List<EvaluatedRule>? rules;
+
+  GetEventPredictionMetadataResult({
+    this.detectorId,
+    this.detectorVersionId,
+    this.detectorVersionStatus,
+    this.entityId,
+    this.entityType,
+    this.evaluatedExternalModels,
+    this.evaluatedModelVersions,
+    this.eventId,
+    this.eventTimestamp,
+    this.eventTypeName,
+    this.eventVariables,
+    this.outcomes,
+    this.predictionTimestamp,
+    this.ruleExecutionMode,
+    this.rules,
+  });
+
+  factory GetEventPredictionMetadataResult.fromJson(Map<String, dynamic> json) {
+    return GetEventPredictionMetadataResult(
+      detectorId: json['detectorId'] as String?,
+      detectorVersionId: json['detectorVersionId'] as String?,
+      detectorVersionStatus: json['detectorVersionStatus'] as String?,
+      entityId: json['entityId'] as String?,
+      entityType: json['entityType'] as String?,
+      evaluatedExternalModels: (json['evaluatedExternalModels'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => EvaluatedExternalModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      evaluatedModelVersions: (json['evaluatedModelVersions'] as List?)
+          ?.whereNotNull()
+          .map((e) => EvaluatedModelVersion.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      eventId: json['eventId'] as String?,
+      eventTimestamp: json['eventTimestamp'] as String?,
+      eventTypeName: json['eventTypeName'] as String?,
+      eventVariables: (json['eventVariables'] as List?)
+          ?.whereNotNull()
+          .map((e) => EventVariableSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      outcomes: (json['outcomes'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      predictionTimestamp: json['predictionTimestamp'] as String?,
+      ruleExecutionMode:
+          (json['ruleExecutionMode'] as String?)?.toRuleExecutionMode(),
+      rules: (json['rules'] as List?)
+          ?.whereNotNull()
+          .map((e) => EvaluatedRule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final detectorId = this.detectorId;
+    final detectorVersionId = this.detectorVersionId;
+    final detectorVersionStatus = this.detectorVersionStatus;
+    final entityId = this.entityId;
+    final entityType = this.entityType;
+    final evaluatedExternalModels = this.evaluatedExternalModels;
+    final evaluatedModelVersions = this.evaluatedModelVersions;
+    final eventId = this.eventId;
+    final eventTimestamp = this.eventTimestamp;
+    final eventTypeName = this.eventTypeName;
+    final eventVariables = this.eventVariables;
+    final outcomes = this.outcomes;
+    final predictionTimestamp = this.predictionTimestamp;
+    final ruleExecutionMode = this.ruleExecutionMode;
+    final rules = this.rules;
+    return {
+      if (detectorId != null) 'detectorId': detectorId,
+      if (detectorVersionId != null) 'detectorVersionId': detectorVersionId,
+      if (detectorVersionStatus != null)
+        'detectorVersionStatus': detectorVersionStatus,
+      if (entityId != null) 'entityId': entityId,
+      if (entityType != null) 'entityType': entityType,
+      if (evaluatedExternalModels != null)
+        'evaluatedExternalModels': evaluatedExternalModels,
+      if (evaluatedModelVersions != null)
+        'evaluatedModelVersions': evaluatedModelVersions,
+      if (eventId != null) 'eventId': eventId,
+      if (eventTimestamp != null) 'eventTimestamp': eventTimestamp,
+      if (eventTypeName != null) 'eventTypeName': eventTypeName,
+      if (eventVariables != null) 'eventVariables': eventVariables,
+      if (outcomes != null) 'outcomes': outcomes,
+      if (predictionTimestamp != null)
+        'predictionTimestamp': predictionTimestamp,
+      if (ruleExecutionMode != null)
+        'ruleExecutionMode': ruleExecutionMode.toValue(),
+      if (rules != null) 'rules': rules,
     };
   }
 }
@@ -5846,19 +6704,19 @@ class LabelSchema {
   /// <code>"LEGIT" =&gt; ["legit", "safe"]}</code>. The value part of the mapper
   /// is a list, because you may have multiple label variants from your event type
   /// for a single Amazon Fraud Detector label.
-  final Map<String, List<String>> labelMapper;
+  final Map<String, List<String>>? labelMapper;
 
   /// The action to take for unlabeled events.
   final UnlabeledEventsTreatment? unlabeledEventsTreatment;
 
   LabelSchema({
-    required this.labelMapper,
+    this.labelMapper,
     this.unlabeledEventsTreatment,
   });
 
   factory LabelSchema.fromJson(Map<String, dynamic> json) {
     return LabelSchema(
-      labelMapper: (json['labelMapper'] as Map<String, dynamic>).map((k, e) =>
+      labelMapper: (json['labelMapper'] as Map<String, dynamic>?)?.map((k, e) =>
           MapEntry(
               k, (e as List).whereNotNull().map((e) => e as String).toList())),
       unlabeledEventsTreatment: (json['unlabeledEventsTreatment'] as String?)
@@ -5870,7 +6728,7 @@ class LabelSchema {
     final labelMapper = this.labelMapper;
     final unlabeledEventsTreatment = this.unlabeledEventsTreatment;
     return {
-      'labelMapper': labelMapper,
+      if (labelMapper != null) 'labelMapper': labelMapper,
       if (unlabeledEventsTreatment != null)
         'unlabeledEventsTreatment': unlabeledEventsTreatment.toValue(),
     };
@@ -5897,6 +6755,42 @@ extension on String {
         return Language.detectorpl;
     }
     throw Exception('$this is not known in enum Language');
+  }
+}
+
+class ListEventPredictionsResult {
+  /// The summary of the past predictions.
+  final List<EventPredictionSummary>? eventPredictionSummaries;
+
+  /// Identifies the next page of results to return. Use the token to make the
+  /// call again to retrieve the next page. Keep all other arguments unchanged.
+  /// Each pagination token expires after 24 hours.
+  final String? nextToken;
+
+  ListEventPredictionsResult({
+    this.eventPredictionSummaries,
+    this.nextToken,
+  });
+
+  factory ListEventPredictionsResult.fromJson(Map<String, dynamic> json) {
+    return ListEventPredictionsResult(
+      eventPredictionSummaries: (json['eventPredictionSummaries'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => EventPredictionSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eventPredictionSummaries = this.eventPredictionSummaries;
+    final nextToken = this.nextToken;
+    return {
+      if (eventPredictionSummaries != null)
+        'eventPredictionSummaries': eventPredictionSummaries,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
   }
 }
 
@@ -6362,6 +7256,7 @@ extension on String {
 enum ModelTypeEnum {
   onlineFraudInsights,
   transactionFraudInsights,
+  accountTakeoverInsights,
 }
 
 extension on ModelTypeEnum {
@@ -6371,6 +7266,8 @@ extension on ModelTypeEnum {
         return 'ONLINE_FRAUD_INSIGHTS';
       case ModelTypeEnum.transactionFraudInsights:
         return 'TRANSACTION_FRAUD_INSIGHTS';
+      case ModelTypeEnum.accountTakeoverInsights:
+        return 'ACCOUNT_TAKEOVER_INSIGHTS';
     }
   }
 }
@@ -6382,6 +7279,8 @@ extension on String {
         return ModelTypeEnum.onlineFraudInsights;
       case 'TRANSACTION_FRAUD_INSIGHTS':
         return ModelTypeEnum.transactionFraudInsights;
+      case 'ACCOUNT_TAKEOVER_INSIGHTS':
+        return ModelTypeEnum.accountTakeoverInsights;
     }
     throw Exception('$this is not known in enum ModelTypeEnum');
   }
@@ -6473,6 +7372,10 @@ class ModelVersionDetail {
   /// The training results.
   final TrainingResult? trainingResult;
 
+  /// The training result details. The details include the relative importance of
+  /// the variables.
+  final TrainingResultV2? trainingResultV2;
+
   ModelVersionDetail({
     this.arn,
     this.createdTime,
@@ -6486,6 +7389,7 @@ class ModelVersionDetail {
     this.trainingDataSchema,
     this.trainingDataSource,
     this.trainingResult,
+    this.trainingResultV2,
   });
 
   factory ModelVersionDetail.fromJson(Map<String, dynamic> json) {
@@ -6515,6 +7419,10 @@ class ModelVersionDetail {
           ? TrainingResult.fromJson(
               json['trainingResult'] as Map<String, dynamic>)
           : null,
+      trainingResultV2: json['trainingResultV2'] != null
+          ? TrainingResultV2.fromJson(
+              json['trainingResultV2'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -6531,6 +7439,7 @@ class ModelVersionDetail {
     final trainingDataSchema = this.trainingDataSchema;
     final trainingDataSource = this.trainingDataSource;
     final trainingResult = this.trainingResult;
+    final trainingResultV2 = this.trainingResultV2;
     return {
       if (arn != null) 'arn': arn,
       if (createdTime != null) 'createdTime': createdTime,
@@ -6547,6 +7456,48 @@ class ModelVersionDetail {
       if (trainingDataSource != null)
         'trainingDataSource': trainingDataSource.toValue(),
       if (trainingResult != null) 'trainingResult': trainingResult,
+      if (trainingResultV2 != null) 'trainingResultV2': trainingResultV2,
+    };
+  }
+}
+
+/// The model version evalutions.
+class ModelVersionEvaluation {
+  /// The evaluation score generated for the model version.
+  final String? evaluationScore;
+
+  /// The output variable name.
+  final String? outputVariableName;
+
+  /// The prediction explanations generated for the model version.
+  final PredictionExplanations? predictionExplanations;
+
+  ModelVersionEvaluation({
+    this.evaluationScore,
+    this.outputVariableName,
+    this.predictionExplanations,
+  });
+
+  factory ModelVersionEvaluation.fromJson(Map<String, dynamic> json) {
+    return ModelVersionEvaluation(
+      evaluationScore: json['evaluationScore'] as String?,
+      outputVariableName: json['outputVariableName'] as String?,
+      predictionExplanations: json['predictionExplanations'] != null
+          ? PredictionExplanations.fromJson(
+              json['predictionExplanations'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final evaluationScore = this.evaluationScore;
+    final outputVariableName = this.outputVariableName;
+    final predictionExplanations = this.predictionExplanations;
+    return {
+      if (evaluationScore != null) 'evaluationScore': evaluationScore,
+      if (outputVariableName != null) 'outputVariableName': outputVariableName,
+      if (predictionExplanations != null)
+        'predictionExplanations': predictionExplanations,
     };
   }
 }
@@ -6581,6 +7532,116 @@ extension on String {
         return ModelVersionStatus.trainingCancelled;
     }
     throw Exception('$this is not known in enum ModelVersionStatus');
+  }
+}
+
+/// The Online Fraud Insights (OFI) model performance metrics data points.
+class OFIMetricDataPoint {
+  /// The false positive rate. This is the percentage of total legitimate events
+  /// that are incorrectly predicted as fraud.
+  final double? fpr;
+
+  /// The percentage of fraud events correctly predicted as fraudulent as compared
+  /// to all events predicted as fraudulent.
+  final double? precision;
+
+  /// The model threshold that specifies an acceptable fraud capture rate. For
+  /// example, a threshold of 500 means any model score 500 or above is labeled as
+  /// fraud.
+  final double? threshold;
+
+  /// The true positive rate. This is the percentage of total fraud the model
+  /// detects. Also known as capture rate.
+  final double? tpr;
+
+  OFIMetricDataPoint({
+    this.fpr,
+    this.precision,
+    this.threshold,
+    this.tpr,
+  });
+
+  factory OFIMetricDataPoint.fromJson(Map<String, dynamic> json) {
+    return OFIMetricDataPoint(
+      fpr: json['fpr'] as double?,
+      precision: json['precision'] as double?,
+      threshold: json['threshold'] as double?,
+      tpr: json['tpr'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fpr = this.fpr;
+    final precision = this.precision;
+    final threshold = this.threshold;
+    final tpr = this.tpr;
+    return {
+      if (fpr != null) 'fpr': fpr,
+      if (precision != null) 'precision': precision,
+      if (threshold != null) 'threshold': threshold,
+      if (tpr != null) 'tpr': tpr,
+    };
+  }
+}
+
+/// The Online Fraud Insights (OFI) model performance score.
+class OFIModelPerformance {
+  /// The area under the curve (auc). This summarizes the total positive rate
+  /// (tpr) and false positive rate (FPR) across all possible model score
+  /// thresholds.
+  final double? auc;
+
+  OFIModelPerformance({
+    this.auc,
+  });
+
+  factory OFIModelPerformance.fromJson(Map<String, dynamic> json) {
+    return OFIModelPerformance(
+      auc: json['auc'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final auc = this.auc;
+    return {
+      if (auc != null) 'auc': auc,
+    };
+  }
+}
+
+/// The Online Fraud Insights (OFI) model training metric details.
+class OFITrainingMetricsValue {
+  /// The model's performance metrics data points.
+  final List<OFIMetricDataPoint>? metricDataPoints;
+
+  /// The model's overall performance score.
+  final OFIModelPerformance? modelPerformance;
+
+  OFITrainingMetricsValue({
+    this.metricDataPoints,
+    this.modelPerformance,
+  });
+
+  factory OFITrainingMetricsValue.fromJson(Map<String, dynamic> json) {
+    return OFITrainingMetricsValue(
+      metricDataPoints: (json['metricDataPoints'] as List?)
+          ?.whereNotNull()
+          .map((e) => OFIMetricDataPoint.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      modelPerformance: json['modelPerformance'] != null
+          ? OFIModelPerformance.fromJson(
+              json['modelPerformance'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metricDataPoints = this.metricDataPoints;
+    final modelPerformance = this.modelPerformance;
+    return {
+      if (metricDataPoints != null) 'metricDataPoints': metricDataPoints,
+      if (modelPerformance != null) 'modelPerformance': modelPerformance,
+    };
   }
 }
 
@@ -6631,6 +7692,88 @@ class Outcome {
       if (description != null) 'description': description,
       if (lastUpdatedTime != null) 'lastUpdatedTime': lastUpdatedTime,
       if (name != null) 'name': name,
+    };
+  }
+}
+
+/// The prediction explanations that provide insight into how each event
+/// variable impacted the model version's fraud prediction score.
+class PredictionExplanations {
+  /// The details of the aggregated variables impact on the prediction score.
+  ///
+  /// Account Takeover Insights (ATI) model uses event variables from the login
+  /// data you provide to continuously calculate a set of variables (aggregated
+  /// variables) based on historical events. For example, your ATI model might
+  /// calculate the number of times an user has logged in using the same IP
+  /// address. In this case, event variables used to derive the aggregated
+  /// variables are <code>IP address</code> and <code>user</code>.
+  final List<AggregatedVariablesImpactExplanation>?
+      aggregatedVariablesImpactExplanations;
+
+  /// The details of the event variable's impact on the prediction score.
+  final List<VariableImpactExplanation>? variableImpactExplanations;
+
+  PredictionExplanations({
+    this.aggregatedVariablesImpactExplanations,
+    this.variableImpactExplanations,
+  });
+
+  factory PredictionExplanations.fromJson(Map<String, dynamic> json) {
+    return PredictionExplanations(
+      aggregatedVariablesImpactExplanations:
+          (json['aggregatedVariablesImpactExplanations'] as List?)
+              ?.whereNotNull()
+              .map((e) => AggregatedVariablesImpactExplanation.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      variableImpactExplanations: (json['variableImpactExplanations'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              VariableImpactExplanation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final aggregatedVariablesImpactExplanations =
+        this.aggregatedVariablesImpactExplanations;
+    final variableImpactExplanations = this.variableImpactExplanations;
+    return {
+      if (aggregatedVariablesImpactExplanations != null)
+        'aggregatedVariablesImpactExplanations':
+            aggregatedVariablesImpactExplanations,
+      if (variableImpactExplanations != null)
+        'variableImpactExplanations': variableImpactExplanations,
+    };
+  }
+}
+
+/// The time period for when the predictions were generated.
+class PredictionTimeRange {
+  /// The end time of the time period for when the predictions were generated.
+  final String endTime;
+
+  /// The start time of the time period for when the predictions were generated.
+  final String startTime;
+
+  PredictionTimeRange({
+    required this.endTime,
+    required this.startTime,
+  });
+
+  factory PredictionTimeRange.fromJson(Map<String, dynamic> json) {
+    return PredictionTimeRange(
+      endTime: json['endTime'] as String,
+      startTime: json['startTime'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endTime = this.endTime;
+    final startTime = this.startTime;
+    return {
+      'endTime': endTime,
+      'startTime': startTime,
     };
   }
 }
@@ -6918,6 +8061,117 @@ class SendEventResult {
   }
 }
 
+/// The performance metrics data points for Transaction Fraud Insights (TFI)
+/// model.
+class TFIMetricDataPoint {
+  /// The false positive rate. This is the percentage of total legitimate events
+  /// that are incorrectly predicted as fraud.
+  final double? fpr;
+
+  /// The percentage of fraud events correctly predicted as fraudulent as compared
+  /// to all events predicted as fraudulent.
+  final double? precision;
+
+  /// The model threshold that specifies an acceptable fraud capture rate. For
+  /// example, a threshold of 500 means any model score 500 or above is labeled as
+  /// fraud.
+  final double? threshold;
+
+  /// The true positive rate. This is the percentage of total fraud the model
+  /// detects. Also known as capture rate.
+  final double? tpr;
+
+  TFIMetricDataPoint({
+    this.fpr,
+    this.precision,
+    this.threshold,
+    this.tpr,
+  });
+
+  factory TFIMetricDataPoint.fromJson(Map<String, dynamic> json) {
+    return TFIMetricDataPoint(
+      fpr: json['fpr'] as double?,
+      precision: json['precision'] as double?,
+      threshold: json['threshold'] as double?,
+      tpr: json['tpr'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fpr = this.fpr;
+    final precision = this.precision;
+    final threshold = this.threshold;
+    final tpr = this.tpr;
+    return {
+      if (fpr != null) 'fpr': fpr,
+      if (precision != null) 'precision': precision,
+      if (threshold != null) 'threshold': threshold,
+      if (tpr != null) 'tpr': tpr,
+    };
+  }
+}
+
+/// The Transaction Fraud Insights (TFI) model performance score.
+class TFIModelPerformance {
+  /// The area under the curve (auc). This summarizes the total positive rate
+  /// (tpr) and false positive rate (FPR) across all possible model score
+  /// thresholds.
+  final double? auc;
+
+  TFIModelPerformance({
+    this.auc,
+  });
+
+  factory TFIModelPerformance.fromJson(Map<String, dynamic> json) {
+    return TFIModelPerformance(
+      auc: json['auc'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final auc = this.auc;
+    return {
+      if (auc != null) 'auc': auc,
+    };
+  }
+}
+
+/// The Transaction Fraud Insights (TFI) model training metric details.
+class TFITrainingMetricsValue {
+  /// The model's performance metrics data points.
+  final List<TFIMetricDataPoint>? metricDataPoints;
+
+  /// The model performance score.
+  final TFIModelPerformance? modelPerformance;
+
+  TFITrainingMetricsValue({
+    this.metricDataPoints,
+    this.modelPerformance,
+  });
+
+  factory TFITrainingMetricsValue.fromJson(Map<String, dynamic> json) {
+    return TFITrainingMetricsValue(
+      metricDataPoints: (json['metricDataPoints'] as List?)
+          ?.whereNotNull()
+          .map((e) => TFIMetricDataPoint.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      modelPerformance: json['modelPerformance'] != null
+          ? TFIModelPerformance.fromJson(
+              json['modelPerformance'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metricDataPoints = this.metricDataPoints;
+    final modelPerformance = this.modelPerformance;
+    return {
+      if (metricDataPoints != null) 'metricDataPoints': metricDataPoints,
+      if (modelPerformance != null) 'modelPerformance': modelPerformance,
+    };
+  }
+}
+
 /// A key and value pair.
 class Tag {
   /// A tag key.
@@ -6962,33 +8216,33 @@ class TagResourceResult {
 
 /// The training data schema.
 class TrainingDataSchema {
-  final LabelSchema labelSchema;
-
   /// The training data schema variables.
   final List<String> modelVariables;
+  final LabelSchema? labelSchema;
 
   TrainingDataSchema({
-    required this.labelSchema,
     required this.modelVariables,
+    this.labelSchema,
   });
 
   factory TrainingDataSchema.fromJson(Map<String, dynamic> json) {
     return TrainingDataSchema(
-      labelSchema:
-          LabelSchema.fromJson(json['labelSchema'] as Map<String, dynamic>),
       modelVariables: (json['modelVariables'] as List)
           .whereNotNull()
           .map((e) => e as String)
           .toList(),
+      labelSchema: json['labelSchema'] != null
+          ? LabelSchema.fromJson(json['labelSchema'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final labelSchema = this.labelSchema;
     final modelVariables = this.modelVariables;
+    final labelSchema = this.labelSchema;
     return {
-      'labelSchema': labelSchema,
       'modelVariables': modelVariables,
+      if (labelSchema != null) 'labelSchema': labelSchema,
     };
   }
 }
@@ -7057,6 +8311,52 @@ class TrainingMetrics {
   }
 }
 
+/// The training metrics details.
+class TrainingMetricsV2 {
+  /// The Account Takeover Insights (ATI) model training metric details.
+  final ATITrainingMetricsValue? ati;
+
+  /// The Online Fraud Insights (OFI) model training metric details.
+  final OFITrainingMetricsValue? ofi;
+
+  /// The Transaction Fraud Insights (TFI) model training metric details.
+  final TFITrainingMetricsValue? tfi;
+
+  TrainingMetricsV2({
+    this.ati,
+    this.ofi,
+    this.tfi,
+  });
+
+  factory TrainingMetricsV2.fromJson(Map<String, dynamic> json) {
+    return TrainingMetricsV2(
+      ati: json['ati'] != null
+          ? ATITrainingMetricsValue.fromJson(
+              json['ati'] as Map<String, dynamic>)
+          : null,
+      ofi: json['ofi'] != null
+          ? OFITrainingMetricsValue.fromJson(
+              json['ofi'] as Map<String, dynamic>)
+          : null,
+      tfi: json['tfi'] != null
+          ? TFITrainingMetricsValue.fromJson(
+              json['tfi'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ati = this.ati;
+    final ofi = this.ofi;
+    final tfi = this.tfi;
+    return {
+      if (ati != null) 'ati': ati,
+      if (ofi != null) 'ofi': ofi,
+      if (tfi != null) 'tfi': tfi,
+    };
+  }
+}
+
 /// The training result details.
 class TrainingResult {
   /// The validation metrics.
@@ -7099,6 +8399,73 @@ class TrainingResult {
       if (dataValidationMetrics != null)
         'dataValidationMetrics': dataValidationMetrics,
       if (trainingMetrics != null) 'trainingMetrics': trainingMetrics,
+      if (variableImportanceMetrics != null)
+        'variableImportanceMetrics': variableImportanceMetrics,
+    };
+  }
+}
+
+/// The training result details.
+class TrainingResultV2 {
+  /// The variable importance metrics of the aggregated variables.
+  ///
+  /// Account Takeover Insights (ATI) model uses event variables from the login
+  /// data you provide to continuously calculate a set of variables (aggregated
+  /// variables) based on historical events. For example, your ATI model might
+  /// calculate the number of times an user has logged in using the same IP
+  /// address. In this case, event variables used to derive the aggregated
+  /// variables are <code>IP address</code> and <code>user</code>.
+  final AggregatedVariablesImportanceMetrics?
+      aggregatedVariablesImportanceMetrics;
+  final DataValidationMetrics? dataValidationMetrics;
+
+  /// The training metric details.
+  final TrainingMetricsV2? trainingMetricsV2;
+  final VariableImportanceMetrics? variableImportanceMetrics;
+
+  TrainingResultV2({
+    this.aggregatedVariablesImportanceMetrics,
+    this.dataValidationMetrics,
+    this.trainingMetricsV2,
+    this.variableImportanceMetrics,
+  });
+
+  factory TrainingResultV2.fromJson(Map<String, dynamic> json) {
+    return TrainingResultV2(
+      aggregatedVariablesImportanceMetrics:
+          json['aggregatedVariablesImportanceMetrics'] != null
+              ? AggregatedVariablesImportanceMetrics.fromJson(
+                  json['aggregatedVariablesImportanceMetrics']
+                      as Map<String, dynamic>)
+              : null,
+      dataValidationMetrics: json['dataValidationMetrics'] != null
+          ? DataValidationMetrics.fromJson(
+              json['dataValidationMetrics'] as Map<String, dynamic>)
+          : null,
+      trainingMetricsV2: json['trainingMetricsV2'] != null
+          ? TrainingMetricsV2.fromJson(
+              json['trainingMetricsV2'] as Map<String, dynamic>)
+          : null,
+      variableImportanceMetrics: json['variableImportanceMetrics'] != null
+          ? VariableImportanceMetrics.fromJson(
+              json['variableImportanceMetrics'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final aggregatedVariablesImportanceMetrics =
+        this.aggregatedVariablesImportanceMetrics;
+    final dataValidationMetrics = this.dataValidationMetrics;
+    final trainingMetricsV2 = this.trainingMetricsV2;
+    final variableImportanceMetrics = this.variableImportanceMetrics;
+    return {
+      if (aggregatedVariablesImportanceMetrics != null)
+        'aggregatedVariablesImportanceMetrics':
+            aggregatedVariablesImportanceMetrics,
+      if (dataValidationMetrics != null)
+        'dataValidationMetrics': dataValidationMetrics,
+      if (trainingMetricsV2 != null) 'trainingMetricsV2': trainingMetricsV2,
       if (variableImportanceMetrics != null)
         'variableImportanceMetrics': variableImportanceMetrics,
     };
@@ -7468,6 +8835,57 @@ class VariableEntry {
       if (description != null) 'description': description,
       if (name != null) 'name': name,
       if (variableType != null) 'variableType': variableType,
+    };
+  }
+}
+
+/// The details of the event variable's impact on the prediction score.
+class VariableImpactExplanation {
+  /// The event variable name.
+  final String? eventVariableName;
+
+  /// The raw, uninterpreted value represented as log-odds of the fraud. These
+  /// values are usually between -10 to +10, but range from - infinity to +
+  /// infinity.
+  ///
+  /// <ul>
+  /// <li>
+  /// A positive value indicates that the variable drove the risk score up.
+  /// </li>
+  /// <li>
+  /// A negative value indicates that the variable drove the risk score down.
+  /// </li>
+  /// </ul>
+  final double? logOddsImpact;
+
+  /// The event variable's relative impact in terms of magnitude on the prediction
+  /// scores. The relative impact values consist of a numerical rating (0-5, 5
+  /// being the highest) and direction (increased/decreased) impact of the fraud
+  /// risk.
+  final String? relativeImpact;
+
+  VariableImpactExplanation({
+    this.eventVariableName,
+    this.logOddsImpact,
+    this.relativeImpact,
+  });
+
+  factory VariableImpactExplanation.fromJson(Map<String, dynamic> json) {
+    return VariableImpactExplanation(
+      eventVariableName: json['eventVariableName'] as String?,
+      logOddsImpact: json['logOddsImpact'] as double?,
+      relativeImpact: json['relativeImpact'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eventVariableName = this.eventVariableName;
+    final logOddsImpact = this.logOddsImpact;
+    final relativeImpact = this.relativeImpact;
+    return {
+      if (eventVariableName != null) 'eventVariableName': eventVariableName,
+      if (logOddsImpact != null) 'logOddsImpact': logOddsImpact,
+      if (relativeImpact != null) 'relativeImpact': relativeImpact,
     };
   }
 }

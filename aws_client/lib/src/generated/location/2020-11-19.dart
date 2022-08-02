@@ -192,6 +192,10 @@ class Location {
   /// Geofence evaluation uses the given device position. It does not account
   /// for the optional <code>Accuracy</code> of a
   /// <code>DevicePositionUpdate</code>.
+  /// </note> <note>
+  /// The <code>DeviceID</code> is used as a string to represent the device. You
+  /// do not need to have a <code>Tracker</code> associated with the
+  /// <code>DeviceID</code>.
   /// </note>
   ///
   /// May throw [InternalServerException].
@@ -360,7 +364,7 @@ class Location {
   /// <a
   /// href="https://docs.aws.amazon.com/location/latest/developerguide/calculate-route.html">Calculates
   /// a route</a> given the following required parameters:
-  /// <code>DeparturePostiton</code> and <code>DestinationPosition</code>.
+  /// <code>DeparturePosition</code> and <code>DestinationPosition</code>.
   /// Requires that you first <a
   /// href="https://docs.aws.amazon.com/location-routes/latest/APIReference/API_CreateRouteCalculator.html">create
   /// a route calculator resource</a>.
@@ -374,25 +378,25 @@ class Location {
   /// <ul>
   /// <li>
   /// <a
-  /// href="https://docs.aws.amazon.com/location/latest/developerguide/calculate-route.html#departure-time">Specifying
+  /// href="https://docs.aws.amazon.com/location/latest/developerguide/departure-time.html">Specifying
   /// a departure time</a> using either <code>DepartureTime</code> or
-  /// <code>DepartureNow</code>. This calculates a route based on predictive
+  /// <code>DepartNow</code>. This calculates a route based on predictive
   /// traffic data at the given time.
   /// <note>
   /// You can't specify both <code>DepartureTime</code> and
-  /// <code>DepartureNow</code> in a single request. Specifying both parameters
+  /// <code>DepartNow</code> in a single request. Specifying both parameters
   /// returns a validation error.
   /// </note> </li>
   /// <li>
   /// <a
-  /// href="https://docs.aws.amazon.com/location/latest/developerguide/calculate-route.html#travel-mode">Specifying
-  /// a travel mode</a> using TravelMode. This lets you specify an additional
-  /// route preference such as <code>CarModeOptions</code> if traveling by
+  /// href="https://docs.aws.amazon.com/location/latest/developerguide/travel-mode.html">Specifying
+  /// a travel mode</a> using TravelMode sets the transportation mode used to
+  /// calculate the routes. This also lets you specify additional route
+  /// preferences in <code>CarModeOptions</code> if traveling by
   /// <code>Car</code>, or <code>TruckModeOptions</code> if traveling by
   /// <code>Truck</code>.
   /// </li>
   /// </ul>
-  ///
   ///
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
@@ -406,8 +410,8 @@ class Location {
   ///
   /// Parameter [departurePosition] :
   /// The start position for the route. Defined in <a
-  /// href="https://earth-info.nga.mil/GandG/wgs84/index.html">WGS 84</a>
-  /// format: <code>[longitude, latitude]</code>.
+  /// href="https://earth-info.nga.mil/index.php?dir=wgs84&amp;action=wgs84">World
+  /// Geodetic System (WGS 84)</a> format: <code>[longitude, latitude]</code>.
   ///
   /// <ul>
   /// <li>
@@ -416,7 +420,7 @@ class Location {
   /// </ul> <note>
   /// If you specify a departure that's not located on a road, Amazon Location
   /// <a
-  /// href="https://docs.aws.amazon.com/location/latest/developerguide/calculate-route.html#snap-to-nearby-road">moves
+  /// href="https://docs.aws.amazon.com/location/latest/developerguide/snap-to-nearby-road.html">moves
   /// the position to the nearest road</a>. If Esri is the provider for your
   /// route calculator, specifying a route that is longer than 400 km returns a
   /// <code>400 RoutesValidationException</code> error.
@@ -425,8 +429,8 @@ class Location {
   ///
   /// Parameter [destinationPosition] :
   /// The finish position for the route. Defined in <a
-  /// href="https://earth-info.nga.mil/GandG/wgs84/index.html">WGS 84</a>
-  /// format: <code>[longitude, latitude]</code>.
+  /// href="https://earth-info.nga.mil/index.php?dir=wgs84&amp;action=wgs84">World
+  /// Geodetic System (WGS 84)</a> format: <code>[longitude, latitude]</code>.
   ///
   /// <ul>
   /// <li>
@@ -435,7 +439,7 @@ class Location {
   /// </ul> <note>
   /// If you specify a destination that's not located on a road, Amazon Location
   /// <a
-  /// href="https://docs.aws.amazon.com/location/latest/developerguide/calculate-route.html#snap-to-nearby-road">moves
+  /// href="https://docs.aws.amazon.com/location/latest/developerguide/snap-to-nearby-road.html">moves
   /// the position to the nearest road</a>.
   /// </note>
   /// Valid Values: <code>[-180 to 180,-90 to 90]</code>
@@ -489,8 +493,8 @@ class Location {
   /// Specifies the mode of transport when calculating a route. Used in
   /// estimating the speed of travel and road compatibility.
   ///
-  /// The <code>TravelMode</code> you specify determines how you specify route
-  /// preferences:
+  /// The <code>TravelMode</code> you specify also determines how you specify
+  /// route preferences:
   ///
   /// <ul>
   /// <li>
@@ -525,7 +529,7 @@ class Location {
   /// </ul> <note>
   /// If you specify a waypoint position that's not located on a road, Amazon
   /// Location <a
-  /// href="https://docs.aws.amazon.com/location/latest/developerguide/calculate-route.html#snap-to-nearby-road">moves
+  /// href="https://docs.aws.amazon.com/location/latest/developerguide/snap-to-nearby-road.html">moves
   /// the position to the nearest road</a>.
   ///
   /// Specifying more than 23 waypoints returns a <code>400
@@ -574,6 +578,207 @@ class Location {
     return CalculateRouteResponse.fromJson(response);
   }
 
+  /// <a
+  /// href="https://docs.aws.amazon.com/location/latest/developerguide/calculate-route-matrix.html">
+  /// Calculates a route matrix</a> given the following required parameters:
+  /// <code>DeparturePositions</code> and <code>DestinationPositions</code>.
+  /// <code>CalculateRouteMatrix</code> calculates routes and returns the travel
+  /// time and travel distance from each departure position to each destination
+  /// position in the request. For example, given departure positions A and B,
+  /// and destination positions X and Y, <code>CalculateRouteMatrix</code> will
+  /// return time and distance for routes from A to X, A to Y, B to X, and B to
+  /// Y (in that order). The number of results returned (and routes calculated)
+  /// will be the number of <code>DeparturePositions</code> times the number of
+  /// <code>DestinationPositions</code>.
+  /// <note>
+  /// Your account is charged for each route calculated, not the number of
+  /// requests.
+  /// </note>
+  /// Requires that you first <a
+  /// href="https://docs.aws.amazon.com/location-routes/latest/APIReference/API_CreateRouteCalculator.html">create
+  /// a route calculator resource</a>.
+  ///
+  /// By default, a request that doesn't specify a departure time uses the best
+  /// time of day to travel with the best traffic conditions when calculating
+  /// routes.
+  ///
+  /// Additional options include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/location/latest/developerguide/departure-time.html">
+  /// Specifying a departure time</a> using either <code>DepartureTime</code> or
+  /// <code>DepartNow</code>. This calculates routes based on predictive traffic
+  /// data at the given time.
+  /// <note>
+  /// You can't specify both <code>DepartureTime</code> and
+  /// <code>DepartNow</code> in a single request. Specifying both parameters
+  /// returns a validation error.
+  /// </note> </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/location/latest/developerguide/travel-mode.html">Specifying
+  /// a travel mode</a> using TravelMode sets the transportation mode used to
+  /// calculate the routes. This also lets you specify additional route
+  /// preferences in <code>CarModeOptions</code> if traveling by
+  /// <code>Car</code>, or <code>TruckModeOptions</code> if traveling by
+  /// <code>Truck</code>.
+  /// </li>
+  /// </ul>
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [calculatorName] :
+  /// The name of the route calculator resource that you want to use to
+  /// calculate the route matrix.
+  ///
+  /// Parameter [departurePositions] :
+  /// The list of departure (origin) positions for the route matrix. An array of
+  /// points, each of which is itself a 2-value array defined in <a
+  /// href="https://earth-info.nga.mil/GandG/wgs84/index.html">WGS 84</a>
+  /// format: <code>[longitude, latitude]</code>. For example, <code>[-123.115,
+  /// 49.285]</code>.
+  /// <important>
+  /// Depending on the data provider selected in the route calculator resource
+  /// there may be additional restrictions on the inputs you can choose. See <a
+  /// href="https://docs.aws.amazon.com/location/latest/developerguide/calculate-route-matrix.html#matrix-routing-position-limits">
+  /// Position restrictions</a> in the <i>Amazon Location Service Developer
+  /// Guide</i>.
+  /// </important> <note>
+  /// For route calculators that use Esri as the data provider, if you specify a
+  /// departure that's not located on a road, Amazon Location <a
+  /// href="https://docs.aws.amazon.com/location/latest/developerguide/snap-to-nearby-road.html">
+  /// moves the position to the nearest road</a>. The snapped value is available
+  /// in the result in <code>SnappedDeparturePositions</code>.
+  /// </note>
+  /// Valid Values: <code>[-180 to 180,-90 to 90]</code>
+  ///
+  /// Parameter [destinationPositions] :
+  /// The list of destination positions for the route matrix. An array of
+  /// points, each of which is itself a 2-value array defined in <a
+  /// href="https://earth-info.nga.mil/GandG/wgs84/index.html">WGS 84</a>
+  /// format: <code>[longitude, latitude]</code>. For example, <code>[-122.339,
+  /// 47.615]</code>
+  /// <important>
+  /// Depending on the data provider selected in the route calculator resource
+  /// there may be additional restrictions on the inputs you can choose. See <a
+  /// href="https://docs.aws.amazon.com/location/latest/developerguide/calculate-route-matrix.html#matrix-routing-position-limits">
+  /// Position restrictions</a> in the <i>Amazon Location Service Developer
+  /// Guide</i>.
+  /// </important> <note>
+  /// For route calculators that use Esri as the data provider, if you specify a
+  /// destination that's not located on a road, Amazon Location <a
+  /// href="https://docs.aws.amazon.com/location/latest/developerguide/snap-to-nearby-road.html">
+  /// moves the position to the nearest road</a>. The snapped value is available
+  /// in the result in <code>SnappedDestinationPositions</code>.
+  /// </note>
+  /// Valid Values: <code>[-180 to 180,-90 to 90]</code>
+  ///
+  /// Parameter [carModeOptions] :
+  /// Specifies route preferences when traveling by <code>Car</code>, such as
+  /// avoiding routes that use ferries or tolls.
+  ///
+  /// Requirements: <code>TravelMode</code> must be specified as
+  /// <code>Car</code>.
+  ///
+  /// Parameter [departNow] :
+  /// Sets the time of departure as the current time. Uses the current time to
+  /// calculate the route matrix. You can't set both <code>DepartureTime</code>
+  /// and <code>DepartNow</code>. If neither is set, the best time of day to
+  /// travel with the best traffic conditions is used to calculate the route
+  /// matrix.
+  ///
+  /// Default Value: <code>false</code>
+  ///
+  /// Valid Values: <code>false</code> | <code>true</code>
+  ///
+  /// Parameter [departureTime] :
+  /// Specifies the desired time of departure. Uses the given time to calculate
+  /// the route matrix. You can't set both <code>DepartureTime</code> and
+  /// <code>DepartNow</code>. If neither is set, the best time of day to travel
+  /// with the best traffic conditions is used to calculate the route matrix.
+  /// <note>
+  /// Setting a departure time in the past returns a <code>400
+  /// ValidationException</code> error.
+  /// </note>
+  /// <ul>
+  /// <li>
+  /// In <a href="https://www.iso.org/iso-8601-date-and-time-format.html">ISO
+  /// 8601</a> format: <code>YYYY-MM-DDThh:mm:ss.sssZ</code>. For example,
+  /// <code>2020–07-2T12:15:20.000Z+01:00</code>
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [distanceUnit] :
+  /// Set the unit system to specify the distance.
+  ///
+  /// Default Value: <code>Kilometers</code>
+  ///
+  /// Parameter [travelMode] :
+  /// Specifies the mode of transport when calculating a route. Used in
+  /// estimating the speed of travel and road compatibility.
+  ///
+  /// The <code>TravelMode</code> you specify also determines how you specify
+  /// route preferences:
+  ///
+  /// <ul>
+  /// <li>
+  /// If traveling by <code>Car</code> use the <code>CarModeOptions</code>
+  /// parameter.
+  /// </li>
+  /// <li>
+  /// If traveling by <code>Truck</code> use the <code>TruckModeOptions</code>
+  /// parameter.
+  /// </li>
+  /// </ul>
+  /// Default Value: <code>Car</code>
+  ///
+  /// Parameter [truckModeOptions] :
+  /// Specifies route preferences when traveling by <code>Truck</code>, such as
+  /// avoiding routes that use ferries or tolls, and truck specifications to
+  /// consider when choosing an optimal road.
+  ///
+  /// Requirements: <code>TravelMode</code> must be specified as
+  /// <code>Truck</code>.
+  Future<CalculateRouteMatrixResponse> calculateRouteMatrix({
+    required String calculatorName,
+    required List<List<double>> departurePositions,
+    required List<List<double>> destinationPositions,
+    CalculateRouteCarModeOptions? carModeOptions,
+    bool? departNow,
+    DateTime? departureTime,
+    DistanceUnit? distanceUnit,
+    TravelMode? travelMode,
+    CalculateRouteTruckModeOptions? truckModeOptions,
+  }) async {
+    ArgumentError.checkNotNull(calculatorName, 'calculatorName');
+    ArgumentError.checkNotNull(departurePositions, 'departurePositions');
+    ArgumentError.checkNotNull(destinationPositions, 'destinationPositions');
+    final $payload = <String, dynamic>{
+      'DeparturePositions': departurePositions,
+      'DestinationPositions': destinationPositions,
+      if (carModeOptions != null) 'CarModeOptions': carModeOptions,
+      if (departNow != null) 'DepartNow': departNow,
+      if (departureTime != null) 'DepartureTime': iso8601ToJson(departureTime),
+      if (distanceUnit != null) 'DistanceUnit': distanceUnit.toValue(),
+      if (travelMode != null) 'TravelMode': travelMode.toValue(),
+      if (truckModeOptions != null) 'TruckModeOptions': truckModeOptions,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/routes/v0/calculators/${Uri.encodeComponent(calculatorName)}/calculate/route-matrix',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CalculateRouteMatrixResponse.fromJson(response);
+  }
+
   /// Creates a geofence collection, which manages and stores geofences.
   ///
   /// May throw [InternalServerException].
@@ -610,33 +815,11 @@ class Location {
   /// alias ARN.
   ///
   /// Parameter [pricingPlan] :
-  /// Optionally specifies the pricing plan for the geofence collection.
-  /// Defaults to <code>RequestBasedUsage</code>.
-  ///
-  /// For additional details and restrictions on each pricing plan option, see
-  /// the <a href="https://aws.amazon.com/location/pricing/">Amazon Location
-  /// Service pricing page</a>.
+  /// No longer used. If included, the only allowed value is
+  /// <code>RequestBasedUsage</code>.
   ///
   /// Parameter [pricingPlanDataSource] :
-  /// Specifies the data provider for the geofence collection.
-  ///
-  /// <ul>
-  /// <li>
-  /// Required value for the following pricing plans: <code>MobileAssetTracking
-  /// </code>| <code>MobileAssetManagement</code>
-  /// </li>
-  /// </ul>
-  /// For more information about <a
-  /// href="https://aws.amazon.com/location/data-providers/">Data Providers</a>,
-  /// and <a href="https://aws.amazon.com/location/pricing/">Pricing plans</a>,
-  /// see the Amazon Location Service product page.
-  /// <note>
-  /// Amazon Location Service only uses <code>PricingPlanDataSource</code> to
-  /// calculate billing for your geofence collection. Your data won't be shared
-  /// with the data provider, and will remain in your AWS account or Region
-  /// unless you move it.
-  /// </note>
-  /// Valid Values: <code>Esri </code>| <code>Here</code>
+  /// This parameter is no longer used.
   ///
   /// Parameter [tags] :
   /// Applies one or more tags to the geofence collection. A tag is a key-value
@@ -697,6 +880,13 @@ class Location {
 
   /// Creates a map resource in your AWS account, which provides map tiles of
   /// different styles sourced from global location data providers.
+  /// <note>
+  /// If your application is tracking or routing assets you use in your
+  /// business, such as delivery vehicles or employees, you may only use HERE as
+  /// your geolocation provider. See section 82 of the <a
+  /// href="http://aws.amazon.com/service-terms">AWS service terms</a> for more
+  /// details.
+  /// </note>
   ///
   /// May throw [InternalServerException].
   /// May throw [ConflictException].
@@ -729,12 +919,8 @@ class Location {
   /// An optional description for the map resource.
   ///
   /// Parameter [pricingPlan] :
-  /// Optionally specifies the pricing plan for the map resource. Defaults to
+  /// No longer used. If included, the only allowed value is
   /// <code>RequestBasedUsage</code>.
-  ///
-  /// For additional details and restrictions on each pricing plan option, see
-  /// <a href="https://aws.amazon.com/location/pricing/">Amazon Location Service
-  /// pricing</a>.
   ///
   /// Parameter [tags] :
   /// Applies one or more tags to the map resource. A tag is a key-value pair
@@ -797,6 +983,13 @@ class Location {
   /// coordinates by using the <code>SearchPlaceIndexForPosition</code>
   /// operation, and enable autosuggestions by using the
   /// <code>SearchPlaceIndexForSuggestions</code> operation.
+  /// <note>
+  /// If your application is tracking or routing assets you use in your
+  /// business, such as delivery vehicles or employees, you may only use HERE as
+  /// your geolocation provider. See section 82 of the <a
+  /// href="http://aws.amazon.com/service-terms">AWS service terms</a> for more
+  /// details.
+  /// </note>
   ///
   /// May throw [InternalServerException].
   /// May throw [ConflictException].
@@ -864,12 +1057,8 @@ class Location {
   /// The optional description for the place index resource.
   ///
   /// Parameter [pricingPlan] :
-  /// Optionally specifies the pricing plan for the place index resource.
-  /// Defaults to <code>RequestBasedUsage</code>.
-  ///
-  /// For additional details and restrictions on each pricing plan option, see
-  /// <a href="https://aws.amazon.com/location/pricing/">Amazon Location Service
-  /// pricing</a>.
+  /// No longer used. If included, the only allowed value is
+  /// <code>RequestBasedUsage</code>.
   ///
   /// Parameter [tags] :
   /// Applies one or more tags to the place index resource. A tag is a key-value
@@ -933,6 +1122,13 @@ class Location {
   /// You can send requests to a route calculator resource to estimate travel
   /// time, distance, and get directions. A route calculator sources traffic and
   /// road network data from your chosen data provider.
+  /// <note>
+  /// If your application is tracking or routing assets you use in your
+  /// business, such as delivery vehicles or employees, you may only use HERE as
+  /// your geolocation provider. See section 82 of the <a
+  /// href="http://aws.amazon.com/service-terms">AWS service terms</a> for more
+  /// details.
+  /// </note>
   ///
   /// May throw [InternalServerException].
   /// May throw [ConflictException].
@@ -994,12 +1190,8 @@ class Location {
   /// The optional description for the route calculator resource.
   ///
   /// Parameter [pricingPlan] :
-  /// Optionally specifies the pricing plan for the route calculator resource.
-  /// Defaults to <code>RequestBasedUsage</code>.
-  ///
-  /// For additional details and restrictions on each pricing plan option, see
-  /// <a href="https://aws.amazon.com/location/pricing/">Amazon Location Service
-  /// pricing</a>.
+  /// No longer used. If included, the only allowed value is
+  /// <code>RequestBasedUsage</code>.
   ///
   /// Parameter [tags] :
   /// Applies one or more tags to the route calculator resource. A tag is a
@@ -1134,33 +1326,11 @@ class Location {
   /// <code>TimeBased</code>.
   ///
   /// Parameter [pricingPlan] :
-  /// Optionally specifies the pricing plan for the tracker resource. Defaults
-  /// to <code>RequestBasedUsage</code>.
-  ///
-  /// For additional details and restrictions on each pricing plan option, see
-  /// <a href="https://aws.amazon.com/location/pricing/">Amazon Location Service
-  /// pricing</a>.
+  /// No longer used. If included, the only allowed value is
+  /// <code>RequestBasedUsage</code>.
   ///
   /// Parameter [pricingPlanDataSource] :
-  /// Specifies the data provider for the tracker resource.
-  ///
-  /// <ul>
-  /// <li>
-  /// Required value for the following pricing plans: <code>MobileAssetTracking
-  /// </code>| <code>MobileAssetManagement</code>
-  /// </li>
-  /// </ul>
-  /// For more information about <a
-  /// href="https://aws.amazon.com/location/data-providers/">Data Providers</a>,
-  /// and <a href="https://aws.amazon.com/location/pricing/">Pricing plans</a>,
-  /// see the Amazon Location Service product page.
-  /// <note>
-  /// Amazon Location Service only uses <code>PricingPlanDataSource</code> to
-  /// calculate billing for your tracker resource. Your data will not be shared
-  /// with the data provider, and will remain in your AWS account or Region
-  /// unless you move it.
-  /// </note>
-  /// Valid values: <code>Esri</code> | <code>Here</code>
+  /// This parameter is no longer used.
   ///
   /// Parameter [tags] :
   /// Applies one or more tags to the tracker resource. A tag is a key-value
@@ -1579,6 +1749,12 @@ class Location {
   /// </li>
   /// </ul>
   ///
+  /// Parameter [maxResults] :
+  /// An optional limit for the number of device positions returned in a single
+  /// call.
+  ///
+  /// Default value: <code>100</code>
+  ///
   /// Parameter [nextToken] :
   /// The pagination token specifying which page of results to return in the
   /// response. If no token is provided, the default page is the first page.
@@ -1603,14 +1779,22 @@ class Location {
     required String deviceId,
     required String trackerName,
     DateTime? endTimeExclusive,
+    int? maxResults,
     String? nextToken,
     DateTime? startTimeInclusive,
   }) async {
     ArgumentError.checkNotNull(deviceId, 'deviceId');
     ArgumentError.checkNotNull(trackerName, 'trackerName');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
     final $payload = <String, dynamic>{
       if (endTimeExclusive != null)
         'EndTimeExclusive': iso8601ToJson(endTimeExclusive),
+      if (maxResults != null) 'MaxResults': maxResults,
       if (nextToken != null) 'NextToken': nextToken,
       if (startTimeInclusive != null)
         'StartTimeInclusive': iso8601ToJson(startTimeInclusive),
@@ -1702,6 +1886,12 @@ class Location {
   /// <li>
   /// VectorHereBerlin – <code>Fira GO Regular</code> | <code>Fira GO
   /// Bold</code>
+  /// </li>
+  /// <li>
+  /// VectorHereExplore, VectorHereExploreTruck – <code>Firo GO Italic</code> |
+  /// <code>Fira GO Map</code> | <code>Fira GO Map Bold</code> | <code>Noto Sans
+  /// CJK JP Bold</code> | <code>Noto Sans CJK JP Light</code> | <code>Noto Sans
+  /// CJK JP Regular</code>
   /// </li>
   /// </ul>
   ///
@@ -1970,6 +2160,11 @@ class Location {
   /// Parameter [collectionName] :
   /// The name of the geofence collection storing the list of geofences.
   ///
+  /// Parameter [maxResults] :
+  /// An optional limit for the number of geofences returned in a single call.
+  ///
+  /// Default value: <code>100</code>
+  ///
   /// Parameter [nextToken] :
   /// The pagination token specifying which page of results to return in the
   /// response. If no token is provided, the default page is the first page.
@@ -1977,10 +2172,18 @@ class Location {
   /// Default value: <code>null</code>
   Future<ListGeofencesResponse> listGeofences({
     required String collectionName,
+    int? maxResults,
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(collectionName, 'collectionName');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
     final $payload = <String, dynamic>{
+      if (maxResults != null) 'MaxResults': maxResults,
       if (nextToken != null) 'NextToken': nextToken,
     };
     final response = await _protocol.send(
@@ -2308,10 +2511,22 @@ class Location {
   /// <a href="https://tools.ietf.org/search/bcp47">BCP 47</a> language tag, for
   /// example, <code>en</code> for English.
   ///
-  /// This setting affects the languages used in the results. It does not change
-  /// which results are returned. If the language is not specified, or not
-  /// supported for a particular result, the partner automatically chooses a
-  /// language for the result.
+  /// This setting affects the languages used in the results, but not the
+  /// results themselves. If no language is specified, or not supported for a
+  /// particular result, the partner automatically chooses a language for the
+  /// result.
+  ///
+  /// For an example, we'll use the Greek language. You search for a location
+  /// around Athens, Greece, with the <code>language</code> parameter set to
+  /// <code>en</code>. The <code>city</code> in the results will most likely be
+  /// returned as <code>Athens</code>.
+  ///
+  /// If you set the <code>language</code> parameter to <code>el</code>, for
+  /// Greek, then the <code>city</code> in the results will more likely be
+  /// returned as <code>Αθήνα</code>.
+  ///
+  /// If the data provider does not have a value for Greek, the result will be
+  /// in a language that the provider does support.
   ///
   /// Parameter [maxResults] :
   /// An optional parameter. The maximum number of results returned per request.
@@ -2426,12 +2641,21 @@ class Location {
   /// <a href="https://tools.ietf.org/search/bcp47">BCP 47</a> language tag, for
   /// example, <code>en</code> for English.
   ///
-  /// This setting affects the languages used in the results. It does not change
-  /// which results are returned. If the language is not specified, or not
-  /// supported for a particular result, the partner automatically chooses a
-  /// language for the result.
+  /// This setting affects the languages used in the results. If no language is
+  /// specified, or not supported for a particular result, the partner
+  /// automatically chooses a language for the result.
   ///
-  /// Used only when the partner selected is Here.
+  /// For an example, we'll use the Greek language. You search for <code>Athens,
+  /// Gr</code> to get suggestions with the <code>language</code> parameter set
+  /// to <code>en</code>. The results found will most likely be returned as
+  /// <code>Athens, Greece</code>.
+  ///
+  /// If you set the <code>language</code> parameter to <code>el</code>, for
+  /// Greek, then the result found will more likely be returned as <code>Αθήνα,
+  /// Ελλάδα</code>.
+  ///
+  /// If the data provider does not have a value for Greek, the result will be
+  /// in a language that the provider does support.
   ///
   /// Parameter [maxResults] :
   /// An optional parameter. The maximum number of results returned per request.
@@ -2553,10 +2777,22 @@ class Location {
   /// <a href="https://tools.ietf.org/search/bcp47">BCP 47</a> language tag, for
   /// example, <code>en</code> for English.
   ///
-  /// This setting affects the languages used in the results. It does not change
-  /// which results are returned. If the language is not specified, or not
-  /// supported for a particular result, the partner automatically chooses a
-  /// language for the result.
+  /// This setting affects the languages used in the results, but not the
+  /// results themselves. If no language is specified, or not supported for a
+  /// particular result, the partner automatically chooses a language for the
+  /// result.
+  ///
+  /// For an example, we'll use the Greek language. You search for <code>Athens,
+  /// Greece</code>, with the <code>language</code> parameter set to
+  /// <code>en</code>. The result found will most likely be returned as
+  /// <code>Athens</code>.
+  ///
+  /// If you set the <code>language</code> parameter to <code>el</code>, for
+  /// Greek, then the result found will more likely be returned as
+  /// <code>Αθήνα</code>.
+  ///
+  /// If the data provider does not have a value for Greek, the result will be
+  /// in a language that the provider does support.
   ///
   /// Parameter [maxResults] :
   /// An optional parameter. The maximum number of results returned per request.
@@ -2728,31 +2964,11 @@ class Location {
   /// Updates the description for the geofence collection.
   ///
   /// Parameter [pricingPlan] :
-  /// Updates the pricing plan for the geofence collection.
-  ///
-  /// For more information about each pricing plan option restrictions, see <a
-  /// href="https://aws.amazon.com/location/pricing/">Amazon Location Service
-  /// pricing</a>.
+  /// No longer used. If included, the only allowed value is
+  /// <code>RequestBasedUsage</code>.
   ///
   /// Parameter [pricingPlanDataSource] :
-  /// Updates the data provider for the geofence collection.
-  ///
-  /// A required value for the following pricing plans:
-  /// <code>MobileAssetTracking</code>| <code>MobileAssetManagement</code>
-  ///
-  /// For more information about <a
-  /// href="https://aws.amazon.com/location/data-providers/">data providers</a>
-  /// and <a href="https://aws.amazon.com/location/pricing/">pricing plans</a>,
-  /// see the Amazon Location Service product page.
-  /// <note>
-  /// This can only be updated when updating the <code>PricingPlan</code> in the
-  /// same request.
-  ///
-  /// Amazon Location Service uses <code>PricingPlanDataSource</code> to
-  /// calculate billing for your geofence collection. Your data won't be shared
-  /// with the data provider, and will remain in your AWS account and Region
-  /// unless you move it.
-  /// </note>
+  /// This parameter is no longer used.
   Future<UpdateGeofenceCollectionResponse> updateGeofenceCollection({
     required String collectionName,
     String? description,
@@ -2791,11 +3007,8 @@ class Location {
   /// Updates the description for the map resource.
   ///
   /// Parameter [pricingPlan] :
-  /// Updates the pricing plan for the map resource.
-  ///
-  /// For more information about each pricing plan option restrictions, see <a
-  /// href="https://aws.amazon.com/location/pricing/">Amazon Location Service
-  /// pricing</a>.
+  /// No longer used. If included, the only allowed value is
+  /// <code>RequestBasedUsage</code>.
   Future<UpdateMapResponse> updateMap({
     required String mapName,
     String? description,
@@ -2833,11 +3046,8 @@ class Location {
   /// Updates the description for the place index resource.
   ///
   /// Parameter [pricingPlan] :
-  /// Updates the pricing plan for the place index resource.
-  ///
-  /// For more information about each pricing plan option restrictions, see <a
-  /// href="https://aws.amazon.com/location/pricing/">Amazon Location Service
-  /// pricing</a>.
+  /// No longer used. If included, the only allowed value is
+  /// <code>RequestBasedUsage</code>.
   Future<UpdatePlaceIndexResponse> updatePlaceIndex({
     required String indexName,
     DataSourceConfiguration? dataSourceConfiguration,
@@ -2875,11 +3085,8 @@ class Location {
   /// Updates the description for the route calculator resource.
   ///
   /// Parameter [pricingPlan] :
-  /// Updates the pricing plan for the route calculator resource.
-  ///
-  /// For more information about each pricing plan option restrictions, see <a
-  /// href="https://aws.amazon.com/location/pricing/">Amazon Location Service
-  /// pricing</a>.
+  /// No longer used. If included, the only allowed value is
+  /// <code>RequestBasedUsage</code>.
   Future<UpdateRouteCalculatorResponse> updateRouteCalculator({
     required String calculatorName,
     String? description,
@@ -2948,31 +3155,11 @@ class Location {
   /// </ul>
   ///
   /// Parameter [pricingPlan] :
-  /// Updates the pricing plan for the tracker resource.
-  ///
-  /// For more information about each pricing plan option restrictions, see <a
-  /// href="https://aws.amazon.com/location/pricing/">Amazon Location Service
-  /// pricing</a>.
+  /// No longer used. If included, the only allowed value is
+  /// <code>RequestBasedUsage</code>.
   ///
   /// Parameter [pricingPlanDataSource] :
-  /// Updates the data provider for the tracker resource.
-  ///
-  /// A required value for the following pricing plans:
-  /// <code>MobileAssetTracking</code>| <code>MobileAssetManagement</code>
-  ///
-  /// For more information about <a
-  /// href="https://aws.amazon.com/location/data-providers/">data providers</a>
-  /// and <a href="https://aws.amazon.com/location/pricing/">pricing plans</a>,
-  /// see the Amazon Location Service product page
-  /// <note>
-  /// This can only be updated when updating the <code>PricingPlan</code> in the
-  /// same request.
-  ///
-  /// Amazon Location Service uses <code>PricingPlanDataSource</code> to
-  /// calculate billing for your tracker resource. Your data won't be shared
-  /// with the data provider, and will remain in your AWS account and Region
-  /// unless you move it.
-  /// </note>
+  /// This parameter is no longer used.
   Future<UpdateTrackerResponse> updateTracker({
     required String trackerName,
     String? description,
@@ -3590,6 +3777,139 @@ class CalculateRouteCarModeOptions {
   }
 }
 
+/// Returns the result of the route matrix calculation.
+class CalculateRouteMatrixResponse {
+  /// The calculated route matrix containing the results for all pairs of
+  /// <code>DeparturePositions</code> to <code>DestinationPositions</code>. Each
+  /// row corresponds to one entry in <code>DeparturePositions</code>. Each entry
+  /// in the row corresponds to the route from that entry in
+  /// <code>DeparturePositions</code> to an entry in
+  /// <code>DestinationPositions</code>.
+  final List<List<RouteMatrixEntry>> routeMatrix;
+
+  /// Contains information about the route matrix, <code>DataSource</code>,
+  /// <code>DistanceUnit</code>, <code>RouteCount</code> and
+  /// <code>ErrorCount</code>.
+  final CalculateRouteMatrixSummary summary;
+
+  /// For routes calculated using an Esri route calculator resource, departure
+  /// positions are snapped to the closest road. For Esri route calculator
+  /// resources, this returns the list of departure/origin positions used for
+  /// calculation of the <code>RouteMatrix</code>.
+  final List<List<double>>? snappedDeparturePositions;
+
+  /// The list of destination positions for the route matrix used for calculation
+  /// of the <code>RouteMatrix</code>.
+  final List<List<double>>? snappedDestinationPositions;
+
+  CalculateRouteMatrixResponse({
+    required this.routeMatrix,
+    required this.summary,
+    this.snappedDeparturePositions,
+    this.snappedDestinationPositions,
+  });
+
+  factory CalculateRouteMatrixResponse.fromJson(Map<String, dynamic> json) {
+    return CalculateRouteMatrixResponse(
+      routeMatrix: (json['RouteMatrix'] as List)
+          .whereNotNull()
+          .map((e) => (e as List)
+              .whereNotNull()
+              .map((e) => RouteMatrixEntry.fromJson(e as Map<String, dynamic>))
+              .toList())
+          .toList(),
+      summary: CalculateRouteMatrixSummary.fromJson(
+          json['Summary'] as Map<String, dynamic>),
+      snappedDeparturePositions: (json['SnappedDeparturePositions'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              (e as List).whereNotNull().map((e) => e as double).toList())
+          .toList(),
+      snappedDestinationPositions:
+          (json['SnappedDestinationPositions'] as List?)
+              ?.whereNotNull()
+              .map((e) =>
+                  (e as List).whereNotNull().map((e) => e as double).toList())
+              .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final routeMatrix = this.routeMatrix;
+    final summary = this.summary;
+    final snappedDeparturePositions = this.snappedDeparturePositions;
+    final snappedDestinationPositions = this.snappedDestinationPositions;
+    return {
+      'RouteMatrix': routeMatrix,
+      'Summary': summary,
+      if (snappedDeparturePositions != null)
+        'SnappedDeparturePositions': snappedDeparturePositions,
+      if (snappedDestinationPositions != null)
+        'SnappedDestinationPositions': snappedDestinationPositions,
+    };
+  }
+}
+
+/// A summary of the calculated route matrix.
+class CalculateRouteMatrixSummary {
+  /// The data provider of traffic and road network data used to calculate the
+  /// routes. Indicates one of the available providers:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Esri</code>
+  /// </li>
+  /// <li>
+  /// <code>Here</code>
+  /// </li>
+  /// </ul>
+  /// For more information about data providers, see <a
+  /// href="https://docs.aws.amazon.com/location/latest/developerguide/what-is-data-provider.html">Amazon
+  /// Location Service data providers</a>.
+  final String dataSource;
+
+  /// The unit of measurement for route distances.
+  final DistanceUnit distanceUnit;
+
+  /// The count of error results in the route matrix. If this number is 0, all
+  /// routes were calculated successfully.
+  final int errorCount;
+
+  /// The count of cells in the route matrix. Equal to the number of
+  /// <code>DeparturePositions</code> multiplied by the number of
+  /// <code>DestinationPositions</code>.
+  final int routeCount;
+
+  CalculateRouteMatrixSummary({
+    required this.dataSource,
+    required this.distanceUnit,
+    required this.errorCount,
+    required this.routeCount,
+  });
+
+  factory CalculateRouteMatrixSummary.fromJson(Map<String, dynamic> json) {
+    return CalculateRouteMatrixSummary(
+      dataSource: json['DataSource'] as String,
+      distanceUnit: (json['DistanceUnit'] as String).toDistanceUnit(),
+      errorCount: json['ErrorCount'] as int,
+      routeCount: json['RouteCount'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataSource = this.dataSource;
+    final distanceUnit = this.distanceUnit;
+    final errorCount = this.errorCount;
+    final routeCount = this.routeCount;
+    return {
+      'DataSource': dataSource,
+      'DistanceUnit': distanceUnit.toValue(),
+      'ErrorCount': errorCount,
+      'RouteCount': routeCount,
+    };
+  }
+}
+
 /// Returns the result of the route calculation. Metadata includes legs and
 /// route summary.
 class CalculateRouteResponse {
@@ -3601,7 +3921,7 @@ class CalculateRouteResponse {
   ///
   /// For example, a route with a departure position and destination position
   /// returns one leg with the positions <a
-  /// href="https://docs.aws.amazon.com/location/latest/developerguide/calculate-route.html#snap-to-nearby-road">snapped
+  /// href="https://docs.aws.amazon.com/location/latest/developerguide/snap-to-nearby-road.html">snapped
   /// to a nearby road</a>:
   ///
   /// <ul>
@@ -3770,7 +4090,7 @@ class CalculateRouteTruckModeOptions {
   /// Valid Values: <code>false</code> | <code>true</code>
   final bool? avoidFerries;
 
-  /// Avoids ferries when calculating routes.
+  /// Avoids tolls when calculating routes.
   ///
   /// Default Value: <code>false</code>
   ///
@@ -4200,13 +4520,6 @@ class DescribeGeofenceCollectionResponse {
   /// The optional description for the geofence collection.
   final String description;
 
-  /// The pricing plan selected for the specified geofence collection.
-  ///
-  /// For additional details and restrictions on each pricing plan option, see the
-  /// <a href="https://aws.amazon.com/location/pricing/">Amazon Location Service
-  /// pricing page</a>.
-  final PricingPlan pricingPlan;
-
   /// The timestamp for when the geofence collection was last updated in <a
   /// href="https://www.iso.org/iso-8601-date-and-time-format.html">ISO 8601</a>
   /// format: <code>YYYY-MM-DDThh:mm:ss.sssZ</code>
@@ -4217,7 +4530,10 @@ class DescribeGeofenceCollectionResponse {
   /// KMS customer managed key</a> assigned to the Amazon Location resource
   final String? kmsKeyId;
 
-  /// The specified data provider for the geofence collection.
+  /// No longer used. Always returns <code>RequestBasedUsage</code>.
+  final PricingPlan? pricingPlan;
+
+  /// No longer used. Always returns an empty string.
   final String? pricingPlanDataSource;
 
   /// Displays the key, value pairs of tags associated with this resource.
@@ -4228,9 +4544,9 @@ class DescribeGeofenceCollectionResponse {
     required this.collectionName,
     required this.createTime,
     required this.description,
-    required this.pricingPlan,
     required this.updateTime,
     this.kmsKeyId,
+    this.pricingPlan,
     this.pricingPlanDataSource,
     this.tags,
   });
@@ -4242,9 +4558,9 @@ class DescribeGeofenceCollectionResponse {
       collectionName: json['CollectionName'] as String,
       createTime: nonNullableTimeStampFromJson(json['CreateTime'] as Object),
       description: json['Description'] as String,
-      pricingPlan: (json['PricingPlan'] as String).toPricingPlan(),
       updateTime: nonNullableTimeStampFromJson(json['UpdateTime'] as Object),
       kmsKeyId: json['KmsKeyId'] as String?,
+      pricingPlan: (json['PricingPlan'] as String?)?.toPricingPlan(),
       pricingPlanDataSource: json['PricingPlanDataSource'] as String?,
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -4256,9 +4572,9 @@ class DescribeGeofenceCollectionResponse {
     final collectionName = this.collectionName;
     final createTime = this.createTime;
     final description = this.description;
-    final pricingPlan = this.pricingPlan;
     final updateTime = this.updateTime;
     final kmsKeyId = this.kmsKeyId;
+    final pricingPlan = this.pricingPlan;
     final pricingPlanDataSource = this.pricingPlanDataSource;
     final tags = this.tags;
     return {
@@ -4266,9 +4582,9 @@ class DescribeGeofenceCollectionResponse {
       'CollectionName': collectionName,
       'CreateTime': iso8601ToJson(createTime),
       'Description': description,
-      'PricingPlan': pricingPlan.toValue(),
       'UpdateTime': iso8601ToJson(updateTime),
       if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+      if (pricingPlan != null) 'PricingPlan': pricingPlan.toValue(),
       if (pricingPlanDataSource != null)
         'PricingPlanDataSource': pricingPlanDataSource,
       if (tags != null) 'Tags': tags,
@@ -4304,17 +4620,13 @@ class DescribeMapResponse {
   /// The map style selected from an available provider.
   final String mapName;
 
-  /// The pricing plan selected for the specified map resource.
-  /// <pre><code> &lt;p&gt;For additional details and restrictions on each pricing
-  /// plan option, see &lt;a
-  /// href=&quot;https://aws.amazon.com/location/pricing/&quot;&gt;Amazon Location
-  /// Service pricing&lt;/a&gt;.&lt;/p&gt; </code></pre>
-  final PricingPlan pricingPlan;
-
   /// The timestamp for when the map resource was last update in <a
   /// href="https://www.iso.org/iso-8601-date-and-time-format.html">ISO 8601</a>
   /// format: <code>YYYY-MM-DDThh:mm:ss.sssZ</code>.
   final DateTime updateTime;
+
+  /// No longer used. Always returns <code>RequestBasedUsage</code>.
+  final PricingPlan? pricingPlan;
 
   /// Tags associated with the map resource.
   final Map<String, String>? tags;
@@ -4326,8 +4638,8 @@ class DescribeMapResponse {
     required this.description,
     required this.mapArn,
     required this.mapName,
-    required this.pricingPlan,
     required this.updateTime,
+    this.pricingPlan,
     this.tags,
   });
 
@@ -4340,8 +4652,8 @@ class DescribeMapResponse {
       description: json['Description'] as String,
       mapArn: json['MapArn'] as String,
       mapName: json['MapName'] as String,
-      pricingPlan: (json['PricingPlan'] as String).toPricingPlan(),
       updateTime: nonNullableTimeStampFromJson(json['UpdateTime'] as Object),
+      pricingPlan: (json['PricingPlan'] as String?)?.toPricingPlan(),
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -4354,8 +4666,8 @@ class DescribeMapResponse {
     final description = this.description;
     final mapArn = this.mapArn;
     final mapName = this.mapName;
-    final pricingPlan = this.pricingPlan;
     final updateTime = this.updateTime;
+    final pricingPlan = this.pricingPlan;
     final tags = this.tags;
     return {
       'Configuration': configuration,
@@ -4364,8 +4676,8 @@ class DescribeMapResponse {
       'Description': description,
       'MapArn': mapArn,
       'MapName': mapName,
-      'PricingPlan': pricingPlan.toValue(),
       'UpdateTime': iso8601ToJson(updateTime),
+      if (pricingPlan != null) 'PricingPlan': pricingPlan.toValue(),
       if (tags != null) 'Tags': tags,
     };
   }
@@ -4412,17 +4724,13 @@ class DescribePlaceIndexResponse {
   /// The name of the place index resource being described.
   final String indexName;
 
-  /// The pricing plan selected for the specified place index resource.
-  ///
-  /// For additional details and restrictions on each pricing plan option, see <a
-  /// href="https://aws.amazon.com/location/pricing/">Amazon Location Service
-  /// pricing</a>.
-  final PricingPlan pricingPlan;
-
   /// The timestamp for when the place index resource was last updated in <a
   /// href="https://www.iso.org/iso-8601-date-and-time-format.html">ISO 8601</a>
   /// format: <code>YYYY-MM-DDThh:mm:ss.sssZ</code>.
   final DateTime updateTime;
+
+  /// No longer used. Always returns <code>RequestBasedUsage</code>.
+  final PricingPlan? pricingPlan;
 
   /// Tags associated with place index resource.
   final Map<String, String>? tags;
@@ -4434,8 +4742,8 @@ class DescribePlaceIndexResponse {
     required this.description,
     required this.indexArn,
     required this.indexName,
-    required this.pricingPlan,
     required this.updateTime,
+    this.pricingPlan,
     this.tags,
   });
 
@@ -4448,8 +4756,8 @@ class DescribePlaceIndexResponse {
       description: json['Description'] as String,
       indexArn: json['IndexArn'] as String,
       indexName: json['IndexName'] as String,
-      pricingPlan: (json['PricingPlan'] as String).toPricingPlan(),
       updateTime: nonNullableTimeStampFromJson(json['UpdateTime'] as Object),
+      pricingPlan: (json['PricingPlan'] as String?)?.toPricingPlan(),
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -4462,8 +4770,8 @@ class DescribePlaceIndexResponse {
     final description = this.description;
     final indexArn = this.indexArn;
     final indexName = this.indexName;
-    final pricingPlan = this.pricingPlan;
     final updateTime = this.updateTime;
+    final pricingPlan = this.pricingPlan;
     final tags = this.tags;
     return {
       'CreateTime': iso8601ToJson(createTime),
@@ -4472,8 +4780,8 @@ class DescribePlaceIndexResponse {
       'Description': description,
       'IndexArn': indexArn,
       'IndexName': indexName,
-      'PricingPlan': pricingPlan.toValue(),
       'UpdateTime': iso8601ToJson(updateTime),
+      if (pricingPlan != null) 'PricingPlan': pricingPlan.toValue(),
       if (tags != null) 'Tags': tags,
     };
   }
@@ -4524,13 +4832,6 @@ class DescribeRouteCalculatorResponse {
   /// The optional description of the route calculator resource.
   final String description;
 
-  /// The pricing plan selected for the specified route calculator resource.
-  ///
-  /// For additional details and restrictions on each pricing plan option, see <a
-  /// href="https://aws.amazon.com/location/pricing/">Amazon Location Service
-  /// pricing</a>.
-  final PricingPlan pricingPlan;
-
   /// The timestamp when the route calculator resource was last updated in <a
   /// href="https://www.iso.org/iso-8601-date-and-time-format.html">ISO 8601</a>
   /// format: <code>YYYY-MM-DDThh:mm:ss.sssZ</code>.
@@ -4542,6 +4843,9 @@ class DescribeRouteCalculatorResponse {
   /// </ul>
   final DateTime updateTime;
 
+  /// Always returns <code>RequestBasedUsage</code>.
+  final PricingPlan? pricingPlan;
+
   /// Tags associated with route calculator resource.
   final Map<String, String>? tags;
 
@@ -4551,8 +4855,8 @@ class DescribeRouteCalculatorResponse {
     required this.createTime,
     required this.dataSource,
     required this.description,
-    required this.pricingPlan,
     required this.updateTime,
+    this.pricingPlan,
     this.tags,
   });
 
@@ -4563,8 +4867,8 @@ class DescribeRouteCalculatorResponse {
       createTime: nonNullableTimeStampFromJson(json['CreateTime'] as Object),
       dataSource: json['DataSource'] as String,
       description: json['Description'] as String,
-      pricingPlan: (json['PricingPlan'] as String).toPricingPlan(),
       updateTime: nonNullableTimeStampFromJson(json['UpdateTime'] as Object),
+      pricingPlan: (json['PricingPlan'] as String?)?.toPricingPlan(),
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -4576,8 +4880,8 @@ class DescribeRouteCalculatorResponse {
     final createTime = this.createTime;
     final dataSource = this.dataSource;
     final description = this.description;
-    final pricingPlan = this.pricingPlan;
     final updateTime = this.updateTime;
+    final pricingPlan = this.pricingPlan;
     final tags = this.tags;
     return {
       'CalculatorArn': calculatorArn,
@@ -4585,8 +4889,8 @@ class DescribeRouteCalculatorResponse {
       'CreateTime': iso8601ToJson(createTime),
       'DataSource': dataSource,
       'Description': description,
-      'PricingPlan': pricingPlan.toValue(),
       'UpdateTime': iso8601ToJson(updateTime),
+      if (pricingPlan != null) 'PricingPlan': pricingPlan.toValue(),
       if (tags != null) 'Tags': tags,
     };
   }
@@ -4600,13 +4904,6 @@ class DescribeTrackerResponse {
 
   /// The optional description for the tracker resource.
   final String description;
-
-  /// The pricing plan selected for the specified tracker resource.
-  ///
-  /// For additional details and restrictions on each pricing plan option, see <a
-  /// href="https://aws.amazon.com/location/pricing/">Amazon Location Service
-  /// pricing</a>.
-  final PricingPlan pricingPlan;
 
   /// The Amazon Resource Name (ARN) for the tracker resource. Used when you need
   /// to specify a resource across all AWS.
@@ -4635,7 +4932,10 @@ class DescribeTrackerResponse {
   /// The position filtering method of the tracker resource.
   final PositionFiltering? positionFiltering;
 
-  /// The specified data provider for the tracker resource.
+  /// Always returns <code>RequestBasedUsage</code>.
+  final PricingPlan? pricingPlan;
+
+  /// No longer used. Always returns an empty string.
   final String? pricingPlanDataSource;
 
   /// The tags associated with the tracker resource.
@@ -4644,12 +4944,12 @@ class DescribeTrackerResponse {
   DescribeTrackerResponse({
     required this.createTime,
     required this.description,
-    required this.pricingPlan,
     required this.trackerArn,
     required this.trackerName,
     required this.updateTime,
     this.kmsKeyId,
     this.positionFiltering,
+    this.pricingPlan,
     this.pricingPlanDataSource,
     this.tags,
   });
@@ -4658,13 +4958,13 @@ class DescribeTrackerResponse {
     return DescribeTrackerResponse(
       createTime: nonNullableTimeStampFromJson(json['CreateTime'] as Object),
       description: json['Description'] as String,
-      pricingPlan: (json['PricingPlan'] as String).toPricingPlan(),
       trackerArn: json['TrackerArn'] as String,
       trackerName: json['TrackerName'] as String,
       updateTime: nonNullableTimeStampFromJson(json['UpdateTime'] as Object),
       kmsKeyId: json['KmsKeyId'] as String?,
       positionFiltering:
           (json['PositionFiltering'] as String?)?.toPositionFiltering(),
+      pricingPlan: (json['PricingPlan'] as String?)?.toPricingPlan(),
       pricingPlanDataSource: json['PricingPlanDataSource'] as String?,
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -4674,24 +4974,24 @@ class DescribeTrackerResponse {
   Map<String, dynamic> toJson() {
     final createTime = this.createTime;
     final description = this.description;
-    final pricingPlan = this.pricingPlan;
     final trackerArn = this.trackerArn;
     final trackerName = this.trackerName;
     final updateTime = this.updateTime;
     final kmsKeyId = this.kmsKeyId;
     final positionFiltering = this.positionFiltering;
+    final pricingPlan = this.pricingPlan;
     final pricingPlanDataSource = this.pricingPlanDataSource;
     final tags = this.tags;
     return {
       'CreateTime': iso8601ToJson(createTime),
       'Description': description,
-      'PricingPlan': pricingPlan.toValue(),
       'TrackerArn': trackerArn,
       'TrackerName': trackerName,
       'UpdateTime': iso8601ToJson(updateTime),
       if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
       if (positionFiltering != null)
         'PositionFiltering': positionFiltering.toValue(),
+      if (pricingPlan != null) 'PricingPlan': pricingPlan.toValue(),
       if (pricingPlanDataSource != null)
         'PricingPlanDataSource': pricingPlanDataSource,
       if (tags != null) 'Tags': tags,
@@ -4775,8 +5075,8 @@ class DevicePositionUpdate {
   final String deviceId;
 
   /// The latest device position defined in <a
-  /// href="https://earth-info.nga.mil/GandG/wgs84/index.html">WGS 84</a> format:
-  /// <code>[X or longitude, Y or latitude]</code>.
+  /// href="https://earth-info.nga.mil/index.php?dir=wgs84&amp;action=wgs84">WGS
+  /// 84</a> format: <code>[X or longitude, Y or latitude]</code>.
   final List<double> position;
 
   /// The timestamp at which the device's position was determined. Uses <a
@@ -5275,7 +5575,7 @@ extension on String {
 ///
 /// For example, a route with a departure position and destination position
 /// returns one leg with the positions <a
-/// href="https://docs.aws.amazon.com/location/latest/developerguide/calculate-route.html#snap-to-nearby-road">snapped
+/// href="https://docs.aws.amazon.com/location/latest/developerguide/snap-to-nearby-road.html">snapped
 /// to a nearby road</a>:
 ///
 /// <ul>
@@ -5320,7 +5620,7 @@ class Leg {
   /// <code>[longitude,latitude]</code>.
   /// <note>
   /// If the <code>EndPosition</code> isn't located on a road, it's <a
-  /// href="https://docs.aws.amazon.com/location/latest/developerguide/calculate-route.html#snap-to-nearby-road">snapped
+  /// href="https://docs.aws.amazon.com/location/latest/developerguide/nap-to-nearby-road.html">snapped
   /// to a nearby road</a>.
   /// </note>
   final List<double> endPosition;
@@ -5329,7 +5629,7 @@ class Leg {
   /// <code>[longitude,latitude]</code>.
   /// <note>
   /// If the <code>StartPosition</code> isn't located on a road, it's <a
-  /// href="https://docs.aws.amazon.com/location/latest/developerguide/calculate-route.html#snap-to-nearby-road">snapped
+  /// href="https://docs.aws.amazon.com/location/latest/developerguide/snap-to-nearby-road.html">snapped
   /// to a nearby road</a>.
   /// </note>
   final List<double> startPosition;
@@ -5574,27 +5874,23 @@ class ListGeofenceCollectionsResponseEntry {
   /// The description for the geofence collection
   final String description;
 
-  /// The pricing plan for the specified geofence collection.
-  ///
-  /// For additional details and restrictions on each pricing plan option, see the
-  /// <a href="https://aws.amazon.com/location/pricing/">Amazon Location Service
-  /// pricing page</a>.
-  final PricingPlan pricingPlan;
-
   /// Specifies a timestamp for when the resource was last updated in <a
   /// href="https://www.iso.org/iso-8601-date-and-time-format.html">ISO 8601</a>
   /// format: <code>YYYY-MM-DDThh:mm:ss.sssZ</code>
   final DateTime updateTime;
 
-  /// The specified data provider for the geofence collection.
+  /// No longer used. Always returns <code>RequestBasedUsage</code>.
+  final PricingPlan? pricingPlan;
+
+  /// No longer used. Always returns an empty string.
   final String? pricingPlanDataSource;
 
   ListGeofenceCollectionsResponseEntry({
     required this.collectionName,
     required this.createTime,
     required this.description,
-    required this.pricingPlan,
     required this.updateTime,
+    this.pricingPlan,
     this.pricingPlanDataSource,
   });
 
@@ -5604,8 +5900,8 @@ class ListGeofenceCollectionsResponseEntry {
       collectionName: json['CollectionName'] as String,
       createTime: nonNullableTimeStampFromJson(json['CreateTime'] as Object),
       description: json['Description'] as String,
-      pricingPlan: (json['PricingPlan'] as String).toPricingPlan(),
       updateTime: nonNullableTimeStampFromJson(json['UpdateTime'] as Object),
+      pricingPlan: (json['PricingPlan'] as String?)?.toPricingPlan(),
       pricingPlanDataSource: json['PricingPlanDataSource'] as String?,
     );
   }
@@ -5614,15 +5910,15 @@ class ListGeofenceCollectionsResponseEntry {
     final collectionName = this.collectionName;
     final createTime = this.createTime;
     final description = this.description;
-    final pricingPlan = this.pricingPlan;
     final updateTime = this.updateTime;
+    final pricingPlan = this.pricingPlan;
     final pricingPlanDataSource = this.pricingPlanDataSource;
     return {
       'CollectionName': collectionName,
       'CreateTime': iso8601ToJson(createTime),
       'Description': description,
-      'PricingPlan': pricingPlan.toValue(),
       'UpdateTime': iso8601ToJson(updateTime),
+      if (pricingPlan != null) 'PricingPlan': pricingPlan.toValue(),
       if (pricingPlanDataSource != null)
         'PricingPlanDataSource': pricingPlanDataSource,
     };
@@ -5787,25 +6083,21 @@ class ListMapsResponseEntry {
   /// The name of the associated map resource.
   final String mapName;
 
-  /// The pricing plan for the specified map resource.
-  ///
-  /// For additional details and restrictions on each pricing plan option, see <a
-  /// href="https://aws.amazon.com/location/pricing/">Amazon Location Service
-  /// pricing</a>.
-  final PricingPlan pricingPlan;
-
   /// The timestamp for when the map resource was last updated in <a
   /// href="https://www.iso.org/iso-8601-date-and-time-format.html">ISO 8601</a>
   /// format: <code>YYYY-MM-DDThh:mm:ss.sssZ</code>.
   final DateTime updateTime;
+
+  /// No longer used. Always returns <code>RequestBasedUsage</code>.
+  final PricingPlan? pricingPlan;
 
   ListMapsResponseEntry({
     required this.createTime,
     required this.dataSource,
     required this.description,
     required this.mapName,
-    required this.pricingPlan,
     required this.updateTime,
+    this.pricingPlan,
   });
 
   factory ListMapsResponseEntry.fromJson(Map<String, dynamic> json) {
@@ -5814,8 +6106,8 @@ class ListMapsResponseEntry {
       dataSource: json['DataSource'] as String,
       description: json['Description'] as String,
       mapName: json['MapName'] as String,
-      pricingPlan: (json['PricingPlan'] as String).toPricingPlan(),
       updateTime: nonNullableTimeStampFromJson(json['UpdateTime'] as Object),
+      pricingPlan: (json['PricingPlan'] as String?)?.toPricingPlan(),
     );
   }
 
@@ -5824,15 +6116,15 @@ class ListMapsResponseEntry {
     final dataSource = this.dataSource;
     final description = this.description;
     final mapName = this.mapName;
-    final pricingPlan = this.pricingPlan;
     final updateTime = this.updateTime;
+    final pricingPlan = this.pricingPlan;
     return {
       'CreateTime': iso8601ToJson(createTime),
       'DataSource': dataSource,
       'Description': description,
       'MapName': mapName,
-      'PricingPlan': pricingPlan.toValue(),
       'UpdateTime': iso8601ToJson(updateTime),
+      if (pricingPlan != null) 'PricingPlan': pricingPlan.toValue(),
     };
   }
 }
@@ -5899,25 +6191,21 @@ class ListPlaceIndexesResponseEntry {
   /// The name of the place index resource.
   final String indexName;
 
-  /// The pricing plan for the specified place index resource.
-  ///
-  /// For additional details and restrictions on each pricing plan option, see <a
-  /// href="https://aws.amazon.com/location/pricing/">Amazon Location Service
-  /// pricing</a>.
-  final PricingPlan pricingPlan;
-
   /// The timestamp for when the place index resource was last updated in <a
   /// href="https://www.iso.org/iso-8601-date-and-time-format.html">ISO 8601</a>
   /// format: <code>YYYY-MM-DDThh:mm:ss.sssZ</code>.
   final DateTime updateTime;
+
+  /// No longer used. Always returns <code>RequestBasedUsage</code>.
+  final PricingPlan? pricingPlan;
 
   ListPlaceIndexesResponseEntry({
     required this.createTime,
     required this.dataSource,
     required this.description,
     required this.indexName,
-    required this.pricingPlan,
     required this.updateTime,
+    this.pricingPlan,
   });
 
   factory ListPlaceIndexesResponseEntry.fromJson(Map<String, dynamic> json) {
@@ -5926,8 +6214,8 @@ class ListPlaceIndexesResponseEntry {
       dataSource: json['DataSource'] as String,
       description: json['Description'] as String,
       indexName: json['IndexName'] as String,
-      pricingPlan: (json['PricingPlan'] as String).toPricingPlan(),
       updateTime: nonNullableTimeStampFromJson(json['UpdateTime'] as Object),
+      pricingPlan: (json['PricingPlan'] as String?)?.toPricingPlan(),
     );
   }
 
@@ -5936,15 +6224,15 @@ class ListPlaceIndexesResponseEntry {
     final dataSource = this.dataSource;
     final description = this.description;
     final indexName = this.indexName;
-    final pricingPlan = this.pricingPlan;
     final updateTime = this.updateTime;
+    final pricingPlan = this.pricingPlan;
     return {
       'CreateTime': iso8601ToJson(createTime),
       'DataSource': dataSource,
       'Description': description,
       'IndexName': indexName,
-      'PricingPlan': pricingPlan.toValue(),
       'UpdateTime': iso8601ToJson(updateTime),
+      if (pricingPlan != null) 'PricingPlan': pricingPlan.toValue(),
     };
   }
 }
@@ -6018,13 +6306,6 @@ class ListRouteCalculatorsResponseEntry {
   /// The optional description of the route calculator resource.
   final String description;
 
-  /// The pricing plan for the specified route calculator resource.
-  ///
-  /// For additional details and restrictions on each pricing plan option, see <a
-  /// href="https://aws.amazon.com/location/pricing/">Amazon Location Service
-  /// pricing</a>.
-  final PricingPlan pricingPlan;
-
   /// The timestamp when the route calculator resource was last updated in <a
   /// href="https://www.iso.org/iso-8601-date-and-time-format.html">ISO 8601</a>
   /// format: <code>YYYY-MM-DDThh:mm:ss.sssZ</code>.
@@ -6036,13 +6317,16 @@ class ListRouteCalculatorsResponseEntry {
   /// </ul>
   final DateTime updateTime;
 
+  /// Always returns <code>RequestBasedUsage</code>.
+  final PricingPlan? pricingPlan;
+
   ListRouteCalculatorsResponseEntry({
     required this.calculatorName,
     required this.createTime,
     required this.dataSource,
     required this.description,
-    required this.pricingPlan,
     required this.updateTime,
+    this.pricingPlan,
   });
 
   factory ListRouteCalculatorsResponseEntry.fromJson(
@@ -6052,8 +6336,8 @@ class ListRouteCalculatorsResponseEntry {
       createTime: nonNullableTimeStampFromJson(json['CreateTime'] as Object),
       dataSource: json['DataSource'] as String,
       description: json['Description'] as String,
-      pricingPlan: (json['PricingPlan'] as String).toPricingPlan(),
       updateTime: nonNullableTimeStampFromJson(json['UpdateTime'] as Object),
+      pricingPlan: (json['PricingPlan'] as String?)?.toPricingPlan(),
     );
   }
 
@@ -6062,15 +6346,15 @@ class ListRouteCalculatorsResponseEntry {
     final createTime = this.createTime;
     final dataSource = this.dataSource;
     final description = this.description;
-    final pricingPlan = this.pricingPlan;
     final updateTime = this.updateTime;
+    final pricingPlan = this.pricingPlan;
     return {
       'CalculatorName': calculatorName,
       'CreateTime': iso8601ToJson(createTime),
       'DataSource': dataSource,
       'Description': description,
-      'PricingPlan': pricingPlan.toValue(),
       'UpdateTime': iso8601ToJson(updateTime),
+      if (pricingPlan != null) 'PricingPlan': pricingPlan.toValue(),
     };
   }
 }
@@ -6185,13 +6469,6 @@ class ListTrackersResponseEntry {
   /// The description for the tracker resource.
   final String description;
 
-  /// The pricing plan for the specified tracker resource.
-  ///
-  /// For additional details and restrictions on each pricing plan option, see <a
-  /// href="https://aws.amazon.com/location/pricing/">Amazon Location Service
-  /// pricing</a>.
-  final PricingPlan pricingPlan;
-
   /// The name of the tracker resource.
   final String trackerName;
 
@@ -6200,15 +6477,18 @@ class ListTrackersResponseEntry {
   /// format: <code>YYYY-MM-DDThh:mm:ss.sssZ</code>.
   final DateTime updateTime;
 
-  /// The specified data provider for the tracker resource.
+  /// Always returns <code>RequestBasedUsage</code>.
+  final PricingPlan? pricingPlan;
+
+  /// No longer used. Always returns an empty string.
   final String? pricingPlanDataSource;
 
   ListTrackersResponseEntry({
     required this.createTime,
     required this.description,
-    required this.pricingPlan,
     required this.trackerName,
     required this.updateTime,
+    this.pricingPlan,
     this.pricingPlanDataSource,
   });
 
@@ -6216,9 +6496,9 @@ class ListTrackersResponseEntry {
     return ListTrackersResponseEntry(
       createTime: nonNullableTimeStampFromJson(json['CreateTime'] as Object),
       description: json['Description'] as String,
-      pricingPlan: (json['PricingPlan'] as String).toPricingPlan(),
       trackerName: json['TrackerName'] as String,
       updateTime: nonNullableTimeStampFromJson(json['UpdateTime'] as Object),
+      pricingPlan: (json['PricingPlan'] as String?)?.toPricingPlan(),
       pricingPlanDataSource: json['PricingPlanDataSource'] as String?,
     );
   }
@@ -6226,16 +6506,16 @@ class ListTrackersResponseEntry {
   Map<String, dynamic> toJson() {
     final createTime = this.createTime;
     final description = this.description;
-    final pricingPlan = this.pricingPlan;
     final trackerName = this.trackerName;
     final updateTime = this.updateTime;
+    final pricingPlan = this.pricingPlan;
     final pricingPlanDataSource = this.pricingPlanDataSource;
     return {
       'CreateTime': iso8601ToJson(createTime),
       'Description': description,
-      'PricingPlan': pricingPlan.toValue(),
       'TrackerName': trackerName,
       'UpdateTime': iso8601ToJson(updateTime),
+      if (pricingPlan != null) 'PricingPlan': pricingPlan.toValue(),
       if (pricingPlanDataSource != null)
         'PricingPlanDataSource': pricingPlanDataSource,
     };
@@ -6293,13 +6573,18 @@ class MapConfiguration {
   /// <li>
   /// <code>VectorHereBerlin</code> – The HERE Berlin map style is a high contrast
   /// detailed base map of the world that blends 3D and 2D rendering.
-  /// <note>
-  /// When using HERE as your data provider, and selecting the Style
-  /// <code>VectorHereBerlin</code>, you may not use HERE Technologies maps for
-  /// Asset Management. See the <a
-  /// href="https://aws.amazon.com/service-terms/">AWS Service Terms</a> for
-  /// Amazon Location Service.
-  /// </note> </li>
+  /// </li>
+  /// <li>
+  /// <code>VectorHereExplore</code> – A default HERE map style containing a
+  /// neutral, global map and its features including roads, buildings, landmarks,
+  /// and water features. It also now includes a fully designed map of Japan.
+  /// </li>
+  /// <li>
+  /// <code>VectorHereExploreTruck</code> – A global map containing truck
+  /// restrictions and attributes (e.g. width / height / HAZMAT) symbolized with
+  /// highlighted segments and icons on top of HERE Explore to support use cases
+  /// within transport and logistics.
+  /// </li>
   /// </ul>
   final String style;
 
@@ -6323,6 +6608,9 @@ class MapConfiguration {
 
 /// Contains details about addresses or points of interest that match the search
 /// criteria.
+///
+/// Not all details are included with all responses. Some details may only be
+/// returned by specific data partners.
 class Place {
   final PlaceGeometry geometry;
 
@@ -6606,6 +6894,167 @@ class PutGeofenceResponse {
       'GeofenceId': geofenceId,
       'UpdateTime': iso8601ToJson(updateTime),
     };
+  }
+}
+
+/// The result for the calculated route of one <code>DeparturePosition</code>
+/// <code>DestinationPosition</code> pair.
+class RouteMatrixEntry {
+  /// The total distance of travel for the route.
+  final double? distance;
+
+  /// The expected duration of travel for the route.
+  final double? durationSeconds;
+
+  /// An error corresponding to the calculation of a route between the
+  /// <code>DeparturePosition</code> and <code>DestinationPosition</code>.
+  final RouteMatrixEntryError? error;
+
+  RouteMatrixEntry({
+    this.distance,
+    this.durationSeconds,
+    this.error,
+  });
+
+  factory RouteMatrixEntry.fromJson(Map<String, dynamic> json) {
+    return RouteMatrixEntry(
+      distance: json['Distance'] as double?,
+      durationSeconds: json['DurationSeconds'] as double?,
+      error: json['Error'] != null
+          ? RouteMatrixEntryError.fromJson(
+              json['Error'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final distance = this.distance;
+    final durationSeconds = this.durationSeconds;
+    final error = this.error;
+    return {
+      if (distance != null) 'Distance': distance,
+      if (durationSeconds != null) 'DurationSeconds': durationSeconds,
+      if (error != null) 'Error': error,
+    };
+  }
+}
+
+/// An error corresponding to the calculation of a route between the
+/// <code>DeparturePosition</code> and <code>DestinationPosition</code>.
+///
+/// The error code can be one of the following:
+///
+/// <ul>
+/// <li>
+/// <code>RouteNotFound</code> - Unable to find a valid route with the given
+/// parameters.
+/// </li>
+/// </ul>
+/// <ul>
+/// <li>
+/// <code>RouteTooLong</code> - Route calculation went beyond the maximum size
+/// of a route and was terminated before completion.
+/// </li>
+/// </ul>
+/// <ul>
+/// <li>
+/// <code>PositionsNotFound</code> - One or more of the input positions were not
+/// found on the route network.
+/// </li>
+/// </ul>
+/// <ul>
+/// <li>
+/// <code>DestinationPositionNotFound</code> - The destination position was not
+/// found on the route network.
+/// </li>
+/// </ul>
+/// <ul>
+/// <li>
+/// <code>DeparturePositionNotFound</code> - The departure position was not
+/// found on the route network.
+/// </li>
+/// </ul>
+/// <ul>
+/// <li>
+/// <code>OtherValidationError</code> - The given inputs were not valid or a
+/// route was not found. More information is given in the error
+/// <code>Message</code>
+/// </li>
+/// </ul>
+class RouteMatrixEntryError {
+  /// The type of error which occurred for the route calculation.
+  final RouteMatrixErrorCode code;
+
+  /// A message about the error that occurred for the route calculation.
+  final String? message;
+
+  RouteMatrixEntryError({
+    required this.code,
+    this.message,
+  });
+
+  factory RouteMatrixEntryError.fromJson(Map<String, dynamic> json) {
+    return RouteMatrixEntryError(
+      code: (json['Code'] as String).toRouteMatrixErrorCode(),
+      message: json['Message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final message = this.message;
+    return {
+      'Code': code.toValue(),
+      if (message != null) 'Message': message,
+    };
+  }
+}
+
+enum RouteMatrixErrorCode {
+  routeNotFound,
+  routeTooLong,
+  positionsNotFound,
+  destinationPositionNotFound,
+  departurePositionNotFound,
+  otherValidationError,
+}
+
+extension on RouteMatrixErrorCode {
+  String toValue() {
+    switch (this) {
+      case RouteMatrixErrorCode.routeNotFound:
+        return 'RouteNotFound';
+      case RouteMatrixErrorCode.routeTooLong:
+        return 'RouteTooLong';
+      case RouteMatrixErrorCode.positionsNotFound:
+        return 'PositionsNotFound';
+      case RouteMatrixErrorCode.destinationPositionNotFound:
+        return 'DestinationPositionNotFound';
+      case RouteMatrixErrorCode.departurePositionNotFound:
+        return 'DeparturePositionNotFound';
+      case RouteMatrixErrorCode.otherValidationError:
+        return 'OtherValidationError';
+    }
+  }
+}
+
+extension on String {
+  RouteMatrixErrorCode toRouteMatrixErrorCode() {
+    switch (this) {
+      case 'RouteNotFound':
+        return RouteMatrixErrorCode.routeNotFound;
+      case 'RouteTooLong':
+        return RouteMatrixErrorCode.routeTooLong;
+      case 'PositionsNotFound':
+        return RouteMatrixErrorCode.positionsNotFound;
+      case 'DestinationPositionNotFound':
+        return RouteMatrixErrorCode.destinationPositionNotFound;
+      case 'DeparturePositionNotFound':
+        return RouteMatrixErrorCode.departurePositionNotFound;
+      case 'OtherValidationError':
+        return RouteMatrixErrorCode.otherValidationError;
+    }
+    throw Exception('$this is not known in enum RouteMatrixErrorCode');
   }
 }
 
@@ -6966,6 +7415,9 @@ class SearchPlaceIndexForSuggestionsSummary {
 class SearchPlaceIndexForTextResponse {
   /// A list of Places matching the input text. Each result contains additional
   /// information about the specific point of interest.
+  ///
+  /// Not all response properties are included with all responses. Some properties
+  /// may only be returned by specific data partners.
   final List<SearchForTextResult> results;
 
   /// Contains a summary of the request. Echoes the input values for

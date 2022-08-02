@@ -1154,8 +1154,8 @@ class Iam {
   /// Parameter [maxSessionDuration] :
   /// The maximum session duration (in seconds) that you want to set for the
   /// specified role. If you do not specify a value for this setting, the
-  /// default maximum of one hour is applied. This setting can have a value from
-  /// 1 hour to 12 hours.
+  /// default value of one hour is applied. This setting can have a value from 1
+  /// hour to 12 hours.
   ///
   /// Anyone who assumes the role from the or API can use the
   /// <code>DurationSeconds</code> API parameter or the
@@ -3136,8 +3136,9 @@ class Iam {
   /// Generates a report that includes details about when an IAM resource (user,
   /// group, role, or policy) was last used in an attempt to access Amazon Web
   /// Services services. Recent activity usually appears within four hours. IAM
-  /// reports activity for the last 365 days, or less if your Region began
-  /// supporting this feature within the last year. For more information, see <a
+  /// reports activity for at least the last 400 days, or less if your Region
+  /// began supporting this feature within the last year. For more information,
+  /// see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#access-advisor_tracking-period">Regions
   /// where data is tracked</a>.
   /// <important>
@@ -6998,8 +6999,7 @@ class Iam {
   /// IAM resource-listing operations return a subset of the available
   /// attributes for the resource. For example, this operation does not return
   /// tags, even though they are an attribute of the returned object. To view
-  /// all of the information for a virtual MFA device, see
-  /// <a>ListVirtualMFADevices</a>.
+  /// tag information for a virtual MFA device, see <a>ListMFADeviceTags</a>.
   /// </note>
   /// You can paginate the results using the <code>MaxItems</code> and
   /// <code>Marker</code> parameters.
@@ -9542,8 +9542,6 @@ class Iam {
 
   /// Updates the password policy settings for the Amazon Web Services account.
   /// <note>
-  /// <ul>
-  /// <li>
   /// This operation does not support partial updates. No parameters are
   /// required, but if you do not specify a parameter, that parameter's value
   /// reverts to its default value. See the <b>Request Parameters</b> section
@@ -9551,8 +9549,7 @@ class Iam {
   /// allow the default parameter to be explicitly set. Instead, to invoke the
   /// default value, do not include that parameter when you invoke the
   /// operation.
-  /// </li>
-  /// </ul> </note>
+  /// </note>
   /// For more information about using a password policy, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingPasswordPolicies.html">Managing
   /// an IAM password policy</a> in the <i>IAM User Guide</i>.
@@ -9566,8 +9563,8 @@ class Iam {
   /// Allows all IAM users in your account to use the Amazon Web Services
   /// Management Console to change their own passwords. For more information,
   /// see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/HowToPwdIAMUser.html">Letting
-  /// IAM users change their own passwords</a> in the <i>IAM User Guide</i>.
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_passwords_enable-user-change.html">Permitting
+  /// IAM users to change their own passwords</a> in the <i>IAM User Guide</i>.
   ///
   /// If you do not specify a value for this parameter, then the operation uses
   /// the default value of <code>false</code>. The result is that IAM users in
@@ -9575,14 +9572,25 @@ class Iam {
   /// password.
   ///
   /// Parameter [hardExpiry] :
-  /// Prevents IAM users from setting a new password after their password has
-  /// expired. The IAM user cannot be accessed until an administrator resets the
-  /// password.
+  /// Prevents IAM users who are accessing the account via the Amazon Web
+  /// Services Management Console from setting a new console password after
+  /// their password has expired. The IAM user cannot access the console until
+  /// an administrator resets the password.
   ///
   /// If you do not specify a value for this parameter, then the operation uses
   /// the default value of <code>false</code>. The result is that IAM users can
   /// change their passwords after they expire and continue to sign in as the
   /// user.
+  /// <note>
+  /// In the Amazon Web Services Management Console, the custom password policy
+  /// option <b>Allow users to change their own password</b> gives IAM users
+  /// permissions to <code>iam:ChangePassword</code> for only their user and to
+  /// the <code>iam:GetAccountPasswordPolicy</code> action. This option does not
+  /// attach a permissions policy to each user, rather the permissions are
+  /// applied at the account-level for all users by IAM. IAM users with
+  /// <code>iam:ChangePassword</code> permission and active access keys can
+  /// reset their own expired console password using the CLI or API.
+  /// </note>
   ///
   /// Parameter [maxPasswordAge] :
   /// The number of days that an IAM user password is valid.
@@ -9991,8 +9999,8 @@ class Iam {
   /// Parameter [maxSessionDuration] :
   /// The maximum session duration (in seconds) that you want to set for the
   /// specified role. If you do not specify a value for this setting, the
-  /// default maximum of one hour is applied. This setting can have a value from
-  /// 1 hour to 12 hours.
+  /// default value of one hour is applied. This setting can have a value from 1
+  /// hour to 12 hours.
   ///
   /// Anyone who assumes the role from the CLI or API can use the
   /// <code>DurationSeconds</code> API parameter or the
@@ -16453,7 +16461,11 @@ class OrganizationsDecisionDetail {
 /// This data type is used as a response element in the
 /// <a>GetAccountPasswordPolicy</a> operation.
 class PasswordPolicy {
-  /// Specifies whether IAM users are allowed to change their own password.
+  /// Specifies whether IAM users are allowed to change their own password. Gives
+  /// IAM users permissions to <code>iam:ChangePassword</code> for only their user
+  /// and to the <code>iam:GetAccountPasswordPolicy</code> action. This option
+  /// does not attach a permissions policy to each user, rather the permissions
+  /// are applied at the account-level for all users by IAM.
   final bool? allowUsersToChangePassword;
 
   /// Indicates whether passwords in the account expire. Returns true if
@@ -16461,8 +16473,12 @@ class PasswordPolicy {
   /// if MaxPasswordAge is 0 or not present.
   final bool? expirePasswords;
 
-  /// Specifies whether IAM users are prevented from setting a new password after
-  /// their password has expired.
+  /// Specifies whether IAM users are prevented from setting a new password via
+  /// the Amazon Web Services Management Console after their password has expired.
+  /// The IAM user cannot access the console until an administrator resets the
+  /// password. IAM users with <code>iam:ChangePassword</code> permission and
+  /// active access keys can reset their own expired console password using the
+  /// CLI or API.
   final bool? hardExpiry;
 
   /// The number of days that an IAM user password is valid.

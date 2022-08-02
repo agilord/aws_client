@@ -68,7 +68,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "shape": "BooleanOptional",
         "flattened": false
       },
-      "ConsumerArn": {"shape": "String", "flattened": false}
+      "ConsumerArn": {"shape": "String", "flattened": false},
+      "ConsumerRegion": {"shape": "String", "flattened": false}
     },
     "flattened": false
   },
@@ -164,6 +165,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "type": "structure",
     "members": {
       "SnapshotIdentifier": {"shape": "String", "flattened": false},
+      "SnapshotArn": {"shape": "String", "flattened": false},
       "SnapshotClusterIdentifier": {"shape": "String", "flattened": false},
       "AccountWithRestoreAccess": {"shape": "String", "flattened": false}
     },
@@ -401,6 +403,16 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "shape": "ClusterDbRevisionsList",
         "flattened": false
       }
+    },
+    "flattened": false
+  },
+  "ClusterExtendedCredentials": {
+    "type": "structure",
+    "members": {
+      "DbUser": {"shape": "String", "flattened": false},
+      "DbPassword": {"shape": "SensitiveString", "flattened": false},
+      "Expiration": {"shape": "TStamp", "flattened": false},
+      "NextRefreshTime": {"shape": "TStamp", "flattened": false}
     },
     "flattened": false
   },
@@ -727,7 +739,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "shape": "AquaConfigurationStatus",
         "flattened": false
       },
-      "DefaultIamRoleArn": {"shape": "String", "flattened": false}
+      "DefaultIamRoleArn": {"shape": "String", "flattened": false},
+      "LoadSampleData": {"shape": "String", "flattened": false}
     },
     "flattened": false
   },
@@ -986,6 +999,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "members": {
       "ConsumerIdentifier": {"shape": "String", "flattened": false},
       "Status": {"shape": "DataShareStatus", "flattened": false},
+      "ConsumerRegion": {"shape": "String", "flattened": false},
       "CreatedDate": {"shape": "TStamp", "flattened": false},
       "StatusChangeDate": {"shape": "TStamp", "flattened": false}
     },
@@ -1282,6 +1296,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "members": {
       "ClusterIdentifier": {"shape": "String", "flattened": false},
       "SnapshotIdentifier": {"shape": "String", "flattened": false},
+      "SnapshotArn": {"shape": "String", "flattened": false},
       "SnapshotType": {"shape": "String", "flattened": false},
       "StartTime": {"shape": "TStamp", "flattened": false},
       "EndTime": {"shape": "TStamp", "flattened": false},
@@ -1500,6 +1515,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "ActionType": {"shape": "ActionType", "flattened": false},
       "ClusterIdentifier": {"shape": "String", "flattened": false},
       "SnapshotIdentifier": {"shape": "String", "flattened": false},
+      "SnapshotArn": {"shape": "String", "flattened": false},
       "OwnerAccount": {"shape": "String", "flattened": false},
       "Filters": {
         "shape": "NodeConfigurationOptionsFilterList",
@@ -1710,7 +1726,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "shape": "BooleanOptional",
         "flattened": false
       },
-      "ConsumerArn": {"shape": "String", "flattened": false}
+      "ConsumerArn": {"shape": "String", "flattened": false},
+      "ConsumerRegion": {"shape": "String", "flattened": false}
     },
     "flattened": false
   },
@@ -1749,7 +1766,9 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "members": {
       "ClusterIdentifier": {"shape": "String", "flattened": false},
       "BucketName": {"shape": "String", "flattened": false},
-      "S3KeyPrefix": {"shape": "String", "flattened": false}
+      "S3KeyPrefix": {"shape": "String", "flattened": false},
+      "LogDestinationType": {"shape": "LogDestinationType", "flattened": false},
+      "LogExports": {"shape": "LogTypeList", "flattened": false}
     },
     "flattened": false
   },
@@ -1969,6 +1988,15 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     },
     "flattened": false
   },
+  "GetClusterCredentialsWithIAMMessage": {
+    "type": "structure",
+    "members": {
+      "DbName": {"shape": "String", "flattened": false},
+      "ClusterIdentifier": {"shape": "String", "flattened": false},
+      "DurationSeconds": {"shape": "IntegerOptional", "flattened": false}
+    },
+    "flattened": false
+  },
   "GetReservedNodeExchangeConfigurationOptionsInputMessage": {
     "type": "structure",
     "members": {
@@ -2111,6 +2139,12 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   },
   "Integer": {"type": "integer", "flattened": false},
   "IntegerOptional": {"type": "integer", "flattened": false},
+  "LogDestinationType": {"type": "string", "flattened": false},
+  "LogTypeList": {
+    "type": "list",
+    "member": {"shape": "String"},
+    "flattened": false
+  },
   "LoggingStatus": {
     "type": "structure",
     "members": {
@@ -2119,7 +2153,9 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "S3KeyPrefix": {"shape": "String", "flattened": false},
       "LastSuccessfulDeliveryTime": {"shape": "TStamp", "flattened": false},
       "LastFailureTime": {"shape": "TStamp", "flattened": false},
-      "LastFailureMessage": {"shape": "String", "flattened": false}
+      "LastFailureMessage": {"shape": "String", "flattened": false},
+      "LogDestinationType": {"shape": "LogDestinationType", "flattened": false},
+      "LogExports": {"shape": "LogTypeList", "flattened": false}
     },
     "flattened": false
   },
@@ -2909,6 +2945,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "members": {
       "ClusterIdentifier": {"shape": "String", "flattened": false},
       "SnapshotIdentifier": {"shape": "String", "flattened": false},
+      "SnapshotArn": {"shape": "String", "flattened": false},
       "SnapshotClusterIdentifier": {"shape": "String", "flattened": false},
       "Port": {"shape": "IntegerOptional", "flattened": false},
       "AvailabilityZone": {"shape": "String", "flattened": false},
@@ -2955,7 +2992,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       },
       "DefaultIamRoleArn": {"shape": "String", "flattened": false},
       "ReservedNodeId": {"shape": "String", "flattened": false},
-      "TargetReservedNodeOfferingId": {"shape": "String", "flattened": false}
+      "TargetReservedNodeOfferingId": {"shape": "String", "flattened": false},
+      "Encrypted": {"shape": "BooleanOptional", "flattened": false}
     },
     "flattened": false
   },
@@ -3071,6 +3109,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "type": "structure",
     "members": {
       "SnapshotIdentifier": {"shape": "String", "flattened": false},
+      "SnapshotArn": {"shape": "String", "flattened": false},
       "SnapshotClusterIdentifier": {"shape": "String", "flattened": false},
       "AccountWithRestoreAccess": {"shape": "String", "flattened": false}
     },

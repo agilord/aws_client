@@ -41,11 +41,20 @@ class DynamoDB {
         );
 
   /// This operation allows you to perform batch reads or writes on data stored
-  /// in DynamoDB, using PartiQL.
+  /// in DynamoDB, using PartiQL. Each read statement in a
+  /// <code>BatchExecuteStatement</code> must specify an equality condition on
+  /// all key attributes. This enforces that each <code>SELECT</code> statement
+  /// in a batch returns at most a single item.
   /// <note>
   /// The entire batch must consist of either read statements or write
   /// statements, you cannot mix both in one batch.
-  /// </note>
+  /// </note> <important>
+  /// A HTTP 200 response does not mean that all statements in the
+  /// BatchExecuteStatement succeeded. Error details for individual statements
+  /// can be found under the <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_BatchStatementResponse.html#DDB-Type-BatchStatementResponse-Error">Error</a>
+  /// field of the <code>BatchStatementResponse</code> for each statement.
+  /// </important>
   ///
   /// May throw [RequestLimitExceeded].
   /// May throw [InternalServerError].
@@ -266,8 +275,13 @@ class DynamoDB {
 
   /// The <code>BatchWriteItem</code> operation puts or deletes multiple items
   /// in one or more tables. A single call to <code>BatchWriteItem</code> can
-  /// write up to 16 MB of data, which can comprise as many as 25 put or delete
-  /// requests. Individual items to be written can be as large as 400 KB.
+  /// transmit up to 16MB of data over the network, consisting of up to 25 item
+  /// put or delete operations. While individual items can be up to 400 KB once
+  /// stored, it's important to note that an item's representation might be
+  /// greater than 400KB while being sent in DynamoDB's JSON format for the API
+  /// call. For more details on this distinction, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.NamingRulesDataTypes.html">Naming
+  /// Rules and Data Types</a>.
   /// <note>
   /// <code>BatchWriteItem</code> cannot update items. To update items, use the
   /// <code>UpdateItem</code> action.
@@ -1130,7 +1144,11 @@ class DynamoDB {
   /// <li>
   /// <code>ALL_OLD</code> - The content of the old item is returned.
   /// </li>
-  /// </ul> <note>
+  /// </ul>
+  /// There is no additional cost associated with requesting a return value
+  /// aside from the small network and processing overhead of receiving a larger
+  /// response. No read capacity units are consumed.
+  /// <note>
   /// The <code>ReturnValues</code> parameter is used by several DynamoDB
   /// operations; however, <code>DeleteItem</code> does not recognize any values
   /// other than <code>NONE</code> or <code>ALL_OLD</code>.
@@ -1775,6 +1793,19 @@ class DynamoDB {
   /// This operation allows you to perform reads and singleton writes on data
   /// stored in DynamoDB, using PartiQL.
   ///
+  /// For PartiQL reads (<code>SELECT</code> statement), if the total number of
+  /// processed items exceeds the maximum dataset size limit of 1 MB, the read
+  /// stops and results are returned to the user as a
+  /// <code>LastEvaluatedKey</code> value to continue the read in a subsequent
+  /// operation. If the filter criteria in <code>WHERE</code> clause does not
+  /// match any data, the read will return an empty result set.
+  ///
+  /// A single <code>SELECT</code> statement response can return up to the
+  /// maximum number of items (if using the Limit parameter) or a maximum of 1
+  /// MB of data (and then apply any filtering to the results using
+  /// <code>WHERE</code> clause). If <code>LastEvaluatedKey</code> is present in
+  /// the response, you need to paginate the result set.
+  ///
   /// May throw [ConditionalCheckFailedException].
   /// May throw [ProvisionedThroughputExceededException].
   /// May throw [ResourceNotFoundException].
@@ -1792,6 +1823,18 @@ class DynamoDB {
   /// strongly consistent read is used; otherwise, an eventually consistent read
   /// is used.
   ///
+  /// Parameter [limit] :
+  /// The maximum number of items to evaluate (not necessarily the number of
+  /// matching items). If DynamoDB processes the number of items up to the limit
+  /// while processing the results, it stops the operation and returns the
+  /// matching values up to that point, along with a key in
+  /// <code>LastEvaluatedKey</code> to apply in a subsequent operation so you
+  /// can pick up where you left off. Also, if the processed dataset size
+  /// exceeds 1 MB before DynamoDB reaches this limit, it stops the operation
+  /// and returns the matching values up to the limit, and a key in
+  /// <code>LastEvaluatedKey</code> to apply in a subsequent operation to
+  /// continue the operation.
+  ///
   /// Parameter [nextToken] :
   /// Set this value to get remaining results, if <code>NextToken</code> was
   /// returned in the statement response.
@@ -1801,11 +1844,18 @@ class DynamoDB {
   Future<ExecuteStatementOutput> executeStatement({
     required String statement,
     bool? consistentRead,
+    int? limit,
     String? nextToken,
     List<AttributeValue>? parameters,
     ReturnConsumedCapacity? returnConsumedCapacity,
   }) async {
     ArgumentError.checkNotNull(statement, 'statement');
+    _s.validateNumRange(
+      'limit',
+      limit,
+      1,
+      1152921504606846976,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.ExecuteStatement'
@@ -1819,6 +1869,7 @@ class DynamoDB {
       payload: {
         'Statement': statement,
         if (consistentRead != null) 'ConsistentRead': consistentRead,
+        if (limit != null) 'Limit': limit,
         if (nextToken != null) 'NextToken': nextToken,
         if (parameters != null) 'Parameters': parameters,
         if (returnConsumedCapacity != null)
@@ -1927,8 +1978,9 @@ class DynamoDB {
   /// <code>ION</code>.
   ///
   /// Parameter [exportTime] :
-  /// Time in the past from which to export table data. The table export will be
-  /// a snapshot of the table's state at this point in time.
+  /// Time in the past from which to export table data, counted in seconds from
+  /// the start of the Unix epoch. The table export will be a snapshot of the
+  /// table's state at this point in time.
   ///
   /// Parameter [s3BucketOwner] :
   /// The ID of the Amazon Web Services account that owns the bucket the export
@@ -2157,7 +2209,8 @@ class DynamoDB {
   ///
   /// <ul>
   /// <li>
-  /// <code>USER</code> - On-demand backup created by you.
+  /// <code>USER</code> - On-demand backup created by you. (The default setting
+  /// if no other backup types are specified.)
   /// </li>
   /// <li>
   /// <code>SYSTEM</code> - On-demand backup automatically created by DynamoDB.
@@ -2467,60 +2520,7 @@ class DynamoDB {
   /// specified primary key doesn't exist), or replace an existing item if it
   /// has certain attribute values. You can return the item's attribute values
   /// in the same operation, using the <code>ReturnValues</code> parameter.
-  /// <important>
-  /// This topic provides general information about the <code>PutItem</code>
-  /// API.
   ///
-  /// For information on how to call the <code>PutItem</code> API using the
-  /// Amazon Web Services SDK in specific languages, see the following:
-  ///
-  /// <ul>
-  /// <li>
-  /// <a
-  /// href="http://docs.aws.amazon.com/goto/aws-cli/dynamodb-2012-08-10/PutItem">
-  /// PutItem in the Command Line Interface</a>
-  /// </li>
-  /// <li>
-  /// <a
-  /// href="http://docs.aws.amazon.com/goto/DotNetSDKV3/dynamodb-2012-08-10/PutItem">
-  /// PutItem in the SDK for .NET</a>
-  /// </li>
-  /// <li>
-  /// <a
-  /// href="http://docs.aws.amazon.com/goto/SdkForCpp/dynamodb-2012-08-10/PutItem">
-  /// PutItem in the SDK for C++</a>
-  /// </li>
-  /// <li>
-  /// <a
-  /// href="http://docs.aws.amazon.com/goto/SdkForGoV1/dynamodb-2012-08-10/PutItem">
-  /// PutItem in the SDK for Go</a>
-  /// </li>
-  /// <li>
-  /// <a
-  /// href="http://docs.aws.amazon.com/goto/SdkForJava/dynamodb-2012-08-10/PutItem">
-  /// PutItem in the SDK for Java</a>
-  /// </li>
-  /// <li>
-  /// <a
-  /// href="http://docs.aws.amazon.com/goto/AWSJavaScriptSDK/dynamodb-2012-08-10/PutItem">
-  /// PutItem in the SDK for JavaScript</a>
-  /// </li>
-  /// <li>
-  /// <a
-  /// href="http://docs.aws.amazon.com/goto/SdkForPHPV3/dynamodb-2012-08-10/PutItem">
-  /// PutItem in the SDK for PHP V3</a>
-  /// </li>
-  /// <li>
-  /// <a
-  /// href="http://docs.aws.amazon.com/goto/boto3/dynamodb-2012-08-10/PutItem">
-  /// PutItem in the SDK for Python (Boto)</a>
-  /// </li>
-  /// <li>
-  /// <a
-  /// href="http://docs.aws.amazon.com/goto/SdkForRubyV2/dynamodb-2012-08-10/PutItem">
-  /// PutItem in the SDK for Ruby V2</a>
-  /// </li>
-  /// </ul> </important>
   /// When you add an item, the primary key attributes are the only required
   /// attributes. Attribute values cannot be null.
   ///
@@ -2716,6 +2716,10 @@ class DynamoDB {
   /// </li>
   /// </ul>
   /// The values returned are strongly consistent.
+  ///
+  /// There is no additional cost associated with requesting a return value
+  /// aside from the small network and processing overhead of receiving a larger
+  /// response. No read capacity units are consumed.
   /// <note>
   /// The <code>ReturnValues</code> parameter is used by several DynamoDB
   /// operations; however, <code>PutItem</code> does not recognize any values
@@ -2955,7 +2959,7 @@ class DynamoDB {
   /// capacity units.
   /// </note>
   /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/QueryAndScan.html#FilteringResults">Filter
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/QueryAndScan.html#Query.FilterExpression">Filter
   /// Expressions</a> in the <i>Amazon DynamoDB Developer Guide</i>.
   ///
   /// Parameter [indexName] :
@@ -3147,9 +3151,9 @@ class DynamoDB {
   /// </li>
   /// <li>
   /// <code>SPECIFIC_ATTRIBUTES</code> - Returns only the attributes listed in
-  /// <code>AttributesToGet</code>. This return value is equivalent to
-  /// specifying <code>AttributesToGet</code> without specifying any value for
-  /// <code>Select</code>.
+  /// <code>ProjectionExpression</code>. This return value is equivalent to
+  /// specifying <code>ProjectionExpression</code> without specifying any value
+  /// for <code>Select</code>.
   ///
   /// If you query or scan a local secondary index and request only attributes
   /// that are projected into that index, the operation will read only the index
@@ -3163,14 +3167,14 @@ class DynamoDB {
   /// queries cannot fetch attributes from the parent table.
   /// </li>
   /// </ul>
-  /// If neither <code>Select</code> nor <code>AttributesToGet</code> are
+  /// If neither <code>Select</code> nor <code>ProjectionExpression</code> are
   /// specified, DynamoDB defaults to <code>ALL_ATTRIBUTES</code> when accessing
   /// a table, and <code>ALL_PROJECTED_ATTRIBUTES</code> when accessing an
   /// index. You cannot use both <code>Select</code> and
-  /// <code>AttributesToGet</code> together in a single request, unless the
+  /// <code>ProjectionExpression</code> together in a single request, unless the
   /// value for <code>Select</code> is <code>SPECIFIC_ATTRIBUTES</code>. (This
-  /// usage is equivalent to specifying <code>AttributesToGet</code> without any
-  /// value for <code>Select</code>.)
+  /// usage is equivalent to specifying <code>ProjectionExpression</code>
+  /// without any value for <code>Select</code>.)
   /// <note>
   /// If you use the <code>ProjectionExpression</code> parameter, then the value
   /// for <code>Select</code> can only be <code>SPECIFIC_ATTRIBUTES</code>. Any
@@ -3671,7 +3675,7 @@ class DynamoDB {
   /// capacity units.
   /// </note>
   /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/QueryAndScan.html#FilteringResults">Filter
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/QueryAndScan.html#Query.FilterExpression">Filter
   /// Expressions</a> in the <i>Amazon DynamoDB Developer Guide</i>.
   ///
   /// Parameter [indexName] :
@@ -3760,9 +3764,9 @@ class DynamoDB {
   /// </li>
   /// <li>
   /// <code>SPECIFIC_ATTRIBUTES</code> - Returns only the attributes listed in
-  /// <code>AttributesToGet</code>. This return value is equivalent to
-  /// specifying <code>AttributesToGet</code> without specifying any value for
-  /// <code>Select</code>.
+  /// <code>ProjectionExpression</code>. This return value is equivalent to
+  /// specifying <code>ProjectionExpression</code> without specifying any value
+  /// for <code>Select</code>.
   ///
   /// If you query or scan a local secondary index and request only attributes
   /// that are projected into that index, the operation reads only the index and
@@ -3776,14 +3780,14 @@ class DynamoDB {
   /// queries cannot fetch attributes from the parent table.
   /// </li>
   /// </ul>
-  /// If neither <code>Select</code> nor <code>AttributesToGet</code> are
+  /// If neither <code>Select</code> nor <code>ProjectionExpression</code> are
   /// specified, DynamoDB defaults to <code>ALL_ATTRIBUTES</code> when accessing
   /// a table, and <code>ALL_PROJECTED_ATTRIBUTES</code> when accessing an
   /// index. You cannot use both <code>Select</code> and
-  /// <code>AttributesToGet</code> together in a single request, unless the
+  /// <code>ProjectionExpression</code> together in a single request, unless the
   /// value for <code>Select</code> is <code>SPECIFIC_ATTRIBUTES</code>. (This
-  /// usage is equivalent to specifying <code>AttributesToGet</code> without any
-  /// value for <code>Select</code>.)
+  /// usage is equivalent to specifying <code>ProjectionExpression</code>
+  /// without any value for <code>Select</code>.)
   /// <note>
   /// If you use the <code>ProjectionExpression</code> parameter, then the value
   /// for <code>Select</code> can only be <code>SPECIFIC_ATTRIBUTES</code>. Any
@@ -4238,10 +4242,11 @@ class DynamoDB {
   /// Updates the status for contributor insights for a specific table or index.
   /// CloudWatch Contributor Insights for DynamoDB graphs display the partition
   /// key and (if applicable) sort key of frequently accessed items and
-  /// frequently throttled items in plaintext. If you require the use of AWS Key
-  /// Management Service (KMS) to encrypt this table’s partition key and sort
-  /// key data with an AWS managed key or customer managed key, you should not
-  /// enable CloudWatch Contributor Insights for DynamoDB for this table.
+  /// frequently throttled items in plaintext. If you require the use of Amazon
+  /// Web Services Key Management Service (KMS) to encrypt this table’s
+  /// partition key and sort key data with an Amazon Web Services managed key or
+  /// customer managed key, you should not enable CloudWatch Contributor
+  /// Insights for DynamoDB for this table.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerError].
@@ -4796,9 +4801,6 @@ class DynamoDB {
   /// Modify the provisioned throughput settings of the table.
   /// </li>
   /// <li>
-  /// Enable or disable DynamoDB Streams on the table.
-  /// </li>
-  /// <li>
   /// Remove a global secondary index from the table.
   /// </li>
   /// <li>
@@ -5219,7 +5221,7 @@ class AttributeValue {
 
   /// An attribute of type List. For example:
   ///
-  /// <code>"L": [ {"S": "Cookies"} , {"S": "Coffee"}, {"N", "3.14159"}]</code>
+  /// <code>"L": [ {"S": "Cookies"} , {"S": "Coffee"}, {"N": "3.14159"}]</code>
   final List<AttributeValue>? l;
 
   /// An attribute of type Map. For example:
@@ -5419,9 +5421,9 @@ class AttributeValueUpdate {
   /// <code>DELETE</code> - Nothing happens; there is no attribute to delete.
   /// </li>
   /// <li>
-  /// <code>ADD</code> - DynamoDB creates an item with the supplied primary key
-  /// and number (or set of numbers) for the attribute value. The only data types
-  /// allowed are number and number set; no other data types can be specified.
+  /// <code>ADD</code> - DynamoDB creates a new item with the supplied primary key
+  /// and number (or set) for the attribute value. The only data types allowed are
+  /// number, number set, string set or binary set.
   /// </li>
   /// </ul>
   final AttributeAction? action;
@@ -5866,7 +5868,8 @@ class BackupDetails {
   /// days after its creation.
   final DateTime? backupExpiryDateTime;
 
-  /// Size of the backup in bytes.
+  /// Size of the backup in bytes. DynamoDB updates this value approximately every
+  /// six hours. Recent changes might not be reflected in this value.
   final int? backupSizeBytes;
 
   BackupDetails({
@@ -8403,6 +8406,16 @@ class ExecuteStatementOutput {
   /// operations this value will be empty.
   final List<Map<String, AttributeValue>>? items;
 
+  /// The primary key of the item where the operation stopped, inclusive of the
+  /// previous result set. Use this value to start a new operation, excluding this
+  /// value in the new request. If <code>LastEvaluatedKey</code> is empty, then
+  /// the "last page" of results has been processed and there is no more data to
+  /// be retrieved. If <code>LastEvaluatedKey</code> is not empty, it does not
+  /// necessarily mean that there is more data in the result set. The only way to
+  /// know when you have reached the end of the result set is when
+  /// <code>LastEvaluatedKey</code> is empty.
+  final Map<String, AttributeValue>? lastEvaluatedKey;
+
   /// If the response of a read request exceeds the response payload limit
   /// DynamoDB will set this value in the response. If set, you can use that this
   /// value in the subsequent request to get the remaining results.
@@ -8411,6 +8424,7 @@ class ExecuteStatementOutput {
   ExecuteStatementOutput({
     this.consumedCapacity,
     this.items,
+    this.lastEvaluatedKey,
     this.nextToken,
   });
 
@@ -8425,6 +8439,9 @@ class ExecuteStatementOutput {
           .map((e) => (e as Map<String, dynamic>).map((k, e) =>
               MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))))
           .toList(),
+      lastEvaluatedKey: (json['LastEvaluatedKey'] as Map<String, dynamic>?)
+          ?.map((k, e) =>
+              MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
       nextToken: json['NextToken'] as String?,
     );
   }
@@ -8432,10 +8449,12 @@ class ExecuteStatementOutput {
   Map<String, dynamic> toJson() {
     final consumedCapacity = this.consumedCapacity;
     final items = this.items;
+    final lastEvaluatedKey = this.lastEvaluatedKey;
     final nextToken = this.nextToken;
     return {
       if (consumedCapacity != null) 'ConsumedCapacity': consumedCapacity,
       if (items != null) 'Items': items,
+      if (lastEvaluatedKey != null) 'LastEvaluatedKey': lastEvaluatedKey,
       if (nextToken != null) 'NextToken': nextToken,
     };
   }
@@ -10717,9 +10736,6 @@ class PointInTimeRecoveryDescription {
   ///
   /// <ul>
   /// <li>
-  /// <code>ENABLING</code> - Point in time recovery is being enabled.
-  /// </li>
-  /// <li>
   /// <code>ENABLED</code> - Point in time recovery is enabled.
   /// </li>
   /// <li>
@@ -10823,7 +10839,7 @@ class Projection {
   ///
   /// For local secondary indexes, the total count of
   /// <code>NonKeyAttributes</code> summed across all of the local secondary
-  /// indexes, must not exceed 20. If you project the same attribute into two
+  /// indexes, must not exceed 100. If you project the same attribute into two
   /// different indexes, this counts as two distinct attributes when determining
   /// the total.
   final List<String>? nonKeyAttributes;
@@ -12312,7 +12328,11 @@ class ReplicaUpdate {
 /// <code>DeleteTableReplica</code> action in the destination Region, deleting
 /// the replica and all if its items in the destination Region.
 /// </li>
-/// </ul>
+/// </ul> <note>
+/// When you manually remove a table or global table replica, you do not
+/// automatically remove any associated scalable targets, scaling policies, or
+/// CloudWatch alarms.
+/// </note>
 class ReplicationGroupUpdate {
   /// The parameters required for creating a replica for the table.
   final CreateReplicationGroupMemberAction? create;
@@ -13484,9 +13504,9 @@ class TableDescription {
   /// <code>NonKeyAttributes</code> - A list of one or more non-key attribute
   /// names that are projected into the secondary index. The total count of
   /// attributes provided in <code>NonKeyAttributes</code>, summed across all of
-  /// the secondary indexes, must not exceed 20. If you project the same attribute
-  /// into two different indexes, this counts as two distinct attributes when
-  /// determining the total.
+  /// the secondary indexes, must not exceed 100. If you project the same
+  /// attribute into two different indexes, this counts as two distinct attributes
+  /// when determining the total.
   /// </li>
   /// </ul> </li>
   /// <li>
@@ -13612,9 +13632,9 @@ class TableDescription {
   /// <code>NonKeyAttributes</code> - A list of one or more non-key attribute
   /// names that are projected into the secondary index. The total count of
   /// attributes provided in <code>NonKeyAttributes</code>, summed across all of
-  /// the secondary indexes, must not exceed 20. If you project the same attribute
-  /// into two different indexes, this counts as two distinct attributes when
-  /// determining the total.
+  /// the secondary indexes, must not exceed 100. If you project the same
+  /// attribute into two different indexes, this counts as two distinct attributes
+  /// when determining the total.
   /// </li>
   /// </ul> </li>
   /// <li>

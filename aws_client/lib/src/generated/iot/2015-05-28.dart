@@ -296,7 +296,8 @@ class IoT {
   /// Attaches the specified policy to the specified principal (certificate or
   /// other credential).
   ///
-  /// <b>Note:</b> This action is deprecated. Please use <a>AttachPolicy</a>
+  /// <b>Note:</b> This action is deprecated and works as expected for backward
+  /// compatibility, but we won't add enhancements. Use <a>AttachPolicy</a>
   /// instead.
   ///
   /// Requires permission to access the <a
@@ -547,6 +548,7 @@ class IoT {
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ServiceUnavailableException].
+  /// May throw [LimitExceededException].
   ///
   /// Parameter [jobId] :
   /// The unique identifier you assigned to this job when it was created.
@@ -992,13 +994,16 @@ class IoT {
   ///
   /// Parameter [metricName] :
   /// The name of the custom metric. This will be used in the metric report
-  /// submitted from the device/thing. Shouldn't begin with <code>aws:</code>.
-  /// Cannot be updated once defined.
+  /// submitted from the device/thing. The name can't begin with
+  /// <code>aws:</code>. You can't change the name after you define it.
   ///
   /// Parameter [metricType] :
-  /// The type of the custom metric. Types include <code>string-list</code>,
-  /// <code>ip-address-list</code>, <code>number-list</code>, and
-  /// <code>number</code>.
+  /// The type of the custom metric.
+  /// <important>
+  /// The type <code>number</code> only takes a single metric value as an input,
+  /// but when you submit the metrics value in the DeviceMetrics report, you
+  /// must pass it as an array with a single value.
+  /// </important>
   ///
   /// Parameter [clientRequestToken] :
   /// Each custom metric must have a unique client request token. If you try to
@@ -1007,9 +1012,10 @@ class IoT {
   /// automatically generate a unique client request.
   ///
   /// Parameter [displayName] :
-  /// Field represents a friendly name in the console for the custom metric; it
-  /// doesn't have to be unique. Don't use this name as the metric identifier in
-  /// the device metric report. Can be updated once defined.
+  /// The friendly name in the console for the custom metric. This name doesn't
+  /// have to be unique. Don't use this name as the metric identifier in the
+  /// device metric report. You can update the friendly name after you define
+  /// it.
   ///
   /// Parameter [tags] :
   /// Metadata that can be used to manage the custom metric.
@@ -1381,8 +1387,13 @@ class IoT {
   /// <code>documentSource</code>.
   ///
   /// Parameter [documentParameters] :
-  /// Parameters of a managed template that you can specify to create the job
-  /// document.
+  /// Parameters of an Amazon Web Services managed template that you can specify
+  /// to create the job document.
+  /// <note>
+  /// <code>documentParameters</code> can only be used when creating jobs from
+  /// Amazon Web Services managed templates. This parameter can't be used with
+  /// custom job templates or to create jobs from them.
+  /// </note>
   ///
   /// Parameter [documentSource] :
   /// An S3 link to the job document. Required if you don't specify a value for
@@ -1433,6 +1444,11 @@ class IoT {
   /// change is detected in a target. For example, a job will run on a thing
   /// when the thing is added to a target group, even after the job was
   /// completed by all things originally in the group.
+  /// <note>
+  /// We recommend that you use continuous jobs instead of snapshot jobs for
+  /// dynamic thing group targets. By using continuous jobs, devices that join
+  /// the group receive the job execution even after the job has been created.
+  /// </note>
   ///
   /// Parameter [timeoutConfig] :
   /// Specifies the amount of time each device has to finish its execution of
@@ -2063,6 +2079,9 @@ class IoT {
   /// Parameter [credentialDurationSeconds] :
   /// How long (in seconds) the credentials will be valid. The default value is
   /// 3,600 seconds.
+  ///
+  /// This value must be less than or equal to the maximum session duration of
+  /// the IAM role that the role alias references.
   ///
   /// Parameter [tags] :
   /// Metadata which can be used to manage the role alias.
@@ -6614,6 +6633,11 @@ class IoT {
   /// change is detected in a target. For example, a job will run on a thing
   /// when the thing is added to a target group, even after the job was
   /// completed by all things originally in the group.
+  /// <note>
+  /// We recommend that you use continuous jobs instead of snapshot jobs for
+  /// dynamic thing group targets. By using continuous jobs, devices that join
+  /// the group receive the job execution even after the job has been created.
+  /// </note>
   ///
   /// Parameter [thingGroupId] :
   /// A filter that limits the returned jobs to those for the specified group.
@@ -6696,6 +6720,80 @@ class IoT {
       exceptionFnMap: _exceptionFns,
     );
     return ListManagedJobTemplatesResponse.fromJson(response);
+  }
+
+  /// Lists the values reported for an IoT Device Defender metric (device-side
+  /// metric, cloud-side metric, or custom metric) by the given thing during the
+  /// specified time period.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalFailureException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [endTime] :
+  /// The end of the time period for which metric values are returned.
+  ///
+  /// Parameter [metricName] :
+  /// The name of the security profile metric for which values are returned.
+  ///
+  /// Parameter [startTime] :
+  /// The start of the time period for which metric values are returned.
+  ///
+  /// Parameter [thingName] :
+  /// The name of the thing for which security profile metric values are
+  /// returned.
+  ///
+  /// Parameter [dimensionName] :
+  /// The dimension name.
+  ///
+  /// Parameter [dimensionValueOperator] :
+  /// The dimension value operator.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return at one time.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of results.
+  Future<ListMetricValuesResponse> listMetricValues({
+    required DateTime endTime,
+    required String metricName,
+    required DateTime startTime,
+    required String thingName,
+    String? dimensionName,
+    DimensionValueOperator? dimensionValueOperator,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    ArgumentError.checkNotNull(endTime, 'endTime');
+    ArgumentError.checkNotNull(metricName, 'metricName');
+    ArgumentError.checkNotNull(startTime, 'startTime');
+    ArgumentError.checkNotNull(thingName, 'thingName');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      250,
+    );
+    final $query = <String, List<String>>{
+      'endTime': [_s.iso8601ToJson(endTime).toString()],
+      'metricName': [metricName],
+      'startTime': [_s.iso8601ToJson(startTime).toString()],
+      'thingName': [thingName],
+      if (dimensionName != null) 'dimensionName': [dimensionName],
+      if (dimensionValueOperator != null)
+        'dimensionValueOperator': [dimensionValueOperator.toValue()],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/metric-values',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListMetricValuesResponse.fromJson(response);
   }
 
   /// Gets a list of all mitigation actions that match the specified filter
@@ -8309,14 +8407,10 @@ class IoT {
     );
   }
 
-  /// Registers a CA certificate with IoT. This CA certificate can then be used
-  /// to sign device certificates, which can be then registered with IoT. You
-  /// can register up to 10 CA certificates per Amazon Web Services account that
-  /// have the same subject field. This enables you to have up to 10 certificate
-  /// authorities sign your device certificates. If you have more than one CA
-  /// certificate registered, make sure you pass the CA certificate when you
-  /// register your device certificates with the <a>RegisterCertificate</a>
-  /// action.
+  /// Registers a CA certificate with Amazon Web Services IoT Core. There is no
+  /// limit to the number of CA certificates you can register in your Amazon Web
+  /// Services account. You can register up to 10 CA certificates with the same
+  /// <code>CA subject field</code> per Amazon Web Services account.
   ///
   /// Requires permission to access the <a
   /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">RegisterCACertificate</a>
@@ -8335,18 +8429,31 @@ class IoT {
   /// Parameter [caCertificate] :
   /// The CA certificate.
   ///
-  /// Parameter [verificationCertificate] :
-  /// The private key verification certificate.
-  ///
   /// Parameter [allowAutoRegistration] :
   /// Allows this CA certificate to be used for auto registration of device
   /// certificates.
+  ///
+  /// Parameter [certificateMode] :
+  /// Describes the certificate mode in which the Certificate Authority (CA)
+  /// will be registered. If the <code>verificationCertificate</code> field is
+  /// not provided, set <code>certificateMode</code> to be
+  /// <code>SNI_ONLY</code>. If the <code>verificationCertificate</code> field
+  /// is provided, set <code>certificateMode</code> to be <code>DEFAULT</code>.
+  /// When <code>certificateMode</code> is not provided, it defaults to
+  /// <code>DEFAULT</code>. All the device certificates that are registered
+  /// using this CA will be registered in the same certificate mode as the CA.
+  /// For more information about certificate mode for device certificates, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/iot/latest/apireference/API_CertificateDescription.html#iot-Type-CertificateDescription-certificateMode">
+  /// certificate mode</a>.
   ///
   /// Parameter [registrationConfig] :
   /// Information about the registration configuration.
   ///
   /// Parameter [setAsActive] :
   /// A boolean value that specifies if the CA certificate is set to active.
+  ///
+  /// Valid values: <code>ACTIVE | INACTIVE</code>
   ///
   /// Parameter [tags] :
   /// Metadata which can be used to manage the CA certificate.
@@ -8359,17 +8466,23 @@ class IoT {
   /// For the cli-input-json file use format: "tags":
   /// "key1=value1&amp;key2=value2..."
   /// </note>
+  ///
+  /// Parameter [verificationCertificate] :
+  /// The private key verification certificate. If <code>certificateMode</code>
+  /// is <code>SNI_ONLY</code>, the <code>verificationCertificate</code> field
+  /// must be empty. If <code>certificateMode</code> is <code>DEFAULT</code> or
+  /// not provided, the <code>verificationCertificate</code> field must not be
+  /// empty.
   Future<RegisterCACertificateResponse> registerCACertificate({
     required String caCertificate,
-    required String verificationCertificate,
     bool? allowAutoRegistration,
+    CertificateMode? certificateMode,
     RegistrationConfig? registrationConfig,
     bool? setAsActive,
     List<Tag>? tags,
+    String? verificationCertificate,
   }) async {
     ArgumentError.checkNotNull(caCertificate, 'caCertificate');
-    ArgumentError.checkNotNull(
-        verificationCertificate, 'verificationCertificate');
     final $query = <String, List<String>>{
       if (allowAutoRegistration != null)
         'allowAutoRegistration': [allowAutoRegistration.toString()],
@@ -8377,9 +8490,11 @@ class IoT {
     };
     final $payload = <String, dynamic>{
       'caCertificate': caCertificate,
-      'verificationCertificate': verificationCertificate,
+      if (certificateMode != null) 'certificateMode': certificateMode.toValue(),
       if (registrationConfig != null) 'registrationConfig': registrationConfig,
       if (tags != null) 'tags': tags,
+      if (verificationCertificate != null)
+        'verificationCertificate': verificationCertificate,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -8391,9 +8506,11 @@ class IoT {
     return RegisterCACertificateResponse.fromJson(response);
   }
 
-  /// Registers a device certificate with IoT. If you have more than one CA
-  /// certificate that has the same subject field, you must specify the CA
-  /// certificate that was used to sign the device certificate being registered.
+  /// Registers a device certificate with IoT in the same <a
+  /// href="https://docs.aws.amazon.com/iot/latest/apireference/API_CertificateDescription.html#iot-Type-CertificateDescription-certificateMode">certificate
+  /// mode</a> as the signing CA. If you have more than one CA certificate that
+  /// has the same subject field, you must specify the CA certificate that was
+  /// used to sign the device certificate being registered.
   ///
   /// Requires permission to access the <a
   /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">RegisterCertificate</a>
@@ -8418,8 +8535,12 @@ class IoT {
   /// Parameter [setAsActive] :
   /// A boolean value that specifies if the certificate is set to active.
   ///
+  /// Valid values: <code>ACTIVE | INACTIVE</code>
+  ///
   /// Parameter [status] :
-  /// The status of the register certificate request.
+  /// The status of the register certificate request. Valid values that you can
+  /// use include <code>ACTIVE</code>, <code>INACTIVE</code>, and
+  /// <code>REVOKED</code>.
   Future<RegisterCertificateResponse> registerCertificate({
     required String certificatePem,
     String? caCertificatePem,
@@ -8718,7 +8839,10 @@ class IoT {
   /// May throw [IndexNotReadyException].
   ///
   /// Parameter [queryString] :
-  /// The search query string.
+  /// The search query string. For more information about the search query
+  /// syntax, see <a
+  /// href="https://docs.aws.amazon.com/iot/latest/developerguide/query-syntax.html">Query
+  /// syntax</a>.
   ///
   /// Parameter [indexName] :
   /// The search index name.
@@ -10286,6 +10410,9 @@ class IoT {
   ///
   /// Parameter [credentialDurationSeconds] :
   /// The number of seconds the credential will be valid.
+  ///
+  /// This value must be less than or equal to the maximum session duration of
+  /// the IAM role that the role alias references.
   ///
   /// Parameter [roleArn] :
   /// The role ARN.
@@ -13586,6 +13713,15 @@ class CACertificateDescription {
   /// The CA certificate ID.
   final String? certificateId;
 
+  /// The mode of the CA.
+  ///
+  /// All the device certificates that are registered using this CA will be
+  /// registered in the same mode as the CA. For more information about
+  /// certificate mode for device certificates, see <a
+  /// href="https://docs.aws.amazon.com/iot/latest/apireference/API_CertificateDescription.html#iot-Type-CertificateDescription-certificateMode">certificate
+  /// mode</a>.
+  final CertificateMode? certificateMode;
+
   /// The CA certificate data, in PEM format.
   final String? certificatePem;
 
@@ -13614,6 +13750,7 @@ class CACertificateDescription {
     this.autoRegistrationStatus,
     this.certificateArn,
     this.certificateId,
+    this.certificateMode,
     this.certificatePem,
     this.creationDate,
     this.customerVersion,
@@ -13630,6 +13767,8 @@ class CACertificateDescription {
           ?.toAutoRegistrationStatus(),
       certificateArn: json['certificateArn'] as String?,
       certificateId: json['certificateId'] as String?,
+      certificateMode:
+          (json['certificateMode'] as String?)?.toCertificateMode(),
       certificatePem: json['certificatePem'] as String?,
       creationDate: timeStampFromJson(json['creationDate']),
       customerVersion: json['customerVersion'] as int?,
@@ -13648,6 +13787,7 @@ class CACertificateDescription {
     final autoRegistrationStatus = this.autoRegistrationStatus;
     final certificateArn = this.certificateArn;
     final certificateId = this.certificateId;
+    final certificateMode = this.certificateMode;
     final certificatePem = this.certificatePem;
     final creationDate = this.creationDate;
     final customerVersion = this.customerVersion;
@@ -13661,6 +13801,7 @@ class CACertificateDescription {
         'autoRegistrationStatus': autoRegistrationStatus.toValue(),
       if (certificateArn != null) 'certificateArn': certificateArn,
       if (certificateId != null) 'certificateId': certificateId,
+      if (certificateMode != null) 'certificateMode': certificateMode.toValue(),
       if (certificatePem != null) 'certificatePem': certificatePem,
       if (creationDate != null)
         'creationDate': unixTimestampToJson(creationDate),
@@ -13868,6 +14009,20 @@ class Certificate {
   final String? certificateId;
 
   /// The mode of the certificate.
+  ///
+  /// <code>DEFAULT</code>: A certificate in <code>DEFAULT</code> mode is either
+  /// generated by Amazon Web Services IoT Core or registered with an issuer
+  /// certificate authority (CA) in <code>DEFAULT</code> mode. Devices with
+  /// certificates in <code>DEFAULT</code> mode aren't required to send the Server
+  /// Name Indication (SNI) extension when connecting to Amazon Web Services IoT
+  /// Core. However, to use features such as custom domains and VPC endpoints, we
+  /// recommend that you use the SNI extension when connecting to Amazon Web
+  /// Services IoT Core.
+  ///
+  /// <code>SNI_ONLY</code>: A certificate in <code>SNI_ONLY</code> mode is
+  /// registered without an issuer CA. Devices with certificates in
+  /// <code>SNI_ONLY</code> mode must send the SNI extension when connecting to
+  /// Amazon Web Services IoT Core.
   final CertificateMode? certificateMode;
 
   /// The date and time the certificate was created.
@@ -13926,6 +14081,24 @@ class CertificateDescription {
   final String? certificateId;
 
   /// The mode of the certificate.
+  ///
+  /// <code>DEFAULT</code>: A certificate in <code>DEFAULT</code> mode is either
+  /// generated by Amazon Web Services IoT Core or registered with an issuer
+  /// certificate authority (CA) in <code>DEFAULT</code> mode. Devices with
+  /// certificates in <code>DEFAULT</code> mode aren't required to send the Server
+  /// Name Indication (SNI) extension when connecting to Amazon Web Services IoT
+  /// Core. However, to use features such as custom domains and VPC endpoints, we
+  /// recommend that you use the SNI extension when connecting to Amazon Web
+  /// Services IoT Core.
+  ///
+  /// <code>SNI_ONLY</code>: A certificate in <code>SNI_ONLY</code> mode is
+  /// registered without an issuer CA. Devices with certificates in
+  /// <code>SNI_ONLY</code> mode must send the SNI extension when connecting to
+  /// Amazon Web Services IoT Core.
+  ///
+  /// For more information about the value for SNI extension, see <a
+  /// href="https://docs.aws.amazon.com/iot/latest/developerguide/transport-security.html">Transport
+  /// security in IoT</a>.
   final CertificateMode? certificateMode;
 
   /// The certificate data, in PEM format.
@@ -14645,7 +14818,7 @@ class CreateCertificateFromCsrResponse {
 }
 
 class CreateCustomMetricResponse {
-  /// The Amazon Resource Number (ARN) of the custom metric, e.g.
+  /// The Amazon Resource Number (ARN) of the custom metric. For example,
   /// <code>arn:<i>aws-partition</i>:iot:<i>region</i>:<i>accountId</i>:custommetric/<i>metricName</i>
   /// </code>
   final String? metricArn;
@@ -15495,13 +15668,23 @@ class CustomCodeSigning {
   /// The certificate chain.
   final CodeSigningCertificateChain? certificateChain;
 
-  /// The hash algorithm used to code sign the file.
+  /// The hash algorithm used to code sign the file. You can use a string as the
+  /// algorithm name if the target over-the-air (OTA) update devices are able to
+  /// verify the signature that was generated using the same signature algorithm.
+  /// For example, FreeRTOS uses <code>SHA256</code> or <code>SHA1</code>, so you
+  /// can pass either of them based on which was used for generating the
+  /// signature.
   final String? hashAlgorithm;
 
   /// The signature for the file.
   final CodeSigningSignature? signature;
 
-  /// The signature algorithm used to code sign the file.
+  /// The signature algorithm used to code sign the file. You can use a string as
+  /// the algorithm name if the target over-the-air (OTA) update devices are able
+  /// to verify the signature that was generated using the same signature
+  /// algorithm. For example, FreeRTOS uses <code>ECDSA</code> or
+  /// <code>RSA</code>, so you can pass either of them based on which was used for
+  /// generating the signature.
   final String? signatureAlgorithm;
 
   CustomCodeSigning({
@@ -16400,9 +16583,12 @@ class DescribeCustomMetricResponse {
   /// The name of the custom metric.
   final String? metricName;
 
-  /// The type of the custom metric. Types include <code>string-list</code>,
-  /// <code>ip-address-list</code>, <code>number-list</code>, and
-  /// <code>number</code>.
+  /// The type of the custom metric.
+  /// <important>
+  /// The type <code>number</code> only takes a single metric value as an input,
+  /// but while submitting the metrics value in the DeviceMetrics report, it must
+  /// be passed as an array with a single value.
+  /// </important>
   final CustomMetricType? metricType;
 
   DescribeCustomMetricResponse({
@@ -17063,6 +17249,11 @@ class DescribeManagedJobTemplateResponse {
 
   /// A map of key-value pairs that you can use as guidance to specify the inputs
   /// for creating a job from a managed template.
+  /// <note>
+  /// <code>documentParameters</code> can only be used when creating jobs from
+  /// Amazon Web Services managed templates. This parameter can't be used with
+  /// custom job templates or to create jobs from them.
+  /// </note>
   final List<DocumentParameter>? documentParameters;
 
   /// A list of environments that are supported with the managed job template.
@@ -18425,6 +18616,11 @@ extension on String {
 /// A map of key-value pairs containing the patterns that need to be replaced in
 /// a managed template job document schema. You can use the description of each
 /// key as a guidance to specify the inputs during runtime when creating a job.
+/// <note>
+/// <code>documentParameters</code> can only be used when creating jobs from
+/// Amazon Web Services managed templates. This parameter can't be used with
+/// custom job templates or to create jobs from them.
+/// </note>
 class DocumentParameter {
   /// Description of the map field containing the patterns that need to be
   /// replaced in a managed template job document schema.
@@ -20290,6 +20486,40 @@ extension on String {
   }
 }
 
+/// Provides additional filters for specific data sources. Named shadow is the
+/// only data source that currently supports and requires a filter. To add named
+/// shadows to your fleet indexing configuration, set
+/// <code>namedShadowIndexingMode</code> to be <code>ON</code> and specify your
+/// shadow names in <code>filter</code>.
+class IndexingFilter {
+  /// The shadow names that you select to index. The default maximum number of
+  /// shadow names for indexing is 10. To increase the limit, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/iot_device_management.html#fleet-indexing-limits">Amazon
+  /// Web Services IoT Device Management Quotas</a> in the <i>Amazon Web Services
+  /// General Reference</i>.
+  final List<String>? namedShadowNames;
+
+  IndexingFilter({
+    this.namedShadowNames,
+  });
+
+  factory IndexingFilter.fromJson(Map<String, dynamic> json) {
+    return IndexingFilter(
+      namedShadowNames: (json['namedShadowNames'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final namedShadowNames = this.namedShadowNames;
+    return {
+      if (namedShadowNames != null) 'namedShadowNames': namedShadowNames,
+    };
+  }
+}
+
 /// Sends message data to an IoT Analytics channel.
 class IotAnalyticsAction {
   /// Whether to process the action as a batch. The default value is
@@ -20466,11 +20696,21 @@ class Job {
   /// A key-value map that pairs the patterns that need to be replaced in a
   /// managed template job document schema. You can use the description of each
   /// key as a guidance to specify the inputs during runtime when creating a job.
+  /// <note>
+  /// <code>documentParameters</code> can only be used when creating jobs from
+  /// Amazon Web Services managed templates. This parameter can't be used with
+  /// custom job templates or to create jobs from them.
+  /// </note>
   final Map<String, String>? documentParameters;
 
   /// Will be <code>true</code> if the job was canceled with the optional
   /// <code>force</code> parameter set to <code>true</code>.
   final bool? forceCanceled;
+
+  /// Indicates whether a job is concurrent. Will be true when a job is rolling
+  /// out new job executions or canceling previously created executions, otherwise
+  /// false.
+  final bool? isConcurrent;
 
   /// An ARN identifying the job with format
   /// "arn:aws:iot:region:account:job/jobId".
@@ -20523,6 +20763,11 @@ class Job {
   /// is detected in a target. For example, a job will run on a device when the
   /// thing representing the device is added to a target group, even after the job
   /// was completed by all things originally in the group.
+  /// <note>
+  /// We recommend that you use continuous jobs instead of snapshot jobs for
+  /// dynamic thing group targets. By using continuous jobs, devices that join the
+  /// group receive the job execution even after the job has been created.
+  /// </note>
   final TargetSelection? targetSelection;
 
   /// A list of IoT things and thing groups to which the job should be sent.
@@ -20543,6 +20788,7 @@ class Job {
     this.description,
     this.documentParameters,
     this.forceCanceled,
+    this.isConcurrent,
     this.jobArn,
     this.jobExecutionsRetryConfig,
     this.jobExecutionsRolloutConfig,
@@ -20571,6 +20817,7 @@ class Job {
       documentParameters: (json['documentParameters'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       forceCanceled: json['forceCanceled'] as bool?,
+      isConcurrent: json['isConcurrent'] as bool?,
       jobArn: json['jobArn'] as String?,
       jobExecutionsRetryConfig: json['jobExecutionsRetryConfig'] != null
           ? JobExecutionsRetryConfig.fromJson(
@@ -20615,6 +20862,7 @@ class Job {
     final description = this.description;
     final documentParameters = this.documentParameters;
     final forceCanceled = this.forceCanceled;
+    final isConcurrent = this.isConcurrent;
     final jobArn = this.jobArn;
     final jobExecutionsRetryConfig = this.jobExecutionsRetryConfig;
     final jobExecutionsRolloutConfig = this.jobExecutionsRolloutConfig;
@@ -20637,6 +20885,7 @@ class Job {
       if (description != null) 'description': description,
       if (documentParameters != null) 'documentParameters': documentParameters,
       if (forceCanceled != null) 'forceCanceled': forceCanceled,
+      if (isConcurrent != null) 'isConcurrent': isConcurrent,
       if (jobArn != null) 'jobArn': jobArn,
       if (jobExecutionsRetryConfig != null)
         'jobExecutionsRetryConfig': jobExecutionsRetryConfig,
@@ -21225,6 +21474,11 @@ class JobSummary {
   /// The time, in seconds since the epoch, when the job was created.
   final DateTime? createdAt;
 
+  /// Indicates whether a job is concurrent. Will be true when a job is rolling
+  /// out new job executions or canceling previously created executions, otherwise
+  /// false.
+  final bool? isConcurrent;
+
   /// The job ARN.
   final String? jobArn;
 
@@ -21243,6 +21497,11 @@ class JobSummary {
   /// is detected in a target. For example, a job will run on a thing when the
   /// thing is added to a target group, even after the job was completed by all
   /// things originally in the group.
+  /// <note>
+  /// We recommend that you use continuous jobs instead of snapshot jobs for
+  /// dynamic thing group targets. By using continuous jobs, devices that join the
+  /// group receive the job execution even after the job has been created.
+  /// </note>
   final TargetSelection? targetSelection;
 
   /// The ID of the thing group.
@@ -21251,6 +21510,7 @@ class JobSummary {
   JobSummary({
     this.completedAt,
     this.createdAt,
+    this.isConcurrent,
     this.jobArn,
     this.jobId,
     this.lastUpdatedAt,
@@ -21263,6 +21523,7 @@ class JobSummary {
     return JobSummary(
       completedAt: timeStampFromJson(json['completedAt']),
       createdAt: timeStampFromJson(json['createdAt']),
+      isConcurrent: json['isConcurrent'] as bool?,
       jobArn: json['jobArn'] as String?,
       jobId: json['jobId'] as String?,
       lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
@@ -21276,6 +21537,7 @@ class JobSummary {
   Map<String, dynamic> toJson() {
     final completedAt = this.completedAt;
     final createdAt = this.createdAt;
+    final isConcurrent = this.isConcurrent;
     final jobArn = this.jobArn;
     final jobId = this.jobId;
     final lastUpdatedAt = this.lastUpdatedAt;
@@ -21285,6 +21547,7 @@ class JobSummary {
     return {
       if (completedAt != null) 'completedAt': unixTimestampToJson(completedAt),
       if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+      if (isConcurrent != null) 'isConcurrent': isConcurrent,
       if (jobArn != null) 'jobArn': jobArn,
       if (jobId != null) 'jobId': jobId,
       if (lastUpdatedAt != null)
@@ -22286,6 +22549,39 @@ class ListManagedJobTemplatesResponse {
     return {
       if (managedJobTemplates != null)
         'managedJobTemplates': managedJobTemplates,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListMetricValuesResponse {
+  /// The data the thing reports for the metric during the specified time period.
+  final List<MetricDatum>? metricDatumList;
+
+  /// A token that can be used to retrieve the next set of results, or
+  /// <code>null</code> if there are no additional results.
+  final String? nextToken;
+
+  ListMetricValuesResponse({
+    this.metricDatumList,
+    this.nextToken,
+  });
+
+  factory ListMetricValuesResponse.fromJson(Map<String, dynamic> json) {
+    return ListMetricValuesResponse(
+      metricDatumList: (json['metricDatumList'] as List?)
+          ?.whereNotNull()
+          .map((e) => MetricDatum.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metricDatumList = this.metricDatumList;
+    final nextToken = this.nextToken;
+    return {
+      if (metricDatumList != null) 'metricDatumList': metricDatumList,
       if (nextToken != null) 'nextToken': nextToken,
     };
   }
@@ -23447,6 +23743,9 @@ class LogTargetConfiguration {
 enum LogTargetType {
   $default,
   thingGroup,
+  clientId,
+  sourceIp,
+  principalId,
 }
 
 extension on LogTargetType {
@@ -23456,6 +23755,12 @@ extension on LogTargetType {
         return 'DEFAULT';
       case LogTargetType.thingGroup:
         return 'THING_GROUP';
+      case LogTargetType.clientId:
+        return 'CLIENT_ID';
+      case LogTargetType.sourceIp:
+        return 'SOURCE_IP';
+      case LogTargetType.principalId:
+        return 'PRINCIPAL_ID';
     }
   }
 }
@@ -23467,6 +23772,12 @@ extension on String {
         return LogTargetType.$default;
       case 'THING_GROUP':
         return LogTargetType.thingGroup;
+      case 'CLIENT_ID':
+        return LogTargetType.clientId;
+      case 'SOURCE_IP':
+        return LogTargetType.sourceIp;
+      case 'PRINCIPAL_ID':
+        return LogTargetType.principalId;
     }
     throw Exception('$this is not known in enum LogTargetType');
   }
@@ -23605,6 +23916,38 @@ extension on String {
         return MessageFormat.json;
     }
     throw Exception('$this is not known in enum MessageFormat');
+  }
+}
+
+/// A metric.
+class MetricDatum {
+  /// The time the metric value was reported.
+  final DateTime? timestamp;
+
+  /// The value reported for the metric.
+  final MetricValue? value;
+
+  MetricDatum({
+    this.timestamp,
+    this.value,
+  });
+
+  factory MetricDatum.fromJson(Map<String, dynamic> json) {
+    return MetricDatum(
+      timestamp: timeStampFromJson(json['timestamp']),
+      value: json['value'] != null
+          ? MetricValue.fromJson(json['value'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final timestamp = this.timestamp;
+    final value = this.value;
+    return {
+      if (timestamp != null) 'timestamp': unixTimestampToJson(timestamp),
+      if (value != null) 'value': value,
+    };
   }
 }
 
@@ -24695,6 +25038,12 @@ class PresignedUrlConfig {
   /// The ARN of an IAM role that grants grants permission to download files from
   /// the S3 bucket where the job data/updates are stored. The role must also
   /// grant permission for IoT to download the files.
+  /// <important>
+  /// For information about addressing the confused deputy problem, see <a
+  /// href="https://docs.aws.amazon.com/iot/latest/developerguide/cross-service-confused-deputy-prevention.html">cross-service
+  /// confused deputy prevention</a> in the <i>Amazon Web Services IoT Core
+  /// developer guide</i>.
+  /// </important>
   final String? roleArn;
 
   PresignedUrlConfig({
@@ -27532,6 +27881,13 @@ class ThingIndexingConfiguration {
   /// Defender Detect.</a>
   final DeviceDefenderIndexingMode? deviceDefenderIndexingMode;
 
+  /// Provides additional filters for specific data sources. Named shadow is the
+  /// only data source that currently supports and requires a filter. To add named
+  /// shadows to your fleet indexing configuration, set
+  /// <code>namedShadowIndexingMode</code> to be <code>ON</code> and specify your
+  /// shadow names in <code>filter</code>.
+  final IndexingFilter? filter;
+
   /// Contains fields that are indexed and whose types are already known by the
   /// Fleet Indexing service.
   final List<Field>? managedFields;
@@ -27569,6 +27925,7 @@ class ThingIndexingConfiguration {
     required this.thingIndexingMode,
     this.customFields,
     this.deviceDefenderIndexingMode,
+    this.filter,
     this.managedFields,
     this.namedShadowIndexingMode,
     this.thingConnectivityIndexingMode,
@@ -27585,6 +27942,9 @@ class ThingIndexingConfiguration {
       deviceDefenderIndexingMode:
           (json['deviceDefenderIndexingMode'] as String?)
               ?.toDeviceDefenderIndexingMode(),
+      filter: json['filter'] != null
+          ? IndexingFilter.fromJson(json['filter'] as Map<String, dynamic>)
+          : null,
       managedFields: (json['managedFields'] as List?)
           ?.whereNotNull()
           .map((e) => Field.fromJson(e as Map<String, dynamic>))
@@ -27601,6 +27961,7 @@ class ThingIndexingConfiguration {
     final thingIndexingMode = this.thingIndexingMode;
     final customFields = this.customFields;
     final deviceDefenderIndexingMode = this.deviceDefenderIndexingMode;
+    final filter = this.filter;
     final managedFields = this.managedFields;
     final namedShadowIndexingMode = this.namedShadowIndexingMode;
     final thingConnectivityIndexingMode = this.thingConnectivityIndexingMode;
@@ -27609,6 +27970,7 @@ class ThingIndexingConfiguration {
       if (customFields != null) 'customFields': customFields,
       if (deviceDefenderIndexingMode != null)
         'deviceDefenderIndexingMode': deviceDefenderIndexingMode.toValue(),
+      if (filter != null) 'filter': filter,
       if (managedFields != null) 'managedFields': managedFields,
       if (namedShadowIndexingMode != null)
         'namedShadowIndexingMode': namedShadowIndexingMode.toValue(),
@@ -28654,9 +29016,12 @@ class UpdateCustomMetricResponse {
   /// The name of the custom metric.
   final String? metricName;
 
-  /// The type of the custom metric. Types include <code>string-list</code>,
-  /// <code>ip-address-list</code>, <code>number-list</code>, and
-  /// <code>number</code>.
+  /// The type of the custom metric.
+  /// <important>
+  /// The type <code>number</code> only takes a single metric value as an input,
+  /// but while submitting the metrics value in the DeviceMetrics report, it must
+  /// be passed as an array with a single value.
+  /// </important>
   final CustomMetricType? metricType;
 
   UpdateCustomMetricResponse({

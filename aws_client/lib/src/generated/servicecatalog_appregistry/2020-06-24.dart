@@ -49,6 +49,7 @@ class AppRegistry {
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
   /// May throw [ServiceQuotaExceededException].
+  /// May throw [ConflictException].
   ///
   /// Parameter [application] :
   /// The name or ID of the application.
@@ -79,6 +80,7 @@ class AppRegistry {
   /// May throw [InternalServerException].
   /// May throw [ServiceQuotaExceededException].
   /// May throw [ConflictException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [application] :
   /// The name or ID of the application.
@@ -113,6 +115,7 @@ class AppRegistry {
   /// May throw [ServiceQuotaExceededException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [name] :
   /// The name of the application. The name must be unique in the region in
@@ -287,6 +290,7 @@ class AppRegistry {
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [application] :
   /// The name or ID of the application.
@@ -325,6 +329,7 @@ class AppRegistry {
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ConflictException].
   ///
   /// Parameter [application] :
   /// The name or ID of the application.
@@ -379,6 +384,7 @@ class AppRegistry {
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ConflictException].
   ///
   /// Parameter [attributeGroup] :
   /// The name or ID of the attribute group that holds the attributes to
@@ -556,6 +562,51 @@ class AppRegistry {
     return ListAttributeGroupsResponse.fromJson(response);
   }
 
+  /// Lists the details of all attribute groups associated with a specific
+  /// application. The results display in pages.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [application] :
+  /// The name or ID of the application.
+  ///
+  /// Parameter [maxResults] :
+  /// The upper bound of the number of results to return. The value cannot
+  /// exceed 25. If you omit this parameter, it defaults to 25. This value is
+  /// optional.
+  ///
+  /// Parameter [nextToken] :
+  /// This token retrieves the next page of results after a previous API call.
+  Future<ListAttributeGroupsForApplicationResponse>
+      listAttributeGroupsForApplication({
+    required String application,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    ArgumentError.checkNotNull(application, 'application');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      25,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/applications/${Uri.encodeComponent(application)}/attribute-group-details',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListAttributeGroupsForApplicationResponse.fromJson(response);
+  }
+
   /// Lists all of the tags on the resource.
   ///
   /// May throw [ValidationException].
@@ -681,6 +732,7 @@ class AppRegistry {
   /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [application] :
   /// The name or ID of the application that will be updated.
@@ -689,8 +741,9 @@ class AppRegistry {
   /// The new description of the application.
   ///
   /// Parameter [name] :
-  /// The new name of the application. The name must be unique in the region in
-  /// which you are updating the application.
+  /// Deprecated: The new name of the application. The name must be unique in
+  /// the region in which you are updating the application. Please do not use
+  /// this field as we have stopped supporting name updates.
   Future<UpdateApplicationResponse> updateApplication({
     required String application,
     String? description,
@@ -729,8 +782,9 @@ class AppRegistry {
   /// The description of the attribute group that the user provides.
   ///
   /// Parameter [name] :
-  /// The new name of the attribute group. The name must be unique in the region
-  /// in which you are updating the attribute group.
+  /// Deprecated: The new name of the attribute group. The name must be unique
+  /// in the region in which you are updating the attribute group. Please do not
+  /// use this field as we have stopped supporting name updates.
   Future<UpdateAttributeGroupResponse> updateAttributeGroup({
     required String attributeGroup,
     String? attributes,
@@ -1018,6 +1072,43 @@ class AttributeGroup {
         'lastUpdateTime': iso8601ToJson(lastUpdateTime),
       if (name != null) 'name': name,
       if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+/// The details related to a specific AttributeGroup.
+class AttributeGroupDetails {
+  /// The Amazon resource name (ARN) that specifies the attribute group.
+  final String? arn;
+
+  /// The unique identifier of the attribute group.
+  final String? id;
+
+  /// The name of the attribute group.
+  final String? name;
+
+  AttributeGroupDetails({
+    this.arn,
+    this.id,
+    this.name,
+  });
+
+  factory AttributeGroupDetails.fromJson(Map<String, dynamic> json) {
+    return AttributeGroupDetails(
+      arn: json['arn'] as String?,
+      id: json['id'] as String?,
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final id = this.id;
+    final name = this.name;
+    return {
+      if (arn != null) 'arn': arn,
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
     };
   }
 }
@@ -1554,6 +1645,40 @@ class ListAssociatedResourcesResponse {
     return {
       if (nextToken != null) 'nextToken': nextToken,
       if (resources != null) 'resources': resources,
+    };
+  }
+}
+
+class ListAttributeGroupsForApplicationResponse {
+  /// The details related to a specific AttributeGroup.
+  final List<AttributeGroupDetails>? attributeGroupsDetails;
+
+  /// The token to use to get the next page of results after a previous API call.
+  final String? nextToken;
+
+  ListAttributeGroupsForApplicationResponse({
+    this.attributeGroupsDetails,
+    this.nextToken,
+  });
+
+  factory ListAttributeGroupsForApplicationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListAttributeGroupsForApplicationResponse(
+      attributeGroupsDetails: (json['attributeGroupsDetails'] as List?)
+          ?.whereNotNull()
+          .map((e) => AttributeGroupDetails.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributeGroupsDetails = this.attributeGroupsDetails;
+    final nextToken = this.nextToken;
+    return {
+      if (attributeGroupsDetails != null)
+        'attributeGroupsDetails': attributeGroupsDetails,
+      if (nextToken != null) 'nextToken': nextToken,
     };
   }
 }

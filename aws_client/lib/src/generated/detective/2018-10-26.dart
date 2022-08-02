@@ -36,11 +36,13 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// Detective is also integrated with Organizations. The organization management
 /// account designates the Detective administrator account for the organization.
 /// That account becomes the administrator account for the organization behavior
-/// graph. The Detective administrator account can enable any organization
-/// account as a member account in the organization behavior graph. The
-/// organization accounts do not receive invitations. The Detective
-/// administrator account can also invite other accounts to the organization
-/// behavior graph.
+/// graph. The Detective administrator account is also the delegated
+/// administrator account for Detective in Organizations.
+///
+/// The Detective administrator account can enable any organization account as a
+/// member account in the organization behavior graph. The organization accounts
+/// do not receive invitations. The Detective administrator account can also
+/// invite other accounts to the organization behavior graph.
 ///
 /// Every behavior graph is specific to a Region. You can only use the API to
 /// manage behavior graphs that belong to the Region that is associated with the
@@ -157,6 +159,62 @@ class Detective {
       requestUri: '/invitation',
       exceptionFnMap: _exceptionFns,
     );
+  }
+
+  /// Gets data source package information for the behavior graph.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [accountIds] :
+  /// The list of Amazon Web Services accounts to get data source package
+  /// information on.
+  ///
+  /// Parameter [graphArn] :
+  /// The ARN of the behavior graph.
+  Future<BatchGetGraphMemberDatasourcesResponse>
+      batchGetGraphMemberDatasources({
+    required List<String> accountIds,
+    required String graphArn,
+  }) async {
+    ArgumentError.checkNotNull(accountIds, 'accountIds');
+    ArgumentError.checkNotNull(graphArn, 'graphArn');
+    final $payload = <String, dynamic>{
+      'AccountIds': accountIds,
+      'GraphArn': graphArn,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/graph/datasources/get',
+      exceptionFnMap: _exceptionFns,
+    );
+    return BatchGetGraphMemberDatasourcesResponse.fromJson(response);
+  }
+
+  /// Gets information on the data source package history for an account.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [graphArns] :
+  /// The ARN of the behavior graph.
+  Future<BatchGetMembershipDatasourcesResponse> batchGetMembershipDatasources({
+    required List<String> graphArns,
+  }) async {
+    ArgumentError.checkNotNull(graphArns, 'graphArns');
+    final $payload = <String, dynamic>{
+      'GraphArns': graphArns,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/membership/datasources/get',
+      exceptionFnMap: _exceptionFns,
+    );
+    return BatchGetMembershipDatasourcesResponse.fromJson(response);
   }
 
   /// Creates a new behavior graph for the calling account, and sets that
@@ -401,12 +459,19 @@ class Detective {
     return DescribeOrganizationConfigurationResponse.fromJson(response);
   }
 
-  /// Removes the Detective administrator account for the organization in the
-  /// current Region. Deletes the behavior graph for that account.
+  /// Removes the Detective administrator account in the current Region. Deletes
+  /// the organization behavior graph.
   ///
-  /// Can only be called by the organization management account. Before you can
-  /// select a different Detective administrator account, you must remove the
-  /// Detective administrator account in all Regions.
+  /// Can only be called by the organization management account.
+  ///
+  /// Removing the Detective administrator account does not affect the delegated
+  /// administrator account for Detective in Organizations.
+  ///
+  /// To remove the delegated administrator account in Organizations, use the
+  /// Organizations API. Removing the delegated administrator account also
+  /// removes the Detective administrator account in all Regions, except for
+  /// Regions where the Detective administrator account is the organization
+  /// management account.
   ///
   /// May throw [InternalServerException].
   /// May throw [ValidationException].
@@ -462,9 +527,16 @@ class Detective {
   ///
   /// Can only be called by the organization management account.
   ///
-  /// The Detective administrator account for an organization must be the same
-  /// in all Regions. If you already designated a Detective administrator
-  /// account in another Region, then you must designate the same account.
+  /// If the organization has a delegated administrator account in
+  /// Organizations, then the Detective administrator account must be either the
+  /// delegated administrator account or the organization management account.
+  ///
+  /// If the organization does not have a delegated administrator account in
+  /// Organizations, then you can choose any account in the organization. If you
+  /// choose an account other than the organization management account,
+  /// Detective calls Organizations to make that account the delegated
+  /// administrator account for Detective. The organization management account
+  /// cannot be the delegated administrator account.
   ///
   /// May throw [InternalServerException].
   /// May throw [ValidationException].
@@ -522,6 +594,48 @@ class Detective {
       exceptionFnMap: _exceptionFns,
     );
     return GetMembersResponse.fromJson(response);
+  }
+
+  /// Lists data source packages in the behavior graph.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [graphArn] :
+  /// The ARN of the behavior graph.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return.
+  ///
+  /// Parameter [nextToken] :
+  /// For requests to get the next page of results, the pagination token that
+  /// was returned with the previous set of results. The initial request does
+  /// not include a pagination token.
+  Future<ListDatasourcePackagesResponse> listDatasourcePackages({
+    required String graphArn,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    ArgumentError.checkNotNull(graphArn, 'graphArn');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      200,
+    );
+    final $payload = <String, dynamic>{
+      'GraphArn': graphArn,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/graph/datasources/list',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListDatasourcePackagesResponse.fromJson(response);
   }
 
   /// Returns the list of behavior graphs that the calling account is an
@@ -864,6 +978,36 @@ class Detective {
     );
   }
 
+  /// Starts a data source packages for the behavior graph.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [datasourcePackages] :
+  /// The data source package start for the behavior graph.
+  ///
+  /// Parameter [graphArn] :
+  /// The ARN of the behavior graph.
+  Future<void> updateDatasourcePackages({
+    required List<DatasourcePackage> datasourcePackages,
+    required String graphArn,
+  }) async {
+    ArgumentError.checkNotNull(datasourcePackages, 'datasourcePackages');
+    ArgumentError.checkNotNull(graphArn, 'graphArn');
+    final $payload = <String, dynamic>{
+      'DatasourcePackages': datasourcePackages.map((e) => e.toValue()).toList(),
+      'GraphArn': graphArn,
+    };
+    await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/graph/datasources/update',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Updates the configuration for the Organizations integration in the current
   /// Region. Can only be called by the Detective administrator account for the
   /// organization.
@@ -969,6 +1113,82 @@ class Administrator {
   }
 }
 
+class BatchGetGraphMemberDatasourcesResponse {
+  /// Details on the status of data source packages for members of the behavior
+  /// graph.
+  final List<MembershipDatasources>? memberDatasources;
+
+  /// Accounts that data source package information could not be retrieved for.
+  final List<UnprocessedAccount>? unprocessedAccounts;
+
+  BatchGetGraphMemberDatasourcesResponse({
+    this.memberDatasources,
+    this.unprocessedAccounts,
+  });
+
+  factory BatchGetGraphMemberDatasourcesResponse.fromJson(
+      Map<String, dynamic> json) {
+    return BatchGetGraphMemberDatasourcesResponse(
+      memberDatasources: (json['MemberDatasources'] as List?)
+          ?.whereNotNull()
+          .map((e) => MembershipDatasources.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      unprocessedAccounts: (json['UnprocessedAccounts'] as List?)
+          ?.whereNotNull()
+          .map((e) => UnprocessedAccount.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final memberDatasources = this.memberDatasources;
+    final unprocessedAccounts = this.unprocessedAccounts;
+    return {
+      if (memberDatasources != null) 'MemberDatasources': memberDatasources,
+      if (unprocessedAccounts != null)
+        'UnprocessedAccounts': unprocessedAccounts,
+    };
+  }
+}
+
+class BatchGetMembershipDatasourcesResponse {
+  /// Details on the data source package history for an member of the behavior
+  /// graph.
+  final List<MembershipDatasources>? membershipDatasources;
+
+  /// Graphs that data source package information could not be retrieved for.
+  final List<UnprocessedGraph>? unprocessedGraphs;
+
+  BatchGetMembershipDatasourcesResponse({
+    this.membershipDatasources,
+    this.unprocessedGraphs,
+  });
+
+  factory BatchGetMembershipDatasourcesResponse.fromJson(
+      Map<String, dynamic> json) {
+    return BatchGetMembershipDatasourcesResponse(
+      membershipDatasources: (json['MembershipDatasources'] as List?)
+          ?.whereNotNull()
+          .map((e) => MembershipDatasources.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      unprocessedGraphs: (json['UnprocessedGraphs'] as List?)
+          ?.whereNotNull()
+          .map((e) => UnprocessedGraph.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final membershipDatasources = this.membershipDatasources;
+    final unprocessedGraphs = this.unprocessedGraphs;
+    return {
+      if (membershipDatasources != null)
+        'MembershipDatasources': membershipDatasources,
+      if (unprocessedGraphs != null) 'UnprocessedGraphs': unprocessedGraphs,
+    };
+  }
+}
+
 class CreateGraphResponse {
   /// The ARN of the new behavior graph.
   final String? graphArn;
@@ -1029,6 +1249,140 @@ class CreateMembersResponse {
       if (members != null) 'Members': members,
       if (unprocessedAccounts != null)
         'UnprocessedAccounts': unprocessedAccounts,
+    };
+  }
+}
+
+enum DatasourcePackage {
+  detectiveCore,
+  eksAudit,
+}
+
+extension on DatasourcePackage {
+  String toValue() {
+    switch (this) {
+      case DatasourcePackage.detectiveCore:
+        return 'DETECTIVE_CORE';
+      case DatasourcePackage.eksAudit:
+        return 'EKS_AUDIT';
+    }
+  }
+}
+
+extension on String {
+  DatasourcePackage toDatasourcePackage() {
+    switch (this) {
+      case 'DETECTIVE_CORE':
+        return DatasourcePackage.detectiveCore;
+      case 'EKS_AUDIT':
+        return DatasourcePackage.eksAudit;
+    }
+    throw Exception('$this is not known in enum DatasourcePackage');
+  }
+}
+
+/// Details about the data source packages ingested by your behavior graph.
+class DatasourcePackageIngestDetail {
+  /// Details on which data source packages are ingested for a member account.
+  final DatasourcePackageIngestState? datasourcePackageIngestState;
+
+  /// The date a data source package was enabled for this account
+  final Map<DatasourcePackageIngestState, TimestampForCollection>?
+      lastIngestStateChange;
+
+  DatasourcePackageIngestDetail({
+    this.datasourcePackageIngestState,
+    this.lastIngestStateChange,
+  });
+
+  factory DatasourcePackageIngestDetail.fromJson(Map<String, dynamic> json) {
+    return DatasourcePackageIngestDetail(
+      datasourcePackageIngestState:
+          (json['DatasourcePackageIngestState'] as String?)
+              ?.toDatasourcePackageIngestState(),
+      lastIngestStateChange:
+          (json['LastIngestStateChange'] as Map<String, dynamic>?)?.map(
+              (k, e) => MapEntry(k.toDatasourcePackageIngestState(),
+                  TimestampForCollection.fromJson(e as Map<String, dynamic>))),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final datasourcePackageIngestState = this.datasourcePackageIngestState;
+    final lastIngestStateChange = this.lastIngestStateChange;
+    return {
+      if (datasourcePackageIngestState != null)
+        'DatasourcePackageIngestState': datasourcePackageIngestState.toValue(),
+      if (lastIngestStateChange != null)
+        'LastIngestStateChange':
+            lastIngestStateChange.map((k, e) => MapEntry(k.toValue(), e)),
+    };
+  }
+}
+
+enum DatasourcePackageIngestState {
+  started,
+  stopped,
+  disabled,
+}
+
+extension on DatasourcePackageIngestState {
+  String toValue() {
+    switch (this) {
+      case DatasourcePackageIngestState.started:
+        return 'STARTED';
+      case DatasourcePackageIngestState.stopped:
+        return 'STOPPED';
+      case DatasourcePackageIngestState.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension on String {
+  DatasourcePackageIngestState toDatasourcePackageIngestState() {
+    switch (this) {
+      case 'STARTED':
+        return DatasourcePackageIngestState.started;
+      case 'STOPPED':
+        return DatasourcePackageIngestState.stopped;
+      case 'DISABLED':
+        return DatasourcePackageIngestState.disabled;
+    }
+    throw Exception('$this is not known in enum DatasourcePackageIngestState');
+  }
+}
+
+/// Information on the usage of a data source package in the behavior graph.
+class DatasourcePackageUsageInfo {
+  /// Total volume of data in bytes per day ingested for a given data source
+  /// package.
+  final int? volumeUsageInBytes;
+
+  /// The data and time when the member account data volume was last updated. The
+  /// value is an ISO8601 formatted string. For example,
+  /// <code>2021-08-18T16:35:56.284Z</code>.
+  final DateTime? volumeUsageUpdateTime;
+
+  DatasourcePackageUsageInfo({
+    this.volumeUsageInBytes,
+    this.volumeUsageUpdateTime,
+  });
+
+  factory DatasourcePackageUsageInfo.fromJson(Map<String, dynamic> json) {
+    return DatasourcePackageUsageInfo(
+      volumeUsageInBytes: json['VolumeUsageInBytes'] as int?,
+      volumeUsageUpdateTime: timeStampFromJson(json['VolumeUsageUpdateTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final volumeUsageInBytes = this.volumeUsageInBytes;
+    final volumeUsageUpdateTime = this.volumeUsageUpdateTime;
+    return {
+      if (volumeUsageInBytes != null) 'VolumeUsageInBytes': volumeUsageInBytes,
+      if (volumeUsageUpdateTime != null)
+        'VolumeUsageUpdateTime': iso8601ToJson(volumeUsageUpdateTime),
     };
   }
 }
@@ -1197,6 +1551,44 @@ extension on String {
   }
 }
 
+class ListDatasourcePackagesResponse {
+  /// Details on the data source packages active in the behavior graph.
+  final Map<DatasourcePackage, DatasourcePackageIngestDetail>?
+      datasourcePackages;
+
+  /// For requests to get the next page of results, the pagination token that was
+  /// returned with the previous set of results. The initial request does not
+  /// include a pagination token.
+  final String? nextToken;
+
+  ListDatasourcePackagesResponse({
+    this.datasourcePackages,
+    this.nextToken,
+  });
+
+  factory ListDatasourcePackagesResponse.fromJson(Map<String, dynamic> json) {
+    return ListDatasourcePackagesResponse(
+      datasourcePackages: (json['DatasourcePackages'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(
+              k.toDatasourcePackage(),
+              DatasourcePackageIngestDetail.fromJson(
+                  e as Map<String, dynamic>))),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final datasourcePackages = this.datasourcePackages;
+    final nextToken = this.nextToken;
+    return {
+      if (datasourcePackages != null)
+        'DatasourcePackages':
+            datasourcePackages.map((k, e) => MapEntry(k.toValue(), e)),
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
 class ListGraphsResponse {
   /// A list of behavior graphs that the account is an administrator account for.
   final List<Graph>? graphList;
@@ -1307,7 +1699,7 @@ class ListMembersResponse {
 }
 
 class ListOrganizationAdminAccountsResponse {
-  /// The list of delegated administrator accounts.
+  /// The list of Detective administrator accounts.
   final List<Administrator>? administrators;
 
   /// If there are more accounts remaining in the results, then this is the
@@ -1372,6 +1764,10 @@ class MemberDetail {
   /// The Amazon Web Services account identifier of the administrator account for
   /// the behavior graph.
   final String? administratorId;
+
+  /// The state of a data source package for the behavior graph.
+  final Map<DatasourcePackage, DatasourcePackageIngestState>?
+      datasourcePackageIngestStates;
 
   /// For member accounts with a status of <code>ACCEPTED_BUT_DISABLED</code>, the
   /// reason that the member account is not enabled.
@@ -1480,6 +1876,11 @@ class MemberDetail {
   /// <code>2021-08-18T16:35:56.284Z</code>.
   final DateTime? updatedTime;
 
+  /// Details on the volume of usage for each data source package in a behavior
+  /// graph.
+  final Map<DatasourcePackage, DatasourcePackageUsageInfo>?
+      volumeUsageByDatasourcePackage;
+
   /// The data volume in bytes per day for the member account.
   final int? volumeUsageInBytes;
 
@@ -1491,6 +1892,7 @@ class MemberDetail {
   MemberDetail({
     this.accountId,
     this.administratorId,
+    this.datasourcePackageIngestStates,
     this.disabledReason,
     this.emailAddress,
     this.graphArn,
@@ -1501,6 +1903,7 @@ class MemberDetail {
     this.percentOfGraphUtilizationUpdatedTime,
     this.status,
     this.updatedTime,
+    this.volumeUsageByDatasourcePackage,
     this.volumeUsageInBytes,
     this.volumeUsageUpdatedTime,
   });
@@ -1509,6 +1912,10 @@ class MemberDetail {
     return MemberDetail(
       accountId: json['AccountId'] as String?,
       administratorId: json['AdministratorId'] as String?,
+      datasourcePackageIngestStates:
+          (json['DatasourcePackageIngestStates'] as Map<String, dynamic>?)?.map(
+              (k, e) => MapEntry(k.toDatasourcePackage(),
+                  (e as String).toDatasourcePackageIngestState())),
       disabledReason:
           (json['DisabledReason'] as String?)?.toMemberDisabledReason(),
       emailAddress: json['EmailAddress'] as String?,
@@ -1521,6 +1928,10 @@ class MemberDetail {
           timeStampFromJson(json['PercentOfGraphUtilizationUpdatedTime']),
       status: (json['Status'] as String?)?.toMemberStatus(),
       updatedTime: timeStampFromJson(json['UpdatedTime']),
+      volumeUsageByDatasourcePackage: (json['VolumeUsageByDatasourcePackage']
+              as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k.toDatasourcePackage(),
+              DatasourcePackageUsageInfo.fromJson(e as Map<String, dynamic>))),
       volumeUsageInBytes: json['VolumeUsageInBytes'] as int?,
       volumeUsageUpdatedTime: timeStampFromJson(json['VolumeUsageUpdatedTime']),
     );
@@ -1529,6 +1940,7 @@ class MemberDetail {
   Map<String, dynamic> toJson() {
     final accountId = this.accountId;
     final administratorId = this.administratorId;
+    final datasourcePackageIngestStates = this.datasourcePackageIngestStates;
     final disabledReason = this.disabledReason;
     final emailAddress = this.emailAddress;
     final graphArn = this.graphArn;
@@ -1540,11 +1952,15 @@ class MemberDetail {
         this.percentOfGraphUtilizationUpdatedTime;
     final status = this.status;
     final updatedTime = this.updatedTime;
+    final volumeUsageByDatasourcePackage = this.volumeUsageByDatasourcePackage;
     final volumeUsageInBytes = this.volumeUsageInBytes;
     final volumeUsageUpdatedTime = this.volumeUsageUpdatedTime;
     return {
       if (accountId != null) 'AccountId': accountId,
       if (administratorId != null) 'AdministratorId': administratorId,
+      if (datasourcePackageIngestStates != null)
+        'DatasourcePackageIngestStates': datasourcePackageIngestStates
+            .map((k, e) => MapEntry(k.toValue(), e.toValue())),
       if (disabledReason != null) 'DisabledReason': disabledReason.toValue(),
       if (emailAddress != null) 'EmailAddress': emailAddress,
       if (graphArn != null) 'GraphArn': graphArn,
@@ -1558,6 +1974,9 @@ class MemberDetail {
             iso8601ToJson(percentOfGraphUtilizationUpdatedTime),
       if (status != null) 'Status': status.toValue(),
       if (updatedTime != null) 'UpdatedTime': iso8601ToJson(updatedTime),
+      if (volumeUsageByDatasourcePackage != null)
+        'VolumeUsageByDatasourcePackage': volumeUsageByDatasourcePackage
+            .map((k, e) => MapEntry(k.toValue(), e)),
       if (volumeUsageInBytes != null) 'VolumeUsageInBytes': volumeUsageInBytes,
       if (volumeUsageUpdatedTime != null)
         'VolumeUsageUpdatedTime': iso8601ToJson(volumeUsageUpdatedTime),
@@ -1636,6 +2055,55 @@ extension on String {
   }
 }
 
+/// Details on data source packages for members of the behavior graph.
+class MembershipDatasources {
+  /// The account identifier of the Amazon Web Services account.
+  final String? accountId;
+
+  /// Details on when a data source package was added to a behavior graph.
+  final Map<DatasourcePackage,
+          Map<DatasourcePackageIngestState, TimestampForCollection>>?
+      datasourcePackageIngestHistory;
+
+  /// The ARN of the organization behavior graph.
+  final String? graphArn;
+
+  MembershipDatasources({
+    this.accountId,
+    this.datasourcePackageIngestHistory,
+    this.graphArn,
+  });
+
+  factory MembershipDatasources.fromJson(Map<String, dynamic> json) {
+    return MembershipDatasources(
+      accountId: json['AccountId'] as String?,
+      datasourcePackageIngestHistory:
+          (json['DatasourcePackageIngestHistory'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(
+                  k.toDatasourcePackage(),
+                  (e as Map<String, dynamic>).map((k, e) => MapEntry(
+                      k.toDatasourcePackageIngestState(),
+                      TimestampForCollection.fromJson(
+                          e as Map<String, dynamic>))))),
+      graphArn: json['GraphArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final datasourcePackageIngestHistory = this.datasourcePackageIngestHistory;
+    final graphArn = this.graphArn;
+    return {
+      if (accountId != null) 'AccountId': accountId,
+      if (datasourcePackageIngestHistory != null)
+        'DatasourcePackageIngestHistory': datasourcePackageIngestHistory.map((k,
+                e) =>
+            MapEntry(k.toValue(), e.map((k, e) => MapEntry(k.toValue(), e)))),
+      if (graphArn != null) 'GraphArn': graphArn,
+    };
+  }
+}
+
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -1645,6 +2113,31 @@ class TagResourceResponse {
 
   Map<String, dynamic> toJson() {
     return {};
+  }
+}
+
+/// Details on when data collection began for a source package.
+class TimestampForCollection {
+  /// The data and time when data collection began for a source package. The value
+  /// is an ISO8601 formatted string. For example,
+  /// <code>2021-08-18T16:35:56.284Z</code>.
+  final DateTime? timestamp;
+
+  TimestampForCollection({
+    this.timestamp,
+  });
+
+  factory TimestampForCollection.fromJson(Map<String, dynamic> json) {
+    return TimestampForCollection(
+      timestamp: timeStampFromJson(json['Timestamp']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final timestamp = this.timestamp;
+    return {
+      if (timestamp != null) 'Timestamp': iso8601ToJson(timestamp),
+    };
   }
 }
 
@@ -1675,6 +2168,37 @@ class UnprocessedAccount {
     final reason = this.reason;
     return {
       if (accountId != null) 'AccountId': accountId,
+      if (reason != null) 'Reason': reason,
+    };
+  }
+}
+
+/// Behavior graphs that could not be processed in the request.
+class UnprocessedGraph {
+  /// The ARN of the organization behavior graph.
+  final String? graphArn;
+
+  /// The reason data source package information could not be processed for a
+  /// behavior graph.
+  final String? reason;
+
+  UnprocessedGraph({
+    this.graphArn,
+    this.reason,
+  });
+
+  factory UnprocessedGraph.fromJson(Map<String, dynamic> json) {
+    return UnprocessedGraph(
+      graphArn: json['GraphArn'] as String?,
+      reason: json['Reason'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final graphArn = this.graphArn;
+    final reason = this.reason;
+    return {
+      if (graphArn != null) 'GraphArn': graphArn,
       if (reason != null) 'Reason': reason,
     };
   }

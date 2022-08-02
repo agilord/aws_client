@@ -1097,6 +1097,11 @@ class DashManifest {
   /// The Dynamic Adaptive Streaming over HTTP (DASH) profile type.  When set to
   /// "HBBTV_1_5", HbbTV 1.5 compliant output is enabled.
   final Profile? profile;
+
+  /// The source of scte markers used. When set to SEGMENTS, the scte markers are
+  /// sourced from the segments of the ingested content. When set to MANIFEST, the
+  /// scte markers are sourced from the manifest of the ingested content.
+  final ScteMarkersSource? scteMarkersSource;
   final StreamSelection? streamSelection;
 
   DashManifest({
@@ -1104,6 +1109,7 @@ class DashManifest {
     this.manifestName,
     this.minBufferTimeSeconds,
     this.profile,
+    this.scteMarkersSource,
     this.streamSelection,
   });
 
@@ -1113,6 +1119,8 @@ class DashManifest {
       manifestName: json['manifestName'] as String?,
       minBufferTimeSeconds: json['minBufferTimeSeconds'] as int?,
       profile: (json['profile'] as String?)?.toProfile(),
+      scteMarkersSource:
+          (json['scteMarkersSource'] as String?)?.toScteMarkersSource(),
       streamSelection: json['streamSelection'] != null
           ? StreamSelection.fromJson(
               json['streamSelection'] as Map<String, dynamic>)
@@ -1125,6 +1133,7 @@ class DashManifest {
     final manifestName = this.manifestName;
     final minBufferTimeSeconds = this.minBufferTimeSeconds;
     final profile = this.profile;
+    final scteMarkersSource = this.scteMarkersSource;
     final streamSelection = this.streamSelection;
     return {
       if (manifestLayout != null) 'manifestLayout': manifestLayout.toValue(),
@@ -1132,6 +1141,8 @@ class DashManifest {
       if (minBufferTimeSeconds != null)
         'minBufferTimeSeconds': minBufferTimeSeconds,
       if (profile != null) 'profile': profile.toValue(),
+      if (scteMarkersSource != null)
+        'scteMarkersSource': scteMarkersSource.toValue(),
       if (streamSelection != null) 'streamSelection': streamSelection,
     };
   }
@@ -2146,6 +2157,34 @@ extension on String {
         return Profile.hbbtv_1_5;
     }
     throw Exception('$this is not known in enum Profile');
+  }
+}
+
+enum ScteMarkersSource {
+  segments,
+  manifest,
+}
+
+extension on ScteMarkersSource {
+  String toValue() {
+    switch (this) {
+      case ScteMarkersSource.segments:
+        return 'SEGMENTS';
+      case ScteMarkersSource.manifest:
+        return 'MANIFEST';
+    }
+  }
+}
+
+extension on String {
+  ScteMarkersSource toScteMarkersSource() {
+    switch (this) {
+      case 'SEGMENTS':
+        return ScteMarkersSource.segments;
+      case 'MANIFEST':
+        return ScteMarkersSource.manifest;
+    }
+    throw Exception('$this is not known in enum ScteMarkersSource');
   }
 }
 

@@ -7018,6 +7018,9 @@ class ApplicationResponse {
   /// <b>Project name</b> on the Amazon Pinpoint console.
   final String name;
 
+  /// The date and time when the Application was created.
+  final String? creationDate;
+
   /// A string-to-string map of key-value pairs that identifies the tags that are
   /// associated with the application. Each tag consists of a required tag key and
   /// an associated tag value.
@@ -7027,6 +7030,7 @@ class ApplicationResponse {
     required this.arn,
     required this.id,
     required this.name,
+    this.creationDate,
     this.tags,
   });
 
@@ -7035,6 +7039,7 @@ class ApplicationResponse {
       arn: json['Arn'] as String,
       id: json['Id'] as String,
       name: json['Name'] as String,
+      creationDate: json['CreationDate'] as String?,
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -7044,11 +7049,13 @@ class ApplicationResponse {
     final arn = this.arn;
     final id = this.id;
     final name = this.name;
+    final creationDate = this.creationDate;
     final tags = this.tags;
     return {
       'Arn': arn,
       'Id': id,
       'Name': name,
+      if (creationDate != null) 'CreationDate': creationDate,
       if (tags != null) 'tags': tags,
     };
   }
@@ -22075,6 +22082,9 @@ class WriteJourneyRequest {
   /// The date, in ISO 8601 format, when the journey was created.
   final String? creationDate;
 
+  /// The channel-specific configurations for the journey.
+  final JourneyChannelSettings? journeyChannelSettings;
+
   /// The date, in ISO 8601 format, when the journey was last modified.
   final String? lastModifiedDate;
 
@@ -22154,6 +22164,7 @@ class WriteJourneyRequest {
     required this.name,
     this.activities,
     this.creationDate,
+    this.journeyChannelSettings,
     this.lastModifiedDate,
     this.limits,
     this.localTime,
@@ -22173,6 +22184,10 @@ class WriteJourneyRequest {
       activities: (json['Activities'] as Map<String, dynamic>?)?.map(
           (k, e) => MapEntry(k, Activity.fromJson(e as Map<String, dynamic>))),
       creationDate: json['CreationDate'] as String?,
+      journeyChannelSettings: json['JourneyChannelSettings'] != null
+          ? JourneyChannelSettings.fromJson(
+              json['JourneyChannelSettings'] as Map<String, dynamic>)
+          : null,
       lastModifiedDate: json['LastModifiedDate'] as String?,
       limits: json['Limits'] != null
           ? JourneyLimits.fromJson(json['Limits'] as Map<String, dynamic>)
@@ -22200,6 +22215,7 @@ class WriteJourneyRequest {
     final name = this.name;
     final activities = this.activities;
     final creationDate = this.creationDate;
+    final journeyChannelSettings = this.journeyChannelSettings;
     final lastModifiedDate = this.lastModifiedDate;
     final limits = this.limits;
     final localTime = this.localTime;
@@ -22215,6 +22231,8 @@ class WriteJourneyRequest {
       'Name': name,
       if (activities != null) 'Activities': activities,
       if (creationDate != null) 'CreationDate': creationDate,
+      if (journeyChannelSettings != null)
+        'JourneyChannelSettings': journeyChannelSettings,
       if (lastModifiedDate != null) 'LastModifiedDate': lastModifiedDate,
       if (limits != null) 'Limits': limits,
       if (localTime != null) 'LocalTime': localTime,

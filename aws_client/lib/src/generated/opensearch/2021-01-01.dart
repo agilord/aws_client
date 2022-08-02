@@ -535,6 +535,40 @@ class OpenSearch {
     return DescribeDomainAutoTunesResponse.fromJson(response);
   }
 
+  /// Returns information about the current blue/green deployment happening on a
+  /// domain, including a change ID, status, and progress stages.
+  ///
+  /// May throw [BaseException].
+  /// May throw [InternalException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [domainName] :
+  /// The domain you want to get the progress information about.
+  ///
+  /// Parameter [changeId] :
+  /// The specific change ID for which you want to get progress information.
+  /// This is an optional parameter. If omitted, the service returns information
+  /// about the most recent configuration change.
+  Future<DescribeDomainChangeProgressResponse> describeDomainChangeProgress({
+    required String domainName,
+    String? changeId,
+  }) async {
+    ArgumentError.checkNotNull(domainName, 'domainName');
+    final $query = <String, List<String>>{
+      if (changeId != null) 'changeid': [changeId],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/2021-01-01/opensearch/domain/${Uri.encodeComponent(domainName)}/progress',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeDomainChangeProgressResponse.fromJson(response);
+  }
+
   /// Provides cluster configuration information about the specified domain,
   /// such as the state, creation date, update version, and update date for
   /// cluster options.
@@ -1741,6 +1775,13 @@ class AdvancedOptionsStatus {
 /// The advanced security configuration: whether advanced security is enabled,
 /// whether the internal database option is enabled.
 class AdvancedSecurityOptions {
+  /// Specifies the Anonymous Auth Disable Date when Anonymous Auth is enabled.
+  final DateTime? anonymousAuthDisableDate;
+
+  /// True if Anonymous auth is enabled. Anonymous auth can be enabled only when
+  /// AdvancedSecurity is enabled on existing domains.
+  final bool? anonymousAuthEnabled;
+
   /// True if advanced security is enabled.
   final bool? enabled;
 
@@ -1751,6 +1792,8 @@ class AdvancedSecurityOptions {
   final SAMLOptionsOutput? sAMLOptions;
 
   AdvancedSecurityOptions({
+    this.anonymousAuthDisableDate,
+    this.anonymousAuthEnabled,
     this.enabled,
     this.internalUserDatabaseEnabled,
     this.sAMLOptions,
@@ -1758,6 +1801,9 @@ class AdvancedSecurityOptions {
 
   factory AdvancedSecurityOptions.fromJson(Map<String, dynamic> json) {
     return AdvancedSecurityOptions(
+      anonymousAuthDisableDate:
+          timeStampFromJson(json['AnonymousAuthDisableDate']),
+      anonymousAuthEnabled: json['AnonymousAuthEnabled'] as bool?,
       enabled: json['Enabled'] as bool?,
       internalUserDatabaseEnabled: json['InternalUserDatabaseEnabled'] as bool?,
       sAMLOptions: json['SAMLOptions'] != null
@@ -1768,10 +1814,17 @@ class AdvancedSecurityOptions {
   }
 
   Map<String, dynamic> toJson() {
+    final anonymousAuthDisableDate = this.anonymousAuthDisableDate;
+    final anonymousAuthEnabled = this.anonymousAuthEnabled;
     final enabled = this.enabled;
     final internalUserDatabaseEnabled = this.internalUserDatabaseEnabled;
     final sAMLOptions = this.sAMLOptions;
     return {
+      if (anonymousAuthDisableDate != null)
+        'AnonymousAuthDisableDate':
+            unixTimestampToJson(anonymousAuthDisableDate),
+      if (anonymousAuthEnabled != null)
+        'AnonymousAuthEnabled': anonymousAuthEnabled,
       if (enabled != null) 'Enabled': enabled,
       if (internalUserDatabaseEnabled != null)
         'InternalUserDatabaseEnabled': internalUserDatabaseEnabled,
@@ -1785,6 +1838,10 @@ class AdvancedSecurityOptions {
 /// password (if internal database is enabled), and master user ARN (if IAM is
 /// enabled).
 class AdvancedSecurityOptionsInput {
+  /// True if Anonymous auth is enabled. Anonymous auth can be enabled only when
+  /// AdvancedSecurity is enabled on existing domains.
+  final bool? anonymousAuthEnabled;
+
   /// True if advanced security is enabled.
   final bool? enabled;
 
@@ -1798,6 +1855,7 @@ class AdvancedSecurityOptionsInput {
   final SAMLOptionsInput? sAMLOptions;
 
   AdvancedSecurityOptionsInput({
+    this.anonymousAuthEnabled,
     this.enabled,
     this.internalUserDatabaseEnabled,
     this.masterUserOptions,
@@ -1806,6 +1864,7 @@ class AdvancedSecurityOptionsInput {
 
   factory AdvancedSecurityOptionsInput.fromJson(Map<String, dynamic> json) {
     return AdvancedSecurityOptionsInput(
+      anonymousAuthEnabled: json['AnonymousAuthEnabled'] as bool?,
       enabled: json['Enabled'] as bool?,
       internalUserDatabaseEnabled: json['InternalUserDatabaseEnabled'] as bool?,
       masterUserOptions: json['MasterUserOptions'] != null
@@ -1820,11 +1879,14 @@ class AdvancedSecurityOptionsInput {
   }
 
   Map<String, dynamic> toJson() {
+    final anonymousAuthEnabled = this.anonymousAuthEnabled;
     final enabled = this.enabled;
     final internalUserDatabaseEnabled = this.internalUserDatabaseEnabled;
     final masterUserOptions = this.masterUserOptions;
     final sAMLOptions = this.sAMLOptions;
     return {
+      if (anonymousAuthEnabled != null)
+        'AnonymousAuthEnabled': anonymousAuthEnabled,
       if (enabled != null) 'Enabled': enabled,
       if (internalUserDatabaseEnabled != null)
         'InternalUserDatabaseEnabled': internalUserDatabaseEnabled,
@@ -2365,6 +2427,165 @@ class CancelServiceSoftwareUpdateResponse {
     return {
       if (serviceSoftwareOptions != null)
         'ServiceSoftwareOptions': serviceSoftwareOptions,
+    };
+  }
+}
+
+/// Specifies change details of the domain configuration change.
+class ChangeProgressDetails {
+  /// The unique change identifier associated with a specific domain configuration
+  /// change.
+  final String? changeId;
+
+  /// Contains an optional message associated with the domain configuration
+  /// change.
+  final String? message;
+
+  ChangeProgressDetails({
+    this.changeId,
+    this.message,
+  });
+
+  factory ChangeProgressDetails.fromJson(Map<String, dynamic> json) {
+    return ChangeProgressDetails(
+      changeId: json['ChangeId'] as String?,
+      message: json['Message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final changeId = this.changeId;
+    final message = this.message;
+    return {
+      if (changeId != null) 'ChangeId': changeId,
+      if (message != null) 'Message': message,
+    };
+  }
+}
+
+/// A progress stage details of a specific domain configuration change.
+class ChangeProgressStage {
+  /// The description of the progress stage.
+  final String? description;
+
+  /// The last updated timestamp of the progress stage.
+  final DateTime? lastUpdated;
+
+  /// The name of the specific progress stage.
+  final String? name;
+
+  /// The overall status of a specific progress stage.
+  final String? status;
+
+  ChangeProgressStage({
+    this.description,
+    this.lastUpdated,
+    this.name,
+    this.status,
+  });
+
+  factory ChangeProgressStage.fromJson(Map<String, dynamic> json) {
+    return ChangeProgressStage(
+      description: json['Description'] as String?,
+      lastUpdated: timeStampFromJson(json['LastUpdated']),
+      name: json['Name'] as String?,
+      status: json['Status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final lastUpdated = this.lastUpdated;
+    final name = this.name;
+    final status = this.status;
+    return {
+      if (description != null) 'Description': description,
+      if (lastUpdated != null) 'LastUpdated': unixTimestampToJson(lastUpdated),
+      if (name != null) 'Name': name,
+      if (status != null) 'Status': status,
+    };
+  }
+}
+
+/// The progress details of a specific domain configuration change.
+class ChangeProgressStatusDetails {
+  /// The unique change identifier associated with a specific domain configuration
+  /// change.
+  final String? changeId;
+
+  /// The specific stages that the domain is going through to perform the
+  /// configuration change.
+  final List<ChangeProgressStage>? changeProgressStages;
+
+  /// The list of properties involved in the domain configuration change that are
+  /// completed.
+  final List<String>? completedProperties;
+
+  /// The list of properties involved in the domain configuration change that are
+  /// still in pending.
+  final List<String>? pendingProperties;
+
+  /// The time at which the configuration change is made on the domain.
+  final DateTime? startTime;
+
+  /// The overall status of the domain configuration change. This field can take
+  /// the following values: <code>PENDING</code>, <code>PROCESSING</code>,
+  /// <code>COMPLETED</code> and <code>FAILED</code>
+  final OverallChangeStatus? status;
+
+  /// The total number of stages required for the configuration change.
+  final int? totalNumberOfStages;
+
+  ChangeProgressStatusDetails({
+    this.changeId,
+    this.changeProgressStages,
+    this.completedProperties,
+    this.pendingProperties,
+    this.startTime,
+    this.status,
+    this.totalNumberOfStages,
+  });
+
+  factory ChangeProgressStatusDetails.fromJson(Map<String, dynamic> json) {
+    return ChangeProgressStatusDetails(
+      changeId: json['ChangeId'] as String?,
+      changeProgressStages: (json['ChangeProgressStages'] as List?)
+          ?.whereNotNull()
+          .map((e) => ChangeProgressStage.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      completedProperties: (json['CompletedProperties'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      pendingProperties: (json['PendingProperties'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      startTime: timeStampFromJson(json['StartTime']),
+      status: (json['Status'] as String?)?.toOverallChangeStatus(),
+      totalNumberOfStages: json['TotalNumberOfStages'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final changeId = this.changeId;
+    final changeProgressStages = this.changeProgressStages;
+    final completedProperties = this.completedProperties;
+    final pendingProperties = this.pendingProperties;
+    final startTime = this.startTime;
+    final status = this.status;
+    final totalNumberOfStages = this.totalNumberOfStages;
+    return {
+      if (changeId != null) 'ChangeId': changeId,
+      if (changeProgressStages != null)
+        'ChangeProgressStages': changeProgressStages,
+      if (completedProperties != null)
+        'CompletedProperties': completedProperties,
+      if (pendingProperties != null) 'PendingProperties': pendingProperties,
+      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
+      if (status != null) 'Status': status.toValue(),
+      if (totalNumberOfStages != null)
+        'TotalNumberOfStages': totalNumberOfStages,
     };
   }
 }
@@ -2962,6 +3183,36 @@ class DescribeDomainAutoTunesResponse {
   }
 }
 
+/// The result of a <code>DescribeDomainChangeProgress</code> request. Contains
+/// the progress information of the requested domain change.
+class DescribeDomainChangeProgressResponse {
+  /// Progress information for the configuration change that is requested in the
+  /// <code>DescribeDomainChangeProgress</code> request.
+  final ChangeProgressStatusDetails? changeProgressStatus;
+
+  DescribeDomainChangeProgressResponse({
+    this.changeProgressStatus,
+  });
+
+  factory DescribeDomainChangeProgressResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeDomainChangeProgressResponse(
+      changeProgressStatus: json['ChangeProgressStatus'] != null
+          ? ChangeProgressStatusDetails.fromJson(
+              json['ChangeProgressStatus'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final changeProgressStatus = this.changeProgressStatus;
+    return {
+      if (changeProgressStatus != null)
+        'ChangeProgressStatus': changeProgressStatus,
+    };
+  }
+}
+
 /// The result of a <code>DescribeDomainConfig</code> request. Contains the
 /// configuration information of the requested domain.
 class DescribeDomainConfigResponse {
@@ -3355,6 +3606,9 @@ class DomainConfig {
   /// Specifies <code>AutoTuneOptions</code> for the domain.
   final AutoTuneOptionsStatus? autoTuneOptions;
 
+  /// Specifies change details of the domain configuration change.
+  final ChangeProgressDetails? changeProgressDetails;
+
   /// The <code>ClusterConfig</code> for the domain.
   final ClusterConfigStatus? clusterConfig;
 
@@ -3399,6 +3653,7 @@ class DomainConfig {
     this.advancedOptions,
     this.advancedSecurityOptions,
     this.autoTuneOptions,
+    this.changeProgressDetails,
     this.clusterConfig,
     this.cognitoOptions,
     this.domainEndpointOptions,
@@ -3428,6 +3683,10 @@ class DomainConfig {
       autoTuneOptions: json['AutoTuneOptions'] != null
           ? AutoTuneOptionsStatus.fromJson(
               json['AutoTuneOptions'] as Map<String, dynamic>)
+          : null,
+      changeProgressDetails: json['ChangeProgressDetails'] != null
+          ? ChangeProgressDetails.fromJson(
+              json['ChangeProgressDetails'] as Map<String, dynamic>)
           : null,
       clusterConfig: json['ClusterConfig'] != null
           ? ClusterConfigStatus.fromJson(
@@ -3477,6 +3736,7 @@ class DomainConfig {
     final advancedOptions = this.advancedOptions;
     final advancedSecurityOptions = this.advancedSecurityOptions;
     final autoTuneOptions = this.autoTuneOptions;
+    final changeProgressDetails = this.changeProgressDetails;
     final clusterConfig = this.clusterConfig;
     final cognitoOptions = this.cognitoOptions;
     final domainEndpointOptions = this.domainEndpointOptions;
@@ -3493,6 +3753,8 @@ class DomainConfig {
       if (advancedSecurityOptions != null)
         'AdvancedSecurityOptions': advancedSecurityOptions,
       if (autoTuneOptions != null) 'AutoTuneOptions': autoTuneOptions,
+      if (changeProgressDetails != null)
+        'ChangeProgressDetails': changeProgressDetails,
       if (clusterConfig != null) 'ClusterConfig': clusterConfig,
       if (cognitoOptions != null) 'CognitoOptions': cognitoOptions,
       if (domainEndpointOptions != null)
@@ -3817,6 +4079,9 @@ class DomainStatus {
   /// The current status of the domain's Auto-Tune options.
   final AutoTuneOptionsOutput? autoTuneOptions;
 
+  /// Specifies change details of the domain configuration change.
+  final ChangeProgressDetails? changeProgressDetails;
+
   /// The <code>CognitoOptions</code> for the specified domain. For more
   /// information, see <a
   /// href="http://docs.aws.amazon.com/opensearch-service/latest/developerguide/cognito-auth.html"
@@ -3890,6 +4155,7 @@ class DomainStatus {
     this.advancedOptions,
     this.advancedSecurityOptions,
     this.autoTuneOptions,
+    this.changeProgressDetails,
     this.cognitoOptions,
     this.created,
     this.deleted,
@@ -3925,6 +4191,10 @@ class DomainStatus {
       autoTuneOptions: json['AutoTuneOptions'] != null
           ? AutoTuneOptionsOutput.fromJson(
               json['AutoTuneOptions'] as Map<String, dynamic>)
+          : null,
+      changeProgressDetails: json['ChangeProgressDetails'] != null
+          ? ChangeProgressDetails.fromJson(
+              json['ChangeProgressDetails'] as Map<String, dynamic>)
           : null,
       cognitoOptions: json['CognitoOptions'] != null
           ? CognitoOptions.fromJson(
@@ -3980,6 +4250,7 @@ class DomainStatus {
     final advancedOptions = this.advancedOptions;
     final advancedSecurityOptions = this.advancedSecurityOptions;
     final autoTuneOptions = this.autoTuneOptions;
+    final changeProgressDetails = this.changeProgressDetails;
     final cognitoOptions = this.cognitoOptions;
     final created = this.created;
     final deleted = this.deleted;
@@ -4006,6 +4277,8 @@ class DomainStatus {
       if (advancedSecurityOptions != null)
         'AdvancedSecurityOptions': advancedSecurityOptions,
       if (autoTuneOptions != null) 'AutoTuneOptions': autoTuneOptions,
+      if (changeProgressDetails != null)
+        'ChangeProgressDetails': changeProgressDetails,
       if (cognitoOptions != null) 'CognitoOptions': cognitoOptions,
       if (created != null) 'Created': created,
       if (deleted != null) 'Deleted': deleted,
@@ -4111,8 +4384,11 @@ class EBSOptions {
   /// Whether EBS-based storage is enabled.
   final bool? eBSEnabled;
 
-  /// The IOPD for a Provisioned IOPS EBS volume (SSD).
+  /// The IOPS for Provisioned IOPS And GP3 EBS volume (SSD).
   final int? iops;
+
+  /// The Throughput for GP3 EBS volume (SSD).
+  final int? throughput;
 
   /// Integer to specify the size of an EBS volume.
   final int? volumeSize;
@@ -4123,6 +4399,7 @@ class EBSOptions {
   EBSOptions({
     this.eBSEnabled,
     this.iops,
+    this.throughput,
     this.volumeSize,
     this.volumeType,
   });
@@ -4131,6 +4408,7 @@ class EBSOptions {
     return EBSOptions(
       eBSEnabled: json['EBSEnabled'] as bool?,
       iops: json['Iops'] as int?,
+      throughput: json['Throughput'] as int?,
       volumeSize: json['VolumeSize'] as int?,
       volumeType: (json['VolumeType'] as String?)?.toVolumeType(),
     );
@@ -4139,11 +4417,13 @@ class EBSOptions {
   Map<String, dynamic> toJson() {
     final eBSEnabled = this.eBSEnabled;
     final iops = this.iops;
+    final throughput = this.throughput;
     final volumeSize = this.volumeSize;
     final volumeType = this.volumeType;
     return {
       if (eBSEnabled != null) 'EBSEnabled': eBSEnabled,
       if (iops != null) 'Iops': iops,
+      if (throughput != null) 'Throughput': throughput,
       if (volumeSize != null) 'VolumeSize': volumeSize,
       if (volumeType != null) 'VolumeType': volumeType.toValue(),
     };
@@ -6003,6 +6283,45 @@ extension on String {
   }
 }
 
+/// The overall status value of the domain configuration change.
+enum OverallChangeStatus {
+  pending,
+  processing,
+  completed,
+  failed,
+}
+
+extension on OverallChangeStatus {
+  String toValue() {
+    switch (this) {
+      case OverallChangeStatus.pending:
+        return 'PENDING';
+      case OverallChangeStatus.processing:
+        return 'PROCESSING';
+      case OverallChangeStatus.completed:
+        return 'COMPLETED';
+      case OverallChangeStatus.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension on String {
+  OverallChangeStatus toOverallChangeStatus() {
+    switch (this) {
+      case 'PENDING':
+        return OverallChangeStatus.pending;
+      case 'PROCESSING':
+        return OverallChangeStatus.processing;
+      case 'COMPLETED':
+        return OverallChangeStatus.completed;
+      case 'FAILED':
+        return OverallChangeStatus.failed;
+    }
+    throw Exception('$this is not known in enum OverallChangeStatus');
+  }
+}
+
 /// Basic information about a package.
 class PackageDetails {
   final String? availablePackageVersion;
@@ -7081,7 +7400,11 @@ class StorageTypeLimit {
   /// <li>MaximumIops</li> Maximum amount of Iops that is applicable for given the
   /// storage type. Can be empty if not applicable.
   /// <li>MinimumIops</li> Minimum amount of Iops that is applicable for given the
-  /// storage type. Can be empty if not applicable. </ol>
+  /// storage type. Can be empty if not applicable.
+  /// <li>MaximumThroughput</li> Maximum amount of Throughput that is applicable
+  /// for given the storage type. Can be empty if not applicable.
+  /// <li>MinimumThroughput</li> Minimum amount of Throughput that is applicable
+  /// for given the storage type. Can be empty if not applicable. </ol>
   final String? limitName;
 
   /// Values for the <code> <a>StorageTypeLimit$LimitName</a> </code> .
@@ -7267,6 +7590,7 @@ class UpdatePackageResponse {
 /// operation.
 class UpgradeDomainResponse {
   final Map<String, String>? advancedOptions;
+  final ChangeProgressDetails? changeProgressDetails;
   final String? domainName;
 
   /// When true, indicates that an upgrade eligibility check needs to be
@@ -7279,6 +7603,7 @@ class UpgradeDomainResponse {
 
   UpgradeDomainResponse({
     this.advancedOptions,
+    this.changeProgressDetails,
     this.domainName,
     this.performCheckOnly,
     this.targetVersion,
@@ -7289,6 +7614,10 @@ class UpgradeDomainResponse {
     return UpgradeDomainResponse(
       advancedOptions: (json['AdvancedOptions'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
+      changeProgressDetails: json['ChangeProgressDetails'] != null
+          ? ChangeProgressDetails.fromJson(
+              json['ChangeProgressDetails'] as Map<String, dynamic>)
+          : null,
       domainName: json['DomainName'] as String?,
       performCheckOnly: json['PerformCheckOnly'] as bool?,
       targetVersion: json['TargetVersion'] as String?,
@@ -7298,12 +7627,15 @@ class UpgradeDomainResponse {
 
   Map<String, dynamic> toJson() {
     final advancedOptions = this.advancedOptions;
+    final changeProgressDetails = this.changeProgressDetails;
     final domainName = this.domainName;
     final performCheckOnly = this.performCheckOnly;
     final targetVersion = this.targetVersion;
     final upgradeId = this.upgradeId;
     return {
       if (advancedOptions != null) 'AdvancedOptions': advancedOptions,
+      if (changeProgressDetails != null)
+        'ChangeProgressDetails': changeProgressDetails,
       if (domainName != null) 'DomainName': domainName,
       if (performCheckOnly != null) 'PerformCheckOnly': performCheckOnly,
       if (targetVersion != null) 'TargetVersion': targetVersion,
@@ -7666,13 +7998,14 @@ class VersionStatus {
   }
 }
 
-/// The type of EBS volume, standard, gp2, or io1. See <a
+/// The type of EBS volume, standard, gp2, gp3 or io1. See <a
 /// href="http://docs.aws.amazon.com/opensearch-service/latest/developerguide/opensearch-createupdatedomains.html#opensearch-createdomain-configure-ebs"
 /// target="_blank">Configuring EBS-based Storage</a> for more information.
 enum VolumeType {
   standard,
   gp2,
   io1,
+  gp3,
 }
 
 extension on VolumeType {
@@ -7684,6 +8017,8 @@ extension on VolumeType {
         return 'gp2';
       case VolumeType.io1:
         return 'io1';
+      case VolumeType.gp3:
+        return 'gp3';
     }
   }
 }
@@ -7697,6 +8032,8 @@ extension on String {
         return VolumeType.gp2;
       case 'io1':
         return VolumeType.io1;
+      case 'gp3':
+        return VolumeType.gp3;
     }
     throw Exception('$this is not known in enum VolumeType');
   }

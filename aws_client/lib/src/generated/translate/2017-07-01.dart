@@ -233,14 +233,13 @@ class Translate {
   /// Parameter [terminologyDataFormat] :
   /// The data format of the custom terminology being retrieved.
   ///
-  /// If you don't specify this parameter, Amazon Translate returns a file that
-  /// has the same format as the file that was imported to create the
-  /// terminology.
+  /// If you don't specify this parameter, Amazon Translate returns a file with
+  /// the same format as the file that was imported to create the terminology.
   ///
   /// If you specify this parameter when you retrieve a multi-directional
-  /// terminology resource, you must specify the same format as that of the
-  /// input file that was imported to create it. Otherwise, Amazon Translate
-  /// throws an error.
+  /// terminology resource, you must specify the same format as the input file
+  /// that was imported to create it. Otherwise, Amazon Translate throws an
+  /// error.
   Future<GetTerminologyResponse> getTerminology({
     required String name,
     TerminologyDataFormat? terminologyDataFormat,
@@ -266,17 +265,16 @@ class Translate {
     return GetTerminologyResponse.fromJson(jsonResponse.body);
   }
 
-  /// Creates or updates a custom terminology, depending on whether or not one
-  /// already exists for the given terminology name. Importing a terminology
-  /// with the same name as an existing one will merge the terminologies based
-  /// on the chosen merge strategy. Currently, the only supported merge strategy
-  /// is OVERWRITE, and so the imported terminology will overwrite an existing
-  /// terminology of the same name.
+  /// Creates or updates a custom terminology, depending on whether one already
+  /// exists for the given terminology name. Importing a terminology with the
+  /// same name as an existing one will merge the terminologies based on the
+  /// chosen merge strategy. The only supported merge strategy is OVERWRITE,
+  /// where the imported terminology overwrites the existing terminology of the
+  /// same name.
   ///
   /// If you import a terminology that overwrites an existing one, the new
-  /// terminology take up to 10 minutes to fully propagate and be available for
-  /// use in a translation due to cache policies with the DataPlane service that
-  /// performs the translations.
+  /// terminology takes up to 10 minutes to fully propagate. After that,
+  /// translations have access to the new terminology.
   ///
   /// May throw [InvalidParameterValueException].
   /// May throw [LimitExceededException].
@@ -329,6 +327,56 @@ class Translate {
     );
 
     return ImportTerminologyResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Provides a list of languages (RFC-5646 codes and names) that Amazon
+  /// Translate supports.
+  ///
+  /// May throw [InvalidParameterValueException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [UnsupportedDisplayLanguageCodeException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [displayLanguageCode] :
+  /// The language code for the language to use to display the language names in
+  /// the response. The language code is <code>en</code> by default.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in each response.
+  ///
+  /// Parameter [nextToken] :
+  /// Include the NextToken value to fetch the next group of supported
+  /// languages.
+  Future<ListLanguagesResponse> listLanguages({
+    DisplayLanguageCode? displayLanguageCode,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      500,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSShineFrontendService_20170701.ListLanguages'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (displayLanguageCode != null)
+          'DisplayLanguageCode': displayLanguageCode.toValue(),
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListLanguagesResponse.fromJson(jsonResponse.body);
   }
 
   /// Provides a list of your parallel data resources in Amazon Translate.
@@ -488,7 +536,7 @@ class Translate {
   /// For more information, see <a>identity-and-access-management</a>.
   ///
   /// Parameter [inputDataConfig] :
-  /// Specifies the format and S3 location of the input documents for the
+  /// Specifies the format and location of the input documents for the
   /// translation job.
   ///
   /// Parameter [outputDataConfig] :
@@ -505,7 +553,7 @@ class Translate {
   /// The language code of the output language.
   ///
   /// Parameter [clientToken] :
-  /// A unique identifier for the request. This token is auto-generated when
+  /// A unique identifier for the request. This token is generated for you when
   /// using the Amazon Translate SDK.
   ///
   /// Parameter [jobName] :
@@ -531,7 +579,8 @@ class Translate {
   ///
   /// Parameter [settings] :
   /// Settings to configure your translation output, including the option to
-  /// mask profane words and phrases.
+  /// mask profane words and phrases. <code>StartTextTranslationJob</code> does
+  /// not support the formality setting.
   ///
   /// Parameter [terminologyNames] :
   /// The name of a custom terminology resource to add to the translation job.
@@ -652,6 +701,12 @@ class Translate {
   /// field. If you specify <code>auto</code>, Amazon Translate will call <a
   /// href="https://docs.aws.amazon.com/comprehend/latest/dg/comprehend-general.html">Amazon
   /// Comprehend</a> to determine the source language.
+  /// <note>
+  /// If you specify <code>auto</code>, you must send the
+  /// <code>TranslateText</code> request in a region that supports Amazon
+  /// Comprehend. Otherwise, the request returns an error indicating that
+  /// autodetect is not supported.
+  /// </note>
   ///
   /// Parameter [targetLanguageCode] :
   /// The language code requested for the language of the target text. The
@@ -663,8 +718,9 @@ class Translate {
   /// characters.
   ///
   /// Parameter [settings] :
-  /// Settings to configure your translation output, including the option to
-  /// mask profane words and phrases.
+  /// Settings to configure your translation output, including the option to set
+  /// the formality level of the output text and the option to mask profane
+  /// words and phrases.
   ///
   /// Parameter [terminologyNames] :
   /// The name of the terminology list file to be used in the TranslateText
@@ -912,6 +968,74 @@ extension on String {
   }
 }
 
+enum DisplayLanguageCode {
+  de,
+  en,
+  es,
+  fr,
+  it,
+  ja,
+  ko,
+  pt,
+  zh,
+  zhTw,
+}
+
+extension on DisplayLanguageCode {
+  String toValue() {
+    switch (this) {
+      case DisplayLanguageCode.de:
+        return 'de';
+      case DisplayLanguageCode.en:
+        return 'en';
+      case DisplayLanguageCode.es:
+        return 'es';
+      case DisplayLanguageCode.fr:
+        return 'fr';
+      case DisplayLanguageCode.it:
+        return 'it';
+      case DisplayLanguageCode.ja:
+        return 'ja';
+      case DisplayLanguageCode.ko:
+        return 'ko';
+      case DisplayLanguageCode.pt:
+        return 'pt';
+      case DisplayLanguageCode.zh:
+        return 'zh';
+      case DisplayLanguageCode.zhTw:
+        return 'zh-TW';
+    }
+  }
+}
+
+extension on String {
+  DisplayLanguageCode toDisplayLanguageCode() {
+    switch (this) {
+      case 'de':
+        return DisplayLanguageCode.de;
+      case 'en':
+        return DisplayLanguageCode.en;
+      case 'es':
+        return DisplayLanguageCode.es;
+      case 'fr':
+        return DisplayLanguageCode.fr;
+      case 'it':
+        return DisplayLanguageCode.it;
+      case 'ja':
+        return DisplayLanguageCode.ja;
+      case 'ko':
+        return DisplayLanguageCode.ko;
+      case 'pt':
+        return DisplayLanguageCode.pt;
+      case 'zh':
+        return DisplayLanguageCode.zh;
+      case 'zh-TW':
+        return DisplayLanguageCode.zhTw;
+    }
+    throw Exception('$this is not known in enum DisplayLanguageCode');
+  }
+}
+
 /// The encryption key used to encrypt this object.
 class EncryptionKey {
   /// The Amazon Resource Name (ARN) of the encryption key being used to encrypt
@@ -966,16 +1090,44 @@ extension on String {
   }
 }
 
+enum Formality {
+  formal,
+  informal,
+}
+
+extension on Formality {
+  String toValue() {
+    switch (this) {
+      case Formality.formal:
+        return 'FORMAL';
+      case Formality.informal:
+        return 'INFORMAL';
+    }
+  }
+}
+
+extension on String {
+  Formality toFormality() {
+    switch (this) {
+      case 'FORMAL':
+        return Formality.formal;
+      case 'INFORMAL':
+        return Formality.informal;
+    }
+    throw Exception('$this is not known in enum Formality');
+  }
+}
+
 class GetParallelDataResponse {
   /// The Amazon S3 location of a file that provides any errors or warnings that
   /// were produced by your input file. This file was created when Amazon
   /// Translate attempted to create a parallel data resource. The location is
-  /// returned as a presigned URL to that has a 30 minute expiration.
+  /// returned as a presigned URL to that has a 30-minute expiration.
   final ParallelDataDataLocation? auxiliaryDataLocation;
 
   /// The Amazon S3 location of the most recent parallel data input file that was
   /// successfully imported into Amazon Translate. The location is returned as a
-  /// presigned URL that has a 30 minute expiration.
+  /// presigned URL that has a 30-minute expiration.
   /// <important>
   /// Amazon Translate doesn't scan all input files for the risk of CSV injection
   /// attacks.
@@ -993,7 +1145,7 @@ class GetParallelDataResponse {
   /// The Amazon S3 location of a file that provides any errors or warnings that
   /// were produced by your input file. This file was created when Amazon
   /// Translate attempted to update a parallel data resource. The location is
-  /// returned as a presigned URL to that has a 30 minute expiration.
+  /// returned as a presigned URL to that has a 30-minute expiration.
   final ParallelDataDataLocation? latestUpdateAttemptAuxiliaryDataLocation;
 
   /// The properties of the parallel data resource that is being retrieved.
@@ -1052,12 +1204,12 @@ class GetTerminologyResponse {
   /// The Amazon S3 location of a file that provides any errors or warnings that
   /// were produced by your input file. This file was created when Amazon
   /// Translate attempted to create a terminology resource. The location is
-  /// returned as a presigned URL to that has a 30 minute expiration.
+  /// returned as a presigned URL to that has a 30-minute expiration.
   final TerminologyDataLocation? auxiliaryDataLocation;
 
   /// The Amazon S3 location of the most recent custom terminology input file that
   /// was successfully imported into Amazon Translate. The location is returned as
-  /// a presigned URL that has a 30 minute expiration.
+  /// a presigned URL that has a 30-minute expiration.
   /// <important>
   /// Amazon Translate doesn't scan all input files for the risk of CSV injection
   /// attacks.
@@ -1197,8 +1349,16 @@ class InputDataConfig {
   /// </important>
   final String contentType;
 
-  /// The URI of the AWS S3 folder that contains the input file. The folder must
-  /// be in the same Region as the API endpoint you are calling.
+  /// The URI of the AWS S3 folder that contains the input files. Amazon Translate
+  /// translates all the files in the folder. The folder must be in the same
+  /// Region as the API endpoint you are calling.
+  /// <note>
+  /// The URI can also point to a single input document, or it can provide the
+  /// prefix for a collection of input documents. For example. if you use the URI
+  /// <code>S3://bucketName/prefix</code> and the prefix is a single file, Amazon
+  /// Translate uses that files as input. If more than one file begins with the
+  /// prefix, Amazon Translate uses all of them as input.
+  /// </note>
   final String s3Uri;
 
   InputDataConfig({
@@ -1315,6 +1475,78 @@ extension on String {
         return JobStatus.stopped;
     }
     throw Exception('$this is not known in enum JobStatus');
+  }
+}
+
+/// A supported language.
+class Language {
+  /// Language code for the supported language.
+  final String languageCode;
+
+  /// Language name of the supported language.
+  final String languageName;
+
+  Language({
+    required this.languageCode,
+    required this.languageName,
+  });
+
+  factory Language.fromJson(Map<String, dynamic> json) {
+    return Language(
+      languageCode: json['LanguageCode'] as String,
+      languageName: json['LanguageName'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final languageCode = this.languageCode;
+    final languageName = this.languageName;
+    return {
+      'LanguageCode': languageCode,
+      'LanguageName': languageName,
+    };
+  }
+}
+
+class ListLanguagesResponse {
+  /// The language code passed in with the request.
+  final DisplayLanguageCode? displayLanguageCode;
+
+  /// The list of supported languages.
+  final List<Language>? languages;
+
+  /// If the response does not include all remaining results, use the NextToken in
+  /// the next request to fetch the next group of supported languages.
+  final String? nextToken;
+
+  ListLanguagesResponse({
+    this.displayLanguageCode,
+    this.languages,
+    this.nextToken,
+  });
+
+  factory ListLanguagesResponse.fromJson(Map<String, dynamic> json) {
+    return ListLanguagesResponse(
+      displayLanguageCode:
+          (json['DisplayLanguageCode'] as String?)?.toDisplayLanguageCode(),
+      languages: (json['Languages'] as List?)
+          ?.whereNotNull()
+          .map((e) => Language.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final displayLanguageCode = this.displayLanguageCode;
+    final languages = this.languages;
+    final nextToken = this.nextToken;
+    return {
+      if (displayLanguageCode != null)
+        'DisplayLanguageCode': displayLanguageCode.toValue(),
+      if (languages != null) 'Languages': languages,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
   }
 }
 
@@ -1515,7 +1747,7 @@ class ParallelDataConfig {
 /// successfully imported into Amazon Translate.
 class ParallelDataDataLocation {
   /// The Amazon S3 location of the parallel data input file. The location is
-  /// returned as a presigned URL to that has a 30 minute expiration.
+  /// returned as a presigned URL to that has a 30-minute expiration.
   /// <important>
   /// Amazon Translate doesn't scan all input files for the risk of CSV injection
   /// attacks.
@@ -1932,7 +2164,10 @@ class Term {
   }
 }
 
-/// The data associated with the custom terminology.
+/// The data associated with the custom terminology. For information about the
+/// custom terminology file, see <a
+/// href="https://docs.aws.amazon.com/translate/latest/dg/creating-custom-terminology.html">
+/// Creating a Custom Terminology</a>.
 class TerminologyData {
   /// The file containing the custom terminology data. Your version of the AWS SDK
   /// performs a Base64-encoding on this field before sending a request to the AWS
@@ -1951,9 +2186,8 @@ class TerminologyData {
   /// Any language in the terminology resource can be the source language or a
   /// target language. A single multi-directional terminology resource can be used
   /// for jobs that translate different language pairs. For example, if the
-  /// terminology contains terms in English and Spanish, then it can be used for
-  /// jobs that translate English to Spanish and jobs that translate Spanish to
-  /// English.
+  /// terminology contains English and Spanish terms, it can be used for jobs that
+  /// translate English to Spanish and Spanish to English.
   /// </dd> </dl>
   /// When you create a custom terminology resource without specifying the
   /// directionality, it behaves as uni-directional terminology, although this
@@ -2023,7 +2257,7 @@ extension on String {
 class TerminologyDataLocation {
   /// The Amazon S3 location of the most recent custom terminology input file that
   /// was successfully imported into Amazon Translate. The location is returned as
-  /// a presigned URL that has a 30 minute expiration.
+  /// a presigned URL that has a 30-minute expiration .
   /// <important>
   /// Amazon Translate doesn't scan all input files for the risk of CSV injection
   /// attacks.
@@ -2462,6 +2696,23 @@ class TranslateTextResponse {
 
 /// Settings that configure the translation output.
 class TranslationSettings {
+  /// You can optionally specify the desired level of formality for real-time
+  /// translations to supported target languages. The formality setting controls
+  /// the level of formal language usage (also known as <a
+  /// href="https://en.wikipedia.org/wiki/Register_(sociolinguistics)">register</a>)
+  /// in the translation output. You can set the value to informal or formal. If
+  /// you don't specify a value for formality, or if the target language doesn't
+  /// support formality, the translation will ignore the formality setting.
+  ///
+  /// Note that asynchronous translation jobs don't support formality. If you
+  /// provide a value for formality, the <code>StartTextTranslationJob</code> API
+  /// throws an exception (InvalidRequestException).
+  ///
+  /// For target languages that support formality, see <a
+  /// href="https://docs.aws.amazon.com/translate/latest/dg/what-is.html">Supported
+  /// Languages and Language Codes in the Amazon Translate Developer Guide</a>.
+  final Formality? formality;
+
   /// Enable the profanity setting if you want Amazon Translate to mask profane
   /// words and phrases in your translation output.
   ///
@@ -2469,25 +2720,29 @@ class TranslationSettings {
   /// grawlix string “?$#@$“. This 5-character sequence is used for each profane
   /// word or phrase, regardless of the length or number of words.
   ///
-  /// Amazon Translate does not detect profanity in all of its supported
-  /// languages. For languages that support profanity detection, see <a
-  /// href="https://docs.aws.amazon.com/translate/latest/dg/what-is.html#what-is-languages">Supported
+  /// Amazon Translate doesn't detect profanity in all of its supported languages.
+  /// For languages that support profanity detection, see <a
+  /// href="https://docs.aws.amazon.com/translate/latest/dg/what-is.html">Supported
   /// Languages and Language Codes in the Amazon Translate Developer Guide</a>.
   final Profanity? profanity;
 
   TranslationSettings({
+    this.formality,
     this.profanity,
   });
 
   factory TranslationSettings.fromJson(Map<String, dynamic> json) {
     return TranslationSettings(
+      formality: (json['Formality'] as String?)?.toFormality(),
       profanity: (json['Profanity'] as String?)?.toProfanity(),
     );
   }
 
   Map<String, dynamic> toJson() {
+    final formality = this.formality;
     final profanity = this.profanity;
     return {
+      if (formality != null) 'Formality': formality.toValue(),
       if (profanity != null) 'Profanity': profanity.toValue(),
     };
   }
@@ -2615,6 +2870,14 @@ class TooManyRequestsException extends _s.GenericAwsException {
       : super(type: type, code: 'TooManyRequestsException', message: message);
 }
 
+class UnsupportedDisplayLanguageCodeException extends _s.GenericAwsException {
+  UnsupportedDisplayLanguageCodeException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'UnsupportedDisplayLanguageCodeException',
+            message: message);
+}
+
 class UnsupportedLanguagePairException extends _s.GenericAwsException {
   UnsupportedLanguagePairException({String? type, String? message})
       : super(
@@ -2648,6 +2911,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       TextSizeLimitExceededException(type: type, message: message),
   'TooManyRequestsException': (type, message) =>
       TooManyRequestsException(type: type, message: message),
+  'UnsupportedDisplayLanguageCodeException': (type, message) =>
+      UnsupportedDisplayLanguageCodeException(type: type, message: message),
   'UnsupportedLanguagePairException': (type, message) =>
       UnsupportedLanguagePairException(type: type, message: message),
 };

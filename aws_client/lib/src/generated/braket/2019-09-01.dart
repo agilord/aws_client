@@ -20,6 +20,16 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// The Amazon Braket API Reference provides information about the operations
 /// and structures supported in Amazon Braket.
+///
+/// Additional Resources:
+///
+/// <ul>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/braket/latest/developerguide/what-is-braket.html">Amazon
+/// Braket Developer Guide</a>
+/// </li>
+/// </ul>
 class Braket {
   final _s.RestJsonProtocol _protocol;
   Braket({
@@ -277,6 +287,17 @@ class Braket {
   }
 
   /// Retrieves the devices available in Amazon Braket.
+  /// <note>
+  /// For backwards compatibility with older versions of BraketSchemas, OpenQASM
+  /// information is omitted from GetDevice API calls. To get this information
+  /// the user-agent needs to present a recent version of the BraketSchemas
+  /// (1.8.0 or later). The Braket SDK automatically reports this for you. If
+  /// you do not see OpenQASM results in the GetDevice response when using a
+  /// Braket SDK, you may need to set AWS_EXECUTION_ENV environment variable to
+  /// configure user-agent. See the code examples provided below for how to do
+  /// this for the AWS CLI, Boto3, and the Go, Java, and JavaScript/TypeScript
+  /// SDKs.
+  /// </note>
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
@@ -1327,24 +1348,32 @@ class InstanceConfig {
   /// The size of the storage volume, in GB, that user wants to provision.
   final int volumeSizeInGb;
 
+  /// Configures the number of resource instances to use while running an Amazon
+  /// Braket job on Amazon Braket. The default value is 1.
+  final int? instanceCount;
+
   InstanceConfig({
     required this.instanceType,
     required this.volumeSizeInGb,
+    this.instanceCount,
   });
 
   factory InstanceConfig.fromJson(Map<String, dynamic> json) {
     return InstanceConfig(
       instanceType: (json['instanceType'] as String).toInstanceType(),
       volumeSizeInGb: json['volumeSizeInGb'] as int,
+      instanceCount: json['instanceCount'] as int?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final instanceType = this.instanceType;
     final volumeSizeInGb = this.volumeSizeInGb;
+    final instanceCount = this.instanceCount;
     return {
       'instanceType': instanceType.toValue(),
       'volumeSizeInGb': volumeSizeInGb,
+      if (instanceCount != null) 'instanceCount': instanceCount,
     };
   }
 }

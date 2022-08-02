@@ -1131,7 +1131,7 @@
         },
         {
           "shape": "GatewayTimeoutException",
-          "documentation": "Gateway Timeout Error"
+          "documentation": "Gateway Timeout"
         },
         {
           "shape": "TooManyRequestsException",
@@ -1713,7 +1713,7 @@
         },
         {
           "shape": "GatewayTimeoutException",
-          "documentation": "Gateway Timeout Error"
+          "documentation": "Gateway Timeout"
         },
         {
           "shape": "TooManyRequestsException",
@@ -1978,6 +1978,56 @@
       ],
       "documentation": "Purchase an offering and create a reservation."
     },
+    "RebootInputDevice": {
+      "name": "RebootInputDevice",
+      "http": {
+        "method": "POST",
+        "requestUri": "/prod/inputDevices/{inputDeviceId}/reboot",
+        "responseCode": 200
+      },
+      "input": {
+        "shape": "RebootInputDeviceRequest"
+      },
+      "output": {
+        "shape": "RebootInputDeviceResponse",
+        "documentation": "Your reboot request has succeeded."
+      },
+      "errors": [
+        {
+          "shape": "BadRequestException",
+          "documentation": "This request was invalid."
+        },
+        {
+          "shape": "UnprocessableEntityException",
+          "documentation": "Reboot operation failed, input could not be validated."
+        },
+        {
+          "shape": "InternalServerErrorException",
+          "documentation": "Unexpected internal service error."
+        },
+        {
+          "shape": "ForbiddenException",
+          "documentation": "You do not have permission to reboot input device."
+        },
+        {
+          "shape": "BadGatewayException",
+          "documentation": "Bad gateway error."
+        },
+        {
+          "shape": "NotFoundException",
+          "documentation": "Input device not found."
+        },
+        {
+          "shape": "GatewayTimeoutException",
+          "documentation": "Gateway Timeout Error"
+        },
+        {
+          "shape": "TooManyRequestsException",
+          "documentation": "Request limit exceeded on reboot device calls to the input device service."
+        }
+      ],
+      "documentation": "Send a reboot command to the specified input device. The device will begin rebooting within a few seconds of sending the command. When the reboot is complete, the device’s connection status will change to connected."
+    },
     "RejectInputDeviceTransfer": {
       "name": "RejectInputDeviceTransfer",
       "http": {
@@ -2081,6 +2131,56 @@
         }
       ],
       "documentation": "Starts an existing channel"
+    },
+    "StartInputDeviceMaintenanceWindow": {
+      "name": "StartInputDeviceMaintenanceWindow",
+      "http": {
+        "method": "POST",
+        "requestUri": "/prod/inputDevices/{inputDeviceId}/startInputDeviceMaintenanceWindow",
+        "responseCode": 200
+      },
+      "input": {
+        "shape": "StartInputDeviceMaintenanceWindowRequest"
+      },
+      "output": {
+        "shape": "StartInputDeviceMaintenanceWindowResponse",
+        "documentation": "Your start maintenance window request has succeeded."
+      },
+      "errors": [
+        {
+          "shape": "BadRequestException",
+          "documentation": "This request was invalid."
+        },
+        {
+          "shape": "UnprocessableEntityException",
+          "documentation": "Start maintenance window operation failed, input could not be validated."
+        },
+        {
+          "shape": "InternalServerErrorException",
+          "documentation": "Unexpected internal service error."
+        },
+        {
+          "shape": "ForbiddenException",
+          "documentation": "You do not have permission to start a maintenance window for this input device."
+        },
+        {
+          "shape": "BadGatewayException",
+          "documentation": "Bad gateway error."
+        },
+        {
+          "shape": "NotFoundException",
+          "documentation": "Input device not found."
+        },
+        {
+          "shape": "GatewayTimeoutException",
+          "documentation": "Gateway Timeout Error"
+        },
+        {
+          "shape": "TooManyRequestsException",
+          "documentation": "Request limit exceeded on start maintenance window calls to the input device service."
+        }
+      ],
+      "documentation": "Start a maintenance window for the specified input device. Starting a maintenance window will give the device up to two hours to install software. If the device was streaming prior to the maintenance, it will resume streaming when the software is fully installed. Devices automatically install updates while they are powered on and their MediaLive channels are stopped. A maintenance window allows you to update a device without having to stop MediaLive channels that use the device. The device must remain powered on and connected to the internet for the duration of the maintenance."
     },
     "StartMultiplex": {
       "name": "StartMultiplex",
@@ -2902,6 +3002,14 @@
       "members": {},
       "documentation": "Placeholder documentation for AcceptInputDeviceTransferResponse"
     },
+    "AccessibilityType": {
+      "type": "string",
+      "documentation": "Accessibility Type",
+      "enum": [
+        "DOES_NOT_IMPLEMENT_ACCESSIBILITY_FEATURES",
+        "IMPLEMENTS_ACCESSIBILITY_FEATURES"
+      ]
+    },
     "AfdSignaling": {
       "type": "string",
       "documentation": "Afd Signaling",
@@ -3109,7 +3217,7 @@
           "documentation": "Choosing followInput will cause the ISO 639 language code of the output to follow the ISO 639 language code of the input. The languageCode will be used when useConfigured is set, or when followInput is selected but there is no ISO 639 language code specified by the input."
         },
         "Name": {
-          "shape": "__string",
+          "shape": "__stringMax255",
           "locationName": "name",
           "documentation": "The name of this AudioDescription. Outputs will use this name to uniquely identify this AudioDescription.  Description names should be unique within this Live Event."
         },
@@ -3952,6 +4060,11 @@
     "CaptionDescription": {
       "type": "structure",
       "members": {
+        "Accessibility": {
+          "shape": "AccessibilityType",
+          "locationName": "accessibility",
+          "documentation": "Indicates whether the caption track implements accessibility features such as written descriptions of spoken dialog, music, and sounds."
+        },
         "CaptionSelectorName": {
           "shape": "__string",
           "locationName": "captionSelectorName",
@@ -4231,6 +4344,11 @@
           "locationName": "logLevel",
           "documentation": "The log level being written to CloudWatch Logs."
         },
+        "Maintenance": {
+          "shape": "MaintenanceStatus",
+          "locationName": "maintenance",
+          "documentation": "Maintenance settings for this channel."
+        },
         "Name": {
           "shape": "__string",
           "locationName": "name",
@@ -4352,6 +4470,11 @@
           "locationName": "logLevel",
           "documentation": "The log level being written to CloudWatch Logs."
         },
+        "Maintenance": {
+          "shape": "MaintenanceStatus",
+          "locationName": "maintenance",
+          "documentation": "Maintenance settings for this channel."
+        },
         "Name": {
           "shape": "__string",
           "locationName": "name",
@@ -4440,6 +4563,11 @@
           "shape": "LogLevel",
           "locationName": "logLevel",
           "documentation": "The log level to write to CloudWatch Logs."
+        },
+        "Maintenance": {
+          "shape": "MaintenanceCreateSettings",
+          "locationName": "maintenance",
+          "documentation": "Maintenance settings for this channel."
         },
         "Name": {
           "shape": "__string",
@@ -4797,6 +4925,11 @@
           "locationName": "logLevel",
           "documentation": "The log level being written to CloudWatch Logs."
         },
+        "Maintenance": {
+          "shape": "MaintenanceStatus",
+          "locationName": "maintenance",
+          "documentation": "Maintenance settings for this channel."
+        },
         "Name": {
           "shape": "__string",
           "locationName": "name",
@@ -5076,6 +5209,11 @@
           "locationName": "region",
           "documentation": "AWS region, e.g. 'us-west-2'"
         },
+        "RenewalSettings": {
+          "shape": "RenewalSettings",
+          "locationName": "renewalSettings",
+          "documentation": "Renewal settings for the reservation"
+        },
         "ReservationId": {
           "shape": "__string",
           "locationName": "reservationId",
@@ -5216,6 +5354,11 @@
           "shape": "LogLevel",
           "locationName": "logLevel",
           "documentation": "The log level being written to CloudWatch Logs."
+        },
+        "Maintenance": {
+          "shape": "MaintenanceStatus",
+          "locationName": "maintenance",
+          "documentation": "Maintenance settings for this channel."
         },
         "Name": {
           "shape": "__string",
@@ -5821,6 +5964,11 @@
           "locationName": "region",
           "documentation": "AWS region, e.g. 'us-west-2'"
         },
+        "RenewalSettings": {
+          "shape": "RenewalSettings",
+          "locationName": "renewalSettings",
+          "documentation": "Renewal settings for the reservation"
+        },
         "ReservationId": {
           "shape": "__string",
           "locationName": "reservationId",
@@ -5908,7 +6056,8 @@
       "documentation": "The status of software on the input device.",
       "enum": [
         "UP_TO_DATE",
-        "NOT_UP_TO_DATE"
+        "NOT_UP_TO_DATE",
+        "UPDATING"
       ]
     },
     "DvbNitSettings": {
@@ -6401,7 +6550,7 @@
         "CopyrightHolder": {
           "shape": "__stringMax1000",
           "locationName": "copyrightHolder",
-          "documentation": "Applies only if you plan to convert these source captions to EBU-TT-D or TTML in an output. Complete this field if you want to include the name of the copyright holder in the copyright metadata tag in the TTML"
+          "documentation": "Complete this field if you want to include the name of the copyright holder in the copyright tag in the captions metadata."
         },
         "FillLineGap": {
           "shape": "EbuTtDFillLineGapControl",
@@ -7962,7 +8111,12 @@
         "ProgramDateTime": {
           "shape": "HlsProgramDateTime",
           "locationName": "programDateTime",
-          "documentation": "Includes or excludes EXT-X-PROGRAM-DATE-TIME tag in .m3u8 manifest files. The value is calculated as follows: either the program date and time are initialized using the input timecode source, or the time is initialized using the input timecode source and the date is initialized using the timestampOffset."
+          "documentation": "Includes or excludes EXT-X-PROGRAM-DATE-TIME tag in .m3u8 manifest files. The value is calculated using the program date time clock."
+        },
+        "ProgramDateTimeClock": {
+          "shape": "HlsProgramDateTimeClock",
+          "locationName": "programDateTimeClock",
+          "documentation": "Specifies the algorithm used to drive the HLS EXT-X-PROGRAM-DATE-TIME clock. Options include:\n\nINITIALIZE_FROM_OUTPUT_TIMECODE: The PDT clock is initialized as a function of the first output timecode, then incremented by the EXTINF duration of each encoded segment.\n\nSYSTEM_CLOCK: The PDT clock is initialized as a function of the UTC wall clock, then incremented by the EXTINF duration of each encoded segment. If the PDT clock diverges from the wall clock by more than 500ms, it is resynchronized to the wall clock."
         },
         "ProgramDateTimePeriod": {
           "shape": "__integerMin0Max3600",
@@ -8211,6 +8365,14 @@
       "enum": [
         "EXCLUDE",
         "INCLUDE"
+      ]
+    },
+    "HlsProgramDateTimeClock": {
+      "type": "string",
+      "documentation": "Hls Program Date Time Clock",
+      "enum": [
+        "INITIALIZE_FROM_OUTPUT_TIMECODE",
+        "SYSTEM_CLOCK"
       ]
     },
     "HlsRedundantManifest": {
@@ -8914,7 +9076,7 @@
           "documentation": "key used to extract the password from EC2 Parameter store"
         },
         "Uri": {
-          "shape": "__string",
+          "shape": "__stringMax2048",
           "locationName": "uri",
           "documentation": "Uniform Resource Identifier - This should be a path to a file accessible to the Live system (eg. a http:// URI) depending on the output type. For example, a RTMP destination should have a uri simliar to: \"rtmp://fmsserver/live\"."
         },
@@ -10330,6 +10492,82 @@
         "PASSTHROUGH"
       ]
     },
+    "MaintenanceCreateSettings": {
+      "type": "structure",
+      "members": {
+        "MaintenanceDay": {
+          "shape": "MaintenanceDay",
+          "locationName": "maintenanceDay",
+          "documentation": "Choose one day of the week for maintenance. The chosen day is used for all future maintenance windows."
+        },
+        "MaintenanceStartTime": {
+          "shape": "__stringPattern010920300",
+          "locationName": "maintenanceStartTime",
+          "documentation": "Choose the hour that maintenance will start. The chosen time is used for all future maintenance windows."
+        }
+      },
+      "documentation": "Placeholder documentation for MaintenanceCreateSettings"
+    },
+    "MaintenanceDay": {
+      "type": "string",
+      "documentation": "The currently selected maintenance day.",
+      "enum": [
+        "MONDAY",
+        "TUESDAY",
+        "WEDNESDAY",
+        "THURSDAY",
+        "FRIDAY",
+        "SATURDAY",
+        "SUNDAY"
+      ]
+    },
+    "MaintenanceStatus": {
+      "type": "structure",
+      "members": {
+        "MaintenanceDay": {
+          "shape": "MaintenanceDay",
+          "locationName": "maintenanceDay",
+          "documentation": "The currently selected maintenance day."
+        },
+        "MaintenanceDeadline": {
+          "shape": "__string",
+          "locationName": "maintenanceDeadline",
+          "documentation": "Maintenance is required by the displayed date and time. Date and time is in ISO."
+        },
+        "MaintenanceScheduledDate": {
+          "shape": "__string",
+          "locationName": "maintenanceScheduledDate",
+          "documentation": "The currently scheduled maintenance date and time. Date and time is in ISO."
+        },
+        "MaintenanceStartTime": {
+          "shape": "__string",
+          "locationName": "maintenanceStartTime",
+          "documentation": "The currently selected maintenance start time. Time is in UTC."
+        }
+      },
+      "documentation": "Placeholder documentation for MaintenanceStatus"
+    },
+    "MaintenanceUpdateSettings": {
+      "type": "structure",
+      "members": {
+        "MaintenanceDay": {
+          "shape": "MaintenanceDay",
+          "locationName": "maintenanceDay",
+          "documentation": "Choose one day of the week for maintenance. The chosen day is used for all future maintenance windows."
+        },
+        "MaintenanceScheduledDate": {
+          "shape": "__string",
+          "locationName": "maintenanceScheduledDate",
+          "documentation": "Choose a specific date for maintenance to occur. The chosen date is used for the next maintenance window only."
+        },
+        "MaintenanceStartTime": {
+          "shape": "__stringPattern010920300",
+          "locationName": "maintenanceStartTime",
+          "documentation": "Choose the hour that maintenance will start. The chosen time is used for all future maintenance windows."
+        }
+      },
+      "documentation": "Placeholder documentation for MaintenanceUpdateSettings"
+    },
     "MaxResults": {
       "type": "integer",
       "min": 1,
@@ -11504,7 +11742,7 @@
         "Name": {
           "shape": "__stringMax32",
           "locationName": "name",
-          "documentation": "Custom output group name optionally defined by the user.  Only letters, numbers, and the underscore character allowed; only 32 characters allowed."
+          "documentation": "Custom output group name optionally defined by the user."
         },
         "OutputGroupSettings": {
           "shape": "OutputGroupSettings",
@@ -11704,6 +11942,11 @@
           "locationName": "offeringId",
           "documentation": "Offering to purchase, e.g. '87654321'"
         },
+        "RenewalSettings": {
+          "shape": "RenewalSettings",
+          "locationName": "renewalSettings",
+          "documentation": "Renewal settings for the reservation"
+        },
         "RequestId": {
           "shape": "__string",
           "locationName": "requestId",
@@ -11741,6 +11984,39 @@
       "type": "structure",
       "members": {},
       "documentation": "Raw Settings"
+    },
+    "RebootInputDeviceForce": {
+      "type": "string",
+      "documentation": "Whether or not to force reboot the input device.",
+      "enum": [
+        "NO",
+        "YES"
+      ]
+    },
+    "RebootInputDeviceRequest": {
+      "type": "structure",
+      "members": {
+        "Force": {
+          "shape": "RebootInputDeviceForce",
+          "locationName": "force",
+          "documentation": "Force a reboot of an input device. If the device is streaming, it will stop streaming and begin rebooting within a few seconds of sending the command. If the device was streaming prior to the reboot, the device will resume streaming when the reboot completes."
+        },
+        "InputDeviceId": {
+          "shape": "__string",
+          "location": "uri",
+          "locationName": "inputDeviceId",
+          "documentation": "The unique ID of the input device to reboot. For example, hd-123456789abcdef."
+        }
+      },
+      "documentation": "A request to reboot an AWS Elemental device.",
+      "required": [
+        "InputDeviceId"
+      ]
+    },
+    "RebootInputDeviceResponse": {
+      "type": "structure",
+      "members": {},
+      "documentation": "Placeholder documentation for RebootInputDeviceResponse"
     },
     "Rec601Settings": {
       "type": "structure",
@@ -11795,6 +12071,22 @@
       "required": [
         "ChannelMappings"
       ]
+    },
+    "RenewalSettings": {
+      "type": "structure",
+      "members": {
+        "AutomaticRenewal": {
+          "shape": "ReservationAutomaticRenewal",
+          "locationName": "automaticRenewal",
+          "documentation": "Automatic renewal status for the reservation"
+        },
+        "RenewalCount": {
+          "shape": "__integerMin1",
+          "locationName": "renewalCount",
+          "documentation": "Count for the reservation renewal"
+        }
+      },
+      "documentation": "The Renewal settings for Reservations"
     },
     "Reservation": {
       "type": "structure",
@@ -11859,6 +12151,11 @@
           "locationName": "region",
           "documentation": "AWS region, e.g. 'us-west-2'"
         },
+        "RenewalSettings": {
+          "shape": "RenewalSettings",
+          "locationName": "renewalSettings",
+          "documentation": "Renewal settings for the reservation"
+        },
         "ReservationId": {
           "shape": "__string",
           "locationName": "reservationId",
@@ -11891,6 +12188,15 @@
         }
       },
       "documentation": "Reserved resources available to use"
+    },
+    "ReservationAutomaticRenewal": {
+      "type": "string",
+      "documentation": "Automatic Renewal Status for Reservation",
+      "enum": [
+        "DISABLED",
+        "ENABLED",
+        "UNAVAILABLE"
+      ]
     },
     "ReservationCodec": {
       "type": "string",
@@ -12759,6 +13065,11 @@
           "locationName": "logLevel",
           "documentation": "The log level being written to CloudWatch Logs."
         },
+        "Maintenance": {
+          "shape": "MaintenanceStatus",
+          "locationName": "maintenance",
+          "documentation": "Maintenance settings for this channel."
+        },
         "Name": {
           "shape": "__string",
           "locationName": "name",
@@ -12795,6 +13106,26 @@
         }
       },
       "documentation": "Placeholder documentation for StartChannelResponse"
+    },
+    "StartInputDeviceMaintenanceWindowRequest": {
+      "type": "structure",
+      "members": {
+        "InputDeviceId": {
+          "shape": "__string",
+          "location": "uri",
+          "locationName": "inputDeviceId",
+          "documentation": "The unique ID of the input device to start a maintenance window for. For example, hd-123456789abcdef."
+        }
+      },
+      "required": [
+        "InputDeviceId"
+      ],
+      "documentation": "Placeholder documentation for StartInputDeviceMaintenanceWindowRequest"
+    },
+    "StartInputDeviceMaintenanceWindowResponse": {
+      "type": "structure",
+      "members": {},
+      "documentation": "Placeholder documentation for StartInputDeviceMaintenanceWindowResponse"
     },
     "StartMultiplexRequest": {
       "type": "structure",
@@ -13038,6 +13369,11 @@
           "shape": "LogLevel",
           "locationName": "logLevel",
           "documentation": "The log level being written to CloudWatch Logs."
+        },
+        "Maintenance": {
+          "shape": "MaintenanceStatus",
+          "locationName": "maintenance",
+          "documentation": "Maintenance settings for this channel."
         },
         "Name": {
           "shape": "__string",
@@ -13337,7 +13673,7 @@
         "StyleControl": {
           "shape": "TtmlDestinationStyleControl",
           "locationName": "styleControl",
-          "documentation": "When set to passthrough, passes through style and position information from a TTML-like input source (TTML, SMPTE-TT, CFF-TT) to the CFF-TT output or TTML output."
+          "documentation": "This field is not currently supported and will not affect the output styling. Leave the default value."
         }
       },
       "documentation": "Ttml Destination Settings"
@@ -13492,6 +13828,11 @@
           "shape": "LogLevel",
           "locationName": "logLevel",
           "documentation": "The log level to write to CloudWatch Logs."
+        },
+        "Maintenance": {
+          "shape": "MaintenanceUpdateSettings",
+          "locationName": "maintenance",
+          "documentation": "Maintenance settings for this channel."
         },
         "Name": {
           "shape": "__string",
@@ -13791,6 +14132,11 @@
           "shape": "__string",
           "locationName": "name",
           "documentation": "Name of the reservation"
+        },
+        "RenewalSettings": {
+          "shape": "RenewalSettings",
+          "locationName": "renewalSettings",
+          "documentation": "Renewal settings for the reservation"
         },
         "ReservationId": {
           "shape": "__string",
@@ -14809,6 +15155,16 @@
       "max": 1000,
       "documentation": "Placeholder documentation for __stringMax1000"
     },
+    "__stringMax2048": {
+      "type": "string",
+      "max": 2048,
+      "documentation": "Placeholder documentation for __stringMax2048"
+    },
+    "__stringMax255": {
+      "type": "string",
+      "max": 255,
+      "documentation": "Placeholder documentation for __stringMax255"
+    },
     "__stringMax256": {
       "type": "string",
       "max": 256,
@@ -14877,6 +15233,11 @@
       "min": 6,
       "max": 6,
       "documentation": "Placeholder documentation for __stringMin6Max6"
+    },
+    "__stringPattern010920300": {
+      "type": "string",
+      "pattern": "^([0,1]?[0-9]|2[0-3]):00$",
+      "documentation": "Placeholder documentation for __stringPattern010920300"
     },
     "InputDeviceThumbnail": {
       "type": "blob",

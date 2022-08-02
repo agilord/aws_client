@@ -362,8 +362,6 @@ class StorageGateway {
   /// directly into the S3 storage class (S3 Glacier or S3 Glacier Deep Archive)
   /// that corresponds to the pool.
   ///
-  /// Valid Values: <code>GLACIER</code> | <code>DEEP_ARCHIVE</code>
-  ///
   /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
   ///
@@ -373,8 +371,6 @@ class StorageGateway {
   /// with the pool. When you use your backup application to eject the tape, the
   /// tape is archived directly into the storage class (S3 Glacier or S3 Glacier
   /// Deep Archive) that corresponds to the pool.
-  ///
-  /// Valid Values: <code>GLACIER</code> | <code>DEEP_ARCHIVE</code>
   ///
   /// Parameter [tapeARN] :
   /// The unique Amazon Resource Name (ARN) of the virtual tape that you want to
@@ -850,8 +846,7 @@ class StorageGateway {
   ///
   /// Parameter [defaultStorageClass] :
   /// The default storage class for objects put into an Amazon S3 bucket by the
-  /// S3 File Gateway. The default value is <code>S3_INTELLIGENT_TIERING</code>.
-  /// Optional.
+  /// S3 File Gateway. The default value is <code>S3_STANDARD</code>. Optional.
   ///
   /// Valid Values: <code>S3_STANDARD</code> |
   /// <code>S3_INTELLIGENT_TIERING</code> | <code>S3_STANDARD_IA</code> |
@@ -1145,8 +1140,7 @@ class StorageGateway {
   ///
   /// Parameter [defaultStorageClass] :
   /// The default storage class for objects put into an Amazon S3 bucket by the
-  /// S3 File Gateway. The default value is <code>S3_INTELLIGENT_TIERING</code>.
-  /// Optional.
+  /// S3 File Gateway. The default value is <code>S3_STANDARD</code>. Optional.
   ///
   /// Valid Values: <code>S3_STANDARD</code> |
   /// <code>S3_INTELLIGENT_TIERING</code> | <code>S3_STANDARD_IA</code> |
@@ -1768,8 +1762,6 @@ class StorageGateway {
   /// tape is archived directly into the storage class (S3 Glacier or S3 Deep
   /// Archive) that corresponds to the pool.
   ///
-  /// Valid Values: <code>GLACIER</code> | <code>DEEP_ARCHIVE</code>
-  ///
   /// Parameter [tags] :
   /// A list of up to 50 tags that can be assigned to a virtual tape that has a
   /// barcode. Each tag is a key-value pair.
@@ -1884,8 +1876,6 @@ class StorageGateway {
   /// tape is archived directly into the storage class (S3 Glacier or S3 Glacier
   /// Deep Archive) that corresponds to the pool.
   ///
-  /// Valid Values: <code>GLACIER</code> | <code>DEEP_ARCHIVE</code>
-  ///
   /// Parameter [tags] :
   /// A list of up to 50 tags that can be assigned to a virtual tape. Each tag
   /// is a key-value pair.
@@ -1984,8 +1974,8 @@ class StorageGateway {
   /// upload and download bandwidth rate limit, or you can delete both. If you
   /// delete only one of the limits, the other limit remains unchanged. To
   /// specify which gateway to work with, use the Amazon Resource Name (ARN) of
-  /// the gateway in your request. This operation is supported for the stored
-  /// volume, cached volume and tape gateway types.
+  /// the gateway in your request. This operation is supported only for the
+  /// stored volume, cached volume, and tape gateway types.
   ///
   /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
@@ -2153,7 +2143,7 @@ class StorageGateway {
   /// href="https://docs.aws.amazon.com/storagegateway/latest/userguide/backing-up-volumes.html">Backing
   /// up your volumes</a>. In the <code>DeleteSnapshotSchedule</code> request,
   /// you identify the volume by providing its Amazon Resource Name (ARN). This
-  /// operation is only supported in stored and cached volume gateway types.
+  /// operation is only supported for cached volume gateway types.
   /// <note>
   /// To list or delete a snapshot, you must use the Amazon EC2 API. For more
   /// information, go to <a
@@ -2385,10 +2375,11 @@ class StorageGateway {
 
   /// Returns the bandwidth rate limits of a gateway. By default, these limits
   /// are not set, which means no bandwidth rate limiting is in effect. This
-  /// operation is supported for the stored volume, cached volume, and tape
-  /// gateway types.
+  /// operation is supported only for the stored volume, cached volume, and tape
+  /// gateway types. To describe bandwidth rate limits for S3 file gateways, use
+  /// <a>DescribeBandwidthRateLimitSchedule</a>.
   ///
-  /// This operation only returns a value for a bandwidth rate limit only if the
+  /// This operation returns a value for a bandwidth rate limit only if the
   /// limit is set. If no limits are set for the gateway, then this operation
   /// returns only the gateway ARN in the response body. To specify which
   /// gateway to describe, use the Amazon Resource Name (ARN) of the gateway in
@@ -2421,7 +2412,8 @@ class StorageGateway {
   /// Returns information about the bandwidth rate limit schedule of a gateway.
   /// By default, gateways do not have bandwidth rate limit schedules, which
   /// means no bandwidth rate limiting is in effect. This operation is supported
-  /// only in the volume and tape gateway types.
+  /// only for volume, tape and S3 file gateways. FSx file gateways do not
+  /// support bandwidth rate limits.
   ///
   /// This operation returns information about a gateway's bandwidth rate limit
   /// schedule. A bandwidth rate limit schedule consists of one or more
@@ -3801,7 +3793,7 @@ class StorageGateway {
   }
 
   /// Sends you notification through CloudWatch Events when all files written to
-  /// your file share have been uploaded to Amazon S3.
+  /// your file share have been uploaded to S3. Amazon S3.
   ///
   /// Storage Gateway can send a notification through Amazon CloudWatch Events
   /// when all files written to your file share up to that point in time have
@@ -3870,12 +3862,25 @@ class StorageGateway {
   /// href="https://docs.aws.amazon.com/storagegateway/latest/userguide/monitoring-file-gateway.html#get-notification">Getting
   /// notified about file operations</a> in the <i>Storage Gateway User
   /// Guide</i>.
-  ///
+  /// <important>
+  /// <ul>
+  /// <li>
+  /// Wait at least 60 seconds between consecutive RefreshCache API requests.
+  /// </li>
+  /// <li>
+  /// RefreshCache does not evict cache entries if invoked consecutively within
+  /// 60 seconds of a previous RefreshCache request.
+  /// </li>
+  /// <li>
   /// If you invoke the RefreshCache API when two requests are already being
   /// processed, any new request will cause an
   /// <code>InvalidGatewayRequestException</code> error because too many
   /// requests were sent to the server.
-  ///
+  /// </li>
+  /// </ul> </important> <note>
+  /// The S3 bucket name does not need to be included when entering the list of
+  /// folders in the FolderList parameter.
+  /// </note>
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/storagegateway/latest/userguide/monitoring-file-gateway.html#get-notification">Getting
   /// notified about file operations</a> in the <i>Storage Gateway User
@@ -4343,8 +4348,9 @@ class StorageGateway {
   /// Updates the bandwidth rate limits of a gateway. You can update both the
   /// upload and download bandwidth rate limit or specify only one of the two.
   /// If you don't set a bandwidth rate limit, the existing rate limit remains.
-  /// This operation is supported for the stored volume, cached volume, and tape
-  /// gateway types.
+  /// This operation is supported only for the stored volume, cached volume, and
+  /// tape gateway types. To update bandwidth rate limits for S3 file gateways,
+  /// use <a>UpdateBandwidthRateLimitSchedule</a>.
   ///
   /// By default, a gateway's bandwidth rate limits are not set. If you don't
   /// set any limit, the gateway does not have any limitations on its bandwidth
@@ -4406,8 +4412,9 @@ class StorageGateway {
   /// Updates the bandwidth rate limit schedule for a specified gateway. By
   /// default, gateways do not have bandwidth rate limit schedules, which means
   /// no bandwidth rate limiting is in effect. Use this to initiate or update a
-  /// gateway's bandwidth rate limit schedule. This operation is supported in
-  /// the volume and tape gateway types.
+  /// gateway's bandwidth rate limit schedule. This operation is supported only
+  /// for volume, tape and S3 file gateways. FSx file gateways do not support
+  /// bandwidth rate limits.
   ///
   /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
@@ -4789,8 +4796,7 @@ class StorageGateway {
   ///
   /// Parameter [defaultStorageClass] :
   /// The default storage class for objects put into an Amazon S3 bucket by the
-  /// S3 File Gateway. The default value is <code>S3_INTELLIGENT_TIERING</code>.
-  /// Optional.
+  /// S3 File Gateway. The default value is <code>S3_STANDARD</code>. Optional.
   ///
   /// Valid Values: <code>S3_STANDARD</code> |
   /// <code>S3_INTELLIGENT_TIERING</code> | <code>S3_STANDARD_IA</code> |
@@ -4997,8 +5003,7 @@ class StorageGateway {
   ///
   /// Parameter [defaultStorageClass] :
   /// The default storage class for objects put into an Amazon S3 bucket by the
-  /// S3 File Gateway. The default value is <code>S3_INTELLIGENT_TIERING</code>.
-  /// Optional.
+  /// S3 File Gateway. The default value is <code>S3_STANDARD</code>. Optional.
   ///
   /// Valid Values: <code>S3_STANDARD</code> |
   /// <code>S3_INTELLIGENT_TIERING</code> | <code>S3_STANDARD_IA</code> |
@@ -5734,8 +5739,6 @@ class AutomaticTapeCreationRule {
   /// with the pool. When you use your backup application to eject the tape, the
   /// tape is archived directly into the storage class (S3 Glacier or S3 Glacier
   /// Deep Archive) that corresponds to the pool.
-  ///
-  /// Valid Values: <code>GLACIER</code> | <code>DEEP_ARCHIVE</code>
   final String poolId;
 
   /// A prefix that you append to the barcode of the virtual tape that you are
@@ -6003,6 +6006,12 @@ class CachediSCSIVolume {
   /// <note>
   /// This value is not available for volumes created prior to May 13, 2015, until
   /// you store data on the volume.
+  ///
+  /// If you use a delete tool that overwrites the data on your volume with random
+  /// data, your usage will not be reduced. This is because the random data is not
+  /// compressible. If you want to reduce the amount of billed storage on your
+  /// volume, we recommend overwriting your files with zeros to compress the data
+  /// to a negligible amount of actual storage.
   /// </note>
   final int? volumeUsedInBytes;
 
@@ -7013,7 +7022,9 @@ class DescribeFileSystemAssociationsOutput {
 /// A JSON object containing the following fields:
 class DescribeGatewayInformationOutput {
   /// The Amazon Resource Name (ARN) of the Amazon CloudWatch log group that is
-  /// used to monitor events in the gateway.
+  /// used to monitor events in the gateway. This field only only exist and
+  /// returns once it have been chosen and set by the SGW service, based on the OS
+  /// version of the gateway VM
   final String? cloudWatchLogGroupARN;
 
   /// Date after which this gateway will not receive software updates for new
@@ -7066,7 +7077,8 @@ class DescribeGatewayInformationOutput {
 
   /// The date on which the last software update was applied to the gateway. If
   /// the gateway has never been updated, this field does not return a value in
-  /// the response.
+  /// the response. This only only exist and returns once it have been chosen and
+  /// set by the SGW service, based on the OS version of the gateway VM
   final String? lastSoftwareUpdate;
 
   /// The date on which an update to the gateway is available. This date is in the
@@ -9115,8 +9127,7 @@ class NFSFileShareInfo {
   final List<String>? clientList;
 
   /// The default storage class for objects put into an Amazon S3 bucket by the S3
-  /// File Gateway. The default value is <code>S3_INTELLIGENT_TIERING</code>.
-  /// Optional.
+  /// File Gateway. The default value is <code>S3_STANDARD</code>. Optional.
   ///
   /// Valid Values: <code>S3_STANDARD</code> | <code>S3_INTELLIGENT_TIERING</code>
   /// | <code>S3_STANDARD_IA</code> | <code>S3_ONEZONE_IA</code>
@@ -9751,8 +9762,7 @@ class SMBFileShareInfo {
   final CaseSensitivity? caseSensitivity;
 
   /// The default storage class for objects put into an Amazon S3 bucket by the S3
-  /// File Gateway. The default value is <code>S3_INTELLIGENT_TIERING</code>.
-  /// Optional.
+  /// File Gateway. The default value is <code>S3_STANDARD</code>. Optional.
   ///
   /// Valid Values: <code>S3_STANDARD</code> | <code>S3_INTELLIGENT_TIERING</code>
   /// | <code>S3_STANDARD_IA</code> | <code>S3_ONEZONE_IA</code>
@@ -10407,8 +10417,6 @@ class Tape {
   /// pool. When you use your backup application to eject the tape, the tape is
   /// archived directly into the storage class (S3 Glacier or S3 Glacier Deep
   /// Archive) that corresponds to the pool.
-  ///
-  /// Valid Values: <code>GLACIER</code> | <code>DEEP_ARCHIVE</code>
   final String? poolId;
 
   /// For archiving virtual tapes, indicates how much data remains to be uploaded
@@ -10535,8 +10543,6 @@ class TapeArchive {
 
   /// The ID of the pool that was used to archive the tape. The tapes in this pool
   /// are archived in the S3 storage class that is associated with the pool.
-  ///
-  /// Valid Values: <code>GLACIER</code> | <code>DEEP_ARCHIVE</code>
   final String? poolId;
 
   /// If the archived tape is subject to tape retention lock, the date that the
@@ -10660,8 +10666,6 @@ class TapeInfo {
   /// pool. When you use your backup application to eject the tape, the tape is
   /// archived directly into the storage class (S3 Glacier or S3 Glacier Deep
   /// Archive) that corresponds to the pool.
-  ///
-  /// Valid Values: <code>GLACIER</code> | <code>DEEP_ARCHIVE</code>
   final String? poolId;
 
   /// The date that the tape became subject to tape retention lock.

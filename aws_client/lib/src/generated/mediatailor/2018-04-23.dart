@@ -106,16 +106,22 @@ class MediaTailor {
   ///
   /// Parameter [fillerSlate] :
   /// The slate used to fill gaps between programs in the schedule. You must
-  /// configure filler slate if your channel uses a LINEAR PlaybackMode.
+  /// configure filler slate if your channel uses the LINEAR PlaybackMode.
+  /// MediaTailor doesn't support filler slate for channels using the LOOP
+  /// PlaybackMode.
   ///
   /// Parameter [tags] :
   /// The tags to assign to the channel.
+  ///
+  /// Parameter [tier] :
+  /// The tier of the channel.
   Future<CreateChannelResponse> createChannel({
     required String channelName,
     required List<RequestOutputItem> outputs,
     required PlaybackMode playbackMode,
     SlateSource? fillerSlate,
     Map<String, String>? tags,
+    Tier? tier,
   }) async {
     ArgumentError.checkNotNull(channelName, 'channelName');
     ArgumentError.checkNotNull(outputs, 'outputs');
@@ -125,6 +131,7 @@ class MediaTailor {
       'PlaybackMode': playbackMode.toValue(),
       if (fillerSlate != null) 'FillerSlate': fillerSlate,
       if (tags != null) 'tags': tags,
+      if (tier != null) 'Tier': tier.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -133,6 +140,43 @@ class MediaTailor {
       exceptionFnMap: _exceptionFns,
     );
     return CreateChannelResponse.fromJson(response);
+  }
+
+  /// Creates name for a specific live source in a source location.
+  ///
+  /// Parameter [httpPackageConfigurations] :
+  /// A list of HTTP package configuration parameters for this live source.
+  ///
+  /// Parameter [liveSourceName] :
+  /// The identifier for the live source you are working on.
+  ///
+  /// Parameter [sourceLocationName] :
+  /// The identifier for the source location you are working on.
+  ///
+  /// Parameter [tags] :
+  /// The tags to assign to the live source.
+  Future<CreateLiveSourceResponse> createLiveSource({
+    required List<HttpPackageConfiguration> httpPackageConfigurations,
+    required String liveSourceName,
+    required String sourceLocationName,
+    Map<String, String>? tags,
+  }) async {
+    ArgumentError.checkNotNull(
+        httpPackageConfigurations, 'httpPackageConfigurations');
+    ArgumentError.checkNotNull(liveSourceName, 'liveSourceName');
+    ArgumentError.checkNotNull(sourceLocationName, 'sourceLocationName');
+    final $payload = <String, dynamic>{
+      'HttpPackageConfigurations': httpPackageConfigurations,
+      if (tags != null) 'tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/sourceLocation/${Uri.encodeComponent(sourceLocationName)}/liveSource/${Uri.encodeComponent(liveSourceName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateLiveSourceResponse.fromJson(response);
   }
 
   /// Creates a new prefetch schedule for the specified playback configuration.
@@ -202,29 +246,33 @@ class MediaTailor {
   /// Parameter [sourceLocationName] :
   /// The name of the source location.
   ///
-  /// Parameter [vodSourceName] :
-  /// The name that's used to refer to a VOD source.
-  ///
   /// Parameter [adBreaks] :
   /// The ad break configuration settings.
+  ///
+  /// Parameter [liveSourceName] :
+  /// The name of the LiveSource for this Program.
+  ///
+  /// Parameter [vodSourceName] :
+  /// The name that's used to refer to a VOD source.
   Future<CreateProgramResponse> createProgram({
     required String channelName,
     required String programName,
     required ScheduleConfiguration scheduleConfiguration,
     required String sourceLocationName,
-    required String vodSourceName,
     List<AdBreak>? adBreaks,
+    String? liveSourceName,
+    String? vodSourceName,
   }) async {
     ArgumentError.checkNotNull(channelName, 'channelName');
     ArgumentError.checkNotNull(programName, 'programName');
     ArgumentError.checkNotNull(scheduleConfiguration, 'scheduleConfiguration');
     ArgumentError.checkNotNull(sourceLocationName, 'sourceLocationName');
-    ArgumentError.checkNotNull(vodSourceName, 'vodSourceName');
     final $payload = <String, dynamic>{
       'ScheduleConfiguration': scheduleConfiguration,
       'SourceLocationName': sourceLocationName,
-      'VodSourceName': vodSourceName,
       if (adBreaks != null) 'AdBreaks': adBreaks,
+      if (liveSourceName != null) 'LiveSourceName': liveSourceName,
+      if (vodSourceName != null) 'VodSourceName': vodSourceName,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -251,6 +299,10 @@ class MediaTailor {
   /// Parameter [defaultSegmentDeliveryConfiguration] :
   /// The optional configuration for the server that serves segments.
   ///
+  /// Parameter [segmentDeliveryConfigurations] :
+  /// A list of the segment delivery configurations associated with this
+  /// resource.
+  ///
   /// Parameter [tags] :
   /// The tags to assign to the source location.
   Future<CreateSourceLocationResponse> createSourceLocation({
@@ -258,6 +310,7 @@ class MediaTailor {
     required String sourceLocationName,
     AccessConfiguration? accessConfiguration,
     DefaultSegmentDeliveryConfiguration? defaultSegmentDeliveryConfiguration,
+    List<SegmentDeliveryConfiguration>? segmentDeliveryConfigurations,
     Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(httpConfiguration, 'httpConfiguration');
@@ -269,6 +322,8 @@ class MediaTailor {
       if (defaultSegmentDeliveryConfiguration != null)
         'DefaultSegmentDeliveryConfiguration':
             defaultSegmentDeliveryConfiguration,
+      if (segmentDeliveryConfigurations != null)
+        'SegmentDeliveryConfigurations': segmentDeliveryConfigurations,
       if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
@@ -283,7 +338,7 @@ class MediaTailor {
   /// Creates name for a specific VOD source in a source location.
   ///
   /// Parameter [httpPackageConfigurations] :
-  /// An array of HTTP package configuration parameters for this VOD source.
+  /// A list of HTTP package configuration parameters for this VOD source.
   ///
   /// Parameter [sourceLocationName] :
   /// The identifier for the source location you are working on.
@@ -345,6 +400,28 @@ class MediaTailor {
       payload: null,
       method: 'DELETE',
       requestUri: '/channel/${Uri.encodeComponent(channelName)}/policy',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Deletes a specific live source in a specific source location.
+  ///
+  /// Parameter [liveSourceName] :
+  /// The identifier for the live source you are working on.
+  ///
+  /// Parameter [sourceLocationName] :
+  /// The identifier for the source location you are working on.
+  Future<void> deleteLiveSource({
+    required String liveSourceName,
+    required String sourceLocationName,
+  }) async {
+    ArgumentError.checkNotNull(liveSourceName, 'liveSourceName');
+    ArgumentError.checkNotNull(sourceLocationName, 'sourceLocationName');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/sourceLocation/${Uri.encodeComponent(sourceLocationName)}/liveSource/${Uri.encodeComponent(liveSourceName)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -465,6 +542,30 @@ class MediaTailor {
       exceptionFnMap: _exceptionFns,
     );
     return DescribeChannelResponse.fromJson(response);
+  }
+
+  /// Provides details about a specific live source in a specific source
+  /// location.
+  ///
+  /// Parameter [liveSourceName] :
+  /// The identifier for the live source you are working on.
+  ///
+  /// Parameter [sourceLocationName] :
+  /// The identifier for the source location you are working on.
+  Future<DescribeLiveSourceResponse> describeLiveSource({
+    required String liveSourceName,
+    required String sourceLocationName,
+  }) async {
+    ArgumentError.checkNotNull(liveSourceName, 'liveSourceName');
+    ArgumentError.checkNotNull(sourceLocationName, 'sourceLocationName');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/sourceLocation/${Uri.encodeComponent(sourceLocationName)}/liveSource/${Uri.encodeComponent(liveSourceName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeLiveSourceResponse.fromJson(response);
   }
 
   /// Retrieves the properties of the requested program.
@@ -705,6 +806,45 @@ class MediaTailor {
       exceptionFnMap: _exceptionFns,
     );
     return ListChannelsResponse.fromJson(response);
+  }
+
+  /// lists all the live sources in a source location.
+  ///
+  /// Parameter [sourceLocationName] :
+  /// The identifier for the source location you are working on.
+  ///
+  /// Parameter [maxResults] :
+  /// Upper bound on number of records to return. The maximum number of results
+  /// is 100.
+  ///
+  /// Parameter [nextToken] :
+  /// Pagination token from the GET list request. Use the token to fetch the
+  /// next page of results.
+  Future<ListLiveSourcesResponse> listLiveSources({
+    required String sourceLocationName,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    ArgumentError.checkNotNull(sourceLocationName, 'sourceLocationName');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/sourceLocation/${Uri.encodeComponent(sourceLocationName)}/liveSources',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListLiveSourcesResponse.fromJson(response);
   }
 
   /// Returns a list of the playback configurations defined in AWS Elemental
@@ -1144,14 +1284,22 @@ class MediaTailor {
   ///
   /// Parameter [outputs] :
   /// The channel's output properties.
+  ///
+  /// Parameter [fillerSlate] :
+  /// The slate used to fill gaps between programs in the schedule. You must
+  /// configure filler slate if your channel uses the LINEAR PlaybackMode.
+  /// MediaTailor doesn't support filler slate for channels using the LOOP
+  /// PlaybackMode.
   Future<UpdateChannelResponse> updateChannel({
     required String channelName,
     required List<RequestOutputItem> outputs,
+    SlateSource? fillerSlate,
   }) async {
     ArgumentError.checkNotNull(channelName, 'channelName');
     ArgumentError.checkNotNull(outputs, 'outputs');
     final $payload = <String, dynamic>{
       'Outputs': outputs,
+      if (fillerSlate != null) 'FillerSlate': fillerSlate,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1160,6 +1308,38 @@ class MediaTailor {
       exceptionFnMap: _exceptionFns,
     );
     return UpdateChannelResponse.fromJson(response);
+  }
+
+  /// Updates a specific live source in a specific source location.
+  ///
+  /// Parameter [httpPackageConfigurations] :
+  /// A list of HTTP package configurations for the live source on this account.
+  ///
+  /// Parameter [liveSourceName] :
+  /// The identifier for the live source you are working on.
+  ///
+  /// Parameter [sourceLocationName] :
+  /// The identifier for the source location you are working on.
+  Future<UpdateLiveSourceResponse> updateLiveSource({
+    required List<HttpPackageConfiguration> httpPackageConfigurations,
+    required String liveSourceName,
+    required String sourceLocationName,
+  }) async {
+    ArgumentError.checkNotNull(
+        httpPackageConfigurations, 'httpPackageConfigurations');
+    ArgumentError.checkNotNull(liveSourceName, 'liveSourceName');
+    ArgumentError.checkNotNull(sourceLocationName, 'sourceLocationName');
+    final $payload = <String, dynamic>{
+      'HttpPackageConfigurations': httpPackageConfigurations,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/sourceLocation/${Uri.encodeComponent(sourceLocationName)}/liveSource/${Uri.encodeComponent(liveSourceName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateLiveSourceResponse.fromJson(response);
   }
 
   /// Updates a source location on a specific channel.
@@ -1176,11 +1356,16 @@ class MediaTailor {
   ///
   /// Parameter [defaultSegmentDeliveryConfiguration] :
   /// The optional configuration for the host server that serves segments.
+  ///
+  /// Parameter [segmentDeliveryConfigurations] :
+  /// A list of the segment delivery configurations associated with this
+  /// resource.
   Future<UpdateSourceLocationResponse> updateSourceLocation({
     required HttpConfiguration httpConfiguration,
     required String sourceLocationName,
     AccessConfiguration? accessConfiguration,
     DefaultSegmentDeliveryConfiguration? defaultSegmentDeliveryConfiguration,
+    List<SegmentDeliveryConfiguration>? segmentDeliveryConfigurations,
   }) async {
     ArgumentError.checkNotNull(httpConfiguration, 'httpConfiguration');
     ArgumentError.checkNotNull(sourceLocationName, 'sourceLocationName');
@@ -1191,6 +1376,8 @@ class MediaTailor {
       if (defaultSegmentDeliveryConfiguration != null)
         'DefaultSegmentDeliveryConfiguration':
             defaultSegmentDeliveryConfiguration,
+      if (segmentDeliveryConfigurations != null)
+        'SegmentDeliveryConfigurations': segmentDeliveryConfigurations,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1204,8 +1391,7 @@ class MediaTailor {
   /// Updates a specific VOD source in a specific source location.
   ///
   /// Parameter [httpPackageConfigurations] :
-  /// An array of HTTP package configurations for the VOD source on this
-  /// account.
+  /// A list of HTTP package configurations for the VOD source on this account.
   ///
   /// Parameter [sourceLocationName] :
   /// The identifier for the source location you are working on.
@@ -1601,8 +1787,8 @@ class CdnConfiguration {
   /// default, AWS Elemental MediaTailor uses Amazon CloudFront with default cache
   /// settings as its CDN for ad segments. To set up an alternate CDN, create a
   /// rule in your CDN for the origin
-  /// ads.mediatailor.&amp;lt;region&gt;.amazonaws.com. Then specify the rule's
-  /// name in this AdSegmentUrlPrefix. When AWS Elemental MediaTailor serves a
+  /// ads.mediatailor.&amp;lt;region>.amazonaws.com. Then specify the rule's name
+  /// in this AdSegmentUrlPrefix. When AWS Elemental MediaTailor serves a
   /// manifest, it reports your CDN as the source for ad segments.
   final String? adSegmentUrlPrefix;
 
@@ -1659,11 +1845,15 @@ class Channel {
   /// schedule.
   final String playbackMode;
 
+  /// The tier for this channel. STANDARD tier channels can contain live programs.
+  final String tier;
+
   /// The timestamp of when the channel was created.
   final DateTime? creationTime;
 
-  /// Contains information about the slate used to fill gaps between programs in
-  /// the schedule. You must configure FillerSlate if your channel uses an LINEAR
+  /// The slate used to fill gaps between programs in the schedule. You must
+  /// configure filler slate if your channel uses the LINEAR PlaybackMode.
+  /// MediaTailor doesn't support filler slate for channels using the LOOP
   /// PlaybackMode.
   final SlateSource? fillerSlate;
 
@@ -1679,6 +1869,7 @@ class Channel {
     required this.channelState,
     required this.outputs,
     required this.playbackMode,
+    required this.tier,
     this.creationTime,
     this.fillerSlate,
     this.lastModifiedTime,
@@ -1695,6 +1886,7 @@ class Channel {
           .map((e) => ResponseOutputItem.fromJson(e as Map<String, dynamic>))
           .toList(),
       playbackMode: json['PlaybackMode'] as String,
+      tier: json['Tier'] as String,
       creationTime: timeStampFromJson(json['CreationTime']),
       fillerSlate: json['FillerSlate'] != null
           ? SlateSource.fromJson(json['FillerSlate'] as Map<String, dynamic>)
@@ -1711,6 +1903,7 @@ class Channel {
     final channelState = this.channelState;
     final outputs = this.outputs;
     final playbackMode = this.playbackMode;
+    final tier = this.tier;
     final creationTime = this.creationTime;
     final fillerSlate = this.fillerSlate;
     final lastModifiedTime = this.lastModifiedTime;
@@ -1721,6 +1914,7 @@ class Channel {
       'ChannelState': channelState,
       'Outputs': outputs,
       'PlaybackMode': playbackMode,
+      'Tier': tier,
       if (creationTime != null)
         'CreationTime': unixTimestampToJson(creationTime),
       if (fillerSlate != null) 'FillerSlate': fillerSlate,
@@ -1820,6 +2014,9 @@ class CreateChannelResponse {
   /// The tags assigned to the channel.
   final Map<String, String>? tags;
 
+  /// The channel's tier.
+  final String? tier;
+
   CreateChannelResponse({
     this.arn,
     this.channelName,
@@ -1830,6 +2027,7 @@ class CreateChannelResponse {
     this.outputs,
     this.playbackMode,
     this.tags,
+    this.tier,
   });
 
   factory CreateChannelResponse.fromJson(Map<String, dynamic> json) {
@@ -1849,6 +2047,7 @@ class CreateChannelResponse {
       playbackMode: json['PlaybackMode'] as String?,
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
+      tier: json['Tier'] as String?,
     );
   }
 
@@ -1862,6 +2061,7 @@ class CreateChannelResponse {
     final outputs = this.outputs;
     final playbackMode = this.playbackMode;
     final tags = this.tags;
+    final tier = this.tier;
     return {
       if (arn != null) 'Arn': arn,
       if (channelName != null) 'ChannelName': channelName,
@@ -1873,6 +2073,79 @@ class CreateChannelResponse {
         'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
       if (outputs != null) 'Outputs': outputs,
       if (playbackMode != null) 'PlaybackMode': playbackMode,
+      if (tags != null) 'tags': tags,
+      if (tier != null) 'Tier': tier,
+    };
+  }
+}
+
+class CreateLiveSourceResponse {
+  /// The ARN of the live source.
+  final String? arn;
+
+  /// The timestamp that indicates when the live source was created.
+  final DateTime? creationTime;
+
+  /// The HTTP package configurations.
+  final List<HttpPackageConfiguration>? httpPackageConfigurations;
+
+  /// The timestamp that indicates when the live source was modified.
+  final DateTime? lastModifiedTime;
+
+  /// The name of the live source.
+  final String? liveSourceName;
+
+  /// The name of the source location associated with the VOD source.
+  final String? sourceLocationName;
+
+  /// The tags assigned to the live source.
+  final Map<String, String>? tags;
+
+  CreateLiveSourceResponse({
+    this.arn,
+    this.creationTime,
+    this.httpPackageConfigurations,
+    this.lastModifiedTime,
+    this.liveSourceName,
+    this.sourceLocationName,
+    this.tags,
+  });
+
+  factory CreateLiveSourceResponse.fromJson(Map<String, dynamic> json) {
+    return CreateLiveSourceResponse(
+      arn: json['Arn'] as String?,
+      creationTime: timeStampFromJson(json['CreationTime']),
+      httpPackageConfigurations: (json['HttpPackageConfigurations'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              HttpPackageConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+      liveSourceName: json['LiveSourceName'] as String?,
+      sourceLocationName: json['SourceLocationName'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationTime = this.creationTime;
+    final httpPackageConfigurations = this.httpPackageConfigurations;
+    final lastModifiedTime = this.lastModifiedTime;
+    final liveSourceName = this.liveSourceName;
+    final sourceLocationName = this.sourceLocationName;
+    final tags = this.tags;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (creationTime != null)
+        'CreationTime': unixTimestampToJson(creationTime),
+      if (httpPackageConfigurations != null)
+        'HttpPackageConfigurations': httpPackageConfigurations,
+      if (lastModifiedTime != null)
+        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
+      if (liveSourceName != null) 'LiveSourceName': liveSourceName,
+      if (sourceLocationName != null) 'SourceLocationName': sourceLocationName,
       if (tags != null) 'tags': tags,
     };
   }
@@ -1963,6 +2236,9 @@ class CreateProgramResponse {
   /// The timestamp of when the program was created.
   final DateTime? creationTime;
 
+  /// The name of the LiveSource for this Program.
+  final String? liveSourceName;
+
   /// The name of the program.
   final String? programName;
 
@@ -1982,6 +2258,7 @@ class CreateProgramResponse {
     this.arn,
     this.channelName,
     this.creationTime,
+    this.liveSourceName,
     this.programName,
     this.scheduledStartTime,
     this.sourceLocationName,
@@ -1997,6 +2274,7 @@ class CreateProgramResponse {
       arn: json['Arn'] as String?,
       channelName: json['ChannelName'] as String?,
       creationTime: timeStampFromJson(json['CreationTime']),
+      liveSourceName: json['LiveSourceName'] as String?,
       programName: json['ProgramName'] as String?,
       scheduledStartTime: timeStampFromJson(json['ScheduledStartTime']),
       sourceLocationName: json['SourceLocationName'] as String?,
@@ -2009,6 +2287,7 @@ class CreateProgramResponse {
     final arn = this.arn;
     final channelName = this.channelName;
     final creationTime = this.creationTime;
+    final liveSourceName = this.liveSourceName;
     final programName = this.programName;
     final scheduledStartTime = this.scheduledStartTime;
     final sourceLocationName = this.sourceLocationName;
@@ -2019,6 +2298,7 @@ class CreateProgramResponse {
       if (channelName != null) 'ChannelName': channelName,
       if (creationTime != null)
         'CreationTime': unixTimestampToJson(creationTime),
+      if (liveSourceName != null) 'LiveSourceName': liveSourceName,
       if (programName != null) 'ProgramName': programName,
       if (scheduledStartTime != null)
         'ScheduledStartTime': unixTimestampToJson(scheduledStartTime),
@@ -2048,6 +2328,9 @@ class CreateSourceLocationResponse {
   /// The timestamp that indicates when the source location was last modified.
   final DateTime? lastModifiedTime;
 
+  /// A list of the segment delivery configurations associated with this resource.
+  final List<SegmentDeliveryConfiguration>? segmentDeliveryConfigurations;
+
   /// The name of the source location.
   final String? sourceLocationName;
 
@@ -2061,6 +2344,7 @@ class CreateSourceLocationResponse {
     this.defaultSegmentDeliveryConfiguration,
     this.httpConfiguration,
     this.lastModifiedTime,
+    this.segmentDeliveryConfigurations,
     this.sourceLocationName,
     this.tags,
   });
@@ -2084,6 +2368,12 @@ class CreateSourceLocationResponse {
               json['HttpConfiguration'] as Map<String, dynamic>)
           : null,
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+      segmentDeliveryConfigurations: (json['SegmentDeliveryConfigurations']
+              as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              SegmentDeliveryConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
       sourceLocationName: json['SourceLocationName'] as String?,
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -2098,6 +2388,7 @@ class CreateSourceLocationResponse {
         this.defaultSegmentDeliveryConfiguration;
     final httpConfiguration = this.httpConfiguration;
     final lastModifiedTime = this.lastModifiedTime;
+    final segmentDeliveryConfigurations = this.segmentDeliveryConfigurations;
     final sourceLocationName = this.sourceLocationName;
     final tags = this.tags;
     return {
@@ -2112,6 +2403,8 @@ class CreateSourceLocationResponse {
       if (httpConfiguration != null) 'HttpConfiguration': httpConfiguration,
       if (lastModifiedTime != null)
         'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
+      if (segmentDeliveryConfigurations != null)
+        'SegmentDeliveryConfigurations': segmentDeliveryConfigurations,
       if (sourceLocationName != null) 'SourceLocationName': sourceLocationName,
       if (tags != null) 'tags': tags,
     };
@@ -2128,7 +2421,7 @@ class CreateVodSourceResponse {
   /// The HTTP package configurations.
   final List<HttpPackageConfiguration>? httpPackageConfigurations;
 
-  /// The ARN for the VOD source.
+  /// The last modified time of the VOD source.
   final DateTime? lastModifiedTime;
 
   /// The name of the source location associated with the VOD source.
@@ -2397,6 +2690,18 @@ class DeleteChannelResponse {
   }
 }
 
+class DeleteLiveSourceResponse {
+  DeleteLiveSourceResponse();
+
+  factory DeleteLiveSourceResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteLiveSourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 class DeletePlaybackConfigurationResponse {
   DeletePlaybackConfigurationResponse();
 
@@ -2486,6 +2791,9 @@ class DescribeChannelResponse {
   /// The tags assigned to the channel.
   final Map<String, String>? tags;
 
+  /// The channel's tier.
+  final String? tier;
+
   DescribeChannelResponse({
     this.arn,
     this.channelName,
@@ -2496,6 +2804,7 @@ class DescribeChannelResponse {
     this.outputs,
     this.playbackMode,
     this.tags,
+    this.tier,
   });
 
   factory DescribeChannelResponse.fromJson(Map<String, dynamic> json) {
@@ -2515,6 +2824,7 @@ class DescribeChannelResponse {
       playbackMode: json['PlaybackMode'] as String?,
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
+      tier: json['Tier'] as String?,
     );
   }
 
@@ -2528,6 +2838,7 @@ class DescribeChannelResponse {
     final outputs = this.outputs;
     final playbackMode = this.playbackMode;
     final tags = this.tags;
+    final tier = this.tier;
     return {
       if (arn != null) 'Arn': arn,
       if (channelName != null) 'ChannelName': channelName,
@@ -2539,6 +2850,79 @@ class DescribeChannelResponse {
         'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
       if (outputs != null) 'Outputs': outputs,
       if (playbackMode != null) 'PlaybackMode': playbackMode,
+      if (tags != null) 'tags': tags,
+      if (tier != null) 'Tier': tier,
+    };
+  }
+}
+
+class DescribeLiveSourceResponse {
+  /// The ARN of the live source.
+  final String? arn;
+
+  /// The timestamp that indicates when the live source was created.
+  final DateTime? creationTime;
+
+  /// The HTTP package configurations.
+  final List<HttpPackageConfiguration>? httpPackageConfigurations;
+
+  /// The timestamp that indicates when the live source was modified.
+  final DateTime? lastModifiedTime;
+
+  /// The name of the live source.
+  final String? liveSourceName;
+
+  /// The name of the source location associated with the VOD source.
+  final String? sourceLocationName;
+
+  /// The tags assigned to the live source.
+  final Map<String, String>? tags;
+
+  DescribeLiveSourceResponse({
+    this.arn,
+    this.creationTime,
+    this.httpPackageConfigurations,
+    this.lastModifiedTime,
+    this.liveSourceName,
+    this.sourceLocationName,
+    this.tags,
+  });
+
+  factory DescribeLiveSourceResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeLiveSourceResponse(
+      arn: json['Arn'] as String?,
+      creationTime: timeStampFromJson(json['CreationTime']),
+      httpPackageConfigurations: (json['HttpPackageConfigurations'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              HttpPackageConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+      liveSourceName: json['LiveSourceName'] as String?,
+      sourceLocationName: json['SourceLocationName'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationTime = this.creationTime;
+    final httpPackageConfigurations = this.httpPackageConfigurations;
+    final lastModifiedTime = this.lastModifiedTime;
+    final liveSourceName = this.liveSourceName;
+    final sourceLocationName = this.sourceLocationName;
+    final tags = this.tags;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (creationTime != null)
+        'CreationTime': unixTimestampToJson(creationTime),
+      if (httpPackageConfigurations != null)
+        'HttpPackageConfigurations': httpPackageConfigurations,
+      if (lastModifiedTime != null)
+        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
+      if (liveSourceName != null) 'LiveSourceName': liveSourceName,
+      if (sourceLocationName != null) 'SourceLocationName': sourceLocationName,
       if (tags != null) 'tags': tags,
     };
   }
@@ -2556,6 +2940,9 @@ class DescribeProgramResponse {
 
   /// The timestamp of when the program was created.
   final DateTime? creationTime;
+
+  /// The name of the LiveSource for this Program.
+  final String? liveSourceName;
 
   /// The name of the program.
   final String? programName;
@@ -2576,6 +2963,7 @@ class DescribeProgramResponse {
     this.arn,
     this.channelName,
     this.creationTime,
+    this.liveSourceName,
     this.programName,
     this.scheduledStartTime,
     this.sourceLocationName,
@@ -2591,6 +2979,7 @@ class DescribeProgramResponse {
       arn: json['Arn'] as String?,
       channelName: json['ChannelName'] as String?,
       creationTime: timeStampFromJson(json['CreationTime']),
+      liveSourceName: json['LiveSourceName'] as String?,
       programName: json['ProgramName'] as String?,
       scheduledStartTime: timeStampFromJson(json['ScheduledStartTime']),
       sourceLocationName: json['SourceLocationName'] as String?,
@@ -2603,6 +2992,7 @@ class DescribeProgramResponse {
     final arn = this.arn;
     final channelName = this.channelName;
     final creationTime = this.creationTime;
+    final liveSourceName = this.liveSourceName;
     final programName = this.programName;
     final scheduledStartTime = this.scheduledStartTime;
     final sourceLocationName = this.sourceLocationName;
@@ -2613,6 +3003,7 @@ class DescribeProgramResponse {
       if (channelName != null) 'ChannelName': channelName,
       if (creationTime != null)
         'CreationTime': unixTimestampToJson(creationTime),
+      if (liveSourceName != null) 'LiveSourceName': liveSourceName,
       if (programName != null) 'ProgramName': programName,
       if (scheduledStartTime != null)
         'ScheduledStartTime': unixTimestampToJson(scheduledStartTime),
@@ -2642,6 +3033,9 @@ class DescribeSourceLocationResponse {
   /// The timestamp that indicates when the source location was last modified.
   final DateTime? lastModifiedTime;
 
+  /// A list of the segment delivery configurations associated with this resource.
+  final List<SegmentDeliveryConfiguration>? segmentDeliveryConfigurations;
+
   /// The name of the source location.
   final String? sourceLocationName;
 
@@ -2655,6 +3049,7 @@ class DescribeSourceLocationResponse {
     this.defaultSegmentDeliveryConfiguration,
     this.httpConfiguration,
     this.lastModifiedTime,
+    this.segmentDeliveryConfigurations,
     this.sourceLocationName,
     this.tags,
   });
@@ -2678,6 +3073,12 @@ class DescribeSourceLocationResponse {
               json['HttpConfiguration'] as Map<String, dynamic>)
           : null,
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+      segmentDeliveryConfigurations: (json['SegmentDeliveryConfigurations']
+              as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              SegmentDeliveryConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
       sourceLocationName: json['SourceLocationName'] as String?,
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -2692,6 +3093,7 @@ class DescribeSourceLocationResponse {
         this.defaultSegmentDeliveryConfiguration;
     final httpConfiguration = this.httpConfiguration;
     final lastModifiedTime = this.lastModifiedTime;
+    final segmentDeliveryConfigurations = this.segmentDeliveryConfigurations;
     final sourceLocationName = this.sourceLocationName;
     final tags = this.tags;
     return {
@@ -2706,6 +3108,8 @@ class DescribeSourceLocationResponse {
       if (httpConfiguration != null) 'HttpConfiguration': httpConfiguration,
       if (lastModifiedTime != null)
         'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
+      if (segmentDeliveryConfigurations != null)
+        'SegmentDeliveryConfigurations': segmentDeliveryConfigurations,
       if (sourceLocationName != null) 'SourceLocationName': sourceLocationName,
       if (tags != null) 'tags': tags,
     };
@@ -2722,7 +3126,7 @@ class DescribeVodSourceResponse {
   /// The HTTP package configurations.
   final List<HttpPackageConfiguration>? httpPackageConfigurations;
 
-  /// The ARN for the VOD source.
+  /// The last modified time of the VOD source.
   final DateTime? lastModifiedTime;
 
   /// The name of the source location associated with the VOD source.
@@ -2807,7 +3211,7 @@ class GetChannelPolicyResponse {
 }
 
 class GetChannelScheduleResponse {
-  /// An array of schedule entries for the channel.
+  /// A list of schedule entries for the channel.
   final List<ScheduleEntry>? items;
 
   /// Pagination token from the GET list request. Use the token to fetch the next
@@ -3252,7 +3656,7 @@ class HttpPackageConfiguration {
 }
 
 class ListAlertsResponse {
-  /// An array of alerts that are associated with this resource.
+  /// A list of alerts that are associated with this resource.
   final List<Alert>? items;
 
   /// Pagination token from the list request. Use the token to fetch the next page
@@ -3285,7 +3689,7 @@ class ListAlertsResponse {
 }
 
 class ListChannelsResponse {
-  /// An array of channels that are associated with this account.
+  /// A list of channels that are associated with this account.
   final List<Channel>? items;
 
   /// Pagination token returned by the list request when results exceed the
@@ -3302,6 +3706,39 @@ class ListChannelsResponse {
       items: (json['Items'] as List?)
           ?.whereNotNull()
           .map((e) => Channel.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final items = this.items;
+    final nextToken = this.nextToken;
+    return {
+      if (items != null) 'Items': items,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListLiveSourcesResponse {
+  /// Lists the live sources.
+  final List<LiveSource>? items;
+
+  /// Pagination token from the list request. Use the token to fetch the next page
+  /// of results.
+  final String? nextToken;
+
+  ListLiveSourcesResponse({
+    this.items,
+    this.nextToken,
+  });
+
+  factory ListLiveSourcesResponse.fromJson(Map<String, dynamic> json) {
+    return ListLiveSourcesResponse(
+      items: (json['Items'] as List?)
+          ?.whereNotNull()
+          .map((e) => LiveSource.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
     );
@@ -3388,7 +3825,7 @@ class ListPrefetchSchedulesResponse {
 }
 
 class ListSourceLocationsResponse {
-  /// An array of source locations.
+  /// A list of source locations.
   final List<SourceLocation>? items;
 
   /// Pagination token from the list request. Use the token to fetch the next page
@@ -3509,6 +3946,78 @@ class LivePreRollConfiguration {
       if (adDecisionServerUrl != null)
         'AdDecisionServerUrl': adDecisionServerUrl,
       if (maxDurationSeconds != null) 'MaxDurationSeconds': maxDurationSeconds,
+    };
+  }
+}
+
+/// Live source configuration parameters.
+class LiveSource {
+  /// The ARN for the live source.
+  final String arn;
+
+  /// The HTTP package configurations for the live source.
+  final List<HttpPackageConfiguration> httpPackageConfigurations;
+
+  /// The name that's used to refer to a live source.
+  final String liveSourceName;
+
+  /// The name of the source location.
+  final String sourceLocationName;
+
+  /// The timestamp that indicates when the live source was created.
+  final DateTime? creationTime;
+
+  /// The timestamp that indicates when the live source was last modified.
+  final DateTime? lastModifiedTime;
+
+  /// The tags assigned to the live source.
+  final Map<String, String>? tags;
+
+  LiveSource({
+    required this.arn,
+    required this.httpPackageConfigurations,
+    required this.liveSourceName,
+    required this.sourceLocationName,
+    this.creationTime,
+    this.lastModifiedTime,
+    this.tags,
+  });
+
+  factory LiveSource.fromJson(Map<String, dynamic> json) {
+    return LiveSource(
+      arn: json['Arn'] as String,
+      httpPackageConfigurations: (json['HttpPackageConfigurations'] as List)
+          .whereNotNull()
+          .map((e) =>
+              HttpPackageConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      liveSourceName: json['LiveSourceName'] as String,
+      sourceLocationName: json['SourceLocationName'] as String,
+      creationTime: timeStampFromJson(json['CreationTime']),
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final httpPackageConfigurations = this.httpPackageConfigurations;
+    final liveSourceName = this.liveSourceName;
+    final sourceLocationName = this.sourceLocationName;
+    final creationTime = this.creationTime;
+    final lastModifiedTime = this.lastModifiedTime;
+    final tags = this.tags;
+    return {
+      'Arn': arn,
+      'HttpPackageConfigurations': httpPackageConfigurations,
+      'LiveSourceName': liveSourceName,
+      'SourceLocationName': sourceLocationName,
+      if (creationTime != null)
+        'CreationTime': unixTimestampToJson(creationTime),
+      if (lastModifiedTime != null)
+        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
+      if (tags != null) 'tags': tags,
     };
   }
 }
@@ -4574,14 +5083,14 @@ class ScheduleEntry {
   /// The name of the source location.
   final String sourceLocationName;
 
-  /// The name of the VOD source.
-  final String vodSourceName;
-
   /// The approximate duration of this program, in seconds.
   final int? approximateDurationSeconds;
 
   /// The approximate time that the program will start playing.
   final DateTime? approximateStartTime;
+
+  /// The name of the live source used for the program.
+  final String? liveSourceName;
 
   /// The schedule's ad break properties.
   final List<ScheduleAdBreak>? scheduleAdBreaks;
@@ -4591,16 +5100,20 @@ class ScheduleEntry {
   /// Valid values: PROGRAM or FILLER_SLATE.
   final ScheduleEntryType? scheduleEntryType;
 
+  /// The name of the VOD source.
+  final String? vodSourceName;
+
   ScheduleEntry({
     required this.arn,
     required this.channelName,
     required this.programName,
     required this.sourceLocationName,
-    required this.vodSourceName,
     this.approximateDurationSeconds,
     this.approximateStartTime,
+    this.liveSourceName,
     this.scheduleAdBreaks,
     this.scheduleEntryType,
+    this.vodSourceName,
   });
 
   factory ScheduleEntry.fromJson(Map<String, dynamic> json) {
@@ -4609,15 +5122,16 @@ class ScheduleEntry {
       channelName: json['ChannelName'] as String,
       programName: json['ProgramName'] as String,
       sourceLocationName: json['SourceLocationName'] as String,
-      vodSourceName: json['VodSourceName'] as String,
       approximateDurationSeconds: json['ApproximateDurationSeconds'] as int?,
       approximateStartTime: timeStampFromJson(json['ApproximateStartTime']),
+      liveSourceName: json['LiveSourceName'] as String?,
       scheduleAdBreaks: (json['ScheduleAdBreaks'] as List?)
           ?.whereNotNull()
           .map((e) => ScheduleAdBreak.fromJson(e as Map<String, dynamic>))
           .toList(),
       scheduleEntryType:
           (json['ScheduleEntryType'] as String?)?.toScheduleEntryType(),
+      vodSourceName: json['VodSourceName'] as String?,
     );
   }
 
@@ -4626,24 +5140,26 @@ class ScheduleEntry {
     final channelName = this.channelName;
     final programName = this.programName;
     final sourceLocationName = this.sourceLocationName;
-    final vodSourceName = this.vodSourceName;
     final approximateDurationSeconds = this.approximateDurationSeconds;
     final approximateStartTime = this.approximateStartTime;
+    final liveSourceName = this.liveSourceName;
     final scheduleAdBreaks = this.scheduleAdBreaks;
     final scheduleEntryType = this.scheduleEntryType;
+    final vodSourceName = this.vodSourceName;
     return {
       'Arn': arn,
       'ChannelName': channelName,
       'ProgramName': programName,
       'SourceLocationName': sourceLocationName,
-      'VodSourceName': vodSourceName,
       if (approximateDurationSeconds != null)
         'ApproximateDurationSeconds': approximateDurationSeconds,
       if (approximateStartTime != null)
         'ApproximateStartTime': unixTimestampToJson(approximateStartTime),
+      if (liveSourceName != null) 'LiveSourceName': liveSourceName,
       if (scheduleAdBreaks != null) 'ScheduleAdBreaks': scheduleAdBreaks,
       if (scheduleEntryType != null)
         'ScheduleEntryType': scheduleEntryType.toValue(),
+      if (vodSourceName != null) 'VodSourceName': vodSourceName,
     };
   }
 }
@@ -4722,6 +5238,45 @@ class SecretsManagerAccessTokenConfiguration {
   }
 }
 
+/// The base URL of the host or path of the segment delivery server that you're
+/// using to serve segments. This is typically a content delivery network (CDN).
+/// The URL can be absolute or relative. To use an absolute URL include the
+/// protocol, such as https://example.com/some/path. To use a relative URL
+/// specify the relative path, such as /some/path*.
+class SegmentDeliveryConfiguration {
+  /// The base URL of the host or path of the segment delivery server that you're
+  /// using to serve segments. This is typically a content delivery network (CDN).
+  /// The URL can be absolute or relative. To use an absolute URL include the
+  /// protocol, such as https://example.com/some/path. To use a relative URL
+  /// specify the relative path, such as /some/path*.
+  final String? baseUrl;
+
+  /// A unique identifier used to distinguish between multiple segment delivery
+  /// configurations in a source location.
+  final String? name;
+
+  SegmentDeliveryConfiguration({
+    this.baseUrl,
+    this.name,
+  });
+
+  factory SegmentDeliveryConfiguration.fromJson(Map<String, dynamic> json) {
+    return SegmentDeliveryConfiguration(
+      baseUrl: json['BaseUrl'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final baseUrl = this.baseUrl;
+    final name = this.name;
+    return {
+      if (baseUrl != null) 'BaseUrl': baseUrl,
+      if (name != null) 'Name': name,
+    };
+  }
+}
+
 /// Slate VOD source configuration.
 class SlateSource {
   /// The name of the source location where the slate VOD source is stored.
@@ -4777,6 +5332,9 @@ class SourceLocation {
   /// The timestamp that indicates when the source location was last modified.
   final DateTime? lastModifiedTime;
 
+  /// The segment delivery configurations for the source location.
+  final List<SegmentDeliveryConfiguration>? segmentDeliveryConfigurations;
+
   /// The tags assigned to the source location.
   final Map<String, String>? tags;
 
@@ -4788,6 +5346,7 @@ class SourceLocation {
     this.creationTime,
     this.defaultSegmentDeliveryConfiguration,
     this.lastModifiedTime,
+    this.segmentDeliveryConfigurations,
     this.tags,
   });
 
@@ -4809,6 +5368,12 @@ class SourceLocation {
                       as Map<String, dynamic>)
               : null,
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+      segmentDeliveryConfigurations: (json['SegmentDeliveryConfigurations']
+              as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              SegmentDeliveryConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -4823,6 +5388,7 @@ class SourceLocation {
     final defaultSegmentDeliveryConfiguration =
         this.defaultSegmentDeliveryConfiguration;
     final lastModifiedTime = this.lastModifiedTime;
+    final segmentDeliveryConfigurations = this.segmentDeliveryConfigurations;
     final tags = this.tags;
     return {
       'Arn': arn,
@@ -4837,6 +5403,8 @@ class SourceLocation {
             defaultSegmentDeliveryConfiguration,
       if (lastModifiedTime != null)
         'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
+      if (segmentDeliveryConfigurations != null)
+        'SegmentDeliveryConfigurations': segmentDeliveryConfigurations,
       if (tags != null) 'tags': tags,
     };
   }
@@ -4917,6 +5485,34 @@ class StopChannelResponse {
   }
 }
 
+enum Tier {
+  basic,
+  standard,
+}
+
+extension on Tier {
+  String toValue() {
+    switch (this) {
+      case Tier.basic:
+        return 'BASIC';
+      case Tier.standard:
+        return 'STANDARD';
+    }
+  }
+}
+
+extension on String {
+  Tier toTier() {
+    switch (this) {
+      case 'BASIC':
+        return Tier.basic;
+      case 'STANDARD':
+        return Tier.standard;
+    }
+    throw Exception('$this is not known in enum Tier');
+  }
+}
+
 /// Program transition configuration.
 class Transition {
   /// The position where this program will be inserted relative to the
@@ -4942,6 +5538,9 @@ class Transition {
   /// a program that you specify via RelativePosition.
   final String type;
 
+  /// The duration of the live program in seconds.
+  final int? durationMillis;
+
   /// The name of the program that this program will be inserted next to, as
   /// defined by RelativePosition.
   final String? relativeProgram;
@@ -4953,6 +5552,7 @@ class Transition {
   Transition({
     required this.relativePosition,
     required this.type,
+    this.durationMillis,
     this.relativeProgram,
     this.scheduledStartTimeMillis,
   });
@@ -4962,6 +5562,7 @@ class Transition {
       relativePosition:
           (json['RelativePosition'] as String).toRelativePosition(),
       type: json['Type'] as String,
+      durationMillis: json['DurationMillis'] as int?,
       relativeProgram: json['RelativeProgram'] as String?,
       scheduledStartTimeMillis: json['ScheduledStartTimeMillis'] as int?,
     );
@@ -4970,11 +5571,13 @@ class Transition {
   Map<String, dynamic> toJson() {
     final relativePosition = this.relativePosition;
     final type = this.type;
+    final durationMillis = this.durationMillis;
     final relativeProgram = this.relativeProgram;
     final scheduledStartTimeMillis = this.scheduledStartTimeMillis;
     return {
       'RelativePosition': relativePosition.toValue(),
       'Type': type,
+      if (durationMillis != null) 'DurationMillis': durationMillis,
       if (relativeProgram != null) 'RelativeProgram': relativeProgram,
       if (scheduledStartTimeMillis != null)
         'ScheduledStartTimeMillis': scheduledStartTimeMillis,
@@ -5039,6 +5642,9 @@ class UpdateChannelResponse {
   /// The tags assigned to the channel.
   final Map<String, String>? tags;
 
+  /// The channel's tier.
+  final String? tier;
+
   UpdateChannelResponse({
     this.arn,
     this.channelName,
@@ -5049,6 +5655,7 @@ class UpdateChannelResponse {
     this.outputs,
     this.playbackMode,
     this.tags,
+    this.tier,
   });
 
   factory UpdateChannelResponse.fromJson(Map<String, dynamic> json) {
@@ -5068,6 +5675,7 @@ class UpdateChannelResponse {
       playbackMode: json['PlaybackMode'] as String?,
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
+      tier: json['Tier'] as String?,
     );
   }
 
@@ -5081,6 +5689,7 @@ class UpdateChannelResponse {
     final outputs = this.outputs;
     final playbackMode = this.playbackMode;
     final tags = this.tags;
+    final tier = this.tier;
     return {
       if (arn != null) 'Arn': arn,
       if (channelName != null) 'ChannelName': channelName,
@@ -5092,6 +5701,79 @@ class UpdateChannelResponse {
         'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
       if (outputs != null) 'Outputs': outputs,
       if (playbackMode != null) 'PlaybackMode': playbackMode,
+      if (tags != null) 'tags': tags,
+      if (tier != null) 'Tier': tier,
+    };
+  }
+}
+
+class UpdateLiveSourceResponse {
+  /// The ARN of the live source.
+  final String? arn;
+
+  /// The timestamp that indicates when the live source was created.
+  final DateTime? creationTime;
+
+  /// The HTTP package configurations.
+  final List<HttpPackageConfiguration>? httpPackageConfigurations;
+
+  /// The timestamp that indicates when the live source was modified.
+  final DateTime? lastModifiedTime;
+
+  /// The name of the live source.
+  final String? liveSourceName;
+
+  /// The name of the source location associated with the VOD source.
+  final String? sourceLocationName;
+
+  /// The tags assigned to the live source.
+  final Map<String, String>? tags;
+
+  UpdateLiveSourceResponse({
+    this.arn,
+    this.creationTime,
+    this.httpPackageConfigurations,
+    this.lastModifiedTime,
+    this.liveSourceName,
+    this.sourceLocationName,
+    this.tags,
+  });
+
+  factory UpdateLiveSourceResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateLiveSourceResponse(
+      arn: json['Arn'] as String?,
+      creationTime: timeStampFromJson(json['CreationTime']),
+      httpPackageConfigurations: (json['HttpPackageConfigurations'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              HttpPackageConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+      liveSourceName: json['LiveSourceName'] as String?,
+      sourceLocationName: json['SourceLocationName'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationTime = this.creationTime;
+    final httpPackageConfigurations = this.httpPackageConfigurations;
+    final lastModifiedTime = this.lastModifiedTime;
+    final liveSourceName = this.liveSourceName;
+    final sourceLocationName = this.sourceLocationName;
+    final tags = this.tags;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (creationTime != null)
+        'CreationTime': unixTimestampToJson(creationTime),
+      if (httpPackageConfigurations != null)
+        'HttpPackageConfigurations': httpPackageConfigurations,
+      if (lastModifiedTime != null)
+        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
+      if (liveSourceName != null) 'LiveSourceName': liveSourceName,
+      if (sourceLocationName != null) 'SourceLocationName': sourceLocationName,
       if (tags != null) 'tags': tags,
     };
   }
@@ -5117,6 +5799,9 @@ class UpdateSourceLocationResponse {
   /// The timestamp that indicates when the source location was last modified.
   final DateTime? lastModifiedTime;
 
+  /// A list of the segment delivery configurations associated with this resource.
+  final List<SegmentDeliveryConfiguration>? segmentDeliveryConfigurations;
+
   /// The name of the source location.
   final String? sourceLocationName;
 
@@ -5130,6 +5815,7 @@ class UpdateSourceLocationResponse {
     this.defaultSegmentDeliveryConfiguration,
     this.httpConfiguration,
     this.lastModifiedTime,
+    this.segmentDeliveryConfigurations,
     this.sourceLocationName,
     this.tags,
   });
@@ -5153,6 +5839,12 @@ class UpdateSourceLocationResponse {
               json['HttpConfiguration'] as Map<String, dynamic>)
           : null,
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+      segmentDeliveryConfigurations: (json['SegmentDeliveryConfigurations']
+              as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              SegmentDeliveryConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
       sourceLocationName: json['SourceLocationName'] as String?,
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
@@ -5167,6 +5859,7 @@ class UpdateSourceLocationResponse {
         this.defaultSegmentDeliveryConfiguration;
     final httpConfiguration = this.httpConfiguration;
     final lastModifiedTime = this.lastModifiedTime;
+    final segmentDeliveryConfigurations = this.segmentDeliveryConfigurations;
     final sourceLocationName = this.sourceLocationName;
     final tags = this.tags;
     return {
@@ -5181,6 +5874,8 @@ class UpdateSourceLocationResponse {
       if (httpConfiguration != null) 'HttpConfiguration': httpConfiguration,
       if (lastModifiedTime != null)
         'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
+      if (segmentDeliveryConfigurations != null)
+        'SegmentDeliveryConfigurations': segmentDeliveryConfigurations,
       if (sourceLocationName != null) 'SourceLocationName': sourceLocationName,
       if (tags != null) 'tags': tags,
     };
@@ -5197,7 +5892,7 @@ class UpdateVodSourceResponse {
   /// The HTTP package configurations.
   final List<HttpPackageConfiguration>? httpPackageConfigurations;
 
-  /// The ARN for the VOD source.
+  /// The last modified time of the VOD source.
   final DateTime? lastModifiedTime;
 
   /// The name of the source location associated with the VOD source.

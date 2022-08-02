@@ -388,6 +388,9 @@ class AppSync {
   /// Parameter [description] :
   /// The <code>Function</code> description.
   ///
+  /// Parameter [maxBatchSize] :
+  /// The maximum batching size for a resolver.
+  ///
   /// Parameter [requestMappingTemplate] :
   /// The <code>Function</code> request mapping template. Functions support only
   /// the 2018-05-29 version of the request mapping template.
@@ -400,6 +403,7 @@ class AppSync {
     required String functionVersion,
     required String name,
     String? description,
+    int? maxBatchSize,
     String? requestMappingTemplate,
     String? responseMappingTemplate,
     SyncConfig? syncConfig,
@@ -408,11 +412,18 @@ class AppSync {
     ArgumentError.checkNotNull(dataSourceName, 'dataSourceName');
     ArgumentError.checkNotNull(functionVersion, 'functionVersion');
     ArgumentError.checkNotNull(name, 'name');
+    _s.validateNumRange(
+      'maxBatchSize',
+      maxBatchSize,
+      0,
+      2000,
+    );
     final $payload = <String, dynamic>{
       'dataSourceName': dataSourceName,
       'functionVersion': functionVersion,
       'name': name,
       if (description != null) 'description': description,
+      if (maxBatchSize != null) 'maxBatchSize': maxBatchSize,
       if (requestMappingTemplate != null)
         'requestMappingTemplate': requestMappingTemplate,
       if (responseMappingTemplate != null)
@@ -544,6 +555,9 @@ class AppSync {
   /// </li>
   /// </ul>
   ///
+  /// Parameter [maxBatchSize] :
+  /// The maximum batching size for a resolver.
+  ///
   /// Parameter [pipelineConfig] :
   /// The <code>PipelineConfig</code>.
   ///
@@ -571,6 +585,7 @@ class AppSync {
     CachingConfig? cachingConfig,
     String? dataSourceName,
     ResolverKind? kind,
+    int? maxBatchSize,
     PipelineConfig? pipelineConfig,
     String? requestMappingTemplate,
     String? responseMappingTemplate,
@@ -579,11 +594,18 @@ class AppSync {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(fieldName, 'fieldName');
     ArgumentError.checkNotNull(typeName, 'typeName');
+    _s.validateNumRange(
+      'maxBatchSize',
+      maxBatchSize,
+      0,
+      2000,
+    );
     final $payload = <String, dynamic>{
       'fieldName': fieldName,
       if (cachingConfig != null) 'cachingConfig': cachingConfig,
       if (dataSourceName != null) 'dataSourceName': dataSourceName,
       if (kind != null) 'kind': kind.toValue(),
+      if (maxBatchSize != null) 'maxBatchSize': maxBatchSize,
       if (pipelineConfig != null) 'pipelineConfig': pipelineConfig,
       if (requestMappingTemplate != null)
         'requestMappingTemplate': requestMappingTemplate,
@@ -871,6 +893,47 @@ class AppSync {
           '/v1/domainnames/${Uri.encodeComponent(domainName)}/apiassociation',
       exceptionFnMap: _exceptionFns,
     );
+  }
+
+  /// Evaluates a given template and returns the response. The mapping template
+  /// can be a request or response template.
+  ///
+  /// Request templates take the incoming request after a GraphQL operation is
+  /// parsed and convert it into a request configuration for the selected data
+  /// source operation. Response templates interpret responses from the data
+  /// source and map it to the shape of the GraphQL field output type.
+  ///
+  /// Mapping templates are written in the Apache Velocity Template Language
+  /// (VTL).
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalFailureException].
+  /// May throw [BadRequestException].
+  ///
+  /// Parameter [context] :
+  /// The map that holds all of the contextual information for your resolver
+  /// invocation. A <code>context</code> is required for this action.
+  ///
+  /// Parameter [template] :
+  /// The mapping template; this can be a request or response template. A
+  /// <code>template</code> is required for this action.
+  Future<EvaluateMappingTemplateResponse> evaluateMappingTemplate({
+    required String context,
+    required String template,
+  }) async {
+    ArgumentError.checkNotNull(context, 'context');
+    ArgumentError.checkNotNull(template, 'template');
+    final $payload = <String, dynamic>{
+      'context': context,
+      'template': template,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/v1/dataplane-evaluatetemplate',
+      exceptionFnMap: _exceptionFns,
+    );
+    return EvaluateMappingTemplateResponse.fromJson(response);
   }
 
   /// Flushes an <code>ApiCache</code> object.
@@ -1938,6 +2001,9 @@ class AppSync {
   /// Parameter [description] :
   /// The <code>Function</code> description.
   ///
+  /// Parameter [maxBatchSize] :
+  /// The maximum batching size for a resolver.
+  ///
   /// Parameter [requestMappingTemplate] :
   /// The <code>Function</code> request mapping template. Functions support only
   /// the 2018-05-29 version of the request mapping template.
@@ -1951,6 +2017,7 @@ class AppSync {
     required String functionVersion,
     required String name,
     String? description,
+    int? maxBatchSize,
     String? requestMappingTemplate,
     String? responseMappingTemplate,
     SyncConfig? syncConfig,
@@ -1960,11 +2027,18 @@ class AppSync {
     ArgumentError.checkNotNull(functionId, 'functionId');
     ArgumentError.checkNotNull(functionVersion, 'functionVersion');
     ArgumentError.checkNotNull(name, 'name');
+    _s.validateNumRange(
+      'maxBatchSize',
+      maxBatchSize,
+      0,
+      2000,
+    );
     final $payload = <String, dynamic>{
       'dataSourceName': dataSourceName,
       'functionVersion': functionVersion,
       'name': name,
       if (description != null) 'description': description,
+      if (maxBatchSize != null) 'maxBatchSize': maxBatchSize,
       if (requestMappingTemplate != null)
         'requestMappingTemplate': requestMappingTemplate,
       if (responseMappingTemplate != null)
@@ -2095,6 +2169,9 @@ class AppSync {
   /// </li>
   /// </ul>
   ///
+  /// Parameter [maxBatchSize] :
+  /// The maximum batching size for a resolver.
+  ///
   /// Parameter [pipelineConfig] :
   /// The <code>PipelineConfig</code>.
   ///
@@ -2122,6 +2199,7 @@ class AppSync {
     CachingConfig? cachingConfig,
     String? dataSourceName,
     ResolverKind? kind,
+    int? maxBatchSize,
     PipelineConfig? pipelineConfig,
     String? requestMappingTemplate,
     String? responseMappingTemplate,
@@ -2130,10 +2208,17 @@ class AppSync {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(fieldName, 'fieldName');
     ArgumentError.checkNotNull(typeName, 'typeName');
+    _s.validateNumRange(
+      'maxBatchSize',
+      maxBatchSize,
+      0,
+      2000,
+    );
     final $payload = <String, dynamic>{
       if (cachingConfig != null) 'cachingConfig': cachingConfig,
       if (dataSourceName != null) 'dataSourceName': dataSourceName,
       if (kind != null) 'kind': kind.toValue(),
+      if (maxBatchSize != null) 'maxBatchSize': maxBatchSize,
       if (pipelineConfig != null) 'pipelineConfig': pipelineConfig,
       if (requestMappingTemplate != null)
         'requestMappingTemplate': requestMappingTemplate,
@@ -2930,38 +3015,38 @@ class AwsIamConfig {
 
 /// The caching configuration for a resolver that has caching activated.
 class CachingConfig {
+  /// The TTL in seconds for a resolver that has caching activated.
+  ///
+  /// Valid values are 1–3,600 seconds.
+  final int ttl;
+
   /// The caching keys for a resolver that has caching activated.
   ///
   /// Valid values are entries from the <code>$context.arguments</code>,
   /// <code>$context.source</code>, and <code>$context.identity</code> maps.
   final List<String>? cachingKeys;
 
-  /// The TTL in seconds for a resolver that has caching activated.
-  ///
-  /// Valid values are 1–3,600 seconds.
-  final int? ttl;
-
   CachingConfig({
+    required this.ttl,
     this.cachingKeys,
-    this.ttl,
   });
 
   factory CachingConfig.fromJson(Map<String, dynamic> json) {
     return CachingConfig(
+      ttl: json['ttl'] as int,
       cachingKeys: (json['cachingKeys'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
-      ttl: json['ttl'] as int?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final cachingKeys = this.cachingKeys;
     final ttl = this.ttl;
+    final cachingKeys = this.cachingKeys;
     return {
+      'ttl': ttl,
       if (cachingKeys != null) 'cachingKeys': cachingKeys,
-      if (ttl != null) 'ttl': ttl,
     };
   }
 }
@@ -2975,7 +3060,7 @@ class CognitoUserPoolConfig {
   final String userPoolId;
 
   /// A regular expression for validating the incoming Amazon Cognito user pool
-  /// app client ID.
+  /// app client ID. If this value isn't set, no filtering is applied.
   final String? appIdClientRegex;
 
   CognitoUserPoolConfig({
@@ -3782,6 +3867,61 @@ class ElasticsearchDataSourceConfig {
   }
 }
 
+/// Contains the list of errors generated when attempting to evaluate a mapping
+/// template.
+class ErrorDetail {
+  /// The error payload.
+  final String? message;
+
+  ErrorDetail({
+    this.message,
+  });
+
+  factory ErrorDetail.fromJson(Map<String, dynamic> json) {
+    return ErrorDetail(
+      message: json['message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final message = this.message;
+    return {
+      if (message != null) 'message': message,
+    };
+  }
+}
+
+class EvaluateMappingTemplateResponse {
+  /// The <code>ErrorDetail</code> object.
+  final ErrorDetail? error;
+
+  /// The mapping template; this can be a request or response template.
+  final String? evaluationResult;
+
+  EvaluateMappingTemplateResponse({
+    this.error,
+    this.evaluationResult,
+  });
+
+  factory EvaluateMappingTemplateResponse.fromJson(Map<String, dynamic> json) {
+    return EvaluateMappingTemplateResponse(
+      error: json['error'] != null
+          ? ErrorDetail.fromJson(json['error'] as Map<String, dynamic>)
+          : null,
+      evaluationResult: json['evaluationResult'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final error = this.error;
+    final evaluationResult = this.evaluationResult;
+    return {
+      if (error != null) 'error': error,
+      if (evaluationResult != null) 'evaluationResult': evaluationResult,
+    };
+  }
+}
+
 enum FieldLogLevel {
   none,
   error,
@@ -3847,6 +3987,9 @@ class FunctionConfiguration {
   /// version of the template is supported.
   final String? functionVersion;
 
+  /// The maximum batching size for a resolver.
+  final int? maxBatchSize;
+
   /// The name of the <code>Function</code> object.
   final String? name;
 
@@ -3864,6 +4007,7 @@ class FunctionConfiguration {
     this.functionArn,
     this.functionId,
     this.functionVersion,
+    this.maxBatchSize,
     this.name,
     this.requestMappingTemplate,
     this.responseMappingTemplate,
@@ -3877,6 +4021,7 @@ class FunctionConfiguration {
       functionArn: json['functionArn'] as String?,
       functionId: json['functionId'] as String?,
       functionVersion: json['functionVersion'] as String?,
+      maxBatchSize: json['maxBatchSize'] as int?,
       name: json['name'] as String?,
       requestMappingTemplate: json['requestMappingTemplate'] as String?,
       responseMappingTemplate: json['responseMappingTemplate'] as String?,
@@ -3892,6 +4037,7 @@ class FunctionConfiguration {
     final functionArn = this.functionArn;
     final functionId = this.functionId;
     final functionVersion = this.functionVersion;
+    final maxBatchSize = this.maxBatchSize;
     final name = this.name;
     final requestMappingTemplate = this.requestMappingTemplate;
     final responseMappingTemplate = this.responseMappingTemplate;
@@ -3902,6 +4048,7 @@ class FunctionConfiguration {
       if (functionArn != null) 'functionArn': functionArn,
       if (functionId != null) 'functionId': functionId,
       if (functionVersion != null) 'functionVersion': functionVersion,
+      if (maxBatchSize != null) 'maxBatchSize': maxBatchSize,
       if (name != null) 'name': name,
       if (requestMappingTemplate != null)
         'requestMappingTemplate': requestMappingTemplate,
@@ -5086,6 +5233,9 @@ class Resolver {
   /// </ul>
   final ResolverKind? kind;
 
+  /// The maximum batching size for a resolver.
+  final int? maxBatchSize;
+
   /// The <code>PipelineConfig</code>.
   final PipelineConfig? pipelineConfig;
 
@@ -5110,6 +5260,7 @@ class Resolver {
     this.dataSourceName,
     this.fieldName,
     this.kind,
+    this.maxBatchSize,
     this.pipelineConfig,
     this.requestMappingTemplate,
     this.resolverArn,
@@ -5127,6 +5278,7 @@ class Resolver {
       dataSourceName: json['dataSourceName'] as String?,
       fieldName: json['fieldName'] as String?,
       kind: (json['kind'] as String?)?.toResolverKind(),
+      maxBatchSize: json['maxBatchSize'] as int?,
       pipelineConfig: json['pipelineConfig'] != null
           ? PipelineConfig.fromJson(
               json['pipelineConfig'] as Map<String, dynamic>)
@@ -5146,6 +5298,7 @@ class Resolver {
     final dataSourceName = this.dataSourceName;
     final fieldName = this.fieldName;
     final kind = this.kind;
+    final maxBatchSize = this.maxBatchSize;
     final pipelineConfig = this.pipelineConfig;
     final requestMappingTemplate = this.requestMappingTemplate;
     final resolverArn = this.resolverArn;
@@ -5157,6 +5310,7 @@ class Resolver {
       if (dataSourceName != null) 'dataSourceName': dataSourceName,
       if (fieldName != null) 'fieldName': fieldName,
       if (kind != null) 'kind': kind.toValue(),
+      if (maxBatchSize != null) 'maxBatchSize': maxBatchSize,
       if (pipelineConfig != null) 'pipelineConfig': pipelineConfig,
       if (requestMappingTemplate != null)
         'requestMappingTemplate': requestMappingTemplate,
@@ -5653,7 +5807,7 @@ class UserPoolConfig {
   final String userPoolId;
 
   /// A regular expression for validating the incoming Amazon Cognito user pool
-  /// app client ID.
+  /// app client ID. If this value isn't set, no filtering is applied.
   final String? appIdClientRegex;
 
   UserPoolConfig({

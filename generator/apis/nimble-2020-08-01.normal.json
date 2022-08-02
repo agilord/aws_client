@@ -816,7 +816,7 @@
           "shape": "ServiceQuotaExceededException"
         }
       ],
-      "documentation": "<p>Gets StreamingSession resource.</p> <p>anvoke this operation to poll for a streaming session state while creating or deleting a session.</p>"
+      "documentation": "<p>Gets StreamingSession resource.</p> <p>Invoke this operation to poll for a streaming session state while creating or deleting a session.</p>"
     },
     "GetStreamingSessionStream": {
       "name": "GetStreamingSessionStream",
@@ -1196,7 +1196,7 @@
           "shape": "ServiceQuotaExceededException"
         }
       ],
-      "documentation": "<p>Lists the streaming image resources in a studio.</p>"
+      "documentation": "<p>Lists the streaming sessions in a studio.</p>"
     },
     "ListStudioComponents": {
       "name": "ListStudioComponents",
@@ -1930,7 +1930,7 @@
           "documentation": "<p>The name of an Active Directory user that is used on ComputeFarm worker instances.</p>"
         },
         "endpoint": {
-          "shape": "SyntheticComputeFarmConfigurationString",
+          "shape": "SensitiveString",
           "documentation": "<p>The endpoint of the ComputeFarm that is accessed by the studio component resource.</p>"
         }
       },
@@ -2015,7 +2015,7 @@
           "locationName": "X-Amz-Client-Token"
         },
         "description": {
-          "shape": "SyntheticCreateStreamingImageRequestStreamingImageDescription",
+          "shape": "StreamingImageDescription",
           "documentation": "<p>A human-readable description of the streaming image.</p>"
         },
         "ec2ImageId": {
@@ -2023,7 +2023,7 @@
           "documentation": "<p>The ID of an EC2 machine image with which to create this streaming image.</p>"
         },
         "name": {
-          "shape": "SyntheticCreateStreamingImageRequestStreamingImageName",
+          "shape": "StreamingImageName",
           "documentation": "<p>A friendly name for a streaming image resource.</p>"
         },
         "studioId": {
@@ -2070,7 +2070,7 @@
         },
         "ownedBy": {
           "shape": "String",
-          "documentation": "<p>The user ID of the user that owns the streaming session.</p>"
+          "documentation": "<p>The user ID of the user that owns the streaming session. The user that owns the session will be logging into the session and interacting with the virtual workstation.</p>"
         },
         "streamingImageId": {
           "shape": "StreamingImageId",
@@ -2173,9 +2173,17 @@
           "shape": "StudioComponentName",
           "documentation": "<p>The name for the studio component.</p>"
         },
+        "runtimeRoleArn": {
+          "shape": "RoleArn",
+          "documentation": "<p>An IAM role attached to a Studio Component that gives the studio component access to AWS resources at anytime while the instance is running. </p>"
+        },
         "scriptParameters": {
           "shape": "StudioComponentScriptParameterKeyValueList",
           "documentation": "<p>Parameters for the studio component scripts.</p>"
+        },
+        "secureInitializationRoleArn": {
+          "shape": "RoleArn",
+          "documentation": "<p>An IAM role attached to Studio Component when the system initialization script runs which give the studio component access to AWS resources when the system initialization script runs.</p>"
         },
         "studioId": {
           "shape": "String",
@@ -2216,7 +2224,7 @@
       ],
       "members": {
         "adminRoleArn": {
-          "shape": "String",
+          "shape": "RoleArn",
           "documentation": "<p>The IAM role that Studio Admins will assume when logging in to the Nimble Studio portal.</p>"
         },
         "clientToken": {
@@ -2227,7 +2235,7 @@
           "locationName": "X-Amz-Client-Token"
         },
         "displayName": {
-          "shape": "SyntheticCreateStudioRequestStudioDisplayName",
+          "shape": "StudioDisplayName",
           "documentation": "<p>A friendly name for the studio.</p>"
         },
         "studioEncryptionConfiguration": {
@@ -2243,7 +2251,7 @@
           "documentation": "<p>A collection of labels, in the form of key:value pairs, that apply to this resource.</p>"
         },
         "userRoleArn": {
-          "shape": "String",
+          "shape": "RoleArn",
           "documentation": "<p>The IAM role that Studio Users will assume when logging in to the Nimble Studio portal.</p>"
         }
       }
@@ -3044,6 +3052,10 @@
         "updatedBy": {
           "shape": "String",
           "documentation": "<p>The user ID of the user that most recently updated the resource.</p>"
+        },
+        "validationResults": {
+          "shape": "ValidationResults",
+          "documentation": "<p>The list of the latest validation results.</p>"
         }
       },
       "documentation": "<p>A launch profile controls your artist workforce’s access to studio components, like compute farms, shared file systems, managed file systems, and license server configurations, as well as instance types and Amazon Machine Images (AMIs). </p> <pre><code> &lt;p&gt;Studio administrators create launch profiles in the Nimble Studio console. Artists can use their launch profiles to launch an instance from the Nimble Studio portal. Each user’s launch profile defines how they can launch a streaming session. By default, studio admins can use all launch profiles.&lt;/p&gt; </code></pre>"
@@ -3140,9 +3152,17 @@
     "LaunchProfileInitializationScript": {
       "type": "structure",
       "members": {
+        "runtimeRoleArn": {
+          "shape": "RoleArn",
+          "documentation": "<p>An IAM role attached to a Studio Component that gives the studio component access to AWS resources at anytime while the instance is running. </p>"
+        },
         "script": {
           "shape": "StudioComponentInitializationScriptContent",
           "documentation": "<p>The initialization script.</p>"
+        },
+        "secureInitializationRoleArn": {
+          "shape": "RoleArn",
+          "documentation": "<p>An IAM role attached to Studio Component when the system initialization script runs which give the studio component access to AWS resources when the system initialization script runs.</p>"
         },
         "studioComponentId": {
           "shape": "StudioComponentId",
@@ -3249,6 +3269,12 @@
         "UPDATE_FAILED"
       ]
     },
+    "LaunchProfileStateList": {
+      "type": "list",
+      "member": {
+        "shape": "LaunchProfileState"
+      }
+    },
     "LaunchProfileStatusCode": {
       "type": "string",
       "enum": [
@@ -3275,6 +3301,42 @@
       "max": 100,
       "min": 1
     },
+    "LaunchProfileValidationState": {
+      "type": "string",
+      "enum": [
+        "VALIDATION_NOT_STARTED",
+        "VALIDATION_IN_PROGRESS",
+        "VALIDATION_SUCCESS",
+        "VALIDATION_FAILED",
+        "VALIDATION_FAILED_INTERNAL_SERVER_ERROR"
+      ]
+    },
+    "LaunchProfileValidationStatusCode": {
+      "type": "string",
+      "enum": [
+        "VALIDATION_NOT_STARTED",
+        "VALIDATION_IN_PROGRESS",
+        "VALIDATION_SUCCESS",
+        "VALIDATION_FAILED_INVALID_SUBNET_ROUTE_TABLE_ASSOCIATION",
+        "VALIDATION_FAILED_SUBNET_NOT_FOUND",
+        "VALIDATION_FAILED_INVALID_SECURITY_GROUP_ASSOCIATION",
+        "VALIDATION_FAILED_INVALID_ACTIVE_DIRECTORY",
+        "VALIDATION_FAILED_UNAUTHORIZED",
+        "VALIDATION_FAILED_INTERNAL_SERVER_ERROR"
+      ]
+    },
+    "LaunchProfileValidationStatusMessage": {
+      "type": "string"
+    },
+    "LaunchProfileValidationType": {
+      "type": "string",
+      "enum": [
+        "VALIDATE_ACTIVE_DIRECTORY_STUDIO_COMPONENT",
+        "VALIDATE_SUBNET_ASSOCIATION",
+        "VALIDATE_NETWORK_ACL_ASSOCIATION",
+        "VALIDATE_SECURITY_GROUP_ASSOCIATION"
+      ]
+    },
     "LaunchPurpose": {
       "type": "string",
       "documentation": "<p>The launch purpose.</p>",
@@ -3286,7 +3348,7 @@
       "type": "structure",
       "members": {
         "endpoint": {
-          "shape": "SyntheticLicenseServiceConfigurationString",
+          "shape": "SensitiveString",
           "documentation": "<p>The endpoint of the license service that is accessed by the studio component resource.</p>"
         }
       },
@@ -3439,7 +3501,7 @@
           "locationName": "principalId"
         },
         "states": {
-          "shape": "StringList",
+          "shape": "LaunchProfileStateList",
           "documentation": "<p>Filter this request to launch profiles in any of the given states.</p>",
           "location": "querystring",
           "locationName": "states"
@@ -3574,7 +3636,7 @@
           "locationName": "nextToken"
         },
         "states": {
-          "shape": "StringList",
+          "shape": "StudioComponentStateList",
           "documentation": "<p>Filters the request to studio components that are in one of the given states. </p>",
           "location": "querystring",
           "locationName": "states"
@@ -3586,7 +3648,7 @@
           "locationName": "studioId"
         },
         "types": {
-          "shape": "StringList",
+          "shape": "StudioComponentTypeList",
           "documentation": "<p>Filters the request to studio components that are of one of the given types.</p>",
           "location": "querystring",
           "locationName": "types"
@@ -3835,6 +3897,11 @@
       "min": 0,
       "pattern": "[a-z]{2}-?(iso|gov)?-{1}[a-z]*-{1}[0-9]"
     },
+    "RoleArn": {
+      "type": "string",
+      "max": 2048,
+      "min": 0
+    },
     "ScriptParameterKey": {
       "type": "string",
       "documentation": "<p>A script parameter key.</p>",
@@ -3865,11 +3932,15 @@
     "SecurityGroupId": {
       "type": "string"
     },
+    "SensitiveString": {
+      "type": "string",
+      "sensitive": true
+    },
     "SharedFileSystemConfiguration": {
       "type": "structure",
       "members": {
         "endpoint": {
-          "shape": "SyntheticSharedFileSystemConfigurationString",
+          "shape": "SensitiveString",
           "documentation": "<p>The endpoint of the shared file system that is accessed by the studio component resource.</p>"
         },
         "fileSystemId": {
@@ -3881,7 +3952,7 @@
           "documentation": "<p>The mount location for a shared file system on a Linux virtual workstation.</p>"
         },
         "shareName": {
-          "shape": "SyntheticSharedFileSystemConfigurationString",
+          "shape": "SensitiveString",
           "documentation": "<p>The name of the file share.</p>"
         },
         "windowsMountDrive": {
@@ -4018,7 +4089,7 @@
         },
         "maxStoppedSessionLengthInMinutes": {
           "shape": "StreamConfigurationMaxStoppedSessionLengthInMinutes",
-          "documentation": "<p>Integer that determines if you can start and stop your sessions and how long a session can stay in the STOPPED state. The default value is 0. The maximum value is 5760.</p> <p>If the value is missing or set to 0, your sessions can’t be stopped. If you then call StopStreamingSession, the session fails. If the time that a session stays in the READY state exceeds the maxSessionLengthInMinutes value, the session will automatically be terminated by AWS (instead of stopped).</p> <p>If the value is set to a positive number, the session can be stopped. You can call StopStreamingSession to stop sessions in the READY state. If the time that a session stays in the READY state exceeds the maxSessionLengthInMinutes value, the session will automatically be stopped by AWS (instead of terminated).</p>"
+          "documentation": "<p>Integer that determines if you can start and stop your sessions and how long a session can stay in the STOPPED state. The default value is 0. The maximum value is 5760.</p> <p>If the value is missing or set to 0, your sessions can’t be stopped. If you then call <code>StopStreamingSession</code>, the session fails. If the time that a session stays in the READY state exceeds the <code>maxSessionLengthInMinutes</code> value, the session will automatically be terminated (instead of stopped).</p> <p>If the value is set to a positive number, the session can be stopped. You can call <code>StopStreamingSession</code> to stop sessions in the READY state. If the time that a session stays in the READY state exceeds the <code>maxSessionLengthInMinutes</code> value, the session will automatically be stopped (instead of terminated).</p>"
         },
         "sessionStorage": {
           "shape": "StreamConfigurationSessionStorage",
@@ -4053,7 +4124,7 @@
         },
         "maxStoppedSessionLengthInMinutes": {
           "shape": "StreamConfigurationMaxStoppedSessionLengthInMinutes",
-          "documentation": "<p>Integer that determines if you can start and stop your sessions and how long a session can stay in the STOPPED state. The default value is 0. The maximum value is 5760.</p> <p>If the value is missing or set to 0, your sessions can’t be stopped. If you then call StopStreamingSession, the session fails. If the time that a session stays in the READY state exceeds the maxSessionLengthInMinutes value, the session will automatically be terminated by AWS (instead of stopped).</p> <p>If the value is set to a positive number, the session can be stopped. You can call StopStreamingSession to stop sessions in the READY state. If the time that a session stays in the READY state exceeds the maxSessionLengthInMinutes value, the session will automatically be stopped by AWS (instead of terminated).</p>"
+          "documentation": "<p>Integer that determines if you can start and stop your sessions and how long a session can stay in the STOPPED state. The default value is 0. The maximum value is 5760.</p> <p>If the value is missing or set to 0, your sessions can’t be stopped. If you then call <code>StopStreamingSession</code>, the session fails. If the time that a session stays in the READY state exceeds the <code>maxSessionLengthInMinutes</code> value, the session will automatically be terminated (instead of stopped).</p> <p>If the value is set to a positive number, the session can be stopped. You can call <code>StopStreamingSession</code> to stop sessions in the READY state. If the time that a session stays in the READY state exceeds the <code>maxSessionLengthInMinutes</code> value, the session will automatically be stopped (instead of terminated).</p>"
         },
         "sessionStorage": {
           "shape": "StreamConfigurationSessionStorage",
@@ -4108,7 +4179,7 @@
           "documentation": "<p>The ARN of the resource.</p>"
         },
         "description": {
-          "shape": "SyntheticStreamingImageStreamingImageDescription",
+          "shape": "StreamingImageDescription",
           "documentation": "<p>A human-readable description of the streaming image.</p>"
         },
         "ec2ImageId": {
@@ -4124,7 +4195,7 @@
           "documentation": "<p>The list of EULAs that must be accepted before a Streaming Session can be started using this streaming image.</p>"
         },
         "name": {
-          "shape": "SyntheticStreamingImageStreamingImageName",
+          "shape": "StreamingImageName",
           "documentation": "<p>A friendly name for a streaming image resource.</p>"
         },
         "owner": {
@@ -4157,6 +4228,13 @@
         }
       },
       "documentation": "<p>Represents a streaming image resource.</p> <p>Streaming images are used by studio users to select which operating system and software they want to use in a Nimble Studio streaming session.</p> <p>Amazon provides a number of streaming images that include popular 3rd-party software.</p> <p>You can create your own streaming images using an Amazon Elastic Compute Cloud (Amazon EC2) machine image that you create for this purpose. You can also include software that your users require.</p>"
+    },
+    "StreamingImageDescription": {
+      "type": "string",
+      "documentation": "<p>The description.</p>",
+      "max": 256,
+      "min": 0,
+      "sensitive": true
     },
     "StreamingImageEncryptionConfiguration": {
       "type": "structure",
@@ -4206,6 +4284,13 @@
       "member": {
         "shape": "StreamingImage"
       }
+    },
+    "StreamingImageName": {
+      "type": "string",
+      "documentation": "<p>A friendly name for a streaming image resource.</p>",
+      "max": 64,
+      "min": 0,
+      "sensitive": true
     },
     "StreamingImageOwner": {
       "type": "string",
@@ -4287,7 +4372,7 @@
         },
         "ownedBy": {
           "shape": "String",
-          "documentation": "<p>The user ID of the user that owns the streaming session.</p>"
+          "documentation": "<p>The user ID of the user that owns the streaming session. The user that owns the session will be logging into the session and interacting with the virtual workstation.</p>"
         },
         "sessionId": {
           "shape": "StreamingSessionId",
@@ -4391,7 +4476,8 @@
         "STREAMING_SESSION_STOPPED",
         "STREAMING_SESSION_STARTED",
         "STREAMING_SESSION_STOP_IN_PROGRESS",
-        "STREAMING_SESSION_START_IN_PROGRESS"
+        "STREAMING_SESSION_START_IN_PROGRESS",
+        "AMI_VALIDATION_ERROR"
       ]
     },
     "StreamingSessionStorageMode": {
@@ -4412,11 +4498,11 @@
       "members": {
         "linux": {
           "shape": "StreamingSessionStorageRootPathLinux",
-          "documentation": "<p>The folder path in Linux workstations where files are uploaded. The default path is <code>$HOME/Downloads</code>.</p>"
+          "documentation": "<p>The folder path in Linux workstations where files are uploaded.</p>"
         },
         "windows": {
           "shape": "StreamingSessionStorageRootPathWindows",
-          "documentation": "<p>The folder path in Windows workstations where files are uploaded. The default path is <code>%HOMEPATH%\\Downloads</code>.</p>"
+          "documentation": "<p>The folder path in Windows workstations where files are uploaded.</p>"
         }
       },
       "documentation": "<p>The upload storage root location (folder) on streaming workstations where files are uploaded.</p>"
@@ -4452,7 +4538,7 @@
         },
         "ownedBy": {
           "shape": "String",
-          "documentation": "<p>The user ID of the user that owns the streaming session.</p>"
+          "documentation": "<p>The user ID of the user that owns the streaming session. The user that owns the session will be logging into the session and interacting with the virtual workstation.</p>"
         },
         "state": {
           "shape": "StreamingSessionStreamState",
@@ -4467,7 +4553,7 @@
           "documentation": "<p>The stream ID.</p>"
         },
         "url": {
-          "shape": "SyntheticStreamingSessionStreamString",
+          "shape": "SensitiveString",
           "documentation": "<p>The URL to connect to this stream using the DCV client.</p>"
         }
       },
@@ -4513,7 +4599,7 @@
       "type": "structure",
       "members": {
         "adminRoleArn": {
-          "shape": "String",
+          "shape": "RoleArn",
           "documentation": "<p>The IAM role that studio admins assume when logging in to the Nimble Studio portal.</p>"
         },
         "arn": {
@@ -4525,7 +4611,7 @@
           "documentation": "<p>The Unix epoch timestamp in seconds for when the resource was created.</p>"
         },
         "displayName": {
-          "shape": "SyntheticStudioStudioDisplayName",
+          "shape": "StudioDisplayName",
           "documentation": "<p>A friendly name for the studio.</p>"
         },
         "homeRegion": {
@@ -4573,7 +4659,7 @@
           "documentation": "<p>The Unix epoch timestamp in seconds for when the resource was updated.</p>"
         },
         "userRoleArn": {
-          "shape": "String",
+          "shape": "RoleArn",
           "documentation": "<p>The IAM role that studio users assume when logging in to the Nimble Studio portal.</p>"
         }
       },
@@ -4614,9 +4700,17 @@
           "shape": "StudioComponentName",
           "documentation": "<p>A friendly name for the studio component resource.</p>"
         },
+        "runtimeRoleArn": {
+          "shape": "RoleArn",
+          "documentation": "<p>An IAM role attached to a Studio Component that gives the studio component access to AWS resources at anytime while the instance is running. </p>"
+        },
         "scriptParameters": {
           "shape": "StudioComponentScriptParameterKeyValueList",
           "documentation": "<p>Parameters for the studio component scripts.</p>"
+        },
+        "secureInitializationRoleArn": {
+          "shape": "RoleArn",
+          "documentation": "<p>An IAM role attached to Studio Component when the system initialization script runs which give the studio component access to AWS resources when the system initialization script runs.</p>"
         },
         "state": {
           "shape": "StudioComponentState",
@@ -4778,6 +4872,12 @@
         "UPDATE_FAILED"
       ]
     },
+    "StudioComponentStateList": {
+      "type": "list",
+      "member": {
+        "shape": "StudioComponentState"
+      }
+    },
     "StudioComponentStatusCode": {
       "type": "string",
       "documentation": "<p>The current status of the studio component resource.</p> <p>When the resource is in the 'READY' state, the status code signals what the last mutation made to the resource was.</p> <p>When the resource is in a CREATE_FAILED/UPDATE_FAILED/DELETE_FAILED state, the status code signals what went wrong and why the mutation failed.</p>",
@@ -4860,6 +4960,18 @@
         "LICENSE_SERVICE",
         "CUSTOM"
       ]
+    },
+    "StudioComponentTypeList": {
+      "type": "list",
+      "member": {
+        "shape": "StudioComponentType"
+      }
+    },
+    "StudioDisplayName": {
+      "type": "string",
+      "max": 64,
+      "min": 0,
+      "sensitive": true
     },
     "StudioEncryptionConfiguration": {
       "type": "structure",
@@ -4976,82 +5088,6 @@
         "AWS_SSO_CONFIGURATION_REPAIRED",
         "AWS_SSO_CONFIGURATION_REPAIR_IN_PROGRESS"
       ]
-    },
-    "SyntheticComputeFarmConfigurationString": {
-      "type": "string",
-      "sensitive": true
-    },
-    "SyntheticCreateStreamingImageRequestStreamingImageDescription": {
-      "type": "string",
-      "documentation": "<p>The description.</p>",
-      "max": 256,
-      "min": 0,
-      "sensitive": true
-    },
-    "SyntheticCreateStreamingImageRequestStreamingImageName": {
-      "type": "string",
-      "documentation": "<p>A friendly name for a streaming image resource.</p>",
-      "max": 64,
-      "min": 0,
-      "sensitive": true
-    },
-    "SyntheticCreateStudioRequestStudioDisplayName": {
-      "type": "string",
-      "max": 64,
-      "min": 0,
-      "sensitive": true
-    },
-    "SyntheticLicenseServiceConfigurationString": {
-      "type": "string",
-      "sensitive": true
-    },
-    "SyntheticSharedFileSystemConfigurationString": {
-      "type": "string",
-      "sensitive": true
-    },
-    "SyntheticStreamingImageStreamingImageDescription": {
-      "type": "string",
-      "documentation": "<p>The description.</p>",
-      "max": 256,
-      "min": 0,
-      "sensitive": true
-    },
-    "SyntheticStreamingImageStreamingImageName": {
-      "type": "string",
-      "documentation": "<p>A friendly name for a streaming image resource.</p>",
-      "max": 64,
-      "min": 0,
-      "sensitive": true
-    },
-    "SyntheticStreamingSessionStreamString": {
-      "type": "string",
-      "sensitive": true
-    },
-    "SyntheticStudioStudioDisplayName": {
-      "type": "string",
-      "max": 64,
-      "min": 0,
-      "sensitive": true
-    },
-    "SyntheticUpdateStreamingImageRequestStreamingImageDescription": {
-      "type": "string",
-      "documentation": "<p>The description.</p>",
-      "max": 256,
-      "min": 0,
-      "sensitive": true
-    },
-    "SyntheticUpdateStreamingImageRequestStreamingImageName": {
-      "type": "string",
-      "documentation": "<p>A friendly name for a streaming image resource.</p>",
-      "max": 64,
-      "min": 0,
-      "sensitive": true
-    },
-    "SyntheticUpdateStudioRequestStudioDisplayName": {
-      "type": "string",
-      "max": 64,
-      "min": 0,
-      "sensitive": true
     },
     "TagResourceRequest": {
       "type": "structure",
@@ -5234,11 +5270,11 @@
           "locationName": "X-Amz-Client-Token"
         },
         "description": {
-          "shape": "SyntheticUpdateStreamingImageRequestStreamingImageDescription",
+          "shape": "StreamingImageDescription",
           "documentation": "<p>The description.</p>"
         },
         "name": {
-          "shape": "SyntheticUpdateStreamingImageRequestStreamingImageName",
+          "shape": "StreamingImageName",
           "documentation": "<p>The name for the streaming image.</p>"
         },
         "streamingImageId": {
@@ -5297,9 +5333,17 @@
           "shape": "StudioComponentName",
           "documentation": "<p>The name for the studio component.</p>"
         },
+        "runtimeRoleArn": {
+          "shape": "RoleArn",
+          "documentation": "<p>An IAM role attached to a Studio Component that gives the studio component access to AWS resources at anytime while the instance is running. </p>"
+        },
         "scriptParameters": {
           "shape": "StudioComponentScriptParameterKeyValueList",
           "documentation": "<p>Parameters for the studio component scripts.</p>"
+        },
+        "secureInitializationRoleArn": {
+          "shape": "RoleArn",
+          "documentation": "<p>An IAM role attached to Studio Component when the system initialization script runs which give the studio component access to AWS resources when the system initialization script runs.</p>"
         },
         "studioComponentId": {
           "shape": "String",
@@ -5339,7 +5383,7 @@
       ],
       "members": {
         "adminRoleArn": {
-          "shape": "String",
+          "shape": "RoleArn",
           "documentation": "<p>The IAM role that Studio Admins will assume when logging in to the Nimble Studio portal.</p>"
         },
         "clientToken": {
@@ -5350,7 +5394,7 @@
           "locationName": "X-Amz-Client-Token"
         },
         "displayName": {
-          "shape": "SyntheticUpdateStudioRequestStudioDisplayName",
+          "shape": "StudioDisplayName",
           "documentation": "<p>A friendly name for the studio.</p>"
         },
         "studioId": {
@@ -5360,7 +5404,7 @@
           "locationName": "studioId"
         },
         "userRoleArn": {
-          "shape": "String",
+          "shape": "RoleArn",
           "documentation": "<p>The IAM role that Studio Users will assume when logging in to the Nimble Studio portal.</p>"
         }
       }
@@ -5375,6 +5419,40 @@
           "shape": "Studio",
           "documentation": "<p>Information about a studio.</p>"
         }
+      }
+    },
+    "ValidationResult": {
+      "type": "structure",
+      "required": [
+        "state",
+        "statusCode",
+        "statusMessage",
+        "type"
+      ],
+      "members": {
+        "state": {
+          "shape": "LaunchProfileValidationState",
+          "documentation": "<p>The current state.</p>"
+        },
+        "statusCode": {
+          "shape": "LaunchProfileValidationStatusCode",
+          "documentation": "<p>The status code. This will contain the failure reason if the state is <code>VALIDATION_FAILED</code>.</p>"
+        },
+        "statusMessage": {
+          "shape": "LaunchProfileValidationStatusMessage",
+          "documentation": "<p>The status message for the validation result.</p>"
+        },
+        "type": {
+          "shape": "LaunchProfileValidationType",
+          "documentation": "<p>The type of the validation result.</p>"
+        }
+      },
+      "documentation": "<p>The launch profile validation result.</p>"
+    },
+    "ValidationResults": {
+      "type": "list",
+      "member": {
+        "shape": "ValidationResult"
       }
     },
     "WindowsMountDrive": {

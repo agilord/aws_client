@@ -431,6 +431,12 @@ class FSx {
   /// This path specifies where in your file system files will be exported from
   /// or imported to. This file system directory can be linked to only one
   /// Amazon S3 bucket, and no other S3 bucket can be linked to the directory.
+  /// <note>
+  /// If you specify only a forward slash (<code>/</code>) as the file system
+  /// path, you can link only 1 data repository to the file system. You can only
+  /// specify "/" as the file system path for the first data repository
+  /// associated with a file system.
+  /// </note>
   ///
   /// Parameter [batchImportMetaDataOnCreate] :
   /// Set to <code>true</code> to run an import data repository task to import
@@ -538,13 +544,27 @@ class FSx {
   /// Specifies the type of data repository task to create.
   ///
   /// Parameter [paths] :
-  /// (Optional) The path or paths on the Amazon FSx file system to use when the
-  /// data repository task is processed. The default path is the file system
-  /// root directory. The paths you provide need to be relative to the mount
-  /// point of the file system. If the mount point is <code>/mnt/fsx</code> and
-  /// <code>/mnt/fsx/path1</code> is a directory or file on the file system you
-  /// want to export, then the path to provide is <code>path1</code>. If a path
-  /// that you provide isn't valid, the task fails.
+  /// A list of paths for the data repository task to use when the task is
+  /// processed. If a path that you provide isn't valid, the task fails.
+  ///
+  /// <ul>
+  /// <li>
+  /// For export tasks, the list contains paths on the Amazon FSx file system
+  /// from which the files are exported to the Amazon S3 bucket. The default
+  /// path is the file system root directory. The paths you provide need to be
+  /// relative to the mount point of the file system. If the mount point is
+  /// <code>/mnt/fsx</code> and <code>/mnt/fsx/path1</code> is a directory or
+  /// file on the file system you want to export, then the path to provide is
+  /// <code>path1</code>.
+  /// </li>
+  /// <li>
+  /// For import tasks, the list contains paths in the Amazon S3 bucket from
+  /// which POSIX metadata changes are imported to the Amazon FSx file system.
+  /// The path can be an S3 bucket or prefix in the format
+  /// <code>s3://myBucket/myPrefix</code> (where <code>myPrefix</code> is
+  /// optional).
+  /// </li>
+  /// </ul>
   Future<CreateDataRepositoryTaskResponse> createDataRepositoryTask({
     required String fileSystemId,
     required CompletionReport report,
@@ -592,6 +612,9 @@ class FSx {
   /// Amazon FSx for NetApp ONTAP
   /// </li>
   /// <li>
+  /// Amazon FSx for OpenZFS
+  /// </li>
+  /// <li>
   /// Amazon FSx for Windows File Server
   /// </li>
   /// </ul>
@@ -621,7 +644,7 @@ class FSx {
   /// initial lifecycle state of <code>CREATING</code>.
   /// </li>
   /// <li>
-  /// Returns the description of the file system.
+  /// Returns the description of the file system in JSON format.
   /// </li>
   /// </ul>
   /// This operation requires a client request token in the request that Amazon
@@ -774,8 +797,8 @@ class FSx {
   /// <li>
   /// Set to <code>HDD</code> to use hard disk drive storage. HDD is supported
   /// on <code>SINGLE_AZ_2</code> and <code>MULTI_AZ_1</code> Windows file
-  /// system deployment types, and on <code>PERSISTENT</code> Lustre file system
-  /// deployment types.
+  /// system deployment types, and on <code>PERSISTENT_1</code> Lustre file
+  /// system deployment types.
   /// </li>
   /// </ul>
   /// Default value is <code>SSD</code>. For more information, see <a
@@ -859,8 +882,8 @@ class FSx {
   ///
   /// If a file system with the specified client request token exists and the
   /// parameters match, this operation returns the description of the file
-  /// system. If a client request token with the specified by the file system
-  /// exists and the parameters don't match, this call returns
+  /// system. If a file system with the specified client request token exists
+  /// but the parameters don't match, this call returns
   /// <code>IncompatibleParameterError</code>. If a file system with the
   /// specified client request token doesn't exist, this operation does the
   /// following:
@@ -1025,7 +1048,7 @@ class FSx {
     return CreateFileSystemFromBackupResponse.fromJson(jsonResponse.body);
   }
 
-  /// Creates a snapshot of an existing Amazon FSx for OpenZFS file system. With
+  /// Creates a snapshot of an existing Amazon FSx for OpenZFS volume. With
   /// snapshots, you can easily undo file changes and compare file versions by
   /// restoring the volume to a previous version.
   ///
@@ -1183,8 +1206,7 @@ class FSx {
     return CreateStorageVirtualMachineResponse.fromJson(jsonResponse.body);
   }
 
-  /// Creates an Amazon FSx for NetApp ONTAP or Amazon FSx for OpenZFS storage
-  /// volume.
+  /// Creates an FSx for ONTAP or Amazon FSx for OpenZFS storage volume.
   ///
   /// May throw [BadRequest].
   /// May throw [FileSystemNotFound].
@@ -1476,9 +1498,9 @@ class FSx {
     return DeleteFileSystemResponse.fromJson(jsonResponse.body);
   }
 
-  /// Deletes the Amazon FSx snapshot. After deletion, the snapshot no longer
-  /// exists, and its data is gone. Deleting a snapshot doesn't affect snapshots
-  /// stored in a file system backup.
+  /// Deletes an Amazon FSx for OpenZFS snapshot. After deletion, the snapshot
+  /// no longer exists, and its data is gone. Deleting a snapshot doesn't affect
+  /// snapshots stored in a file system backup.
   ///
   /// The <code>DeleteSnapshot</code> operation returns instantly. The snapshot
   /// appears with the lifecycle status of <code>DELETING</code> until the
@@ -1970,7 +1992,7 @@ class FSx {
     return DescribeFileSystemsResponse.fromJson(jsonResponse.body);
   }
 
-  /// Returns the description of specific Amazon FSx snapshots, if a
+  /// Returns the description of specific Amazon FSx for OpenZFS snapshots, if a
   /// <code>SnapshotIds</code> value is provided. Otherwise, this operation
   /// returns all snapshots owned by your Amazon Web Services account in the
   /// Amazon Web Services Region of the endpoint that you're calling.
@@ -2195,8 +2217,7 @@ class FSx {
     return DisassociateFileSystemAliasesResponse.fromJson(jsonResponse.body);
   }
 
-  /// Lists tags for an Amazon FSx file systems and backups in the case of
-  /// Amazon FSx for Windows File Server.
+  /// Lists tags for Amazon FSx resources.
   ///
   /// When retrieving all tags, you can optionally specify the
   /// <code>MaxResults</code> parameter to limit the number of tags in a
@@ -2334,9 +2355,10 @@ class FSx {
   /// <code>RestoreVolumeFromSnapshot</code> fails.
   /// </li>
   /// <li>
-  /// <code>DELETE_CLONED_VOLUMES</code> - Deletes any volumes cloned from this
-  /// volume. If there are any cloned volumes and this option isn't used,
-  /// <code>RestoreVolumeFromSnapshot</code> fails.
+  /// <code>DELETE_CLONED_VOLUMES</code> - Deletes any dependent clone volumes
+  /// created from intermediate snapshots. If there are any dependent clone
+  /// volumes and this option isn't used, <code>RestoreVolumeFromSnapshot</code>
+  /// fails.
   /// </li>
   /// </ul>
   Future<RestoreVolumeFromSnapshotResponse> restoreVolumeFromSnapshot({
@@ -2543,7 +2565,8 @@ class FSx {
   /// <code>WeeklyMaintenanceStartTime</code>
   /// </li>
   /// </ul>
-  /// For FSx for Lustre file systems, you can update the following properties:
+  /// For Amazon FSx for Lustre file systems, you can update the following
+  /// properties:
   ///
   /// <ul>
   /// <li>
@@ -2559,13 +2582,17 @@ class FSx {
   /// <code>DataCompressionType</code>
   /// </li>
   /// <li>
+  /// <code>LustreRootSquashConfiguration</code>
+  /// </li>
+  /// <li>
   /// <code>StorageCapacity</code>
   /// </li>
   /// <li>
   /// <code>WeeklyMaintenanceStartTime</code>
   /// </li>
   /// </ul>
-  /// For FSx for ONTAP file systems, you can update the following properties:
+  /// For Amazon FSx for NetApp ONTAP file systems, you can update the following
+  /// properties:
   ///
   /// <ul>
   /// <li>
@@ -2575,7 +2602,16 @@ class FSx {
   /// <code>DailyAutomaticBackupStartTime</code>
   /// </li>
   /// <li>
+  /// <code>DiskIopsConfiguration</code>
+  /// </li>
+  /// <li>
   /// <code>FsxAdminPassword</code>
+  /// </li>
+  /// <li>
+  /// <code>StorageCapacity</code>
+  /// </li>
+  /// <li>
+  /// <code>ThroughputCapacity</code>
   /// </li>
   /// <li>
   /// <code>WeeklyMaintenanceStartTime</code>
@@ -2596,9 +2632,6 @@ class FSx {
   /// </li>
   /// <li>
   /// <code>DailyAutomaticBackupStartTime</code>
-  /// </li>
-  /// <li>
-  /// <code>DiskIopsConfiguration</code>
   /// </li>
   /// <li>
   /// <code>ThroughputCapacity</code>
@@ -2630,9 +2663,9 @@ class FSx {
   ///
   /// Parameter [storageCapacity] :
   /// Use this parameter to increase the storage capacity of an Amazon FSx for
-  /// Windows File Server or Amazon FSx for Lustre file system. Specifies the
-  /// storage capacity target value, in GiB, to increase the storage capacity
-  /// for the file system that you're updating.
+  /// Windows File Server, Amazon FSx for Lustre, or Amazon FSx for NetApp ONTAP
+  /// file system. Specifies the storage capacity target value, in GiB, to
+  /// increase the storage capacity for the file system that you're updating.
   /// <note>
   /// You can't make a storage capacity increase request if there is an existing
   /// storage capacity increase request in progress.
@@ -2640,16 +2673,20 @@ class FSx {
   /// For Windows file systems, the storage capacity target value must be at
   /// least 10 percent greater than the current storage capacity value. To
   /// increase storage capacity, the file system must have at least 16 MBps of
-  /// throughput capacity.
+  /// throughput capacity. For more information, see <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/WindowsGuide/managing-storage-capacity.html">Managing
+  /// storage capacity</a> in the <i>Amazon FSx for Windows File Server User
+  /// Guide</i>.
   ///
   /// For Lustre file systems, the storage capacity target value can be the
   /// following:
   ///
   /// <ul>
   /// <li>
-  /// For <code>SCRATCH_2</code> and <code>PERSISTENT_1 SSD</code> deployment
-  /// types, valid values are in multiples of 2400 GiB. The value must be
-  /// greater than the current storage capacity.
+  /// For <code>SCRATCH_2</code>, <code>PERSISTENT_1</code>, and
+  /// <code>PERSISTENT_2 SSD</code> deployment types, valid values are in
+  /// multiples of 2400 GiB. The value must be greater than the current storage
+  /// capacity.
   /// </li>
   /// <li>
   /// For <code>PERSISTENT HDD</code> file systems, valid values are multiples
@@ -2662,21 +2699,17 @@ class FSx {
   /// capacity.
   /// </li>
   /// </ul>
-  /// For OpenZFS file systems, the input/output operations per second (IOPS)
-  /// automatically scale with increases to the storage capacity if IOPS is
-  /// configured for automatic scaling. If the storage capacity increase would
-  /// result in less than 3 IOPS per GiB of storage, this operation returns an
-  /// error.
-  ///
   /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/fsx/latest/WindowsGuide/managing-storage-capacity.html">Managing
-  /// storage capacity</a> in the <i>Amazon FSx for Windows File Server User
-  /// Guide</i>, <a
   /// href="https://docs.aws.amazon.com/fsx/latest/LustreGuide/managing-storage-capacity.html">Managing
   /// storage and throughput capacity</a> in the <i>Amazon FSx for Lustre User
-  /// Guide</i>, and <a
-  /// href="https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/managing-storage-capacity.html">Managing
-  /// storage capacity</a> in the <i>Amazon FSx for OpenZFS User Guide</i>.
+  /// Guide</i>.
+  ///
+  /// For ONTAP file systems, the storage capacity target value must be at least
+  /// 10 percent greater than the current storage capacity value. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-storage-capacity.html">Managing
+  /// storage capacity and provisioned IOPS</a> in the <i>Amazon FSx for NetApp
+  /// ONTAP User Guide</i>.
   ///
   /// Parameter [windowsConfiguration] :
   /// The configuration updates for an Amazon FSx for Windows File Server file
@@ -2726,7 +2759,7 @@ class FSx {
     return UpdateFileSystemResponse.fromJson(jsonResponse.body);
   }
 
-  /// Updates the name of a snapshot.
+  /// Updates the name of an Amazon FSx for OpenZFS snapshot.
   ///
   /// May throw [BadRequest].
   /// May throw [SnapshotNotFound].
@@ -3060,16 +3093,12 @@ class AdministrativeActionFailureDetails {
 ///
 /// <ul>
 /// <li>
-/// For Windows, storage optimization is the process of migrating the file
-/// system data to the new, larger disks.
+/// For Windows and ONTAP, storage optimization is the process of migrating the
+/// file system data to newer larger disks.
 /// </li>
 /// <li>
 /// For Lustre, storage optimization consists of rebalancing the data across the
 /// existing and newly added file servers.
-/// </li>
-/// <li>
-/// For OpenZFS, storage optimization consists of migrating data from the older
-/// smaller disks to the newer larger disks.
 /// </li>
 /// </ul>
 /// You can track the storage-optimization progress using the
@@ -3083,8 +3112,9 @@ class AdministrativeActionFailureDetails {
 /// href="https://docs.aws.amazon.com/fsx/latest/LustreGuide/managing-storage-capacity.html">Managing
 /// storage and throughput capacity</a> in the <i>Amazon FSx for Lustre User
 /// Guide</i>, and <a
-/// href="https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/managing-storage-capacity.html">Managing
-/// storage capacity</a> in the <i>Amazon FSx for OpenZFS User Guide</i>.
+/// href="https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-storage-capacity.html">Managing
+/// storage capacity and provisioned IOPS</a> in the <i>Amazon FSx for NetApp
+/// ONTAP User Guide</i>.
 /// </li>
 /// <li>
 /// <code>FILE_SYSTEM_ALIAS_ASSOCIATION</code> - A file system update to
@@ -4075,12 +4105,12 @@ class CreateFileSystemLustreConfiguration {
   /// </li>
   /// </ul>
   /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/fsx/latest/LustreGuide/autoimport-data-repo.html">
+  /// href="https://docs.aws.amazon.com/fsx/latest/LustreGuide/older-deployment-types.html#legacy-auto-import-from-s3">
   /// Automatically import updates from your S3 bucket</a>.
   /// <note>
   /// This parameter is not supported for file systems with the
   /// <code>Persistent_2</code> deployment type. Instead, use
-  /// <code>CreateDataRepositoryAssociation"</code> to create a data repository
+  /// <code>CreateDataRepositoryAssociation</code> to create a data repository
   /// association to link your Lustre file system to a data repository.
   /// </note>
   final AutoImportPolicyType? autoImportPolicy;
@@ -4129,7 +4159,7 @@ class CreateFileSystemLustreConfiguration {
   /// <code>SCRATCH_1</code>.
   ///
   /// Choose <code>PERSISTENT_1</code> for longer-term storage and for
-  /// throughput-focused workloads that aren’t latency-sensitive. a.
+  /// throughput-focused workloads that aren’t latency-sensitive.
   /// <code>PERSISTENT_1</code> supports encryption of data in transit, and is
   /// available in all Amazon Web Services Regions in which FSx for Lustre is
   /// available.
@@ -4259,6 +4289,11 @@ class CreateFileSystemLustreConfiguration {
   /// </ul>
   final int? perUnitStorageThroughput;
 
+  /// The Lustre root squash configuration used when creating an Amazon FSx for
+  /// Lustre file system. When enabled, root squash restricts root-level access
+  /// from clients that try to access your file system as a root user.
+  final LustreRootSquashConfiguration? rootSquashConfiguration;
+
   /// (Optional) The preferred start time to perform weekly maintenance, formatted
   /// d:HH:MM in the UTC time zone, where d is the weekday number, from 1 through
   /// 7, beginning with Monday and ending with Sunday.
@@ -4277,6 +4312,7 @@ class CreateFileSystemLustreConfiguration {
     this.importedFileChunkSize,
     this.logConfiguration,
     this.perUnitStorageThroughput,
+    this.rootSquashConfiguration,
     this.weeklyMaintenanceStartTime,
   });
 
@@ -4303,6 +4339,10 @@ class CreateFileSystemLustreConfiguration {
               json['LogConfiguration'] as Map<String, dynamic>)
           : null,
       perUnitStorageThroughput: json['PerUnitStorageThroughput'] as int?,
+      rootSquashConfiguration: json['RootSquashConfiguration'] != null
+          ? LustreRootSquashConfiguration.fromJson(
+              json['RootSquashConfiguration'] as Map<String, dynamic>)
+          : null,
       weeklyMaintenanceStartTime: json['WeeklyMaintenanceStartTime'] as String?,
     );
   }
@@ -4320,6 +4360,7 @@ class CreateFileSystemLustreConfiguration {
     final importedFileChunkSize = this.importedFileChunkSize;
     final logConfiguration = this.logConfiguration;
     final perUnitStorageThroughput = this.perUnitStorageThroughput;
+    final rootSquashConfiguration = this.rootSquashConfiguration;
     final weeklyMaintenanceStartTime = this.weeklyMaintenanceStartTime;
     return {
       if (autoImportPolicy != null)
@@ -4340,6 +4381,8 @@ class CreateFileSystemLustreConfiguration {
       if (logConfiguration != null) 'LogConfiguration': logConfiguration,
       if (perUnitStorageThroughput != null)
         'PerUnitStorageThroughput': perUnitStorageThroughput,
+      if (rootSquashConfiguration != null)
+        'RootSquashConfiguration': rootSquashConfiguration,
       if (weeklyMaintenanceStartTime != null)
         'WeeklyMaintenanceStartTime': weeklyMaintenanceStartTime,
     };
@@ -4350,12 +4393,27 @@ class CreateFileSystemLustreConfiguration {
 /// are creating.
 class CreateFileSystemOntapConfiguration {
   /// Specifies the FSx for ONTAP file system deployment type to use in creating
-  /// the file system. <code>MULTI_AZ_1</code> is the supported ONTAP deployment
-  /// type.
+  /// the file system.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>MULTI_AZ_1</code> - (Default) A high availability file system
+  /// configured for Multi-AZ redundancy to tolerate temporary Availability Zone
+  /// (AZ) unavailability.
+  /// </li>
+  /// <li>
+  /// <code>SINGLE_AZ_1</code> - A file system configured for Single-AZ
+  /// redundancy.
+  /// </li>
+  /// </ul>
+  /// For information about the use cases for Multi-AZ and Single-AZ deployments,
+  /// refer to <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/high-availability-AZ.html">Choosing
+  /// a file system deployment type</a>.
   final OntapDeploymentType deploymentType;
 
   /// Sets the throughput capacity for the file system that you're creating. Valid
-  /// values are 512, 1024, and 2048 MBps.
+  /// values are 128, 256, 512, 1024, and 2048 MBps.
   final int throughputCapacity;
   final int? automaticBackupRetentionDays;
   final String? dailyAutomaticBackupStartTime;
@@ -4363,9 +4421,13 @@ class CreateFileSystemOntapConfiguration {
   /// The SSD IOPS configuration for the FSx for ONTAP file system.
   final DiskIopsConfiguration? diskIopsConfiguration;
 
-  /// Specifies the IP address range in which the endpoints to access your file
-  /// system will be created. By default, Amazon FSx selects an unused IP address
-  /// range for you from the 198.19.* range.
+  /// (Multi-AZ only) Specifies the IP address range in which the endpoints to
+  /// access your file system will be created. By default, Amazon FSx selects an
+  /// unused IP address range for you from the 198.19.* range.
+  /// <important>
+  /// The Endpoint IP address range you select for your file system must exist
+  /// outside the VPC's CIDR range and must be at least /30 or larger.
+  /// </important>
   final String? endpointIpAddressRange;
 
   /// The ONTAP administrative password for the <code>fsxadmin</code> user with
@@ -4378,10 +4440,10 @@ class CreateFileSystemOntapConfiguration {
   /// located.
   final String? preferredSubnetId;
 
-  /// Specifies the virtual private cloud (VPC) route tables in which your file
-  /// system's endpoints will be created. You should specify all VPC route tables
-  /// associated with the subnets in which your clients are located. By default,
-  /// Amazon FSx selects your VPC's default route table.
+  /// (Multi-AZ only) Specifies the virtual private cloud (VPC) route tables in
+  /// which your file system's endpoints will be created. You should specify all
+  /// VPC route tables associated with the subnets in which your clients are
+  /// located. By default, Amazon FSx selects your VPC's default route table.
   final List<String>? routeTableIds;
   final String? weeklyMaintenanceStartTime;
 
@@ -4454,12 +4516,12 @@ class CreateFileSystemOntapConfiguration {
   }
 }
 
-/// The OpenZFS configuration properties for the file system that you are
-/// creating.
+/// The Amazon FSx for OpenZFS configuration properties for the file system that
+/// you are creating.
 class CreateFileSystemOpenZFSConfiguration {
   /// Specifies the file system deployment type. Amazon FSx for OpenZFS supports
-  /// <code>SINGLE_AZ_1</code>. <code>SINGLE_AZ_1</code> is a file system
-  /// configured for a single Availability Zone (AZ) of redundancy.
+  /// <code>SINGLE_AZ_1</code>. <code>SINGLE_AZ_1</code> deployment type is
+  /// configured for redundancy within a single Availability Zone.
   final OpenZFSDeploymentType deploymentType;
 
   /// Specifies the throughput of an Amazon FSx for OpenZFS file system, measured
@@ -4479,13 +4541,13 @@ class CreateFileSystemOpenZFSConfiguration {
   /// regardless of this value.
   final bool? copyTagsToBackups;
 
-  /// A Boolean value indicating whether tags for the volume should be copied to
-  /// snapshots. This value defaults to <code>false</code>. If it's set to
-  /// <code>true</code>, all tags for the volume are copied to snapshots where the
-  /// user doesn't specify tags. If this value is <code>true</code>, and you
-  /// specify one or more tags, only the specified tags are copied to snapshots.
-  /// If you specify one or more tags when creating the snapshot, no tags are
-  /// copied from the volume, regardless of this value.
+  /// A Boolean value indicating whether tags for the file system should be copied
+  /// to volumes. This value defaults to <code>false</code>. If it's set to
+  /// <code>true</code>, all tags for the file system are copied to volumes where
+  /// the user doesn't specify tags. If this value is <code>true</code>, and you
+  /// specify one or more tags, only the specified tags are copied to volumes. If
+  /// you specify one or more tags when creating the volume, no tags are copied
+  /// from the file system, regardless of this value.
   final bool? copyTagsToVolumes;
   final String? dailyAutomaticBackupStartTime;
   final DiskIopsConfiguration? diskIopsConfiguration;
@@ -4901,9 +4963,11 @@ class CreateOpenZFSOriginSnapshotConfiguration {
   }
 }
 
-/// Specifies the configuration of the OpenZFS volume that you are creating.
+/// Specifies the configuration of the Amazon FSx for OpenZFS volume that you
+/// are creating.
 class CreateOpenZFSVolumeConfiguration {
-  /// The ID of the volume to use as the parent volume.
+  /// The ID of the volume to use as the parent volume of the volume that you are
+  /// creating.
   final String parentVolumeId;
 
   /// A Boolean value indicating whether tags for the volume should be copied to
@@ -4915,20 +4979,31 @@ class CreateOpenZFSVolumeConfiguration {
   /// copied from the volume, regardless of this value.
   final bool? copyTagsToSnapshots;
 
-  /// Specifies the method used to compress the data on the volume. Unless the
-  /// compression type is specified, volumes inherit the
-  /// <code>DataCompressionType</code> value of their parent volume.
+  /// Specifies the method used to compress the data on the volume. The
+  /// compression type is <code>NONE</code> by default.
   ///
   /// <ul>
   /// <li>
   /// <code>NONE</code> - Doesn't compress the data on the volume.
+  /// <code>NONE</code> is the default.
   /// </li>
   /// <li>
   /// <code>ZSTD</code> - Compresses the data in the volume using the Zstandard
-  /// (ZSTD) compression algorithm. This algorithm reduces the amount of space
-  /// used on your volume and has very little impact on compute resources.
+  /// (ZSTD) compression algorithm. ZSTD compression provides a higher level of
+  /// data compression and higher read throughput performance than LZ4
+  /// compression.
+  /// </li>
+  /// <li>
+  /// <code>LZ4</code> - Compresses the data in the volume using the LZ4
+  /// compression algorithm. LZ4 compression provides a lower level of compression
+  /// and higher write throughput performance than ZSTD compression.
   /// </li>
   /// </ul>
+  /// For more information about volume compression types and the performance of
+  /// your Amazon FSx for OpenZFS file system, see <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/performance.html#performance-tips-zfs">
+  /// Tips for maximizing performance</a> File system and volume settings in the
+  /// <i>Amazon FSx for OpenZFS User Guide</i>.
   final OpenZFSDataCompressionType? dataCompressionType;
 
   /// The configuration object for mounting a Network File System (NFS) file
@@ -4942,13 +5017,39 @@ class CreateOpenZFSVolumeConfiguration {
   /// A Boolean value indicating whether the volume is read-only.
   final bool? readOnly;
 
-  /// The maximum amount of storage in gibibytes (GiB) that the volume can use
-  /// from its parent. You can specify a quota larger than the storage on the
-  /// parent volume.
+  /// Specifies the suggested block size for a volume in a ZFS dataset, in
+  /// kibibytes (KiB). Valid values are 4, 8, 16, 32, 64, 128, 256, 512, or 1024
+  /// KiB. The default is 128 KiB. We recommend using the default setting for the
+  /// majority of use cases. Generally, workloads that write in fixed small or
+  /// large record sizes may benefit from setting a custom record size, like
+  /// database workloads (small record size) or media streaming workloads (large
+  /// record size). For additional guidance on when to set a custom record size,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/performance.html#record-size-performance">
+  /// ZFS Record size</a> in the <i>Amazon FSx for OpenZFS User Guide</i>.
+  final int? recordSizeKiB;
+
+  /// Sets the maximum storage size in gibibytes (GiB) for the volume. You can
+  /// specify a quota that is larger than the storage on the parent volume. A
+  /// volume quota limits the amount of storage that the volume can consume to the
+  /// configured amount, but does not guarantee the space will be available on the
+  /// parent volume. To guarantee quota space, you must also set
+  /// <code>StorageCapacityReservationGiB</code>. To <i>not</i> specify a storage
+  /// capacity quota, set this to <code>-1</code>.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/managing-volumes.html#volume-properties">Volume
+  /// properties</a> in the <i>Amazon FSx for OpenZFS User Guide</i>.
   final int? storageCapacityQuotaGiB;
 
-  /// The amount of storage in gibibytes (GiB) to reserve from the parent volume.
-  /// You can't reserve more storage than the parent volume has reserved.
+  /// Specifies the amount of storage in gibibytes (GiB) to reserve from the
+  /// parent volume. Setting <code>StorageCapacityReservationGiB</code> guarantees
+  /// that the specified amount of storage space on the parent volume will always
+  /// be available for the volume. You can't reserve more storage than the parent
+  /// volume has. To <i>not</i> specify a storage capacity reservation, set this
+  /// to <code>0</code> or <code>-1</code>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/managing-volumes.html#volume-properties">Volume
+  /// properties</a> in the <i>Amazon FSx for OpenZFS User Guide</i>.
   final int? storageCapacityReservationGiB;
 
   /// An object specifying how much storage users or groups can use on the volume.
@@ -4961,6 +5062,7 @@ class CreateOpenZFSVolumeConfiguration {
     this.nfsExports,
     this.originSnapshot,
     this.readOnly,
+    this.recordSizeKiB,
     this.storageCapacityQuotaGiB,
     this.storageCapacityReservationGiB,
     this.userAndGroupQuotas,
@@ -4981,6 +5083,7 @@ class CreateOpenZFSVolumeConfiguration {
               json['OriginSnapshot'] as Map<String, dynamic>)
           : null,
       readOnly: json['ReadOnly'] as bool?,
+      recordSizeKiB: json['RecordSizeKiB'] as int?,
       storageCapacityQuotaGiB: json['StorageCapacityQuotaGiB'] as int?,
       storageCapacityReservationGiB:
           json['StorageCapacityReservationGiB'] as int?,
@@ -4999,6 +5102,7 @@ class CreateOpenZFSVolumeConfiguration {
     final nfsExports = this.nfsExports;
     final originSnapshot = this.originSnapshot;
     final readOnly = this.readOnly;
+    final recordSizeKiB = this.recordSizeKiB;
     final storageCapacityQuotaGiB = this.storageCapacityQuotaGiB;
     final storageCapacityReservationGiB = this.storageCapacityReservationGiB;
     final userAndGroupQuotas = this.userAndGroupQuotas;
@@ -5011,6 +5115,7 @@ class CreateOpenZFSVolumeConfiguration {
       if (nfsExports != null) 'NfsExports': nfsExports,
       if (originSnapshot != null) 'OriginSnapshot': originSnapshot,
       if (readOnly != null) 'ReadOnly': readOnly,
+      if (recordSizeKiB != null) 'RecordSizeKiB': recordSizeKiB,
       if (storageCapacityQuotaGiB != null)
         'StorageCapacityQuotaGiB': storageCapacityQuotaGiB,
       if (storageCapacityReservationGiB != null)
@@ -5238,6 +5343,12 @@ class DataRepositoryAssociation {
   /// This path specifies where in your file system files will be exported from or
   /// imported to. This file system directory can be linked to only one Amazon S3
   /// bucket, and no other S3 bucket can be linked to the directory.
+  /// <note>
+  /// If you specify only a forward slash (<code>/</code>) as the file system
+  /// path, you can link only 1 data repository to the file system. You can only
+  /// specify "/" as the file system path for the first data repository associated
+  /// with a file system.
+  /// </note>
   final String? fileSystemPath;
 
   /// For files imported from a data repository, this value determines the stripe
@@ -6128,19 +6239,28 @@ class DeleteFileSystemLustreResponse {
   }
 }
 
-/// The configuration object for the OpenZFS file system used in the
-/// <code>DeleteFileSystem</code> operation.
+/// The configuration object for the Amazon FSx for OpenZFS file system used in
+/// the <code>DeleteFileSystem</code> operation.
 class DeleteFileSystemOpenZFSConfiguration {
+  /// A list of tags to apply to the file system's final backup.
   final List<Tag>? finalBackupTags;
+
+  /// To delete a file system if there are child volumes present below the root
+  /// volume, use the string <code>DELETE_CHILD_VOLUMES_AND_SNAPSHOTS</code>. If
+  /// your file system has child volumes and you don't use this option, the delete
+  /// request will fail.
+  final List<DeleteFileSystemOpenZFSOption>? options;
 
   /// By default, Amazon FSx for OpenZFS takes a final backup on your behalf when
   /// the <code>DeleteFileSystem</code> operation is invoked. Doing this helps
   /// protect you from data loss, and we highly recommend taking the final backup.
-  /// If you want to skip this backup, use this value to do so.
+  /// If you want to skip taking a final backup, set this value to
+  /// <code>true</code>.
   final bool? skipFinalBackup;
 
   DeleteFileSystemOpenZFSConfiguration({
     this.finalBackupTags,
+    this.options,
     this.skipFinalBackup,
   });
 
@@ -6151,17 +6271,46 @@ class DeleteFileSystemOpenZFSConfiguration {
           ?.whereNotNull()
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
+      options: (json['Options'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toDeleteFileSystemOpenZFSOption())
+          .toList(),
       skipFinalBackup: json['SkipFinalBackup'] as bool?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final finalBackupTags = this.finalBackupTags;
+    final options = this.options;
     final skipFinalBackup = this.skipFinalBackup;
     return {
       if (finalBackupTags != null) 'FinalBackupTags': finalBackupTags,
+      if (options != null) 'Options': options.map((e) => e.toValue()).toList(),
       if (skipFinalBackup != null) 'SkipFinalBackup': skipFinalBackup,
     };
+  }
+}
+
+enum DeleteFileSystemOpenZFSOption {
+  deleteChildVolumesAndSnapshots,
+}
+
+extension on DeleteFileSystemOpenZFSOption {
+  String toValue() {
+    switch (this) {
+      case DeleteFileSystemOpenZFSOption.deleteChildVolumesAndSnapshots:
+        return 'DELETE_CHILD_VOLUMES_AND_SNAPSHOTS';
+    }
+  }
+}
+
+extension on String {
+  DeleteFileSystemOpenZFSOption toDeleteFileSystemOpenZFSOption() {
+    switch (this) {
+      case 'DELETE_CHILD_VOLUMES_AND_SNAPSHOTS':
+        return DeleteFileSystemOpenZFSOption.deleteChildVolumesAndSnapshots;
+    }
+    throw Exception('$this is not known in enum DeleteFileSystemOpenZFSOption');
   }
 }
 
@@ -6478,7 +6627,7 @@ class DeleteVolumeOntapResponse {
 
 /// A value that specifies whether to delete all child volumes and snapshots.
 class DeleteVolumeOpenZFSConfiguration {
-  /// To delete the volume's children and snapshots, use the string
+  /// To delete the volume's child volumes, snapshots, and clones, use the string
   /// <code>DELETE_CHILD_VOLUMES_AND_SNAPSHOTS</code>.
   final List<DeleteOpenZFSVolumeOption>? options;
 
@@ -6993,19 +7142,31 @@ class FileSystem {
   /// <code>WINDOWS</code>, <code>ONTAP</code>, or <code>OPENZFS</code>.
   final FileSystemType? fileSystemType;
 
-  /// The Lustre version of the Amazon FSx for Lustrefile system, either
+  /// The Lustre version of the Amazon FSx for Lustre file system, either
   /// <code>2.10</code> or <code>2.12</code>.
   final String? fileSystemTypeVersion;
 
-  /// The ID of the Key Management Service (KMS) key used to encrypt the file
-  /// system's data for Amazon FSx for Windows File Server file systems, Amazon
-  /// FSx for NetApp ONTAP file systems, and <code>PERSISTENT</code> Amazon FSx
-  /// for Lustre file systems at rest. If this ID isn't specified, the Amazon
-  /// FSx-managed key for your account is used. The scratch Amazon FSx for Lustre
-  /// file systems are always encrypted at rest using the Amazon FSx-managed key
-  /// for your account. For more information, see <a
-  /// href="https://docs.aws.amazon.com/kms/latest/APIReference/API_Encrypt.html">Encrypt</a>
-  /// in the <i>Key Management Service API Reference</i>.
+  /// The ID of the Key Management Service (KMS) key used to encrypt Amazon FSx
+  /// file system data. Used as follows with Amazon FSx file system types:
+  ///
+  /// <ul>
+  /// <li>
+  /// Amazon FSx for Lustre <code>PERSISTENT_1</code> and
+  /// <code>PERSISTENT_2</code> deployment types only.
+  ///
+  /// <code>SCRATCH_1</code> and <code>SCRATCH_2</code> types are encrypted using
+  /// the Amazon FSx service KMS key for your account.
+  /// </li>
+  /// <li>
+  /// Amazon FSx for NetApp ONTAP
+  /// </li>
+  /// <li>
+  /// Amazon FSx for OpenZFS
+  /// </li>
+  /// <li>
+  /// Amazon FSx for Windows File Server
+  /// </li>
+  /// </ul>
   final String? kmsKeyId;
 
   /// The lifecycle status of the file system. The following are the possible
@@ -7032,6 +7193,11 @@ class FileSystem {
   /// state.
   /// </li>
   /// <li>
+  /// <code>MISCONFIGURED_UNAVAILABLE</code> - (Amazon FSx for Windows File Server
+  /// only) The file system is currently unavailable due to a change in your
+  /// Active Directory configuration.
+  /// </li>
+  /// <li>
   /// <code>UPDATING</code> - The file system is undergoing a customer-initiated
   /// update.
   /// </li>
@@ -7051,7 +7217,7 @@ class FileSystem {
   /// more than one.
   final List<String>? networkInterfaceIds;
 
-  /// The configuration for this FSx for ONTAP file system.
+  /// The configuration for this Amazon FSx for NetApp ONTAP file system.
   final OntapFileSystemConfiguration? ontapConfiguration;
 
   /// The configuration for this Amazon FSx for OpenZFS file system.
@@ -7062,7 +7228,7 @@ class FileSystem {
   /// Amazon Web Services account to which the IAM user belongs is the owner.
   final String? ownerId;
 
-  /// The Amazon Resource Name (ARN) for the file system resource.
+  /// The Amazon Resource Name (ARN) of the file system resource.
   final String? resourceARN;
 
   /// The storage capacity of the file system in gibibytes (GiB).
@@ -7094,7 +7260,7 @@ class FileSystem {
   /// The ID of the primary virtual private cloud (VPC) for the file system.
   final String? vpcId;
 
-  /// The configuration for this FSx for Windows File Server file system.
+  /// The configuration for this Amazon FSx for Windows File Server file system.
   final WindowsFileSystemConfiguration? windowsConfiguration;
 
   FileSystem({
@@ -7336,6 +7502,7 @@ enum FileSystemLifecycle {
   deleting,
   misconfigured,
   updating,
+  misconfiguredUnavailable,
 }
 
 extension on FileSystemLifecycle {
@@ -7353,6 +7520,8 @@ extension on FileSystemLifecycle {
         return 'MISCONFIGURED';
       case FileSystemLifecycle.updating:
         return 'UPDATING';
+      case FileSystemLifecycle.misconfiguredUnavailable:
+        return 'MISCONFIGURED_UNAVAILABLE';
     }
   }
 }
@@ -7372,6 +7541,8 @@ extension on String {
         return FileSystemLifecycle.misconfigured;
       case 'UPDATING':
         return FileSystemLifecycle.updating;
+      case 'MISCONFIGURED_UNAVAILABLE':
+        return FileSystemLifecycle.misconfiguredUnavailable;
     }
     throw Exception('$this is not known in enum FileSystemLifecycle');
   }
@@ -7788,9 +7959,14 @@ class LustreFileSystemConfiguration {
   /// </ul>
   final int? perUnitStorageThroughput;
 
+  /// The Lustre root squash configuration for an Amazon FSx for Lustre file
+  /// system. When enabled, root squash restricts root-level access from clients
+  /// that try to access your file system as a root user.
+  final LustreRootSquashConfiguration? rootSquashConfiguration;
+
   /// The preferred start time to perform weekly maintenance, formatted d:HH:MM in
-  /// the UTC time zone. Here, d is the weekday number, from 1 through 7,
-  /// beginning with Monday and ending with Sunday.
+  /// the UTC time zone. Here, <code>d</code> is the weekday number, from 1
+  /// through 7, beginning with Monday and ending with Sunday.
   final String? weeklyMaintenanceStartTime;
 
   LustreFileSystemConfiguration({
@@ -7804,6 +7980,7 @@ class LustreFileSystemConfiguration {
     this.logConfiguration,
     this.mountName,
     this.perUnitStorageThroughput,
+    this.rootSquashConfiguration,
     this.weeklyMaintenanceStartTime,
   });
 
@@ -7829,6 +8006,10 @@ class LustreFileSystemConfiguration {
           : null,
       mountName: json['MountName'] as String?,
       perUnitStorageThroughput: json['PerUnitStorageThroughput'] as int?,
+      rootSquashConfiguration: json['RootSquashConfiguration'] != null
+          ? LustreRootSquashConfiguration.fromJson(
+              json['RootSquashConfiguration'] as Map<String, dynamic>)
+          : null,
       weeklyMaintenanceStartTime: json['WeeklyMaintenanceStartTime'] as String?,
     );
   }
@@ -7844,6 +8025,7 @@ class LustreFileSystemConfiguration {
     final logConfiguration = this.logConfiguration;
     final mountName = this.mountName;
     final perUnitStorageThroughput = this.perUnitStorageThroughput;
+    final rootSquashConfiguration = this.rootSquashConfiguration;
     final weeklyMaintenanceStartTime = this.weeklyMaintenanceStartTime;
     return {
       if (automaticBackupRetentionDays != null)
@@ -7861,6 +8043,8 @@ class LustreFileSystemConfiguration {
       if (mountName != null) 'MountName': mountName,
       if (perUnitStorageThroughput != null)
         'PerUnitStorageThroughput': perUnitStorageThroughput,
+      if (rootSquashConfiguration != null)
+        'RootSquashConfiguration': rootSquashConfiguration,
       if (weeklyMaintenanceStartTime != null)
         'WeeklyMaintenanceStartTime': weeklyMaintenanceStartTime,
     };
@@ -8012,8 +8196,82 @@ class LustreLogCreateConfiguration {
   }
 }
 
+/// The configuration for Lustre root squash used to restrict root-level access
+/// from clients that try to access your FSx for Lustre file system as root. Use
+/// the <code>RootSquash</code> parameter to enable root squash. To learn more
+/// about Lustre root squash, see <a
+/// href="https://docs.aws.amazon.com/fsx/latest/LustreGuide/root-squash.html">Lustre
+/// root squash</a>.
+///
+/// You can also use the <code>NoSquashNids</code> parameter to provide an array
+/// of clients who are not affected by the root squash setting. These clients
+/// will access the file system as root, with unrestricted privileges.
+class LustreRootSquashConfiguration {
+  /// When root squash is enabled, you can optionally specify an array of NIDs of
+  /// clients for which root squash does not apply. A client NID is a Lustre
+  /// Network Identifier used to uniquely identify a client. You can specify the
+  /// NID as either a single address or a range of addresses:
+  ///
+  /// <ul>
+  /// <li>
+  /// A single address is described in standard Lustre NID format by specifying
+  /// the client’s IP address followed by the Lustre network ID (for example,
+  /// <code>10.0.1.6@tcp</code>).
+  /// </li>
+  /// <li>
+  /// An address range is described using a dash to separate the range (for
+  /// example, <code>10.0.[2-10].[1-255]@tcp</code>).
+  /// </li>
+  /// </ul>
+  final List<String>? noSquashNids;
+
+  /// You enable root squash by setting a user ID (UID) and group ID (GID) for the
+  /// file system in the format <code>UID:GID</code> (for example,
+  /// <code>365534:65534</code>). The UID and GID values can range from
+  /// <code>0</code> to <code>4294967294</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// A non-zero value for UID and GID enables root squash. The UID and GID values
+  /// can be different, but each must be a non-zero value.
+  /// </li>
+  /// <li>
+  /// A value of <code>0</code> (zero) for UID and GID indicates root, and
+  /// therefore disables root squash.
+  /// </li>
+  /// </ul>
+  /// When root squash is enabled, the user ID and group ID of a root user
+  /// accessing the file system are re-mapped to the UID and GID you provide.
+  final String? rootSquash;
+
+  LustreRootSquashConfiguration({
+    this.noSquashNids,
+    this.rootSquash,
+  });
+
+  factory LustreRootSquashConfiguration.fromJson(Map<String, dynamic> json) {
+    return LustreRootSquashConfiguration(
+      noSquashNids: (json['NoSquashNids'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      rootSquash: json['RootSquash'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final noSquashNids = this.noSquashNids;
+    final rootSquash = this.rootSquash;
+    return {
+      if (noSquashNids != null) 'NoSquashNids': noSquashNids,
+      if (rootSquash != null) 'RootSquash': rootSquash,
+    };
+  }
+}
+
 enum OntapDeploymentType {
   multiAz_1,
+  singleAz_1,
 }
 
 extension on OntapDeploymentType {
@@ -8021,6 +8279,8 @@ extension on OntapDeploymentType {
     switch (this) {
       case OntapDeploymentType.multiAz_1:
         return 'MULTI_AZ_1';
+      case OntapDeploymentType.singleAz_1:
+        return 'SINGLE_AZ_1';
     }
   }
 }
@@ -8030,6 +8290,8 @@ extension on String {
     switch (this) {
       case 'MULTI_AZ_1':
         return OntapDeploymentType.multiAz_1;
+      case 'SINGLE_AZ_1':
+        return OntapDeploymentType.singleAz_1;
     }
     throw Exception('$this is not known in enum OntapDeploymentType');
   }
@@ -8040,15 +8302,38 @@ class OntapFileSystemConfiguration {
   final int? automaticBackupRetentionDays;
   final String? dailyAutomaticBackupStartTime;
 
-  /// The ONTAP file system deployment type.
+  /// Specifies the FSx for ONTAP file system deployment type in use in the file
+  /// system.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>MULTI_AZ_1</code> - (Default) A high availability file system
+  /// configured for Multi-AZ redundancy to tolerate temporary Availability Zone
+  /// (AZ) unavailability.
+  /// </li>
+  /// <li>
+  /// <code>SINGLE_AZ_1</code> - A file system configured for Single-AZ
+  /// redundancy.
+  /// </li>
+  /// </ul>
+  /// For information about the use cases for Multi-AZ and Single-AZ deployments,
+  /// refer to <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/high-availability-multiAZ.html">Choosing
+  /// Multi-AZ or Single-AZ file system deployment</a>.
   final OntapDeploymentType? deploymentType;
 
   /// The SSD IOPS configuration for the ONTAP file system, specifying the number
   /// of provisioned IOPS and the provision mode.
   final DiskIopsConfiguration? diskIopsConfiguration;
 
-  /// The IP address range in which the endpoints to access your file system are
-  /// created.
+  /// (Multi-AZ only) The IP address range in which the endpoints to access your
+  /// file system are created.
+  /// <important>
+  /// The Endpoint IP address range you select for your file system must exist
+  /// outside the VPC's CIDR range and must be at least /30 or larger. If you do
+  /// not specify this optional parameter, Amazon FSx will automatically select a
+  /// CIDR block for you.
+  /// </important>
   final String? endpointIpAddressRange;
 
   /// The <code>Management</code> and <code>Intercluster</code> endpoints that are
@@ -8057,7 +8342,8 @@ class OntapFileSystemConfiguration {
   final FileSystemEndpoints? endpoints;
   final String? preferredSubnetId;
 
-  /// The VPC route tables in which your file system's endpoints are created.
+  /// (Multi-AZ only) The VPC route tables in which your file system's endpoints
+  /// are created.
   final List<String>? routeTableIds;
   final int? throughputCapacity;
   final String? weeklyMaintenanceStartTime;
@@ -8307,12 +8593,12 @@ extension on String {
   }
 }
 
-/// Specifies who can mount the file system and the options that can be used
+/// Specifies who can mount an OpenZFS file system and the options available
 /// while mounting the file system.
 class OpenZFSClientConfiguration {
   /// A value that specifies who can mount the file system. You can provide a
   /// wildcard character (<code>*</code>), an IP address (<code>0.0.0.0</code>),
-  /// or a CIDR address (<code>192.0.2.0/24</code>. By default, Amazon FSx uses
+  /// or a CIDR address (<code>192.0.2.0/24</code>). By default, Amazon FSx uses
   /// the wildcard character when specifying the client.
   final String clients;
 
@@ -8323,8 +8609,8 @@ class OpenZFSClientConfiguration {
   ///
   /// <ul>
   /// <li>
-  /// <code>crossmount</code> is used by default. If you don't specify
-  /// <code>crossmount</code> when changing the client configuration, you won't be
+  /// <code>crossmnt</code> is used by default. If you don't specify
+  /// <code>crossmnt</code> when changing the client configuration, you won't be
   /// able to see or access snapshots in your file system's snapshot directory.
   /// </li>
   /// <li>
@@ -8392,26 +8678,31 @@ extension on String {
 /// The configuration of an Amazon FSx for OpenZFS root volume.
 class OpenZFSCreateRootVolumeConfiguration {
   /// A Boolean value indicating whether tags for the volume should be copied to
-  /// snapshots. This value defaults to <code>false</code>. If it's set to
-  /// <code>true</code>, all tags for the volume are copied to snapshots where the
-  /// user doesn't specify tags. If this value is <code>true</code> and you
-  /// specify one or more tags, only the specified tags are copied to snapshots.
-  /// If you specify one or more tags when creating the snapshot, no tags are
-  /// copied from the volume, regardless of this value.
+  /// snapshots of the volume. This value defaults to <code>false</code>. If it's
+  /// set to <code>true</code>, all tags for the volume are copied to snapshots
+  /// where the user doesn't specify tags. If this value is <code>true</code> and
+  /// you specify one or more tags, only the specified tags are copied to
+  /// snapshots. If you specify one or more tags when creating the snapshot, no
+  /// tags are copied from the volume, regardless of this value.
   final bool? copyTagsToSnapshots;
 
-  /// Specifies the method used to compress the data on the volume. Unless the
-  /// compression type is specified, volumes inherit the
-  /// <code>DataCompressionType</code> value of their parent volume.
+  /// Specifies the method used to compress the data on the volume. The
+  /// compression type is <code>NONE</code> by default.
   ///
   /// <ul>
   /// <li>
   /// <code>NONE</code> - Doesn't compress the data on the volume.
+  /// <code>NONE</code> is the default.
   /// </li>
   /// <li>
-  /// <code>ZSTD</code> - Compresses the data in the volume using the ZStandard
-  /// (ZSTD) compression algorithm. This algorithm reduces the amount of space
-  /// used on your volume and has very little impact on compute resources.
+  /// <code>ZSTD</code> - Compresses the data in the volume using the Zstandard
+  /// (ZSTD) compression algorithm. Compared to LZ4, Z-Standard provides a better
+  /// compression ratio to minimize on-disk storage utilization.
+  /// </li>
+  /// <li>
+  /// <code>LZ4</code> - Compresses the data in the volume using the LZ4
+  /// compression algorithm. Compared to Z-Standard, LZ4 is less compute-intensive
+  /// and delivers higher write throughput speeds.
   /// </li>
   /// </ul>
   final OpenZFSDataCompressionType? dataCompressionType;
@@ -8424,6 +8715,17 @@ class OpenZFSCreateRootVolumeConfiguration {
   /// a volume and no longer want changes to occur.
   final bool? readOnly;
 
+  /// Specifies the record size of an OpenZFS root volume, in kibibytes (KiB).
+  /// Valid values are 4, 8, 16, 32, 64, 128, 256, 512, or 1024 KiB. The default
+  /// is 128 KiB. Most workloads should use the default record size. Database
+  /// workflows can benefit from a smaller record size, while streaming workflows
+  /// can benefit from a larger record size. For additional guidance on setting a
+  /// custom record size, see <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/performance.html#performance-tips-zfs">
+  /// Tips for maximizing performance</a> in the <i>Amazon FSx for OpenZFS User
+  /// Guide</i>.
+  final int? recordSizeKiB;
+
   /// An object specifying how much storage users or groups can use on the volume.
   final List<OpenZFSUserOrGroupQuota>? userAndGroupQuotas;
 
@@ -8432,6 +8734,7 @@ class OpenZFSCreateRootVolumeConfiguration {
     this.dataCompressionType,
     this.nfsExports,
     this.readOnly,
+    this.recordSizeKiB,
     this.userAndGroupQuotas,
   });
 
@@ -8446,6 +8749,7 @@ class OpenZFSCreateRootVolumeConfiguration {
           .map((e) => OpenZFSNfsExport.fromJson(e as Map<String, dynamic>))
           .toList(),
       readOnly: json['ReadOnly'] as bool?,
+      recordSizeKiB: json['RecordSizeKiB'] as int?,
       userAndGroupQuotas: (json['UserAndGroupQuotas'] as List?)
           ?.whereNotNull()
           .map((e) =>
@@ -8459,6 +8763,7 @@ class OpenZFSCreateRootVolumeConfiguration {
     final dataCompressionType = this.dataCompressionType;
     final nfsExports = this.nfsExports;
     final readOnly = this.readOnly;
+    final recordSizeKiB = this.recordSizeKiB;
     final userAndGroupQuotas = this.userAndGroupQuotas;
     return {
       if (copyTagsToSnapshots != null)
@@ -8467,6 +8772,7 @@ class OpenZFSCreateRootVolumeConfiguration {
         'DataCompressionType': dataCompressionType.toValue(),
       if (nfsExports != null) 'NfsExports': nfsExports,
       if (readOnly != null) 'ReadOnly': readOnly,
+      if (recordSizeKiB != null) 'RecordSizeKiB': recordSizeKiB,
       if (userAndGroupQuotas != null) 'UserAndGroupQuotas': userAndGroupQuotas,
     };
   }
@@ -8475,6 +8781,7 @@ class OpenZFSCreateRootVolumeConfiguration {
 enum OpenZFSDataCompressionType {
   none,
   zstd,
+  lz4,
 }
 
 extension on OpenZFSDataCompressionType {
@@ -8484,6 +8791,8 @@ extension on OpenZFSDataCompressionType {
         return 'NONE';
       case OpenZFSDataCompressionType.zstd:
         return 'ZSTD';
+      case OpenZFSDataCompressionType.lz4:
+        return 'LZ4';
     }
   }
 }
@@ -8495,6 +8804,8 @@ extension on String {
         return OpenZFSDataCompressionType.none;
       case 'ZSTD':
         return OpenZFSDataCompressionType.zstd;
+      case 'LZ4':
+        return OpenZFSDataCompressionType.lz4;
     }
     throw Exception('$this is not known in enum OpenZFSDataCompressionType');
   }
@@ -8556,7 +8867,8 @@ class OpenZFSFileSystemConfiguration {
   final String? rootVolumeId;
 
   /// The throughput of an Amazon FSx file system, measured in megabytes per
-  /// second (MBps), in 2 to the nth increments, between 2^3 (8) and 2^11 (2048).
+  /// second (MBps). Valid values are 64, 128, 256, 512, 1024, 2048, 3072, or 4096
+  /// MB/s.
   final int? throughputCapacity;
   final String? weeklyMaintenanceStartTime;
 
@@ -8620,7 +8932,7 @@ class OpenZFSFileSystemConfiguration {
   }
 }
 
-/// The Network File System NFS) configurations for mounting an Amazon FSx for
+/// The Network File System (NFS) configurations for mounting an Amazon FSx for
 /// OpenZFS file system.
 class OpenZFSNfsExport {
   /// A list of configuration objects that contain the client and options for
@@ -8769,18 +9081,23 @@ class OpenZFSVolumeConfiguration {
   /// copied from the volume, regardless of this value.
   final bool? copyTagsToSnapshots;
 
-  /// The method used to compress the data on the volume. Unless a compression
-  /// type is specified, volumes inherit the <code>DataCompressionType</code>
-  /// value of their parent volume.
+  /// Specifies the method used to compress the data on the volume. The
+  /// compression type is <code>NONE</code> by default.
   ///
   /// <ul>
   /// <li>
   /// <code>NONE</code> - Doesn't compress the data on the volume.
+  /// <code>NONE</code> is the default.
   /// </li>
   /// <li>
   /// <code>ZSTD</code> - Compresses the data in the volume using the Zstandard
-  /// (ZSTD) compression algorithm. This algorithm reduces the amount of space
-  /// used on your volume and has very little impact on compute resources.
+  /// (ZSTD) compression algorithm. Compared to LZ4, Z-Standard provides a better
+  /// compression ratio to minimize on-disk storage utilization.
+  /// </li>
+  /// <li>
+  /// <code>LZ4</code> - Compresses the data in the volume using the LZ4
+  /// compression algorithm. Compared to Z-Standard, LZ4 is less compute-intensive
+  /// and delivers higher write throughput speeds.
   /// </li>
   /// </ul>
   final OpenZFSDataCompressionType? dataCompressionType;
@@ -8798,6 +9115,12 @@ class OpenZFSVolumeConfiguration {
 
   /// A Boolean value indicating whether the volume is read-only.
   final bool? readOnly;
+
+  /// The record size of an OpenZFS volume, in kibibytes (KiB). Valid values are
+  /// 4, 8, 16, 32, 64, 128, 256, 512, or 1024 KiB. The default is 128 KiB. Most
+  /// workloads should use the default record size. For guidance on when to set a
+  /// custom record size, see the <i>Amazon FSx for OpenZFS User Guide</i>.
+  final int? recordSizeKiB;
 
   /// The maximum amount of storage in gibibtyes (GiB) that the volume can use
   /// from its parent. You can specify a quota larger than the storage on the
@@ -8822,6 +9145,7 @@ class OpenZFSVolumeConfiguration {
     this.originSnapshot,
     this.parentVolumeId,
     this.readOnly,
+    this.recordSizeKiB,
     this.storageCapacityQuotaGiB,
     this.storageCapacityReservationGiB,
     this.userAndGroupQuotas,
@@ -8843,6 +9167,7 @@ class OpenZFSVolumeConfiguration {
           : null,
       parentVolumeId: json['ParentVolumeId'] as String?,
       readOnly: json['ReadOnly'] as bool?,
+      recordSizeKiB: json['RecordSizeKiB'] as int?,
       storageCapacityQuotaGiB: json['StorageCapacityQuotaGiB'] as int?,
       storageCapacityReservationGiB:
           json['StorageCapacityReservationGiB'] as int?,
@@ -8862,6 +9187,7 @@ class OpenZFSVolumeConfiguration {
     final originSnapshot = this.originSnapshot;
     final parentVolumeId = this.parentVolumeId;
     final readOnly = this.readOnly;
+    final recordSizeKiB = this.recordSizeKiB;
     final storageCapacityQuotaGiB = this.storageCapacityQuotaGiB;
     final storageCapacityReservationGiB = this.storageCapacityReservationGiB;
     final userAndGroupQuotas = this.userAndGroupQuotas;
@@ -8875,6 +9201,7 @@ class OpenZFSVolumeConfiguration {
       if (originSnapshot != null) 'OriginSnapshot': originSnapshot,
       if (parentVolumeId != null) 'ParentVolumeId': parentVolumeId,
       if (readOnly != null) 'ReadOnly': readOnly,
+      if (recordSizeKiB != null) 'RecordSizeKiB': recordSizeKiB,
       if (storageCapacityQuotaGiB != null)
         'StorageCapacityQuotaGiB': storageCapacityQuotaGiB,
       if (storageCapacityReservationGiB != null)
@@ -9357,6 +9684,7 @@ class Snapshot {
   /// </li>
   /// </ul>
   final SnapshotLifecycle? lifecycle;
+  final LifecycleTransitionReason? lifecycleTransitionReason;
 
   /// The name of the snapshot.
   final String? name;
@@ -9373,6 +9701,7 @@ class Snapshot {
     this.administrativeActions,
     this.creationTime,
     this.lifecycle,
+    this.lifecycleTransitionReason,
     this.name,
     this.resourceARN,
     this.snapshotId,
@@ -9388,6 +9717,10 @@ class Snapshot {
           .toList(),
       creationTime: timeStampFromJson(json['CreationTime']),
       lifecycle: (json['Lifecycle'] as String?)?.toSnapshotLifecycle(),
+      lifecycleTransitionReason: json['LifecycleTransitionReason'] != null
+          ? LifecycleTransitionReason.fromJson(
+              json['LifecycleTransitionReason'] as Map<String, dynamic>)
+          : null,
       name: json['Name'] as String?,
       resourceARN: json['ResourceARN'] as String?,
       snapshotId: json['SnapshotId'] as String?,
@@ -9403,6 +9736,7 @@ class Snapshot {
     final administrativeActions = this.administrativeActions;
     final creationTime = this.creationTime;
     final lifecycle = this.lifecycle;
+    final lifecycleTransitionReason = this.lifecycleTransitionReason;
     final name = this.name;
     final resourceARN = this.resourceARN;
     final snapshotId = this.snapshotId;
@@ -9414,6 +9748,8 @@ class Snapshot {
       if (creationTime != null)
         'CreationTime': unixTimestampToJson(creationTime),
       if (lifecycle != null) 'Lifecycle': lifecycle.toValue(),
+      if (lifecycleTransitionReason != null)
+        'LifecycleTransitionReason': lifecycleTransitionReason,
       if (name != null) 'Name': name,
       if (resourceARN != null) 'ResourceARN': resourceARN,
       if (snapshotId != null) 'SnapshotId': snapshotId,
@@ -9599,7 +9935,7 @@ extension on String {
 }
 
 /// Describes the Amazon FSx for NetApp ONTAP storage virtual machine (SVM)
-/// configuraton.
+/// configuration.
 class StorageVirtualMachine {
   /// Describes the Microsoft Active Directory configuration to which the SVM is
   /// joined, if applicable.
@@ -10106,6 +10442,33 @@ class TagResourceResponse {
 /// FSx for ONTAP's intelligent tiering automatically transitions a volume's
 /// data between the file system's primary storage and capacity pool storage
 /// based on your access patterns.
+///
+/// Valid tiering policies are the following:
+///
+/// <ul>
+/// <li>
+/// <code>SNAPSHOT_ONLY</code> - (Default value) moves cold snapshots to the
+/// capacity pool storage tier.
+/// </li>
+/// </ul>
+/// <ul>
+/// <li>
+/// <code>AUTO</code> - moves cold user data and snapshots to the capacity pool
+/// storage tier based on your access patterns.
+/// </li>
+/// </ul>
+/// <ul>
+/// <li>
+/// <code>ALL</code> - moves all user data blocks in both the active file system
+/// and Snapshot copies to the storage pool tier.
+/// </li>
+/// </ul>
+/// <ul>
+/// <li>
+/// <code>NONE</code> - keeps a volume's data in the primary storage tier,
+/// preventing it from being moved to the capacity pool tier.
+/// </li>
+/// </ul>
 class TieringPolicy {
   /// Specifies the number of days that user data in a volume must remain inactive
   /// before it is considered "cold" and moved to the capacity pool. Used with the
@@ -10304,6 +10667,11 @@ class UpdateFileSystemLustreConfiguration {
   /// Logs.
   final LustreLogCreateConfiguration? logConfiguration;
 
+  /// The Lustre root squash configuration used when updating an Amazon FSx for
+  /// Lustre file system. When enabled, root squash restricts root-level access
+  /// from clients that try to access your file system as a root user.
+  final LustreRootSquashConfiguration? rootSquashConfiguration;
+
   /// (Optional) The preferred start time to perform weekly maintenance, formatted
   /// d:HH:MM in the UTC time zone. d is the weekday number, from 1 through 7,
   /// beginning with Monday and ending with Sunday.
@@ -10315,6 +10683,7 @@ class UpdateFileSystemLustreConfiguration {
     this.dailyAutomaticBackupStartTime,
     this.dataCompressionType,
     this.logConfiguration,
+    this.rootSquashConfiguration,
     this.weeklyMaintenanceStartTime,
   });
 
@@ -10333,6 +10702,10 @@ class UpdateFileSystemLustreConfiguration {
           ? LustreLogCreateConfiguration.fromJson(
               json['LogConfiguration'] as Map<String, dynamic>)
           : null,
+      rootSquashConfiguration: json['RootSquashConfiguration'] != null
+          ? LustreRootSquashConfiguration.fromJson(
+              json['RootSquashConfiguration'] as Map<String, dynamic>)
+          : null,
       weeklyMaintenanceStartTime: json['WeeklyMaintenanceStartTime'] as String?,
     );
   }
@@ -10343,6 +10716,7 @@ class UpdateFileSystemLustreConfiguration {
     final dailyAutomaticBackupStartTime = this.dailyAutomaticBackupStartTime;
     final dataCompressionType = this.dataCompressionType;
     final logConfiguration = this.logConfiguration;
+    final rootSquashConfiguration = this.rootSquashConfiguration;
     final weeklyMaintenanceStartTime = this.weeklyMaintenanceStartTime;
     return {
       if (autoImportPolicy != null)
@@ -10354,6 +10728,8 @@ class UpdateFileSystemLustreConfiguration {
       if (dataCompressionType != null)
         'DataCompressionType': dataCompressionType.toValue(),
       if (logConfiguration != null) 'LogConfiguration': logConfiguration,
+      if (rootSquashConfiguration != null)
+        'RootSquashConfiguration': rootSquashConfiguration,
       if (weeklyMaintenanceStartTime != null)
         'WeeklyMaintenanceStartTime': weeklyMaintenanceStartTime,
     };
@@ -10365,14 +10741,30 @@ class UpdateFileSystemOntapConfiguration {
   final int? automaticBackupRetentionDays;
   final String? dailyAutomaticBackupStartTime;
 
+  /// The SSD IOPS (input/output operations per second) configuration for an
+  /// Amazon FSx for NetApp ONTAP file system. The default is 3 IOPS per GB of
+  /// storage capacity, but you can provision additional IOPS per GB of storage.
+  /// The configuration consists of an IOPS mode (<code>AUTOMATIC</code> or
+  /// <code>USER_PROVISIONED</code>), and in the case of
+  /// <code>USER_PROVISIONED</code> IOPS, the total number of SSD IOPS
+  /// provisioned.
+  final DiskIopsConfiguration? diskIopsConfiguration;
+
   /// The ONTAP administrative password for the <code>fsxadmin</code> user.
   final String? fsxAdminPassword;
+
+  /// Specifies the throughput of an FSx for NetApp ONTAP file system, measured in
+  /// megabytes per second (MBps). Valid values are 128, 256, 512, 1024, or 2048
+  /// MB/s.
+  final int? throughputCapacity;
   final String? weeklyMaintenanceStartTime;
 
   UpdateFileSystemOntapConfiguration({
     this.automaticBackupRetentionDays,
     this.dailyAutomaticBackupStartTime,
+    this.diskIopsConfiguration,
     this.fsxAdminPassword,
+    this.throughputCapacity,
     this.weeklyMaintenanceStartTime,
   });
 
@@ -10383,7 +10775,12 @@ class UpdateFileSystemOntapConfiguration {
           json['AutomaticBackupRetentionDays'] as int?,
       dailyAutomaticBackupStartTime:
           json['DailyAutomaticBackupStartTime'] as String?,
+      diskIopsConfiguration: json['DiskIopsConfiguration'] != null
+          ? DiskIopsConfiguration.fromJson(
+              json['DiskIopsConfiguration'] as Map<String, dynamic>)
+          : null,
       fsxAdminPassword: json['FsxAdminPassword'] as String?,
+      throughputCapacity: json['ThroughputCapacity'] as int?,
       weeklyMaintenanceStartTime: json['WeeklyMaintenanceStartTime'] as String?,
     );
   }
@@ -10391,14 +10788,19 @@ class UpdateFileSystemOntapConfiguration {
   Map<String, dynamic> toJson() {
     final automaticBackupRetentionDays = this.automaticBackupRetentionDays;
     final dailyAutomaticBackupStartTime = this.dailyAutomaticBackupStartTime;
+    final diskIopsConfiguration = this.diskIopsConfiguration;
     final fsxAdminPassword = this.fsxAdminPassword;
+    final throughputCapacity = this.throughputCapacity;
     final weeklyMaintenanceStartTime = this.weeklyMaintenanceStartTime;
     return {
       if (automaticBackupRetentionDays != null)
         'AutomaticBackupRetentionDays': automaticBackupRetentionDays,
       if (dailyAutomaticBackupStartTime != null)
         'DailyAutomaticBackupStartTime': dailyAutomaticBackupStartTime,
+      if (diskIopsConfiguration != null)
+        'DiskIopsConfiguration': diskIopsConfiguration,
       if (fsxAdminPassword != null) 'FsxAdminPassword': fsxAdminPassword,
+      if (throughputCapacity != null) 'ThroughputCapacity': throughputCapacity,
       if (weeklyMaintenanceStartTime != null)
         'WeeklyMaintenanceStartTime': weeklyMaintenanceStartTime,
     };
@@ -10431,7 +10833,8 @@ class UpdateFileSystemOpenZFSConfiguration {
   final DiskIopsConfiguration? diskIopsConfiguration;
 
   /// The throughput of an Amazon FSx file system, measured in megabytes per
-  /// second (MBps), in 2 to the nth increments, between 2^3 (8) and 2^11 (2048).
+  /// second (MBps). Valid values are 64, 128, 256, 512, 1024, 2048, 3072, or 4096
+  /// MB/s.
   final int? throughputCapacity;
   final String? weeklyMaintenanceStartTime;
 
@@ -10672,19 +11075,23 @@ class UpdateOntapVolumeConfiguration {
 /// Used to specify changes to the OpenZFS configuration for the volume that you
 /// are updating.
 class UpdateOpenZFSVolumeConfiguration {
-  /// <p/>
-  /// Specifies the method used to compress the data on the volume. Unless the
-  /// compression type is specified, volumes inherit the
-  /// <code>DataCompressionType</code> value of their parent volume.
+  /// Specifies the method used to compress the data on the volume. The
+  /// compression type is <code>NONE</code> by default.
   ///
   /// <ul>
   /// <li>
   /// <code>NONE</code> - Doesn't compress the data on the volume.
+  /// <code>NONE</code> is the default.
   /// </li>
   /// <li>
   /// <code>ZSTD</code> - Compresses the data in the volume using the Zstandard
-  /// (ZSTD) compression algorithm. This algorithm reduces the amount of space
-  /// used on your volume and has very little impact on compute resources.
+  /// (ZSTD) compression algorithm. Compared to LZ4, Z-Standard provides a better
+  /// compression ratio to minimize on-disk storage utilization.
+  /// </li>
+  /// <li>
+  /// <code>LZ4</code> - Compresses the data in the volume using the LZ4
+  /// compression algorithm. Compared to Z-Standard, LZ4 is less compute-intensive
+  /// and delivers higher write throughput speeds.
   /// </li>
   /// </ul>
   final OpenZFSDataCompressionType? dataCompressionType;
@@ -10696,14 +11103,27 @@ class UpdateOpenZFSVolumeConfiguration {
   /// A Boolean value indicating whether the volume is read-only.
   final bool? readOnly;
 
-  /// <p/>
+  /// Specifies the record size of an OpenZFS volume, in kibibytes (KiB). Valid
+  /// values are 4, 8, 16, 32, 64, 128, 256, 512, or 1024 KiB. The default is 128
+  /// KiB. Most workloads should use the default record size. Database workflows
+  /// can benefit from a smaller record size, while streaming workflows can
+  /// benefit from a larger record size. For additional guidance on when to set a
+  /// custom record size, see <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/performance.html#performance-tips-zfs">
+  /// Tips for maximizing performance</a> in the <i>Amazon FSx for OpenZFS User
+  /// Guide</i>.
+  final int? recordSizeKiB;
+
   /// The maximum amount of storage in gibibytes (GiB) that the volume can use
   /// from its parent. You can specify a quota larger than the storage on the
-  /// parent volume.
+  /// parent volume. You can specify a value of <code>-1</code> to unset a
+  /// volume's storage capacity quota.
   final int? storageCapacityQuotaGiB;
 
   /// The amount of storage in gibibytes (GiB) to reserve from the parent volume.
-  /// You can't reserve more storage than the parent volume has reserved.
+  /// You can't reserve more storage than the parent volume has reserved. You can
+  /// specify a value of <code>-1</code> to unset a volume's storage capacity
+  /// reservation.
   final int? storageCapacityReservationGiB;
 
   /// An object specifying how much storage users or groups can use on the volume.
@@ -10713,6 +11133,7 @@ class UpdateOpenZFSVolumeConfiguration {
     this.dataCompressionType,
     this.nfsExports,
     this.readOnly,
+    this.recordSizeKiB,
     this.storageCapacityQuotaGiB,
     this.storageCapacityReservationGiB,
     this.userAndGroupQuotas,
@@ -10727,6 +11148,7 @@ class UpdateOpenZFSVolumeConfiguration {
           .map((e) => OpenZFSNfsExport.fromJson(e as Map<String, dynamic>))
           .toList(),
       readOnly: json['ReadOnly'] as bool?,
+      recordSizeKiB: json['RecordSizeKiB'] as int?,
       storageCapacityQuotaGiB: json['StorageCapacityQuotaGiB'] as int?,
       storageCapacityReservationGiB:
           json['StorageCapacityReservationGiB'] as int?,
@@ -10742,6 +11164,7 @@ class UpdateOpenZFSVolumeConfiguration {
     final dataCompressionType = this.dataCompressionType;
     final nfsExports = this.nfsExports;
     final readOnly = this.readOnly;
+    final recordSizeKiB = this.recordSizeKiB;
     final storageCapacityQuotaGiB = this.storageCapacityQuotaGiB;
     final storageCapacityReservationGiB = this.storageCapacityReservationGiB;
     final userAndGroupQuotas = this.userAndGroupQuotas;
@@ -10750,6 +11173,7 @@ class UpdateOpenZFSVolumeConfiguration {
         'DataCompressionType': dataCompressionType.toValue(),
       if (nfsExports != null) 'NfsExports': nfsExports,
       if (readOnly != null) 'ReadOnly': readOnly,
+      if (recordSizeKiB != null) 'RecordSizeKiB': recordSizeKiB,
       if (storageCapacityQuotaGiB != null)
         'StorageCapacityQuotaGiB': storageCapacityQuotaGiB,
       if (storageCapacityReservationGiB != null)

@@ -32,6 +32,7 @@ class Operation {
   @JsonKey(defaultValue: false)
   final bool httpChecksumRequired;
   final String methodNameOverride;
+  final Object httpChecksum;
 
   Operation(
     this.name,
@@ -53,6 +54,7 @@ class Operation {
     this.internalonly,
     this.httpChecksumRequired,
     this.methodNameOverride,
+    this.httpChecksum,
   );
 
   factory Operation.fromJson(Map<String, dynamic> json) =>

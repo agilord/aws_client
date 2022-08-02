@@ -19,13 +19,13 @@ import '../../shared/shared.dart'
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Amazon Lightsail is the easiest way to get started with Amazon Web Services
-/// (AWS) for developers who need to build websites or web applications. It
-/// includes everything you need to launch your project quickly - instances
-/// (virtual private servers), container services, storage buckets, managed
-/// databases, SSD-based block storage, static IP addresses, load balancers,
-/// content delivery network (CDN) distributions, DNS management of registered
-/// domains, and resource snapshots (backups) - for a low, predictable monthly
-/// price.
+/// (Amazon Web Services) for developers who need to build websites or web
+/// applications. It includes everything you need to launch your project quickly
+/// - instances (virtual private servers), container services, storage buckets,
+/// managed databases, SSD-based block storage, static IP addresses, load
+/// balancers, content delivery network (CDN) distributions, DNS management of
+/// registered domains, and resource snapshots (backups) - for a low,
+/// predictable monthly price.
 ///
 /// You can manage your Lightsail resources using the Lightsail console,
 /// Lightsail API, AWS Command Line Interface (AWS CLI), or SDKs. For more
@@ -35,10 +35,11 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 ///
 /// This API Reference provides detailed information about the actions, data
 /// types, parameters, and errors of the Lightsail service. For more information
-/// about the supported AWS Regions, endpoints, and service quotas of the
-/// Lightsail service, see <a
+/// about the supported Amazon Web Services Regions, endpoints, and service
+/// quotas of the Lightsail service, see <a
 /// href="https://docs.aws.amazon.com/general/latest/gr/lightsail.html">Amazon
-/// Lightsail Endpoints and Quotas</a> in the <i>AWS General Reference</i>.
+/// Lightsail Endpoints and Quotas</a> in the <i>Amazon Web Services General
+/// Reference</i>.
 class Lightsail {
   final _s.JsonProtocol _protocol;
   Lightsail({
@@ -99,11 +100,11 @@ class Lightsail {
   /// Use the <code>CreateCertificate</code> action to create a certificate that
   /// you can attach to your distribution.
   /// <important>
-  /// Only certificates created in the <code>us-east-1</code> AWS Region can be
-  /// attached to Lightsail distributions. Lightsail distributions are global
-  /// resources that can reference an origin in any AWS Region, and distribute
-  /// its content globally. However, all distributions are located in the
-  /// <code>us-east-1</code> Region.
+  /// Only certificates created in the <code>us-east-1</code> Amazon Web
+  /// Services Region can be attached to Lightsail distributions. Lightsail
+  /// distributions are global resources that can reference an origin in any
+  /// Amazon Web Services Region, and distribute its content globally. However,
+  /// all distributions are located in the <code>us-east-1</code> Region.
   /// </important>
   ///
   /// May throw [ServiceException].
@@ -418,8 +419,8 @@ class Lightsail {
   /// Copies a manual snapshot of an instance or disk as another manual
   /// snapshot, or copies an automatic snapshot of an instance or disk as a
   /// manual snapshot. This operation can also be used to copy a manual or
-  /// automatic snapshot of an instance or a disk from one AWS Region to another
-  /// in Amazon Lightsail.
+  /// automatic snapshot of an instance or a disk from one Amazon Web Services
+  /// Region to another in Amazon Lightsail.
   ///
   /// When copying a <i>manual snapshot</i>, be sure to define the <code>source
   /// region</code>, <code>source snapshot name</code>, and <code>target
@@ -440,7 +441,8 @@ class Lightsail {
   /// May throw [UnauthenticatedException].
   ///
   /// Parameter [sourceRegion] :
-  /// The AWS Region where the source manual or automatic snapshot is located.
+  /// The Amazon Web Services Region where the source manual or automatic
+  /// snapshot is located.
   ///
   /// Parameter [targetSnapshotName] :
   /// The name of the new manual snapshot to be created as a copy.
@@ -580,11 +582,13 @@ class Lightsail {
   /// A bucket bundle specifies the monthly cost, storage space, and data
   /// transfer quota for a bucket.
   ///
-  /// Use the <a>GetBucketBundles</a> action to get a list of bundle IDs that
-  /// you can specify.
+  /// Use the <a
+  /// href="https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_GetBucketBundles.html">GetBucketBundles</a>
+  /// action to get a list of bundle IDs that you can specify.
   ///
-  /// Use the <a>UpdateBucketBundle</a> action to change the bundle after the
-  /// bucket is created.
+  /// Use the <a
+  /// href="https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_UpdateBucketBundle.html">UpdateBucketBundle</a>
+  /// action to change the bundle after the bucket is created.
   ///
   /// Parameter [enableObjectVersioning] :
   /// A Boolean value that indicates whether to enable versioning of objects in
@@ -598,7 +602,9 @@ class Lightsail {
   /// Parameter [tags] :
   /// The tag keys and optional values to add to the bucket during creation.
   ///
-  /// Use the <a>TagResource</a> action to tag the bucket after it's created.
+  /// Use the <a
+  /// href="https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_TagResource.html">TagResource</a>
+  /// action to tag the bucket after it's created.
   Future<CreateBucketResult> createBucket({
     required String bucketName,
     required String bundleId,
@@ -633,9 +639,10 @@ class Lightsail {
   /// keys consist of an access key ID and corresponding secret access key.
   ///
   /// Access keys grant full programmatic access to the specified bucket and its
-  /// objects. You can have a maximum of two access keys per bucket. Use the
-  /// <a>GetBucketAccessKeys</a> action to get a list of current access keys for
-  /// a specific bucket. For more information about access keys, see <a
+  /// objects. You can have a maximum of two access keys per bucket. Use the <a
+  /// href="https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_GetBucketAccessKeys.html">GetBucketAccessKeys</a>
+  /// action to get a list of current access keys for a specific bucket. For
+  /// more information about access keys, see <a
   /// href="https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-creating-bucket-access-keys">Creating
   /// access keys for a bucket in Amazon Lightsail</a> in the <i>Amazon
   /// Lightsail Developer Guide</i>.
@@ -687,11 +694,11 @@ class Lightsail {
   /// <code>UpdateContainerService</code> action to use the certificate and its
   /// domains with your container service.
   /// <important>
-  /// Only certificates created in the <code>us-east-1</code> AWS Region can be
-  /// attached to Lightsail distributions. Lightsail distributions are global
-  /// resources that can reference an origin in any AWS Region, and distribute
-  /// its content globally. However, all distributions are located in the
-  /// <code>us-east-1</code> Region.
+  /// Only certificates created in the <code>us-east-1</code> Amazon Web
+  /// Services Region can be attached to Lightsail distributions. Lightsail
+  /// distributions are global resources that can reference an origin in any
+  /// Amazon Web Services Region, and distribute its content globally. However,
+  /// all distributions are located in the <code>us-east-1</code> Region.
   /// </important>
   ///
   /// May throw [ServiceException].
@@ -803,9 +810,10 @@ class Lightsail {
   ///
   /// A contact method is used to send you notifications about your Amazon
   /// Lightsail resources. You can add one email address and one mobile phone
-  /// number contact method in each AWS Region. However, SMS text messaging is
-  /// not supported in some AWS Regions, and SMS text messages cannot be sent to
-  /// some countries/regions. For more information, see <a
+  /// number contact method in each Amazon Web Services Region. However, SMS
+  /// text messaging is not supported in some Amazon Web Services Regions, and
+  /// SMS text messages cannot be sent to some countries/regions. For more
+  /// information, see <a
   /// href="https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-notifications">Notifications
   /// in Amazon Lightsail</a>.
   ///
@@ -832,8 +840,8 @@ class Lightsail {
   /// The protocol of the contact method, such as <code>Email</code> or
   /// <code>SMS</code> (text messaging).
   ///
-  /// The <code>SMS</code> protocol is supported only in the following AWS
-  /// Regions.
+  /// The <code>SMS</code> protocol is supported only in the following Amazon
+  /// Web Services Regions.
   ///
   /// <ul>
   /// <li>
@@ -856,7 +864,8 @@ class Lightsail {
   /// </li>
   /// </ul>
   /// For a list of countries/regions where SMS text messages can be sent, and
-  /// the latest AWS Regions where SMS text messaging is supported, see <a
+  /// the latest Amazon Web Services Regions where SMS text messaging is
+  /// supported, see <a
   /// href="https://docs.aws.amazon.com/sns/latest/dg/sns-supported-regions-countries.html">Supported
   /// Regions and Countries</a> in the <i>Amazon SNS Developer Guide</i>.
   ///
@@ -940,7 +949,8 @@ class Lightsail {
   ///
   /// <ul>
   /// <li>
-  /// Must be unique within each AWS Region in your Lightsail account.
+  /// Must be unique within each Amazon Web Services Region in your Lightsail
+  /// account.
   /// </li>
   /// <li>
   /// Must contain 1 to 63 characters.
@@ -963,6 +973,16 @@ class Lightsail {
   /// specifies the container that will serve as the public endpoint of the
   /// deployment and its settings, such as the HTTP or HTTPS port to use, and
   /// the health check configuration.
+  ///
+  /// Parameter [privateRegistryAccess] :
+  /// An object to describe the configuration for the container service to
+  /// access private container image repositories, such as Amazon Elastic
+  /// Container Registry (Amazon ECR) private repositories.
+  ///
+  /// For more information, see <a
+  /// href="https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-container-service-ecr-private-repo-access">Configuring
+  /// access to an Amazon ECR private repository for an Amazon Lightsail
+  /// container service</a> in the <i>Amazon Lightsail Developer Guide</i>.
   ///
   /// Parameter [publicDomainNames] :
   /// The public domain names to use with the container service, such as
@@ -999,6 +1019,7 @@ class Lightsail {
     required int scale,
     required String serviceName,
     ContainerServiceDeploymentRequest? deployment,
+    PrivateRegistryAccessRequest? privateRegistryAccess,
     Map<String, List<String>>? publicDomainNames,
     List<Tag>? tags,
   }) async {
@@ -1027,6 +1048,8 @@ class Lightsail {
         'scale': scale,
         'serviceName': serviceName,
         if (deployment != null) 'deployment': deployment,
+        if (privateRegistryAccess != null)
+          'privateRegistryAccess': privateRegistryAccess,
         if (publicDomainNames != null) 'publicDomainNames': publicDomainNames,
         if (tags != null) 'tags': tags,
       },
@@ -1045,8 +1068,8 @@ class Lightsail {
   /// the health check configuration.
   ///
   /// You can deploy containers to your container service using container images
-  /// from a public registry like Docker Hub, or from your local machine. For
-  /// more information, see <a
+  /// from a public registry such as Amazon ECR Public, or from your local
+  /// machine. For more information, see <a
   /// href="https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-creating-container-images">Creating
   /// container images for your Amazon Lightsail container services</a> in the
   /// <i>Amazon Lightsail Developer Guide</i>.
@@ -1499,7 +1522,7 @@ class Lightsail {
   ///
   /// Parameter [origin] :
   /// An object that describes the origin resource for the distribution, such as
-  /// a Lightsail instance or load balancer.
+  /// a Lightsail instance, bucket, or load balancer.
   ///
   /// The distribution pulls, caches, and serves content from the origin.
   ///
@@ -2053,8 +2076,14 @@ class Lightsail {
     return CreateInstancesFromSnapshotResult.fromJson(jsonResponse.body);
   }
 
-  /// Creates an SSH key pair.
-  ///
+  /// Creates a custom SSH key pair that you can use with an Amazon Lightsail
+  /// instance.
+  /// <note>
+  /// Use the <a
+  /// href="https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_DownloadDefaultKeyPair.html">DownloadDefaultKeyPair</a>
+  /// action to create a Lightsail default key pair in an Amazon Web Services
+  /// Region where a default key pair does not currently exist.
+  /// </note>
   /// The <code>create key pair</code> operation supports tag-based access
   /// control via request tags. For more information, see the <a
   /// href="https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-controlling-access-using-tags">Amazon
@@ -2169,6 +2198,18 @@ class Lightsail {
   ///
   /// Use the <code>TagResource</code> action to tag a resource after it's
   /// created.
+  ///
+  /// Parameter [tlsPolicyName] :
+  /// The name of the TLS policy to apply to the load balancer.
+  ///
+  /// Use the <a
+  /// href="https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_GetLoadBalancerTlsPolicies.html">GetLoadBalancerTlsPolicies</a>
+  /// action to get a list of TLS policy names that you can specify.
+  ///
+  /// For more information about load balancer TLS policies, see <a
+  /// href="https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configure-load-balancer-tls-security-policy">Configuring
+  /// TLS security policies on your Amazon Lightsail load balancers</a> in the
+  /// <i>Amazon Lightsail Developer Guide</i>.
   Future<CreateLoadBalancerResult> createLoadBalancer({
     required int instancePort,
     required String loadBalancerName,
@@ -2178,6 +2219,7 @@ class Lightsail {
     String? healthCheckPath,
     IpAddressType? ipAddressType,
     List<Tag>? tags,
+    String? tlsPolicyName,
   }) async {
     ArgumentError.checkNotNull(instancePort, 'instancePort');
     _s.validateNumRange(
@@ -2209,6 +2251,7 @@ class Lightsail {
         if (healthCheckPath != null) 'healthCheckPath': healthCheckPath,
         if (ipAddressType != null) 'ipAddressType': ipAddressType.toValue(),
         if (tags != null) 'tags': tags,
+        if (tlsPolicyName != null) 'tlsPolicyName': tlsPolicyName,
       },
     );
 
@@ -2915,7 +2958,7 @@ class Lightsail {
   /// Deletes a Amazon Lightsail bucket.
   /// <note>
   /// When you delete your bucket, the bucket name is released and can be reused
-  /// for a new bucket in your account or another AWS account.
+  /// for a new bucket in your account or another Amazon Web Services account.
   /// </note>
   ///
   /// May throw [AccessDeniedException].
@@ -2927,8 +2970,9 @@ class Lightsail {
   /// Parameter [bucketName] :
   /// The name of the bucket to delete.
   ///
-  /// Use the <a>GetBuckets</a> action to get a list of bucket names that you
-  /// can specify.
+  /// Use the <a
+  /// href="https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_GetBuckets.html">GetBuckets</a>
+  /// action to get a list of bucket names that you can specify.
   ///
   /// Parameter [forceDelete] :
   /// A Boolean value that indicates whether to force delete the bucket.
@@ -2941,8 +2985,9 @@ class Lightsail {
   /// The bucket is the origin of a distribution.
   /// </li>
   /// <li>
-  /// The bucket has instances that were granted access to it using the
-  /// <a>SetResourceAccessForBucket</a> action.
+  /// The bucket has instances that were granted access to it using the <a
+  /// href="https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_SetResourceAccessForBucket.html">SetResourceAccessForBucket</a>
+  /// action.
   /// </li>
   /// <li>
   /// The bucket has objects.
@@ -2998,8 +3043,9 @@ class Lightsail {
   /// Parameter [accessKeyId] :
   /// The ID of the access key to delete.
   ///
-  /// Use the <a>GetBucketAccessKeys</a> action to get a list of access key IDs
-  /// that you can specify.
+  /// Use the <a
+  /// href="https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_GetBucketAccessKeys.html">GetBucketAccessKeys</a>
+  /// action to get a list of access key IDs that you can specify.
   ///
   /// Parameter [bucketName] :
   /// The name of the bucket that the access key belongs to.
@@ -3072,9 +3118,10 @@ class Lightsail {
   ///
   /// A contact method is used to send you notifications about your Amazon
   /// Lightsail resources. You can add one email address and one mobile phone
-  /// number contact method in each AWS Region. However, SMS text messaging is
-  /// not supported in some AWS Regions, and SMS text messages cannot be sent to
-  /// some countries/regions. For more information, see <a
+  /// number contact method in each Amazon Web Services Region. However, SMS
+  /// text messaging is not supported in some Amazon Web Services Regions, and
+  /// SMS text messages cannot be sent to some countries/regions. For more
+  /// information, see <a
   /// href="https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-notifications">Notifications
   /// in Amazon Lightsail</a>.
   ///
@@ -3502,7 +3549,18 @@ class Lightsail {
     return DeleteInstanceSnapshotResult.fromJson(jsonResponse.body);
   }
 
-  /// Deletes a specific SSH key pair.
+  /// Deletes the specified key pair by removing the public key from Amazon
+  /// Lightsail.
+  ///
+  /// You can delete key pairs that were created using the <a
+  /// href="https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_ImportKeyPair.html">ImportKeyPair</a>
+  /// and <a
+  /// href="https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_CreateKeyPair.html">CreateKeyPair</a>
+  /// actions, as well as the Lightsail default key pair. A new default key pair
+  /// will not be created unless you launch an instance without specifying a
+  /// custom key pair, or you call the <a
+  /// href="https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_DownloadDefaultKeyPair.html">DownloadDefaultKeyPair</a>
+  /// API.
   ///
   /// The <code>delete key pair</code> operation supports tag-based access
   /// control via resource tags applied to the resource identified by <code>key
@@ -3520,8 +3578,16 @@ class Lightsail {
   ///
   /// Parameter [keyPairName] :
   /// The name of the key pair to delete.
+  ///
+  /// Parameter [expectedFingerprint] :
+  /// The RSA fingerprint of the Lightsail default key pair to delete.
+  /// <note>
+  /// The <code>expectedFingerprint</code> parameter is required only when
+  /// specifying to delete a Lightsail default key pair.
+  /// </note>
   Future<DeleteKeyPairResult> deleteKeyPair({
     required String keyPairName,
+    String? expectedFingerprint,
   }) async {
     ArgumentError.checkNotNull(keyPairName, 'keyPairName');
     final headers = <String, String>{
@@ -3536,6 +3602,8 @@ class Lightsail {
       headers: headers,
       payload: {
         'keyPairName': keyPairName,
+        if (expectedFingerprint != null)
+          'expectedFingerprint': expectedFingerprint,
       },
     );
 
@@ -4022,7 +4090,10 @@ class Lightsail {
     return DisableAddOnResult.fromJson(jsonResponse.body);
   }
 
-  /// Downloads the default SSH key pair from the user's account.
+  /// Downloads the regional Amazon Lightsail default key pair.
+  ///
+  /// This action also creates a Lightsail default key pair if a default key
+  /// pair does not currently exist in the Amazon Web Services Region.
   ///
   /// May throw [ServiceException].
   /// May throw [InvalidInputException].
@@ -4301,8 +4372,8 @@ class Lightsail {
   /// May throw [UnauthenticatedException].
   ///
   /// Parameter [includeInactive] :
-  /// A Boolean value indicating whether to include inactive results in your
-  /// request.
+  /// A Boolean value that indicates whether to include inactive (unavailable)
+  /// blueprints in the response of your request.
   ///
   /// Parameter [pageToken] :
   /// The token to advance to the next page of results from your request.
@@ -4338,8 +4409,10 @@ class Lightsail {
   /// <important>
   /// This action does not return the secret access key value of an access key.
   /// You can get a secret access key only when you create it from the response
-  /// of the <a>CreateBucketAccessKey</a> action. If you lose the secret access
-  /// key, you must create a new access key.
+  /// of the <a
+  /// href="https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_CreateBucketAccessKey.html">CreateBucketAccessKey</a>
+  /// action. If you lose the secret access key, you must create a new access
+  /// key.
   /// </important>
   ///
   /// May throw [AccessDeniedException].
@@ -4377,8 +4450,9 @@ class Lightsail {
   /// The bucket bundle specifies the monthly cost, storage quota, and data
   /// transfer quota for a bucket.
   ///
-  /// Use the <a>UpdateBucketBundle</a> action to update the bundle for a
-  /// bucket.
+  /// Use the <a
+  /// href="https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_UpdateBucketBundle.html">UpdateBucketBundle</a>
+  /// action to update the bundle for a bucket.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InvalidInputException].
@@ -4387,7 +4461,7 @@ class Lightsail {
   ///
   /// Parameter [includeInactive] :
   /// A Boolean value that indicates whether to include inactive (unavailable)
-  /// bundles in the response.
+  /// bundles in the response of your request.
   Future<GetBucketBundlesResult> getBucketBundles({
     bool? includeInactive,
   }) async {
@@ -4557,11 +4631,14 @@ class Lightsail {
     return GetBucketMetricDataResult.fromJson(jsonResponse.body);
   }
 
-  /// Returns information about one or more Amazon Lightsail buckets.
+  /// Returns information about one or more Amazon Lightsail buckets. The
+  /// information returned includes the synchronization status of the Amazon
+  /// Simple Storage Service (Amazon S3) account-level block public access
+  /// feature for your Lightsail buckets.
   ///
   /// For more information about buckets, see <a
   /// href="https://lightsail.aws.amazon.com/ls/docs/en_us/articles/buckets-in-amazon-lightsail">Buckets
-  /// in Amazon Lightsail</a> in the <i>Amazon Lightsail Developer Guide</i>..
+  /// in Amazon Lightsail</a> in the <i>Amazon Lightsail Developer Guide</i>.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InvalidInputException].
@@ -4572,13 +4649,14 @@ class Lightsail {
   /// Parameter [bucketName] :
   /// The name of the bucket for which to return information.
   ///
-  /// When omitted, the response includes all of your buckets in the AWS Region
-  /// where the request is made.
+  /// When omitted, the response includes all of your buckets in the Amazon Web
+  /// Services Region where the request is made.
   ///
   /// Parameter [includeConnectedResources] :
   /// A Boolean value that indicates whether to include Lightsail instances that
-  /// were given access to the bucket using the
-  /// <a>SetResourceAccessForBucket</a> action.
+  /// were given access to the bucket using the <a
+  /// href="https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_SetResourceAccessForBucket.html">SetResourceAccessForBucket</a>
+  /// action.
   ///
   /// Parameter [pageToken] :
   /// The token to advance to the next page of results from your request.
@@ -4612,8 +4690,15 @@ class Lightsail {
     return GetBucketsResult.fromJson(jsonResponse.body);
   }
 
-  /// Returns the list of bundles that are available for purchase. A bundle
-  /// describes the specs for your virtual private server (or <i>instance</i>).
+  /// Returns the bundles that you can apply to an Amazon Lightsail instance
+  /// when you create it.
+  ///
+  /// A bundle describes the specifications of an instance, such as the monthly
+  /// cost, amount of memory, the number of vCPUs, amount of storage space, and
+  /// monthly network data transfer quota.
+  /// <note>
+  /// Bundles are referred to as <i>instance plans</i> in the Lightsail console.
+  /// </note>
   ///
   /// May throw [ServiceException].
   /// May throw [InvalidInputException].
@@ -4624,8 +4709,8 @@ class Lightsail {
   /// May throw [UnauthenticatedException].
   ///
   /// Parameter [includeInactive] :
-  /// A Boolean value that indicates whether to include inactive bundle results
-  /// in your request.
+  /// A Boolean value that indicates whether to include inactive (unavailable)
+  /// bundles in the response of your request.
   ///
   /// Parameter [pageToken] :
   /// The token to advance to the next page of results from your request.
@@ -4674,8 +4759,8 @@ class Lightsail {
   /// Parameter [certificateName] :
   /// The name for the certificate for which to return information.
   ///
-  /// When omitted, the response includes all of your certificates in the AWS
-  /// Region where the request is made.
+  /// When omitted, the response includes all of your certificates in the Amazon
+  /// Web Services Region where the request is made.
   ///
   /// Parameter [certificateStatuses] :
   /// The status of the certificates for which to return information.
@@ -4683,8 +4768,9 @@ class Lightsail {
   /// For example, specify <code>ISSUED</code> to return only certificates with
   /// an <code>ISSUED</code> status.
   ///
-  /// When omitted, the response includes all of your certificates in the AWS
-  /// Region where the request is made, regardless of their current status.
+  /// When omitted, the response includes all of your certificates in the Amazon
+  /// Web Services Region where the request is made, regardless of their current
+  /// status.
   ///
   /// Parameter [includeCertificateDetails] :
   /// Indicates whether to include detailed information about the certificates
@@ -4768,9 +4854,10 @@ class Lightsail {
   ///
   /// A contact method is used to send you notifications about your Amazon
   /// Lightsail resources. You can add one email address and one mobile phone
-  /// number contact method in each AWS Region. However, SMS text messaging is
-  /// not supported in some AWS Regions, and SMS text messages cannot be sent to
-  /// some countries/regions. For more information, see <a
+  /// number contact method in each Amazon Web Services Region. However, SMS
+  /// text messaging is not supported in some Amazon Web Services Regions, and
+  /// SMS text messages cannot be sent to some countries/regions. For more
+  /// information, see <a
   /// href="https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-notifications">Notifications
   /// in Amazon Lightsail</a>.
   ///
@@ -5227,7 +5314,7 @@ class Lightsail {
   /// The name of the container service for which to return information.
   ///
   /// When omitted, the response includes all of your container services in the
-  /// AWS Region where the request is made.
+  /// Amazon Web Services Region where the request is made.
   Future<ContainerServicesListResult> getContainerServices({
     String? serviceName,
   }) async {
@@ -5397,7 +5484,7 @@ class Lightsail {
   /// delivery network (CDN) distributions.
   ///
   /// A distribution bundle specifies the monthly network transfer quota and
-  /// monthly cost of your dsitribution.
+  /// monthly cost of your distribution.
   ///
   /// May throw [ServiceException].
   /// May throw [InvalidInputException].
@@ -5693,8 +5780,8 @@ class Lightsail {
   /// Parameter [distributionName] :
   /// The name of the distribution for which to return information.
   ///
-  /// When omitted, the response includes all of your distributions in the AWS
-  /// Region where the request is made.
+  /// When omitted, the response includes all of your distributions in the
+  /// Amazon Web Services Region where the request is made.
   ///
   /// Parameter [pageToken] :
   /// The token to advance to the next page of results from your request.
@@ -5800,7 +5887,8 @@ class Lightsail {
   /// <code>export snapshot</code> operation.
   ///
   /// An export snapshot record can be used to create a new Amazon EC2 instance
-  /// and its related resources with the <a>CreateCloudFormationStack</a>
+  /// and its related resources with the <a
+  /// href="https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_CreateCloudFormationStack.html">CreateCloudFormationStack</a>
   /// action.
   ///
   /// May throw [ServiceException].
@@ -6373,6 +6461,10 @@ class Lightsail {
   /// May throw [AccountSetupInProgressException].
   /// May throw [UnauthenticatedException].
   ///
+  /// Parameter [includeDefaultKeyPair] :
+  /// A Boolean value that indicates whether to include the default key pair in
+  /// the response of your request.
+  ///
   /// Parameter [pageToken] :
   /// The token to advance to the next page of results from your request.
   ///
@@ -6380,6 +6472,7 @@ class Lightsail {
   /// If your results are paginated, the response will return a next page token
   /// that you can specify as the page token in a subsequent request.
   Future<GetKeyPairsResult> getKeyPairs({
+    bool? includeDefaultKeyPair,
     String? pageToken,
   }) async {
     final headers = <String, String>{
@@ -6393,6 +6486,8 @@ class Lightsail {
       // TODO queryParams
       headers: headers,
       payload: {
+        if (includeDefaultKeyPair != null)
+          'includeDefaultKeyPair': includeDefaultKeyPair,
         if (pageToken != null) 'pageToken': pageToken,
       },
     );
@@ -6725,6 +6820,48 @@ class Lightsail {
     return GetLoadBalancerTlsCertificatesResult.fromJson(jsonResponse.body);
   }
 
+  /// Returns a list of TLS security policies that you can apply to Lightsail
+  /// load balancers.
+  ///
+  /// For more information about load balancer TLS security policies, see <a
+  /// href="https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configure-load-balancer-tls-security-policy">Configuring
+  /// TLS security policies on your Amazon Lightsail load balancers</a> in the
+  /// <i>Amazon Lightsail Developer Guide</i>.
+  ///
+  /// May throw [ServiceException].
+  /// May throw [AccessDeniedException].
+  /// May throw [AccountSetupInProgressException].
+  /// May throw [UnauthenticatedException].
+  /// May throw [InvalidInputException].
+  ///
+  /// Parameter [pageToken] :
+  /// The token to advance to the next page of results from your request.
+  ///
+  /// To get a page token, perform an initial
+  /// <code>GetLoadBalancerTlsPolicies</code> request. If your results are
+  /// paginated, the response will return a next page token that you can specify
+  /// as the page token in a subsequent request.
+  Future<GetLoadBalancerTlsPoliciesResult> getLoadBalancerTlsPolicies({
+    String? pageToken,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Lightsail_20161128.GetLoadBalancerTlsPolicies'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (pageToken != null) 'pageToken': pageToken,
+      },
+    );
+
+    return GetLoadBalancerTlsPoliciesResult.fromJson(jsonResponse.body);
+  }
+
   /// Returns information about all load balancers in an account.
   ///
   /// May throw [ServiceException].
@@ -7024,6 +7161,10 @@ class Lightsail {
   /// May throw [AccountSetupInProgressException].
   /// May throw [UnauthenticatedException].
   ///
+  /// Parameter [includeInactive] :
+  /// A Boolean value that indicates whether to include inactive (unavailable)
+  /// bundles in the response of your request.
+  ///
   /// Parameter [pageToken] :
   /// The token to advance to the next page of results from your request.
   ///
@@ -7032,6 +7173,7 @@ class Lightsail {
   /// paginated, the response will return a next page token that you can specify
   /// as the page token in a subsequent request.
   Future<GetRelationalDatabaseBundlesResult> getRelationalDatabaseBundles({
+    bool? includeInactive,
     String? pageToken,
   }) async {
     final headers = <String, String>{
@@ -7045,6 +7187,7 @@ class Lightsail {
       // TODO queryParams
       headers: headers,
       payload: {
+        if (includeInactive != null) 'includeInactive': includeInactive,
         if (pageToken != null) 'pageToken': pageToken,
       },
     );
@@ -7995,12 +8138,12 @@ class Lightsail {
   /// are enabled for the alarm, and when the alarm is triggered.
   ///
   /// A notification is not sent if a contact protocol is not specified, if the
-  /// specified contact protocol is not configured in the AWS Region, or if
-  /// notifications are not enabled for the alarm using the
+  /// specified contact protocol is not configured in the Amazon Web Services
+  /// Region, or if notifications are not enabled for the alarm using the
   /// <code>notificationEnabled</code> paramater.
   ///
   /// Use the <code>CreateContactMethod</code> action to configure a contact
-  /// protocol in an AWS Region.
+  /// protocol in an Amazon Web Services Region.
   ///
   /// Parameter [datapointsToAlarm] :
   /// The number of data points that must be not within the specified threshold
@@ -8418,9 +8561,10 @@ class Lightsail {
   ///
   /// A contact method is used to send you notifications about your Amazon
   /// Lightsail resources. You can add one email address and one mobile phone
-  /// number contact method in each AWS Region. However, SMS text messaging is
-  /// not supported in some AWS Regions, and SMS text messages cannot be sent to
-  /// some countries/regions. For more information, see <a
+  /// number contact method in each Amazon Web Services Region. However, SMS
+  /// text messaging is not supported in some Amazon Web Services Regions, and
+  /// SMS text messages cannot be sent to some countries/regions. For more
+  /// information, see <a
   /// href="https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-notifications">Notifications
   /// in Amazon Lightsail</a>.
   ///
@@ -8494,8 +8638,9 @@ class Lightsail {
   /// and <code>LoadBalancer</code>.
   /// <note>
   /// Distribution-related APIs are available only in the N. Virginia
-  /// (<code>us-east-1</code>) AWS Region. Set your AWS Region configuration to
-  /// <code>us-east-1</code> to create, view, or edit distributions.
+  /// (<code>us-east-1</code>) Amazon Web Services Region. Set your Amazon Web
+  /// Services Region configuration to <code>us-east-1</code> to create, view,
+  /// or edit distributions.
   /// </note>
   Future<SetIpAddressTypeResult> setIpAddressType({
     required IpAddressType ipAddressType,
@@ -8529,7 +8674,7 @@ class Lightsail {
   /// Lightsail bucket.
   ///
   /// Lightsail buckets currently support setting access for Lightsail instances
-  /// in the same AWS Region.
+  /// in the same Amazon Web Services Region.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InvalidInputException].
@@ -8988,8 +9133,8 @@ class Lightsail {
   /// Updates an existing Amazon Lightsail bucket.
   ///
   /// Use this action to update the configuration of an existing bucket, such as
-  /// versioning, public accessibility, and the AWS accounts that can access the
-  /// bucket.
+  /// versioning, public accessibility, and the Amazon Web Services accounts
+  /// that can access the bucket.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InvalidInputException].
@@ -9008,10 +9153,11 @@ class Lightsail {
   /// bucket.
   ///
   /// Parameter [readonlyAccessAccounts] :
-  /// An array of strings to specify the AWS account IDs that can access the
-  /// bucket.
+  /// An array of strings to specify the Amazon Web Services account IDs that
+  /// can access the bucket.
   ///
-  /// You can give a maximum of 10 AWS accounts access to a bucket.
+  /// You can give a maximum of 10 Amazon Web Services accounts access to a
+  /// bucket.
   ///
   /// Parameter [versioning] :
   /// Specifies whether to enable or suspend versioning of objects in the
@@ -9066,9 +9212,10 @@ class Lightsail {
   /// A bucket bundle specifies the monthly cost, storage space, and data
   /// transfer quota for a bucket. You can update a bucket's bundle only one
   /// time within a monthly AWS billing cycle. To determine if you can update a
-  /// bucket's bundle, use the <a>GetBuckets</a> action. The
-  /// <code>ableToUpdateBundle</code> parameter in the response will indicate
-  /// whether you can currently update a bucket's bundle.
+  /// bucket's bundle, use the <a
+  /// href="https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_GetBuckets.html">GetBuckets</a>
+  /// action. The <code>ableToUpdateBundle</code> parameter in the response will
+  /// indicate whether you can currently update a bucket's bundle.
   ///
   /// Update a bucket's bundle if it's consistently going over its storage space
   /// or data transfer quota, or if a bucket's usage is consistently in the
@@ -9091,8 +9238,9 @@ class Lightsail {
   /// Parameter [bundleId] :
   /// The ID of the new bundle to apply to the bucket.
   ///
-  /// Use the <a>GetBucketBundles</a> action to get a list of bundle IDs that
-  /// you can specify.
+  /// Use the <a
+  /// href="https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_GetBucketBundles.html">GetBucketBundles</a>
+  /// action to get a list of bundle IDs that you can specify.
   Future<UpdateBucketBundleResult> updateBucketBundle({
     required String bucketName,
     required String bundleId,
@@ -9146,6 +9294,16 @@ class Lightsail {
   /// Use the <code>GetContainerServicePowers</code> action to view the
   /// specifications of each power option.
   ///
+  /// Parameter [privateRegistryAccess] :
+  /// An object to describe the configuration for the container service to
+  /// access private container image repositories, such as Amazon Elastic
+  /// Container Registry (Amazon ECR) private repositories.
+  ///
+  /// For more information, see <a
+  /// href="https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-container-service-ecr-private-repo-access">Configuring
+  /// access to an Amazon ECR private repository for an Amazon Lightsail
+  /// container service</a> in the <i>Amazon Lightsail Developer Guide</i>.
+  ///
   /// Parameter [publicDomainNames] :
   /// The public domain names to use with the container service, such as
   /// <code>example.com</code> and <code>www.example.com</code>.
@@ -9178,6 +9336,7 @@ class Lightsail {
     required String serviceName,
     bool? isDisabled,
     ContainerServicePowerName? power,
+    PrivateRegistryAccessRequest? privateRegistryAccess,
     Map<String, List<String>>? publicDomainNames,
     int? scale,
   }) async {
@@ -9202,6 +9361,8 @@ class Lightsail {
         'serviceName': serviceName,
         if (isDisabled != null) 'isDisabled': isDisabled,
         if (power != null) 'power': power.toValue(),
+        if (privateRegistryAccess != null)
+          'privateRegistryAccess': privateRegistryAccess,
         if (publicDomainNames != null) 'publicDomainNames': publicDomainNames,
         if (scale != null) 'scale': scale,
       },
@@ -9248,7 +9409,7 @@ class Lightsail {
   ///
   /// Parameter [origin] :
   /// An object that describes the origin resource for the distribution, such as
-  /// a Lightsail instance or load balancer.
+  /// a Lightsail instance, bucket, or load balancer.
   ///
   /// The distribution pulls, caches, and serves content from the origin.
   Future<UpdateDistributionResult> updateDistribution({
@@ -9289,7 +9450,7 @@ class Lightsail {
   /// distribution.
   ///
   /// A distribution bundle specifies the monthly network transfer quota and
-  /// monthly cost of your dsitribution.
+  /// monthly cost of your distribution.
   ///
   /// Update your distribution's bundle if your distribution is going over its
   /// monthly network transfer quota and is incurring an overage fee.
@@ -9406,10 +9567,52 @@ class Lightsail {
   /// May throw [UnauthenticatedException].
   ///
   /// Parameter [attributeName] :
-  /// The name of the attribute you want to update. Valid values are below.
+  /// The name of the attribute you want to update.
   ///
   /// Parameter [attributeValue] :
   /// The value that you want to specify for the attribute name.
+  ///
+  /// The following values are supported depending on what you specify for the
+  /// <code>attributeName</code> request parameter:
+  ///
+  /// <ul>
+  /// <li>
+  /// If you specify <code>HealthCheckPath</code> for the
+  /// <code>attributeName</code> request parameter, then the
+  /// <code>attributeValue</code> request parameter must be the path to ping on
+  /// the target (for example, <code>/weather/us/wa/seattle</code>).
+  /// </li>
+  /// <li>
+  /// If you specify <code>SessionStickinessEnabled</code> for the
+  /// <code>attributeName</code> request parameter, then the
+  /// <code>attributeValue</code> request parameter must be <code>true</code> to
+  /// activate session stickiness or <code>false</code> to deactivate session
+  /// stickiness.
+  /// </li>
+  /// <li>
+  /// If you specify <code>SessionStickiness_LB_CookieDurationSeconds</code> for
+  /// the <code>attributeName</code> request parameter, then the
+  /// <code>attributeValue</code> request parameter must be an interger that
+  /// represents the cookie duration in seconds.
+  /// </li>
+  /// <li>
+  /// If you specify <code>HttpsRedirectionEnabled</code> for the
+  /// <code>attributeName</code> request parameter, then the
+  /// <code>attributeValue</code> request parameter must be <code>true</code> to
+  /// activate HTTP to HTTPS redirection or <code>false</code> to deactivate
+  /// HTTP to HTTPS redirection.
+  /// </li>
+  /// <li>
+  /// If you specify <code>TlsPolicyName</code> for the
+  /// <code>attributeName</code> request parameter, then the
+  /// <code>attributeValue</code> request parameter must be the name of the TLS
+  /// policy.
+  ///
+  /// Use the <a
+  /// href="https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_GetLoadBalancerTlsPolicies.html">GetLoadBalancerTlsPolicies</a>
+  /// action to get a list of TLS policy names that you can specify.
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [loadBalancerName] :
   /// The name of the load balancer that you want to modify (e.g.,
@@ -9707,9 +9910,10 @@ extension on String {
 /// Describes an access key for an Amazon Lightsail bucket.
 ///
 /// Access keys grant full programmatic access to the specified bucket and its
-/// objects. You can have a maximum of two access keys per bucket. Use the
-/// <a>CreateBucketAccessKey</a> action to create an access key for a specific
-/// bucket. For more information about access keys, see <a
+/// objects. You can have a maximum of two access keys per bucket. Use the <a
+/// href="https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_CreateBucketAccessKey.html">CreateBucketAccessKey</a>
+/// action to create an access key for a specific bucket. For more information
+/// about access keys, see <a
 /// href="https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-creating-bucket-access-keys">Creating
 /// access keys for a bucket in Amazon Lightsail</a> in the <i>Amazon Lightsail
 /// Developer Guide</i>.
@@ -9729,10 +9933,11 @@ class AccessKey {
 
   /// An object that describes the last time the access key was used.
   /// <note>
-  /// This object does not include data in the response of a
-  /// <a>CreateBucketAccessKey</a> action. If the access key has not been used,
-  /// the <code>region</code> and <code>serviceName</code> values are
-  /// <code>N/A</code>, and the <code>lastUsedDate</code> value is null.
+  /// This object does not include data in the response of a <a
+  /// href="https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_CreateBucketAccessKey.html">CreateBucketAccessKey</a>
+  /// action. If the access key has not been used, the <code>region</code> and
+  /// <code>serviceName</code> values are <code>N/A</code>, and the
+  /// <code>lastUsedDate</code> value is null.
   /// </note>
   final AccessKeyLastUsed? lastUsed;
 
@@ -9786,8 +9991,9 @@ class AccessKey {
 
 /// Describes the last time an access key was used.
 /// <note>
-/// This object does not include data in the response of a
-/// <a>CreateBucketAccessKey</a> action.
+/// This object does not include data in the response of a <a
+/// href="https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_CreateBucketAccessKey.html">CreateBucketAccessKey</a>
+/// action.
 /// </note>
 class AccessKeyLastUsed {
   /// The date and time when the access key was most recently used.
@@ -9927,6 +10133,175 @@ extension on String {
         return AccessType.private;
     }
     throw Exception('$this is not known in enum AccessType');
+  }
+}
+
+/// Describes the synchronization status of the Amazon Simple Storage Service
+/// (Amazon S3) account-level block public access (BPA) feature for your
+/// Lightsail buckets.
+///
+/// The account-level BPA feature of Amazon S3 provides centralized controls to
+/// limit public access to all Amazon S3 buckets in an account. BPA can make all
+/// Amazon S3 buckets in an Amazon Web Services account private regardless of
+/// the individual bucket and object permissions that are configured. Lightsail
+/// buckets take into account the Amazon S3 account-level BPA configuration when
+/// allowing or denying public access. To do this, Lightsail periodically
+/// fetches the account-level BPA configuration from Amazon S3. When the
+/// account-level BPA status is <code>InSync</code>, the Amazon S3 account-level
+/// BPA configuration is synchronized and it applies to your Lightsail buckets.
+/// For more information about Amazon Simple Storage Service account-level BPA
+/// and how it affects Lightsail buckets, see <a
+/// href="https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-block-public-access-for-buckets">Block
+/// public access for buckets in Amazon Lightsail</a> in the <i>Amazon Lightsail
+/// Developer Guide</i>.
+class AccountLevelBpaSync {
+  /// A Boolean value that indicates whether account-level block public access is
+  /// affecting your Lightsail buckets.
+  final bool? bpaImpactsLightsail;
+
+  /// The timestamp of when the account-level BPA configuration was last
+  /// synchronized. This value is null when the account-level BPA configuration
+  /// has not been synchronized.
+  final DateTime? lastSyncedAt;
+
+  /// A message that provides a reason for a <code>Failed</code> or
+  /// <code>Defaulted</code> synchronization status.
+  ///
+  /// The following messages are possible:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>SYNC_ON_HOLD</code> - The synchronization has not yet happened. This
+  /// status message occurs immediately after you create your first Lightsail
+  /// bucket. This status message should change after the first synchronization
+  /// happens, approximately 1 hour after the first bucket is created.
+  /// </li>
+  /// <li>
+  /// <code>DEFAULTED_FOR_SLR_MISSING</code> - The synchronization failed because
+  /// the required service-linked role is missing from your Amazon Web Services
+  /// account. The account-level BPA configuration for your Lightsail buckets is
+  /// defaulted to <i>active</i> until the synchronization can occur. This means
+  /// that all your buckets are private and not publicly accessible. For more
+  /// information about how to create the required service-linked role to allow
+  /// synchronization, see <a
+  /// href="https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-using-service-linked-roles">Using
+  /// Service-Linked Roles for Amazon Lightsail</a> in the <i>Amazon Lightsail
+  /// Developer Guide</i>.
+  /// </li>
+  /// <li>
+  /// <code>DEFAULTED_FOR_SLR_MISSING_ON_HOLD</code> - The synchronization failed
+  /// because the required service-linked role is missing from your Amazon Web
+  /// Services account. Account-level BPA is not yet configured for your Lightsail
+  /// buckets. Therefore, only the bucket access permissions and individual object
+  /// access permissions apply to your Lightsail buckets. For more information
+  /// about how to create the required service-linked role to allow
+  /// synchronization, see <a
+  /// href="https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-using-service-linked-roles">Using
+  /// Service-Linked Roles for Amazon Lightsail</a> in the <i>Amazon Lightsail
+  /// Developer Guide</i>.
+  /// </li>
+  /// <li>
+  /// <code>Unknown</code> - The reason that synchronization failed is unknown.
+  /// Contact Amazon Web Services Support for more information.
+  /// </li>
+  /// </ul>
+  final BPAStatusMessage? message;
+
+  /// The status of the account-level BPA synchronization.
+  ///
+  /// The following statuses are possible:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>InSync</code> - Account-level BPA is synchronized. The Amazon S3
+  /// account-level BPA configuration applies to your Lightsail buckets.
+  /// </li>
+  /// <li>
+  /// <code>NeverSynced</code> - Synchronization has not yet happened. The Amazon
+  /// S3 account-level BPA configuration does not apply to your Lightsail buckets.
+  /// </li>
+  /// <li>
+  /// <code>Failed</code> - Synchronization failed. The Amazon S3 account-level
+  /// BPA configuration does not apply to your Lightsail buckets.
+  /// </li>
+  /// <li>
+  /// <code>Defaulted</code> - Synchronization failed and account-level BPA for
+  /// your Lightsail buckets is defaulted to <i>active</i>.
+  /// </li>
+  /// </ul> <note>
+  /// You might need to complete further actions if the status is
+  /// <code>Failed</code> or <code>Defaulted</code>. The <code>message</code>
+  /// parameter provides more information for those statuses.
+  /// </note>
+  final AccountLevelBpaSyncStatus? status;
+
+  AccountLevelBpaSync({
+    this.bpaImpactsLightsail,
+    this.lastSyncedAt,
+    this.message,
+    this.status,
+  });
+
+  factory AccountLevelBpaSync.fromJson(Map<String, dynamic> json) {
+    return AccountLevelBpaSync(
+      bpaImpactsLightsail: json['bpaImpactsLightsail'] as bool?,
+      lastSyncedAt: timeStampFromJson(json['lastSyncedAt']),
+      message: (json['message'] as String?)?.toBPAStatusMessage(),
+      status: (json['status'] as String?)?.toAccountLevelBpaSyncStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bpaImpactsLightsail = this.bpaImpactsLightsail;
+    final lastSyncedAt = this.lastSyncedAt;
+    final message = this.message;
+    final status = this.status;
+    return {
+      if (bpaImpactsLightsail != null)
+        'bpaImpactsLightsail': bpaImpactsLightsail,
+      if (lastSyncedAt != null)
+        'lastSyncedAt': unixTimestampToJson(lastSyncedAt),
+      if (message != null) 'message': message.toValue(),
+      if (status != null) 'status': status.toValue(),
+    };
+  }
+}
+
+enum AccountLevelBpaSyncStatus {
+  inSync,
+  failed,
+  neverSynced,
+  defaulted,
+}
+
+extension on AccountLevelBpaSyncStatus {
+  String toValue() {
+    switch (this) {
+      case AccountLevelBpaSyncStatus.inSync:
+        return 'InSync';
+      case AccountLevelBpaSyncStatus.failed:
+        return 'Failed';
+      case AccountLevelBpaSyncStatus.neverSynced:
+        return 'NeverSynced';
+      case AccountLevelBpaSyncStatus.defaulted:
+        return 'Defaulted';
+    }
+  }
+}
+
+extension on String {
+  AccountLevelBpaSyncStatus toAccountLevelBpaSyncStatus() {
+    switch (this) {
+      case 'InSync':
+        return AccountLevelBpaSyncStatus.inSync;
+      case 'Failed':
+        return AccountLevelBpaSyncStatus.failed;
+      case 'NeverSynced':
+        return AccountLevelBpaSyncStatus.neverSynced;
+      case 'Defaulted':
+        return AccountLevelBpaSyncStatus.defaulted;
+    }
+    throw Exception('$this is not known in enum AccountLevelBpaSyncStatus');
   }
 }
 
@@ -10730,6 +11105,44 @@ class AvailabilityZone {
   }
 }
 
+enum BPAStatusMessage {
+  defaultedForSlrMissing,
+  syncOnHold,
+  defaultedForSlrMissingOnHold,
+  unknown,
+}
+
+extension on BPAStatusMessage {
+  String toValue() {
+    switch (this) {
+      case BPAStatusMessage.defaultedForSlrMissing:
+        return 'DEFAULTED_FOR_SLR_MISSING';
+      case BPAStatusMessage.syncOnHold:
+        return 'SYNC_ON_HOLD';
+      case BPAStatusMessage.defaultedForSlrMissingOnHold:
+        return 'DEFAULTED_FOR_SLR_MISSING_ON_HOLD';
+      case BPAStatusMessage.unknown:
+        return 'Unknown';
+    }
+  }
+}
+
+extension on String {
+  BPAStatusMessage toBPAStatusMessage() {
+    switch (this) {
+      case 'DEFAULTED_FOR_SLR_MISSING':
+        return BPAStatusMessage.defaultedForSlrMissing;
+      case 'SYNC_ON_HOLD':
+        return BPAStatusMessage.syncOnHold;
+      case 'DEFAULTED_FOR_SLR_MISSING_ON_HOLD':
+        return BPAStatusMessage.defaultedForSlrMissingOnHold;
+      case 'Unknown':
+        return BPAStatusMessage.unknown;
+    }
+    throw Exception('$this is not known in enum BPAStatusMessage');
+  }
+}
+
 enum BehaviorEnum {
   dontCache,
   cache,
@@ -10901,10 +11314,12 @@ class Bucket {
   /// Indicates whether the bundle that is currently applied to a bucket can be
   /// changed to another bundle.
   ///
-  /// You can update a bucket's bundle only one time within a monthly AWS billing
-  /// cycle.
+  /// You can update a bucket's bundle only one time within a monthly Amazon Web
+  /// Services billing cycle.
   ///
-  /// Use the <a>UpdateBucketBundle</a> action to change a bucket's bundle.
+  /// Use the <a
+  /// href="https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_UpdateBucketBundle.html">UpdateBucketBundle</a>
+  /// action to change a bucket's bundle.
   final bool? ableToUpdateBundle;
 
   /// An object that describes the access log configuration for the bucket.
@@ -10921,11 +11336,16 @@ class Bucket {
   /// A bucket bundle specifies the monthly cost, storage space, and data transfer
   /// quota for a bucket.
   ///
-  /// Use the <a>UpdateBucketBundle</a> action to change the bundle of a bucket.
+  /// Use the <a
+  /// href="https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_UpdateBucketBundle.html">UpdateBucketBundle</a>
+  /// action to change the bundle of a bucket.
   final String? bundleId;
 
   /// The timestamp when the distribution was created.
   final DateTime? createdAt;
+
+  /// An object that describes the location of the bucket, such as the Amazon Web
+  /// Services Region and Availability Zone.
   final ResourceLocation? location;
 
   /// The name of the bucket.
@@ -10949,8 +11369,8 @@ class Bucket {
   /// </ul>
   final String? objectVersioning;
 
-  /// An array of strings that specify the AWS account IDs that have read-only
-  /// access to the bucket.
+  /// An array of strings that specify the Amazon Web Services account IDs that
+  /// have read-only access to the bucket.
   final List<String>? readonlyAccessAccounts;
 
   /// The Lightsail resource type of the bucket (for example,
@@ -10960,8 +11380,9 @@ class Bucket {
   /// An array of objects that describe Lightsail instances that have access to
   /// the bucket.
   ///
-  /// Use the <a>SetResourceAccessForBucket</a> action to update the instances
-  /// that have access to a bucket.
+  /// Use the <a
+  /// href="https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_SetResourceAccessForBucket.html">SetResourceAccessForBucket</a>
+  /// action to update the instances that have access to a bucket.
   final List<ResourceReceivingAccess>? resourcesReceivingAccess;
 
   /// An object that describes the state of the bucket.
@@ -11092,9 +11513,9 @@ class BucketAccessLogConfig {
   /// the bucket.
   final bool enabled;
 
-  /// The name of the bucket where the access is saved. The destination can be a
-  /// Lightsail bucket in the same account, and in the same AWS Region as the
-  /// source bucket.
+  /// The name of the bucket where the access logs are saved. The destination can
+  /// be a Lightsail bucket in the same account, and in the same Amazon Web
+  /// Services Region as the source bucket.
   /// <note>
   /// This parameter is required when enabling the access log for a bucket, and
   /// should be omitted when disabling the access log.
@@ -11437,8 +11858,6 @@ class CacheBehavior {
 /// <code>cacheBehavior</code> is <code>dont-cache</code>, then a per-path cache
 /// behavior can be used to specify a directory, file, or file type that your
 /// distribution will not cache.
-///
-/// if the cacheBehavior's behavior is set to 'cache', then
 class CacheBehaviorPerPath {
   /// The cache behavior for the specified path.
   ///
@@ -12076,8 +12495,8 @@ class CloudFormationStackRecord {
   /// stack.
   final DestinationInfo? destinationInfo;
 
-  /// A list of objects describing the Availability Zone and AWS Region of the
-  /// CloudFormation stack record.
+  /// A list of objects describing the Availability Zone and Amazon Web Services
+  /// Region of the CloudFormation stack record.
   final ResourceLocation? location;
 
   /// The name of the CloudFormation stack record. It starts with
@@ -12266,6 +12685,9 @@ class ContactMethod {
 
   /// The timestamp when the contact method was created.
   final DateTime? createdAt;
+
+  /// An object that describes the location of the contact method, such as the
+  /// Amazon Web Services Region and Availability Zone.
   final ResourceLocation? location;
 
   /// The name of the contact method.
@@ -12560,7 +12982,7 @@ class ContainerService {
   final bool? isDisabled;
 
   /// An object that describes the location of the container service, such as the
-  /// AWS Region and Availability Zone.
+  /// Amazon Web Services Region and Availability Zone.
   final ResourceLocation? location;
 
   /// An object that describes the next deployment of the container service.
@@ -12581,9 +13003,9 @@ class ContainerService {
   /// The principal ARN of the container service.
   ///
   /// The principal ARN can be used to create a trust relationship between your
-  /// standard AWS account and your Lightsail container service. This allows you
-  /// to give your service permission to access resources in your standard AWS
-  /// account.
+  /// standard Amazon Web Services account and your Lightsail container service.
+  /// This allows you to give your service permission to access resources in your
+  /// standard Amazon Web Services account.
   final String? principalArn;
 
   /// The private domain name of the container service.
@@ -12591,6 +13013,16 @@ class ContainerService {
   /// The private domain name is accessible only by other resources within the
   /// default virtual private cloud (VPC) of your Lightsail account.
   final String? privateDomainName;
+
+  /// An object that describes the configuration for the container service to
+  /// access private container image repositories, such as Amazon Elastic
+  /// Container Registry (Amazon ECR) private repositories.
+  ///
+  /// For more information, see <a
+  /// href="https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-container-service-ecr-private-repo-access">Configuring
+  /// access to an Amazon ECR private repository for an Amazon Lightsail container
+  /// service</a> in the <i>Amazon Lightsail Developer Guide</i>.
+  final PrivateRegistryAccess? privateRegistryAccess;
 
   /// The public domain name of the container service, such as
   /// <code>example.com</code> and <code>www.example.com</code>.
@@ -12687,6 +13119,7 @@ class ContainerService {
     this.powerId,
     this.principalArn,
     this.privateDomainName,
+    this.privateRegistryAccess,
     this.publicDomainNames,
     this.resourceType,
     this.scale,
@@ -12717,6 +13150,10 @@ class ContainerService {
       powerId: json['powerId'] as String?,
       principalArn: json['principalArn'] as String?,
       privateDomainName: json['privateDomainName'] as String?,
+      privateRegistryAccess: json['privateRegistryAccess'] != null
+          ? PrivateRegistryAccess.fromJson(
+              json['privateRegistryAccess'] as Map<String, dynamic>)
+          : null,
       publicDomainNames: (json['publicDomainNames'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(
               k, (e as List).whereNotNull().map((e) => e as String).toList())),
@@ -12747,6 +13184,7 @@ class ContainerService {
     final powerId = this.powerId;
     final principalArn = this.principalArn;
     final privateDomainName = this.privateDomainName;
+    final privateRegistryAccess = this.privateRegistryAccess;
     final publicDomainNames = this.publicDomainNames;
     final resourceType = this.resourceType;
     final scale = this.scale;
@@ -12767,6 +13205,8 @@ class ContainerService {
       if (powerId != null) 'powerId': powerId,
       if (principalArn != null) 'principalArn': principalArn,
       if (privateDomainName != null) 'privateDomainName': privateDomainName,
+      if (privateRegistryAccess != null)
+        'privateRegistryAccess': privateRegistryAccess,
       if (publicDomainNames != null) 'publicDomainNames': publicDomainNames,
       if (resourceType != null) 'resourceType': resourceType.toValue(),
       if (scale != null) 'scale': scale,
@@ -12936,6 +13376,85 @@ extension on String {
     }
     throw Exception(
         '$this is not known in enum ContainerServiceDeploymentState');
+  }
+}
+
+/// Describes the activation status of the role that you can use to grant an
+/// Amazon Lightsail container service access to Amazon Elastic Container
+/// Registry (Amazon ECR) private repositories.
+///
+/// When activated, Lightsail creates an Identity and Access Management (IAM)
+/// role for the specified Lightsail container service. You can use the ARN of
+/// the role to create a trust relationship between your Lightsail container
+/// service and an Amazon ECR private repository in your Amazon Web Services
+/// account. This allows your container service to pull images from Amazon ECR
+/// private repositories. For more information, see <a
+/// href="https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-container-service-ecr-private-repo-access">Configuring
+/// access to an Amazon ECR private repository for an Amazon Lightsail container
+/// service</a> in the <i>Amazon Lightsail Developer Guide</i>.
+class ContainerServiceECRImagePullerRole {
+  /// A Boolean value that indicates whether the role is activated.
+  final bool? isActive;
+
+  /// The Amazon Resource Name (ARN) of the role, if it is activated.
+  final String? principalArn;
+
+  ContainerServiceECRImagePullerRole({
+    this.isActive,
+    this.principalArn,
+  });
+
+  factory ContainerServiceECRImagePullerRole.fromJson(
+      Map<String, dynamic> json) {
+    return ContainerServiceECRImagePullerRole(
+      isActive: json['isActive'] as bool?,
+      principalArn: json['principalArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isActive = this.isActive;
+    final principalArn = this.principalArn;
+    return {
+      if (isActive != null) 'isActive': isActive,
+      if (principalArn != null) 'principalArn': principalArn,
+    };
+  }
+}
+
+/// Describes a request to activate or deactivate the role that you can use to
+/// grant an Amazon Lightsail container service access to Amazon Elastic
+/// Container Registry (Amazon ECR) private repositories.
+///
+/// When activated, Lightsail creates an Identity and Access Management (IAM)
+/// role for the specified Lightsail container service. You can use the ARN of
+/// the role to create a trust relationship between your Lightsail container
+/// service and an Amazon ECR private repository in your Amazon Web Services
+/// account. This allows your container service to pull images from Amazon ECR
+/// private repositories. For more information, see <a
+/// href="https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-container-service-ecr-private-repo-access">Configuring
+/// access to an Amazon ECR private repository for an Amazon Lightsail container
+/// service</a> in the <i>Amazon Lightsail Developer Guide</i>.
+class ContainerServiceECRImagePullerRoleRequest {
+  /// A Boolean value that indicates whether to activate the role.
+  final bool? isActive;
+
+  ContainerServiceECRImagePullerRoleRequest({
+    this.isActive,
+  });
+
+  factory ContainerServiceECRImagePullerRoleRequest.fromJson(
+      Map<String, dynamic> json) {
+    return ContainerServiceECRImagePullerRoleRequest(
+      isActive: json['isActive'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isActive = this.isActive;
+    return {
+      if (isActive != null) 'isActive': isActive,
+    };
   }
 }
 
@@ -15800,6 +16319,9 @@ class DomainValidationRecord {
 }
 
 class DownloadDefaultKeyPairResult {
+  /// The timestamp when the default key pair was created.
+  final DateTime? createdAt;
+
   /// A base64-encoded RSA private key.
   final String? privateKeyBase64;
 
@@ -15807,21 +16329,25 @@ class DownloadDefaultKeyPairResult {
   final String? publicKeyBase64;
 
   DownloadDefaultKeyPairResult({
+    this.createdAt,
     this.privateKeyBase64,
     this.publicKeyBase64,
   });
 
   factory DownloadDefaultKeyPairResult.fromJson(Map<String, dynamic> json) {
     return DownloadDefaultKeyPairResult(
+      createdAt: timeStampFromJson(json['createdAt']),
       privateKeyBase64: json['privateKeyBase64'] as String?,
       publicKeyBase64: json['publicKeyBase64'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
     final privateKeyBase64 = this.privateKeyBase64;
     final publicKeyBase64 = this.publicKeyBase64;
     return {
+      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
       if (privateKeyBase64 != null) 'privateKeyBase64': privateKeyBase64,
       if (publicKeyBase64 != null) 'publicKeyBase64': publicKeyBase64,
     };
@@ -16385,6 +16911,15 @@ class GetBucketMetricDataResult {
 }
 
 class GetBucketsResult {
+  /// An object that describes the synchronization status of the Amazon S3
+  /// account-level block public access feature for your Lightsail buckets.
+  ///
+  /// For more information about this feature and how it affects Lightsail
+  /// buckets, see <a
+  /// href="https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-block-public-access-for-buckets">Block
+  /// public access for buckets in Amazon Lightsail</a>.
+  final AccountLevelBpaSync? accountLevelBpaSync;
+
   /// An array of objects that describe buckets.
   final List<Bucket>? buckets;
 
@@ -16398,12 +16933,17 @@ class GetBucketsResult {
   final String? nextPageToken;
 
   GetBucketsResult({
+    this.accountLevelBpaSync,
     this.buckets,
     this.nextPageToken,
   });
 
   factory GetBucketsResult.fromJson(Map<String, dynamic> json) {
     return GetBucketsResult(
+      accountLevelBpaSync: json['accountLevelBpaSync'] != null
+          ? AccountLevelBpaSync.fromJson(
+              json['accountLevelBpaSync'] as Map<String, dynamic>)
+          : null,
       buckets: (json['buckets'] as List?)
           ?.whereNotNull()
           .map((e) => Bucket.fromJson(e as Map<String, dynamic>))
@@ -16413,9 +16953,12 @@ class GetBucketsResult {
   }
 
   Map<String, dynamic> toJson() {
+    final accountLevelBpaSync = this.accountLevelBpaSync;
     final buckets = this.buckets;
     final nextPageToken = this.nextPageToken;
     return {
+      if (accountLevelBpaSync != null)
+        'accountLevelBpaSync': accountLevelBpaSync,
       if (buckets != null) 'buckets': buckets,
       if (nextPageToken != null) 'nextPageToken': nextPageToken,
     };
@@ -17467,6 +18010,45 @@ class GetLoadBalancerTlsCertificatesResult {
   }
 }
 
+class GetLoadBalancerTlsPoliciesResult {
+  /// The token to advance to the next page of results from your request.
+  ///
+  /// A next page token is not returned if there are no more results to display.
+  ///
+  /// To get the next page of results, perform another
+  /// <code>GetLoadBalancerTlsPolicies</code> request and specify the next page
+  /// token using the <code>pageToken</code> parameter.
+  final String? nextPageToken;
+
+  /// An array of objects that describe the TLS security policies that are
+  /// available.
+  final List<LoadBalancerTlsPolicy>? tlsPolicies;
+
+  GetLoadBalancerTlsPoliciesResult({
+    this.nextPageToken,
+    this.tlsPolicies,
+  });
+
+  factory GetLoadBalancerTlsPoliciesResult.fromJson(Map<String, dynamic> json) {
+    return GetLoadBalancerTlsPoliciesResult(
+      nextPageToken: json['nextPageToken'] as String?,
+      tlsPolicies: (json['tlsPolicies'] as List?)
+          ?.whereNotNull()
+          .map((e) => LoadBalancerTlsPolicy.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextPageToken = this.nextPageToken;
+    final tlsPolicies = this.tlsPolicies;
+    return {
+      if (nextPageToken != null) 'nextPageToken': nextPageToken,
+      if (tlsPolicies != null) 'tlsPolicies': tlsPolicies,
+    };
+  }
+}
+
 class GetLoadBalancersResult {
   /// An array of LoadBalancer objects describing your load balancers.
   final List<LoadBalancer>? loadBalancers;
@@ -18430,9 +19012,9 @@ class ImportKeyPairResult {
 /// Describes the origin resource of an Amazon Lightsail content delivery
 /// network (CDN) distribution.
 ///
-/// An origin can be a Lightsail instance or load balancer. A distribution pulls
-/// content from an origin, caches it, and serves it to viewers via a worldwide
-/// network of edge servers.
+/// An origin can be a Lightsail instance, bucket, or load balancer. A
+/// distribution pulls content from an origin, caches it, and serves it to
+/// viewers via a worldwide network of edge servers.
 class InputOrigin {
   /// The name of the origin resource.
   final String? name;
@@ -20134,12 +20716,12 @@ class LightsailDistribution {
   /// Indicates whether the distribution is enabled.
   final bool? isEnabled;
 
-  /// An object that describes the location of the distribution, such as the AWS
-  /// Region and Availability Zone.
+  /// An object that describes the location of the distribution, such as the
+  /// Amazon Web Services Region and Availability Zone.
   /// <note>
   /// Lightsail distributions are global resources that can reference an origin in
-  /// any AWS Region, and distribute its content globally. However, all
-  /// distributions are located in the <code>us-east-1</code> Region.
+  /// any Amazon Web Services Region, and distribute its content globally.
+  /// However, all distributions are located in the <code>us-east-1</code> Region.
   /// </note>
   final ResourceLocation? location;
 
@@ -20147,7 +20729,7 @@ class LightsailDistribution {
   final String? name;
 
   /// An object that describes the origin resource of the distribution, such as a
-  /// Lightsail instance or load balancer.
+  /// Lightsail instance, bucket, or load balancer.
   ///
   /// The distribution pulls, caches, and serves content from the origin.
   final Origin? origin;
@@ -20308,6 +20890,10 @@ class LoadBalancer {
   /// page.
   final String? healthCheckPath;
 
+  /// A Boolean value that indicates whether HTTPS redirection is enabled for the
+  /// load balancer.
+  final bool? httpsRedirectionEnabled;
+
   /// An array of InstanceHealthSummary objects describing the health of the load
   /// balancer.
   final List<InstanceHealthSummary>? instanceHealthSummary;
@@ -20363,12 +20949,16 @@ class LoadBalancer {
   /// <code>true</code>, the certificate is attached to the load balancer.
   final List<LoadBalancerTlsCertificateSummary>? tlsCertificateSummaries;
 
+  /// The name of the TLS security policy for the load balancer.
+  final String? tlsPolicyName;
+
   LoadBalancer({
     this.arn,
     this.configurationOptions,
     this.createdAt,
     this.dnsName,
     this.healthCheckPath,
+    this.httpsRedirectionEnabled,
     this.instanceHealthSummary,
     this.instancePort,
     this.ipAddressType,
@@ -20381,6 +20971,7 @@ class LoadBalancer {
     this.supportCode,
     this.tags,
     this.tlsCertificateSummaries,
+    this.tlsPolicyName,
   });
 
   factory LoadBalancer.fromJson(Map<String, dynamic> json) {
@@ -20392,6 +20983,7 @@ class LoadBalancer {
       createdAt: timeStampFromJson(json['createdAt']),
       dnsName: json['dnsName'] as String?,
       healthCheckPath: json['healthCheckPath'] as String?,
+      httpsRedirectionEnabled: json['httpsRedirectionEnabled'] as bool?,
       instanceHealthSummary: (json['instanceHealthSummary'] as List?)
           ?.whereNotNull()
           .map((e) => InstanceHealthSummary.fromJson(e as Map<String, dynamic>))
@@ -20419,6 +21011,7 @@ class LoadBalancer {
           .map((e) => LoadBalancerTlsCertificateSummary.fromJson(
               e as Map<String, dynamic>))
           .toList(),
+      tlsPolicyName: json['tlsPolicyName'] as String?,
     );
   }
 
@@ -20428,6 +21021,7 @@ class LoadBalancer {
     final createdAt = this.createdAt;
     final dnsName = this.dnsName;
     final healthCheckPath = this.healthCheckPath;
+    final httpsRedirectionEnabled = this.httpsRedirectionEnabled;
     final instanceHealthSummary = this.instanceHealthSummary;
     final instancePort = this.instancePort;
     final ipAddressType = this.ipAddressType;
@@ -20440,6 +21034,7 @@ class LoadBalancer {
     final supportCode = this.supportCode;
     final tags = this.tags;
     final tlsCertificateSummaries = this.tlsCertificateSummaries;
+    final tlsPolicyName = this.tlsPolicyName;
     return {
       if (arn != null) 'arn': arn,
       if (configurationOptions != null)
@@ -20448,6 +21043,8 @@ class LoadBalancer {
       if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
       if (dnsName != null) 'dnsName': dnsName,
       if (healthCheckPath != null) 'healthCheckPath': healthCheckPath,
+      if (httpsRedirectionEnabled != null)
+        'httpsRedirectionEnabled': httpsRedirectionEnabled,
       if (instanceHealthSummary != null)
         'instanceHealthSummary': instanceHealthSummary,
       if (instancePort != null) 'instancePort': instancePort,
@@ -20462,6 +21059,7 @@ class LoadBalancer {
       if (tags != null) 'tags': tags,
       if (tlsCertificateSummaries != null)
         'tlsCertificateSummaries': tlsCertificateSummaries,
+      if (tlsPolicyName != null) 'tlsPolicyName': tlsPolicyName,
     };
   }
 }
@@ -20470,6 +21068,8 @@ enum LoadBalancerAttributeName {
   healthCheckPath,
   sessionStickinessEnabled,
   sessionStickinessLbCookieDurationSeconds,
+  httpsRedirectionEnabled,
+  tlsPolicyName,
 }
 
 extension on LoadBalancerAttributeName {
@@ -20481,6 +21081,10 @@ extension on LoadBalancerAttributeName {
         return 'SessionStickinessEnabled';
       case LoadBalancerAttributeName.sessionStickinessLbCookieDurationSeconds:
         return 'SessionStickiness_LB_CookieDurationSeconds';
+      case LoadBalancerAttributeName.httpsRedirectionEnabled:
+        return 'HttpsRedirectionEnabled';
+      case LoadBalancerAttributeName.tlsPolicyName:
+        return 'TlsPolicyName';
     }
   }
 }
@@ -20495,6 +21099,10 @@ extension on String {
       case 'SessionStickiness_LB_CookieDurationSeconds':
         return LoadBalancerAttributeName
             .sessionStickinessLbCookieDurationSeconds;
+      case 'HttpsRedirectionEnabled':
+        return LoadBalancerAttributeName.httpsRedirectionEnabled;
+      case 'TlsPolicyName':
+        return LoadBalancerAttributeName.tlsPolicyName;
     }
     throw Exception('$this is not known in enum LoadBalancerAttributeName');
   }
@@ -21444,6 +22052,72 @@ class LoadBalancerTlsCertificateSummary {
   }
 }
 
+/// Describes the TLS security policies that are available for Lightsail load
+/// balancers.
+///
+/// For more information about load balancer TLS security policies, see <a
+/// href="https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configure-load-balancer-tls-security-policy">Configuring
+/// TLS security policies on your Amazon Lightsail load balancers</a> in the
+/// <i>Amazon Lightsail Developer Guide</i>.
+class LoadBalancerTlsPolicy {
+  /// The ciphers used by the TLS security policy.
+  ///
+  /// The ciphers are listed in order of preference.
+  final List<String>? ciphers;
+
+  /// The description of the TLS security policy.
+  final String? description;
+
+  /// A Boolean value that indicates whether the TLS security policy is the
+  /// default.
+  final bool? isDefault;
+
+  /// The name of the TLS security policy.
+  final String? name;
+
+  /// The protocols used in a given TLS security policy.
+  final List<String>? protocols;
+
+  LoadBalancerTlsPolicy({
+    this.ciphers,
+    this.description,
+    this.isDefault,
+    this.name,
+    this.protocols,
+  });
+
+  factory LoadBalancerTlsPolicy.fromJson(Map<String, dynamic> json) {
+    return LoadBalancerTlsPolicy(
+      ciphers: (json['ciphers'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      description: json['description'] as String?,
+      isDefault: json['isDefault'] as bool?,
+      name: json['name'] as String?,
+      protocols: (json['protocols'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ciphers = this.ciphers;
+    final description = this.description;
+    final isDefault = this.isDefault;
+    final name = this.name;
+    final protocols = this.protocols;
+    return {
+      if (ciphers != null) 'ciphers': ciphers,
+      if (description != null) 'description': description,
+      if (isDefault != null) 'isDefault': isDefault,
+      if (name != null) 'name': name,
+      if (protocols != null) 'protocols': protocols,
+    };
+  }
+}
+
 /// Describes a database log event.
 class LogEvent {
   /// The timestamp when the database log event was created.
@@ -22030,7 +22704,7 @@ class Operation {
   /// A Boolean value indicating whether the operation is terminal.
   final bool? isTerminal;
 
-  /// The AWS Region and Availability Zone.
+  /// The Amazon Web Services Region and Availability Zone.
   final ResourceLocation? location;
 
   /// Details about the operation (e.g., <code>Debian-1GB-Ohio-1</code>).
@@ -22576,9 +23250,9 @@ extension on String {
 /// Describes the origin resource of an Amazon Lightsail content delivery
 /// network (CDN) distribution.
 ///
-/// An origin can be a Lightsail instance or load balancer. A distribution pulls
-/// content from an origin, caches it, and serves it to viewers via a worldwide
-/// network of edge servers.
+/// An origin can be a Lightsail instance, bucket, or load balancer. A
+/// distribution pulls content from an origin, caches it, and serves it to
+/// viewers via a worldwide network of edge servers.
 class Origin {
   /// The name of the origin resource.
   final String? name;
@@ -23086,6 +23760,77 @@ extension on String {
   }
 }
 
+/// Describes the configuration for an Amazon Lightsail container service to
+/// access private container image repositories, such as Amazon Elastic
+/// Container Registry (Amazon ECR) private repositories.
+///
+/// For more information, see <a
+/// href="https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-container-service-ecr-private-repo-access">Configuring
+/// access to an Amazon ECR private repository for an Amazon Lightsail container
+/// service</a> in the <i>Amazon Lightsail Developer Guide</i>.
+class PrivateRegistryAccess {
+  /// An object that describes the activation status of the role that you can use
+  /// to grant a Lightsail container service access to Amazon ECR private
+  /// repositories. If the role is activated, the Amazon Resource Name (ARN) of
+  /// the role is also listed.
+  final ContainerServiceECRImagePullerRole? ecrImagePullerRole;
+
+  PrivateRegistryAccess({
+    this.ecrImagePullerRole,
+  });
+
+  factory PrivateRegistryAccess.fromJson(Map<String, dynamic> json) {
+    return PrivateRegistryAccess(
+      ecrImagePullerRole: json['ecrImagePullerRole'] != null
+          ? ContainerServiceECRImagePullerRole.fromJson(
+              json['ecrImagePullerRole'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ecrImagePullerRole = this.ecrImagePullerRole;
+    return {
+      if (ecrImagePullerRole != null) 'ecrImagePullerRole': ecrImagePullerRole,
+    };
+  }
+}
+
+/// Describes a request to configure an Amazon Lightsail container service to
+/// access private container image repositories, such as Amazon Elastic
+/// Container Registry (Amazon ECR) private repositories.
+///
+/// For more information, see <a
+/// href="https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-container-service-ecr-private-repo-access">Configuring
+/// access to an Amazon ECR private repository for an Amazon Lightsail container
+/// service</a> in the <i>Amazon Lightsail Developer Guide</i>.
+class PrivateRegistryAccessRequest {
+  /// An object to describe a request to activate or deactivate the role that you
+  /// can use to grant an Amazon Lightsail container service access to Amazon
+  /// Elastic Container Registry (Amazon ECR) private repositories.
+  final ContainerServiceECRImagePullerRoleRequest? ecrImagePullerRole;
+
+  PrivateRegistryAccessRequest({
+    this.ecrImagePullerRole,
+  });
+
+  factory PrivateRegistryAccessRequest.fromJson(Map<String, dynamic> json) {
+    return PrivateRegistryAccessRequest(
+      ecrImagePullerRole: json['ecrImagePullerRole'] != null
+          ? ContainerServiceECRImagePullerRoleRequest.fromJson(
+              json['ecrImagePullerRole'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ecrImagePullerRole = this.ecrImagePullerRole;
+    return {
+      if (ecrImagePullerRole != null) 'ecrImagePullerRole': ecrImagePullerRole,
+    };
+  }
+}
+
 class PutAlarmResult {
   /// An array of objects that describe the result of the action, such as the
   /// status of the request, the timestamp of the request, and the resources
@@ -23437,6 +24182,8 @@ extension on String {
 }
 
 class RegisterContainerImageResult {
+  /// An object that describes a container image that is registered to a Lightsail
+  /// container service
   final ContainerImage? containerImage;
 
   RegisterContainerImageResult({
@@ -25301,6 +26048,9 @@ class UpdateContainerServiceResult {
 }
 
 class UpdateDistributionBundleResult {
+  /// An object that describes the result of the action, such as the status of the
+  /// request, the timestamp of the request, and the resources affected by the
+  /// request.
   final Operation? operation;
 
   UpdateDistributionBundleResult({

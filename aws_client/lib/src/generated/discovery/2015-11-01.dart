@@ -18,10 +18,11 @@ import '../../shared/shared.dart'
 
 export '../../shared/shared.dart' show AwsClientCredentials;
 
-/// AWS Application Discovery Service helps you plan application migration
-/// projects. It automatically identifies servers, virtual machines (VMs), and
-/// network dependencies in your on-premises data centers. For more information,
-/// see the <a href="http://aws.amazon.com/application-discovery/faqs/">AWS
+/// Amazon Web Services Application Discovery Service helps you plan application
+/// migration projects. It automatically identifies servers, virtual machines
+/// (VMs), and network dependencies in your on-premises data centers. For more
+/// information, see the <a
+/// href="http://aws.amazon.com/application-discovery/faqs/">Amazon Web Services
 /// Application Discovery Service FAQ</a>. Application Discovery Service offers
 /// three ways of performing discovery and collecting data about your
 /// on-premises servers:
@@ -85,12 +86,13 @@ class ApplicationDiscovery {
   /// import task has a number of records that can identify servers or
   /// applications.
   ///
-  /// AWS Application Discovery Service has built-in matching logic that will
-  /// identify when discovered servers match existing entries that you've
-  /// previously discovered, the information for the already-existing discovered
-  /// server is updated. When you delete an import task that contains records
-  /// that were used to match, the information in those matched records that
-  /// comes from the deleted records will also be deleted.
+  /// Amazon Web Services Application Discovery Service has built-in matching
+  /// logic that will identify when discovered servers match existing entries
+  /// that you've previously discovered, the information for the
+  /// already-existing discovered server is updated. When you delete an import
+  /// task that contains records that were used to match, the information in
+  /// those matched records that comes from the deleted records will also be
+  /// deleted.
   ///
   /// May throw [AuthorizationErrorException].
   /// May throw [InvalidParameterException].
@@ -162,6 +164,9 @@ class ApplicationDiscovery {
   /// Creates one or more tags for configuration items. Tags are metadata that
   /// help you categorize IT assets. This API accepts a list of multiple
   /// configuration items.
+  /// <important>
+  /// Do not store sensitive information (like personal data) in tags.
+  /// </important>
   ///
   /// May throw [AuthorizationErrorException].
   /// May throw [ResourceNotFoundException].
@@ -287,7 +292,7 @@ class ApplicationDiscovery {
   /// Parameter [agentIds] :
   /// The agent or the Connector IDs for which you want information. If you
   /// specify no IDs, the system returns information about all agents/Connectors
-  /// associated with your AWS user account.
+  /// associated with your Amazon Web Services user account.
   ///
   /// Parameter [filters] :
   /// You can filter the request using various logical operators and a
@@ -358,8 +363,8 @@ class ApplicationDiscovery {
   ///
   /// For a complete list of outputs for each asset type, see <a
   /// href="https://docs.aws.amazon.com/application-discovery/latest/userguide/discovery-api-queries.html#DescribeConfigurations">Using
-  /// the DescribeConfigurations Action</a> in the <i>AWS Application Discovery
-  /// Service User Guide</i>.
+  /// the DescribeConfigurations Action</a> in the <i>Amazon Web Services
+  /// Application Discovery Service User Guide</i>.
   /// </note>
   ///
   /// May throw [AuthorizationErrorException].
@@ -446,7 +451,7 @@ class ApplicationDiscovery {
   }
 
   /// <code>DescribeExportConfigurations</code> is deprecated. Use <a
-  /// href="https://docs.aws.amazon.com/application-discovery/latest/APIReference/API_DescribeExportTasks.html">DescribeImportTasks</a>,
+  /// href="https://docs.aws.amazon.com/application-discovery/latest/APIReference/API_DescribeExportTasks.html">DescribeExportTasks</a>,
   /// instead.
   ///
   /// May throw [AuthorizationErrorException].
@@ -792,8 +797,8 @@ class ApplicationDiscovery {
   /// For a complete list of filter options and guidance about using them with
   /// this action, see <a
   /// href="https://docs.aws.amazon.com/application-discovery/latest/userguide/discovery-api-queries.html#ListConfigurations">Using
-  /// the ListConfigurations Action</a> in the <i>AWS Application Discovery
-  /// Service User Guide</i>.
+  /// the ListConfigurations Action</a> in the <i>Amazon Web Services
+  /// Application Discovery Service User Guide</i>.
   ///
   /// Parameter [maxResults] :
   /// The total number of items to return. The maximum value is 100.
@@ -810,8 +815,8 @@ class ApplicationDiscovery {
   /// descending order. For a list of output characteristics for each filter,
   /// see <a
   /// href="https://docs.aws.amazon.com/application-discovery/latest/userguide/discovery-api-queries.html#ListConfigurations">Using
-  /// the ListConfigurations Action</a> in the <i>AWS Application Discovery
-  /// Service User Guide</i>.
+  /// the ListConfigurations Action</a> in the <i>Amazon Web Services
+  /// Application Discovery Service User Guide</i>.
   Future<ListConfigurationsResponse> listConfigurations({
     required ConfigurationItemType configurationType,
     List<Filter>? filters,
@@ -940,8 +945,8 @@ class ApplicationDiscovery {
   /// Parameter [agentIds] :
   /// The IDs of the agents or connectors from which to start collecting data.
   /// If you send a request to an agent/connector ID that you do not have
-  /// permission to contact, according to your AWS account, the service does not
-  /// throw an exception. Instead, it returns the error in the
+  /// permission to contact, according to your Amazon Web Services account, the
+  /// service does not throw an exception. Instead, it returns the error in the
   /// <i>Description</i> field. If you send a request to multiple
   /// agents/connectors and you do not have permission to contact some of those
   /// agents/connectors, the system does not throw an exception. Instead, the
@@ -979,9 +984,9 @@ class ApplicationDiscovery {
   /// data is limited to five concurrently running exports.
   ///
   /// If you do not include an <code>agentIds</code> filter, summary data is
-  /// exported that includes both AWS Agentless Discovery Connector data and
-  /// summary data from AWS Discovery Agents. Export of summary data is limited
-  /// to two exports per day.
+  /// exported that includes both Amazon Web Services Agentless Discovery
+  /// Connector data and summary data from Amazon Web Services Discovery Agents.
+  /// Export of summary data is limited to two exports per day.
   ///
   /// May throw [AuthorizationErrorException].
   /// May throw [InvalidParameterException].
@@ -1042,19 +1047,19 @@ class ApplicationDiscovery {
   }
 
   /// Starts an import task, which allows you to import details of your
-  /// on-premises environment directly into AWS Migration Hub without having to
-  /// use the Application Discovery Service (ADS) tools such as the Discovery
-  /// Connector or Discovery Agent. This gives you the option to perform
-  /// migration assessment and planning directly from your imported data,
-  /// including the ability to group your devices as applications and track
-  /// their migration status.
+  /// on-premises environment directly into Amazon Web Services Migration Hub
+  /// without having to use the Application Discovery Service (ADS) tools such
+  /// as the Discovery Connector or Discovery Agent. This gives you the option
+  /// to perform migration assessment and planning directly from your imported
+  /// data, including the ability to group your devices as applications and
+  /// track their migration status.
   ///
   /// To start an import request, do this:
   /// <ol>
   /// <li>
   /// Download the specially formatted comma separated value (CSV) import
   /// template, which you can find here: <a
-  /// href="https://s3-us-west-2.amazonaws.com/templates-7cffcf56-bd96-4b1c-b45b-a5b42f282e46/import_template.csv">https://s3-us-west-2.amazonaws.com/templates-7cffcf56-bd96-4b1c-b45b-a5b42f282e46/import_template.csv</a>.
+  /// href="https://s3.us-west-2.amazonaws.com/templates-7cffcf56-bd96-4b1c-b45b-a5b42f282e46/import_template.csv">https://s3.us-west-2.amazonaws.com/templates-7cffcf56-bd96-4b1c-b45b-a5b42f282e46/import_template.csv</a>.
   /// </li>
   /// <li>
   /// Fill out the template with your server and application data.
@@ -1064,18 +1069,20 @@ class ApplicationDiscovery {
   /// Object URL. Your import file must be in the CSV format.
   /// </li>
   /// <li>
-  /// Use the console or the <code>StartImportTask</code> command with the AWS
-  /// CLI or one of the AWS SDKs to import the records from your file.
+  /// Use the console or the <code>StartImportTask</code> command with the
+  /// Amazon Web Services CLI or one of the Amazon Web Services SDKs to import
+  /// the records from your file.
   /// </li> </ol>
   /// For more information, including step-by-step procedures, see <a
   /// href="https://docs.aws.amazon.com/application-discovery/latest/userguide/discovery-import.html">Migration
-  /// Hub Import</a> in the <i>AWS Application Discovery Service User Guide</i>.
+  /// Hub Import</a> in the <i>Amazon Web Services Application Discovery Service
+  /// User Guide</i>.
   /// <note>
   /// There are limits to the number of import tasks you can create (and delete)
-  /// in an AWS account. For more information, see <a
-  /// href="https://docs.aws.amazon.com/application-discovery/latest/userguide/ads_service_limits.html">AWS
-  /// Application Discovery Service Limits</a> in the <i>AWS Application
-  /// Discovery Service User Guide</i>.
+  /// in an Amazon Web Services account. For more information, see <a
+  /// href="https://docs.aws.amazon.com/application-discovery/latest/userguide/ads_service_limits.html">Amazon
+  /// Web Services Application Discovery Service Limits</a> in the <i>Amazon Web
+  /// Services Application Discovery Service User Guide</i>.
   /// </note>
   ///
   /// May throw [ResourceInUseException].
@@ -1088,8 +1095,8 @@ class ApplicationDiscovery {
   /// Parameter [importUrl] :
   /// The URL for your import file that you've uploaded to Amazon S3.
   /// <note>
-  /// If you're using the AWS CLI, this URL is structured as follows:
-  /// <code>s3://BucketName/ImportFileName.CSV</code>
+  /// If you're using the Amazon Web Services CLI, this URL is structured as
+  /// follows: <code>s3://BucketName/ImportFileName.CSV</code>
   /// </note>
   ///
   /// Parameter [name] :
@@ -1285,10 +1292,10 @@ class AgentConfigurationStatus {
   }
 }
 
-/// Information about agents or connectors associated with the user’s AWS
-/// account. Information includes agent or connector IDs, IP addresses, media
-/// access control (MAC) addresses, agent or connector health, hostname where
-/// the agent or connector resides, and agent version for each agent.
+/// Information about agents or connectors associated with the user’s Amazon Web
+/// Services account. Information includes agent or connector IDs, IP addresses,
+/// media access control (MAC) addresses, agent or connector health, hostname
+/// where the agent or connector resides, and agent version for each agent.
 class AgentInfo {
   /// The agent or connector ID.
   final String? agentId;
@@ -1728,11 +1735,11 @@ class ContinuousExportDescription {
   /// <ul>
   /// <li>
   /// ACCESS_DENIED - You don’t have permission to start Data Exploration in
-  /// Amazon Athena. Contact your AWS administrator for help. For more
-  /// information, see <a
+  /// Amazon Athena. Contact your Amazon Web Services administrator for help. For
+  /// more information, see <a
   /// href="http://docs.aws.amazon.com/application-discovery/latest/userguide/setting-up.html">Setting
-  /// Up AWS Application Discovery Service</a> in the Application Discovery
-  /// Service User Guide.
+  /// Up Amazon Web Services Application Discovery Service</a> in the Application
+  /// Discovery Service User Guide.
   /// </li>
   /// <li>
   /// DELIVERY_STREAM_LIMIT_FAILURE - You reached the limit for Amazon Kinesis
@@ -1758,12 +1765,52 @@ class ContinuousExportDescription {
   /// <li>
   /// INTERNAL_FAILURE - The Data Exploration feature is in an error state because
   /// of an internal failure. Try again later. If this problem persists, contact
-  /// AWS Support.
+  /// Amazon Web Services Support.
   /// </li>
   /// <li>
+  /// LAKE_FORMATION_ACCESS_DENIED - You don't have sufficient lake formation
+  /// permissions to start continuous export. For more information, see <a
+  /// href="http://docs.aws.amazon.com/lake-formation/latest/dg/upgrade-glue-lake-formation.html">
+  /// Upgrading Amazon Web Services Glue Data Permissions to the Amazon Web
+  /// Services Lake Formation Model </a> in the Amazon Web Services <i>Lake
+  /// Formation Developer Guide</i>.
+  ///
+  /// You can use one of the following two ways to resolve this issue.
+  /// <ol>
+  /// <li>
+  /// If you don’t want to use the Lake Formation permission model, you can change
+  /// the default Data Catalog settings to use only Amazon Web Services Identity
+  /// and Access Management (IAM) access control for new databases. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/lake-formation/latest/dg/getting-started-setup.html#setup-change-cat-settings">Change
+  /// Data Catalog Settings</a> in the <i>Lake Formation Developer Guide</i>.
+  /// </li>
+  /// <li>
+  /// You can give the service-linked IAM roles
+  /// AWSServiceRoleForApplicationDiscoveryServiceContinuousExport and
+  /// AWSApplicationDiscoveryServiceFirehose the required Lake Formation
+  /// permissions. For more information, see <a
+  /// href="https://docs.aws.amazon.com/lake-formation/latest/dg/granting-database-permissions.html">
+  /// Granting Database Permissions</a> in the <i>Lake Formation Developer
+  /// Guide</i>.
+  /// <ol>
+  /// <li>
+  /// AWSServiceRoleForApplicationDiscoveryServiceContinuousExport - Grant
+  /// database creator permissions, which gives the role database creation ability
+  /// and implicit permissions for any created tables. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/lake-formation/latest/dg/implicit-permissions.html">
+  /// Implicit Lake Formation Permissions </a> in the <i>Lake Formation Developer
+  /// Guide</i>.
+  /// </li>
+  /// <li>
+  /// AWSApplicationDiscoveryServiceFirehose - Grant describe permissions for all
+  /// tables in the database.
+  /// </li> </ol> </li> </ol> </li>
+  /// <li>
   /// S3_BUCKET_LIMIT_FAILURE - You reached the limit for Amazon S3 buckets.
-  /// Reduce the number of Amazon S3 buckets or request a limit increase and try
-  /// again. For more information, see <a
+  /// Reduce the number of S3 buckets or request a limit increase and try again.
+  /// For more information, see <a
   /// href="http://docs.aws.amazon.com/AmazonS3/latest/dev/BucketRestrictions.html">Bucket
   /// Restrictions and Limitations</a> in the Amazon Simple Storage Service
   /// Developer Guide.
@@ -1981,6 +2028,58 @@ class CustomerAgentInfo {
   }
 }
 
+class CustomerAgentlessCollectorInfo {
+  final int activeAgentlessCollectors;
+  final int denyListedAgentlessCollectors;
+  final int healthyAgentlessCollectors;
+  final int shutdownAgentlessCollectors;
+  final int totalAgentlessCollectors;
+  final int unhealthyAgentlessCollectors;
+  final int unknownAgentlessCollectors;
+
+  CustomerAgentlessCollectorInfo({
+    required this.activeAgentlessCollectors,
+    required this.denyListedAgentlessCollectors,
+    required this.healthyAgentlessCollectors,
+    required this.shutdownAgentlessCollectors,
+    required this.totalAgentlessCollectors,
+    required this.unhealthyAgentlessCollectors,
+    required this.unknownAgentlessCollectors,
+  });
+
+  factory CustomerAgentlessCollectorInfo.fromJson(Map<String, dynamic> json) {
+    return CustomerAgentlessCollectorInfo(
+      activeAgentlessCollectors: json['activeAgentlessCollectors'] as int,
+      denyListedAgentlessCollectors:
+          json['denyListedAgentlessCollectors'] as int,
+      healthyAgentlessCollectors: json['healthyAgentlessCollectors'] as int,
+      shutdownAgentlessCollectors: json['shutdownAgentlessCollectors'] as int,
+      totalAgentlessCollectors: json['totalAgentlessCollectors'] as int,
+      unhealthyAgentlessCollectors: json['unhealthyAgentlessCollectors'] as int,
+      unknownAgentlessCollectors: json['unknownAgentlessCollectors'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final activeAgentlessCollectors = this.activeAgentlessCollectors;
+    final denyListedAgentlessCollectors = this.denyListedAgentlessCollectors;
+    final healthyAgentlessCollectors = this.healthyAgentlessCollectors;
+    final shutdownAgentlessCollectors = this.shutdownAgentlessCollectors;
+    final totalAgentlessCollectors = this.totalAgentlessCollectors;
+    final unhealthyAgentlessCollectors = this.unhealthyAgentlessCollectors;
+    final unknownAgentlessCollectors = this.unknownAgentlessCollectors;
+    return {
+      'activeAgentlessCollectors': activeAgentlessCollectors,
+      'denyListedAgentlessCollectors': denyListedAgentlessCollectors,
+      'healthyAgentlessCollectors': healthyAgentlessCollectors,
+      'shutdownAgentlessCollectors': shutdownAgentlessCollectors,
+      'totalAgentlessCollectors': totalAgentlessCollectors,
+      'unhealthyAgentlessCollectors': unhealthyAgentlessCollectors,
+      'unknownAgentlessCollectors': unknownAgentlessCollectors,
+    };
+  }
+}
+
 /// Inventory data for installed discovery connectors.
 class CustomerConnectorInfo {
   /// Number of active discovery connectors.
@@ -2042,6 +2141,72 @@ class CustomerConnectorInfo {
       'totalConnectors': totalConnectors,
       'unhealthyConnectors': unhealthyConnectors,
       'unknownConnectors': unknownConnectors,
+    };
+  }
+}
+
+/// The inventory data for installed Migration Evaluator collectors.
+class CustomerMeCollectorInfo {
+  /// The number of active Migration Evaluator collectors.
+  final int activeMeCollectors;
+
+  /// The number of deny-listed Migration Evaluator collectors.
+  final int denyListedMeCollectors;
+
+  /// The number of healthy Migration Evaluator collectors.
+  final int healthyMeCollectors;
+
+  /// The number of Migration Evaluator collectors with <code>SHUTDOWN</code>
+  /// status.
+  final int shutdownMeCollectors;
+
+  /// The total number of Migration Evaluator collectors.
+  final int totalMeCollectors;
+
+  /// The number of unhealthy Migration Evaluator collectors.
+  final int unhealthyMeCollectors;
+
+  /// The number of unknown Migration Evaluator collectors.
+  final int unknownMeCollectors;
+
+  CustomerMeCollectorInfo({
+    required this.activeMeCollectors,
+    required this.denyListedMeCollectors,
+    required this.healthyMeCollectors,
+    required this.shutdownMeCollectors,
+    required this.totalMeCollectors,
+    required this.unhealthyMeCollectors,
+    required this.unknownMeCollectors,
+  });
+
+  factory CustomerMeCollectorInfo.fromJson(Map<String, dynamic> json) {
+    return CustomerMeCollectorInfo(
+      activeMeCollectors: json['activeMeCollectors'] as int,
+      denyListedMeCollectors: json['denyListedMeCollectors'] as int,
+      healthyMeCollectors: json['healthyMeCollectors'] as int,
+      shutdownMeCollectors: json['shutdownMeCollectors'] as int,
+      totalMeCollectors: json['totalMeCollectors'] as int,
+      unhealthyMeCollectors: json['unhealthyMeCollectors'] as int,
+      unknownMeCollectors: json['unknownMeCollectors'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final activeMeCollectors = this.activeMeCollectors;
+    final denyListedMeCollectors = this.denyListedMeCollectors;
+    final healthyMeCollectors = this.healthyMeCollectors;
+    final shutdownMeCollectors = this.shutdownMeCollectors;
+    final totalMeCollectors = this.totalMeCollectors;
+    final unhealthyMeCollectors = this.unhealthyMeCollectors;
+    final unknownMeCollectors = this.unknownMeCollectors;
+    return {
+      'activeMeCollectors': activeMeCollectors,
+      'denyListedMeCollectors': denyListedMeCollectors,
+      'healthyMeCollectors': healthyMeCollectors,
+      'shutdownMeCollectors': shutdownMeCollectors,
+      'totalMeCollectors': totalMeCollectors,
+      'unhealthyMeCollectors': unhealthyMeCollectors,
+      'unknownMeCollectors': unknownMeCollectors,
     };
   }
 }
@@ -2402,13 +2567,13 @@ class ExportFilter {
   final String condition;
 
   /// A single <code>ExportFilter</code> name. Supported filters:
-  /// <code>agentId</code>.
+  /// <code>agentIds</code>.
   final String name;
 
-  /// A single <code>agentId</code> for a Discovery Agent. An <code>agentId</code>
-  /// can be found using the <a
-  /// href="http://docs.aws.amazon.com/application-discovery/latest/APIReference/API_DescribeExportTasks.html">DescribeAgents</a>
-  /// action. Typically an ADS <code>agentId</code> is in the form
+  /// A single agent ID for a Discovery Agent. An agent ID can be found using the
+  /// <a
+  /// href="http://docs.aws.amazon.com/application-discovery/latest/APIReference/API_DescribeAgents.html">DescribeAgents</a>
+  /// action. Typically an ADS agent ID is in the form
   /// <code>o-0123456789abcdef0</code>.
   final List<String> values;
 
@@ -2563,8 +2728,8 @@ extension on String {
 ///
 /// For more information about filters, see <a
 /// href="https://docs.aws.amazon.com/application-discovery/latest/userguide/discovery-api-queries.html">Querying
-/// Discovered Configuration Items</a> in the <i>AWS Application Discovery
-/// Service User Guide</i>.
+/// Discovered Configuration Items</a> in the <i>Amazon Web Services Application
+/// Discovery Service User Guide</i>.
 class Filter {
   /// A conditional operator. The following operators are valid: EQUALS,
   /// NOT_EQUALS, CONTAINS, NOT_CONTAINS. If you specify multiple filters, the
@@ -2615,12 +2780,17 @@ class Filter {
 class GetDiscoverySummaryResponse {
   /// Details about discovered agents, including agent status and health.
   final CustomerAgentInfo? agentSummary;
+  final CustomerAgentlessCollectorInfo? agentlessCollectorSummary;
 
   /// The number of applications discovered.
   final int? applications;
 
   /// Details about discovered connectors, including connector status and health.
   final CustomerConnectorInfo? connectorSummary;
+
+  /// Details about Migration Evaluator collectors, including collector status and
+  /// health.
+  final CustomerMeCollectorInfo? meCollectorSummary;
 
   /// The number of servers discovered.
   final int? servers;
@@ -2633,8 +2803,10 @@ class GetDiscoverySummaryResponse {
 
   GetDiscoverySummaryResponse({
     this.agentSummary,
+    this.agentlessCollectorSummary,
     this.applications,
     this.connectorSummary,
+    this.meCollectorSummary,
     this.servers,
     this.serversMappedToApplications,
     this.serversMappedtoTags,
@@ -2646,10 +2818,18 @@ class GetDiscoverySummaryResponse {
           ? CustomerAgentInfo.fromJson(
               json['agentSummary'] as Map<String, dynamic>)
           : null,
+      agentlessCollectorSummary: json['agentlessCollectorSummary'] != null
+          ? CustomerAgentlessCollectorInfo.fromJson(
+              json['agentlessCollectorSummary'] as Map<String, dynamic>)
+          : null,
       applications: json['applications'] as int?,
       connectorSummary: json['connectorSummary'] != null
           ? CustomerConnectorInfo.fromJson(
               json['connectorSummary'] as Map<String, dynamic>)
+          : null,
+      meCollectorSummary: json['meCollectorSummary'] != null
+          ? CustomerMeCollectorInfo.fromJson(
+              json['meCollectorSummary'] as Map<String, dynamic>)
           : null,
       servers: json['servers'] as int?,
       serversMappedToApplications: json['serversMappedToApplications'] as int?,
@@ -2659,15 +2839,20 @@ class GetDiscoverySummaryResponse {
 
   Map<String, dynamic> toJson() {
     final agentSummary = this.agentSummary;
+    final agentlessCollectorSummary = this.agentlessCollectorSummary;
     final applications = this.applications;
     final connectorSummary = this.connectorSummary;
+    final meCollectorSummary = this.meCollectorSummary;
     final servers = this.servers;
     final serversMappedToApplications = this.serversMappedToApplications;
     final serversMappedtoTags = this.serversMappedtoTags;
     return {
       if (agentSummary != null) 'agentSummary': agentSummary,
+      if (agentlessCollectorSummary != null)
+        'agentlessCollectorSummary': agentlessCollectorSummary,
       if (applications != null) 'applications': applications,
       if (connectorSummary != null) 'connectorSummary': connectorSummary,
+      if (meCollectorSummary != null) 'meCollectorSummary': meCollectorSummary,
       if (servers != null) 'servers': servers,
       if (serversMappedToApplications != null)
         'serversMappedToApplications': serversMappedToApplications,
@@ -2795,7 +2980,7 @@ class ImportTask {
   final DateTime? importRequestTime;
 
   /// The unique ID for a specific import task. These IDs aren't globally unique,
-  /// but they are unique within an AWS account.
+  /// but they are unique within an Amazon Web Services account.
   final String? importTaskId;
 
   /// The URL for your import file that you've uploaded to Amazon S3.
@@ -3335,6 +3520,9 @@ class StopDataCollectionByAgentIdsResponse {
 }
 
 /// Metadata that help you categorize IT assets.
+/// <important>
+/// Do not store sensitive information (like personal data) in tags.
+/// </important>
 class Tag {
   /// The type of tag on which to filter.
   final String key;

@@ -370,11 +370,11 @@ class ConfigService {
     );
   }
 
-  /// Deletes the specified organization config rule and all of its evaluation
+  /// Deletes the specified organization Config rule and all of its evaluation
   /// results from all member accounts in that organization.
   ///
   /// Only a master account and a delegated administrator account can delete an
-  /// organization config rule. When calling this API with a delegated
+  /// organization Config rule. When calling this API with a delegated
   /// administrator, you must ensure Organizations
   /// <code>ListDelegatedAdministrator</code> permissions are added.
   ///
@@ -386,7 +386,7 @@ class ConfigService {
   /// May throw [OrganizationAccessDeniedException].
   ///
   /// Parameter [organizationConfigRuleName] :
-  /// The name of organization config rule that you want to delete.
+  /// The name of organization Config rule that you want to delete.
   Future<void> deleteOrganizationConfigRule({
     required String organizationConfigRuleName,
   }) async {
@@ -408,7 +408,7 @@ class ConfigService {
     );
   }
 
-  /// Deletes the specified organization conformance pack and all of the config
+  /// Deletes the specified organization conformance pack and all of the Config
   /// rules and remediation actions from all member accounts in that
   /// organization.
   ///
@@ -1567,16 +1567,16 @@ class ConfigService {
     return DescribeDeliveryChannelsResponse.fromJson(jsonResponse.body);
   }
 
-  /// Provides organization config rule deployment status for an organization.
+  /// Provides organization Config rule deployment status for an organization.
   /// <note>
-  /// The status is not considered successful until organization config rule is
+  /// The status is not considered successful until organization Config rule is
   /// successfully deployed in all the member accounts with an exception of
   /// excluded accounts.
   ///
   /// When you specify the limit and the next token, you receive a paginated
   /// response. Limit and next token are not applicable if you specify
-  /// organization config rule names. It is only applicable, when you request
-  /// all the organization config rules.
+  /// organization Config rule names. It is only applicable, when you request
+  /// all the organization Config rules.
   /// </note>
   ///
   /// May throw [NoSuchOrganizationConfigRuleException].
@@ -1594,7 +1594,7 @@ class ConfigService {
   /// to get the next page of results in a paginated response.
   ///
   /// Parameter [organizationConfigRuleNames] :
-  /// The names of organization config rules for which you want status details.
+  /// The names of organization Config rules for which you want status details.
   /// If you do not specify any names, Config returns details for all your
   /// organization Config rules.
   Future<DescribeOrganizationConfigRuleStatusesResponse>
@@ -1632,12 +1632,29 @@ class ConfigService {
         jsonResponse.body);
   }
 
-  /// Returns a list of organization config rules.
+  /// Returns a list of organization Config rules.
   /// <note>
   /// When you specify the limit and the next token, you receive a paginated
-  /// response. Limit and next token are not applicable if you specify
-  /// organization config rule names. It is only applicable, when you request
-  /// all the organization config rules.
+  /// response.
+  ///
+  /// Limit and next token are not applicable if you specify organization Config
+  /// rule names. It is only applicable, when you request all the organization
+  /// Config rules.
+  ///
+  /// <i>For accounts within an organzation</i>
+  ///
+  /// If you deploy an organizational rule or conformance pack in an
+  /// organization administrator account, and then establish a delegated
+  /// administrator and deploy an organizational rule or conformance pack in the
+  /// delegated administrator account, you won't be able to see the
+  /// organizational rule or conformance pack in the organization administrator
+  /// account from the delegated administrator account or see the organizational
+  /// rule or conformance pack in the delegated administrator account from
+  /// organization administrator account. The
+  /// <code>DescribeOrganizationConfigRules</code> and
+  /// <code>DescribeOrganizationConformancePacks</code> APIs can only see and
+  /// interact with the organization-related resource that were deployed from
+  /// within the account calling those APIs.
   /// </note>
   ///
   /// May throw [NoSuchOrganizationConfigRuleException].
@@ -1646,7 +1663,7 @@ class ConfigService {
   /// May throw [OrganizationAccessDeniedException].
   ///
   /// Parameter [limit] :
-  /// The maximum number of organization config rules returned on each page. If
+  /// The maximum number of organization Config rules returned on each page. If
   /// you do no specify a number, Config uses the default. The default is 100.
   ///
   /// Parameter [nextToken] :
@@ -1654,9 +1671,9 @@ class ConfigService {
   /// to get the next page of results in a paginated response.
   ///
   /// Parameter [organizationConfigRuleNames] :
-  /// The names of organization config rules for which you want details. If you
+  /// The names of organization Config rules for which you want details. If you
   /// do not specify any names, Config returns details for all your organization
-  /// config rules.
+  /// Config rules.
   Future<DescribeOrganizationConfigRulesResponse>
       describeOrganizationConfigRules({
     int? limit,
@@ -1764,6 +1781,21 @@ class ConfigService {
   /// Limit and next token are not applicable if you specify organization
   /// conformance packs names. They are only applicable, when you request all
   /// the organization conformance packs.
+  ///
+  /// <i>For accounts within an organzation</i>
+  ///
+  /// If you deploy an organizational rule or conformance pack in an
+  /// organization administrator account, and then establish a delegated
+  /// administrator and deploy an organizational rule or conformance pack in the
+  /// delegated administrator account, you won't be able to see the
+  /// organizational rule or conformance pack in the organization administrator
+  /// account from the delegated administrator account or see the organizational
+  /// rule or conformance pack in the delegated administrator account from
+  /// organization administrator account. The
+  /// <code>DescribeOrganizationConfigRules</code> and
+  /// <code>DescribeOrganizationConformancePacks</code> APIs can only see and
+  /// interact with the organization-related resource that were deployed from
+  /// within the account calling those APIs.
   /// </note>
   ///
   /// May throw [NoSuchOrganizationConformancePackException].
@@ -2688,6 +2720,34 @@ class ConfigService {
         jsonResponse.body);
   }
 
+  /// Returns the policy definition containing the logic for your Config Custom
+  /// Policy rule.
+  ///
+  /// May throw [NoSuchConfigRuleException].
+  ///
+  /// Parameter [configRuleName] :
+  /// The name of your Config Custom Policy rule.
+  Future<GetCustomRulePolicyResponse> getCustomRulePolicy({
+    String? configRuleName,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'StarlingDoveService.GetCustomRulePolicy'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (configRuleName != null) 'ConfigRuleName': configRuleName,
+      },
+    );
+
+    return GetCustomRulePolicyResponse.fromJson(jsonResponse.body);
+  }
+
   /// Returns the resource types, the number of each resource type, and the
   /// total number of resources that Config is recording in this region for your
   /// Amazon Web Services account.
@@ -2797,7 +2857,7 @@ class ConfigService {
   }
 
   /// Returns detailed status for each member account within an organization for
-  /// a given organization config rule.
+  /// a given organization Config rule.
   ///
   /// May throw [NoSuchOrganizationConfigRuleException].
   /// May throw [InvalidLimitException].
@@ -2805,8 +2865,8 @@ class ConfigService {
   /// May throw [OrganizationAccessDeniedException].
   ///
   /// Parameter [organizationConfigRuleName] :
-  /// The name of organization config rule for which you want status details for
-  /// member accounts.
+  /// The name of your organization Config rule for which you want status
+  /// details for member accounts.
   ///
   /// Parameter [filters] :
   /// A <code>StatusDetailFilters</code> object.
@@ -2917,6 +2977,38 @@ class ConfigService {
 
     return GetOrganizationConformancePackDetailedStatusResponse.fromJson(
         jsonResponse.body);
+  }
+
+  /// Returns the policy definition containing the logic for your organization
+  /// Config Custom Policy rule.
+  ///
+  /// May throw [NoSuchOrganizationConfigRuleException].
+  /// May throw [OrganizationAccessDeniedException].
+  ///
+  /// Parameter [organizationConfigRuleName] :
+  /// The name of your organization Config Custom Policy rule.
+  Future<GetOrganizationCustomRulePolicyResponse>
+      getOrganizationCustomRulePolicy({
+    required String organizationConfigRuleName,
+  }) async {
+    ArgumentError.checkNotNull(
+        organizationConfigRuleName, 'organizationConfigRuleName');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'StarlingDoveService.GetOrganizationCustomRulePolicy'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'OrganizationConfigRuleName': organizationConfigRuleName,
+      },
+    );
+
+    return GetOrganizationCustomRulePolicyResponse.fromJson(jsonResponse.body);
   }
 
   /// Returns a list of <code>ConfigurationItems</code> for the specified
@@ -3116,6 +3208,88 @@ class ConfigService {
     );
 
     return ListAggregateDiscoveredResourcesResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Returns a list of conformance pack compliance scores. A compliance score
+  /// is the percentage of the number of compliant rule-resource combinations in
+  /// a conformance pack compared to the number of total possible rule-resource
+  /// combinations in the conformance pack. This metric provides you with a
+  /// high-level view of the compliance state of your conformance packs, and can
+  /// be used to identify, investigate, and understand the level of compliance
+  /// in your conformance packs.
+  /// <note>
+  /// Conformance packs with no evaluation results will have a compliance score
+  /// of <code>INSUFFICIENT_DATA</code>.
+  /// </note>
+  ///
+  /// May throw [InvalidParameterValueException].
+  /// May throw [InvalidLimitException].
+  /// May throw [InvalidNextTokenException].
+  ///
+  /// Parameter [filters] :
+  /// Filters the results based on the
+  /// <code>ConformancePackComplianceScoresFilters</code>.
+  ///
+  /// Parameter [limit] :
+  /// The maximum number of conformance pack compliance scores returned on each
+  /// page.
+  ///
+  /// Parameter [nextToken] :
+  /// The <code>nextToken</code> string in a prior request that you can use to
+  /// get the paginated response for next set of conformance pack compliance
+  /// scores.
+  ///
+  /// Parameter [sortBy] :
+  /// Sorts your conformance pack compliance scores in either ascending or
+  /// descending order, depending on <code>SortOrder</code>.
+  ///
+  /// By default, conformance pack compliance scores are sorted in ascending
+  /// order by compliance score and alphabetically by name of the conformance
+  /// pack if there is more than one conformance pack with the same compliance
+  /// score.
+  ///
+  /// Parameter [sortOrder] :
+  /// Determines the order in which conformance pack compliance scores are
+  /// sorted. Either in ascending or descending order.
+  ///
+  /// Conformance packs with a compliance score of
+  /// <code>INSUFFICIENT_DATA</code> will be first when sorting by ascending
+  /// order and last when sorting by descending order.
+  Future<ListConformancePackComplianceScoresResponse>
+      listConformancePackComplianceScores({
+    ConformancePackComplianceScoresFilters? filters,
+    int? limit,
+    String? nextToken,
+    SortBy? sortBy,
+    SortOrder? sortOrder,
+  }) async {
+    _s.validateNumRange(
+      'limit',
+      limit,
+      0,
+      20,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'StarlingDoveService.ListConformancePackComplianceScores'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (filters != null) 'Filters': filters,
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (sortBy != null) 'SortBy': sortBy.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+      },
+    );
+
+    return ListConformancePackComplianceScoresResponse.fromJson(
+        jsonResponse.body);
   }
 
   /// Accepts a resource type and returns a list of resource identifiers for the
@@ -3338,26 +3512,36 @@ class ConfigService {
     return PutAggregationAuthorizationResponse.fromJson(jsonResponse.body);
   }
 
-  /// Adds or updates an Config rule for evaluating whether your Amazon Web
-  /// Services resources comply with your desired configurations.
+  /// Adds or updates an Config rule to evaluate if your Amazon Web Services
+  /// resources comply with your desired configurations. For information on how
+  /// many Config rules you can have per account, see <a
+  /// href="https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html">
+  /// <b>Service Limits</b> </a> in the <i>Config Developer Guide</i>.
   ///
-  /// You can use this action for custom Config rules and Config managed rules.
-  /// A custom Config rule is a rule that you develop and maintain. An Config
-  /// managed rule is a customizable, predefined rule that Config provides.
+  /// There are two types of rules: Config Custom Rules and Config Managed
+  /// Rules. You can use <code>PutConfigRule</code> to create both Config custom
+  /// rules and Config managed rules.
   ///
-  /// If you are adding a new custom Config rule, you must first create the
-  /// Lambda function that the rule invokes to evaluate your resources. When you
-  /// use the <code>PutConfigRule</code> action to add the rule to Config, you
-  /// must specify the Amazon Resource Name (ARN) that Lambda assigns to the
-  /// function. Specify the ARN for the <code>SourceIdentifier</code> key. This
-  /// key is part of the <code>Source</code> object, which is part of the
+  /// Custom rules are rules that you can create using either Guard or Lambda
+  /// functions. Guard (<a
+  /// href="https://github.com/aws-cloudformation/cloudformation-guard">Guard
+  /// GitHub Repository</a>) is a policy-as-code language that allows you to
+  /// write policies that are enforced by Config Custom Policy rules. Lambda
+  /// uses custom code that you upload to evaluate a custom rule. If you are
+  /// adding a new Custom Lambda rule, you first need to create an Lambda
+  /// function that the rule invokes to evaluate your resources. When you use
+  /// <code>PutConfigRule</code> to add a Custom Lambda rule to Config, you must
+  /// specify the Amazon Resource Name (ARN) that Lambda assigns to the
+  /// function. You specify the ARN in the <code>SourceIdentifier</code> key.
+  /// This key is part of the <code>Source</code> object, which is part of the
   /// <code>ConfigRule</code> object.
   ///
-  /// If you are adding an Config managed rule, specify the rule's identifier
-  /// for the <code>SourceIdentifier</code> key. To reference Config managed
-  /// rule identifiers, see <a
-  /// href="https://docs.aws.amazon.com/config/latest/developerguide/evaluate-config_use-managed-rules.html">About
-  /// Config managed rules</a>.
+  /// Managed rules are predefined, customizable rules created by Config. For a
+  /// list of managed rules, see <a
+  /// href="https://docs.aws.amazon.com/config/latest/developerguide/managed-rules-by-aws-config.html">List
+  /// of Config Managed Rules</a>. If you are adding an Config managed rule, you
+  /// must specify the rule's identifier for the <code>SourceIdentifier</code>
+  /// key.
   ///
   /// For any new rule that you add, specify the <code>ConfigRuleName</code> in
   /// the <code>ConfigRule</code> object. Do not specify the
@@ -3368,12 +3552,6 @@ class ConfigService {
   /// rule by <code>ConfigRuleName</code>, <code>ConfigRuleId</code>, or
   /// <code>ConfigRuleArn</code> in the <code>ConfigRule</code> data type that
   /// you use in this request.
-  ///
-  /// The maximum number of rules that Config supports is 150.
-  ///
-  /// For information about requesting a rule limit increase, see <a
-  /// href="http://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html#limits_config">Config
-  /// Limits</a> in the <i>Amazon Web Services General Reference Guide</i>.
   ///
   /// For more information about developing and using Config rules, see <a
   /// href="https://docs.aws.amazon.com/config/latest/developerguide/evaluate-config.html">Evaluating
@@ -3419,8 +3597,8 @@ class ConfigService {
   ///
   /// <code>accountIds</code> that are passed will be replaced with existing
   /// accounts. If you want to add additional accounts into the aggregator, call
-  /// <code>DescribeAggregator</code> to get the previous accounts and then
-  /// append new ones.
+  /// <code>DescribeConfigurationAggregators</code> to get the previous accounts
+  /// and then append new ones.
   /// <note>
   /// Config should be enabled in source accounts and regions you want to
   /// aggregate.
@@ -3436,7 +3614,7 @@ class ConfigService {
   ///
   /// To register a delegated administrator, see <a
   /// href="https://docs.aws.amazon.com/config/latest/developerguide/set-up-aggregator-cli.html#register-a-delegated-administrator-cli">Register
-  /// a Delegated Administrator</a> in the Config developer guide.
+  /// a Delegated Administrator</a> in the <i>Config developer guide</i>.
   /// </note>
   ///
   /// May throw [InvalidParameterValueException].
@@ -3533,11 +3711,15 @@ class ConfigService {
 
   /// Creates or updates a conformance pack. A conformance pack is a collection
   /// of Config rules that can be easily deployed in an account and a region and
-  /// across Amazon Web Services Organization.
+  /// across Amazon Web Services Organization. For information on how many
+  /// conformance packs you can have per account, see <a
+  /// href="https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html">
+  /// <b>Service Limits</b> </a> in the Config Developer Guide.
   ///
-  /// This API creates a service linked role
-  /// <code>AWSServiceRoleForConfigConforms</code> in your account. The service
-  /// linked role is created only when the role does not exist in your account.
+  /// This API creates a service-linked role
+  /// <code>AWSServiceRoleForConfigConforms</code> in your account. The
+  /// service-linked role is created only when the role does not exist in your
+  /// account.
   /// <note>
   /// You must specify either the <code>TemplateS3Uri</code> or the
   /// <code>TemplateBody</code> parameter, but not both. If you provide both
@@ -3575,8 +3757,9 @@ class ConfigService {
   /// containing the template body with a minimum length of 1 byte and a maximum
   /// length of 51,200 bytes.
   /// <note>
-  /// You can only use a YAML template with one resource type, that is, config
-  /// rule and a remediation action.
+  /// You can only use a YAML template with two resource types: Config rule
+  /// (<code>AWS::Config::ConfigRule</code>) and a remediation action
+  /// (<code>AWS::Config::RemediationConfiguration</code>).
   /// </note>
   ///
   /// Parameter [templateS3Uri] :
@@ -3757,47 +3940,64 @@ class ConfigService {
     );
   }
 
-  /// Adds or updates organization config rule for your entire organization
-  /// evaluating whether your Amazon Web Services resources comply with your
-  /// desired configurations.
+  /// Adds or updates an Config rule for your entire organization to evaluate if
+  /// your Amazon Web Services resources comply with your desired
+  /// configurations. For information on how many organization Config rules you
+  /// can have per account, see <a
+  /// href="https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html">
+  /// <b>Service Limits</b> </a> in the <i>Config Developer Guide</i>.
   ///
   /// Only a master account and a delegated administrator can create or update
-  /// an organization config rule. When calling this API with a delegated
+  /// an organization Config rule. When calling this API with a delegated
   /// administrator, you must ensure Organizations
-  /// <code>ListDelegatedAdministrator</code> permissions are added.
+  /// <code>ListDelegatedAdministrator</code> permissions are added. An
+  /// organization can have up to 3 delegated administrators.
   ///
   /// This API enables organization service access through the
-  /// <code>EnableAWSServiceAccess</code> action and creates a service linked
+  /// <code>EnableAWSServiceAccess</code> action and creates a service-linked
   /// role <code>AWSServiceRoleForConfigMultiAccountSetup</code> in the master
-  /// or delegated administrator account of your organization. The service
-  /// linked role is created only when the role does not exist in the caller
-  /// account. Config verifies the existence of role with <code>GetRole</code>
-  /// action.
+  /// or delegated administrator account of your organization. The
+  /// service-linked role is created only when the role does not exist in the
+  /// caller account. Config verifies the existence of role with
+  /// <code>GetRole</code> action.
   ///
   /// To use this API with delegated administrator, register a delegated
   /// administrator by calling Amazon Web Services Organization
   /// <code>register-delegated-administrator</code> for
   /// <code>config-multiaccountsetup.amazonaws.com</code>.
   ///
-  /// You can use this action to create both custom Config rules and Config
-  /// managed rules. If you are adding a new custom Config rule, you must first
-  /// create Lambda function in the master account or a delegated administrator
-  /// that the rule invokes to evaluate your resources. You also need to create
-  /// an IAM role in the managed-account that can be assumed by the Lambda
-  /// function. When you use the <code>PutOrganizationConfigRule</code> action
-  /// to add the rule to Config, you must specify the Amazon Resource Name (ARN)
-  /// that Lambda assigns to the function. If you are adding an Config managed
-  /// rule, specify the rule's identifier for the <code>RuleIdentifier</code>
-  /// key.
+  /// There are two types of rules: Config Custom Rules and Config Managed
+  /// Rules. You can use <code>PutOrganizationConfigRule</code> to create both
+  /// Config custom rules and Config managed rules.
   ///
-  /// The maximum number of organization config rules that Config supports is
-  /// 150 and 3 delegated administrator per organization.
+  /// Custom rules are rules that you can create using either Guard or Lambda
+  /// functions. Guard (<a
+  /// href="https://github.com/aws-cloudformation/cloudformation-guard">Guard
+  /// GitHub Repository</a>) is a policy-as-code language that allows you to
+  /// write policies that are enforced by Config Custom Policy rules. Lambda
+  /// uses custom code that you upload to evaluate a custom rule. If you are
+  /// adding a new Custom Lambda rule, you first need to create an Lambda
+  /// function in the master account or a delegated administrator that the rule
+  /// invokes to evaluate your resources. You also need to create an IAM role in
+  /// the managed account that can be assumed by the Lambda function. When you
+  /// use <code>PutOrganizationConfigRule</code> to add a Custom Lambda rule to
+  /// Config, you must specify the Amazon Resource Name (ARN) that Lambda
+  /// assigns to the function.
+  ///
+  /// Managed rules are predefined, customizable rules created by Config. For a
+  /// list of managed rules, see <a
+  /// href="https://docs.aws.amazon.com/config/latest/developerguide/managed-rules-by-aws-config.html">List
+  /// of Config Managed Rules</a>. If you are adding an Config managed rule, you
+  /// must specify the rule's identifier for the <code>RuleIdentifier</code>
+  /// key.
   /// <note>
   /// Prerequisite: Ensure you call <code>EnableAllFeatures</code> API to enable
   /// all features in an organization.
   ///
-  /// Specify either <code>OrganizationCustomRuleMetadata</code> or
-  /// <code>OrganizationManagedRuleMetadata</code>.
+  /// Make sure to specify one of either
+  /// <code>OrganizationCustomPolicyRuleMetadata</code> for Custom Policy rules,
+  /// <code>OrganizationCustomRuleMetadata</code> for Custom Lambda rules, or
+  /// <code>OrganizationManagedRuleMetadata</code> for managed rules.
   /// </note>
   ///
   /// May throw [MaxNumberOfOrganizationConfigRulesExceededException].
@@ -3810,20 +4010,40 @@ class ConfigService {
   /// May throw [InsufficientPermissionsException].
   ///
   /// Parameter [organizationConfigRuleName] :
-  /// The name that you assign to an organization config rule.
+  /// The name that you assign to an organization Config rule.
   ///
   /// Parameter [excludedAccounts] :
   /// A comma-separated list of accounts that you want to exclude from an
-  /// organization config rule.
+  /// organization Config rule.
+  ///
+  /// Parameter [organizationCustomPolicyRuleMetadata] :
+  /// An <code>OrganizationCustomPolicyRuleMetadata</code> object. This object
+  /// specifies metadata for your organization's Config Custom Policy rule. The
+  /// metadata includes the runtime system in use, which accounts have debug
+  /// logging enabled, and other custom rule metadata, such as resource type,
+  /// resource ID of Amazon Web Services resource, and organization trigger
+  /// types that initiate Config to evaluate Amazon Web Services resources
+  /// against a rule.
   ///
   /// Parameter [organizationCustomRuleMetadata] :
-  /// An <code>OrganizationCustomRuleMetadata</code> object.
+  /// An <code>OrganizationCustomRuleMetadata</code> object. This object
+  /// specifies organization custom rule metadata such as resource type,
+  /// resource ID of Amazon Web Services resource, Lambda function ARN, and
+  /// organization trigger types that trigger Config to evaluate your Amazon Web
+  /// Services resources against a rule. It also provides the frequency with
+  /// which you want Config to run evaluations for the rule if the trigger type
+  /// is periodic.
   ///
   /// Parameter [organizationManagedRuleMetadata] :
-  /// An <code>OrganizationManagedRuleMetadata</code> object.
+  /// An <code>OrganizationManagedRuleMetadata</code> object. This object
+  /// specifies organization managed rule metadata such as resource type and ID
+  /// of Amazon Web Services resource along with the rule identifier. It also
+  /// provides the frequency with which you want Config to run evaluations for
+  /// the rule if the trigger type is periodic.
   Future<PutOrganizationConfigRuleResponse> putOrganizationConfigRule({
     required String organizationConfigRuleName,
     List<String>? excludedAccounts,
+    OrganizationCustomPolicyRuleMetadata? organizationCustomPolicyRuleMetadata,
     OrganizationCustomRuleMetadata? organizationCustomRuleMetadata,
     OrganizationManagedRuleMetadata? organizationManagedRuleMetadata,
   }) async {
@@ -3842,6 +4062,9 @@ class ConfigService {
       payload: {
         'OrganizationConfigRuleName': organizationConfigRuleName,
         if (excludedAccounts != null) 'ExcludedAccounts': excludedAccounts,
+        if (organizationCustomPolicyRuleMetadata != null)
+          'OrganizationCustomPolicyRuleMetadata':
+              organizationCustomPolicyRuleMetadata,
         if (organizationCustomRuleMetadata != null)
           'OrganizationCustomRuleMetadata': organizationCustomRuleMetadata,
         if (organizationManagedRuleMetadata != null)
@@ -3853,20 +4076,23 @@ class ConfigService {
   }
 
   /// Deploys conformance packs across member accounts in an Amazon Web Services
-  /// Organization.
+  /// Organization. For information on how many organization conformance packs
+  /// and how many Config rules you can have per account, see <a
+  /// href="https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html">
+  /// <b>Service Limits</b> </a> in the Config Developer Guide.
   ///
   /// Only a master account and a delegated administrator can call this API.
   /// When calling this API with a delegated administrator, you must ensure
   /// Organizations <code>ListDelegatedAdministrator</code> permissions are
-  /// added.
+  /// added. An organization can have up to 3 delegated administrators.
   ///
   /// This API enables organization service access for
   /// <code>config-multiaccountsetup.amazonaws.com</code> through the
-  /// <code>EnableAWSServiceAccess</code> action and creates a service linked
+  /// <code>EnableAWSServiceAccess</code> action and creates a service-linked
   /// role <code>AWSServiceRoleForConfigMultiAccountSetup</code> in the master
-  /// or delegated administrator account of your organization. The service
-  /// linked role is created only when the role does not exist in the caller
-  /// account. To use this API with delegated administrator, register a
+  /// or delegated administrator account of your organization. The
+  /// service-linked role is created only when the role does not exist in the
+  /// caller account. To use this API with delegated administrator, register a
   /// delegated administrator by calling Amazon Web Services Organization
   /// <code>register-delegate-admin</code> for
   /// <code>config-multiaccountsetup.amazonaws.com</code>.
@@ -3882,9 +4108,6 @@ class ConfigService {
   /// Config sets the state of a conformance pack to CREATE_IN_PROGRESS and
   /// UPDATE_IN_PROGRESS until the conformance pack is created or updated. You
   /// cannot update a conformance pack while it is in this state.
-  ///
-  /// You can create 50 conformance packs with 25 Config rules in each pack and
-  /// 3 delegated administrator per organization.
   /// </note>
   ///
   /// May throw [MaxNumberOfOrganizationConformancePacksExceededException].
@@ -3983,6 +4206,17 @@ class ConfigService {
   /// service-linked Config Rules such as Organization Config rules, the rules
   /// deployed by conformance packs, and rules deployed by Amazon Web Services
   /// Security Hub.
+  /// </note> <note>
+  /// For manual remediation configuration, you need to provide a value for
+  /// <code>automationAssumeRole</code> or use a value in the
+  /// <code>assumeRole</code>field to remediate your resources. The SSM
+  /// automation document can use either as long as it maps to a valid
+  /// parameter.
+  ///
+  /// However, for automatic remediation configuration, the only valid
+  /// <code>assumeRole</code> field value is <code>AutomationAssumeRole</code>
+  /// and you need to provide a value for <code>AutomationAssumeRole</code> to
+  /// remediate your resources.
   /// </note>
   ///
   /// May throw [InsufficientPermissionsException].
@@ -4118,6 +4352,12 @@ class ConfigService {
   ///
   /// Parameter [tags] :
   /// Tags associated with the resource.
+  /// <note>
+  /// This field is not to be confused with the Amazon Web Services-wide tag
+  /// feature for Amazon Web Services resources. Tags for
+  /// <code>PutResourceConfig</code> are tags that you supply for the
+  /// configuration items of your custom resources.
+  /// </note>
   Future<void> putResourceConfig({
     required String configuration,
     required String resourceId,
@@ -4337,7 +4577,7 @@ class ConfigService {
   ///
   /// For more information about query components, see the <a
   /// href="https://docs.aws.amazon.com/config/latest/developerguide/query-components.html">
-  /// <b>Query Components</b> </a> section in the Config Developer Guide.
+  /// <b>Query Components</b> </a> section in the <i>Config Developer Guide</i>.
   ///
   /// May throw [InvalidExpressionException].
   /// May throw [InvalidLimitException].
@@ -5996,27 +6236,40 @@ class ConfigExportDeliveryInfo {
   }
 }
 
-/// An Config rule represents an Lambda function that you create for a custom
-/// rule or a predefined function for an Config managed rule. The function
-/// evaluates configuration items to assess whether your Amazon Web Services
-/// resources comply with your desired configurations. This function can run
-/// when Config detects a configuration change to an Amazon Web Services
-/// resource and at a periodic frequency that you choose (for example, every 24
-/// hours).
+/// Config rules evaluate the configuration settings of your Amazon Web Services
+/// resources. A rule can run when Config detects a configuration change to an
+/// Amazon Web Services resource or at a periodic frequency that you choose (for
+/// example, every 24 hours). There are two types of rules: Config Managed Rules
+/// and Config Custom Rules. Managed rules are predefined, customizable rules
+/// created by Config. For a list of managed rules, see <a
+/// href="https://docs.aws.amazon.com/config/latest/developerguide/managed-rules-by-aws-config.html">List
+/// of Config Managed Rules</a>.
+///
+/// Custom rules are rules that you can create using either Guard or Lambda
+/// functions. Guard (<a
+/// href="https://github.com/aws-cloudformation/cloudformation-guard">Guard
+/// GitHub Repository</a>) is a policy-as-code language that allows you to write
+/// policies that are enforced by Config Custom Policy rules. Lambda uses custom
+/// code that you upload to evaluate a custom rule. It is invoked by events that
+/// are published to it by an event source, which Config invokes when the custom
+/// rule is initiated.
+///
+/// For more information about developing and using Config rules, see <a
+/// href="https://docs.aws.amazon.com/config/latest/developerguide/evaluate-config.html">Evaluating
+/// Amazon Web Services resource Configurations with Config</a> in the <i>Config
+/// Developer Guide</i>.
 /// <note>
 /// You can use the Amazon Web Services CLI and Amazon Web Services SDKs if you
 /// want to create a rule that triggers evaluations for your resources when
 /// Config delivers the configuration snapshot. For more information, see
 /// <a>ConfigSnapshotDeliveryProperties</a>.
 /// </note>
-/// For more information about developing and using Config rules, see <a
-/// href="https://docs.aws.amazon.com/config/latest/developerguide/evaluate-config.html">Evaluating
-/// Amazon Web Services resource Configurations with Config</a> in the <i>Config
-/// Developer Guide</i>.
 class ConfigRule {
-  /// Provides the rule owner (Amazon Web Services or customer), the rule
-  /// identifier, and the notifications that cause the function to evaluate your
-  /// Amazon Web Services resources.
+  /// Provides the rule owner (<code>Amazon Web Services</code> for managed rules,
+  /// <code>CUSTOM_POLICY</code> for Custom Policy rules, and
+  /// <code>CUSTOM_LAMBDA</code> for Custom Lambda rules), the rule identifier,
+  /// and the notifications that cause the function to evaluate your Amazon Web
+  /// Services resources.
   final Source source;
 
   /// The Amazon Resource Name (ARN) of the Config rule.
@@ -6048,7 +6301,7 @@ class ConfigRule {
 
   /// Service principal name of the service that created the rule.
   /// <note>
-  /// The field is populated only if the service linked rule is created by a
+  /// The field is populated only if the service-linked rule is created by a
   /// service. The field is empty if you create your own rule.
   /// </note>
   final String? createdBy;
@@ -6064,7 +6317,7 @@ class ConfigRule {
   ///
   /// <ul>
   /// <li>
-  /// You are using an Config managed rule that is triggered at a periodic
+  /// This is for an Config managed rule that is triggered at a periodic
   /// frequency.
   /// </li>
   /// <li>
@@ -6258,11 +6511,12 @@ extension on String {
   }
 }
 
-/// Status information for your Config managed rules. The status includes
-/// information such as the last time the rule ran, the last time it failed, and
-/// the related error for the last failure.
+/// Status information for your Config Managed rules and Config Custom Policy
+/// rules. The status includes information such as the last time the rule ran,
+/// the last time it failed, and the related error for the last failure.
 ///
-/// This action does not return status information about custom Config rules.
+/// This action does not return status information about Config Custom Lambda
+/// rules.
 class ConfigRuleEvaluationStatus {
   /// The Amazon Resource Name (ARN) of the Config rule.
   final String? configRuleArn;
@@ -6285,14 +6539,26 @@ class ConfigRuleEvaluationStatus {
   /// against the rule at least once.
   /// </li>
   /// <li>
-  /// <code>false</code> - Config has not once finished evaluating your Amazon Web
-  /// Services resources against the rule.
+  /// <code>false</code> - Config has not finished evaluating your Amazon Web
+  /// Services resources against the rule at least once.
   /// </li>
   /// </ul>
   final bool? firstEvaluationStarted;
 
   /// The time that you last turned off the Config rule.
   final DateTime? lastDeactivatedTime;
+
+  /// The status of the last attempted delivery of a debug log for your Config
+  /// Custom Policy rules. Either <code>Successful</code> or <code>Failed</code>.
+  final String? lastDebugLogDeliveryStatus;
+
+  /// The reason Config was not able to deliver a debug log. This is for the last
+  /// failed attempt to retrieve a debug log for your Config Custom Policy rules.
+  final String? lastDebugLogDeliveryStatusReason;
+
+  /// The time Config last attempted to deliver a debug log for your Config Custom
+  /// Policy rules.
+  final DateTime? lastDebugLogDeliveryTime;
 
   /// The error code that Config returned when the rule last failed.
   final String? lastErrorCode;
@@ -6323,6 +6589,9 @@ class ConfigRuleEvaluationStatus {
     this.firstActivatedTime,
     this.firstEvaluationStarted,
     this.lastDeactivatedTime,
+    this.lastDebugLogDeliveryStatus,
+    this.lastDebugLogDeliveryStatusReason,
+    this.lastDebugLogDeliveryTime,
     this.lastErrorCode,
     this.lastErrorMessage,
     this.lastFailedEvaluationTime,
@@ -6339,6 +6608,11 @@ class ConfigRuleEvaluationStatus {
       firstActivatedTime: timeStampFromJson(json['FirstActivatedTime']),
       firstEvaluationStarted: json['FirstEvaluationStarted'] as bool?,
       lastDeactivatedTime: timeStampFromJson(json['LastDeactivatedTime']),
+      lastDebugLogDeliveryStatus: json['LastDebugLogDeliveryStatus'] as String?,
+      lastDebugLogDeliveryStatusReason:
+          json['LastDebugLogDeliveryStatusReason'] as String?,
+      lastDebugLogDeliveryTime:
+          timeStampFromJson(json['LastDebugLogDeliveryTime']),
       lastErrorCode: json['LastErrorCode'] as String?,
       lastErrorMessage: json['LastErrorMessage'] as String?,
       lastFailedEvaluationTime:
@@ -6359,6 +6633,10 @@ class ConfigRuleEvaluationStatus {
     final firstActivatedTime = this.firstActivatedTime;
     final firstEvaluationStarted = this.firstEvaluationStarted;
     final lastDeactivatedTime = this.lastDeactivatedTime;
+    final lastDebugLogDeliveryStatus = this.lastDebugLogDeliveryStatus;
+    final lastDebugLogDeliveryStatusReason =
+        this.lastDebugLogDeliveryStatusReason;
+    final lastDebugLogDeliveryTime = this.lastDebugLogDeliveryTime;
     final lastErrorCode = this.lastErrorCode;
     final lastErrorMessage = this.lastErrorMessage;
     final lastFailedEvaluationTime = this.lastFailedEvaluationTime;
@@ -6375,6 +6653,13 @@ class ConfigRuleEvaluationStatus {
         'FirstEvaluationStarted': firstEvaluationStarted,
       if (lastDeactivatedTime != null)
         'LastDeactivatedTime': unixTimestampToJson(lastDeactivatedTime),
+      if (lastDebugLogDeliveryStatus != null)
+        'LastDebugLogDeliveryStatus': lastDebugLogDeliveryStatus,
+      if (lastDebugLogDeliveryStatusReason != null)
+        'LastDebugLogDeliveryStatusReason': lastDebugLogDeliveryStatusReason,
+      if (lastDebugLogDeliveryTime != null)
+        'LastDebugLogDeliveryTime':
+            unixTimestampToJson(lastDebugLogDeliveryTime),
       if (lastErrorCode != null) 'LastErrorCode': lastErrorCode,
       if (lastErrorMessage != null) 'LastErrorMessage': lastErrorMessage,
       if (lastFailedEvaluationTime != null)
@@ -6895,6 +7180,10 @@ class ConfigurationRecorder {
 
   /// Amazon Resource Name (ARN) of the IAM role used to describe the Amazon Web
   /// Services resources associated with the account.
+  /// <note>
+  /// While the API model does not require this field, the server will reject a
+  /// request without a defined roleARN for the configuration recorder.
+  /// </note>
   final String? roleARN;
 
   ConfigurationRecorder({
@@ -7034,6 +7323,84 @@ class ConformancePackComplianceFilters {
     return {
       if (complianceType != null) 'ComplianceType': complianceType.toValue(),
       if (configRuleNames != null) 'ConfigRuleNames': configRuleNames,
+    };
+  }
+}
+
+/// A compliance score is the percentage of the number of compliant
+/// rule-resource combinations in a conformance pack compared to the number of
+/// total possible rule-resource combinations in the conformance pack. This
+/// metric provides you with a high-level view of the compliance state of your
+/// conformance packs, and can be used to identify, investigate, and understand
+/// the level of compliance in your conformance packs.
+class ConformancePackComplianceScore {
+  /// The name of the conformance pack.
+  final String? conformancePackName;
+
+  /// The time that the conformance pack compliance score was last updated.
+  final DateTime? lastUpdatedTime;
+
+  /// Compliance score for the conformance pack. Conformance packs with no
+  /// evaluation results will have a compliance score of
+  /// <code>INSUFFICIENT_DATA</code>.
+  final String? score;
+
+  ConformancePackComplianceScore({
+    this.conformancePackName,
+    this.lastUpdatedTime,
+    this.score,
+  });
+
+  factory ConformancePackComplianceScore.fromJson(Map<String, dynamic> json) {
+    return ConformancePackComplianceScore(
+      conformancePackName: json['ConformancePackName'] as String?,
+      lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
+      score: json['Score'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final conformancePackName = this.conformancePackName;
+    final lastUpdatedTime = this.lastUpdatedTime;
+    final score = this.score;
+    return {
+      if (conformancePackName != null)
+        'ConformancePackName': conformancePackName,
+      if (lastUpdatedTime != null)
+        'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
+      if (score != null) 'Score': score,
+    };
+  }
+}
+
+/// A list of filters to apply to the conformance pack compliance score result
+/// set.
+class ConformancePackComplianceScoresFilters {
+  /// The names of the conformance packs whose compliance scores you want to
+  /// include in the conformance pack compliance score result set. You can include
+  /// up to 25 conformance packs in the <code>ConformancePackNames</code> array of
+  /// strings, each with a character limit of 256 characters for the conformance
+  /// pack name.
+  final List<String> conformancePackNames;
+
+  ConformancePackComplianceScoresFilters({
+    required this.conformancePackNames,
+  });
+
+  factory ConformancePackComplianceScoresFilters.fromJson(
+      Map<String, dynamic> json) {
+    return ConformancePackComplianceScoresFilters(
+      conformancePackNames: (json['ConformancePackNames'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final conformancePackNames = this.conformancePackNames;
+    return {
+      'ConformancePackNames': conformancePackNames,
     };
   }
 }
@@ -7355,7 +7722,7 @@ class ConformancePackRuleCompliance {
   /// and <code>INSUFFICIENT_DATA</code>.
   final ConformancePackComplianceType? complianceType;
 
-  /// Name of the config rule.
+  /// Name of the Config rule.
   final String? configRuleName;
 
   /// Controls for the conformance pack. A control is a process to prevent or
@@ -7537,6 +7904,52 @@ class ConformancePackStatusDetail {
   }
 }
 
+/// Provides the runtime system, policy definition, and whether debug logging
+/// enabled. You can specify the following CustomPolicyDetails parameter values
+/// only for Config Custom Policy rules.
+class CustomPolicyDetails {
+  /// The runtime system for your Config Custom Policy rule. Guard is a
+  /// policy-as-code language that allows you to write policies that are enforced
+  /// by Config Custom Policy rules. For more information about Guard, see the <a
+  /// href="https://github.com/aws-cloudformation/cloudformation-guard">Guard
+  /// GitHub Repository</a>.
+  final String policyRuntime;
+
+  /// The policy definition containing the logic for your Config Custom Policy
+  /// rule.
+  final String policyText;
+
+  /// The boolean expression for enabling debug logging for your Config Custom
+  /// Policy rule. The default value is <code>false</code>.
+  final bool? enableDebugLogDelivery;
+
+  CustomPolicyDetails({
+    required this.policyRuntime,
+    required this.policyText,
+    this.enableDebugLogDelivery,
+  });
+
+  factory CustomPolicyDetails.fromJson(Map<String, dynamic> json) {
+    return CustomPolicyDetails(
+      policyRuntime: json['PolicyRuntime'] as String,
+      policyText: json['PolicyText'] as String,
+      enableDebugLogDelivery: json['EnableDebugLogDelivery'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policyRuntime = this.policyRuntime;
+    final policyText = this.policyText;
+    final enableDebugLogDelivery = this.enableDebugLogDelivery;
+    return {
+      'PolicyRuntime': policyRuntime,
+      'PolicyText': policyText,
+      if (enableDebugLogDelivery != null)
+        'EnableDebugLogDelivery': enableDebugLogDelivery,
+    };
+  }
+}
+
 /// The output when you delete the evaluation results for the specified Config
 /// rule.
 class DeleteEvaluationResultsResponse {
@@ -7648,7 +8061,7 @@ class DeliveryChannel {
   /// that bucket must have policies that grant access permissions to Config. For
   /// more information, see <a
   /// href="https://docs.aws.amazon.com/config/latest/developerguide/s3-bucket-policy.html">Permissions
-  /// for the Amazon S3 Bucket</a> in the Config Developer Guide.
+  /// for the Amazon S3 Bucket</a> in the <i>Config Developer Guide</i>.
   final String? s3BucketName;
 
   /// The prefix for the specified Amazon S3 bucket.
@@ -7665,7 +8078,7 @@ class DeliveryChannel {
   /// If you choose a topic from another account, the topic must have policies
   /// that grant access permissions to Config. For more information, see <a
   /// href="https://docs.aws.amazon.com/config/latest/developerguide/sns-topic-policy.html">Permissions
-  /// for the Amazon SNS Topic</a> in the Config Developer Guide.
+  /// for the Amazon SNS Topic</a> in the <i>Config Developer Guide</i>.
   final String? snsTopicARN;
 
   DeliveryChannel({
@@ -9573,6 +9986,29 @@ class GetConformancePackComplianceSummaryResponse {
   }
 }
 
+class GetCustomRulePolicyResponse {
+  /// The policy definition containing the logic for your Config Custom Policy
+  /// rule.
+  final String? policyText;
+
+  GetCustomRulePolicyResponse({
+    this.policyText,
+  });
+
+  factory GetCustomRulePolicyResponse.fromJson(Map<String, dynamic> json) {
+    return GetCustomRulePolicyResponse(
+      policyText: json['PolicyText'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policyText = this.policyText;
+    return {
+      if (policyText != null) 'PolicyText': policyText,
+    };
+  }
+}
+
 class GetDiscoveredResourceCountsResponse {
   /// The string that you use in a subsequent request to get the next page of
   /// results in a paginated response.
@@ -9711,6 +10147,30 @@ class GetOrganizationConformancePackDetailedStatusResponse {
   }
 }
 
+class GetOrganizationCustomRulePolicyResponse {
+  /// The policy definition containing the logic for your organization Config
+  /// Custom Policy rule.
+  final String? policyText;
+
+  GetOrganizationCustomRulePolicyResponse({
+    this.policyText,
+  });
+
+  factory GetOrganizationCustomRulePolicyResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetOrganizationCustomRulePolicyResponse(
+      policyText: json['PolicyText'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policyText = this.policyText;
+    return {
+      if (policyText != null) 'PolicyText': policyText,
+    };
+  }
+}
+
 /// The output for the <a>GetResourceConfigHistory</a> action.
 class GetResourceConfigHistoryResponse {
   /// A list that contains the configuration history of one or more resources.
@@ -9833,6 +10293,43 @@ class ListAggregateDiscoveredResourcesResponse {
       if (nextToken != null) 'NextToken': nextToken,
       if (resourceIdentifiers != null)
         'ResourceIdentifiers': resourceIdentifiers,
+    };
+  }
+}
+
+class ListConformancePackComplianceScoresResponse {
+  /// A list of <code>ConformancePackComplianceScore</code> objects.
+  final List<ConformancePackComplianceScore> conformancePackComplianceScores;
+
+  /// The <code>nextToken</code> string that you can use to get the next page of
+  /// results in a paginated response.
+  final String? nextToken;
+
+  ListConformancePackComplianceScoresResponse({
+    required this.conformancePackComplianceScores,
+    this.nextToken,
+  });
+
+  factory ListConformancePackComplianceScoresResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListConformancePackComplianceScoresResponse(
+      conformancePackComplianceScores:
+          (json['ConformancePackComplianceScores'] as List)
+              .whereNotNull()
+              .map((e) => ConformancePackComplianceScore.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final conformancePackComplianceScores =
+        this.conformancePackComplianceScores;
+    final nextToken = this.nextToken;
+    return {
+      'ConformancePackComplianceScores': conformancePackComplianceScores,
+      if (nextToken != null) 'NextToken': nextToken,
     };
   }
 }
@@ -10050,21 +10547,21 @@ extension on String {
   }
 }
 
-/// Organization config rule creation or deletion status in each member account.
+/// Organization Config rule creation or deletion status in each member account.
 /// This includes the name of the rule, the status, error code and error message
 /// when the rule creation or deletion failed.
 class MemberAccountStatus {
   /// The 12-digit account ID of a member account.
   final String accountId;
 
-  /// The name of config rule deployed in the member account.
+  /// The name of Config rule deployed in the member account.
   final String configRuleName;
 
-  /// Indicates deployment status for config rule in the member account. When
+  /// Indicates deployment status for Config rule in the member account. When
   /// master account calls <code>PutOrganizationConfigRule</code> action for the
-  /// first time, config rule status is created in the member account. When master
+  /// first time, Config rule status is created in the member account. When master
   /// account calls <code>PutOrganizationConfigRule</code> action for the second
-  /// time, config rule status is updated in the member account. Config rule
+  /// time, Config rule status is updated in the member account. Config rule
   /// status is deleted when the master account deletes
   /// <code>OrganizationConfigRule</code> and disables service access for
   /// <code>config-multiaccountsetup.amazonaws.com</code>.
@@ -10073,49 +10570,49 @@ class MemberAccountStatus {
   ///
   /// <ul>
   /// <li>
-  /// <code>CREATE_SUCCESSFUL</code> when config rule has been created in the
+  /// <code>CREATE_SUCCESSFUL</code> when Config rule has been created in the
   /// member account.
   /// </li>
   /// <li>
-  /// <code>CREATE_IN_PROGRESS</code> when config rule is being created in the
+  /// <code>CREATE_IN_PROGRESS</code> when Config rule is being created in the
   /// member account.
   /// </li>
   /// <li>
-  /// <code>CREATE_FAILED</code> when config rule creation has failed in the
+  /// <code>CREATE_FAILED</code> when Config rule creation has failed in the
   /// member account.
   /// </li>
   /// <li>
-  /// <code>DELETE_FAILED</code> when config rule deletion has failed in the
+  /// <code>DELETE_FAILED</code> when Config rule deletion has failed in the
   /// member account.
   /// </li>
   /// <li>
-  /// <code>DELETE_IN_PROGRESS</code> when config rule is being deleted in the
+  /// <code>DELETE_IN_PROGRESS</code> when Config rule is being deleted in the
   /// member account.
   /// </li>
   /// <li>
-  /// <code>DELETE_SUCCESSFUL</code> when config rule has been deleted in the
+  /// <code>DELETE_SUCCESSFUL</code> when Config rule has been deleted in the
   /// member account.
   /// </li>
   /// <li>
-  /// <code>UPDATE_SUCCESSFUL</code> when config rule has been updated in the
+  /// <code>UPDATE_SUCCESSFUL</code> when Config rule has been updated in the
   /// member account.
   /// </li>
   /// <li>
-  /// <code>UPDATE_IN_PROGRESS</code> when config rule is being updated in the
+  /// <code>UPDATE_IN_PROGRESS</code> when Config rule is being updated in the
   /// member account.
   /// </li>
   /// <li>
-  /// <code>UPDATE_FAILED</code> when config rule deletion has failed in the
+  /// <code>UPDATE_FAILED</code> when Config rule deletion has failed in the
   /// member account.
   /// </li>
   /// </ul>
   final MemberAccountRuleStatus memberAccountRuleStatus;
 
-  /// An error code that is returned when config rule creation or deletion failed
+  /// An error code that is returned when Config rule creation or deletion failed
   /// in the member account.
   final String? errorCode;
 
-  /// An error message indicating that config rule account creation or deletion
+  /// An error message indicating that Config rule account creation or deletion
   /// has failed due to an error in the member account.
   final String? errorMessage;
 
@@ -10242,20 +10739,29 @@ class OrganizationAggregationSource {
   }
 }
 
-/// An organization config rule that has information about config rules that
+/// An organization Config rule that has information about Config rules that
 /// Config creates in member accounts.
 class OrganizationConfigRule {
-  /// Amazon Resource Name (ARN) of organization config rule.
+  /// Amazon Resource Name (ARN) of organization Config rule.
   final String organizationConfigRuleArn;
 
-  /// The name that you assign to organization config rule.
+  /// The name that you assign to organization Config rule.
   final String organizationConfigRuleName;
 
-  /// A comma-separated list of accounts excluded from organization config rule.
+  /// A comma-separated list of accounts excluded from organization Config rule.
   final List<String>? excludedAccounts;
 
   /// The timestamp of the last update.
   final DateTime? lastUpdateTime;
+
+  /// An object that specifies metadata for your organization's Config Custom
+  /// Policy rule. The metadata includes the runtime system in use, which accounts
+  /// have debug logging enabled, and other custom rule metadata, such as resource
+  /// type, resource ID of Amazon Web Services resource, and organization trigger
+  /// types that initiate Config to evaluate Amazon Web Services resources against
+  /// a rule.
+  final OrganizationCustomPolicyRuleMetadataNoPolicy?
+      organizationCustomPolicyRuleMetadata;
 
   /// An <code>OrganizationCustomRuleMetadata</code> object.
   final OrganizationCustomRuleMetadata? organizationCustomRuleMetadata;
@@ -10268,6 +10774,7 @@ class OrganizationConfigRule {
     required this.organizationConfigRuleName,
     this.excludedAccounts,
     this.lastUpdateTime,
+    this.organizationCustomPolicyRuleMetadata,
     this.organizationCustomRuleMetadata,
     this.organizationManagedRuleMetadata,
   });
@@ -10281,6 +10788,12 @@ class OrganizationConfigRule {
           .map((e) => e as String)
           .toList(),
       lastUpdateTime: timeStampFromJson(json['LastUpdateTime']),
+      organizationCustomPolicyRuleMetadata:
+          json['OrganizationCustomPolicyRuleMetadata'] != null
+              ? OrganizationCustomPolicyRuleMetadataNoPolicy.fromJson(
+                  json['OrganizationCustomPolicyRuleMetadata']
+                      as Map<String, dynamic>)
+              : null,
       organizationCustomRuleMetadata: json['OrganizationCustomRuleMetadata'] !=
               null
           ? OrganizationCustomRuleMetadata.fromJson(
@@ -10300,6 +10813,8 @@ class OrganizationConfigRule {
     final organizationConfigRuleName = this.organizationConfigRuleName;
     final excludedAccounts = this.excludedAccounts;
     final lastUpdateTime = this.lastUpdateTime;
+    final organizationCustomPolicyRuleMetadata =
+        this.organizationCustomPolicyRuleMetadata;
     final organizationCustomRuleMetadata = this.organizationCustomRuleMetadata;
     final organizationManagedRuleMetadata =
         this.organizationManagedRuleMetadata;
@@ -10309,6 +10824,9 @@ class OrganizationConfigRule {
       if (excludedAccounts != null) 'ExcludedAccounts': excludedAccounts,
       if (lastUpdateTime != null)
         'LastUpdateTime': unixTimestampToJson(lastUpdateTime),
+      if (organizationCustomPolicyRuleMetadata != null)
+        'OrganizationCustomPolicyRuleMetadata':
+            organizationCustomPolicyRuleMetadata,
       if (organizationCustomRuleMetadata != null)
         'OrganizationCustomRuleMetadata': organizationCustomRuleMetadata,
       if (organizationManagedRuleMetadata != null)
@@ -10317,16 +10835,16 @@ class OrganizationConfigRule {
   }
 }
 
-/// Returns the status for an organization config rule in an organization.
+/// Returns the status for an organization Config rule in an organization.
 class OrganizationConfigRuleStatus {
-  /// The name that you assign to organization config rule.
+  /// The name that you assign to organization Config rule.
   final String organizationConfigRuleName;
 
-  /// Indicates deployment status of an organization config rule. When master
-  /// account calls PutOrganizationConfigRule action for the first time, config
+  /// Indicates deployment status of an organization Config rule. When master
+  /// account calls PutOrganizationConfigRule action for the first time, Config
   /// rule status is created in all the member accounts. When master account calls
-  /// PutOrganizationConfigRule action for the second time, config rule status is
-  /// updated in all the member accounts. Additionally, config rule status is
+  /// PutOrganizationConfigRule action for the second time, Config rule status is
+  /// updated in all the member accounts. Additionally, Config rule status is
   /// updated when one or more member accounts join or leave an organization.
   /// Config rule status is deleted when the master account deletes
   /// OrganizationConfigRule in all the member accounts and disables service
@@ -10336,49 +10854,49 @@ class OrganizationConfigRuleStatus {
   ///
   /// <ul>
   /// <li>
-  /// <code>CREATE_SUCCESSFUL</code> when an organization config rule has been
+  /// <code>CREATE_SUCCESSFUL</code> when an organization Config rule has been
   /// successfully created in all the member accounts.
   /// </li>
   /// <li>
-  /// <code>CREATE_IN_PROGRESS</code> when an organization config rule creation is
+  /// <code>CREATE_IN_PROGRESS</code> when an organization Config rule creation is
   /// in progress.
   /// </li>
   /// <li>
-  /// <code>CREATE_FAILED</code> when an organization config rule creation failed
+  /// <code>CREATE_FAILED</code> when an organization Config rule creation failed
   /// in one or more member accounts within that organization.
   /// </li>
   /// <li>
-  /// <code>DELETE_FAILED</code> when an organization config rule deletion failed
+  /// <code>DELETE_FAILED</code> when an organization Config rule deletion failed
   /// in one or more member accounts within that organization.
   /// </li>
   /// <li>
-  /// <code>DELETE_IN_PROGRESS</code> when an organization config rule deletion is
+  /// <code>DELETE_IN_PROGRESS</code> when an organization Config rule deletion is
   /// in progress.
   /// </li>
   /// <li>
-  /// <code>DELETE_SUCCESSFUL</code> when an organization config rule has been
+  /// <code>DELETE_SUCCESSFUL</code> when an organization Config rule has been
   /// successfully deleted from all the member accounts.
   /// </li>
   /// <li>
-  /// <code>UPDATE_SUCCESSFUL</code> when an organization config rule has been
+  /// <code>UPDATE_SUCCESSFUL</code> when an organization Config rule has been
   /// successfully updated in all the member accounts.
   /// </li>
   /// <li>
-  /// <code>UPDATE_IN_PROGRESS</code> when an organization config rule update is
+  /// <code>UPDATE_IN_PROGRESS</code> when an organization Config rule update is
   /// in progress.
   /// </li>
   /// <li>
-  /// <code>UPDATE_FAILED</code> when an organization config rule update failed in
+  /// <code>UPDATE_FAILED</code> when an organization Config rule update failed in
   /// one or more member accounts within that organization.
   /// </li>
   /// </ul>
   final OrganizationRuleStatus organizationRuleStatus;
 
-  /// An error code that is returned when organization config rule creation or
+  /// An error code that is returned when organization Config rule creation or
   /// deletion has failed.
   final String? errorCode;
 
-  /// An error message indicating that organization config rule creation or
+  /// An error message indicating that organization Config rule creation or
   /// deletion failed due to an error.
   final String? errorMessage;
 
@@ -10456,6 +10974,40 @@ extension on String {
     }
     throw Exception(
         '$this is not known in enum OrganizationConfigRuleTriggerType');
+  }
+}
+
+enum OrganizationConfigRuleTriggerTypeNoSN {
+  configurationItemChangeNotification,
+  oversizedConfigurationItemChangeNotification,
+}
+
+extension on OrganizationConfigRuleTriggerTypeNoSN {
+  String toValue() {
+    switch (this) {
+      case OrganizationConfigRuleTriggerTypeNoSN
+          .configurationItemChangeNotification:
+        return 'ConfigurationItemChangeNotification';
+      case OrganizationConfigRuleTriggerTypeNoSN
+          .oversizedConfigurationItemChangeNotification:
+        return 'OversizedConfigurationItemChangeNotification';
+    }
+  }
+}
+
+extension on String {
+  OrganizationConfigRuleTriggerTypeNoSN
+      toOrganizationConfigRuleTriggerTypeNoSN() {
+    switch (this) {
+      case 'ConfigurationItemChangeNotification':
+        return OrganizationConfigRuleTriggerTypeNoSN
+            .configurationItemChangeNotification;
+      case 'OversizedConfigurationItemChangeNotification':
+        return OrganizationConfigRuleTriggerTypeNoSN
+            .oversizedConfigurationItemChangeNotification;
+    }
+    throw Exception(
+        '$this is not known in enum OrganizationConfigRuleTriggerTypeNoSN');
   }
 }
 
@@ -10766,6 +11318,289 @@ class OrganizationConformancePackStatus {
   }
 }
 
+/// An object that specifies metadata for your organization's Config Custom
+/// Policy rule. The metadata includes the runtime system in use, which accounts
+/// have debug logging enabled, and other custom rule metadata, such as resource
+/// type, resource ID of Amazon Web Services resource, and organization trigger
+/// types that initiate Config to evaluate Amazon Web Services resources against
+/// a rule.
+class OrganizationCustomPolicyRuleMetadata {
+  /// The runtime system for your organization Config Custom Policy rules. Guard
+  /// is a policy-as-code language that allows you to write policies that are
+  /// enforced by Config Custom Policy rules. For more information about Guard,
+  /// see the <a
+  /// href="https://github.com/aws-cloudformation/cloudformation-guard">Guard
+  /// GitHub Repository</a>.
+  final String policyRuntime;
+
+  /// The policy definition containing the logic for your organization Config
+  /// Custom Policy rule.
+  final String policyText;
+
+  /// A list of accounts that you can enable debug logging for your organization
+  /// Config Custom Policy rule. List is null when debug logging is enabled for
+  /// all accounts.
+  final List<String>? debugLogDeliveryAccounts;
+
+  /// The description that you provide for your organization Config Custom Policy
+  /// rule.
+  final String? description;
+
+  /// A string, in JSON format, that is passed to your organization Config Custom
+  /// Policy rule.
+  final String? inputParameters;
+
+  /// The maximum frequency with which Config runs evaluations for a rule. Your
+  /// Config Custom Policy rule is triggered when Config delivers the
+  /// configuration snapshot. For more information, see
+  /// <a>ConfigSnapshotDeliveryProperties</a>.
+  final MaximumExecutionFrequency? maximumExecutionFrequency;
+
+  /// The type of notification that initiates Config to run an evaluation for a
+  /// rule. For Config Custom Policy rules, Config supports change-initiated
+  /// notification types:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ConfigurationItemChangeNotification</code> - Initiates an evaluation
+  /// when Config delivers a configuration item as a result of a resource change.
+  /// </li>
+  /// <li>
+  /// <code>OversizedConfigurationItemChangeNotification</code> - Initiates an
+  /// evaluation when Config delivers an oversized configuration item. Config may
+  /// generate this notification type when a resource changes and the notification
+  /// exceeds the maximum size allowed by Amazon SNS.
+  /// </li>
+  /// </ul>
+  final List<OrganizationConfigRuleTriggerTypeNoSN>?
+      organizationConfigRuleTriggerTypes;
+
+  /// The ID of the Amazon Web Services resource that was evaluated.
+  final String? resourceIdScope;
+
+  /// The type of the Amazon Web Services resource that was evaluated.
+  final List<String>? resourceTypesScope;
+
+  /// One part of a key-value pair that make up a tag. A key is a general label
+  /// that acts like a category for more specific tag values.
+  final String? tagKeyScope;
+
+  /// The optional part of a key-value pair that make up a tag. A value acts as a
+  /// descriptor within a tag category (key).
+  final String? tagValueScope;
+
+  OrganizationCustomPolicyRuleMetadata({
+    required this.policyRuntime,
+    required this.policyText,
+    this.debugLogDeliveryAccounts,
+    this.description,
+    this.inputParameters,
+    this.maximumExecutionFrequency,
+    this.organizationConfigRuleTriggerTypes,
+    this.resourceIdScope,
+    this.resourceTypesScope,
+    this.tagKeyScope,
+    this.tagValueScope,
+  });
+
+  factory OrganizationCustomPolicyRuleMetadata.fromJson(
+      Map<String, dynamic> json) {
+    return OrganizationCustomPolicyRuleMetadata(
+      policyRuntime: json['PolicyRuntime'] as String,
+      policyText: json['PolicyText'] as String,
+      debugLogDeliveryAccounts: (json['DebugLogDeliveryAccounts'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      description: json['Description'] as String?,
+      inputParameters: json['InputParameters'] as String?,
+      maximumExecutionFrequency: (json['MaximumExecutionFrequency'] as String?)
+          ?.toMaximumExecutionFrequency(),
+      organizationConfigRuleTriggerTypes: (json[
+              'OrganizationConfigRuleTriggerTypes'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toOrganizationConfigRuleTriggerTypeNoSN())
+          .toList(),
+      resourceIdScope: json['ResourceIdScope'] as String?,
+      resourceTypesScope: (json['ResourceTypesScope'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      tagKeyScope: json['TagKeyScope'] as String?,
+      tagValueScope: json['TagValueScope'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policyRuntime = this.policyRuntime;
+    final policyText = this.policyText;
+    final debugLogDeliveryAccounts = this.debugLogDeliveryAccounts;
+    final description = this.description;
+    final inputParameters = this.inputParameters;
+    final maximumExecutionFrequency = this.maximumExecutionFrequency;
+    final organizationConfigRuleTriggerTypes =
+        this.organizationConfigRuleTriggerTypes;
+    final resourceIdScope = this.resourceIdScope;
+    final resourceTypesScope = this.resourceTypesScope;
+    final tagKeyScope = this.tagKeyScope;
+    final tagValueScope = this.tagValueScope;
+    return {
+      'PolicyRuntime': policyRuntime,
+      'PolicyText': policyText,
+      if (debugLogDeliveryAccounts != null)
+        'DebugLogDeliveryAccounts': debugLogDeliveryAccounts,
+      if (description != null) 'Description': description,
+      if (inputParameters != null) 'InputParameters': inputParameters,
+      if (maximumExecutionFrequency != null)
+        'MaximumExecutionFrequency': maximumExecutionFrequency.toValue(),
+      if (organizationConfigRuleTriggerTypes != null)
+        'OrganizationConfigRuleTriggerTypes':
+            organizationConfigRuleTriggerTypes.map((e) => e.toValue()).toList(),
+      if (resourceIdScope != null) 'ResourceIdScope': resourceIdScope,
+      if (resourceTypesScope != null) 'ResourceTypesScope': resourceTypesScope,
+      if (tagKeyScope != null) 'TagKeyScope': tagKeyScope,
+      if (tagValueScope != null) 'TagValueScope': tagValueScope,
+    };
+  }
+}
+
+/// An object that specifies metadata for your organization Config Custom Policy
+/// rule including the runtime system in use, which accounts have debug logging
+/// enabled, and other custom rule metadata such as resource type, resource ID
+/// of Amazon Web Services resource, and organization trigger types that trigger
+/// Config to evaluate Amazon Web Services resources against a rule.
+class OrganizationCustomPolicyRuleMetadataNoPolicy {
+  /// A list of accounts that you can enable debug logging for your organization
+  /// Config Custom Policy rule. List is null when debug logging is enabled for
+  /// all accounts.
+  final List<String>? debugLogDeliveryAccounts;
+
+  /// The description that you provide for your organization Config Custom Policy
+  /// rule.
+  final String? description;
+
+  /// A string, in JSON format, that is passed to your organization Config Custom
+  /// Policy rule.
+  final String? inputParameters;
+
+  /// The maximum frequency with which Config runs evaluations for a rule. Your
+  /// Config Custom Policy rule is triggered when Config delivers the
+  /// configuration snapshot. For more information, see
+  /// <a>ConfigSnapshotDeliveryProperties</a>.
+  final MaximumExecutionFrequency? maximumExecutionFrequency;
+
+  /// The type of notification that triggers Config to run an evaluation for a
+  /// rule. For Config Custom Policy rules, Config supports change triggered
+  /// notification types:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ConfigurationItemChangeNotification</code> - Triggers an evaluation
+  /// when Config delivers a configuration item as a result of a resource change.
+  /// </li>
+  /// <li>
+  /// <code>OversizedConfigurationItemChangeNotification</code> - Triggers an
+  /// evaluation when Config delivers an oversized configuration item. Config may
+  /// generate this notification type when a resource changes and the notification
+  /// exceeds the maximum size allowed by Amazon SNS.
+  /// </li>
+  /// </ul>
+  final List<OrganizationConfigRuleTriggerTypeNoSN>?
+      organizationConfigRuleTriggerTypes;
+
+  /// The runtime system for your organization Config Custom Policy rules. Guard
+  /// is a policy-as-code language that allows you to write policies that are
+  /// enforced by Config Custom Policy rules. For more information about Guard,
+  /// see the <a
+  /// href="https://github.com/aws-cloudformation/cloudformation-guard">Guard
+  /// GitHub Repository</a>.
+  final String? policyRuntime;
+
+  /// The ID of the Amazon Web Services resource that was evaluated.
+  final String? resourceIdScope;
+
+  /// The type of the Amazon Web Services resource that was evaluated.
+  final List<String>? resourceTypesScope;
+
+  /// One part of a key-value pair that make up a tag. A key is a general label
+  /// that acts like a category for more specific tag values.
+  final String? tagKeyScope;
+
+  /// The optional part of a key-value pair that make up a tag. A value acts as a
+  /// descriptor within a tag category (key).
+  final String? tagValueScope;
+
+  OrganizationCustomPolicyRuleMetadataNoPolicy({
+    this.debugLogDeliveryAccounts,
+    this.description,
+    this.inputParameters,
+    this.maximumExecutionFrequency,
+    this.organizationConfigRuleTriggerTypes,
+    this.policyRuntime,
+    this.resourceIdScope,
+    this.resourceTypesScope,
+    this.tagKeyScope,
+    this.tagValueScope,
+  });
+
+  factory OrganizationCustomPolicyRuleMetadataNoPolicy.fromJson(
+      Map<String, dynamic> json) {
+    return OrganizationCustomPolicyRuleMetadataNoPolicy(
+      debugLogDeliveryAccounts: (json['DebugLogDeliveryAccounts'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      description: json['Description'] as String?,
+      inputParameters: json['InputParameters'] as String?,
+      maximumExecutionFrequency: (json['MaximumExecutionFrequency'] as String?)
+          ?.toMaximumExecutionFrequency(),
+      organizationConfigRuleTriggerTypes: (json[
+              'OrganizationConfigRuleTriggerTypes'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toOrganizationConfigRuleTriggerTypeNoSN())
+          .toList(),
+      policyRuntime: json['PolicyRuntime'] as String?,
+      resourceIdScope: json['ResourceIdScope'] as String?,
+      resourceTypesScope: (json['ResourceTypesScope'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      tagKeyScope: json['TagKeyScope'] as String?,
+      tagValueScope: json['TagValueScope'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final debugLogDeliveryAccounts = this.debugLogDeliveryAccounts;
+    final description = this.description;
+    final inputParameters = this.inputParameters;
+    final maximumExecutionFrequency = this.maximumExecutionFrequency;
+    final organizationConfigRuleTriggerTypes =
+        this.organizationConfigRuleTriggerTypes;
+    final policyRuntime = this.policyRuntime;
+    final resourceIdScope = this.resourceIdScope;
+    final resourceTypesScope = this.resourceTypesScope;
+    final tagKeyScope = this.tagKeyScope;
+    final tagValueScope = this.tagValueScope;
+    return {
+      if (debugLogDeliveryAccounts != null)
+        'DebugLogDeliveryAccounts': debugLogDeliveryAccounts,
+      if (description != null) 'Description': description,
+      if (inputParameters != null) 'InputParameters': inputParameters,
+      if (maximumExecutionFrequency != null)
+        'MaximumExecutionFrequency': maximumExecutionFrequency.toValue(),
+      if (organizationConfigRuleTriggerTypes != null)
+        'OrganizationConfigRuleTriggerTypes':
+            organizationConfigRuleTriggerTypes.map((e) => e.toValue()).toList(),
+      if (policyRuntime != null) 'PolicyRuntime': policyRuntime,
+      if (resourceIdScope != null) 'ResourceIdScope': resourceIdScope,
+      if (resourceTypesScope != null) 'ResourceTypesScope': resourceTypesScope,
+      if (tagKeyScope != null) 'TagKeyScope': tagKeyScope,
+      if (tagValueScope != null) 'TagValueScope': tagValueScope,
+    };
+  }
+}
+
 /// An object that specifies organization custom rule metadata such as resource
 /// type, resource ID of Amazon Web Services resource, Lambda function ARN, and
 /// organization trigger types that trigger Config to evaluate your Amazon Web
@@ -10798,11 +11633,11 @@ class OrganizationCustomRuleMetadata {
   final List<OrganizationConfigRuleTriggerType>
       organizationConfigRuleTriggerTypes;
 
-  /// The description that you provide for organization config rule.
+  /// The description that you provide for your organization Config rule.
   final String? description;
 
-  /// A string, in JSON format, that is passed to organization config rule Lambda
-  /// function.
+  /// A string, in JSON format, that is passed to your organization Config rule
+  /// Lambda function.
   final String? inputParameters;
 
   /// The maximum frequency with which Config runs evaluations for a rule. Your
@@ -10902,15 +11737,15 @@ class OrganizationManagedRuleMetadata {
   /// Config managed rules</a>.
   final String ruleIdentifier;
 
-  /// The description that you provide for organization config rule.
+  /// The description that you provide for your organization Config rule.
   final String? description;
 
-  /// A string, in JSON format, that is passed to organization config rule Lambda
-  /// function.
+  /// A string, in JSON format, that is passed to your organization Config rule
+  /// Lambda function.
   final String? inputParameters;
 
-  /// The maximum frequency with which Config runs evaluations for a rule. You are
-  /// using an Config managed rule that is triggered at a periodic frequency.
+  /// The maximum frequency with which Config runs evaluations for a rule. This is
+  /// for an Config managed rule that is triggered at a periodic frequency.
   /// <note>
   /// By default, rules with a periodic trigger are evaluated every 24 hours. To
   /// change the frequency, specify a valid value for the
@@ -11257,6 +12092,7 @@ extension on String {
 enum Owner {
   customLambda,
   aws,
+  customPolicy,
 }
 
 extension on Owner {
@@ -11266,6 +12102,8 @@ extension on Owner {
         return 'CUSTOM_LAMBDA';
       case Owner.aws:
         return 'AWS';
+      case Owner.customPolicy:
+        return 'CUSTOM_POLICY';
     }
   }
 }
@@ -11277,6 +12115,8 @@ extension on String {
         return Owner.customLambda;
       case 'AWS':
         return Owner.aws;
+      case 'CUSTOM_POLICY':
+        return Owner.customPolicy;
     }
     throw Exception('$this is not known in enum Owner');
   }
@@ -11428,7 +12268,7 @@ class PutExternalEvaluationResponse {
 }
 
 class PutOrganizationConfigRuleResponse {
-  /// The Amazon Resource Name (ARN) of an organization config rule.
+  /// The Amazon Resource Name (ARN) of an organization Config rule.
   final String? organizationConfigRuleArn;
 
   PutOrganizationConfigRuleResponse({
@@ -11814,7 +12654,7 @@ class RemediationConfiguration {
   /// The remediation is triggered automatically.
   final bool? automatic;
 
-  /// Name of the service that owns the service linked rule, if applicable.
+  /// Name of the service that owns the service-linked rule, if applicable.
   final String? createdByService;
 
   /// An ExecutionControls object.
@@ -12575,6 +13415,32 @@ enum ResourceType {
   awsEfsFileSystem,
   awsEksCluster,
   awsOpenSearchDomain,
+  awsEc2TransitGateway,
+  awsKinesisStream,
+  awsKinesisStreamConsumer,
+  awsCodeDeployApplication,
+  awsCodeDeployDeploymentConfig,
+  awsCodeDeployDeploymentGroup,
+  awsEc2LaunchTemplate,
+  awsEcrPublicRepository,
+  awsGuardDutyDetector,
+  awsEmrSecurityConfiguration,
+  awsSageMakerCodeRepository,
+  awsRoute53ResolverResolverEndpoint,
+  awsRoute53ResolverResolverRule,
+  awsRoute53ResolverResolverRuleAssociation,
+  awsDmsReplicationSubnetGroup,
+  awsDmsEventSubscription,
+  awsMskCluster,
+  awsStepFunctionsActivity,
+  awsWorkSpacesWorkspace,
+  awsWorkSpacesConnectionAlias,
+  awsSageMakerModel,
+  awsElasticLoadBalancingV2Listener,
+  awsStepFunctionsStateMachine,
+  awsBatchJobQueue,
+  awsBatchComputeEnvironment,
+  awsAccessAnalyzerAnalyzer,
 }
 
 extension on ResourceType {
@@ -12798,6 +13664,58 @@ extension on ResourceType {
         return 'AWS::EKS::Cluster';
       case ResourceType.awsOpenSearchDomain:
         return 'AWS::OpenSearch::Domain';
+      case ResourceType.awsEc2TransitGateway:
+        return 'AWS::EC2::TransitGateway';
+      case ResourceType.awsKinesisStream:
+        return 'AWS::Kinesis::Stream';
+      case ResourceType.awsKinesisStreamConsumer:
+        return 'AWS::Kinesis::StreamConsumer';
+      case ResourceType.awsCodeDeployApplication:
+        return 'AWS::CodeDeploy::Application';
+      case ResourceType.awsCodeDeployDeploymentConfig:
+        return 'AWS::CodeDeploy::DeploymentConfig';
+      case ResourceType.awsCodeDeployDeploymentGroup:
+        return 'AWS::CodeDeploy::DeploymentGroup';
+      case ResourceType.awsEc2LaunchTemplate:
+        return 'AWS::EC2::LaunchTemplate';
+      case ResourceType.awsEcrPublicRepository:
+        return 'AWS::ECR::PublicRepository';
+      case ResourceType.awsGuardDutyDetector:
+        return 'AWS::GuardDuty::Detector';
+      case ResourceType.awsEmrSecurityConfiguration:
+        return 'AWS::EMR::SecurityConfiguration';
+      case ResourceType.awsSageMakerCodeRepository:
+        return 'AWS::SageMaker::CodeRepository';
+      case ResourceType.awsRoute53ResolverResolverEndpoint:
+        return 'AWS::Route53Resolver::ResolverEndpoint';
+      case ResourceType.awsRoute53ResolverResolverRule:
+        return 'AWS::Route53Resolver::ResolverRule';
+      case ResourceType.awsRoute53ResolverResolverRuleAssociation:
+        return 'AWS::Route53Resolver::ResolverRuleAssociation';
+      case ResourceType.awsDmsReplicationSubnetGroup:
+        return 'AWS::DMS::ReplicationSubnetGroup';
+      case ResourceType.awsDmsEventSubscription:
+        return 'AWS::DMS::EventSubscription';
+      case ResourceType.awsMskCluster:
+        return 'AWS::MSK::Cluster';
+      case ResourceType.awsStepFunctionsActivity:
+        return 'AWS::StepFunctions::Activity';
+      case ResourceType.awsWorkSpacesWorkspace:
+        return 'AWS::WorkSpaces::Workspace';
+      case ResourceType.awsWorkSpacesConnectionAlias:
+        return 'AWS::WorkSpaces::ConnectionAlias';
+      case ResourceType.awsSageMakerModel:
+        return 'AWS::SageMaker::Model';
+      case ResourceType.awsElasticLoadBalancingV2Listener:
+        return 'AWS::ElasticLoadBalancingV2::Listener';
+      case ResourceType.awsStepFunctionsStateMachine:
+        return 'AWS::StepFunctions::StateMachine';
+      case ResourceType.awsBatchJobQueue:
+        return 'AWS::Batch::JobQueue';
+      case ResourceType.awsBatchComputeEnvironment:
+        return 'AWS::Batch::ComputeEnvironment';
+      case ResourceType.awsAccessAnalyzerAnalyzer:
+        return 'AWS::AccessAnalyzer::Analyzer';
     }
   }
 }
@@ -13023,6 +13941,58 @@ extension on String {
         return ResourceType.awsEksCluster;
       case 'AWS::OpenSearch::Domain':
         return ResourceType.awsOpenSearchDomain;
+      case 'AWS::EC2::TransitGateway':
+        return ResourceType.awsEc2TransitGateway;
+      case 'AWS::Kinesis::Stream':
+        return ResourceType.awsKinesisStream;
+      case 'AWS::Kinesis::StreamConsumer':
+        return ResourceType.awsKinesisStreamConsumer;
+      case 'AWS::CodeDeploy::Application':
+        return ResourceType.awsCodeDeployApplication;
+      case 'AWS::CodeDeploy::DeploymentConfig':
+        return ResourceType.awsCodeDeployDeploymentConfig;
+      case 'AWS::CodeDeploy::DeploymentGroup':
+        return ResourceType.awsCodeDeployDeploymentGroup;
+      case 'AWS::EC2::LaunchTemplate':
+        return ResourceType.awsEc2LaunchTemplate;
+      case 'AWS::ECR::PublicRepository':
+        return ResourceType.awsEcrPublicRepository;
+      case 'AWS::GuardDuty::Detector':
+        return ResourceType.awsGuardDutyDetector;
+      case 'AWS::EMR::SecurityConfiguration':
+        return ResourceType.awsEmrSecurityConfiguration;
+      case 'AWS::SageMaker::CodeRepository':
+        return ResourceType.awsSageMakerCodeRepository;
+      case 'AWS::Route53Resolver::ResolverEndpoint':
+        return ResourceType.awsRoute53ResolverResolverEndpoint;
+      case 'AWS::Route53Resolver::ResolverRule':
+        return ResourceType.awsRoute53ResolverResolverRule;
+      case 'AWS::Route53Resolver::ResolverRuleAssociation':
+        return ResourceType.awsRoute53ResolverResolverRuleAssociation;
+      case 'AWS::DMS::ReplicationSubnetGroup':
+        return ResourceType.awsDmsReplicationSubnetGroup;
+      case 'AWS::DMS::EventSubscription':
+        return ResourceType.awsDmsEventSubscription;
+      case 'AWS::MSK::Cluster':
+        return ResourceType.awsMskCluster;
+      case 'AWS::StepFunctions::Activity':
+        return ResourceType.awsStepFunctionsActivity;
+      case 'AWS::WorkSpaces::Workspace':
+        return ResourceType.awsWorkSpacesWorkspace;
+      case 'AWS::WorkSpaces::ConnectionAlias':
+        return ResourceType.awsWorkSpacesConnectionAlias;
+      case 'AWS::SageMaker::Model':
+        return ResourceType.awsSageMakerModel;
+      case 'AWS::ElasticLoadBalancingV2::Listener':
+        return ResourceType.awsElasticLoadBalancingV2Listener;
+      case 'AWS::StepFunctions::StateMachine':
+        return ResourceType.awsStepFunctionsStateMachine;
+      case 'AWS::Batch::JobQueue':
+        return ResourceType.awsBatchJobQueue;
+      case 'AWS::Batch::ComputeEnvironment':
+        return ResourceType.awsBatchComputeEnvironment;
+      case 'AWS::AccessAnalyzer::Analyzer':
+        return ResourceType.awsAccessAnalyzerAnalyzer;
     }
     throw Exception('$this is not known in enum ResourceType');
   }
@@ -13254,54 +14224,139 @@ class SelectResourceConfigResponse {
   }
 }
 
-/// Provides the Config rule owner (Amazon Web Services or customer), the rule
-/// identifier, and the events that trigger the evaluation of your Amazon Web
+enum SortBy {
+  score,
+}
+
+extension on SortBy {
+  String toValue() {
+    switch (this) {
+      case SortBy.score:
+        return 'SCORE';
+    }
+  }
+}
+
+extension on String {
+  SortBy toSortBy() {
+    switch (this) {
+      case 'SCORE':
+        return SortBy.score;
+    }
+    throw Exception('$this is not known in enum SortBy');
+  }
+}
+
+enum SortOrder {
+  ascending,
+  descending,
+}
+
+extension on SortOrder {
+  String toValue() {
+    switch (this) {
+      case SortOrder.ascending:
+        return 'ASCENDING';
+      case SortOrder.descending:
+        return 'DESCENDING';
+    }
+  }
+}
+
+extension on String {
+  SortOrder toSortOrder() {
+    switch (this) {
+      case 'ASCENDING':
+        return SortOrder.ascending;
+      case 'DESCENDING':
+        return SortOrder.descending;
+    }
+    throw Exception('$this is not known in enum SortOrder');
+  }
+}
+
+/// Provides the CustomPolicyDetails, the rule owner (<code>Amazon Web
+/// Services</code> for managed rules, <code>CUSTOM_POLICY</code> for Custom
+/// Policy rules, and <code>CUSTOM_LAMBDA</code> for Custom Lambda rules), the
+/// rule identifier, and the events that cause the evaluation of your Amazon Web
 /// Services resources.
 class Source {
   /// Indicates whether Amazon Web Services or the customer owns and manages the
   /// Config rule.
+  ///
+  /// Config Managed Rules are predefined rules owned by Amazon Web Services. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/config/latest/developerguide/evaluate-config_use-managed-rules.html">Config
+  /// Managed Rules</a> in the <i>Config developer guide</i>.
+  ///
+  /// Config Custom Rules are rules that you can develop either with Guard
+  /// (<code>CUSTOM_POLICY</code>) or Lambda (<code>CUSTOM_LAMBDA</code>). For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/config/latest/developerguide/evaluate-config_develop-rules.html">Config
+  /// Custom Rules </a> in the <i>Config developer guide</i>.
   final Owner owner;
 
-  /// For Config managed rules, a predefined identifier from a list. For example,
+  /// Provides the runtime system, policy definition, and whether debug logging is
+  /// enabled. Required when owner is set to <code>CUSTOM_POLICY</code>.
+  final CustomPolicyDetails? customPolicyDetails;
+
+  /// Provides the source and the message types that cause Config to evaluate your
+  /// Amazon Web Services resources against a rule. It also provides the frequency
+  /// with which you want Config to run evaluations for the rule if the trigger
+  /// type is periodic.
+  ///
+  /// If the owner is set to <code>CUSTOM_POLICY</code>, the only acceptable
+  /// values for the Config rule trigger message type are
+  /// <code>ConfigurationItemChangeNotification</code> and
+  /// <code>OversizedConfigurationItemChangeNotification</code>.
+  final List<SourceDetail>? sourceDetails;
+
+  /// For Config Managed rules, a predefined identifier from a list. For example,
   /// <code>IAM_PASSWORD_POLICY</code> is a managed rule. To reference a managed
   /// rule, see <a
-  /// href="https://docs.aws.amazon.com/config/latest/developerguide/evaluate-config_use-managed-rules.html">Using
-  /// Config managed rules</a>.
+  /// href="https://docs.aws.amazon.com/config/latest/developerguide/managed-rules-by-aws-config.html">List
+  /// of Config Managed Rules</a>.
   ///
-  /// For custom rules, the identifier is the Amazon Resource Name (ARN) of the
-  /// rule's Lambda function, such as
+  /// For Config Custom Lambda rules, the identifier is the Amazon Resource Name
+  /// (ARN) of the rule's Lambda function, such as
   /// <code>arn:aws:lambda:us-east-2:123456789012:function:custom_rule_name</code>.
-  final String sourceIdentifier;
-
-  /// Provides the source and type of the event that causes Config to evaluate
-  /// your Amazon Web Services resources.
-  final List<SourceDetail>? sourceDetails;
+  ///
+  /// For Config Custom Policy rules, this field will be ignored.
+  final String? sourceIdentifier;
 
   Source({
     required this.owner,
-    required this.sourceIdentifier,
+    this.customPolicyDetails,
     this.sourceDetails,
+    this.sourceIdentifier,
   });
 
   factory Source.fromJson(Map<String, dynamic> json) {
     return Source(
       owner: (json['Owner'] as String).toOwner(),
-      sourceIdentifier: json['SourceIdentifier'] as String,
+      customPolicyDetails: json['CustomPolicyDetails'] != null
+          ? CustomPolicyDetails.fromJson(
+              json['CustomPolicyDetails'] as Map<String, dynamic>)
+          : null,
       sourceDetails: (json['SourceDetails'] as List?)
           ?.whereNotNull()
           .map((e) => SourceDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
+      sourceIdentifier: json['SourceIdentifier'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final owner = this.owner;
-    final sourceIdentifier = this.sourceIdentifier;
+    final customPolicyDetails = this.customPolicyDetails;
     final sourceDetails = this.sourceDetails;
+    final sourceIdentifier = this.sourceIdentifier;
     return {
       'Owner': owner.toValue(),
-      'SourceIdentifier': sourceIdentifier,
+      if (customPolicyDetails != null)
+        'CustomPolicyDetails': customPolicyDetails,
       if (sourceDetails != null) 'SourceDetails': sourceDetails,
+      if (sourceIdentifier != null) 'SourceIdentifier': sourceIdentifier,
     };
   }
 }
@@ -13503,16 +14558,16 @@ class StaticValue {
 }
 
 /// Status filter object to filter results based on specific member account ID
-/// or status type for an organization config rule.
+/// or status type for an organization Config rule.
 class StatusDetailFilters {
   /// The 12-digit account ID of the member account within an organization.
   final String? accountId;
 
-  /// Indicates deployment status for config rule in the member account. When
+  /// Indicates deployment status for Config rule in the member account. When
   /// master account calls <code>PutOrganizationConfigRule</code> action for the
-  /// first time, config rule status is created in the member account. When master
+  /// first time, Config rule status is created in the member account. When master
   /// account calls <code>PutOrganizationConfigRule</code> action for the second
-  /// time, config rule status is updated in the member account. Config rule
+  /// time, Config rule status is updated in the member account. Config rule
   /// status is deleted when the master account deletes
   /// <code>OrganizationConfigRule</code> and disables service access for
   /// <code>config-multiaccountsetup.amazonaws.com</code>.
@@ -13521,39 +14576,39 @@ class StatusDetailFilters {
   ///
   /// <ul>
   /// <li>
-  /// <code>CREATE_SUCCESSFUL</code> when config rule has been created in the
+  /// <code>CREATE_SUCCESSFUL</code> when Config rule has been created in the
   /// member account.
   /// </li>
   /// <li>
-  /// <code>CREATE_IN_PROGRESS</code> when config rule is being created in the
+  /// <code>CREATE_IN_PROGRESS</code> when Config rule is being created in the
   /// member account.
   /// </li>
   /// <li>
-  /// <code>CREATE_FAILED</code> when config rule creation has failed in the
+  /// <code>CREATE_FAILED</code> when Config rule creation has failed in the
   /// member account.
   /// </li>
   /// <li>
-  /// <code>DELETE_FAILED</code> when config rule deletion has failed in the
+  /// <code>DELETE_FAILED</code> when Config rule deletion has failed in the
   /// member account.
   /// </li>
   /// <li>
-  /// <code>DELETE_IN_PROGRESS</code> when config rule is being deleted in the
+  /// <code>DELETE_IN_PROGRESS</code> when Config rule is being deleted in the
   /// member account.
   /// </li>
   /// <li>
-  /// <code>DELETE_SUCCESSFUL</code> when config rule has been deleted in the
+  /// <code>DELETE_SUCCESSFUL</code> when Config rule has been deleted in the
   /// member account.
   /// </li>
   /// <li>
-  /// <code>UPDATE_SUCCESSFUL</code> when config rule has been updated in the
+  /// <code>UPDATE_SUCCESSFUL</code> when Config rule has been updated in the
   /// member account.
   /// </li>
   /// <li>
-  /// <code>UPDATE_IN_PROGRESS</code> when config rule is being updated in the
+  /// <code>UPDATE_IN_PROGRESS</code> when Config rule is being updated in the
   /// member account.
   /// </li>
   /// <li>
-  /// <code>UPDATE_FAILED</code> when config rule deletion has failed in the
+  /// <code>UPDATE_FAILED</code> when Config rule deletion has failed in the
   /// member account.
   /// </li>
   /// </ul>

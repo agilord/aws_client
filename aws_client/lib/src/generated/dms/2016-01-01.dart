@@ -218,17 +218,20 @@ class DatabaseMigration {
   /// <code>"oracle"</code>, <code>"postgres"</code>, <code>"mariadb"</code>,
   /// <code>"aurora"</code>, <code>"aurora-postgresql"</code>,
   /// <code>"opensearch"</code>, <code>"redshift"</code>, <code>"s3"</code>,
-  /// <code>"db2"</code>, <code>"azuredb"</code>, <code>"sybase"</code>,
-  /// <code>"dynamodb"</code>, <code>"mongodb"</code>, <code>"kinesis"</code>,
-  /// <code>"kafka"</code>, <code>"elasticsearch"</code>, <code>"docdb"</code>,
-  /// <code>"sqlserver"</code>, and <code>"neptune"</code>.
+  /// <code>"db2"</code>, <code>db2-zos</code>, <code>"azuredb"</code>,
+  /// <code>"sybase"</code>, <code>"dynamodb"</code>, <code>"mongodb"</code>,
+  /// <code>"kinesis"</code>, <code>"kafka"</code>,
+  /// <code>"elasticsearch"</code>, <code>"docdb"</code>,
+  /// <code>"sqlserver"</code>, <code>"neptune"</code>, and
+  /// <code>babelfish</code>.
   ///
   /// Parameter [certificateArn] :
   /// The Amazon Resource Name (ARN) for the certificate.
   ///
   /// Parameter [databaseName] :
   /// The name of the endpoint database. For a MySQL source or target endpoint,
-  /// do not specify DatabaseName.
+  /// do not specify DatabaseName. To migrate to a specific database, use this
+  /// setting and <code>targetDbType</code>.
   ///
   /// Parameter [dmsTransferSettings] :
   /// The settings in JSON format for the DMS transfer type of source endpoint.
@@ -622,6 +625,58 @@ class DatabaseMigration {
     );
 
     return CreateEventSubscriptionResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Creates a Fleet Advisor collector using the specified parameters.
+  ///
+  /// May throw [InvalidResourceStateFault].
+  /// May throw [AccessDeniedFault].
+  /// May throw [S3AccessDeniedFault].
+  /// May throw [S3ResourceNotFoundFault].
+  /// May throw [ResourceQuotaExceededFault].
+  ///
+  /// Parameter [collectorName] :
+  /// The name of your Fleet Advisor collector (for example,
+  /// <code>sample-collector</code>).
+  ///
+  /// Parameter [s3BucketName] :
+  /// The Amazon S3 bucket that the Fleet Advisor collector uses to store
+  /// inventory metadata.
+  ///
+  /// Parameter [serviceAccessRoleArn] :
+  /// The IAM role that grants permissions to access the specified Amazon S3
+  /// bucket.
+  ///
+  /// Parameter [description] :
+  /// A summary description of your Fleet Advisor collector.
+  Future<CreateFleetAdvisorCollectorResponse> createFleetAdvisorCollector({
+    required String collectorName,
+    required String s3BucketName,
+    required String serviceAccessRoleArn,
+    String? description,
+  }) async {
+    ArgumentError.checkNotNull(collectorName, 'collectorName');
+    ArgumentError.checkNotNull(s3BucketName, 's3BucketName');
+    ArgumentError.checkNotNull(serviceAccessRoleArn, 'serviceAccessRoleArn');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonDMSv20160101.CreateFleetAdvisorCollector'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'CollectorName': collectorName,
+        'S3BucketName': s3BucketName,
+        'ServiceAccessRoleArn': serviceAccessRoleArn,
+        if (description != null) 'Description': description,
+      },
+    );
+
+    return CreateFleetAdvisorCollectorResponse.fromJson(jsonResponse.body);
   }
 
   /// Creates the replication instance using the specified parameters.
@@ -1188,6 +1243,62 @@ class DatabaseMigration {
     );
 
     return DeleteEventSubscriptionResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Deletes the specified Fleet Advisor collector.
+  ///
+  /// May throw [InvalidResourceStateFault].
+  /// May throw [CollectorNotFoundFault].
+  ///
+  /// Parameter [collectorReferencedId] :
+  /// The reference ID of the Fleet Advisor collector to delete.
+  Future<void> deleteFleetAdvisorCollector({
+    required String collectorReferencedId,
+  }) async {
+    ArgumentError.checkNotNull(collectorReferencedId, 'collectorReferencedId');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonDMSv20160101.DeleteFleetAdvisorCollector'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'CollectorReferencedId': collectorReferencedId,
+      },
+    );
+  }
+
+  /// Deletes the specified Fleet Advisor collector databases.
+  ///
+  /// May throw [ResourceNotFoundFault].
+  /// May throw [InvalidOperationFault].
+  ///
+  /// Parameter [databaseIds] :
+  /// The IDs of the Fleet Advisor collector databases to delete.
+  Future<DeleteFleetAdvisorDatabasesResponse> deleteFleetAdvisorDatabases({
+    required List<String> databaseIds,
+  }) async {
+    ArgumentError.checkNotNull(databaseIds, 'databaseIds');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonDMSv20160101.DeleteFleetAdvisorDatabases'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'DatabaseIds': databaseIds,
+      },
+    );
+
+    return DeleteFleetAdvisorDatabasesResponse.fromJson(jsonResponse.body);
   }
 
   /// Deletes the specified replication instance.
@@ -1850,6 +1961,295 @@ class DatabaseMigration {
     );
 
     return DescribeEventsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Returns a list of the Fleet Advisor collectors in your account.
+  ///
+  /// May throw [InvalidResourceStateFault].
+  ///
+  /// Parameter [filters] :
+  /// If you specify any of the following filters, the output includes
+  /// information for only those collectors that meet the filter criteria:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>collector-referenced-id</code> – The ID of the collector agent, for
+  /// example <code>d4610ac5-e323-4ad9-bc50-eaf7249dfe9d</code>.
+  /// </li>
+  /// <li>
+  /// <code>collector-name</code> – The name of the collector agent.
+  /// </li>
+  /// </ul>
+  /// An example is: <code>describe-fleet-advisor-collectors --filter
+  /// Name="collector-referenced-id",Values="d4610ac5-e323-4ad9-bc50-eaf7249dfe9d"</code>
+  ///
+  /// Parameter [maxRecords] :
+  /// Sets the maximum number of records returned in the response.
+  ///
+  /// Parameter [nextToken] :
+  /// If <code>NextToken</code> is returned by a previous response, there are
+  /// more results available. The value of <code>NextToken</code> is a unique
+  /// pagination token for each page. Make the call again using the returned
+  /// token to retrieve the next page. Keep all other arguments unchanged.
+  Future<DescribeFleetAdvisorCollectorsResponse>
+      describeFleetAdvisorCollectors({
+    List<Filter>? filters,
+    int? maxRecords,
+    String? nextToken,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonDMSv20160101.DescribeFleetAdvisorCollectors'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (filters != null) 'Filters': filters,
+        if (maxRecords != null) 'MaxRecords': maxRecords,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return DescribeFleetAdvisorCollectorsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Returns a list of Fleet Advisor databases in your account.
+  ///
+  /// May throw [InvalidResourceStateFault].
+  ///
+  /// Parameter [filters] :
+  /// If you specify any of the following filters, the output includes
+  /// information for only those databases that meet the filter criteria:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>database-id</code> – The ID of the database.
+  /// </li>
+  /// <li>
+  /// <code>database-name</code> – The name of the database.
+  /// </li>
+  /// <li>
+  /// <code>database-engine</code> – The name of the database engine.
+  /// </li>
+  /// <li>
+  /// <code>server-ip-address</code> – The IP address of the database server.
+  /// </li>
+  /// <li>
+  /// <code>database-ip-address</code> – The IP address of the database.
+  /// </li>
+  /// <li>
+  /// <code>collector-name</code> – The name of the associated Fleet Advisor
+  /// collector.
+  /// </li>
+  /// </ul>
+  /// An example is: <code>describe-fleet-advisor-databases --filter
+  /// Name="database-id",Values="45"</code>
+  ///
+  /// Parameter [maxRecords] :
+  /// Sets the maximum number of records returned in the response.
+  ///
+  /// Parameter [nextToken] :
+  /// If <code>NextToken</code> is returned by a previous response, there are
+  /// more results available. The value of <code>NextToken</code> is a unique
+  /// pagination token for each page. Make the call again using the returned
+  /// token to retrieve the next page. Keep all other arguments unchanged.
+  Future<DescribeFleetAdvisorDatabasesResponse> describeFleetAdvisorDatabases({
+    List<Filter>? filters,
+    int? maxRecords,
+    String? nextToken,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonDMSv20160101.DescribeFleetAdvisorDatabases'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (filters != null) 'Filters': filters,
+        if (maxRecords != null) 'MaxRecords': maxRecords,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return DescribeFleetAdvisorDatabasesResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Provides descriptions of large-scale assessment (LSA) analyses produced by
+  /// your Fleet Advisor collectors.
+  ///
+  /// May throw [InvalidResourceStateFault].
+  ///
+  /// Parameter [maxRecords] :
+  /// Sets the maximum number of records returned in the response.
+  ///
+  /// Parameter [nextToken] :
+  /// If <code>NextToken</code> is returned by a previous response, there are
+  /// more results available. The value of <code>NextToken</code> is a unique
+  /// pagination token for each page. Make the call again using the returned
+  /// token to retrieve the next page. Keep all other arguments unchanged.
+  Future<DescribeFleetAdvisorLsaAnalysisResponse>
+      describeFleetAdvisorLsaAnalysis({
+    int? maxRecords,
+    String? nextToken,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonDMSv20160101.DescribeFleetAdvisorLsaAnalysis'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (maxRecords != null) 'MaxRecords': maxRecords,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return DescribeFleetAdvisorLsaAnalysisResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Provides descriptions of the schemas discovered by your Fleet Advisor
+  /// collectors.
+  ///
+  /// May throw [InvalidResourceStateFault].
+  ///
+  /// Parameter [filters] :
+  /// If you specify any of the following filters, the output includes
+  /// information for only those schema objects that meet the filter criteria:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>schema-id</code> – The ID of the schema, for example
+  /// <code>d4610ac5-e323-4ad9-bc50-eaf7249dfe9d</code>.
+  /// </li>
+  /// </ul>
+  /// Example: <code>describe-fleet-advisor-schema-object-summary --filter
+  /// Name="schema-id",Values="50"</code>
+  ///
+  /// Parameter [maxRecords] :
+  /// Sets the maximum number of records returned in the response.
+  ///
+  /// Parameter [nextToken] :
+  /// If <code>NextToken</code> is returned by a previous response, there are
+  /// more results available. The value of <code>NextToken</code> is a unique
+  /// pagination token for each page. Make the call again using the returned
+  /// token to retrieve the next page. Keep all other arguments unchanged.
+  Future<DescribeFleetAdvisorSchemaObjectSummaryResponse>
+      describeFleetAdvisorSchemaObjectSummary({
+    List<Filter>? filters,
+    int? maxRecords,
+    String? nextToken,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'AmazonDMSv20160101.DescribeFleetAdvisorSchemaObjectSummary'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (filters != null) 'Filters': filters,
+        if (maxRecords != null) 'MaxRecords': maxRecords,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return DescribeFleetAdvisorSchemaObjectSummaryResponse.fromJson(
+        jsonResponse.body);
+  }
+
+  /// Returns a list of schemas detected by Fleet Advisor Collectors in your
+  /// account.
+  ///
+  /// May throw [InvalidResourceStateFault].
+  ///
+  /// Parameter [filters] :
+  /// If you specify any of the following filters, the output includes
+  /// information for only those schemas that meet the filter criteria:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>complexity</code> – The schema's complexity, for example
+  /// <code>Simple</code>.
+  /// </li>
+  /// <li>
+  /// <code>database-id</code> – The ID of the schema's database.
+  /// </li>
+  /// <li>
+  /// <code>database-ip-address</code> – The IP address of the schema's
+  /// database.
+  /// </li>
+  /// <li>
+  /// <code>database-name</code> – The name of the schema's database.
+  /// </li>
+  /// <li>
+  /// <code>database-engine</code> – The name of the schema database's engine.
+  /// </li>
+  /// <li>
+  /// <code>original-schema-name</code> – The name of the schema's database's
+  /// main schema.
+  /// </li>
+  /// <li>
+  /// <code>schema-id</code> – The ID of the schema, for example
+  /// <code>15</code>.
+  /// </li>
+  /// <li>
+  /// <code>schema-name</code> – The name of the schema.
+  /// </li>
+  /// <li>
+  /// <code>server-ip-address</code> – The IP address of the schema database's
+  /// server.
+  /// </li>
+  /// </ul>
+  /// An example is: <code>describe-fleet-advisor-schemas --filter
+  /// Name="schema-id",Values="50"</code>
+  ///
+  /// Parameter [maxRecords] :
+  /// Sets the maximum number of records returned in the response.
+  ///
+  /// Parameter [nextToken] :
+  /// If <code>NextToken</code> is returned by a previous response, there are
+  /// more results available. The value of <code>NextToken</code> is a unique
+  /// pagination token for each page. Make the call again using the returned
+  /// token to retrieve the next page. Keep all other arguments unchanged.
+  Future<DescribeFleetAdvisorSchemasResponse> describeFleetAdvisorSchemas({
+    List<Filter>? filters,
+    int? maxRecords,
+    String? nextToken,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonDMSv20160101.DescribeFleetAdvisorSchemas'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (filters != null) 'Filters': filters,
+        if (maxRecords != null) 'MaxRecords': maxRecords,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return DescribeFleetAdvisorSchemasResponse.fromJson(jsonResponse.body);
   }
 
   /// Returns information about the replication instance types that can be
@@ -3514,6 +3914,28 @@ class DatabaseMigration {
     );
   }
 
+  /// Runs large-scale assessment (LSA) analysis on every Fleet Advisor
+  /// collector in your account.
+  ///
+  /// May throw [InvalidResourceStateFault].
+  /// May throw [ResourceNotFoundFault].
+  Future<RunFleetAdvisorLsaAnalysisResponse>
+      runFleetAdvisorLsaAnalysis() async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonDMSv20160101.RunFleetAdvisorLsaAnalysis'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+    );
+
+    return RunFleetAdvisorLsaAnalysisResponse.fromJson(jsonResponse.body);
+  }
+
   /// Starts the replication task.
   ///
   /// For more information about DMS tasks, see <a
@@ -3869,6 +4291,52 @@ class DatabaseMigration {
     );
 
     return TestConnectionResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Migrates 10 active and enabled Amazon SNS subscriptions at a time and
+  /// converts them to corresponding Amazon EventBridge rules. By default, this
+  /// operation migrates subscriptions only when all your replication instance
+  /// versions are 3.4.6 or higher. If any replication instances are from
+  /// versions earlier than 3.4.6, the operation raises an error and tells you
+  /// to upgrade these instances to version 3.4.6 or higher. To enable migration
+  /// regardless of version, set the <code>Force</code> option to true. However,
+  /// if you don't upgrade instances earlier than version 3.4.6, some types of
+  /// events might not be available when you use Amazon EventBridge.
+  ///
+  /// To call this operation, make sure that you have certain permissions added
+  /// to your user account. For more information, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Events.html#CHAP_Events-migrate-to-eventbridge">Migrating
+  /// event subscriptions to Amazon EventBridge</a> in the <i>Amazon Web
+  /// Services Database Migration Service User Guide</i>.
+  ///
+  /// May throw [AccessDeniedFault].
+  /// May throw [InvalidResourceStateFault].
+  ///
+  /// Parameter [forceMove] :
+  /// When set to true, this operation migrates DMS subscriptions for Amazon SNS
+  /// notifications no matter what your replication instance version is. If not
+  /// set or set to false, this operation runs only when all your replication
+  /// instances are from DMS version 3.4.6 or higher.
+  Future<UpdateSubscriptionsToEventBridgeResponse>
+      updateSubscriptionsToEventBridge({
+    bool? forceMove,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonDMSv20160101.UpdateSubscriptionsToEventBridge'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (forceMove != null) 'ForceMove': forceMove,
+      },
+    );
+
+    return UpdateSubscriptionsToEventBridgeResponse.fromJson(jsonResponse.body);
   }
 }
 
@@ -4261,6 +4729,237 @@ extension on String {
   }
 }
 
+/// Describes the last Fleet Advisor collector health check.
+class CollectorHealthCheck {
+  /// The status of the Fleet Advisor collector.
+  final CollectorStatus? collectorStatus;
+
+  /// Whether the local collector can access its Amazon S3 bucket.
+  final bool? localCollectorS3Access;
+
+  /// Whether the role that you provided when creating the Fleet Advisor collector
+  /// has sufficient permissions to access the Fleet Advisor web collector.
+  final bool? webCollectorGrantedRoleBasedAccess;
+
+  /// Whether the web collector can access its Amazon S3 bucket.
+  final bool? webCollectorS3Access;
+
+  CollectorHealthCheck({
+    this.collectorStatus,
+    this.localCollectorS3Access,
+    this.webCollectorGrantedRoleBasedAccess,
+    this.webCollectorS3Access,
+  });
+
+  factory CollectorHealthCheck.fromJson(Map<String, dynamic> json) {
+    return CollectorHealthCheck(
+      collectorStatus:
+          (json['CollectorStatus'] as String?)?.toCollectorStatus(),
+      localCollectorS3Access: json['LocalCollectorS3Access'] as bool?,
+      webCollectorGrantedRoleBasedAccess:
+          json['WebCollectorGrantedRoleBasedAccess'] as bool?,
+      webCollectorS3Access: json['WebCollectorS3Access'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final collectorStatus = this.collectorStatus;
+    final localCollectorS3Access = this.localCollectorS3Access;
+    final webCollectorGrantedRoleBasedAccess =
+        this.webCollectorGrantedRoleBasedAccess;
+    final webCollectorS3Access = this.webCollectorS3Access;
+    return {
+      if (collectorStatus != null) 'CollectorStatus': collectorStatus.toValue(),
+      if (localCollectorS3Access != null)
+        'LocalCollectorS3Access': localCollectorS3Access,
+      if (webCollectorGrantedRoleBasedAccess != null)
+        'WebCollectorGrantedRoleBasedAccess':
+            webCollectorGrantedRoleBasedAccess,
+      if (webCollectorS3Access != null)
+        'WebCollectorS3Access': webCollectorS3Access,
+    };
+  }
+}
+
+/// Describes a Fleet Advisor collector.
+class CollectorResponse {
+  final CollectorHealthCheck? collectorHealthCheck;
+
+  /// The name of the Fleet Advisor collector .
+  final String? collectorName;
+
+  /// The reference ID of the Fleet Advisor collector.
+  final String? collectorReferencedId;
+
+  /// The version of your Fleet Advisor collector, in semantic versioning format,
+  /// for example <code>1.0.2</code>
+  final String? collectorVersion;
+
+  /// The timestamp when you created the collector, in the following format:
+  /// <code>2022-01-24T19:04:02.596113Z</code>
+  final String? createdDate;
+
+  /// A summary description of the Fleet Advisor collector.
+  final String? description;
+  final InventoryData? inventoryData;
+
+  /// The timestamp of the last time the collector received data, in the following
+  /// format: <code>2022-01-24T19:04:02.596113Z</code>
+  final String? lastDataReceived;
+
+  /// The timestamp when DMS last modified the collector, in the following format:
+  /// <code>2022-01-24T19:04:02.596113Z</code>
+  final String? modifiedDate;
+
+  /// The timestamp when DMS registered the collector, in the following format:
+  /// <code>2022-01-24T19:04:02.596113Z</code>
+  final String? registeredDate;
+
+  /// The Amazon S3 bucket that the Fleet Advisor collector uses to store
+  /// inventory metadata.
+  final String? s3BucketName;
+
+  /// The IAM role that grants permissions to access the specified Amazon S3
+  /// bucket.
+  final String? serviceAccessRoleArn;
+
+  /// Whether the collector version is up to date.
+  final VersionStatus? versionStatus;
+
+  CollectorResponse({
+    this.collectorHealthCheck,
+    this.collectorName,
+    this.collectorReferencedId,
+    this.collectorVersion,
+    this.createdDate,
+    this.description,
+    this.inventoryData,
+    this.lastDataReceived,
+    this.modifiedDate,
+    this.registeredDate,
+    this.s3BucketName,
+    this.serviceAccessRoleArn,
+    this.versionStatus,
+  });
+
+  factory CollectorResponse.fromJson(Map<String, dynamic> json) {
+    return CollectorResponse(
+      collectorHealthCheck: json['CollectorHealthCheck'] != null
+          ? CollectorHealthCheck.fromJson(
+              json['CollectorHealthCheck'] as Map<String, dynamic>)
+          : null,
+      collectorName: json['CollectorName'] as String?,
+      collectorReferencedId: json['CollectorReferencedId'] as String?,
+      collectorVersion: json['CollectorVersion'] as String?,
+      createdDate: json['CreatedDate'] as String?,
+      description: json['Description'] as String?,
+      inventoryData: json['InventoryData'] != null
+          ? InventoryData.fromJson(
+              json['InventoryData'] as Map<String, dynamic>)
+          : null,
+      lastDataReceived: json['LastDataReceived'] as String?,
+      modifiedDate: json['ModifiedDate'] as String?,
+      registeredDate: json['RegisteredDate'] as String?,
+      s3BucketName: json['S3BucketName'] as String?,
+      serviceAccessRoleArn: json['ServiceAccessRoleArn'] as String?,
+      versionStatus: (json['VersionStatus'] as String?)?.toVersionStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final collectorHealthCheck = this.collectorHealthCheck;
+    final collectorName = this.collectorName;
+    final collectorReferencedId = this.collectorReferencedId;
+    final collectorVersion = this.collectorVersion;
+    final createdDate = this.createdDate;
+    final description = this.description;
+    final inventoryData = this.inventoryData;
+    final lastDataReceived = this.lastDataReceived;
+    final modifiedDate = this.modifiedDate;
+    final registeredDate = this.registeredDate;
+    final s3BucketName = this.s3BucketName;
+    final serviceAccessRoleArn = this.serviceAccessRoleArn;
+    final versionStatus = this.versionStatus;
+    return {
+      if (collectorHealthCheck != null)
+        'CollectorHealthCheck': collectorHealthCheck,
+      if (collectorName != null) 'CollectorName': collectorName,
+      if (collectorReferencedId != null)
+        'CollectorReferencedId': collectorReferencedId,
+      if (collectorVersion != null) 'CollectorVersion': collectorVersion,
+      if (createdDate != null) 'CreatedDate': createdDate,
+      if (description != null) 'Description': description,
+      if (inventoryData != null) 'InventoryData': inventoryData,
+      if (lastDataReceived != null) 'LastDataReceived': lastDataReceived,
+      if (modifiedDate != null) 'ModifiedDate': modifiedDate,
+      if (registeredDate != null) 'RegisteredDate': registeredDate,
+      if (s3BucketName != null) 'S3BucketName': s3BucketName,
+      if (serviceAccessRoleArn != null)
+        'ServiceAccessRoleArn': serviceAccessRoleArn,
+      if (versionStatus != null) 'VersionStatus': versionStatus.toValue(),
+    };
+  }
+}
+
+/// Briefly describes a Fleet Advisor collector.
+class CollectorShortInfoResponse {
+  /// The name of the Fleet Advisor collector.
+  final String? collectorName;
+
+  /// The reference ID of the Fleet Advisor collector.
+  final String? collectorReferencedId;
+
+  CollectorShortInfoResponse({
+    this.collectorName,
+    this.collectorReferencedId,
+  });
+
+  factory CollectorShortInfoResponse.fromJson(Map<String, dynamic> json) {
+    return CollectorShortInfoResponse(
+      collectorName: json['CollectorName'] as String?,
+      collectorReferencedId: json['CollectorReferencedId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final collectorName = this.collectorName;
+    final collectorReferencedId = this.collectorReferencedId;
+    return {
+      if (collectorName != null) 'CollectorName': collectorName,
+      if (collectorReferencedId != null)
+        'CollectorReferencedId': collectorReferencedId,
+    };
+  }
+}
+
+enum CollectorStatus {
+  unregistered,
+  active,
+}
+
+extension on CollectorStatus {
+  String toValue() {
+    switch (this) {
+      case CollectorStatus.unregistered:
+        return 'UNREGISTERED';
+      case CollectorStatus.active:
+        return 'ACTIVE';
+    }
+  }
+}
+
+extension on String {
+  CollectorStatus toCollectorStatus() {
+    switch (this) {
+      case 'UNREGISTERED':
+        return CollectorStatus.unregistered;
+      case 'ACTIVE':
+        return CollectorStatus.active;
+    }
+    throw Exception('$this is not known in enum CollectorStatus');
+  }
+}
+
 enum CompressionTypeValue {
   none,
   gzip,
@@ -4421,6 +5120,61 @@ class CreateEventSubscriptionResponse {
   }
 }
 
+class CreateFleetAdvisorCollectorResponse {
+  /// The name of the new Fleet Advisor collector.
+  final String? collectorName;
+
+  /// The unique ID of the new Fleet Advisor collector, for example:
+  /// <code>22fda70c-40d5-4acf-b233-a495bd8eb7f5</code>
+  final String? collectorReferencedId;
+
+  /// A summary description of the Fleet Advisor collector.
+  final String? description;
+
+  /// The Amazon S3 bucket that the collector uses to store inventory metadata.
+  final String? s3BucketName;
+
+  /// The IAM role that grants permissions to access the specified Amazon S3
+  /// bucket.
+  final String? serviceAccessRoleArn;
+
+  CreateFleetAdvisorCollectorResponse({
+    this.collectorName,
+    this.collectorReferencedId,
+    this.description,
+    this.s3BucketName,
+    this.serviceAccessRoleArn,
+  });
+
+  factory CreateFleetAdvisorCollectorResponse.fromJson(
+      Map<String, dynamic> json) {
+    return CreateFleetAdvisorCollectorResponse(
+      collectorName: json['CollectorName'] as String?,
+      collectorReferencedId: json['CollectorReferencedId'] as String?,
+      description: json['Description'] as String?,
+      s3BucketName: json['S3BucketName'] as String?,
+      serviceAccessRoleArn: json['ServiceAccessRoleArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final collectorName = this.collectorName;
+    final collectorReferencedId = this.collectorReferencedId;
+    final description = this.description;
+    final s3BucketName = this.s3BucketName;
+    final serviceAccessRoleArn = this.serviceAccessRoleArn;
+    return {
+      if (collectorName != null) 'CollectorName': collectorName,
+      if (collectorReferencedId != null)
+        'CollectorReferencedId': collectorReferencedId,
+      if (description != null) 'Description': description,
+      if (s3BucketName != null) 'S3BucketName': s3BucketName,
+      if (serviceAccessRoleArn != null)
+        'ServiceAccessRoleArn': serviceAccessRoleArn,
+    };
+  }
+}
+
 /// <p/>
 class CreateReplicationInstanceResponse {
   /// The replication instance that was created.
@@ -4528,6 +5282,198 @@ extension on String {
         return DataFormatValue.parquet;
     }
     throw Exception('$this is not known in enum DataFormatValue');
+  }
+}
+
+/// Describes an inventory database instance for a Fleet Advisor collector.
+class DatabaseInstanceSoftwareDetailsResponse {
+  /// The database engine of a database in a Fleet Advisor collector inventory,
+  /// for example <code>Microsoft SQL Server</code>.
+  final String? engine;
+
+  /// The database engine edition of a database in a Fleet Advisor collector
+  /// inventory, for example <code>Express</code>.
+  final String? engineEdition;
+
+  /// The database engine version of a database in a Fleet Advisor collector
+  /// inventory, for example <code>2019</code>.
+  final String? engineVersion;
+
+  /// The operating system architecture of the database.
+  final int? osArchitecture;
+
+  /// The service pack level of the database.
+  final String? servicePack;
+
+  /// The support level of the database, for example <code>Mainstream
+  /// support</code>.
+  final String? supportLevel;
+
+  /// Information about the database engine software, for example <code>Mainstream
+  /// support ends on November 14th, 2024</code>.
+  final String? tooltip;
+
+  DatabaseInstanceSoftwareDetailsResponse({
+    this.engine,
+    this.engineEdition,
+    this.engineVersion,
+    this.osArchitecture,
+    this.servicePack,
+    this.supportLevel,
+    this.tooltip,
+  });
+
+  factory DatabaseInstanceSoftwareDetailsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DatabaseInstanceSoftwareDetailsResponse(
+      engine: json['Engine'] as String?,
+      engineEdition: json['EngineEdition'] as String?,
+      engineVersion: json['EngineVersion'] as String?,
+      osArchitecture: json['OsArchitecture'] as int?,
+      servicePack: json['ServicePack'] as String?,
+      supportLevel: json['SupportLevel'] as String?,
+      tooltip: json['Tooltip'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final engine = this.engine;
+    final engineEdition = this.engineEdition;
+    final engineVersion = this.engineVersion;
+    final osArchitecture = this.osArchitecture;
+    final servicePack = this.servicePack;
+    final supportLevel = this.supportLevel;
+    final tooltip = this.tooltip;
+    return {
+      if (engine != null) 'Engine': engine,
+      if (engineEdition != null) 'EngineEdition': engineEdition,
+      if (engineVersion != null) 'EngineVersion': engineVersion,
+      if (osArchitecture != null) 'OsArchitecture': osArchitecture,
+      if (servicePack != null) 'ServicePack': servicePack,
+      if (supportLevel != null) 'SupportLevel': supportLevel,
+      if (tooltip != null) 'Tooltip': tooltip,
+    };
+  }
+}
+
+/// Describes a database in a Fleet Advisor collector inventory.
+class DatabaseResponse {
+  /// A list of collectors associated with the database.
+  final List<CollectorShortInfoResponse>? collectors;
+
+  /// The ID of a database in a Fleet Advisor collector inventory.
+  final String? databaseId;
+
+  /// The name of a database in a Fleet Advisor collector inventory.
+  final String? databaseName;
+
+  /// The IP address of a database in a Fleet Advisor collector inventory.
+  final String? ipAddress;
+
+  /// The number of schemas in a Fleet Advisor collector inventory database.
+  final int? numberOfSchemas;
+
+  /// The server name of a database in a Fleet Advisor collector inventory.
+  final ServerShortInfoResponse? server;
+
+  /// The software details of a database in a Fleet Advisor collector inventory,
+  /// such as database engine and version.
+  final DatabaseInstanceSoftwareDetailsResponse? softwareDetails;
+
+  DatabaseResponse({
+    this.collectors,
+    this.databaseId,
+    this.databaseName,
+    this.ipAddress,
+    this.numberOfSchemas,
+    this.server,
+    this.softwareDetails,
+  });
+
+  factory DatabaseResponse.fromJson(Map<String, dynamic> json) {
+    return DatabaseResponse(
+      collectors: (json['Collectors'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              CollectorShortInfoResponse.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      databaseId: json['DatabaseId'] as String?,
+      databaseName: json['DatabaseName'] as String?,
+      ipAddress: json['IpAddress'] as String?,
+      numberOfSchemas: json['NumberOfSchemas'] as int?,
+      server: json['Server'] != null
+          ? ServerShortInfoResponse.fromJson(
+              json['Server'] as Map<String, dynamic>)
+          : null,
+      softwareDetails: json['SoftwareDetails'] != null
+          ? DatabaseInstanceSoftwareDetailsResponse.fromJson(
+              json['SoftwareDetails'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final collectors = this.collectors;
+    final databaseId = this.databaseId;
+    final databaseName = this.databaseName;
+    final ipAddress = this.ipAddress;
+    final numberOfSchemas = this.numberOfSchemas;
+    final server = this.server;
+    final softwareDetails = this.softwareDetails;
+    return {
+      if (collectors != null) 'Collectors': collectors,
+      if (databaseId != null) 'DatabaseId': databaseId,
+      if (databaseName != null) 'DatabaseName': databaseName,
+      if (ipAddress != null) 'IpAddress': ipAddress,
+      if (numberOfSchemas != null) 'NumberOfSchemas': numberOfSchemas,
+      if (server != null) 'Server': server,
+      if (softwareDetails != null) 'SoftwareDetails': softwareDetails,
+    };
+  }
+}
+
+/// Describes a database in a Fleet Advisor collector inventory.
+class DatabaseShortInfoResponse {
+  /// The database engine of a database in a Fleet Advisor collector inventory,
+  /// for example <code>PostgreSQL</code>.
+  final String? databaseEngine;
+
+  /// The ID of a database in a Fleet Advisor collector inventory.
+  final String? databaseId;
+
+  /// The IP address of a database in a Fleet Advisor collector inventory.
+  final String? databaseIpAddress;
+
+  /// The name of a database in a Fleet Advisor collector inventory.
+  final String? databaseName;
+
+  DatabaseShortInfoResponse({
+    this.databaseEngine,
+    this.databaseId,
+    this.databaseIpAddress,
+    this.databaseName,
+  });
+
+  factory DatabaseShortInfoResponse.fromJson(Map<String, dynamic> json) {
+    return DatabaseShortInfoResponse(
+      databaseEngine: json['DatabaseEngine'] as String?,
+      databaseId: json['DatabaseId'] as String?,
+      databaseIpAddress: json['DatabaseIpAddress'] as String?,
+      databaseName: json['DatabaseName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final databaseEngine = this.databaseEngine;
+    final databaseId = this.databaseId;
+    final databaseIpAddress = this.databaseIpAddress;
+    final databaseName = this.databaseName;
+    return {
+      if (databaseEngine != null) 'DatabaseEngine': databaseEngine,
+      if (databaseId != null) 'DatabaseId': databaseId,
+      if (databaseIpAddress != null) 'DatabaseIpAddress': databaseIpAddress,
+      if (databaseName != null) 'DatabaseName': databaseName,
+    };
   }
 }
 
@@ -4708,6 +5654,32 @@ class DeleteEventSubscriptionResponse {
     final eventSubscription = this.eventSubscription;
     return {
       if (eventSubscription != null) 'EventSubscription': eventSubscription,
+    };
+  }
+}
+
+class DeleteFleetAdvisorDatabasesResponse {
+  /// The IDs of the databases that the operation deleted.
+  final List<String>? databaseIds;
+
+  DeleteFleetAdvisorDatabasesResponse({
+    this.databaseIds,
+  });
+
+  factory DeleteFleetAdvisorDatabasesResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DeleteFleetAdvisorDatabasesResponse(
+      databaseIds: (json['DatabaseIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final databaseIds = this.databaseIds;
+    return {
+      if (databaseIds != null) 'DatabaseIds': databaseIds,
     };
   }
 }
@@ -5169,6 +6141,192 @@ class DescribeEventsResponse {
     return {
       if (events != null) 'Events': events,
       if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+class DescribeFleetAdvisorCollectorsResponse {
+  /// Provides descriptions of the Fleet Advisor collectors, including the
+  /// collectors' name and ID, and the latest inventory data.
+  final List<CollectorResponse>? collectors;
+
+  /// If <code>NextToken</code> is returned, there are more results available. The
+  /// value of <code>NextToken</code> is a unique pagination token for each page.
+  /// Make the call again using the returned token to retrieve the next page. Keep
+  /// all other arguments unchanged.
+  final String? nextToken;
+
+  DescribeFleetAdvisorCollectorsResponse({
+    this.collectors,
+    this.nextToken,
+  });
+
+  factory DescribeFleetAdvisorCollectorsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeFleetAdvisorCollectorsResponse(
+      collectors: (json['Collectors'] as List?)
+          ?.whereNotNull()
+          .map((e) => CollectorResponse.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final collectors = this.collectors;
+    final nextToken = this.nextToken;
+    return {
+      if (collectors != null) 'Collectors': collectors,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class DescribeFleetAdvisorDatabasesResponse {
+  /// Provides descriptions of the Fleet Advisor collector databases, including
+  /// the database's collector, ID, and name.
+  final List<DatabaseResponse>? databases;
+
+  /// If <code>NextToken</code> is returned, there are more results available. The
+  /// value of <code>NextToken</code> is a unique pagination token for each page.
+  /// Make the call again using the returned token to retrieve the next page. Keep
+  /// all other arguments unchanged.
+  final String? nextToken;
+
+  DescribeFleetAdvisorDatabasesResponse({
+    this.databases,
+    this.nextToken,
+  });
+
+  factory DescribeFleetAdvisorDatabasesResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeFleetAdvisorDatabasesResponse(
+      databases: (json['Databases'] as List?)
+          ?.whereNotNull()
+          .map((e) => DatabaseResponse.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final databases = this.databases;
+    final nextToken = this.nextToken;
+    return {
+      if (databases != null) 'Databases': databases,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class DescribeFleetAdvisorLsaAnalysisResponse {
+  /// A list of <code>FleetAdvisorLsaAnalysisResponse</code> objects.
+  final List<FleetAdvisorLsaAnalysisResponse>? analysis;
+
+  /// If <code>NextToken</code> is returned, there are more results available. The
+  /// value of <code>NextToken</code> is a unique pagination token for each page.
+  /// Make the call again using the returned token to retrieve the next page. Keep
+  /// all other arguments unchanged.
+  final String? nextToken;
+
+  DescribeFleetAdvisorLsaAnalysisResponse({
+    this.analysis,
+    this.nextToken,
+  });
+
+  factory DescribeFleetAdvisorLsaAnalysisResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeFleetAdvisorLsaAnalysisResponse(
+      analysis: (json['Analysis'] as List?)
+          ?.whereNotNull()
+          .map((e) => FleetAdvisorLsaAnalysisResponse.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final analysis = this.analysis;
+    final nextToken = this.nextToken;
+    return {
+      if (analysis != null) 'Analysis': analysis,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class DescribeFleetAdvisorSchemaObjectSummaryResponse {
+  /// A collection of <code>FleetAdvisorSchemaObjectResponse</code> objects.
+  final List<FleetAdvisorSchemaObjectResponse>? fleetAdvisorSchemaObjects;
+
+  /// If <code>NextToken</code> is returned, there are more results available. The
+  /// value of <code>NextToken</code> is a unique pagination token for each page.
+  /// Make the call again using the returned token to retrieve the next page. Keep
+  /// all other arguments unchanged.
+  final String? nextToken;
+
+  DescribeFleetAdvisorSchemaObjectSummaryResponse({
+    this.fleetAdvisorSchemaObjects,
+    this.nextToken,
+  });
+
+  factory DescribeFleetAdvisorSchemaObjectSummaryResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeFleetAdvisorSchemaObjectSummaryResponse(
+      fleetAdvisorSchemaObjects: (json['FleetAdvisorSchemaObjects'] as List?)
+          ?.whereNotNull()
+          .map((e) => FleetAdvisorSchemaObjectResponse.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fleetAdvisorSchemaObjects = this.fleetAdvisorSchemaObjects;
+    final nextToken = this.nextToken;
+    return {
+      if (fleetAdvisorSchemaObjects != null)
+        'FleetAdvisorSchemaObjects': fleetAdvisorSchemaObjects,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class DescribeFleetAdvisorSchemasResponse {
+  /// A collection of <code>SchemaResponse</code> objects.
+  final List<SchemaResponse>? fleetAdvisorSchemas;
+
+  /// If <code>NextToken</code> is returned, there are more results available. The
+  /// value of <code>NextToken</code> is a unique pagination token for each page.
+  /// Make the call again using the returned token to retrieve the next page. Keep
+  /// all other arguments unchanged.
+  final String? nextToken;
+
+  DescribeFleetAdvisorSchemasResponse({
+    this.fleetAdvisorSchemas,
+    this.nextToken,
+  });
+
+  factory DescribeFleetAdvisorSchemasResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeFleetAdvisorSchemasResponse(
+      fleetAdvisorSchemas: (json['FleetAdvisorSchemas'] as List?)
+          ?.whereNotNull()
+          .map((e) => SchemaResponse.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fleetAdvisorSchemas = this.fleetAdvisorSchemas;
+    final nextToken = this.nextToken;
+    return {
+      if (fleetAdvisorSchemas != null)
+        'FleetAdvisorSchemas': fleetAdvisorSchemas,
+      if (nextToken != null) 'NextToken': nextToken,
     };
   }
 }
@@ -5894,11 +7052,18 @@ class ElasticsearchSettings {
   /// fail in the last 10 minutes, the full load operation stops.
   final int? fullLoadErrorPercentage;
 
+  /// Set this option to <code>true</code> for DMS to migrate documentation using
+  /// the documentation type <code>_doc</code>. OpenSearch and an Elasticsearch
+  /// cluster only support the _doc documentation type in versions 7. x and later.
+  /// The default value is <code>false</code>.
+  final bool? useNewMappingType;
+
   ElasticsearchSettings({
     required this.endpointUri,
     required this.serviceAccessRoleArn,
     this.errorRetryDuration,
     this.fullLoadErrorPercentage,
+    this.useNewMappingType,
   });
 
   factory ElasticsearchSettings.fromJson(Map<String, dynamic> json) {
@@ -5907,6 +7072,7 @@ class ElasticsearchSettings {
       serviceAccessRoleArn: json['ServiceAccessRoleArn'] as String,
       errorRetryDuration: json['ErrorRetryDuration'] as int?,
       fullLoadErrorPercentage: json['FullLoadErrorPercentage'] as int?,
+      useNewMappingType: json['UseNewMappingType'] as bool?,
     );
   }
 
@@ -5915,12 +7081,14 @@ class ElasticsearchSettings {
     final serviceAccessRoleArn = this.serviceAccessRoleArn;
     final errorRetryDuration = this.errorRetryDuration;
     final fullLoadErrorPercentage = this.fullLoadErrorPercentage;
+    final useNewMappingType = this.useNewMappingType;
     return {
       'EndpointUri': endpointUri,
       'ServiceAccessRoleArn': serviceAccessRoleArn,
       if (errorRetryDuration != null) 'ErrorRetryDuration': errorRetryDuration,
       if (fullLoadErrorPercentage != null)
         'FullLoadErrorPercentage': fullLoadErrorPercentage,
+      if (useNewMappingType != null) 'UseNewMappingType': useNewMappingType,
     };
   }
 }
@@ -6717,6 +7885,107 @@ class Filter {
   }
 }
 
+/// Describes a large-scale assessment (LSA) analysis run by a Fleet Advisor
+/// collector.
+class FleetAdvisorLsaAnalysisResponse {
+  /// The ID of an LSA analysis run by a Fleet Advisor collector.
+  final String? lsaAnalysisId;
+
+  /// The status of an LSA analysis run by a Fleet Advisor collector.
+  final String? status;
+
+  FleetAdvisorLsaAnalysisResponse({
+    this.lsaAnalysisId,
+    this.status,
+  });
+
+  factory FleetAdvisorLsaAnalysisResponse.fromJson(Map<String, dynamic> json) {
+    return FleetAdvisorLsaAnalysisResponse(
+      lsaAnalysisId: json['LsaAnalysisId'] as String?,
+      status: json['Status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lsaAnalysisId = this.lsaAnalysisId;
+    final status = this.status;
+    return {
+      if (lsaAnalysisId != null) 'LsaAnalysisId': lsaAnalysisId,
+      if (status != null) 'Status': status,
+    };
+  }
+}
+
+/// Describes a schema object in a Fleet Advisor collector inventory.
+class FleetAdvisorSchemaObjectResponse {
+  /// The number of lines of code in a schema object in a Fleet Advisor collector
+  /// inventory.
+  final int? codeLineCount;
+
+  /// The size level of the code in a schema object in a Fleet Advisor collector
+  /// inventory.
+  final int? codeSize;
+
+  /// The number of objects in a schema object in a Fleet Advisor collector
+  /// inventory.
+  final int? numberOfObjects;
+
+  /// The type of the schema object, as reported by the database engine. Examples
+  /// include the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>function</code>
+  /// </li>
+  /// <li>
+  /// <code>trigger</code>
+  /// </li>
+  /// <li>
+  /// <code>SYSTEM_TABLE</code>
+  /// </li>
+  /// <li>
+  /// <code>QUEUE</code>
+  /// </li>
+  /// </ul>
+  final String? objectType;
+
+  /// The ID of a schema object in a Fleet Advisor collector inventory.
+  final String? schemaId;
+
+  FleetAdvisorSchemaObjectResponse({
+    this.codeLineCount,
+    this.codeSize,
+    this.numberOfObjects,
+    this.objectType,
+    this.schemaId,
+  });
+
+  factory FleetAdvisorSchemaObjectResponse.fromJson(Map<String, dynamic> json) {
+    return FleetAdvisorSchemaObjectResponse(
+      codeLineCount: json['CodeLineCount'] as int?,
+      codeSize: json['CodeSize'] as int?,
+      numberOfObjects: json['NumberOfObjects'] as int?,
+      objectType: json['ObjectType'] as String?,
+      schemaId: json['SchemaId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final codeLineCount = this.codeLineCount;
+    final codeSize = this.codeSize;
+    final numberOfObjects = this.numberOfObjects;
+    final objectType = this.objectType;
+    final schemaId = this.schemaId;
+    return {
+      if (codeLineCount != null) 'CodeLineCount': codeLineCount,
+      if (codeSize != null) 'CodeSize': codeSize,
+      if (numberOfObjects != null) 'NumberOfObjects': numberOfObjects,
+      if (objectType != null) 'ObjectType': objectType,
+      if (schemaId != null) 'SchemaId': schemaId,
+    };
+  }
+}
+
 /// Settings in JSON format for the source GCP MySQL endpoint.
 class GcpMySQLSettings {
   /// Specifies a script to run immediately after DMS connects to the endpoint.
@@ -7024,6 +8293,36 @@ class ImportCertificateResponse {
     final certificate = this.certificate;
     return {
       if (certificate != null) 'Certificate': certificate,
+    };
+  }
+}
+
+/// Describes a Fleet Advisor collector inventory.
+class InventoryData {
+  /// The number of databases in the Fleet Advisor collector inventory.
+  final int? numberOfDatabases;
+
+  /// The number of schemas in the Fleet Advisor collector inventory.
+  final int? numberOfSchemas;
+
+  InventoryData({
+    this.numberOfDatabases,
+    this.numberOfSchemas,
+  });
+
+  factory InventoryData.fromJson(Map<String, dynamic> json) {
+    return InventoryData(
+      numberOfDatabases: json['NumberOfDatabases'] as int?,
+      numberOfSchemas: json['NumberOfSchemas'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final numberOfDatabases = this.numberOfDatabases;
+    final numberOfSchemas = this.numberOfSchemas;
+    return {
+      if (numberOfDatabases != null) 'NumberOfDatabases': numberOfDatabases,
+      if (numberOfSchemas != null) 'NumberOfSchemas': numberOfSchemas,
     };
   }
 }
@@ -7522,6 +8821,11 @@ class MicrosoftSQLServerSettings {
   /// Fully qualified domain name of the endpoint.
   final String? serverName;
 
+  /// Use the <code>TrimSpaceInChar</code> source endpoint setting to trim data on
+  /// CHAR and NCHAR data types during migration. The default value is
+  /// <code>true</code>.
+  final bool? trimSpaceInChar;
+
   /// Use this to attribute to transfer data for full-load operations using BCP.
   /// When the target table contains an identity column that does not exist in the
   /// source table, you must disable the use BCP for loading table option.
@@ -7546,6 +8850,7 @@ class MicrosoftSQLServerSettings {
     this.secretsManagerAccessRoleArn,
     this.secretsManagerSecretId,
     this.serverName,
+    this.trimSpaceInChar,
     this.useBcpFullLoad,
     this.useThirdPartyBackupDevice,
     this.username,
@@ -7566,6 +8871,7 @@ class MicrosoftSQLServerSettings {
           json['SecretsManagerAccessRoleArn'] as String?,
       secretsManagerSecretId: json['SecretsManagerSecretId'] as String?,
       serverName: json['ServerName'] as String?,
+      trimSpaceInChar: json['TrimSpaceInChar'] as bool?,
       useBcpFullLoad: json['UseBcpFullLoad'] as bool?,
       useThirdPartyBackupDevice: json['UseThirdPartyBackupDevice'] as bool?,
       username: json['Username'] as String?,
@@ -7584,6 +8890,7 @@ class MicrosoftSQLServerSettings {
     final secretsManagerAccessRoleArn = this.secretsManagerAccessRoleArn;
     final secretsManagerSecretId = this.secretsManagerSecretId;
     final serverName = this.serverName;
+    final trimSpaceInChar = this.trimSpaceInChar;
     final useBcpFullLoad = this.useBcpFullLoad;
     final useThirdPartyBackupDevice = this.useThirdPartyBackupDevice;
     final username = this.username;
@@ -7603,6 +8910,7 @@ class MicrosoftSQLServerSettings {
       if (secretsManagerSecretId != null)
         'SecretsManagerSecretId': secretsManagerSecretId,
       if (serverName != null) 'ServerName': serverName,
+      if (trimSpaceInChar != null) 'TrimSpaceInChar': trimSpaceInChar,
       if (useBcpFullLoad != null) 'UseBcpFullLoad': useBcpFullLoad,
       if (useThirdPartyBackupDevice != null)
         'UseThirdPartyBackupDevice': useThirdPartyBackupDevice,
@@ -8060,7 +9368,9 @@ class MySQLSettings {
   final String? serverTimezone;
 
   /// Specifies where to migrate source tables on the target, either to a single
-  /// database or multiple databases.
+  /// database or multiple databases. If you specify
+  /// <code>SPECIFIC_DATABASE</code>, specify the database name using the
+  /// <code>DatabaseName</code> parameter of the <code>Endpoint</code> object.
   ///
   /// Example: <code>targetDbType=MULTIPLE_DATABASES</code>
   final TargetDbType? targetDbType;
@@ -8538,6 +9848,11 @@ class OracleSettings {
   /// production.
   final int? standbyDelayTime;
 
+  /// Use the <code>TrimSpaceInChar</code> source endpoint setting to trim data on
+  /// CHAR and NCHAR data types during migration. The default value is
+  /// <code>true</code>.
+  final bool? trimSpaceInChar;
+
   /// Set this attribute to <code>true</code> in order to use the Binary Reader to
   /// capture change data for an Amazon RDS for Oracle as the source. This tells
   /// the DMS instance to use any specified prefix replacement to access all
@@ -8613,6 +9928,7 @@ class OracleSettings {
     this.serverName,
     this.spatialDataOptionToGeoJsonFunctionName,
     this.standbyDelayTime,
+    this.trimSpaceInChar,
     this.useAlternateFolderForOnline,
     this.useBFile,
     this.useDirectPathFullLoad,
@@ -8665,6 +9981,7 @@ class OracleSettings {
       spatialDataOptionToGeoJsonFunctionName:
           json['SpatialDataOptionToGeoJsonFunctionName'] as String?,
       standbyDelayTime: json['StandbyDelayTime'] as int?,
+      trimSpaceInChar: json['TrimSpaceInChar'] as bool?,
       useAlternateFolderForOnline: json['UseAlternateFolderForOnline'] as bool?,
       useBFile: json['UseBFile'] as bool?,
       useDirectPathFullLoad: json['UseDirectPathFullLoad'] as bool?,
@@ -8712,6 +10029,7 @@ class OracleSettings {
     final spatialDataOptionToGeoJsonFunctionName =
         this.spatialDataOptionToGeoJsonFunctionName;
     final standbyDelayTime = this.standbyDelayTime;
+    final trimSpaceInChar = this.trimSpaceInChar;
     final useAlternateFolderForOnline = this.useAlternateFolderForOnline;
     final useBFile = this.useBFile;
     final useDirectPathFullLoad = this.useDirectPathFullLoad;
@@ -8773,6 +10091,7 @@ class OracleSettings {
         'SpatialDataOptionToGeoJsonFunctionName':
             spatialDataOptionToGeoJsonFunctionName,
       if (standbyDelayTime != null) 'StandbyDelayTime': standbyDelayTime,
+      if (trimSpaceInChar != null) 'TrimSpaceInChar': trimSpaceInChar,
       if (useAlternateFolderForOnline != null)
         'UseAlternateFolderForOnline': useAlternateFolderForOnline,
       if (useBFile != null) 'UseBFile': useBFile,
@@ -9150,6 +10469,11 @@ class PostgreSQLSettings {
   /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_ModifyReplicationTask.html">ModifyReplicationTask</a>.
   final String? slotName;
 
+  /// Use the <code>TrimSpaceInChar</code> source endpoint setting to trim data on
+  /// CHAR and NCHAR data types during migration. The default value is
+  /// <code>true</code>.
+  final bool? trimSpaceInChar;
+
   /// Endpoint connection user name.
   final String? username;
 
@@ -9171,6 +10495,7 @@ class PostgreSQLSettings {
     this.secretsManagerSecretId,
     this.serverName,
     this.slotName,
+    this.trimSpaceInChar,
     this.username,
   });
 
@@ -9194,6 +10519,7 @@ class PostgreSQLSettings {
       secretsManagerSecretId: json['SecretsManagerSecretId'] as String?,
       serverName: json['ServerName'] as String?,
       slotName: json['SlotName'] as String?,
+      trimSpaceInChar: json['TrimSpaceInChar'] as bool?,
       username: json['Username'] as String?,
     );
   }
@@ -9216,6 +10542,7 @@ class PostgreSQLSettings {
     final secretsManagerSecretId = this.secretsManagerSecretId;
     final serverName = this.serverName;
     final slotName = this.slotName;
+    final trimSpaceInChar = this.trimSpaceInChar;
     final username = this.username;
     return {
       if (afterConnectScript != null) 'AfterConnectScript': afterConnectScript,
@@ -9238,6 +10565,7 @@ class PostgreSQLSettings {
         'SecretsManagerSecretId': secretsManagerSecretId,
       if (serverName != null) 'ServerName': serverName,
       if (slotName != null) 'SlotName': slotName,
+      if (trimSpaceInChar != null) 'TrimSpaceInChar': trimSpaceInChar,
       if (username != null) 'Username': username,
     };
   }
@@ -10612,21 +11940,51 @@ class ReplicationTask {
   ///
   /// <ul>
   /// <li>
-  /// <code>"STOP_REASON_FULL_LOAD_COMPLETED"</code> – Full-load migration
-  /// completed.
+  /// <code>"Stop Reason NORMAL"</code>
   /// </li>
   /// <li>
-  /// <code>"STOP_REASON_CACHED_CHANGES_APPLIED"</code> – Change data capture
-  /// (CDC) load completed.
+  /// <code>"Stop Reason RECOVERABLE_ERROR"</code>
   /// </li>
   /// <li>
-  /// <code>"STOP_REASON_CACHED_CHANGES_NOT_APPLIED"</code> – In a full-load and
-  /// CDC migration, the full load stopped as specified before starting the CDC
-  /// migration.
+  /// <code>"Stop Reason FATAL_ERROR"</code>
   /// </li>
   /// <li>
-  /// <code>"STOP_REASON_SERVER_TIME"</code> – The migration stopped at the
-  /// specified server time.
+  /// <code>"Stop Reason FULL_LOAD_ONLY_FINISHED"</code>
+  /// </li>
+  /// <li>
+  /// <code>"Stop Reason STOPPED_AFTER_FULL_LOAD"</code> – Full load completed,
+  /// with cached changes not applied
+  /// </li>
+  /// <li>
+  /// <code>"Stop Reason STOPPED_AFTER_CACHED_EVENTS"</code> – Full load
+  /// completed, with cached changes applied
+  /// </li>
+  /// <li>
+  /// <code>"Stop Reason EXPRESS_LICENSE_LIMITS_REACHED"</code>
+  /// </li>
+  /// <li>
+  /// <code>"Stop Reason STOPPED_AFTER_DDL_APPLY"</code> – User-defined stop task
+  /// after DDL applied
+  /// </li>
+  /// <li>
+  /// <code>"Stop Reason STOPPED_DUE_TO_LOW_MEMORY"</code>
+  /// </li>
+  /// <li>
+  /// <code>"Stop Reason STOPPED_DUE_TO_LOW_DISK"</code>
+  /// </li>
+  /// <li>
+  /// <code>"Stop Reason STOPPED_AT_SERVER_TIME"</code> – User-defined server time
+  /// for stopping task
+  /// </li>
+  /// <li>
+  /// <code>"Stop Reason STOPPED_AT_COMMIT_TIME"</code> – User-defined commit time
+  /// for stopping task
+  /// </li>
+  /// <li>
+  /// <code>"Stop Reason RECONFIGURATION_RESTART"</code>
+  /// </li>
+  /// <li>
+  /// <code>"Stop Reason RECYCLE_TASK"</code>
   /// </li>
   /// </ul>
   final String? stopReason;
@@ -11275,6 +12633,36 @@ class ResourcePendingMaintenanceActions {
   }
 }
 
+class RunFleetAdvisorLsaAnalysisResponse {
+  /// The ID of the LSA analysis run.
+  final String? lsaAnalysisId;
+
+  /// The status of the LSA analysis, for example <code>COMPLETED</code>.
+  final String? status;
+
+  RunFleetAdvisorLsaAnalysisResponse({
+    this.lsaAnalysisId,
+    this.status,
+  });
+
+  factory RunFleetAdvisorLsaAnalysisResponse.fromJson(
+      Map<String, dynamic> json) {
+    return RunFleetAdvisorLsaAnalysisResponse(
+      lsaAnalysisId: json['LsaAnalysisId'] as String?,
+      status: json['Status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lsaAnalysisId = this.lsaAnalysisId;
+    final status = this.status;
+    return {
+      if (lsaAnalysisId != null) 'LsaAnalysisId': lsaAnalysisId,
+      if (status != null) 'Status': status,
+    };
+  }
+}
+
 /// Settings for exporting data to Amazon S3.
 class S3Settings {
   /// An optional parameter that, when set to <code>true</code> or <code>y</code>,
@@ -11283,6 +12671,10 @@ class S3Settings {
   /// The default value is <code>false</code>. Valid values are <code>true</code>,
   /// <code>false</code>, <code>y</code>, and <code>n</code>.
   final bool? addColumnName;
+
+  /// Use the S3 target endpoint setting <code>AddTrailingPaddingCharacter</code>
+  /// to add padding on string data. The default value is <code>false</code>.
+  final bool? addTrailingPaddingCharacter;
 
   /// An optional parameter to set a folder name in the S3 bucket. If provided,
   /// tables are created in the path <code>
@@ -11596,6 +12988,16 @@ class S3Settings {
   /// </ul>
   final EncryptionModeValue? encryptionMode;
 
+  /// To specify a bucket owner and prevent sniping, you can use the
+  /// <code>ExpectedBucketOwner</code> endpoint setting.
+  ///
+  /// Example: <code>--s3-settings='{"ExpectedBucketOwner":
+  /// "<i>AWS_Account_ID</i>"}'</code>
+  ///
+  /// When you make a request to test a connection or perform a migration, S3
+  /// checks the account ID of the bucket owner against the specified parameter.
+  final String? expectedBucketOwner;
+
   /// Specifies how tables are defined in the S3 source files only.
   final String? externalTableDefinition;
 
@@ -11772,6 +13174,7 @@ class S3Settings {
 
   S3Settings({
     this.addColumnName,
+    this.addTrailingPaddingCharacter,
     this.bucketFolder,
     this.bucketName,
     this.cannedAclForObjects,
@@ -11795,6 +13198,7 @@ class S3Settings {
     this.enableStatistics,
     this.encodingType,
     this.encryptionMode,
+    this.expectedBucketOwner,
     this.externalTableDefinition,
     this.ignoreHeaderRows,
     this.includeOpForFullLoad,
@@ -11814,6 +13218,7 @@ class S3Settings {
   factory S3Settings.fromJson(Map<String, dynamic> json) {
     return S3Settings(
       addColumnName: json['AddColumnName'] as bool?,
+      addTrailingPaddingCharacter: json['AddTrailingPaddingCharacter'] as bool?,
       bucketFolder: json['BucketFolder'] as String?,
       bucketName: json['BucketName'] as String?,
       cannedAclForObjects: (json['CannedAclForObjects'] as String?)
@@ -11842,6 +13247,7 @@ class S3Settings {
       encodingType: (json['EncodingType'] as String?)?.toEncodingTypeValue(),
       encryptionMode:
           (json['EncryptionMode'] as String?)?.toEncryptionModeValue(),
+      expectedBucketOwner: json['ExpectedBucketOwner'] as String?,
       externalTableDefinition: json['ExternalTableDefinition'] as String?,
       ignoreHeaderRows: json['IgnoreHeaderRows'] as int?,
       includeOpForFullLoad: json['IncludeOpForFullLoad'] as bool?,
@@ -11865,6 +13271,7 @@ class S3Settings {
 
   Map<String, dynamic> toJson() {
     final addColumnName = this.addColumnName;
+    final addTrailingPaddingCharacter = this.addTrailingPaddingCharacter;
     final bucketFolder = this.bucketFolder;
     final bucketName = this.bucketName;
     final cannedAclForObjects = this.cannedAclForObjects;
@@ -11888,6 +13295,7 @@ class S3Settings {
     final enableStatistics = this.enableStatistics;
     final encodingType = this.encodingType;
     final encryptionMode = this.encryptionMode;
+    final expectedBucketOwner = this.expectedBucketOwner;
     final externalTableDefinition = this.externalTableDefinition;
     final ignoreHeaderRows = this.ignoreHeaderRows;
     final includeOpForFullLoad = this.includeOpForFullLoad;
@@ -11905,6 +13313,8 @@ class S3Settings {
         this.useTaskStartTimeForFullLoadTimestamp;
     return {
       if (addColumnName != null) 'AddColumnName': addColumnName,
+      if (addTrailingPaddingCharacter != null)
+        'AddTrailingPaddingCharacter': addTrailingPaddingCharacter,
       if (bucketFolder != null) 'BucketFolder': bucketFolder,
       if (bucketName != null) 'BucketName': bucketName,
       if (cannedAclForObjects != null)
@@ -11935,6 +13345,8 @@ class S3Settings {
       if (enableStatistics != null) 'EnableStatistics': enableStatistics,
       if (encodingType != null) 'EncodingType': encodingType.toValue(),
       if (encryptionMode != null) 'EncryptionMode': encryptionMode.toValue(),
+      if (expectedBucketOwner != null)
+        'ExpectedBucketOwner': expectedBucketOwner,
       if (externalTableDefinition != null)
         'ExternalTableDefinition': externalTableDefinition,
       if (ignoreHeaderRows != null) 'IgnoreHeaderRows': ignoreHeaderRows,
@@ -11992,6 +13404,184 @@ extension on String {
         return SafeguardPolicy.sharedAutomaticTruncation;
     }
     throw Exception('$this is not known in enum SafeguardPolicy');
+  }
+}
+
+/// Describes a schema in a Fleet Advisor collector inventory.
+class SchemaResponse {
+  /// The number of lines of code in a schema in a Fleet Advisor collector
+  /// inventory.
+  final int? codeLineCount;
+
+  /// The size level of the code in a schema in a Fleet Advisor collector
+  /// inventory.
+  final int? codeSize;
+
+  /// The complexity level of the code in a schema in a Fleet Advisor collector
+  /// inventory.
+  final String? complexity;
+
+  /// The database for a schema in a Fleet Advisor collector inventory.
+  final DatabaseShortInfoResponse? databaseInstance;
+  final SchemaShortInfoResponse? originalSchema;
+
+  /// The ID of a schema in a Fleet Advisor collector inventory.
+  final String? schemaId;
+
+  /// The name of a schema in a Fleet Advisor collector inventory.
+  final String? schemaName;
+
+  /// The database server for a schema in a Fleet Advisor collector inventory.
+  final ServerShortInfoResponse? server;
+
+  /// The similarity value for a schema in a Fleet Advisor collector inventory. A
+  /// higher similarity value indicates that a schema is likely to be a duplicate.
+  final double? similarity;
+
+  SchemaResponse({
+    this.codeLineCount,
+    this.codeSize,
+    this.complexity,
+    this.databaseInstance,
+    this.originalSchema,
+    this.schemaId,
+    this.schemaName,
+    this.server,
+    this.similarity,
+  });
+
+  factory SchemaResponse.fromJson(Map<String, dynamic> json) {
+    return SchemaResponse(
+      codeLineCount: json['CodeLineCount'] as int?,
+      codeSize: json['CodeSize'] as int?,
+      complexity: json['Complexity'] as String?,
+      databaseInstance: json['DatabaseInstance'] != null
+          ? DatabaseShortInfoResponse.fromJson(
+              json['DatabaseInstance'] as Map<String, dynamic>)
+          : null,
+      originalSchema: json['OriginalSchema'] != null
+          ? SchemaShortInfoResponse.fromJson(
+              json['OriginalSchema'] as Map<String, dynamic>)
+          : null,
+      schemaId: json['SchemaId'] as String?,
+      schemaName: json['SchemaName'] as String?,
+      server: json['Server'] != null
+          ? ServerShortInfoResponse.fromJson(
+              json['Server'] as Map<String, dynamic>)
+          : null,
+      similarity: json['Similarity'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final codeLineCount = this.codeLineCount;
+    final codeSize = this.codeSize;
+    final complexity = this.complexity;
+    final databaseInstance = this.databaseInstance;
+    final originalSchema = this.originalSchema;
+    final schemaId = this.schemaId;
+    final schemaName = this.schemaName;
+    final server = this.server;
+    final similarity = this.similarity;
+    return {
+      if (codeLineCount != null) 'CodeLineCount': codeLineCount,
+      if (codeSize != null) 'CodeSize': codeSize,
+      if (complexity != null) 'Complexity': complexity,
+      if (databaseInstance != null) 'DatabaseInstance': databaseInstance,
+      if (originalSchema != null) 'OriginalSchema': originalSchema,
+      if (schemaId != null) 'SchemaId': schemaId,
+      if (schemaName != null) 'SchemaName': schemaName,
+      if (server != null) 'Server': server,
+      if (similarity != null) 'Similarity': similarity,
+    };
+  }
+}
+
+/// Describes a schema in a Fleet Advisor collector inventory.
+class SchemaShortInfoResponse {
+  /// The ID of a database in a Fleet Advisor collector inventory.
+  final String? databaseId;
+
+  /// The IP address of a database in a Fleet Advisor collector inventory.
+  final String? databaseIpAddress;
+
+  /// The name of a database in a Fleet Advisor collector inventory.
+  final String? databaseName;
+
+  /// The ID of a schema in a Fleet Advisor collector inventory.
+  final String? schemaId;
+
+  /// The name of a schema in a Fleet Advisor collector inventory.
+  final String? schemaName;
+
+  SchemaShortInfoResponse({
+    this.databaseId,
+    this.databaseIpAddress,
+    this.databaseName,
+    this.schemaId,
+    this.schemaName,
+  });
+
+  factory SchemaShortInfoResponse.fromJson(Map<String, dynamic> json) {
+    return SchemaShortInfoResponse(
+      databaseId: json['DatabaseId'] as String?,
+      databaseIpAddress: json['DatabaseIpAddress'] as String?,
+      databaseName: json['DatabaseName'] as String?,
+      schemaId: json['SchemaId'] as String?,
+      schemaName: json['SchemaName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final databaseId = this.databaseId;
+    final databaseIpAddress = this.databaseIpAddress;
+    final databaseName = this.databaseName;
+    final schemaId = this.schemaId;
+    final schemaName = this.schemaName;
+    return {
+      if (databaseId != null) 'DatabaseId': databaseId,
+      if (databaseIpAddress != null) 'DatabaseIpAddress': databaseIpAddress,
+      if (databaseName != null) 'DatabaseName': databaseName,
+      if (schemaId != null) 'SchemaId': schemaId,
+      if (schemaName != null) 'SchemaName': schemaName,
+    };
+  }
+}
+
+/// Describes a server in a Fleet Advisor collector inventory.
+class ServerShortInfoResponse {
+  /// The IP address of a server in a Fleet Advisor collector inventory.
+  final String? ipAddress;
+
+  /// The ID of a server in a Fleet Advisor collector inventory.
+  final String? serverId;
+
+  /// The name address of a server in a Fleet Advisor collector inventory.
+  final String? serverName;
+
+  ServerShortInfoResponse({
+    this.ipAddress,
+    this.serverId,
+    this.serverName,
+  });
+
+  factory ServerShortInfoResponse.fromJson(Map<String, dynamic> json) {
+    return ServerShortInfoResponse(
+      ipAddress: json['IpAddress'] as String?,
+      serverId: json['ServerId'] as String?,
+      serverName: json['ServerName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ipAddress = this.ipAddress;
+    final serverId = this.serverId;
+    final serverName = this.serverName;
+    return {
+      if (ipAddress != null) 'IpAddress': ipAddress,
+      if (serverId != null) 'ServerId': serverId,
+      if (serverName != null) 'ServerName': serverName,
+    };
   }
 }
 
@@ -12435,8 +14025,7 @@ class TableStatistics {
   /// The state of the tables described.
   ///
   /// Valid states: Table does not exist | Before load | Full load | Table
-  /// completed | Table cancelled | Table error | Table all | Table updates |
-  /// Table is being reloaded
+  /// completed | Table cancelled | Table error | Table is being reloaded
   final String? tableState;
 
   /// The number of update actions performed on a table.
@@ -12742,6 +14331,64 @@ class TestConnectionResponse {
   }
 }
 
+/// <p/>
+class UpdateSubscriptionsToEventBridgeResponse {
+  /// A string that indicates how many event subscriptions were migrated and how
+  /// many remain to be migrated.
+  final String? result;
+
+  UpdateSubscriptionsToEventBridgeResponse({
+    this.result,
+  });
+
+  factory UpdateSubscriptionsToEventBridgeResponse.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateSubscriptionsToEventBridgeResponse(
+      result: json['Result'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final result = this.result;
+    return {
+      if (result != null) 'Result': result,
+    };
+  }
+}
+
+enum VersionStatus {
+  upToDate,
+  outdated,
+  unsupported,
+}
+
+extension on VersionStatus {
+  String toValue() {
+    switch (this) {
+      case VersionStatus.upToDate:
+        return 'UP_TO_DATE';
+      case VersionStatus.outdated:
+        return 'OUTDATED';
+      case VersionStatus.unsupported:
+        return 'UNSUPPORTED';
+    }
+  }
+}
+
+extension on String {
+  VersionStatus toVersionStatus() {
+    switch (this) {
+      case 'UP_TO_DATE':
+        return VersionStatus.upToDate;
+      case 'OUTDATED':
+        return VersionStatus.outdated;
+      case 'UNSUPPORTED':
+        return VersionStatus.unsupported;
+    }
+    throw Exception('$this is not known in enum VersionStatus');
+  }
+}
+
 /// Describes the status of a security group associated with the virtual private
 /// cloud (VPC) hosting your replication and DB instances.
 class VpcSecurityGroupMembership {
@@ -12778,6 +14425,11 @@ class AccessDeniedFault extends _s.GenericAwsException {
       : super(type: type, code: 'AccessDeniedFault', message: message);
 }
 
+class CollectorNotFoundFault extends _s.GenericAwsException {
+  CollectorNotFoundFault({String? type, String? message})
+      : super(type: type, code: 'CollectorNotFoundFault', message: message);
+}
+
 class InsufficientResourceCapacityFault extends _s.GenericAwsException {
   InsufficientResourceCapacityFault({String? type, String? message})
       : super(
@@ -12789,6 +14441,11 @@ class InsufficientResourceCapacityFault extends _s.GenericAwsException {
 class InvalidCertificateFault extends _s.GenericAwsException {
   InvalidCertificateFault({String? type, String? message})
       : super(type: type, code: 'InvalidCertificateFault', message: message);
+}
+
+class InvalidOperationFault extends _s.GenericAwsException {
+  InvalidOperationFault({String? type, String? message})
+      : super(type: type, code: 'InvalidOperationFault', message: message);
 }
 
 class InvalidResourceStateFault extends _s.GenericAwsException {
@@ -12901,10 +14558,14 @@ class UpgradeDependencyFailureFault extends _s.GenericAwsException {
 final _exceptionFns = <String, _s.AwsExceptionFn>{
   'AccessDeniedFault': (type, message) =>
       AccessDeniedFault(type: type, message: message),
+  'CollectorNotFoundFault': (type, message) =>
+      CollectorNotFoundFault(type: type, message: message),
   'InsufficientResourceCapacityFault': (type, message) =>
       InsufficientResourceCapacityFault(type: type, message: message),
   'InvalidCertificateFault': (type, message) =>
       InvalidCertificateFault(type: type, message: message),
+  'InvalidOperationFault': (type, message) =>
+      InvalidOperationFault(type: type, message: message),
   'InvalidResourceStateFault': (type, message) =>
       InvalidResourceStateFault(type: type, message: message),
   'InvalidSubnet': (type, message) =>

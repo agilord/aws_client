@@ -75,9 +75,9 @@ class QuickSight {
     return CancelIngestionResponse.fromJson(response);
   }
 
-  /// Creates Amazon QuickSight customizations the current Amazon Web Services
-  /// Region. Currently, you can add a custom default theme by using the
-  /// <code>CreateAccountCustomization</code> or
+  /// Creates Amazon QuickSight customizations for the current Amazon Web
+  /// Services Region. Currently, you can add a custom default theme by using
+  /// the <code>CreateAccountCustomization</code> or
   /// <code>UpdateAccountCustomization</code> API operation. To further
   /// customize Amazon QuickSight by removing Amazon QuickSight sample assets
   /// and videos for all new users, see <a
@@ -158,6 +158,214 @@ class QuickSight {
       exceptionFnMap: _exceptionFns,
     );
     return CreateAccountCustomizationResponse.fromJson(response);
+  }
+
+  /// Creates an Amazon QuickSight account, or subscribes to Amazon QuickSight
+  /// Q.
+  ///
+  /// The Amazon Web Services Region for the account is derived from what is
+  /// configured in the CLI or SDK. This operation isn't supported in the US
+  /// East (Ohio) Region, South America (Sao Paulo) Region, or Asia Pacific
+  /// (Singapore) Region.
+  ///
+  /// Before you use this operation, make sure that you can connect to an
+  /// existing Amazon Web Services account. If you don't have an Amazon Web
+  /// Services account, see <a
+  /// href="https://docs.aws.amazon.com/quicksight/latest/user/setting-up-aws-sign-up.html">Sign
+  /// up for Amazon Web Services</a> in the <i>Amazon QuickSight User Guide</i>.
+  /// The person who signs up for Amazon QuickSight needs to have the correct
+  /// Identity and Access Management (IAM) permissions. For more information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/quicksight/latest/user/iam-policy-examples.html">IAM
+  /// Policy Examples for Amazon QuickSight</a> in the <i>Amazon QuickSight User
+  /// Guide</i>.
+  ///
+  /// If your IAM policy includes both the <code>Subscribe</code> and
+  /// <code>CreateAccountSubscription</code> actions, make sure that both
+  /// actions are set to <code>Allow</code>. If either action is set to
+  /// <code>Deny</code>, the <code>Deny</code> action prevails and your API call
+  /// fails.
+  ///
+  /// You can't pass an existing IAM role to access other Amazon Web Services
+  /// services using this API operation. To pass your existing IAM role to
+  /// Amazon QuickSight, see <a
+  /// href="https://docs.aws.amazon.com/quicksight/latest/user/security_iam_service-with-iam.html#security-create-iam-role">Passing
+  /// IAM roles to Amazon QuickSight</a> in the <i>Amazon QuickSight User
+  /// Guide</i>.
+  ///
+  /// You can't set default resource access on the new account from the Amazon
+  /// QuickSight API. Instead, add default resource access from the Amazon
+  /// QuickSight console. For more information about setting default resource
+  /// access to Amazon Web Services services, see <a
+  /// href="https://docs.aws.amazon.com/quicksight/latest/user/scoping-policies-defaults.html">Setting
+  /// default resource access to Amazon Web Services services</a> in the
+  /// <i>Amazon QuickSight User Guide</i>.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ResourceExistsException].
+  /// May throw [PreconditionNotMetException].
+  /// May throw [ConflictException].
+  /// May throw [InternalFailureException].
+  /// May throw [ResourceUnavailableException].
+  ///
+  /// Parameter [accountName] :
+  /// The name of your Amazon QuickSight account. This name is unique over all
+  /// of Amazon Web Services, and it appears only when users sign in. You can't
+  /// change <code>AccountName</code> value after the Amazon QuickSight account
+  /// is created.
+  ///
+  /// Parameter [authenticationMethod] :
+  /// The method that you want to use to authenticate your Amazon QuickSight
+  /// account. Currently, the valid values for this parameter are
+  /// <code>IAM_AND_QUICKSIGHT</code>, <code>IAM_ONLY</code>, and
+  /// <code>ACTIVE_DIRECTORY</code>.
+  ///
+  /// If you choose <code>ACTIVE_DIRECTORY</code>, provide an
+  /// <code>ActiveDirectoryName</code> and an <code>AdminGroup</code> associated
+  /// with your Active Directory.
+  ///
+  /// Parameter [awsAccountId] :
+  /// The Amazon Web Services account ID of the account that you're using to
+  /// create your Amazon QuickSight account.
+  ///
+  /// Parameter [edition] :
+  /// The edition of Amazon QuickSight that you want your account to have.
+  /// Currently, you can choose from <code>ENTERPRISE</code> or
+  /// <code>ENTERPRISE_AND_Q</code>.
+  ///
+  /// If you choose <code>ENTERPRISE_AND_Q</code>, the following parameters are
+  /// required:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>FirstName</code>
+  /// </li>
+  /// <li>
+  /// <code>LastName</code>
+  /// </li>
+  /// <li>
+  /// <code>EmailAddress</code>
+  /// </li>
+  /// <li>
+  /// <code>ContactNumber</code>
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [notificationEmail] :
+  /// The email address that you want Amazon QuickSight to send notifications to
+  /// regarding your Amazon QuickSight account or Amazon QuickSight
+  /// subscription.
+  ///
+  /// Parameter [activeDirectoryName] :
+  /// The name of your Active Directory. This field is required if
+  /// <code>ACTIVE_DIRECTORY</code> is the selected authentication method of the
+  /// new Amazon QuickSight account.
+  ///
+  /// Parameter [adminGroup] :
+  /// The admin group associated with your Active Directory. This field is
+  /// required if <code>ACTIVE_DIRECTORY</code> is the selected authentication
+  /// method of the new Amazon QuickSight account. For more information about
+  /// using Active Directory in Amazon QuickSight, see <a
+  /// href="https://docs.aws.amazon.com/quicksight/latest/user/aws-directory-service.html">Using
+  /// Active Directory with Amazon QuickSight Enterprise Edition</a> in the
+  /// Amazon QuickSight User Guide.
+  ///
+  /// Parameter [authorGroup] :
+  /// The author group associated with your Active Directory. For more
+  /// information about using Active Directory in Amazon QuickSight, see <a
+  /// href="https://docs.aws.amazon.com/quicksight/latest/user/aws-directory-service.html">Using
+  /// Active Directory with Amazon QuickSight Enterprise Edition</a> in the
+  /// Amazon QuickSight User Guide.
+  ///
+  /// Parameter [contactNumber] :
+  /// A 10-digit phone number for the author of the Amazon QuickSight account to
+  /// use for future communications. This field is required if
+  /// <code>ENTERPPRISE_AND_Q</code> is the selected edition of the new Amazon
+  /// QuickSight account.
+  ///
+  /// Parameter [directoryId] :
+  /// The ID of the Active Directory that is associated with your Amazon
+  /// QuickSight account.
+  ///
+  /// Parameter [emailAddress] :
+  /// The email address of the author of the Amazon QuickSight account to use
+  /// for future communications. This field is required if
+  /// <code>ENTERPPRISE_AND_Q</code> is the selected edition of the new Amazon
+  /// QuickSight account.
+  ///
+  /// Parameter [firstName] :
+  /// The first name of the author of the Amazon QuickSight account to use for
+  /// future communications. This field is required if
+  /// <code>ENTERPPRISE_AND_Q</code> is the selected edition of the new Amazon
+  /// QuickSight account.
+  ///
+  /// Parameter [lastName] :
+  /// The last name of the author of the Amazon QuickSight account to use for
+  /// future communications. This field is required if
+  /// <code>ENTERPPRISE_AND_Q</code> is the selected edition of the new Amazon
+  /// QuickSight account.
+  ///
+  /// Parameter [readerGroup] :
+  /// The reader group associated with your Active Direcrtory. For more
+  /// information about using Active Directory in Amazon QuickSight, see <a
+  /// href="https://docs.aws.amazon.com/quicksight/latest/user/aws-directory-service.html">Using
+  /// Active Directory with Amazon QuickSight Enterprise Edition</a> in the
+  /// <i>Amazon QuickSight User Guide</i>.
+  ///
+  /// Parameter [realm] :
+  /// The realm of the Active Directory that is associated with your Amazon
+  /// QuickSight account. This field is required if
+  /// <code>ACTIVE_DIRECTORY</code> is the selected authentication method of the
+  /// new Amazon QuickSight account.
+  Future<CreateAccountSubscriptionResponse> createAccountSubscription({
+    required String accountName,
+    required AuthenticationMethodOption authenticationMethod,
+    required String awsAccountId,
+    required Edition edition,
+    required String notificationEmail,
+    String? activeDirectoryName,
+    List<String>? adminGroup,
+    List<String>? authorGroup,
+    String? contactNumber,
+    String? directoryId,
+    String? emailAddress,
+    String? firstName,
+    String? lastName,
+    List<String>? readerGroup,
+    String? realm,
+  }) async {
+    ArgumentError.checkNotNull(accountName, 'accountName');
+    ArgumentError.checkNotNull(authenticationMethod, 'authenticationMethod');
+    ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
+    ArgumentError.checkNotNull(edition, 'edition');
+    ArgumentError.checkNotNull(notificationEmail, 'notificationEmail');
+    final $payload = <String, dynamic>{
+      'AccountName': accountName,
+      'AuthenticationMethod': authenticationMethod.toValue(),
+      'Edition': edition.toValue(),
+      'NotificationEmail': notificationEmail,
+      if (activeDirectoryName != null)
+        'ActiveDirectoryName': activeDirectoryName,
+      if (adminGroup != null) 'AdminGroup': adminGroup,
+      if (authorGroup != null) 'AuthorGroup': authorGroup,
+      if (contactNumber != null) 'ContactNumber': contactNumber,
+      if (directoryId != null) 'DirectoryId': directoryId,
+      if (emailAddress != null) 'EmailAddress': emailAddress,
+      if (firstName != null) 'FirstName': firstName,
+      if (lastName != null) 'LastName': lastName,
+      if (readerGroup != null) 'ReaderGroup': readerGroup,
+      if (realm != null) 'Realm': realm,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/account/${Uri.encodeComponent(awsAccountId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateAccountSubscriptionResponse.fromJson(response);
   }
 
   /// Creates an analysis in Amazon QuickSight.
@@ -686,7 +894,7 @@ class QuickSight {
   /// Creates an Amazon QuickSight group.
   ///
   /// The permissions resource is
-  /// <code>arn:aws:quicksight:us-east-1:<i>&lt;relevant-aws-account-id&gt;</i>:group/default/<i>&lt;group-name&gt;</i>
+  /// <code>arn:aws:quicksight:&lt;your-region&gt;:<i>&lt;relevant-aws-account-id&gt;</i>:group/default/<i>&lt;group-name&gt;</i>
   /// </code>.
   ///
   /// The response is a group object.
@@ -710,7 +918,7 @@ class QuickSight {
   /// A name for the group that you want to create.
   ///
   /// Parameter [namespace] :
-  /// The namespace. Currently, you should set this to <code>default</code>.
+  /// The namespace that you want the group to be a part of.
   ///
   /// Parameter [description] :
   /// A description for the group that you want to create.
@@ -759,7 +967,7 @@ class QuickSight {
   /// The name of the user that you want to add to the group membership.
   ///
   /// Parameter [namespace] :
-  /// The namespace. Currently, you should set this to <code>default</code>.
+  /// The namespace that you want the user to be a part of.
   Future<CreateGroupMembershipResponse> createGroupMembership({
     required String awsAccountId,
     required String groupName,
@@ -1570,7 +1778,7 @@ class QuickSight {
   /// The name of the group that you want to delete.
   ///
   /// Parameter [namespace] :
-  /// The namespace. Currently, you should set this to <code>default</code>.
+  /// The namespace of the group that you want to delete.
   Future<DeleteGroupResponse> deleteGroup({
     required String awsAccountId,
     required String groupName,
@@ -1612,7 +1820,7 @@ class QuickSight {
   /// The name of the user that you want to delete from the group membership.
   ///
   /// Parameter [namespace] :
-  /// The namespace. Currently, you should set this to <code>default</code>.
+  /// The namespace of the group that you want to remove a user from.
   Future<DeleteGroupMembershipResponse> deleteGroupMembership({
     required String awsAccountId,
     required String groupName,
@@ -2099,6 +2307,35 @@ class QuickSight {
     return DescribeAccountSettingsResponse.fromJson(response);
   }
 
+  /// Use the DescribeAccountSubscription operation to receive a description of
+  /// a Amazon QuickSight account's subscription. A successful API call returns
+  /// an <code>AccountInfo</code> object that includes an account's name,
+  /// subscription status, authentication type, edition, and notification email
+  /// address.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalFailureException].
+  /// May throw [ResourceUnavailableException].
+  ///
+  /// Parameter [awsAccountId] :
+  /// The Amazon Web Services account ID associated with your Amazon QuickSight
+  /// account.
+  Future<DescribeAccountSubscriptionResponse> describeAccountSubscription({
+    required String awsAccountId,
+  }) async {
+    ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/account/${Uri.encodeComponent(awsAccountId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeAccountSubscriptionResponse.fromJson(response);
+  }
+
   /// Provides a summary of the metadata for an analysis.
   ///
   /// May throw [InvalidParameterValueException].
@@ -2481,7 +2718,7 @@ class QuickSight {
   /// The name of the group that you want to describe.
   ///
   /// Parameter [namespace] :
-  /// The namespace. Currently, you should set this to <code>default</code>.
+  /// The namespace of the group that you want described.
   Future<DescribeGroupResponse> describeGroup({
     required String awsAccountId,
     required String groupName,
@@ -2498,6 +2735,52 @@ class QuickSight {
       exceptionFnMap: _exceptionFns,
     );
     return DescribeGroupResponse.fromJson(response);
+  }
+
+  /// Use the <code>DescribeGroupMembership</code> operation to determine if a
+  /// user is a member of the specified group. If the user exists and is a
+  /// member of the specified group, an associated <code>GroupMember</code>
+  /// object is returned.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [PreconditionNotMetException].
+  /// May throw [InternalFailureException].
+  /// May throw [ResourceUnavailableException].
+  ///
+  /// Parameter [awsAccountId] :
+  /// The ID for the Amazon Web Services account that the group is in.
+  /// Currently, you use the ID for the Amazon Web Services account that
+  /// contains your Amazon QuickSight account.
+  ///
+  /// Parameter [groupName] :
+  /// The name of the group that you want to search.
+  ///
+  /// Parameter [memberName] :
+  /// The user name of the user that you want to search for.
+  ///
+  /// Parameter [namespace] :
+  /// The namespace that includes the group you are searching within.
+  Future<DescribeGroupMembershipResponse> describeGroupMembership({
+    required String awsAccountId,
+    required String groupName,
+    required String memberName,
+    required String namespace,
+  }) async {
+    ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
+    ArgumentError.checkNotNull(groupName, 'groupName');
+    ArgumentError.checkNotNull(memberName, 'memberName');
+    ArgumentError.checkNotNull(namespace, 'namespace');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/accounts/${Uri.encodeComponent(awsAccountId)}/namespaces/${Uri.encodeComponent(namespace)}/groups/${Uri.encodeComponent(groupName)}/members/${Uri.encodeComponent(memberName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeGroupMembershipResponse.fromJson(response);
   }
 
   /// Describes an existing IAM policy assignment, as specified by the
@@ -2933,10 +3216,8 @@ class QuickSight {
   /// The URL validity period should not be confused with the actual session
   /// lifetime that can be customized using the <code> <a
   /// href="https://docs.aws.amazon.com/quicksight/latest/APIReference/API_GenerateEmbedUrlForAnonymousUser.html#QS-GenerateEmbedUrlForAnonymousUser-request-SessionLifetimeInMinutes">SessionLifetimeInMinutes</a>
-  /// </code> parameter.
-  ///
-  /// The resulting user session is valid for 15 minutes (default) to 10 hours
-  /// (maximum).
+  /// </code> parameter. The resulting user session is valid for 15 minutes
+  /// (minimum) to 10 hours (maximum). The default session duration is 10 hours.
   /// </li>
   /// <li>
   /// You are charged only when the URL is used or there is interaction with
@@ -2962,22 +3243,36 @@ class QuickSight {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [authorizedResourceArns] :
-  /// The Amazon Resource Names for the Amazon QuickSight resources that the
-  /// user is authorized to access during the lifetime of the session. If you
-  /// choose <code>Dashboard</code> embedding experience, pass the list of
+  /// The Amazon Resource Names (ARNs) for the Amazon QuickSight resources that
+  /// the user is authorized to access during the lifetime of the session. If
+  /// you choose <code>Dashboard</code> embedding experience, pass the list of
   /// dashboard ARNs in the account that you want the user to be able to view.
+  /// Currently, you can pass up to 25 dashboard ARNs in each API call.
   ///
   /// Parameter [awsAccountId] :
   /// The ID for the Amazon Web Services account that contains the dashboard
   /// that you're embedding.
   ///
   /// Parameter [experienceConfiguration] :
-  /// The configuration of the experience you are embedding.
+  /// The configuration of the experience that you are embedding.
   ///
   /// Parameter [namespace] :
   /// The Amazon QuickSight namespace that the anonymous user virtually belongs
   /// to. If you are not using an Amazon QuickSight custom namespace, set this
   /// to <code>default</code>.
+  ///
+  /// Parameter [allowedDomains] :
+  /// The domains that you want to add to the allow list for access to the
+  /// generated URL that is then embedded. This optional parameter overrides the
+  /// static domains that are configured in the Manage QuickSight menu in the
+  /// Amazon QuickSight console and instead allows only the domains that you
+  /// include in this parameter. You can list up to three domains or subdomains
+  /// in each API call.
+  ///
+  /// To include a subdomain, use <code>*</code> to include all subdomains under
+  /// a specific domain to the allow list. For example,
+  /// <code>https://*.sapp.amazon.com,</code> includes all subdomains under
+  /// <code>https://sapp.amazon.com</code>.
   ///
   /// Parameter [sessionLifetimeInMinutes] :
   /// How many minutes the session is valid. The session lifetime must be in
@@ -2992,7 +3287,8 @@ class QuickSight {
   /// These are not the tags used for the Amazon Web Services resource tagging
   /// feature. For more information, see <a
   /// href="https://docs.aws.amazon.com/quicksight/latest/user/quicksight-dev-rls-tags.html">Using
-  /// Row-Level Security (RLS) with Tags</a>.
+  /// Row-Level Security (RLS) with Tags</a>in the <i>Amazon QuickSight User
+  /// Guide</i>.
   Future<GenerateEmbedUrlForAnonymousUserResponse>
       generateEmbedUrlForAnonymousUser({
     required List<String> authorizedResourceArns,
@@ -3000,6 +3296,7 @@ class QuickSight {
     required AnonymousUserEmbeddingExperienceConfiguration
         experienceConfiguration,
     required String namespace,
+    List<String>? allowedDomains,
     int? sessionLifetimeInMinutes,
     List<SessionTag>? sessionTags,
   }) async {
@@ -3019,6 +3316,7 @@ class QuickSight {
       'AuthorizedResourceArns': authorizedResourceArns,
       'ExperienceConfiguration': experienceConfiguration,
       'Namespace': namespace,
+      if (allowedDomains != null) 'AllowedDomains': allowedDomains,
       if (sessionLifetimeInMinutes != null)
         'SessionLifetimeInMinutes': sessionLifetimeInMinutes,
       if (sessionTags != null) 'SessionTags': sessionTags,
@@ -3053,8 +3351,8 @@ class QuickSight {
   /// href="https://docs.aws.amazon.com/quicksight/latest/APIReference/API_GenerateEmbedUrlForRegisteredUser.html#QS-GenerateEmbedUrlForRegisteredUser-request-SessionLifetimeInMinutes">SessionLifetimeInMinutes</a>
   /// </code> parameter.
   ///
-  /// The resulting user session is valid for 15 minutes (default) to 10 hours
-  /// (maximum).
+  /// The resulting user session is valid for 15 minutes (minimum) to 10 hours
+  /// (maximum). The default session duration is 10 hours.
   /// </li>
   /// <li>
   /// You are charged only when the URL is used or there is interaction with
@@ -3091,6 +3389,19 @@ class QuickSight {
   /// Parameter [userArn] :
   /// The Amazon Resource Name for the registered user.
   ///
+  /// Parameter [allowedDomains] :
+  /// The domains that you want to add to the allow list for access to the
+  /// generated URL that is then embedded. This optional parameter overrides the
+  /// static domains that are configured in the Manage QuickSight menu in the
+  /// Amazon QuickSight console and instead allows only the domains that you
+  /// include in this parameter. You can list up to three domains or subdomains
+  /// in each API call.
+  ///
+  /// To include a subdomain, use <code>*</code> to include all subdomains under
+  /// a specific domain to the allow list. For example,
+  /// <code>https://*.sapp.amazon.com,</code> includes all subdomains under
+  /// <code>https://sapp.amazon.com</code>.
+  ///
   /// Parameter [sessionLifetimeInMinutes] :
   /// How many minutes the session is valid. The session lifetime must be in
   /// [15-600] minutes range.
@@ -3100,6 +3411,7 @@ class QuickSight {
     required RegisteredUserEmbeddingExperienceConfiguration
         experienceConfiguration,
     required String userArn,
+    List<String>? allowedDomains,
     int? sessionLifetimeInMinutes,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
@@ -3115,6 +3427,7 @@ class QuickSight {
     final $payload = <String, dynamic>{
       'ExperienceConfiguration': experienceConfiguration,
       'UserArn': userArn,
+      if (allowedDomains != null) 'AllowedDomains': allowedDomains,
       if (sessionLifetimeInMinutes != null)
         'SessionLifetimeInMinutes': sessionLifetimeInMinutes,
     };
@@ -3128,14 +3441,14 @@ class QuickSight {
     return GenerateEmbedUrlForRegisteredUserResponse.fromJson(response);
   }
 
-  /// Generates a session URL and authorization code that you can use to embed
-  /// an Amazon Amazon QuickSight read-only dashboard in your web server code.
-  /// Before you use this command, make sure that you have configured the
-  /// dashboards and permissions.
+  /// Generates a temporary session URL and authorization code that you can use
+  /// to embed an Amazon QuickSight read-only dashboard in your website or
+  /// application. Before you use this command, make sure that you have
+  /// configured the dashboards and permissions.
   ///
   /// Currently, you can use <code>GetDashboardEmbedURL</code> only from the
   /// server, not from the user's browser. The following rules apply to the
-  /// combination of URL and authorization code:
+  /// generated URL:
   ///
   /// <ul>
   /// <li>
@@ -3148,7 +3461,10 @@ class QuickSight {
   /// They are valid for 5 minutes after you run this command.
   /// </li>
   /// <li>
-  /// The resulting user session is valid for 10 hours.
+  /// The resulting user session is valid for 15 minutes (default) up to 10
+  /// hours (maximum). You can use the optional
+  /// <code>SessionLifetimeInMinutes</code> parameter to customi session
+  /// duration.
   /// </li>
   /// </ul>
   /// For more information, see <a
@@ -3186,11 +3502,11 @@ class QuickSight {
   /// The authentication method that the user uses to sign in.
   ///
   /// Parameter [additionalDashboardIds] :
-  /// A list of one or more dashboard IDs that you want to add to a session that
-  /// includes anonymous users. The <code>IdentityType</code> parameter must be
-  /// set to <code>ANONYMOUS</code> for this to work, because other identity
-  /// types authenticate as Amazon QuickSight or IAM users. For example, if you
-  /// set "<code>--dashboard-id dash_id1 --dashboard-id dash_id2 dash_id3
+  /// A list of one or more dashboard IDs that you want anonymous users to have
+  /// tempporary access to. Currently, the <code>IdentityType</code> parameter
+  /// must be set to <code>ANONYMOUS</code> because other identity types
+  /// authenticate as Amazon QuickSight or IAM users. For example, if you set
+  /// "<code>--dashboard-id dash_id1 --dashboard-id dash_id2 dash_id3
   /// identity-type ANONYMOUS</code>", the session can access all three
   /// dashboards.
   ///
@@ -3756,7 +4072,7 @@ class QuickSight {
   /// The name of the group that you want to see a membership list of.
   ///
   /// Parameter [namespace] :
-  /// The namespace. Currently, you should set this to <code>default</code>.
+  /// The namespace of the group that you want a list of users from.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return from this request.
@@ -3811,7 +4127,7 @@ class QuickSight {
   /// contains your Amazon QuickSight account.
   ///
   /// Parameter [namespace] :
-  /// The namespace. Currently, you should set this to <code>default</code>.
+  /// The namespace that you want a list of groups from.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return.
@@ -4613,7 +4929,7 @@ class QuickSight {
   /// restrictions. Currently, you need to create the profile names for custom
   /// permission sets by using the Amazon QuickSight console. Then, you use the
   /// <code>RegisterUser</code> API operation to assign the named set of
-  /// permissions to a QuickSight user.
+  /// permissions to a Amazon QuickSight user.
   ///
   /// Amazon QuickSight custom permissions are applied through IAM policies.
   /// Therefore, they override the permissions typically granted by assigning
@@ -4906,6 +5222,69 @@ class QuickSight {
     return SearchFoldersResponse.fromJson(response);
   }
 
+  /// Use the <code>SearchGroups</code> operation to search groups in a
+  /// specified Amazon QuickSight namespace using the supplied filters.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InvalidNextTokenException].
+  /// May throw [PreconditionNotMetException].
+  /// May throw [InternalFailureException].
+  /// May throw [ResourceUnavailableException].
+  ///
+  /// Parameter [awsAccountId] :
+  /// The ID for the Amazon Web Services account that the group is in.
+  /// Currently, you use the ID for the Amazon Web Services account that
+  /// contains your Amazon QuickSight account.
+  ///
+  /// Parameter [filters] :
+  /// The structure for the search filters that you want to apply to your
+  /// search.
+  ///
+  /// Parameter [namespace] :
+  /// The namespace that you want to search.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return from this request.
+  ///
+  /// Parameter [nextToken] :
+  /// A pagination token that can be used in a subsequent request.
+  Future<SearchGroupsResponse> searchGroups({
+    required String awsAccountId,
+    required List<GroupSearchFilter> filters,
+    required String namespace,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
+    ArgumentError.checkNotNull(filters, 'filters');
+    ArgumentError.checkNotNull(namespace, 'namespace');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'max-results': [maxResults.toString()],
+      if (nextToken != null) 'next-token': [nextToken],
+    };
+    final $payload = <String, dynamic>{
+      'Filters': filters,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/accounts/${Uri.encodeComponent(awsAccountId)}/namespaces/${Uri.encodeComponent(namespace)}/groups-search',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return SearchGroupsResponse.fromJson(response);
+  }
+
   /// Assigns one or more tags (key-value pairs) to the specified Amazon
   /// QuickSight resource.
   ///
@@ -5001,8 +5380,9 @@ class QuickSight {
     return UntagResourceResponse.fromJson(response);
   }
 
-  /// Updates Amazon QuickSight customizations the current Amazon Web Services
-  /// Region. Currently, the only customization you can use is a theme.
+  /// Updates Amazon QuickSight customizations for the current Amazon Web
+  /// Services Region. Currently, the only customization that you can use is a
+  /// theme.
   ///
   /// You can use customizations for your Amazon Web Services account or, if you
   /// specify a namespace, for a Amazon QuickSight namespace instead.
@@ -5071,7 +5451,7 @@ class QuickSight {
   /// The default namespace for this Amazon Web Services account. Currently, the
   /// default is <code>default</code>. Identity and Access Management (IAM)
   /// users that register for the first time with Amazon QuickSight provide an
-  /// email that becomes associated with the default namespace.
+  /// email address that becomes associated with the default namespace.
   ///
   /// Parameter [notificationEmail] :
   /// The email address that you want Amazon QuickSight to send notifications to
@@ -5780,7 +6160,7 @@ class QuickSight {
   /// The name of the group that you want to update.
   ///
   /// Parameter [namespace] :
-  /// The namespace. Currently, you should set this to <code>default</code>.
+  /// The namespace of the group that you want to update.
   ///
   /// Parameter [description] :
   /// The description for the group that you want to update.
@@ -5920,6 +6300,52 @@ class QuickSight {
       exceptionFnMap: _exceptionFns,
     );
     return UpdateIpRestrictionResponse.fromJson(response);
+  }
+
+  /// Use the <code>UpdatePublicSharingSettings</code> operation to turn on or
+  /// turn off the public sharing settings of an Amazon QuickSight dashboard.
+  ///
+  /// To use this operation, turn on session capacity pricing for your Amazon
+  /// QuickSight account.
+  ///
+  /// Before you can turn on public sharing on your account, make sure to give
+  /// public sharing permissions to an administrative user in the Identity and
+  /// Access Management (IAM) console. For more information on using IAM with
+  /// Amazon QuickSight, see <a
+  /// href="https://docs.aws.amazon.com/quicksight/latest/user/security_iam_service-with-iam.html">Using
+  /// Amazon QuickSight with IAM</a> in the <i>Amazon QuickSight User Guide</i>.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [UnsupportedPricingPlanException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [awsAccountId] :
+  /// The Amazon Web Services account ID associated with your Amazon QuickSight
+  /// subscription.
+  ///
+  /// Parameter [publicSharingEnabled] :
+  /// A Boolean value that indicates whether public sharing is turned on for an
+  /// Amazon QuickSight account.
+  Future<UpdatePublicSharingSettingsResponse> updatePublicSharingSettings({
+    required String awsAccountId,
+    bool? publicSharingEnabled,
+  }) async {
+    ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
+    final $payload = <String, dynamic>{
+      if (publicSharingEnabled != null)
+        'PublicSharingEnabled': publicSharingEnabled,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/accounts/${Uri.encodeComponent(awsAccountId)}/public-sharing-settings',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdatePublicSharingSettingsResponse.fromJson(response);
   }
 
   /// Updates a template from an existing Amazon QuickSight analysis or another
@@ -6382,7 +6808,7 @@ class QuickSight {
   /// restrictions. Currently, you need to create the profile names for custom
   /// permission sets by using the Amazon QuickSight console. Then, you use the
   /// <code>RegisterUser</code> API operation to assign the named set of
-  /// permissions to a QuickSight user.
+  /// permissions to a Amazon QuickSight user.
   ///
   /// Amazon QuickSight custom permissions are applied through IAM policies.
   /// Therefore, they override the permissions typically granted by assigning
@@ -6504,6 +6930,82 @@ class AccountCustomization {
   }
 }
 
+/// A structure that contains the following account information elements:
+///
+/// <ul>
+/// <li>
+/// Your Amazon QuickSight account name.
+/// </li>
+/// <li>
+/// The edition of Amazon QuickSight that your account is using.
+/// </li>
+/// <li>
+/// The notification email address that is associated with the Amazon QuickSight
+/// account.
+/// </li>
+/// <li>
+/// The authentication type of the Amazon QuickSight account.
+/// </li>
+/// <li>
+/// The status of the Amazon QuickSight account's subscription.
+/// </li>
+/// </ul>
+class AccountInfo {
+  /// The account name that you provided for the Amazon QuickSight subscription in
+  /// your Amazon Web Services account. You create this name when you sign up for
+  /// Amazon QuickSight. It's unique over all of Amazon Web Services, and it
+  /// appears only when users sign in.
+  final String? accountName;
+
+  /// The status of your account subscription.
+  final String? accountSubscriptionStatus;
+
+  /// The way that your Amazon QuickSight account is authenticated.
+  final String? authenticationType;
+
+  /// The edition of your Amazon QuickSight account.
+  final Edition? edition;
+
+  /// The email address that will be used for Amazon QuickSight to send
+  /// notifications regarding your Amazon Web Services account or Amazon
+  /// QuickSight subscription.
+  final String? notificationEmail;
+
+  AccountInfo({
+    this.accountName,
+    this.accountSubscriptionStatus,
+    this.authenticationType,
+    this.edition,
+    this.notificationEmail,
+  });
+
+  factory AccountInfo.fromJson(Map<String, dynamic> json) {
+    return AccountInfo(
+      accountName: json['AccountName'] as String?,
+      accountSubscriptionStatus: json['AccountSubscriptionStatus'] as String?,
+      authenticationType: json['AuthenticationType'] as String?,
+      edition: (json['Edition'] as String?)?.toEdition(),
+      notificationEmail: json['NotificationEmail'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountName = this.accountName;
+    final accountSubscriptionStatus = this.accountSubscriptionStatus;
+    final authenticationType = this.authenticationType;
+    final edition = this.edition;
+    final notificationEmail = this.notificationEmail;
+    return {
+      if (accountName != null) 'AccountName': accountName,
+      if (accountSubscriptionStatus != null)
+        'AccountSubscriptionStatus': accountSubscriptionStatus,
+      if (authenticationType != null) 'AuthenticationType': authenticationType,
+      if (edition != null) 'Edition': edition.toValue(),
+      if (notificationEmail != null) 'NotificationEmail': notificationEmail,
+    };
+  }
+}
+
 /// The Amazon QuickSight settings associated with your Amazon Web Services
 /// account.
 class AccountSettings {
@@ -6524,11 +7026,18 @@ class AccountSettings {
   /// The main notification email for your Amazon QuickSight subscription.
   final String? notificationEmail;
 
+  /// A Boolean value that indicates whether public sharing is turned on for an
+  /// Amazon QuickSight account. For more information about turning on public
+  /// sharing, see <a
+  /// href="https://docs.aws.amazon.com/quicksight/latest/APIReference/API_UpdatePublicSharingSettings.html">UpdatePublicSharingSettings</a>.
+  final bool? publicSharingEnabled;
+
   AccountSettings({
     this.accountName,
     this.defaultNamespace,
     this.edition,
     this.notificationEmail,
+    this.publicSharingEnabled,
   });
 
   factory AccountSettings.fromJson(Map<String, dynamic> json) {
@@ -6537,6 +7046,7 @@ class AccountSettings {
       defaultNamespace: json['DefaultNamespace'] as String?,
       edition: (json['Edition'] as String?)?.toEdition(),
       notificationEmail: json['NotificationEmail'] as String?,
+      publicSharingEnabled: json['PublicSharingEnabled'] as bool?,
     );
   }
 
@@ -6545,11 +7055,14 @@ class AccountSettings {
     final defaultNamespace = this.defaultNamespace;
     final edition = this.edition;
     final notificationEmail = this.notificationEmail;
+    final publicSharingEnabled = this.publicSharingEnabled;
     return {
       if (accountName != null) 'AccountName': accountName,
       if (defaultNamespace != null) 'DefaultNamespace': defaultNamespace,
       if (edition != null) 'Edition': edition.toValue(),
       if (notificationEmail != null) 'NotificationEmail': notificationEmail,
+      if (publicSharingEnabled != null)
+        'PublicSharingEnabled': publicSharingEnabled,
     };
   }
 }
@@ -6584,7 +7097,7 @@ class ActiveIAMPolicyAssignment {
   }
 }
 
-/// Ad hoc (one-time) filtering option.
+/// An ad hoc (one-time) filtering option.
 class AdHocFilteringOption {
   /// Availability status.
   final DashboardBehavior? availabilityStatus;
@@ -7222,6 +7735,39 @@ class AuroraPostgreSqlParameters {
   }
 }
 
+enum AuthenticationMethodOption {
+  iamAndQuicksight,
+  iamOnly,
+  activeDirectory,
+}
+
+extension on AuthenticationMethodOption {
+  String toValue() {
+    switch (this) {
+      case AuthenticationMethodOption.iamAndQuicksight:
+        return 'IAM_AND_QUICKSIGHT';
+      case AuthenticationMethodOption.iamOnly:
+        return 'IAM_ONLY';
+      case AuthenticationMethodOption.activeDirectory:
+        return 'ACTIVE_DIRECTORY';
+    }
+  }
+}
+
+extension on String {
+  AuthenticationMethodOption toAuthenticationMethodOption() {
+    switch (this) {
+      case 'IAM_AND_QUICKSIGHT':
+        return AuthenticationMethodOption.iamAndQuicksight;
+      case 'IAM_ONLY':
+        return AuthenticationMethodOption.iamOnly;
+      case 'ACTIVE_DIRECTORY':
+        return AuthenticationMethodOption.activeDirectory;
+    }
+    throw Exception('$this is not known in enum AuthenticationMethodOption');
+  }
+}
+
 /// The parameters for IoT Analytics.
 class AwsIotAnalyticsParameters {
   /// Dataset name.
@@ -7741,6 +8287,46 @@ class CreateAccountCustomizationResponse {
       if (awsAccountId != null) 'AwsAccountId': awsAccountId,
       if (namespace != null) 'Namespace': namespace,
       if (requestId != null) 'RequestId': requestId,
+    };
+  }
+}
+
+class CreateAccountSubscriptionResponse {
+  /// The Amazon Web Services request ID for this operation.
+  final String? requestId;
+
+  /// A <code>SignupResponse</code> object that returns information about a newly
+  /// created Amazon QuickSight account.
+  final SignupResponse? signupResponse;
+
+  /// The HTTP status of the request.
+  final int? status;
+
+  CreateAccountSubscriptionResponse({
+    this.requestId,
+    this.signupResponse,
+    this.status,
+  });
+
+  factory CreateAccountSubscriptionResponse.fromJson(
+      Map<String, dynamic> json) {
+    return CreateAccountSubscriptionResponse(
+      requestId: json['RequestId'] as String?,
+      signupResponse: json['SignupResponse'] != null
+          ? SignupResponse.fromJson(
+              json['SignupResponse'] as Map<String, dynamic>)
+          : null,
+      status: json['Status'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final requestId = this.requestId;
+    final signupResponse = this.signupResponse;
+    final status = this.status;
+    return {
+      if (requestId != null) 'RequestId': requestId,
+      if (signupResponse != null) 'SignupResponse': signupResponse,
     };
   }
 }
@@ -11148,12 +11734,14 @@ class DescribeAccountSettingsResponse {
   /// The Amazon QuickSight settings for this Amazon Web Services account. This
   /// information includes the edition of Amazon Amazon QuickSight that you
   /// subscribed to (Standard or Enterprise) and the notification email for the
-  /// Amazon QuickSight subscription. In the QuickSight console, the Amazon
-  /// QuickSight subscription is sometimes referred to as a QuickSight "account"
-  /// even though it's technically not an account by itself. Instead, it's a
-  /// subscription to the Amazon QuickSight service for your Amazon Web Services
-  /// account. The edition that you subscribe to applies to Amazon QuickSight in
-  /// every Amazon Web Services Region where you use it.
+  /// Amazon QuickSight subscription.
+  ///
+  /// In the QuickSight console, the Amazon QuickSight subscription is sometimes
+  /// referred to as a QuickSight "account" even though it's technically not an
+  /// account by itself. Instead, it's a subscription to the Amazon QuickSight
+  /// service for your Amazon Web Services account. The edition that you subscribe
+  /// to applies to Amazon QuickSight in every Amazon Web Services Region where
+  /// you use it.
   final AccountSettings? accountSettings;
 
   /// The Amazon Web Services request ID for this operation.
@@ -11185,6 +11773,63 @@ class DescribeAccountSettingsResponse {
     final status = this.status;
     return {
       if (accountSettings != null) 'AccountSettings': accountSettings,
+      if (requestId != null) 'RequestId': requestId,
+    };
+  }
+}
+
+class DescribeAccountSubscriptionResponse {
+  /// A structure that contains the following elements:
+  ///
+  /// <ul>
+  /// <li>
+  /// Your Amazon QuickSight account name.
+  /// </li>
+  /// <li>
+  /// The edition of Amazon QuickSight that your account is using.
+  /// </li>
+  /// <li>
+  /// The notification email address that is associated with the Amazon QuickSight
+  /// account.
+  /// </li>
+  /// <li>
+  /// The authentication type of the Amazon QuickSight account.
+  /// </li>
+  /// <li>
+  /// The status of the Amazon QuickSight account's subscription.
+  /// </li>
+  /// </ul>
+  final AccountInfo? accountInfo;
+
+  /// The Amazon Web Services request ID for this operation.
+  final String? requestId;
+
+  /// The HTTP status of the request.
+  final int? status;
+
+  DescribeAccountSubscriptionResponse({
+    this.accountInfo,
+    this.requestId,
+    this.status,
+  });
+
+  factory DescribeAccountSubscriptionResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeAccountSubscriptionResponse(
+      accountInfo: json['AccountInfo'] != null
+          ? AccountInfo.fromJson(json['AccountInfo'] as Map<String, dynamic>)
+          : null,
+      requestId: json['RequestId'] as String?,
+      status: json['Status'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountInfo = this.accountInfo;
+    final requestId = this.requestId;
+    final status = this.status;
+    return {
+      if (accountInfo != null) 'AccountInfo': accountInfo,
       if (requestId != null) 'RequestId': requestId,
     };
   }
@@ -11714,6 +12359,42 @@ class DescribeFolderResponse {
   }
 }
 
+class DescribeGroupMembershipResponse {
+  final GroupMember? groupMember;
+
+  /// The Amazon Web Services request ID for this operation.
+  final String? requestId;
+
+  /// The HTTP status of the request.
+  final int? status;
+
+  DescribeGroupMembershipResponse({
+    this.groupMember,
+    this.requestId,
+    this.status,
+  });
+
+  factory DescribeGroupMembershipResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeGroupMembershipResponse(
+      groupMember: json['GroupMember'] != null
+          ? GroupMember.fromJson(json['GroupMember'] as Map<String, dynamic>)
+          : null,
+      requestId: json['RequestId'] as String?,
+      status: json['Status'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final groupMember = this.groupMember;
+    final requestId = this.requestId;
+    final status = this.status;
+    return {
+      if (groupMember != null) 'GroupMember': groupMember,
+      if (requestId != null) 'RequestId': requestId,
+    };
+  }
+}
+
 class DescribeGroupResponse {
   /// The name of the group.
   final Group? group;
@@ -12216,6 +12897,7 @@ class DescribeUserResponse {
 enum Edition {
   standard,
   enterprise,
+  enterpriseAndQ,
 }
 
 extension on Edition {
@@ -12225,6 +12907,8 @@ extension on Edition {
         return 'STANDARD';
       case Edition.enterprise:
         return 'ENTERPRISE';
+      case Edition.enterpriseAndQ:
+        return 'ENTERPRISE_AND_Q';
     }
   }
 }
@@ -12236,6 +12920,8 @@ extension on String {
         return Edition.standard;
       case 'ENTERPRISE':
         return Edition.enterprise;
+      case 'ENTERPRISE_AND_Q':
+        return Edition.enterpriseAndQ;
     }
     throw Exception('$this is not known in enum Edition');
   }
@@ -13045,6 +13731,52 @@ class Group {
   }
 }
 
+enum GroupFilterAttribute {
+  groupName,
+}
+
+extension on GroupFilterAttribute {
+  String toValue() {
+    switch (this) {
+      case GroupFilterAttribute.groupName:
+        return 'GROUP_NAME';
+    }
+  }
+}
+
+extension on String {
+  GroupFilterAttribute toGroupFilterAttribute() {
+    switch (this) {
+      case 'GROUP_NAME':
+        return GroupFilterAttribute.groupName;
+    }
+    throw Exception('$this is not known in enum GroupFilterAttribute');
+  }
+}
+
+enum GroupFilterOperator {
+  startsWith,
+}
+
+extension on GroupFilterOperator {
+  String toValue() {
+    switch (this) {
+      case GroupFilterOperator.startsWith:
+        return 'StartsWith';
+    }
+  }
+}
+
+extension on String {
+  GroupFilterOperator toGroupFilterOperator() {
+    switch (this) {
+      case 'StartsWith':
+        return GroupFilterOperator.startsWith;
+    }
+    throw Exception('$this is not known in enum GroupFilterOperator');
+  }
+}
+
 /// A member of an Amazon QuickSight group. Currently, group members must be
 /// users. Groups can't be members of another group. .
 class GroupMember {
@@ -13072,6 +13804,49 @@ class GroupMember {
     return {
       if (arn != null) 'Arn': arn,
       if (memberName != null) 'MemberName': memberName,
+    };
+  }
+}
+
+/// A <code>GroupSearchFilter</code> object that you want to apply to your
+/// search.
+class GroupSearchFilter {
+  /// The name of the value that you want to use as a filter, for example
+  /// <code>"Name": "GROUP_NAME"</code>. Currently, the only supported name is
+  /// <code>GROUP_NAME</code>.
+  final GroupFilterAttribute name;
+
+  /// The comparison operator that you want to use as a filter, for example
+  /// <code>"Operator": "StartsWith"</code>. Currently, the only supported
+  /// operator is <code>StartsWith</code>.
+  final GroupFilterOperator operator;
+
+  /// The value of the named item, in this case <code>GROUP_NAME</code>, that you
+  /// want to use as a filter.
+  final String value;
+
+  GroupSearchFilter({
+    required this.name,
+    required this.operator,
+    required this.value,
+  });
+
+  factory GroupSearchFilter.fromJson(Map<String, dynamic> json) {
+    return GroupSearchFilter(
+      name: (json['Name'] as String).toGroupFilterAttribute(),
+      operator: (json['Operator'] as String).toGroupFilterOperator(),
+      value: json['Value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final operator = this.operator;
+    final value = this.value;
+    return {
+      'Name': name.toValue(),
+      'Operator': operator.toValue(),
+      'Value': value,
     };
   }
 }
@@ -15939,7 +16714,7 @@ class RegisteredUserEmbeddingExperienceConfiguration {
   ///
   /// For more information about embedding the Q search bar, see <a
   /// href="https://docs.aws.amazon.com/quicksight/latest/user/embedding-overview.html">Embedding
-  /// Overview</a>.
+  /// Overview</a> in the <i>Amazon QuickSight User Guide</i>.
   final RegisteredUserQSearchBarEmbeddingConfiguration? qSearchBar;
 
   /// The configuration details for providing each Amazon QuickSight console
@@ -16793,6 +17568,52 @@ class SearchFoldersResponse {
   }
 }
 
+class SearchGroupsResponse {
+  /// A list of groups in a specified namespace that match the filters you set in
+  /// your <code>SearchGroups</code> request.
+  final List<Group>? groupList;
+
+  /// A pagination token that can be used in a subsequent request.
+  final String? nextToken;
+
+  /// The Amazon Web Services request ID for this operation.
+  final String? requestId;
+
+  /// The HTTP status of the request.
+  final int? status;
+
+  SearchGroupsResponse({
+    this.groupList,
+    this.nextToken,
+    this.requestId,
+    this.status,
+  });
+
+  factory SearchGroupsResponse.fromJson(Map<String, dynamic> json) {
+    return SearchGroupsResponse(
+      groupList: (json['GroupList'] as List?)
+          ?.whereNotNull()
+          .map((e) => Group.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+      requestId: json['RequestId'] as String?,
+      status: json['Status'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final groupList = this.groupList;
+    final nextToken = this.nextToken;
+    final requestId = this.requestId;
+    final status = this.status;
+    return {
+      if (groupList != null) 'GroupList': groupList,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (requestId != null) 'RequestId': requestId,
+    };
+  }
+}
+
 /// The parameters for ServiceNow.
 class ServiceNowParameters {
   /// URL of the base site.
@@ -16936,6 +17757,54 @@ class SheetStyle {
     return {
       if (tile != null) 'Tile': tile,
       if (tileLayout != null) 'TileLayout': tileLayout,
+    };
+  }
+}
+
+/// A <code>SignupResponse</code> object that contains a summary of a newly
+/// created account.
+class SignupResponse {
+  /// A Boolean that is <code>TRUE</code> if the Amazon QuickSight uses IAM as an
+  /// authentication method.
+  final bool? iAMUser;
+
+  /// The name of your Amazon QuickSight account.
+  final String? accountName;
+
+  /// The type of Active Directory that is being used to authenticate the Amazon
+  /// QuickSight account. Valid values are <code>SIMPLE_AD</code>,
+  /// <code>AD_CONNECTOR</code>, and <code>MICROSOFT_AD</code>.
+  final String? directoryType;
+
+  /// The user login name for your Amazon QuickSight account.
+  final String? userLoginName;
+
+  SignupResponse({
+    this.iAMUser,
+    this.accountName,
+    this.directoryType,
+    this.userLoginName,
+  });
+
+  factory SignupResponse.fromJson(Map<String, dynamic> json) {
+    return SignupResponse(
+      iAMUser: json['IAMUser'] as bool?,
+      accountName: json['accountName'] as String?,
+      directoryType: json['directoryType'] as String?,
+      userLoginName: json['userLoginName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final iAMUser = this.iAMUser;
+    final accountName = this.accountName;
+    final directoryType = this.directoryType;
+    final userLoginName = this.userLoginName;
+    return {
+      if (iAMUser != null) 'IAMUser': iAMUser,
+      if (accountName != null) 'accountName': accountName,
+      if (directoryType != null) 'directoryType': directoryType,
+      if (userLoginName != null) 'userLoginName': userLoginName,
     };
   }
 }
@@ -19385,6 +20254,35 @@ class UpdateIpRestrictionResponse {
     final status = this.status;
     return {
       if (awsAccountId != null) 'AwsAccountId': awsAccountId,
+      if (requestId != null) 'RequestId': requestId,
+    };
+  }
+}
+
+class UpdatePublicSharingSettingsResponse {
+  /// The Amazon Web Services request ID for this operation.
+  final String? requestId;
+
+  /// The HTTP status of the request.
+  final int? status;
+
+  UpdatePublicSharingSettingsResponse({
+    this.requestId,
+    this.status,
+  });
+
+  factory UpdatePublicSharingSettingsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return UpdatePublicSharingSettingsResponse(
+      requestId: json['RequestId'] as String?,
+      status: json['Status'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final requestId = this.requestId;
+    final status = this.status;
+    return {
       if (requestId != null) 'RequestId': requestId,
     };
   }

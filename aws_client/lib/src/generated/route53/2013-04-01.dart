@@ -82,6 +82,27 @@ class Route53 {
   /// <code>CreateVPCAssociationAuthorization</code> request. Then the account
   /// that created the VPC must submit an
   /// <code>AssociateVPCWithHostedZone</code> request.
+  /// </note> <note>
+  /// When granting access, the hosted zone and the Amazon VPC must belong to
+  /// the same partition. A partition is a group of Amazon Web Services Regions.
+  /// Each Amazon Web Services account is scoped to one partition.
+  ///
+  /// The following are the supported partitions:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>aws</code> - Amazon Web Services Regions
+  /// </li>
+  /// <li>
+  /// <code>aws-cn</code> - China Regions
+  /// </li>
+  /// <li>
+  /// <code>aws-us-gov</code> - Amazon Web Services GovCloud (US) Region
+  /// </li>
+  /// </ul>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Access
+  /// Management</a> in the <i>Amazon Web Services General Reference</i>.
   /// </note>
   ///
   /// May throw [NoSuchHostedZone].
@@ -129,6 +150,97 @@ class Route53 {
       exceptionFnMap: _exceptionFns,
     );
     return AssociateVPCWithHostedZoneResponse.fromXml($result.body);
+  }
+
+  /// Creates, changes, or deletes CIDR blocks within a collection. Contains
+  /// authoritative IP information mapping blocks to one or multiple locations.
+  ///
+  /// A change request can update multiple locations in a collection at a time,
+  /// which is helpful if you want to move one or more CIDR blocks from one
+  /// location to another in one transaction, without downtime.
+  ///
+  /// <b>Limits</b>
+  ///
+  /// The max number of CIDR blocks included in the request is 1000. As a
+  /// result, big updates require multiple API calls.
+  ///
+  /// <b> PUT and DELETE_IF_EXISTS</b>
+  ///
+  /// Use <code>ChangeCidrCollection</code> to perform the following actions:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>PUT</code>: Create a CIDR block within the specified collection.
+  /// </li>
+  /// <li>
+  /// <code> DELETE_IF_EXISTS</code>: Delete an existing CIDR block from the
+  /// collection.
+  /// </li>
+  /// </ul>
+  ///
+  /// May throw [NoSuchCidrCollectionException].
+  /// May throw [CidrCollectionVersionMismatchException].
+  /// May throw [InvalidInput].
+  /// May throw [CidrBlockInUseException].
+  /// May throw [LimitsExceeded].
+  /// May throw [ConcurrentModification].
+  ///
+  /// Parameter [changes] :
+  /// Information about changes to a CIDR collection.
+  ///
+  /// Parameter [id] :
+  /// The UUID of the CIDR collection to update.
+  ///
+  /// Parameter [collectionVersion] :
+  /// A sequential counter that Amazon Route 53 sets to 1 when you create a
+  /// collection and increments it by 1 each time you update the collection.
+  ///
+  /// We recommend that you use <code>ListCidrCollection</code> to get the
+  /// current value of <code>CollectionVersion</code> for the collection that
+  /// you want to update, and then include that value with the change request.
+  /// This prevents Route 53 from overwriting an intervening update:
+  ///
+  /// <ul>
+  /// <li>
+  /// If the value in the request matches the value of
+  /// <code>CollectionVersion</code> in the collection, Route 53 updates the
+  /// collection.
+  /// </li>
+  /// <li>
+  /// If the value of <code>CollectionVersion</code> in the collection is
+  /// greater than the value in the request, the collection was changed after
+  /// you got the version number. Route 53 does not update the collection, and
+  /// it returns a <code>CidrCollectionVersionMismatch</code> error.
+  /// </li>
+  /// </ul>
+  Future<ChangeCidrCollectionResponse> changeCidrCollection({
+    required List<CidrCollectionChange> changes,
+    required String id,
+    int? collectionVersion,
+  }) async {
+    ArgumentError.checkNotNull(changes, 'changes');
+    ArgumentError.checkNotNull(id, 'id');
+    _s.validateNumRange(
+      'collectionVersion',
+      collectionVersion,
+      1,
+      1152921504606846976,
+    );
+    final $result = await _protocol.send(
+      method: 'POST',
+      requestUri: '/2013-04-01/cidrcollection/${Uri.encodeComponent(id)}',
+      payload: ChangeCidrCollectionRequest(
+              changes: changes, id: id, collectionVersion: collectionVersion)
+          .toXml(
+        'ChangeCidrCollectionRequest',
+        attributes: [
+          _s.XmlAttribute(_s.XmlName('xmlns'),
+              'https://route53.amazonaws.com/doc/2013-04-01/'),
+        ],
+      ),
+      exceptionFnMap: _exceptionFns,
+    );
+    return ChangeCidrCollectionResponse.fromXml($result.body);
   }
 
   /// Creates, changes, or deletes a resource record set, which contains
@@ -194,9 +306,8 @@ class Route53 {
   /// specified values.
   /// </li>
   /// <li>
-  /// <code>UPSERT</code>: If a resource record set does not already exist,
-  /// Amazon Web Services creates it. If a resource set does exist, Route 53
-  /// updates it with the values in the request.
+  /// <code>UPSERT</code>: If a resource set exists Route 53 updates it with the
+  /// values in the request.
   /// </li>
   /// </ul>
   /// <b>Syntaxes for Creating, Updating, and Deleting Resource Record Sets</b>
@@ -335,6 +446,49 @@ class Route53 {
     );
   }
 
+  /// Creates a CIDR collection in the current Amazon Web Services account.
+  ///
+  /// May throw [LimitsExceeded].
+  /// May throw [InvalidInput].
+  /// May throw [CidrCollectionAlreadyExistsException].
+  /// May throw [ConcurrentModification].
+  ///
+  /// Parameter [callerReference] :
+  /// A client-specific token that allows requests to be securely retried so
+  /// that the intended outcome will only occur once, retries receive a similar
+  /// response, and there are no additional edge cases to handle.
+  ///
+  /// Parameter [name] :
+  /// A unique identifier for the account that can be used to reference the
+  /// collection from other API calls.
+  Future<CreateCidrCollectionResponse> createCidrCollection({
+    required String callerReference,
+    required String name,
+  }) async {
+    ArgumentError.checkNotNull(callerReference, 'callerReference');
+    ArgumentError.checkNotNull(name, 'name');
+    final $result = await _protocol.sendRaw(
+      method: 'POST',
+      requestUri: '/2013-04-01/cidrcollection',
+      payload: CreateCidrCollectionRequest(
+              callerReference: callerReference, name: name)
+          .toXml(
+        'CreateCidrCollectionRequest',
+        attributes: [
+          _s.XmlAttribute(_s.XmlName('xmlns'),
+              'https://route53.amazonaws.com/doc/2013-04-01/'),
+        ],
+      ),
+      exceptionFnMap: _exceptionFns,
+    );
+    final $elem = await _s.xmlFromResponse($result);
+    return CreateCidrCollectionResponse(
+      collection:
+          _s.extractXmlChild($elem, 'Collection')?.let(CidrCollection.fromXml),
+      location: _s.extractHeaderStringValue($result.headers, 'Location'),
+    );
+  }
+
   /// Creates a new health check.
   ///
   /// For information about adding health checks to resource record sets, see <a
@@ -456,7 +610,7 @@ class Route53 {
   /// create new resource record sets.
   /// </important>
   /// For more information about charges for hosted zones, see <a
-  /// href="http://aws.amazon.com/route53/pricing/">Amazon Route 53 Pricing</a>.
+  /// href="http://aws.amazon.com/route53/pricing/">Amazon Route 53 Pricing</a>.
   ///
   /// Note the following:
   ///
@@ -469,7 +623,7 @@ class Route53 {
   /// record and four NS records for the zone. For more information about SOA
   /// and NS records, see <a
   /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/SOA-NSrecords.html">NS
-  /// and SOA Records that Route 53 Creates for a Hosted Zone</a> in the
+  /// and SOA Records that Route 53 Creates for a Hosted Zone</a> in the
   /// <i>Amazon Route 53 Developer Guide</i>.
   ///
   /// If you want to use the same name servers for multiple public hosted zones,
@@ -477,22 +631,45 @@ class Route53 {
   /// zone. See the <code>DelegationSetId</code> element.
   /// </li>
   /// <li>
-  /// If your domain is registered with a registrar other than Route 53, you
+  /// If your domain is registered with a registrar other than Route 53, you
   /// must update the name servers with your registrar to make Route 53 the DNS
   /// service for the domain. For more information, see <a
   /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/MigratingDNS.html">Migrating
-  /// DNS Service for an Existing Domain to Amazon Route 53</a> in the <i>Amazon
+  /// DNS Service for an Existing Domain to Amazon Route 53</a> in the <i>Amazon
   /// Route 53 Developer Guide</i>.
   /// </li>
   /// </ul>
   /// When you submit a <code>CreateHostedZone</code> request, the initial
   /// status of the hosted zone is <code>PENDING</code>. For public hosted
   /// zones, this means that the NS and SOA records are not yet available on all
-  /// Route 53 DNS servers. When the NS and SOA records are available, the
+  /// Route 53 DNS servers. When the NS and SOA records are available, the
   /// status of the zone changes to <code>INSYNC</code>.
   ///
   /// The <code>CreateHostedZone</code> request requires the caller to have an
   /// <code>ec2:DescribeVpcs</code> permission.
+  /// <note>
+  /// When creating private hosted zones, the Amazon VPC must belong to the same
+  /// partition where the hosted zone is created. A partition is a group of
+  /// Amazon Web Services Regions. Each Amazon Web Services account is scoped to
+  /// one partition.
+  ///
+  /// The following are the supported partitions:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>aws</code> - Amazon Web Services Regions
+  /// </li>
+  /// <li>
+  /// <code>aws-cn</code> - China Regions
+  /// </li>
+  /// <li>
+  /// <code>aws-us-gov</code> - Amazon Web Services GovCloud (US) Region
+  /// </li>
+  /// </ul>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Access
+  /// Management</a> in the <i>Amazon Web Services General Reference</i>.
+  /// </note>
   ///
   /// May throw [InvalidDomainName].
   /// May throw [HostedZoneAlreadyExists].
@@ -515,19 +692,19 @@ class Route53 {
   /// Parameter [name] :
   /// The name of the domain. Specify a fully qualified domain name, for
   /// example, <i>www.example.com</i>. The trailing dot is optional; Amazon
-  /// Route 53 assumes that the domain name is fully qualified. This means that
-  /// Route 53 treats <i>www.example.com</i> (without a trailing dot) and
+  /// Route 53 assumes that the domain name is fully qualified. This means that
+  /// Route 53 treats <i>www.example.com</i> (without a trailing dot) and
   /// <i>www.example.com.</i> (with a trailing dot) as identical.
   ///
   /// If you're creating a public hosted zone, this is the name you have
   /// registered with your DNS registrar. If your domain name is registered with
-  /// a registrar other than Route 53, change the name servers for your domain
+  /// a registrar other than Route 53, change the name servers for your domain
   /// to the set of <code>NameServers</code> that <code>CreateHostedZone</code>
   /// returns in <code>DelegationSet</code>.
   ///
   /// Parameter [delegationSetId] :
   /// If you want to associate a reusable delegation set with this hosted zone,
-  /// the ID that Amazon Route 53 assigned to the reusable delegation set when
+  /// the ID that Amazon Route 53 assigned to the reusable delegation set when
   /// you created it. For more information about reusable delegation sets, see
   /// <a
   /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_CreateReusableDelegationSet.html">CreateReusableDelegationSet</a>.
@@ -768,6 +945,28 @@ class Route53 {
   /// for example:
   ///
   /// <code>arn:aws:logs:us-east-1:123412341234:log-group:/aws/route53/*</code>
+  ///
+  /// To avoid the confused deputy problem, a security issue where an entity
+  /// without a permission for an action can coerce a more-privileged entity to
+  /// perform it, you can optionally limit the permissions that a service has to
+  /// a resource in a resource-based policy by supplying the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// For <code>aws:SourceArn</code>, supply the hosted zone ARN used in
+  /// creating the query logging configuration. For example,
+  /// <code>aws:SourceArn: arn:aws:route53:::hostedzone/hosted zone ID</code>.
+  /// </li>
+  /// <li>
+  /// For <code>aws:SourceAccount</code>, supply the account ID for the account
+  /// that creates the query logging configuration. For example,
+  /// <code>aws:SourceAccount:111111111111</code>.
+  /// </li>
+  /// </ul>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/confused-deputy.html">The
+  /// confused deputy problem</a> in the <i>Amazon Web Services IAM User
+  /// Guide</i>.
   /// <note>
   /// You can't use the CloudWatch console to create or edit a resource policy.
   /// You must use the CloudWatch API, one of the Amazon Web Services SDKs, or
@@ -1264,6 +1463,27 @@ class Route53 {
     return DeactivateKeySigningKeyResponse.fromXml($result.body);
   }
 
+  /// Deletes a CIDR collection in the current Amazon Web Services account. The
+  /// collection must be empty before it can be deleted.
+  ///
+  /// May throw [NoSuchCidrCollectionException].
+  /// May throw [CidrCollectionInUseException].
+  /// May throw [InvalidInput].
+  /// May throw [ConcurrentModification].
+  ///
+  /// Parameter [id] :
+  /// The UUID of the collection to delete.
+  Future<void> deleteCidrCollection({
+    required String id,
+  }) async {
+    ArgumentError.checkNotNull(id, 'id');
+    await _protocol.send(
+      method: 'DELETE',
+      requestUri: '/2013-04-01/cidrcollection/${Uri.encodeComponent(id)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Deletes a health check.
   /// <important>
   /// Amazon Route 53 does not prevent you from deleting a health check even if
@@ -1307,7 +1527,7 @@ class Route53 {
   /// <a
   /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DeleteHostedZone.html#delete-public-hosted-zone-created-by-another-service">Deleting
   /// Public Hosted Zones That Were Created by Another Service</a> in the
-  /// <i>Amazon Route 53 Developer Guide</i> for information about how to delete
+  /// <i>Amazon Route 53 Developer Guide</i> for information about how to delete
   /// it. (The process is the same for public and private hosted zones that were
   /// created by another service.)
   ///
@@ -1327,9 +1547,9 @@ class Route53 {
   /// If you want to avoid the monthly charge for the hosted zone, you can
   /// transfer DNS service for the domain to a free DNS service. When you
   /// transfer DNS service, you have to update the name servers for the domain
-  /// registration. If the domain is registered with Route 53, see <a
+  /// registration. If the domain is registered with Route 53, see <a
   /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_UpdateDomainNameservers.html">UpdateDomainNameservers</a>
-  /// for information about how to replace Route 53 name servers with name
+  /// for information about how to replace Route 53 name servers with name
   /// servers for the new DNS service. If the domain is registered with another
   /// registrar, use the method provided by the registrar to update name servers
   /// for the domain registration. For more information, perform an internet
@@ -1339,7 +1559,7 @@ class Route53 {
   /// record and NS resource record sets. If the hosted zone contains other
   /// resource record sets, you must delete them before you can delete the
   /// hosted zone. If you try to delete a hosted zone that contains other
-  /// resource record sets, the request fails, and Route 53 returns a
+  /// resource record sets, the request fails, and Route 53 returns a
   /// <code>HostedZoneNotEmpty</code> error. For information about deleting
   /// records from your hosted zone, see <a
   /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_ChangeResourceRecordSets.html">ChangeResourceRecordSets</a>.
@@ -1660,7 +1880,28 @@ class Route53 {
   /// for <code>OwningService</code>, you can't use
   /// <code>DisassociateVPCFromHostedZone</code>.
   /// </li>
+  /// </ul> <note>
+  /// When revoking access, the hosted zone and the Amazon VPC must belong to
+  /// the same partition. A partition is a group of Amazon Web Services Regions.
+  /// Each Amazon Web Services account is scoped to one partition.
+  ///
+  /// The following are the supported partitions:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>aws</code> - Amazon Web Services Regions
+  /// </li>
+  /// <li>
+  /// <code>aws-cn</code> - China Regions
+  /// </li>
+  /// <li>
+  /// <code>aws-us-gov</code> - Amazon Web Services GovCloud (US) Region
+  /// </li>
   /// </ul>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Access
+  /// Management</a> in the <i>Amazon Web Services General Reference</i>.
+  /// </note>
   ///
   /// May throw [NoSuchHostedZone].
   /// May throw [InvalidVPCId].
@@ -2290,6 +2531,113 @@ class Route53 {
     return GetTrafficPolicyInstanceCountResponse.fromXml($result.body);
   }
 
+  /// Returns a paginated list of location objects and their CIDR blocks.
+  ///
+  /// May throw [NoSuchCidrCollectionException].
+  /// May throw [NoSuchCidrLocationException].
+  /// May throw [InvalidInput].
+  ///
+  /// Parameter [collectionId] :
+  /// The UUID of the CIDR collection.
+  ///
+  /// Parameter [locationName] :
+  /// The name of the CIDR collection location.
+  ///
+  /// Parameter [maxResults] :
+  /// Maximum number of results you want returned.
+  ///
+  /// Parameter [nextToken] :
+  /// An opaque pagination token to indicate where the service is to begin
+  /// enumerating results.
+  Future<ListCidrBlocksResponse> listCidrBlocks({
+    required String collectionId,
+    String? locationName,
+    String? maxResults,
+    String? nextToken,
+  }) async {
+    ArgumentError.checkNotNull(collectionId, 'collectionId');
+    final $query = <String, List<String>>{
+      if (locationName != null) 'location': [locationName],
+      if (maxResults != null) 'maxresults': [maxResults],
+      if (nextToken != null) 'nexttoken': [nextToken],
+    };
+    final $result = await _protocol.send(
+      method: 'GET',
+      requestUri:
+          '/2013-04-01/cidrcollection/${Uri.encodeComponent(collectionId)}/cidrblocks',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListCidrBlocksResponse.fromXml($result.body);
+  }
+
+  /// Returns a paginated list of CIDR collections in the Amazon Web Services
+  /// account (metadata only).
+  ///
+  /// May throw [InvalidInput].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of CIDR collections to return in the response.
+  ///
+  /// Parameter [nextToken] :
+  /// An opaque pagination token to indicate where the service is to begin
+  /// enumerating results.
+  ///
+  /// If no value is provided, the listing of results starts from the beginning.
+  Future<ListCidrCollectionsResponse> listCidrCollections({
+    String? maxResults,
+    String? nextToken,
+  }) async {
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxresults': [maxResults],
+      if (nextToken != null) 'nexttoken': [nextToken],
+    };
+    final $result = await _protocol.send(
+      method: 'GET',
+      requestUri: '/2013-04-01/cidrcollection',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListCidrCollectionsResponse.fromXml($result.body);
+  }
+
+  /// Returns a paginated list of CIDR locations for the given collection
+  /// (metadata only, does not include CIDR blocks).
+  ///
+  /// May throw [NoSuchCidrCollectionException].
+  /// May throw [InvalidInput].
+  ///
+  /// Parameter [collectionId] :
+  /// The CIDR collection ID.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of CIDR collection locations to return in the response.
+  ///
+  /// Parameter [nextToken] :
+  /// An opaque pagination token to indicate where the service is to begin
+  /// enumerating results.
+  ///
+  /// If no value is provided, the listing of results starts from the beginning.
+  Future<ListCidrLocationsResponse> listCidrLocations({
+    required String collectionId,
+    String? maxResults,
+    String? nextToken,
+  }) async {
+    ArgumentError.checkNotNull(collectionId, 'collectionId');
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxresults': [maxResults],
+      if (nextToken != null) 'nexttoken': [nextToken],
+    };
+    final $result = await _protocol.send(
+      method: 'GET',
+      requestUri:
+          '/2013-04-01/cidrcollection/${Uri.encodeComponent(collectionId)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListCidrLocationsResponse.fromXml($result.body);
+  }
+
   /// Retrieves a list of supported geographic locations.
   ///
   /// Countries are listed first, and continents are listed last. If Amazon
@@ -2600,7 +2948,29 @@ class Route53 {
   /// hosted zone was created by Amazon Elastic File System (Amazon EFS), the
   /// value of <code>Owner</code> is <code>efs.amazonaws.com</code>.
   /// </li>
+  /// </ul> <note>
+  /// When listing private hosted zones, the hosted zone and the Amazon VPC must
+  /// belong to the same partition where the hosted zones were created. A
+  /// partition is a group of Amazon Web Services Regions. Each Amazon Web
+  /// Services account is scoped to one partition.
+  ///
+  /// The following are the supported partitions:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>aws</code> - Amazon Web Services Regions
+  /// </li>
+  /// <li>
+  /// <code>aws-cn</code> - China Regions
+  /// </li>
+  /// <li>
+  /// <code>aws-us-gov</code> - Amazon Web Services GovCloud (US) Region
+  /// </li>
   /// </ul>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Access
+  /// Management</a> in the <i>Amazon Web Services General Reference</i>.
+  /// </note>
   ///
   /// May throw [InvalidInput].
   /// May throw [InvalidPaginationToken].
@@ -5038,6 +5408,114 @@ class ChangeBatch {
   }
 }
 
+class ChangeCidrCollectionRequest {
+  /// Information about changes to a CIDR collection.
+  final List<CidrCollectionChange> changes;
+
+  /// The UUID of the CIDR collection to update.
+  final String id;
+
+  /// A sequential counter that Amazon Route 53 sets to 1 when you create a
+  /// collection and increments it by 1 each time you update the collection.
+  ///
+  /// We recommend that you use <code>ListCidrCollection</code> to get the current
+  /// value of <code>CollectionVersion</code> for the collection that you want to
+  /// update, and then include that value with the change request. This prevents
+  /// Route 53 from overwriting an intervening update:
+  ///
+  /// <ul>
+  /// <li>
+  /// If the value in the request matches the value of
+  /// <code>CollectionVersion</code> in the collection, Route 53 updates the
+  /// collection.
+  /// </li>
+  /// <li>
+  /// If the value of <code>CollectionVersion</code> in the collection is greater
+  /// than the value in the request, the collection was changed after you got the
+  /// version number. Route 53 does not update the collection, and it returns a
+  /// <code>CidrCollectionVersionMismatch</code> error.
+  /// </li>
+  /// </ul>
+  final int? collectionVersion;
+
+  ChangeCidrCollectionRequest({
+    required this.changes,
+    required this.id,
+    this.collectionVersion,
+  });
+
+  factory ChangeCidrCollectionRequest.fromJson(Map<String, dynamic> json) {
+    return ChangeCidrCollectionRequest(
+      changes: (json['Changes'] as List)
+          .whereNotNull()
+          .map((e) => CidrCollectionChange.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      id: json['CidrCollectionId'] as String,
+      collectionVersion: json['CollectionVersion'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final changes = this.changes;
+    final id = this.id;
+    final collectionVersion = this.collectionVersion;
+    return {
+      'Changes': changes,
+      if (collectionVersion != null) 'CollectionVersion': collectionVersion,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final changes = this.changes;
+    final id = this.id;
+    final collectionVersion = this.collectionVersion;
+    final $children = <_s.XmlNode>[
+      if (collectionVersion != null)
+        _s.encodeXmlIntValue('CollectionVersion', collectionVersion),
+      _s.XmlElement(
+          _s.XmlName('Changes'), [], changes.map((e) => e.toXml('member'))),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+class ChangeCidrCollectionResponse {
+  /// The ID that is returned by <code>ChangeCidrCollection</code>. You can use it
+  /// as input to <code>GetChange</code> to see if a CIDR collection change has
+  /// propagated or not.
+  final String id;
+
+  ChangeCidrCollectionResponse({
+    required this.id,
+  });
+
+  factory ChangeCidrCollectionResponse.fromJson(Map<String, dynamic> json) {
+    return ChangeCidrCollectionResponse(
+      id: json['Id'] as String,
+    );
+  }
+
+  factory ChangeCidrCollectionResponse.fromXml(_s.XmlElement elem) {
+    return ChangeCidrCollectionResponse(
+      id: _s.extractXmlStringValue(elem, 'Id')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    return {
+      'Id': id,
+    };
+  }
+}
+
 /// A complex type that describes change information about changes made to your
 /// hosted zone.
 class ChangeInfo {
@@ -5315,6 +5793,246 @@ class ChangeTagsForResourceResponse {
   }
 }
 
+/// A complex type that lists the CIDR blocks.
+class CidrBlockSummary {
+  /// Value for the CIDR block.
+  final String? cidrBlock;
+
+  /// The location name of the CIDR block.
+  final String? locationName;
+
+  CidrBlockSummary({
+    this.cidrBlock,
+    this.locationName,
+  });
+
+  factory CidrBlockSummary.fromJson(Map<String, dynamic> json) {
+    return CidrBlockSummary(
+      cidrBlock: json['CidrBlock'] as String?,
+      locationName: json['LocationName'] as String?,
+    );
+  }
+
+  factory CidrBlockSummary.fromXml(_s.XmlElement elem) {
+    return CidrBlockSummary(
+      cidrBlock: _s.extractXmlStringValue(elem, 'CidrBlock'),
+      locationName: _s.extractXmlStringValue(elem, 'LocationName'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cidrBlock = this.cidrBlock;
+    final locationName = this.locationName;
+    return {
+      if (cidrBlock != null) 'CidrBlock': cidrBlock,
+      if (locationName != null) 'LocationName': locationName,
+    };
+  }
+}
+
+/// A complex type that identifies a CIDR collection.
+class CidrCollection {
+  /// The ARN of the collection. Can be used to reference the collection in IAM
+  /// policy or in another Amazon Web Services account.
+  final String? arn;
+
+  /// The unique ID of the CIDR collection.
+  final String? id;
+
+  /// The name of a CIDR collection.
+  final String? name;
+
+  /// A sequential counter that Route 53 sets to 1 when you create a CIDR
+  /// collection and increments by 1 each time you update settings for the CIDR
+  /// collection.
+  final int? version;
+
+  CidrCollection({
+    this.arn,
+    this.id,
+    this.name,
+    this.version,
+  });
+
+  factory CidrCollection.fromJson(Map<String, dynamic> json) {
+    return CidrCollection(
+      arn: json['Arn'] as String?,
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+      version: json['Version'] as int?,
+    );
+  }
+
+  factory CidrCollection.fromXml(_s.XmlElement elem) {
+    return CidrCollection(
+      arn: _s.extractXmlStringValue(elem, 'Arn'),
+      id: _s.extractXmlStringValue(elem, 'Id'),
+      name: _s.extractXmlStringValue(elem, 'Name'),
+      version: _s.extractXmlIntValue(elem, 'Version'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final id = this.id;
+    final name = this.name;
+    final version = this.version;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (id != null) 'Id': id,
+      if (name != null) 'Name': name,
+      if (version != null) 'Version': version,
+    };
+  }
+}
+
+/// A complex type that contains information about the CIDR collection change.
+class CidrCollectionChange {
+  /// CIDR collection change action.
+  final CidrCollectionChangeAction action;
+
+  /// List of CIDR blocks.
+  final List<String> cidrList;
+
+  /// Name of the location that is associated with the CIDR collection.
+  final String locationName;
+
+  CidrCollectionChange({
+    required this.action,
+    required this.cidrList,
+    required this.locationName,
+  });
+
+  factory CidrCollectionChange.fromJson(Map<String, dynamic> json) {
+    return CidrCollectionChange(
+      action: (json['Action'] as String).toCidrCollectionChangeAction(),
+      cidrList: (json['CidrList'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      locationName: json['LocationName'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final cidrList = this.cidrList;
+    final locationName = this.locationName;
+    return {
+      'Action': action.toValue(),
+      'CidrList': cidrList,
+      'LocationName': locationName,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final action = this.action;
+    final cidrList = this.cidrList;
+    final locationName = this.locationName;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('LocationName', locationName),
+      _s.encodeXmlStringValue('Action', action.toValue()),
+      _s.XmlElement(_s.XmlName('CidrList'), [],
+          cidrList.map((e) => _s.encodeXmlStringValue('Cidr', e))),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+enum CidrCollectionChangeAction {
+  put,
+  deleteIfExists,
+}
+
+extension on CidrCollectionChangeAction {
+  String toValue() {
+    switch (this) {
+      case CidrCollectionChangeAction.put:
+        return 'PUT';
+      case CidrCollectionChangeAction.deleteIfExists:
+        return 'DELETE_IF_EXISTS';
+    }
+  }
+}
+
+extension on String {
+  CidrCollectionChangeAction toCidrCollectionChangeAction() {
+    switch (this) {
+      case 'PUT':
+        return CidrCollectionChangeAction.put;
+      case 'DELETE_IF_EXISTS':
+        return CidrCollectionChangeAction.deleteIfExists;
+    }
+    throw Exception('$this is not known in enum CidrCollectionChangeAction');
+  }
+}
+
+/// The object that is specified in resource record set object when you are
+/// linking a resource record set to a CIDR location.
+///
+/// A <code>LocationName</code> with an asterisk “*” can be used to create a
+/// default CIDR record. <code>CollectionId</code> is still required for default
+/// record.
+class CidrRoutingConfig {
+  /// The CIDR collection ID.
+  final String collectionId;
+
+  /// The CIDR collection location name.
+  final String locationName;
+
+  CidrRoutingConfig({
+    required this.collectionId,
+    required this.locationName,
+  });
+
+  factory CidrRoutingConfig.fromJson(Map<String, dynamic> json) {
+    return CidrRoutingConfig(
+      collectionId: json['CollectionId'] as String,
+      locationName: json['LocationName'] as String,
+    );
+  }
+
+  factory CidrRoutingConfig.fromXml(_s.XmlElement elem) {
+    return CidrRoutingConfig(
+      collectionId: _s.extractXmlStringValue(elem, 'CollectionId')!,
+      locationName: _s.extractXmlStringValue(elem, 'LocationName')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final collectionId = this.collectionId;
+    final locationName = this.locationName;
+    return {
+      'CollectionId': collectionId,
+      'LocationName': locationName,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final collectionId = this.collectionId;
+    final locationName = this.locationName;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('CollectionId', collectionId),
+      _s.encodeXmlStringValue('LocationName', locationName),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
 /// A complex type that contains information about the CloudWatch alarm that
 /// Amazon Route 53 is monitoring for this health check.
 class CloudWatchAlarmConfiguration {
@@ -5585,6 +6303,64 @@ extension on String {
   }
 }
 
+/// A complex type that is an entry in an <a
+/// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_CidrCollection.html">CidrCollection</a>
+/// array.
+class CollectionSummary {
+  /// The ARN of the collection summary. Can be used to reference the collection
+  /// in IAM policy or cross-account.
+  final String? arn;
+
+  /// Unique ID for the CIDR collection.
+  final String? id;
+
+  /// The name of a CIDR collection.
+  final String? name;
+
+  /// A sequential counter that Route 53 sets to 1 when you create a CIDR
+  /// collection and increments by 1 each time you update settings for the CIDR
+  /// collection.
+  final int? version;
+
+  CollectionSummary({
+    this.arn,
+    this.id,
+    this.name,
+    this.version,
+  });
+
+  factory CollectionSummary.fromJson(Map<String, dynamic> json) {
+    return CollectionSummary(
+      arn: json['Arn'] as String?,
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+      version: json['Version'] as int?,
+    );
+  }
+
+  factory CollectionSummary.fromXml(_s.XmlElement elem) {
+    return CollectionSummary(
+      arn: _s.extractXmlStringValue(elem, 'Arn'),
+      id: _s.extractXmlStringValue(elem, 'Id'),
+      name: _s.extractXmlStringValue(elem, 'Name'),
+      version: _s.extractXmlIntValue(elem, 'Version'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final id = this.id;
+    final name = this.name;
+    final version = this.version;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (id != null) 'Id': id,
+      if (name != null) 'Name': name,
+      if (version != null) 'Version': version,
+    };
+  }
+}
+
 enum ComparisonOperator {
   greaterThanOrEqualToThreshold,
   greaterThanThreshold,
@@ -5620,6 +6396,85 @@ extension on String {
         return ComparisonOperator.lessThanOrEqualToThreshold;
     }
     throw Exception('$this is not known in enum ComparisonOperator');
+  }
+}
+
+class CreateCidrCollectionRequest {
+  /// A client-specific token that allows requests to be securely retried so that
+  /// the intended outcome will only occur once, retries receive a similar
+  /// response, and there are no additional edge cases to handle.
+  final String callerReference;
+
+  /// A unique identifier for the account that can be used to reference the
+  /// collection from other API calls.
+  final String name;
+
+  CreateCidrCollectionRequest({
+    required this.callerReference,
+    required this.name,
+  });
+
+  factory CreateCidrCollectionRequest.fromJson(Map<String, dynamic> json) {
+    return CreateCidrCollectionRequest(
+      callerReference: json['CallerReference'] as String,
+      name: json['Name'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final callerReference = this.callerReference;
+    final name = this.name;
+    return {
+      'CallerReference': callerReference,
+      'Name': name,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final callerReference = this.callerReference;
+    final name = this.name;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('Name', name),
+      _s.encodeXmlStringValue('CallerReference', callerReference),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+class CreateCidrCollectionResponse {
+  /// A complex type that contains information about the CIDR collection.
+  final CidrCollection? collection;
+
+  /// A unique URL that represents the location for the CIDR collection.
+  final String? location;
+
+  CreateCidrCollectionResponse({
+    this.collection,
+    this.location,
+  });
+
+  factory CreateCidrCollectionResponse.fromJson(Map<String, dynamic> json) {
+    return CreateCidrCollectionResponse(
+      collection: json['Collection'] != null
+          ? CidrCollection.fromJson(json['Collection'] as Map<String, dynamic>)
+          : null,
+      location: json['Location'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final collection = this.collection;
+    final location = this.location;
+    return {
+      if (collection != null) 'Collection': collection,
+    };
   }
 }
 
@@ -5740,20 +6595,20 @@ class CreateHostedZoneRequest {
   final String callerReference;
 
   /// The name of the domain. Specify a fully qualified domain name, for example,
-  /// <i>www.example.com</i>. The trailing dot is optional; Amazon Route 53
-  /// assumes that the domain name is fully qualified. This means that Route 53
+  /// <i>www.example.com</i>. The trailing dot is optional; Amazon Route 53
+  /// assumes that the domain name is fully qualified. This means that Route 53
   /// treats <i>www.example.com</i> (without a trailing dot) and
   /// <i>www.example.com.</i> (with a trailing dot) as identical.
   ///
   /// If you're creating a public hosted zone, this is the name you have
   /// registered with your DNS registrar. If your domain name is registered with a
-  /// registrar other than Route 53, change the name servers for your domain to
+  /// registrar other than Route 53, change the name servers for your domain to
   /// the set of <code>NameServers</code> that <code>CreateHostedZone</code>
   /// returns in <code>DelegationSet</code>.
   final String name;
 
   /// If you want to associate a reusable delegation set with this hosted zone,
-  /// the ID that Amazon Route 53 assigned to the reusable delegation set when you
+  /// the ID that Amazon Route 53 assigned to the reusable delegation set when you
   /// created it. For more information about reusable delegation sets, see <a
   /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_CreateReusableDelegationSet.html">CreateReusableDelegationSet</a>.
   final String? delegationSetId;
@@ -6753,6 +7608,24 @@ class DelegationSet {
       if (callerReference != null) 'CallerReference': callerReference,
       if (id != null) 'Id': id,
     };
+  }
+}
+
+class DeleteCidrCollectionResponse {
+  DeleteCidrCollectionResponse();
+
+  factory DeleteCidrCollectionResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteCidrCollectionResponse();
+  }
+
+  factory DeleteCidrCollectionResponse.fromXml(
+      // ignore: avoid_unused_constructor_parameters
+      _s.XmlElement elem) {
+    return DeleteCidrCollectionResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
@@ -9502,6 +10375,138 @@ class LinkedService {
   }
 }
 
+class ListCidrBlocksResponse {
+  /// A complex type that contains information about the CIDR blocks.
+  final List<CidrBlockSummary>? cidrBlocks;
+
+  /// An opaque pagination token to indicate where the service is to begin
+  /// enumerating results.
+  ///
+  /// If no value is provided, the listing of results starts from the beginning.
+  final String? nextToken;
+
+  ListCidrBlocksResponse({
+    this.cidrBlocks,
+    this.nextToken,
+  });
+
+  factory ListCidrBlocksResponse.fromJson(Map<String, dynamic> json) {
+    return ListCidrBlocksResponse(
+      cidrBlocks: (json['CidrBlocks'] as List?)
+          ?.whereNotNull()
+          .map((e) => CidrBlockSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  factory ListCidrBlocksResponse.fromXml(_s.XmlElement elem) {
+    return ListCidrBlocksResponse(
+      cidrBlocks: _s.extractXmlChild(elem, 'CidrBlocks')?.let((elem) =>
+          elem.findElements('member').map(CidrBlockSummary.fromXml).toList()),
+      nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cidrBlocks = this.cidrBlocks;
+    final nextToken = this.nextToken;
+    return {
+      if (cidrBlocks != null) 'CidrBlocks': cidrBlocks,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListCidrCollectionsResponse {
+  /// A complex type with information about the CIDR collection.
+  final List<CollectionSummary>? cidrCollections;
+
+  /// An opaque pagination token to indicate where the service is to begin
+  /// enumerating results.
+  ///
+  /// If no value is provided, the listing of results starts from the beginning.
+  final String? nextToken;
+
+  ListCidrCollectionsResponse({
+    this.cidrCollections,
+    this.nextToken,
+  });
+
+  factory ListCidrCollectionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListCidrCollectionsResponse(
+      cidrCollections: (json['CidrCollections'] as List?)
+          ?.whereNotNull()
+          .map((e) => CollectionSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  factory ListCidrCollectionsResponse.fromXml(_s.XmlElement elem) {
+    return ListCidrCollectionsResponse(
+      cidrCollections: _s.extractXmlChild(elem, 'CidrCollections')?.let(
+          (elem) => elem
+              .findElements('member')
+              .map(CollectionSummary.fromXml)
+              .toList()),
+      nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cidrCollections = this.cidrCollections;
+    final nextToken = this.nextToken;
+    return {
+      if (cidrCollections != null) 'CidrCollections': cidrCollections,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListCidrLocationsResponse {
+  /// A complex type that contains information about the list of CIDR locations.
+  final List<LocationSummary>? cidrLocations;
+
+  /// An opaque pagination token to indicate where the service is to begin
+  /// enumerating results.
+  ///
+  /// If no value is provided, the listing of results starts from the beginning.
+  final String? nextToken;
+
+  ListCidrLocationsResponse({
+    this.cidrLocations,
+    this.nextToken,
+  });
+
+  factory ListCidrLocationsResponse.fromJson(Map<String, dynamic> json) {
+    return ListCidrLocationsResponse(
+      cidrLocations: (json['CidrLocations'] as List?)
+          ?.whereNotNull()
+          .map((e) => LocationSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  factory ListCidrLocationsResponse.fromXml(_s.XmlElement elem) {
+    return ListCidrLocationsResponse(
+      cidrLocations: _s.extractXmlChild(elem, 'CidrLocations')?.let((elem) =>
+          elem.findElements('member').map(LocationSummary.fromXml).toList()),
+      nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cidrLocations = this.cidrLocations;
+    final nextToken = this.nextToken;
+    return {
+      if (cidrLocations != null) 'CidrLocations': cidrLocations,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
 /// A complex type containing the response information for the request.
 class ListGeoLocationsResponse {
   /// A complex type that contains one <code>GeoLocationDetails</code> element for
@@ -10793,6 +11798,35 @@ class ListVPCAssociationAuthorizationsResponse {
   }
 }
 
+/// A complex type that contains information about the CIDR location.
+class LocationSummary {
+  /// A string that specifies a location name.
+  final String? locationName;
+
+  LocationSummary({
+    this.locationName,
+  });
+
+  factory LocationSummary.fromJson(Map<String, dynamic> json) {
+    return LocationSummary(
+      locationName: json['LocationName'] as String?,
+    );
+  }
+
+  factory LocationSummary.fromXml(_s.XmlElement elem) {
+    return LocationSummary(
+      locationName: _s.extractXmlStringValue(elem, 'LocationName'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final locationName = this.locationName;
+    return {
+      if (locationName != null) 'LocationName': locationName,
+    };
+  }
+}
+
 /// A complex type that contains information about a configuration for DNS query
 /// logging.
 class QueryLoggingConfig {
@@ -11169,6 +12203,7 @@ class ResourceRecordSet {
   /// </li>
   /// </ul>
   final AliasTarget? aliasTarget;
+  final CidrRoutingConfig? cidrRoutingConfig;
 
   /// <i>Failover resource record sets only:</i> To configure failover, you add
   /// the <code>Failover</code> element to two resource record sets. For one
@@ -11610,6 +12645,7 @@ class ResourceRecordSet {
     required this.name,
     required this.type,
     this.aliasTarget,
+    this.cidrRoutingConfig,
     this.failover,
     this.geoLocation,
     this.healthCheckId,
@@ -11628,6 +12664,10 @@ class ResourceRecordSet {
       type: (json['Type'] as String).toRRType(),
       aliasTarget: json['AliasTarget'] != null
           ? AliasTarget.fromJson(json['AliasTarget'] as Map<String, dynamic>)
+          : null,
+      cidrRoutingConfig: json['CidrRoutingConfig'] != null
+          ? CidrRoutingConfig.fromJson(
+              json['CidrRoutingConfig'] as Map<String, dynamic>)
           : null,
       failover: (json['Failover'] as String?)?.toResourceRecordSetFailover(),
       geoLocation: json['GeoLocation'] != null
@@ -11653,6 +12693,9 @@ class ResourceRecordSet {
       type: _s.extractXmlStringValue(elem, 'Type')!.toRRType(),
       aliasTarget:
           _s.extractXmlChild(elem, 'AliasTarget')?.let(AliasTarget.fromXml),
+      cidrRoutingConfig: _s
+          .extractXmlChild(elem, 'CidrRoutingConfig')
+          ?.let(CidrRoutingConfig.fromXml),
       failover: _s
           .extractXmlStringValue(elem, 'Failover')
           ?.toResourceRecordSetFailover(),
@@ -11679,6 +12722,7 @@ class ResourceRecordSet {
     final name = this.name;
     final type = this.type;
     final aliasTarget = this.aliasTarget;
+    final cidrRoutingConfig = this.cidrRoutingConfig;
     final failover = this.failover;
     final geoLocation = this.geoLocation;
     final healthCheckId = this.healthCheckId;
@@ -11693,6 +12737,7 @@ class ResourceRecordSet {
       'Name': name,
       'Type': type.toValue(),
       if (aliasTarget != null) 'AliasTarget': aliasTarget,
+      if (cidrRoutingConfig != null) 'CidrRoutingConfig': cidrRoutingConfig,
       if (failover != null) 'Failover': failover.toValue(),
       if (geoLocation != null) 'GeoLocation': geoLocation,
       if (healthCheckId != null) 'HealthCheckId': healthCheckId,
@@ -11711,6 +12756,7 @@ class ResourceRecordSet {
     final name = this.name;
     final type = this.type;
     final aliasTarget = this.aliasTarget;
+    final cidrRoutingConfig = this.cidrRoutingConfig;
     final failover = this.failover;
     final geoLocation = this.geoLocation;
     final healthCheckId = this.healthCheckId;
@@ -11743,6 +12789,8 @@ class ResourceRecordSet {
       if (trafficPolicyInstanceId != null)
         _s.encodeXmlStringValue(
             'TrafficPolicyInstanceId', trafficPolicyInstanceId),
+      if (cidrRoutingConfig != null)
+        cidrRoutingConfig.toXml('CidrRoutingConfig'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -13640,6 +14688,33 @@ extension on String {
   }
 }
 
+class CidrBlockInUseException extends _s.GenericAwsException {
+  CidrBlockInUseException({String? type, String? message})
+      : super(type: type, code: 'CidrBlockInUseException', message: message);
+}
+
+class CidrCollectionAlreadyExistsException extends _s.GenericAwsException {
+  CidrCollectionAlreadyExistsException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'CidrCollectionAlreadyExistsException',
+            message: message);
+}
+
+class CidrCollectionInUseException extends _s.GenericAwsException {
+  CidrCollectionInUseException({String? type, String? message})
+      : super(
+            type: type, code: 'CidrCollectionInUseException', message: message);
+}
+
+class CidrCollectionVersionMismatchException extends _s.GenericAwsException {
+  CidrCollectionVersionMismatchException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'CidrCollectionVersionMismatchException',
+            message: message);
+}
+
 class ConcurrentModification extends _s.GenericAwsException {
   ConcurrentModification({String? type, String? message})
       : super(type: type, code: 'ConcurrentModification', message: message);
@@ -13838,6 +14913,20 @@ class NoSuchChange extends _s.GenericAwsException {
       : super(type: type, code: 'NoSuchChange', message: message);
 }
 
+class NoSuchCidrCollectionException extends _s.GenericAwsException {
+  NoSuchCidrCollectionException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'NoSuchCidrCollectionException',
+            message: message);
+}
+
+class NoSuchCidrLocationException extends _s.GenericAwsException {
+  NoSuchCidrLocationException({String? type, String? message})
+      : super(
+            type: type, code: 'NoSuchCidrLocationException', message: message);
+}
+
 class NoSuchCloudWatchLogsLogGroup extends _s.GenericAwsException {
   NoSuchCloudWatchLogsLogGroup({String? type, String? message})
       : super(
@@ -13990,6 +15079,14 @@ class VPCAssociationNotFound extends _s.GenericAwsException {
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{
+  'CidrBlockInUseException': (type, message) =>
+      CidrBlockInUseException(type: type, message: message),
+  'CidrCollectionAlreadyExistsException': (type, message) =>
+      CidrCollectionAlreadyExistsException(type: type, message: message),
+  'CidrCollectionInUseException': (type, message) =>
+      CidrCollectionInUseException(type: type, message: message),
+  'CidrCollectionVersionMismatchException': (type, message) =>
+      CidrCollectionVersionMismatchException(type: type, message: message),
   'ConcurrentModification': (type, message) =>
       ConcurrentModification(type: type, message: message),
   'ConflictingDomainExists': (type, message) =>
@@ -14061,6 +15158,10 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
   'LimitsExceeded': (type, message) =>
       LimitsExceeded(type: type, message: message),
   'NoSuchChange': (type, message) => NoSuchChange(type: type, message: message),
+  'NoSuchCidrCollectionException': (type, message) =>
+      NoSuchCidrCollectionException(type: type, message: message),
+  'NoSuchCidrLocationException': (type, message) =>
+      NoSuchCidrLocationException(type: type, message: message),
   'NoSuchCloudWatchLogsLogGroup': (type, message) =>
       NoSuchCloudWatchLogsLogGroup(type: type, message: message),
   'NoSuchDelegationSet': (type, message) =>

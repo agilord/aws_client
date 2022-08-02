@@ -386,6 +386,34 @@
       ],
       "documentation": "<p>Provides scheduled Auto-Tune action details for the domain, such as Auto-Tune action type, description, severity, and scheduled date. </p>"
     },
+    "DescribeDomainChangeProgress": {
+      "name": "DescribeDomainChangeProgress",
+      "http": {
+        "method": "GET",
+        "requestUri": "/2021-01-01/opensearch/domain/{DomainName}/progress"
+      },
+      "input": {
+        "shape": "DescribeDomainChangeProgressRequest"
+      },
+      "output": {
+        "shape": "DescribeDomainChangeProgressResponse"
+      },
+      "errors": [
+        {
+          "shape": "BaseException"
+        },
+        {
+          "shape": "InternalException"
+        },
+        {
+          "shape": "ResourceNotFoundException"
+        },
+        {
+          "shape": "ValidationException"
+        }
+      ],
+      "documentation": "<p>Returns information about the current blue/green deployment happening on a domain, including a change ID, status, and progress stages.</p>"
+    },
     "DescribeDomainConfig": {
       "name": "DescribeDomainConfig",
       "http": {
@@ -1286,6 +1314,14 @@
         "SAMLOptions": {
           "shape": "SAMLOptionsOutput",
           "documentation": "<p>Describes the SAML application configured for a domain.</p>"
+        },
+        "AnonymousAuthDisableDate": {
+          "shape": "DisableTimestamp",
+          "documentation": "<p>Specifies the Anonymous Auth Disable Date when Anonymous Auth is enabled.</p>"
+        },
+        "AnonymousAuthEnabled": {
+          "shape": "Boolean",
+          "documentation": "<p>True if Anonymous auth is enabled. Anonymous auth can be enabled only when AdvancedSecurity is enabled on existing domains.</p>"
         }
       },
       "documentation": "<p>The advanced security configuration: whether advanced security is enabled, whether the internal database option is enabled. </p>"
@@ -1308,6 +1344,10 @@
         "SAMLOptions": {
           "shape": "SAMLOptionsInput",
           "documentation": "<p>The SAML application configuration for the domain.</p>"
+        },
+        "AnonymousAuthEnabled": {
+          "shape": "Boolean",
+          "documentation": "<p>True if Anonymous auth is enabled. Anonymous auth can be enabled only when AdvancedSecurity is enabled on existing domains.</p>"
         }
       },
       "documentation": "<p>The advanced security configuration: whether advanced security is enabled, whether the internal database option is enabled, master username and password (if internal database is enabled), and master user ARN (if IAM is enabled). </p>"
@@ -1575,6 +1615,93 @@
         }
       },
       "documentation": "<p>The result of a <code>CancelServiceSoftwareUpdate</code> operation. Contains the status of the update. </p>"
+    },
+    "ChangeProgressDetails": {
+      "type": "structure",
+      "members": {
+        "ChangeId": {
+          "shape": "GUID",
+          "documentation": "<p>The unique change identifier associated with a specific domain configuration change.</p>"
+        },
+        "Message": {
+          "shape": "Message",
+          "documentation": "<p>Contains an optional message associated with the domain configuration change.</p>"
+        }
+      },
+      "documentation": "<p>Specifies change details of the domain configuration change.</p>"
+    },
+    "ChangeProgressStage": {
+      "type": "structure",
+      "members": {
+        "Name": {
+          "shape": "ChangeProgressStageName",
+          "documentation": "<p>The name of the specific progress stage.</p>"
+        },
+        "Status": {
+          "shape": "ChangeProgressStageStatus",
+          "documentation": "<p>The overall status of a specific progress stage.</p>"
+        },
+        "Description": {
+          "shape": "Description",
+          "documentation": "<p>The description of the progress stage.</p>"
+        },
+        "LastUpdated": {
+          "shape": "LastUpdated",
+          "documentation": "<p>The last updated timestamp of the progress stage.</p>"
+        }
+      },
+      "documentation": "<p>A progress stage details of a specific domain configuration change.</p>"
+    },
+    "ChangeProgressStageList": {
+      "type": "list",
+      "member": {
+        "shape": "ChangeProgressStage"
+      },
+      "documentation": "<p>The list of progress stages of a specific domain configuration change.</p>"
+    },
+    "ChangeProgressStageName": {
+      "type": "string",
+      "max": 64,
+      "min": 1
+    },
+    "ChangeProgressStageStatus": {
+      "type": "string",
+      "max": 256,
+      "min": 1
+    },
+    "ChangeProgressStatusDetails": {
+      "type": "structure",
+      "members": {
+        "ChangeId": {
+          "shape": "GUID",
+          "documentation": "<p>The unique change identifier associated with a specific domain configuration change.</p>"
+        },
+        "StartTime": {
+          "shape": "UpdateTimestamp",
+          "documentation": "<p>The time at which the configuration change is made on the domain.</p>"
+        },
+        "Status": {
+          "shape": "OverallChangeStatus",
+          "documentation": "<p>The overall status of the domain configuration change. This field can take the following values: <code>PENDING</code>, <code>PROCESSING</code>, <code>COMPLETED</code> and <code>FAILED</code></p>"
+        },
+        "PendingProperties": {
+          "shape": "StringList",
+          "documentation": "<p>The list of properties involved in the domain configuration change that are still in pending.</p>"
+        },
+        "CompletedProperties": {
+          "shape": "StringList",
+          "documentation": "<p>The list of properties involved in the domain configuration change that are completed.</p>"
+        },
+        "TotalNumberOfStages": {
+          "shape": "TotalNumberOfStages",
+          "documentation": "<p>The total number of stages required for the configuration change.</p>"
+        },
+        "ChangeProgressStages": {
+          "shape": "ChangeProgressStageList",
+          "documentation": "<p>The specific stages that the domain is going through to perform the configuration change.</p>"
+        }
+      },
+      "documentation": "<p>The progress details of a specific domain configuration change.</p>"
     },
     "CloudWatchLogsLogGroupArn": {
       "type": "string",
@@ -2068,6 +2195,37 @@
       },
       "documentation": "<p>The result of a <code>DescribeDomainAutoTunes</code> request. See <a href=\"https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html\" target=\"_blank\"> Auto-Tune for Amazon OpenSearch Service </a> for more information. </p>"
     },
+    "DescribeDomainChangeProgressRequest": {
+      "type": "structure",
+      "required": [
+        "DomainName"
+      ],
+      "members": {
+        "DomainName": {
+          "shape": "DomainName",
+          "documentation": "<p>The domain you want to get the progress information about.</p>",
+          "location": "uri",
+          "locationName": "DomainName"
+        },
+        "ChangeId": {
+          "shape": "GUID",
+          "documentation": "<p>The specific change ID for which you want to get progress information. This is an optional parameter. If omitted, the service returns information about the most recent configuration change. </p>",
+          "location": "querystring",
+          "locationName": "changeid"
+        }
+      },
+      "documentation": "<p>Container for the parameters to the <code>DescribeDomainChangeProgress</code> operation. Specifies the domain name and optional change specific identity for which you want progress information. </p>"
+    },
+    "DescribeDomainChangeProgressResponse": {
+      "type": "structure",
+      "members": {
+        "ChangeProgressStatus": {
+          "shape": "ChangeProgressStatusDetails",
+          "documentation": "<p>Progress information for the configuration change that is requested in the <code>DescribeDomainChangeProgress</code> request. </p>"
+        }
+      },
+      "documentation": "<p>The result of a <code>DescribeDomainChangeProgress</code> request. Contains the progress information of the requested domain change. </p>"
+    },
     "DescribeDomainConfigRequest": {
       "type": "structure",
       "required": [
@@ -2397,6 +2555,12 @@
       },
       "documentation": "<p>Container for results from <code>DescribeReservedInstances</code> </p>"
     },
+    "Description": {
+      "type": "string"
+    },
+    "DisableTimestamp": {
+      "type": "timestamp"
+    },
     "DissociatePackageRequest": {
       "type": "structure",
       "required": [
@@ -2487,6 +2651,10 @@
         "AutoTuneOptions": {
           "shape": "AutoTuneOptionsStatus",
           "documentation": "<p>Specifies <code>AutoTuneOptions</code> for the domain. </p>"
+        },
+        "ChangeProgressDetails": {
+          "shape": "ChangeProgressDetails",
+          "documentation": "<p>Specifies change details of the domain configuration change.</p>"
         }
       },
       "documentation": "<p>The configuration of a domain.</p>"
@@ -2749,6 +2917,10 @@
         "AutoTuneOptions": {
           "shape": "AutoTuneOptionsOutput",
           "documentation": "<p>The current status of the domain's Auto-Tune options.</p>"
+        },
+        "ChangeProgressDetails": {
+          "shape": "ChangeProgressDetails",
+          "documentation": "<p>Specifies change details of the domain configuration change.</p>"
         }
       },
       "documentation": "<p>The current status of a domain.</p>"
@@ -2816,7 +2988,11 @@
         },
         "Iops": {
           "shape": "IntegerClass",
-          "documentation": "<p>The IOPD for a Provisioned IOPS EBS volume (SSD).</p>"
+          "documentation": "<p>The IOPS for Provisioned IOPS And GP3 EBS volume (SSD).</p>"
+        },
+        "Throughput": {
+          "shape": "IntegerClass",
+          "documentation": "<p>The Throughput for GP3 EBS volume (SSD).</p>"
         }
       },
       "documentation": "<p>Options to enable, disable, and specify the properties of EBS storage volumes.</p>"
@@ -3783,6 +3959,16 @@
         "shape": "OutboundConnection"
       }
     },
+    "OverallChangeStatus": {
+      "type": "string",
+      "documentation": "<p>The overall status value of the domain configuration change.</p>",
+      "enum": [
+        "PENDING",
+        "PROCESSING",
+        "COMPLETED",
+        "FAILED"
+      ]
+    },
     "OwnerId": {
       "type": "string",
       "max": 12,
@@ -4411,7 +4597,7 @@
     },
     "StorageSubTypeName": {
       "type": "string",
-      "documentation": "<p> Sub-type of the given storage type. List of available sub-storage options: \"instance\" storageType has no storageSubType. \"ebs\" storageType has the following valid storageSubTypes: <ol> <li>standard</li> <li>gp2</li> <li>io1</li> </ol> See <code> <a>VolumeType</a> </code> for more information regarding each EBS storage option. </p>"
+      "documentation": "<p> Sub-type of the given storage type. List of available sub-storage options: \"instance\" storageType has no storageSubType. \"ebs\" storageType has the following valid storageSubTypes: <ol> <li>standard</li> <li>gp2</li> <li>gp3</li> <li>io1</li> </ol> See <code> <a>VolumeType</a> </code> for more information regarding each EBS storage option. </p>"
     },
     "StorageType": {
       "type": "structure",
@@ -4434,7 +4620,7 @@
       "members": {
         "LimitName": {
           "shape": "LimitName",
-          "documentation": "<p> Name of storage limits that are applicable for the given storage type. If <code> <a>StorageType</a> </code> is \"ebs\", the following storage options are applicable: <ol> <li>MinimumVolumeSize</li> Minimum amount of volume size that is applicable for the given storage type. Can be empty if not applicable. <li>MaximumVolumeSize</li> Maximum amount of volume size that is applicable for the given storage type. Can be empty if not applicable. <li>MaximumIops</li> Maximum amount of Iops that is applicable for given the storage type. Can be empty if not applicable. <li>MinimumIops</li> Minimum amount of Iops that is applicable for given the storage type. Can be empty if not applicable. </ol> </p>"
+          "documentation": "<p> Name of storage limits that are applicable for the given storage type. If <code> <a>StorageType</a> </code> is \"ebs\", the following storage options are applicable: <ol> <li>MinimumVolumeSize</li> Minimum amount of volume size that is applicable for the given storage type. Can be empty if not applicable. <li>MaximumVolumeSize</li> Maximum amount of volume size that is applicable for the given storage type. Can be empty if not applicable. <li>MaximumIops</li> Maximum amount of Iops that is applicable for given the storage type. Can be empty if not applicable. <li>MinimumIops</li> Minimum amount of Iops that is applicable for given the storage type. Can be empty if not applicable. <li>MaximumThroughput</li> Maximum amount of Throughput that is applicable for given the storage type. Can be empty if not applicable. <li>MinimumThroughput</li> Minimum amount of Throughput that is applicable for given the storage type. Can be empty if not applicable. </ol> </p>"
         },
         "LimitValues": {
           "shape": "LimitValueList",
@@ -4520,6 +4706,9 @@
       "enum": [
         "HOURS"
       ]
+    },
+    "TotalNumberOfStages": {
+      "type": "integer"
     },
     "UIntValue": {
       "type": "integer",
@@ -4694,6 +4883,9 @@
         },
         "AdvancedOptions": {
           "shape": "AdvancedOptions"
+        },
+        "ChangeProgressDetails": {
+          "shape": "ChangeProgressDetails"
         }
       },
       "documentation": "<p> Container for response returned by <code> <a>UpgradeDomain</a> </code> operation. </p>"
@@ -4881,11 +5073,12 @@
     },
     "VolumeType": {
       "type": "string",
-      "documentation": "<p>The type of EBS volume, standard, gp2, or io1. See <a href=\"http://docs.aws.amazon.com/opensearch-service/latest/developerguide/opensearch-createupdatedomains.html#opensearch-createdomain-configure-ebs\" target=\"_blank\">Configuring EBS-based Storage</a> for more information. </p>",
+      "documentation": "<p>The type of EBS volume, standard, gp2, gp3 or io1. See <a href=\"http://docs.aws.amazon.com/opensearch-service/latest/developerguide/opensearch-createupdatedomains.html#opensearch-createdomain-configure-ebs\" target=\"_blank\">Configuring EBS-based Storage</a> for more information. </p>",
       "enum": [
         "standard",
         "gp2",
-        "io1"
+        "io1",
+        "gp3"
       ]
     },
     "ZoneAwarenessConfig": {

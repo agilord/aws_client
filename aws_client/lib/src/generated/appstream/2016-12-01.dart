@@ -799,6 +799,10 @@ class AppStream {
   /// The fleet platform. WINDOWS_SERVER_2019 and AMAZON_LINUX2 are supported
   /// for Elastic fleets.
   ///
+  /// Parameter [sessionScriptS3Location] :
+  /// The S3 location of the session scripts configuration zip file. This only
+  /// applies to Elastic fleets.
+  ///
   /// Parameter [streamView] :
   /// The AppStream 2.0 view that is displayed to your users when they stream
   /// from the fleet. When <code>APP</code> is specified, only the windows of
@@ -851,6 +855,7 @@ class AppStream {
     int? maxConcurrentSessions,
     int? maxUserDurationInSeconds,
     PlatformType? platform,
+    S3Location? sessionScriptS3Location,
     StreamView? streamView,
     Map<String, String>? tags,
     List<String>? usbDeviceFilterStrings,
@@ -890,6 +895,8 @@ class AppStream {
         if (maxUserDurationInSeconds != null)
           'MaxUserDurationInSeconds': maxUserDurationInSeconds,
         if (platform != null) 'Platform': platform.toValue(),
+        if (sessionScriptS3Location != null)
+          'SessionScriptS3Location': sessionScriptS3Location,
         if (streamView != null) 'StreamView': streamView.toValue(),
         if (tags != null) 'Tags': tags,
         if (usbDeviceFilterStrings != null)
@@ -1220,6 +1227,10 @@ class AppStream {
   /// Parameter [storageConnectors] :
   /// The storage connectors to enable.
   ///
+  /// Parameter [streamingExperienceSettings] :
+  /// The streaming protocol you want your stack to prefer. This can be UDP or
+  /// TCP. Currently, UDP is only supported in the Windows native client.
+  ///
   /// Parameter [tags] :
   /// The tags to associate with the stack. A tag is a key-value pair, and the
   /// value is optional. For example, Environment=Test. If you do not specify a
@@ -1250,6 +1261,7 @@ class AppStream {
     String? feedbackURL,
     String? redirectURL,
     List<StorageConnector>? storageConnectors,
+    StreamingExperienceSettings? streamingExperienceSettings,
     Map<String, String>? tags,
     List<UserSetting>? userSettings,
   }) async {
@@ -1275,6 +1287,8 @@ class AppStream {
         if (feedbackURL != null) 'FeedbackURL': feedbackURL,
         if (redirectURL != null) 'RedirectURL': redirectURL,
         if (storageConnectors != null) 'StorageConnectors': storageConnectors,
+        if (streamingExperienceSettings != null)
+          'StreamingExperienceSettings': streamingExperienceSettings,
         if (tags != null) 'Tags': tags,
         if (userSettings != null) 'UserSettings': userSettings,
       },
@@ -3294,8 +3308,8 @@ class AppStream {
   /// You can update the <code>DisplayName</code>,
   /// <code>IdleDisconnectTimeoutInSeconds</code>,
   /// <code>DisconnectTimeoutInSeconds</code>,
-  /// <code>MaxConcurrentSessions</code>, and
-  /// <code>UsbDeviceFilterStrings</code> attributes.
+  /// <code>MaxConcurrentSessions</code>, <code>SessionScriptS3Location</code>
+  /// and <code>UsbDeviceFilterStrings</code> attributes.
   /// </li>
   /// </ul>
   /// If the fleet is in the <code>STARTING</code> or <code>STOPPED</code>
@@ -3528,6 +3542,10 @@ class AppStream {
   /// The platform of the fleet. WINDOWS_SERVER_2019 and AMAZON_LINUX2 are
   /// supported for Elastic fleets.
   ///
+  /// Parameter [sessionScriptS3Location] :
+  /// The S3 location of the session scripts configuration zip file. This only
+  /// applies to Elastic fleets.
+  ///
   /// Parameter [streamView] :
   /// The AppStream 2.0 view that is displayed to your users when they stream
   /// from the fleet. When <code>APP</code> is specified, only the windows of
@@ -3564,6 +3582,7 @@ class AppStream {
     int? maxUserDurationInSeconds,
     String? name,
     PlatformType? platform,
+    S3Location? sessionScriptS3Location,
     StreamView? streamView,
     List<String>? usbDeviceFilterStrings,
     VpcConfig? vpcConfig,
@@ -3603,6 +3622,8 @@ class AppStream {
           'MaxUserDurationInSeconds': maxUserDurationInSeconds,
         if (name != null) 'Name': name,
         if (platform != null) 'Platform': platform.toValue(),
+        if (sessionScriptS3Location != null)
+          'SessionScriptS3Location': sessionScriptS3Location,
         if (streamView != null) 'StreamView': streamView.toValue(),
         if (usbDeviceFilterStrings != null)
           'UsbDeviceFilterStrings': usbDeviceFilterStrings,
@@ -3707,6 +3728,10 @@ class AppStream {
   /// Parameter [storageConnectors] :
   /// The storage connectors to enable.
   ///
+  /// Parameter [streamingExperienceSettings] :
+  /// The streaming protocol you want your stack to prefer. This can be UDP or
+  /// TCP. Currently, UDP is only supported in the Windows native client.
+  ///
   /// Parameter [userSettings] :
   /// The actions that are enabled or disabled for users during their streaming
   /// sessions. By default, these actions are enabled.
@@ -3722,6 +3747,7 @@ class AppStream {
     String? feedbackURL,
     String? redirectURL,
     List<StorageConnector>? storageConnectors,
+    StreamingExperienceSettings? streamingExperienceSettings,
     List<UserSetting>? userSettings,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
@@ -3751,6 +3777,8 @@ class AppStream {
         if (feedbackURL != null) 'FeedbackURL': feedbackURL,
         if (redirectURL != null) 'RedirectURL': redirectURL,
         if (storageConnectors != null) 'StorageConnectors': storageConnectors,
+        if (streamingExperienceSettings != null)
+          'StreamingExperienceSettings': streamingExperienceSettings,
         if (userSettings != null) 'UserSettings': userSettings,
       },
     );
@@ -5959,6 +5987,10 @@ class Fleet {
   /// The platform of the fleet.
   final PlatformType? platform;
 
+  /// The S3 location of the session scripts configuration zip file. This only
+  /// applies to Elastic fleets.
+  final S3Location? sessionScriptS3Location;
+
   /// The AppStream 2.0 view that is displayed to your users when they stream from
   /// the fleet. When <code>APP</code> is specified, only the windows of
   /// applications opened by users display. When <code>DESKTOP</code> is
@@ -5995,6 +6027,7 @@ class Fleet {
     this.maxConcurrentSessions,
     this.maxUserDurationInSeconds,
     this.platform,
+    this.sessionScriptS3Location,
     this.streamView,
     this.usbDeviceFilterStrings,
     this.vpcConfig,
@@ -6030,6 +6063,10 @@ class Fleet {
       maxConcurrentSessions: json['MaxConcurrentSessions'] as int?,
       maxUserDurationInSeconds: json['MaxUserDurationInSeconds'] as int?,
       platform: (json['Platform'] as String?)?.toPlatformType(),
+      sessionScriptS3Location: json['SessionScriptS3Location'] != null
+          ? S3Location.fromJson(
+              json['SessionScriptS3Location'] as Map<String, dynamic>)
+          : null,
       streamView: (json['StreamView'] as String?)?.toStreamView(),
       usbDeviceFilterStrings: (json['UsbDeviceFilterStrings'] as List?)
           ?.whereNotNull()
@@ -6062,6 +6099,7 @@ class Fleet {
     final maxConcurrentSessions = this.maxConcurrentSessions;
     final maxUserDurationInSeconds = this.maxUserDurationInSeconds;
     final platform = this.platform;
+    final sessionScriptS3Location = this.sessionScriptS3Location;
     final streamView = this.streamView;
     final usbDeviceFilterStrings = this.usbDeviceFilterStrings;
     final vpcConfig = this.vpcConfig;
@@ -6091,6 +6129,8 @@ class Fleet {
       if (maxUserDurationInSeconds != null)
         'MaxUserDurationInSeconds': maxUserDurationInSeconds,
       if (platform != null) 'Platform': platform.toValue(),
+      if (sessionScriptS3Location != null)
+        'SessionScriptS3Location': sessionScriptS3Location,
       if (streamView != null) 'StreamView': streamView.toValue(),
       if (usbDeviceFilterStrings != null)
         'UsbDeviceFilterStrings': usbDeviceFilterStrings,
@@ -6106,6 +6146,7 @@ enum FleetAttribute {
   domainJoinInfo,
   iamRoleArn,
   usbDeviceFilterStrings,
+  sessionScriptS3Location,
 }
 
 extension on FleetAttribute {
@@ -6121,6 +6162,8 @@ extension on FleetAttribute {
         return 'IAM_ROLE_ARN';
       case FleetAttribute.usbDeviceFilterStrings:
         return 'USB_DEVICE_FILTER_STRINGS';
+      case FleetAttribute.sessionScriptS3Location:
+        return 'SESSION_SCRIPT_S3_LOCATION';
     }
   }
 }
@@ -6138,6 +6181,8 @@ extension on String {
         return FleetAttribute.iamRoleArn;
       case 'USB_DEVICE_FILTER_STRINGS':
         return FleetAttribute.usbDeviceFilterStrings;
+      case 'SESSION_SCRIPT_S3_LOCATION':
+        return FleetAttribute.sessionScriptS3Location;
     }
     throw Exception('$this is not known in enum FleetAttribute');
   }
@@ -7411,6 +7456,34 @@ extension on String {
   }
 }
 
+enum PreferredProtocol {
+  tcp,
+  udp,
+}
+
+extension on PreferredProtocol {
+  String toValue() {
+    switch (this) {
+      case PreferredProtocol.tcp:
+        return 'TCP';
+      case PreferredProtocol.udp:
+        return 'UDP';
+    }
+  }
+}
+
+extension on String {
+  PreferredProtocol toPreferredProtocol() {
+    switch (this) {
+      case 'TCP':
+        return PreferredProtocol.tcp;
+      case 'UDP':
+        return PreferredProtocol.udp;
+    }
+    throw Exception('$this is not known in enum PreferredProtocol');
+  }
+}
+
 /// Describes a resource error.
 class ResourceError {
   /// The error code.
@@ -7798,6 +7871,10 @@ class Stack {
   /// The storage connectors to enable.
   final List<StorageConnector>? storageConnectors;
 
+  /// The streaming protocol you want your stack to prefer. This can be UDP or
+  /// TCP. Currently, UDP is only supported in the Windows native client.
+  final StreamingExperienceSettings? streamingExperienceSettings;
+
   /// The actions that are enabled or disabled for users during their streaming
   /// sessions. By default these actions are enabled.
   final List<UserSetting>? userSettings;
@@ -7815,6 +7892,7 @@ class Stack {
     this.redirectURL,
     this.stackErrors,
     this.storageConnectors,
+    this.streamingExperienceSettings,
     this.userSettings,
   });
 
@@ -7847,6 +7925,10 @@ class Stack {
           ?.whereNotNull()
           .map((e) => StorageConnector.fromJson(e as Map<String, dynamic>))
           .toList(),
+      streamingExperienceSettings: json['StreamingExperienceSettings'] != null
+          ? StreamingExperienceSettings.fromJson(
+              json['StreamingExperienceSettings'] as Map<String, dynamic>)
+          : null,
       userSettings: (json['UserSettings'] as List?)
           ?.whereNotNull()
           .map((e) => UserSetting.fromJson(e as Map<String, dynamic>))
@@ -7867,6 +7949,7 @@ class Stack {
     final redirectURL = this.redirectURL;
     final stackErrors = this.stackErrors;
     final storageConnectors = this.storageConnectors;
+    final streamingExperienceSettings = this.streamingExperienceSettings;
     final userSettings = this.userSettings;
     return {
       'Name': name,
@@ -7882,6 +7965,8 @@ class Stack {
       if (redirectURL != null) 'RedirectURL': redirectURL,
       if (stackErrors != null) 'StackErrors': stackErrors,
       if (storageConnectors != null) 'StorageConnectors': storageConnectors,
+      if (streamingExperienceSettings != null)
+        'StreamingExperienceSettings': streamingExperienceSettings,
       if (userSettings != null) 'UserSettings': userSettings,
     };
   }
@@ -7899,6 +7984,7 @@ enum StackAttribute {
   embedHostDomains,
   iamRoleArn,
   accessEndpoints,
+  streamingExperienceSettings,
 }
 
 extension on StackAttribute {
@@ -7926,6 +8012,8 @@ extension on StackAttribute {
         return 'IAM_ROLE_ARN';
       case StackAttribute.accessEndpoints:
         return 'ACCESS_ENDPOINTS';
+      case StackAttribute.streamingExperienceSettings:
+        return 'STREAMING_EXPERIENCE_SETTINGS';
     }
   }
 }
@@ -7955,6 +8043,8 @@ extension on String {
         return StackAttribute.iamRoleArn;
       case 'ACCESS_ENDPOINTS':
         return StackAttribute.accessEndpoints;
+      case 'STREAMING_EXPERIENCE_SETTINGS':
+        return StackAttribute.streamingExperienceSettings;
     }
     throw Exception('$this is not known in enum StackAttribute');
   }
@@ -8189,6 +8279,33 @@ extension on String {
         return StreamView.desktop;
     }
     throw Exception('$this is not known in enum StreamView');
+  }
+}
+
+/// The streaming protocol you want your stack to prefer. This can be UDP or
+/// TCP. Currently, UDP is only supported in the Windows native client.
+class StreamingExperienceSettings {
+  /// The preferred protocol that you want to use while streaming your
+  /// application.
+  final PreferredProtocol? preferredProtocol;
+
+  StreamingExperienceSettings({
+    this.preferredProtocol,
+  });
+
+  factory StreamingExperienceSettings.fromJson(Map<String, dynamic> json) {
+    return StreamingExperienceSettings(
+      preferredProtocol:
+          (json['PreferredProtocol'] as String?)?.toPreferredProtocol(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final preferredProtocol = this.preferredProtocol;
+    return {
+      if (preferredProtocol != null)
+        'PreferredProtocol': preferredProtocol.toValue(),
+    };
   }
 }
 

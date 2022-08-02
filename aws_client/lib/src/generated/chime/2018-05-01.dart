@@ -635,7 +635,7 @@ class Chime {
   /// UTF-8.
   ///
   /// Parameter [tags] :
-  /// Tags assigned to the <code>AppInstanceUser</code>.
+  /// Tags assigned to the <code>AppInstance</code>.
   Future<CreateAppInstanceResponse> createAppInstance({
     required String name,
     String? clientRequestToken,
@@ -1278,6 +1278,7 @@ class Chime {
   /// May throw [ResourceLimitExceededException].
   /// May throw [ThrottledClientException].
   /// May throw [UnauthorizedClientException].
+  /// May throw [AccessDeniedException].
   /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
   ///
@@ -6025,8 +6026,8 @@ class Chime {
 
   /// Adds a streaming configuration for the specified Amazon Chime Voice
   /// Connector. The streaming configuration specifies whether media streaming
-  /// is enabled for sending to Indonesians. It also sets the retention period,
-  /// in hours, for the Amazon Kinesis data.
+  /// is enabled for sending to Kinesis. It also sets the retention period, in
+  /// hours, for the Amazon Kinesis data.
   ///
   /// May throw [UnauthorizedClientException].
   /// May throw [NotFoundException].
@@ -7396,9 +7397,9 @@ class Chime {
     return UpdateSipMediaApplicationResponse.fromJson(response);
   }
 
-  /// Allows you to trigger a Lambda function at any time while a call is
-  /// active, and replace the current actions with new actions returned by the
-  /// invocation.
+  /// Invokes the AWS Lambda function associated with the SIP media application
+  /// and transaction ID in an update request. The Lambda function can then
+  /// return a new set of actions.
   ///
   /// May throw [BadRequestException].
   /// May throw [NotFoundException].
@@ -7655,6 +7656,74 @@ class Chime {
     );
     return UpdateVoiceConnectorGroupResponse.fromJson(response);
   }
+
+  /// Validates an address to be used for 911 calls made with Amazon Chime Voice
+  /// Connectors. You can use validated addresses in a Presence Information Data
+  /// Format Location Object file that you include in SIP requests. That helps
+  /// ensure that addresses are routed to the appropriate Public Safety
+  /// Answering Point.
+  ///
+  /// May throw [UnauthorizedClientException].
+  /// May throw [NotFoundException].
+  /// May throw [ForbiddenException].
+  /// May throw [BadRequestException].
+  /// May throw [ThrottledClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [awsAccountId] :
+  /// The AWS account ID.
+  ///
+  /// Parameter [city] :
+  /// The address city, such as <code>Portland</code>.
+  ///
+  /// Parameter [country] :
+  /// The address country, such as <code>US</code>.
+  ///
+  /// Parameter [postalCode] :
+  /// The address postal code, such as <code>04352</code>.
+  ///
+  /// Parameter [state] :
+  /// The address state, such as <code>ME</code>.
+  ///
+  /// Parameter [streetInfo] :
+  /// The address street information, such as <code>8th Avenue</code>.
+  ///
+  /// Parameter [streetNumber] :
+  /// The address street number, such as <code>200</code> or <code>2121</code>.
+  Future<ValidateE911AddressResponse> validateE911Address({
+    required String awsAccountId,
+    required String city,
+    required String country,
+    required String postalCode,
+    required String state,
+    required String streetInfo,
+    required String streetNumber,
+  }) async {
+    ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
+    ArgumentError.checkNotNull(city, 'city');
+    ArgumentError.checkNotNull(country, 'country');
+    ArgumentError.checkNotNull(postalCode, 'postalCode');
+    ArgumentError.checkNotNull(state, 'state');
+    ArgumentError.checkNotNull(streetInfo, 'streetInfo');
+    ArgumentError.checkNotNull(streetNumber, 'streetNumber');
+    final $payload = <String, dynamic>{
+      'AwsAccountId': awsAccountId,
+      'City': city,
+      'Country': country,
+      'PostalCode': postalCode,
+      'State': state,
+      'StreetInfo': streetInfo,
+      'StreetNumber': streetNumber,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/emergency-calling/address',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ValidateE911AddressResponse.fromJson(response);
+  }
 }
 
 /// The Amazon Chime account details. An AWS account can have multiple Amazon
@@ -7853,6 +7922,94 @@ extension on String {
         return AccountType.enterpriseOIDC;
     }
     throw Exception('$this is not known in enum AccountType');
+  }
+}
+
+/// A validated address.
+class Address {
+  /// The city of an address.
+  final String? city;
+
+  /// The country of an address.
+  final String? country;
+
+  /// An address suffix location, such as the <code>S. Unit A</code> in
+  /// <code>Central Park S. Unit A</code>.
+  final String? postDirectional;
+
+  /// The postal code of an address.
+  final String? postalCode;
+
+  /// The Zip + 4 or postal code + 4 of an address.
+  final String? postalCodePlus4;
+
+  /// An address prefix location, such as the <code>N</code> in <code>N. Third
+  /// St.</code>.
+  final String? preDirectional;
+
+  /// The state of an address.
+  final String? state;
+
+  /// The address street, such as <code>8th Avenue</code>.
+  final String? streetName;
+
+  /// The numeric portion of an address.
+  final String? streetNumber;
+
+  /// The address suffix, such as the <code>N</code> in <code>8th Avenue N</code>.
+  final String? streetSuffix;
+
+  Address({
+    this.city,
+    this.country,
+    this.postDirectional,
+    this.postalCode,
+    this.postalCodePlus4,
+    this.preDirectional,
+    this.state,
+    this.streetName,
+    this.streetNumber,
+    this.streetSuffix,
+  });
+
+  factory Address.fromJson(Map<String, dynamic> json) {
+    return Address(
+      city: json['city'] as String?,
+      country: json['country'] as String?,
+      postDirectional: json['postDirectional'] as String?,
+      postalCode: json['postalCode'] as String?,
+      postalCodePlus4: json['postalCodePlus4'] as String?,
+      preDirectional: json['preDirectional'] as String?,
+      state: json['state'] as String?,
+      streetName: json['streetName'] as String?,
+      streetNumber: json['streetNumber'] as String?,
+      streetSuffix: json['streetSuffix'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final city = this.city;
+    final country = this.country;
+    final postDirectional = this.postDirectional;
+    final postalCode = this.postalCode;
+    final postalCodePlus4 = this.postalCodePlus4;
+    final preDirectional = this.preDirectional;
+    final state = this.state;
+    final streetName = this.streetName;
+    final streetNumber = this.streetNumber;
+    final streetSuffix = this.streetSuffix;
+    return {
+      if (city != null) 'city': city,
+      if (country != null) 'country': country,
+      if (postDirectional != null) 'postDirectional': postDirectional,
+      if (postalCode != null) 'postalCode': postalCode,
+      if (postalCodePlus4 != null) 'postalCodePlus4': postalCodePlus4,
+      if (preDirectional != null) 'preDirectional': preDirectional,
+      if (state != null) 'state': state,
+      if (streetName != null) 'streetName': streetName,
+      if (streetNumber != null) 'streetNumber': streetNumber,
+      if (streetSuffix != null) 'streetSuffix': streetSuffix,
+    };
   }
 }
 
@@ -8996,6 +9153,71 @@ extension on String {
         return CallingNameStatus.updateFailed;
     }
     throw Exception('$this is not known in enum CallingNameStatus');
+  }
+}
+
+/// A suggested address.
+class CandidateAddress {
+  /// The city of a candidate address.
+  final String? city;
+
+  /// The country of a candidate address.
+  final String? country;
+
+  /// The postal code of a candidate address.
+  final String? postalCode;
+
+  /// The Zip + 4 or postal code + 4 of a candidate address.
+  final String? postalCodePlus4;
+
+  /// The state of a candidate address.
+  final String? state;
+
+  /// The street information of a candidate address
+  final String? streetInfo;
+
+  /// The numeric portion of a candidate address.
+  final String? streetNumber;
+
+  CandidateAddress({
+    this.city,
+    this.country,
+    this.postalCode,
+    this.postalCodePlus4,
+    this.state,
+    this.streetInfo,
+    this.streetNumber,
+  });
+
+  factory CandidateAddress.fromJson(Map<String, dynamic> json) {
+    return CandidateAddress(
+      city: json['city'] as String?,
+      country: json['country'] as String?,
+      postalCode: json['postalCode'] as String?,
+      postalCodePlus4: json['postalCodePlus4'] as String?,
+      state: json['state'] as String?,
+      streetInfo: json['streetInfo'] as String?,
+      streetNumber: json['streetNumber'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final city = this.city;
+    final country = this.country;
+    final postalCode = this.postalCode;
+    final postalCodePlus4 = this.postalCodePlus4;
+    final state = this.state;
+    final streetInfo = this.streetInfo;
+    final streetNumber = this.streetNumber;
+    return {
+      if (city != null) 'city': city,
+      if (country != null) 'country': country,
+      if (postalCode != null) 'postalCode': postalCode,
+      if (postalCodePlus4 != null) 'postalCodePlus4': postalCodePlus4,
+      if (state != null) 'state': state,
+      if (streetInfo != null) 'streetInfo': streetInfo,
+      if (streetNumber != null) 'streetNumber': streetNumber,
+    };
   }
 }
 
@@ -11171,8 +11393,8 @@ class EngineTranscribeSettings {
   /// The language code specified for the Amazon Transcribe engine.
   final TranscribeLanguageCode languageCode;
 
-  /// Set this field to <code>PII</code> to identify personal health information
-  /// in the transcription output.
+  /// Set this field to <code>PII</code> to identify personally identifiable
+  /// information in the transcription output.
   final TranscribeContentIdentificationType? contentIdentificationType;
 
   /// Set this field to <code>PII</code> to redact personally identifiable
@@ -13506,22 +13728,30 @@ class ListVoiceConnectorsResponse {
 /// Specifies whether SIP message logs are enabled for sending to Amazon
 /// CloudWatch Logs.
 class LoggingConfiguration {
+  /// Boolean that enables the logging of Voice Connector metrics to Cloudwatch.
+  final bool? enableMediaMetricLogs;
+
   /// When true, enables SIP message logs for sending to Amazon CloudWatch Logs.
   final bool? enableSIPLogs;
 
   LoggingConfiguration({
+    this.enableMediaMetricLogs,
     this.enableSIPLogs,
   });
 
   factory LoggingConfiguration.fromJson(Map<String, dynamic> json) {
     return LoggingConfiguration(
+      enableMediaMetricLogs: json['EnableMediaMetricLogs'] as bool?,
       enableSIPLogs: json['EnableSIPLogs'] as bool?,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final enableMediaMetricLogs = this.enableMediaMetricLogs;
     final enableSIPLogs = this.enableSIPLogs;
     return {
+      if (enableMediaMetricLogs != null)
+        'EnableMediaMetricLogs': enableMediaMetricLogs,
       if (enableSIPLogs != null) 'EnableSIPLogs': enableSIPLogs,
     };
   }
@@ -13726,7 +13956,7 @@ class MediaPlacement {
   /// The audio host URL.
   final String? audioHostUrl;
 
-  /// The event ingestion URL.
+  /// The event ingestion URL to which you send client meeting events.
   final String? eventIngestionUrl;
 
   /// The screen data URL.
@@ -17724,6 +17954,58 @@ extension on String {
         return UserType.sharedDevice;
     }
     throw Exception('$this is not known in enum UserType');
+  }
+}
+
+class ValidateE911AddressResponse {
+  /// The validated address.
+  final Address? address;
+
+  /// The ID that represents the address.
+  final String? addressExternalId;
+
+  /// The list of address suggestions.
+  final List<CandidateAddress>? candidateAddressList;
+
+  /// Number indicating the result of address validation. <code>0</code> means the
+  /// address was perfect as is and successfully validated. <code>1</code> means
+  /// the address was corrected. <code>2</code> means the address sent was not
+  /// close enough and was not validated.
+  final int? validationResult;
+
+  ValidateE911AddressResponse({
+    this.address,
+    this.addressExternalId,
+    this.candidateAddressList,
+    this.validationResult,
+  });
+
+  factory ValidateE911AddressResponse.fromJson(Map<String, dynamic> json) {
+    return ValidateE911AddressResponse(
+      address: json['Address'] != null
+          ? Address.fromJson(json['Address'] as Map<String, dynamic>)
+          : null,
+      addressExternalId: json['AddressExternalId'] as String?,
+      candidateAddressList: (json['CandidateAddressList'] as List?)
+          ?.whereNotNull()
+          .map((e) => CandidateAddress.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      validationResult: json['ValidationResult'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final address = this.address;
+    final addressExternalId = this.addressExternalId;
+    final candidateAddressList = this.candidateAddressList;
+    final validationResult = this.validationResult;
+    return {
+      if (address != null) 'Address': address,
+      if (addressExternalId != null) 'AddressExternalId': addressExternalId,
+      if (candidateAddressList != null)
+        'CandidateAddressList': candidateAddressList,
+      if (validationResult != null) 'ValidationResult': validationResult,
+    };
   }
 }
 

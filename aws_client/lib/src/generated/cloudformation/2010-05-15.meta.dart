@@ -2,6 +2,7 @@
 const Map<String, Map<String, dynamic>> shapesJson = {
   "AcceptTermsAndConditions": {"type": "boolean", "flattened": false},
   "Account": {"type": "string", "flattened": false},
+  "AccountFilterType": {"type": "string", "flattened": false},
   "AccountGateResult": {
     "type": "structure",
     "members": {
@@ -143,11 +144,59 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "type": "structure",
     "members": {
       "Type": {"shape": "ChangeType", "flattened": false},
+      "HookInvocationCount": {
+        "shape": "HookInvocationCount",
+        "flattened": false
+      },
       "ResourceChange": {"shape": "ResourceChange", "flattened": false}
     },
     "flattened": false
   },
   "ChangeAction": {"type": "string", "flattened": false},
+  "ChangeSetHook": {
+    "type": "structure",
+    "members": {
+      "InvocationPoint": {"shape": "HookInvocationPoint", "flattened": false},
+      "FailureMode": {"shape": "HookFailureMode", "flattened": false},
+      "TypeName": {"shape": "HookTypeName", "flattened": false},
+      "TypeVersionId": {"shape": "HookTypeVersionId", "flattened": false},
+      "TypeConfigurationVersionId": {
+        "shape": "HookTypeConfigurationVersionId",
+        "flattened": false
+      },
+      "TargetDetails": {
+        "shape": "ChangeSetHookTargetDetails",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
+  "ChangeSetHookResourceTargetDetails": {
+    "type": "structure",
+    "members": {
+      "LogicalResourceId": {"shape": "LogicalResourceId", "flattened": false},
+      "ResourceType": {"shape": "HookTargetTypeName", "flattened": false},
+      "ResourceAction": {"shape": "ChangeAction", "flattened": false}
+    },
+    "flattened": false
+  },
+  "ChangeSetHookTargetDetails": {
+    "type": "structure",
+    "members": {
+      "TargetType": {"shape": "HookTargetType", "flattened": false},
+      "ResourceTargetDetails": {
+        "shape": "ChangeSetHookResourceTargetDetails",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
+  "ChangeSetHooks": {
+    "type": "list",
+    "member": {"shape": "ChangeSetHook"},
+    "flattened": false
+  },
+  "ChangeSetHooksStatus": {"type": "string", "flattened": false},
   "ChangeSetId": {"type": "string", "flattened": false},
   "ChangeSetName": {"type": "string", "flattened": false},
   "ChangeSetNameOrId": {"type": "string", "flattened": false},
@@ -418,7 +467,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "OrganizationalUnitIds": {
         "shape": "OrganizationalUnitIdList",
         "flattened": false
-      }
+      },
+      "AccountFilterType": {"shape": "AccountFilterType", "flattened": false}
     },
     "flattened": false
   },
@@ -450,6 +500,29 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "members": {
       "AccountLimits": {"shape": "AccountLimitList", "flattened": false},
       "NextToken": {"shape": "NextToken", "flattened": false}
+    },
+    "flattened": false
+  },
+  "DescribeChangeSetHooksInput": {
+    "type": "structure",
+    "members": {
+      "ChangeSetName": {"shape": "ChangeSetNameOrId", "flattened": false},
+      "StackName": {"shape": "StackNameOrId", "flattened": false},
+      "NextToken": {"shape": "NextToken", "flattened": false},
+      "LogicalResourceId": {"shape": "LogicalResourceId", "flattened": false}
+    },
+    "flattened": false
+  },
+  "DescribeChangeSetHooksOutput": {
+    "type": "structure",
+    "members": {
+      "ChangeSetId": {"shape": "ChangeSetId", "flattened": false},
+      "ChangeSetName": {"shape": "ChangeSetName", "flattened": false},
+      "Hooks": {"shape": "ChangeSetHooks", "flattened": false},
+      "Status": {"shape": "ChangeSetHooksStatus", "flattened": false},
+      "NextToken": {"shape": "NextToken", "flattened": false},
+      "StackId": {"shape": "StackId", "flattened": false},
+      "StackName": {"shape": "StackName", "flattened": false}
     },
     "flattened": false
   },
@@ -938,6 +1011,17 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "flattened": false
   },
   "HandlerErrorCode": {"type": "string", "flattened": false},
+  "HookFailureMode": {"type": "string", "flattened": false},
+  "HookInvocationCount": {"type": "integer", "flattened": false},
+  "HookInvocationPoint": {"type": "string", "flattened": false},
+  "HookStatus": {"type": "string", "flattened": false},
+  "HookStatusReason": {"type": "string", "flattened": false},
+  "HookTargetType": {"type": "string", "flattened": false},
+  "HookTargetTypeName": {"type": "string", "flattened": false},
+  "HookType": {"type": "string", "flattened": false},
+  "HookTypeConfigurationVersionId": {"type": "string", "flattened": false},
+  "HookTypeName": {"type": "string", "flattened": false},
+  "HookTypeVersionId": {"type": "string", "flattened": false},
   "IdentityProvider": {"type": "string", "flattened": false},
   "ImportStacksToStackSetInput": {
     "type": "structure",
@@ -1775,7 +1859,15 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "flattened": false
       },
       "ResourceProperties": {"shape": "ResourceProperties", "flattened": false},
-      "ClientRequestToken": {"shape": "ClientRequestToken", "flattened": false}
+      "ClientRequestToken": {"shape": "ClientRequestToken", "flattened": false},
+      "HookType": {"shape": "HookType", "flattened": false},
+      "HookStatus": {"shape": "HookStatus", "flattened": false},
+      "HookStatusReason": {"shape": "HookStatusReason", "flattened": false},
+      "HookInvocationPoint": {
+        "shape": "HookInvocationPoint",
+        "flattened": false
+      },
+      "HookFailureMode": {"shape": "HookFailureMode", "flattened": false}
     },
     "flattened": false
   },
@@ -2096,6 +2188,10 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "StackSetDriftDetectionDetails": {
         "shape": "StackSetDriftDetectionDetails",
         "flattened": false
+      },
+      "StatusReason": {
+        "shape": "StackSetOperationStatusReason",
+        "flattened": false
       }
     },
     "flattened": false
@@ -2147,6 +2243,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "flattened": false
   },
   "StackSetOperationStatus": {"type": "string", "flattened": false},
+  "StackSetOperationStatusReason": {"type": "string", "flattened": false},
   "StackSetOperationSummaries": {
     "type": "list",
     "member": {"shape": "StackSetOperationSummary"},
@@ -2159,7 +2256,11 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "Action": {"shape": "StackSetOperationAction", "flattened": false},
       "Status": {"shape": "StackSetOperationStatus", "flattened": false},
       "CreationTimestamp": {"shape": "Timestamp", "flattened": false},
-      "EndTimestamp": {"shape": "Timestamp", "flattened": false}
+      "EndTimestamp": {"shape": "Timestamp", "flattened": false},
+      "StatusReason": {
+        "shape": "StackSetOperationStatusReason",
+        "flattened": false
+      }
     },
     "flattened": false
   },

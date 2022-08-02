@@ -18,7 +18,253 @@ import '../../shared/shared.dart'
 
 export '../../shared/shared.dart' show AwsClientCredentials;
 
-/// This is the Amazon Rekognition API reference.
+/// This is the API Reference for <a
+/// href="https://docs.aws.amazon.com/rekognition/latest/dg/images.html">Amazon
+/// Rekognition Image</a>, <a
+/// href="https://docs.aws.amazon.com/rekognition/latest/customlabels-dg/what-is.html">Amazon
+/// Rekognition Custom Labels</a>, <a
+/// href="https://docs.aws.amazon.com/rekognition/latest/dg/video.html">Amazon
+/// Rekognition Stored Video</a>, <a
+/// href="https://docs.aws.amazon.com/rekognition/latest/dg/streaming-video.html">Amazon
+/// Rekognition Streaming Video</a>. It provides descriptions of actions, data
+/// types, common parameters, and common errors.
+///
+/// <b>Amazon Rekognition Image</b>
+///
+/// <ul>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/rekognition/latest/APIReference/API_CompareFaces.html">CompareFaces</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/rekognition/latest/APIReference/API_CreateCollection.html">CreateCollection</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/rekognition/latest/APIReference/API_DeleteCollection.html">DeleteCollection</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/rekognition/latest/APIReference/API_DeleteFaces.html">DeleteFaces</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/rekognition/latest/APIReference/API_DescribeCollection.html">DescribeCollection</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/rekognition/latest/APIReference/API_DetectFaces.html">DetectFaces</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/rekognition/latest/APIReference/API_DetectLabels.html">DetectLabels</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/rekognition/latest/APIReference/API_DetectModerationLabels.html">DetectModerationLabels</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/rekognition/latest/APIReference/API_DetectProtectiveEquipment.html">DetectProtectiveEquipment</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/rekognition/latest/APIReference/API_DetectText.html">DetectText</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/rekognition/latest/APIReference/API_GetCelebrityInfo.html">GetCelebrityInfo</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/rekognition/latest/APIReference/API_IndexFaces.html">IndexFaces</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/rekognition/latest/APIReference/API_ListCollections.html">ListCollections</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/rekognition/latest/APIReference/API_ListFaces.html">ListFaces</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/rekognition/latest/APIReference/API_RecognizeCelebrities.html">RecognizeCelebrities</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/rekognition/latest/APIReference/API_SearchFaces.html">SearchFaces</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/rekognition/latest/APIReference/API_SearchFacesByImage.html">SearchFacesByImage</a>
+/// </li>
+/// </ul>
+/// <b>Amazon Rekognition Custom Labels</b>
+///
+/// <ul>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/rekognition/latest/APIReference/API_CreateDataset.html">CreateDataset</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/rekognition/latest/APIReference/API_CreateProject.html">CreateProject</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/rekognition/latest/APIReference/API_CreateProjectVersion.html">CreateProjectVersion</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/rekognition/latest/APIReference/API_DeleteDataset.html">DeleteDataset</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/rekognition/latest/APIReference/API_DeleteProject.html">DeleteProject</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/rekognition/latest/APIReference/API_DeleteProjectVersion.html">DeleteProjectVersion</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/rekognition/latest/APIReference/API_DescribeDataset.html">DescribeDataset</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/rekognition/latest/APIReference/API_DescribeProjects.html">DescribeProjects</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/rekognition/latest/APIReference/API_DescribeProjectVersions.html">DescribeProjectVersions</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/rekognition/latest/APIReference/API_DetectCustomLabels.html">DetectCustomLabels</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/rekognition/latest/APIReference/API_DistributeDatasetEntries.html">DistributeDatasetEntries</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/rekognition/latest/APIReference/API_ListDatasetEntries.html">ListDatasetEntries</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/rekognition/latest/APIReference/API_ListDatasetLabels.html">ListDatasetLabels</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/rekognition/latest/APIReference/API_StartProjectVersion.html">StartProjectVersion</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/rekognition/latest/APIReference/API_StopProjectVersion.html">StopProjectVersion</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/rekognition/latest/APIReference/API_UpdateDatasetEntries.html">UpdateDatasetEntries</a>
+/// </li>
+/// </ul>
+/// <b>Amazon Rekognition Video Stored Video</b>
+///
+/// <ul>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/rekognition/latest/APIReference/API_GetCelebrityRecognition.html">GetCelebrityRecognition</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/rekognition/latest/APIReference/API_GetContentModeration.html">GetContentModeration</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/rekognition/latest/APIReference/API_GetFaceDetection.html">GetFaceDetection</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/rekognition/latest/APIReference/API_GetFaceSearch.html">GetFaceSearch</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/rekognition/latest/APIReference/API_GetLabelDetection.html">GetLabelDetection</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/rekognition/latest/APIReference/API_GetPersonTracking.html">GetPersonTracking</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/rekognition/latest/APIReference/API_GetSegmentDetection.html">GetSegmentDetection</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/rekognition/latest/APIReference/API_GetTextDetection.html">GetTextDetection</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/rekognition/latest/APIReference/API_StartCelebrityRecognition.html">StartCelebrityRecognition</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/rekognition/latest/APIReference/API_StartContentModeration.html">StartContentModeration</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/rekognition/latest/APIReference/API_StartFaceDetection.html">StartFaceDetection</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/rekognition/latest/APIReference/API_StartFaceSearch.html">StartFaceSearch</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/rekognition/latest/APIReference/API_StartLabelDetection.html">StartLabelDetection</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/rekognition/latest/APIReference/API_StartPersonTracking.html">StartPersonTracking</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/rekognition/latest/APIReference/API_StartSegmentDetection.html">StartSegmentDetection</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/rekognition/latest/APIReference/API_StartTextDetection.html">StartTextDetection</a>
+/// </li>
+/// </ul>
+/// <b>Amazon Rekognition Video Streaming Video</b>
+///
+/// <ul>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/rekognition/latest/APIReference/API_CreateStreamProcessor.html">CreateStreamProcessor</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/rekognition/latest/APIReference/API_DeleteStreamProcessor.html">DeleteStreamProcessor</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/rekognition/latest/APIReference/API_DescribeStreamProcessor.html">DescribeStreamProcessor</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/rekognition/latest/APIReference/API_ListStreamProcessors.html">ListStreamProcessors</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/rekognition/latest/APIReference/API_StartStreamProcessor.html">StartStreamProcessor</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/rekognition/latest/APIReference/API_StopStreamProcessor.html">StopStreamProcessor</a>
+/// </li>
+/// </ul>
 class Rekognition {
   final _s.JsonProtocol _protocol;
   Rekognition({
@@ -368,8 +614,8 @@ class Rekognition {
   /// For more information, see Creating training and test dataset in the
   /// <i>Amazon Rekognition Custom Labels Developer Guide</i>.
   /// <note>
-  /// You can train a modelin a project that doesn't have associated datasets by
-  /// specifying manifest files in the <code>TrainingData</code> and
+  /// You can train a model in a project that doesn't have associated datasets
+  /// by specifying manifest files in the <code>TrainingData</code> and
   /// <code>TestingData</code> fields.
   ///
   /// If you open the console after training a model with manifest files, Amazon
@@ -503,24 +749,40 @@ class Rekognition {
   }
 
   /// Creates an Amazon Rekognition stream processor that you can use to detect
-  /// and recognize faces in a streaming video.
+  /// and recognize faces or to detect labels in a streaming video.
   ///
   /// Amazon Rekognition Video is a consumer of live video from Amazon Kinesis
-  /// Video Streams. Amazon Rekognition Video sends analysis results to Amazon
-  /// Kinesis Data Streams.
+  /// Video Streams. There are two different settings for stream processors in
+  /// Amazon Rekognition: detecting faces and detecting labels.
   ///
-  /// You provide as input a Kinesis video stream (<code>Input</code>) and a
-  /// Kinesis data stream (<code>Output</code>) stream. You also specify the
-  /// face recognition criteria in <code>Settings</code>. For example, the
-  /// collection containing faces that you want to recognize. Use
-  /// <code>Name</code> to assign an identifier for the stream processor. You
-  /// use <code>Name</code> to manage the stream processor. For example, you can
-  /// start processing the source video by calling <a>StartStreamProcessor</a>
-  /// with the <code>Name</code> field.
-  ///
-  /// After you have finished analyzing a streaming video, use
-  /// <a>StopStreamProcessor</a> to stop processing. You can delete the stream
-  /// processor by calling <a>DeleteStreamProcessor</a>.
+  /// <ul>
+  /// <li>
+  /// If you are creating a stream processor for detecting faces, you provide as
+  /// input a Kinesis video stream (<code>Input</code>) and a Kinesis data
+  /// stream (<code>Output</code>) stream. You also specify the face recognition
+  /// criteria in <code>Settings</code>. For example, the collection containing
+  /// faces that you want to recognize. After you have finished analyzing a
+  /// streaming video, use <a>StopStreamProcessor</a> to stop processing.
+  /// </li>
+  /// <li>
+  /// If you are creating a stream processor to detect labels, you provide as
+  /// input a Kinesis video stream (<code>Input</code>), Amazon S3 bucket
+  /// information (<code>Output</code>), and an Amazon SNS topic ARN
+  /// (<code>NotificationChannel</code>). You can also provide a KMS key ID to
+  /// encrypt the data sent to your Amazon S3 bucket. You specify what you want
+  /// to detect in <code>ConnectedHomeSettings</code>, such as people, packages
+  /// and people, or pets, people, and packages. You can also specify where in
+  /// the frame you want Amazon Rekognition to monitor with
+  /// <code>RegionsOfInterest</code>. When you run the
+  /// <a>StartStreamProcessor</a> operation on a label detection stream
+  /// processor, you input start and stop information to determine the length of
+  /// the processing time.
+  /// </li>
+  /// </ul>
+  /// Use <code>Name</code> to assign an identifier for the stream processor.
+  /// You use <code>Name</code> to manage the stream processor. For example, you
+  /// can start processing the source video by calling
+  /// <a>StartStreamProcessor</a> with the <code>Name</code> field.
   ///
   /// This operation requires permissions to perform the
   /// <code>rekognition:CreateStreamProcessor</code> action. If you want to tag
@@ -539,26 +801,60 @@ class Rekognition {
   /// Parameter [input] :
   /// Kinesis video stream stream that provides the source streaming video. If
   /// you are using the AWS CLI, the parameter name is
-  /// <code>StreamProcessorInput</code>.
+  /// <code>StreamProcessorInput</code>. This is required for both face search
+  /// and label detection stream processors.
   ///
   /// Parameter [name] :
   /// An identifier you assign to the stream processor. You can use
   /// <code>Name</code> to manage the stream processor. For example, you can get
   /// the current status of the stream processor by calling
-  /// <a>DescribeStreamProcessor</a>. <code>Name</code> is idempotent.
+  /// <a>DescribeStreamProcessor</a>. <code>Name</code> is idempotent. This is
+  /// required for both face search and label detection stream processors.
   ///
   /// Parameter [output] :
-  /// Kinesis data stream stream to which Amazon Rekognition Video puts the
-  /// analysis results. If you are using the AWS CLI, the parameter name is
-  /// <code>StreamProcessorOutput</code>.
+  /// Kinesis data stream stream or Amazon S3 bucket location to which Amazon
+  /// Rekognition Video puts the analysis results. If you are using the AWS CLI,
+  /// the parameter name is <code>StreamProcessorOutput</code>. This must be a
+  /// <a>S3Destination</a> of an Amazon S3 bucket that you own for a label
+  /// detection stream processor or a Kinesis data stream ARN for a face search
+  /// stream processor.
   ///
   /// Parameter [roleArn] :
-  /// ARN of the IAM role that allows access to the stream processor.
+  /// The Amazon Resource Number (ARN) of the IAM role that allows access to the
+  /// stream processor. The IAM role provides Rekognition read permissions for a
+  /// Kinesis stream. It also provides write permissions to an Amazon S3 bucket
+  /// and Amazon Simple Notification Service topic for a label detection stream
+  /// processor. This is required for both face search and label detection
+  /// stream processors.
   ///
   /// Parameter [settings] :
-  /// Face recognition input parameters to be used by the stream processor.
-  /// Includes the collection to use for face recognition and the face
-  /// attributes to detect.
+  /// Input parameters used in a streaming video analyzed by a stream processor.
+  /// You can use <code>FaceSearch</code> to recognize faces in a streaming
+  /// video, or you can use <code>ConnectedHome</code> to detect labels.
+  ///
+  /// Parameter [dataSharingPreference] :
+  /// Shows whether you are sharing data with Rekognition to improve model
+  /// performance. You can choose this option at the account level or on a
+  /// per-stream basis. Note that if you opt out at the account level this
+  /// setting is ignored on individual streams.
+  ///
+  /// Parameter [kmsKeyId] :
+  /// The identifier for your AWS Key Management Service key (AWS KMS key). This
+  /// is an optional parameter for label detection stream processors and should
+  /// not be used to create a face search stream processor. You can supply the
+  /// Amazon Resource Name (ARN) of your KMS key, the ID of your KMS key, an
+  /// alias for your KMS key, or an alias ARN. The key is used to encrypt
+  /// results and data published to your Amazon S3 bucket, which includes image
+  /// frames and hero images. Your source images are unaffected.
+  ///
+  ///
+  ///
+  /// Parameter [regionsOfInterest] :
+  /// Specifies locations in the frames where Amazon Rekognition checks for
+  /// objects or people. You can specify up to 10 regions of interest, and each
+  /// region has either a polygon or a bounding box. This is an optional
+  /// parameter for label detection stream processors and should not be used to
+  /// create a face search stream processor.
   ///
   /// Parameter [tags] :
   /// A set of tags (key-value pairs) that you want to attach to the stream
@@ -569,6 +865,10 @@ class Rekognition {
     required StreamProcessorOutput output,
     required String roleArn,
     required StreamProcessorSettings settings,
+    StreamProcessorDataSharingPreference? dataSharingPreference,
+    String? kmsKeyId,
+    StreamProcessorNotificationChannel? notificationChannel,
+    List<RegionOfInterest>? regionsOfInterest,
     Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(input, 'input');
@@ -592,6 +892,12 @@ class Rekognition {
         'Output': output,
         'RoleArn': roleArn,
         'Settings': settings,
+        if (dataSharingPreference != null)
+          'DataSharingPreference': dataSharingPreference,
+        if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+        if (notificationChannel != null)
+          'NotificationChannel': notificationChannel,
+        if (regionsOfInterest != null) 'RegionsOfInterest': regionsOfInterest,
         if (tags != null) 'Tags': tags,
       },
     );
@@ -600,8 +906,9 @@ class Rekognition {
   }
 
   /// Deletes the specified collection. Note that this operation removes all
-  /// faces in the collection. For an example, see
-  /// <a>delete-collection-procedure</a>.
+  /// faces in the collection. For an example, see <a
+  /// href="https://docs.aws.amazon.com/rekognition/latest/dg/delete-collection-procedure.html">Deleting
+  /// a collection</a>.
   ///
   /// This operation requires permissions to perform the
   /// <code>rekognition:DeleteCollection</code> action.
@@ -1294,7 +1601,7 @@ class Rekognition {
   /// events like wedding, graduation, and birthday party; and concepts like
   /// landscape, evening, and nature.
   ///
-  /// For an example, see Analyzing Images Stored in an Amazon S3 Bucket in the
+  /// For an example, see Analyzing images stored in an Amazon S3 bucket in the
   /// Amazon Rekognition Developer Guide.
   /// <note>
   /// <code>DetectLabels</code> does not support the detection of activities.
@@ -1636,8 +1943,8 @@ class Rekognition {
   /// To be detected, text must be within +/- 90 degrees orientation of the
   /// horizontal axis.
   ///
-  /// For more information, see DetectText in the Amazon Rekognition Developer
-  /// Guide.
+  /// For more information, see Detecting text in the Amazon Rekognition
+  /// Developer Guide.
   ///
   /// May throw [InvalidS3ObjectException].
   /// May throw [InvalidParameterException].
@@ -1743,7 +2050,7 @@ class Rekognition {
   /// of URLs. If there is no additional information about the celebrity, this
   /// list is empty.
   ///
-  /// For more information, see Recognizing Celebrities in an Image in the
+  /// For more information, see Getting information about a celebrity in the
   /// Amazon Rekognition Developer Guide.
   ///
   /// This operation requires permissions to perform the
@@ -1946,7 +2253,7 @@ class Rekognition {
   /// <code>NextToken</code> returned from the previous call to
   /// <code>GetContentModeration</code>.
   ///
-  /// For more information, see Content moderation in the Amazon Rekognition
+  /// For more information, see moderating content in the Amazon Rekognition
   /// Developer Guide.
   ///
   /// May throw [AccessDeniedException].
@@ -2431,7 +2738,7 @@ class Rekognition {
   /// request parameter with the token value returned from the previous call to
   /// <code>GetSegmentDetection</code>.
   ///
-  /// For more information, see Detecting Video Segments in Stored Video in the
+  /// For more information, see Detecting video segments in stored video in the
   /// Amazon Rekognition Developer Guide.
   ///
   /// May throw [AccessDeniedException].
@@ -2583,7 +2890,7 @@ class Rekognition {
   /// uses feature vectors when it performs face match and search operations
   /// using the <a>SearchFaces</a> and <a>SearchFacesByImage</a> operations.
   ///
-  /// For more information, see Adding Faces to a Collection in the Amazon
+  /// For more information, see Adding faces to a collection in the Amazon
   /// Rekognition Developer Guide.
   ///
   /// To get the number of faces in a collection, call
@@ -2680,9 +2987,9 @@ class Rekognition {
   /// <code>detectionAttributes</code> parameter), Amazon Rekognition returns
   /// detailed facial attributes, such as facial landmarks (for example,
   /// location of eye and mouth) and other facial attributes. If you provide the
-  /// same image, specify the same collection, use the same external ID, and use
-  /// the same model version in the <code>IndexFaces</code> operation, Amazon
-  /// Rekognition doesn't save duplicate face metadata.
+  /// same image, specify the same collection, and use the same external ID in
+  /// the <code>IndexFaces</code> operation, Amazon Rekognition doesn't save
+  /// duplicate face metadata.
   /// <p/>
   /// The input image is passed either as base64-encoded image bytes, or as a
   /// reference to an image in an Amazon S3 bucket. If you use the AWS CLI to
@@ -2813,7 +3120,7 @@ class Rekognition {
   /// truncated, the response also provides a <code>NextToken</code> that you
   /// can use in the subsequent request to fetch the next set of collection IDs.
   ///
-  /// For an example, see Listing Collections in the Amazon Rekognition
+  /// For an example, see Listing collections in the Amazon Rekognition
   /// Developer Guide.
   ///
   /// This operation requires permissions to perform the
@@ -3177,7 +3484,7 @@ class Rekognition {
   }
 
   /// Returns an array of celebrities recognized in the input image. For more
-  /// information, see Recognizing Celebrities in the Amazon Rekognition
+  /// information, see Recognizing celebrities in the Amazon Rekognition
   /// Developer Guide.
   ///
   /// <code>RecognizeCelebrities</code> returns the 64 largest faces in the
@@ -3206,7 +3513,7 @@ class Rekognition {
   /// call Amazon Rekognition operations, passing image bytes is not supported.
   /// The image must be either a PNG or JPEG formatted file.
   ///
-  /// For an example, see Recognizing Celebrities in an Image in the Amazon
+  /// For an example, see Recognizing celebrities in an image in the Amazon
   /// Rekognition Developer Guide.
   ///
   /// This operation requires permissions to perform the
@@ -3268,7 +3575,7 @@ class Rekognition {
   /// each face match, indicating the confidence that the specific face matches
   /// the input face.
   ///
-  /// For an example, see Searching for a Face Using Its Face ID in the Amazon
+  /// For an example, see Searching for a face using its face ID in the Amazon
   /// Rekognition Developer Guide.
   ///
   /// This operation requires permissions to perform the
@@ -3492,7 +3799,7 @@ class Rekognition {
   /// (<code>JobId</code>) from the initial call to
   /// <code>StartCelebrityRecognition</code>.
   ///
-  /// For more information, see Recognizing Celebrities in the Amazon
+  /// For more information, see Recognizing celebrities in the Amazon
   /// Rekognition Developer Guide.
   ///
   /// May throw [AccessDeniedException].
@@ -3576,7 +3883,7 @@ class Rekognition {
   /// (<code>JobId</code>) from the initial call to
   /// <code>StartContentModeration</code>.
   ///
-  /// For more information, see Content moderation in the Amazon Rekognition
+  /// For more information, see Moderating content in the Amazon Rekognition
   /// Developer Guide.
   ///
   /// May throw [AccessDeniedException].
@@ -3673,7 +3980,7 @@ class Rekognition {
   /// <a>GetFaceDetection</a> and pass the job identifier (<code>JobId</code>)
   /// from the initial call to <code>StartFaceDetection</code>.
   ///
-  /// For more information, see Detecting Faces in a Stored Video in the Amazon
+  /// For more information, see Detecting faces in a stored video in the Amazon
   /// Rekognition Developer Guide.
   ///
   /// May throw [AccessDeniedException].
@@ -3761,8 +4068,9 @@ class Rekognition {
   /// first check that the status value published to the Amazon SNS topic is
   /// <code>SUCCEEDED</code>. If so, call <a>GetFaceSearch</a> and pass the job
   /// identifier (<code>JobId</code>) from the initial call to
-  /// <code>StartFaceSearch</code>. For more information, see
-  /// <a>procedure-person-search-videos</a>.
+  /// <code>StartFaceSearch</code>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/rekognition/latest/dg/procedure-person-search-videos.html">Searching
+  /// stored videos for faces</a>.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [IdempotentParameterMismatchException].
@@ -4037,6 +4345,9 @@ class Rekognition {
   /// You are charged for the amount of time that the model is running. To stop
   /// a running model, call <a>StopProjectVersion</a>.
   /// </note>
+  /// For more information, see <i>Running a trained Amazon Rekognition Custom
+  /// Labels model</i> in the Amazon Rekognition Custom Labels Guide.
+  ///
   /// This operation requires permissions to perform the
   /// <code>rekognition:StartProjectVersion</code> action.
   ///
@@ -4051,15 +4362,26 @@ class Rekognition {
   ///
   /// Parameter [minInferenceUnits] :
   /// The minimum number of inference units to use. A single inference unit
-  /// represents 1 hour of processing and can support up to 5 Transaction Pers
-  /// Second (TPS). Use a higher number to increase the TPS throughput of your
-  /// model. You are charged for the number of inference units that you use.
+  /// represents 1 hour of processing.
+  ///
+  /// For information about the number of transactions per second (TPS) that an
+  /// inference unit can support, see <i>Running a trained Amazon Rekognition
+  /// Custom Labels model</i> in the Amazon Rekognition Custom Labels Guide.
+  ///
+  /// Use a higher number to increase the TPS throughput of your model. You are
+  /// charged for the number of inference units that you use.
   ///
   /// Parameter [projectVersionArn] :
   /// The Amazon Resource Name(ARN) of the model version that you want to start.
+  ///
+  /// Parameter [maxInferenceUnits] :
+  /// The maximum number of inference units to use for auto-scaling the model.
+  /// If you don't specify a value, Amazon Rekognition Custom Labels doesn't
+  /// auto-scale the model.
   Future<StartProjectVersionResponse> startProjectVersion({
     required int minInferenceUnits,
     required String projectVersionArn,
+    int? maxInferenceUnits,
   }) async {
     ArgumentError.checkNotNull(minInferenceUnits, 'minInferenceUnits');
     _s.validateNumRange(
@@ -4070,6 +4392,12 @@ class Rekognition {
       isRequired: true,
     );
     ArgumentError.checkNotNull(projectVersionArn, 'projectVersionArn');
+    _s.validateNumRange(
+      'maxInferenceUnits',
+      maxInferenceUnits,
+      1,
+      1152921504606846976,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'RekognitionService.StartProjectVersion'
@@ -4083,6 +4411,7 @@ class Rekognition {
       payload: {
         'MinInferenceUnits': minInferenceUnits,
         'ProjectVersionArn': projectVersionArn,
+        if (maxInferenceUnits != null) 'MaxInferenceUnits': maxInferenceUnits,
       },
     );
 
@@ -4112,7 +4441,7 @@ class Rekognition {
   /// the job identifier (<code>JobId</code>) from the initial call to
   /// <code>StartSegmentDetection</code>.
   ///
-  /// For more information, see Detecting Video Segments in Stored Video in the
+  /// For more information, see Detecting video segments in stored video in the
   /// Amazon Rekognition Developer Guide.
   ///
   /// May throw [AccessDeniedException].
@@ -4191,6 +4520,10 @@ class Rekognition {
   /// value of the <code>Name</code> field specified in the call to
   /// <code>CreateStreamProcessor</code>.
   ///
+  /// If you are using a label detection stream processor to detect labels, you
+  /// need to provide a <code>Start selector</code> and a <code>Stop
+  /// selector</code> to determine the length of the stream processing time.
+  ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerError].
   /// May throw [ThrottlingException].
@@ -4201,15 +4534,33 @@ class Rekognition {
   ///
   /// Parameter [name] :
   /// The name of the stream processor to start processing.
-  Future<void> startStreamProcessor({
+  ///
+  /// Parameter [startSelector] :
+  /// Specifies the starting point in the Kinesis stream to start processing.
+  /// You can use the producer timestamp or the fragment number. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/API_reader_Fragment.html">Fragment</a>.
+  ///
+  /// This is a required parameter for label detection stream processors and
+  /// should not be used to start a face search stream processor.
+  ///
+  /// Parameter [stopSelector] :
+  /// Specifies when to stop processing the stream. You can specify a maximum
+  /// amount of time to process the video.
+  ///
+  /// This is a required parameter for label detection stream processors and
+  /// should not be used to start a face search stream processor.
+  Future<StartStreamProcessorResponse> startStreamProcessor({
     required String name,
+    StreamProcessingStartSelector? startSelector,
+    StreamProcessingStopSelector? stopSelector,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'RekognitionService.StartStreamProcessor'
     };
-    await _protocol.send(
+    final jsonResponse = await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -4217,8 +4568,12 @@ class Rekognition {
       headers: headers,
       payload: {
         'Name': name,
+        if (startSelector != null) 'StartSelector': startSelector,
+        if (stopSelector != null) 'StopSelector': stopSelector,
       },
     );
+
+    return StartStreamProcessorResponse.fromJson(jsonResponse.body);
   }
 
   /// Starts asynchronous detection of text in a stored video.
@@ -4521,6 +4876,69 @@ class Rekognition {
       },
     );
   }
+
+  /// Allows you to update a stream processor. You can change some settings and
+  /// regions of interest and delete certain parameters.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerError].
+  /// May throw [ThrottlingException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ProvisionedThroughputExceededException].
+  ///
+  /// Parameter [name] :
+  /// Name of the stream processor that you want to update.
+  ///
+  /// Parameter [dataSharingPreferenceForUpdate] :
+  /// Shows whether you are sharing data with Rekognition to improve model
+  /// performance. You can choose this option at the account level or on a
+  /// per-stream basis. Note that if you opt out at the account level this
+  /// setting is ignored on individual streams.
+  ///
+  /// Parameter [parametersToDelete] :
+  /// A list of parameters you want to delete from the stream processor.
+  ///
+  /// Parameter [regionsOfInterestForUpdate] :
+  /// Specifies locations in the frames where Amazon Rekognition checks for
+  /// objects or people. This is an optional parameter for label detection
+  /// stream processors.
+  ///
+  /// Parameter [settingsForUpdate] :
+  /// The stream processor settings that you want to update. Label detection
+  /// settings can be updated to detect different labels with a different
+  /// minimum confidence.
+  Future<void> updateStreamProcessor({
+    required String name,
+    StreamProcessorDataSharingPreference? dataSharingPreferenceForUpdate,
+    List<StreamProcessorParameterToDelete>? parametersToDelete,
+    List<RegionOfInterest>? regionsOfInterestForUpdate,
+    StreamProcessorSettingsForUpdate? settingsForUpdate,
+  }) async {
+    ArgumentError.checkNotNull(name, 'name');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'RekognitionService.UpdateStreamProcessor'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Name': name,
+        if (dataSharingPreferenceForUpdate != null)
+          'DataSharingPreferenceForUpdate': dataSharingPreferenceForUpdate,
+        if (parametersToDelete != null)
+          'ParametersToDelete':
+              parametersToDelete.map((e) => e.toValue()).toList(),
+        if (regionsOfInterestForUpdate != null)
+          'RegionsOfInterestForUpdate': regionsOfInterestForUpdate,
+        if (settingsForUpdate != null) 'SettingsForUpdate': settingsForUpdate,
+      },
+    );
+  }
 }
 
 /// Structure containing the estimated age range, in years, for a face.
@@ -4781,11 +5199,11 @@ extension on String {
   }
 }
 
-/// Identifies the bounding box around the label, face, text or personal
-/// protective equipment. The <code>left</code> (x-coordinate) and
-/// <code>top</code> (y-coordinate) are coordinates representing the top and
-/// left sides of the bounding box. Note that the upper-left corner of the image
-/// is the origin (0,0).
+/// Identifies the bounding box around the label, face, text, object of
+/// interest, or personal protective equipment. The <code>left</code>
+/// (x-coordinate) and <code>top</code> (y-coordinate) are coordinates
+/// representing the top and left sides of the bounding box. Note that the
+/// upper-left corner of the image is the origin (0,0).
 ///
 /// The <code>top</code> and <code>left</code> values returned are ratios of the
 /// overall image size. For example, if the input image is 700x200 pixels, and
@@ -5306,6 +5724,87 @@ class ComparedSourceImageFace {
   }
 }
 
+/// Label detection settings to use on a streaming video. Defining the settings
+/// is required in the request parameter for <a>CreateStreamProcessor</a>.
+/// Including this setting in the <code>CreateStreamProcessor</code> request
+/// enables you to use the stream processor for label detection. You can then
+/// select what you want the stream processor to detect, such as people or pets.
+/// When the stream processor has started, one notification is sent for each
+/// object class specified. For example, if packages and pets are selected, one
+/// SNS notification is published the first time a package is detected and one
+/// SNS notification is published the first time a pet is detected, as well as
+/// an end-of-session summary.
+class ConnectedHomeSettings {
+  /// Specifies what you want to detect in the video, such as people, packages, or
+  /// pets. The current valid labels you can include in this list are: "PERSON",
+  /// "PET", "PACKAGE", and "ALL".
+  final List<String> labels;
+
+  /// The minimum confidence required to label an object in the video.
+  final double? minConfidence;
+
+  ConnectedHomeSettings({
+    required this.labels,
+    this.minConfidence,
+  });
+
+  factory ConnectedHomeSettings.fromJson(Map<String, dynamic> json) {
+    return ConnectedHomeSettings(
+      labels: (json['Labels'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      minConfidence: json['MinConfidence'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final labels = this.labels;
+    final minConfidence = this.minConfidence;
+    return {
+      'Labels': labels,
+      if (minConfidence != null) 'MinConfidence': minConfidence,
+    };
+  }
+}
+
+/// The label detection settings you want to use in your stream processor. This
+/// includes the labels you want the stream processor to detect and the minimum
+/// confidence level allowed to label objects.
+class ConnectedHomeSettingsForUpdate {
+  /// Specifies what you want to detect in the video, such as people, packages, or
+  /// pets. The current valid labels you can include in this list are: "PERSON",
+  /// "PET", "PACKAGE", and "ALL".
+  final List<String>? labels;
+
+  /// The minimum confidence required to label an object in the video.
+  final double? minConfidence;
+
+  ConnectedHomeSettingsForUpdate({
+    this.labels,
+    this.minConfidence,
+  });
+
+  factory ConnectedHomeSettingsForUpdate.fromJson(Map<String, dynamic> json) {
+    return ConnectedHomeSettingsForUpdate(
+      labels: (json['Labels'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      minConfidence: json['MinConfidence'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final labels = this.labels;
+    final minConfidence = this.minConfidence;
+    return {
+      if (labels != null) 'Labels': labels,
+      if (minConfidence != null) 'MinConfidence': minConfidence,
+    };
+  }
+}
+
 enum ContentClassifier {
   freeOfPersonallyIdentifiableInformation,
   freeOfAdultContent,
@@ -5435,10 +5934,8 @@ class CreateCollectionResponse {
   /// permissions on your resources.
   final String? collectionArn;
 
-  /// Latest face model being used with the collection. For more information, see
-  /// <a
-  /// href="https://docs.aws.amazon.com/rekognition/latest/dg/face-detection-model.html">Model
-  /// versioning</a>.
+  /// Version number of the face detection model associated with the collection
+  /// you are creating.
   final String? faceModelVersion;
 
   /// HTTP status code indicating the result of the operation.
@@ -5540,7 +6037,7 @@ class CreateProjectVersionResponse {
 }
 
 class CreateStreamProcessorResponse {
-  /// ARN for the newly create stream processor.
+  /// Amazon Resource Number for the newly created stream processor.
   final String? streamProcessorArn;
 
   CreateStreamProcessorResponse({
@@ -6173,7 +6670,7 @@ class DescribeCollectionResponse {
   /// The version of the face model that's used by the collection for face
   /// detection.
   ///
-  /// For more information, see Model Versioning in the Amazon Rekognition
+  /// For more information, see Model versioning in the Amazon Rekognition
   /// Developer Guide.
   final String? faceModelVersion;
 
@@ -6312,8 +6809,18 @@ class DescribeStreamProcessorResponse {
   /// Date and time the stream processor was created
   final DateTime? creationTimestamp;
 
+  /// Shows whether you are sharing data with Rekognition to improve model
+  /// performance. You can choose this option at the account level or on a
+  /// per-stream basis. Note that if you opt out at the account level this setting
+  /// is ignored on individual streams.
+  final StreamProcessorDataSharingPreference? dataSharingPreference;
+
   /// Kinesis video stream that provides the source streaming video.
   final StreamProcessorInput? input;
+
+  /// The identifier for your AWS Key Management Service key (AWS KMS key). This
+  /// is an optional parameter for label detection stream processors.
+  final String? kmsKeyId;
 
   /// The time, in Unix format, the stream processor was last updated. For
   /// example, when the stream processor moves from a running state to a failed
@@ -6322,17 +6829,23 @@ class DescribeStreamProcessorResponse {
 
   /// Name of the stream processor.
   final String? name;
+  final StreamProcessorNotificationChannel? notificationChannel;
 
   /// Kinesis data stream to which Amazon Rekognition Video puts the analysis
   /// results.
   final StreamProcessorOutput? output;
 
+  /// Specifies locations in the frames where Amazon Rekognition checks for
+  /// objects or people. This is an optional parameter for label detection stream
+  /// processors.
+  final List<RegionOfInterest>? regionsOfInterest;
+
   /// ARN of the IAM role that allows access to the stream processor.
   final String? roleArn;
 
-  /// Face recognition input parameters that are being used by the stream
-  /// processor. Includes the collection to use for face recognition and the face
-  /// attributes to detect.
+  /// Input parameters used in a streaming video analyzed by a stream processor.
+  /// You can use <code>FaceSearch</code> to recognize faces in a streaming video,
+  /// or you can use <code>ConnectedHome</code> to detect labels.
   final StreamProcessorSettings? settings;
 
   /// Current status of the stream processor.
@@ -6346,10 +6859,14 @@ class DescribeStreamProcessorResponse {
 
   DescribeStreamProcessorResponse({
     this.creationTimestamp,
+    this.dataSharingPreference,
     this.input,
+    this.kmsKeyId,
     this.lastUpdateTimestamp,
     this.name,
+    this.notificationChannel,
     this.output,
+    this.regionsOfInterest,
     this.roleArn,
     this.settings,
     this.status,
@@ -6360,15 +6877,28 @@ class DescribeStreamProcessorResponse {
   factory DescribeStreamProcessorResponse.fromJson(Map<String, dynamic> json) {
     return DescribeStreamProcessorResponse(
       creationTimestamp: timeStampFromJson(json['CreationTimestamp']),
+      dataSharingPreference: json['DataSharingPreference'] != null
+          ? StreamProcessorDataSharingPreference.fromJson(
+              json['DataSharingPreference'] as Map<String, dynamic>)
+          : null,
       input: json['Input'] != null
           ? StreamProcessorInput.fromJson(json['Input'] as Map<String, dynamic>)
           : null,
+      kmsKeyId: json['KmsKeyId'] as String?,
       lastUpdateTimestamp: timeStampFromJson(json['LastUpdateTimestamp']),
       name: json['Name'] as String?,
+      notificationChannel: json['NotificationChannel'] != null
+          ? StreamProcessorNotificationChannel.fromJson(
+              json['NotificationChannel'] as Map<String, dynamic>)
+          : null,
       output: json['Output'] != null
           ? StreamProcessorOutput.fromJson(
               json['Output'] as Map<String, dynamic>)
           : null,
+      regionsOfInterest: (json['RegionsOfInterest'] as List?)
+          ?.whereNotNull()
+          .map((e) => RegionOfInterest.fromJson(e as Map<String, dynamic>))
+          .toList(),
       roleArn: json['RoleArn'] as String?,
       settings: json['Settings'] != null
           ? StreamProcessorSettings.fromJson(
@@ -6382,10 +6912,14 @@ class DescribeStreamProcessorResponse {
 
   Map<String, dynamic> toJson() {
     final creationTimestamp = this.creationTimestamp;
+    final dataSharingPreference = this.dataSharingPreference;
     final input = this.input;
+    final kmsKeyId = this.kmsKeyId;
     final lastUpdateTimestamp = this.lastUpdateTimestamp;
     final name = this.name;
+    final notificationChannel = this.notificationChannel;
     final output = this.output;
+    final regionsOfInterest = this.regionsOfInterest;
     final roleArn = this.roleArn;
     final settings = this.settings;
     final status = this.status;
@@ -6394,11 +6928,17 @@ class DescribeStreamProcessorResponse {
     return {
       if (creationTimestamp != null)
         'CreationTimestamp': unixTimestampToJson(creationTimestamp),
+      if (dataSharingPreference != null)
+        'DataSharingPreference': dataSharingPreference,
       if (input != null) 'Input': input,
+      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
       if (lastUpdateTimestamp != null)
         'LastUpdateTimestamp': unixTimestampToJson(lastUpdateTimestamp),
       if (name != null) 'Name': name,
+      if (notificationChannel != null)
+        'NotificationChannel': notificationChannel,
       if (output != null) 'Output': output,
+      if (regionsOfInterest != null) 'RegionsOfInterest': regionsOfInterest,
       if (roleArn != null) 'RoleArn': roleArn,
       if (settings != null) 'Settings': settings,
       if (status != null) 'Status': status.toValue(),
@@ -6712,8 +7252,8 @@ class DetectionFilter {
   final double? minBoundingBoxWidth;
 
   /// Sets the confidence of word detection. Words with detection confidence below
-  /// this will be excluded from the result. Values should be between 50 and 100
-  /// as Text in Video will not return any result below 50.
+  /// this will be excluded from the result. Values should be between 0 and 100.
+  /// The default MinConfidence is 80.
   final double? minConfidence;
 
   DetectionFilter({
@@ -7420,8 +7960,9 @@ class FaceRecord {
 }
 
 /// Input face recognition parameters for an Amazon Rekognition stream
-/// processor. <code>FaceRecognitionSettings</code> is a request parameter for
-/// <a>CreateStreamProcessor</a>.
+/// processor. Includes the collection to use for face recognition and the face
+/// attributes to detect. Defining the settings is required in the request
+/// parameter for <a>CreateStreamProcessor</a>.
 class FaceSearchSettings {
   /// The ID of a collection that contains faces that you want to search for.
   final String? collectionId;
@@ -7497,7 +8038,7 @@ extension on String {
 /// female users compared to male users on a social media platform.
 ///
 /// We don't recommend using gender binary predictions to make decisions that
-/// impact&#x2028; an individual's rights, privacy, or access to services.
+/// impact an individual's rights, privacy, or access to services.
 class Gender {
   /// Level of confidence in the prediction.
   final double? confidence;
@@ -8365,8 +8906,8 @@ class HumanLoopDataAttributes {
 /// property.
 ///
 /// For Amazon Rekognition to process an S3 object, the user must have
-/// permission to access the S3 object. For more information, see Resource Based
-/// Policies in the Amazon Rekognition Developer Guide.
+/// permission to access the S3 object. For more information, see How Amazon
+/// Rekognition works with IAM in the Amazon Rekognition Developer Guide.
 class Image {
   /// Blob of image bytes up to 5 MBs.
   final Uint8List? bytes;
@@ -8433,10 +8974,8 @@ class ImageQuality {
 }
 
 class IndexFacesResponse {
-  /// Latest face model being used with the collection. For more information, see
-  /// <a
-  /// href="https://docs.aws.amazon.com/rekognition/latest/dg/face-detection-model.html">Model
-  /// versioning</a>.
+  /// The version number of the face detection model that's associated with the
+  /// input collection (<code>CollectionId</code>).
   final String? faceModelVersion;
 
   /// An array of faces detected and added to the collection. For more
@@ -8600,6 +9139,40 @@ class KinesisVideoStream {
     final arn = this.arn;
     return {
       if (arn != null) 'Arn': arn,
+    };
+  }
+}
+
+/// Specifies the starting point in a Kinesis stream to start processing. You
+/// can use the producer timestamp or the fragment number. For more information,
+/// see <a
+/// href="https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/API_reader_Fragment.html">Fragment</a>.
+class KinesisVideoStreamStartSelector {
+  /// The unique identifier of the fragment. This value monotonically increases
+  /// based on the ingestion order.
+  final String? fragmentNumber;
+
+  /// The timestamp from the producer corresponding to the fragment.
+  final int? producerTimestamp;
+
+  KinesisVideoStreamStartSelector({
+    this.fragmentNumber,
+    this.producerTimestamp,
+  });
+
+  factory KinesisVideoStreamStartSelector.fromJson(Map<String, dynamic> json) {
+    return KinesisVideoStreamStartSelector(
+      fragmentNumber: json['FragmentNumber'] as String?,
+      producerTimestamp: json['ProducerTimestamp'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fragmentNumber = this.fragmentNumber;
+    final producerTimestamp = this.producerTimestamp;
+    return {
+      if (fragmentNumber != null) 'FragmentNumber': fragmentNumber,
+      if (producerTimestamp != null) 'ProducerTimestamp': producerTimestamp,
     };
   }
 }
@@ -9000,12 +9573,10 @@ class ListCollectionsResponse {
   /// An array of collection IDs.
   final List<String>? collectionIds;
 
-  /// Latest face models being used with the corresponding collections in the
-  /// array. For more information, see <a
-  /// href="https://docs.aws.amazon.com/rekognition/latest/dg/face-detection-model.html">Model
-  /// versioning</a>. For example, the value of <code>FaceModelVersions[2]</code>
-  /// is the version number for the face detection model used by the collection in
-  /// <code>CollectionId[2]</code>.
+  /// Version numbers of the face detection models associated with the collections
+  /// in the array <code>CollectionIds</code>. For example, the value of
+  /// <code>FaceModelVersions[2]</code> is the version number for the face
+  /// detection model used by the collection in <code>CollectionId[2]</code>.
   final List<String>? faceModelVersions;
 
   /// If the result is truncated, the response provides a <code>NextToken</code>
@@ -9118,10 +9689,8 @@ class ListDatasetLabelsResponse {
 }
 
 class ListFacesResponse {
-  /// Latest face model being used with the collection. For more information, see
-  /// <a
-  /// href="https://docs.aws.amazon.com/rekognition/latest/dg/face-detection-model.html">Model
-  /// versioning</a>.
+  /// Version number of the face detection model associated with the input
+  /// collection (<code>CollectionId</code>).
   final String? faceModelVersion;
 
   /// An array of <code>Face</code> objects.
@@ -9327,9 +9896,11 @@ class Mustache {
 
 /// The Amazon Simple Notification Service topic to which Amazon Rekognition
 /// publishes the completion status of a video analysis operation. For more
-/// information, see <a>api-video</a>. Note that the Amazon SNS topic must have
-/// a topic name that begins with <i>AmazonRekognition</i> if you are using the
-/// AmazonRekognitionServiceRole permissions policy to access the topic. For
+/// information, see <a
+/// href="https://docs.aws.amazon.com/rekognition/latest/dg/api-video.html">Calling
+/// Amazon Rekognition Video operations</a>. Note that the Amazon SNS topic must
+/// have a topic name that begins with <i>AmazonRekognition</i> if you are using
+/// the AmazonRekognitionServiceRole permissions policy to access the topic. For
 /// more information, see <a
 /// href="https://docs.aws.amazon.com/rekognition/latest/dg/api-video-roles.html#api-video-roles-all-topics">Giving
 /// access to multiple Amazon SNS topics</a>.
@@ -9338,7 +9909,7 @@ class NotificationChannel {
   /// to the Amazon SNS topic.
   final String roleArn;
 
-  /// The Amazon SNS topic to which Amazon Rekognition to posts the completion
+  /// The Amazon SNS topic to which Amazon Rekognition posts the completion
   /// status.
   final String sNSTopicArn;
 
@@ -9614,15 +10185,16 @@ extension on String {
   }
 }
 
-/// The X and Y coordinates of a point on an image. The X and Y values returned
-/// are ratios of the overall image size. For example, if the input image is
-/// 700x200 and the operation returns X=0.5 and Y=0.25, then the point is at the
-/// (350,50) pixel coordinate on the image.
+/// The X and Y coordinates of a point on an image or video frame. The X and Y
+/// values are ratios of the overall image size or video resolution. For
+/// example, if an input image is 700x200 and the values are X=0.5 and Y=0.25,
+/// then the point is at the (350,50) pixel coordinate on the image.
 ///
-/// An array of <code>Point</code> objects, <code>Polygon</code>, is returned by
-/// <a>DetectText</a> and by <a>DetectCustomLabels</a>. <code>Polygon</code>
-/// represents a fine-grained polygon around a detected item. For more
-/// information, see Geometry in the Amazon Rekognition Developer Guide.
+/// An array of <code>Point</code> objects makes up a <code>Polygon</code>. A
+/// <code>Polygon</code> is returned by <a>DetectText</a> and by
+/// <a>DetectCustomLabels</a> <code>Polygon</code> represents a fine-grained
+/// polygon around a detected item. For more information, see Geometry in the
+/// Amazon Rekognition Developer Guide.
 class Point {
   /// The value of the X coordinate for a point on a <code>Polygon</code>.
   final double? x;
@@ -9793,6 +10365,11 @@ class ProjectVersionDescription {
   /// aggregate data validation results for the training and test datasets.
   final GroundTruthManifest? manifestSummary;
 
+  /// The maximum number of inference units Amazon Rekognition Custom Labels uses
+  /// to auto-scale the model. For more information, see
+  /// <a>StartProjectVersion</a>.
+  final int? maxInferenceUnits;
+
   /// The minimum number of inference units used by the model. For more
   /// information, see <a>StartProjectVersion</a>.
   final int? minInferenceUnits;
@@ -9824,6 +10401,7 @@ class ProjectVersionDescription {
     this.evaluationResult,
     this.kmsKeyId,
     this.manifestSummary,
+    this.maxInferenceUnits,
     this.minInferenceUnits,
     this.outputConfig,
     this.projectVersionArn,
@@ -9848,6 +10426,7 @@ class ProjectVersionDescription {
           ? GroundTruthManifest.fromJson(
               json['ManifestSummary'] as Map<String, dynamic>)
           : null,
+      maxInferenceUnits: json['MaxInferenceUnits'] as int?,
       minInferenceUnits: json['MinInferenceUnits'] as int?,
       outputConfig: json['OutputConfig'] != null
           ? OutputConfig.fromJson(json['OutputConfig'] as Map<String, dynamic>)
@@ -9873,6 +10452,7 @@ class ProjectVersionDescription {
     final evaluationResult = this.evaluationResult;
     final kmsKeyId = this.kmsKeyId;
     final manifestSummary = this.manifestSummary;
+    final maxInferenceUnits = this.maxInferenceUnits;
     final minInferenceUnits = this.minInferenceUnits;
     final outputConfig = this.outputConfig;
     final projectVersionArn = this.projectVersionArn;
@@ -9889,6 +10469,7 @@ class ProjectVersionDescription {
       if (evaluationResult != null) 'EvaluationResult': evaluationResult,
       if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
       if (manifestSummary != null) 'ManifestSummary': manifestSummary,
+      if (maxInferenceUnits != null) 'MaxInferenceUnits': maxInferenceUnits,
       if (minInferenceUnits != null) 'MinInferenceUnits': minInferenceUnits,
       if (outputConfig != null) 'OutputConfig': outputConfig,
       if (projectVersionArn != null) 'ProjectVersionArn': projectVersionArn,
@@ -10394,19 +10975,25 @@ class RecognizeCelebritiesResponse {
   }
 }
 
-/// Specifies a location within the frame that Rekognition checks for text. Uses
-/// a <code>BoundingBox</code> object to set a region of the screen.
+/// Specifies a location within the frame that Rekognition checks for objects of
+/// interest such as text, labels, or faces. It uses a <code>BoundingBox</code>
+/// or <code>Polygon</code> to set a region of the screen.
 ///
-/// A word is included in the region if the word is more than half in that
-/// region. If there is more than one region, the word will be compared with all
-/// regions of the screen. Any word more than half in a region is kept in the
-/// results.
+/// A word, face, or label is included in the region if it is more than half in
+/// that region. If there is more than one region, the word, face, or label is
+/// compared with all regions of the screen. Any object of interest that is more
+/// than half in a region is kept in the results.
 class RegionOfInterest {
   /// The box representing a region of interest on screen.
   final BoundingBox? boundingBox;
 
+  /// Specifies a shape made up of up to 10 <code>Point</code> objects to define a
+  /// region of interest.
+  final List<Point>? polygon;
+
   RegionOfInterest({
     this.boundingBox,
+    this.polygon,
   });
 
   factory RegionOfInterest.fromJson(Map<String, dynamic> json) {
@@ -10414,13 +11001,57 @@ class RegionOfInterest {
       boundingBox: json['BoundingBox'] != null
           ? BoundingBox.fromJson(json['BoundingBox'] as Map<String, dynamic>)
           : null,
+      polygon: (json['Polygon'] as List?)
+          ?.whereNotNull()
+          .map((e) => Point.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
     final boundingBox = this.boundingBox;
+    final polygon = this.polygon;
     return {
       if (boundingBox != null) 'BoundingBox': boundingBox,
+      if (polygon != null) 'Polygon': polygon,
+    };
+  }
+}
+
+/// The Amazon S3 bucket location to which Amazon Rekognition publishes the
+/// detailed inference results of a video analysis operation. These results
+/// include the name of the stream processor resource, the session ID of the
+/// stream processing session, and labeled timestamps and bounding boxes for
+/// detected labels.
+class S3Destination {
+  /// The name of the Amazon S3 bucket you want to associate with the streaming
+  /// video project. You must be the owner of the Amazon S3 bucket.
+  final String? bucket;
+
+  /// The prefix value of the location within the bucket that you want the
+  /// information to be published to. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-prefixes.html">Using
+  /// prefixes</a>.
+  final String? keyPrefix;
+
+  S3Destination({
+    this.bucket,
+    this.keyPrefix,
+  });
+
+  factory S3Destination.fromJson(Map<String, dynamic> json) {
+    return S3Destination(
+      bucket: json['Bucket'] as String?,
+      keyPrefix: json['KeyPrefix'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucket = this.bucket;
+    final keyPrefix = this.keyPrefix;
+    return {
+      if (bucket != null) 'Bucket': bucket,
+      if (keyPrefix != null) 'KeyPrefix': keyPrefix,
     };
   }
 }
@@ -10431,8 +11062,8 @@ class RegionOfInterest {
 /// you use for Amazon Rekognition operations.
 ///
 /// For Amazon Rekognition to process an S3 object, the user must have
-/// permission to access the S3 object. For more information, see Resource-Based
-/// Policies in the Amazon Rekognition Developer Guide.
+/// permission to access the S3 object. For more information, see How Amazon
+/// Rekognition works with IAM in the Amazon Rekognition Developer Guide.
 class S3Object {
   /// Name of the S3 bucket.
   final String? bucket;
@@ -10474,10 +11105,8 @@ class SearchFacesByImageResponse {
   /// the match.
   final List<FaceMatch>? faceMatches;
 
-  /// Latest face model being used with the collection. For more information, see
-  /// <a
-  /// href="https://docs.aws.amazon.com/rekognition/latest/dg/face-detection-model.html">Model
-  /// versioning</a>.
+  /// Version number of the face detection model associated with the input
+  /// collection (<code>CollectionId</code>).
   final String? faceModelVersion;
 
   /// The bounding box around the face in the input image that Amazon Rekognition
@@ -10531,10 +11160,8 @@ class SearchFacesResponse {
   /// the match.
   final List<FaceMatch>? faceMatches;
 
-  /// Latest face model being used with the collection. For more information, see
-  /// <a
-  /// href="https://docs.aws.amazon.com/rekognition/latest/dg/face-detection-model.html">Model
-  /// versioning</a>.
+  /// Version number of the face detection model associated with the input
+  /// collection (<code>CollectionId</code>).
   final String? faceModelVersion;
 
   /// ID of the face that was searched for matches in a collection.
@@ -11071,14 +11698,24 @@ class StartShotDetectionFilter {
 }
 
 class StartStreamProcessorResponse {
-  StartStreamProcessorResponse();
+  /// A unique identifier for the stream processing session.
+  final String? sessionId;
 
-  factory StartStreamProcessorResponse.fromJson(Map<String, dynamic> _) {
-    return StartStreamProcessorResponse();
+  StartStreamProcessorResponse({
+    this.sessionId,
+  });
+
+  factory StartStreamProcessorResponse.fromJson(Map<String, dynamic> json) {
+    return StartStreamProcessorResponse(
+      sessionId: json['SessionId'] as String?,
+    );
   }
 
   Map<String, dynamic> toJson() {
-    return {};
+    final sessionId = this.sessionId;
+    return {
+      if (sessionId != null) 'SessionId': sessionId,
+    };
   }
 }
 
@@ -11224,11 +11861,67 @@ class StopStreamProcessorResponse {
   }
 }
 
-/// An object that recognizes faces in a streaming video. An Amazon Rekognition
-/// stream processor is created by a call to <a>CreateStreamProcessor</a>. The
-/// request parameters for <code>CreateStreamProcessor</code> describe the
-/// Kinesis video stream source for the streaming video, face recognition
-/// parameters, and where to stream the analysis resullts.
+/// <p/>
+class StreamProcessingStartSelector {
+  /// Specifies the starting point in the stream to start processing. This can be
+  /// done with a timestamp or a fragment number in a Kinesis stream.
+  final KinesisVideoStreamStartSelector? kVSStreamStartSelector;
+
+  StreamProcessingStartSelector({
+    this.kVSStreamStartSelector,
+  });
+
+  factory StreamProcessingStartSelector.fromJson(Map<String, dynamic> json) {
+    return StreamProcessingStartSelector(
+      kVSStreamStartSelector: json['KVSStreamStartSelector'] != null
+          ? KinesisVideoStreamStartSelector.fromJson(
+              json['KVSStreamStartSelector'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final kVSStreamStartSelector = this.kVSStreamStartSelector;
+    return {
+      if (kVSStreamStartSelector != null)
+        'KVSStreamStartSelector': kVSStreamStartSelector,
+    };
+  }
+}
+
+/// Specifies when to stop processing the stream. You can specify a maximum
+/// amount of time to process the video.
+class StreamProcessingStopSelector {
+  /// Specifies the maximum amount of time in seconds that you want the stream to
+  /// be processed. The largest amount of time is 2 minutes. The default is 10
+  /// seconds.
+  final int? maxDurationInSeconds;
+
+  StreamProcessingStopSelector({
+    this.maxDurationInSeconds,
+  });
+
+  factory StreamProcessingStopSelector.fromJson(Map<String, dynamic> json) {
+    return StreamProcessingStopSelector(
+      maxDurationInSeconds: json['MaxDurationInSeconds'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maxDurationInSeconds = this.maxDurationInSeconds;
+    return {
+      if (maxDurationInSeconds != null)
+        'MaxDurationInSeconds': maxDurationInSeconds,
+    };
+  }
+}
+
+/// An object that recognizes faces or labels in a streaming video. An Amazon
+/// Rekognition stream processor is created by a call to
+/// <a>CreateStreamProcessor</a>. The request parameters for
+/// <code>CreateStreamProcessor</code> describe the Kinesis video stream source
+/// for the streaming video, face recognition parameters, and where to stream
+/// the analysis resullts.
 class StreamProcessor {
   /// Name of the Amazon Rekognition stream processor.
   final String? name;
@@ -11254,6 +11947,34 @@ class StreamProcessor {
     return {
       if (name != null) 'Name': name,
       if (status != null) 'Status': status.toValue(),
+    };
+  }
+}
+
+/// Allows you to opt in or opt out to share data with Rekognition to improve
+/// model performance. You can choose this option at the account level or on a
+/// per-stream basis. Note that if you opt out at the account level this setting
+/// is ignored on individual streams.
+class StreamProcessorDataSharingPreference {
+  /// If this option is set to true, you choose to share data with Rekognition to
+  /// improve model performance.
+  final bool optIn;
+
+  StreamProcessorDataSharingPreference({
+    required this.optIn,
+  });
+
+  factory StreamProcessorDataSharingPreference.fromJson(
+      Map<String, dynamic> json) {
+    return StreamProcessorDataSharingPreference(
+      optIn: json['OptIn'] as bool,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final optIn = this.optIn;
+    return {
+      'OptIn': optIn,
     };
   }
 }
@@ -11284,6 +12005,42 @@ class StreamProcessorInput {
   }
 }
 
+/// The Amazon Simple Notification Service topic to which Amazon Rekognition
+/// publishes the object detection results and completion status of a video
+/// analysis operation.
+///
+/// Amazon Rekognition publishes a notification the first time an object of
+/// interest or a person is detected in the video stream. For example, if Amazon
+/// Rekognition detects a person at second 2, a pet at second 4, and a person
+/// again at second 5, Amazon Rekognition sends 2 object class detected
+/// notifications, one for a person at second 2 and one for a pet at second 4.
+///
+/// Amazon Rekognition also publishes an an end-of-session notification with a
+/// summary when the stream processing session is complete.
+class StreamProcessorNotificationChannel {
+  /// The Amazon Resource Number (ARN) of the Amazon Amazon Simple Notification
+  /// Service topic to which Amazon Rekognition posts the completion status.
+  final String sNSTopicArn;
+
+  StreamProcessorNotificationChannel({
+    required this.sNSTopicArn,
+  });
+
+  factory StreamProcessorNotificationChannel.fromJson(
+      Map<String, dynamic> json) {
+    return StreamProcessorNotificationChannel(
+      sNSTopicArn: json['SNSTopicArn'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sNSTopicArn = this.sNSTopicArn;
+    return {
+      'SNSTopicArn': sNSTopicArn,
+    };
+  }
+}
+
 /// Information about the Amazon Kinesis Data Streams stream to which a Amazon
 /// Rekognition Video stream processor streams the results of a video analysis.
 /// For more information, see CreateStreamProcessor in the Amazon Rekognition
@@ -11293,8 +12050,13 @@ class StreamProcessorOutput {
   /// stream processor streams the analysis results.
   final KinesisDataStream? kinesisDataStream;
 
+  /// The Amazon S3 bucket location to which Amazon Rekognition publishes the
+  /// detailed inference results of a video analysis operation.
+  final S3Destination? s3Destination;
+
   StreamProcessorOutput({
     this.kinesisDataStream,
+    this.s3Destination,
   });
 
   factory StreamProcessorOutput.fromJson(Map<String, dynamic> json) {
@@ -11303,29 +12065,73 @@ class StreamProcessorOutput {
           ? KinesisDataStream.fromJson(
               json['KinesisDataStream'] as Map<String, dynamic>)
           : null,
+      s3Destination: json['S3Destination'] != null
+          ? S3Destination.fromJson(
+              json['S3Destination'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final kinesisDataStream = this.kinesisDataStream;
+    final s3Destination = this.s3Destination;
     return {
       if (kinesisDataStream != null) 'KinesisDataStream': kinesisDataStream,
+      if (s3Destination != null) 'S3Destination': s3Destination,
     };
   }
 }
 
-/// Input parameters used to recognize faces in a streaming video analyzed by a
-/// Amazon Rekognition stream processor.
+enum StreamProcessorParameterToDelete {
+  connectedHomeMinConfidence,
+  regionsOfInterest,
+}
+
+extension on StreamProcessorParameterToDelete {
+  String toValue() {
+    switch (this) {
+      case StreamProcessorParameterToDelete.connectedHomeMinConfidence:
+        return 'ConnectedHomeMinConfidence';
+      case StreamProcessorParameterToDelete.regionsOfInterest:
+        return 'RegionsOfInterest';
+    }
+  }
+}
+
+extension on String {
+  StreamProcessorParameterToDelete toStreamProcessorParameterToDelete() {
+    switch (this) {
+      case 'ConnectedHomeMinConfidence':
+        return StreamProcessorParameterToDelete.connectedHomeMinConfidence;
+      case 'RegionsOfInterest':
+        return StreamProcessorParameterToDelete.regionsOfInterest;
+    }
+    throw Exception(
+        '$this is not known in enum StreamProcessorParameterToDelete');
+  }
+}
+
+/// Input parameters used in a streaming video analyzed by a Amazon Rekognition
+/// stream processor. You can use <code>FaceSearch</code> to recognize faces in
+/// a streaming video, or you can use <code>ConnectedHome</code> to detect
+/// labels.
 class StreamProcessorSettings {
+  final ConnectedHomeSettings? connectedHome;
+
   /// Face search settings to use on a streaming video.
   final FaceSearchSettings? faceSearch;
 
   StreamProcessorSettings({
+    this.connectedHome,
     this.faceSearch,
   });
 
   factory StreamProcessorSettings.fromJson(Map<String, dynamic> json) {
     return StreamProcessorSettings(
+      connectedHome: json['ConnectedHome'] != null
+          ? ConnectedHomeSettings.fromJson(
+              json['ConnectedHome'] as Map<String, dynamic>)
+          : null,
       faceSearch: json['FaceSearch'] != null
           ? FaceSearchSettings.fromJson(
               json['FaceSearch'] as Map<String, dynamic>)
@@ -11334,9 +12140,40 @@ class StreamProcessorSettings {
   }
 
   Map<String, dynamic> toJson() {
+    final connectedHome = this.connectedHome;
     final faceSearch = this.faceSearch;
     return {
+      if (connectedHome != null) 'ConnectedHome': connectedHome,
       if (faceSearch != null) 'FaceSearch': faceSearch,
+    };
+  }
+}
+
+/// The stream processor settings that you want to update.
+/// <code>ConnectedHome</code> settings can be updated to detect different
+/// labels with a different minimum confidence.
+class StreamProcessorSettingsForUpdate {
+  /// The label detection settings you want to use for your stream processor.
+  final ConnectedHomeSettingsForUpdate? connectedHomeForUpdate;
+
+  StreamProcessorSettingsForUpdate({
+    this.connectedHomeForUpdate,
+  });
+
+  factory StreamProcessorSettingsForUpdate.fromJson(Map<String, dynamic> json) {
+    return StreamProcessorSettingsForUpdate(
+      connectedHomeForUpdate: json['ConnectedHomeForUpdate'] != null
+          ? ConnectedHomeSettingsForUpdate.fromJson(
+              json['ConnectedHomeForUpdate'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectedHomeForUpdate = this.connectedHomeForUpdate;
+    return {
+      if (connectedHomeForUpdate != null)
+        'ConnectedHomeForUpdate': connectedHomeForUpdate,
     };
   }
 }
@@ -11347,6 +12184,7 @@ enum StreamProcessorStatus {
   running,
   failed,
   stopping,
+  updating,
 }
 
 extension on StreamProcessorStatus {
@@ -11362,6 +12200,8 @@ extension on StreamProcessorStatus {
         return 'FAILED';
       case StreamProcessorStatus.stopping:
         return 'STOPPING';
+      case StreamProcessorStatus.updating:
+        return 'UPDATING';
     }
   }
 }
@@ -11379,6 +12219,8 @@ extension on String {
         return StreamProcessorStatus.failed;
       case 'STOPPING':
         return StreamProcessorStatus.stopping;
+      case 'UPDATING':
+        return StreamProcessorStatus.updating;
     }
     throw Exception('$this is not known in enum StreamProcessorStatus');
   }
@@ -11635,7 +12477,7 @@ class TestingDataResult {
 /// identifies the line of text in which the word appears. The word
 /// <code>Id</code> is also an index for the word within a line of words.
 ///
-/// For more information, see Detecting Text in the Amazon Rekognition Developer
+/// For more information, see Detecting text in the Amazon Rekognition Developer
 /// Guide.
 class TextDetection {
   /// The confidence that Amazon Rekognition has in the accuracy of the detected
@@ -11918,6 +12760,18 @@ class UpdateDatasetEntriesResponse {
 
   factory UpdateDatasetEntriesResponse.fromJson(Map<String, dynamic> _) {
     return UpdateDatasetEntriesResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateStreamProcessorResponse {
+  UpdateStreamProcessorResponse();
+
+  factory UpdateStreamProcessorResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateStreamProcessorResponse();
   }
 
   Map<String, dynamic> toJson() {

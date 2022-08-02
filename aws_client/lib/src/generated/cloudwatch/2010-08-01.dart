@@ -987,16 +987,28 @@ class CloudWatch {
     return GetInsightRuleReportOutput.fromXml($result);
   }
 
-  /// You can use the <code>GetMetricData</code> API to retrieve as many as 500
-  /// different metrics in a single request, with a total of as many as 100,800
-  /// data points. You can also optionally perform math expressions on the
-  /// values of the returned statistics, to create new time series that
-  /// represent new insights into your data. For example, using Lambda metrics,
-  /// you could divide the Errors metric by the Invocations metric to get an
-  /// error rate time series. For more information about metric math
-  /// expressions, see <a
+  /// You can use the <code>GetMetricData</code> API to retrieve CloudWatch
+  /// metric values. The operation can also include a CloudWatch Metrics
+  /// Insights query, and one or more metric math functions.
+  ///
+  /// A <code>GetMetricData</code> operation that does not include a query can
+  /// retrieve as many as 500 different metrics in a single request, with a
+  /// total of as many as 100,800 data points. You can also optionally perform
+  /// metric math expressions on the values of the returned statistics, to
+  /// create new time series that represent new insights into your data. For
+  /// example, using Lambda metrics, you could divide the Errors metric by the
+  /// Invocations metric to get an error rate time series. For more information
+  /// about metric math expressions, see <a
   /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/using-metric-math.html#metric-math-syntax">Metric
   /// Math Syntax and Functions</a> in the <i>Amazon CloudWatch User Guide</i>.
+  ///
+  /// If you include a Metrics Insights query, each <code>GetMetricData</code>
+  /// operation can include only one query. But the same
+  /// <code>GetMetricData</code> operation can also retrieve other metrics.
+  /// Metrics Insights queries can query only the most recent three hours of
+  /// metric data. For more information about Metrics Insights, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/query_with_cloudwatch-metrics-insights.html">Query
+  /// your metrics with CloudWatch Metrics Insights</a>.
   ///
   /// Calls to the <code>GetMetricData</code> API have a different pricing
   /// structure than calls to <code>GetMetricStatistics</code>. For more
@@ -1042,6 +1054,17 @@ class CloudWatch {
   /// the results of the operation are null. CloudWatch does not perform unit
   /// conversions.
   ///
+  /// <b>Using Metrics Insights queries with metric math</b>
+  ///
+  /// You can't mix a Metric Insights query and metric math syntax in the same
+  /// expression, but you can reference results from a Metrics Insights query
+  /// within other Metric math expressions. A Metrics Insights query without a
+  /// <b>GROUP BY</b> clause returns a single time-series (TS), and can be used
+  /// as input for a metric math expression that expects a single time series. A
+  /// Metrics Insights query with a <b>GROUP BY</b> clause returns an array of
+  /// time-series (TS[]), and can be used as input for a metric math expression
+  /// that expects an array of time series.
+  ///
   /// May throw [InvalidNextToken].
   ///
   /// Parameter [endTime] :
@@ -1060,8 +1083,8 @@ class CloudWatch {
   /// Parameter [metricDataQueries] :
   /// The metric queries to be returned. A single <code>GetMetricData</code>
   /// call can include as many as 500 <code>MetricDataQuery</code> structures.
-  /// Each of these structures can specify either a metric to retrieve, or a
-  /// math expression to perform on retrieved data.
+  /// Each of these structures can specify either a metric to retrieve, a
+  /// Metrics Insights query, or a math expression to perform on retrieved data.
   ///
   /// Parameter [startTime] :
   /// The time stamp indicating the earliest data to be returned.
@@ -1834,7 +1857,10 @@ class CloudWatch {
   /// alarm goes into ALARM state only if all conditions of the rule are met.
   ///
   /// The alarms specified in a composite alarm's rule expression can include
-  /// metric alarms and other composite alarms.
+  /// metric alarms and other composite alarms. The rule expression of a
+  /// composite alarm can include as many as 100 underlying alarms. Any single
+  /// alarm can be included in the rule expressions of as many as 150 composite
+  /// alarms.
   ///
   /// Using composite alarms can reduce alarm noise. You can create multiple
   /// metric alarms, and also create a composite alarm and set up alerts only
@@ -1958,6 +1984,29 @@ class CloudWatch {
   /// Indicates whether actions should be executed during any changes to the
   /// alarm state of the composite alarm. The default is <code>TRUE</code>.
   ///
+  /// Parameter [actionsSuppressor] :
+  /// Actions will be suppressed if the suppressor alarm is in the
+  /// <code>ALARM</code> state. <code>ActionsSuppressor</code> can be an
+  /// AlarmName or an Amazon Resource Name (ARN) from an existing alarm.
+  ///
+  /// Parameter [actionsSuppressorExtensionPeriod] :
+  /// The maximum time in seconds that the composite alarm waits after
+  /// suppressor alarm goes out of the <code>ALARM</code> state. After this
+  /// time, the composite alarm performs its actions.
+  /// <important>
+  /// <code>ExtensionPeriod</code> is required only when
+  /// <code>ActionsSuppressor</code> is specified.
+  /// </important>
+  ///
+  /// Parameter [actionsSuppressorWaitPeriod] :
+  /// The maximum time in seconds that the composite alarm waits for the
+  /// suppressor alarm to go into the <code>ALARM</code> state. After this time,
+  /// the composite alarm performs its actions.
+  /// <important>
+  /// <code>WaitPeriod</code> is required only when
+  /// <code>ActionsSuppressor</code> is specified.
+  /// </important>
+  ///
   /// Parameter [alarmActions] :
   /// The actions to execute when this alarm transitions to the
   /// <code>ALARM</code> state from any other state. Each action is specified as
@@ -2001,6 +2050,9 @@ class CloudWatch {
     required String alarmName,
     required String alarmRule,
     bool? actionsEnabled,
+    String? actionsSuppressor,
+    int? actionsSuppressorExtensionPeriod,
+    int? actionsSuppressorWaitPeriod,
     List<String>? alarmActions,
     String? alarmDescription,
     List<String>? insufficientDataActions,
@@ -2013,6 +2065,11 @@ class CloudWatch {
     $request['AlarmName'] = alarmName;
     $request['AlarmRule'] = alarmRule;
     actionsEnabled?.also((arg) => $request['ActionsEnabled'] = arg);
+    actionsSuppressor?.also((arg) => $request['ActionsSuppressor'] = arg);
+    actionsSuppressorExtensionPeriod
+        ?.also((arg) => $request['ActionsSuppressorExtensionPeriod'] = arg);
+    actionsSuppressorWaitPeriod
+        ?.also((arg) => $request['ActionsSuppressorWaitPeriod'] = arg);
     alarmActions?.also((arg) => $request['AlarmActions'] = arg);
     alarmDescription?.also((arg) => $request['AlarmDescription'] = arg);
     insufficientDataActions
@@ -2466,6 +2523,13 @@ class CloudWatch {
   /// How CloudWatch Alarms Treats Missing Data</a>.
   ///
   /// Valid Values: <code>breaching | notBreaching | ignore | missing</code>
+  /// <note>
+  /// Alarms that evaluate metrics in the <code>AWS/DynamoDB</code> namespace
+  /// always <code>ignore</code> missing data even if you choose a different
+  /// option for <code>TreatMissingData</code>. When an
+  /// <code>AWS/DynamoDB</code> metric has missing data, alarms that evaluate
+  /// that metric remain in their current state.
+  /// </note>
   ///
   /// Parameter [unit] :
   /// The unit of measure for the statistic. For example, the units for the
@@ -2696,6 +2760,15 @@ class CloudWatch {
   /// <code>IncludeFilters</code>.
   /// </li>
   /// </ul>
+  /// By default, a metric stream always sends the <code>MAX</code>,
+  /// <code>MIN</code>, <code>SUM</code>, and <code>SAMPLECOUNT</code>
+  /// statistics for each metric that is streamed. You can use the
+  /// <code>StatisticsConfigurations</code> parameter to have the metric stream
+  /// also send additional statistics in the stream. Streaming additional
+  /// statistics incurs additional costs. For more information, see <a
+  /// href="https://aws.amazon.com/cloudwatch/pricing/">Amazon CloudWatch
+  /// Pricing</a>.
+  ///
   /// When you use <code>PutMetricStream</code> to create a new metric stream,
   /// the stream is created in the <code>running</code> state. If you use it to
   /// update an existing stream, the state of the stream is not changed.
@@ -2756,6 +2829,24 @@ class CloudWatch {
   /// You cannot include <code>IncludeFilters</code> and
   /// <code>ExcludeFilters</code> in the same operation.
   ///
+  /// Parameter [statisticsConfigurations] :
+  /// By default, a metric stream always sends the <code>MAX</code>,
+  /// <code>MIN</code>, <code>SUM</code>, and <code>SAMPLECOUNT</code>
+  /// statistics for each metric that is streamed. You can use this parameter to
+  /// have the metric stream also send additional statistics in the stream. This
+  /// array can have up to 100 members.
+  ///
+  /// For each entry in this array, you specify one or more metrics and the list
+  /// of additional statistics to stream for those metrics. The additional
+  /// statistics that you can stream depend on the stream's
+  /// <code>OutputFormat</code>. If the <code>OutputFormat</code> is
+  /// <code>json</code>, you can stream any additional statistic that is
+  /// supported by CloudWatch, listed in <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Statistics-definitions.html.html">
+  /// CloudWatch statistics definitions</a>. If the <code>OutputFormat</code> is
+  /// <code>opentelemetry0.7</code>, you can stream percentile statistics such
+  /// as p95, p99.9 and so on.
+  ///
   /// Parameter [tags] :
   /// A list of key-value pairs to associate with the metric stream. You can
   /// associate as many as 50 tags with a metric stream.
@@ -2778,6 +2869,7 @@ class CloudWatch {
     required String roleArn,
     List<MetricStreamFilter>? excludeFilters,
     List<MetricStreamFilter>? includeFilters,
+    List<MetricStreamStatisticsConfiguration>? statisticsConfigurations,
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(firehoseArn, 'firehoseArn');
@@ -2791,6 +2883,8 @@ class CloudWatch {
     $request['RoleArn'] = roleArn;
     excludeFilters?.also((arg) => $request['ExcludeFilters'] = arg);
     includeFilters?.also((arg) => $request['IncludeFilters'] = arg);
+    statisticsConfigurations
+        ?.also((arg) => $request['StatisticsConfigurations'] = arg);
     tags?.also((arg) => $request['Tags'] = arg);
     final $result = await _protocol.send(
       $request,
@@ -3042,6 +3136,39 @@ class CloudWatch {
       shapes: shapes,
       resultWrapper: 'UntagResourceResult',
     );
+  }
+}
+
+enum ActionsSuppressedBy {
+  waitPeriod,
+  extensionPeriod,
+  alarm,
+}
+
+extension on ActionsSuppressedBy {
+  String toValue() {
+    switch (this) {
+      case ActionsSuppressedBy.waitPeriod:
+        return 'WaitPeriod';
+      case ActionsSuppressedBy.extensionPeriod:
+        return 'ExtensionPeriod';
+      case ActionsSuppressedBy.alarm:
+        return 'Alarm';
+    }
+  }
+}
+
+extension on String {
+  ActionsSuppressedBy toActionsSuppressedBy() {
+    switch (this) {
+      case 'WaitPeriod':
+        return ActionsSuppressedBy.waitPeriod;
+      case 'ExtensionPeriod':
+        return ActionsSuppressedBy.extensionPeriod;
+      case 'Alarm':
+        return ActionsSuppressedBy.alarm;
+    }
+    throw Exception('$this is not known in enum ActionsSuppressedBy');
   }
 }
 
@@ -3431,6 +3558,46 @@ class CompositeAlarm {
   /// state.
   final bool? actionsEnabled;
 
+  /// When the value is <code>ALARM</code>, it means that the actions are
+  /// suppressed because the suppressor alarm is in <code>ALARM</code> When the
+  /// value is <code>WaitPeriod</code>, it means that the actions are suppressed
+  /// because the composite alarm is waiting for the suppressor alarm to go into
+  /// into the <code>ALARM</code> state. The maximum waiting time is as specified
+  /// in <code>ActionsSuppressorWaitPeriod</code>. After this time, the composite
+  /// alarm performs its actions. When the value is <code>ExtensionPeriod</code>,
+  /// it means that the actions are suppressed because the composite alarm is
+  /// waiting after the suppressor alarm went out of the <code>ALARM</code> state.
+  /// The maximum waiting time is as specified in
+  /// <code>ActionsSuppressorExtensionPeriod</code>. After this time, the
+  /// composite alarm performs its actions.
+  final ActionsSuppressedBy? actionsSuppressedBy;
+
+  /// Captures the reason for action suppression.
+  final String? actionsSuppressedReason;
+
+  /// Actions will be suppressed if the suppressor alarm is in the
+  /// <code>ALARM</code> state. <code>ActionsSuppressor</code> can be an AlarmName
+  /// or an Amazon Resource Name (ARN) from an existing alarm.
+  final String? actionsSuppressor;
+
+  /// The maximum time in seconds that the composite alarm waits after suppressor
+  /// alarm goes out of the <code>ALARM</code> state. After this time, the
+  /// composite alarm performs its actions.
+  /// <important>
+  /// <code>ExtensionPeriod</code> is required only when
+  /// <code>ActionsSuppressor</code> is specified.
+  /// </important>
+  final int? actionsSuppressorExtensionPeriod;
+
+  /// The maximum time in seconds that the composite alarm waits for the
+  /// suppressor alarm to go into the <code>ALARM</code> state. After this time,
+  /// the composite alarm performs its actions.
+  /// <important>
+  /// <code>WaitPeriod</code> is required only when <code>ActionsSuppressor</code>
+  /// is specified.
+  /// </important>
+  final int? actionsSuppressorWaitPeriod;
+
   /// The actions to execute when this alarm transitions to the ALARM state from
   /// any other state. Each action is specified as an Amazon Resource Name (ARN).
   final List<String>? alarmActions;
@@ -3465,7 +3632,11 @@ class CompositeAlarm {
   /// An explanation for the alarm state, in JSON format.
   final String? stateReasonData;
 
-  /// The time stamp of the last update to the alarm state.
+  /// The timestamp of the last change to the alarm's <code>StateValue</code>.
+  final DateTime? stateTransitionedTimestamp;
+
+  /// Tracks the timestamp of any state update, even if <code>StateValue</code>
+  /// doesn't change.
   final DateTime? stateUpdatedTimestamp;
 
   /// The state value for the alarm.
@@ -3473,6 +3644,11 @@ class CompositeAlarm {
 
   CompositeAlarm({
     this.actionsEnabled,
+    this.actionsSuppressedBy,
+    this.actionsSuppressedReason,
+    this.actionsSuppressor,
+    this.actionsSuppressorExtensionPeriod,
+    this.actionsSuppressorWaitPeriod,
     this.alarmActions,
     this.alarmArn,
     this.alarmConfigurationUpdatedTimestamp,
@@ -3483,6 +3659,7 @@ class CompositeAlarm {
     this.oKActions,
     this.stateReason,
     this.stateReasonData,
+    this.stateTransitionedTimestamp,
     this.stateUpdatedTimestamp,
     this.stateValue,
   });
@@ -3490,6 +3667,13 @@ class CompositeAlarm {
   factory CompositeAlarm.fromJson(Map<String, dynamic> json) {
     return CompositeAlarm(
       actionsEnabled: json['ActionsEnabled'] as bool?,
+      actionsSuppressedBy:
+          (json['ActionsSuppressedBy'] as String?)?.toActionsSuppressedBy(),
+      actionsSuppressedReason: json['ActionsSuppressedReason'] as String?,
+      actionsSuppressor: json['ActionsSuppressor'] as String?,
+      actionsSuppressorExtensionPeriod:
+          json['ActionsSuppressorExtensionPeriod'] as int?,
+      actionsSuppressorWaitPeriod: json['ActionsSuppressorWaitPeriod'] as int?,
       alarmActions: (json['AlarmActions'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -3510,6 +3694,8 @@ class CompositeAlarm {
           .toList(),
       stateReason: json['StateReason'] as String?,
       stateReasonData: json['StateReasonData'] as String?,
+      stateTransitionedTimestamp:
+          timeStampFromJson(json['StateTransitionedTimestamp']),
       stateUpdatedTimestamp: timeStampFromJson(json['StateUpdatedTimestamp']),
       stateValue: (json['StateValue'] as String?)?.toStateValue(),
     );
@@ -3518,6 +3704,16 @@ class CompositeAlarm {
   factory CompositeAlarm.fromXml(_s.XmlElement elem) {
     return CompositeAlarm(
       actionsEnabled: _s.extractXmlBoolValue(elem, 'ActionsEnabled'),
+      actionsSuppressedBy: _s
+          .extractXmlStringValue(elem, 'ActionsSuppressedBy')
+          ?.toActionsSuppressedBy(),
+      actionsSuppressedReason:
+          _s.extractXmlStringValue(elem, 'ActionsSuppressedReason'),
+      actionsSuppressor: _s.extractXmlStringValue(elem, 'ActionsSuppressor'),
+      actionsSuppressorExtensionPeriod:
+          _s.extractXmlIntValue(elem, 'ActionsSuppressorExtensionPeriod'),
+      actionsSuppressorWaitPeriod:
+          _s.extractXmlIntValue(elem, 'ActionsSuppressorWaitPeriod'),
       alarmActions: _s
           .extractXmlChild(elem, 'AlarmActions')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
@@ -3535,6 +3731,8 @@ class CompositeAlarm {
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       stateReason: _s.extractXmlStringValue(elem, 'StateReason'),
       stateReasonData: _s.extractXmlStringValue(elem, 'StateReasonData'),
+      stateTransitionedTimestamp:
+          _s.extractXmlDateTimeValue(elem, 'StateTransitionedTimestamp'),
       stateUpdatedTimestamp:
           _s.extractXmlDateTimeValue(elem, 'StateUpdatedTimestamp'),
       stateValue: _s.extractXmlStringValue(elem, 'StateValue')?.toStateValue(),
@@ -3543,6 +3741,12 @@ class CompositeAlarm {
 
   Map<String, dynamic> toJson() {
     final actionsEnabled = this.actionsEnabled;
+    final actionsSuppressedBy = this.actionsSuppressedBy;
+    final actionsSuppressedReason = this.actionsSuppressedReason;
+    final actionsSuppressor = this.actionsSuppressor;
+    final actionsSuppressorExtensionPeriod =
+        this.actionsSuppressorExtensionPeriod;
+    final actionsSuppressorWaitPeriod = this.actionsSuppressorWaitPeriod;
     final alarmActions = this.alarmActions;
     final alarmArn = this.alarmArn;
     final alarmConfigurationUpdatedTimestamp =
@@ -3554,10 +3758,20 @@ class CompositeAlarm {
     final oKActions = this.oKActions;
     final stateReason = this.stateReason;
     final stateReasonData = this.stateReasonData;
+    final stateTransitionedTimestamp = this.stateTransitionedTimestamp;
     final stateUpdatedTimestamp = this.stateUpdatedTimestamp;
     final stateValue = this.stateValue;
     return {
       if (actionsEnabled != null) 'ActionsEnabled': actionsEnabled,
+      if (actionsSuppressedBy != null)
+        'ActionsSuppressedBy': actionsSuppressedBy.toValue(),
+      if (actionsSuppressedReason != null)
+        'ActionsSuppressedReason': actionsSuppressedReason,
+      if (actionsSuppressor != null) 'ActionsSuppressor': actionsSuppressor,
+      if (actionsSuppressorExtensionPeriod != null)
+        'ActionsSuppressorExtensionPeriod': actionsSuppressorExtensionPeriod,
+      if (actionsSuppressorWaitPeriod != null)
+        'ActionsSuppressorWaitPeriod': actionsSuppressorWaitPeriod,
       if (alarmActions != null) 'AlarmActions': alarmActions,
       if (alarmArn != null) 'AlarmArn': alarmArn,
       if (alarmConfigurationUpdatedTimestamp != null)
@@ -3571,6 +3785,9 @@ class CompositeAlarm {
       if (oKActions != null) 'OKActions': oKActions,
       if (stateReason != null) 'StateReason': stateReason,
       if (stateReasonData != null) 'StateReasonData': stateReasonData,
+      if (stateTransitionedTimestamp != null)
+        'StateTransitionedTimestamp':
+            unixTimestampToJson(stateTransitionedTimestamp),
       if (stateUpdatedTimestamp != null)
         'StateUpdatedTimestamp': unixTimestampToJson(stateUpdatedTimestamp),
       if (stateValue != null) 'StateValue': stateValue.toValue(),
@@ -4067,13 +4284,17 @@ class DescribeInsightRulesOutput {
 }
 
 /// A dimension is a name/value pair that is part of the identity of a metric.
-/// You can assign up to 10 dimensions to a metric. Because dimensions are part
-/// of the unique identifier for a metric, whenever you add a unique name/value
-/// pair to one of your metrics, you are creating a new variation of that
-/// metric.
+/// Because dimensions are part of the unique identifier for a metric, whenever
+/// you add a unique name/value pair to one of your metrics, you are creating a
+/// new variation of that metric. For example, many Amazon EC2 metrics publish
+/// <code>InstanceId</code> as a dimension name, and the actual instance ID as
+/// the value for that dimension.
+///
+/// You can assign up to 10 dimensions to a metric.
 class Dimension {
   /// The name of the dimension. Dimension names must contain only ASCII
-  /// characters and must include at least one non-whitespace character.
+  /// characters, must include at least one non-whitespace character, and cannot
+  /// start with a colon (<code>:</code>).
   final String name;
 
   /// The value of the dimension. Dimension values must contain only ASCII
@@ -4483,7 +4704,11 @@ class GetMetricStreamOutput {
   /// The name of the metric stream.
   final String? name;
 
-  /// <p/>
+  /// The output format for the stream. Valid values are <code>json</code> and
+  /// <code>opentelemetry0.7</code>. For more information about metric stream
+  /// output formats, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-metric-streams-formats.html">
+  /// Metric streams output formats</a>.
   final MetricStreamOutputFormat? outputFormat;
 
   /// The ARN of the IAM role that is used by this metric stream.
@@ -4492,6 +4717,13 @@ class GetMetricStreamOutput {
   /// The state of the metric stream. The possible values are <code>running</code>
   /// and <code>stopped</code>.
   final String? state;
+
+  /// Each entry in this array displays information about one or more metrics that
+  /// include additional statistics in the metric stream. For more information
+  /// about the additional statistics, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Statistics-definitions.html.html">
+  /// CloudWatch statistics definitions</a>.
+  final List<MetricStreamStatisticsConfiguration>? statisticsConfigurations;
 
   GetMetricStreamOutput({
     this.arn,
@@ -4504,6 +4736,7 @@ class GetMetricStreamOutput {
     this.outputFormat,
     this.roleArn,
     this.state,
+    this.statisticsConfigurations,
   });
 
   factory GetMetricStreamOutput.fromJson(Map<String, dynamic> json) {
@@ -4525,6 +4758,11 @@ class GetMetricStreamOutput {
           (json['OutputFormat'] as String?)?.toMetricStreamOutputFormat(),
       roleArn: json['RoleArn'] as String?,
       state: json['State'] as String?,
+      statisticsConfigurations: (json['StatisticsConfigurations'] as List?)
+          ?.whereNotNull()
+          .map((e) => MetricStreamStatisticsConfiguration.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
@@ -4544,6 +4782,12 @@ class GetMetricStreamOutput {
           ?.toMetricStreamOutputFormat(),
       roleArn: _s.extractXmlStringValue(elem, 'RoleArn'),
       state: _s.extractXmlStringValue(elem, 'State'),
+      statisticsConfigurations: _s
+          .extractXmlChild(elem, 'StatisticsConfigurations')
+          ?.let((elem) => elem
+              .findElements('member')
+              .map(MetricStreamStatisticsConfiguration.fromXml)
+              .toList()),
     );
   }
 
@@ -4558,6 +4802,7 @@ class GetMetricStreamOutput {
     final outputFormat = this.outputFormat;
     final roleArn = this.roleArn;
     final state = this.state;
+    final statisticsConfigurations = this.statisticsConfigurations;
     return {
       if (arn != null) 'Arn': arn,
       if (creationDate != null)
@@ -4571,6 +4816,8 @@ class GetMetricStreamOutput {
       if (outputFormat != null) 'OutputFormat': outputFormat.toValue(),
       if (roleArn != null) 'RoleArn': roleArn,
       if (state != null) 'State': state,
+      if (statisticsConfigurations != null)
+        'StatisticsConfigurations': statisticsConfigurations,
     };
   }
 }
@@ -5313,8 +5560,14 @@ class MetricAlarm {
   /// alarm.
   final String? thresholdMetricId;
 
-  /// Sets how this alarm is to handle missing data points. If this parameter is
-  /// omitted, the default behavior of <code>missing</code> is used.
+  /// Sets how this alarm is to handle missing data points. The valid values are
+  /// <code>breaching</code>, <code>notBreaching</code>, <code>ignore</code>, and
+  /// <code>missing</code>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/AlarmThatSendsEmail.html#alarms-and-missing-data">Configuring
+  /// how CloudWatch alarms treat missing data</a>.
+  ///
+  /// If this parameter is omitted, the default behavior of <code>missing</code>
+  /// is used.
   final String? treatMissingData;
 
   /// The unit of the metric associated with the alarm.
@@ -5519,8 +5772,8 @@ class MetricAlarm {
 ///
 /// When used in <code>GetMetricData</code>, it indicates the metric data to
 /// return, and whether this call is just retrieving a batch set of data for one
-/// metric, or is performing a math expression on metric data. A single
-/// <code>GetMetricData</code> call can include up to 500
+/// metric, or is performing a Metrics Insights query or a math expression. A
+/// single <code>GetMetricData</code> call can include up to 500
 /// <code>MetricDataQuery</code> structures.
 ///
 /// When used in <code>PutMetricAlarm</code>, it enables you to create an alarm
@@ -5560,11 +5813,17 @@ class MetricDataQuery {
   /// used in <code>GetMetricData</code> operations.
   final String? accountId;
 
-  /// The math expression to be performed on the returned data, if this object is
-  /// performing a math expression. This expression can use the <code>Id</code> of
-  /// the other metrics to refer to those metrics, and can also use the
-  /// <code>Id</code> of other expressions to use the result of those expressions.
-  /// For more information about metric math expressions, see <a
+  /// This field can contain either a Metrics Insights query, or a metric math
+  /// expression to be performed on the returned data. For more information about
+  /// Metrics Insights queries, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch-metrics-insights-querylanguage">Metrics
+  /// Insights query components and syntax</a> in the <i>Amazon CloudWatch User
+  /// Guide</i>.
+  ///
+  /// A math expression can use the <code>Id</code> of the other metrics or
+  /// queries to refer to those metrics, and can also use the <code>Id</code> of
+  /// other expressions to use the result of those expressions. For more
+  /// information about metric math expressions, see <a
   /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/using-metric-math.html#metric-math-syntax">Metric
   /// Math Syntax and Functions</a> in the <i>Amazon CloudWatch User Guide</i>.
   ///
@@ -6172,6 +6431,119 @@ extension on String {
         return MetricStreamOutputFormat.opentelemetry0_7;
     }
     throw Exception('$this is not known in enum MetricStreamOutputFormat');
+  }
+}
+
+/// By default, a metric stream always sends the <code>MAX</code>,
+/// <code>MIN</code>, <code>SUM</code>, and <code>SAMPLECOUNT</code> statistics
+/// for each metric that is streamed. This structure contains information for
+/// one metric that includes additional statistics in the stream. For more
+/// information about statistics, see CloudWatch, listed in <a
+/// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Statistics-definitions.html.html">
+/// CloudWatch statistics definitions</a>.
+class MetricStreamStatisticsConfiguration {
+  /// The list of additional statistics that are to be streamed for the metrics
+  /// listed in the <code>IncludeMetrics</code> array in this structure. This list
+  /// can include as many as 20 statistics.
+  ///
+  /// If the <code>OutputFormat</code> for the stream is
+  /// <code>opentelemetry0.7</code>, the only valid values are <code>p<i>??</i>
+  /// </code> percentile statistics such as <code>p90</code>, <code>p99</code> and
+  /// so on.
+  ///
+  /// If the <code>OutputFormat</code> for the stream is <code>json</code>, the
+  /// valid values include the abbreviations for all of the statistics listed in
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Statistics-definitions.html.html">
+  /// CloudWatch statistics definitions</a>. For example, this includes
+  /// <code>tm98, </code> <code>wm90</code>, <code>PR(:300)</code>, and so on.
+  final List<String> additionalStatistics;
+
+  /// An array of metric name and namespace pairs that stream the additional
+  /// statistics listed in the value of the <code>AdditionalStatistics</code>
+  /// parameter. There can be as many as 100 pairs in the array.
+  ///
+  /// All metrics that match the combination of metric name and namespace will be
+  /// streamed with the additional statistics, no matter their dimensions.
+  final List<MetricStreamStatisticsMetric> includeMetrics;
+
+  MetricStreamStatisticsConfiguration({
+    required this.additionalStatistics,
+    required this.includeMetrics,
+  });
+
+  factory MetricStreamStatisticsConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return MetricStreamStatisticsConfiguration(
+      additionalStatistics: (json['AdditionalStatistics'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      includeMetrics: (json['IncludeMetrics'] as List)
+          .whereNotNull()
+          .map((e) =>
+              MetricStreamStatisticsMetric.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  factory MetricStreamStatisticsConfiguration.fromXml(_s.XmlElement elem) {
+    return MetricStreamStatisticsConfiguration(
+      additionalStatistics: _s.extractXmlStringListValues(
+          _s.extractXmlChild(elem, 'AdditionalStatistics')!, 'member'),
+      includeMetrics: _s
+          .extractXmlChild(elem, 'IncludeMetrics')!
+          .findElements('member')
+          .map(MetricStreamStatisticsMetric.fromXml)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final additionalStatistics = this.additionalStatistics;
+    final includeMetrics = this.includeMetrics;
+    return {
+      'AdditionalStatistics': additionalStatistics,
+      'IncludeMetrics': includeMetrics,
+    };
+  }
+}
+
+/// This object contains the information for one metric that is to be streamed
+/// with additional statistics.
+class MetricStreamStatisticsMetric {
+  /// The name of the metric.
+  final String metricName;
+
+  /// The namespace of the metric.
+  final String namespace;
+
+  MetricStreamStatisticsMetric({
+    required this.metricName,
+    required this.namespace,
+  });
+
+  factory MetricStreamStatisticsMetric.fromJson(Map<String, dynamic> json) {
+    return MetricStreamStatisticsMetric(
+      metricName: json['MetricName'] as String,
+      namespace: json['Namespace'] as String,
+    );
+  }
+
+  factory MetricStreamStatisticsMetric.fromXml(_s.XmlElement elem) {
+    return MetricStreamStatisticsMetric(
+      metricName: _s.extractXmlStringValue(elem, 'MetricName')!,
+      namespace: _s.extractXmlStringValue(elem, 'Namespace')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metricName = this.metricName;
+    final namespace = this.namespace;
+    return {
+      'MetricName': metricName,
+      'Namespace': namespace,
+    };
   }
 }
 

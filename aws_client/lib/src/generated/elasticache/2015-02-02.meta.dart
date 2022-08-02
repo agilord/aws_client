@@ -535,6 +535,10 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "LogDeliveryConfigurations": {
         "shape": "LogDeliveryConfigurationRequestList",
         "flattened": false
+      },
+      "TransitEncryptionEnabled": {
+        "shape": "BooleanOptional",
+        "flattened": false
       }
     },
     "flattened": false
@@ -2110,7 +2114,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "flattened": false
       },
       "ReplicationGroupCreateTime": {"shape": "TStamp", "flattened": false},
-      "DataTiering": {"shape": "DataTieringStatus", "flattened": false}
+      "DataTiering": {"shape": "DataTieringStatus", "flattened": false},
+      "AutoMinorVersionUpgrade": {"shape": "Boolean", "flattened": false}
     },
     "flattened": false
   },

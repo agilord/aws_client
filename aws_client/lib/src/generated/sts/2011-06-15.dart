@@ -378,7 +378,7 @@ class Sts {
   /// session. If you pass a session tag with the same key as an inherited tag,
   /// the operation fails. To view the inherited tags for a session, see the
   /// CloudTrail logs. For more information, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/session-tags.html#id_session-tags_ctlogs">Viewing
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_session-tags.html#id_session-tags_ctlogs">Viewing
   /// Session Tags in CloudTrail</a> in the <i>IAM User Guide</i>.
   ///
   /// Parameter [tokenCode] :
@@ -756,8 +756,11 @@ class Sts {
 
   /// Returns a set of temporary security credentials for users who have been
   /// authenticated in a mobile or web application with a web identity provider.
-  /// Example providers include Amazon Cognito, Login with Amazon, Facebook,
-  /// Google, or any OpenID Connect-compatible identity provider.
+  /// Example providers include the OAuth 2.0 providers Login with Amazon and
+  /// Facebook, or any OpenID Connect-compatible identity provider such as
+  /// Google or <a
+  /// href="https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-identity.html">Amazon
+  /// Cognito federated identities</a>.
   /// <note>
   /// For mobile applications, we recommend that you use Amazon Cognito. You can
   /// use Amazon Cognito with the <a
@@ -1048,13 +1051,13 @@ class Sts {
   /// Policies</a> in the <i>IAM User Guide</i>.
   ///
   /// Parameter [providerId] :
-  /// The fully qualified host component of the domain name of the identity
-  /// provider.
+  /// The fully qualified host component of the domain name of the OAuth 2.0
+  /// identity provider. Do not specify this value for an OpenID Connect
+  /// identity provider.
   ///
-  /// Specify this value only for OAuth 2.0 access tokens. Currently
-  /// <code>www.amazon.com</code> and <code>graph.facebook.com</code> are the
-  /// only supported identity providers for OAuth 2.0 access tokens. Do not
-  /// include URL schemes and port numbers.
+  /// Currently <code>www.amazon.com</code> and <code>graph.facebook.com</code>
+  /// are the only supported identity providers for OAuth 2.0 access tokens. Do
+  /// not include URL schemes and port numbers.
   ///
   /// Do not specify this value for OpenID Connect ID tokens.
   Future<AssumeRoleWithWebIdentityResponse> assumeRoleWithWebIdentity({
@@ -1562,7 +1565,14 @@ class Sts {
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_request.html#stsapi_comparison">Comparing
   /// the Amazon Web Services STS API operations</a> in the <i>IAM User
   /// Guide</i>.
-  ///
+  /// <note>
+  /// No permissions are required for users to perform this operation. The
+  /// purpose of the <code>sts:GetSessionToken</code> operation is to
+  /// authenticate the user using MFA. You cannot use policies to control
+  /// authentication operations. For more information, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_control-access_getsessiontoken.html">Permissions
+  /// for GetSessionToken</a> in the <i>IAM User Guide</i>.
+  /// </note>
   /// <b>Session Duration</b>
   ///
   /// The <code>GetSessionToken</code> operation must be called by using the

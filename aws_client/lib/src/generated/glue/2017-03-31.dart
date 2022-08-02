@@ -365,6 +365,37 @@ class Glue {
     return BatchGetCrawlersResponse.fromJson(jsonResponse.body);
   }
 
+  /// Retrieves the details for the custom patterns specified by a list of
+  /// names.
+  ///
+  /// May throw [InvalidInputException].
+  /// May throw [InternalServiceException].
+  /// May throw [OperationTimeoutException].
+  ///
+  /// Parameter [names] :
+  /// A list of names of the custom patterns that you want to retrieve.
+  Future<BatchGetCustomEntityTypesResponse> batchGetCustomEntityTypes({
+    required List<String> names,
+  }) async {
+    ArgumentError.checkNotNull(names, 'names');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.BatchGetCustomEntityTypes'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Names': names,
+      },
+    );
+
+    return BatchGetCustomEntityTypesResponse.fromJson(jsonResponse.body);
+  }
+
   /// Returns a list of resource metadata for a given list of development
   /// endpoint names. After calling the <code>ListDevEndpoints</code> operation,
   /// you can call this operation to access the data to which you have been
@@ -692,6 +723,48 @@ class Glue {
     return CancelMLTaskRunResponse.fromJson(jsonResponse.body);
   }
 
+  /// Cancels the statement.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [EntityNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [OperationTimeoutException].
+  /// May throw [InvalidInputException].
+  /// May throw [IllegalSessionStateException].
+  ///
+  /// Parameter [id] :
+  /// The ID of the statement to be cancelled.
+  ///
+  /// Parameter [sessionId] :
+  /// The Session ID of the statement to be cancelled.
+  ///
+  /// Parameter [requestOrigin] :
+  /// The origin of the request to cancel the statement.
+  Future<void> cancelStatement({
+    required int id,
+    required String sessionId,
+    String? requestOrigin,
+  }) async {
+    ArgumentError.checkNotNull(id, 'id');
+    ArgumentError.checkNotNull(sessionId, 'sessionId');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.CancelStatement'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Id': id,
+        'SessionId': sessionId,
+        if (requestOrigin != null) 'RequestOrigin': requestOrigin,
+      },
+    );
+  }
+
   /// Validates the supplied schema. This call has no side effects, it simply
   /// validates using the supplied schema using <code>DataFormat</code> as the
   /// format. Since it does not take a schema set name, no compatibility checks
@@ -702,8 +775,8 @@ class Glue {
   /// May throw [InternalServiceException].
   ///
   /// Parameter [dataFormat] :
-  /// The data format of the schema definition. Currently <code>AVRO</code> and
-  /// <code>JSON</code> are supported.
+  /// The data format of the schema definition. Currently <code>AVRO</code>,
+  /// <code>JSON</code> and <code>PROTOBUF</code> are supported.
   ///
   /// Parameter [schemaDefinition] :
   /// The definition of the schema that has to be validated.
@@ -908,6 +981,9 @@ class Glue {
   /// Parameter [description] :
   /// A description of the new crawler.
   ///
+  /// Parameter [lakeFormationConfiguration] :
+  /// Specifies Lake Formation configuration settings for the crawler.
+  ///
   /// Parameter [lineageConfiguration] :
   /// Specifies data lineage configuration settings for the crawler.
   ///
@@ -986,6 +1062,62 @@ class Glue {
     );
   }
 
+  /// Creates a custom pattern that is used to detect sensitive data across the
+  /// columns and rows of your structured data.
+  ///
+  /// Each custom pattern you create specifies a regular expression and an
+  /// optional list of context words. If no context words are passed only a
+  /// regular expression is checked.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [AlreadyExistsException].
+  /// May throw [IdempotentParameterMismatchException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidInputException].
+  /// May throw [OperationTimeoutException].
+  /// May throw [ResourceNumberLimitExceededException].
+  ///
+  /// Parameter [name] :
+  /// A name for the custom pattern that allows it to be retrieved or deleted
+  /// later. This name must be unique per Amazon Web Services account.
+  ///
+  /// Parameter [regexString] :
+  /// A regular expression string that is used for detecting sensitive data in a
+  /// custom pattern.
+  ///
+  /// Parameter [contextWords] :
+  /// A list of context words. If none of these context words are found within
+  /// the vicinity of the regular expression the data will not be detected as
+  /// sensitive data.
+  ///
+  /// If no context words are passed only a regular expression is checked.
+  Future<CreateCustomEntityTypeResponse> createCustomEntityType({
+    required String name,
+    required String regexString,
+    List<String>? contextWords,
+  }) async {
+    ArgumentError.checkNotNull(name, 'name');
+    ArgumentError.checkNotNull(regexString, 'regexString');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.CreateCustomEntityType'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Name': name,
+        'RegexString': regexString,
+        if (contextWords != null) 'ContextWords': contextWords,
+      },
+    );
+
+    return CreateCustomEntityTypeResponse.fromJson(jsonResponse.body);
+  }
+
   /// Creates a new database in a Data Catalog.
   ///
   /// May throw [InvalidInputException].
@@ -1002,9 +1134,13 @@ class Glue {
   /// Parameter [catalogId] :
   /// The ID of the Data Catalog in which to create the database. If none is
   /// provided, the Amazon Web Services account ID is used by default.
+  ///
+  /// Parameter [tags] :
+  /// The tags you assign to the database.
   Future<void> createDatabase({
     required DatabaseInput databaseInput,
     String? catalogId,
+    Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(databaseInput, 'databaseInput');
     final headers = <String, String>{
@@ -1020,6 +1156,7 @@ class Glue {
       payload: {
         'DatabaseInput': databaseInput,
         if (catalogId != null) 'CatalogId': catalogId,
+        if (tags != null) 'Tags': tags,
       },
     );
   }
@@ -1225,10 +1362,14 @@ class Glue {
   /// This parameter is deprecated. Use <code>MaxCapacity</code> instead.
   ///
   /// The number of Glue data processing units (DPUs) to allocate to this Job.
-  /// You can allocate from 2 to 100 DPUs; the default is 10. A DPU is a
+  /// You can allocate a minimum of 2 DPUs; the default is 10. A DPU is a
   /// relative measure of processing power that consists of 4 vCPUs of compute
   /// capacity and 16 GB of memory. For more information, see the <a
   /// href="https://aws.amazon.com/glue/pricing/">Glue pricing page</a>.
+  ///
+  /// Parameter [codeGenConfigurationNodes] :
+  /// The representation of a directed acyclic graph on which both the Glue
+  /// Studio visual component and Glue Studio code generation is based.
   ///
   /// Parameter [connections] :
   /// The connections used for this job.
@@ -1238,6 +1379,10 @@ class Glue {
   ///
   /// You can specify arguments here that your own job-execution script
   /// consumes, as well as arguments that Glue itself consumes.
+  ///
+  /// Job arguments may be logged. Do not pass plaintext secrets as arguments.
+  /// Retrieve secrets from a Glue Connection, Secrets Manager or other secret
+  /// management mechanism if you intend to keep them within the Job.
   ///
   /// For information about how to specify and consume your own Job arguments,
   /// see the <a
@@ -1295,8 +1440,8 @@ class Glue {
   /// <li>
   /// When you specify an Apache Spark ETL job
   /// (<code>JobCommand.Name</code>="glueetl") or Apache Spark streaming ETL job
-  /// (<code>JobCommand.Name</code>="gluestreaming"), you can allocate from 2 to
-  /// 100 DPUs. The default is 10 DPUs. This job type cannot have a fractional
+  /// (<code>JobCommand.Name</code>="gluestreaming"), you can allocate a minimum
+  /// of 2 DPUs. The default is 10 DPUs. This job type cannot have a fractional
   /// DPU allocation.
   /// </li>
   /// </ul>
@@ -1317,9 +1462,6 @@ class Glue {
   /// The number of workers of a defined <code>workerType</code> that are
   /// allocated when a job runs.
   ///
-  /// The maximum number of workers you can define are 299 for
-  /// <code>G.1X</code>, and 149 for <code>G.2X</code>.
-  ///
   /// Parameter [securityConfiguration] :
   /// The name of the <code>SecurityConfiguration</code> structure to be used
   /// with this job.
@@ -1337,7 +1479,7 @@ class Glue {
   ///
   /// Parameter [workerType] :
   /// The type of predefined worker that is allocated when a job runs. Accepts a
-  /// value of Standard, G.1X, or G.2X.
+  /// value of Standard, G.1X, G.2X, or G.025X.
   ///
   /// <ul>
   /// <li>
@@ -1354,12 +1496,19 @@ class Glue {
   /// 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We
   /// recommend this worker type for memory-intensive jobs.
   /// </li>
+  /// <li>
+  /// For the <code>G.025X</code> worker type, each worker maps to 0.25 DPU (2
+  /// vCPU, 4 GB of memory, 64 GB disk), and provides 1 executor per worker. We
+  /// recommend this worker type for low volume streaming jobs. This worker type
+  /// is only available for Glue version 3.0 streaming jobs.
+  /// </li>
   /// </ul>
   Future<CreateJobResponse> createJob({
     required JobCommand command,
     required String name,
     required String role,
     int? allocatedCapacity,
+    Map<String, CodeGenConfigurationNode>? codeGenConfigurationNodes,
     ConnectionsList? connections,
     Map<String, String>? defaultArguments,
     String? description,
@@ -1400,6 +1549,8 @@ class Glue {
         'Name': name,
         'Role': role,
         if (allocatedCapacity != null) 'AllocatedCapacity': allocatedCapacity,
+        if (codeGenConfigurationNodes != null)
+          'CodeGenConfigurationNodes': codeGenConfigurationNodes,
         if (connections != null) 'Connections': connections,
         if (defaultArguments != null) 'DefaultArguments': defaultArguments,
         if (description != null) 'Description': description,
@@ -1758,6 +1909,7 @@ class Glue {
   /// May throw [AccessDeniedException].
   /// May throw [AlreadyExistsException].
   /// May throw [ResourceNumberLimitExceededException].
+  /// May throw [ConcurrentModificationException].
   /// May throw [InternalServiceException].
   ///
   /// Parameter [registryName] :
@@ -1818,11 +1970,12 @@ class Glue {
   /// May throw [EntityNotFoundException].
   /// May throw [AlreadyExistsException].
   /// May throw [ResourceNumberLimitExceededException].
+  /// May throw [ConcurrentModificationException].
   /// May throw [InternalServiceException].
   ///
   /// Parameter [dataFormat] :
-  /// The data format of the schema definition. Currently <code>AVRO</code> and
-  /// <code>JSON</code> are supported.
+  /// The data format of the schema definition. Currently <code>AVRO</code>,
+  /// <code>JSON</code> and <code>PROTOBUF</code> are supported.
   ///
   /// Parameter [schemaName] :
   /// Name of the schema to be created of max length of 255, and may only
@@ -2019,6 +2172,155 @@ class Glue {
     );
 
     return CreateSecurityConfigurationResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Creates a new session.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [IdempotentParameterMismatchException].
+  /// May throw [InternalServiceException].
+  /// May throw [OperationTimeoutException].
+  /// May throw [InvalidInputException].
+  /// May throw [ValidationException].
+  /// May throw [AlreadyExistsException].
+  /// May throw [ResourceNumberLimitExceededException].
+  ///
+  /// Parameter [command] :
+  /// The <code>SessionCommand</code> that runs the job.
+  ///
+  /// Parameter [id] :
+  /// The ID of the session request.
+  ///
+  /// Parameter [role] :
+  /// The IAM Role ARN
+  ///
+  /// Parameter [connections] :
+  /// The number of connections to use for the session.
+  ///
+  /// Parameter [defaultArguments] :
+  /// A map array of key-value pairs. Max is 75 pairs.
+  ///
+  /// Parameter [description] :
+  /// The description of the session.
+  ///
+  /// Parameter [glueVersion] :
+  /// The Glue version determines the versions of Apache Spark and Python that
+  /// Glue supports. The GlueVersion must be greater than 2.0.
+  ///
+  /// Parameter [idleTimeout] :
+  /// The number of seconds when idle before request times out.
+  ///
+  /// Parameter [maxCapacity] :
+  /// The number of Glue data processing units (DPUs) that can be allocated when
+  /// the job runs. A DPU is a relative measure of processing power that
+  /// consists of 4 vCPUs of compute capacity and 16 GB memory.
+  ///
+  /// Parameter [numberOfWorkers] :
+  /// The number of workers of a defined <code>WorkerType</code> to use for the
+  /// session.
+  ///
+  /// Parameter [requestOrigin] :
+  /// The origin of the request.
+  ///
+  /// Parameter [securityConfiguration] :
+  /// The name of the SecurityConfiguration structure to be used with the
+  /// session
+  ///
+  /// Parameter [tags] :
+  /// The map of key value pairs (tags) belonging to the session.
+  ///
+  /// Parameter [timeout] :
+  /// The number of seconds before request times out.
+  ///
+  /// Parameter [workerType] :
+  /// The type of predefined worker that is allocated to use for the session.
+  /// Accepts a value of Standard, G.1X, G.2X, or G.025X.
+  ///
+  /// <ul>
+  /// <li>
+  /// For the <code>Standard</code> worker type, each worker provides 4 vCPU, 16
+  /// GB of memory and a 50GB disk, and 2 executors per worker.
+  /// </li>
+  /// <li>
+  /// For the <code>G.1X</code> worker type, each worker maps to 1 DPU (4 vCPU,
+  /// 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We
+  /// recommend this worker type for memory-intensive jobs.
+  /// </li>
+  /// <li>
+  /// For the <code>G.2X</code> worker type, each worker maps to 2 DPU (8 vCPU,
+  /// 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We
+  /// recommend this worker type for memory-intensive jobs.
+  /// </li>
+  /// <li>
+  /// For the <code>G.025X</code> worker type, each worker maps to 0.25 DPU (2
+  /// vCPU, 4 GB of memory, 64 GB disk), and provides 1 executor per worker. We
+  /// recommend this worker type for low volume streaming jobs. This worker type
+  /// is only available for Glue version 3.0 streaming jobs.
+  /// </li>
+  /// </ul>
+  Future<CreateSessionResponse> createSession({
+    required SessionCommand command,
+    required String id,
+    required String role,
+    ConnectionsList? connections,
+    Map<String, String>? defaultArguments,
+    String? description,
+    String? glueVersion,
+    int? idleTimeout,
+    double? maxCapacity,
+    int? numberOfWorkers,
+    String? requestOrigin,
+    String? securityConfiguration,
+    Map<String, String>? tags,
+    int? timeout,
+    WorkerType? workerType,
+  }) async {
+    ArgumentError.checkNotNull(command, 'command');
+    ArgumentError.checkNotNull(id, 'id');
+    ArgumentError.checkNotNull(role, 'role');
+    _s.validateNumRange(
+      'idleTimeout',
+      idleTimeout,
+      1,
+      1152921504606846976,
+    );
+    _s.validateNumRange(
+      'timeout',
+      timeout,
+      1,
+      1152921504606846976,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.CreateSession'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Command': command,
+        'Id': id,
+        'Role': role,
+        if (connections != null) 'Connections': connections,
+        if (defaultArguments != null) 'DefaultArguments': defaultArguments,
+        if (description != null) 'Description': description,
+        if (glueVersion != null) 'GlueVersion': glueVersion,
+        if (idleTimeout != null) 'IdleTimeout': idleTimeout,
+        if (maxCapacity != null) 'MaxCapacity': maxCapacity,
+        if (numberOfWorkers != null) 'NumberOfWorkers': numberOfWorkers,
+        if (requestOrigin != null) 'RequestOrigin': requestOrigin,
+        if (securityConfiguration != null)
+          'SecurityConfiguration': securityConfiguration,
+        if (tags != null) 'Tags': tags,
+        if (timeout != null) 'Timeout': timeout,
+        if (workerType != null) 'WorkerType': workerType.toValue(),
+      },
+    );
+
+    return CreateSessionResponse.fromJson(jsonResponse.body);
   }
 
   /// Creates a new table definition in the Data Catalog.
@@ -2509,6 +2811,38 @@ class Glue {
     );
   }
 
+  /// Deletes a custom pattern by specifying its name.
+  ///
+  /// May throw [EntityNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidInputException].
+  /// May throw [OperationTimeoutException].
+  ///
+  /// Parameter [name] :
+  /// The name of the custom pattern that you want to delete.
+  Future<DeleteCustomEntityTypeResponse> deleteCustomEntityType({
+    required String name,
+  }) async {
+    ArgumentError.checkNotNull(name, 'name');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.DeleteCustomEntityType'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Name': name,
+      },
+    );
+
+    return DeleteCustomEntityTypeResponse.fromJson(jsonResponse.body);
+  }
+
   /// Removes a specified database from a Data Catalog.
   /// <note>
   /// After completing this operation, you no longer have access to the tables
@@ -2955,6 +3289,44 @@ class Glue {
         'Name': name,
       },
     );
+  }
+
+  /// Deletes the session.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServiceException].
+  /// May throw [OperationTimeoutException].
+  /// May throw [InvalidInputException].
+  /// May throw [IllegalSessionStateException].
+  /// May throw [ConcurrentModificationException].
+  ///
+  /// Parameter [id] :
+  /// The ID of the session to be deleted.
+  ///
+  /// Parameter [requestOrigin] :
+  /// The name of the origin of the delete session request.
+  Future<DeleteSessionResponse> deleteSession({
+    required String id,
+    String? requestOrigin,
+  }) async {
+    ArgumentError.checkNotNull(id, 'id');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.DeleteSession'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Id': id,
+        if (requestOrigin != null) 'RequestOrigin': requestOrigin,
+      },
+    );
+
+    return DeleteSessionResponse.fromJson(jsonResponse.body);
   }
 
   /// Removes a table definition from the Data Catalog.
@@ -3523,9 +3895,9 @@ class Glue {
   ///
   /// Parameter [hidePassword] :
   /// Allows you to retrieve the connection metadata without returning the
-  /// password. For instance, the AWS Glue console uses this flag to retrieve
-  /// the connection, and does not display the password. Set this parameter when
-  /// the caller might not have permission to use the KMS key to decrypt the
+  /// password. For instance, the Glue console uses this flag to retrieve the
+  /// connection, and does not display the password. Set this parameter when the
+  /// caller might not have permission to use the KMS key to decrypt the
   /// password, but it does have permission to access the rest of the connection
   /// properties.
   Future<GetConnectionResponse> getConnection({
@@ -3570,9 +3942,9 @@ class Glue {
   ///
   /// Parameter [hidePassword] :
   /// Allows you to retrieve the connection metadata without returning the
-  /// password. For instance, the AWS Glue console uses this flag to retrieve
-  /// the connection, and does not display the password. Set this parameter when
-  /// the caller might not have permission to use the KMS key to decrypt the
+  /// password. For instance, the Glue console uses this flag to retrieve the
+  /// connection, and does not display the password. Set this parameter when the
+  /// caller might not have permission to use the KMS key to decrypt the
   /// password, but it does have permission to access the rest of the connection
   /// properties.
   ///
@@ -3724,6 +4096,38 @@ class Glue {
     );
 
     return GetCrawlersResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves the details of a custom pattern by specifying its name.
+  ///
+  /// May throw [EntityNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidInputException].
+  /// May throw [OperationTimeoutException].
+  ///
+  /// Parameter [name] :
+  /// The name of the custom pattern that you want to retrieve.
+  Future<GetCustomEntityTypeResponse> getCustomEntityType({
+    required String name,
+  }) async {
+    ArgumentError.checkNotNull(name, 'name');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.GetCustomEntityType'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Name': name,
+      },
+    );
+
+    return GetCustomEntityTypeResponse.fromJson(jsonResponse.body);
   }
 
   /// Retrieves the security configuration for a specified catalog.
@@ -5176,6 +5580,87 @@ class Glue {
     return GetSecurityConfigurationsResponse.fromJson(jsonResponse.body);
   }
 
+  /// Retrieves the session.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [EntityNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [OperationTimeoutException].
+  /// May throw [InvalidInputException].
+  ///
+  /// Parameter [id] :
+  /// The ID of the session.
+  ///
+  /// Parameter [requestOrigin] :
+  /// The origin of the request.
+  Future<GetSessionResponse> getSession({
+    required String id,
+    String? requestOrigin,
+  }) async {
+    ArgumentError.checkNotNull(id, 'id');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.GetSession'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Id': id,
+        if (requestOrigin != null) 'RequestOrigin': requestOrigin,
+      },
+    );
+
+    return GetSessionResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves the statement.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [EntityNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [OperationTimeoutException].
+  /// May throw [InvalidInputException].
+  /// May throw [IllegalSessionStateException].
+  ///
+  /// Parameter [id] :
+  /// The Id of the statement.
+  ///
+  /// Parameter [sessionId] :
+  /// The Session ID of the statement.
+  ///
+  /// Parameter [requestOrigin] :
+  /// The origin of the request.
+  Future<GetStatementResponse> getStatement({
+    required int id,
+    required String sessionId,
+    String? requestOrigin,
+  }) async {
+    ArgumentError.checkNotNull(id, 'id');
+    ArgumentError.checkNotNull(sessionId, 'sessionId');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.GetStatement'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Id': id,
+        'SessionId': sessionId,
+        if (requestOrigin != null) 'RequestOrigin': requestOrigin,
+      },
+    );
+
+    return GetStatementResponse.fromJson(jsonResponse.body);
+  }
+
   /// Retrieves the <code>Table</code> definition in a Data Catalog for a
   /// specified table.
   ///
@@ -6081,6 +6566,120 @@ class Glue {
     return ListCrawlersResponse.fromJson(jsonResponse.body);
   }
 
+  /// Returns all the crawls of a specified crawler. Returns only the crawls
+  /// that have occurred since the launch date of the crawler history feature,
+  /// and only retains up to 12 months of crawls. Older crawls will not be
+  /// returned.
+  ///
+  /// You may use this API to:
+  ///
+  /// <ul>
+  /// <li>
+  /// Retrive all the crawls of a specified crawler.
+  /// </li>
+  /// <li>
+  /// Retrieve all the crawls of a specified crawler within a limited count.
+  /// </li>
+  /// <li>
+  /// Retrieve all the crawls of a specified crawler in a specific time range.
+  /// </li>
+  /// <li>
+  /// Retrieve all the crawls of a specified crawler with a particular state,
+  /// crawl ID, or DPU hour value.
+  /// </li>
+  /// </ul>
+  ///
+  /// May throw [EntityNotFoundException].
+  /// May throw [OperationTimeoutException].
+  /// May throw [InvalidInputException].
+  ///
+  /// Parameter [crawlerName] :
+  /// The name of the crawler whose runs you want to retrieve.
+  ///
+  /// Parameter [filters] :
+  /// Filters the crawls by the criteria you specify in a list of
+  /// <code>CrawlsFilter</code> objects.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return. The default is 20, and maximum is
+  /// 100.
+  ///
+  /// Parameter [nextToken] :
+  /// A continuation token, if this is a continuation call.
+  Future<ListCrawlsResponse> listCrawls({
+    required String crawlerName,
+    List<CrawlsFilter>? filters,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    ArgumentError.checkNotNull(crawlerName, 'crawlerName');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.ListCrawls'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'CrawlerName': crawlerName,
+        if (filters != null) 'Filters': filters,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListCrawlsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Lists all the custom patterns that have been created.
+  ///
+  /// May throw [InvalidInputException].
+  /// May throw [OperationTimeoutException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return.
+  ///
+  /// Parameter [nextToken] :
+  /// A paginated token to offset the results.
+  Future<ListCustomEntityTypesResponse> listCustomEntityTypes({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.ListCustomEntityTypes'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListCustomEntityTypesResponse.fromJson(jsonResponse.body);
+  }
+
   /// Retrieves the names of all <code>DevEndpoint</code> resources in this
   /// Amazon Web Services account, or the resources with the specified tag. This
   /// operation allows you to see which resources are available in your account,
@@ -6411,6 +7010,101 @@ class Glue {
     );
 
     return ListSchemasResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieve a list of sessions.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidInputException].
+  /// May throw [InternalServiceException].
+  /// May throw [OperationTimeoutException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of results, or null if there are no more
+  /// result.
+  ///
+  /// Parameter [requestOrigin] :
+  /// The origin of the request.
+  ///
+  /// Parameter [tags] :
+  /// Tags belonging to the session.
+  Future<ListSessionsResponse> listSessions({
+    int? maxResults,
+    String? nextToken,
+    String? requestOrigin,
+    Map<String, String>? tags,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.ListSessions'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (requestOrigin != null) 'RequestOrigin': requestOrigin,
+        if (tags != null) 'Tags': tags,
+      },
+    );
+
+    return ListSessionsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Lists statements for the session.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [EntityNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [OperationTimeoutException].
+  /// May throw [InvalidInputException].
+  /// May throw [IllegalSessionStateException].
+  ///
+  /// Parameter [sessionId] :
+  /// The Session ID of the statements.
+  ///
+  /// Parameter [nextToken] :
+  /// A continuation token, if this is a continuation call.
+  ///
+  /// Parameter [requestOrigin] :
+  /// The origin of the request to list statements.
+  Future<ListStatementsResponse> listStatements({
+    required String sessionId,
+    String? nextToken,
+    String? requestOrigin,
+  }) async {
+    ArgumentError.checkNotNull(sessionId, 'sessionId');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.ListStatements'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'SessionId': sessionId,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (requestOrigin != null) 'RequestOrigin': requestOrigin,
+      },
+    );
+
+    return ListStatementsResponse.fromJson(jsonResponse.body);
   }
 
   /// Retrieves the names of all trigger resources in this Amazon Web Services
@@ -6983,6 +7677,52 @@ class Glue {
     return ResumeWorkflowRunResponse.fromJson(jsonResponse.body);
   }
 
+  /// Executes the statement.
+  ///
+  /// May throw [EntityNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServiceException].
+  /// May throw [OperationTimeoutException].
+  /// May throw [InvalidInputException].
+  /// May throw [ValidationException].
+  /// May throw [ResourceNumberLimitExceededException].
+  /// May throw [IllegalSessionStateException].
+  ///
+  /// Parameter [code] :
+  /// The statement code to be run.
+  ///
+  /// Parameter [sessionId] :
+  /// The Session Id of the statement to be run.
+  ///
+  /// Parameter [requestOrigin] :
+  /// The origin of the request.
+  Future<RunStatementResponse> runStatement({
+    required String code,
+    required String sessionId,
+    String? requestOrigin,
+  }) async {
+    ArgumentError.checkNotNull(code, 'code');
+    ArgumentError.checkNotNull(sessionId, 'sessionId');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.RunStatement'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Code': code,
+        'SessionId': sessionId,
+        if (requestOrigin != null) 'RequestOrigin': requestOrigin,
+      },
+    );
+
+    return RunStatementResponse.fromJson(jsonResponse.body);
+  }
+
   /// Searches a set of tables based on properties in the table metadata as well
   /// as on the parent database. You can search against text or filter
   /// conditions.
@@ -7329,8 +8069,8 @@ class Glue {
   /// This field is deprecated. Use <code>MaxCapacity</code> instead.
   ///
   /// The number of Glue data processing units (DPUs) to allocate to this
-  /// JobRun. From 2 to 100 DPUs can be allocated; the default is 10. A DPU is a
-  /// relative measure of processing power that consists of 4 vCPUs of compute
+  /// JobRun. You can allocate a minimum of 2 DPUs; the default is 10. A DPU is
+  /// a relative measure of processing power that consists of 4 vCPUs of compute
   /// capacity and 16 GB of memory. For more information, see the <a
   /// href="https://aws.amazon.com/glue/pricing/">Glue pricing page</a>.
   ///
@@ -7340,6 +8080,10 @@ class Glue {
   ///
   /// You can specify arguments here that your own job-execution script
   /// consumes, as well as arguments that Glue itself consumes.
+  ///
+  /// Job arguments may be logged. Do not pass plaintext secrets as arguments.
+  /// Retrieve secrets from a Glue Connection, Secrets Manager or other secret
+  /// management mechanism if you intend to keep them within the Job.
   ///
   /// For information about how to specify and consume your own Job arguments,
   /// see the <a
@@ -7375,7 +8119,7 @@ class Glue {
   /// </li>
   /// <li>
   /// When you specify an Apache Spark ETL job
-  /// (<code>JobCommand.Name</code>="glueetl"), you can allocate from 2 to 100
+  /// (<code>JobCommand.Name</code>="glueetl"), you can allocate a minimum of 2
   /// DPUs. The default is 10 DPUs. This job type cannot have a fractional DPU
   /// allocation.
   /// </li>
@@ -7388,9 +8132,6 @@ class Glue {
   /// The number of workers of a defined <code>workerType</code> that are
   /// allocated when a job runs.
   ///
-  /// The maximum number of workers you can define are 299 for
-  /// <code>G.1X</code>, and 149 for <code>G.2X</code>.
-  ///
   /// Parameter [securityConfiguration] :
   /// The name of the <code>SecurityConfiguration</code> structure to be used
   /// with this job run.
@@ -7398,12 +8139,15 @@ class Glue {
   /// Parameter [timeout] :
   /// The <code>JobRun</code> timeout in minutes. This is the maximum time that
   /// a job run can consume resources before it is terminated and enters
-  /// <code>TIMEOUT</code> status. The default is 2,880 minutes (48 hours). This
-  /// overrides the timeout value set in the parent job.
+  /// <code>TIMEOUT</code> status. This value overrides the timeout value set in
+  /// the parent job.
+  ///
+  /// Streaming jobs do not have a timeout. The default for non-streaming jobs
+  /// is 2,880 minutes (48 hours).
   ///
   /// Parameter [workerType] :
   /// The type of predefined worker that is allocated when a job runs. Accepts a
-  /// value of Standard, G.1X, or G.2X.
+  /// value of Standard, G.1X, G.2X, or G.025X.
   ///
   /// <ul>
   /// <li>
@@ -7417,6 +8161,12 @@ class Glue {
   /// <li>
   /// For the <code>G.2X</code> worker type, each worker provides 8 vCPU, 32 GB
   /// of memory and a 128GB disk, and 1 executor per worker.
+  /// </li>
+  /// <li>
+  /// For the <code>G.025X</code> worker type, each worker maps to 0.25 DPU (2
+  /// vCPU, 4 GB of memory, 64 GB disk), and provides 1 executor per worker. We
+  /// recommend this worker type for low volume streaming jobs. This worker type
+  /// is only available for Glue version 3.0 streaming jobs.
   /// </li>
   /// </ul>
   Future<StartJobRunResponse> startJobRun({
@@ -7611,8 +8361,12 @@ class Glue {
   ///
   /// Parameter [name] :
   /// The name of the workflow to start.
+  ///
+  /// Parameter [runProperties] :
+  /// The workflow run properties for the new workflow run.
   Future<StartWorkflowRunResponse> startWorkflowRun({
     required String name,
+    Map<String, String>? runProperties,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     final headers = <String, String>{
@@ -7627,6 +8381,7 @@ class Glue {
       headers: headers,
       payload: {
         'Name': name,
+        if (runProperties != null) 'RunProperties': runProperties,
       },
     );
 
@@ -7691,6 +8446,44 @@ class Glue {
         'CrawlerName': crawlerName,
       },
     );
+  }
+
+  /// Stops the session.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServiceException].
+  /// May throw [OperationTimeoutException].
+  /// May throw [InvalidInputException].
+  /// May throw [IllegalSessionStateException].
+  /// May throw [ConcurrentModificationException].
+  ///
+  /// Parameter [id] :
+  /// The ID of the session to be stopped.
+  ///
+  /// Parameter [requestOrigin] :
+  /// The origin of the request.
+  Future<StopSessionResponse> stopSession({
+    required String id,
+    String? requestOrigin,
+  }) async {
+    ArgumentError.checkNotNull(id, 'id');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSGlue.StopSession'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Id': id,
+        if (requestOrigin != null) 'RequestOrigin': requestOrigin,
+      },
+    );
+
+    return StopSessionResponse.fromJson(jsonResponse.body);
   }
 
   /// Stops a specified trigger.
@@ -8120,6 +8913,9 @@ class Glue {
   /// Parameter [description] :
   /// A description of the new crawler.
   ///
+  /// Parameter [lakeFormationConfiguration] :
+  /// Specifies Lake Formation configuration settings for the crawler.
+  ///
   /// Parameter [lineageConfiguration] :
   /// Specifies data lineage configuration settings for the crawler.
   ///
@@ -8362,7 +9158,8 @@ class Glue {
     );
   }
 
-  /// Updates an existing job definition.
+  /// Updates an existing job definition. The previous job definition is
+  /// completely overwritten by this information.
   ///
   /// May throw [InvalidInputException].
   /// May throw [EntityNotFoundException].
@@ -8374,7 +9171,8 @@ class Glue {
   /// The name of the job definition to update.
   ///
   /// Parameter [jobUpdate] :
-  /// Specifies the values with which to update the job definition.
+  /// Specifies the values with which to update the job definition. Unspecified
+  /// configuration is removed or reset to default values.
   Future<UpdateJobResponse> updateJob({
     required String jobName,
     required JobUpdate jobUpdate,
@@ -8735,12 +9533,16 @@ class Glue {
   ///
   /// Parameter [transactionId] :
   /// The transaction ID at which to update the table contents.
+  ///
+  /// Parameter [versionId] :
+  /// The version ID at which to update the table contents.
   Future<void> updateTable({
     required String databaseName,
     required TableInput tableInput,
     String? catalogId,
     bool? skipArchive,
     String? transactionId,
+    String? versionId,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
     ArgumentError.checkNotNull(tableInput, 'tableInput');
@@ -8760,6 +9562,7 @@ class Glue {
         if (catalogId != null) 'CatalogId': catalogId,
         if (skipArchive != null) 'SkipArchive': skipArchive,
         if (transactionId != null) 'TransactionId': transactionId,
+        if (versionId != null) 'VersionId': versionId,
       },
     );
   }
@@ -8988,24 +9791,348 @@ class Action {
   }
 }
 
+enum AggFunction {
+  avg,
+  countDistinct,
+  count,
+  first,
+  last,
+  kurtosis,
+  max,
+  min,
+  skewness,
+  stddevSamp,
+  stddevPop,
+  sum,
+  sumDistinct,
+  varSamp,
+  varPop,
+}
+
+extension on AggFunction {
+  String toValue() {
+    switch (this) {
+      case AggFunction.avg:
+        return 'avg';
+      case AggFunction.countDistinct:
+        return 'countDistinct';
+      case AggFunction.count:
+        return 'count';
+      case AggFunction.first:
+        return 'first';
+      case AggFunction.last:
+        return 'last';
+      case AggFunction.kurtosis:
+        return 'kurtosis';
+      case AggFunction.max:
+        return 'max';
+      case AggFunction.min:
+        return 'min';
+      case AggFunction.skewness:
+        return 'skewness';
+      case AggFunction.stddevSamp:
+        return 'stddev_samp';
+      case AggFunction.stddevPop:
+        return 'stddev_pop';
+      case AggFunction.sum:
+        return 'sum';
+      case AggFunction.sumDistinct:
+        return 'sumDistinct';
+      case AggFunction.varSamp:
+        return 'var_samp';
+      case AggFunction.varPop:
+        return 'var_pop';
+    }
+  }
+}
+
+extension on String {
+  AggFunction toAggFunction() {
+    switch (this) {
+      case 'avg':
+        return AggFunction.avg;
+      case 'countDistinct':
+        return AggFunction.countDistinct;
+      case 'count':
+        return AggFunction.count;
+      case 'first':
+        return AggFunction.first;
+      case 'last':
+        return AggFunction.last;
+      case 'kurtosis':
+        return AggFunction.kurtosis;
+      case 'max':
+        return AggFunction.max;
+      case 'min':
+        return AggFunction.min;
+      case 'skewness':
+        return AggFunction.skewness;
+      case 'stddev_samp':
+        return AggFunction.stddevSamp;
+      case 'stddev_pop':
+        return AggFunction.stddevPop;
+      case 'sum':
+        return AggFunction.sum;
+      case 'sumDistinct':
+        return AggFunction.sumDistinct;
+      case 'var_samp':
+        return AggFunction.varSamp;
+      case 'var_pop':
+        return AggFunction.varPop;
+    }
+    throw Exception('$this is not known in enum AggFunction');
+  }
+}
+
+/// Specifies a transform that groups rows by chosen fields and computes the
+/// aggregated value by specified function.
+class Aggregate {
+  /// Specifies the aggregate functions to be performed on specified fields.
+  final List<AggregateOperation> aggs;
+
+  /// Specifies the fields to group by.
+  final List<List<String>> groups;
+
+  /// Specifies the fields and rows to use as inputs for the aggregate transform.
+  final List<String> inputs;
+
+  /// The name of the transform node.
+  final String name;
+
+  Aggregate({
+    required this.aggs,
+    required this.groups,
+    required this.inputs,
+    required this.name,
+  });
+
+  factory Aggregate.fromJson(Map<String, dynamic> json) {
+    return Aggregate(
+      aggs: (json['Aggs'] as List)
+          .whereNotNull()
+          .map((e) => AggregateOperation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      groups: (json['Groups'] as List)
+          .whereNotNull()
+          .map((e) =>
+              (e as List).whereNotNull().map((e) => e as String).toList())
+          .toList(),
+      inputs: (json['Inputs'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      name: json['Name'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final aggs = this.aggs;
+    final groups = this.groups;
+    final inputs = this.inputs;
+    final name = this.name;
+    return {
+      'Aggs': aggs,
+      'Groups': groups,
+      'Inputs': inputs,
+      'Name': name,
+    };
+  }
+}
+
+/// Specifies the set of parameters needed to perform aggregation in the
+/// aggregate transform.
+class AggregateOperation {
+  /// Specifies the aggregation function to apply.
+  ///
+  /// Possible aggregation functions include: avg countDistinct, count, first,
+  /// last, kurtosis, max, min, skewness, stddev_samp, stddev_pop, sum,
+  /// sumDistinct, var_samp, var_pop
+  final AggFunction aggFunc;
+
+  /// Specifies the column on the data set on which the aggregation function will
+  /// be applied.
+  final List<String> column;
+
+  AggregateOperation({
+    required this.aggFunc,
+    required this.column,
+  });
+
+  factory AggregateOperation.fromJson(Map<String, dynamic> json) {
+    return AggregateOperation(
+      aggFunc: (json['AggFunc'] as String).toAggFunction(),
+      column: (json['Column'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final aggFunc = this.aggFunc;
+    final column = this.column;
+    return {
+      'AggFunc': aggFunc.toValue(),
+      'Column': column,
+    };
+  }
+}
+
+/// Specifies a transform that maps data property keys in the data source to
+/// data property keys in the data target. You can rename keys, modify the data
+/// types for keys, and choose which keys to drop from the dataset.
+class ApplyMapping {
+  /// The data inputs identified by their node names.
+  final List<String> inputs;
+
+  /// Specifies the mapping of data property keys in the data source to data
+  /// property keys in the data target.
+  final List<Mapping> mapping;
+
+  /// The name of the transform node.
+  final String name;
+
+  ApplyMapping({
+    required this.inputs,
+    required this.mapping,
+    required this.name,
+  });
+
+  factory ApplyMapping.fromJson(Map<String, dynamic> json) {
+    return ApplyMapping(
+      inputs: (json['Inputs'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      mapping: (json['Mapping'] as List)
+          .whereNotNull()
+          .map((e) => Mapping.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      name: json['Name'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inputs = this.inputs;
+    final mapping = this.mapping;
+    final name = this.name;
+    return {
+      'Inputs': inputs,
+      'Mapping': mapping,
+      'Name': name,
+    };
+  }
+}
+
+/// Specifies a connector to an Amazon Athena data source.
+class AthenaConnectorSource {
+  /// The name of the connection that is associated with the connector.
+  final String connectionName;
+
+  /// The type of connection, such as marketplace.athena or custom.athena,
+  /// designating a connection to an Amazon Athena data store.
+  final String connectionType;
+
+  /// The name of a connector that assists with accessing the data store in Glue
+  /// Studio.
+  final String connectorName;
+
+  /// The name of the data source.
+  final String name;
+
+  /// The name of the Cloudwatch log group to read from. For example,
+  /// <code>/aws-glue/jobs/output</code>.
+  final String schemaName;
+
+  /// The name of the table in the data source.
+  final String? connectionTable;
+
+  /// Specifies the data schema for the custom Athena source.
+  final List<GlueSchema>? outputSchemas;
+
+  AthenaConnectorSource({
+    required this.connectionName,
+    required this.connectionType,
+    required this.connectorName,
+    required this.name,
+    required this.schemaName,
+    this.connectionTable,
+    this.outputSchemas,
+  });
+
+  factory AthenaConnectorSource.fromJson(Map<String, dynamic> json) {
+    return AthenaConnectorSource(
+      connectionName: json['ConnectionName'] as String,
+      connectionType: json['ConnectionType'] as String,
+      connectorName: json['ConnectorName'] as String,
+      name: json['Name'] as String,
+      schemaName: json['SchemaName'] as String,
+      connectionTable: json['ConnectionTable'] as String?,
+      outputSchemas: (json['OutputSchemas'] as List?)
+          ?.whereNotNull()
+          .map((e) => GlueSchema.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectionName = this.connectionName;
+    final connectionType = this.connectionType;
+    final connectorName = this.connectorName;
+    final name = this.name;
+    final schemaName = this.schemaName;
+    final connectionTable = this.connectionTable;
+    final outputSchemas = this.outputSchemas;
+    return {
+      'ConnectionName': connectionName,
+      'ConnectionType': connectionType,
+      'ConnectorName': connectorName,
+      'Name': name,
+      'SchemaName': schemaName,
+      if (connectionTable != null) 'ConnectionTable': connectionTable,
+      if (outputSchemas != null) 'OutputSchemas': outputSchemas,
+    };
+  }
+}
+
+/// A structure containing information for audit.
 class AuditContext {
+  /// The context for the audit..
   final String? additionalAuditContext;
+
+  /// All columns request for audit.
+  final bool? allColumnsRequested;
+
+  /// The requested columns for audit.
+  final List<String>? requestedColumns;
 
   AuditContext({
     this.additionalAuditContext,
+    this.allColumnsRequested,
+    this.requestedColumns,
   });
 
   factory AuditContext.fromJson(Map<String, dynamic> json) {
     return AuditContext(
       additionalAuditContext: json['AdditionalAuditContext'] as String?,
+      allColumnsRequested: json['AllColumnsRequested'] as bool?,
+      requestedColumns: (json['RequestedColumns'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
     final additionalAuditContext = this.additionalAuditContext;
+    final allColumnsRequested = this.allColumnsRequested;
+    final requestedColumns = this.requestedColumns;
     return {
       if (additionalAuditContext != null)
         'AdditionalAuditContext': additionalAuditContext,
+      if (allColumnsRequested != null)
+        'AllColumnsRequested': allColumnsRequested,
+      if (requestedColumns != null) 'RequestedColumns': requestedColumns,
     };
   }
 }
@@ -9110,6 +10237,55 @@ extension on String {
         return BackfillErrorCode.unsupportedPartitionCharacterError;
     }
     throw Exception('$this is not known in enum BackfillErrorCode');
+  }
+}
+
+/// Specifies a target that uses a Glue Data Catalog table.
+class BasicCatalogTarget {
+  /// The database that contains the table you want to use as the target. This
+  /// database must already exist in the Data Catalog.
+  final String database;
+
+  /// The nodes that are inputs to the data target.
+  final List<String> inputs;
+
+  /// The name of your data target.
+  final String name;
+
+  /// The table that defines the schema of your output data. This table must
+  /// already exist in the Data Catalog.
+  final String table;
+
+  BasicCatalogTarget({
+    required this.database,
+    required this.inputs,
+    required this.name,
+    required this.table,
+  });
+
+  factory BasicCatalogTarget.fromJson(Map<String, dynamic> json) {
+    return BasicCatalogTarget(
+      database: json['Database'] as String,
+      inputs: (json['Inputs'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      name: json['Name'] as String,
+      table: json['Table'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final database = this.database;
+    final inputs = this.inputs;
+    final name = this.name;
+    final table = this.table;
+    return {
+      'Database': database,
+      'Inputs': inputs,
+      'Name': name,
+      'Table': table,
+    };
   }
 }
 
@@ -9315,6 +10491,44 @@ class BatchGetCrawlersResponse {
     return {
       if (crawlers != null) 'Crawlers': crawlers,
       if (crawlersNotFound != null) 'CrawlersNotFound': crawlersNotFound,
+    };
+  }
+}
+
+class BatchGetCustomEntityTypesResponse {
+  /// A list of <code>CustomEntityType</code> objects representing the custom
+  /// patterns that have been created.
+  final List<CustomEntityType>? customEntityTypes;
+
+  /// A list of the names of custom patterns that were not found.
+  final List<String>? customEntityTypesNotFound;
+
+  BatchGetCustomEntityTypesResponse({
+    this.customEntityTypes,
+    this.customEntityTypesNotFound,
+  });
+
+  factory BatchGetCustomEntityTypesResponse.fromJson(
+      Map<String, dynamic> json) {
+    return BatchGetCustomEntityTypesResponse(
+      customEntityTypes: (json['CustomEntityTypes'] as List?)
+          ?.whereNotNull()
+          .map((e) => CustomEntityType.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      customEntityTypesNotFound: (json['CustomEntityTypesNotFound'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final customEntityTypes = this.customEntityTypes;
+    final customEntityTypesNotFound = this.customEntityTypesNotFound;
+    return {
+      if (customEntityTypes != null) 'CustomEntityTypes': customEntityTypes,
+      if (customEntityTypesNotFound != null)
+        'CustomEntityTypesNotFound': customEntityTypesNotFound,
     };
   }
 }
@@ -10139,6 +11353,18 @@ class CancelMLTaskRunResponse {
   }
 }
 
+class CancelStatementResponse {
+  CancelStatementResponse();
+
+  factory CancelStatementResponse.fromJson(Map<String, dynamic> _) {
+    return CancelStatementResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 enum CatalogEncryptionMode {
   disabled,
   sseKms,
@@ -10231,6 +11457,218 @@ class CatalogImportStatus {
       if (importCompleted != null) 'ImportCompleted': importCompleted,
       if (importTime != null) 'ImportTime': unixTimestampToJson(importTime),
       if (importedBy != null) 'ImportedBy': importedBy,
+    };
+  }
+}
+
+/// Specifies an Apache Kafka data store in the Data Catalog.
+class CatalogKafkaSource {
+  /// The name of the database to read from.
+  final String database;
+
+  /// The name of the data store.
+  final String name;
+
+  /// The name of the table in the database to read from.
+  final String table;
+
+  /// Specifies options related to data preview for viewing a sample of your data.
+  final StreamingDataPreviewOptions? dataPreviewOptions;
+
+  /// Whether to automatically determine the schema from the incoming data.
+  final bool? detectSchema;
+
+  /// Specifies the streaming options.
+  final KafkaStreamingSourceOptions? streamingOptions;
+
+  /// The amount of time to spend processing each micro batch.
+  final int? windowSize;
+
+  CatalogKafkaSource({
+    required this.database,
+    required this.name,
+    required this.table,
+    this.dataPreviewOptions,
+    this.detectSchema,
+    this.streamingOptions,
+    this.windowSize,
+  });
+
+  factory CatalogKafkaSource.fromJson(Map<String, dynamic> json) {
+    return CatalogKafkaSource(
+      database: json['Database'] as String,
+      name: json['Name'] as String,
+      table: json['Table'] as String,
+      dataPreviewOptions: json['DataPreviewOptions'] != null
+          ? StreamingDataPreviewOptions.fromJson(
+              json['DataPreviewOptions'] as Map<String, dynamic>)
+          : null,
+      detectSchema: json['DetectSchema'] as bool?,
+      streamingOptions: json['StreamingOptions'] != null
+          ? KafkaStreamingSourceOptions.fromJson(
+              json['StreamingOptions'] as Map<String, dynamic>)
+          : null,
+      windowSize: json['WindowSize'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final database = this.database;
+    final name = this.name;
+    final table = this.table;
+    final dataPreviewOptions = this.dataPreviewOptions;
+    final detectSchema = this.detectSchema;
+    final streamingOptions = this.streamingOptions;
+    final windowSize = this.windowSize;
+    return {
+      'Database': database,
+      'Name': name,
+      'Table': table,
+      if (dataPreviewOptions != null) 'DataPreviewOptions': dataPreviewOptions,
+      if (detectSchema != null) 'DetectSchema': detectSchema,
+      if (streamingOptions != null) 'StreamingOptions': streamingOptions,
+      if (windowSize != null) 'WindowSize': windowSize,
+    };
+  }
+}
+
+/// Specifies a Kinesis data source in the Glue Data Catalog.
+class CatalogKinesisSource {
+  /// The name of the database to read from.
+  final String database;
+
+  /// The name of the data source.
+  final String name;
+
+  /// The name of the table in the database to read from.
+  final String table;
+
+  /// Additional options for data preview.
+  final StreamingDataPreviewOptions? dataPreviewOptions;
+
+  /// Whether to automatically determine the schema from the incoming data.
+  final bool? detectSchema;
+
+  /// Additional options for the Kinesis streaming data source.
+  final KinesisStreamingSourceOptions? streamingOptions;
+
+  /// The amount of time to spend processing each micro batch.
+  final int? windowSize;
+
+  CatalogKinesisSource({
+    required this.database,
+    required this.name,
+    required this.table,
+    this.dataPreviewOptions,
+    this.detectSchema,
+    this.streamingOptions,
+    this.windowSize,
+  });
+
+  factory CatalogKinesisSource.fromJson(Map<String, dynamic> json) {
+    return CatalogKinesisSource(
+      database: json['Database'] as String,
+      name: json['Name'] as String,
+      table: json['Table'] as String,
+      dataPreviewOptions: json['DataPreviewOptions'] != null
+          ? StreamingDataPreviewOptions.fromJson(
+              json['DataPreviewOptions'] as Map<String, dynamic>)
+          : null,
+      detectSchema: json['DetectSchema'] as bool?,
+      streamingOptions: json['StreamingOptions'] != null
+          ? KinesisStreamingSourceOptions.fromJson(
+              json['StreamingOptions'] as Map<String, dynamic>)
+          : null,
+      windowSize: json['WindowSize'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final database = this.database;
+    final name = this.name;
+    final table = this.table;
+    final dataPreviewOptions = this.dataPreviewOptions;
+    final detectSchema = this.detectSchema;
+    final streamingOptions = this.streamingOptions;
+    final windowSize = this.windowSize;
+    return {
+      'Database': database,
+      'Name': name,
+      'Table': table,
+      if (dataPreviewOptions != null) 'DataPreviewOptions': dataPreviewOptions,
+      if (detectSchema != null) 'DetectSchema': detectSchema,
+      if (streamingOptions != null) 'StreamingOptions': streamingOptions,
+      if (windowSize != null) 'WindowSize': windowSize,
+    };
+  }
+}
+
+/// A policy that specifies update behavior for the crawler.
+class CatalogSchemaChangePolicy {
+  /// Whether to use the specified update behavior when the crawler finds a
+  /// changed schema.
+  final bool? enableUpdateCatalog;
+
+  /// The update behavior when the crawler finds a changed schema.
+  final UpdateCatalogBehavior? updateBehavior;
+
+  CatalogSchemaChangePolicy({
+    this.enableUpdateCatalog,
+    this.updateBehavior,
+  });
+
+  factory CatalogSchemaChangePolicy.fromJson(Map<String, dynamic> json) {
+    return CatalogSchemaChangePolicy(
+      enableUpdateCatalog: json['EnableUpdateCatalog'] as bool?,
+      updateBehavior:
+          (json['UpdateBehavior'] as String?)?.toUpdateCatalogBehavior(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enableUpdateCatalog = this.enableUpdateCatalog;
+    final updateBehavior = this.updateBehavior;
+    return {
+      if (enableUpdateCatalog != null)
+        'EnableUpdateCatalog': enableUpdateCatalog,
+      if (updateBehavior != null) 'UpdateBehavior': updateBehavior.toValue(),
+    };
+  }
+}
+
+/// Specifies a data store in the Glue Data Catalog.
+class CatalogSource {
+  /// The name of the database to read from.
+  final String database;
+
+  /// The name of the data store.
+  final String name;
+
+  /// The name of the table in the database to read from.
+  final String table;
+
+  CatalogSource({
+    required this.database,
+    required this.name,
+    required this.table,
+  });
+
+  factory CatalogSource.fromJson(Map<String, dynamic> json) {
+    return CatalogSource(
+      database: json['Database'] as String,
+      name: json['Name'] as String,
+      table: json['Table'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final database = this.database;
+    final name = this.name;
+    final table = this.table;
+    return {
+      'Database': database,
+      'Name': name,
+      'Table': table,
     };
   }
 }
@@ -10431,6 +11869,558 @@ extension on String {
         return CloudWatchEncryptionMode.sseKms;
     }
     throw Exception('$this is not known in enum CloudWatchEncryptionMode');
+  }
+}
+
+/// <code>CodeGenConfigurationNode</code> enumerates all valid Node types. One
+/// and only one of its member variables can be populated.
+class CodeGenConfigurationNode {
+  /// Specifies a transform that groups rows by chosen fields and computes the
+  /// aggregated value by specified function.
+  final Aggregate? aggregate;
+
+  /// Specifies a transform that maps data property keys in the data source to
+  /// data property keys in the data target. You can rename keys, modify the data
+  /// types for keys, and choose which keys to drop from the dataset.
+  final ApplyMapping? applyMapping;
+
+  /// Specifies a connector to an Amazon Athena data source.
+  final AthenaConnectorSource? athenaConnectorSource;
+
+  /// Specifies an Apache Kafka data store in the Data Catalog.
+  final CatalogKafkaSource? catalogKafkaSource;
+
+  /// Specifies a Kinesis data source in the Glue Data Catalog.
+  final CatalogKinesisSource? catalogKinesisSource;
+
+  /// Specifies a data store in the Glue Data Catalog.
+  final CatalogSource? catalogSource;
+
+  /// Specifies a target that uses a Glue Data Catalog table.
+  final BasicCatalogTarget? catalogTarget;
+
+  /// Specifies a transform that uses custom code you provide to perform the data
+  /// transformation. The output is a collection of DynamicFrames.
+  final CustomCode? customCode;
+
+  /// Specifies an Apache Kafka data store.
+  final DirectKafkaSource? directKafkaSource;
+
+  /// Specifies a direct Amazon Kinesis data source.
+  final DirectKinesisSource? directKinesisSource;
+
+  /// Specifies a transform that removes rows of repeating data from a data set.
+  final DropDuplicates? dropDuplicates;
+
+  /// Specifies a transform that chooses the data property keys that you want to
+  /// drop.
+  final DropFields? dropFields;
+
+  /// Specifies a transform that removes columns from the dataset if all values in
+  /// the column are 'null'. By default, Glue Studio will recognize null objects,
+  /// but some values such as empty strings, strings that are "null", -1 integers
+  /// or other placeholders such as zeros, are not automatically recognized as
+  /// nulls.
+  final DropNullFields? dropNullFields;
+  final DynamoDBCatalogSource? dynamoDBCatalogSource;
+
+  /// Specifies a transform that locates records in the dataset that have missing
+  /// values and adds a new field with a value determined by imputation. The input
+  /// data set is used to train the machine learning model that determines what
+  /// the missing value should be.
+  final FillMissingValues? fillMissingValues;
+
+  /// Specifies a transform that splits a dataset into two, based on a filter
+  /// condition.
+  final Filter? filter;
+
+  /// Specifies a data source in a goverened Data Catalog.
+  final GovernedCatalogSource? governedCatalogSource;
+
+  /// Specifies a data target that writes to a goverened catalog.
+  final GovernedCatalogTarget? governedCatalogTarget;
+
+  /// Specifies a connector to a JDBC data source.
+  final JDBCConnectorSource? jDBCConnectorSource;
+
+  /// Specifies a data target that writes to Amazon S3 in Apache Parquet columnar
+  /// storage.
+  final JDBCConnectorTarget? jDBCConnectorTarget;
+
+  /// Specifies a transform that joins two datasets into one dataset using a
+  /// comparison phrase on the specified data property keys. You can use inner,
+  /// outer, left, right, left semi, and left anti joins.
+  final Join? join;
+
+  /// Specifies a transform that merges a <code>DynamicFrame</code> with a staging
+  /// <code>DynamicFrame</code> based on the specified primary keys to identify
+  /// records. Duplicate records (records with the same primary keys) are not
+  /// de-duplicated.
+  final Merge? merge;
+
+  /// Specifies a Microsoft SQL server data source in the Glue Data Catalog.
+  final MicrosoftSQLServerCatalogSource? microsoftSQLServerCatalogSource;
+
+  /// Specifies a target that uses Microsoft SQL.
+  final MicrosoftSQLServerCatalogTarget? microsoftSQLServerCatalogTarget;
+
+  /// Specifies a MySQL data source in the Glue Data Catalog.
+  final MySQLCatalogSource? mySQLCatalogSource;
+
+  /// Specifies a target that uses MySQL.
+  final MySQLCatalogTarget? mySQLCatalogTarget;
+
+  /// Specifies an Oracle data source in the Glue Data Catalog.
+  final OracleSQLCatalogSource? oracleSQLCatalogSource;
+
+  /// Specifies a target that uses Oracle SQL.
+  final OracleSQLCatalogTarget? oracleSQLCatalogTarget;
+
+  /// Specifies a transform that identifies, removes or masks PII data.
+  final PIIDetection? pIIDetection;
+
+  /// Specifies a PostgresSQL data source in the Glue Data Catalog.
+  final PostgreSQLCatalogSource? postgreSQLCatalogSource;
+
+  /// Specifies a target that uses Postgres SQL.
+  final PostgreSQLCatalogTarget? postgreSQLCatalogTarget;
+
+  /// Specifies an Amazon Redshift data store.
+  final RedshiftSource? redshiftSource;
+
+  /// Specifies a target that uses Amazon Redshift.
+  final RedshiftTarget? redshiftTarget;
+  final RelationalCatalogSource? relationalCatalogSource;
+
+  /// Specifies a transform that renames a single data property key.
+  final RenameField? renameField;
+
+  /// Specifies an Amazon S3 data store in the Glue Data Catalog.
+  final S3CatalogSource? s3CatalogSource;
+
+  /// Specifies a data target that writes to Amazon S3 using the Glue Data
+  /// Catalog.
+  final S3CatalogTarget? s3CatalogTarget;
+
+  /// Specifies a command-separated value (CSV) data store stored in Amazon S3.
+  final S3CsvSource? s3CsvSource;
+
+  /// Specifies a data target that writes to Amazon S3.
+  final S3DirectTarget? s3DirectTarget;
+
+  /// Specifies a data target that writes to Amazon S3 in Apache Parquet columnar
+  /// storage.
+  final S3GlueParquetTarget? s3GlueParquetTarget;
+
+  /// Specifies a JSON data store stored in Amazon S3.
+  final S3JsonSource? s3JsonSource;
+
+  /// Specifies an Apache Parquet data store stored in Amazon S3.
+  final S3ParquetSource? s3ParquetSource;
+
+  /// Specifies a transform that chooses the data property keys that you want to
+  /// keep.
+  final SelectFields? selectFields;
+
+  /// Specifies a transform that chooses one <code>DynamicFrame</code> from a
+  /// collection of <code>DynamicFrames</code>. The output is the selected
+  /// <code>DynamicFrame</code>
+  final SelectFromCollection? selectFromCollection;
+
+  /// Specifies a connector to an Apache Spark data source.
+  final SparkConnectorSource? sparkConnectorSource;
+
+  /// Specifies a target that uses an Apache Spark connector.
+  final SparkConnectorTarget? sparkConnectorTarget;
+
+  /// Specifies a transform where you enter a SQL query using Spark SQL syntax to
+  /// transform the data. The output is a single <code>DynamicFrame</code>.
+  final SparkSQL? sparkSQL;
+
+  /// Specifies a transform that writes samples of the data to an Amazon S3
+  /// bucket.
+  final Spigot? spigot;
+
+  /// Specifies a transform that splits data property keys into two
+  /// <code>DynamicFrames</code>. The output is a collection of
+  /// <code>DynamicFrames</code>: one with selected data property keys, and one
+  /// with the remaining data property keys.
+  final SplitFields? splitFields;
+
+  /// Specifies a transform that combines the rows from two or more datasets into
+  /// a single result.
+  final Union? union;
+
+  CodeGenConfigurationNode({
+    this.aggregate,
+    this.applyMapping,
+    this.athenaConnectorSource,
+    this.catalogKafkaSource,
+    this.catalogKinesisSource,
+    this.catalogSource,
+    this.catalogTarget,
+    this.customCode,
+    this.directKafkaSource,
+    this.directKinesisSource,
+    this.dropDuplicates,
+    this.dropFields,
+    this.dropNullFields,
+    this.dynamoDBCatalogSource,
+    this.fillMissingValues,
+    this.filter,
+    this.governedCatalogSource,
+    this.governedCatalogTarget,
+    this.jDBCConnectorSource,
+    this.jDBCConnectorTarget,
+    this.join,
+    this.merge,
+    this.microsoftSQLServerCatalogSource,
+    this.microsoftSQLServerCatalogTarget,
+    this.mySQLCatalogSource,
+    this.mySQLCatalogTarget,
+    this.oracleSQLCatalogSource,
+    this.oracleSQLCatalogTarget,
+    this.pIIDetection,
+    this.postgreSQLCatalogSource,
+    this.postgreSQLCatalogTarget,
+    this.redshiftSource,
+    this.redshiftTarget,
+    this.relationalCatalogSource,
+    this.renameField,
+    this.s3CatalogSource,
+    this.s3CatalogTarget,
+    this.s3CsvSource,
+    this.s3DirectTarget,
+    this.s3GlueParquetTarget,
+    this.s3JsonSource,
+    this.s3ParquetSource,
+    this.selectFields,
+    this.selectFromCollection,
+    this.sparkConnectorSource,
+    this.sparkConnectorTarget,
+    this.sparkSQL,
+    this.spigot,
+    this.splitFields,
+    this.union,
+  });
+
+  factory CodeGenConfigurationNode.fromJson(Map<String, dynamic> json) {
+    return CodeGenConfigurationNode(
+      aggregate: json['Aggregate'] != null
+          ? Aggregate.fromJson(json['Aggregate'] as Map<String, dynamic>)
+          : null,
+      applyMapping: json['ApplyMapping'] != null
+          ? ApplyMapping.fromJson(json['ApplyMapping'] as Map<String, dynamic>)
+          : null,
+      athenaConnectorSource: json['AthenaConnectorSource'] != null
+          ? AthenaConnectorSource.fromJson(
+              json['AthenaConnectorSource'] as Map<String, dynamic>)
+          : null,
+      catalogKafkaSource: json['CatalogKafkaSource'] != null
+          ? CatalogKafkaSource.fromJson(
+              json['CatalogKafkaSource'] as Map<String, dynamic>)
+          : null,
+      catalogKinesisSource: json['CatalogKinesisSource'] != null
+          ? CatalogKinesisSource.fromJson(
+              json['CatalogKinesisSource'] as Map<String, dynamic>)
+          : null,
+      catalogSource: json['CatalogSource'] != null
+          ? CatalogSource.fromJson(
+              json['CatalogSource'] as Map<String, dynamic>)
+          : null,
+      catalogTarget: json['CatalogTarget'] != null
+          ? BasicCatalogTarget.fromJson(
+              json['CatalogTarget'] as Map<String, dynamic>)
+          : null,
+      customCode: json['CustomCode'] != null
+          ? CustomCode.fromJson(json['CustomCode'] as Map<String, dynamic>)
+          : null,
+      directKafkaSource: json['DirectKafkaSource'] != null
+          ? DirectKafkaSource.fromJson(
+              json['DirectKafkaSource'] as Map<String, dynamic>)
+          : null,
+      directKinesisSource: json['DirectKinesisSource'] != null
+          ? DirectKinesisSource.fromJson(
+              json['DirectKinesisSource'] as Map<String, dynamic>)
+          : null,
+      dropDuplicates: json['DropDuplicates'] != null
+          ? DropDuplicates.fromJson(
+              json['DropDuplicates'] as Map<String, dynamic>)
+          : null,
+      dropFields: json['DropFields'] != null
+          ? DropFields.fromJson(json['DropFields'] as Map<String, dynamic>)
+          : null,
+      dropNullFields: json['DropNullFields'] != null
+          ? DropNullFields.fromJson(
+              json['DropNullFields'] as Map<String, dynamic>)
+          : null,
+      dynamoDBCatalogSource: json['DynamoDBCatalogSource'] != null
+          ? DynamoDBCatalogSource.fromJson(
+              json['DynamoDBCatalogSource'] as Map<String, dynamic>)
+          : null,
+      fillMissingValues: json['FillMissingValues'] != null
+          ? FillMissingValues.fromJson(
+              json['FillMissingValues'] as Map<String, dynamic>)
+          : null,
+      filter: json['Filter'] != null
+          ? Filter.fromJson(json['Filter'] as Map<String, dynamic>)
+          : null,
+      governedCatalogSource: json['GovernedCatalogSource'] != null
+          ? GovernedCatalogSource.fromJson(
+              json['GovernedCatalogSource'] as Map<String, dynamic>)
+          : null,
+      governedCatalogTarget: json['GovernedCatalogTarget'] != null
+          ? GovernedCatalogTarget.fromJson(
+              json['GovernedCatalogTarget'] as Map<String, dynamic>)
+          : null,
+      jDBCConnectorSource: json['JDBCConnectorSource'] != null
+          ? JDBCConnectorSource.fromJson(
+              json['JDBCConnectorSource'] as Map<String, dynamic>)
+          : null,
+      jDBCConnectorTarget: json['JDBCConnectorTarget'] != null
+          ? JDBCConnectorTarget.fromJson(
+              json['JDBCConnectorTarget'] as Map<String, dynamic>)
+          : null,
+      join: json['Join'] != null
+          ? Join.fromJson(json['Join'] as Map<String, dynamic>)
+          : null,
+      merge: json['Merge'] != null
+          ? Merge.fromJson(json['Merge'] as Map<String, dynamic>)
+          : null,
+      microsoftSQLServerCatalogSource:
+          json['MicrosoftSQLServerCatalogSource'] != null
+              ? MicrosoftSQLServerCatalogSource.fromJson(
+                  json['MicrosoftSQLServerCatalogSource']
+                      as Map<String, dynamic>)
+              : null,
+      microsoftSQLServerCatalogTarget:
+          json['MicrosoftSQLServerCatalogTarget'] != null
+              ? MicrosoftSQLServerCatalogTarget.fromJson(
+                  json['MicrosoftSQLServerCatalogTarget']
+                      as Map<String, dynamic>)
+              : null,
+      mySQLCatalogSource: json['MySQLCatalogSource'] != null
+          ? MySQLCatalogSource.fromJson(
+              json['MySQLCatalogSource'] as Map<String, dynamic>)
+          : null,
+      mySQLCatalogTarget: json['MySQLCatalogTarget'] != null
+          ? MySQLCatalogTarget.fromJson(
+              json['MySQLCatalogTarget'] as Map<String, dynamic>)
+          : null,
+      oracleSQLCatalogSource: json['OracleSQLCatalogSource'] != null
+          ? OracleSQLCatalogSource.fromJson(
+              json['OracleSQLCatalogSource'] as Map<String, dynamic>)
+          : null,
+      oracleSQLCatalogTarget: json['OracleSQLCatalogTarget'] != null
+          ? OracleSQLCatalogTarget.fromJson(
+              json['OracleSQLCatalogTarget'] as Map<String, dynamic>)
+          : null,
+      pIIDetection: json['PIIDetection'] != null
+          ? PIIDetection.fromJson(json['PIIDetection'] as Map<String, dynamic>)
+          : null,
+      postgreSQLCatalogSource: json['PostgreSQLCatalogSource'] != null
+          ? PostgreSQLCatalogSource.fromJson(
+              json['PostgreSQLCatalogSource'] as Map<String, dynamic>)
+          : null,
+      postgreSQLCatalogTarget: json['PostgreSQLCatalogTarget'] != null
+          ? PostgreSQLCatalogTarget.fromJson(
+              json['PostgreSQLCatalogTarget'] as Map<String, dynamic>)
+          : null,
+      redshiftSource: json['RedshiftSource'] != null
+          ? RedshiftSource.fromJson(
+              json['RedshiftSource'] as Map<String, dynamic>)
+          : null,
+      redshiftTarget: json['RedshiftTarget'] != null
+          ? RedshiftTarget.fromJson(
+              json['RedshiftTarget'] as Map<String, dynamic>)
+          : null,
+      relationalCatalogSource: json['RelationalCatalogSource'] != null
+          ? RelationalCatalogSource.fromJson(
+              json['RelationalCatalogSource'] as Map<String, dynamic>)
+          : null,
+      renameField: json['RenameField'] != null
+          ? RenameField.fromJson(json['RenameField'] as Map<String, dynamic>)
+          : null,
+      s3CatalogSource: json['S3CatalogSource'] != null
+          ? S3CatalogSource.fromJson(
+              json['S3CatalogSource'] as Map<String, dynamic>)
+          : null,
+      s3CatalogTarget: json['S3CatalogTarget'] != null
+          ? S3CatalogTarget.fromJson(
+              json['S3CatalogTarget'] as Map<String, dynamic>)
+          : null,
+      s3CsvSource: json['S3CsvSource'] != null
+          ? S3CsvSource.fromJson(json['S3CsvSource'] as Map<String, dynamic>)
+          : null,
+      s3DirectTarget: json['S3DirectTarget'] != null
+          ? S3DirectTarget.fromJson(
+              json['S3DirectTarget'] as Map<String, dynamic>)
+          : null,
+      s3GlueParquetTarget: json['S3GlueParquetTarget'] != null
+          ? S3GlueParquetTarget.fromJson(
+              json['S3GlueParquetTarget'] as Map<String, dynamic>)
+          : null,
+      s3JsonSource: json['S3JsonSource'] != null
+          ? S3JsonSource.fromJson(json['S3JsonSource'] as Map<String, dynamic>)
+          : null,
+      s3ParquetSource: json['S3ParquetSource'] != null
+          ? S3ParquetSource.fromJson(
+              json['S3ParquetSource'] as Map<String, dynamic>)
+          : null,
+      selectFields: json['SelectFields'] != null
+          ? SelectFields.fromJson(json['SelectFields'] as Map<String, dynamic>)
+          : null,
+      selectFromCollection: json['SelectFromCollection'] != null
+          ? SelectFromCollection.fromJson(
+              json['SelectFromCollection'] as Map<String, dynamic>)
+          : null,
+      sparkConnectorSource: json['SparkConnectorSource'] != null
+          ? SparkConnectorSource.fromJson(
+              json['SparkConnectorSource'] as Map<String, dynamic>)
+          : null,
+      sparkConnectorTarget: json['SparkConnectorTarget'] != null
+          ? SparkConnectorTarget.fromJson(
+              json['SparkConnectorTarget'] as Map<String, dynamic>)
+          : null,
+      sparkSQL: json['SparkSQL'] != null
+          ? SparkSQL.fromJson(json['SparkSQL'] as Map<String, dynamic>)
+          : null,
+      spigot: json['Spigot'] != null
+          ? Spigot.fromJson(json['Spigot'] as Map<String, dynamic>)
+          : null,
+      splitFields: json['SplitFields'] != null
+          ? SplitFields.fromJson(json['SplitFields'] as Map<String, dynamic>)
+          : null,
+      union: json['Union'] != null
+          ? Union.fromJson(json['Union'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final aggregate = this.aggregate;
+    final applyMapping = this.applyMapping;
+    final athenaConnectorSource = this.athenaConnectorSource;
+    final catalogKafkaSource = this.catalogKafkaSource;
+    final catalogKinesisSource = this.catalogKinesisSource;
+    final catalogSource = this.catalogSource;
+    final catalogTarget = this.catalogTarget;
+    final customCode = this.customCode;
+    final directKafkaSource = this.directKafkaSource;
+    final directKinesisSource = this.directKinesisSource;
+    final dropDuplicates = this.dropDuplicates;
+    final dropFields = this.dropFields;
+    final dropNullFields = this.dropNullFields;
+    final dynamoDBCatalogSource = this.dynamoDBCatalogSource;
+    final fillMissingValues = this.fillMissingValues;
+    final filter = this.filter;
+    final governedCatalogSource = this.governedCatalogSource;
+    final governedCatalogTarget = this.governedCatalogTarget;
+    final jDBCConnectorSource = this.jDBCConnectorSource;
+    final jDBCConnectorTarget = this.jDBCConnectorTarget;
+    final join = this.join;
+    final merge = this.merge;
+    final microsoftSQLServerCatalogSource =
+        this.microsoftSQLServerCatalogSource;
+    final microsoftSQLServerCatalogTarget =
+        this.microsoftSQLServerCatalogTarget;
+    final mySQLCatalogSource = this.mySQLCatalogSource;
+    final mySQLCatalogTarget = this.mySQLCatalogTarget;
+    final oracleSQLCatalogSource = this.oracleSQLCatalogSource;
+    final oracleSQLCatalogTarget = this.oracleSQLCatalogTarget;
+    final pIIDetection = this.pIIDetection;
+    final postgreSQLCatalogSource = this.postgreSQLCatalogSource;
+    final postgreSQLCatalogTarget = this.postgreSQLCatalogTarget;
+    final redshiftSource = this.redshiftSource;
+    final redshiftTarget = this.redshiftTarget;
+    final relationalCatalogSource = this.relationalCatalogSource;
+    final renameField = this.renameField;
+    final s3CatalogSource = this.s3CatalogSource;
+    final s3CatalogTarget = this.s3CatalogTarget;
+    final s3CsvSource = this.s3CsvSource;
+    final s3DirectTarget = this.s3DirectTarget;
+    final s3GlueParquetTarget = this.s3GlueParquetTarget;
+    final s3JsonSource = this.s3JsonSource;
+    final s3ParquetSource = this.s3ParquetSource;
+    final selectFields = this.selectFields;
+    final selectFromCollection = this.selectFromCollection;
+    final sparkConnectorSource = this.sparkConnectorSource;
+    final sparkConnectorTarget = this.sparkConnectorTarget;
+    final sparkSQL = this.sparkSQL;
+    final spigot = this.spigot;
+    final splitFields = this.splitFields;
+    final union = this.union;
+    return {
+      if (aggregate != null) 'Aggregate': aggregate,
+      if (applyMapping != null) 'ApplyMapping': applyMapping,
+      if (athenaConnectorSource != null)
+        'AthenaConnectorSource': athenaConnectorSource,
+      if (catalogKafkaSource != null) 'CatalogKafkaSource': catalogKafkaSource,
+      if (catalogKinesisSource != null)
+        'CatalogKinesisSource': catalogKinesisSource,
+      if (catalogSource != null) 'CatalogSource': catalogSource,
+      if (catalogTarget != null) 'CatalogTarget': catalogTarget,
+      if (customCode != null) 'CustomCode': customCode,
+      if (directKafkaSource != null) 'DirectKafkaSource': directKafkaSource,
+      if (directKinesisSource != null)
+        'DirectKinesisSource': directKinesisSource,
+      if (dropDuplicates != null) 'DropDuplicates': dropDuplicates,
+      if (dropFields != null) 'DropFields': dropFields,
+      if (dropNullFields != null) 'DropNullFields': dropNullFields,
+      if (dynamoDBCatalogSource != null)
+        'DynamoDBCatalogSource': dynamoDBCatalogSource,
+      if (fillMissingValues != null) 'FillMissingValues': fillMissingValues,
+      if (filter != null) 'Filter': filter,
+      if (governedCatalogSource != null)
+        'GovernedCatalogSource': governedCatalogSource,
+      if (governedCatalogTarget != null)
+        'GovernedCatalogTarget': governedCatalogTarget,
+      if (jDBCConnectorSource != null)
+        'JDBCConnectorSource': jDBCConnectorSource,
+      if (jDBCConnectorTarget != null)
+        'JDBCConnectorTarget': jDBCConnectorTarget,
+      if (join != null) 'Join': join,
+      if (merge != null) 'Merge': merge,
+      if (microsoftSQLServerCatalogSource != null)
+        'MicrosoftSQLServerCatalogSource': microsoftSQLServerCatalogSource,
+      if (microsoftSQLServerCatalogTarget != null)
+        'MicrosoftSQLServerCatalogTarget': microsoftSQLServerCatalogTarget,
+      if (mySQLCatalogSource != null) 'MySQLCatalogSource': mySQLCatalogSource,
+      if (mySQLCatalogTarget != null) 'MySQLCatalogTarget': mySQLCatalogTarget,
+      if (oracleSQLCatalogSource != null)
+        'OracleSQLCatalogSource': oracleSQLCatalogSource,
+      if (oracleSQLCatalogTarget != null)
+        'OracleSQLCatalogTarget': oracleSQLCatalogTarget,
+      if (pIIDetection != null) 'PIIDetection': pIIDetection,
+      if (postgreSQLCatalogSource != null)
+        'PostgreSQLCatalogSource': postgreSQLCatalogSource,
+      if (postgreSQLCatalogTarget != null)
+        'PostgreSQLCatalogTarget': postgreSQLCatalogTarget,
+      if (redshiftSource != null) 'RedshiftSource': redshiftSource,
+      if (redshiftTarget != null) 'RedshiftTarget': redshiftTarget,
+      if (relationalCatalogSource != null)
+        'RelationalCatalogSource': relationalCatalogSource,
+      if (renameField != null) 'RenameField': renameField,
+      if (s3CatalogSource != null) 'S3CatalogSource': s3CatalogSource,
+      if (s3CatalogTarget != null) 'S3CatalogTarget': s3CatalogTarget,
+      if (s3CsvSource != null) 'S3CsvSource': s3CsvSource,
+      if (s3DirectTarget != null) 'S3DirectTarget': s3DirectTarget,
+      if (s3GlueParquetTarget != null)
+        'S3GlueParquetTarget': s3GlueParquetTarget,
+      if (s3JsonSource != null) 'S3JsonSource': s3JsonSource,
+      if (s3ParquetSource != null) 'S3ParquetSource': s3ParquetSource,
+      if (selectFields != null) 'SelectFields': selectFields,
+      if (selectFromCollection != null)
+        'SelectFromCollection': selectFromCollection,
+      if (sparkConnectorSource != null)
+        'SparkConnectorSource': sparkConnectorSource,
+      if (sparkConnectorTarget != null)
+        'SparkConnectorTarget': sparkConnectorTarget,
+      if (sparkSQL != null) 'SparkSQL': sparkSQL,
+      if (spigot != null) 'Spigot': spigot,
+      if (splitFields != null) 'SplitFields': splitFields,
+      if (union != null) 'Union': union,
+    };
   }
 }
 
@@ -11031,6 +13021,34 @@ extension on String {
   }
 }
 
+enum CompressionType {
+  gzip,
+  bzip2,
+}
+
+extension on CompressionType {
+  String toValue() {
+    switch (this) {
+      case CompressionType.gzip:
+        return 'gzip';
+      case CompressionType.bzip2:
+        return 'bzip2';
+    }
+  }
+}
+
+extension on String {
+  CompressionType toCompressionType() {
+    switch (this) {
+      case 'gzip':
+        return CompressionType.gzip;
+      case 'bzip2':
+        return CompressionType.bzip2;
+    }
+    throw Exception('$this is not known in enum CompressionType');
+  }
+}
+
 /// Defines a condition under which a trigger fires.
 class Condition {
   /// The state of the crawler to which this condition applies.
@@ -11223,6 +13241,22 @@ class Connection {
   /// data source.
   /// </li>
   /// <li>
+  /// <code>SECRET_ID</code> - The secret ID used for the secret manager of
+  /// credentials.
+  /// </li>
+  /// <li>
+  /// <code>CONNECTOR_URL</code> - The connector URL for a MARKETPLACE or CUSTOM
+  /// connection.
+  /// </li>
+  /// <li>
+  /// <code>CONNECTOR_TYPE</code> - The connector type for a MARKETPLACE or CUSTOM
+  /// connection.
+  /// </li>
+  /// <li>
+  /// <code>CONNECTOR_CLASS_NAME</code> - The connector class name for a
+  /// MARKETPLACE or CUSTOM connection.
+  /// </li>
+  /// <li>
   /// <code>KAFKA_BOOTSTRAP_SERVERS</code> - A comma-separated list of host and
   /// port pairs that are the addresses of the Apache Kafka brokers in a Kafka
   /// cluster to which a Kafka client will connect to and bootstrap itself.
@@ -11239,22 +13273,6 @@ class Connection {
   /// <code>KAFKA_SKIP_CUSTOM_CERT_VALIDATION</code> - Whether to skip the
   /// validation of the CA cert file or not. Glue validates for three algorithms:
   /// SHA256withRSA, SHA384withRSA and SHA512withRSA. Default value is "false".
-  /// </li>
-  /// <li>
-  /// <code>SECRET_ID</code> - The secret ID used for the secret manager of
-  /// credentials.
-  /// </li>
-  /// <li>
-  /// <code>CONNECTOR_URL</code> - The connector URL for a MARKETPLACE or CUSTOM
-  /// connection.
-  /// </li>
-  /// <li>
-  /// <code>CONNECTOR_TYPE</code> - The connector type for a MARKETPLACE or CUSTOM
-  /// connection.
-  /// </li>
-  /// <li>
-  /// <code>CONNECTOR_CLASS_NAME</code> - The connector class name for a
-  /// MARKETPLACE or CUSTOM connection.
   /// </li>
   /// <li>
   /// <code>KAFKA_CLIENT_KEYSTORE</code> - The Amazon S3 location of the client
@@ -11278,6 +13296,52 @@ class Connection {
   /// <code>ENCRYPTED_KAFKA_CLIENT_KEY_PASSWORD</code> - The encrypted version of
   /// the Kafka client key password (if the user has the Glue encrypt passwords
   /// setting selected).
+  /// </li>
+  /// <li>
+  /// <code>KAFKA_SASL_MECHANISM</code> - <code>"SCRAM-SHA-512"</code> or
+  /// <code>"GSSAPI"</code>. These are the two supported <a
+  /// href="https://www.iana.org/assignments/sasl-mechanisms/sasl-mechanisms.xhtml">SASL
+  /// Mechanisms</a>.
+  /// </li>
+  /// <li>
+  /// <code>KAFKA_SASL_SCRAM_USERNAME</code> - A plaintext username used to
+  /// authenticate with the "SCRAM-SHA-512" mechanism.
+  /// </li>
+  /// <li>
+  /// <code>KAFKA_SASL_SCRAM_PASSWORD</code> - A plaintext password used to
+  /// authenticate with the "SCRAM-SHA-512" mechanism.
+  /// </li>
+  /// <li>
+  /// <code>ENCRYPTED_KAFKA_SASL_SCRAM_PASSWORD</code> - The encrypted version of
+  /// the Kafka SASL SCRAM password (if the user has the Glue encrypt passwords
+  /// setting selected).
+  /// </li>
+  /// <li>
+  /// <code>KAFKA_SASL_GSSAPI_KEYTAB</code> - The S3 location of a Kerberos
+  /// <code>keytab</code> file. A keytab stores long-term keys for one or more
+  /// principals. For more information, see <a
+  /// href="https://web.mit.edu/kerberos/krb5-latest/doc/basic/keytab_def.html">MIT
+  /// Kerberos Documentation: Keytab</a>.
+  /// </li>
+  /// <li>
+  /// <code>KAFKA_SASL_GSSAPI_KRB5_CONF</code> - The S3 location of a Kerberos
+  /// <code>krb5.conf</code> file. A krb5.conf stores Kerberos configuration
+  /// information, such as the location of the KDC server. For more information,
+  /// see <a
+  /// href="https://web.mit.edu/kerberos/krb5-1.12/doc/admin/conf_files/krb5_conf.html">MIT
+  /// Kerberos Documentation: krb5.conf</a>.
+  /// </li>
+  /// <li>
+  /// <code>KAFKA_SASL_GSSAPI_SERVICE</code> - The Kerberos service name, as set
+  /// with <code>sasl.kerberos.service.name</code> in your <a
+  /// href="https://kafka.apache.org/documentation/#brokerconfigs_sasl.kerberos.service.name">Kafka
+  /// Configuration</a>.
+  /// </li>
+  /// <li>
+  /// <code>KAFKA_SASL_GSSAPI_PRINCIPAL</code> - The name of the Kerberos princial
+  /// used by Glue. For more information, see <a
+  /// href="https://kafka.apache.org/documentation/#security_sasl_kerberos_clientconfig">Kafka
+  /// Documentation: Configuring Kafka Brokers</a>.
   /// </li>
   /// </ul>
   final Map<ConnectionPropertyKey, String>? connectionProperties;
@@ -11907,6 +13971,9 @@ class Crawler {
 
   /// A description of the crawler.
   final String? description;
+
+  /// Specifies whether the crawler should use Lake Formation credentials for the
+  /// crawler instead of the IAM role credentials.
   final LakeFormationConfiguration? lakeFormationConfiguration;
 
   /// The status of the last crawl, and potentially error information if an error
@@ -12066,6 +14133,131 @@ class Crawler {
       if (targets != null) 'Targets': targets,
       if (version != null) 'Version': version,
     };
+  }
+}
+
+/// Contains the information for a run of a crawler.
+class CrawlerHistory {
+  /// A UUID identifier for each crawl.
+  final String? crawlId;
+
+  /// The number of data processing units (DPU) used in hours for the crawl.
+  final double? dPUHour;
+
+  /// The date and time on which the crawl ended.
+  final DateTime? endTime;
+
+  /// If an error occurred, the error message associated with the crawl.
+  final String? errorMessage;
+
+  /// The log group associated with the crawl.
+  final String? logGroup;
+
+  /// The log stream associated with the crawl.
+  final String? logStream;
+
+  /// The prefix for a CloudWatch message about this crawl.
+  final String? messagePrefix;
+
+  /// The date and time on which the crawl started.
+  final DateTime? startTime;
+
+  /// The state of the crawl.
+  final CrawlerHistoryState? state;
+
+  /// A run summary for the specific crawl in JSON. Contains the catalog tables
+  /// and partitions that were added, updated, or deleted.
+  final String? summary;
+
+  CrawlerHistory({
+    this.crawlId,
+    this.dPUHour,
+    this.endTime,
+    this.errorMessage,
+    this.logGroup,
+    this.logStream,
+    this.messagePrefix,
+    this.startTime,
+    this.state,
+    this.summary,
+  });
+
+  factory CrawlerHistory.fromJson(Map<String, dynamic> json) {
+    return CrawlerHistory(
+      crawlId: json['CrawlId'] as String?,
+      dPUHour: json['DPUHour'] as double?,
+      endTime: timeStampFromJson(json['EndTime']),
+      errorMessage: json['ErrorMessage'] as String?,
+      logGroup: json['LogGroup'] as String?,
+      logStream: json['LogStream'] as String?,
+      messagePrefix: json['MessagePrefix'] as String?,
+      startTime: timeStampFromJson(json['StartTime']),
+      state: (json['State'] as String?)?.toCrawlerHistoryState(),
+      summary: json['Summary'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final crawlId = this.crawlId;
+    final dPUHour = this.dPUHour;
+    final endTime = this.endTime;
+    final errorMessage = this.errorMessage;
+    final logGroup = this.logGroup;
+    final logStream = this.logStream;
+    final messagePrefix = this.messagePrefix;
+    final startTime = this.startTime;
+    final state = this.state;
+    final summary = this.summary;
+    return {
+      if (crawlId != null) 'CrawlId': crawlId,
+      if (dPUHour != null) 'DPUHour': dPUHour,
+      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
+      if (logGroup != null) 'LogGroup': logGroup,
+      if (logStream != null) 'LogStream': logStream,
+      if (messagePrefix != null) 'MessagePrefix': messagePrefix,
+      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
+      if (state != null) 'State': state.toValue(),
+      if (summary != null) 'Summary': summary,
+    };
+  }
+}
+
+enum CrawlerHistoryState {
+  running,
+  completed,
+  failed,
+  stopped,
+}
+
+extension on CrawlerHistoryState {
+  String toValue() {
+    switch (this) {
+      case CrawlerHistoryState.running:
+        return 'RUNNING';
+      case CrawlerHistoryState.completed:
+        return 'COMPLETED';
+      case CrawlerHistoryState.failed:
+        return 'FAILED';
+      case CrawlerHistoryState.stopped:
+        return 'STOPPED';
+    }
+  }
+}
+
+extension on String {
+  CrawlerHistoryState toCrawlerHistoryState() {
+    switch (this) {
+      case 'RUNNING':
+        return CrawlerHistoryState.running;
+      case 'COMPLETED':
+        return CrawlerHistoryState.completed;
+      case 'FAILED':
+        return CrawlerHistoryState.failed;
+      case 'STOPPED':
+        return CrawlerHistoryState.stopped;
+    }
+    throw Exception('$this is not known in enum CrawlerHistoryState');
   }
 }
 
@@ -12306,6 +14498,85 @@ class CrawlerTargets {
   }
 }
 
+/// A list of fields, comparators and value that you can use to filter the
+/// crawler runs for a specified crawler.
+class CrawlsFilter {
+  /// A key used to filter the crawler runs for a specified crawler. Valid values
+  /// for each of the field names are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CRAWL_ID</code>: A string representing the UUID identifier for a
+  /// crawl.
+  /// </li>
+  /// <li>
+  /// <code>STATE</code>: A string representing the state of the crawl.
+  /// </li>
+  /// <li>
+  /// <code>START_TIME</code> and <code>END_TIME</code>: The epoch timestamp in
+  /// milliseconds.
+  /// </li>
+  /// <li>
+  /// <code>DPU_HOUR</code>: The number of data processing unit (DPU) hours used
+  /// for the crawl.
+  /// </li>
+  /// </ul>
+  final FieldName? fieldName;
+
+  /// The value provided for comparison on the crawl field.
+  final String? fieldValue;
+
+  /// A defined comparator that operates on the value. The available operators
+  /// are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>GT</code>: Greater than.
+  /// </li>
+  /// <li>
+  /// <code>GE</code>: Greater than or equal to.
+  /// </li>
+  /// <li>
+  /// <code>LT</code>: Less than.
+  /// </li>
+  /// <li>
+  /// <code>LE</code>: Less than or equal to.
+  /// </li>
+  /// <li>
+  /// <code>EQ</code>: Equal to.
+  /// </li>
+  /// <li>
+  /// <code>NE</code>: Not equal to.
+  /// </li>
+  /// </ul>
+  final FilterOperator? filterOperator;
+
+  CrawlsFilter({
+    this.fieldName,
+    this.fieldValue,
+    this.filterOperator,
+  });
+
+  factory CrawlsFilter.fromJson(Map<String, dynamic> json) {
+    return CrawlsFilter(
+      fieldName: (json['FieldName'] as String?)?.toFieldName(),
+      fieldValue: json['FieldValue'] as String?,
+      filterOperator: (json['FilterOperator'] as String?)?.toFilterOperator(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fieldName = this.fieldName;
+    final fieldValue = this.fieldValue;
+    final filterOperator = this.filterOperator;
+    return {
+      if (fieldName != null) 'FieldName': fieldName.toValue(),
+      if (fieldValue != null) 'FieldValue': fieldValue,
+      if (filterOperator != null) 'FilterOperator': filterOperator.toValue(),
+    };
+  }
+}
+
 class CreateBlueprintResponse {
   /// Returns the name of the blueprint that was registered.
   final String? name;
@@ -12432,6 +14703,28 @@ class CreateCsvClassifierRequest {
         'DisableValueTrimming': disableValueTrimming,
       if (header != null) 'Header': header,
       if (quoteSymbol != null) 'QuoteSymbol': quoteSymbol,
+    };
+  }
+}
+
+class CreateCustomEntityTypeResponse {
+  /// The name of the custom pattern you created.
+  final String? name;
+
+  CreateCustomEntityTypeResponse({
+    this.name,
+  });
+
+  factory CreateCustomEntityTypeResponse.fromJson(Map<String, dynamic> json) {
+    return CreateCustomEntityTypeResponse(
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    return {
+      if (name != null) 'Name': name,
     };
   }
 }
@@ -12830,8 +15123,8 @@ class CreateSchemaResponse {
   /// The schema compatibility mode.
   final Compatibility? compatibility;
 
-  /// The data format of the schema definition. Currently <code>AVRO</code> and
-  /// <code>JSON</code> are supported.
+  /// The data format of the schema definition. Currently <code>AVRO</code>,
+  /// <code>JSON</code> and <code>PROTOBUF</code> are supported.
   final DataFormat? dataFormat;
 
   /// A description of the schema if specified when created.
@@ -13003,6 +15296,30 @@ class CreateSecurityConfigurationResponse {
       if (createdTimestamp != null)
         'CreatedTimestamp': unixTimestampToJson(createdTimestamp),
       if (name != null) 'Name': name,
+    };
+  }
+}
+
+class CreateSessionResponse {
+  /// Returns the session object in the response.
+  final Session? session;
+
+  CreateSessionResponse({
+    this.session,
+  });
+
+  factory CreateSessionResponse.fromJson(Map<String, dynamic> json) {
+    return CreateSessionResponse(
+      session: json['Session'] != null
+          ? Session.fromJson(json['Session'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final session = this.session;
+    return {
+      if (session != null) 'Session': session,
     };
   }
 }
@@ -13243,6 +15560,111 @@ extension on String {
   }
 }
 
+/// Specifies a transform that uses custom code you provide to perform the data
+/// transformation. The output is a collection of DynamicFrames.
+class CustomCode {
+  /// The name defined for the custom code node class.
+  final String className;
+
+  /// The custom code that is used to perform the data transformation.
+  final String code;
+
+  /// The data inputs identified by their node names.
+  final List<String> inputs;
+
+  /// The name of the transform node.
+  final String name;
+
+  /// Specifies the data schema for the custom code transform.
+  final List<GlueSchema>? outputSchemas;
+
+  CustomCode({
+    required this.className,
+    required this.code,
+    required this.inputs,
+    required this.name,
+    this.outputSchemas,
+  });
+
+  factory CustomCode.fromJson(Map<String, dynamic> json) {
+    return CustomCode(
+      className: json['ClassName'] as String,
+      code: json['Code'] as String,
+      inputs: (json['Inputs'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      name: json['Name'] as String,
+      outputSchemas: (json['OutputSchemas'] as List?)
+          ?.whereNotNull()
+          .map((e) => GlueSchema.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final className = this.className;
+    final code = this.code;
+    final inputs = this.inputs;
+    final name = this.name;
+    final outputSchemas = this.outputSchemas;
+    return {
+      'ClassName': className,
+      'Code': code,
+      'Inputs': inputs,
+      'Name': name,
+      if (outputSchemas != null) 'OutputSchemas': outputSchemas,
+    };
+  }
+}
+
+/// An object representing a custom pattern for detecting sensitive data across
+/// the columns and rows of your structured data.
+class CustomEntityType {
+  /// A name for the custom pattern that allows it to be retrieved or deleted
+  /// later. This name must be unique per Amazon Web Services account.
+  final String name;
+
+  /// A regular expression string that is used for detecting sensitive data in a
+  /// custom pattern.
+  final String regexString;
+
+  /// A list of context words. If none of these context words are found within the
+  /// vicinity of the regular expression the data will not be detected as
+  /// sensitive data.
+  ///
+  /// If no context words are passed only a regular expression is checked.
+  final List<String>? contextWords;
+
+  CustomEntityType({
+    required this.name,
+    required this.regexString,
+    this.contextWords,
+  });
+
+  factory CustomEntityType.fromJson(Map<String, dynamic> json) {
+    return CustomEntityType(
+      name: json['Name'] as String,
+      regexString: json['RegexString'] as String,
+      contextWords: (json['ContextWords'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final regexString = this.regexString;
+    final contextWords = this.contextWords;
+    return {
+      'Name': name,
+      'RegexString': regexString,
+      if (contextWords != null) 'ContextWords': contextWords,
+    };
+  }
+}
+
 /// Contains configuration information for maintaining Data Catalog security.
 class DataCatalogEncryptionSettings {
   /// When connection password protection is enabled, the Data Catalog uses a
@@ -13287,6 +15709,7 @@ class DataCatalogEncryptionSettings {
 enum DataFormat {
   avro,
   json,
+  protobuf,
 }
 
 extension on DataFormat {
@@ -13296,6 +15719,8 @@ extension on DataFormat {
         return 'AVRO';
       case DataFormat.json:
         return 'JSON';
+      case DataFormat.protobuf:
+        return 'PROTOBUF';
     }
   }
 }
@@ -13307,6 +15732,8 @@ extension on String {
         return DataFormat.avro;
       case 'JSON':
         return DataFormat.json;
+      case 'PROTOBUF':
+        return DataFormat.protobuf;
     }
     throw Exception('$this is not known in enum DataFormat');
   }
@@ -13518,6 +15945,36 @@ class DatabaseInput {
       if (locationUri != null) 'LocationUri': locationUri,
       if (parameters != null) 'Parameters': parameters,
       if (targetDatabase != null) 'TargetDatabase': targetDatabase,
+    };
+  }
+}
+
+/// A structure representing the datatype of the value.
+class Datatype {
+  /// The datatype of the value.
+  final String id;
+
+  /// A label assigned to the datatype.
+  final String label;
+
+  Datatype({
+    required this.id,
+    required this.label,
+  });
+
+  factory Datatype.fromJson(Map<String, dynamic> json) {
+    return Datatype(
+      id: json['Id'] as String,
+      label: json['Label'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final label = this.label;
+    return {
+      'Id': id,
+      'Label': label,
     };
   }
 }
@@ -13764,6 +16221,28 @@ class DeleteCrawlerResponse {
   }
 }
 
+class DeleteCustomEntityTypeResponse {
+  /// The name of the custom pattern you deleted.
+  final String? name;
+
+  DeleteCustomEntityTypeResponse({
+    this.name,
+  });
+
+  factory DeleteCustomEntityTypeResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteCustomEntityTypeResponse(
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    return {
+      if (name != null) 'Name': name,
+    };
+  }
+}
+
 class DeleteDatabaseResponse {
   DeleteDatabaseResponse();
 
@@ -13978,6 +16457,28 @@ class DeleteSecurityConfigurationResponse {
 
   Map<String, dynamic> toJson() {
     return {};
+  }
+}
+
+class DeleteSessionResponse {
+  /// Returns the ID of the deleted session.
+  final String? id;
+
+  DeleteSessionResponse({
+    this.id,
+  });
+
+  factory DeleteSessionResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteSessionResponse(
+      id: json['Id'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    return {
+      if (id != null) 'Id': id,
+    };
   }
 }
 
@@ -14439,6 +16940,168 @@ class DevEndpointCustomLibraries {
   }
 }
 
+/// Specifies an Apache Kafka data store.
+class DirectKafkaSource {
+  /// The name of the data store.
+  final String name;
+
+  /// Specifies options related to data preview for viewing a sample of your data.
+  final StreamingDataPreviewOptions? dataPreviewOptions;
+
+  /// Whether to automatically determine the schema from the incoming data.
+  final bool? detectSchema;
+
+  /// Specifies the streaming options.
+  final KafkaStreamingSourceOptions? streamingOptions;
+
+  /// The amount of time to spend processing each micro batch.
+  final int? windowSize;
+
+  DirectKafkaSource({
+    required this.name,
+    this.dataPreviewOptions,
+    this.detectSchema,
+    this.streamingOptions,
+    this.windowSize,
+  });
+
+  factory DirectKafkaSource.fromJson(Map<String, dynamic> json) {
+    return DirectKafkaSource(
+      name: json['Name'] as String,
+      dataPreviewOptions: json['DataPreviewOptions'] != null
+          ? StreamingDataPreviewOptions.fromJson(
+              json['DataPreviewOptions'] as Map<String, dynamic>)
+          : null,
+      detectSchema: json['DetectSchema'] as bool?,
+      streamingOptions: json['StreamingOptions'] != null
+          ? KafkaStreamingSourceOptions.fromJson(
+              json['StreamingOptions'] as Map<String, dynamic>)
+          : null,
+      windowSize: json['WindowSize'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final dataPreviewOptions = this.dataPreviewOptions;
+    final detectSchema = this.detectSchema;
+    final streamingOptions = this.streamingOptions;
+    final windowSize = this.windowSize;
+    return {
+      'Name': name,
+      if (dataPreviewOptions != null) 'DataPreviewOptions': dataPreviewOptions,
+      if (detectSchema != null) 'DetectSchema': detectSchema,
+      if (streamingOptions != null) 'StreamingOptions': streamingOptions,
+      if (windowSize != null) 'WindowSize': windowSize,
+    };
+  }
+}
+
+/// Specifies a direct Amazon Kinesis data source.
+class DirectKinesisSource {
+  /// The name of the data source.
+  final String name;
+
+  /// Additional options for data preview.
+  final StreamingDataPreviewOptions? dataPreviewOptions;
+
+  /// Whether to automatically determine the schema from the incoming data.
+  final bool? detectSchema;
+
+  /// Additional options for the Kinesis streaming data source.
+  final KinesisStreamingSourceOptions? streamingOptions;
+
+  /// The amount of time to spend processing each micro batch.
+  final int? windowSize;
+
+  DirectKinesisSource({
+    required this.name,
+    this.dataPreviewOptions,
+    this.detectSchema,
+    this.streamingOptions,
+    this.windowSize,
+  });
+
+  factory DirectKinesisSource.fromJson(Map<String, dynamic> json) {
+    return DirectKinesisSource(
+      name: json['Name'] as String,
+      dataPreviewOptions: json['DataPreviewOptions'] != null
+          ? StreamingDataPreviewOptions.fromJson(
+              json['DataPreviewOptions'] as Map<String, dynamic>)
+          : null,
+      detectSchema: json['DetectSchema'] as bool?,
+      streamingOptions: json['StreamingOptions'] != null
+          ? KinesisStreamingSourceOptions.fromJson(
+              json['StreamingOptions'] as Map<String, dynamic>)
+          : null,
+      windowSize: json['WindowSize'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final dataPreviewOptions = this.dataPreviewOptions;
+    final detectSchema = this.detectSchema;
+    final streamingOptions = this.streamingOptions;
+    final windowSize = this.windowSize;
+    return {
+      'Name': name,
+      if (dataPreviewOptions != null) 'DataPreviewOptions': dataPreviewOptions,
+      if (detectSchema != null) 'DetectSchema': detectSchema,
+      if (streamingOptions != null) 'StreamingOptions': streamingOptions,
+      if (windowSize != null) 'WindowSize': windowSize,
+    };
+  }
+}
+
+/// A policy that specifies update behavior for the crawler.
+class DirectSchemaChangePolicy {
+  /// Specifies the database that the schema change policy applies to.
+  final String? database;
+
+  /// Whether to use the specified update behavior when the crawler finds a
+  /// changed schema.
+  final bool? enableUpdateCatalog;
+
+  /// Specifies the table in the database that the schema change policy applies
+  /// to.
+  final String? table;
+
+  /// The update behavior when the crawler finds a changed schema.
+  final UpdateCatalogBehavior? updateBehavior;
+
+  DirectSchemaChangePolicy({
+    this.database,
+    this.enableUpdateCatalog,
+    this.table,
+    this.updateBehavior,
+  });
+
+  factory DirectSchemaChangePolicy.fromJson(Map<String, dynamic> json) {
+    return DirectSchemaChangePolicy(
+      database: json['Database'] as String?,
+      enableUpdateCatalog: json['EnableUpdateCatalog'] as bool?,
+      table: json['Table'] as String?,
+      updateBehavior:
+          (json['UpdateBehavior'] as String?)?.toUpdateCatalogBehavior(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final database = this.database;
+    final enableUpdateCatalog = this.enableUpdateCatalog;
+    final table = this.table;
+    final updateBehavior = this.updateBehavior;
+    return {
+      if (database != null) 'Database': database,
+      if (enableUpdateCatalog != null)
+        'EnableUpdateCatalog': enableUpdateCatalog,
+      if (table != null) 'Table': table,
+      if (updateBehavior != null) 'UpdateBehavior': updateBehavior.toValue(),
+    };
+  }
+}
+
 /// Defines column statistics supported for floating-point number data columns.
 class DoubleColumnStatisticsData {
   /// The number of distinct values in a column.
@@ -14479,6 +17142,195 @@ class DoubleColumnStatisticsData {
       'NumberOfNulls': numberOfNulls,
       if (maximumValue != null) 'MaximumValue': maximumValue,
       if (minimumValue != null) 'MinimumValue': minimumValue,
+    };
+  }
+}
+
+/// Specifies a transform that removes rows of repeating data from a data set.
+class DropDuplicates {
+  /// The data inputs identified by their node names.
+  final List<String> inputs;
+
+  /// The name of the transform node.
+  final String name;
+
+  /// The name of the columns to be merged or removed if repeating.
+  final List<List<String>>? columns;
+
+  DropDuplicates({
+    required this.inputs,
+    required this.name,
+    this.columns,
+  });
+
+  factory DropDuplicates.fromJson(Map<String, dynamic> json) {
+    return DropDuplicates(
+      inputs: (json['Inputs'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      name: json['Name'] as String,
+      columns: (json['Columns'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              (e as List).whereNotNull().map((e) => e as String).toList())
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inputs = this.inputs;
+    final name = this.name;
+    final columns = this.columns;
+    return {
+      'Inputs': inputs,
+      'Name': name,
+      if (columns != null) 'Columns': columns,
+    };
+  }
+}
+
+/// Specifies a transform that chooses the data property keys that you want to
+/// drop.
+class DropFields {
+  /// The data inputs identified by their node names.
+  final List<String> inputs;
+
+  /// The name of the transform node.
+  final String name;
+
+  /// A JSON path to a variable in the data structure.
+  final List<List<String>> paths;
+
+  DropFields({
+    required this.inputs,
+    required this.name,
+    required this.paths,
+  });
+
+  factory DropFields.fromJson(Map<String, dynamic> json) {
+    return DropFields(
+      inputs: (json['Inputs'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      name: json['Name'] as String,
+      paths: (json['Paths'] as List)
+          .whereNotNull()
+          .map((e) =>
+              (e as List).whereNotNull().map((e) => e as String).toList())
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inputs = this.inputs;
+    final name = this.name;
+    final paths = this.paths;
+    return {
+      'Inputs': inputs,
+      'Name': name,
+      'Paths': paths,
+    };
+  }
+}
+
+/// Specifies a transform that removes columns from the dataset if all values in
+/// the column are 'null'. By default, Glue Studio will recognize null objects,
+/// but some values such as empty strings, strings that are "null", -1 integers
+/// or other placeholders such as zeros, are not automatically recognized as
+/// nulls.
+class DropNullFields {
+  /// The data inputs identified by their node names.
+  final List<String> inputs;
+
+  /// The name of the transform node.
+  final String name;
+
+  /// A structure that represents whether certain values are recognized as null
+  /// values for removal.
+  final NullCheckBoxList? nullCheckBoxList;
+
+  /// A structure that specifies a list of NullValueField structures that
+  /// represent a custom null value such as zero or other value being used as a
+  /// null placeholder unique to the dataset.
+  ///
+  /// The <code>DropNullFields</code> transform removes custom null values only if
+  /// both the value of the null placeholder and the datatype match the data.
+  final List<NullValueField>? nullTextList;
+
+  DropNullFields({
+    required this.inputs,
+    required this.name,
+    this.nullCheckBoxList,
+    this.nullTextList,
+  });
+
+  factory DropNullFields.fromJson(Map<String, dynamic> json) {
+    return DropNullFields(
+      inputs: (json['Inputs'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      name: json['Name'] as String,
+      nullCheckBoxList: json['NullCheckBoxList'] != null
+          ? NullCheckBoxList.fromJson(
+              json['NullCheckBoxList'] as Map<String, dynamic>)
+          : null,
+      nullTextList: (json['NullTextList'] as List?)
+          ?.whereNotNull()
+          .map((e) => NullValueField.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inputs = this.inputs;
+    final name = this.name;
+    final nullCheckBoxList = this.nullCheckBoxList;
+    final nullTextList = this.nullTextList;
+    return {
+      'Inputs': inputs,
+      'Name': name,
+      if (nullCheckBoxList != null) 'NullCheckBoxList': nullCheckBoxList,
+      if (nullTextList != null) 'NullTextList': nullTextList,
+    };
+  }
+}
+
+/// Specifies a DynamoDB data source in the Glue Data Catalog.
+class DynamoDBCatalogSource {
+  /// The name of the database to read from.
+  final String database;
+
+  /// The name of the data source.
+  final String name;
+
+  /// The name of the table in the database to read from.
+  final String table;
+
+  DynamoDBCatalogSource({
+    required this.database,
+    required this.name,
+    required this.table,
+  });
+
+  factory DynamoDBCatalogSource.fromJson(Map<String, dynamic> json) {
+    return DynamoDBCatalogSource(
+      database: json['Database'] as String,
+      name: json['Name'] as String,
+      table: json['Table'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final database = this.database;
+    final name = this.name;
+    final table = this.table;
+    return {
+      'Database': database,
+      'Name': name,
+      'Table': table,
     };
   }
 }
@@ -14534,8 +17386,8 @@ class DynamoDBTarget {
   }
 }
 
-/// An edge represents a directed connection between two components on a
-/// workflow graph.
+/// An edge represents a directed connection between two Glue components that
+/// are part of the workflow the edge belongs to.
 class Edge {
   /// The unique of the node within the workflow where the edge ends.
   final String? destinationId;
@@ -14879,6 +17731,385 @@ class ExportLabelsTaskRunProperties {
     return {
       if (outputS3Path != null) 'OutputS3Path': outputS3Path,
     };
+  }
+}
+
+enum FieldName {
+  crawlId,
+  state,
+  startTime,
+  endTime,
+  dpuHour,
+}
+
+extension on FieldName {
+  String toValue() {
+    switch (this) {
+      case FieldName.crawlId:
+        return 'CRAWL_ID';
+      case FieldName.state:
+        return 'STATE';
+      case FieldName.startTime:
+        return 'START_TIME';
+      case FieldName.endTime:
+        return 'END_TIME';
+      case FieldName.dpuHour:
+        return 'DPU_HOUR';
+    }
+  }
+}
+
+extension on String {
+  FieldName toFieldName() {
+    switch (this) {
+      case 'CRAWL_ID':
+        return FieldName.crawlId;
+      case 'STATE':
+        return FieldName.state;
+      case 'START_TIME':
+        return FieldName.startTime;
+      case 'END_TIME':
+        return FieldName.endTime;
+      case 'DPU_HOUR':
+        return FieldName.dpuHour;
+    }
+    throw Exception('$this is not known in enum FieldName');
+  }
+}
+
+/// Specifies a transform that locates records in the dataset that have missing
+/// values and adds a new field with a value determined by imputation. The input
+/// data set is used to train the machine learning model that determines what
+/// the missing value should be.
+class FillMissingValues {
+  /// A JSON path to a variable in the data structure for the dataset that is
+  /// imputed.
+  final String imputedPath;
+
+  /// The data inputs identified by their node names.
+  final List<String> inputs;
+
+  /// The name of the transform node.
+  final String name;
+
+  /// A JSON path to a variable in the data structure for the dataset that is
+  /// filled.
+  final String? filledPath;
+
+  FillMissingValues({
+    required this.imputedPath,
+    required this.inputs,
+    required this.name,
+    this.filledPath,
+  });
+
+  factory FillMissingValues.fromJson(Map<String, dynamic> json) {
+    return FillMissingValues(
+      imputedPath: json['ImputedPath'] as String,
+      inputs: (json['Inputs'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      name: json['Name'] as String,
+      filledPath: json['FilledPath'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final imputedPath = this.imputedPath;
+    final inputs = this.inputs;
+    final name = this.name;
+    final filledPath = this.filledPath;
+    return {
+      'ImputedPath': imputedPath,
+      'Inputs': inputs,
+      'Name': name,
+      if (filledPath != null) 'FilledPath': filledPath,
+    };
+  }
+}
+
+/// Specifies a transform that splits a dataset into two, based on a filter
+/// condition.
+class Filter {
+  /// Specifies a filter expression.
+  final List<FilterExpression> filters;
+
+  /// The data inputs identified by their node names.
+  final List<String> inputs;
+
+  /// The operator used to filter rows by comparing the key value to a specified
+  /// value.
+  final FilterLogicalOperator logicalOperator;
+
+  /// The name of the transform node.
+  final String name;
+
+  Filter({
+    required this.filters,
+    required this.inputs,
+    required this.logicalOperator,
+    required this.name,
+  });
+
+  factory Filter.fromJson(Map<String, dynamic> json) {
+    return Filter(
+      filters: (json['Filters'] as List)
+          .whereNotNull()
+          .map((e) => FilterExpression.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      inputs: (json['Inputs'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      logicalOperator:
+          (json['LogicalOperator'] as String).toFilterLogicalOperator(),
+      name: json['Name'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final filters = this.filters;
+    final inputs = this.inputs;
+    final logicalOperator = this.logicalOperator;
+    final name = this.name;
+    return {
+      'Filters': filters,
+      'Inputs': inputs,
+      'LogicalOperator': logicalOperator.toValue(),
+      'Name': name,
+    };
+  }
+}
+
+/// Specifies a filter expression.
+class FilterExpression {
+  /// The type of operation to perform in the expression.
+  final FilterOperation operation;
+
+  /// A list of filter values.
+  final List<FilterValue> values;
+
+  /// Whether the expression is to be negated.
+  final bool? negated;
+
+  FilterExpression({
+    required this.operation,
+    required this.values,
+    this.negated,
+  });
+
+  factory FilterExpression.fromJson(Map<String, dynamic> json) {
+    return FilterExpression(
+      operation: (json['Operation'] as String).toFilterOperation(),
+      values: (json['Values'] as List)
+          .whereNotNull()
+          .map((e) => FilterValue.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      negated: json['Negated'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final operation = this.operation;
+    final values = this.values;
+    final negated = this.negated;
+    return {
+      'Operation': operation.toValue(),
+      'Values': values,
+      if (negated != null) 'Negated': negated,
+    };
+  }
+}
+
+enum FilterLogicalOperator {
+  and,
+  or,
+}
+
+extension on FilterLogicalOperator {
+  String toValue() {
+    switch (this) {
+      case FilterLogicalOperator.and:
+        return 'AND';
+      case FilterLogicalOperator.or:
+        return 'OR';
+    }
+  }
+}
+
+extension on String {
+  FilterLogicalOperator toFilterLogicalOperator() {
+    switch (this) {
+      case 'AND':
+        return FilterLogicalOperator.and;
+      case 'OR':
+        return FilterLogicalOperator.or;
+    }
+    throw Exception('$this is not known in enum FilterLogicalOperator');
+  }
+}
+
+enum FilterOperation {
+  eq,
+  lt,
+  gt,
+  lte,
+  gte,
+  regex,
+  isnull,
+}
+
+extension on FilterOperation {
+  String toValue() {
+    switch (this) {
+      case FilterOperation.eq:
+        return 'EQ';
+      case FilterOperation.lt:
+        return 'LT';
+      case FilterOperation.gt:
+        return 'GT';
+      case FilterOperation.lte:
+        return 'LTE';
+      case FilterOperation.gte:
+        return 'GTE';
+      case FilterOperation.regex:
+        return 'REGEX';
+      case FilterOperation.isnull:
+        return 'ISNULL';
+    }
+  }
+}
+
+extension on String {
+  FilterOperation toFilterOperation() {
+    switch (this) {
+      case 'EQ':
+        return FilterOperation.eq;
+      case 'LT':
+        return FilterOperation.lt;
+      case 'GT':
+        return FilterOperation.gt;
+      case 'LTE':
+        return FilterOperation.lte;
+      case 'GTE':
+        return FilterOperation.gte;
+      case 'REGEX':
+        return FilterOperation.regex;
+      case 'ISNULL':
+        return FilterOperation.isnull;
+    }
+    throw Exception('$this is not known in enum FilterOperation');
+  }
+}
+
+enum FilterOperator {
+  gt,
+  ge,
+  lt,
+  le,
+  eq,
+  ne,
+}
+
+extension on FilterOperator {
+  String toValue() {
+    switch (this) {
+      case FilterOperator.gt:
+        return 'GT';
+      case FilterOperator.ge:
+        return 'GE';
+      case FilterOperator.lt:
+        return 'LT';
+      case FilterOperator.le:
+        return 'LE';
+      case FilterOperator.eq:
+        return 'EQ';
+      case FilterOperator.ne:
+        return 'NE';
+    }
+  }
+}
+
+extension on String {
+  FilterOperator toFilterOperator() {
+    switch (this) {
+      case 'GT':
+        return FilterOperator.gt;
+      case 'GE':
+        return FilterOperator.ge;
+      case 'LT':
+        return FilterOperator.lt;
+      case 'LE':
+        return FilterOperator.le;
+      case 'EQ':
+        return FilterOperator.eq;
+      case 'NE':
+        return FilterOperator.ne;
+    }
+    throw Exception('$this is not known in enum FilterOperator');
+  }
+}
+
+/// Represents a single entry in the list of values for a
+/// <code>FilterExpression</code>.
+class FilterValue {
+  /// The type of filter value.
+  final FilterValueType type;
+
+  /// The value to be associated.
+  final List<String> value;
+
+  FilterValue({
+    required this.type,
+    required this.value,
+  });
+
+  factory FilterValue.fromJson(Map<String, dynamic> json) {
+    return FilterValue(
+      type: (json['Type'] as String).toFilterValueType(),
+      value: (json['Value'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final value = this.value;
+    return {
+      'Type': type.toValue(),
+      'Value': value,
+    };
+  }
+}
+
+enum FilterValueType {
+  columnextracted,
+  constant,
+}
+
+extension on FilterValueType {
+  String toValue() {
+    switch (this) {
+      case FilterValueType.columnextracted:
+        return 'COLUMNEXTRACTED';
+      case FilterValueType.constant:
+        return 'CONSTANT';
+    }
+  }
+}
+
+extension on String {
+  FilterValueType toFilterValueType() {
+    switch (this) {
+      case 'COLUMNEXTRACTED':
+        return FilterValueType.columnextracted;
+      case 'CONSTANT':
+        return FilterValueType.constant;
+    }
+    throw Exception('$this is not known in enum FilterValueType');
   }
 }
 
@@ -15509,6 +18740,48 @@ class GetCrawlersResponse {
     return {
       if (crawlers != null) 'Crawlers': crawlers,
       if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class GetCustomEntityTypeResponse {
+  /// A list of context words if specified when you created the custom pattern. If
+  /// none of these context words are found within the vicinity of the regular
+  /// expression the data will not be detected as sensitive data.
+  final List<String>? contextWords;
+
+  /// The name of the custom pattern that you retrieved.
+  final String? name;
+
+  /// A regular expression string that is used for detecting sensitive data in a
+  /// custom pattern.
+  final String? regexString;
+
+  GetCustomEntityTypeResponse({
+    this.contextWords,
+    this.name,
+    this.regexString,
+  });
+
+  factory GetCustomEntityTypeResponse.fromJson(Map<String, dynamic> json) {
+    return GetCustomEntityTypeResponse(
+      contextWords: (json['ContextWords'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      name: json['Name'] as String?,
+      regexString: json['RegexString'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contextWords = this.contextWords;
+    final name = this.name;
+    final regexString = this.regexString;
+    return {
+      if (contextWords != null) 'ContextWords': contextWords,
+      if (name != null) 'Name': name,
+      if (regexString != null) 'RegexString': regexString,
     };
   }
 }
@@ -16472,8 +19745,8 @@ class GetSchemaByDefinitionResponse {
   /// The date and time the schema was created.
   final String? createdTime;
 
-  /// The data format of the schema definition. Currently only <code>AVRO</code>
-  /// and <code>JSON</code> are supported.
+  /// The data format of the schema definition. Currently <code>AVRO</code>,
+  /// <code>JSON</code> and <code>PROTOBUF</code> are supported.
   final DataFormat? dataFormat;
 
   /// The Amazon Resource Name (ARN) of the schema.
@@ -16526,8 +19799,8 @@ class GetSchemaResponse {
   /// The date and time the schema was created.
   final String? createdTime;
 
-  /// The data format of the schema definition. Currently <code>AVRO</code> and
-  /// <code>JSON</code> are supported.
+  /// The data format of the schema definition. Currently <code>AVRO</code>,
+  /// <code>JSON</code> and <code>PROTOBUF</code> are supported.
   final DataFormat? dataFormat;
 
   /// A description of schema if specified when created
@@ -16634,8 +19907,8 @@ class GetSchemaVersionResponse {
   /// The date and time the schema version was created.
   final String? createdTime;
 
-  /// The data format of the schema definition. Currently <code>AVRO</code> and
-  /// <code>JSON</code> are supported.
+  /// The data format of the schema definition. Currently <code>AVRO</code>,
+  /// <code>JSON</code> and <code>PROTOBUF</code> are supported.
   final DataFormat? dataFormat;
 
   /// The Amazon Resource Name (ARN) of the schema.
@@ -16773,6 +20046,54 @@ class GetSecurityConfigurationsResponse {
       if (nextToken != null) 'NextToken': nextToken,
       if (securityConfigurations != null)
         'SecurityConfigurations': securityConfigurations,
+    };
+  }
+}
+
+class GetSessionResponse {
+  /// The session object is returned in the response.
+  final Session? session;
+
+  GetSessionResponse({
+    this.session,
+  });
+
+  factory GetSessionResponse.fromJson(Map<String, dynamic> json) {
+    return GetSessionResponse(
+      session: json['Session'] != null
+          ? Session.fromJson(json['Session'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final session = this.session;
+    return {
+      if (session != null) 'Session': session,
+    };
+  }
+}
+
+class GetStatementResponse {
+  /// Returns the statement.
+  final Statement? statement;
+
+  GetStatementResponse({
+    this.statement,
+  });
+
+  factory GetStatementResponse.fromJson(Map<String, dynamic> json) {
+    return GetStatementResponse(
+      statement: json['Statement'] != null
+          ? Statement.fromJson(json['Statement'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final statement = this.statement;
+    return {
+      if (statement != null) 'Statement': statement,
     };
   }
 }
@@ -17294,6 +20615,132 @@ class GluePolicy {
   }
 }
 
+enum GlueRecordType {
+  date,
+  string,
+  timestamp,
+  int,
+  float,
+  long,
+  bigdecimal,
+  byte,
+  short,
+  double,
+}
+
+extension on GlueRecordType {
+  String toValue() {
+    switch (this) {
+      case GlueRecordType.date:
+        return 'DATE';
+      case GlueRecordType.string:
+        return 'STRING';
+      case GlueRecordType.timestamp:
+        return 'TIMESTAMP';
+      case GlueRecordType.int:
+        return 'INT';
+      case GlueRecordType.float:
+        return 'FLOAT';
+      case GlueRecordType.long:
+        return 'LONG';
+      case GlueRecordType.bigdecimal:
+        return 'BIGDECIMAL';
+      case GlueRecordType.byte:
+        return 'BYTE';
+      case GlueRecordType.short:
+        return 'SHORT';
+      case GlueRecordType.double:
+        return 'DOUBLE';
+    }
+  }
+}
+
+extension on String {
+  GlueRecordType toGlueRecordType() {
+    switch (this) {
+      case 'DATE':
+        return GlueRecordType.date;
+      case 'STRING':
+        return GlueRecordType.string;
+      case 'TIMESTAMP':
+        return GlueRecordType.timestamp;
+      case 'INT':
+        return GlueRecordType.int;
+      case 'FLOAT':
+        return GlueRecordType.float;
+      case 'LONG':
+        return GlueRecordType.long;
+      case 'BIGDECIMAL':
+        return GlueRecordType.bigdecimal;
+      case 'BYTE':
+        return GlueRecordType.byte;
+      case 'SHORT':
+        return GlueRecordType.short;
+      case 'DOUBLE':
+        return GlueRecordType.double;
+    }
+    throw Exception('$this is not known in enum GlueRecordType');
+  }
+}
+
+/// Specifies a user-defined schema when a schema cannot be determined by AWS
+/// Glue.
+class GlueSchema {
+  /// Specifies the column definitions that make up a Glue schema.
+  final List<GlueStudioSchemaColumn>? columns;
+
+  GlueSchema({
+    this.columns,
+  });
+
+  factory GlueSchema.fromJson(Map<String, dynamic> json) {
+    return GlueSchema(
+      columns: (json['Columns'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => GlueStudioSchemaColumn.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final columns = this.columns;
+    return {
+      if (columns != null) 'Columns': columns,
+    };
+  }
+}
+
+/// Specifies a single column in a Glue schema definition.
+class GlueStudioSchemaColumn {
+  /// The name of the column in the Glue Studio schema.
+  final String name;
+
+  /// The hive type for this column in the Glue Studio schema.
+  final String? type;
+
+  GlueStudioSchemaColumn({
+    required this.name,
+    this.type,
+  });
+
+  factory GlueStudioSchemaColumn.fromJson(Map<String, dynamic> json) {
+    return GlueStudioSchemaColumn(
+      name: json['Name'] as String,
+      type: json['Type'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final type = this.type;
+    return {
+      'Name': name,
+      if (type != null) 'Type': type,
+    };
+  }
+}
+
 /// The database and table in the Glue Data Catalog that is used for input or
 /// output data.
 class GlueTable {
@@ -17335,6 +20782,131 @@ class GlueTable {
       'TableName': tableName,
       if (catalogId != null) 'CatalogId': catalogId,
       if (connectionName != null) 'ConnectionName': connectionName,
+    };
+  }
+}
+
+/// Specifies the data store in the governed Glue Data Catalog.
+class GovernedCatalogSource {
+  /// The database to read from.
+  final String database;
+
+  /// The name of the data store.
+  final String name;
+
+  /// The database table to read from.
+  final String table;
+
+  /// Specifies additional connection options.
+  final S3SourceAdditionalOptions? additionalOptions;
+
+  /// Partitions satisfying this predicate are deleted. Files within the retention
+  /// period in these partitions are not deleted. Set to <code>""</code> – empty
+  /// by default.
+  final String? partitionPredicate;
+
+  GovernedCatalogSource({
+    required this.database,
+    required this.name,
+    required this.table,
+    this.additionalOptions,
+    this.partitionPredicate,
+  });
+
+  factory GovernedCatalogSource.fromJson(Map<String, dynamic> json) {
+    return GovernedCatalogSource(
+      database: json['Database'] as String,
+      name: json['Name'] as String,
+      table: json['Table'] as String,
+      additionalOptions: json['AdditionalOptions'] != null
+          ? S3SourceAdditionalOptions.fromJson(
+              json['AdditionalOptions'] as Map<String, dynamic>)
+          : null,
+      partitionPredicate: json['PartitionPredicate'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final database = this.database;
+    final name = this.name;
+    final table = this.table;
+    final additionalOptions = this.additionalOptions;
+    final partitionPredicate = this.partitionPredicate;
+    return {
+      'Database': database,
+      'Name': name,
+      'Table': table,
+      if (additionalOptions != null) 'AdditionalOptions': additionalOptions,
+      if (partitionPredicate != null) 'PartitionPredicate': partitionPredicate,
+    };
+  }
+}
+
+/// Specifies a data target that writes to Amazon S3 using the Glue Data
+/// Catalog.
+class GovernedCatalogTarget {
+  /// The name of the database to write to.
+  final String database;
+
+  /// The nodes that are inputs to the data target.
+  final List<String> inputs;
+
+  /// The name of the data target.
+  final String name;
+
+  /// The name of the table in the database to write to.
+  final String table;
+
+  /// Specifies native partitioning using a sequence of keys.
+  final List<List<String>>? partitionKeys;
+
+  /// A policy that specifies update behavior for the governed catalog.
+  final CatalogSchemaChangePolicy? schemaChangePolicy;
+
+  GovernedCatalogTarget({
+    required this.database,
+    required this.inputs,
+    required this.name,
+    required this.table,
+    this.partitionKeys,
+    this.schemaChangePolicy,
+  });
+
+  factory GovernedCatalogTarget.fromJson(Map<String, dynamic> json) {
+    return GovernedCatalogTarget(
+      database: json['Database'] as String,
+      inputs: (json['Inputs'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      name: json['Name'] as String,
+      table: json['Table'] as String,
+      partitionKeys: (json['PartitionKeys'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              (e as List).whereNotNull().map((e) => e as String).toList())
+          .toList(),
+      schemaChangePolicy: json['SchemaChangePolicy'] != null
+          ? CatalogSchemaChangePolicy.fromJson(
+              json['SchemaChangePolicy'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final database = this.database;
+    final inputs = this.inputs;
+    final name = this.name;
+    final table = this.table;
+    final partitionKeys = this.partitionKeys;
+    final schemaChangePolicy = this.schemaChangePolicy;
+    return {
+      'Database': database,
+      'Inputs': inputs,
+      'Name': name,
+      'Table': table,
+      if (partitionKeys != null) 'PartitionKeys': partitionKeys,
+      if (schemaChangePolicy != null) 'SchemaChangePolicy': schemaChangePolicy,
     };
   }
 }
@@ -17455,6 +21027,482 @@ class ImportLabelsTaskRunProperties {
   }
 }
 
+/// Additional connection options for the connector.
+class JDBCConnectorOptions {
+  /// Custom data type mapping that builds a mapping from a JDBC data type to an
+  /// Glue data type. For example, the option
+  /// <code>"dataTypeMapping":{"FLOAT":"STRING"}</code> maps data fields of JDBC
+  /// type <code>FLOAT</code> into the Java <code>String</code> type by calling
+  /// the <code>ResultSet.getString()</code> method of the driver, and uses it to
+  /// build the Glue record. The <code>ResultSet</code> object is implemented by
+  /// each driver, so the behavior is specific to the driver you use. Refer to the
+  /// documentation for your JDBC driver to understand how the driver performs the
+  /// conversions.
+  final Map<JDBCDataType, GlueRecordType>? dataTypeMapping;
+
+  /// Extra condition clause to filter data from source. For example:
+  ///
+  /// <code>BillingCity='Mountain View'</code>
+  ///
+  /// When using a query instead of a table name, you should validate that the
+  /// query works with the specified <code>filterPredicate</code>.
+  final String? filterPredicate;
+
+  /// The name of the job bookmark keys on which to sort.
+  final List<String>? jobBookmarkKeys;
+
+  /// Specifies an ascending or descending sort order.
+  final String? jobBookmarkKeysSortOrder;
+
+  /// The minimum value of <code>partitionColumn</code> that is used to decide
+  /// partition stride.
+  final int? lowerBound;
+
+  /// The number of partitions. This value, along with <code>lowerBound</code>
+  /// (inclusive) and <code>upperBound</code> (exclusive), form partition strides
+  /// for generated <code>WHERE</code> clause expressions that are used to split
+  /// the <code>partitionColumn</code>.
+  final int? numPartitions;
+
+  /// The name of an integer column that is used for partitioning. This option
+  /// works only when it's included with <code>lowerBound</code>,
+  /// <code>upperBound</code>, and <code>numPartitions</code>. This option works
+  /// the same way as in the Spark SQL JDBC reader.
+  final String? partitionColumn;
+
+  /// The maximum value of <code>partitionColumn</code> that is used to decide
+  /// partition stride.
+  final int? upperBound;
+
+  JDBCConnectorOptions({
+    this.dataTypeMapping,
+    this.filterPredicate,
+    this.jobBookmarkKeys,
+    this.jobBookmarkKeysSortOrder,
+    this.lowerBound,
+    this.numPartitions,
+    this.partitionColumn,
+    this.upperBound,
+  });
+
+  factory JDBCConnectorOptions.fromJson(Map<String, dynamic> json) {
+    return JDBCConnectorOptions(
+      dataTypeMapping: (json['DataTypeMapping'] as Map<String, dynamic>?)?.map(
+          (k, e) =>
+              MapEntry(k.toJDBCDataType(), (e as String).toGlueRecordType())),
+      filterPredicate: json['FilterPredicate'] as String?,
+      jobBookmarkKeys: (json['JobBookmarkKeys'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      jobBookmarkKeysSortOrder: json['JobBookmarkKeysSortOrder'] as String?,
+      lowerBound: json['LowerBound'] as int?,
+      numPartitions: json['NumPartitions'] as int?,
+      partitionColumn: json['PartitionColumn'] as String?,
+      upperBound: json['UpperBound'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataTypeMapping = this.dataTypeMapping;
+    final filterPredicate = this.filterPredicate;
+    final jobBookmarkKeys = this.jobBookmarkKeys;
+    final jobBookmarkKeysSortOrder = this.jobBookmarkKeysSortOrder;
+    final lowerBound = this.lowerBound;
+    final numPartitions = this.numPartitions;
+    final partitionColumn = this.partitionColumn;
+    final upperBound = this.upperBound;
+    return {
+      if (dataTypeMapping != null)
+        'DataTypeMapping':
+            dataTypeMapping.map((k, e) => MapEntry(k.toValue(), e.toValue())),
+      if (filterPredicate != null) 'FilterPredicate': filterPredicate,
+      if (jobBookmarkKeys != null) 'JobBookmarkKeys': jobBookmarkKeys,
+      if (jobBookmarkKeysSortOrder != null)
+        'JobBookmarkKeysSortOrder': jobBookmarkKeysSortOrder,
+      if (lowerBound != null) 'LowerBound': lowerBound,
+      if (numPartitions != null) 'NumPartitions': numPartitions,
+      if (partitionColumn != null) 'PartitionColumn': partitionColumn,
+      if (upperBound != null) 'UpperBound': upperBound,
+    };
+  }
+}
+
+/// Specifies a connector to a JDBC data source.
+class JDBCConnectorSource {
+  /// The name of the connection that is associated with the connector.
+  final String connectionName;
+
+  /// The type of connection, such as marketplace.jdbc or custom.jdbc, designating
+  /// a connection to a JDBC data store.
+  final String connectionType;
+
+  /// The name of a connector that assists with accessing the data store in Glue
+  /// Studio.
+  final String connectorName;
+
+  /// The name of the data source.
+  final String name;
+
+  /// Additional connection options for the connector.
+  final JDBCConnectorOptions? additionalOptions;
+
+  /// The name of the table in the data source.
+  final String? connectionTable;
+
+  /// Specifies the data schema for the custom JDBC source.
+  final List<GlueSchema>? outputSchemas;
+
+  /// The table or SQL query to get the data from. You can specify either
+  /// <code>ConnectionTable</code> or <code>query</code>, but not both.
+  final String? query;
+
+  JDBCConnectorSource({
+    required this.connectionName,
+    required this.connectionType,
+    required this.connectorName,
+    required this.name,
+    this.additionalOptions,
+    this.connectionTable,
+    this.outputSchemas,
+    this.query,
+  });
+
+  factory JDBCConnectorSource.fromJson(Map<String, dynamic> json) {
+    return JDBCConnectorSource(
+      connectionName: json['ConnectionName'] as String,
+      connectionType: json['ConnectionType'] as String,
+      connectorName: json['ConnectorName'] as String,
+      name: json['Name'] as String,
+      additionalOptions: json['AdditionalOptions'] != null
+          ? JDBCConnectorOptions.fromJson(
+              json['AdditionalOptions'] as Map<String, dynamic>)
+          : null,
+      connectionTable: json['ConnectionTable'] as String?,
+      outputSchemas: (json['OutputSchemas'] as List?)
+          ?.whereNotNull()
+          .map((e) => GlueSchema.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      query: json['Query'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectionName = this.connectionName;
+    final connectionType = this.connectionType;
+    final connectorName = this.connectorName;
+    final name = this.name;
+    final additionalOptions = this.additionalOptions;
+    final connectionTable = this.connectionTable;
+    final outputSchemas = this.outputSchemas;
+    final query = this.query;
+    return {
+      'ConnectionName': connectionName,
+      'ConnectionType': connectionType,
+      'ConnectorName': connectorName,
+      'Name': name,
+      if (additionalOptions != null) 'AdditionalOptions': additionalOptions,
+      if (connectionTable != null) 'ConnectionTable': connectionTable,
+      if (outputSchemas != null) 'OutputSchemas': outputSchemas,
+      if (query != null) 'Query': query,
+    };
+  }
+}
+
+/// Specifies a data target that writes to Amazon S3 in Apache Parquet columnar
+/// storage.
+class JDBCConnectorTarget {
+  /// The name of the connection that is associated with the connector.
+  final String connectionName;
+
+  /// The name of the table in the data target.
+  final String connectionTable;
+
+  /// The type of connection, such as marketplace.jdbc or custom.jdbc, designating
+  /// a connection to a JDBC data target.
+  final String connectionType;
+
+  /// The name of a connector that will be used.
+  final String connectorName;
+
+  /// The nodes that are inputs to the data target.
+  final List<String> inputs;
+
+  /// The name of the data target.
+  final String name;
+
+  /// Additional connection options for the connector.
+  final Map<String, String>? additionalOptions;
+
+  /// Specifies the data schema for the JDBC target.
+  final List<GlueSchema>? outputSchemas;
+
+  JDBCConnectorTarget({
+    required this.connectionName,
+    required this.connectionTable,
+    required this.connectionType,
+    required this.connectorName,
+    required this.inputs,
+    required this.name,
+    this.additionalOptions,
+    this.outputSchemas,
+  });
+
+  factory JDBCConnectorTarget.fromJson(Map<String, dynamic> json) {
+    return JDBCConnectorTarget(
+      connectionName: json['ConnectionName'] as String,
+      connectionTable: json['ConnectionTable'] as String,
+      connectionType: json['ConnectionType'] as String,
+      connectorName: json['ConnectorName'] as String,
+      inputs: (json['Inputs'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      name: json['Name'] as String,
+      additionalOptions: (json['AdditionalOptions'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      outputSchemas: (json['OutputSchemas'] as List?)
+          ?.whereNotNull()
+          .map((e) => GlueSchema.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectionName = this.connectionName;
+    final connectionTable = this.connectionTable;
+    final connectionType = this.connectionType;
+    final connectorName = this.connectorName;
+    final inputs = this.inputs;
+    final name = this.name;
+    final additionalOptions = this.additionalOptions;
+    final outputSchemas = this.outputSchemas;
+    return {
+      'ConnectionName': connectionName,
+      'ConnectionTable': connectionTable,
+      'ConnectionType': connectionType,
+      'ConnectorName': connectorName,
+      'Inputs': inputs,
+      'Name': name,
+      if (additionalOptions != null) 'AdditionalOptions': additionalOptions,
+      if (outputSchemas != null) 'OutputSchemas': outputSchemas,
+    };
+  }
+}
+
+enum JDBCDataType {
+  array,
+  bigint,
+  binary,
+  bit,
+  blob,
+  boolean,
+  char,
+  clob,
+  datalink,
+  date,
+  decimal,
+  distinct,
+  double,
+  float,
+  integer,
+  javaObject,
+  longnvarchar,
+  longvarbinary,
+  longvarchar,
+  nchar,
+  nclob,
+  $null,
+  numeric,
+  nvarchar,
+  other,
+  real,
+  ref,
+  refCursor,
+  rowid,
+  smallint,
+  sqlxml,
+  struct,
+  time,
+  timeWithTimezone,
+  timestamp,
+  timestampWithTimezone,
+  tinyint,
+  varbinary,
+  varchar,
+}
+
+extension on JDBCDataType {
+  String toValue() {
+    switch (this) {
+      case JDBCDataType.array:
+        return 'ARRAY';
+      case JDBCDataType.bigint:
+        return 'BIGINT';
+      case JDBCDataType.binary:
+        return 'BINARY';
+      case JDBCDataType.bit:
+        return 'BIT';
+      case JDBCDataType.blob:
+        return 'BLOB';
+      case JDBCDataType.boolean:
+        return 'BOOLEAN';
+      case JDBCDataType.char:
+        return 'CHAR';
+      case JDBCDataType.clob:
+        return 'CLOB';
+      case JDBCDataType.datalink:
+        return 'DATALINK';
+      case JDBCDataType.date:
+        return 'DATE';
+      case JDBCDataType.decimal:
+        return 'DECIMAL';
+      case JDBCDataType.distinct:
+        return 'DISTINCT';
+      case JDBCDataType.double:
+        return 'DOUBLE';
+      case JDBCDataType.float:
+        return 'FLOAT';
+      case JDBCDataType.integer:
+        return 'INTEGER';
+      case JDBCDataType.javaObject:
+        return 'JAVA_OBJECT';
+      case JDBCDataType.longnvarchar:
+        return 'LONGNVARCHAR';
+      case JDBCDataType.longvarbinary:
+        return 'LONGVARBINARY';
+      case JDBCDataType.longvarchar:
+        return 'LONGVARCHAR';
+      case JDBCDataType.nchar:
+        return 'NCHAR';
+      case JDBCDataType.nclob:
+        return 'NCLOB';
+      case JDBCDataType.$null:
+        return 'NULL';
+      case JDBCDataType.numeric:
+        return 'NUMERIC';
+      case JDBCDataType.nvarchar:
+        return 'NVARCHAR';
+      case JDBCDataType.other:
+        return 'OTHER';
+      case JDBCDataType.real:
+        return 'REAL';
+      case JDBCDataType.ref:
+        return 'REF';
+      case JDBCDataType.refCursor:
+        return 'REF_CURSOR';
+      case JDBCDataType.rowid:
+        return 'ROWID';
+      case JDBCDataType.smallint:
+        return 'SMALLINT';
+      case JDBCDataType.sqlxml:
+        return 'SQLXML';
+      case JDBCDataType.struct:
+        return 'STRUCT';
+      case JDBCDataType.time:
+        return 'TIME';
+      case JDBCDataType.timeWithTimezone:
+        return 'TIME_WITH_TIMEZONE';
+      case JDBCDataType.timestamp:
+        return 'TIMESTAMP';
+      case JDBCDataType.timestampWithTimezone:
+        return 'TIMESTAMP_WITH_TIMEZONE';
+      case JDBCDataType.tinyint:
+        return 'TINYINT';
+      case JDBCDataType.varbinary:
+        return 'VARBINARY';
+      case JDBCDataType.varchar:
+        return 'VARCHAR';
+    }
+  }
+}
+
+extension on String {
+  JDBCDataType toJDBCDataType() {
+    switch (this) {
+      case 'ARRAY':
+        return JDBCDataType.array;
+      case 'BIGINT':
+        return JDBCDataType.bigint;
+      case 'BINARY':
+        return JDBCDataType.binary;
+      case 'BIT':
+        return JDBCDataType.bit;
+      case 'BLOB':
+        return JDBCDataType.blob;
+      case 'BOOLEAN':
+        return JDBCDataType.boolean;
+      case 'CHAR':
+        return JDBCDataType.char;
+      case 'CLOB':
+        return JDBCDataType.clob;
+      case 'DATALINK':
+        return JDBCDataType.datalink;
+      case 'DATE':
+        return JDBCDataType.date;
+      case 'DECIMAL':
+        return JDBCDataType.decimal;
+      case 'DISTINCT':
+        return JDBCDataType.distinct;
+      case 'DOUBLE':
+        return JDBCDataType.double;
+      case 'FLOAT':
+        return JDBCDataType.float;
+      case 'INTEGER':
+        return JDBCDataType.integer;
+      case 'JAVA_OBJECT':
+        return JDBCDataType.javaObject;
+      case 'LONGNVARCHAR':
+        return JDBCDataType.longnvarchar;
+      case 'LONGVARBINARY':
+        return JDBCDataType.longvarbinary;
+      case 'LONGVARCHAR':
+        return JDBCDataType.longvarchar;
+      case 'NCHAR':
+        return JDBCDataType.nchar;
+      case 'NCLOB':
+        return JDBCDataType.nclob;
+      case 'NULL':
+        return JDBCDataType.$null;
+      case 'NUMERIC':
+        return JDBCDataType.numeric;
+      case 'NVARCHAR':
+        return JDBCDataType.nvarchar;
+      case 'OTHER':
+        return JDBCDataType.other;
+      case 'REAL':
+        return JDBCDataType.real;
+      case 'REF':
+        return JDBCDataType.ref;
+      case 'REF_CURSOR':
+        return JDBCDataType.refCursor;
+      case 'ROWID':
+        return JDBCDataType.rowid;
+      case 'SMALLINT':
+        return JDBCDataType.smallint;
+      case 'SQLXML':
+        return JDBCDataType.sqlxml;
+      case 'STRUCT':
+        return JDBCDataType.struct;
+      case 'TIME':
+        return JDBCDataType.time;
+      case 'TIME_WITH_TIMEZONE':
+        return JDBCDataType.timeWithTimezone;
+      case 'TIMESTAMP':
+        return JDBCDataType.timestamp;
+      case 'TIMESTAMP_WITH_TIMEZONE':
+        return JDBCDataType.timestampWithTimezone;
+      case 'TINYINT':
+        return JDBCDataType.tinyint;
+      case 'VARBINARY':
+        return JDBCDataType.varbinary;
+      case 'VARCHAR':
+        return JDBCDataType.varchar;
+    }
+    throw Exception('$this is not known in enum JDBCDataType');
+  }
+}
+
 /// Specifies a JDBC data store to crawl.
 class JdbcTarget {
   /// The name of the connection to use to connect to the JDBC target.
@@ -17503,12 +21551,16 @@ class Job {
   /// This field is deprecated. Use <code>MaxCapacity</code> instead.
   ///
   /// The number of Glue data processing units (DPUs) allocated to runs of this
-  /// job. You can allocate from 2 to 100 DPUs; the default is 10. A DPU is a
+  /// job. You can allocate a minimum of 2 DPUs; the default is 10. A DPU is a
   /// relative measure of processing power that consists of 4 vCPUs of compute
   /// capacity and 16 GB of memory. For more information, see the <a
   /// href="https://aws.amazon.com/glue/pricing/">Glue pricing page</a>.
   /// <p/>
   final int? allocatedCapacity;
+
+  /// The representation of a directed acyclic graph on which both the Glue Studio
+  /// visual component and Glue Studio code generation is based.
+  final Map<String, CodeGenConfigurationNode>? codeGenConfigurationNodes;
 
   /// The <code>JobCommand</code> that runs this job.
   final JobCommand? command;
@@ -17582,9 +21634,9 @@ class Job {
   /// <li>
   /// When you specify an Apache Spark ETL job
   /// (<code>JobCommand.Name</code>="glueetl") or Apache Spark streaming ETL job
-  /// (<code>JobCommand.Name</code>="gluestreaming"), you can allocate from 2 to
-  /// 100 DPUs. The default is 10 DPUs. This job type cannot have a fractional DPU
-  /// allocation.
+  /// (<code>JobCommand.Name</code>="gluestreaming"), you can allocate a minimum
+  /// of 2 DPUs. The default is 10 DPUs. This job type cannot have a fractional
+  /// DPU allocation.
   /// </li>
   /// </ul>
   /// For Glue version 2.0 jobs, you cannot instead specify a <code>Maximum
@@ -17606,9 +21658,6 @@ class Job {
 
   /// The number of workers of a defined <code>workerType</code> that are
   /// allocated when a job runs.
-  ///
-  /// The maximum number of workers you can define are 299 for <code>G.1X</code>,
-  /// and 149 for <code>G.2X</code>.
   final int? numberOfWorkers;
 
   /// The name or Amazon Resource Name (ARN) of the IAM role associated with this
@@ -17625,7 +21674,7 @@ class Job {
   final int? timeout;
 
   /// The type of predefined worker that is allocated when a job runs. Accepts a
-  /// value of Standard, G.1X, or G.2X.
+  /// value of Standard, G.1X, G.2X, or G.025X.
   ///
   /// <ul>
   /// <li>
@@ -17642,11 +21691,18 @@ class Job {
   /// GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend
   /// this worker type for memory-intensive jobs.
   /// </li>
+  /// <li>
+  /// For the <code>G.025X</code> worker type, each worker maps to 0.25 DPU (2
+  /// vCPU, 4 GB of memory, 64 GB disk), and provides 1 executor per worker. We
+  /// recommend this worker type for low volume streaming jobs. This worker type
+  /// is only available for Glue version 3.0 streaming jobs.
+  /// </li>
   /// </ul>
   final WorkerType? workerType;
 
   Job({
     this.allocatedCapacity,
+    this.codeGenConfigurationNodes,
     this.command,
     this.connections,
     this.createdOn,
@@ -17671,6 +21727,10 @@ class Job {
   factory Job.fromJson(Map<String, dynamic> json) {
     return Job(
       allocatedCapacity: json['AllocatedCapacity'] as int?,
+      codeGenConfigurationNodes: (json['CodeGenConfigurationNodes']
+              as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(
+              k, CodeGenConfigurationNode.fromJson(e as Map<String, dynamic>))),
       command: json['Command'] != null
           ? JobCommand.fromJson(json['Command'] as Map<String, dynamic>)
           : null,
@@ -17709,6 +21769,7 @@ class Job {
 
   Map<String, dynamic> toJson() {
     final allocatedCapacity = this.allocatedCapacity;
+    final codeGenConfigurationNodes = this.codeGenConfigurationNodes;
     final command = this.command;
     final connections = this.connections;
     final createdOn = this.createdOn;
@@ -17730,6 +21791,8 @@ class Job {
     final workerType = this.workerType;
     return {
       if (allocatedCapacity != null) 'AllocatedCapacity': allocatedCapacity,
+      if (codeGenConfigurationNodes != null)
+        'CodeGenConfigurationNodes': codeGenConfigurationNodes,
       if (command != null) 'Command': command,
       if (connections != null) 'Connections': connections,
       if (createdOn != null) 'CreatedOn': unixTimestampToJson(createdOn),
@@ -17986,6 +22049,18 @@ class JobRun {
   /// The date and time that this job run completed.
   final DateTime? completedOn;
 
+  /// This field populates only for Auto Scaling job runs, and represents the
+  /// total time each executor ran during the lifecycle of a job run in seconds,
+  /// multiplied by a DPU factor (1 for <code>G.1X</code>, 2 for
+  /// <code>G.2X</code>, or 0.25 for <code>G.025X</code> workers). This value may
+  /// be different than the <code>executionEngineRuntime</code> *
+  /// <code>MaxCapacity</code> as in the case of Auto Scaling jobs, as the number
+  /// of executors running at a given time may be less than the
+  /// <code>MaxCapacity</code>. Therefore, it is possible that the value of
+  /// <code>DPUSeconds</code> is less than <code>executionEngineRuntime</code> *
+  /// <code>MaxCapacity</code>.
+  final double? dPUSeconds;
+
   /// An error message associated with this job run.
   final String? errorMessage;
 
@@ -18048,7 +22123,7 @@ class JobRun {
   /// </li>
   /// <li>
   /// When you specify an Apache Spark ETL job
-  /// (<code>JobCommand.Name</code>="glueetl"), you can allocate from 2 to 100
+  /// (<code>JobCommand.Name</code>="glueetl"), you can allocate a minimum of 2
   /// DPUs. The default is 10 DPUs. This job type cannot have a fractional DPU
   /// allocation.
   /// </li>
@@ -18060,9 +22135,6 @@ class JobRun {
 
   /// The number of workers of a defined <code>workerType</code> that are
   /// allocated when a job runs.
-  ///
-  /// The maximum number of workers you can define are 299 for <code>G.1X</code>,
-  /// and 149 for <code>G.2X</code>.
   final int? numberOfWorkers;
 
   /// A list of predecessors to this job run.
@@ -18081,15 +22153,18 @@ class JobRun {
 
   /// The <code>JobRun</code> timeout in minutes. This is the maximum time that a
   /// job run can consume resources before it is terminated and enters
-  /// <code>TIMEOUT</code> status. The default is 2,880 minutes (48 hours). This
-  /// overrides the timeout value set in the parent job.
+  /// <code>TIMEOUT</code> status. This value overrides the timeout value set in
+  /// the parent job.
+  ///
+  /// Streaming jobs do not have a timeout. The default for non-streaming jobs is
+  /// 2,880 minutes (48 hours).
   final int? timeout;
 
   /// The name of the trigger that started this job run.
   final String? triggerName;
 
   /// The type of predefined worker that is allocated when a job runs. Accepts a
-  /// value of Standard, G.1X, or G.2X.
+  /// value of Standard, G.1X, G.2X, or G.025X.
   ///
   /// <ul>
   /// <li>
@@ -18104,6 +22179,12 @@ class JobRun {
   /// For the <code>G.2X</code> worker type, each worker provides 8 vCPU, 32 GB of
   /// memory and a 128GB disk, and 1 executor per worker.
   /// </li>
+  /// <li>
+  /// For the <code>G.025X</code> worker type, each worker maps to 0.25 DPU (2
+  /// vCPU, 4 GB of memory, 64 GB disk), and provides 1 executor per worker. We
+  /// recommend this worker type for low volume streaming jobs. This worker type
+  /// is only available for Glue version 3.0 streaming jobs.
+  /// </li>
   /// </ul>
   final WorkerType? workerType;
 
@@ -18112,6 +22193,7 @@ class JobRun {
     this.arguments,
     this.attempt,
     this.completedOn,
+    this.dPUSeconds,
     this.errorMessage,
     this.executionTime,
     this.glueVersion,
@@ -18139,6 +22221,7 @@ class JobRun {
           ?.map((k, e) => MapEntry(k, e as String)),
       attempt: json['Attempt'] as int?,
       completedOn: timeStampFromJson(json['CompletedOn']),
+      dPUSeconds: json['DPUSeconds'] as double?,
       errorMessage: json['ErrorMessage'] as String?,
       executionTime: json['ExecutionTime'] as int?,
       glueVersion: json['GlueVersion'] as String?,
@@ -18171,6 +22254,7 @@ class JobRun {
     final arguments = this.arguments;
     final attempt = this.attempt;
     final completedOn = this.completedOn;
+    final dPUSeconds = this.dPUSeconds;
     final errorMessage = this.errorMessage;
     final executionTime = this.executionTime;
     final glueVersion = this.glueVersion;
@@ -18194,6 +22278,7 @@ class JobRun {
       if (arguments != null) 'Arguments': arguments,
       if (attempt != null) 'Attempt': attempt,
       if (completedOn != null) 'CompletedOn': unixTimestampToJson(completedOn),
+      if (dPUSeconds != null) 'DPUSeconds': dPUSeconds,
       if (errorMessage != null) 'ErrorMessage': errorMessage,
       if (executionTime != null) 'ExecutionTime': executionTime,
       if (glueVersion != null) 'GlueVersion': glueVersion,
@@ -18278,11 +22363,15 @@ class JobUpdate {
   /// This field is deprecated. Use <code>MaxCapacity</code> instead.
   ///
   /// The number of Glue data processing units (DPUs) to allocate to this job. You
-  /// can allocate from 2 to 100 DPUs; the default is 10. A DPU is a relative
+  /// can allocate a minimum of 2 DPUs; the default is 10. A DPU is a relative
   /// measure of processing power that consists of 4 vCPUs of compute capacity and
   /// 16 GB of memory. For more information, see the <a
   /// href="https://aws.amazon.com/glue/pricing/">Glue pricing page</a>.
   final int? allocatedCapacity;
+
+  /// The representation of a directed acyclic graph on which both the Glue Studio
+  /// visual component and Glue Studio code generation is based.
+  final Map<String, CodeGenConfigurationNode>? codeGenConfigurationNodes;
 
   /// The <code>JobCommand</code> that runs this job (required).
   final JobCommand? command;
@@ -18347,9 +22436,9 @@ class JobUpdate {
   /// <li>
   /// When you specify an Apache Spark ETL job
   /// (<code>JobCommand.Name</code>="glueetl") or Apache Spark streaming ETL job
-  /// (<code>JobCommand.Name</code>="gluestreaming"), you can allocate from 2 to
-  /// 100 DPUs. The default is 10 DPUs. This job type cannot have a fractional DPU
-  /// allocation.
+  /// (<code>JobCommand.Name</code>="gluestreaming"), you can allocate a minimum
+  /// of 2 DPUs. The default is 10 DPUs. This job type cannot have a fractional
+  /// DPU allocation.
   /// </li>
   /// </ul>
   /// For Glue version 2.0 jobs, you cannot instead specify a <code>Maximum
@@ -18368,9 +22457,6 @@ class JobUpdate {
 
   /// The number of workers of a defined <code>workerType</code> that are
   /// allocated when a job runs.
-  ///
-  /// The maximum number of workers you can define are 299 for <code>G.1X</code>,
-  /// and 149 for <code>G.2X</code>.
   final int? numberOfWorkers;
 
   /// The name or Amazon Resource Name (ARN) of the IAM role associated with this
@@ -18387,7 +22473,7 @@ class JobUpdate {
   final int? timeout;
 
   /// The type of predefined worker that is allocated when a job runs. Accepts a
-  /// value of Standard, G.1X, or G.2X.
+  /// value of Standard, G.1X, G.2X, or G.025X.
   ///
   /// <ul>
   /// <li>
@@ -18404,11 +22490,18 @@ class JobUpdate {
   /// GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend
   /// this worker type for memory-intensive jobs.
   /// </li>
+  /// <li>
+  /// For the <code>G.025X</code> worker type, each worker maps to 0.25 DPU (2
+  /// vCPU, 4 GB of memory, 64 GB disk), and provides 1 executor per worker. We
+  /// recommend this worker type for low volume streaming jobs. This worker type
+  /// is only available for Glue version 3.0 streaming jobs.
+  /// </li>
   /// </ul>
   final WorkerType? workerType;
 
   JobUpdate({
     this.allocatedCapacity,
+    this.codeGenConfigurationNodes,
     this.command,
     this.connections,
     this.defaultArguments,
@@ -18430,6 +22523,10 @@ class JobUpdate {
   factory JobUpdate.fromJson(Map<String, dynamic> json) {
     return JobUpdate(
       allocatedCapacity: json['AllocatedCapacity'] as int?,
+      codeGenConfigurationNodes: (json['CodeGenConfigurationNodes']
+              as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(
+              k, CodeGenConfigurationNode.fromJson(e as Map<String, dynamic>))),
       command: json['Command'] != null
           ? JobCommand.fromJson(json['Command'] as Map<String, dynamic>)
           : null,
@@ -18465,6 +22562,7 @@ class JobUpdate {
 
   Map<String, dynamic> toJson() {
     final allocatedCapacity = this.allocatedCapacity;
+    final codeGenConfigurationNodes = this.codeGenConfigurationNodes;
     final command = this.command;
     final connections = this.connections;
     final defaultArguments = this.defaultArguments;
@@ -18483,6 +22581,8 @@ class JobUpdate {
     final workerType = this.workerType;
     return {
       if (allocatedCapacity != null) 'AllocatedCapacity': allocatedCapacity,
+      if (codeGenConfigurationNodes != null)
+        'CodeGenConfigurationNodes': codeGenConfigurationNodes,
       if (command != null) 'Command': command,
       if (connections != null) 'Connections': connections,
       if (defaultArguments != null) 'DefaultArguments': defaultArguments,
@@ -18503,6 +22603,140 @@ class JobUpdate {
       if (timeout != null) 'Timeout': timeout,
       if (workerType != null) 'WorkerType': workerType.toValue(),
     };
+  }
+}
+
+/// Specifies a transform that joins two datasets into one dataset using a
+/// comparison phrase on the specified data property keys. You can use inner,
+/// outer, left, right, left semi, and left anti joins.
+class Join {
+  /// A list of the two columns to be joined.
+  final List<JoinColumn> columns;
+
+  /// The data inputs identified by their node names.
+  final List<String> inputs;
+
+  /// Specifies the type of join to be performed on the datasets.
+  final JoinType joinType;
+
+  /// The name of the transform node.
+  final String name;
+
+  Join({
+    required this.columns,
+    required this.inputs,
+    required this.joinType,
+    required this.name,
+  });
+
+  factory Join.fromJson(Map<String, dynamic> json) {
+    return Join(
+      columns: (json['Columns'] as List)
+          .whereNotNull()
+          .map((e) => JoinColumn.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      inputs: (json['Inputs'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      joinType: (json['JoinType'] as String).toJoinType(),
+      name: json['Name'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final columns = this.columns;
+    final inputs = this.inputs;
+    final joinType = this.joinType;
+    final name = this.name;
+    return {
+      'Columns': columns,
+      'Inputs': inputs,
+      'JoinType': joinType.toValue(),
+      'Name': name,
+    };
+  }
+}
+
+/// Specifies a column to be joined.
+class JoinColumn {
+  /// The column to be joined.
+  final String from;
+
+  /// The key of the column to be joined.
+  final List<List<String>> keys;
+
+  JoinColumn({
+    required this.from,
+    required this.keys,
+  });
+
+  factory JoinColumn.fromJson(Map<String, dynamic> json) {
+    return JoinColumn(
+      from: json['From'] as String,
+      keys: (json['Keys'] as List)
+          .whereNotNull()
+          .map((e) =>
+              (e as List).whereNotNull().map((e) => e as String).toList())
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final from = this.from;
+    final keys = this.keys;
+    return {
+      'From': from,
+      'Keys': keys,
+    };
+  }
+}
+
+enum JoinType {
+  equijoin,
+  left,
+  right,
+  outer,
+  leftsemi,
+  leftanti,
+}
+
+extension on JoinType {
+  String toValue() {
+    switch (this) {
+      case JoinType.equijoin:
+        return 'equijoin';
+      case JoinType.left:
+        return 'left';
+      case JoinType.right:
+        return 'right';
+      case JoinType.outer:
+        return 'outer';
+      case JoinType.leftsemi:
+        return 'leftsemi';
+      case JoinType.leftanti:
+        return 'leftanti';
+    }
+  }
+}
+
+extension on String {
+  JoinType toJoinType() {
+    switch (this) {
+      case 'equijoin':
+        return JoinType.equijoin;
+      case 'left':
+        return JoinType.left;
+      case 'right':
+        return JoinType.right;
+      case 'outer':
+        return JoinType.outer;
+      case 'leftsemi':
+        return JoinType.leftsemi;
+      case 'leftanti':
+        return JoinType.leftanti;
+    }
+    throw Exception('$this is not known in enum JoinType');
   }
 }
 
@@ -18561,6 +22795,151 @@ class JsonClassifier {
   }
 }
 
+/// Additional options for streaming.
+class KafkaStreamingSourceOptions {
+  /// The specific <code>TopicPartitions</code> to consume. You must specify at
+  /// least one of <code>"topicName"</code>, <code>"assign"</code> or
+  /// <code>"subscribePattern"</code>.
+  final String? assign;
+
+  /// A list of bootstrap server URLs, for example, as
+  /// <code>b-1.vpc-test-2.o4q88o.c6.kafka.us-east-1.amazonaws.com:9094</code>.
+  /// This option must be specified in the API call or defined in the table
+  /// metadata in the Data Catalog.
+  final String? bootstrapServers;
+
+  /// An optional classification.
+  final String? classification;
+
+  /// The name of the connection.
+  final String? connectionName;
+
+  /// Specifies the delimiter character.
+  final String? delimiter;
+
+  /// The end point when a batch query is ended. Possible values are either
+  /// <code>"latest"</code> or a JSON string that specifies an ending offset for
+  /// each <code>TopicPartition</code>.
+  final String? endingOffsets;
+
+  /// The rate limit on the maximum number of offsets that are processed per
+  /// trigger interval. The specified total number of offsets is proportionally
+  /// split across <code>topicPartitions</code> of different volumes. The default
+  /// value is null, which means that the consumer reads all offsets until the
+  /// known latest offset.
+  final int? maxOffsetsPerTrigger;
+
+  /// The desired minimum number of partitions to read from Kafka. The default
+  /// value is null, which means that the number of spark partitions is equal to
+  /// the number of Kafka partitions.
+  final int? minPartitions;
+
+  /// The number of times to retry before failing to fetch Kafka offsets. The
+  /// default value is <code>3</code>.
+  final int? numRetries;
+
+  /// The timeout in milliseconds to poll data from Kafka in Spark job executors.
+  /// The default value is <code>512</code>.
+  final int? pollTimeoutMs;
+
+  /// The time in milliseconds to wait before retrying to fetch Kafka offsets. The
+  /// default value is <code>10</code>.
+  final int? retryIntervalMs;
+
+  /// The protocol used to communicate with brokers. The possible values are
+  /// <code>"SSL"</code> or <code>"PLAINTEXT"</code>.
+  final String? securityProtocol;
+
+  /// The starting position in the Kafka topic to read data from. The possible
+  /// values are <code>"earliest"</code> or <code>"latest"</code>. The default
+  /// value is <code>"latest"</code>.
+  final String? startingOffsets;
+
+  /// A Java regex string that identifies the topic list to subscribe to. You must
+  /// specify at least one of <code>"topicName"</code>, <code>"assign"</code> or
+  /// <code>"subscribePattern"</code>.
+  final String? subscribePattern;
+
+  /// The topic name as specified in Apache Kafka. You must specify at least one
+  /// of <code>"topicName"</code>, <code>"assign"</code> or
+  /// <code>"subscribePattern"</code>.
+  final String? topicName;
+
+  KafkaStreamingSourceOptions({
+    this.assign,
+    this.bootstrapServers,
+    this.classification,
+    this.connectionName,
+    this.delimiter,
+    this.endingOffsets,
+    this.maxOffsetsPerTrigger,
+    this.minPartitions,
+    this.numRetries,
+    this.pollTimeoutMs,
+    this.retryIntervalMs,
+    this.securityProtocol,
+    this.startingOffsets,
+    this.subscribePattern,
+    this.topicName,
+  });
+
+  factory KafkaStreamingSourceOptions.fromJson(Map<String, dynamic> json) {
+    return KafkaStreamingSourceOptions(
+      assign: json['Assign'] as String?,
+      bootstrapServers: json['BootstrapServers'] as String?,
+      classification: json['Classification'] as String?,
+      connectionName: json['ConnectionName'] as String?,
+      delimiter: json['Delimiter'] as String?,
+      endingOffsets: json['EndingOffsets'] as String?,
+      maxOffsetsPerTrigger: json['MaxOffsetsPerTrigger'] as int?,
+      minPartitions: json['MinPartitions'] as int?,
+      numRetries: json['NumRetries'] as int?,
+      pollTimeoutMs: json['PollTimeoutMs'] as int?,
+      retryIntervalMs: json['RetryIntervalMs'] as int?,
+      securityProtocol: json['SecurityProtocol'] as String?,
+      startingOffsets: json['StartingOffsets'] as String?,
+      subscribePattern: json['SubscribePattern'] as String?,
+      topicName: json['TopicName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assign = this.assign;
+    final bootstrapServers = this.bootstrapServers;
+    final classification = this.classification;
+    final connectionName = this.connectionName;
+    final delimiter = this.delimiter;
+    final endingOffsets = this.endingOffsets;
+    final maxOffsetsPerTrigger = this.maxOffsetsPerTrigger;
+    final minPartitions = this.minPartitions;
+    final numRetries = this.numRetries;
+    final pollTimeoutMs = this.pollTimeoutMs;
+    final retryIntervalMs = this.retryIntervalMs;
+    final securityProtocol = this.securityProtocol;
+    final startingOffsets = this.startingOffsets;
+    final subscribePattern = this.subscribePattern;
+    final topicName = this.topicName;
+    return {
+      if (assign != null) 'Assign': assign,
+      if (bootstrapServers != null) 'BootstrapServers': bootstrapServers,
+      if (classification != null) 'Classification': classification,
+      if (connectionName != null) 'ConnectionName': connectionName,
+      if (delimiter != null) 'Delimiter': delimiter,
+      if (endingOffsets != null) 'EndingOffsets': endingOffsets,
+      if (maxOffsetsPerTrigger != null)
+        'MaxOffsetsPerTrigger': maxOffsetsPerTrigger,
+      if (minPartitions != null) 'MinPartitions': minPartitions,
+      if (numRetries != null) 'NumRetries': numRetries,
+      if (pollTimeoutMs != null) 'PollTimeoutMs': pollTimeoutMs,
+      if (retryIntervalMs != null) 'RetryIntervalMs': retryIntervalMs,
+      if (securityProtocol != null) 'SecurityProtocol': securityProtocol,
+      if (startingOffsets != null) 'StartingOffsets': startingOffsets,
+      if (subscribePattern != null) 'SubscribePattern': subscribePattern,
+      if (topicName != null) 'TopicName': topicName,
+    };
+  }
+}
+
 /// A partition key pair consisting of a name and a type.
 class KeySchemaElement {
   /// The name of a partition key.
@@ -18591,6 +22970,176 @@ class KeySchemaElement {
   }
 }
 
+/// Additional options for the Amazon Kinesis streaming data source.
+class KinesisStreamingSourceOptions {
+  /// Adds a time delay between two consecutive getRecords operations. The default
+  /// value is <code>"False"</code>. This option is only configurable for Glue
+  /// version 2.0 and above.
+  final bool? addIdleTimeBetweenReads;
+
+  /// Avoids creating an empty microbatch job by checking for unread data in the
+  /// Kinesis data stream before the batch is started. The default value is
+  /// <code>"False"</code>.
+  final bool? avoidEmptyBatches;
+
+  /// An optional classification.
+  final String? classification;
+
+  /// Specifies the delimiter character.
+  final String? delimiter;
+
+  /// The minimum time interval between two ListShards API calls for your script
+  /// to consider resharding. The default value is <code>1s</code>.
+  final int? describeShardInterval;
+
+  /// The URL of the Kinesis endpoint.
+  final String? endpointUrl;
+
+  /// The minimum time delay between two consecutive getRecords operations,
+  /// specified in ms. The default value is <code>1000</code>. This option is only
+  /// configurable for Glue version 2.0 and above.
+  final int? idleTimeBetweenReadsInMs;
+
+  /// The maximum number of records to fetch per shard in the Kinesis data stream.
+  /// The default value is <code>100000</code>.
+  final int? maxFetchRecordsPerShard;
+
+  /// The maximum time spent in the job executor to fetch a record from the
+  /// Kinesis data stream per shard, specified in milliseconds (ms). The default
+  /// value is <code>1000</code>.
+  final int? maxFetchTimeInMs;
+
+  /// The maximum number of records to fetch from the Kinesis data stream in each
+  /// getRecords operation. The default value is <code>10000</code>.
+  final int? maxRecordPerRead;
+
+  /// The maximum cool-off time period (specified in ms) between two retries of a
+  /// Kinesis Data Streams API call. The default value is <code>10000</code>.
+  final int? maxRetryIntervalMs;
+
+  /// The maximum number of retries for Kinesis Data Streams API requests. The
+  /// default value is <code>3</code>.
+  final int? numRetries;
+
+  /// The cool-off time period (specified in ms) before retrying the Kinesis Data
+  /// Streams API call. The default value is <code>1000</code>.
+  final int? retryIntervalMs;
+
+  /// The Amazon Resource Name (ARN) of the role to assume using AWS Security
+  /// Token Service (AWS STS). This role must have permissions for describe or
+  /// read record operations for the Kinesis data stream. You must use this
+  /// parameter when accessing a data stream in a different account. Used in
+  /// conjunction with <code>"awsSTSSessionName"</code>.
+  final String? roleArn;
+
+  /// An identifier for the session assuming the role using AWS STS. You must use
+  /// this parameter when accessing a data stream in a different account. Used in
+  /// conjunction with <code>"awsSTSRoleARN"</code>.
+  final String? roleSessionName;
+
+  /// The starting position in the Kinesis data stream to read data from. The
+  /// possible values are <code>"latest"</code>, <code>"trim_horizon"</code>, or
+  /// <code>"earliest"</code>. The default value is <code>"latest"</code>.
+  final StartingPosition? startingPosition;
+
+  /// The Amazon Resource Name (ARN) of the Kinesis data stream.
+  final String? streamArn;
+
+  /// The name of the Kinesis data stream.
+  final String? streamName;
+
+  KinesisStreamingSourceOptions({
+    this.addIdleTimeBetweenReads,
+    this.avoidEmptyBatches,
+    this.classification,
+    this.delimiter,
+    this.describeShardInterval,
+    this.endpointUrl,
+    this.idleTimeBetweenReadsInMs,
+    this.maxFetchRecordsPerShard,
+    this.maxFetchTimeInMs,
+    this.maxRecordPerRead,
+    this.maxRetryIntervalMs,
+    this.numRetries,
+    this.retryIntervalMs,
+    this.roleArn,
+    this.roleSessionName,
+    this.startingPosition,
+    this.streamArn,
+    this.streamName,
+  });
+
+  factory KinesisStreamingSourceOptions.fromJson(Map<String, dynamic> json) {
+    return KinesisStreamingSourceOptions(
+      addIdleTimeBetweenReads: json['AddIdleTimeBetweenReads'] as bool?,
+      avoidEmptyBatches: json['AvoidEmptyBatches'] as bool?,
+      classification: json['Classification'] as String?,
+      delimiter: json['Delimiter'] as String?,
+      describeShardInterval: json['DescribeShardInterval'] as int?,
+      endpointUrl: json['EndpointUrl'] as String?,
+      idleTimeBetweenReadsInMs: json['IdleTimeBetweenReadsInMs'] as int?,
+      maxFetchRecordsPerShard: json['MaxFetchRecordsPerShard'] as int?,
+      maxFetchTimeInMs: json['MaxFetchTimeInMs'] as int?,
+      maxRecordPerRead: json['MaxRecordPerRead'] as int?,
+      maxRetryIntervalMs: json['MaxRetryIntervalMs'] as int?,
+      numRetries: json['NumRetries'] as int?,
+      retryIntervalMs: json['RetryIntervalMs'] as int?,
+      roleArn: json['RoleArn'] as String?,
+      roleSessionName: json['RoleSessionName'] as String?,
+      startingPosition:
+          (json['StartingPosition'] as String?)?.toStartingPosition(),
+      streamArn: json['StreamArn'] as String?,
+      streamName: json['StreamName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final addIdleTimeBetweenReads = this.addIdleTimeBetweenReads;
+    final avoidEmptyBatches = this.avoidEmptyBatches;
+    final classification = this.classification;
+    final delimiter = this.delimiter;
+    final describeShardInterval = this.describeShardInterval;
+    final endpointUrl = this.endpointUrl;
+    final idleTimeBetweenReadsInMs = this.idleTimeBetweenReadsInMs;
+    final maxFetchRecordsPerShard = this.maxFetchRecordsPerShard;
+    final maxFetchTimeInMs = this.maxFetchTimeInMs;
+    final maxRecordPerRead = this.maxRecordPerRead;
+    final maxRetryIntervalMs = this.maxRetryIntervalMs;
+    final numRetries = this.numRetries;
+    final retryIntervalMs = this.retryIntervalMs;
+    final roleArn = this.roleArn;
+    final roleSessionName = this.roleSessionName;
+    final startingPosition = this.startingPosition;
+    final streamArn = this.streamArn;
+    final streamName = this.streamName;
+    return {
+      if (addIdleTimeBetweenReads != null)
+        'AddIdleTimeBetweenReads': addIdleTimeBetweenReads,
+      if (avoidEmptyBatches != null) 'AvoidEmptyBatches': avoidEmptyBatches,
+      if (classification != null) 'Classification': classification,
+      if (delimiter != null) 'Delimiter': delimiter,
+      if (describeShardInterval != null)
+        'DescribeShardInterval': describeShardInterval,
+      if (endpointUrl != null) 'EndpointUrl': endpointUrl,
+      if (idleTimeBetweenReadsInMs != null)
+        'IdleTimeBetweenReadsInMs': idleTimeBetweenReadsInMs,
+      if (maxFetchRecordsPerShard != null)
+        'MaxFetchRecordsPerShard': maxFetchRecordsPerShard,
+      if (maxFetchTimeInMs != null) 'MaxFetchTimeInMs': maxFetchTimeInMs,
+      if (maxRecordPerRead != null) 'MaxRecordPerRead': maxRecordPerRead,
+      if (maxRetryIntervalMs != null) 'MaxRetryIntervalMs': maxRetryIntervalMs,
+      if (numRetries != null) 'NumRetries': numRetries,
+      if (retryIntervalMs != null) 'RetryIntervalMs': retryIntervalMs,
+      if (roleArn != null) 'RoleArn': roleArn,
+      if (roleSessionName != null) 'RoleSessionName': roleSessionName,
+      if (startingPosition != null)
+        'StartingPosition': startingPosition.toValue(),
+      if (streamArn != null) 'StreamArn': streamArn,
+      if (streamName != null) 'StreamName': streamName,
+    };
+  }
+}
+
 /// Specifies configuration properties for a labeling set generation task run.
 class LabelingSetGenerationTaskRunProperties {
   /// The Amazon Simple Storage Service (Amazon S3) path where you will generate
@@ -18616,8 +23165,14 @@ class LabelingSetGenerationTaskRunProperties {
   }
 }
 
+/// Specifies Lake Formation configuration settings for the crawler.
 class LakeFormationConfiguration {
+  /// Required for cross account crawls. For same account crawls as the target
+  /// data, this can be left as null.
   final String? accountId;
+
+  /// Specifies whether to use Lake Formation credentials for the crawler instead
+  /// of the IAM role credentials.
   final bool? useLakeFormationCredentials;
 
   LakeFormationConfiguration({
@@ -18919,6 +23474,73 @@ class ListCrawlersResponse {
   }
 }
 
+class ListCrawlsResponse {
+  /// A list of <code>CrawlerHistory</code> objects representing the crawl runs
+  /// that meet your criteria.
+  final List<CrawlerHistory>? crawls;
+
+  /// A continuation token for paginating the returned list of tokens, returned if
+  /// the current segment of the list is not the last.
+  final String? nextToken;
+
+  ListCrawlsResponse({
+    this.crawls,
+    this.nextToken,
+  });
+
+  factory ListCrawlsResponse.fromJson(Map<String, dynamic> json) {
+    return ListCrawlsResponse(
+      crawls: (json['Crawls'] as List?)
+          ?.whereNotNull()
+          .map((e) => CrawlerHistory.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final crawls = this.crawls;
+    final nextToken = this.nextToken;
+    return {
+      if (crawls != null) 'Crawls': crawls,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListCustomEntityTypesResponse {
+  /// A list of <code>CustomEntityType</code> objects representing custom
+  /// patterns.
+  final List<CustomEntityType>? customEntityTypes;
+
+  /// A pagination token, if more results are available.
+  final String? nextToken;
+
+  ListCustomEntityTypesResponse({
+    this.customEntityTypes,
+    this.nextToken,
+  });
+
+  factory ListCustomEntityTypesResponse.fromJson(Map<String, dynamic> json) {
+    return ListCustomEntityTypesResponse(
+      customEntityTypes: (json['CustomEntityTypes'] as List?)
+          ?.whereNotNull()
+          .map((e) => CustomEntityType.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final customEntityTypes = this.customEntityTypes;
+    final nextToken = this.nextToken;
+    return {
+      if (customEntityTypes != null) 'CustomEntityTypes': customEntityTypes,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
 class ListDevEndpointsResponse {
   /// The names of all the <code>DevEndpoint</code>s in the account, or the
   /// <code>DevEndpoint</code>s with the specified tags.
@@ -19118,6 +23740,80 @@ class ListSchemasResponse {
     return {
       if (nextToken != null) 'NextToken': nextToken,
       if (schemas != null) 'Schemas': schemas,
+    };
+  }
+}
+
+class ListSessionsResponse {
+  /// Returns the ID of the session.
+  final List<String>? ids;
+
+  /// The token for the next set of results, or null if there are no more result.
+  final String? nextToken;
+
+  /// Returns the session object.
+  final List<Session>? sessions;
+
+  ListSessionsResponse({
+    this.ids,
+    this.nextToken,
+    this.sessions,
+  });
+
+  factory ListSessionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListSessionsResponse(
+      ids: (json['Ids'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+      sessions: (json['Sessions'] as List?)
+          ?.whereNotNull()
+          .map((e) => Session.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ids = this.ids;
+    final nextToken = this.nextToken;
+    final sessions = this.sessions;
+    return {
+      if (ids != null) 'Ids': ids,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (sessions != null) 'Sessions': sessions,
+    };
+  }
+}
+
+class ListStatementsResponse {
+  /// A continuation token, if not all statements have yet been returned.
+  final String? nextToken;
+
+  /// Returns the list of statements.
+  final List<Statement>? statements;
+
+  ListStatementsResponse({
+    this.nextToken,
+    this.statements,
+  });
+
+  factory ListStatementsResponse.fromJson(Map<String, dynamic> json) {
+    return ListStatementsResponse(
+      nextToken: json['NextToken'] as String?,
+      statements: (json['Statements'] as List?)
+          ?.whereNotNull()
+          .map((e) => Statement.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final statements = this.statements;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (statements != null) 'Statements': statements,
     };
   }
 }
@@ -19674,6 +24370,87 @@ extension on String {
   }
 }
 
+/// Specifies the mapping of data property keys.
+class Mapping {
+  /// Only applicable to nested data structures. If you want to change the parent
+  /// structure, but also one of its children, you can fill out this data
+  /// strucutre. It is also <code>Mapping</code>, but its <code>FromPath</code>
+  /// will be the parent's <code>FromPath</code> plus the <code>FromPath</code>
+  /// from this structure.
+  ///
+  /// For the children part, suppose you have the structure:
+  ///
+  /// <code>{ "FromPath": "OuterStructure", "ToKey": "OuterStructure", "ToType":
+  /// "Struct", "Dropped": false, "Chidlren": [{ "FromPath": "inner", "ToKey":
+  /// "inner", "ToType": "Double", "Dropped": false, }] }</code>
+  ///
+  /// You can specify a <code>Mapping</code> that looks like:
+  ///
+  /// <code>{ "FromPath": "OuterStructure", "ToKey": "OuterStructure", "ToType":
+  /// "Struct", "Dropped": false, "Chidlren": [{ "FromPath": "inner", "ToKey":
+  /// "inner", "ToType": "Double", "Dropped": false, }] }</code>
+  final List<Mapping>? children;
+
+  /// If true, then the column is removed.
+  final bool? dropped;
+
+  /// The table or column to be modified.
+  final List<String>? fromPath;
+
+  /// The type of the data to be modified.
+  final String? fromType;
+
+  /// After the apply mapping, what the name of the column should be. Can be the
+  /// same as <code>FromPath</code>.
+  final String? toKey;
+
+  /// The data type that the data is to be modified to.
+  final String? toType;
+
+  Mapping({
+    this.children,
+    this.dropped,
+    this.fromPath,
+    this.fromType,
+    this.toKey,
+    this.toType,
+  });
+
+  factory Mapping.fromJson(Map<String, dynamic> json) {
+    return Mapping(
+      children: (json['Children'] as List?)
+          ?.whereNotNull()
+          .map((e) => Mapping.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      dropped: json['Dropped'] as bool?,
+      fromPath: (json['FromPath'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      fromType: json['FromType'] as String?,
+      toKey: json['ToKey'] as String?,
+      toType: json['ToType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final children = this.children;
+    final dropped = this.dropped;
+    final fromPath = this.fromPath;
+    final fromType = this.fromType;
+    final toKey = this.toKey;
+    final toType = this.toType;
+    return {
+      if (children != null) 'Children': children,
+      if (dropped != null) 'Dropped': dropped,
+      if (fromPath != null) 'FromPath': fromPath,
+      if (fromType != null) 'FromType': fromType,
+      if (toKey != null) 'ToKey': toKey,
+      if (toType != null) 'ToType': toType,
+    };
+  }
+}
+
 /// Defines a mapping.
 class MappingEntry {
   /// The source path.
@@ -19728,6 +24505,62 @@ class MappingEntry {
       if (targetPath != null) 'TargetPath': targetPath,
       if (targetTable != null) 'TargetTable': targetTable,
       if (targetType != null) 'TargetType': targetType,
+    };
+  }
+}
+
+/// Specifies a transform that merges a <code>DynamicFrame</code> with a staging
+/// <code>DynamicFrame</code> based on the specified primary keys to identify
+/// records. Duplicate records (records with the same primary keys) are not
+/// de-duplicated.
+class Merge {
+  /// The data inputs identified by their node names.
+  final List<String> inputs;
+
+  /// The name of the transform node.
+  final String name;
+
+  /// The list of primary key fields to match records from the source and staging
+  /// dynamic frames.
+  final List<List<String>> primaryKeys;
+
+  /// The source <code>DynamicFrame</code> that will be merged with a staging
+  /// <code>DynamicFrame</code>.
+  final String source;
+
+  Merge({
+    required this.inputs,
+    required this.name,
+    required this.primaryKeys,
+    required this.source,
+  });
+
+  factory Merge.fromJson(Map<String, dynamic> json) {
+    return Merge(
+      inputs: (json['Inputs'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      name: json['Name'] as String,
+      primaryKeys: (json['PrimaryKeys'] as List)
+          .whereNotNull()
+          .map((e) =>
+              (e as List).whereNotNull().map((e) => e as String).toList())
+          .toList(),
+      source: json['Source'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inputs = this.inputs;
+    final name = this.name;
+    final primaryKeys = this.primaryKeys;
+    final source = this.source;
+    return {
+      'Inputs': inputs,
+      'Name': name,
+      'PrimaryKeys': primaryKeys,
+      'Source': source,
     };
   }
 }
@@ -19804,6 +24637,90 @@ class MetadataKeyValuePair {
   }
 }
 
+/// Specifies a Microsoft SQL server data source in the Glue Data Catalog.
+class MicrosoftSQLServerCatalogSource {
+  /// The name of the database to read from.
+  final String database;
+
+  /// The name of the data source.
+  final String name;
+
+  /// The name of the table in the database to read from.
+  final String table;
+
+  MicrosoftSQLServerCatalogSource({
+    required this.database,
+    required this.name,
+    required this.table,
+  });
+
+  factory MicrosoftSQLServerCatalogSource.fromJson(Map<String, dynamic> json) {
+    return MicrosoftSQLServerCatalogSource(
+      database: json['Database'] as String,
+      name: json['Name'] as String,
+      table: json['Table'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final database = this.database;
+    final name = this.name;
+    final table = this.table;
+    return {
+      'Database': database,
+      'Name': name,
+      'Table': table,
+    };
+  }
+}
+
+/// Specifies a target that uses Microsoft SQL.
+class MicrosoftSQLServerCatalogTarget {
+  /// The name of the database to write to.
+  final String database;
+
+  /// The nodes that are inputs to the data target.
+  final List<String> inputs;
+
+  /// The name of the data target.
+  final String name;
+
+  /// The name of the table in the database to write to.
+  final String table;
+
+  MicrosoftSQLServerCatalogTarget({
+    required this.database,
+    required this.inputs,
+    required this.name,
+    required this.table,
+  });
+
+  factory MicrosoftSQLServerCatalogTarget.fromJson(Map<String, dynamic> json) {
+    return MicrosoftSQLServerCatalogTarget(
+      database: json['Database'] as String,
+      inputs: (json['Inputs'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      name: json['Name'] as String,
+      table: json['Table'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final database = this.database;
+    final inputs = this.inputs;
+    final name = this.name;
+    final table = this.table;
+    return {
+      'Database': database,
+      'Inputs': inputs,
+      'Name': name,
+      'Table': table,
+    };
+  }
+}
+
 /// Specifies an Amazon DocumentDB or MongoDB data store to crawl.
 class MongoDBTarget {
   /// The name of the connection to use to connect to the Amazon DocumentDB or
@@ -19844,6 +24761,90 @@ class MongoDBTarget {
       if (connectionName != null) 'ConnectionName': connectionName,
       if (path != null) 'Path': path,
       if (scanAll != null) 'ScanAll': scanAll,
+    };
+  }
+}
+
+/// Specifies a MySQL data source in the Glue Data Catalog.
+class MySQLCatalogSource {
+  /// The name of the database to read from.
+  final String database;
+
+  /// The name of the data source.
+  final String name;
+
+  /// The name of the table in the database to read from.
+  final String table;
+
+  MySQLCatalogSource({
+    required this.database,
+    required this.name,
+    required this.table,
+  });
+
+  factory MySQLCatalogSource.fromJson(Map<String, dynamic> json) {
+    return MySQLCatalogSource(
+      database: json['Database'] as String,
+      name: json['Name'] as String,
+      table: json['Table'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final database = this.database;
+    final name = this.name;
+    final table = this.table;
+    return {
+      'Database': database,
+      'Name': name,
+      'Table': table,
+    };
+  }
+}
+
+/// Specifies a target that uses MySQL.
+class MySQLCatalogTarget {
+  /// The name of the database to write to.
+  final String database;
+
+  /// The nodes that are inputs to the data target.
+  final List<String> inputs;
+
+  /// The name of the data target.
+  final String name;
+
+  /// The name of the table in the database to write to.
+  final String table;
+
+  MySQLCatalogTarget({
+    required this.database,
+    required this.inputs,
+    required this.name,
+    required this.table,
+  });
+
+  factory MySQLCatalogTarget.fromJson(Map<String, dynamic> json) {
+    return MySQLCatalogTarget(
+      database: json['Database'] as String,
+      inputs: (json['Inputs'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      name: json['Name'] as String,
+      table: json['Table'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final database = this.database;
+    final inputs = this.inputs;
+    final name = this.name;
+    final table = this.table;
+    return {
+      'Database': database,
+      'Inputs': inputs,
+      'Name': name,
+      'Table': table,
     };
   }
 }
@@ -19972,6 +24973,159 @@ class NotificationProperty {
   }
 }
 
+/// Represents whether certain values are recognized as null values for removal.
+class NullCheckBoxList {
+  /// Specifies that an empty string is considered as a null value.
+  final bool? isEmpty;
+
+  /// Specifies that an integer value of -1 is considered as a null value.
+  final bool? isNegOne;
+
+  /// Specifies that a value spelling out the word 'null' is considered as a null
+  /// value.
+  final bool? isNullString;
+
+  NullCheckBoxList({
+    this.isEmpty,
+    this.isNegOne,
+    this.isNullString,
+  });
+
+  factory NullCheckBoxList.fromJson(Map<String, dynamic> json) {
+    return NullCheckBoxList(
+      isEmpty: json['IsEmpty'] as bool?,
+      isNegOne: json['IsNegOne'] as bool?,
+      isNullString: json['IsNullString'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isEmpty = this.isEmpty;
+    final isNegOne = this.isNegOne;
+    final isNullString = this.isNullString;
+    return {
+      if (isEmpty != null) 'IsEmpty': isEmpty,
+      if (isNegOne != null) 'IsNegOne': isNegOne,
+      if (isNullString != null) 'IsNullString': isNullString,
+    };
+  }
+}
+
+/// Represents a custom null value such as a zeros or other value being used as
+/// a null placeholder unique to the dataset.
+class NullValueField {
+  /// The datatype of the value.
+  final Datatype datatype;
+
+  /// The value of the null placeholder.
+  final String value;
+
+  NullValueField({
+    required this.datatype,
+    required this.value,
+  });
+
+  factory NullValueField.fromJson(Map<String, dynamic> json) {
+    return NullValueField(
+      datatype: Datatype.fromJson(json['Datatype'] as Map<String, dynamic>),
+      value: json['Value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final datatype = this.datatype;
+    final value = this.value;
+    return {
+      'Datatype': datatype,
+      'Value': value,
+    };
+  }
+}
+
+/// Specifies an Oracle data source in the Glue Data Catalog.
+class OracleSQLCatalogSource {
+  /// The name of the database to read from.
+  final String database;
+
+  /// The name of the data source.
+  final String name;
+
+  /// The name of the table in the database to read from.
+  final String table;
+
+  OracleSQLCatalogSource({
+    required this.database,
+    required this.name,
+    required this.table,
+  });
+
+  factory OracleSQLCatalogSource.fromJson(Map<String, dynamic> json) {
+    return OracleSQLCatalogSource(
+      database: json['Database'] as String,
+      name: json['Name'] as String,
+      table: json['Table'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final database = this.database;
+    final name = this.name;
+    final table = this.table;
+    return {
+      'Database': database,
+      'Name': name,
+      'Table': table,
+    };
+  }
+}
+
+/// Specifies a target that uses Oracle SQL.
+class OracleSQLCatalogTarget {
+  /// The name of the database to write to.
+  final String database;
+
+  /// The nodes that are inputs to the data target.
+  final List<String> inputs;
+
+  /// The name of the data target.
+  final String name;
+
+  /// The name of the table in the database to write to.
+  final String table;
+
+  OracleSQLCatalogTarget({
+    required this.database,
+    required this.inputs,
+    required this.name,
+    required this.table,
+  });
+
+  factory OracleSQLCatalogTarget.fromJson(Map<String, dynamic> json) {
+    return OracleSQLCatalogTarget(
+      database: json['Database'] as String,
+      inputs: (json['Inputs'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      name: json['Name'] as String,
+      table: json['Table'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final database = this.database;
+    final inputs = this.inputs;
+    final name = this.name;
+    final table = this.table;
+    return {
+      'Database': database,
+      'Inputs': inputs,
+      'Name': name,
+      'Table': table,
+    };
+  }
+}
+
 /// Specifies the sort order of a sorted column.
 class Order {
   /// The name of the column.
@@ -20032,6 +25186,136 @@ class OtherMetadataValueListItem {
       if (createdTime != null) 'CreatedTime': createdTime,
       if (metadataValue != null) 'MetadataValue': metadataValue,
     };
+  }
+}
+
+/// Specifies a transform that identifies, removes or masks PII data.
+class PIIDetection {
+  /// Indicates the types of entities the PIIDetection transform will identify as
+  /// PII data.
+  ///
+  /// PII type entities include: PERSON_NAME, DATE, USA_SNN, EMAIL, USA_ITIN,
+  /// USA_PASSPORT_NUMBER, PHONE_NUMBER, BANK_ACCOUNT, IP_ADDRESS, MAC_ADDRESS,
+  /// USA_CPT_CODE, USA_HCPCS_CODE, USA_NATIONAL_DRUG_CODE,
+  /// USA_MEDICARE_BENEFICIARY_IDENTIFIER,
+  /// USA_HEALTH_INSURANCE_CLAIM_NUMBER,CREDIT_CARD,USA_NATIONAL_PROVIDER_IDENTIFIER,USA_DEA_NUMBER,USA_DRIVING_LICENSE
+  final List<String> entityTypesToDetect;
+
+  /// The node ID inputs to the transform.
+  final List<String> inputs;
+
+  /// The name of the transform node.
+  final String name;
+
+  /// Indicates the type of PIIDetection transform.
+  final PiiType piiType;
+
+  /// Indicates the value that will replace the detected entity.
+  final String? maskValue;
+
+  /// Indicates the output column name that will contain any entity type detected
+  /// in that row.
+  final String? outputColumnName;
+
+  /// Indicates the fraction of the data to sample when scanning for PII entities.
+  final double? sampleFraction;
+
+  /// Indicates the fraction of the data that must be met in order for a column to
+  /// be identified as PII data.
+  final double? thresholdFraction;
+
+  PIIDetection({
+    required this.entityTypesToDetect,
+    required this.inputs,
+    required this.name,
+    required this.piiType,
+    this.maskValue,
+    this.outputColumnName,
+    this.sampleFraction,
+    this.thresholdFraction,
+  });
+
+  factory PIIDetection.fromJson(Map<String, dynamic> json) {
+    return PIIDetection(
+      entityTypesToDetect: (json['EntityTypesToDetect'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      inputs: (json['Inputs'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      name: json['Name'] as String,
+      piiType: (json['PiiType'] as String).toPiiType(),
+      maskValue: json['MaskValue'] as String?,
+      outputColumnName: json['OutputColumnName'] as String?,
+      sampleFraction: json['SampleFraction'] as double?,
+      thresholdFraction: json['ThresholdFraction'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final entityTypesToDetect = this.entityTypesToDetect;
+    final inputs = this.inputs;
+    final name = this.name;
+    final piiType = this.piiType;
+    final maskValue = this.maskValue;
+    final outputColumnName = this.outputColumnName;
+    final sampleFraction = this.sampleFraction;
+    final thresholdFraction = this.thresholdFraction;
+    return {
+      'EntityTypesToDetect': entityTypesToDetect,
+      'Inputs': inputs,
+      'Name': name,
+      'PiiType': piiType.toValue(),
+      if (maskValue != null) 'MaskValue': maskValue,
+      if (outputColumnName != null) 'OutputColumnName': outputColumnName,
+      if (sampleFraction != null) 'SampleFraction': sampleFraction,
+      if (thresholdFraction != null) 'ThresholdFraction': thresholdFraction,
+    };
+  }
+}
+
+enum ParquetCompressionType {
+  snappy,
+  lzo,
+  gzip,
+  uncompressed,
+  none,
+}
+
+extension on ParquetCompressionType {
+  String toValue() {
+    switch (this) {
+      case ParquetCompressionType.snappy:
+        return 'snappy';
+      case ParquetCompressionType.lzo:
+        return 'lzo';
+      case ParquetCompressionType.gzip:
+        return 'gzip';
+      case ParquetCompressionType.uncompressed:
+        return 'uncompressed';
+      case ParquetCompressionType.none:
+        return 'none';
+    }
+  }
+}
+
+extension on String {
+  ParquetCompressionType toParquetCompressionType() {
+    switch (this) {
+      case 'snappy':
+        return ParquetCompressionType.snappy;
+      case 'lzo':
+        return ParquetCompressionType.lzo;
+      case 'gzip':
+        return ParquetCompressionType.gzip;
+      case 'uncompressed':
+        return ParquetCompressionType.uncompressed;
+      case 'none':
+        return ParquetCompressionType.none;
+    }
+    throw Exception('$this is not known in enum ParquetCompressionType');
   }
 }
 
@@ -20528,6 +25812,128 @@ class PhysicalConnectionRequirements {
   }
 }
 
+enum PiiType {
+  rowAudit,
+  rowMasking,
+  columnAudit,
+  columnMasking,
+}
+
+extension on PiiType {
+  String toValue() {
+    switch (this) {
+      case PiiType.rowAudit:
+        return 'RowAudit';
+      case PiiType.rowMasking:
+        return 'RowMasking';
+      case PiiType.columnAudit:
+        return 'ColumnAudit';
+      case PiiType.columnMasking:
+        return 'ColumnMasking';
+    }
+  }
+}
+
+extension on String {
+  PiiType toPiiType() {
+    switch (this) {
+      case 'RowAudit':
+        return PiiType.rowAudit;
+      case 'RowMasking':
+        return PiiType.rowMasking;
+      case 'ColumnAudit':
+        return PiiType.columnAudit;
+      case 'ColumnMasking':
+        return PiiType.columnMasking;
+    }
+    throw Exception('$this is not known in enum PiiType');
+  }
+}
+
+/// Specifies a PostgresSQL data source in the Glue Data Catalog.
+class PostgreSQLCatalogSource {
+  /// The name of the database to read from.
+  final String database;
+
+  /// The name of the data source.
+  final String name;
+
+  /// The name of the table in the database to read from.
+  final String table;
+
+  PostgreSQLCatalogSource({
+    required this.database,
+    required this.name,
+    required this.table,
+  });
+
+  factory PostgreSQLCatalogSource.fromJson(Map<String, dynamic> json) {
+    return PostgreSQLCatalogSource(
+      database: json['Database'] as String,
+      name: json['Name'] as String,
+      table: json['Table'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final database = this.database;
+    final name = this.name;
+    final table = this.table;
+    return {
+      'Database': database,
+      'Name': name,
+      'Table': table,
+    };
+  }
+}
+
+/// Specifies a target that uses Postgres SQL.
+class PostgreSQLCatalogTarget {
+  /// The name of the database to write to.
+  final String database;
+
+  /// The nodes that are inputs to the data target.
+  final List<String> inputs;
+
+  /// The name of the data target.
+  final String name;
+
+  /// The name of the table in the database to write to.
+  final String table;
+
+  PostgreSQLCatalogTarget({
+    required this.database,
+    required this.inputs,
+    required this.name,
+    required this.table,
+  });
+
+  factory PostgreSQLCatalogTarget.fromJson(Map<String, dynamic> json) {
+    return PostgreSQLCatalogTarget(
+      database: json['Database'] as String,
+      inputs: (json['Inputs'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      name: json['Name'] as String,
+      table: json['Table'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final database = this.database;
+    final inputs = this.inputs;
+    final name = this.name;
+    final table = this.table;
+    return {
+      'Database': database,
+      'Inputs': inputs,
+      'Name': name,
+      'Table': table,
+    };
+  }
+}
+
 /// A job run that was used in the predicate of a conditional trigger that
 /// triggered this job run.
 class Predecessor {
@@ -20859,6 +26265,44 @@ class QuerySchemaVersionMetadataResponse {
   }
 }
 
+enum QuoteChar {
+  quote,
+  quillemet,
+  singleQuote,
+  disabled,
+}
+
+extension on QuoteChar {
+  String toValue() {
+    switch (this) {
+      case QuoteChar.quote:
+        return 'quote';
+      case QuoteChar.quillemet:
+        return 'quillemet';
+      case QuoteChar.singleQuote:
+        return 'single_quote';
+      case QuoteChar.disabled:
+        return 'disabled';
+    }
+  }
+}
+
+extension on String {
+  QuoteChar toQuoteChar() {
+    switch (this) {
+      case 'quote':
+        return QuoteChar.quote;
+      case 'quillemet':
+        return QuoteChar.quillemet;
+      case 'single_quote':
+        return QuoteChar.singleQuote;
+      case 'disabled':
+        return QuoteChar.disabled;
+    }
+    throw Exception('$this is not known in enum QuoteChar');
+  }
+}
+
 enum RecrawlBehavior {
   crawlEverything,
   crawlNewFoldersOnly,
@@ -20926,6 +26370,132 @@ class RecrawlPolicy {
     final recrawlBehavior = this.recrawlBehavior;
     return {
       if (recrawlBehavior != null) 'RecrawlBehavior': recrawlBehavior.toValue(),
+    };
+  }
+}
+
+/// Specifies an Amazon Redshift data store.
+class RedshiftSource {
+  /// The database to read from.
+  final String database;
+
+  /// The name of the Amazon Redshift data store.
+  final String name;
+
+  /// The database table to read from.
+  final String table;
+
+  /// The Amazon S3 path where temporary data can be staged when copying out of
+  /// the database.
+  final String? redshiftTmpDir;
+
+  /// The IAM role with permissions.
+  final String? tmpDirIAMRole;
+
+  RedshiftSource({
+    required this.database,
+    required this.name,
+    required this.table,
+    this.redshiftTmpDir,
+    this.tmpDirIAMRole,
+  });
+
+  factory RedshiftSource.fromJson(Map<String, dynamic> json) {
+    return RedshiftSource(
+      database: json['Database'] as String,
+      name: json['Name'] as String,
+      table: json['Table'] as String,
+      redshiftTmpDir: json['RedshiftTmpDir'] as String?,
+      tmpDirIAMRole: json['TmpDirIAMRole'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final database = this.database;
+    final name = this.name;
+    final table = this.table;
+    final redshiftTmpDir = this.redshiftTmpDir;
+    final tmpDirIAMRole = this.tmpDirIAMRole;
+    return {
+      'Database': database,
+      'Name': name,
+      'Table': table,
+      if (redshiftTmpDir != null) 'RedshiftTmpDir': redshiftTmpDir,
+      if (tmpDirIAMRole != null) 'TmpDirIAMRole': tmpDirIAMRole,
+    };
+  }
+}
+
+/// Specifies a target that uses Amazon Redshift.
+class RedshiftTarget {
+  /// The name of the database to write to.
+  final String database;
+
+  /// The nodes that are inputs to the data target.
+  final List<String> inputs;
+
+  /// The name of the data target.
+  final String name;
+
+  /// The name of the table in the database to write to.
+  final String table;
+
+  /// The Amazon S3 path where temporary data can be staged when copying out of
+  /// the database.
+  final String? redshiftTmpDir;
+
+  /// The IAM role with permissions.
+  final String? tmpDirIAMRole;
+
+  /// The set of options to configure an upsert operation when writing to a
+  /// Redshift target.
+  final UpsertRedshiftTargetOptions? upsertRedshiftOptions;
+
+  RedshiftTarget({
+    required this.database,
+    required this.inputs,
+    required this.name,
+    required this.table,
+    this.redshiftTmpDir,
+    this.tmpDirIAMRole,
+    this.upsertRedshiftOptions,
+  });
+
+  factory RedshiftTarget.fromJson(Map<String, dynamic> json) {
+    return RedshiftTarget(
+      database: json['Database'] as String,
+      inputs: (json['Inputs'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      name: json['Name'] as String,
+      table: json['Table'] as String,
+      redshiftTmpDir: json['RedshiftTmpDir'] as String?,
+      tmpDirIAMRole: json['TmpDirIAMRole'] as String?,
+      upsertRedshiftOptions: json['UpsertRedshiftOptions'] != null
+          ? UpsertRedshiftTargetOptions.fromJson(
+              json['UpsertRedshiftOptions'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final database = this.database;
+    final inputs = this.inputs;
+    final name = this.name;
+    final table = this.table;
+    final redshiftTmpDir = this.redshiftTmpDir;
+    final tmpDirIAMRole = this.tmpDirIAMRole;
+    final upsertRedshiftOptions = this.upsertRedshiftOptions;
+    return {
+      'Database': database,
+      'Inputs': inputs,
+      'Name': name,
+      'Table': table,
+      if (redshiftTmpDir != null) 'RedshiftTmpDir': redshiftTmpDir,
+      if (tmpDirIAMRole != null) 'TmpDirIAMRole': tmpDirIAMRole,
+      if (upsertRedshiftOptions != null)
+        'UpsertRedshiftOptions': upsertRedshiftOptions,
     };
   }
 }
@@ -21086,6 +26656,43 @@ extension on String {
   }
 }
 
+/// Specifies a Relational database data source in the Glue Data Catalog.
+class RelationalCatalogSource {
+  /// The name of the database to read from.
+  final String database;
+
+  /// The name of the data source.
+  final String name;
+
+  /// The name of the table in the database to read from.
+  final String table;
+
+  RelationalCatalogSource({
+    required this.database,
+    required this.name,
+    required this.table,
+  });
+
+  factory RelationalCatalogSource.fromJson(Map<String, dynamic> json) {
+    return RelationalCatalogSource(
+      database: json['Database'] as String,
+      name: json['Name'] as String,
+      table: json['Table'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final database = this.database;
+    final name = this.name;
+    final table = this.table;
+    return {
+      'Database': database,
+      'Name': name,
+      'Table': table,
+    };
+  }
+}
+
 class RemoveSchemaVersionMetadataResponse {
   /// The latest version of the schema.
   final bool? latestVersion;
@@ -21154,6 +26761,59 @@ class RemoveSchemaVersionMetadataResponse {
       if (schemaName != null) 'SchemaName': schemaName,
       if (schemaVersionId != null) 'SchemaVersionId': schemaVersionId,
       if (versionNumber != null) 'VersionNumber': versionNumber,
+    };
+  }
+}
+
+/// Specifies a transform that renames a single data property key.
+class RenameField {
+  /// The data inputs identified by their node names.
+  final List<String> inputs;
+
+  /// The name of the transform node.
+  final String name;
+
+  /// A JSON path to a variable in the data structure for the source data.
+  final List<String> sourcePath;
+
+  /// A JSON path to a variable in the data structure for the target data.
+  final List<String> targetPath;
+
+  RenameField({
+    required this.inputs,
+    required this.name,
+    required this.sourcePath,
+    required this.targetPath,
+  });
+
+  factory RenameField.fromJson(Map<String, dynamic> json) {
+    return RenameField(
+      inputs: (json['Inputs'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      name: json['Name'] as String,
+      sourcePath: (json['SourcePath'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      targetPath: (json['TargetPath'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inputs = this.inputs;
+    final name = this.name;
+    final sourcePath = this.sourcePath;
+    final targetPath = this.targetPath;
+    return {
+      'Inputs': inputs,
+      'Name': name,
+      'SourcePath': sourcePath,
+      'TargetPath': targetPath,
     };
   }
 }
@@ -21307,6 +26967,469 @@ class ResumeWorkflowRunResponse {
   }
 }
 
+class RunStatementResponse {
+  /// Returns the Id of the statement that was run.
+  final int? id;
+
+  RunStatementResponse({
+    this.id,
+  });
+
+  factory RunStatementResponse.fromJson(Map<String, dynamic> json) {
+    return RunStatementResponse(
+      id: json['Id'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    return {
+      if (id != null) 'Id': id,
+    };
+  }
+}
+
+/// Specifies an Amazon S3 data store in the Glue Data Catalog.
+class S3CatalogSource {
+  /// The database to read from.
+  final String database;
+
+  /// The name of the data store.
+  final String name;
+
+  /// The database table to read from.
+  final String table;
+
+  /// Specifies additional connection options.
+  final S3SourceAdditionalOptions? additionalOptions;
+
+  /// Partitions satisfying this predicate are deleted. Files within the retention
+  /// period in these partitions are not deleted. Set to <code>""</code> – empty
+  /// by default.
+  final String? partitionPredicate;
+
+  S3CatalogSource({
+    required this.database,
+    required this.name,
+    required this.table,
+    this.additionalOptions,
+    this.partitionPredicate,
+  });
+
+  factory S3CatalogSource.fromJson(Map<String, dynamic> json) {
+    return S3CatalogSource(
+      database: json['Database'] as String,
+      name: json['Name'] as String,
+      table: json['Table'] as String,
+      additionalOptions: json['AdditionalOptions'] != null
+          ? S3SourceAdditionalOptions.fromJson(
+              json['AdditionalOptions'] as Map<String, dynamic>)
+          : null,
+      partitionPredicate: json['PartitionPredicate'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final database = this.database;
+    final name = this.name;
+    final table = this.table;
+    final additionalOptions = this.additionalOptions;
+    final partitionPredicate = this.partitionPredicate;
+    return {
+      'Database': database,
+      'Name': name,
+      'Table': table,
+      if (additionalOptions != null) 'AdditionalOptions': additionalOptions,
+      if (partitionPredicate != null) 'PartitionPredicate': partitionPredicate,
+    };
+  }
+}
+
+/// Specifies a data target that writes to Amazon S3 using the Glue Data
+/// Catalog.
+class S3CatalogTarget {
+  /// The name of the database to write to.
+  final String database;
+
+  /// The nodes that are inputs to the data target.
+  final List<String> inputs;
+
+  /// The name of the data target.
+  final String name;
+
+  /// The name of the table in the database to write to.
+  final String table;
+
+  /// Specifies native partitioning using a sequence of keys.
+  final List<List<String>>? partitionKeys;
+
+  /// A policy that specifies update behavior for the crawler.
+  final CatalogSchemaChangePolicy? schemaChangePolicy;
+
+  S3CatalogTarget({
+    required this.database,
+    required this.inputs,
+    required this.name,
+    required this.table,
+    this.partitionKeys,
+    this.schemaChangePolicy,
+  });
+
+  factory S3CatalogTarget.fromJson(Map<String, dynamic> json) {
+    return S3CatalogTarget(
+      database: json['Database'] as String,
+      inputs: (json['Inputs'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      name: json['Name'] as String,
+      table: json['Table'] as String,
+      partitionKeys: (json['PartitionKeys'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              (e as List).whereNotNull().map((e) => e as String).toList())
+          .toList(),
+      schemaChangePolicy: json['SchemaChangePolicy'] != null
+          ? CatalogSchemaChangePolicy.fromJson(
+              json['SchemaChangePolicy'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final database = this.database;
+    final inputs = this.inputs;
+    final name = this.name;
+    final table = this.table;
+    final partitionKeys = this.partitionKeys;
+    final schemaChangePolicy = this.schemaChangePolicy;
+    return {
+      'Database': database,
+      'Inputs': inputs,
+      'Name': name,
+      'Table': table,
+      if (partitionKeys != null) 'PartitionKeys': partitionKeys,
+      if (schemaChangePolicy != null) 'SchemaChangePolicy': schemaChangePolicy,
+    };
+  }
+}
+
+/// Specifies a command-separated value (CSV) data store stored in Amazon S3.
+class S3CsvSource {
+  /// The name of the data store.
+  final String name;
+
+  /// A list of the Amazon S3 paths to read from.
+  final List<String> paths;
+
+  /// Specifies the character to use for quoting. The default is a double quote:
+  /// <code>'"'</code>. Set this to <code>-1</code> to turn off quoting entirely.
+  final QuoteChar quoteChar;
+
+  /// Specifies the delimiter character. The default is a comma: ",", but any
+  /// other character can be specified.
+  final Separator separator;
+
+  /// Specifies additional connection options.
+  final S3DirectSourceAdditionalOptions? additionalOptions;
+
+  /// Specifies how the data is compressed. This is generally not necessary if the
+  /// data has a standard file extension. Possible values are <code>"gzip"</code>
+  /// and <code>"bzip"</code>).
+  final CompressionType? compressionType;
+
+  /// Specifies a character to use for escaping. This option is used only when
+  /// reading CSV files. The default value is <code>none</code>. If enabled, the
+  /// character which immediately follows is used as-is, except for a small set of
+  /// well-known escapes (<code>\n</code>, <code>\r</code>, <code>\t</code>, and
+  /// <code>\0</code>).
+  final String? escaper;
+
+  /// A string containing a JSON list of Unix-style glob patterns to exclude. For
+  /// example, "[\"**.pdf\"]" excludes all PDF files.
+  final List<String>? exclusions;
+
+  /// Grouping files is turned on by default when the input contains more than
+  /// 50,000 files. To turn on grouping with fewer than 50,000 files, set this
+  /// parameter to "inPartition". To disable grouping when there are more than
+  /// 50,000 files, set this parameter to <code>"none"</code>.
+  final String? groupFiles;
+
+  /// The target group size in bytes. The default is computed based on the input
+  /// data size and the size of your cluster. When there are fewer than 50,000
+  /// input files, <code>"groupFiles"</code> must be set to
+  /// <code>"inPartition"</code> for this to take effect.
+  final String? groupSize;
+
+  /// This option controls the duration in milliseconds after which the s3 listing
+  /// is likely to be consistent. Files with modification timestamps falling
+  /// within the last maxBand milliseconds are tracked specially when using
+  /// JobBookmarks to account for Amazon S3 eventual consistency. Most users don't
+  /// need to set this option. The default is 900000 milliseconds, or 15 minutes.
+  final int? maxBand;
+
+  /// This option specifies the maximum number of files to save from the last
+  /// maxBand seconds. If this number is exceeded, extra files are skipped and
+  /// only processed in the next job run.
+  final int? maxFilesInBand;
+
+  /// A Boolean value that specifies whether a single record can span multiple
+  /// lines. This can occur when a field contains a quoted new-line character. You
+  /// must set this option to True if any record spans multiple lines. The default
+  /// value is <code>False</code>, which allows for more aggressive file-splitting
+  /// during parsing.
+  final bool? multiline;
+
+  /// A Boolean value that specifies whether to use the advanced SIMD CSV reader
+  /// along with Apache Arrow based columnar memory formats. Only available in
+  /// Glue version 3.0.
+  final bool? optimizePerformance;
+
+  /// Specifies the data schema for the S3 CSV source.
+  final List<GlueSchema>? outputSchemas;
+
+  /// If set to true, recursively reads files in all subdirectories under the
+  /// specified paths.
+  final bool? recurse;
+
+  /// A Boolean value that specifies whether to skip the first data line. The
+  /// default value is <code>False</code>.
+  final bool? skipFirst;
+
+  /// A Boolean value that specifies whether to treat the first line as a header.
+  /// The default value is <code>False</code>.
+  final bool? withHeader;
+
+  /// A Boolean value that specifies whether to write the header to output. The
+  /// default value is <code>True</code>.
+  final bool? writeHeader;
+
+  S3CsvSource({
+    required this.name,
+    required this.paths,
+    required this.quoteChar,
+    required this.separator,
+    this.additionalOptions,
+    this.compressionType,
+    this.escaper,
+    this.exclusions,
+    this.groupFiles,
+    this.groupSize,
+    this.maxBand,
+    this.maxFilesInBand,
+    this.multiline,
+    this.optimizePerformance,
+    this.outputSchemas,
+    this.recurse,
+    this.skipFirst,
+    this.withHeader,
+    this.writeHeader,
+  });
+
+  factory S3CsvSource.fromJson(Map<String, dynamic> json) {
+    return S3CsvSource(
+      name: json['Name'] as String,
+      paths: (json['Paths'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      quoteChar: (json['QuoteChar'] as String).toQuoteChar(),
+      separator: (json['Separator'] as String).toSeparator(),
+      additionalOptions: json['AdditionalOptions'] != null
+          ? S3DirectSourceAdditionalOptions.fromJson(
+              json['AdditionalOptions'] as Map<String, dynamic>)
+          : null,
+      compressionType:
+          (json['CompressionType'] as String?)?.toCompressionType(),
+      escaper: json['Escaper'] as String?,
+      exclusions: (json['Exclusions'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      groupFiles: json['GroupFiles'] as String?,
+      groupSize: json['GroupSize'] as String?,
+      maxBand: json['MaxBand'] as int?,
+      maxFilesInBand: json['MaxFilesInBand'] as int?,
+      multiline: json['Multiline'] as bool?,
+      optimizePerformance: json['OptimizePerformance'] as bool?,
+      outputSchemas: (json['OutputSchemas'] as List?)
+          ?.whereNotNull()
+          .map((e) => GlueSchema.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      recurse: json['Recurse'] as bool?,
+      skipFirst: json['SkipFirst'] as bool?,
+      withHeader: json['WithHeader'] as bool?,
+      writeHeader: json['WriteHeader'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final paths = this.paths;
+    final quoteChar = this.quoteChar;
+    final separator = this.separator;
+    final additionalOptions = this.additionalOptions;
+    final compressionType = this.compressionType;
+    final escaper = this.escaper;
+    final exclusions = this.exclusions;
+    final groupFiles = this.groupFiles;
+    final groupSize = this.groupSize;
+    final maxBand = this.maxBand;
+    final maxFilesInBand = this.maxFilesInBand;
+    final multiline = this.multiline;
+    final optimizePerformance = this.optimizePerformance;
+    final outputSchemas = this.outputSchemas;
+    final recurse = this.recurse;
+    final skipFirst = this.skipFirst;
+    final withHeader = this.withHeader;
+    final writeHeader = this.writeHeader;
+    return {
+      'Name': name,
+      'Paths': paths,
+      'QuoteChar': quoteChar.toValue(),
+      'Separator': separator.toValue(),
+      if (additionalOptions != null) 'AdditionalOptions': additionalOptions,
+      if (compressionType != null) 'CompressionType': compressionType.toValue(),
+      if (escaper != null) 'Escaper': escaper,
+      if (exclusions != null) 'Exclusions': exclusions,
+      if (groupFiles != null) 'GroupFiles': groupFiles,
+      if (groupSize != null) 'GroupSize': groupSize,
+      if (maxBand != null) 'MaxBand': maxBand,
+      if (maxFilesInBand != null) 'MaxFilesInBand': maxFilesInBand,
+      if (multiline != null) 'Multiline': multiline,
+      if (optimizePerformance != null)
+        'OptimizePerformance': optimizePerformance,
+      if (outputSchemas != null) 'OutputSchemas': outputSchemas,
+      if (recurse != null) 'Recurse': recurse,
+      if (skipFirst != null) 'SkipFirst': skipFirst,
+      if (withHeader != null) 'WithHeader': withHeader,
+      if (writeHeader != null) 'WriteHeader': writeHeader,
+    };
+  }
+}
+
+/// Specifies additional connection options for the Amazon S3 data store.
+class S3DirectSourceAdditionalOptions {
+  /// Sets the upper limit for the target number of files that will be processed.
+  final int? boundedFiles;
+
+  /// Sets the upper limit for the target size of the dataset in bytes that will
+  /// be processed.
+  final int? boundedSize;
+
+  /// Sets option to enable a sample path.
+  final bool? enableSamplePath;
+
+  /// If enabled, specifies the sample path.
+  final String? samplePath;
+
+  S3DirectSourceAdditionalOptions({
+    this.boundedFiles,
+    this.boundedSize,
+    this.enableSamplePath,
+    this.samplePath,
+  });
+
+  factory S3DirectSourceAdditionalOptions.fromJson(Map<String, dynamic> json) {
+    return S3DirectSourceAdditionalOptions(
+      boundedFiles: json['BoundedFiles'] as int?,
+      boundedSize: json['BoundedSize'] as int?,
+      enableSamplePath: json['EnableSamplePath'] as bool?,
+      samplePath: json['SamplePath'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final boundedFiles = this.boundedFiles;
+    final boundedSize = this.boundedSize;
+    final enableSamplePath = this.enableSamplePath;
+    final samplePath = this.samplePath;
+    return {
+      if (boundedFiles != null) 'BoundedFiles': boundedFiles,
+      if (boundedSize != null) 'BoundedSize': boundedSize,
+      if (enableSamplePath != null) 'EnableSamplePath': enableSamplePath,
+      if (samplePath != null) 'SamplePath': samplePath,
+    };
+  }
+}
+
+/// Specifies a data target that writes to Amazon S3.
+class S3DirectTarget {
+  /// Specifies the data output format for the target.
+  final TargetFormat format;
+
+  /// The nodes that are inputs to the data target.
+  final List<String> inputs;
+
+  /// The name of the data target.
+  final String name;
+
+  /// A single Amazon S3 path to write to.
+  final String path;
+
+  /// Specifies how the data is compressed. This is generally not necessary if the
+  /// data has a standard file extension. Possible values are <code>"gzip"</code>
+  /// and <code>"bzip"</code>).
+  final String? compression;
+
+  /// Specifies native partitioning using a sequence of keys.
+  final List<List<String>>? partitionKeys;
+
+  /// A policy that specifies update behavior for the crawler.
+  final DirectSchemaChangePolicy? schemaChangePolicy;
+
+  S3DirectTarget({
+    required this.format,
+    required this.inputs,
+    required this.name,
+    required this.path,
+    this.compression,
+    this.partitionKeys,
+    this.schemaChangePolicy,
+  });
+
+  factory S3DirectTarget.fromJson(Map<String, dynamic> json) {
+    return S3DirectTarget(
+      format: (json['Format'] as String).toTargetFormat(),
+      inputs: (json['Inputs'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      name: json['Name'] as String,
+      path: json['Path'] as String,
+      compression: json['Compression'] as String?,
+      partitionKeys: (json['PartitionKeys'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              (e as List).whereNotNull().map((e) => e as String).toList())
+          .toList(),
+      schemaChangePolicy: json['SchemaChangePolicy'] != null
+          ? DirectSchemaChangePolicy.fromJson(
+              json['SchemaChangePolicy'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final format = this.format;
+    final inputs = this.inputs;
+    final name = this.name;
+    final path = this.path;
+    final compression = this.compression;
+    final partitionKeys = this.partitionKeys;
+    final schemaChangePolicy = this.schemaChangePolicy;
+    return {
+      'Format': format.toValue(),
+      'Inputs': inputs,
+      'Name': name,
+      'Path': path,
+      if (compression != null) 'Compression': compression,
+      if (partitionKeys != null) 'PartitionKeys': partitionKeys,
+      if (schemaChangePolicy != null) 'SchemaChangePolicy': schemaChangePolicy,
+    };
+  }
+}
+
 /// Specifies how Amazon Simple Storage Service (Amazon S3) data should be
 /// encrypted.
 class S3Encryption {
@@ -21371,6 +27494,370 @@ extension on String {
         return S3EncryptionMode.sseS3;
     }
     throw Exception('$this is not known in enum S3EncryptionMode');
+  }
+}
+
+/// Specifies a data target that writes to Amazon S3 in Apache Parquet columnar
+/// storage.
+class S3GlueParquetTarget {
+  /// The nodes that are inputs to the data target.
+  final List<String> inputs;
+
+  /// The name of the data target.
+  final String name;
+
+  /// A single Amazon S3 path to write to.
+  final String path;
+
+  /// Specifies how the data is compressed. This is generally not necessary if the
+  /// data has a standard file extension. Possible values are <code>"gzip"</code>
+  /// and <code>"bzip"</code>).
+  final ParquetCompressionType? compression;
+
+  /// Specifies native partitioning using a sequence of keys.
+  final List<List<String>>? partitionKeys;
+
+  /// A policy that specifies update behavior for the crawler.
+  final DirectSchemaChangePolicy? schemaChangePolicy;
+
+  S3GlueParquetTarget({
+    required this.inputs,
+    required this.name,
+    required this.path,
+    this.compression,
+    this.partitionKeys,
+    this.schemaChangePolicy,
+  });
+
+  factory S3GlueParquetTarget.fromJson(Map<String, dynamic> json) {
+    return S3GlueParquetTarget(
+      inputs: (json['Inputs'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      name: json['Name'] as String,
+      path: json['Path'] as String,
+      compression: (json['Compression'] as String?)?.toParquetCompressionType(),
+      partitionKeys: (json['PartitionKeys'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              (e as List).whereNotNull().map((e) => e as String).toList())
+          .toList(),
+      schemaChangePolicy: json['SchemaChangePolicy'] != null
+          ? DirectSchemaChangePolicy.fromJson(
+              json['SchemaChangePolicy'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inputs = this.inputs;
+    final name = this.name;
+    final path = this.path;
+    final compression = this.compression;
+    final partitionKeys = this.partitionKeys;
+    final schemaChangePolicy = this.schemaChangePolicy;
+    return {
+      'Inputs': inputs,
+      'Name': name,
+      'Path': path,
+      if (compression != null) 'Compression': compression.toValue(),
+      if (partitionKeys != null) 'PartitionKeys': partitionKeys,
+      if (schemaChangePolicy != null) 'SchemaChangePolicy': schemaChangePolicy,
+    };
+  }
+}
+
+/// Specifies a JSON data store stored in Amazon S3.
+class S3JsonSource {
+  /// The name of the data store.
+  final String name;
+
+  /// A list of the Amazon S3 paths to read from.
+  final List<String> paths;
+
+  /// Specifies additional connection options.
+  final S3DirectSourceAdditionalOptions? additionalOptions;
+
+  /// Specifies how the data is compressed. This is generally not necessary if the
+  /// data has a standard file extension. Possible values are <code>"gzip"</code>
+  /// and <code>"bzip"</code>).
+  final CompressionType? compressionType;
+
+  /// A string containing a JSON list of Unix-style glob patterns to exclude. For
+  /// example, "[\"**.pdf\"]" excludes all PDF files.
+  final List<String>? exclusions;
+
+  /// Grouping files is turned on by default when the input contains more than
+  /// 50,000 files. To turn on grouping with fewer than 50,000 files, set this
+  /// parameter to "inPartition". To disable grouping when there are more than
+  /// 50,000 files, set this parameter to <code>"none"</code>.
+  final String? groupFiles;
+
+  /// The target group size in bytes. The default is computed based on the input
+  /// data size and the size of your cluster. When there are fewer than 50,000
+  /// input files, <code>"groupFiles"</code> must be set to
+  /// <code>"inPartition"</code> for this to take effect.
+  final String? groupSize;
+
+  /// A JsonPath string defining the JSON data.
+  final String? jsonPath;
+
+  /// This option controls the duration in milliseconds after which the s3 listing
+  /// is likely to be consistent. Files with modification timestamps falling
+  /// within the last maxBand milliseconds are tracked specially when using
+  /// JobBookmarks to account for Amazon S3 eventual consistency. Most users don't
+  /// need to set this option. The default is 900000 milliseconds, or 15 minutes.
+  final int? maxBand;
+
+  /// This option specifies the maximum number of files to save from the last
+  /// maxBand seconds. If this number is exceeded, extra files are skipped and
+  /// only processed in the next job run.
+  final int? maxFilesInBand;
+
+  /// A Boolean value that specifies whether a single record can span multiple
+  /// lines. This can occur when a field contains a quoted new-line character. You
+  /// must set this option to True if any record spans multiple lines. The default
+  /// value is <code>False</code>, which allows for more aggressive file-splitting
+  /// during parsing.
+  final bool? multiline;
+
+  /// Specifies the data schema for the S3 JSON source.
+  final List<GlueSchema>? outputSchemas;
+
+  /// If set to true, recursively reads files in all subdirectories under the
+  /// specified paths.
+  final bool? recurse;
+
+  S3JsonSource({
+    required this.name,
+    required this.paths,
+    this.additionalOptions,
+    this.compressionType,
+    this.exclusions,
+    this.groupFiles,
+    this.groupSize,
+    this.jsonPath,
+    this.maxBand,
+    this.maxFilesInBand,
+    this.multiline,
+    this.outputSchemas,
+    this.recurse,
+  });
+
+  factory S3JsonSource.fromJson(Map<String, dynamic> json) {
+    return S3JsonSource(
+      name: json['Name'] as String,
+      paths: (json['Paths'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      additionalOptions: json['AdditionalOptions'] != null
+          ? S3DirectSourceAdditionalOptions.fromJson(
+              json['AdditionalOptions'] as Map<String, dynamic>)
+          : null,
+      compressionType:
+          (json['CompressionType'] as String?)?.toCompressionType(),
+      exclusions: (json['Exclusions'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      groupFiles: json['GroupFiles'] as String?,
+      groupSize: json['GroupSize'] as String?,
+      jsonPath: json['JsonPath'] as String?,
+      maxBand: json['MaxBand'] as int?,
+      maxFilesInBand: json['MaxFilesInBand'] as int?,
+      multiline: json['Multiline'] as bool?,
+      outputSchemas: (json['OutputSchemas'] as List?)
+          ?.whereNotNull()
+          .map((e) => GlueSchema.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      recurse: json['Recurse'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final paths = this.paths;
+    final additionalOptions = this.additionalOptions;
+    final compressionType = this.compressionType;
+    final exclusions = this.exclusions;
+    final groupFiles = this.groupFiles;
+    final groupSize = this.groupSize;
+    final jsonPath = this.jsonPath;
+    final maxBand = this.maxBand;
+    final maxFilesInBand = this.maxFilesInBand;
+    final multiline = this.multiline;
+    final outputSchemas = this.outputSchemas;
+    final recurse = this.recurse;
+    return {
+      'Name': name,
+      'Paths': paths,
+      if (additionalOptions != null) 'AdditionalOptions': additionalOptions,
+      if (compressionType != null) 'CompressionType': compressionType.toValue(),
+      if (exclusions != null) 'Exclusions': exclusions,
+      if (groupFiles != null) 'GroupFiles': groupFiles,
+      if (groupSize != null) 'GroupSize': groupSize,
+      if (jsonPath != null) 'JsonPath': jsonPath,
+      if (maxBand != null) 'MaxBand': maxBand,
+      if (maxFilesInBand != null) 'MaxFilesInBand': maxFilesInBand,
+      if (multiline != null) 'Multiline': multiline,
+      if (outputSchemas != null) 'OutputSchemas': outputSchemas,
+      if (recurse != null) 'Recurse': recurse,
+    };
+  }
+}
+
+/// Specifies an Apache Parquet data store stored in Amazon S3.
+class S3ParquetSource {
+  /// The name of the data store.
+  final String name;
+
+  /// A list of the Amazon S3 paths to read from.
+  final List<String> paths;
+
+  /// Specifies additional connection options.
+  final S3DirectSourceAdditionalOptions? additionalOptions;
+
+  /// Specifies how the data is compressed. This is generally not necessary if the
+  /// data has a standard file extension. Possible values are <code>"gzip"</code>
+  /// and <code>"bzip"</code>).
+  final ParquetCompressionType? compressionType;
+
+  /// A string containing a JSON list of Unix-style glob patterns to exclude. For
+  /// example, "[\"**.pdf\"]" excludes all PDF files.
+  final List<String>? exclusions;
+
+  /// Grouping files is turned on by default when the input contains more than
+  /// 50,000 files. To turn on grouping with fewer than 50,000 files, set this
+  /// parameter to "inPartition". To disable grouping when there are more than
+  /// 50,000 files, set this parameter to <code>"none"</code>.
+  final String? groupFiles;
+
+  /// The target group size in bytes. The default is computed based on the input
+  /// data size and the size of your cluster. When there are fewer than 50,000
+  /// input files, <code>"groupFiles"</code> must be set to
+  /// <code>"inPartition"</code> for this to take effect.
+  final String? groupSize;
+
+  /// This option controls the duration in milliseconds after which the s3 listing
+  /// is likely to be consistent. Files with modification timestamps falling
+  /// within the last maxBand milliseconds are tracked specially when using
+  /// JobBookmarks to account for Amazon S3 eventual consistency. Most users don't
+  /// need to set this option. The default is 900000 milliseconds, or 15 minutes.
+  final int? maxBand;
+
+  /// This option specifies the maximum number of files to save from the last
+  /// maxBand seconds. If this number is exceeded, extra files are skipped and
+  /// only processed in the next job run.
+  final int? maxFilesInBand;
+
+  /// Specifies the data schema for the S3 Parquet source.
+  final List<GlueSchema>? outputSchemas;
+
+  /// If set to true, recursively reads files in all subdirectories under the
+  /// specified paths.
+  final bool? recurse;
+
+  S3ParquetSource({
+    required this.name,
+    required this.paths,
+    this.additionalOptions,
+    this.compressionType,
+    this.exclusions,
+    this.groupFiles,
+    this.groupSize,
+    this.maxBand,
+    this.maxFilesInBand,
+    this.outputSchemas,
+    this.recurse,
+  });
+
+  factory S3ParquetSource.fromJson(Map<String, dynamic> json) {
+    return S3ParquetSource(
+      name: json['Name'] as String,
+      paths: (json['Paths'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      additionalOptions: json['AdditionalOptions'] != null
+          ? S3DirectSourceAdditionalOptions.fromJson(
+              json['AdditionalOptions'] as Map<String, dynamic>)
+          : null,
+      compressionType:
+          (json['CompressionType'] as String?)?.toParquetCompressionType(),
+      exclusions: (json['Exclusions'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      groupFiles: json['GroupFiles'] as String?,
+      groupSize: json['GroupSize'] as String?,
+      maxBand: json['MaxBand'] as int?,
+      maxFilesInBand: json['MaxFilesInBand'] as int?,
+      outputSchemas: (json['OutputSchemas'] as List?)
+          ?.whereNotNull()
+          .map((e) => GlueSchema.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      recurse: json['Recurse'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final paths = this.paths;
+    final additionalOptions = this.additionalOptions;
+    final compressionType = this.compressionType;
+    final exclusions = this.exclusions;
+    final groupFiles = this.groupFiles;
+    final groupSize = this.groupSize;
+    final maxBand = this.maxBand;
+    final maxFilesInBand = this.maxFilesInBand;
+    final outputSchemas = this.outputSchemas;
+    final recurse = this.recurse;
+    return {
+      'Name': name,
+      'Paths': paths,
+      if (additionalOptions != null) 'AdditionalOptions': additionalOptions,
+      if (compressionType != null) 'CompressionType': compressionType.toValue(),
+      if (exclusions != null) 'Exclusions': exclusions,
+      if (groupFiles != null) 'GroupFiles': groupFiles,
+      if (groupSize != null) 'GroupSize': groupSize,
+      if (maxBand != null) 'MaxBand': maxBand,
+      if (maxFilesInBand != null) 'MaxFilesInBand': maxFilesInBand,
+      if (outputSchemas != null) 'OutputSchemas': outputSchemas,
+      if (recurse != null) 'Recurse': recurse,
+    };
+  }
+}
+
+/// Specifies additional connection options for the Amazon S3 data store.
+class S3SourceAdditionalOptions {
+  /// Sets the upper limit for the target number of files that will be processed.
+  final int? boundedFiles;
+
+  /// Sets the upper limit for the target size of the dataset in bytes that will
+  /// be processed.
+  final int? boundedSize;
+
+  S3SourceAdditionalOptions({
+    this.boundedFiles,
+    this.boundedSize,
+  });
+
+  factory S3SourceAdditionalOptions.fromJson(Map<String, dynamic> json) {
+    return S3SourceAdditionalOptions(
+      boundedFiles: json['BoundedFiles'] as int?,
+      boundedSize: json['BoundedSize'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final boundedFiles = this.boundedFiles;
+    final boundedSize = this.boundedSize;
+    return {
+      if (boundedFiles != null) 'BoundedFiles': boundedFiles,
+      if (boundedSize != null) 'BoundedSize': boundedSize,
+    };
   }
 }
 
@@ -22034,6 +28521,136 @@ class Segment {
   }
 }
 
+/// Specifies a transform that chooses the data property keys that you want to
+/// keep.
+class SelectFields {
+  /// The data inputs identified by their node names.
+  final List<String> inputs;
+
+  /// The name of the transform node.
+  final String name;
+
+  /// A JSON path to a variable in the data structure.
+  final List<List<String>> paths;
+
+  SelectFields({
+    required this.inputs,
+    required this.name,
+    required this.paths,
+  });
+
+  factory SelectFields.fromJson(Map<String, dynamic> json) {
+    return SelectFields(
+      inputs: (json['Inputs'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      name: json['Name'] as String,
+      paths: (json['Paths'] as List)
+          .whereNotNull()
+          .map((e) =>
+              (e as List).whereNotNull().map((e) => e as String).toList())
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inputs = this.inputs;
+    final name = this.name;
+    final paths = this.paths;
+    return {
+      'Inputs': inputs,
+      'Name': name,
+      'Paths': paths,
+    };
+  }
+}
+
+/// Specifies a transform that chooses one <code>DynamicFrame</code> from a
+/// collection of <code>DynamicFrames</code>. The output is the selected
+/// <code>DynamicFrame</code>
+class SelectFromCollection {
+  /// The index for the DynamicFrame to be selected.
+  final int index;
+
+  /// The data inputs identified by their node names.
+  final List<String> inputs;
+
+  /// The name of the transform node.
+  final String name;
+
+  SelectFromCollection({
+    required this.index,
+    required this.inputs,
+    required this.name,
+  });
+
+  factory SelectFromCollection.fromJson(Map<String, dynamic> json) {
+    return SelectFromCollection(
+      index: json['Index'] as int,
+      inputs: (json['Inputs'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      name: json['Name'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final index = this.index;
+    final inputs = this.inputs;
+    final name = this.name;
+    return {
+      'Index': index,
+      'Inputs': inputs,
+      'Name': name,
+    };
+  }
+}
+
+enum Separator {
+  comma,
+  ctrla,
+  pipe,
+  semicolon,
+  tab,
+}
+
+extension on Separator {
+  String toValue() {
+    switch (this) {
+      case Separator.comma:
+        return 'comma';
+      case Separator.ctrla:
+        return 'ctrla';
+      case Separator.pipe:
+        return 'pipe';
+      case Separator.semicolon:
+        return 'semicolon';
+      case Separator.tab:
+        return 'tab';
+    }
+  }
+}
+
+extension on String {
+  Separator toSeparator() {
+    switch (this) {
+      case 'comma':
+        return Separator.comma;
+      case 'ctrla':
+        return Separator.ctrla;
+      case 'pipe':
+        return Separator.pipe;
+      case 'semicolon':
+        return Separator.semicolon;
+      case 'tab':
+        return Separator.tab;
+    }
+    throw Exception('$this is not known in enum Separator');
+  }
+}
+
 /// Information about a serialization/deserialization program (SerDe) that
 /// serves as an extractor and loader.
 class SerDeInfo {
@@ -22072,6 +28689,204 @@ class SerDeInfo {
       if (serializationLibrary != null)
         'SerializationLibrary': serializationLibrary,
     };
+  }
+}
+
+/// The period in which a remote Spark runtime environment is running.
+class Session {
+  /// The command object.See SessionCommand.
+  final SessionCommand? command;
+
+  /// The number of connections used for the session.
+  final ConnectionsList? connections;
+
+  /// The time and date when the session was created.
+  final DateTime? createdOn;
+
+  /// A map array of key-value pairs. Max is 75 pairs.
+  final Map<String, String>? defaultArguments;
+
+  /// The description of the session.
+  final String? description;
+
+  /// The error message displayed during the session.
+  final String? errorMessage;
+
+  /// The Glue version determines the versions of Apache Spark and Python that
+  /// Glue supports. The GlueVersion must be greater than 2.0.
+  final String? glueVersion;
+
+  /// The ID of the session.
+  final String? id;
+
+  /// The number of Glue data processing units (DPUs) that can be allocated when
+  /// the job runs. A DPU is a relative measure of processing power that consists
+  /// of 4 vCPUs of compute capacity and 16 GB memory.
+  final double? maxCapacity;
+
+  /// The code execution progress of the session.
+  final double? progress;
+
+  /// The name or Amazon Resource Name (ARN) of the IAM role associated with the
+  /// Session.
+  final String? role;
+
+  /// The name of the SecurityConfiguration structure to be used with the session.
+  final String? securityConfiguration;
+
+  /// The session status.
+  final SessionStatus? status;
+
+  Session({
+    this.command,
+    this.connections,
+    this.createdOn,
+    this.defaultArguments,
+    this.description,
+    this.errorMessage,
+    this.glueVersion,
+    this.id,
+    this.maxCapacity,
+    this.progress,
+    this.role,
+    this.securityConfiguration,
+    this.status,
+  });
+
+  factory Session.fromJson(Map<String, dynamic> json) {
+    return Session(
+      command: json['Command'] != null
+          ? SessionCommand.fromJson(json['Command'] as Map<String, dynamic>)
+          : null,
+      connections: json['Connections'] != null
+          ? ConnectionsList.fromJson(
+              json['Connections'] as Map<String, dynamic>)
+          : null,
+      createdOn: timeStampFromJson(json['CreatedOn']),
+      defaultArguments: (json['DefaultArguments'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      description: json['Description'] as String?,
+      errorMessage: json['ErrorMessage'] as String?,
+      glueVersion: json['GlueVersion'] as String?,
+      id: json['Id'] as String?,
+      maxCapacity: json['MaxCapacity'] as double?,
+      progress: json['Progress'] as double?,
+      role: json['Role'] as String?,
+      securityConfiguration: json['SecurityConfiguration'] as String?,
+      status: (json['Status'] as String?)?.toSessionStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final command = this.command;
+    final connections = this.connections;
+    final createdOn = this.createdOn;
+    final defaultArguments = this.defaultArguments;
+    final description = this.description;
+    final errorMessage = this.errorMessage;
+    final glueVersion = this.glueVersion;
+    final id = this.id;
+    final maxCapacity = this.maxCapacity;
+    final progress = this.progress;
+    final role = this.role;
+    final securityConfiguration = this.securityConfiguration;
+    final status = this.status;
+    return {
+      if (command != null) 'Command': command,
+      if (connections != null) 'Connections': connections,
+      if (createdOn != null) 'CreatedOn': unixTimestampToJson(createdOn),
+      if (defaultArguments != null) 'DefaultArguments': defaultArguments,
+      if (description != null) 'Description': description,
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
+      if (glueVersion != null) 'GlueVersion': glueVersion,
+      if (id != null) 'Id': id,
+      if (maxCapacity != null) 'MaxCapacity': maxCapacity,
+      if (progress != null) 'Progress': progress,
+      if (role != null) 'Role': role,
+      if (securityConfiguration != null)
+        'SecurityConfiguration': securityConfiguration,
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
+}
+
+/// The <code>SessionCommand</code> that runs the job.
+class SessionCommand {
+  /// Specifies the name of the SessionCommand. Can be 'glueetl' or
+  /// 'gluestreaming'.
+  final String? name;
+
+  /// Specifies the Python version. The Python version indicates the version
+  /// supported for jobs of type Spark.
+  final String? pythonVersion;
+
+  SessionCommand({
+    this.name,
+    this.pythonVersion,
+  });
+
+  factory SessionCommand.fromJson(Map<String, dynamic> json) {
+    return SessionCommand(
+      name: json['Name'] as String?,
+      pythonVersion: json['PythonVersion'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final pythonVersion = this.pythonVersion;
+    return {
+      if (name != null) 'Name': name,
+      if (pythonVersion != null) 'PythonVersion': pythonVersion,
+    };
+  }
+}
+
+enum SessionStatus {
+  provisioning,
+  ready,
+  failed,
+  timeout,
+  stopping,
+  stopped,
+}
+
+extension on SessionStatus {
+  String toValue() {
+    switch (this) {
+      case SessionStatus.provisioning:
+        return 'PROVISIONING';
+      case SessionStatus.ready:
+        return 'READY';
+      case SessionStatus.failed:
+        return 'FAILED';
+      case SessionStatus.timeout:
+        return 'TIMEOUT';
+      case SessionStatus.stopping:
+        return 'STOPPING';
+      case SessionStatus.stopped:
+        return 'STOPPED';
+    }
+  }
+}
+
+extension on String {
+  SessionStatus toSessionStatus() {
+    switch (this) {
+      case 'PROVISIONING':
+        return SessionStatus.provisioning;
+      case 'READY':
+        return SessionStatus.ready;
+      case 'FAILED':
+        return SessionStatus.failed;
+      case 'TIMEOUT':
+        return SessionStatus.timeout;
+      case 'STOPPING':
+        return SessionStatus.stopping;
+      case 'STOPPED':
+        return SessionStatus.stopped;
+    }
+    throw Exception('$this is not known in enum SessionStatus');
   }
 }
 
@@ -22205,6 +29020,349 @@ extension on String {
         return SortDirectionType.ascending;
     }
     throw Exception('$this is not known in enum SortDirectionType');
+  }
+}
+
+/// Specifies a connector to an Apache Spark data source.
+class SparkConnectorSource {
+  /// The name of the connection that is associated with the connector.
+  final String connectionName;
+
+  /// The type of connection, such as marketplace.spark or custom.spark,
+  /// designating a connection to an Apache Spark data store.
+  final String connectionType;
+
+  /// The name of a connector that assists with accessing the data store in Glue
+  /// Studio.
+  final String connectorName;
+
+  /// The name of the data source.
+  final String name;
+
+  /// Additional connection options for the connector.
+  final Map<String, String>? additionalOptions;
+
+  /// Specifies data schema for the custom spark source.
+  final List<GlueSchema>? outputSchemas;
+
+  SparkConnectorSource({
+    required this.connectionName,
+    required this.connectionType,
+    required this.connectorName,
+    required this.name,
+    this.additionalOptions,
+    this.outputSchemas,
+  });
+
+  factory SparkConnectorSource.fromJson(Map<String, dynamic> json) {
+    return SparkConnectorSource(
+      connectionName: json['ConnectionName'] as String,
+      connectionType: json['ConnectionType'] as String,
+      connectorName: json['ConnectorName'] as String,
+      name: json['Name'] as String,
+      additionalOptions: (json['AdditionalOptions'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      outputSchemas: (json['OutputSchemas'] as List?)
+          ?.whereNotNull()
+          .map((e) => GlueSchema.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectionName = this.connectionName;
+    final connectionType = this.connectionType;
+    final connectorName = this.connectorName;
+    final name = this.name;
+    final additionalOptions = this.additionalOptions;
+    final outputSchemas = this.outputSchemas;
+    return {
+      'ConnectionName': connectionName,
+      'ConnectionType': connectionType,
+      'ConnectorName': connectorName,
+      'Name': name,
+      if (additionalOptions != null) 'AdditionalOptions': additionalOptions,
+      if (outputSchemas != null) 'OutputSchemas': outputSchemas,
+    };
+  }
+}
+
+/// Specifies a target that uses an Apache Spark connector.
+class SparkConnectorTarget {
+  /// The name of a connection for an Apache Spark connector.
+  final String connectionName;
+
+  /// The type of connection, such as marketplace.spark or custom.spark,
+  /// designating a connection to an Apache Spark data store.
+  final String connectionType;
+
+  /// The name of an Apache Spark connector.
+  final String connectorName;
+
+  /// The nodes that are inputs to the data target.
+  final List<String> inputs;
+
+  /// The name of the data target.
+  final String name;
+
+  /// Additional connection options for the connector.
+  final Map<String, String>? additionalOptions;
+
+  /// Specifies the data schema for the custom spark target.
+  final List<GlueSchema>? outputSchemas;
+
+  SparkConnectorTarget({
+    required this.connectionName,
+    required this.connectionType,
+    required this.connectorName,
+    required this.inputs,
+    required this.name,
+    this.additionalOptions,
+    this.outputSchemas,
+  });
+
+  factory SparkConnectorTarget.fromJson(Map<String, dynamic> json) {
+    return SparkConnectorTarget(
+      connectionName: json['ConnectionName'] as String,
+      connectionType: json['ConnectionType'] as String,
+      connectorName: json['ConnectorName'] as String,
+      inputs: (json['Inputs'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      name: json['Name'] as String,
+      additionalOptions: (json['AdditionalOptions'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      outputSchemas: (json['OutputSchemas'] as List?)
+          ?.whereNotNull()
+          .map((e) => GlueSchema.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectionName = this.connectionName;
+    final connectionType = this.connectionType;
+    final connectorName = this.connectorName;
+    final inputs = this.inputs;
+    final name = this.name;
+    final additionalOptions = this.additionalOptions;
+    final outputSchemas = this.outputSchemas;
+    return {
+      'ConnectionName': connectionName,
+      'ConnectionType': connectionType,
+      'ConnectorName': connectorName,
+      'Inputs': inputs,
+      'Name': name,
+      if (additionalOptions != null) 'AdditionalOptions': additionalOptions,
+      if (outputSchemas != null) 'OutputSchemas': outputSchemas,
+    };
+  }
+}
+
+/// Specifies a transform where you enter a SQL query using Spark SQL syntax to
+/// transform the data. The output is a single <code>DynamicFrame</code>.
+class SparkSQL {
+  /// The data inputs identified by their node names. You can associate a table
+  /// name with each input node to use in the SQL query. The name you choose must
+  /// meet the Spark SQL naming restrictions.
+  final List<String> inputs;
+
+  /// The name of the transform node.
+  final String name;
+
+  /// A list of aliases. An alias allows you to specify what name to use in the
+  /// SQL for a given input. For example, you have a datasource named
+  /// "MyDataSource". If you specify <code>From</code> as MyDataSource, and
+  /// <code>Alias</code> as SqlName, then in your SQL you can do:
+  ///
+  /// <code>select * from SqlName</code>
+  ///
+  /// and that gets data from MyDataSource.
+  final List<SqlAlias> sqlAliases;
+
+  /// A SQL query that must use Spark SQL syntax and return a single data set.
+  final String sqlQuery;
+
+  /// Specifies the data schema for the SparkSQL transform.
+  final List<GlueSchema>? outputSchemas;
+
+  SparkSQL({
+    required this.inputs,
+    required this.name,
+    required this.sqlAliases,
+    required this.sqlQuery,
+    this.outputSchemas,
+  });
+
+  factory SparkSQL.fromJson(Map<String, dynamic> json) {
+    return SparkSQL(
+      inputs: (json['Inputs'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      name: json['Name'] as String,
+      sqlAliases: (json['SqlAliases'] as List)
+          .whereNotNull()
+          .map((e) => SqlAlias.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      sqlQuery: json['SqlQuery'] as String,
+      outputSchemas: (json['OutputSchemas'] as List?)
+          ?.whereNotNull()
+          .map((e) => GlueSchema.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inputs = this.inputs;
+    final name = this.name;
+    final sqlAliases = this.sqlAliases;
+    final sqlQuery = this.sqlQuery;
+    final outputSchemas = this.outputSchemas;
+    return {
+      'Inputs': inputs,
+      'Name': name,
+      'SqlAliases': sqlAliases,
+      'SqlQuery': sqlQuery,
+      if (outputSchemas != null) 'OutputSchemas': outputSchemas,
+    };
+  }
+}
+
+/// Specifies a transform that writes samples of the data to an Amazon S3
+/// bucket.
+class Spigot {
+  /// The data inputs identified by their node names.
+  final List<String> inputs;
+
+  /// The name of the transform node.
+  final String name;
+
+  /// A path in Amazon S3 where the transform will write a subset of records from
+  /// the dataset to a JSON file in an Amazon S3 bucket.
+  final String path;
+
+  /// The probability (a decimal value with a maximum value of 1) of picking any
+  /// given record. A value of 1 indicates that each row read from the dataset
+  /// should be included in the sample output.
+  final double? prob;
+
+  /// Specifies a number of records to write starting from the beginning of the
+  /// dataset.
+  final int? topk;
+
+  Spigot({
+    required this.inputs,
+    required this.name,
+    required this.path,
+    this.prob,
+    this.topk,
+  });
+
+  factory Spigot.fromJson(Map<String, dynamic> json) {
+    return Spigot(
+      inputs: (json['Inputs'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      name: json['Name'] as String,
+      path: json['Path'] as String,
+      prob: json['Prob'] as double?,
+      topk: json['Topk'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inputs = this.inputs;
+    final name = this.name;
+    final path = this.path;
+    final prob = this.prob;
+    final topk = this.topk;
+    return {
+      'Inputs': inputs,
+      'Name': name,
+      'Path': path,
+      if (prob != null) 'Prob': prob,
+      if (topk != null) 'Topk': topk,
+    };
+  }
+}
+
+/// Specifies a transform that splits data property keys into two
+/// <code>DynamicFrames</code>. The output is a collection of
+/// <code>DynamicFrames</code>: one with selected data property keys, and one
+/// with the remaining data property keys.
+class SplitFields {
+  /// The data inputs identified by their node names.
+  final List<String> inputs;
+
+  /// The name of the transform node.
+  final String name;
+
+  /// A JSON path to a variable in the data structure.
+  final List<List<String>> paths;
+
+  SplitFields({
+    required this.inputs,
+    required this.name,
+    required this.paths,
+  });
+
+  factory SplitFields.fromJson(Map<String, dynamic> json) {
+    return SplitFields(
+      inputs: (json['Inputs'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      name: json['Name'] as String,
+      paths: (json['Paths'] as List)
+          .whereNotNull()
+          .map((e) =>
+              (e as List).whereNotNull().map((e) => e as String).toList())
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inputs = this.inputs;
+    final name = this.name;
+    final paths = this.paths;
+    return {
+      'Inputs': inputs,
+      'Name': name,
+      'Paths': paths,
+    };
+  }
+}
+
+/// Represents a single entry in the list of values for <code>SqlAliases</code>.
+class SqlAlias {
+  /// A temporary name given to a table, or a column in a table.
+  final String alias;
+
+  /// A table, or a column in a table.
+  final String from;
+
+  SqlAlias({
+    required this.alias,
+    required this.from,
+  });
+
+  factory SqlAlias.fromJson(Map<String, dynamic> json) {
+    return SqlAlias(
+      alias: json['Alias'] as String,
+      from: json['From'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final alias = this.alias;
+    final from = this.from;
+    return {
+      'Alias': alias,
+      'From': from,
+    };
   }
 }
 
@@ -22442,6 +29600,240 @@ class StartingEventBatchCondition {
   }
 }
 
+enum StartingPosition {
+  latest,
+  trimHorizon,
+  earliest,
+}
+
+extension on StartingPosition {
+  String toValue() {
+    switch (this) {
+      case StartingPosition.latest:
+        return 'latest';
+      case StartingPosition.trimHorizon:
+        return 'trim_horizon';
+      case StartingPosition.earliest:
+        return 'earliest';
+    }
+  }
+}
+
+extension on String {
+  StartingPosition toStartingPosition() {
+    switch (this) {
+      case 'latest':
+        return StartingPosition.latest;
+      case 'trim_horizon':
+        return StartingPosition.trimHorizon;
+      case 'earliest':
+        return StartingPosition.earliest;
+    }
+    throw Exception('$this is not known in enum StartingPosition');
+  }
+}
+
+/// The statement or request for a particular action to occur in a session.
+class Statement {
+  /// The execution code of the statement.
+  final String? code;
+
+  /// The unix time and date that the job definition was completed.
+  final int? completedOn;
+
+  /// The ID of the statement.
+  final int? id;
+
+  /// The output in JSON.
+  final StatementOutput? output;
+
+  /// The code execution progress.
+  final double? progress;
+
+  /// The unix time and date that the job definition was started.
+  final int? startedOn;
+
+  /// The state while request is actioned.
+  final StatementState? state;
+
+  Statement({
+    this.code,
+    this.completedOn,
+    this.id,
+    this.output,
+    this.progress,
+    this.startedOn,
+    this.state,
+  });
+
+  factory Statement.fromJson(Map<String, dynamic> json) {
+    return Statement(
+      code: json['Code'] as String?,
+      completedOn: json['CompletedOn'] as int?,
+      id: json['Id'] as int?,
+      output: json['Output'] != null
+          ? StatementOutput.fromJson(json['Output'] as Map<String, dynamic>)
+          : null,
+      progress: json['Progress'] as double?,
+      startedOn: json['StartedOn'] as int?,
+      state: (json['State'] as String?)?.toStatementState(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final completedOn = this.completedOn;
+    final id = this.id;
+    final output = this.output;
+    final progress = this.progress;
+    final startedOn = this.startedOn;
+    final state = this.state;
+    return {
+      if (code != null) 'Code': code,
+      if (completedOn != null) 'CompletedOn': completedOn,
+      if (id != null) 'Id': id,
+      if (output != null) 'Output': output,
+      if (progress != null) 'Progress': progress,
+      if (startedOn != null) 'StartedOn': startedOn,
+      if (state != null) 'State': state.toValue(),
+    };
+  }
+}
+
+/// The code execution output in JSON format.
+class StatementOutput {
+  /// The code execution output.
+  final StatementOutputData? data;
+
+  /// The name of the error in the output.
+  final String? errorName;
+
+  /// The error value of the output.
+  final String? errorValue;
+
+  /// The execution count of the output.
+  final int? executionCount;
+
+  /// The status of the code execution output.
+  final StatementState? status;
+
+  /// The traceback of the output.
+  final List<String>? traceback;
+
+  StatementOutput({
+    this.data,
+    this.errorName,
+    this.errorValue,
+    this.executionCount,
+    this.status,
+    this.traceback,
+  });
+
+  factory StatementOutput.fromJson(Map<String, dynamic> json) {
+    return StatementOutput(
+      data: json['Data'] != null
+          ? StatementOutputData.fromJson(json['Data'] as Map<String, dynamic>)
+          : null,
+      errorName: json['ErrorName'] as String?,
+      errorValue: json['ErrorValue'] as String?,
+      executionCount: json['ExecutionCount'] as int?,
+      status: (json['Status'] as String?)?.toStatementState(),
+      traceback: (json['Traceback'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final data = this.data;
+    final errorName = this.errorName;
+    final errorValue = this.errorValue;
+    final executionCount = this.executionCount;
+    final status = this.status;
+    final traceback = this.traceback;
+    return {
+      if (data != null) 'Data': data,
+      if (errorName != null) 'ErrorName': errorName,
+      if (errorValue != null) 'ErrorValue': errorValue,
+      if (executionCount != null) 'ExecutionCount': executionCount,
+      if (status != null) 'Status': status.toValue(),
+      if (traceback != null) 'Traceback': traceback,
+    };
+  }
+}
+
+/// The code execution output in JSON format.
+class StatementOutputData {
+  /// The code execution output in text format.
+  final String? textPlain;
+
+  StatementOutputData({
+    this.textPlain,
+  });
+
+  factory StatementOutputData.fromJson(Map<String, dynamic> json) {
+    return StatementOutputData(
+      textPlain: json['TextPlain'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final textPlain = this.textPlain;
+    return {
+      if (textPlain != null) 'TextPlain': textPlain,
+    };
+  }
+}
+
+enum StatementState {
+  waiting,
+  running,
+  available,
+  cancelling,
+  cancelled,
+  error,
+}
+
+extension on StatementState {
+  String toValue() {
+    switch (this) {
+      case StatementState.waiting:
+        return 'WAITING';
+      case StatementState.running:
+        return 'RUNNING';
+      case StatementState.available:
+        return 'AVAILABLE';
+      case StatementState.cancelling:
+        return 'CANCELLING';
+      case StatementState.cancelled:
+        return 'CANCELLED';
+      case StatementState.error:
+        return 'ERROR';
+    }
+  }
+}
+
+extension on String {
+  StatementState toStatementState() {
+    switch (this) {
+      case 'WAITING':
+        return StatementState.waiting;
+      case 'RUNNING':
+        return StatementState.running;
+      case 'AVAILABLE':
+        return StatementState.available;
+      case 'CANCELLING':
+        return StatementState.cancelling;
+      case 'CANCELLED':
+        return StatementState.cancelled;
+      case 'ERROR':
+        return StatementState.error;
+    }
+    throw Exception('$this is not known in enum StatementState');
+  }
+}
+
 class StopCrawlerResponse {
   StopCrawlerResponse();
 
@@ -22463,6 +29855,28 @@ class StopCrawlerScheduleResponse {
 
   Map<String, dynamic> toJson() {
     return {};
+  }
+}
+
+class StopSessionResponse {
+  /// Returns the Id of the stopped session.
+  final String? id;
+
+  StopSessionResponse({
+    this.id,
+  });
+
+  factory StopSessionResponse.fromJson(Map<String, dynamic> json) {
+    return StopSessionResponse(
+      id: json['Id'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    return {
+      if (id != null) 'Id': id,
+    };
   }
 }
 
@@ -22502,6 +29916,7 @@ class StopWorkflowRunResponse {
 
 /// Describes the physical storage of table data.
 class StorageDescriptor {
+  /// A list of locations that point to the path where a Delta table is located.
   final List<String>? additionalLocations;
 
   /// A list of reducer grouping columns, clustering columns, and bucketing
@@ -22646,6 +30061,36 @@ class StorageDescriptor {
   }
 }
 
+/// Specifies options related to data preview for viewing a sample of your data.
+class StreamingDataPreviewOptions {
+  /// The polling time in milliseconds.
+  final int? pollingTime;
+
+  /// The limit to the number of records polled.
+  final int? recordPollingLimit;
+
+  StreamingDataPreviewOptions({
+    this.pollingTime,
+    this.recordPollingLimit,
+  });
+
+  factory StreamingDataPreviewOptions.fromJson(Map<String, dynamic> json) {
+    return StreamingDataPreviewOptions(
+      pollingTime: json['PollingTime'] as int?,
+      recordPollingLimit: json['RecordPollingLimit'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pollingTime = this.pollingTime;
+    final recordPollingLimit = this.recordPollingLimit;
+    return {
+      if (pollingTime != null) 'PollingTime': pollingTime,
+      if (recordPollingLimit != null) 'RecordPollingLimit': recordPollingLimit,
+    };
+  }
+}
+
 /// Defines column statistics supported for character sequence data values.
 class StringColumnStatisticsData {
   /// The average string length in the column.
@@ -22755,6 +30200,9 @@ class Table {
   /// The last time that the table was updated.
   final DateTime? updateTime;
 
+  /// The ID of the table version.
+  final String? versionId;
+
   /// If the table is a view, the expanded text of the view; otherwise
   /// <code>null</code>.
   final String? viewExpandedText;
@@ -22781,6 +30229,7 @@ class Table {
     this.tableType,
     this.targetTable,
     this.updateTime,
+    this.versionId,
     this.viewExpandedText,
     this.viewOriginalText,
   });
@@ -22815,6 +30264,7 @@ class Table {
               json['TargetTable'] as Map<String, dynamic>)
           : null,
       updateTime: timeStampFromJson(json['UpdateTime']),
+      versionId: json['VersionId'] as String?,
       viewExpandedText: json['ViewExpandedText'] as String?,
       viewOriginalText: json['ViewOriginalText'] as String?,
     );
@@ -22838,6 +30288,7 @@ class Table {
     final tableType = this.tableType;
     final targetTable = this.targetTable;
     final updateTime = this.updateTime;
+    final versionId = this.versionId;
     final viewExpandedText = this.viewExpandedText;
     final viewOriginalText = this.viewOriginalText;
     return {
@@ -22861,6 +30312,7 @@ class Table {
       if (tableType != null) 'TableType': tableType,
       if (targetTable != null) 'TargetTable': targetTable,
       if (updateTime != null) 'UpdateTime': unixTimestampToJson(updateTime),
+      if (versionId != null) 'VersionId': versionId,
       if (viewExpandedText != null) 'ViewExpandedText': viewExpandedText,
       if (viewOriginalText != null) 'ViewOriginalText': viewOriginalText,
     };
@@ -23151,6 +30603,49 @@ class TagResourceResponse {
 
   Map<String, dynamic> toJson() {
     return {};
+  }
+}
+
+enum TargetFormat {
+  json,
+  csv,
+  avro,
+  orc,
+  parquet,
+}
+
+extension on TargetFormat {
+  String toValue() {
+    switch (this) {
+      case TargetFormat.json:
+        return 'json';
+      case TargetFormat.csv:
+        return 'csv';
+      case TargetFormat.avro:
+        return 'avro';
+      case TargetFormat.orc:
+        return 'orc';
+      case TargetFormat.parquet:
+        return 'parquet';
+    }
+  }
+}
+
+extension on String {
+  TargetFormat toTargetFormat() {
+    switch (this) {
+      case 'json':
+        return TargetFormat.json;
+      case 'csv':
+        return TargetFormat.csv;
+      case 'avro':
+        return TargetFormat.avro;
+      case 'orc':
+        return TargetFormat.orc;
+      case 'parquet':
+        return TargetFormat.parquet;
+    }
+    throw Exception('$this is not known in enum TargetFormat');
   }
 }
 
@@ -24172,6 +31667,81 @@ class UnfilteredPartition {
   }
 }
 
+/// Specifies a transform that combines the rows from two or more datasets into
+/// a single result.
+class Union {
+  /// The node ID inputs to the transform.
+  final List<String> inputs;
+
+  /// The name of the transform node.
+  final String name;
+
+  /// Indicates the type of Union transform.
+  ///
+  /// Specify <code>ALL</code> to join all rows from data sources to the resulting
+  /// DynamicFrame. The resulting union does not remove duplicate rows.
+  ///
+  /// Specify <code>DISTINCT</code> to remove duplicate rows in the resulting
+  /// DynamicFrame.
+  final UnionType unionType;
+
+  Union({
+    required this.inputs,
+    required this.name,
+    required this.unionType,
+  });
+
+  factory Union.fromJson(Map<String, dynamic> json) {
+    return Union(
+      inputs: (json['Inputs'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      name: json['Name'] as String,
+      unionType: (json['UnionType'] as String).toUnionType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inputs = this.inputs;
+    final name = this.name;
+    final unionType = this.unionType;
+    return {
+      'Inputs': inputs,
+      'Name': name,
+      'UnionType': unionType.toValue(),
+    };
+  }
+}
+
+enum UnionType {
+  all,
+  distinct,
+}
+
+extension on UnionType {
+  String toValue() {
+    switch (this) {
+      case UnionType.all:
+        return 'ALL';
+      case UnionType.distinct:
+        return 'DISTINCT';
+    }
+  }
+}
+
+extension on String {
+  UnionType toUnionType() {
+    switch (this) {
+      case 'ALL':
+        return UnionType.all;
+      case 'DISTINCT':
+        return UnionType.distinct;
+    }
+    throw Exception('$this is not known in enum UnionType');
+  }
+}
+
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -24231,6 +31801,34 @@ class UpdateBlueprintResponse {
     return {
       if (name != null) 'Name': name,
     };
+  }
+}
+
+enum UpdateCatalogBehavior {
+  updateInDatabase,
+  log,
+}
+
+extension on UpdateCatalogBehavior {
+  String toValue() {
+    switch (this) {
+      case UpdateCatalogBehavior.updateInDatabase:
+        return 'UPDATE_IN_DATABASE';
+      case UpdateCatalogBehavior.log:
+        return 'LOG';
+    }
+  }
+}
+
+extension on String {
+  UpdateCatalogBehavior toUpdateCatalogBehavior() {
+    switch (this) {
+      case 'UPDATE_IN_DATABASE':
+        return UpdateCatalogBehavior.updateInDatabase;
+      case 'LOG':
+        return UpdateCatalogBehavior.log;
+    }
+    throw Exception('$this is not known in enum UpdateCatalogBehavior');
   }
 }
 
@@ -24741,6 +32339,47 @@ class UpdateXMLClassifierRequest {
   }
 }
 
+/// The options to configure an upsert operation when writing to a Redshift
+/// target .
+class UpsertRedshiftTargetOptions {
+  /// The name of the connection to use to write to Redshift.
+  final String? connectionName;
+
+  /// The physical location of the Redshift table.
+  final String? tableLocation;
+
+  /// The keys used to determine whether to perform an update or insert.
+  final List<String>? upsertKeys;
+
+  UpsertRedshiftTargetOptions({
+    this.connectionName,
+    this.tableLocation,
+    this.upsertKeys,
+  });
+
+  factory UpsertRedshiftTargetOptions.fromJson(Map<String, dynamic> json) {
+    return UpsertRedshiftTargetOptions(
+      connectionName: json['ConnectionName'] as String?,
+      tableLocation: json['TableLocation'] as String?,
+      upsertKeys: (json['UpsertKeys'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectionName = this.connectionName;
+    final tableLocation = this.tableLocation;
+    final upsertKeys = this.upsertKeys;
+    return {
+      if (connectionName != null) 'ConnectionName': connectionName,
+      if (tableLocation != null) 'TableLocation': tableLocation,
+      if (upsertKeys != null) 'UpsertKeys': upsertKeys,
+    };
+  }
+}
+
 /// Represents the equivalent of a Hive user-defined function (<code>UDF</code>)
 /// definition.
 class UserDefinedFunction {
@@ -24875,6 +32514,7 @@ enum WorkerType {
   standard,
   g_1x,
   g_2x,
+  g_025x,
 }
 
 extension on WorkerType {
@@ -24886,6 +32526,8 @@ extension on WorkerType {
         return 'G.1X';
       case WorkerType.g_2x:
         return 'G.2X';
+      case WorkerType.g_025x:
+        return 'G.025X';
     }
   }
 }
@@ -24899,6 +32541,8 @@ extension on String {
         return WorkerType.g_1x;
       case 'G.2X':
         return WorkerType.g_2x;
+      case 'G.025X':
+        return WorkerType.g_025x;
     }
     throw Exception('$this is not known in enum WorkerType');
   }
@@ -25397,6 +33041,12 @@ class IllegalBlueprintStateException extends _s.GenericAwsException {
             message: message);
 }
 
+class IllegalSessionStateException extends _s.GenericAwsException {
+  IllegalSessionStateException({String? type, String? message})
+      : super(
+            type: type, code: 'IllegalSessionStateException', message: message);
+}
+
 class IllegalWorkflowStateException extends _s.GenericAwsException {
   IllegalWorkflowStateException({String? type, String? message})
       : super(
@@ -25513,6 +33163,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       IdempotentParameterMismatchException(type: type, message: message),
   'IllegalBlueprintStateException': (type, message) =>
       IllegalBlueprintStateException(type: type, message: message),
+  'IllegalSessionStateException': (type, message) =>
+      IllegalSessionStateException(type: type, message: message),
   'IllegalWorkflowStateException': (type, message) =>
       IllegalWorkflowStateException(type: type, message: message),
   'InternalServiceException': (type, message) =>

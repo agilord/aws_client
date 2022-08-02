@@ -88,6 +88,10 @@ class RoboMaker {
   }
 
   /// Cancels the specified deployment job.
+  /// <important>
+  /// This API will no longer be supported as of May 2, 2022. Use it to remove
+  /// resources that were created for Deployment Service.
+  /// </important>
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParameterException].
@@ -96,6 +100,7 @@ class RoboMaker {
   ///
   /// Parameter [job] :
   /// The deployment job ARN to cancel.
+  @Deprecated('Deprecated')
   Future<void> cancelDeploymentJob({
     required String job,
   }) async {
@@ -210,7 +215,9 @@ class RoboMaker {
   }
 
   /// Deploys a specific version of a robot application to robots in a fleet.
-  ///
+  /// <important>
+  /// This API is no longer supported and will throw an error if used.
+  /// </important>
   /// The robot application must have a numbered <code>applicationVersion</code>
   /// for consistency reasons. To create a new version, use
   /// <code>CreateRobotApplicationVersion</code> or see <a
@@ -245,6 +252,7 @@ class RoboMaker {
   /// Parameter [tags] :
   /// A map that contains tag keys and tag values that are attached to the
   /// deployment job.
+  @Deprecated('Deprecated')
   Future<CreateDeploymentJobResponse> createDeploymentJob({
     required List<DeploymentApplicationConfig> deploymentApplicationConfigs,
     required String fleet,
@@ -273,6 +281,9 @@ class RoboMaker {
 
   /// Creates a fleet, a logical group of robots running the same robot
   /// application.
+  /// <important>
+  /// This API is no longer supported and will throw an error if used.
+  /// </important>
   ///
   /// May throw [InvalidParameterException].
   /// May throw [InternalServerException].
@@ -285,6 +296,7 @@ class RoboMaker {
   /// Parameter [tags] :
   /// A map that contains tag keys and tag values that are attached to the
   /// fleet.
+  @Deprecated('Deprecated')
   Future<CreateFleetResponse> createFleet({
     required String name,
     Map<String, String>? tags,
@@ -304,6 +316,9 @@ class RoboMaker {
   }
 
   /// Creates a robot.
+  /// <important>
+  /// This API is no longer supported and will throw an error if used.
+  /// </important>
   ///
   /// May throw [InvalidParameterException].
   /// May throw [InternalServerException].
@@ -323,6 +338,7 @@ class RoboMaker {
   /// Parameter [tags] :
   /// A map that contains tag keys and tag values that are attached to the
   /// robot.
+  @Deprecated('Deprecated')
   Future<CreateRobotResponse> createRobot({
     required Architecture architecture,
     required String greengrassGroupId,
@@ -814,6 +830,10 @@ class RoboMaker {
   }
 
   /// Deletes a fleet.
+  /// <important>
+  /// This API will no longer be supported as of May 2, 2022. Use it to remove
+  /// resources that were created for Deployment Service.
+  /// </important>
   ///
   /// May throw [InvalidParameterException].
   /// May throw [InternalServerException].
@@ -821,6 +841,7 @@ class RoboMaker {
   ///
   /// Parameter [fleet] :
   /// The Amazon Resource Name (ARN) of the fleet.
+  @Deprecated('Deprecated')
   Future<void> deleteFleet({
     required String fleet,
   }) async {
@@ -837,6 +858,10 @@ class RoboMaker {
   }
 
   /// Deletes a robot.
+  /// <important>
+  /// This API will no longer be supported as of May 2, 2022. Use it to remove
+  /// resources that were created for Deployment Service.
+  /// </important>
   ///
   /// May throw [InvalidParameterException].
   /// May throw [InternalServerException].
@@ -844,6 +869,7 @@ class RoboMaker {
   ///
   /// Parameter [robot] :
   /// The Amazon Resource Name (ARN) of the robot.
+  @Deprecated('Deprecated')
   Future<void> deleteRobot({
     required String robot,
   }) async {
@@ -940,6 +966,10 @@ class RoboMaker {
   }
 
   /// Deregisters a robot.
+  /// <important>
+  /// This API will no longer be supported as of May 2, 2022. Use it to remove
+  /// resources that were created for Deployment Service.
+  /// </important>
   ///
   /// May throw [InvalidParameterException].
   /// May throw [InternalServerException].
@@ -951,6 +981,7 @@ class RoboMaker {
   ///
   /// Parameter [robot] :
   /// The Amazon Resource Name (ARN) of the robot.
+  @Deprecated('Deprecated')
   Future<DeregisterRobotResponse> deregisterRobot({
     required String fleet,
     required String robot,
@@ -971,6 +1002,10 @@ class RoboMaker {
   }
 
   /// Describes a deployment job.
+  /// <important>
+  /// This API will no longer be supported as of May 2, 2022. Use it to remove
+  /// resources that were created for Deployment Service.
+  /// </important>
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParameterException].
@@ -979,6 +1014,7 @@ class RoboMaker {
   ///
   /// Parameter [job] :
   /// The Amazon Resource Name (ARN) of the deployment job.
+  @Deprecated('Deprecated')
   Future<DescribeDeploymentJobResponse> describeDeploymentJob({
     required String job,
   }) async {
@@ -996,6 +1032,10 @@ class RoboMaker {
   }
 
   /// Describes a fleet.
+  /// <important>
+  /// This API will no longer be supported as of May 2, 2022. Use it to remove
+  /// resources that were created for Deployment Service.
+  /// </important>
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParameterException].
@@ -1004,6 +1044,7 @@ class RoboMaker {
   ///
   /// Parameter [fleet] :
   /// The Amazon Resource Name (ARN) of the fleet.
+  @Deprecated('Deprecated')
   Future<DescribeFleetResponse> describeFleet({
     required String fleet,
   }) async {
@@ -1021,6 +1062,10 @@ class RoboMaker {
   }
 
   /// Describes a robot.
+  /// <important>
+  /// This API will no longer be supported as of May 2, 2022. Use it to remove
+  /// resources that were created for Deployment Service.
+  /// </important>
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParameterException].
@@ -1029,6 +1074,7 @@ class RoboMaker {
   ///
   /// Parameter [robot] :
   /// The Amazon Resource Name (ARN) of the robot to be described.
+  @Deprecated('Deprecated')
   Future<DescribeRobotResponse> describeRobot({
     required String robot,
   }) async {
@@ -1285,6 +1331,10 @@ class RoboMaker {
 
   /// Returns a list of deployment jobs for a fleet. You can optionally provide
   /// filters to retrieve specific deployment jobs.
+  /// <important>
+  /// This API will no longer be supported as of May 2, 2022. Use it to remove
+  /// resources that were created for Deployment Service.
+  /// </important>
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParameterException].
@@ -1318,6 +1368,7 @@ class RoboMaker {
   /// object's <code>nextToken</code> parameter. If there are no remaining
   /// results, the previous response object's NextToken parameter is set to
   /// null.
+  @Deprecated('Deprecated')
   Future<ListDeploymentJobsResponse> listDeploymentJobs({
     List<Filter>? filters,
     int? maxResults,
@@ -1339,6 +1390,10 @@ class RoboMaker {
 
   /// Returns a list of fleets. You can optionally provide filters to retrieve
   /// specific fleets.
+  /// <important>
+  /// This API will no longer be supported as of May 2, 2022. Use it to remove
+  /// resources that were created for Deployment Service.
+  /// </important>
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParameterException].
@@ -1374,6 +1429,7 @@ class RoboMaker {
   /// This token should be treated as an opaque identifier that is only used to
   /// retrieve the next items in a list and not for other programmatic purposes.
   /// </note>
+  @Deprecated('Deprecated')
   Future<ListFleetsResponse> listFleets({
     List<Filter>? filters,
     int? maxResults,
@@ -1451,6 +1507,10 @@ class RoboMaker {
 
   /// Returns a list of robots. You can optionally provide filters to retrieve
   /// specific robots.
+  /// <important>
+  /// This API will no longer be supported as of May 2, 2022. Use it to remove
+  /// resources that were created for Deployment Service.
+  /// </important>
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParameterException].
@@ -1484,6 +1544,7 @@ class RoboMaker {
   /// object's <code>nextToken</code> parameter. If there are no remaining
   /// results, the previous response object's NextToken parameter is set to
   /// null.
+  @Deprecated('Deprecated')
   Future<ListRobotsResponse> listRobots({
     List<Filter>? filters,
     int? maxResults,
@@ -1863,6 +1924,9 @@ class RoboMaker {
   }
 
   /// Registers a robot with a fleet.
+  /// <important>
+  /// This API is no longer supported and will throw an error if used.
+  /// </important>
   ///
   /// May throw [InvalidParameterException].
   /// May throw [InternalServerException].
@@ -1875,6 +1939,7 @@ class RoboMaker {
   ///
   /// Parameter [robot] :
   /// The Amazon Resource Name (ARN) of the robot.
+  @Deprecated('Deprecated')
   Future<RegisterRobotResponse> registerRobot({
     required String fleet,
     required String robot,
@@ -1966,6 +2031,10 @@ class RoboMaker {
 
   /// Syncrhonizes robots in a fleet to the latest deployment. This is helpful
   /// if robots were added after a deployment.
+  /// <important>
+  /// This API will no longer be supported as of May 2, 2022. Use it to remove
+  /// resources that were created for Deployment Service.
+  /// </important>
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParameterException].
@@ -1981,6 +2050,7 @@ class RoboMaker {
   /// Parameter [clientRequestToken] :
   /// Unique, case-sensitive identifier that you provide to ensure the
   /// idempotency of the request.
+  @Deprecated('Deprecated')
   Future<SyncDeploymentJobResponse> syncDeploymentJob({
     required String fleet,
     String? clientRequestToken,
@@ -2361,6 +2431,7 @@ class BatchPolicy {
   }
 }
 
+@deprecated
 class CancelDeploymentJobResponse {
   CancelDeploymentJobResponse();
 
@@ -2533,6 +2604,7 @@ extension on String {
   }
 }
 
+@deprecated
 class CreateDeploymentJobResponse {
   /// The Amazon Resource Name (ARN) of the deployment job.
   final String? arn;
@@ -2656,6 +2728,7 @@ class CreateDeploymentJobResponse {
   }
 }
 
+@deprecated
 class CreateFleetResponse {
   /// The Amazon Resource Name (ARN) of the fleet.
   final String? arn;
@@ -2873,6 +2946,7 @@ class CreateRobotApplicationVersionResponse {
   }
 }
 
+@deprecated
 class CreateRobotResponse {
   /// The target architecture of the robot.
   final Architecture? architecture;
@@ -3807,6 +3881,7 @@ extension on String {
   }
 }
 
+@deprecated
 class DeleteFleetResponse {
   DeleteFleetResponse();
 
@@ -3831,6 +3906,7 @@ class DeleteRobotApplicationResponse {
   }
 }
 
+@deprecated
 class DeleteRobotResponse {
   DeleteRobotResponse();
 
@@ -4285,6 +4361,7 @@ extension on String {
   }
 }
 
+@deprecated
 class DeregisterRobotResponse {
   /// The Amazon Resource Name (ARN) of the fleet.
   final String? fleet;
@@ -4314,6 +4391,7 @@ class DeregisterRobotResponse {
   }
 }
 
+@deprecated
 class DescribeDeploymentJobResponse {
   /// The Amazon Resource Name (ARN) of the deployment job.
   final String? arn;
@@ -4414,6 +4492,7 @@ class DescribeDeploymentJobResponse {
   }
 }
 
+@deprecated
 class DescribeFleetResponse {
   /// The Amazon Resource Name (ARN) of the fleet.
   final String? arn;
@@ -4590,6 +4669,7 @@ class DescribeRobotApplicationResponse {
   }
 }
 
+@deprecated
 class DescribeRobotResponse {
   /// The target architecture of the robot application.
   final Architecture? architecture;
@@ -5966,6 +6046,7 @@ class LaunchConfig {
   }
 }
 
+@deprecated
 class ListDeploymentJobsResponse {
   /// A list of deployment jobs that meet the criteria of the request.
   final List<DeploymentJob>? deploymentJobs;
@@ -6003,6 +6084,7 @@ class ListDeploymentJobsResponse {
   }
 }
 
+@deprecated
 class ListFleetsResponse {
   /// A list of fleet details meeting the request criteria.
   final List<Fleet>? fleetDetails;
@@ -6079,6 +6161,7 @@ class ListRobotApplicationsResponse {
   }
 }
 
+@deprecated
 class ListRobotsResponse {
   /// If the previous paginated request did not return all of the remaining
   /// results, the response object's <code>nextToken</code> parameter value is set
@@ -6411,22 +6494,25 @@ class ListWorldsResponse {
 /// The logging configuration.
 class LoggingConfig {
   /// A boolean indicating whether to record all ROS topics.
-  final bool recordAllRosTopics;
+  /// <important>
+  /// This API is no longer supported and will throw an error if used.
+  /// </important>
+  final bool? recordAllRosTopics;
 
   LoggingConfig({
-    required this.recordAllRosTopics,
+    this.recordAllRosTopics,
   });
 
   factory LoggingConfig.fromJson(Map<String, dynamic> json) {
     return LoggingConfig(
-      recordAllRosTopics: json['recordAllRosTopics'] as bool,
+      recordAllRosTopics: json['recordAllRosTopics'] as bool?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final recordAllRosTopics = this.recordAllRosTopics;
     return {
-      'recordAllRosTopics': recordAllRosTopics,
+      if (recordAllRosTopics != null) 'recordAllRosTopics': recordAllRosTopics,
     };
   }
 }
@@ -6627,6 +6713,7 @@ class ProgressDetail {
   }
 }
 
+@deprecated
 class RegisterRobotResponse {
   /// The Amazon Resource Name (ARN) of the fleet that the robot will join.
   final String? fleet;
@@ -6821,6 +6908,9 @@ class RobotApplicationConfig {
   /// A Boolean indicating whether to use default robot application tools. The
   /// default tools are rviz, rqt, terminal and rosbag record. The default is
   /// <code>False</code>.
+  /// <important>
+  /// This API is no longer supported and will throw an error if used.
+  /// </important>
   final bool? useDefaultTools;
 
   /// A Boolean indicating whether to use default upload configurations. By
@@ -6828,6 +6918,9 @@ class RobotApplicationConfig {
   /// the application terminates and all ROS topics will be recorded.
   ///
   /// If you set this value, you must specify an <code>outputLocation</code>.
+  /// <important>
+  /// This API is no longer supported and will throw an error if used.
+  /// </important>
   final bool? useDefaultUploadConfigurations;
 
   RobotApplicationConfig({
@@ -7302,6 +7395,9 @@ class SimulationApplicationConfig {
   /// A Boolean indicating whether to use default simulation application tools.
   /// The default tools are rviz, rqt, terminal and rosbag record. The default is
   /// <code>False</code>.
+  /// <important>
+  /// This API is no longer supported and will throw an error if used.
+  /// </important>
   final bool? useDefaultTools;
 
   /// A Boolean indicating whether to use default upload configurations. By
@@ -7309,6 +7405,9 @@ class SimulationApplicationConfig {
   /// the application terminates and all ROS topics will be recorded.
   ///
   /// If you set this value, you must specify an <code>outputLocation</code>.
+  /// <important>
+  /// This API is no longer supported and will throw an error if used.
+  /// </important>
   final bool? useDefaultUploadConfigurations;
 
   /// A list of world configurations.
@@ -8584,6 +8683,7 @@ class StartSimulationJobBatchResponse {
   }
 }
 
+@deprecated
 class SyncDeploymentJobResponse {
   /// The Amazon Resource Name (ARN) of the synchronization request.
   final String? arn;
@@ -9444,6 +9544,7 @@ class WorldExportJobSummary {
   /// The time, in milliseconds since the epoch, when the world export job was
   /// created.
   final DateTime? createdAt;
+  final OutputLocation? outputLocation;
 
   /// The status of the world export job.
   /// <dl> <dt>Pending</dt> <dd>
@@ -9468,6 +9569,7 @@ class WorldExportJobSummary {
   WorldExportJobSummary({
     this.arn,
     this.createdAt,
+    this.outputLocation,
     this.status,
     this.worlds,
   });
@@ -9476,6 +9578,10 @@ class WorldExportJobSummary {
     return WorldExportJobSummary(
       arn: json['arn'] as String?,
       createdAt: timeStampFromJson(json['createdAt']),
+      outputLocation: json['outputLocation'] != null
+          ? OutputLocation.fromJson(
+              json['outputLocation'] as Map<String, dynamic>)
+          : null,
       status: (json['status'] as String?)?.toWorldExportJobStatus(),
       worlds: (json['worlds'] as List?)
           ?.whereNotNull()
@@ -9487,11 +9593,13 @@ class WorldExportJobSummary {
   Map<String, dynamic> toJson() {
     final arn = this.arn;
     final createdAt = this.createdAt;
+    final outputLocation = this.outputLocation;
     final status = this.status;
     final worlds = this.worlds;
     return {
       if (arn != null) 'arn': arn,
       if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+      if (outputLocation != null) 'outputLocation': outputLocation,
       if (status != null) 'status': status.toValue(),
       if (worlds != null) 'worlds': worlds,
     };

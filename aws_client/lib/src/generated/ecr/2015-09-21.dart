@@ -1556,6 +1556,11 @@ class Ecr {
     return PutImageResponse.fromJson(jsonResponse.body);
   }
 
+  /// <important>
+  /// The <code>PutImageScanningConfiguration</code> API is being deprecated, in
+  /// favor of specifying the image scanning configuration at the registry
+  /// level. For more information, see <a>PutRegistryScanningConfiguration</a>.
+  /// </important>
   /// Updates the image scanning configuration for the specified repository.
   ///
   /// May throw [ServerException].
@@ -1760,13 +1765,17 @@ class Ecr {
   /// Parameter [scanType] :
   /// The scanning type to set for the registry.
   ///
-  /// By default, the <code>BASIC</code> scan type is used. When basic scanning
-  /// is set, you may specify filters to determine which individual
-  /// repositories, or all repositories, are scanned when new images are pushed.
-  /// Alternatively, you can do manual scans of images with basic scanning.
+  /// When a registry scanning configuration is not defined, by default the
+  /// <code>BASIC</code> scan type is used. When basic scanning is used, you may
+  /// specify filters to determine which individual repositories, or all
+  /// repositories, are scanned when new images are pushed to those
+  /// repositories. Alternatively, you can do manual scans of images with basic
+  /// scanning.
   ///
   /// When the <code>ENHANCED</code> scan type is set, Amazon Inspector provides
-  /// automated, continuous scanning of all repositories in your registry.
+  /// automated vulnerability scanning. You may choose between continuous
+  /// scanning or scan on push and you may specify filters to determine which
+  /// individual repositories, or all repositories, are scanned.
   Future<PutRegistryScanningConfigurationResponse>
       putRegistryScanningConfiguration({
     List<RegistryScanningRule>? rules,
@@ -3839,6 +3848,19 @@ class ImageDetail {
   /// The list of tags associated with this image.
   final List<String>? imageTags;
 
+  /// The date and time, expressed in standard JavaScript date format, when Amazon
+  /// ECR recorded the last image pull.
+  /// <note>
+  /// Amazon ECR refreshes the last image pull timestamp at least once every 24
+  /// hours. For example, if you pull an image once a day then the
+  /// <code>lastRecordedPullTime</code> timestamp will indicate the exact time
+  /// that the image was last pulled. However, if you pull an image once an hour,
+  /// because Amazon ECR refreshes the <code>lastRecordedPullTime</code> timestamp
+  /// at least once every 24 hours, the result may not be the exact time that the
+  /// image was last pulled.
+  /// </note>
+  final DateTime? lastRecordedPullTime;
+
   /// The Amazon Web Services account ID associated with the registry to which
   /// this image belongs.
   final String? registryId;
@@ -3855,6 +3877,7 @@ class ImageDetail {
     this.imageScanStatus,
     this.imageSizeInBytes,
     this.imageTags,
+    this.lastRecordedPullTime,
     this.registryId,
     this.repositoryName,
   });
@@ -3878,6 +3901,7 @@ class ImageDetail {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
+      lastRecordedPullTime: timeStampFromJson(json['lastRecordedPullTime']),
       registryId: json['registryId'] as String?,
       repositoryName: json['repositoryName'] as String?,
     );
@@ -3892,6 +3916,7 @@ class ImageDetail {
     final imageScanStatus = this.imageScanStatus;
     final imageSizeInBytes = this.imageSizeInBytes;
     final imageTags = this.imageTags;
+    final lastRecordedPullTime = this.lastRecordedPullTime;
     final registryId = this.registryId;
     final repositoryName = this.repositoryName;
     return {
@@ -3906,6 +3931,8 @@ class ImageDetail {
       if (imageScanStatus != null) 'imageScanStatus': imageScanStatus,
       if (imageSizeInBytes != null) 'imageSizeInBytes': imageSizeInBytes,
       if (imageTags != null) 'imageTags': imageTags,
+      if (lastRecordedPullTime != null)
+        'lastRecordedPullTime': unixTimestampToJson(lastRecordedPullTime),
       if (registryId != null) 'registryId': registryId,
       if (repositoryName != null) 'repositoryName': repositoryName,
     };
@@ -5201,7 +5228,11 @@ class RegistryScanningRule {
   /// private registry.
   final List<ScanningRepositoryFilter> repositoryFilters;
 
-  /// The frequency that scans are performed at for a private registry.
+  /// The frequency that scans are performed at for a private registry. When the
+  /// <code>ENHANCED</code> scan type is specified, the supported scan frequencies
+  /// are <code>CONTINUOUS_SCAN</code> and <code>SCAN_ON_PUSH</code>. When the
+  /// <code>BASIC</code> scan type is specified, the <code>SCAN_ON_PUSH</code> and
+  /// <code>MANUAL</code> scan frequencies are supported.
   final ScanFrequency scanFrequency;
 
   RegistryScanningRule({
@@ -5850,7 +5881,10 @@ extension on String {
   }
 }
 
-/// The details of a scanning repository filter.
+/// The details of a scanning repository filter. For more information on how to
+/// use filters, see <a
+/// href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/image-scanning.html#image-scanning-filters">Using
+/// filters</a> in the <i>Amazon Elastic Container Registry User Guide</i>.
 class ScanningRepositoryFilter {
   /// The filter to use when scanning.
   final String filter;
@@ -6057,17 +6091,16 @@ class StartLifecyclePolicyPreviewResponse {
   }
 }
 
-/// The metadata that you apply to a resource to help you categorize and
-/// organize them. Each tag consists of a key and an optional value, both of
-/// which you define. Tag keys can have a maximum character length of 128
-/// characters, and tag values can have a maximum length of 256 characters.
+/// The metadata to apply to a resource to help you categorize and organize
+/// them. Each tag consists of a key and a value, both of which you define. Tag
+/// keys can have a maximum character length of 128 characters, and tag values
+/// can have a maximum length of 256 characters.
 class Tag {
   /// One part of a key-value pair that make up a tag. A <code>key</code> is a
   /// general label that acts like a category for more specific tag values.
   final String? key;
 
-  /// The optional part of a key-value pair that make up a tag. A
-  /// <code>value</code> acts as a descriptor within a tag category (key).
+  /// A <code>value</code> acts as a descriptor within a tag category (key).
   final String? value;
 
   Tag({

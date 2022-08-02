@@ -535,7 +535,7 @@ class CodeGuruReviewer {
       'maxResults',
       maxResults,
       1,
-      100,
+      300,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'MaxResults': [maxResults.toString()],
@@ -1030,7 +1030,7 @@ class CodeCommitRepository {
 /// Information about a code review. A code review belongs to the associated
 /// repository that contains the reviewed code.
 class CodeReview {
-  /// They types of analysis performed during a repository analysis or a pull
+  /// The types of analysis performed during a repository analysis or a pull
   /// request review. You can specify either <code>Security</code>,
   /// <code>CodeQuality</code>, or both.
   final List<AnalysisType>? analysisTypes;
@@ -1047,6 +1047,12 @@ class CodeReview {
   /// href="https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_CodeReview.html">
   /// <code>CodeReview</code> </a> object.
   final String? codeReviewArn;
+
+  /// The state of the <code>aws-codeguru-reviewer.yml</code> configuration file
+  /// that allows the configuration of the CodeGuru Reviewer analysis. The file
+  /// either exists, doesn't exist, or exists with errors at the root directory of
+  /// your repository.
+  final ConfigFileState? configFileState;
 
   /// The time, in milliseconds since the epoch, when the code review was created.
   final DateTime? createdTimeStamp;
@@ -1111,6 +1117,7 @@ class CodeReview {
     this.analysisTypes,
     this.associationArn,
     this.codeReviewArn,
+    this.configFileState,
     this.createdTimeStamp,
     this.lastUpdatedTimeStamp,
     this.metrics,
@@ -1133,6 +1140,8 @@ class CodeReview {
           .toList(),
       associationArn: json['AssociationArn'] as String?,
       codeReviewArn: json['CodeReviewArn'] as String?,
+      configFileState:
+          (json['ConfigFileState'] as String?)?.toConfigFileState(),
       createdTimeStamp: timeStampFromJson(json['CreatedTimeStamp']),
       lastUpdatedTimeStamp: timeStampFromJson(json['LastUpdatedTimeStamp']),
       metrics: json['Metrics'] != null
@@ -1157,6 +1166,7 @@ class CodeReview {
     final analysisTypes = this.analysisTypes;
     final associationArn = this.associationArn;
     final codeReviewArn = this.codeReviewArn;
+    final configFileState = this.configFileState;
     final createdTimeStamp = this.createdTimeStamp;
     final lastUpdatedTimeStamp = this.lastUpdatedTimeStamp;
     final metrics = this.metrics;
@@ -1174,6 +1184,7 @@ class CodeReview {
         'AnalysisTypes': analysisTypes.map((e) => e.toValue()).toList(),
       if (associationArn != null) 'AssociationArn': associationArn,
       if (codeReviewArn != null) 'CodeReviewArn': codeReviewArn,
+      if (configFileState != null) 'ConfigFileState': configFileState.toValue(),
       if (createdTimeStamp != null)
         'CreatedTimeStamp': unixTimestampToJson(createdTimeStamp),
       if (lastUpdatedTimeStamp != null)
@@ -1420,6 +1431,39 @@ class CommitDiffSourceCodeType {
       if (mergeBaseCommit != null) 'MergeBaseCommit': mergeBaseCommit,
       if (sourceCommit != null) 'SourceCommit': sourceCommit,
     };
+  }
+}
+
+enum ConfigFileState {
+  present,
+  absent,
+  presentWithErrors,
+}
+
+extension on ConfigFileState {
+  String toValue() {
+    switch (this) {
+      case ConfigFileState.present:
+        return 'Present';
+      case ConfigFileState.absent:
+        return 'Absent';
+      case ConfigFileState.presentWithErrors:
+        return 'PresentWithErrors';
+    }
+  }
+}
+
+extension on String {
+  ConfigFileState toConfigFileState() {
+    switch (this) {
+      case 'Present':
+        return ConfigFileState.present;
+      case 'Absent':
+        return ConfigFileState.absent;
+      case 'PresentWithErrors':
+        return ConfigFileState.presentWithErrors;
+    }
+    throw Exception('$this is not known in enum ConfigFileState');
   }
 }
 
@@ -1932,30 +1976,43 @@ class Metrics {
   /// Total number of recommendations found in the code review.
   final int? findingsCount;
 
-  /// <code>MeteredLinesOfCode</code> is the number of lines of code in the
+  /// <code>MeteredLinesOfCodeCount</code> is the number of lines of code in the
   /// repository where the code review happened. This does not include non-code
   /// lines such as comments and blank lines.
   final int? meteredLinesOfCodeCount;
 
+  /// <code>SuppressedLinesOfCodeCount</code> is the number of lines of code in
+  /// the repository where the code review happened that CodeGuru Reviewer did not
+  /// analyze. The lines suppressed in the analysis is based on the
+  /// <code>excludeFiles</code> variable in the
+  /// <code>aws-codeguru-reviewer.yml</code> file. This number does not include
+  /// non-code lines such as comments and blank lines.
+  final int? suppressedLinesOfCodeCount;
+
   Metrics({
     this.findingsCount,
     this.meteredLinesOfCodeCount,
+    this.suppressedLinesOfCodeCount,
   });
 
   factory Metrics.fromJson(Map<String, dynamic> json) {
     return Metrics(
       findingsCount: json['FindingsCount'] as int?,
       meteredLinesOfCodeCount: json['MeteredLinesOfCodeCount'] as int?,
+      suppressedLinesOfCodeCount: json['SuppressedLinesOfCodeCount'] as int?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final findingsCount = this.findingsCount;
     final meteredLinesOfCodeCount = this.meteredLinesOfCodeCount;
+    final suppressedLinesOfCodeCount = this.suppressedLinesOfCodeCount;
     return {
       if (findingsCount != null) 'FindingsCount': findingsCount,
       if (meteredLinesOfCodeCount != null)
         'MeteredLinesOfCodeCount': meteredLinesOfCodeCount,
+      if (suppressedLinesOfCodeCount != null)
+        'SuppressedLinesOfCodeCount': suppressedLinesOfCodeCount,
     };
   }
 }
@@ -1978,25 +2035,48 @@ class MetricsSummary {
   /// 25 changed lines of code for a total of 2,725 lines of code.
   final int? meteredLinesOfCodeCount;
 
+  /// Lines of code suppressed in the code review based on the
+  /// <code>excludeFiles</code> element in the
+  /// <code>aws-codeguru-reviewer.yml</code> file. For full repository analyses,
+  /// this number includes all lines of code in the files that are suppressed. For
+  /// pull requests, this number only includes the <i>changed</i> lines of code
+  /// that are suppressed. In both cases, this number does not include non-code
+  /// lines such as comments and import statements. For example, if you initiate a
+  /// full repository analysis on a repository containing 5 files, each file with
+  /// 100 lines of code, and 2 files are listed as excluded in the
+  /// <code>aws-codeguru-reviewer.yml</code> file, then
+  /// <code>SuppressedLinesOfCodeCount</code> returns 200 (2 * 100) as the total
+  /// number of lines of code suppressed. However, if you submit a pull request
+  /// for the same repository, then <code>SuppressedLinesOfCodeCount</code> only
+  /// includes the lines in the 2 files that changed. If only 1 of the 2 files
+  /// changed in the pull request, then <code>SuppressedLinesOfCodeCount</code>
+  /// returns 100 (1 * 100) as the total number of lines of code suppressed.
+  final int? suppressedLinesOfCodeCount;
+
   MetricsSummary({
     this.findingsCount,
     this.meteredLinesOfCodeCount,
+    this.suppressedLinesOfCodeCount,
   });
 
   factory MetricsSummary.fromJson(Map<String, dynamic> json) {
     return MetricsSummary(
       findingsCount: json['FindingsCount'] as int?,
       meteredLinesOfCodeCount: json['MeteredLinesOfCodeCount'] as int?,
+      suppressedLinesOfCodeCount: json['SuppressedLinesOfCodeCount'] as int?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final findingsCount = this.findingsCount;
     final meteredLinesOfCodeCount = this.meteredLinesOfCodeCount;
+    final suppressedLinesOfCodeCount = this.suppressedLinesOfCodeCount;
     return {
       if (findingsCount != null) 'FindingsCount': findingsCount,
       if (meteredLinesOfCodeCount != null)
         'MeteredLinesOfCodeCount': meteredLinesOfCodeCount,
+      if (suppressedLinesOfCodeCount != null)
+        'SuppressedLinesOfCodeCount': suppressedLinesOfCodeCount,
     };
   }
 }

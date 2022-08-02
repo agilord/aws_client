@@ -25,9 +25,9 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// Amazon Web Services accounts, services, and integrated third-party products
 /// and helps you analyze security trends in your environment to identify the
 /// highest priority security issues. For more information about Security Hub,
-/// see the <i>Security Hub<a
-/// href="https://docs.aws.amazon.com/securityhub/latest/userguide/what-is-securityhub.html">User
-/// Guide</a> </i>.
+/// see the <a
+/// href="https://docs.aws.amazon.com/securityhub/latest/userguide/what-is-securityhub.html">
+/// <i>Security HubUser Guide</i> </a>.
 ///
 /// When you use operations in the Security Hub API, the requests are executed
 /// only in the Amazon Web Services Region that is currently active or in the
@@ -54,8 +54,12 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// <code>BurstLimit</code> of 6 requests per second.
 /// </li>
 /// <li>
-/// <code>UpdateFindings</code> - <code>RateLimit</code> of 1 request per
-/// second. <code>BurstLimit</code> of 5 requests per second.
+/// <code>BatchImportFindings</code> - <code>RateLimit</code> of 10 requests per
+/// second. <code>BurstLimit</code> of 30 requests per second.
+/// </li>
+/// <li>
+/// <code>BatchUpdateFindings</code> - <code>RateLimit</code> of 10 requests per
+/// second. <code>BurstLimit</code> of 30 requests per second.
 /// </li>
 /// <li>
 /// <code>UpdateStandardsControl</code> - <code>RateLimit</code> of 1 request
@@ -250,13 +254,19 @@ class SecurityHub {
   ///
   /// <ul>
   /// <li>
-  /// The account that is associated with the findings. The identifier of the
-  /// associated account is the value of the <code>AwsAccountId</code> attribute
-  /// for the finding.
+  /// The Amazon Web Services account that is associated with a finding if you
+  /// are using the <a
+  /// href="https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-custom-providers.html#securityhub-custom-providers-bfi-reqs">default
+  /// product ARN</a> or are a partner sending findings from within a customer's
+  /// Amazon Web Services account. In these cases, the identifier of the account
+  /// that you are calling <code>BatchImportFindings</code> from needs to be the
+  /// same as the <code>AwsAccountId</code> attribute for the finding.
   /// </li>
   /// <li>
-  /// An account that is allow-listed for an official Security Hub partner
-  /// integration.
+  /// An Amazon Web Services account that Security Hub has allow-listed for an
+  /// official partner integration. In this case, you can call
+  /// <code>BatchImportFindings</code> from the allow-listed account and send
+  /// findings from different customer accounts in the same batch.
   /// </li>
   /// </ul>
   /// The maximum allowed size for a finding is 240 Kb. An error is returned for
@@ -559,7 +569,7 @@ class SecurityHub {
   /// Region.
   ///
   /// For more details about cross-Region replication, see <a
-  /// href="securityhub/latest/userguide/finding-aggregation.html">Configuring
+  /// href="https://docs.aws.amazon.com/securityhub/latest/userguide/finding-aggregation.html">Configuring
   /// finding aggregation</a> in the <i>Security Hub User Guide</i>.
   ///
   /// May throw [InternalException].
@@ -2326,12 +2336,27 @@ class SecurityHub {
   ///
   /// To automatically enable Security Hub for new accounts, set this to
   /// <code>true</code>.
+  ///
+  /// Parameter [autoEnableStandards] :
+  /// Whether to automatically enable Security Hub <a
+  /// href="https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-enable-disable.html">default
+  /// standards</a> for new member accounts in the organization.
+  ///
+  /// By default, this parameter is equal to <code>DEFAULT</code>, and new
+  /// member accounts are automatically enabled with default Security Hub
+  /// standards.
+  ///
+  /// To opt out of enabling default standards for new member accounts, set this
+  /// parameter equal to <code>NONE</code>.
   Future<void> updateOrganizationConfiguration({
     required bool autoEnable,
+    AutoEnableStandards? autoEnableStandards,
   }) async {
     ArgumentError.checkNotNull(autoEnable, 'autoEnable');
     final $payload = <String, dynamic>{
       'AutoEnable': autoEnable,
+      if (autoEnableStandards != null)
+        'AutoEnableStandards': autoEnableStandards.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2835,6 +2860,34 @@ extension on String {
         return AdminStatus.disableInProgress;
     }
     throw Exception('$this is not known in enum AdminStatus');
+  }
+}
+
+enum AutoEnableStandards {
+  none,
+  $default,
+}
+
+extension on AutoEnableStandards {
+  String toValue() {
+    switch (this) {
+      case AutoEnableStandards.none:
+        return 'NONE';
+      case AutoEnableStandards.$default:
+        return 'DEFAULT';
+    }
+  }
+}
+
+extension on String {
+  AutoEnableStandards toAutoEnableStandards() {
+    switch (this) {
+      case 'NONE':
+        return AutoEnableStandards.none;
+      case 'DEFAULT':
+        return AutoEnableStandards.$default;
+    }
+    throw Exception('$this is not known in enum AutoEnableStandards');
   }
 }
 
@@ -3850,6 +3903,9 @@ class AwsAutoScalingAutoScalingGroupDetails {
   final List<AwsAutoScalingAutoScalingGroupAvailabilityZonesListDetails>?
       availabilityZones;
 
+  /// Indicates whether capacity rebalancing is enabled.
+  final bool? capacityRebalance;
+
   /// Indicates when the auto scaling group was created.
   ///
   /// Uses the <code>date-time</code> format specified in <a
@@ -3868,6 +3924,10 @@ class AwsAutoScalingAutoScalingGroupDetails {
   /// The name of the launch configuration.
   final String? launchConfigurationName;
 
+  /// The launch template to use.
+  final AwsAutoScalingAutoScalingGroupLaunchTemplateLaunchTemplateSpecification?
+      launchTemplate;
+
   /// The list of load balancers associated with the group.
   final List<String>? loadBalancerNames;
 
@@ -3877,10 +3937,12 @@ class AwsAutoScalingAutoScalingGroupDetails {
 
   AwsAutoScalingAutoScalingGroupDetails({
     this.availabilityZones,
+    this.capacityRebalance,
     this.createdTime,
     this.healthCheckGracePeriod,
     this.healthCheckType,
     this.launchConfigurationName,
+    this.launchTemplate,
     this.loadBalancerNames,
     this.mixedInstancesPolicy,
   });
@@ -3893,10 +3955,15 @@ class AwsAutoScalingAutoScalingGroupDetails {
           .map((e) => AwsAutoScalingAutoScalingGroupAvailabilityZonesListDetails
               .fromJson(e as Map<String, dynamic>))
           .toList(),
+      capacityRebalance: json['CapacityRebalance'] as bool?,
       createdTime: json['CreatedTime'] as String?,
       healthCheckGracePeriod: json['HealthCheckGracePeriod'] as int?,
       healthCheckType: json['HealthCheckType'] as String?,
       launchConfigurationName: json['LaunchConfigurationName'] as String?,
+      launchTemplate: json['LaunchTemplate'] != null
+          ? AwsAutoScalingAutoScalingGroupLaunchTemplateLaunchTemplateSpecification
+              .fromJson(json['LaunchTemplate'] as Map<String, dynamic>)
+          : null,
       loadBalancerNames: (json['LoadBalancerNames'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
@@ -3910,23 +3977,68 @@ class AwsAutoScalingAutoScalingGroupDetails {
 
   Map<String, dynamic> toJson() {
     final availabilityZones = this.availabilityZones;
+    final capacityRebalance = this.capacityRebalance;
     final createdTime = this.createdTime;
     final healthCheckGracePeriod = this.healthCheckGracePeriod;
     final healthCheckType = this.healthCheckType;
     final launchConfigurationName = this.launchConfigurationName;
+    final launchTemplate = this.launchTemplate;
     final loadBalancerNames = this.loadBalancerNames;
     final mixedInstancesPolicy = this.mixedInstancesPolicy;
     return {
       if (availabilityZones != null) 'AvailabilityZones': availabilityZones,
+      if (capacityRebalance != null) 'CapacityRebalance': capacityRebalance,
       if (createdTime != null) 'CreatedTime': createdTime,
       if (healthCheckGracePeriod != null)
         'HealthCheckGracePeriod': healthCheckGracePeriod,
       if (healthCheckType != null) 'HealthCheckType': healthCheckType,
       if (launchConfigurationName != null)
         'LaunchConfigurationName': launchConfigurationName,
+      if (launchTemplate != null) 'LaunchTemplate': launchTemplate,
       if (loadBalancerNames != null) 'LoadBalancerNames': loadBalancerNames,
       if (mixedInstancesPolicy != null)
         'MixedInstancesPolicy': mixedInstancesPolicy,
+    };
+  }
+}
+
+/// Details about the launch template to use.
+class AwsAutoScalingAutoScalingGroupLaunchTemplateLaunchTemplateSpecification {
+  /// The identifier of the launch template. You must specify either
+  /// <code>LaunchTemplateId</code> or <code>LaunchTemplateName</code>.
+  final String? launchTemplateId;
+
+  /// The name of the launch template. You must specify either
+  /// <code>LaunchTemplateId</code> or <code>LaunchTemplateName</code>.
+  final String? launchTemplateName;
+
+  /// Identifies the version of the launch template. You can specify a version
+  /// identifier, or use the values <code>$Latest</code> or <code>$Default</code>.
+  final String? version;
+
+  AwsAutoScalingAutoScalingGroupLaunchTemplateLaunchTemplateSpecification({
+    this.launchTemplateId,
+    this.launchTemplateName,
+    this.version,
+  });
+
+  factory AwsAutoScalingAutoScalingGroupLaunchTemplateLaunchTemplateSpecification.fromJson(
+      Map<String, dynamic> json) {
+    return AwsAutoScalingAutoScalingGroupLaunchTemplateLaunchTemplateSpecification(
+      launchTemplateId: json['LaunchTemplateId'] as String?,
+      launchTemplateName: json['LaunchTemplateName'] as String?,
+      version: json['Version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final launchTemplateId = this.launchTemplateId;
+    final launchTemplateName = this.launchTemplateName;
+    final version = this.version;
+    return {
+      if (launchTemplateId != null) 'LaunchTemplateId': launchTemplateId,
+      if (launchTemplateName != null) 'LaunchTemplateName': launchTemplateName,
+      if (version != null) 'Version': version,
     };
   }
 }
@@ -4047,7 +4159,7 @@ class AwsAutoScalingAutoScalingGroupMixedInstancesPolicyInstancesDistributionDet
 
 /// Describes a launch template and overrides for a mixed instances policy.
 class AwsAutoScalingAutoScalingGroupMixedInstancesPolicyLaunchTemplateDetails {
-  /// The launch template to use.
+  /// The launch template to use for a mixed instances policy.
   final AwsAutoScalingAutoScalingGroupMixedInstancesPolicyLaunchTemplateLaunchTemplateSpecification?
       launchTemplateSpecification;
 
@@ -4089,7 +4201,7 @@ class AwsAutoScalingAutoScalingGroupMixedInstancesPolicyLaunchTemplateDetails {
   }
 }
 
-/// Details about the launch template to use.
+/// Details about the launch template to use for a mixed instances policy.
 class AwsAutoScalingAutoScalingGroupMixedInstancesPolicyLaunchTemplateLaunchTemplateSpecification {
   /// The identifier of the launch template. You must specify either
   /// <code>LaunchTemplateId</code> or <code>LaunchTemplateName</code>.
@@ -5128,6 +5240,211 @@ class AwsCertificateManagerCertificateResourceRecord {
   }
 }
 
+/// Nests a stack as a resource in a top-level template. Nested stacks are
+/// stacks created as resources for another stack.
+class AwsCloudFormationStackDetails {
+  /// The capabilities allowed in the stack.
+  final List<String>? capabilities;
+
+  /// The time at which the stack was created.
+  final String? creationTime;
+
+  /// A user-defined description associated with the stack.
+  final String? description;
+
+  /// Boolean to enable or disable rollback on stack creation failures.
+  final bool? disableRollback;
+
+  /// Information about whether a stack's actual configuration differs, or has
+  /// drifted, from its expected configuration, as defined in the stack template
+  /// and any values specified as template parameters.
+  final AwsCloudFormationStackDriftInformationDetails? driftInformation;
+
+  /// Whether termination protection is enabled for the stack.
+  final bool? enableTerminationProtection;
+
+  /// The time the nested stack was last updated. This field will only be returned
+  /// if the stack has been updated at least once.
+  final String? lastUpdatedTime;
+
+  /// The Amazon Resource Names (ARNs) of the Amazon SNS topic to which
+  /// stack-related events are published.
+  final List<String>? notificationArns;
+
+  /// A list of output structures.
+  final List<AwsCloudFormationStackOutputsDetails>? outputs;
+
+  /// The ARN of an IAM role that's associated with the stack.
+  final String? roleArn;
+
+  /// Unique identifier of the stack.
+  final String? stackId;
+
+  /// The name associated with the stack.
+  final String? stackName;
+
+  /// Current status of the stack.
+  final String? stackStatus;
+
+  /// Success or failure message associated with the stack status.
+  final String? stackStatusReason;
+
+  /// The length of time, in minutes, that CloudFormation waits for the nested
+  /// stack to reach the <code>CREATE_COMPLETE</code> state.
+  final int? timeoutInMinutes;
+
+  AwsCloudFormationStackDetails({
+    this.capabilities,
+    this.creationTime,
+    this.description,
+    this.disableRollback,
+    this.driftInformation,
+    this.enableTerminationProtection,
+    this.lastUpdatedTime,
+    this.notificationArns,
+    this.outputs,
+    this.roleArn,
+    this.stackId,
+    this.stackName,
+    this.stackStatus,
+    this.stackStatusReason,
+    this.timeoutInMinutes,
+  });
+
+  factory AwsCloudFormationStackDetails.fromJson(Map<String, dynamic> json) {
+    return AwsCloudFormationStackDetails(
+      capabilities: (json['Capabilities'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      creationTime: json['CreationTime'] as String?,
+      description: json['Description'] as String?,
+      disableRollback: json['DisableRollback'] as bool?,
+      driftInformation: json['DriftInformation'] != null
+          ? AwsCloudFormationStackDriftInformationDetails.fromJson(
+              json['DriftInformation'] as Map<String, dynamic>)
+          : null,
+      enableTerminationProtection: json['EnableTerminationProtection'] as bool?,
+      lastUpdatedTime: json['LastUpdatedTime'] as String?,
+      notificationArns: (json['NotificationArns'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      outputs: (json['Outputs'] as List?)
+          ?.whereNotNull()
+          .map((e) => AwsCloudFormationStackOutputsDetails.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      roleArn: json['RoleArn'] as String?,
+      stackId: json['StackId'] as String?,
+      stackName: json['StackName'] as String?,
+      stackStatus: json['StackStatus'] as String?,
+      stackStatusReason: json['StackStatusReason'] as String?,
+      timeoutInMinutes: json['TimeoutInMinutes'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final capabilities = this.capabilities;
+    final creationTime = this.creationTime;
+    final description = this.description;
+    final disableRollback = this.disableRollback;
+    final driftInformation = this.driftInformation;
+    final enableTerminationProtection = this.enableTerminationProtection;
+    final lastUpdatedTime = this.lastUpdatedTime;
+    final notificationArns = this.notificationArns;
+    final outputs = this.outputs;
+    final roleArn = this.roleArn;
+    final stackId = this.stackId;
+    final stackName = this.stackName;
+    final stackStatus = this.stackStatus;
+    final stackStatusReason = this.stackStatusReason;
+    final timeoutInMinutes = this.timeoutInMinutes;
+    return {
+      if (capabilities != null) 'Capabilities': capabilities,
+      if (creationTime != null) 'CreationTime': creationTime,
+      if (description != null) 'Description': description,
+      if (disableRollback != null) 'DisableRollback': disableRollback,
+      if (driftInformation != null) 'DriftInformation': driftInformation,
+      if (enableTerminationProtection != null)
+        'EnableTerminationProtection': enableTerminationProtection,
+      if (lastUpdatedTime != null) 'LastUpdatedTime': lastUpdatedTime,
+      if (notificationArns != null) 'NotificationArns': notificationArns,
+      if (outputs != null) 'Outputs': outputs,
+      if (roleArn != null) 'RoleArn': roleArn,
+      if (stackId != null) 'StackId': stackId,
+      if (stackName != null) 'StackName': stackName,
+      if (stackStatus != null) 'StackStatus': stackStatus,
+      if (stackStatusReason != null) 'StackStatusReason': stackStatusReason,
+      if (timeoutInMinutes != null) 'TimeoutInMinutes': timeoutInMinutes,
+    };
+  }
+}
+
+/// Provides information about the stack's conformity to its expected template
+/// configuration.
+class AwsCloudFormationStackDriftInformationDetails {
+  /// Status of the stack's actual configuration compared to its expected template
+  /// configuration.
+  final String? stackDriftStatus;
+
+  AwsCloudFormationStackDriftInformationDetails({
+    this.stackDriftStatus,
+  });
+
+  factory AwsCloudFormationStackDriftInformationDetails.fromJson(
+      Map<String, dynamic> json) {
+    return AwsCloudFormationStackDriftInformationDetails(
+      stackDriftStatus: json['StackDriftStatus'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final stackDriftStatus = this.stackDriftStatus;
+    return {
+      if (stackDriftStatus != null) 'StackDriftStatus': stackDriftStatus,
+    };
+  }
+}
+
+/// Provides information about the CloudFormation stack output.
+class AwsCloudFormationStackOutputsDetails {
+  /// A user-defined description associated with the output.
+  final String? description;
+
+  /// The key associated with the output.
+  final String? outputKey;
+
+  /// The value associated with the output.
+  final String? outputValue;
+
+  AwsCloudFormationStackOutputsDetails({
+    this.description,
+    this.outputKey,
+    this.outputValue,
+  });
+
+  factory AwsCloudFormationStackOutputsDetails.fromJson(
+      Map<String, dynamic> json) {
+    return AwsCloudFormationStackOutputsDetails(
+      description: json['Description'] as String?,
+      outputKey: json['OutputKey'] as String?,
+      outputValue: json['OutputValue'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final outputKey = this.outputKey;
+    final outputValue = this.outputValue;
+    return {
+      if (description != null) 'Description': description,
+      if (outputKey != null) 'OutputKey': outputKey,
+      if (outputValue != null) 'OutputValue': outputValue,
+    };
+  }
+}
+
 /// Information about a cache behavior for the distribution.
 class AwsCloudFrontDistributionCacheBehavior {
   /// The protocol that viewers can use to access the files in an origin. You can
@@ -5169,7 +5486,7 @@ class AwsCloudFrontDistributionCacheBehavior {
   }
 }
 
-/// Provides information about caching for the distribution.
+/// Provides information about caching for the CloudFront distribution.
 class AwsCloudFrontDistributionCacheBehaviors {
   /// The cache behaviors for the distribution.
   final List<AwsCloudFrontDistributionCacheBehavior>? items;
@@ -5198,7 +5515,7 @@ class AwsCloudFrontDistributionCacheBehaviors {
 }
 
 /// Contains information about the default cache configuration for the
-/// distribution.
+/// CloudFront distribution.
 class AwsCloudFrontDistributionDefaultCacheBehavior {
   /// The protocol that viewers can use to access the files in an origin. You can
   /// specify the following options:
@@ -5239,7 +5556,7 @@ class AwsCloudFrontDistributionDefaultCacheBehavior {
   }
 }
 
-/// A distribution configuration.
+/// A CloudFront distribution configuration.
 class AwsCloudFrontDistributionDetails {
   /// Provides information about the cache configuration for the distribution.
   final AwsCloudFrontDistributionCacheBehaviors? cacheBehaviors;
@@ -5371,7 +5688,7 @@ class AwsCloudFrontDistributionDetails {
 }
 
 /// A complex type that controls whether access logs are written for the
-/// distribution.
+/// CloudFront distribution.
 class AwsCloudFrontDistributionLogging {
   /// The S3 bucket to store the access logs in.
   final String? bucket;
@@ -5416,7 +5733,78 @@ class AwsCloudFrontDistributionLogging {
   }
 }
 
-/// Information about an origin group for the distribution.
+/// A custom origin. A custom origin is any origin that is not an Amazon S3
+/// bucket, with one exception. An Amazon S3 bucket that is <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/WebsiteHosting.html">configured
+/// with static website hosting</a> is a custom origin.
+class AwsCloudFrontDistributionOriginCustomOriginConfig {
+  /// The HTTP port that CloudFront uses to connect to the origin.
+  final int? httpPort;
+
+  /// The HTTPS port that CloudFront uses to connect to the origin.
+  final int? httpsPort;
+
+  /// Specifies how long, in seconds, CloudFront persists its connection to the
+  /// origin.
+  final int? originKeepaliveTimeout;
+
+  /// Specifies the protocol (HTTP or HTTPS) that CloudFront uses to connect to
+  /// the origin.
+  final String? originProtocolPolicy;
+
+  /// Specifies how long, in seconds, CloudFront waits for a response from the
+  /// origin.
+  final int? originReadTimeout;
+
+  /// Specifies the minimum SSL/TLS protocol that CloudFront uses when connecting
+  /// to your origin over HTTPS.
+  final AwsCloudFrontDistributionOriginSslProtocols? originSslProtocols;
+
+  AwsCloudFrontDistributionOriginCustomOriginConfig({
+    this.httpPort,
+    this.httpsPort,
+    this.originKeepaliveTimeout,
+    this.originProtocolPolicy,
+    this.originReadTimeout,
+    this.originSslProtocols,
+  });
+
+  factory AwsCloudFrontDistributionOriginCustomOriginConfig.fromJson(
+      Map<String, dynamic> json) {
+    return AwsCloudFrontDistributionOriginCustomOriginConfig(
+      httpPort: json['HttpPort'] as int?,
+      httpsPort: json['HttpsPort'] as int?,
+      originKeepaliveTimeout: json['OriginKeepaliveTimeout'] as int?,
+      originProtocolPolicy: json['OriginProtocolPolicy'] as String?,
+      originReadTimeout: json['OriginReadTimeout'] as int?,
+      originSslProtocols: json['OriginSslProtocols'] != null
+          ? AwsCloudFrontDistributionOriginSslProtocols.fromJson(
+              json['OriginSslProtocols'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final httpPort = this.httpPort;
+    final httpsPort = this.httpsPort;
+    final originKeepaliveTimeout = this.originKeepaliveTimeout;
+    final originProtocolPolicy = this.originProtocolPolicy;
+    final originReadTimeout = this.originReadTimeout;
+    final originSslProtocols = this.originSslProtocols;
+    return {
+      if (httpPort != null) 'HttpPort': httpPort,
+      if (httpsPort != null) 'HttpsPort': httpsPort,
+      if (originKeepaliveTimeout != null)
+        'OriginKeepaliveTimeout': originKeepaliveTimeout,
+      if (originProtocolPolicy != null)
+        'OriginProtocolPolicy': originProtocolPolicy,
+      if (originReadTimeout != null) 'OriginReadTimeout': originReadTimeout,
+      if (originSslProtocols != null) 'OriginSslProtocols': originSslProtocols,
+    };
+  }
+}
+
+/// Information about an origin group for the CloudFront distribution.
 class AwsCloudFrontDistributionOriginGroup {
   /// Provides the criteria for an origin group to fail over.
   final AwsCloudFrontDistributionOriginGroupFailover? failoverCriteria;
@@ -5505,7 +5893,7 @@ class AwsCloudFrontDistributionOriginGroupFailoverStatusCodes {
 }
 
 /// Provides information about origin groups that are associated with the
-/// distribution.
+/// CloudFront distribution.
 class AwsCloudFrontDistributionOriginGroups {
   /// The list of origin groups.
   final List<AwsCloudFrontDistributionOriginGroup>? items;
@@ -5533,10 +5921,16 @@ class AwsCloudFrontDistributionOriginGroups {
   }
 }
 
-/// A complex type that describes the S3 bucket, HTTP server (for example, a web
-/// server), AWS Elemental MediaStore, or other server from which CloudFront
-/// gets your files.
+/// A complex type that describes the Amazon S3 bucket, HTTP server (for
+/// example, a web server), AWS Elemental MediaStore, or other server from which
+/// CloudFront gets your files.
 class AwsCloudFrontDistributionOriginItem {
+  /// An origin that is not an Amazon S3 bucket, with one exception. If the Amazon
+  /// S3 bucket is configured with static website hosting, use this attribute. If
+  /// the Amazon S3 bucket is not configured with static website hosting, use the
+  /// <code>S3OriginConfig</code> type instead.
+  final AwsCloudFrontDistributionOriginCustomOriginConfig? customOriginConfig;
+
   /// Amazon S3 origins: The DNS name of the S3 bucket from which you want
   /// CloudFront to get objects for this origin.
   final String? domainName;
@@ -5553,6 +5947,7 @@ class AwsCloudFrontDistributionOriginItem {
   final AwsCloudFrontDistributionOriginS3OriginConfig? s3OriginConfig;
 
   AwsCloudFrontDistributionOriginItem({
+    this.customOriginConfig,
     this.domainName,
     this.id,
     this.originPath,
@@ -5562,6 +5957,10 @@ class AwsCloudFrontDistributionOriginItem {
   factory AwsCloudFrontDistributionOriginItem.fromJson(
       Map<String, dynamic> json) {
     return AwsCloudFrontDistributionOriginItem(
+      customOriginConfig: json['CustomOriginConfig'] != null
+          ? AwsCloudFrontDistributionOriginCustomOriginConfig.fromJson(
+              json['CustomOriginConfig'] as Map<String, dynamic>)
+          : null,
       domainName: json['DomainName'] as String?,
       id: json['Id'] as String?,
       originPath: json['OriginPath'] as String?,
@@ -5573,11 +5972,13 @@ class AwsCloudFrontDistributionOriginItem {
   }
 
   Map<String, dynamic> toJson() {
+    final customOriginConfig = this.customOriginConfig;
     final domainName = this.domainName;
     final id = this.id;
     final originPath = this.originPath;
     final s3OriginConfig = this.s3OriginConfig;
     return {
+      if (customOriginConfig != null) 'CustomOriginConfig': customOriginConfig,
       if (domainName != null) 'DomainName': domainName,
       if (id != null) 'Id': id,
       if (originPath != null) 'OriginPath': originPath,
@@ -5586,8 +5987,8 @@ class AwsCloudFrontDistributionOriginItem {
   }
 }
 
-/// Information about an origin that is an S3 bucket that is not configured with
-/// static website hosting.
+/// Information about an origin that is an Amazon S3 bucket that is not
+/// configured with static website hosting.
 class AwsCloudFrontDistributionOriginS3OriginConfig {
   /// The CloudFront origin access identity to associate with the origin.
   final String? originAccessIdentity;
@@ -5612,8 +6013,44 @@ class AwsCloudFrontDistributionOriginS3OriginConfig {
   }
 }
 
+/// A complex type that contains information about the SSL/TLS protocols that
+/// CloudFront can use when establishing an HTTPS connection with your origin.
+class AwsCloudFrontDistributionOriginSslProtocols {
+  /// A list that contains allowed SSL/TLS protocols for this distribution.
+  final List<String>? items;
+
+  /// The number of SSL/TLS protocols that you want to allow CloudFront to use
+  /// when establishing an HTTPS connection with this origin.
+  final int? quantity;
+
+  AwsCloudFrontDistributionOriginSslProtocols({
+    this.items,
+    this.quantity,
+  });
+
+  factory AwsCloudFrontDistributionOriginSslProtocols.fromJson(
+      Map<String, dynamic> json) {
+    return AwsCloudFrontDistributionOriginSslProtocols(
+      items: (json['Items'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      quantity: json['Quantity'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final items = this.items;
+    final quantity = this.quantity;
+    return {
+      if (items != null) 'Items': items,
+      if (quantity != null) 'Quantity': quantity,
+    };
+  }
+}
+
 /// A complex type that contains information about origins and origin groups for
-/// this distribution.
+/// this CloudFront distribution.
 class AwsCloudFrontDistributionOrigins {
   /// A complex type that contains origins or origin groups for this distribution.
   final List<AwsCloudFrontDistributionOriginItem>? items;
@@ -5640,8 +6077,8 @@ class AwsCloudFrontDistributionOrigins {
   }
 }
 
-/// Provides information about the TLS/SSL configuration that the distribution
-/// uses to communicate with viewers.
+/// Provides information about the TLS/SSL configuration that the CloudFront
+/// distribution uses to communicate with viewers.
 class AwsCloudFrontDistributionViewerCertificate {
   /// The ARN of the ACM certificate. Used if the certificate is stored in ACM. If
   /// you provide an ACM certificate ARN, you must also provide
@@ -5855,6 +6292,257 @@ class AwsCloudTrailTrailDetails {
   }
 }
 
+/// Specifies an alarm and associates it with the specified metric or metric
+/// math expression.
+class AwsCloudWatchAlarmDetails {
+  /// Indicates whether actions should be executed during any changes to the alarm
+  /// state.
+  final bool? actionsEnabled;
+
+  /// The list of actions, specified as Amazon Resource Names (ARNs) to execute
+  /// when this alarm transitions into an <code>ALARM</code> state from any other
+  /// state.
+  final List<String>? alarmActions;
+
+  /// The ARN of the alarm.
+  final String? alarmArn;
+
+  /// The time stamp of the last update to the alarm configuration.
+  final String? alarmConfigurationUpdatedTimestamp;
+
+  /// The description of the alarm.
+  final String? alarmDescription;
+
+  /// The name of the alarm. If you don't specify a name, CloudFront generates a
+  /// unique physical ID and uses that ID for the alarm name.
+  final String? alarmName;
+
+  /// The arithmetic operation to use when comparing the specified statistic and
+  /// threshold. The specified statistic value is used as the first operand.
+  final String? comparisonOperator;
+
+  /// The number of datapoints that must be breaching to trigger the alarm.
+  final int? datapointsToAlarm;
+
+  /// The dimensions for the metric associated with the alarm.
+  final List<AwsCloudWatchAlarmDimensionsDetails>? dimensions;
+
+  /// Used only for alarms based on percentiles. If <code>ignore</code>, the alarm
+  /// state does not change during periods with too few data points to be
+  /// statistically significant. If <code>evaluate</code> or this parameter is not
+  /// used, the alarm is always evaluated and possibly changes state no matter how
+  /// many data points are available.
+  final String? evaluateLowSampleCountPercentile;
+
+  /// The number of periods over which data is compared to the specified
+  /// threshold.
+  final int? evaluationPeriods;
+
+  /// The percentile statistic for the metric associated with the alarm.
+  final String? extendedStatistic;
+
+  /// The actions to execute when this alarm transitions to the
+  /// <code>INSUFFICIENT_DATA</code> state from any other state. Each action is
+  /// specified as an ARN.
+  final List<String>? insufficientDataActions;
+
+  /// The name of the metric associated with the alarm. This is required for an
+  /// alarm based on a metric. For an alarm based on a math expression, you use
+  /// <code>Metrics</code> instead and you can't specify <code>MetricName</code>.
+  final String? metricName;
+
+  /// The namespace of the metric associated with the alarm. This is required for
+  /// an alarm based on a metric. For an alarm based on a math expression, you
+  /// can't specify <code>Namespace</code> and you use <code>Metrics</code>
+  /// instead.
+  final String? namespace;
+
+  /// The actions to execute when this alarm transitions to the <code>OK</code>
+  /// state from any other state. Each action is specified as an ARN.
+  final List<String>? okActions;
+
+  /// The period, in seconds, over which the statistic is applied. This is
+  /// required for an alarm based on a metric.
+  final int? period;
+
+  /// The statistic for the metric associated with the alarm, other than
+  /// percentile. For percentile statistics, use <code>ExtendedStatistic</code>.
+  ///
+  /// For an alarm based on a metric, you must specify either
+  /// <code>Statistic</code> or <code>ExtendedStatistic</code> but not both.
+  ///
+  /// For an alarm based on a math expression, you can't specify
+  /// <code>Statistic</code>. Instead, you use <code>Metrics</code>.
+  final String? statistic;
+
+  /// The value to compare with the specified statistic.
+  final double? threshold;
+
+  /// n an alarm based on an anomaly detection model, this is the ID of the
+  /// <code>ANOMALY_DETECTION_BAND</code> function used as the threshold for the
+  /// alarm.
+  final String? thresholdMetricId;
+
+  /// Sets how this alarm is to handle missing data points.
+  final String? treatMissingData;
+
+  /// The unit of the metric associated with the alarm.
+  final String? unit;
+
+  AwsCloudWatchAlarmDetails({
+    this.actionsEnabled,
+    this.alarmActions,
+    this.alarmArn,
+    this.alarmConfigurationUpdatedTimestamp,
+    this.alarmDescription,
+    this.alarmName,
+    this.comparisonOperator,
+    this.datapointsToAlarm,
+    this.dimensions,
+    this.evaluateLowSampleCountPercentile,
+    this.evaluationPeriods,
+    this.extendedStatistic,
+    this.insufficientDataActions,
+    this.metricName,
+    this.namespace,
+    this.okActions,
+    this.period,
+    this.statistic,
+    this.threshold,
+    this.thresholdMetricId,
+    this.treatMissingData,
+    this.unit,
+  });
+
+  factory AwsCloudWatchAlarmDetails.fromJson(Map<String, dynamic> json) {
+    return AwsCloudWatchAlarmDetails(
+      actionsEnabled: json['ActionsEnabled'] as bool?,
+      alarmActions: (json['AlarmActions'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      alarmArn: json['AlarmArn'] as String?,
+      alarmConfigurationUpdatedTimestamp:
+          json['AlarmConfigurationUpdatedTimestamp'] as String?,
+      alarmDescription: json['AlarmDescription'] as String?,
+      alarmName: json['AlarmName'] as String?,
+      comparisonOperator: json['ComparisonOperator'] as String?,
+      datapointsToAlarm: json['DatapointsToAlarm'] as int?,
+      dimensions: (json['Dimensions'] as List?)
+          ?.whereNotNull()
+          .map((e) => AwsCloudWatchAlarmDimensionsDetails.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      evaluateLowSampleCountPercentile:
+          json['EvaluateLowSampleCountPercentile'] as String?,
+      evaluationPeriods: json['EvaluationPeriods'] as int?,
+      extendedStatistic: json['ExtendedStatistic'] as String?,
+      insufficientDataActions: (json['InsufficientDataActions'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      metricName: json['MetricName'] as String?,
+      namespace: json['Namespace'] as String?,
+      okActions: (json['OkActions'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      period: json['Period'] as int?,
+      statistic: json['Statistic'] as String?,
+      threshold: json['Threshold'] as double?,
+      thresholdMetricId: json['ThresholdMetricId'] as String?,
+      treatMissingData: json['TreatMissingData'] as String?,
+      unit: json['Unit'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actionsEnabled = this.actionsEnabled;
+    final alarmActions = this.alarmActions;
+    final alarmArn = this.alarmArn;
+    final alarmConfigurationUpdatedTimestamp =
+        this.alarmConfigurationUpdatedTimestamp;
+    final alarmDescription = this.alarmDescription;
+    final alarmName = this.alarmName;
+    final comparisonOperator = this.comparisonOperator;
+    final datapointsToAlarm = this.datapointsToAlarm;
+    final dimensions = this.dimensions;
+    final evaluateLowSampleCountPercentile =
+        this.evaluateLowSampleCountPercentile;
+    final evaluationPeriods = this.evaluationPeriods;
+    final extendedStatistic = this.extendedStatistic;
+    final insufficientDataActions = this.insufficientDataActions;
+    final metricName = this.metricName;
+    final namespace = this.namespace;
+    final okActions = this.okActions;
+    final period = this.period;
+    final statistic = this.statistic;
+    final threshold = this.threshold;
+    final thresholdMetricId = this.thresholdMetricId;
+    final treatMissingData = this.treatMissingData;
+    final unit = this.unit;
+    return {
+      if (actionsEnabled != null) 'ActionsEnabled': actionsEnabled,
+      if (alarmActions != null) 'AlarmActions': alarmActions,
+      if (alarmArn != null) 'AlarmArn': alarmArn,
+      if (alarmConfigurationUpdatedTimestamp != null)
+        'AlarmConfigurationUpdatedTimestamp':
+            alarmConfigurationUpdatedTimestamp,
+      if (alarmDescription != null) 'AlarmDescription': alarmDescription,
+      if (alarmName != null) 'AlarmName': alarmName,
+      if (comparisonOperator != null) 'ComparisonOperator': comparisonOperator,
+      if (datapointsToAlarm != null) 'DatapointsToAlarm': datapointsToAlarm,
+      if (dimensions != null) 'Dimensions': dimensions,
+      if (evaluateLowSampleCountPercentile != null)
+        'EvaluateLowSampleCountPercentile': evaluateLowSampleCountPercentile,
+      if (evaluationPeriods != null) 'EvaluationPeriods': evaluationPeriods,
+      if (extendedStatistic != null) 'ExtendedStatistic': extendedStatistic,
+      if (insufficientDataActions != null)
+        'InsufficientDataActions': insufficientDataActions,
+      if (metricName != null) 'MetricName': metricName,
+      if (namespace != null) 'Namespace': namespace,
+      if (okActions != null) 'OkActions': okActions,
+      if (period != null) 'Period': period,
+      if (statistic != null) 'Statistic': statistic,
+      if (threshold != null) 'Threshold': threshold,
+      if (thresholdMetricId != null) 'ThresholdMetricId': thresholdMetricId,
+      if (treatMissingData != null) 'TreatMissingData': treatMissingData,
+      if (unit != null) 'Unit': unit,
+    };
+  }
+}
+
+/// Details about the dimensions for the metric associated with the alarm.
+class AwsCloudWatchAlarmDimensionsDetails {
+  /// The name of a dimension.
+  final String? name;
+
+  /// The value of a dimension.
+  final String? value;
+
+  AwsCloudWatchAlarmDimensionsDetails({
+    this.name,
+    this.value,
+  });
+
+  factory AwsCloudWatchAlarmDimensionsDetails.fromJson(
+      Map<String, dynamic> json) {
+    return AwsCloudWatchAlarmDimensionsDetails(
+      name: json['Name'] as String?,
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      if (name != null) 'Name': name,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
 /// Information about the build artifacts for the CodeBuild project.
 class AwsCodeBuildProjectArtifactsDetails {
   /// An identifier for the artifact definition.
@@ -5966,6 +6654,9 @@ class AwsCodeBuildProjectDetails {
   /// The name of the build project.
   final String? name;
 
+  /// Information about the secondary artifacts for the CodeBuild project.
+  final List<AwsCodeBuildProjectArtifactsDetails>? secondaryArtifacts;
+
   /// The ARN of the IAM role that enables CodeBuild to interact with dependent
   /// Amazon Web Services services on behalf of the Amazon Web Services account.
   final String? serviceRole;
@@ -5982,6 +6673,7 @@ class AwsCodeBuildProjectDetails {
     this.environment,
     this.logsConfig,
     this.name,
+    this.secondaryArtifacts,
     this.serviceRole,
     this.source,
     this.vpcConfig,
@@ -6004,6 +6696,11 @@ class AwsCodeBuildProjectDetails {
               json['LogsConfig'] as Map<String, dynamic>)
           : null,
       name: json['Name'] as String?,
+      secondaryArtifacts: (json['SecondaryArtifacts'] as List?)
+          ?.whereNotNull()
+          .map((e) => AwsCodeBuildProjectArtifactsDetails.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
       serviceRole: json['ServiceRole'] as String?,
       source: json['Source'] != null
           ? AwsCodeBuildProjectSource.fromJson(
@@ -6022,6 +6719,7 @@ class AwsCodeBuildProjectDetails {
     final environment = this.environment;
     final logsConfig = this.logsConfig;
     final name = this.name;
+    final secondaryArtifacts = this.secondaryArtifacts;
     final serviceRole = this.serviceRole;
     final source = this.source;
     final vpcConfig = this.vpcConfig;
@@ -6031,6 +6729,7 @@ class AwsCodeBuildProjectDetails {
       if (environment != null) 'Environment': environment,
       if (logsConfig != null) 'LogsConfig': logsConfig,
       if (name != null) 'Name': name,
+      if (secondaryArtifacts != null) 'SecondaryArtifacts': secondaryArtifacts,
       if (serviceRole != null) 'ServiceRole': serviceRole,
       if (source != null) 'Source': source,
       if (vpcConfig != null) 'VpcConfig': vpcConfig,
@@ -7466,7 +8165,7 @@ class AwsEc2EipDetails {
   }
 }
 
-/// The details of an EC2 instance.
+/// The details of an Amazon EC2 instance.
 class AwsEc2InstanceDetails {
   /// The IAM profile ARN of the instance.
   final String? iamInstanceProfileArn;
@@ -7491,6 +8190,9 @@ class AwsEc2InstanceDetails {
   /// <code>2020-03-22T13:22:13.933Z</code>.
   final String? launchedAt;
 
+  /// Details about the metadata options for the Amazon EC2 instance.
+  final AwsEc2InstanceMetadataOptions? metadataOptions;
+
   /// The identifiers of the network interfaces for the EC2 instance. The details
   /// for each network interface are in a corresponding
   /// <code>AwsEc2NetworkInterfacesDetails</code> object.
@@ -7502,6 +8204,10 @@ class AwsEc2InstanceDetails {
   /// The instance type of the instance.
   final String? type;
 
+  /// The virtualization type of the Amazon Machine Image (AMI) required to launch
+  /// the instance.
+  final String? virtualizationType;
+
   /// The identifier of the VPC that the instance was launched in.
   final String? vpcId;
 
@@ -7512,9 +8218,11 @@ class AwsEc2InstanceDetails {
     this.ipV6Addresses,
     this.keyName,
     this.launchedAt,
+    this.metadataOptions,
     this.networkInterfaces,
     this.subnetId,
     this.type,
+    this.virtualizationType,
     this.vpcId,
   });
 
@@ -7532,6 +8240,10 @@ class AwsEc2InstanceDetails {
           .toList(),
       keyName: json['KeyName'] as String?,
       launchedAt: json['LaunchedAt'] as String?,
+      metadataOptions: json['MetadataOptions'] != null
+          ? AwsEc2InstanceMetadataOptions.fromJson(
+              json['MetadataOptions'] as Map<String, dynamic>)
+          : null,
       networkInterfaces: (json['NetworkInterfaces'] as List?)
           ?.whereNotNull()
           .map((e) => AwsEc2InstanceNetworkInterfacesDetails.fromJson(
@@ -7539,6 +8251,7 @@ class AwsEc2InstanceDetails {
           .toList(),
       subnetId: json['SubnetId'] as String?,
       type: json['Type'] as String?,
+      virtualizationType: json['VirtualizationType'] as String?,
       vpcId: json['VpcId'] as String?,
     );
   }
@@ -7550,9 +8263,11 @@ class AwsEc2InstanceDetails {
     final ipV6Addresses = this.ipV6Addresses;
     final keyName = this.keyName;
     final launchedAt = this.launchedAt;
+    final metadataOptions = this.metadataOptions;
     final networkInterfaces = this.networkInterfaces;
     final subnetId = this.subnetId;
     final type = this.type;
+    final virtualizationType = this.virtualizationType;
     final vpcId = this.vpcId;
     return {
       if (iamInstanceProfileArn != null)
@@ -7562,15 +8277,73 @@ class AwsEc2InstanceDetails {
       if (ipV6Addresses != null) 'IpV6Addresses': ipV6Addresses,
       if (keyName != null) 'KeyName': keyName,
       if (launchedAt != null) 'LaunchedAt': launchedAt,
+      if (metadataOptions != null) 'MetadataOptions': metadataOptions,
       if (networkInterfaces != null) 'NetworkInterfaces': networkInterfaces,
       if (subnetId != null) 'SubnetId': subnetId,
       if (type != null) 'Type': type,
+      if (virtualizationType != null) 'VirtualizationType': virtualizationType,
       if (vpcId != null) 'VpcId': vpcId,
     };
   }
 }
 
-/// Identifies a network interface for the EC2 instance.
+/// Metadata options that allow you to configure and secure the Amazon EC2
+/// instance.
+class AwsEc2InstanceMetadataOptions {
+  /// Enables or disables the HTTP metadata endpoint on the instance.
+  final String? httpEndpoint;
+
+  /// Enables or disables the IPv6 endpoint for the instance metadata service.
+  final String? httpProtocolIpv6;
+
+  /// The desired HTTP PUT response hop limit for instance metadata requests. The
+  /// larger the number, the further instance metadata requests can travel.
+  final int? httpPutResponseHopLimit;
+
+  /// The state of token usage for your instance metadata requests.
+  final String? httpTokens;
+
+  /// Specifies whether to allow access to instance tags from the instance
+  /// metadata.
+  final String? instanceMetadataTags;
+
+  AwsEc2InstanceMetadataOptions({
+    this.httpEndpoint,
+    this.httpProtocolIpv6,
+    this.httpPutResponseHopLimit,
+    this.httpTokens,
+    this.instanceMetadataTags,
+  });
+
+  factory AwsEc2InstanceMetadataOptions.fromJson(Map<String, dynamic> json) {
+    return AwsEc2InstanceMetadataOptions(
+      httpEndpoint: json['HttpEndpoint'] as String?,
+      httpProtocolIpv6: json['HttpProtocolIpv6'] as String?,
+      httpPutResponseHopLimit: json['HttpPutResponseHopLimit'] as int?,
+      httpTokens: json['HttpTokens'] as String?,
+      instanceMetadataTags: json['InstanceMetadataTags'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final httpEndpoint = this.httpEndpoint;
+    final httpProtocolIpv6 = this.httpProtocolIpv6;
+    final httpPutResponseHopLimit = this.httpPutResponseHopLimit;
+    final httpTokens = this.httpTokens;
+    final instanceMetadataTags = this.instanceMetadataTags;
+    return {
+      if (httpEndpoint != null) 'HttpEndpoint': httpEndpoint,
+      if (httpProtocolIpv6 != null) 'HttpProtocolIpv6': httpProtocolIpv6,
+      if (httpPutResponseHopLimit != null)
+        'HttpPutResponseHopLimit': httpPutResponseHopLimit,
+      if (httpTokens != null) 'HttpTokens': httpTokens,
+      if (instanceMetadataTags != null)
+        'InstanceMetadataTags': instanceMetadataTags,
+    };
+  }
+}
+
+/// Identifies a network interface for the Amazon EC2 instance.
 class AwsEc2InstanceNetworkInterfacesDetails {
   /// The identifier of the network interface. The details are in a corresponding
   /// <code>AwsEc2NetworkInterfacesDetails</code> object.
@@ -7633,7 +8406,7 @@ class AwsEc2NetworkAclAssociation {
   }
 }
 
-/// Contains details about an EC2 network access control list (ACL).
+/// Contains details about an Amazon EC2 network access control list (ACL).
 class AwsEc2NetworkAclDetails {
   /// Associations between the network ACL and subnets.
   final List<AwsEc2NetworkAclAssociation>? associations;
@@ -7719,7 +8492,7 @@ class AwsEc2NetworkAclEntry {
   final PortRangeFromTo? portRange;
 
   /// The protocol that the rule applies to. To deny or allow access to all
-  /// protocols, use the value -1.
+  /// protocols, use the value <code>-1</code>.
   final String? protocol;
 
   /// Whether the rule is used to allow access or deny access.
@@ -8028,7 +8801,7 @@ class AwsEc2NetworkInterfaceSecurityGroup {
   }
 }
 
-/// Details about an EC2 security group.
+/// Details about an Amazon EC2 security group.
 class AwsEc2SecurityGroupDetails {
   /// The ID of the security group.
   final String? groupId;
@@ -8109,10 +8882,10 @@ class AwsEc2SecurityGroupIpPermission {
   ///
   /// [VPC only] Use <code>-1</code> to specify all protocols.
   ///
-  /// When authorizing security group rules, specifying -1 or a protocol number
-  /// other than <code>tcp</code>, <code>udp</code>, <code>icmp</code>, or
-  /// <code>icmpv6</code> allows traffic on all ports, regardless of any port
-  /// range you specify.
+  /// When authorizing security group rules, specifying <code>-1</code> or a
+  /// protocol number other than <code>tcp</code>, <code>udp</code>,
+  /// <code>icmp</code>, or <code>icmpv6</code> allows traffic on all ports,
+  /// regardless of any port range you specify.
   ///
   /// For <code>tcp</code>, <code>udp</code>, and <code>icmp</code>, you must
   /// specify a port range.
@@ -8135,8 +8908,8 @@ class AwsEc2SecurityGroupIpPermission {
   /// The end of the port range for the TCP and UDP protocols, or an ICMP/ICMPv6
   /// code.
   ///
-  /// A value of -1 indicates all ICMP/ICMPv6 codes. If you specify all
-  /// ICMP/ICMPv6 types, you must specify all codes.
+  /// A value of <code>-1</code> indicates all ICMP/ICMPv6 codes. If you specify
+  /// all ICMP/ICMPv6 types, you must specify all codes.
   final int? toPort;
 
   /// The security group and Amazon Web Services account ID pairs.
@@ -8458,6 +9231,124 @@ class AwsEc2SubnetDetails {
   }
 }
 
+/// Information about an Amazon Web Services Amazon EC2 Transit Gateway that
+/// interconnects virtual private clouds (VPCs) and on-premises networks.
+class AwsEc2TransitGatewayDetails {
+  /// A private Autonomous System Number (ASN) for the Amazon side of a BGP
+  /// session.
+  final int? amazonSideAsn;
+
+  /// The ID of the default association route table.
+  final String? associationDefaultRouteTableId;
+
+  /// Turn on or turn off automatic acceptance of attachment requests.
+  final String? autoAcceptSharedAttachments;
+
+  /// Turn on or turn off automatic association with the default association route
+  /// table.
+  final String? defaultRouteTableAssociation;
+
+  /// Turn on or turn off automatic propagation of routes to the default
+  /// propagation route table.
+  final String? defaultRouteTablePropagation;
+
+  /// The description of the transit gateway.
+  final String? description;
+
+  /// Turn on or turn off DNS support.
+  final String? dnsSupport;
+
+  /// The ID of the transit gateway.
+  final String? id;
+
+  /// Indicates whether multicast is supported on the transit gateway.
+  final String? multicastSupport;
+
+  /// The ID of the default propagation route table.
+  final String? propagationDefaultRouteTableId;
+
+  /// The transit gateway Classless Inter-Domain Routing (CIDR) blocks.
+  final List<String>? transitGatewayCidrBlocks;
+
+  /// Turn on or turn off Equal Cost Multipath Protocol (ECMP) support.
+  final String? vpnEcmpSupport;
+
+  AwsEc2TransitGatewayDetails({
+    this.amazonSideAsn,
+    this.associationDefaultRouteTableId,
+    this.autoAcceptSharedAttachments,
+    this.defaultRouteTableAssociation,
+    this.defaultRouteTablePropagation,
+    this.description,
+    this.dnsSupport,
+    this.id,
+    this.multicastSupport,
+    this.propagationDefaultRouteTableId,
+    this.transitGatewayCidrBlocks,
+    this.vpnEcmpSupport,
+  });
+
+  factory AwsEc2TransitGatewayDetails.fromJson(Map<String, dynamic> json) {
+    return AwsEc2TransitGatewayDetails(
+      amazonSideAsn: json['AmazonSideAsn'] as int?,
+      associationDefaultRouteTableId:
+          json['AssociationDefaultRouteTableId'] as String?,
+      autoAcceptSharedAttachments:
+          json['AutoAcceptSharedAttachments'] as String?,
+      defaultRouteTableAssociation:
+          json['DefaultRouteTableAssociation'] as String?,
+      defaultRouteTablePropagation:
+          json['DefaultRouteTablePropagation'] as String?,
+      description: json['Description'] as String?,
+      dnsSupport: json['DnsSupport'] as String?,
+      id: json['Id'] as String?,
+      multicastSupport: json['MulticastSupport'] as String?,
+      propagationDefaultRouteTableId:
+          json['PropagationDefaultRouteTableId'] as String?,
+      transitGatewayCidrBlocks: (json['TransitGatewayCidrBlocks'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      vpnEcmpSupport: json['VpnEcmpSupport'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final amazonSideAsn = this.amazonSideAsn;
+    final associationDefaultRouteTableId = this.associationDefaultRouteTableId;
+    final autoAcceptSharedAttachments = this.autoAcceptSharedAttachments;
+    final defaultRouteTableAssociation = this.defaultRouteTableAssociation;
+    final defaultRouteTablePropagation = this.defaultRouteTablePropagation;
+    final description = this.description;
+    final dnsSupport = this.dnsSupport;
+    final id = this.id;
+    final multicastSupport = this.multicastSupport;
+    final propagationDefaultRouteTableId = this.propagationDefaultRouteTableId;
+    final transitGatewayCidrBlocks = this.transitGatewayCidrBlocks;
+    final vpnEcmpSupport = this.vpnEcmpSupport;
+    return {
+      if (amazonSideAsn != null) 'AmazonSideAsn': amazonSideAsn,
+      if (associationDefaultRouteTableId != null)
+        'AssociationDefaultRouteTableId': associationDefaultRouteTableId,
+      if (autoAcceptSharedAttachments != null)
+        'AutoAcceptSharedAttachments': autoAcceptSharedAttachments,
+      if (defaultRouteTableAssociation != null)
+        'DefaultRouteTableAssociation': defaultRouteTableAssociation,
+      if (defaultRouteTablePropagation != null)
+        'DefaultRouteTablePropagation': defaultRouteTablePropagation,
+      if (description != null) 'Description': description,
+      if (dnsSupport != null) 'DnsSupport': dnsSupport,
+      if (id != null) 'Id': id,
+      if (multicastSupport != null) 'MulticastSupport': multicastSupport,
+      if (propagationDefaultRouteTableId != null)
+        'PropagationDefaultRouteTableId': propagationDefaultRouteTableId,
+      if (transitGatewayCidrBlocks != null)
+        'TransitGatewayCidrBlocks': transitGatewayCidrBlocks,
+      if (vpnEcmpSupport != null) 'VpnEcmpSupport': vpnEcmpSupport,
+    };
+  }
+}
+
 /// An attachment to an Amazon EC2 volume.
 class AwsEc2VolumeAttachment {
   /// The datetime when the attachment initiated.
@@ -8516,7 +9407,10 @@ class AwsEc2VolumeDetails {
   /// <code>2020-03-22T13:22:13.933Z</code>.
   final String? createTime;
 
-  /// Whether the volume is encrypted.
+  /// The device name for the volume that is attached to the instance.
+  final String? deviceName;
+
+  /// Specifies whether the volume is encrypted.
   final bool? encrypted;
 
   /// The ARN of the KMS key that was used to protect the volume encryption key
@@ -8532,14 +9426,27 @@ class AwsEc2VolumeDetails {
   /// The volume state.
   final String? status;
 
+  /// The ID of the volume.
+  final String? volumeId;
+
+  /// Indicates whether the volume was scanned or skipped.
+  final String? volumeScanStatus;
+
+  /// The volume type.
+  final String? volumeType;
+
   AwsEc2VolumeDetails({
     this.attachments,
     this.createTime,
+    this.deviceName,
     this.encrypted,
     this.kmsKeyId,
     this.size,
     this.snapshotId,
     this.status,
+    this.volumeId,
+    this.volumeScanStatus,
+    this.volumeType,
   });
 
   factory AwsEc2VolumeDetails.fromJson(Map<String, dynamic> json) {
@@ -8550,30 +9457,42 @@ class AwsEc2VolumeDetails {
               (e) => AwsEc2VolumeAttachment.fromJson(e as Map<String, dynamic>))
           .toList(),
       createTime: json['CreateTime'] as String?,
+      deviceName: json['DeviceName'] as String?,
       encrypted: json['Encrypted'] as bool?,
       kmsKeyId: json['KmsKeyId'] as String?,
       size: json['Size'] as int?,
       snapshotId: json['SnapshotId'] as String?,
       status: json['Status'] as String?,
+      volumeId: json['VolumeId'] as String?,
+      volumeScanStatus: json['VolumeScanStatus'] as String?,
+      volumeType: json['VolumeType'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final attachments = this.attachments;
     final createTime = this.createTime;
+    final deviceName = this.deviceName;
     final encrypted = this.encrypted;
     final kmsKeyId = this.kmsKeyId;
     final size = this.size;
     final snapshotId = this.snapshotId;
     final status = this.status;
+    final volumeId = this.volumeId;
+    final volumeScanStatus = this.volumeScanStatus;
+    final volumeType = this.volumeType;
     return {
       if (attachments != null) 'Attachments': attachments,
       if (createTime != null) 'CreateTime': createTime,
+      if (deviceName != null) 'DeviceName': deviceName,
       if (encrypted != null) 'Encrypted': encrypted,
       if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
       if (size != null) 'Size': size,
       if (snapshotId != null) 'SnapshotId': snapshotId,
       if (status != null) 'Status': status,
+      if (volumeId != null) 'VolumeId': volumeId,
+      if (volumeScanStatus != null) 'VolumeScanStatus': volumeScanStatus,
+      if (volumeType != null) 'VolumeType': volumeType,
     };
   }
 }
@@ -8768,6 +9687,179 @@ class AwsEc2VpcEndpointServiceServiceTypeDetails {
     final serviceType = this.serviceType;
     return {
       if (serviceType != null) 'ServiceType': serviceType,
+    };
+  }
+}
+
+/// Provides information about a VPC peering connection between two VPCs: a
+/// requester VPC that you own and an accepter VPC with which to create the
+/// connection.
+class AwsEc2VpcPeeringConnectionDetails {
+  /// Information about the accepter VPC.
+  final AwsEc2VpcPeeringConnectionVpcInfoDetails? accepterVpcInfo;
+
+  /// The time at which an unaccepted VPC peering connection will expire.
+  final String? expirationTime;
+
+  /// Information about the requester VPC.
+  final AwsEc2VpcPeeringConnectionVpcInfoDetails? requesterVpcInfo;
+
+  /// The status of the VPC peering connection.
+  final AwsEc2VpcPeeringConnectionStatusDetails? status;
+
+  /// The ID of the VPC peering connection.
+  final String? vpcPeeringConnectionId;
+
+  AwsEc2VpcPeeringConnectionDetails({
+    this.accepterVpcInfo,
+    this.expirationTime,
+    this.requesterVpcInfo,
+    this.status,
+    this.vpcPeeringConnectionId,
+  });
+
+  factory AwsEc2VpcPeeringConnectionDetails.fromJson(
+      Map<String, dynamic> json) {
+    return AwsEc2VpcPeeringConnectionDetails(
+      accepterVpcInfo: json['AccepterVpcInfo'] != null
+          ? AwsEc2VpcPeeringConnectionVpcInfoDetails.fromJson(
+              json['AccepterVpcInfo'] as Map<String, dynamic>)
+          : null,
+      expirationTime: json['ExpirationTime'] as String?,
+      requesterVpcInfo: json['RequesterVpcInfo'] != null
+          ? AwsEc2VpcPeeringConnectionVpcInfoDetails.fromJson(
+              json['RequesterVpcInfo'] as Map<String, dynamic>)
+          : null,
+      status: json['Status'] != null
+          ? AwsEc2VpcPeeringConnectionStatusDetails.fromJson(
+              json['Status'] as Map<String, dynamic>)
+          : null,
+      vpcPeeringConnectionId: json['VpcPeeringConnectionId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accepterVpcInfo = this.accepterVpcInfo;
+    final expirationTime = this.expirationTime;
+    final requesterVpcInfo = this.requesterVpcInfo;
+    final status = this.status;
+    final vpcPeeringConnectionId = this.vpcPeeringConnectionId;
+    return {
+      if (accepterVpcInfo != null) 'AccepterVpcInfo': accepterVpcInfo,
+      if (expirationTime != null) 'ExpirationTime': expirationTime,
+      if (requesterVpcInfo != null) 'RequesterVpcInfo': requesterVpcInfo,
+      if (status != null) 'Status': status,
+      if (vpcPeeringConnectionId != null)
+        'VpcPeeringConnectionId': vpcPeeringConnectionId,
+    };
+  }
+}
+
+/// Details about the status of the VPC peering connection.
+class AwsEc2VpcPeeringConnectionStatusDetails {
+  /// The status of the VPC peering connection.
+  final String? code;
+
+  /// A message that provides more information about the status, if applicable.
+  final String? message;
+
+  AwsEc2VpcPeeringConnectionStatusDetails({
+    this.code,
+    this.message,
+  });
+
+  factory AwsEc2VpcPeeringConnectionStatusDetails.fromJson(
+      Map<String, dynamic> json) {
+    return AwsEc2VpcPeeringConnectionStatusDetails(
+      code: json['Code'] as String?,
+      message: json['Message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final message = this.message;
+    return {
+      if (code != null) 'Code': code,
+      if (message != null) 'Message': message,
+    };
+  }
+}
+
+/// Describes a VPC in a VPC peering connection.
+class AwsEc2VpcPeeringConnectionVpcInfoDetails {
+  /// The IPv4 CIDR block for the VPC.
+  final String? cidrBlock;
+
+  /// Information about the IPv4 CIDR blocks for the VPC.
+  final List<VpcInfoCidrBlockSetDetails>? cidrBlockSet;
+
+  /// The IPv6 CIDR block for the VPC.
+  final List<VpcInfoIpv6CidrBlockSetDetails>? ipv6CidrBlockSet;
+
+  /// The ID of the Amazon Web Services account that owns the VPC.
+  final String? ownerId;
+
+  /// Information about the VPC peering connection options for the accepter or
+  /// requester VPC.
+  final VpcInfoPeeringOptionsDetails? peeringOptions;
+
+  /// The Amazon Web Services Region in which the VPC is located.
+  final String? region;
+
+  /// The ID of the VPC.
+  final String? vpcId;
+
+  AwsEc2VpcPeeringConnectionVpcInfoDetails({
+    this.cidrBlock,
+    this.cidrBlockSet,
+    this.ipv6CidrBlockSet,
+    this.ownerId,
+    this.peeringOptions,
+    this.region,
+    this.vpcId,
+  });
+
+  factory AwsEc2VpcPeeringConnectionVpcInfoDetails.fromJson(
+      Map<String, dynamic> json) {
+    return AwsEc2VpcPeeringConnectionVpcInfoDetails(
+      cidrBlock: json['CidrBlock'] as String?,
+      cidrBlockSet: (json['CidrBlockSet'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              VpcInfoCidrBlockSetDetails.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      ipv6CidrBlockSet: (json['Ipv6CidrBlockSet'] as List?)
+          ?.whereNotNull()
+          .map((e) => VpcInfoIpv6CidrBlockSetDetails.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      ownerId: json['OwnerId'] as String?,
+      peeringOptions: json['PeeringOptions'] != null
+          ? VpcInfoPeeringOptionsDetails.fromJson(
+              json['PeeringOptions'] as Map<String, dynamic>)
+          : null,
+      region: json['Region'] as String?,
+      vpcId: json['VpcId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cidrBlock = this.cidrBlock;
+    final cidrBlockSet = this.cidrBlockSet;
+    final ipv6CidrBlockSet = this.ipv6CidrBlockSet;
+    final ownerId = this.ownerId;
+    final peeringOptions = this.peeringOptions;
+    final region = this.region;
+    final vpcId = this.vpcId;
+    return {
+      if (cidrBlock != null) 'CidrBlock': cidrBlock,
+      if (cidrBlockSet != null) 'CidrBlockSet': cidrBlockSet,
+      if (ipv6CidrBlockSet != null) 'Ipv6CidrBlockSet': ipv6CidrBlockSet,
+      if (ownerId != null) 'OwnerId': ownerId,
+      if (peeringOptions != null) 'PeeringOptions': peeringOptions,
+      if (region != null) 'Region': region,
+      if (vpcId != null) 'VpcId': vpcId,
     };
   }
 }
@@ -9581,11 +10673,24 @@ class AwsEcsClusterDefaultCapacityProviderStrategyDetails {
   }
 }
 
-/// provides details about an ECS cluster.
+/// Provides details about an Amazon ECS cluster.
 class AwsEcsClusterDetails {
+  /// The number of services that are running on the cluster in an
+  /// <code>ACTIVE</code> state. You can view these services with the Amazon ECS
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListServices.html">
+  /// <code>ListServices</code> </a> API operation.
+  final int? activeServicesCount;
+
   /// The short name of one or more capacity providers to associate with the
   /// cluster.
   final List<String>? capacityProviders;
+
+  /// The Amazon Resource Name (ARN) that identifies the cluster.
+  final String? clusterArn;
+
+  /// A name that you use to identify your cluster.
+  final String? clusterName;
 
   /// The setting to use to create the cluster. Specifically used to configure
   /// whether to enable CloudWatch Container Insights for the cluster.
@@ -9600,19 +10705,40 @@ class AwsEcsClusterDetails {
   final List<AwsEcsClusterDefaultCapacityProviderStrategyDetails>?
       defaultCapacityProviderStrategy;
 
+  /// The number of container instances registered into the cluster. This includes
+  /// container instances in both <code>ACTIVE</code> and <code>DRAINING</code>
+  /// status.
+  final int? registeredContainerInstancesCount;
+
+  /// The number of tasks in the cluster that are in the <code>RUNNING</code>
+  /// state.
+  final int? runningTasksCount;
+
+  /// The status of the cluster.
+  final String? status;
+
   AwsEcsClusterDetails({
+    this.activeServicesCount,
     this.capacityProviders,
+    this.clusterArn,
+    this.clusterName,
     this.clusterSettings,
     this.configuration,
     this.defaultCapacityProviderStrategy,
+    this.registeredContainerInstancesCount,
+    this.runningTasksCount,
+    this.status,
   });
 
   factory AwsEcsClusterDetails.fromJson(Map<String, dynamic> json) {
     return AwsEcsClusterDetails(
+      activeServicesCount: json['ActiveServicesCount'] as int?,
       capacityProviders: (json['CapacityProviders'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
+      clusterArn: json['ClusterArn'] as String?,
+      clusterName: json['ClusterName'] as String?,
       clusterSettings: (json['ClusterSettings'] as List?)
           ?.whereNotNull()
           .map((e) => AwsEcsClusterClusterSettingsDetails.fromJson(
@@ -9629,21 +10755,88 @@ class AwsEcsClusterDetails {
                   AwsEcsClusterDefaultCapacityProviderStrategyDetails.fromJson(
                       e as Map<String, dynamic>))
               .toList(),
+      registeredContainerInstancesCount:
+          json['RegisteredContainerInstancesCount'] as int?,
+      runningTasksCount: json['RunningTasksCount'] as int?,
+      status: json['Status'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final activeServicesCount = this.activeServicesCount;
     final capacityProviders = this.capacityProviders;
+    final clusterArn = this.clusterArn;
+    final clusterName = this.clusterName;
     final clusterSettings = this.clusterSettings;
     final configuration = this.configuration;
     final defaultCapacityProviderStrategy =
         this.defaultCapacityProviderStrategy;
+    final registeredContainerInstancesCount =
+        this.registeredContainerInstancesCount;
+    final runningTasksCount = this.runningTasksCount;
+    final status = this.status;
     return {
+      if (activeServicesCount != null)
+        'ActiveServicesCount': activeServicesCount,
       if (capacityProviders != null) 'CapacityProviders': capacityProviders,
+      if (clusterArn != null) 'ClusterArn': clusterArn,
+      if (clusterName != null) 'ClusterName': clusterName,
       if (clusterSettings != null) 'ClusterSettings': clusterSettings,
       if (configuration != null) 'Configuration': configuration,
       if (defaultCapacityProviderStrategy != null)
         'DefaultCapacityProviderStrategy': defaultCapacityProviderStrategy,
+      if (registeredContainerInstancesCount != null)
+        'RegisteredContainerInstancesCount': registeredContainerInstancesCount,
+      if (runningTasksCount != null) 'RunningTasksCount': runningTasksCount,
+      if (status != null) 'Status': status,
+    };
+  }
+}
+
+/// Provides information about an Amazon ECS container.
+class AwsEcsContainerDetails {
+  /// The image used for the container.
+  final String? image;
+
+  /// The mount points for data volumes in your container.
+  final List<AwsMountPoint>? mountPoints;
+
+  /// The name of the container.
+  final String? name;
+
+  /// When this parameter is true, the container is given elevated privileges on
+  /// the host container instance (similar to the root user).
+  final bool? privileged;
+
+  AwsEcsContainerDetails({
+    this.image,
+    this.mountPoints,
+    this.name,
+    this.privileged,
+  });
+
+  factory AwsEcsContainerDetails.fromJson(Map<String, dynamic> json) {
+    return AwsEcsContainerDetails(
+      image: json['Image'] as String?,
+      mountPoints: (json['MountPoints'] as List?)
+          ?.whereNotNull()
+          .map((e) => AwsMountPoint.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      name: json['Name'] as String?,
+      privileged: json['Privileged'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final image = this.image;
+    final mountPoints = this.mountPoints;
+    final name = this.name;
+    final privileged = this.privileged;
+    return {
+      if (image != null) 'Image': image,
+      if (mountPoints != null) 'MountPoints': mountPoints,
+      if (name != null) 'Name': name,
+      if (privileged != null) 'Privileged': privileged,
     };
   }
 }
@@ -11612,7 +12805,7 @@ class AwsEcsTaskDefinitionContainerDefinitionsVolumesFromDetails {
   }
 }
 
-/// details about a task definition. A task definition describes the container
+/// Details about a task definition. A task definition describes the container
 /// and volume definitions of an Amazon Elastic Container Service task.
 class AwsEcsTaskDefinitionDetails {
   /// The container definitions that describe the containers that make up the
@@ -12133,6 +13326,355 @@ class AwsEcsTaskDefinitionVolumesHostDetails {
     final sourcePath = this.sourcePath;
     return {
       if (sourcePath != null) 'SourcePath': sourcePath,
+    };
+  }
+}
+
+/// Provides details about a task in a cluster.
+class AwsEcsTaskDetails {
+  /// The Amazon Resource Name (ARN) of the cluster that hosts the task.
+  final String? clusterArn;
+
+  /// The containers that are associated with the task.
+  final List<AwsEcsContainerDetails>? containers;
+
+  /// The Unix timestamp for the time when the task was created. More
+  /// specifically, it's for the time when the task entered the
+  /// <code>PENDING</code> state.
+  final String? createdAt;
+
+  /// The name of the task group that's associated with the task.
+  final String? group;
+
+  /// The Unix timestamp for the time when the task started. More specifically,
+  /// it's for the time when the task transitioned from the <code>PENDING</code>
+  /// state to the <code>RUNNING</code> state.
+  final String? startedAt;
+
+  /// The tag specified when a task is started. If an Amazon ECS service started
+  /// the task, the <code>startedBy</code> parameter contains the deployment ID of
+  /// that service.
+  final String? startedBy;
+
+  /// The ARN of the task definition that creates the task.
+  final String? taskDefinitionArn;
+
+  /// The version counter for the task.
+  final String? version;
+
+  /// Details about the data volume that is used in a task definition.
+  final List<AwsEcsTaskVolumeDetails>? volumes;
+
+  AwsEcsTaskDetails({
+    this.clusterArn,
+    this.containers,
+    this.createdAt,
+    this.group,
+    this.startedAt,
+    this.startedBy,
+    this.taskDefinitionArn,
+    this.version,
+    this.volumes,
+  });
+
+  factory AwsEcsTaskDetails.fromJson(Map<String, dynamic> json) {
+    return AwsEcsTaskDetails(
+      clusterArn: json['ClusterArn'] as String?,
+      containers: (json['Containers'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => AwsEcsContainerDetails.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      createdAt: json['CreatedAt'] as String?,
+      group: json['Group'] as String?,
+      startedAt: json['StartedAt'] as String?,
+      startedBy: json['StartedBy'] as String?,
+      taskDefinitionArn: json['TaskDefinitionArn'] as String?,
+      version: json['Version'] as String?,
+      volumes: (json['Volumes'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              AwsEcsTaskVolumeDetails.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clusterArn = this.clusterArn;
+    final containers = this.containers;
+    final createdAt = this.createdAt;
+    final group = this.group;
+    final startedAt = this.startedAt;
+    final startedBy = this.startedBy;
+    final taskDefinitionArn = this.taskDefinitionArn;
+    final version = this.version;
+    final volumes = this.volumes;
+    return {
+      if (clusterArn != null) 'ClusterArn': clusterArn,
+      if (containers != null) 'Containers': containers,
+      if (createdAt != null) 'CreatedAt': createdAt,
+      if (group != null) 'Group': group,
+      if (startedAt != null) 'StartedAt': startedAt,
+      if (startedBy != null) 'StartedBy': startedBy,
+      if (taskDefinitionArn != null) 'TaskDefinitionArn': taskDefinitionArn,
+      if (version != null) 'Version': version,
+      if (volumes != null) 'Volumes': volumes,
+    };
+  }
+}
+
+/// Provides information about a data volume that's used in a task definition.
+class AwsEcsTaskVolumeDetails {
+  /// This parameter is specified when you use bind mount host volumes. The
+  /// contents of the <code>host</code> parameter determine whether your bind
+  /// mount host volume persists on the host container instance and where it's
+  /// stored.
+  final AwsEcsTaskVolumeHostDetails? host;
+
+  /// The name of the volume. Up to 255 letters (uppercase and lowercase),
+  /// numbers, underscores, and hyphens are allowed. This name is referenced in
+  /// the <code>sourceVolume</code> parameter of container definition
+  /// <code>mountPoints</code>.
+  final String? name;
+
+  AwsEcsTaskVolumeDetails({
+    this.host,
+    this.name,
+  });
+
+  factory AwsEcsTaskVolumeDetails.fromJson(Map<String, dynamic> json) {
+    return AwsEcsTaskVolumeDetails(
+      host: json['Host'] != null
+          ? AwsEcsTaskVolumeHostDetails.fromJson(
+              json['Host'] as Map<String, dynamic>)
+          : null,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final host = this.host;
+    final name = this.name;
+    return {
+      if (host != null) 'Host': host,
+      if (name != null) 'Name': name,
+    };
+  }
+}
+
+/// Provides details on a container instance bind mount host volume.
+class AwsEcsTaskVolumeHostDetails {
+  /// When the <code>host</code> parameter is used, specify a
+  /// <code>sourcePath</code> to declare the path on the host container instance
+  /// that's presented to the container.
+  final String? sourcePath;
+
+  AwsEcsTaskVolumeHostDetails({
+    this.sourcePath,
+  });
+
+  factory AwsEcsTaskVolumeHostDetails.fromJson(Map<String, dynamic> json) {
+    return AwsEcsTaskVolumeHostDetails(
+      sourcePath: json['SourcePath'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sourcePath = this.sourcePath;
+    return {
+      if (sourcePath != null) 'SourcePath': sourcePath,
+    };
+  }
+}
+
+/// Provides information about an Amazon EFS access point.
+class AwsEfsAccessPointDetails {
+  /// The ID of the Amazon EFS access point.
+  final String? accessPointId;
+
+  /// The Amazon Resource Name (ARN) of the Amazon EFS access point.
+  final String? arn;
+
+  /// The opaque string specified in the request to ensure idempotent creation.
+  final String? clientToken;
+
+  /// The ID of the Amazon EFS file system that the access point applies to.
+  final String? fileSystemId;
+
+  /// The full POSIX identity, including the user ID, group ID, and secondary
+  /// group IDs on the access point, that is used for all file operations by NFS
+  /// clients using the access point.
+  final AwsEfsAccessPointPosixUserDetails? posixUser;
+
+  /// The directory on the Amazon EFS file system that the access point exposes as
+  /// the root directory to NFS clients using the access point.
+  final AwsEfsAccessPointRootDirectoryDetails? rootDirectory;
+
+  AwsEfsAccessPointDetails({
+    this.accessPointId,
+    this.arn,
+    this.clientToken,
+    this.fileSystemId,
+    this.posixUser,
+    this.rootDirectory,
+  });
+
+  factory AwsEfsAccessPointDetails.fromJson(Map<String, dynamic> json) {
+    return AwsEfsAccessPointDetails(
+      accessPointId: json['AccessPointId'] as String?,
+      arn: json['Arn'] as String?,
+      clientToken: json['ClientToken'] as String?,
+      fileSystemId: json['FileSystemId'] as String?,
+      posixUser: json['PosixUser'] != null
+          ? AwsEfsAccessPointPosixUserDetails.fromJson(
+              json['PosixUser'] as Map<String, dynamic>)
+          : null,
+      rootDirectory: json['RootDirectory'] != null
+          ? AwsEfsAccessPointRootDirectoryDetails.fromJson(
+              json['RootDirectory'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accessPointId = this.accessPointId;
+    final arn = this.arn;
+    final clientToken = this.clientToken;
+    final fileSystemId = this.fileSystemId;
+    final posixUser = this.posixUser;
+    final rootDirectory = this.rootDirectory;
+    return {
+      if (accessPointId != null) 'AccessPointId': accessPointId,
+      if (arn != null) 'Arn': arn,
+      if (clientToken != null) 'ClientToken': clientToken,
+      if (fileSystemId != null) 'FileSystemId': fileSystemId,
+      if (posixUser != null) 'PosixUser': posixUser,
+      if (rootDirectory != null) 'RootDirectory': rootDirectory,
+    };
+  }
+}
+
+/// Provides details for all file system operations using this Amazon EFS access
+/// point.
+class AwsEfsAccessPointPosixUserDetails {
+  /// The POSIX group ID used for all file system operations using this access
+  /// point.
+  final String? gid;
+
+  /// Secondary POSIX group IDs used for all file system operations using this
+  /// access point.
+  final List<String>? secondaryGids;
+
+  /// The POSIX user ID used for all file system operations using this access
+  /// point.
+  final String? uid;
+
+  AwsEfsAccessPointPosixUserDetails({
+    this.gid,
+    this.secondaryGids,
+    this.uid,
+  });
+
+  factory AwsEfsAccessPointPosixUserDetails.fromJson(
+      Map<String, dynamic> json) {
+    return AwsEfsAccessPointPosixUserDetails(
+      gid: json['Gid'] as String?,
+      secondaryGids: (json['SecondaryGids'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      uid: json['Uid'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final gid = this.gid;
+    final secondaryGids = this.secondaryGids;
+    final uid = this.uid;
+    return {
+      if (gid != null) 'Gid': gid,
+      if (secondaryGids != null) 'SecondaryGids': secondaryGids,
+      if (uid != null) 'Uid': uid,
+    };
+  }
+}
+
+/// Provides information about the settings that Amazon EFS uses to create the
+/// root directory when a client connects to an access point.
+class AwsEfsAccessPointRootDirectoryCreationInfoDetails {
+  /// Specifies the POSIX group ID to apply to the root directory.
+  final String? ownerGid;
+
+  /// Specifies the POSIX user ID to apply to the root directory.
+  final String? ownerUid;
+
+  /// Specifies the POSIX permissions to apply to the root directory, in the
+  /// format of an octal number representing the file's mode bits.
+  final String? permissions;
+
+  AwsEfsAccessPointRootDirectoryCreationInfoDetails({
+    this.ownerGid,
+    this.ownerUid,
+    this.permissions,
+  });
+
+  factory AwsEfsAccessPointRootDirectoryCreationInfoDetails.fromJson(
+      Map<String, dynamic> json) {
+    return AwsEfsAccessPointRootDirectoryCreationInfoDetails(
+      ownerGid: json['OwnerGid'] as String?,
+      ownerUid: json['OwnerUid'] as String?,
+      permissions: json['Permissions'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ownerGid = this.ownerGid;
+    final ownerUid = this.ownerUid;
+    final permissions = this.permissions;
+    return {
+      if (ownerGid != null) 'OwnerGid': ownerGid,
+      if (ownerUid != null) 'OwnerUid': ownerUid,
+      if (permissions != null) 'Permissions': permissions,
+    };
+  }
+}
+
+/// Provides information about the directory on the Amazon EFS file system that
+/// the access point exposes as the root directory to NFS clients using the
+/// access point.
+class AwsEfsAccessPointRootDirectoryDetails {
+  /// Specifies the POSIX IDs and permissions to apply to the access point's root
+  /// directory.
+  final AwsEfsAccessPointRootDirectoryCreationInfoDetails? creationInfo;
+
+  /// Specifies the path on the Amazon EFS file system to expose as the root
+  /// directory to NFS clients using the access point to access the EFS file
+  /// system. A path can have up to four subdirectories. If the specified path
+  /// does not exist, you are required to provide <code>CreationInfo</code>.
+  final String? path;
+
+  AwsEfsAccessPointRootDirectoryDetails({
+    this.creationInfo,
+    this.path,
+  });
+
+  factory AwsEfsAccessPointRootDirectoryDetails.fromJson(
+      Map<String, dynamic> json) {
+    return AwsEfsAccessPointRootDirectoryDetails(
+      creationInfo: json['CreationInfo'] != null
+          ? AwsEfsAccessPointRootDirectoryCreationInfoDetails.fromJson(
+              json['CreationInfo'] as Map<String, dynamic>)
+          : null,
+      path: json['Path'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationInfo = this.creationInfo;
+    final path = this.path;
+    return {
+      if (creationInfo != null) 'CreationInfo': creationInfo,
+      if (path != null) 'Path': path,
     };
   }
 }
@@ -12895,7 +14437,8 @@ class AwsElasticsearchDomainEncryptionAtRestOptions {
   /// Whether encryption at rest is enabled.
   final bool? enabled;
 
-  /// The KMS key ID. Takes the form 1a2a3a4-1a2a-3a4a-5a6a-1a2a3a4a5a6a.
+  /// The KMS key ID. Takes the form
+  /// <code>1a2a3a4-1a2a-3a4a-5a6a-1a2a3a4a5a6a</code>.
   final String? kmsKeyId;
 
   AwsElasticsearchDomainEncryptionAtRestOptions({
@@ -13266,6 +14809,37 @@ class AwsElbLoadBalancerAccessLog {
   }
 }
 
+/// Provides information about additional attributes for the load balancer.
+class AwsElbLoadBalancerAdditionalAttribute {
+  /// The name of the attribute.
+  final String? key;
+
+  /// The value of the attribute.
+  final String? value;
+
+  AwsElbLoadBalancerAdditionalAttribute({
+    this.key,
+    this.value,
+  });
+
+  factory AwsElbLoadBalancerAdditionalAttribute.fromJson(
+      Map<String, dynamic> json) {
+    return AwsElbLoadBalancerAdditionalAttribute(
+      key: json['Key'] as String?,
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
 /// Contains attributes for the load balancer.
 class AwsElbLoadBalancerAttributes {
   /// Information about the access log configuration for the load balancer.
@@ -13274,6 +14848,9 @@ class AwsElbLoadBalancerAttributes {
   /// information about all requests. It delivers the information to a specified
   /// S3 bucket.
   final AwsElbLoadBalancerAccessLog? accessLog;
+
+  /// Any additional attributes for a load balancer.
+  final List<AwsElbLoadBalancerAdditionalAttribute>? additionalAttributes;
 
   /// Information about the connection draining configuration for the load
   /// balancer.
@@ -13299,6 +14876,7 @@ class AwsElbLoadBalancerAttributes {
 
   AwsElbLoadBalancerAttributes({
     this.accessLog,
+    this.additionalAttributes,
     this.connectionDraining,
     this.connectionSettings,
     this.crossZoneLoadBalancing,
@@ -13310,6 +14888,11 @@ class AwsElbLoadBalancerAttributes {
           ? AwsElbLoadBalancerAccessLog.fromJson(
               json['AccessLog'] as Map<String, dynamic>)
           : null,
+      additionalAttributes: (json['AdditionalAttributes'] as List?)
+          ?.whereNotNull()
+          .map((e) => AwsElbLoadBalancerAdditionalAttribute.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
       connectionDraining: json['ConnectionDraining'] != null
           ? AwsElbLoadBalancerConnectionDraining.fromJson(
               json['ConnectionDraining'] as Map<String, dynamic>)
@@ -13327,11 +14910,14 @@ class AwsElbLoadBalancerAttributes {
 
   Map<String, dynamic> toJson() {
     final accessLog = this.accessLog;
+    final additionalAttributes = this.additionalAttributes;
     final connectionDraining = this.connectionDraining;
     final connectionSettings = this.connectionSettings;
     final crossZoneLoadBalancing = this.crossZoneLoadBalancing;
     return {
       if (accessLog != null) 'AccessLog': accessLog,
+      if (additionalAttributes != null)
+        'AdditionalAttributes': additionalAttributes,
       if (connectionDraining != null) 'ConnectionDraining': connectionDraining,
       if (connectionSettings != null) 'ConnectionSettings': connectionSettings,
       if (crossZoneLoadBalancing != null)
@@ -14996,6 +16582,97 @@ class AwsIamUserPolicy {
   }
 }
 
+/// Provides information about an Amazon Kinesis data stream.
+class AwsKinesisStreamDetails {
+  /// The Amazon Resource Name (ARN) of the Kinesis data stream.
+  final String? arn;
+
+  /// The name of the Kinesis stream. If you don't specify a name, CloudFront
+  /// generates a unique physical ID and uses that ID for the stream name.
+  final String? name;
+
+  /// The number of hours for the data records that are stored in shards to remain
+  /// accessible.
+  final int? retentionPeriodHours;
+
+  /// The number of shards that the stream uses.
+  final int? shardCount;
+
+  /// When specified, enables or updates server-side encryption using an KMS key
+  /// for a specified stream. Removing this property from your stack template and
+  /// updating your stack disables encryption.
+  final AwsKinesisStreamStreamEncryptionDetails? streamEncryption;
+
+  AwsKinesisStreamDetails({
+    this.arn,
+    this.name,
+    this.retentionPeriodHours,
+    this.shardCount,
+    this.streamEncryption,
+  });
+
+  factory AwsKinesisStreamDetails.fromJson(Map<String, dynamic> json) {
+    return AwsKinesisStreamDetails(
+      arn: json['Arn'] as String?,
+      name: json['Name'] as String?,
+      retentionPeriodHours: json['RetentionPeriodHours'] as int?,
+      shardCount: json['ShardCount'] as int?,
+      streamEncryption: json['StreamEncryption'] != null
+          ? AwsKinesisStreamStreamEncryptionDetails.fromJson(
+              json['StreamEncryption'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final name = this.name;
+    final retentionPeriodHours = this.retentionPeriodHours;
+    final shardCount = this.shardCount;
+    final streamEncryption = this.streamEncryption;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (name != null) 'Name': name,
+      if (retentionPeriodHours != null)
+        'RetentionPeriodHours': retentionPeriodHours,
+      if (shardCount != null) 'ShardCount': shardCount,
+      if (streamEncryption != null) 'StreamEncryption': streamEncryption,
+    };
+  }
+}
+
+/// Provides information about stream encryption.
+class AwsKinesisStreamStreamEncryptionDetails {
+  /// The encryption type to use.
+  final String? encryptionType;
+
+  /// The globally unique identifier for the customer-managed KMS key to use for
+  /// encryption.
+  final String? keyId;
+
+  AwsKinesisStreamStreamEncryptionDetails({
+    this.encryptionType,
+    this.keyId,
+  });
+
+  factory AwsKinesisStreamStreamEncryptionDetails.fromJson(
+      Map<String, dynamic> json) {
+    return AwsKinesisStreamStreamEncryptionDetails(
+      encryptionType: json['EncryptionType'] as String?,
+      keyId: json['KeyId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final encryptionType = this.encryptionType;
+    final keyId = this.keyId;
+    return {
+      if (encryptionType != null) 'EncryptionType': encryptionType,
+      if (keyId != null) 'KeyId': keyId,
+    };
+  }
+}
+
 /// Contains metadata about an KMS key.
 class AwsKmsKeyDetails {
   /// The twelve-digit account ID of the Amazon Web Services account that owns the
@@ -15010,7 +16687,7 @@ class AwsKmsKeyDetails {
   /// <code>2020-03-22T13:22:13.933Z</code>.
   final double? creationDate;
 
-  /// A description of the key.
+  /// A description of the KMS key.
   final String? description;
 
   /// The globally unique identifier for the KMS key.
@@ -15534,6 +17211,37 @@ class AwsLambdaLayerVersionDetails {
   }
 }
 
+/// Details for a volume mount point that's used in a container definition.
+class AwsMountPoint {
+  /// The path on the container to mount the host volume at.
+  final String? containerPath;
+
+  /// The name of the volume to mount. Must be a volume name referenced in the
+  /// <code>name</code> parameter of task definition <code>volume</code>.
+  final String? sourceVolume;
+
+  AwsMountPoint({
+    this.containerPath,
+    this.sourceVolume,
+  });
+
+  factory AwsMountPoint.fromJson(Map<String, dynamic> json) {
+    return AwsMountPoint(
+      containerPath: json['ContainerPath'] as String?,
+      sourceVolume: json['SourceVolume'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final containerPath = this.containerPath;
+    final sourceVolume = this.sourceVolume;
+    return {
+      if (containerPath != null) 'ContainerPath': containerPath,
+      if (sourceVolume != null) 'SourceVolume': sourceVolume,
+    };
+  }
+}
+
 /// Details about an Network Firewall firewall.
 class AwsNetworkFirewallFirewallDetails {
   /// Whether the firewall is protected from deletion. If set to
@@ -15787,6 +17495,48 @@ class AwsNetworkFirewallRuleGroupDetails {
   }
 }
 
+/// Provides information about domain access control options.
+class AwsOpenSearchServiceDomainAdvancedSecurityOptionsDetails {
+  /// Enables fine-grained access control.
+  final bool? enabled;
+
+  /// Enables the internal user database.
+  final bool? internalUserDatabaseEnabled;
+
+  /// Specifies information about the master user of the domain.
+  final AwsOpenSearchServiceDomainMasterUserOptionsDetails? masterUserOptions;
+
+  AwsOpenSearchServiceDomainAdvancedSecurityOptionsDetails({
+    this.enabled,
+    this.internalUserDatabaseEnabled,
+    this.masterUserOptions,
+  });
+
+  factory AwsOpenSearchServiceDomainAdvancedSecurityOptionsDetails.fromJson(
+      Map<String, dynamic> json) {
+    return AwsOpenSearchServiceDomainAdvancedSecurityOptionsDetails(
+      enabled: json['Enabled'] as bool?,
+      internalUserDatabaseEnabled: json['InternalUserDatabaseEnabled'] as bool?,
+      masterUserOptions: json['MasterUserOptions'] != null
+          ? AwsOpenSearchServiceDomainMasterUserOptionsDetails.fromJson(
+              json['MasterUserOptions'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final internalUserDatabaseEnabled = this.internalUserDatabaseEnabled;
+    final masterUserOptions = this.masterUserOptions;
+    return {
+      if (enabled != null) 'Enabled': enabled,
+      if (internalUserDatabaseEnabled != null)
+        'InternalUserDatabaseEnabled': internalUserDatabaseEnabled,
+      if (masterUserOptions != null) 'MasterUserOptions': masterUserOptions,
+    };
+  }
+}
+
 /// Details about the configuration of an OpenSearch cluster.
 class AwsOpenSearchServiceDomainClusterConfigDetails {
   /// The number of instances to use for the master node. If this attribute is
@@ -15928,6 +17678,10 @@ class AwsOpenSearchServiceDomainDetails {
   /// Service domain.
   final String? accessPolicies;
 
+  /// Specifies options for fine-grained access control.
+  final AwsOpenSearchServiceDomainAdvancedSecurityOptionsDetails?
+      advancedSecurityOptions;
+
   /// The ARN of the OpenSearch Service domain.
   final String? arn;
 
@@ -15979,6 +17733,7 @@ class AwsOpenSearchServiceDomainDetails {
 
   AwsOpenSearchServiceDomainDetails({
     this.accessPolicies,
+    this.advancedSecurityOptions,
     this.arn,
     this.clusterConfig,
     this.domainEndpoint,
@@ -15998,6 +17753,10 @@ class AwsOpenSearchServiceDomainDetails {
       Map<String, dynamic> json) {
     return AwsOpenSearchServiceDomainDetails(
       accessPolicies: json['AccessPolicies'] as String?,
+      advancedSecurityOptions: json['AdvancedSecurityOptions'] != null
+          ? AwsOpenSearchServiceDomainAdvancedSecurityOptionsDetails.fromJson(
+              json['AdvancedSecurityOptions'] as Map<String, dynamic>)
+          : null,
       arn: json['Arn'] as String?,
       clusterConfig: json['ClusterConfig'] != null
           ? AwsOpenSearchServiceDomainClusterConfigDetails.fromJson(
@@ -16039,6 +17798,7 @@ class AwsOpenSearchServiceDomainDetails {
 
   Map<String, dynamic> toJson() {
     final accessPolicies = this.accessPolicies;
+    final advancedSecurityOptions = this.advancedSecurityOptions;
     final arn = this.arn;
     final clusterConfig = this.clusterConfig;
     final domainEndpoint = this.domainEndpoint;
@@ -16054,6 +17814,8 @@ class AwsOpenSearchServiceDomainDetails {
     final vpcOptions = this.vpcOptions;
     return {
       if (accessPolicies != null) 'AccessPolicies': accessPolicies,
+      if (advancedSecurityOptions != null)
+        'AdvancedSecurityOptions': advancedSecurityOptions,
       if (arn != null) 'Arn': arn,
       if (clusterConfig != null) 'ClusterConfig': clusterConfig,
       if (domainEndpoint != null) 'DomainEndpoint': domainEndpoint,
@@ -16239,6 +18001,44 @@ class AwsOpenSearchServiceDomainLogPublishingOptionsDetails {
       if (auditLogs != null) 'AuditLogs': auditLogs,
       if (indexSlowLogs != null) 'IndexSlowLogs': indexSlowLogs,
       if (searchSlowLogs != null) 'SearchSlowLogs': searchSlowLogs,
+    };
+  }
+}
+
+/// Specifies information about the master user of the domain.
+class AwsOpenSearchServiceDomainMasterUserOptionsDetails {
+  /// The Amazon Resource Name (ARN) for the master user.
+  final String? masterUserArn;
+
+  /// The username for the master user.
+  final String? masterUserName;
+
+  /// The password for the master user.
+  final String? masterUserPassword;
+
+  AwsOpenSearchServiceDomainMasterUserOptionsDetails({
+    this.masterUserArn,
+    this.masterUserName,
+    this.masterUserPassword,
+  });
+
+  factory AwsOpenSearchServiceDomainMasterUserOptionsDetails.fromJson(
+      Map<String, dynamic> json) {
+    return AwsOpenSearchServiceDomainMasterUserOptionsDetails(
+      masterUserArn: json['MasterUserArn'] as String?,
+      masterUserName: json['MasterUserName'] as String?,
+      masterUserPassword: json['MasterUserPassword'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final masterUserArn = this.masterUserArn;
+    final masterUserName = this.masterUserName;
+    final masterUserPassword = this.masterUserPassword;
+    return {
+      if (masterUserArn != null) 'MasterUserArn': masterUserArn,
+      if (masterUserName != null) 'MasterUserName': masterUserName,
+      if (masterUserPassword != null) 'MasterUserPassword': masterUserPassword,
     };
   }
 }
@@ -17988,6 +19788,159 @@ class AwsRdsDbProcessorFeature {
   }
 }
 
+/// Provides information about an Amazon RDS DB security group.
+class AwsRdsDbSecurityGroupDetails {
+  /// The ARN for the DB security group.
+  final String? dbSecurityGroupArn;
+
+  /// Provides the description of the DB security group.
+  final String? dbSecurityGroupDescription;
+
+  /// Specifies the name of the DB security group.
+  final String? dbSecurityGroupName;
+
+  /// Contains a list of EC2 security groups.
+  final List<AwsRdsDbSecurityGroupEc2SecurityGroup>? ec2SecurityGroups;
+
+  /// Contains a list of IP ranges.
+  final List<AwsRdsDbSecurityGroupIpRange>? ipRanges;
+
+  /// Provides the Amazon Web Services ID of the owner of a specific DB security
+  /// group.
+  final String? ownerId;
+
+  /// Provides VPC ID associated with the DB security group.
+  final String? vpcId;
+
+  AwsRdsDbSecurityGroupDetails({
+    this.dbSecurityGroupArn,
+    this.dbSecurityGroupDescription,
+    this.dbSecurityGroupName,
+    this.ec2SecurityGroups,
+    this.ipRanges,
+    this.ownerId,
+    this.vpcId,
+  });
+
+  factory AwsRdsDbSecurityGroupDetails.fromJson(Map<String, dynamic> json) {
+    return AwsRdsDbSecurityGroupDetails(
+      dbSecurityGroupArn: json['DbSecurityGroupArn'] as String?,
+      dbSecurityGroupDescription: json['DbSecurityGroupDescription'] as String?,
+      dbSecurityGroupName: json['DbSecurityGroupName'] as String?,
+      ec2SecurityGroups: (json['Ec2SecurityGroups'] as List?)
+          ?.whereNotNull()
+          .map((e) => AwsRdsDbSecurityGroupEc2SecurityGroup.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      ipRanges: (json['IpRanges'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              AwsRdsDbSecurityGroupIpRange.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      ownerId: json['OwnerId'] as String?,
+      vpcId: json['VpcId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dbSecurityGroupArn = this.dbSecurityGroupArn;
+    final dbSecurityGroupDescription = this.dbSecurityGroupDescription;
+    final dbSecurityGroupName = this.dbSecurityGroupName;
+    final ec2SecurityGroups = this.ec2SecurityGroups;
+    final ipRanges = this.ipRanges;
+    final ownerId = this.ownerId;
+    final vpcId = this.vpcId;
+    return {
+      if (dbSecurityGroupArn != null) 'DbSecurityGroupArn': dbSecurityGroupArn,
+      if (dbSecurityGroupDescription != null)
+        'DbSecurityGroupDescription': dbSecurityGroupDescription,
+      if (dbSecurityGroupName != null)
+        'DbSecurityGroupName': dbSecurityGroupName,
+      if (ec2SecurityGroups != null) 'Ec2SecurityGroups': ec2SecurityGroups,
+      if (ipRanges != null) 'IpRanges': ipRanges,
+      if (ownerId != null) 'OwnerId': ownerId,
+      if (vpcId != null) 'VpcId': vpcId,
+    };
+  }
+}
+
+/// EC2 security group information for an RDS DB security group.
+class AwsRdsDbSecurityGroupEc2SecurityGroup {
+  /// Specifies the ID for the EC2 security group.
+  final String? ec2SecurityGroupId;
+
+  /// Specifies the name of the EC2 security group.
+  final String? ec2SecurityGroupName;
+
+  /// Provides the Amazon Web Services ID of the owner of the EC2 security group.
+  final String? ec2SecurityGroupOwnerId;
+
+  /// Provides the status of the EC2 security group.
+  final String? status;
+
+  AwsRdsDbSecurityGroupEc2SecurityGroup({
+    this.ec2SecurityGroupId,
+    this.ec2SecurityGroupName,
+    this.ec2SecurityGroupOwnerId,
+    this.status,
+  });
+
+  factory AwsRdsDbSecurityGroupEc2SecurityGroup.fromJson(
+      Map<String, dynamic> json) {
+    return AwsRdsDbSecurityGroupEc2SecurityGroup(
+      ec2SecurityGroupId: json['Ec2SecurityGroupId'] as String?,
+      ec2SecurityGroupName: json['Ec2SecurityGroupName'] as String?,
+      ec2SecurityGroupOwnerId: json['Ec2SecurityGroupOwnerId'] as String?,
+      status: json['Status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ec2SecurityGroupId = this.ec2SecurityGroupId;
+    final ec2SecurityGroupName = this.ec2SecurityGroupName;
+    final ec2SecurityGroupOwnerId = this.ec2SecurityGroupOwnerId;
+    final status = this.status;
+    return {
+      if (ec2SecurityGroupId != null) 'Ec2SecurityGroupId': ec2SecurityGroupId,
+      if (ec2SecurityGroupName != null)
+        'Ec2SecurityGroupName': ec2SecurityGroupName,
+      if (ec2SecurityGroupOwnerId != null)
+        'Ec2SecurityGroupOwnerId': ec2SecurityGroupOwnerId,
+      if (status != null) 'Status': status,
+    };
+  }
+}
+
+/// IP range information for an RDS DB security group.
+class AwsRdsDbSecurityGroupIpRange {
+  /// Specifies the IP range.
+  final String? cidrIp;
+
+  /// Specifies the status of the IP range.
+  final String? status;
+
+  AwsRdsDbSecurityGroupIpRange({
+    this.cidrIp,
+    this.status,
+  });
+
+  factory AwsRdsDbSecurityGroupIpRange.fromJson(Map<String, dynamic> json) {
+    return AwsRdsDbSecurityGroupIpRange(
+      cidrIp: json['CidrIp'] as String?,
+      status: json['Status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cidrIp = this.cidrIp;
+    final status = this.status;
+    return {
+      if (cidrIp != null) 'CidrIp': cidrIp,
+      if (status != null) 'Status': status,
+    };
+  }
+}
+
 /// Provides details about an Amazon RDS DB cluster snapshot.
 class AwsRdsDbSnapshotDetails {
   /// The amount of storage (in gigabytes) to be initially allocated for the
@@ -18701,9 +20654,10 @@ class AwsRedshiftClusterClusterSnapshotCopyStatus {
   /// The number of days that manual snapshots are retained in the destination
   /// region after they are copied from a source region.
   ///
-  /// If the value is -1, then the manual snapshot is retained indefinitely.
+  /// If the value is <code>-1</code>, then the manual snapshot is retained
+  /// indefinitely.
   ///
-  /// Valid values: Either -1 or an integer between 1 and 3,653
+  /// Valid values: Either <code>-1</code> or an integer between 1 and 3,653
   final int? manualSnapshotRetentionPeriod;
 
   /// The number of days to retain automated snapshots in the destination Region
@@ -18941,16 +20895,19 @@ class AwsRedshiftClusterDetails {
   /// cluster.
   final String? kmsKeyId;
 
+  /// Information about the logging status of the cluster.
+  final AwsRedshiftClusterLoggingStatus? loggingStatus;
+
   /// The name of the maintenance track for the cluster.
   final String? maintenanceTrackName;
 
   /// The default number of days to retain a manual snapshot.
   ///
-  /// If the value is -1, the snapshot is retained indefinitely.
+  /// If the value is <code>-1</code>, the snapshot is retained indefinitely.
   ///
   /// This setting doesn't change the retention period of existing snapshots.
   ///
-  /// Valid values: Either -1 or an integer between 1 and 3,653
+  /// Valid values: Either <code>-1</code> or an integer between 1 and 3,653
   final int? manualSnapshotRetentionPeriod;
 
   /// The master user name for the cluster. This name is used to connect to the
@@ -19044,6 +21001,7 @@ class AwsRedshiftClusterDetails {
     this.hsmStatus,
     this.iamRoles,
     this.kmsKeyId,
+    this.loggingStatus,
     this.maintenanceTrackName,
     this.manualSnapshotRetentionPeriod,
     this.masterUsername,
@@ -19127,6 +21085,10 @@ class AwsRedshiftClusterDetails {
               AwsRedshiftClusterIamRole.fromJson(e as Map<String, dynamic>))
           .toList(),
       kmsKeyId: json['KmsKeyId'] as String?,
+      loggingStatus: json['LoggingStatus'] != null
+          ? AwsRedshiftClusterLoggingStatus.fromJson(
+              json['LoggingStatus'] as Map<String, dynamic>)
+          : null,
       maintenanceTrackName: json['MaintenanceTrackName'] as String?,
       manualSnapshotRetentionPeriod:
           json['ManualSnapshotRetentionPeriod'] as int?,
@@ -19196,6 +21158,7 @@ class AwsRedshiftClusterDetails {
     final hsmStatus = this.hsmStatus;
     final iamRoles = this.iamRoles;
     final kmsKeyId = this.kmsKeyId;
+    final loggingStatus = this.loggingStatus;
     final maintenanceTrackName = this.maintenanceTrackName;
     final manualSnapshotRetentionPeriod = this.manualSnapshotRetentionPeriod;
     final masterUsername = this.masterUsername;
@@ -19253,6 +21216,7 @@ class AwsRedshiftClusterDetails {
       if (hsmStatus != null) 'HsmStatus': hsmStatus,
       if (iamRoles != null) 'IamRoles': iamRoles,
       if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+      if (loggingStatus != null) 'LoggingStatus': loggingStatus,
       if (maintenanceTrackName != null)
         'MaintenanceTrackName': maintenanceTrackName,
       if (manualSnapshotRetentionPeriod != null)
@@ -19420,6 +21384,75 @@ class AwsRedshiftClusterIamRole {
     return {
       if (applyStatus != null) 'ApplyStatus': applyStatus,
       if (iamRoleArn != null) 'IamRoleArn': iamRoleArn,
+    };
+  }
+}
+
+/// Provides information about the logging status of the cluster.
+class AwsRedshiftClusterLoggingStatus {
+  /// The name of the S3 bucket where the log files are stored.
+  final String? bucketName;
+
+  /// The message indicating that the logs failed to be delivered.
+  final String? lastFailureMessage;
+
+  /// The last time when logs failed to be delivered.
+  ///
+  /// Uses the <code>date-time</code> format specified in <a
+  /// href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC 3339 section 5.6,
+  /// Internet Date/Time Format</a>. The value cannot contain spaces. For example,
+  /// <code>2020-03-22T13:22:13.933Z</code>.
+  final String? lastFailureTime;
+
+  /// The last time that logs were delivered successfully.
+  ///
+  /// Uses the <code>date-time</code> format specified in <a
+  /// href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC 3339 section 5.6,
+  /// Internet Date/Time Format</a>. The value cannot contain spaces. For example,
+  /// <code>2020-03-22T13:22:13.933Z</code>.
+  final String? lastSuccessfulDeliveryTime;
+
+  /// Indicates whether logging is enabled.
+  final bool? loggingEnabled;
+
+  /// Provides the prefix applied to the log file names.
+  final String? s3KeyPrefix;
+
+  AwsRedshiftClusterLoggingStatus({
+    this.bucketName,
+    this.lastFailureMessage,
+    this.lastFailureTime,
+    this.lastSuccessfulDeliveryTime,
+    this.loggingEnabled,
+    this.s3KeyPrefix,
+  });
+
+  factory AwsRedshiftClusterLoggingStatus.fromJson(Map<String, dynamic> json) {
+    return AwsRedshiftClusterLoggingStatus(
+      bucketName: json['BucketName'] as String?,
+      lastFailureMessage: json['LastFailureMessage'] as String?,
+      lastFailureTime: json['LastFailureTime'] as String?,
+      lastSuccessfulDeliveryTime: json['LastSuccessfulDeliveryTime'] as String?,
+      loggingEnabled: json['LoggingEnabled'] as bool?,
+      s3KeyPrefix: json['S3KeyPrefix'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketName = this.bucketName;
+    final lastFailureMessage = this.lastFailureMessage;
+    final lastFailureTime = this.lastFailureTime;
+    final lastSuccessfulDeliveryTime = this.lastSuccessfulDeliveryTime;
+    final loggingEnabled = this.loggingEnabled;
+    final s3KeyPrefix = this.s3KeyPrefix;
+    return {
+      if (bucketName != null) 'BucketName': bucketName,
+      if (lastFailureMessage != null) 'LastFailureMessage': lastFailureMessage,
+      if (lastFailureTime != null) 'LastFailureTime': lastFailureTime,
+      if (lastSuccessfulDeliveryTime != null)
+        'LastSuccessfulDeliveryTime': lastSuccessfulDeliveryTime,
+      if (loggingEnabled != null) 'LoggingEnabled': loggingEnabled,
+      if (s3KeyPrefix != null) 'S3KeyPrefix': s3KeyPrefix,
     };
   }
 }
@@ -21152,18 +23185,12 @@ class AwsSecurityFinding {
   /// The name of the company for the product that generated the finding.
   ///
   /// Security Hub populates this attribute automatically for each finding. You
-  /// cannot be updated using <code>BatchImportFindings</code> or
-  /// <code>BatchUpdateFindings</code>. The exception to this is when you use a
-  /// custom integration.
+  /// cannot update this attribute with <code>BatchImportFindings</code> or
+  /// <code>BatchUpdateFindings</code>. The exception to this is a custom
+  /// integration.
   ///
-  /// When you use the Security Hub console to filter findings by company name,
-  /// you use this attribute.
-  ///
-  /// When you use the Security Hub API to filter findings by company name, you
-  /// use the <code>aws/securityhub/CompanyName</code> attribute under
-  /// <code>ProductFields</code>.
-  ///
-  /// Security Hub does not synchronize those two attributes.
+  /// When you use the Security Hub console or API to filter findings by company
+  /// name, you use this attribute.
   final String? companyName;
 
   /// This data type is exclusive to findings that are generated as the result of
@@ -21243,18 +23270,12 @@ class AwsSecurityFinding {
   /// The name of the product that generated the finding.
   ///
   /// Security Hub populates this attribute automatically for each finding. You
-  /// cannot update it using <code>BatchImportFindings</code> or
-  /// <code>BatchUpdateFindings</code>. The exception to this is when you use a
-  /// custom integration.
+  /// cannot update this attribute with <code>BatchImportFindings</code> or
+  /// <code>BatchUpdateFindings</code>. The exception to this is a custom
+  /// integration.
   ///
-  /// When you use the Security Hub console to filter findings by product name,
-  /// you use this attribute.
-  ///
-  /// When you use the Security Hub API to filter findings by product name, you
-  /// use the <code>aws/securityhub/ProductName</code> attribute under
-  /// <code>ProductFields</code>.
-  ///
-  /// Security Hub does not synchronize those two attributes.
+  /// When you use the Security Hub console or API to filter findings by product
+  /// name, you use this attribute.
   final String? productName;
 
   /// The record state of a finding.
@@ -21273,6 +23294,9 @@ class AwsSecurityFinding {
   /// A data type that describes the remediation options for a finding.
   final Remediation? remediation;
 
+  /// Indicates whether the finding is a sample finding.
+  final bool? sample;
+
   /// A finding's severity.
   final Severity? severity;
 
@@ -21282,6 +23306,10 @@ class AwsSecurityFinding {
 
   /// Threat intelligence details related to a finding.
   final List<ThreatIntelIndicator>? threatIntelIndicators;
+
+  /// Details about the threat detected in a security finding and the file paths
+  /// that were affected by the threat.
+  final List<Threat>? threats;
 
   /// One or more finding types in the format of
   /// <code>namespace/category/classifier</code> that classify a finding.
@@ -21337,9 +23365,11 @@ class AwsSecurityFinding {
     this.region,
     this.relatedFindings,
     this.remediation,
+    this.sample,
     this.severity,
     this.sourceUrl,
     this.threatIntelIndicators,
+    this.threats,
     this.types,
     this.userDefinedFields,
     this.verificationState,
@@ -21410,6 +23440,7 @@ class AwsSecurityFinding {
       remediation: json['Remediation'] != null
           ? Remediation.fromJson(json['Remediation'] as Map<String, dynamic>)
           : null,
+      sample: json['Sample'] as bool?,
       severity: json['Severity'] != null
           ? Severity.fromJson(json['Severity'] as Map<String, dynamic>)
           : null,
@@ -21417,6 +23448,10 @@ class AwsSecurityFinding {
       threatIntelIndicators: (json['ThreatIntelIndicators'] as List?)
           ?.whereNotNull()
           .map((e) => ThreatIntelIndicator.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      threats: (json['Threats'] as List?)
+          ?.whereNotNull()
+          .map((e) => Threat.fromJson(e as Map<String, dynamic>))
           .toList(),
       types: (json['Types'] as List?)
           ?.whereNotNull()
@@ -21468,9 +23503,11 @@ class AwsSecurityFinding {
     final region = this.region;
     final relatedFindings = this.relatedFindings;
     final remediation = this.remediation;
+    final sample = this.sample;
     final severity = this.severity;
     final sourceUrl = this.sourceUrl;
     final threatIntelIndicators = this.threatIntelIndicators;
+    final threats = this.threats;
     final types = this.types;
     final userDefinedFields = this.userDefinedFields;
     final verificationState = this.verificationState;
@@ -21509,10 +23546,12 @@ class AwsSecurityFinding {
       if (region != null) 'Region': region,
       if (relatedFindings != null) 'RelatedFindings': relatedFindings,
       if (remediation != null) 'Remediation': remediation,
+      if (sample != null) 'Sample': sample,
       if (severity != null) 'Severity': severity,
       if (sourceUrl != null) 'SourceUrl': sourceUrl,
       if (threatIntelIndicators != null)
         'ThreatIntelIndicators': threatIntelIndicators,
+      if (threats != null) 'Threats': threats,
       if (types != null) 'Types': types,
       if (userDefinedFields != null) 'UserDefinedFields': userDefinedFields,
       if (verificationState != null)
@@ -21536,11 +23575,6 @@ class AwsSecurityFindingFilters {
 
   /// The name of the findings provider (company) that owns the solution (product)
   /// that generates findings.
-  ///
-  /// Note that this is a filter against the
-  /// <code>aws/securityhub/CompanyName</code> field in
-  /// <code>ProductFields</code>. It is not a filter for the top-level
-  /// <code>CompanyName</code> field.
   final List<StringFilter>? companyName;
 
   /// Exclusive to findings that are generated as the result of a check run
@@ -21713,11 +23747,6 @@ class AwsSecurityFindingFilters {
   final List<MapFilter>? productFields;
 
   /// The name of the solution (product) that generates findings.
-  ///
-  /// Note that this is a filter against the
-  /// <code>aws/securityhub/ProductName</code> field in
-  /// <code>ProductFields</code>. It is not a filter for the top-level
-  /// <code>ProductName</code> field.
   final List<StringFilter>? productName;
 
   /// The recommendation of what to do about the issue described in a finding.
@@ -21816,6 +23845,9 @@ class AwsSecurityFindingFilters {
 
   /// Specifies the type of the resource that details are provided for.
   final List<StringFilter>? resourceType;
+
+  /// Indicates whether or not sample findings are included in the filter results.
+  final List<BooleanFilter>? sample;
 
   /// The label of a finding's severity.
   final List<StringFilter>? severityLabel;
@@ -22024,6 +24056,7 @@ class AwsSecurityFindingFilters {
     this.resourceRegion,
     this.resourceTags,
     this.resourceType,
+    this.sample,
     this.severityLabel,
     this.severityNormalized,
     this.severityProduct,
@@ -22373,6 +24406,10 @@ class AwsSecurityFindingFilters {
           ?.whereNotNull()
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
           .toList(),
+      sample: (json['Sample'] as List?)
+          ?.whereNotNull()
+          .map((e) => BooleanFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
       severityLabel: (json['SeverityLabel'] as List?)
           ?.whereNotNull()
           .map((e) => StringFilter.fromJson(e as Map<String, dynamic>))
@@ -22538,6 +24575,7 @@ class AwsSecurityFindingFilters {
     final resourceRegion = this.resourceRegion;
     final resourceTags = this.resourceTags;
     final resourceType = this.resourceType;
+    final sample = this.sample;
     final severityLabel = this.severityLabel;
     final severityNormalized = this.severityNormalized;
     final severityProduct = this.severityProduct;
@@ -22677,6 +24715,7 @@ class AwsSecurityFindingFilters {
       if (resourceRegion != null) 'ResourceRegion': resourceRegion,
       if (resourceTags != null) 'ResourceTags': resourceTags,
       if (resourceType != null) 'ResourceType': resourceType,
+      if (sample != null) 'Sample': sample,
       if (severityLabel != null) 'SeverityLabel': severityLabel,
       if (severityNormalized != null) 'SeverityNormalized': severityNormalized,
       if (severityProduct != null) 'SeverityProduct': severityProduct,
@@ -22737,8 +24776,29 @@ class AwsSecurityFindingIdentifier {
   }
 }
 
-/// A wrapper type for the topic's ARN.
+/// Provides information about an Amazon SNS topic to which notifications can be
+/// published.
 class AwsSnsTopicDetails {
+  /// Indicates failed message delivery status for an Amazon SNS topic that is
+  /// subscribed to a platform application endpoint.
+  final String? applicationSuccessFeedbackRoleArn;
+
+  /// Indicates failed message delivery status for an Amazon SNS topic that is
+  /// subscribed to an Amazon Kinesis Data Firehose endpoint.
+  final String? firehoseFailureFeedbackRoleArn;
+
+  /// Indicates successful message delivery status for an Amazon SNS topic that is
+  /// subscribed to an Amazon Kinesis Data Firehose endpoint.
+  final String? firehoseSuccessFeedbackRoleArn;
+
+  /// Indicates failed message delivery status for an Amazon SNS topic that is
+  /// subscribed to an HTTP endpoint.
+  final String? httpFailureFeedbackRoleArn;
+
+  /// Indicates successful message delivery status for an Amazon SNS topic that is
+  /// subscribed to an HTTP endpoint.
+  final String? httpSuccessFeedbackRoleArn;
+
   /// The ID of an Amazon Web Services managed key for Amazon SNS or a customer
   /// managed key.
   final String? kmsMasterKeyId;
@@ -22746,24 +24806,49 @@ class AwsSnsTopicDetails {
   /// The subscription's owner.
   final String? owner;
 
+  /// Indicates failed message delivery status for an Amazon SNS topic that is
+  /// subscribed to an Amazon SQS endpoint.
+  final String? sqsFailureFeedbackRoleArn;
+
+  /// Indicates successful message delivery status for an Amazon SNS topic that is
+  /// subscribed to an Amazon SQS endpoint.
+  final String? sqsSuccessFeedbackRoleArn;
+
   /// Subscription is an embedded property that describes the subscription
-  /// endpoints of an SNS topic.
+  /// endpoints of an Amazon SNS topic.
   final List<AwsSnsTopicSubscription>? subscription;
 
-  /// The name of the topic.
+  /// The name of the Amazon SNS topic.
   final String? topicName;
 
   AwsSnsTopicDetails({
+    this.applicationSuccessFeedbackRoleArn,
+    this.firehoseFailureFeedbackRoleArn,
+    this.firehoseSuccessFeedbackRoleArn,
+    this.httpFailureFeedbackRoleArn,
+    this.httpSuccessFeedbackRoleArn,
     this.kmsMasterKeyId,
     this.owner,
+    this.sqsFailureFeedbackRoleArn,
+    this.sqsSuccessFeedbackRoleArn,
     this.subscription,
     this.topicName,
   });
 
   factory AwsSnsTopicDetails.fromJson(Map<String, dynamic> json) {
     return AwsSnsTopicDetails(
+      applicationSuccessFeedbackRoleArn:
+          json['ApplicationSuccessFeedbackRoleArn'] as String?,
+      firehoseFailureFeedbackRoleArn:
+          json['FirehoseFailureFeedbackRoleArn'] as String?,
+      firehoseSuccessFeedbackRoleArn:
+          json['FirehoseSuccessFeedbackRoleArn'] as String?,
+      httpFailureFeedbackRoleArn: json['HttpFailureFeedbackRoleArn'] as String?,
+      httpSuccessFeedbackRoleArn: json['HttpSuccessFeedbackRoleArn'] as String?,
       kmsMasterKeyId: json['KmsMasterKeyId'] as String?,
       owner: json['Owner'] as String?,
+      sqsFailureFeedbackRoleArn: json['SqsFailureFeedbackRoleArn'] as String?,
+      sqsSuccessFeedbackRoleArn: json['SqsSuccessFeedbackRoleArn'] as String?,
       subscription: (json['Subscription'] as List?)
           ?.whereNotNull()
           .map((e) =>
@@ -22774,13 +24859,35 @@ class AwsSnsTopicDetails {
   }
 
   Map<String, dynamic> toJson() {
+    final applicationSuccessFeedbackRoleArn =
+        this.applicationSuccessFeedbackRoleArn;
+    final firehoseFailureFeedbackRoleArn = this.firehoseFailureFeedbackRoleArn;
+    final firehoseSuccessFeedbackRoleArn = this.firehoseSuccessFeedbackRoleArn;
+    final httpFailureFeedbackRoleArn = this.httpFailureFeedbackRoleArn;
+    final httpSuccessFeedbackRoleArn = this.httpSuccessFeedbackRoleArn;
     final kmsMasterKeyId = this.kmsMasterKeyId;
     final owner = this.owner;
+    final sqsFailureFeedbackRoleArn = this.sqsFailureFeedbackRoleArn;
+    final sqsSuccessFeedbackRoleArn = this.sqsSuccessFeedbackRoleArn;
     final subscription = this.subscription;
     final topicName = this.topicName;
     return {
+      if (applicationSuccessFeedbackRoleArn != null)
+        'ApplicationSuccessFeedbackRoleArn': applicationSuccessFeedbackRoleArn,
+      if (firehoseFailureFeedbackRoleArn != null)
+        'FirehoseFailureFeedbackRoleArn': firehoseFailureFeedbackRoleArn,
+      if (firehoseSuccessFeedbackRoleArn != null)
+        'FirehoseSuccessFeedbackRoleArn': firehoseSuccessFeedbackRoleArn,
+      if (httpFailureFeedbackRoleArn != null)
+        'HttpFailureFeedbackRoleArn': httpFailureFeedbackRoleArn,
+      if (httpSuccessFeedbackRoleArn != null)
+        'HttpSuccessFeedbackRoleArn': httpSuccessFeedbackRoleArn,
       if (kmsMasterKeyId != null) 'KmsMasterKeyId': kmsMasterKeyId,
       if (owner != null) 'Owner': owner,
+      if (sqsFailureFeedbackRoleArn != null)
+        'SqsFailureFeedbackRoleArn': sqsFailureFeedbackRoleArn,
+      if (sqsSuccessFeedbackRoleArn != null)
+        'SqsSuccessFeedbackRoleArn': sqsSuccessFeedbackRoleArn,
       if (subscription != null) 'Subscription': subscription,
       if (topicName != null) 'TopicName': topicName,
     };
@@ -23331,20 +25438,647 @@ class AwsWafRegionalRateBasedRuleMatchPredicate {
   }
 }
 
-/// Details about an WAF WebACL.
-class AwsWafWebAclDetails {
-  /// The action to perform if none of the rules contained in the WebACL match.
-  final String? defaultAction;
+/// Provides information about an WAF Regional rule. This rule identifies the
+/// web requests that you want to allow, block, or count.
+class AwsWafRegionalRuleDetails {
+  /// A name for the metrics for the rule.
+  final String? metricName;
 
-  /// A friendly name or description of the WebACL. You can't change the name of a
-  /// WebACL after you create it.
+  /// A descriptive name for the rule.
   final String? name;
 
-  /// An array that contains the action for each rule in a WebACL, the priority of
-  /// the rule, and the ID of the rule.
+  /// Specifies the <code>ByteMatchSet</code>, <code>IPSet</code>,
+  /// <code>SqlInjectionMatchSet</code>, <code>XssMatchSet</code>,
+  /// <code>RegexMatchSet</code>, <code>GeoMatchSet</code>, and
+  /// <code>SizeConstraintSet</code> objects that you want to add to a rule and,
+  /// for each object, indicates whether you want to negate the settings.
+  final List<AwsWafRegionalRulePredicateListDetails>? predicateList;
+
+  /// The ID of the rule.
+  final String? ruleId;
+
+  AwsWafRegionalRuleDetails({
+    this.metricName,
+    this.name,
+    this.predicateList,
+    this.ruleId,
+  });
+
+  factory AwsWafRegionalRuleDetails.fromJson(Map<String, dynamic> json) {
+    return AwsWafRegionalRuleDetails(
+      metricName: json['MetricName'] as String?,
+      name: json['Name'] as String?,
+      predicateList: (json['PredicateList'] as List?)
+          ?.whereNotNull()
+          .map((e) => AwsWafRegionalRulePredicateListDetails.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      ruleId: json['RuleId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metricName = this.metricName;
+    final name = this.name;
+    final predicateList = this.predicateList;
+    final ruleId = this.ruleId;
+    return {
+      if (metricName != null) 'MetricName': metricName,
+      if (name != null) 'Name': name,
+      if (predicateList != null) 'PredicateList': predicateList,
+      if (ruleId != null) 'RuleId': ruleId,
+    };
+  }
+}
+
+/// Provides information about an WAF Regional rule group. The rule group is a
+/// collection of rules for inspecting and controlling web requests.
+class AwsWafRegionalRuleGroupDetails {
+  /// A name for the metrics for this rule group.
+  final String? metricName;
+
+  /// The descriptive name of the rule group.
+  final String? name;
+
+  /// The ID of the rule group.
+  final String? ruleGroupId;
+
+  /// Provides information about the rule statements used to identify the web
+  /// requests that you want to allow, block, or count.
+  final List<AwsWafRegionalRuleGroupRulesDetails>? rules;
+
+  AwsWafRegionalRuleGroupDetails({
+    this.metricName,
+    this.name,
+    this.ruleGroupId,
+    this.rules,
+  });
+
+  factory AwsWafRegionalRuleGroupDetails.fromJson(Map<String, dynamic> json) {
+    return AwsWafRegionalRuleGroupDetails(
+      metricName: json['MetricName'] as String?,
+      name: json['Name'] as String?,
+      ruleGroupId: json['RuleGroupId'] as String?,
+      rules: (json['Rules'] as List?)
+          ?.whereNotNull()
+          .map((e) => AwsWafRegionalRuleGroupRulesDetails.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metricName = this.metricName;
+    final name = this.name;
+    final ruleGroupId = this.ruleGroupId;
+    final rules = this.rules;
+    return {
+      if (metricName != null) 'MetricName': metricName,
+      if (name != null) 'Name': name,
+      if (ruleGroupId != null) 'RuleGroupId': ruleGroupId,
+      if (rules != null) 'Rules': rules,
+    };
+  }
+}
+
+/// Describes the action that WAF should take on a web request when it matches
+/// the criteria defined in the rule.
+class AwsWafRegionalRuleGroupRulesActionDetails {
+  /// Specifies the <code>ByteMatchSet</code>, <code>IPSet</code>,
+  /// <code>SqlInjectionMatchSet</code>, <code>XssMatchSet</code>,
+  /// <code>RegexMatchSet</code>, <code>GeoMatchSet</code>, and
+  /// <code>SizeConstraintSet</code> objects that you want to add to a rule and,
+  /// for each object, indicates whether you want to negate the settings.
+  final String? type;
+
+  AwsWafRegionalRuleGroupRulesActionDetails({
+    this.type,
+  });
+
+  factory AwsWafRegionalRuleGroupRulesActionDetails.fromJson(
+      Map<String, dynamic> json) {
+    return AwsWafRegionalRuleGroupRulesActionDetails(
+      type: json['Type'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    return {
+      if (type != null) 'Type': type,
+    };
+  }
+}
+
+/// Provides information about the rules attached to a rule group
+class AwsWafRegionalRuleGroupRulesDetails {
+  /// The action that WAF should take on a web request when it matches the
+  /// criteria defined in the rule.
+  final AwsWafRegionalRuleGroupRulesActionDetails? action;
+
+  /// If you define more than one rule in a web ACL, WAF evaluates each request
+  /// against the rules in order based on the value of <code>Priority</code>.
+  final int? priority;
+
+  /// The ID for a rule.
+  final String? ruleId;
+
+  /// The type of rule in the rule group.
+  final String? type;
+
+  AwsWafRegionalRuleGroupRulesDetails({
+    this.action,
+    this.priority,
+    this.ruleId,
+    this.type,
+  });
+
+  factory AwsWafRegionalRuleGroupRulesDetails.fromJson(
+      Map<String, dynamic> json) {
+    return AwsWafRegionalRuleGroupRulesDetails(
+      action: json['Action'] != null
+          ? AwsWafRegionalRuleGroupRulesActionDetails.fromJson(
+              json['Action'] as Map<String, dynamic>)
+          : null,
+      priority: json['Priority'] as int?,
+      ruleId: json['RuleId'] as String?,
+      type: json['Type'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final priority = this.priority;
+    final ruleId = this.ruleId;
+    final type = this.type;
+    return {
+      if (action != null) 'Action': action,
+      if (priority != null) 'Priority': priority,
+      if (ruleId != null) 'RuleId': ruleId,
+      if (type != null) 'Type': type,
+    };
+  }
+}
+
+/// Provides details about the <code>ByteMatchSet</code>, <code>IPSet</code>,
+/// <code>SqlInjectionMatchSet</code>, <code>XssMatchSet</code>,
+/// <code>RegexMatchSet</code>, <code>GeoMatchSet</code>, and
+/// <code>SizeConstraintSet</code> objects that you want to add to a rule and,
+/// for each object, indicates whether you want to negate the settings.
+class AwsWafRegionalRulePredicateListDetails {
+  /// A unique identifier for a predicate in a rule, such as
+  /// <code>ByteMatchSetId</code> or <code>IPSetId</code>.
+  final String? dataId;
+
+  /// Specifies if you want WAF to allow, block, or count requests based on the
+  /// settings in the <code>ByteMatchSet</code>, <code>IPSet</code>,
+  /// <code>SqlInjectionMatchSet</code>, <code>XssMatchSet</code>,
+  /// <code>RegexMatchSet</code>, <code>GeoMatchSet</code>, or
+  /// <code>SizeConstraintSet</code>.
+  final bool? negated;
+
+  /// The type of predicate in a rule, such as <code>ByteMatch</code> or
+  /// <code>IPSet</code>.
+  final String? type;
+
+  AwsWafRegionalRulePredicateListDetails({
+    this.dataId,
+    this.negated,
+    this.type,
+  });
+
+  factory AwsWafRegionalRulePredicateListDetails.fromJson(
+      Map<String, dynamic> json) {
+    return AwsWafRegionalRulePredicateListDetails(
+      dataId: json['DataId'] as String?,
+      negated: json['Negated'] as bool?,
+      type: json['Type'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataId = this.dataId;
+    final negated = this.negated;
+    final type = this.type;
+    return {
+      if (dataId != null) 'DataId': dataId,
+      if (negated != null) 'Negated': negated,
+      if (type != null) 'Type': type,
+    };
+  }
+}
+
+/// Provides information about the web access control list (web ACL). The web
+/// ACL contains the rules that identify the requests that you want to allow,
+/// block, or count.
+class AwsWafRegionalWebAclDetails {
+  /// The action to perform if none of the rules contained in the web ACL match.
+  final String? defaultAction;
+
+  /// A name for the metrics for this web ACL.
+  final String? metricName;
+
+  /// A descriptive name for the web ACL.
+  final String? name;
+
+  /// An array that contains the action for each rule in a web ACL, the priority
+  /// of the rule, and the ID of the rule.
+  final List<AwsWafRegionalWebAclRulesListDetails>? rulesList;
+
+  /// The ID of the web ACL.
+  final String? webAclId;
+
+  AwsWafRegionalWebAclDetails({
+    this.defaultAction,
+    this.metricName,
+    this.name,
+    this.rulesList,
+    this.webAclId,
+  });
+
+  factory AwsWafRegionalWebAclDetails.fromJson(Map<String, dynamic> json) {
+    return AwsWafRegionalWebAclDetails(
+      defaultAction: json['DefaultAction'] as String?,
+      metricName: json['MetricName'] as String?,
+      name: json['Name'] as String?,
+      rulesList: (json['RulesList'] as List?)
+          ?.whereNotNull()
+          .map((e) => AwsWafRegionalWebAclRulesListDetails.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      webAclId: json['WebAclId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final defaultAction = this.defaultAction;
+    final metricName = this.metricName;
+    final name = this.name;
+    final rulesList = this.rulesList;
+    final webAclId = this.webAclId;
+    return {
+      if (defaultAction != null) 'DefaultAction': defaultAction,
+      if (metricName != null) 'MetricName': metricName,
+      if (name != null) 'Name': name,
+      if (rulesList != null) 'RulesList': rulesList,
+      if (webAclId != null) 'WebAclId': webAclId,
+    };
+  }
+}
+
+/// The action that WAF takes when a web request matches all conditions in the
+/// rule, such as allow, block, or count the request.
+class AwsWafRegionalWebAclRulesListActionDetails {
+  /// For actions that are associated with a rule, the action that WAF takes when
+  /// a web request matches all conditions in a rule.
+  final String? type;
+
+  AwsWafRegionalWebAclRulesListActionDetails({
+    this.type,
+  });
+
+  factory AwsWafRegionalWebAclRulesListActionDetails.fromJson(
+      Map<String, dynamic> json) {
+    return AwsWafRegionalWebAclRulesListActionDetails(
+      type: json['Type'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    return {
+      if (type != null) 'Type': type,
+    };
+  }
+}
+
+/// A combination of <code>ByteMatchSet</code>, <code>IPSet</code>, and/or
+/// <code>SqlInjectionMatchSet</code> objects that identify the web requests
+/// that you want to allow, block, or count.
+class AwsWafRegionalWebAclRulesListDetails {
+  /// The action that WAF takes when a web request matches all conditions in the
+  /// rule, such as allow, block, or count the request.
+  final AwsWafRegionalWebAclRulesListActionDetails? action;
+
+  /// Overrides the rule evaluation result in the rule group.
+  final AwsWafRegionalWebAclRulesListOverrideActionDetails? overrideAction;
+
+  /// The order in which WAF evaluates the rules in a web ACL.
+  final int? priority;
+
+  /// The ID of an WAF Regional rule to associate with a web ACL.
+  final String? ruleId;
+
+  /// For actions that are associated with a rule, the action that WAF takes when
+  /// a web request matches all conditions in a rule.
+  final String? type;
+
+  AwsWafRegionalWebAclRulesListDetails({
+    this.action,
+    this.overrideAction,
+    this.priority,
+    this.ruleId,
+    this.type,
+  });
+
+  factory AwsWafRegionalWebAclRulesListDetails.fromJson(
+      Map<String, dynamic> json) {
+    return AwsWafRegionalWebAclRulesListDetails(
+      action: json['Action'] != null
+          ? AwsWafRegionalWebAclRulesListActionDetails.fromJson(
+              json['Action'] as Map<String, dynamic>)
+          : null,
+      overrideAction: json['OverrideAction'] != null
+          ? AwsWafRegionalWebAclRulesListOverrideActionDetails.fromJson(
+              json['OverrideAction'] as Map<String, dynamic>)
+          : null,
+      priority: json['Priority'] as int?,
+      ruleId: json['RuleId'] as String?,
+      type: json['Type'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final overrideAction = this.overrideAction;
+    final priority = this.priority;
+    final ruleId = this.ruleId;
+    final type = this.type;
+    return {
+      if (action != null) 'Action': action,
+      if (overrideAction != null) 'OverrideAction': overrideAction,
+      if (priority != null) 'Priority': priority,
+      if (ruleId != null) 'RuleId': ruleId,
+      if (type != null) 'Type': type,
+    };
+  }
+}
+
+/// Provides details about the action to use in the place of the action that
+/// results from the rule group evaluation.
+class AwsWafRegionalWebAclRulesListOverrideActionDetails {
+  /// Overrides the rule evaluation result in the rule group.
+  final String? type;
+
+  AwsWafRegionalWebAclRulesListOverrideActionDetails({
+    this.type,
+  });
+
+  factory AwsWafRegionalWebAclRulesListOverrideActionDetails.fromJson(
+      Map<String, dynamic> json) {
+    return AwsWafRegionalWebAclRulesListOverrideActionDetails(
+      type: json['Type'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    return {
+      if (type != null) 'Type': type,
+    };
+  }
+}
+
+/// Provides information about a WAF rule. This rule specifies the web requests
+/// that you want to allow, block, or count.
+class AwsWafRuleDetails {
+  /// The name of the metrics for this rule.
+  final String? metricName;
+
+  /// A descriptive name for the rule.
+  final String? name;
+
+  /// Specifies the <code>ByteMatchSet</code>, <code>IPSet</code>,
+  /// <code>SqlInjectionMatchSet</code>, <code>XssMatchSet</code>,
+  /// <code>RegexMatchSet</code>, <code>GeoMatchSet</code>, and
+  /// <code>SizeConstraintSet</code> objects that you want to add to a rule and,
+  /// for each object, indicates whether you want to negate the settings.
+  final List<AwsWafRulePredicateListDetails>? predicateList;
+
+  /// The ID of the WAF rule.
+  final String? ruleId;
+
+  AwsWafRuleDetails({
+    this.metricName,
+    this.name,
+    this.predicateList,
+    this.ruleId,
+  });
+
+  factory AwsWafRuleDetails.fromJson(Map<String, dynamic> json) {
+    return AwsWafRuleDetails(
+      metricName: json['MetricName'] as String?,
+      name: json['Name'] as String?,
+      predicateList: (json['PredicateList'] as List?)
+          ?.whereNotNull()
+          .map((e) => AwsWafRulePredicateListDetails.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      ruleId: json['RuleId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metricName = this.metricName;
+    final name = this.name;
+    final predicateList = this.predicateList;
+    final ruleId = this.ruleId;
+    return {
+      if (metricName != null) 'MetricName': metricName,
+      if (name != null) 'Name': name,
+      if (predicateList != null) 'PredicateList': predicateList,
+      if (ruleId != null) 'RuleId': ruleId,
+    };
+  }
+}
+
+/// Provides information about an WAF rule group. A rule group is a collection
+/// of rules for inspecting and controlling web requests.
+class AwsWafRuleGroupDetails {
+  /// The name of the metrics for this rule group.
+  final String? metricName;
+
+  /// The name of the rule group.
+  final String? name;
+
+  /// The ID of the rule group.
+  final String? ruleGroupId;
+
+  /// Provides information about the rules attached to the rule group. These rules
+  /// identify the web requests that you want to allow, block, or count.
+  final List<AwsWafRuleGroupRulesDetails>? rules;
+
+  AwsWafRuleGroupDetails({
+    this.metricName,
+    this.name,
+    this.ruleGroupId,
+    this.rules,
+  });
+
+  factory AwsWafRuleGroupDetails.fromJson(Map<String, dynamic> json) {
+    return AwsWafRuleGroupDetails(
+      metricName: json['MetricName'] as String?,
+      name: json['Name'] as String?,
+      ruleGroupId: json['RuleGroupId'] as String?,
+      rules: (json['Rules'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              AwsWafRuleGroupRulesDetails.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metricName = this.metricName;
+    final name = this.name;
+    final ruleGroupId = this.ruleGroupId;
+    final rules = this.rules;
+    return {
+      if (metricName != null) 'MetricName': metricName,
+      if (name != null) 'Name': name,
+      if (ruleGroupId != null) 'RuleGroupId': ruleGroupId,
+      if (rules != null) 'Rules': rules,
+    };
+  }
+}
+
+/// Provides information about what action WAF should take on a web request when
+/// it matches the criteria defined in the rule.
+class AwsWafRuleGroupRulesActionDetails {
+  /// The action that WAF should take on a web request when it matches the rule's
+  /// statement.
+  final String? type;
+
+  AwsWafRuleGroupRulesActionDetails({
+    this.type,
+  });
+
+  factory AwsWafRuleGroupRulesActionDetails.fromJson(
+      Map<String, dynamic> json) {
+    return AwsWafRuleGroupRulesActionDetails(
+      type: json['Type'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    return {
+      if (type != null) 'Type': type,
+    };
+  }
+}
+
+/// Provides information about the rules attached to the rule group. These rules
+/// identify the web requests that you want to allow, block, or count.
+class AwsWafRuleGroupRulesDetails {
+  /// Provides information about what action WAF should take on a web request when
+  /// it matches the criteria defined in the rule.
+  final AwsWafRuleGroupRulesActionDetails? action;
+
+  /// If you define more than one rule in a web ACL, WAF evaluates each request
+  /// against the rules in order based on the value of <code>Priority</code>.
+  final int? priority;
+
+  /// The rule ID for a rule.
+  final String? ruleId;
+
+  /// The type of rule.
+  final String? type;
+
+  AwsWafRuleGroupRulesDetails({
+    this.action,
+    this.priority,
+    this.ruleId,
+    this.type,
+  });
+
+  factory AwsWafRuleGroupRulesDetails.fromJson(Map<String, dynamic> json) {
+    return AwsWafRuleGroupRulesDetails(
+      action: json['Action'] != null
+          ? AwsWafRuleGroupRulesActionDetails.fromJson(
+              json['Action'] as Map<String, dynamic>)
+          : null,
+      priority: json['Priority'] as int?,
+      ruleId: json['RuleId'] as String?,
+      type: json['Type'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final priority = this.priority;
+    final ruleId = this.ruleId;
+    final type = this.type;
+    return {
+      if (action != null) 'Action': action,
+      if (priority != null) 'Priority': priority,
+      if (ruleId != null) 'RuleId': ruleId,
+      if (type != null) 'Type': type,
+    };
+  }
+}
+
+/// Provides details about the <code>ByteMatchSet</code>, <code>IPSet</code>,
+/// <code>SqlInjectionMatchSet</code>, <code>XssMatchSet</code>,
+/// <code>RegexMatchSet</code>, <code>GeoMatchSet</code>, and
+/// <code>SizeConstraintSet</code> objects that you want to add to a rule and,
+/// for each object, indicates whether you want to negate the settings.
+class AwsWafRulePredicateListDetails {
+  /// A unique identifier for a predicate in a rule, such as
+  /// <code>ByteMatchSetId</code> or <code>IPSetId</code>.
+  final String? dataId;
+
+  /// Specifies if you want WAF to allow, block, or count requests based on the
+  /// settings in the <code>ByteMatchSet</code>, <code>IPSet</code>,
+  /// <code>SqlInjectionMatchSet</code>, <code>XssMatchSet</code>,
+  /// <code>RegexMatchSet</code>, <code>GeoMatchSet</code>, or
+  /// <code>SizeConstraintSet</code>.
+  final bool? negated;
+
+  /// The type of predicate in a rule, such as <code>ByteMatch</code> or
+  /// <code>IPSet</code>.
+  final String? type;
+
+  AwsWafRulePredicateListDetails({
+    this.dataId,
+    this.negated,
+    this.type,
+  });
+
+  factory AwsWafRulePredicateListDetails.fromJson(Map<String, dynamic> json) {
+    return AwsWafRulePredicateListDetails(
+      dataId: json['DataId'] as String?,
+      negated: json['Negated'] as bool?,
+      type: json['Type'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataId = this.dataId;
+    final negated = this.negated;
+    final type = this.type;
+    return {
+      if (dataId != null) 'DataId': dataId,
+      if (negated != null) 'Negated': negated,
+      if (type != null) 'Type': type,
+    };
+  }
+}
+
+/// Provides information about an WAF web access control list (web ACL).
+class AwsWafWebAclDetails {
+  /// The action to perform if none of the rules contained in the web ACL match.
+  final String? defaultAction;
+
+  /// A friendly name or description of the web ACL. You can't change the name of
+  /// a web ACL after you create it.
+  final String? name;
+
+  /// An array that contains the action for each rule in a web ACL, the priority
+  /// of the rule, and the ID of the rule.
   final List<AwsWafWebAclRule>? rules;
 
-  /// A unique identifier for a WebACL.
+  /// A unique identifier for a web ACL.
   final String? webAclId;
 
   AwsWafWebAclDetails({
@@ -23380,7 +26114,7 @@ class AwsWafWebAclDetails {
   }
 }
 
-/// Details for a rule in an WAF WebACL.
+/// Details for a rule in an WAF web ACL.
 class AwsWafWebAclRule {
   /// Specifies the action that CloudFront or WAF takes when a web request matches
   /// the conditions in the rule.
@@ -23389,30 +26123,31 @@ class AwsWafWebAclRule {
   /// Rules to exclude from a rule group.
   final List<WafExcludedRule>? excludedRules;
 
-  /// Use the <code>OverrideAction</code> to test your RuleGroup.
+  /// Use the <code>OverrideAction</code> to test your <code>RuleGroup</code>.
   ///
-  /// Any rule in a RuleGroup can potentially block a request. If you set the
-  /// <code>OverrideAction</code> to <code>None</code>, the RuleGroup blocks a
-  /// request if any individual rule in the RuleGroup matches the request and is
-  /// configured to block that request.
+  /// Any rule in a <code>RuleGroup</code> can potentially block a request. If you
+  /// set the <code>OverrideAction</code> to <code>None</code>, the
+  /// <code>RuleGroup</code> blocks a request if any individual rule in the
+  /// <code>RuleGroup</code> matches the request and is configured to block that
+  /// request.
   ///
-  /// However, if you first want to test the RuleGroup, set the
-  /// <code>OverrideAction</code> to <code>Count</code>. The RuleGroup then
-  /// overrides any block action specified by individual rules contained within
-  /// the group. Instead of blocking matching requests, those requests are
-  /// counted.
+  /// However, if you first want to test the <code>RuleGroup</code>, set the
+  /// <code>OverrideAction</code> to <code>Count</code>. The
+  /// <code>RuleGroup</code> then overrides any block action specified by
+  /// individual rules contained within the group. Instead of blocking matching
+  /// requests, those requests are counted.
   ///
   /// <code>ActivatedRule</code>|<code>OverrideAction</code> applies only when
-  /// updating or adding a RuleGroup to a WebACL. In this case you do not use
-  /// <code>ActivatedRule</code>|<code>Action</code>. For all other update
-  /// requests, <code>ActivatedRule</code>|<code>Action</code> is used instead of
-  /// <code>ActivatedRule</code>|<code>OverrideAction</code>.
+  /// updating or adding a <code>RuleGroup</code> to a web ACL. In this case you
+  /// do not use <code>ActivatedRule</code> <code>Action</code>. For all other
+  /// update requests, <code>ActivatedRule</code> <code>Action</code> is used
+  /// instead of <code>ActivatedRule</code> <code>OverrideAction</code>.
   final WafOverrideAction? overrideAction;
 
-  /// Specifies the order in which the rules in a WebACL are evaluated. Rules with
-  /// a lower value for <code>Priority</code> are evaluated before rules with a
-  /// higher value. The value must be a unique integer. If you add multiple rules
-  /// to a WebACL, the values do not need to be consecutive.
+  /// Specifies the order in which the rules in a web ACL are evaluated. Rules
+  /// with a lower value for <code>Priority</code> are evaluated before rules with
+  /// a higher value. The value must be a unique integer. If you add multiple
+  /// rules to a web ACL, the values do not need to be consecutive.
   final int? priority;
 
   /// The identifier for a rule.
@@ -23643,10 +26378,60 @@ class BatchUpdateFindingsResponse {
 /// A finding from a <code>BatchUpdateFindings</code> request that Security Hub
 /// was unable to update.
 class BatchUpdateFindingsUnprocessedFinding {
-  /// The code associated with the error.
+  /// The code associated with the error. Possible values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ConcurrentUpdateError</code> - Another process or request attempted to
+  /// update the finding while this request was being processed
+  /// </li>
+  /// <li>
+  /// <code>DuplicatedFindingIdentifier</code> - The request included two or more
+  /// findings with the same <code>FindingIdentifier</code>
+  /// </li>
+  /// <li>
+  /// <code>FindingNotFound</code> - The <code>FindingIdentifier</code> included
+  /// in the request did not match an existing finding
+  /// </li>
+  /// <li>
+  /// <code>FindingSizeExceeded</code> - The finding size was greater than the
+  /// permissible value of 240 KB
+  /// </li>
+  /// <li>
+  /// <code>InternalFailure</code> - An internal service failure occurred when
+  /// updating the finding
+  /// </li>
+  /// <li>
+  /// <code>InvalidInput</code> - The finding update contained an invalid value
+  /// that did not satisfy the <a
+  /// href="https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-findings-format.html">Amazon
+  /// Web Services Security Finding Format</a> syntax
+  /// </li>
+  /// </ul>
   final String errorCode;
 
-  /// The message associated with the error.
+  /// The message associated with the error. Possible values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Concurrent finding updates detected</code>
+  /// </li>
+  /// <li>
+  /// <code>Finding Identifier is duplicated</code>
+  /// </li>
+  /// <li>
+  /// <code>Finding Not Found</code>
+  /// </li>
+  /// <li>
+  /// <code>Finding size exceeded 240 KB</code>
+  /// </li>
+  /// <li>
+  /// <code>Internal service failure</code>
+  /// </li>
+  /// <li>
+  /// <code>Invalid Input</code>
+  /// </li>
+  /// </ul>
   final String errorMessage;
 
   /// The identifier of the finding that was not updated.
@@ -23676,6 +26461,29 @@ class BatchUpdateFindingsUnprocessedFinding {
       'ErrorCode': errorCode,
       'ErrorMessage': errorMessage,
       'FindingIdentifier': findingIdentifier,
+    };
+  }
+}
+
+/// Boolean filter for querying findings.
+class BooleanFilter {
+  /// The value of the boolean.
+  final bool? value;
+
+  BooleanFilter({
+    this.value,
+  });
+
+  factory BooleanFilter.fromJson(Map<String, dynamic> json) {
+    return BooleanFilter(
+      value: json['Value'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final value = this.value;
+    return {
+      if (value != null) 'Value': value,
     };
   }
 }
@@ -24010,10 +26818,13 @@ extension on String {
 
 /// Container details related to a finding.
 class ContainerDetails {
-  /// The identifier of the image related to a finding.
+  /// The runtime of the container.
+  final String? containerRuntime;
+
+  /// The identifier of the container image related to a finding.
   final String? imageId;
 
-  /// The name of the image related to a finding.
+  /// The name of the container image related to a finding.
   final String? imageName;
 
   /// Indicates when the container started.
@@ -24027,32 +26838,54 @@ class ContainerDetails {
   /// The name of the container related to a finding.
   final String? name;
 
+  /// When this parameter is <code>true</code>, the container is given elevated
+  /// privileges on the host container instance (similar to the root user).
+  final bool? privileged;
+
+  /// Provides information about the mounting of a volume in a container.
+  final List<VolumeMount>? volumeMounts;
+
   ContainerDetails({
+    this.containerRuntime,
     this.imageId,
     this.imageName,
     this.launchedAt,
     this.name,
+    this.privileged,
+    this.volumeMounts,
   });
 
   factory ContainerDetails.fromJson(Map<String, dynamic> json) {
     return ContainerDetails(
+      containerRuntime: json['ContainerRuntime'] as String?,
       imageId: json['ImageId'] as String?,
       imageName: json['ImageName'] as String?,
       launchedAt: json['LaunchedAt'] as String?,
       name: json['Name'] as String?,
+      privileged: json['Privileged'] as bool?,
+      volumeMounts: (json['VolumeMounts'] as List?)
+          ?.whereNotNull()
+          .map((e) => VolumeMount.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
+    final containerRuntime = this.containerRuntime;
     final imageId = this.imageId;
     final imageName = this.imageName;
     final launchedAt = this.launchedAt;
     final name = this.name;
+    final privileged = this.privileged;
+    final volumeMounts = this.volumeMounts;
     return {
+      if (containerRuntime != null) 'ContainerRuntime': containerRuntime,
       if (imageId != null) 'ImageId': imageId,
       if (imageName != null) 'ImageName': imageName,
       if (launchedAt != null) 'LaunchedAt': launchedAt,
       if (name != null) 'Name': name,
+      if (privileged != null) 'Privileged': privileged,
+      if (volumeMounts != null) 'VolumeMounts': volumeMounts,
     };
   }
 }
@@ -24718,12 +27551,25 @@ class DescribeOrganizationConfigurationResponse {
   /// If set to false, then new accounts are not added automatically.
   final bool? autoEnable;
 
+  /// Whether to automatically enable Security Hub <a
+  /// href="https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-enable-disable.html">default
+  /// standards</a> for new member accounts in the organization.
+  ///
+  /// The default value of this parameter is equal to <code>DEFAULT</code>.
+  ///
+  /// If equal to <code>DEFAULT</code>, then Security Hub default standards are
+  /// automatically enabled for new member accounts. If equal to
+  /// <code>NONE</code>, then default standards are not automatically enabled for
+  /// new member accounts.
+  final AutoEnableStandards? autoEnableStandards;
+
   /// Whether the maximum number of allowed member accounts are already associated
   /// with the Security Hub administrator account.
   final bool? memberAccountLimitReached;
 
   DescribeOrganizationConfigurationResponse({
     this.autoEnable,
+    this.autoEnableStandards,
     this.memberAccountLimitReached,
   });
 
@@ -24731,15 +27577,20 @@ class DescribeOrganizationConfigurationResponse {
       Map<String, dynamic> json) {
     return DescribeOrganizationConfigurationResponse(
       autoEnable: json['AutoEnable'] as bool?,
+      autoEnableStandards:
+          (json['AutoEnableStandards'] as String?)?.toAutoEnableStandards(),
       memberAccountLimitReached: json['MemberAccountLimitReached'] as bool?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final autoEnable = this.autoEnable;
+    final autoEnableStandards = this.autoEnableStandards;
     final memberAccountLimitReached = this.memberAccountLimitReached;
     return {
       if (autoEnable != null) 'AutoEnable': autoEnable,
+      if (autoEnableStandards != null)
+        'AutoEnableStandards': autoEnableStandards.toValue(),
       if (memberAccountLimitReached != null)
         'MemberAccountLimitReached': memberAccountLimitReached,
     };
@@ -25003,6 +27854,51 @@ class EnableSecurityHubResponse {
 
   Map<String, dynamic> toJson() {
     return {};
+  }
+}
+
+/// Provides information about the file paths that were affected by the threat.
+class FilePaths {
+  /// The name of the infected or suspicious file corresponding to the hash.
+  final String? fileName;
+
+  /// Path to the infected or suspicious file on the resource it was detected on.
+  final String? filePath;
+
+  /// The hash value for the infected or suspicious file.
+  final String? hash;
+
+  /// The Amazon Resource Name (ARN) of the resource on which the threat was
+  /// detected.
+  final String? resourceId;
+
+  FilePaths({
+    this.fileName,
+    this.filePath,
+    this.hash,
+    this.resourceId,
+  });
+
+  factory FilePaths.fromJson(Map<String, dynamic> json) {
+    return FilePaths(
+      fileName: json['FileName'] as String?,
+      filePath: json['FilePath'] as String?,
+      hash: json['Hash'] as String?,
+      resourceId: json['ResourceId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fileName = this.fileName;
+    final filePath = this.filePath;
+    final hash = this.hash;
+    final resourceId = this.resourceId;
+    return {
+      if (fileName != null) 'FileName': fileName,
+      if (filePath != null) 'FilePath': filePath,
+      if (hash != null) 'Hash': hash,
+      if (resourceId != null) 'ResourceId': resourceId,
+    };
   }
 }
 
@@ -25630,11 +28526,11 @@ class GetMembersResponse {
 /// An Internet Control Message Protocol (ICMP) type and code.
 class IcmpTypeCode {
   /// The ICMP code for which to deny or allow access. To deny or allow all codes,
-  /// use the value -1.
+  /// use the value <code>-1</code>.
   final int? code;
 
   /// The ICMP type for which to deny or allow access. To deny or allow all types,
-  /// use the value -1.
+  /// use the value <code>-1</code>.
   final int? type;
 
   IcmpTypeCode({
@@ -27993,11 +30889,20 @@ class ResourceDetails {
   final AwsCertificateManagerCertificateDetails?
       awsCertificateManagerCertificate;
 
+  /// Details about an CloudFormation stack. A stack is a collection of Amazon Web
+  /// Services resources that you can manage as a single unit.
+  final AwsCloudFormationStackDetails? awsCloudFormationStack;
+
   /// Details about a CloudFront distribution.
   final AwsCloudFrontDistributionDetails? awsCloudFrontDistribution;
 
   /// Provides details about a CloudTrail trail.
   final AwsCloudTrailTrailDetails? awsCloudTrailTrail;
+
+  /// Details about an Amazon CloudWatch alarm. An alarm allows you to monitor and
+  /// receive alerts about your Amazon Web Services resources and applications
+  /// across multiple Regions.
+  final AwsCloudWatchAlarmDetails? awsCloudWatchAlarm;
 
   /// Details for an CodeBuild project.
   final AwsCodeBuildProjectDetails? awsCodeBuildProject;
@@ -28023,16 +30928,25 @@ class ResourceDetails {
   /// Details about a subnet in Amazon EC2.
   final AwsEc2SubnetDetails? awsEc2Subnet;
 
-  /// Details for an EC2 volume.
+  /// Details about an Amazon EC2 transit gateway that interconnects your virtual
+  /// private clouds (VPC) and on-premises networks.
+  final AwsEc2TransitGatewayDetails? awsEc2TransitGateway;
+
+  /// Details for an Amazon EC2 volume.
   final AwsEc2VolumeDetails? awsEc2Volume;
 
-  /// Details for an EC2 VPC.
+  /// Details for an Amazon EC2 VPC.
   final AwsEc2VpcDetails? awsEc2Vpc;
 
   /// Details about the service configuration for a VPC endpoint service.
   final AwsEc2VpcEndpointServiceDetails? awsEc2VpcEndpointService;
 
-  /// Details about an EC2 VPN connection.
+  /// Details about an Amazon EC2 VPC peering connection. A VPC peering connection
+  /// is a networking connection between two VPCs that enables you to route
+  /// traffic between them privately.
+  final AwsEc2VpcPeeringConnectionDetails? awsEc2VpcPeeringConnection;
+
+  /// Details about an Amazon EC2 VPN connection.
   final AwsEc2VpnConnectionDetails? awsEc2VpnConnection;
 
   /// Information about an Amazon ECR image.
@@ -28041,15 +30955,27 @@ class ResourceDetails {
   /// Information about an Amazon Elastic Container Registry repository.
   final AwsEcrRepositoryDetails? awsEcrRepository;
 
-  /// Details about an ECS cluster.
+  /// Details about an Amazon ECS cluster.
   final AwsEcsClusterDetails? awsEcsCluster;
+
+  /// Provides information about a Docker container that's part of a task.
+  final AwsEcsContainerDetails? awsEcsContainer;
 
   /// Details about a service within an ECS cluster.
   final AwsEcsServiceDetails? awsEcsService;
 
+  /// Details about a task in a cluster.
+  final AwsEcsTaskDetails? awsEcsTask;
+
   /// Details about a task definition. A task definition describes the container
   /// and volume definitions of an Amazon Elastic Container Service task.
   final AwsEcsTaskDefinitionDetails? awsEcsTaskDefinition;
+
+  /// Details about an Amazon EFS access point. An access point is an
+  /// application-specific view into an EFS file system that applies an operating
+  /// system user and group, and a file system path, to any file system request
+  /// made through the access point.
+  final AwsEfsAccessPointDetails? awsEfsAccessPoint;
 
   /// Details about an Amazon EKS cluster.
   final AwsEksClusterDetails? awsEksCluster;
@@ -28081,6 +31007,9 @@ class ResourceDetails {
   /// Details about an IAM user.
   final AwsIamUserDetails? awsIamUser;
 
+  /// Details about an Amazon Kinesis data stream.
+  final AwsKinesisStreamDetails? awsKinesisStream;
+
   /// Details about an KMS key.
   final AwsKmsKeyDetails? awsKmsKey;
 
@@ -28111,6 +31040,9 @@ class ResourceDetails {
 
   /// Details about an Amazon RDS database instance.
   final AwsRdsDbInstanceDetails? awsRdsDbInstance;
+
+  /// Details about an Amazon RDS DB security group.
+  final AwsRdsDbSecurityGroupDetails? awsRdsDbSecurityGroup;
 
   /// Details about an Amazon RDS database snapshot.
   final AwsRdsDbSnapshotDetails? awsRdsDbSnapshot;
@@ -28150,7 +31082,23 @@ class ResourceDetails {
   /// Details about a rate-based rule for Regional resources.
   final AwsWafRegionalRateBasedRuleDetails? awsWafRegionalRateBasedRule;
 
-  /// Details for an WAF WebACL.
+  /// Details about an WAF rule for Regional resources.
+  final AwsWafRegionalRuleDetails? awsWafRegionalRule;
+
+  /// Details about an WAF rule group for Regional resources.
+  final AwsWafRegionalRuleGroupDetails? awsWafRegionalRuleGroup;
+
+  /// Details about an WAF web access control list (web ACL) for Regional
+  /// resources.
+  final AwsWafRegionalWebAclDetails? awsWafRegionalWebAcl;
+
+  /// Details about an WAF rule for global resources.
+  final AwsWafRuleDetails? awsWafRule;
+
+  /// Details about an WAF rule group for global resources.
+  final AwsWafRuleGroupDetails? awsWafRuleGroup;
+
+  /// Details for an WAF web ACL.
   final AwsWafWebAclDetails? awsWafWebAcl;
 
   /// Information about the encryption configuration for X-Ray.
@@ -28184,8 +31132,10 @@ class ResourceDetails {
     this.awsAutoScalingAutoScalingGroup,
     this.awsAutoScalingLaunchConfiguration,
     this.awsCertificateManagerCertificate,
+    this.awsCloudFormationStack,
     this.awsCloudFrontDistribution,
     this.awsCloudTrailTrail,
+    this.awsCloudWatchAlarm,
     this.awsCodeBuildProject,
     this.awsDynamoDbTable,
     this.awsEc2Eip,
@@ -28194,15 +31144,20 @@ class ResourceDetails {
     this.awsEc2NetworkInterface,
     this.awsEc2SecurityGroup,
     this.awsEc2Subnet,
+    this.awsEc2TransitGateway,
     this.awsEc2Volume,
     this.awsEc2Vpc,
     this.awsEc2VpcEndpointService,
+    this.awsEc2VpcPeeringConnection,
     this.awsEc2VpnConnection,
     this.awsEcrContainerImage,
     this.awsEcrRepository,
     this.awsEcsCluster,
+    this.awsEcsContainer,
     this.awsEcsService,
+    this.awsEcsTask,
     this.awsEcsTaskDefinition,
+    this.awsEfsAccessPoint,
     this.awsEksCluster,
     this.awsElasticBeanstalkEnvironment,
     this.awsElasticsearchDomain,
@@ -28213,6 +31168,7 @@ class ResourceDetails {
     this.awsIamPolicy,
     this.awsIamRole,
     this.awsIamUser,
+    this.awsKinesisStream,
     this.awsKmsKey,
     this.awsLambdaFunction,
     this.awsLambdaLayerVersion,
@@ -28223,6 +31179,7 @@ class ResourceDetails {
     this.awsRdsDbCluster,
     this.awsRdsDbClusterSnapshot,
     this.awsRdsDbInstance,
+    this.awsRdsDbSecurityGroup,
     this.awsRdsDbSnapshot,
     this.awsRdsEventSubscription,
     this.awsRedshiftCluster,
@@ -28235,6 +31192,11 @@ class ResourceDetails {
     this.awsSsmPatchCompliance,
     this.awsWafRateBasedRule,
     this.awsWafRegionalRateBasedRule,
+    this.awsWafRegionalRule,
+    this.awsWafRegionalRuleGroup,
+    this.awsWafRegionalWebAcl,
+    this.awsWafRule,
+    this.awsWafRuleGroup,
     this.awsWafWebAcl,
     this.awsXrayEncryptionConfig,
     this.container,
@@ -28276,6 +31238,10 @@ class ResourceDetails {
                   json['AwsCertificateManagerCertificate']
                       as Map<String, dynamic>)
               : null,
+      awsCloudFormationStack: json['AwsCloudFormationStack'] != null
+          ? AwsCloudFormationStackDetails.fromJson(
+              json['AwsCloudFormationStack'] as Map<String, dynamic>)
+          : null,
       awsCloudFrontDistribution: json['AwsCloudFrontDistribution'] != null
           ? AwsCloudFrontDistributionDetails.fromJson(
               json['AwsCloudFrontDistribution'] as Map<String, dynamic>)
@@ -28283,6 +31249,10 @@ class ResourceDetails {
       awsCloudTrailTrail: json['AwsCloudTrailTrail'] != null
           ? AwsCloudTrailTrailDetails.fromJson(
               json['AwsCloudTrailTrail'] as Map<String, dynamic>)
+          : null,
+      awsCloudWatchAlarm: json['AwsCloudWatchAlarm'] != null
+          ? AwsCloudWatchAlarmDetails.fromJson(
+              json['AwsCloudWatchAlarm'] as Map<String, dynamic>)
           : null,
       awsCodeBuildProject: json['AwsCodeBuildProject'] != null
           ? AwsCodeBuildProjectDetails.fromJson(
@@ -28315,6 +31285,10 @@ class ResourceDetails {
           ? AwsEc2SubnetDetails.fromJson(
               json['AwsEc2Subnet'] as Map<String, dynamic>)
           : null,
+      awsEc2TransitGateway: json['AwsEc2TransitGateway'] != null
+          ? AwsEc2TransitGatewayDetails.fromJson(
+              json['AwsEc2TransitGateway'] as Map<String, dynamic>)
+          : null,
       awsEc2Volume: json['AwsEc2Volume'] != null
           ? AwsEc2VolumeDetails.fromJson(
               json['AwsEc2Volume'] as Map<String, dynamic>)
@@ -28325,6 +31299,10 @@ class ResourceDetails {
       awsEc2VpcEndpointService: json['AwsEc2VpcEndpointService'] != null
           ? AwsEc2VpcEndpointServiceDetails.fromJson(
               json['AwsEc2VpcEndpointService'] as Map<String, dynamic>)
+          : null,
+      awsEc2VpcPeeringConnection: json['AwsEc2VpcPeeringConnection'] != null
+          ? AwsEc2VpcPeeringConnectionDetails.fromJson(
+              json['AwsEc2VpcPeeringConnection'] as Map<String, dynamic>)
           : null,
       awsEc2VpnConnection: json['AwsEc2VpnConnection'] != null
           ? AwsEc2VpnConnectionDetails.fromJson(
@@ -28342,13 +31320,25 @@ class ResourceDetails {
           ? AwsEcsClusterDetails.fromJson(
               json['AwsEcsCluster'] as Map<String, dynamic>)
           : null,
+      awsEcsContainer: json['AwsEcsContainer'] != null
+          ? AwsEcsContainerDetails.fromJson(
+              json['AwsEcsContainer'] as Map<String, dynamic>)
+          : null,
       awsEcsService: json['AwsEcsService'] != null
           ? AwsEcsServiceDetails.fromJson(
               json['AwsEcsService'] as Map<String, dynamic>)
           : null,
+      awsEcsTask: json['AwsEcsTask'] != null
+          ? AwsEcsTaskDetails.fromJson(
+              json['AwsEcsTask'] as Map<String, dynamic>)
+          : null,
       awsEcsTaskDefinition: json['AwsEcsTaskDefinition'] != null
           ? AwsEcsTaskDefinitionDetails.fromJson(
               json['AwsEcsTaskDefinition'] as Map<String, dynamic>)
+          : null,
+      awsEfsAccessPoint: json['AwsEfsAccessPoint'] != null
+          ? AwsEfsAccessPointDetails.fromJson(
+              json['AwsEfsAccessPoint'] as Map<String, dynamic>)
           : null,
       awsEksCluster: json['AwsEksCluster'] != null
           ? AwsEksClusterDetails.fromJson(
@@ -28391,6 +31381,10 @@ class ResourceDetails {
           ? AwsIamUserDetails.fromJson(
               json['AwsIamUser'] as Map<String, dynamic>)
           : null,
+      awsKinesisStream: json['AwsKinesisStream'] != null
+          ? AwsKinesisStreamDetails.fromJson(
+              json['AwsKinesisStream'] as Map<String, dynamic>)
+          : null,
       awsKmsKey: json['AwsKmsKey'] != null
           ? AwsKmsKeyDetails.fromJson(json['AwsKmsKey'] as Map<String, dynamic>)
           : null,
@@ -28431,6 +31425,10 @@ class ResourceDetails {
       awsRdsDbInstance: json['AwsRdsDbInstance'] != null
           ? AwsRdsDbInstanceDetails.fromJson(
               json['AwsRdsDbInstance'] as Map<String, dynamic>)
+          : null,
+      awsRdsDbSecurityGroup: json['AwsRdsDbSecurityGroup'] != null
+          ? AwsRdsDbSecurityGroupDetails.fromJson(
+              json['AwsRdsDbSecurityGroup'] as Map<String, dynamic>)
           : null,
       awsRdsDbSnapshot: json['AwsRdsDbSnapshot'] != null
           ? AwsRdsDbSnapshotDetails.fromJson(
@@ -28481,6 +31479,26 @@ class ResourceDetails {
           ? AwsWafRegionalRateBasedRuleDetails.fromJson(
               json['AwsWafRegionalRateBasedRule'] as Map<String, dynamic>)
           : null,
+      awsWafRegionalRule: json['AwsWafRegionalRule'] != null
+          ? AwsWafRegionalRuleDetails.fromJson(
+              json['AwsWafRegionalRule'] as Map<String, dynamic>)
+          : null,
+      awsWafRegionalRuleGroup: json['AwsWafRegionalRuleGroup'] != null
+          ? AwsWafRegionalRuleGroupDetails.fromJson(
+              json['AwsWafRegionalRuleGroup'] as Map<String, dynamic>)
+          : null,
+      awsWafRegionalWebAcl: json['AwsWafRegionalWebAcl'] != null
+          ? AwsWafRegionalWebAclDetails.fromJson(
+              json['AwsWafRegionalWebAcl'] as Map<String, dynamic>)
+          : null,
+      awsWafRule: json['AwsWafRule'] != null
+          ? AwsWafRuleDetails.fromJson(
+              json['AwsWafRule'] as Map<String, dynamic>)
+          : null,
+      awsWafRuleGroup: json['AwsWafRuleGroup'] != null
+          ? AwsWafRuleGroupDetails.fromJson(
+              json['AwsWafRuleGroup'] as Map<String, dynamic>)
+          : null,
       awsWafWebAcl: json['AwsWafWebAcl'] != null
           ? AwsWafWebAclDetails.fromJson(
               json['AwsWafWebAcl'] as Map<String, dynamic>)
@@ -28507,8 +31525,10 @@ class ResourceDetails {
         this.awsAutoScalingLaunchConfiguration;
     final awsCertificateManagerCertificate =
         this.awsCertificateManagerCertificate;
+    final awsCloudFormationStack = this.awsCloudFormationStack;
     final awsCloudFrontDistribution = this.awsCloudFrontDistribution;
     final awsCloudTrailTrail = this.awsCloudTrailTrail;
+    final awsCloudWatchAlarm = this.awsCloudWatchAlarm;
     final awsCodeBuildProject = this.awsCodeBuildProject;
     final awsDynamoDbTable = this.awsDynamoDbTable;
     final awsEc2Eip = this.awsEc2Eip;
@@ -28517,15 +31537,20 @@ class ResourceDetails {
     final awsEc2NetworkInterface = this.awsEc2NetworkInterface;
     final awsEc2SecurityGroup = this.awsEc2SecurityGroup;
     final awsEc2Subnet = this.awsEc2Subnet;
+    final awsEc2TransitGateway = this.awsEc2TransitGateway;
     final awsEc2Volume = this.awsEc2Volume;
     final awsEc2Vpc = this.awsEc2Vpc;
     final awsEc2VpcEndpointService = this.awsEc2VpcEndpointService;
+    final awsEc2VpcPeeringConnection = this.awsEc2VpcPeeringConnection;
     final awsEc2VpnConnection = this.awsEc2VpnConnection;
     final awsEcrContainerImage = this.awsEcrContainerImage;
     final awsEcrRepository = this.awsEcrRepository;
     final awsEcsCluster = this.awsEcsCluster;
+    final awsEcsContainer = this.awsEcsContainer;
     final awsEcsService = this.awsEcsService;
+    final awsEcsTask = this.awsEcsTask;
     final awsEcsTaskDefinition = this.awsEcsTaskDefinition;
+    final awsEfsAccessPoint = this.awsEfsAccessPoint;
     final awsEksCluster = this.awsEksCluster;
     final awsElasticBeanstalkEnvironment = this.awsElasticBeanstalkEnvironment;
     final awsElasticsearchDomain = this.awsElasticsearchDomain;
@@ -28536,6 +31561,7 @@ class ResourceDetails {
     final awsIamPolicy = this.awsIamPolicy;
     final awsIamRole = this.awsIamRole;
     final awsIamUser = this.awsIamUser;
+    final awsKinesisStream = this.awsKinesisStream;
     final awsKmsKey = this.awsKmsKey;
     final awsLambdaFunction = this.awsLambdaFunction;
     final awsLambdaLayerVersion = this.awsLambdaLayerVersion;
@@ -28547,6 +31573,7 @@ class ResourceDetails {
     final awsRdsDbCluster = this.awsRdsDbCluster;
     final awsRdsDbClusterSnapshot = this.awsRdsDbClusterSnapshot;
     final awsRdsDbInstance = this.awsRdsDbInstance;
+    final awsRdsDbSecurityGroup = this.awsRdsDbSecurityGroup;
     final awsRdsDbSnapshot = this.awsRdsDbSnapshot;
     final awsRdsEventSubscription = this.awsRdsEventSubscription;
     final awsRedshiftCluster = this.awsRedshiftCluster;
@@ -28559,6 +31586,11 @@ class ResourceDetails {
     final awsSsmPatchCompliance = this.awsSsmPatchCompliance;
     final awsWafRateBasedRule = this.awsWafRateBasedRule;
     final awsWafRegionalRateBasedRule = this.awsWafRegionalRateBasedRule;
+    final awsWafRegionalRule = this.awsWafRegionalRule;
+    final awsWafRegionalRuleGroup = this.awsWafRegionalRuleGroup;
+    final awsWafRegionalWebAcl = this.awsWafRegionalWebAcl;
+    final awsWafRule = this.awsWafRule;
+    final awsWafRuleGroup = this.awsWafRuleGroup;
     final awsWafWebAcl = this.awsWafWebAcl;
     final awsXrayEncryptionConfig = this.awsXrayEncryptionConfig;
     final container = this.container;
@@ -28576,9 +31608,12 @@ class ResourceDetails {
         'AwsAutoScalingLaunchConfiguration': awsAutoScalingLaunchConfiguration,
       if (awsCertificateManagerCertificate != null)
         'AwsCertificateManagerCertificate': awsCertificateManagerCertificate,
+      if (awsCloudFormationStack != null)
+        'AwsCloudFormationStack': awsCloudFormationStack,
       if (awsCloudFrontDistribution != null)
         'AwsCloudFrontDistribution': awsCloudFrontDistribution,
       if (awsCloudTrailTrail != null) 'AwsCloudTrailTrail': awsCloudTrailTrail,
+      if (awsCloudWatchAlarm != null) 'AwsCloudWatchAlarm': awsCloudWatchAlarm,
       if (awsCodeBuildProject != null)
         'AwsCodeBuildProject': awsCodeBuildProject,
       if (awsDynamoDbTable != null) 'AwsDynamoDbTable': awsDynamoDbTable,
@@ -28590,19 +31625,26 @@ class ResourceDetails {
       if (awsEc2SecurityGroup != null)
         'AwsEc2SecurityGroup': awsEc2SecurityGroup,
       if (awsEc2Subnet != null) 'AwsEc2Subnet': awsEc2Subnet,
+      if (awsEc2TransitGateway != null)
+        'AwsEc2TransitGateway': awsEc2TransitGateway,
       if (awsEc2Volume != null) 'AwsEc2Volume': awsEc2Volume,
       if (awsEc2Vpc != null) 'AwsEc2Vpc': awsEc2Vpc,
       if (awsEc2VpcEndpointService != null)
         'AwsEc2VpcEndpointService': awsEc2VpcEndpointService,
+      if (awsEc2VpcPeeringConnection != null)
+        'AwsEc2VpcPeeringConnection': awsEc2VpcPeeringConnection,
       if (awsEc2VpnConnection != null)
         'AwsEc2VpnConnection': awsEc2VpnConnection,
       if (awsEcrContainerImage != null)
         'AwsEcrContainerImage': awsEcrContainerImage,
       if (awsEcrRepository != null) 'AwsEcrRepository': awsEcrRepository,
       if (awsEcsCluster != null) 'AwsEcsCluster': awsEcsCluster,
+      if (awsEcsContainer != null) 'AwsEcsContainer': awsEcsContainer,
       if (awsEcsService != null) 'AwsEcsService': awsEcsService,
+      if (awsEcsTask != null) 'AwsEcsTask': awsEcsTask,
       if (awsEcsTaskDefinition != null)
         'AwsEcsTaskDefinition': awsEcsTaskDefinition,
+      if (awsEfsAccessPoint != null) 'AwsEfsAccessPoint': awsEfsAccessPoint,
       if (awsEksCluster != null) 'AwsEksCluster': awsEksCluster,
       if (awsElasticBeanstalkEnvironment != null)
         'AwsElasticBeanstalkEnvironment': awsElasticBeanstalkEnvironment,
@@ -28616,6 +31658,7 @@ class ResourceDetails {
       if (awsIamPolicy != null) 'AwsIamPolicy': awsIamPolicy,
       if (awsIamRole != null) 'AwsIamRole': awsIamRole,
       if (awsIamUser != null) 'AwsIamUser': awsIamUser,
+      if (awsKinesisStream != null) 'AwsKinesisStream': awsKinesisStream,
       if (awsKmsKey != null) 'AwsKmsKey': awsKmsKey,
       if (awsLambdaFunction != null) 'AwsLambdaFunction': awsLambdaFunction,
       if (awsLambdaLayerVersion != null)
@@ -28632,6 +31675,8 @@ class ResourceDetails {
       if (awsRdsDbClusterSnapshot != null)
         'AwsRdsDbClusterSnapshot': awsRdsDbClusterSnapshot,
       if (awsRdsDbInstance != null) 'AwsRdsDbInstance': awsRdsDbInstance,
+      if (awsRdsDbSecurityGroup != null)
+        'AwsRdsDbSecurityGroup': awsRdsDbSecurityGroup,
       if (awsRdsDbSnapshot != null) 'AwsRdsDbSnapshot': awsRdsDbSnapshot,
       if (awsRdsEventSubscription != null)
         'AwsRdsEventSubscription': awsRdsEventSubscription,
@@ -28650,6 +31695,13 @@ class ResourceDetails {
         'AwsWafRateBasedRule': awsWafRateBasedRule,
       if (awsWafRegionalRateBasedRule != null)
         'AwsWafRegionalRateBasedRule': awsWafRegionalRateBasedRule,
+      if (awsWafRegionalRule != null) 'AwsWafRegionalRule': awsWafRegionalRule,
+      if (awsWafRegionalRuleGroup != null)
+        'AwsWafRegionalRuleGroup': awsWafRegionalRuleGroup,
+      if (awsWafRegionalWebAcl != null)
+        'AwsWafRegionalWebAcl': awsWafRegionalWebAcl,
+      if (awsWafRule != null) 'AwsWafRule': awsWafRule,
+      if (awsWafRuleGroup != null) 'AwsWafRuleGroup': awsWafRuleGroup,
       if (awsWafWebAcl != null) 'AwsWafWebAcl': awsWafWebAcl,
       if (awsXrayEncryptionConfig != null)
         'AwsXrayEncryptionConfig': awsXrayEncryptionConfig,
@@ -30593,6 +33645,54 @@ class TagResourceResponse {
   }
 }
 
+/// Provides information about the threat detected in a security finding and the
+/// file paths that were affected by the threat.
+class Threat {
+  /// Provides information about the file paths that were affected by the threat.
+  final List<FilePaths>? filePaths;
+
+  /// This total number of items in which the threat has been detected.
+  final int? itemCount;
+
+  /// The name of the threat.
+  final String? name;
+
+  /// The severity of the threat.
+  final String? severity;
+
+  Threat({
+    this.filePaths,
+    this.itemCount,
+    this.name,
+    this.severity,
+  });
+
+  factory Threat.fromJson(Map<String, dynamic> json) {
+    return Threat(
+      filePaths: (json['FilePaths'] as List?)
+          ?.whereNotNull()
+          .map((e) => FilePaths.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      itemCount: json['ItemCount'] as int?,
+      name: json['Name'] as String?,
+      severity: json['Severity'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final filePaths = this.filePaths;
+    final itemCount = this.itemCount;
+    final name = this.name;
+    final severity = this.severity;
+    return {
+      if (filePaths != null) 'FilePaths': filePaths,
+      if (itemCount != null) 'ItemCount': itemCount,
+      if (name != null) 'Name': name,
+      if (severity != null) 'Severity': severity,
+    };
+  }
+}
+
 /// Details about the threat intelligence related to a finding.
 class ThreatIntelIndicator {
   /// The category of a threat intelligence indicator.
@@ -30952,6 +34052,134 @@ extension on String {
   }
 }
 
+/// Describes the mounting of a volume in a container.
+class VolumeMount {
+  /// The path in the container at which the volume should be mounted.
+  final String? mountPath;
+
+  /// The name of the volume.
+  final String? name;
+
+  VolumeMount({
+    this.mountPath,
+    this.name,
+  });
+
+  factory VolumeMount.fromJson(Map<String, dynamic> json) {
+    return VolumeMount(
+      mountPath: json['MountPath'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final mountPath = this.mountPath;
+    final name = this.name;
+    return {
+      if (mountPath != null) 'MountPath': mountPath,
+      if (name != null) 'Name': name,
+    };
+  }
+}
+
+/// Provides details about the IPv4 CIDR blocks for the VPC.
+class VpcInfoCidrBlockSetDetails {
+  /// The IPv4 CIDR block for the VPC.
+  final String? cidrBlock;
+
+  VpcInfoCidrBlockSetDetails({
+    this.cidrBlock,
+  });
+
+  factory VpcInfoCidrBlockSetDetails.fromJson(Map<String, dynamic> json) {
+    return VpcInfoCidrBlockSetDetails(
+      cidrBlock: json['CidrBlock'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cidrBlock = this.cidrBlock;
+    return {
+      if (cidrBlock != null) 'CidrBlock': cidrBlock,
+    };
+  }
+}
+
+/// Provides details about the IPv6 CIDR blocks for the VPC.
+class VpcInfoIpv6CidrBlockSetDetails {
+  /// The IPv6 CIDR block for the VPC.
+  final String? ipv6CidrBlock;
+
+  VpcInfoIpv6CidrBlockSetDetails({
+    this.ipv6CidrBlock,
+  });
+
+  factory VpcInfoIpv6CidrBlockSetDetails.fromJson(Map<String, dynamic> json) {
+    return VpcInfoIpv6CidrBlockSetDetails(
+      ipv6CidrBlock: json['Ipv6CidrBlock'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ipv6CidrBlock = this.ipv6CidrBlock;
+    return {
+      if (ipv6CidrBlock != null) 'Ipv6CidrBlock': ipv6CidrBlock,
+    };
+  }
+}
+
+/// Provides information about the VPC peering connection options for the
+/// accepter or requester VPC.
+class VpcInfoPeeringOptionsDetails {
+  /// Indicates whether a local VPC can resolve public DNS hostnames to private IP
+  /// addresses when queried from instances in a peer VPC.
+  final bool? allowDnsResolutionFromRemoteVpc;
+
+  /// Indicates whether a local ClassicLink connection can communicate with the
+  /// peer VPC over the VPC peering connection.
+  final bool? allowEgressFromLocalClassicLinkToRemoteVpc;
+
+  /// Indicates whether a local VPC can communicate with a ClassicLink connection
+  /// in the peer VPC over the VPC peering connection.
+  final bool? allowEgressFromLocalVpcToRemoteClassicLink;
+
+  VpcInfoPeeringOptionsDetails({
+    this.allowDnsResolutionFromRemoteVpc,
+    this.allowEgressFromLocalClassicLinkToRemoteVpc,
+    this.allowEgressFromLocalVpcToRemoteClassicLink,
+  });
+
+  factory VpcInfoPeeringOptionsDetails.fromJson(Map<String, dynamic> json) {
+    return VpcInfoPeeringOptionsDetails(
+      allowDnsResolutionFromRemoteVpc:
+          json['AllowDnsResolutionFromRemoteVpc'] as bool?,
+      allowEgressFromLocalClassicLinkToRemoteVpc:
+          json['AllowEgressFromLocalClassicLinkToRemoteVpc'] as bool?,
+      allowEgressFromLocalVpcToRemoteClassicLink:
+          json['AllowEgressFromLocalVpcToRemoteClassicLink'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allowDnsResolutionFromRemoteVpc =
+        this.allowDnsResolutionFromRemoteVpc;
+    final allowEgressFromLocalClassicLinkToRemoteVpc =
+        this.allowEgressFromLocalClassicLinkToRemoteVpc;
+    final allowEgressFromLocalVpcToRemoteClassicLink =
+        this.allowEgressFromLocalVpcToRemoteClassicLink;
+    return {
+      if (allowDnsResolutionFromRemoteVpc != null)
+        'AllowDnsResolutionFromRemoteVpc': allowDnsResolutionFromRemoteVpc,
+      if (allowEgressFromLocalClassicLinkToRemoteVpc != null)
+        'AllowEgressFromLocalClassicLinkToRemoteVpc':
+            allowEgressFromLocalClassicLinkToRemoteVpc,
+      if (allowEgressFromLocalVpcToRemoteClassicLink != null)
+        'AllowEgressFromLocalVpcToRemoteClassicLink':
+            allowEgressFromLocalVpcToRemoteClassicLink,
+    };
+  }
+}
+
 /// A vulnerability associated with a finding.
 class Vulnerability {
   /// The identifier of the vulnerability.
@@ -31105,7 +34333,7 @@ class WafAction {
   /// <code>COUNT</code> - WAF increments a counter of the requests that match all
   /// of the conditions in the rule. WAF then continues to inspect the web request
   /// based on the remaining rules in the web ACL. You can't specify
-  /// <code>COUNT</code> for the default action for a WebACL.
+  /// <code>COUNT</code> for the default action for a web ACL.
   /// </li>
   /// </ul>
   final String? type;

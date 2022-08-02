@@ -167,7 +167,13 @@ class CloudWatchLogs {
   /// <code>CreateExportTask</code> operation, you must use credentials that
   /// have permission to write to the S3 bucket that you specify as the
   /// destination.
+  /// <important>
+  /// Exporting log data to Amazon S3 buckets that are encrypted by KMS is not
+  /// supported. Exporting log data to Amazon S3 buckets that have S3 Object
+  /// Lock enabled with a retention period is not supported.
   ///
+  /// Exporting to S3 buckets that are encrypted with AES-256 is supported.
+  /// </important>
   /// This is an asynchronous call. If all the required information is provided,
   /// this operation initiates an export task and responds with the ID of the
   /// task. After the task has started, you can use <a
@@ -181,9 +187,11 @@ class CloudWatchLogs {
   /// the same S3 bucket. To separate out log data for each export task, you can
   /// specify a prefix to be used as the Amazon S3 key prefix for all exported
   /// objects.
-  ///
-  /// Exporting to S3 buckets that are encrypted with AES-256 is supported.
-  /// Exporting to S3 buckets encrypted with SSE-KMS is not supported.
+  /// <note>
+  /// Time-based sorting on chunks of log data inside an exported file is not
+  /// guaranteed. You can sort the exported log fild data by using Linux
+  /// utilities.
+  /// </note>
   ///
   /// May throw [InvalidParameterException].
   /// May throw [LimitExceededException].
@@ -205,9 +213,9 @@ class CloudWatchLogs {
   /// The name of the log group.
   ///
   /// Parameter [to] :
-  /// The end time of the range for the request, expreswatchlogsdocused as the
-  /// number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a
-  /// timestamp later than this time are not exported.
+  /// The end time of the range for the request, expressed as the number of
+  /// milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp later
+  /// than this time are not exported.
   ///
   /// Parameter [destinationPrefix] :
   /// The prefix used as the start of the key for every object exported. If you
@@ -2606,7 +2614,7 @@ class DescribeExportTasksResponse {
 class DescribeLogGroupsResponse {
   /// The log groups.
   ///
-  /// If the <code>retentionInDays</code> value if not included for a log group,
+  /// If the <code>retentionInDays</code> value is not included for a log group,
   /// then that log group is set to have its events never expire.
   final List<LogGroup>? logGroups;
   final String? nextToken;

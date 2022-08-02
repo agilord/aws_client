@@ -41,16 +41,27 @@ class SecretsManager {
   /// Turns off automatic rotation, and if a rotation is currently in progress,
   /// cancels the rotation.
   ///
-  /// To turn on automatic rotation again, call <a>RotateSecret</a>.
-  /// <note>
   /// If you cancel a rotation in progress, it can leave the
-  /// <code>VersionStage</code> labels in an unexpected state. Depending on the
-  /// step of the rotation in progress, you might need to remove the staging
-  /// label <code>AWSPENDING</code> from the partially created version,
-  /// specified by the <code>VersionId</code> response value. We recommend you
-  /// also evaluate the partially rotated new version to see if it should be
-  /// deleted. You can delete a version by removing all staging labels from it.
-  /// </note>
+  /// <code>VersionStage</code> labels in an unexpected state. You might need to
+  /// remove the staging label <code>AWSPENDING</code> from the partially
+  /// created version. You also need to determine whether to roll back to the
+  /// previous version of the secret by moving the staging label
+  /// <code>AWSCURRENT</code> to the version that has <code>AWSPENDING</code>.
+  /// To determine which version has a specific staging label, call
+  /// <a>ListSecretVersionIds</a>. Then use <a>UpdateSecretVersionStage</a> to
+  /// change staging labels. For more information, see <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotate-secrets_how.html">How
+  /// rotation works</a>.
+  ///
+  /// To turn on automatic rotation again, call <a>RotateSecret</a>.
+  ///
+  /// <b>Required permissions: </b>
+  /// <code>secretsmanager:CancelRotateSecret</code>. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#reference_iam-permissions_actions">
+  /// IAM policy actions for Secrets Manager</a> and <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html">Authentication
+  /// and access control in Secrets Manager</a>.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParameterException].
@@ -61,7 +72,9 @@ class SecretsManager {
   /// The ARN or name of the secret.
   ///
   /// For an ARN, we recommend that you specify a complete ARN rather than a
-  /// partial ARN.
+  /// partial ARN. See <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/troubleshoot.html#ARN_secretnamehyphen">Finding
+  /// a secret from a partial ARN</a>.
   Future<CancelRotateSecretResponse> cancelRotateSecret({
     required String secretId,
   }) async {
@@ -84,11 +97,12 @@ class SecretsManager {
     return CancelRotateSecretResponse.fromJson(jsonResponse.body);
   }
 
-  /// Creates a new secret. A <i>secret</i> is a set of credentials, such as a
-  /// user name and password, that you store in an encrypted form in Secrets
-  /// Manager. The secret also includes the connection information to access a
-  /// database or other service, which Secrets Manager doesn't encrypt. A secret
-  /// in Secrets Manager consists of both the protected secret data and the
+  /// Creates a new secret. A <i>secret</i> can be a password, a set of
+  /// credentials such as a user name and password, an OAuth token, or other
+  /// secret information that you store in an encrypted form in Secrets Manager.
+  /// The secret also includes the connection information to access a database
+  /// or other service, which Secrets Manager doesn't encrypt. A secret in
+  /// Secrets Manager consists of both the protected secret data and the
   /// important information needed to manage the secret.
   ///
   /// For information about creating a secret in the console, see <a
@@ -101,6 +115,12 @@ class SecretsManager {
   /// <code>SecretString</code> or <code>SecretBinary</code> then Secrets
   /// Manager creates an initial secret version and automatically attaches the
   /// staging label <code>AWSCURRENT</code> to it.
+  ///
+  /// For database credentials you want to rotate, for Secrets Manager to be
+  /// able to rotate the secret, you must make sure the JSON you store in the
+  /// <code>SecretString</code> matches the <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_secret_json_structure.html">JSON
+  /// structure of a database secret</a>.
   ///
   /// If you don't specify an KMS encryption key, Secrets Manager uses the
   /// Amazon Web Services managed key <code>aws/secretsmanager</code>. If this
@@ -115,6 +135,18 @@ class SecretsManager {
   /// <code>aws/secretsmanager</code> to encrypt the secret, and you must create
   /// and use a customer managed KMS key.
   ///
+  /// <b>Required permissions: </b> <code>secretsmanager:CreateSecret</code>. If
+  /// you include tags in the secret, you also need
+  /// <code>secretsmanager:TagResource</code>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#reference_iam-permissions_actions">
+  /// IAM policy actions for Secrets Manager</a> and <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html">Authentication
+  /// and access control in Secrets Manager</a>.
+  ///
+  /// To encrypt the secret with a KMS key other than
+  /// <code>aws/secretsmanager</code>, you need <code>kms:GenerateDataKey</code>
+  /// and <code>kms:Decrypt</code> permission to the key.
+  ///
   /// May throw [InvalidParameterException].
   /// May throw [InvalidRequestException].
   /// May throw [LimitExceededException].
@@ -124,6 +156,7 @@ class SecretsManager {
   /// May throw [MalformedPolicyDocumentException].
   /// May throw [InternalServiceError].
   /// May throw [PreconditionNotMetException].
+  /// May throw [DecryptionFailure].
   ///
   /// Parameter [name] :
   /// The name of the new secret.
@@ -323,6 +356,14 @@ class SecretsManager {
   /// Deletes the resource-based permission policy attached to the secret. To
   /// attach a policy to a secret, use <a>PutResourcePolicy</a>.
   ///
+  /// <b>Required permissions: </b>
+  /// <code>secretsmanager:DeleteResourcePolicy</code>. For more information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#reference_iam-permissions_actions">
+  /// IAM policy actions for Secrets Manager</a> and <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html">Authentication
+  /// and access control in Secrets Manager</a>.
+  ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServiceError].
   /// May throw [InvalidRequestException].
@@ -333,7 +374,9 @@ class SecretsManager {
   /// for.
   ///
   /// For an ARN, we recommend that you specify a complete ARN rather than a
-  /// partial ARN.
+  /// partial ARN. See <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/troubleshoot.html#ARN_secretnamehyphen">Finding
+  /// a secret from a partial ARN</a>.
   Future<DeleteResourcePolicyResponse> deleteResourcePolicy({
     required String secretId,
   }) async {
@@ -363,8 +406,21 @@ class SecretsManager {
   /// the end of the recovery window. At the end of the recovery window, Secrets
   /// Manager deletes the secret permanently.
   ///
-  /// For information about deleting a secret in the console, see <a
-  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/manage_delete-secret.html">https://docs.aws.amazon.com/secretsmanager/latest/userguide/manage_delete-secret.html</a>.
+  /// You can't delete a primary secret that is replicated to other Regions. You
+  /// must first delete the replicas using <a>RemoveRegionsFromReplication</a>,
+  /// and then delete the primary secret. When you delete a replica, it is
+  /// deleted immediately.
+  ///
+  /// You can't directly delete a version of a secret. Instead, you remove all
+  /// staging labels from the version using <a>UpdateSecretVersionStage</a>.
+  /// This marks the version as deprecated, and then Secrets Manager can
+  /// automatically delete the version in the background.
+  ///
+  /// To determine whether an application still uses a secret, you can create an
+  /// Amazon CloudWatch alarm to alert you to any attempts to access a secret
+  /// during the recovery window. For more information, see <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/monitoring_cloudwatch_deleted-secrets.html">
+  /// Monitor secrets scheduled for deletion</a>.
   ///
   /// Secrets Manager performs the permanent secret deletion at the end of the
   /// waiting period as a background task with low priority. There is no
@@ -375,9 +431,16 @@ class SecretsManager {
   /// to remove the <code>DeletionDate</code> and cancel the deletion of the
   /// secret.
   ///
-  /// In a secret scheduled for deletion, you cannot access the encrypted secret
-  /// value. To access that information, first cancel the deletion with
-  /// <a>RestoreSecret</a> and then retrieve the information.
+  /// When a secret is scheduled for deletion, you cannot retrieve the secret
+  /// value. You must first cancel the deletion with <a>RestoreSecret</a> and
+  /// then you can retrieve the secret.
+  ///
+  /// <b>Required permissions: </b> <code>secretsmanager:DeleteSecret</code>.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#reference_iam-permissions_actions">
+  /// IAM policy actions for Secrets Manager</a> and <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html">Authentication
+  /// and access control in Secrets Manager</a>.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParameterException].
@@ -388,7 +451,9 @@ class SecretsManager {
   /// The ARN or name of the secret to delete.
   ///
   /// For an ARN, we recommend that you specify a complete ARN rather than a
-  /// partial ARN.
+  /// partial ARN. See <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/troubleshoot.html#ARN_secretnamehyphen">Finding
+  /// a secret from a partial ARN</a>.
   ///
   /// Parameter [forceDeleteWithoutRecovery] :
   /// Specifies whether to delete the secret without any recovery window. You
@@ -446,6 +511,13 @@ class SecretsManager {
   /// secret value. Secrets Manager only returns fields that have a value in the
   /// response.
   ///
+  /// <b>Required permissions: </b> <code>secretsmanager:DescribeSecret</code>.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#reference_iam-permissions_actions">
+  /// IAM policy actions for Secrets Manager</a> and <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html">Authentication
+  /// and access control in Secrets Manager</a>.
+  ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServiceError].
   /// May throw [InvalidParameterException].
@@ -454,7 +526,9 @@ class SecretsManager {
   /// The ARN or name of the secret.
   ///
   /// For an ARN, we recommend that you specify a complete ARN rather than a
-  /// partial ARN.
+  /// partial ARN. See <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/troubleshoot.html#ARN_secretnamehyphen">Finding
+  /// a secret from a partial ARN</a>.
   Future<DescribeSecretResponse> describeSecret({
     required String secretId,
   }) async {
@@ -480,6 +554,14 @@ class SecretsManager {
   /// Generates a random password. We recommend that you specify the maximum
   /// length and include every character type that the system you are generating
   /// a password for can support.
+  ///
+  /// <b>Required permissions: </b>
+  /// <code>secretsmanager:GetRandomPassword</code>. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#reference_iam-permissions_actions">
+  /// IAM policy actions for Secrets Manager</a> and <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html">Authentication
+  /// and access control in Secrets Manager</a>.
   ///
   /// May throw [InvalidParameterException].
   /// May throw [InvalidRequestException].
@@ -567,6 +649,14 @@ class SecretsManager {
   /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access_resource-policies.html">Permissions
   /// policies attached to a secret</a>.
   ///
+  /// <b>Required permissions: </b>
+  /// <code>secretsmanager:GetResourcePolicy</code>. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#reference_iam-permissions_actions">
+  /// IAM policy actions for Secrets Manager</a> and <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html">Authentication
+  /// and access control in Secrets Manager</a>.
+  ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServiceError].
   /// May throw [InvalidRequestException].
@@ -577,7 +667,9 @@ class SecretsManager {
   /// policy for.
   ///
   /// For an ARN, we recommend that you specify a complete ARN rather than a
-  /// partial ARN.
+  /// partial ARN. See <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/troubleshoot.html#ARN_secretnamehyphen">Finding
+  /// a secret from a partial ARN</a>.
   Future<GetResourcePolicyResponse> getResourcePolicy({
     required String secretId,
   }) async {
@@ -604,15 +696,21 @@ class SecretsManager {
   /// or <code>SecretBinary</code> from the specified version of a secret,
   /// whichever contains content.
   ///
-  /// For information about retrieving the secret value in the console, see <a
-  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/retrieving-secrets.html">Retrieve
-  /// secrets</a>.
+  /// We recommend that you cache your secret values by using client-side
+  /// caching. Caching secrets improves speed and reduces your costs. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/retrieving-secrets.html">Cache
+  /// secrets for your applications</a>.
   ///
-  /// To run this command, you must have
-  /// <code>secretsmanager:GetSecretValue</code> permissions. If the secret is
-  /// encrypted using a customer-managed key instead of the Amazon Web Services
-  /// managed key <code>aws/secretsmanager</code>, then you also need
-  /// <code>kms:Decrypt</code> permissions for that key.
+  /// <b>Required permissions: </b> <code>secretsmanager:GetSecretValue</code>.
+  /// If the secret is encrypted using a customer-managed key instead of the
+  /// Amazon Web Services managed key <code>aws/secretsmanager</code>, then you
+  /// also need <code>kms:Decrypt</code> permissions for that key. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#reference_iam-permissions_actions">
+  /// IAM policy actions for Secrets Manager</a> and <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html">Authentication
+  /// and access control in Secrets Manager</a>.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParameterException].
@@ -624,7 +722,9 @@ class SecretsManager {
   /// The ARN or name of the secret to retrieve.
   ///
   /// For an ARN, we recommend that you specify a complete ARN rather than a
-  /// partial ARN.
+  /// partial ARN. See <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/troubleshoot.html#ARN_secretnamehyphen">Finding
+  /// a secret from a partial ARN</a>.
   ///
   /// Parameter [versionId] :
   /// The unique identifier of the version of the secret to retrieve. If you
@@ -672,17 +772,20 @@ class SecretsManager {
     return GetSecretValueResponse.fromJson(jsonResponse.body);
   }
 
-  /// Lists the versions for a secret.
+  /// Lists the versions of a secret. Secrets Manager uses staging labels to
+  /// indicate the different versions of a secret. For more information, see <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/getting-started.html#term_version">
+  /// Secrets Manager concepts: Versions</a>.
   ///
   /// To list the secrets in the account, use <a>ListSecrets</a>.
   ///
-  /// To get the secret value from <code>SecretString</code> or
-  /// <code>SecretBinary</code>, call <a>GetSecretValue</a>.
-  ///
-  /// <b>Minimum permissions</b>
-  ///
-  /// To run this command, you must have
-  /// <code>secretsmanager:ListSecretVersionIds</code> permissions.
+  /// <b>Required permissions: </b>
+  /// <code>secretsmanager:ListSecretVersionIds</code>. For more information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#reference_iam-permissions_actions">
+  /// IAM policy actions for Secrets Manager</a> and <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html">Authentication
+  /// and access control in Secrets Manager</a>.
   ///
   /// May throw [InvalidNextTokenException].
   /// May throw [ResourceNotFoundException].
@@ -693,7 +796,9 @@ class SecretsManager {
   /// The ARN or name of the secret whose versions you want to list.
   ///
   /// For an ARN, we recommend that you specify a complete ARN rather than a
-  /// partial ARN.
+  /// partial ARN. See <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/troubleshoot.html#ARN_secretnamehyphen">Finding
+  /// a secret from a partial ARN</a>.
   ///
   /// Parameter [includeDeprecated] :
   /// Specifies whether to include versions of secrets that don't have any
@@ -747,7 +852,12 @@ class SecretsManager {
   }
 
   /// Lists the secrets that are stored by Secrets Manager in the Amazon Web
-  /// Services account.
+  /// Services account, not including secrets that are marked for deletion. To
+  /// see secrets marked for deletion, use the Secrets Manager console.
+  ///
+  /// ListSecrets is eventually consistent, however it might not reflect changes
+  /// from the last five minutes. To get the latest information for a specific
+  /// secret, use <a>DescribeSecret</a>.
   ///
   /// To list the versions of a secret, use <a>ListSecretVersionIds</a>.
   ///
@@ -755,13 +865,15 @@ class SecretsManager {
   /// <code>SecretBinary</code>, call <a>GetSecretValue</a>.
   ///
   /// For information about finding secrets in the console, see <a
-  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/manage_search-secret.html">Enhanced
-  /// search capabilities for secrets in Secrets Manager</a>.
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/manage_search-secret.html">Find
+  /// secrets in Secrets Manager</a>.
   ///
-  /// <b>Minimum permissions</b>
-  ///
-  /// To run this command, you must have <code>secretsmanager:ListSecrets</code>
-  /// permissions.
+  /// <b>Required permissions: </b> <code>secretsmanager:ListSecrets</code>. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#reference_iam-permissions_actions">
+  /// IAM policy actions for Secrets Manager</a> and <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html">Authentication
+  /// and access control in Secrets Manager</a>.
   ///
   /// May throw [InvalidParameterException].
   /// May throw [InvalidNextTokenException].
@@ -826,6 +938,14 @@ class SecretsManager {
   /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access_resource-based-policies.html">Attach
   /// a permissions policy to a secret</a>.
   ///
+  /// <b>Required permissions: </b>
+  /// <code>secretsmanager:PutResourcePolicy</code>. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#reference_iam-permissions_actions">
+  /// IAM policy actions for Secrets Manager</a> and <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html">Authentication
+  /// and access control in Secrets Manager</a>.
+  ///
   /// May throw [MalformedPolicyDocumentException].
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParameterException].
@@ -843,12 +963,13 @@ class SecretsManager {
   /// The ARN or name of the secret to attach the resource-based policy.
   ///
   /// For an ARN, we recommend that you specify a complete ARN rather than a
-  /// partial ARN.
+  /// partial ARN. See <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/troubleshoot.html#ARN_secretnamehyphen">Finding
+  /// a secret from a partial ARN</a>.
   ///
   /// Parameter [blockPublicPolicy] :
   /// Specifies whether to block resource-based policies that allow broad access
-  /// to the secret. By default, Secrets Manager blocks policies that allow
-  /// broad access, for example those that use a wildcard for the principal.
+  /// to the secret, for example those that use a wildcard for the principal.
   Future<PutResourcePolicyResponse> putResourcePolicy({
     required String resourcePolicy,
     required String secretId,
@@ -901,12 +1022,19 @@ class SecretsManager {
   /// moves the staging label <code>AWSPREVIOUS</code> to the version that
   /// <code>AWSCURRENT</code> was removed from.
   ///
-  /// This operation is idempotent. If a version with a <code>VersionId</code>
-  /// with the same value as the <code>ClientRequestToken</code> parameter
-  /// already exists, and you specify the same secret data, the operation
-  /// succeeds but does nothing. However, if the secret data is different, then
-  /// the operation fails because you can't modify an existing version; you can
-  /// only create new ones.
+  /// This operation is idempotent. If you call this operation with a
+  /// <code>ClientRequestToken</code> that matches an existing version's
+  /// VersionId, and you specify the same secret data, the operation succeeds
+  /// but does nothing. However, if the secret data is different, then the
+  /// operation fails because you can't modify an existing version; you can only
+  /// create new ones.
+  ///
+  /// <b>Required permissions: </b> <code>secretsmanager:PutSecretValue</code>.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#reference_iam-permissions_actions">
+  /// IAM policy actions for Secrets Manager</a> and <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html">Authentication
+  /// and access control in Secrets Manager</a>.
   ///
   /// May throw [InvalidParameterException].
   /// May throw [InvalidRequestException].
@@ -915,12 +1043,15 @@ class SecretsManager {
   /// May throw [ResourceExistsException].
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServiceError].
+  /// May throw [DecryptionFailure].
   ///
   /// Parameter [secretId] :
   /// The ARN or name of the secret to add a new version to.
   ///
   /// For an ARN, we recommend that you specify a complete ARN rather than a
-  /// partial ARN.
+  /// partial ARN. See <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/troubleshoot.html#ARN_secretnamehyphen">Finding
+  /// a secret from a partial ARN</a>.
   ///
   /// If the secret doesn't already exist, use <code>CreateSecret</code>
   /// instead.
@@ -1032,6 +1163,14 @@ class SecretsManager {
   /// For a secret that is replicated to other Regions, deletes the secret
   /// replicas from the Regions you specify.
   ///
+  /// <b>Required permissions: </b>
+  /// <code>secretsmanager:RemoveRegionsFromReplication</code>. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#reference_iam-permissions_actions">
+  /// IAM policy actions for Secrets Manager</a> and <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html">Authentication
+  /// and access control in Secrets Manager</a>.
+  ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidRequestException].
   /// May throw [InvalidParameterException].
@@ -1070,6 +1209,14 @@ class SecretsManager {
   /// Replicates the secret to a new Regions. See <a
   /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/create-manage-multi-region-secrets.html">Multi-Region
   /// secrets</a>.
+  ///
+  /// <b>Required permissions: </b>
+  /// <code>secretsmanager:ReplicateSecretToRegions</code>. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#reference_iam-permissions_actions">
+  /// IAM policy actions for Secrets Manager</a> and <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html">Authentication
+  /// and access control in Secrets Manager</a>.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidRequestException].
@@ -1117,6 +1264,13 @@ class SecretsManager {
   /// <code>DeletedDate</code> time stamp. You can access a secret again after
   /// it has been restored.
   ///
+  /// <b>Required permissions: </b> <code>secretsmanager:RestoreSecret</code>.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#reference_iam-permissions_actions">
+  /// IAM policy actions for Secrets Manager</a> and <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html">Authentication
+  /// and access control in Secrets Manager</a>.
+  ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidRequestException].
@@ -1126,7 +1280,9 @@ class SecretsManager {
   /// The ARN or name of the secret to restore.
   ///
   /// For an ARN, we recommend that you specify a complete ARN rather than a
-  /// partial ARN.
+  /// partial ARN. See <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/troubleshoot.html#ARN_secretnamehyphen">Finding
+  /// a secret from a partial ARN</a>.
   Future<RestoreSecretResponse> restoreSecret({
     required String secretId,
   }) async {
@@ -1149,17 +1305,27 @@ class SecretsManager {
     return RestoreSecretResponse.fromJson(jsonResponse.body);
   }
 
-  /// Configures and starts the asynchronous process of rotating the secret.
+  /// Configures and starts the asynchronous process of rotating the secret. For
+  /// more information about rotation, see <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotating-secrets.html">Rotate
+  /// secrets</a>.
   ///
   /// If you include the configuration parameters, the operation sets the values
   /// for the secret and then immediately starts a rotation. If you don't
   /// include the configuration parameters, the operation starts a rotation with
-  /// the values already stored in the secret. For more information about
-  /// rotation, see <a
-  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotating-secrets.html">Rotate
-  /// secrets</a>.
+  /// the values already stored in the secret.
   ///
-  /// To configure rotation, you include the ARN of an Amazon Web Services
+  /// For database credentials you want to rotate, for Secrets Manager to be
+  /// able to rotate the secret, you must make sure the secret value is in the
+  /// <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_secret_json_structure.html">
+  /// JSON structure of a database secret</a>. In particular, if you want to use
+  /// the <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotating-secrets_strategies.html#rotating-secrets-two-users">
+  /// alternating users strategy</a>, your secret must contain the ARN of a
+  /// superuser secret.
+  ///
+  /// To configure rotation, you also need the ARN of an Amazon Web Services
   /// Lambda function and the schedule for the rotation. The Lambda rotation
   /// function creates a new version of the secret and creates or updates the
   /// credentials on the database or service to match. After testing the new
@@ -1169,19 +1335,31 @@ class SecretsManager {
   /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotate-secrets_how.html">How
   /// rotation works</a>.
   ///
+  /// You can create the Lambda rotation function based on the <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_available-rotation-templates.html">rotation
+  /// function templates</a> that Secrets Manager provides. Choose a template
+  /// that matches your <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotating-secrets_strategies.html">Rotation
+  /// strategy</a>.
+  ///
   /// When rotation is successful, the <code>AWSPENDING</code> staging label
   /// might be attached to the same version as the <code>AWSCURRENT</code>
-  /// version, or it might not be attached to any version.
-  ///
-  /// If the <code>AWSPENDING</code> staging label is present but not attached
-  /// to the same version as <code>AWSCURRENT</code>, then any later invocation
-  /// of <code>RotateSecret</code> assumes that a previous rotation request is
+  /// version, or it might not be attached to any version. If the
+  /// <code>AWSPENDING</code> staging label is present but not attached to the
+  /// same version as <code>AWSCURRENT</code>, then any later invocation of
+  /// <code>RotateSecret</code> assumes that a previous rotation request is
   /// still in progress and returns an error.
   ///
-  /// To run this command, you must have
-  /// <code>secretsmanager:RotateSecret</code> permissions and
-  /// <code>lambda:InvokeFunction</code> permissions on the function specified
-  /// in the secret's metadata.
+  /// <b>Required permissions: </b> <code>secretsmanager:RotateSecret</code>.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#reference_iam-permissions_actions">
+  /// IAM policy actions for Secrets Manager</a> and <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html">Authentication
+  /// and access control in Secrets Manager</a>. You also need
+  /// <code>lambda:InvokeFunction</code> permissions on the rotation function.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotating-secrets-required-permissions-function.html">
+  /// Permissions for rotation</a>.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParameterException].
@@ -1192,7 +1370,9 @@ class SecretsManager {
   /// The ARN or name of the secret to rotate.
   ///
   /// For an ARN, we recommend that you specify a complete ARN rather than a
-  /// partial ARN.
+  /// partial ARN. See <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/troubleshoot.html#ARN_secretnamehyphen">Finding
+  /// a secret from a partial ARN</a>.
   ///
   /// Parameter [clientRequestToken] :
   /// A unique identifier for the new version of the secret that helps ensure
@@ -1215,6 +1395,21 @@ class SecretsManager {
   /// href="https://wikipedia.org/wiki/Universally_unique_identifier">UUID-type</a>
   /// value to ensure uniqueness within the specified secret.
   ///
+  /// Parameter [rotateImmediately] :
+  /// Specifies whether to rotate the secret immediately or wait until the next
+  /// scheduled rotation window. The rotation schedule is defined in
+  /// <a>RotateSecretRequest$RotationRules</a>.
+  ///
+  /// If you don't immediately rotate the secret, Secrets Manager tests the
+  /// rotation configuration by running the <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotate-secrets_how.html">
+  /// <code>testSecret</code> step</a> of the Lambda rotation function. The test
+  /// creates an <code>AWSPENDING</code> version of the secret and then removes
+  /// it.
+  ///
+  /// If you don't specify this value, then by default, Secrets Manager rotates
+  /// the secret immediately.
+  ///
   /// Parameter [rotationLambdaARN] :
   /// The ARN of the Lambda rotation function that can rotate the secret.
   ///
@@ -1223,6 +1418,7 @@ class SecretsManager {
   Future<RotateSecretResponse> rotateSecret({
     required String secretId,
     String? clientRequestToken,
+    bool? rotateImmediately,
     String? rotationLambdaARN,
     RotationRulesType? rotationRules,
   }) async {
@@ -1241,6 +1437,7 @@ class SecretsManager {
         'SecretId': secretId,
         'ClientRequestToken':
             clientRequestToken ?? _s.generateIdempotencyToken(),
+        if (rotateImmediately != null) 'RotateImmediately': rotateImmediately,
         if (rotationLambdaARN != null) 'RotationLambdaARN': rotationLambdaARN,
         if (rotationRules != null) 'RotationRules': rotationRules,
       },
@@ -1254,6 +1451,14 @@ class SecretsManager {
   ///
   /// You must call this operation from the Region in which you want to promote
   /// the replica to a primary secret.
+  ///
+  /// <b>Required permissions: </b>
+  /// <code>secretsmanager:StopReplicationToReplica</code>. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#reference_iam-permissions_actions">
+  /// IAM policy actions for Secrets Manager</a> and <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html">Authentication
+  /// and access control in Secrets Manager</a>.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidRequestException].
@@ -1322,6 +1527,12 @@ class SecretsManager {
   /// would result in you losing your permissions for this secret, then the
   /// operation is blocked and returns an Access Denied error.
   /// </important>
+  /// <b>Required permissions: </b> <code>secretsmanager:TagResource</code>. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#reference_iam-permissions_actions">
+  /// IAM policy actions for Secrets Manager</a> and <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html">Authentication
+  /// and access control in Secrets Manager</a>.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidRequestException].
@@ -1333,7 +1544,9 @@ class SecretsManager {
   /// the Amazon Resource Name (ARN) or the friendly name of the secret.
   ///
   /// For an ARN, we recommend that you specify a complete ARN rather than a
-  /// partial ARN.
+  /// partial ARN. See <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/troubleshoot.html#ARN_secretnamehyphen">Finding
+  /// a secret from a partial ARN</a>.
   ///
   /// Parameter [tags] :
   /// The tags to attach to the secret as a JSON text string argument. Each
@@ -1378,6 +1591,12 @@ class SecretsManager {
   /// in you losing your permissions for this secret, then the operation is
   /// blocked and returns an Access Denied error.
   /// </important>
+  /// <b>Required permissions: </b> <code>secretsmanager:UntagResource</code>.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#reference_iam-permissions_actions">
+  /// IAM policy actions for Secrets Manager</a> and <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html">Authentication
+  /// and access control in Secrets Manager</a>.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidRequestException].
@@ -1388,7 +1607,9 @@ class SecretsManager {
   /// The ARN or name of the secret.
   ///
   /// For an ARN, we recommend that you specify a complete ARN rather than a
-  /// partial ARN.
+  /// partial ARN. See <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/troubleshoot.html#ARN_secretnamehyphen">Finding
+  /// a secret from a partial ARN</a>.
   ///
   /// Parameter [tagKeys] :
   /// A list of tag key names to remove from the secret. You don't specify the
@@ -1443,11 +1664,11 @@ class SecretsManager {
   /// create a new secret version, Secrets Manager automatically attaches the
   /// staging label <code>AWSCURRENT</code> to the new version.
   ///
-  /// If you call this operation with a <code>VersionId</code> that matches an
-  /// existing version's <code>ClientRequestToken</code>, the operation results
-  /// in an error. You can't modify an existing version, you can only create a
-  /// new version. To remove a version, remove all staging labels from it. See
-  /// <a>UpdateSecretVersionStage</a>.
+  /// If you call this operation with a <code>ClientRequestToken</code> that
+  /// matches an existing version's <code>VersionId</code>, the operation
+  /// results in an error. You can't modify an existing version, you can only
+  /// create a new version. To remove a version, remove all staging labels from
+  /// it. See <a>UpdateSecretVersionStage</a>.
   ///
   /// If you don't specify an KMS encryption key, Secrets Manager uses the
   /// Amazon Web Services managed key <code>aws/secretsmanager</code>. If this
@@ -1462,10 +1683,17 @@ class SecretsManager {
   /// <code>aws/secretsmanager</code> to encrypt the secret, and you must create
   /// and use a customer managed key.
   ///
-  /// To run this command, you must have
-  /// <code>secretsmanager:UpdateSecret</code> permissions. If you use a
-  /// customer managed key, you must also have <code>kms:GenerateDataKey</code>
-  /// and <code>kms:Decrypt</code> permissions .
+  /// <b>Required permissions: </b> <code>secretsmanager:UpdateSecret</code>.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#reference_iam-permissions_actions">
+  /// IAM policy actions for Secrets Manager</a> and <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html">Authentication
+  /// and access control in Secrets Manager</a>. If you use a customer managed
+  /// key, you must also have <code>kms:GenerateDataKey</code> and
+  /// <code>kms:Decrypt</code> permissions on the key. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/security-encryption.html">
+  /// Secret encryption and decryption</a>.
   ///
   /// May throw [InvalidParameterException].
   /// May throw [InvalidRequestException].
@@ -1476,12 +1704,15 @@ class SecretsManager {
   /// May throw [MalformedPolicyDocumentException].
   /// May throw [InternalServiceError].
   /// May throw [PreconditionNotMetException].
+  /// May throw [DecryptionFailure].
   ///
   /// Parameter [secretId] :
   /// The ARN or name of the secret.
   ///
   /// For an ARN, we recommend that you specify a complete ARN rather than a
-  /// partial ARN.
+  /// partial ARN. See <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/troubleshoot.html#ARN_secretnamehyphen">Finding
+  /// a secret from a partial ARN</a>.
   ///
   /// Parameter [clientRequestToken] :
   /// If you include <code>SecretString</code> or <code>SecretBinary</code>,
@@ -1594,6 +1825,14 @@ class SecretsManager {
   /// then the version is considered to be 'deprecated' and can be deleted by
   /// Secrets Manager.
   ///
+  /// <b>Required permissions: </b>
+  /// <code>secretsmanager:UpdateSecretVersionStage</code>. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#reference_iam-permissions_actions">
+  /// IAM policy actions for Secrets Manager</a> and <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html">Authentication
+  /// and access control in Secrets Manager</a>.
+  ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidRequestException].
@@ -1605,7 +1844,9 @@ class SecretsManager {
   /// modify.
   ///
   /// For an ARN, we recommend that you specify a complete ARN rather than a
-  /// partial ARN.
+  /// partial ARN. See <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/troubleshoot.html#ARN_secretnamehyphen">Finding
+  /// a secret from a partial ARN</a>.
   ///
   /// Parameter [versionStage] :
   /// The staging label to add to this version.
@@ -1675,6 +1916,13 @@ class SecretsManager {
   /// Verifies the policy does not lock out a caller.
   /// </li>
   /// </ul>
+  /// <b>Required permissions: </b>
+  /// <code>secretsmanager:ValidateResourcePolicy</code>. For more information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#reference_iam-permissions_actions">
+  /// IAM policy actions for Secrets Manager</a> and <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html">Authentication
+  /// and access control in Secrets Manager</a>.
   ///
   /// May throw [MalformedPolicyDocumentException].
   /// May throw [ResourceNotFoundException].
@@ -2736,39 +2984,83 @@ class RotateSecretResponse {
 
 /// A structure that defines the rotation configuration for the secret.
 class RotationRulesType {
-  /// Specifies the number of days between automatic scheduled rotations of the
-  /// secret.
+  /// The number of days between automatic scheduled rotations of the secret. You
+  /// can use this value to check that your secret meets your compliance
+  /// guidelines for how often secrets must be rotated.
   ///
-  /// Secrets Manager schedules the next rotation when the previous one is
-  /// complete. Secrets Manager schedules the date by adding the rotation interval
-  /// (number of days) to the actual date of the last rotation. The service
-  /// chooses the hour within that 24-hour date window randomly. The minute is
-  /// also chosen somewhat randomly, but weighted towards the top of the hour and
-  /// influenced by a variety of factors that help distribute load.
+  /// In <code>DescribeSecret</code> and <code>ListSecrets</code>, this value is
+  /// calculated from the rotation schedule after every successful rotation. In
+  /// <code>RotateSecret</code>, you can set the rotation schedule in
+  /// <code>RotationRules</code> with <code>AutomaticallyAfterDays</code> or
+  /// <code>ScheduleExpression</code>, but not both.
   final int? automaticallyAfterDays;
+
+  /// The length of the rotation window in hours, for example <code>3h</code> for
+  /// a three hour window. Secrets Manager rotates your secret at any time during
+  /// this window. The window must not go into the next UTC day. If you don't
+  /// specify this value, the window automatically ends at the end of the UTC day.
+  /// The window begins according to the <code>ScheduleExpression</code>. For more
+  /// information, including examples, see <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotate-secrets_schedule.html">Schedule
+  /// expressions in Secrets Manager rotation</a>.
+  final String? duration;
+
+  /// A <code>cron()</code> or <code>rate()</code> expression that defines the
+  /// schedule for rotating your secret. Secrets Manager rotation schedules use
+  /// UTC time zone.
+  ///
+  /// Secrets Manager <code>rate()</code> expressions represent the interval in
+  /// days that you want to rotate your secret, for example <code>rate(10
+  /// days)</code>. If you use a <code>rate()</code> expression, the rotation
+  /// window opens at midnight, and Secrets Manager rotates your secret any time
+  /// that day after midnight. You can set a <code>Duration</code> to shorten the
+  /// rotation window.
+  ///
+  /// You can use a <code>cron()</code> expression to create rotation schedules
+  /// that are more detailed than a rotation interval. For more information,
+  /// including examples, see <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotate-secrets_schedule.html">Schedule
+  /// expressions in Secrets Manager rotation</a>. If you use a
+  /// <code>cron()</code> expression, Secrets Manager rotates your secret any time
+  /// during that day after the window opens. For example, <code>cron(0 8 1 * ?
+  /// *)</code> represents a rotation window that occurs on the first day of every
+  /// month beginning at 8:00 AM UTC. Secrets Manager rotates the secret any time
+  /// that day after 8:00 AM. You can set a <code>Duration</code> to shorten the
+  /// rotation window.
+  final String? scheduleExpression;
 
   RotationRulesType({
     this.automaticallyAfterDays,
+    this.duration,
+    this.scheduleExpression,
   });
 
   factory RotationRulesType.fromJson(Map<String, dynamic> json) {
     return RotationRulesType(
       automaticallyAfterDays: json['AutomaticallyAfterDays'] as int?,
+      duration: json['Duration'] as String?,
+      scheduleExpression: json['ScheduleExpression'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final automaticallyAfterDays = this.automaticallyAfterDays;
+    final duration = this.duration;
+    final scheduleExpression = this.scheduleExpression;
     return {
       if (automaticallyAfterDays != null)
         'AutomaticallyAfterDays': automaticallyAfterDays,
+      if (duration != null) 'Duration': duration,
+      if (scheduleExpression != null) 'ScheduleExpression': scheduleExpression,
     };
   }
 }
 
 /// A structure that contains the details about a secret. It does not include
 /// the encrypted <code>SecretString</code> and <code>SecretBinary</code>
-/// values. To get those values, use the <a>GetSecretValue</a> operation.
+/// values. To get those values, use <a
+/// href="https://docs.aws.amazon.com/secretsmanager/latest/apireference/API_GetSecretValue.html">GetSecretValue</a>
+/// .
 class SecretListEntry {
   /// The Amazon Resource Name (ARN) of the secret.
   final String? arn;
@@ -2779,8 +3071,9 @@ class SecretListEntry {
   /// The date and time the deletion of the secret occurred. Not present on active
   /// secrets. The secret can be recovered until the number of days in the
   /// recovery window has passed, as specified in the
-  /// <code>RecoveryWindowInDays</code> parameter of the <a>DeleteSecret</a>
-  /// operation.
+  /// <code>RecoveryWindowInDays</code> parameter of the <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/apireference/API_DeleteSecret.html">
+  /// <code>DeleteSecret</code> </a> operation.
   final DateTime? deletedDate;
 
   /// The user-provided description of the secret.
@@ -2821,7 +3114,9 @@ class SecretListEntry {
 
   /// The ARN of an Amazon Web Services Lambda function invoked by Secrets Manager
   /// to rotate and expire the secret either automatically per the schedule or
-  /// manually by a call to <a>RotateSecret</a>.
+  /// manually by a call to <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/apireference/API_RotateSecret.html">
+  /// <code>RotateSecret</code> </a>.
   final String? rotationLambdaARN;
 
   /// A structure that defines the rotation configuration for the secret.
@@ -2839,7 +3134,11 @@ class SecretListEntry {
   final Map<String, List<String>>? secretVersionsToStages;
 
   /// The list of user-defined tags associated with the secret. To add tags to a
-  /// secret, use <a>TagResource</a>. To remove tags, use <a>UntagResource</a>.
+  /// secret, use <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/apireference/API_TagResource.html">
+  /// <code>TagResource</code> </a>. To remove tags, use <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/apireference/API_UntagResource.html">
+  /// <code>UntagResource</code> </a>.
   final List<Tag>? tags;
 
   SecretListEntry({

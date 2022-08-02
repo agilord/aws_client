@@ -1658,7 +1658,7 @@
           "shape": "OperationNotPermittedException"
         }
       ],
-      "documentation": "<p>Updates the specified fleet.</p> <p>If the fleet is in the <code>STOPPED</code> state, you can update any attribute except the fleet name.</p> <p>If the fleet is in the <code>RUNNING</code> state, you can update the following based on the fleet type:</p> <ul> <li> <p>Always-On and On-Demand fleet types</p> <p>You can update the <code>DisplayName</code>, <code>ComputeCapacity</code>, <code>ImageARN</code>, <code>ImageName</code>, <code>IdleDisconnectTimeoutInSeconds</code>, and <code>DisconnectTimeoutInSeconds</code> attributes.</p> </li> <li> <p>Elastic fleet type</p> <p>You can update the <code>DisplayName</code>, <code>IdleDisconnectTimeoutInSeconds</code>, <code>DisconnectTimeoutInSeconds</code>, <code>MaxConcurrentSessions</code>, and <code>UsbDeviceFilterStrings</code> attributes.</p> </li> </ul> <p>If the fleet is in the <code>STARTING</code> or <code>STOPPED</code> state, you can't update it.</p>"
+      "documentation": "<p>Updates the specified fleet.</p> <p>If the fleet is in the <code>STOPPED</code> state, you can update any attribute except the fleet name.</p> <p>If the fleet is in the <code>RUNNING</code> state, you can update the following based on the fleet type:</p> <ul> <li> <p>Always-On and On-Demand fleet types</p> <p>You can update the <code>DisplayName</code>, <code>ComputeCapacity</code>, <code>ImageARN</code>, <code>ImageName</code>, <code>IdleDisconnectTimeoutInSeconds</code>, and <code>DisconnectTimeoutInSeconds</code> attributes.</p> </li> <li> <p>Elastic fleet type</p> <p>You can update the <code>DisplayName</code>, <code>IdleDisconnectTimeoutInSeconds</code>, <code>DisconnectTimeoutInSeconds</code>, <code>MaxConcurrentSessions</code>, <code>SessionScriptS3Location</code> and <code>UsbDeviceFilterStrings</code> attributes.</p> </li> </ul> <p>If the fleet is in the <code>STARTING</code> or <code>STOPPED</code> state, you can't update it.</p>"
     },
     "UpdateImagePermissions": {
       "name": "UpdateImagePermissions",
@@ -2476,6 +2476,10 @@
         "UsbDeviceFilterStrings": {
           "shape": "UsbDeviceFilterStrings",
           "documentation": "<p>The USB device filter strings that specify which USB devices a user can redirect to the fleet streaming session, when using the Windows native client. This is allowed but not required for Elastic fleets.</p>"
+        },
+        "SessionScriptS3Location": {
+          "shape": "S3Location",
+          "documentation": "<p>The S3 location of the session scripts configuration zip file. This only applies to Elastic fleets.</p>"
         }
       }
     },
@@ -2636,6 +2640,10 @@
         "EmbedHostDomains": {
           "shape": "EmbedHostDomains",
           "documentation": "<p>The domains where AppStream 2.0 streaming sessions can be embedded in an iframe. You must approve the domains that you want to host embedded AppStream 2.0 streaming sessions. </p>"
+        },
+        "StreamingExperienceSettings": {
+          "shape": "StreamingExperienceSettings",
+          "documentation": "<p>The streaming protocol you want your stack to prefer. This can be UDP or TCP. Currently, UDP is only supported in the Windows native client.</p>"
         }
       }
     },
@@ -3864,6 +3872,10 @@
         "UsbDeviceFilterStrings": {
           "shape": "UsbDeviceFilterStrings",
           "documentation": "<p>The USB device filter strings associated with the fleet.</p>"
+        },
+        "SessionScriptS3Location": {
+          "shape": "S3Location",
+          "documentation": "<p>The S3 location of the session scripts configuration zip file. This only applies to Elastic fleets.</p>"
         }
       },
       "documentation": "<p>Describes a fleet.</p>"
@@ -3876,7 +3888,8 @@
         "VPC_CONFIGURATION_SECURITY_GROUP_IDS",
         "DOMAIN_JOIN_INFO",
         "IAM_ROLE_ARN",
-        "USB_DEVICE_FILTER_STRINGS"
+        "USB_DEVICE_FILTER_STRINGS",
+        "SESSION_SCRIPT_S3_LOCATION"
       ]
     },
     "FleetAttributes": {
@@ -4435,6 +4448,13 @@
       },
       "max": 4
     },
+    "PreferredProtocol": {
+      "type": "string",
+      "enum": [
+        "TCP",
+        "UDP"
+      ]
+    },
     "RedirectURL": {
       "type": "string",
       "max": 1000
@@ -4717,6 +4737,10 @@
         "EmbedHostDomains": {
           "shape": "EmbedHostDomains",
           "documentation": "<p>The domains where AppStream 2.0 streaming sessions can be embedded in an iframe. You must approve the domains that you want to host embedded AppStream 2.0 streaming sessions.</p>"
+        },
+        "StreamingExperienceSettings": {
+          "shape": "StreamingExperienceSettings",
+          "documentation": "<p>The streaming protocol you want your stack to prefer. This can be UDP or TCP. Currently, UDP is only supported in the Windows native client.</p>"
         }
       },
       "documentation": "<p>Describes a stack.</p>"
@@ -4734,7 +4758,8 @@
         "USER_SETTINGS",
         "EMBED_HOST_DOMAINS",
         "IAM_ROLE_ARN",
-        "ACCESS_ENDPOINTS"
+        "ACCESS_ENDPOINTS",
+        "STREAMING_EXPERIENCE_SETTINGS"
       ]
     },
     "StackAttributes": {
@@ -4899,6 +4924,16 @@
         "APP",
         "DESKTOP"
       ]
+    },
+    "StreamingExperienceSettings": {
+      "type": "structure",
+      "members": {
+        "PreferredProtocol": {
+          "shape": "PreferredProtocol",
+          "documentation": "<p>The preferred protocol that you want to use while streaming your application.</p>"
+        }
+      },
+      "documentation": "<p>The streaming protocol you want your stack to prefer. This can be UDP or TCP. Currently, UDP is only supported in the Windows native client.</p>"
     },
     "StreamingUrlUserId": {
       "type": "string",
@@ -5201,6 +5236,10 @@
         "UsbDeviceFilterStrings": {
           "shape": "UsbDeviceFilterStrings",
           "documentation": "<p>The USB device filter strings that specify which USB devices a user can redirect to the fleet streaming session, when using the Windows native client. This is allowed but not required for Elastic fleets.</p>"
+        },
+        "SessionScriptS3Location": {
+          "shape": "S3Location",
+          "documentation": "<p>The S3 location of the session scripts configuration zip file. This only applies to Elastic fleets. </p>"
         }
       }
     },
@@ -5293,6 +5332,10 @@
         "EmbedHostDomains": {
           "shape": "EmbedHostDomains",
           "documentation": "<p>The domains where AppStream 2.0 streaming sessions can be embedded in an iframe. You must approve the domains that you want to host embedded AppStream 2.0 streaming sessions. </p>"
+        },
+        "StreamingExperienceSettings": {
+          "shape": "StreamingExperienceSettings",
+          "documentation": "<p>The streaming protocol you want your stack to prefer. This can be UDP or TCP. Currently, UDP is only supported in the Windows native client.</p>"
         }
       }
     },

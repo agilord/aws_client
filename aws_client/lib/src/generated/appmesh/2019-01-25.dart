@@ -95,10 +95,10 @@ class AppMesh {
   /// underscores are allowed.
   ///
   /// Parameter [meshOwner] :
-  /// The AWS IAM account ID of the service mesh owner. If the account ID is not
-  /// your own, then the account that you specify must share the mesh with your
-  /// account before you can create the resource in the service mesh. For more
-  /// information about mesh sharing, see <a
+  /// The Amazon Web Services IAM account ID of the service mesh owner. If the
+  /// account ID is not your own, then the account that you specify must share
+  /// the mesh with your account before you can create the resource in the
+  /// service mesh. For more information about mesh sharing, see <a
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
   ///
@@ -244,10 +244,10 @@ class AppMesh {
   /// underscores are allowed.
   ///
   /// Parameter [meshOwner] :
-  /// The AWS IAM account ID of the service mesh owner. If the account ID is not
-  /// your own, then the account that you specify must share the mesh with your
-  /// account before you can create the resource in the service mesh. For more
-  /// information about mesh sharing, see <a
+  /// The Amazon Web Services IAM account ID of the service mesh owner. If the
+  /// account ID is not your own, then the account that you specify must share
+  /// the mesh with your account before you can create the resource in the
+  /// service mesh. For more information about mesh sharing, see <a
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
   ///
@@ -330,10 +330,10 @@ class AppMesh {
   /// underscores are allowed.
   ///
   /// Parameter [meshOwner] :
-  /// The AWS IAM account ID of the service mesh owner. If the account ID is not
-  /// your own, then the account that you specify must share the mesh with your
-  /// account before you can create the resource in the service mesh. For more
-  /// information about mesh sharing, see <a
+  /// The Amazon Web Services IAM account ID of the service mesh owner. If the
+  /// account ID is not your own, then the account that you specify must share
+  /// the mesh with your account before you can create the resource in the
+  /// service mesh. For more information about mesh sharing, see <a
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
   ///
@@ -410,7 +410,7 @@ class AppMesh {
   /// image when setting these variables. For more information aboutApp Mesh
   /// Envoy variables, see <a
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/envoy.html">Envoy
-  /// image</a> in the AWS App Mesh User Guide.
+  /// image</a> in the App Mesh User Guide.
   ///
   /// May throw [NotFoundException].
   /// May throw [BadRequestException].
@@ -436,10 +436,10 @@ class AppMesh {
   /// underscores are allowed.
   ///
   /// Parameter [meshOwner] :
-  /// The AWS IAM account ID of the service mesh owner. If the account ID is not
-  /// your own, then the account that you specify must share the mesh with your
-  /// account before you can create the resource in the service mesh. For more
-  /// information about mesh sharing, see <a
+  /// The Amazon Web Services IAM account ID of the service mesh owner. If the
+  /// account ID is not your own, then the account that you specify must share
+  /// the mesh with your account before you can create the resource in the
+  /// service mesh. For more information about mesh sharing, see <a
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
   ///
@@ -520,10 +520,10 @@ class AppMesh {
   /// underscores are allowed.
   ///
   /// Parameter [meshOwner] :
-  /// The AWS IAM account ID of the service mesh owner. If the account ID is not
-  /// your own, then the account that you specify must share the mesh with your
-  /// account before you can create the resource in the service mesh. For more
-  /// information about mesh sharing, see <a
+  /// The Amazon Web Services IAM account ID of the service mesh owner. If the
+  /// account ID is not your own, then the account that you specify must share
+  /// the mesh with your account before you can create the resource in the
+  /// service mesh. For more information about mesh sharing, see <a
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
   ///
@@ -604,10 +604,10 @@ class AppMesh {
   /// underscores are allowed.
   ///
   /// Parameter [meshOwner] :
-  /// The AWS IAM account ID of the service mesh owner. If the account ID is not
-  /// your own, then the account that you specify must share the mesh with your
-  /// account before you can create the resource in the service mesh. For more
-  /// information about mesh sharing, see <a
+  /// The Amazon Web Services IAM account ID of the service mesh owner. If the
+  /// account ID is not your own, then the account that you specify must share
+  /// the mesh with your account before you can create the resource in the
+  /// service mesh. For more information about mesh sharing, see <a
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
   ///
@@ -671,9 +671,10 @@ class AppMesh {
   /// The name of the virtual gateway to delete the route from.
   ///
   /// Parameter [meshOwner] :
-  /// The AWS IAM account ID of the service mesh owner. If the account ID is not
-  /// your own, then it's the ID of the account that shared the mesh with your
-  /// account. For more information about mesh sharing, see <a
+  /// The Amazon Web Services IAM account ID of the service mesh owner. If the
+  /// account ID is not your own, then it's the ID of the account that shared
+  /// the mesh with your account. For more information about mesh sharing, see
+  /// <a
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
   Future<DeleteGatewayRouteOutput> deleteGatewayRoute({
@@ -754,9 +755,10 @@ class AppMesh {
   /// The name of the virtual router to delete the route in.
   ///
   /// Parameter [meshOwner] :
-  /// The AWS IAM account ID of the service mesh owner. If the account ID is not
-  /// your own, then it's the ID of the account that shared the mesh with your
-  /// account. For more information about mesh sharing, see <a
+  /// The Amazon Web Services IAM account ID of the service mesh owner. If the
+  /// account ID is not your own, then it's the ID of the account that shared
+  /// the mesh with your account. For more information about mesh sharing, see
+  /// <a
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
   Future<DeleteRouteOutput> deleteRoute({
@@ -803,9 +805,10 @@ class AppMesh {
   /// The name of the virtual gateway to delete.
   ///
   /// Parameter [meshOwner] :
-  /// The AWS IAM account ID of the service mesh owner. If the account ID is not
-  /// your own, then it's the ID of the account that shared the mesh with your
-  /// account. For more information about mesh sharing, see <a
+  /// The Amazon Web Services IAM account ID of the service mesh owner. If the
+  /// account ID is not your own, then it's the ID of the account that shared
+  /// the mesh with your account. For more information about mesh sharing, see
+  /// <a
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
   Future<DeleteVirtualGatewayOutput> deleteVirtualGateway({
@@ -852,9 +855,10 @@ class AppMesh {
   /// The name of the virtual node to delete.
   ///
   /// Parameter [meshOwner] :
-  /// The AWS IAM account ID of the service mesh owner. If the account ID is not
-  /// your own, then it's the ID of the account that shared the mesh with your
-  /// account. For more information about mesh sharing, see <a
+  /// The Amazon Web Services IAM account ID of the service mesh owner. If the
+  /// account ID is not your own, then it's the ID of the account that shared
+  /// the mesh with your account. For more information about mesh sharing, see
+  /// <a
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
   Future<DeleteVirtualNodeOutput> deleteVirtualNode({
@@ -901,9 +905,10 @@ class AppMesh {
   /// The name of the virtual router to delete.
   ///
   /// Parameter [meshOwner] :
-  /// The AWS IAM account ID of the service mesh owner. If the account ID is not
-  /// your own, then it's the ID of the account that shared the mesh with your
-  /// account. For more information about mesh sharing, see <a
+  /// The Amazon Web Services IAM account ID of the service mesh owner. If the
+  /// account ID is not your own, then it's the ID of the account that shared
+  /// the mesh with your account. For more information about mesh sharing, see
+  /// <a
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
   Future<DeleteVirtualRouterOutput> deleteVirtualRouter({
@@ -947,9 +952,10 @@ class AppMesh {
   /// The name of the virtual service to delete.
   ///
   /// Parameter [meshOwner] :
-  /// The AWS IAM account ID of the service mesh owner. If the account ID is not
-  /// your own, then it's the ID of the account that shared the mesh with your
-  /// account. For more information about mesh sharing, see <a
+  /// The Amazon Web Services IAM account ID of the service mesh owner. If the
+  /// account ID is not your own, then it's the ID of the account that shared
+  /// the mesh with your account. For more information about mesh sharing, see
+  /// <a
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
   Future<DeleteVirtualServiceOutput> deleteVirtualService({
@@ -995,9 +1001,10 @@ class AppMesh {
   /// The name of the virtual gateway that the gateway route is associated with.
   ///
   /// Parameter [meshOwner] :
-  /// The AWS IAM account ID of the service mesh owner. If the account ID is not
-  /// your own, then it's the ID of the account that shared the mesh with your
-  /// account. For more information about mesh sharing, see <a
+  /// The Amazon Web Services IAM account ID of the service mesh owner. If the
+  /// account ID is not your own, then it's the ID of the account that shared
+  /// the mesh with your account. For more information about mesh sharing, see
+  /// <a
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
   Future<DescribeGatewayRouteOutput> describeGatewayRoute({
@@ -1039,9 +1046,10 @@ class AppMesh {
   /// The name of the service mesh to describe.
   ///
   /// Parameter [meshOwner] :
-  /// The AWS IAM account ID of the service mesh owner. If the account ID is not
-  /// your own, then it's the ID of the account that shared the mesh with your
-  /// account. For more information about mesh sharing, see <a
+  /// The Amazon Web Services IAM account ID of the service mesh owner. If the
+  /// account ID is not your own, then it's the ID of the account that shared
+  /// the mesh with your account. For more information about mesh sharing, see
+  /// <a
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
   Future<DescribeMeshOutput> describeMesh({
@@ -1084,9 +1092,10 @@ class AppMesh {
   /// The name of the virtual router that the route is associated with.
   ///
   /// Parameter [meshOwner] :
-  /// The AWS IAM account ID of the service mesh owner. If the account ID is not
-  /// your own, then it's the ID of the account that shared the mesh with your
-  /// account. For more information about mesh sharing, see <a
+  /// The Amazon Web Services IAM account ID of the service mesh owner. If the
+  /// account ID is not your own, then it's the ID of the account that shared
+  /// the mesh with your account. For more information about mesh sharing, see
+  /// <a
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
   Future<DescribeRouteOutput> describeRoute({
@@ -1131,9 +1140,10 @@ class AppMesh {
   /// The name of the virtual gateway to describe.
   ///
   /// Parameter [meshOwner] :
-  /// The AWS IAM account ID of the service mesh owner. If the account ID is not
-  /// your own, then it's the ID of the account that shared the mesh with your
-  /// account. For more information about mesh sharing, see <a
+  /// The Amazon Web Services IAM account ID of the service mesh owner. If the
+  /// account ID is not your own, then it's the ID of the account that shared
+  /// the mesh with your account. For more information about mesh sharing, see
+  /// <a
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
   Future<DescribeVirtualGatewayOutput> describeVirtualGateway({
@@ -1176,9 +1186,10 @@ class AppMesh {
   /// The name of the virtual node to describe.
   ///
   /// Parameter [meshOwner] :
-  /// The AWS IAM account ID of the service mesh owner. If the account ID is not
-  /// your own, then it's the ID of the account that shared the mesh with your
-  /// account. For more information about mesh sharing, see <a
+  /// The Amazon Web Services IAM account ID of the service mesh owner. If the
+  /// account ID is not your own, then it's the ID of the account that shared
+  /// the mesh with your account. For more information about mesh sharing, see
+  /// <a
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
   Future<DescribeVirtualNodeOutput> describeVirtualNode({
@@ -1221,9 +1232,10 @@ class AppMesh {
   /// The name of the virtual router to describe.
   ///
   /// Parameter [meshOwner] :
-  /// The AWS IAM account ID of the service mesh owner. If the account ID is not
-  /// your own, then it's the ID of the account that shared the mesh with your
-  /// account. For more information about mesh sharing, see <a
+  /// The Amazon Web Services IAM account ID of the service mesh owner. If the
+  /// account ID is not your own, then it's the ID of the account that shared
+  /// the mesh with your account. For more information about mesh sharing, see
+  /// <a
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
   Future<DescribeVirtualRouterOutput> describeVirtualRouter({
@@ -1266,9 +1278,10 @@ class AppMesh {
   /// The name of the virtual service to describe.
   ///
   /// Parameter [meshOwner] :
-  /// The AWS IAM account ID of the service mesh owner. If the account ID is not
-  /// your own, then it's the ID of the account that shared the mesh with your
-  /// account. For more information about mesh sharing, see <a
+  /// The Amazon Web Services IAM account ID of the service mesh owner. If the
+  /// account ID is not your own, then it's the ID of the account that shared
+  /// the mesh with your account. For more information about mesh sharing, see
+  /// <a
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
   Future<DescribeVirtualServiceOutput> describeVirtualService({
@@ -1323,9 +1336,10 @@ class AppMesh {
   /// results and a <code>nextToken</code> value if applicable.
   ///
   /// Parameter [meshOwner] :
-  /// The AWS IAM account ID of the service mesh owner. If the account ID is not
-  /// your own, then it's the ID of the account that shared the mesh with your
-  /// account. For more information about mesh sharing, see <a
+  /// The Amazon Web Services IAM account ID of the service mesh owner. If the
+  /// account ID is not your own, then it's the ID of the account that shared
+  /// the mesh with your account. For more information about mesh sharing, see
+  /// <a
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
   ///
@@ -1447,9 +1461,10 @@ class AppMesh {
   /// applicable.
   ///
   /// Parameter [meshOwner] :
-  /// The AWS IAM account ID of the service mesh owner. If the account ID is not
-  /// your own, then it's the ID of the account that shared the mesh with your
-  /// account. For more information about mesh sharing, see <a
+  /// The Amazon Web Services IAM account ID of the service mesh owner. If the
+  /// account ID is not your own, then it's the ID of the account that shared
+  /// the mesh with your account. For more information about mesh sharing, see
+  /// <a
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
   ///
@@ -1571,9 +1586,10 @@ class AppMesh {
   /// 100 results and a <code>nextToken</code> value if applicable.
   ///
   /// Parameter [meshOwner] :
-  /// The AWS IAM account ID of the service mesh owner. If the account ID is not
-  /// your own, then it's the ID of the account that shared the mesh with your
-  /// account. For more information about mesh sharing, see <a
+  /// The Amazon Web Services IAM account ID of the service mesh owner. If the
+  /// account ID is not your own, then it's the ID of the account that shared
+  /// the mesh with your account. For more information about mesh sharing, see
+  /// <a
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
   ///
@@ -1636,9 +1652,10 @@ class AppMesh {
   /// results and a <code>nextToken</code> value if applicable.
   ///
   /// Parameter [meshOwner] :
-  /// The AWS IAM account ID of the service mesh owner. If the account ID is not
-  /// your own, then it's the ID of the account that shared the mesh with your
-  /// account. For more information about mesh sharing, see <a
+  /// The Amazon Web Services IAM account ID of the service mesh owner. If the
+  /// account ID is not your own, then it's the ID of the account that shared
+  /// the mesh with your account. For more information about mesh sharing, see
+  /// <a
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
   ///
@@ -1701,9 +1718,10 @@ class AppMesh {
   /// 100 results and a <code>nextToken</code> value if applicable.
   ///
   /// Parameter [meshOwner] :
-  /// The AWS IAM account ID of the service mesh owner. If the account ID is not
-  /// your own, then it's the ID of the account that shared the mesh with your
-  /// account. For more information about mesh sharing, see <a
+  /// The Amazon Web Services IAM account ID of the service mesh owner. If the
+  /// account ID is not your own, then it's the ID of the account that shared
+  /// the mesh with your account. For more information about mesh sharing, see
+  /// <a
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
   ///
@@ -1766,9 +1784,10 @@ class AppMesh {
   /// 100 results and a <code>nextToken</code> value if applicable.
   ///
   /// Parameter [meshOwner] :
-  /// The AWS IAM account ID of the service mesh owner. If the account ID is not
-  /// your own, then it's the ID of the account that shared the mesh with your
-  /// account. For more information about mesh sharing, see <a
+  /// The Amazon Web Services IAM account ID of the service mesh owner. If the
+  /// account ID is not your own, then it's the ID of the account that shared
+  /// the mesh with your account. For more information about mesh sharing, see
+  /// <a
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
   ///
@@ -1914,9 +1933,10 @@ class AppMesh {
   /// underscores are allowed.
   ///
   /// Parameter [meshOwner] :
-  /// The AWS IAM account ID of the service mesh owner. If the account ID is not
-  /// your own, then it's the ID of the account that shared the mesh with your
-  /// account. For more information about mesh sharing, see <a
+  /// The Amazon Web Services IAM account ID of the service mesh owner. If the
+  /// account ID is not your own, then it's the ID of the account that shared
+  /// the mesh with your account. For more information about mesh sharing, see
+  /// <a
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
   Future<UpdateGatewayRouteOutput> updateGatewayRoute({
@@ -2023,9 +2043,10 @@ class AppMesh {
   /// underscores are allowed.
   ///
   /// Parameter [meshOwner] :
-  /// The AWS IAM account ID of the service mesh owner. If the account ID is not
-  /// your own, then it's the ID of the account that shared the mesh with your
-  /// account. For more information about mesh sharing, see <a
+  /// The Amazon Web Services IAM account ID of the service mesh owner. If the
+  /// account ID is not your own, then it's the ID of the account that shared
+  /// the mesh with your account. For more information about mesh sharing, see
+  /// <a
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
   Future<UpdateRouteOutput> updateRoute({
@@ -2088,9 +2109,10 @@ class AppMesh {
   /// underscores are allowed.
   ///
   /// Parameter [meshOwner] :
-  /// The AWS IAM account ID of the service mesh owner. If the account ID is not
-  /// your own, then it's the ID of the account that shared the mesh with your
-  /// account. For more information about mesh sharing, see <a
+  /// The Amazon Web Services IAM account ID of the service mesh owner. If the
+  /// account ID is not your own, then it's the ID of the account that shared
+  /// the mesh with your account. For more information about mesh sharing, see
+  /// <a
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
   Future<UpdateVirtualGatewayOutput> updateVirtualGateway({
@@ -2151,9 +2173,10 @@ class AppMesh {
   /// underscores are allowed.
   ///
   /// Parameter [meshOwner] :
-  /// The AWS IAM account ID of the service mesh owner. If the account ID is not
-  /// your own, then it's the ID of the account that shared the mesh with your
-  /// account. For more information about mesh sharing, see <a
+  /// The Amazon Web Services IAM account ID of the service mesh owner. If the
+  /// account ID is not your own, then it's the ID of the account that shared
+  /// the mesh with your account. For more information about mesh sharing, see
+  /// <a
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
   Future<UpdateVirtualNodeOutput> updateVirtualNode({
@@ -2214,9 +2237,10 @@ class AppMesh {
   /// underscores are allowed.
   ///
   /// Parameter [meshOwner] :
-  /// The AWS IAM account ID of the service mesh owner. If the account ID is not
-  /// your own, then it's the ID of the account that shared the mesh with your
-  /// account. For more information about mesh sharing, see <a
+  /// The Amazon Web Services IAM account ID of the service mesh owner. If the
+  /// account ID is not your own, then it's the ID of the account that shared
+  /// the mesh with your account. For more information about mesh sharing, see
+  /// <a
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
   Future<UpdateVirtualRouterOutput> updateVirtualRouter({
@@ -2277,9 +2301,10 @@ class AppMesh {
   /// underscores are allowed.
   ///
   /// Parameter [meshOwner] :
-  /// The AWS IAM account ID of the service mesh owner. If the account ID is not
-  /// your own, then it's the ID of the account that shared the mesh with your
-  /// account. For more information about mesh sharing, see <a
+  /// The Amazon Web Services IAM account ID of the service mesh owner. If the
+  /// account ID is not your own, then it's the ID of the account that shared
+  /// the mesh with your account. For more information about mesh sharing, see
+  /// <a
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
   Future<UpdateVirtualServiceOutput> updateVirtualService({
@@ -2342,7 +2367,7 @@ class AccessLog {
 /// An object that represents the Cloud Map attribute information for your
 /// virtual node.
 /// <note>
-/// AWS Cloud Map is not available in the eu-south-1 Region.
+/// Cloud Map is not available in the eu-south-1 Region.
 /// </note>
 class AwsCloudMapInstanceAttribute {
   /// The name of an Cloud Map service instance attribute key. Any Cloud Map
@@ -2393,10 +2418,14 @@ class AwsCloudMapServiceDiscovery {
   /// will be returned.
   final List<AwsCloudMapInstanceAttribute>? attributes;
 
+  /// The IP version to use to control traffic within the mesh.
+  final IpPreference? ipPreference;
+
   AwsCloudMapServiceDiscovery({
     required this.namespaceName,
     required this.serviceName,
     this.attributes,
+    this.ipPreference,
   });
 
   factory AwsCloudMapServiceDiscovery.fromJson(Map<String, dynamic> json) {
@@ -2408,6 +2437,7 @@ class AwsCloudMapServiceDiscovery {
           .map((e) =>
               AwsCloudMapInstanceAttribute.fromJson(e as Map<String, dynamic>))
           .toList(),
+      ipPreference: (json['ipPreference'] as String?)?.toIpPreference(),
     );
   }
 
@@ -2415,10 +2445,12 @@ class AwsCloudMapServiceDiscovery {
     final namespaceName = this.namespaceName;
     final serviceName = this.serviceName;
     final attributes = this.attributes;
+    final ipPreference = this.ipPreference;
     return {
       'namespaceName': namespaceName,
       'serviceName': serviceName,
       if (attributes != null) 'attributes': attributes,
+      if (ipPreference != null) 'ipPreference': ipPreference.toValue(),
     };
   }
 }
@@ -3149,26 +3181,33 @@ class DnsServiceDiscovery {
   /// Specifies the DNS service discovery hostname for the virtual node.
   final String hostname;
 
+  /// The IP version to use to control traffic within the mesh.
+  final IpPreference? ipPreference;
+
   /// Specifies the DNS response type for the virtual node.
   final DnsResponseType? responseType;
 
   DnsServiceDiscovery({
     required this.hostname,
+    this.ipPreference,
     this.responseType,
   });
 
   factory DnsServiceDiscovery.fromJson(Map<String, dynamic> json) {
     return DnsServiceDiscovery(
       hostname: json['hostname'] as String,
+      ipPreference: (json['ipPreference'] as String?)?.toIpPreference(),
       responseType: (json['responseType'] as String?)?.toDnsResponseType(),
     );
   }
 
   Map<String, dynamic> toJson() {
     final hostname = this.hostname;
+    final ipPreference = this.ipPreference;
     final responseType = this.responseType;
     return {
       'hostname': hostname,
+      if (ipPreference != null) 'ipPreference': ipPreference.toValue(),
       if (responseType != null) 'responseType': responseType.toValue(),
     };
   }
@@ -3295,10 +3334,9 @@ class FileAccessLog {
   /// use a log driver, such as <code>awslogs</code>, to export the access logs to
   /// a log storage service such as Amazon CloudWatch Logs. You can also specify a
   /// path in the Envoy container's file system to write the files to disk.
-  /// <note>
-  /// The Envoy process must have write permissions to the path that you specify
-  /// here. Otherwise, Envoy fails to bootstrap properly.
-  /// </note>
+  /// <pre><code> &lt;note&gt; &lt;p&gt;The Envoy process must have write
+  /// permissions to the path that you specify here. Otherwise, Envoy fails to
+  /// bootstrap properly.&lt;/p&gt; &lt;/note&gt; </code></pre>
   final String path;
 
   FileAccessLog({
@@ -3449,16 +3487,17 @@ class GatewayRouteRef {
   /// The name of the service mesh that the resource resides in.
   final String meshName;
 
-  /// The AWS IAM account ID of the service mesh owner. If the account ID is not
-  /// your own, then it's the ID of the account that shared the mesh with your
-  /// account. For more information about mesh sharing, see <a
+  /// The Amazon Web Services IAM account ID of the service mesh owner. If the
+  /// account ID is not your own, then it's the ID of the account that shared the
+  /// mesh with your account. For more information about mesh sharing, see <a
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
   final String meshOwner;
 
-  /// The AWS IAM account ID of the resource owner. If the account ID is not your
-  /// own, then it's the ID of the mesh owner or of another account that the mesh
-  /// is shared with. For more information about mesh sharing, see <a
+  /// The Amazon Web Services IAM account ID of the resource owner. If the account
+  /// ID is not your own, then it's the ID of the mesh owner or of another account
+  /// that the mesh is shared with. For more information about mesh sharing, see
+  /// <a
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
   final String resourceOwner;
@@ -4491,6 +4530,9 @@ class HttpGatewayRouteHeader {
   /// Specify <code>True</code> to match anything except the match criteria. The
   /// default value is <code>False</code>.
   final bool? invert;
+
+  /// An object that represents the method and value to match with the header
+  /// value sent in a request. Specify one match method.
   final HeaderMatchMethod? match;
 
   HttpGatewayRouteHeader({
@@ -5157,6 +5199,44 @@ class HttpTimeout {
   }
 }
 
+enum IpPreference {
+  iPv6Preferred,
+  iPv4Preferred,
+  iPv4Only,
+  iPv6Only,
+}
+
+extension on IpPreference {
+  String toValue() {
+    switch (this) {
+      case IpPreference.iPv6Preferred:
+        return 'IPv6_PREFERRED';
+      case IpPreference.iPv4Preferred:
+        return 'IPv4_PREFERRED';
+      case IpPreference.iPv4Only:
+        return 'IPv4_ONLY';
+      case IpPreference.iPv6Only:
+        return 'IPv6_ONLY';
+    }
+  }
+}
+
+extension on String {
+  IpPreference toIpPreference() {
+    switch (this) {
+      case 'IPv6_PREFERRED':
+        return IpPreference.iPv6Preferred;
+      case 'IPv4_PREFERRED':
+        return IpPreference.iPv4Preferred;
+      case 'IPv4_ONLY':
+        return IpPreference.iPv4Only;
+      case 'IPv6_ONLY':
+        return IpPreference.iPv6Only;
+    }
+    throw Exception('$this is not known in enum IpPreference');
+  }
+}
+
 class ListGatewayRoutesOutput {
   /// The list of existing gateway routes for the specified service mesh and
   /// virtual gateway.
@@ -5634,7 +5714,7 @@ class ListenerTls {
   }
 }
 
-/// An object that represents an AWS Certicate Manager (ACM) certificate.
+/// An object that represents an Certificate Manager certificate.
 class ListenerTlsAcmCertificate {
   /// The Amazon Resource Name (ARN) for the certificate. The certificate must
   /// meet specific requirements and you must have proxy authorization enabled.
@@ -5664,8 +5744,7 @@ class ListenerTlsAcmCertificate {
 /// An object that represents a listener's Transport Layer Security (TLS)
 /// certificate.
 class ListenerTlsCertificate {
-  /// A reference to an object that represents an AWS Certicate Manager (ACM)
-  /// certificate.
+  /// A reference to an object that represents an Certificate Manager certificate.
   final ListenerTlsAcmCertificate? acm;
 
   /// A reference to an object that represents a local file certificate.
@@ -6002,16 +6081,17 @@ class MeshRef {
   /// The name of the service mesh.
   final String meshName;
 
-  /// The AWS IAM account ID of the service mesh owner. If the account ID is not
-  /// your own, then it's the ID of the account that shared the mesh with your
-  /// account. For more information about mesh sharing, see <a
+  /// The Amazon Web Services IAM account ID of the service mesh owner. If the
+  /// account ID is not your own, then it's the ID of the account that shared the
+  /// mesh with your account. For more information about mesh sharing, see <a
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
   final String meshOwner;
 
-  /// The AWS IAM account ID of the resource owner. If the account ID is not your
-  /// own, then it's the ID of the mesh owner or of another account that the mesh
-  /// is shared with. For more information about mesh sharing, see <a
+  /// The Amazon Web Services IAM account ID of the resource owner. If the account
+  /// ID is not your own, then it's the ID of the mesh owner or of another account
+  /// that the mesh is shared with. For more information about mesh sharing, see
+  /// <a
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
   final String resourceOwner;
@@ -6063,13 +6143,39 @@ class MeshRef {
   }
 }
 
+/// An object that represents the service discovery information for a service
+/// mesh.
+class MeshServiceDiscovery {
+  /// The IP version to use to control traffic within the mesh.
+  final IpPreference? ipPreference;
+
+  MeshServiceDiscovery({
+    this.ipPreference,
+  });
+
+  factory MeshServiceDiscovery.fromJson(Map<String, dynamic> json) {
+    return MeshServiceDiscovery(
+      ipPreference: (json['ipPreference'] as String?)?.toIpPreference(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ipPreference = this.ipPreference;
+    return {
+      if (ipPreference != null) 'ipPreference': ipPreference.toValue(),
+    };
+  }
+}
+
 /// An object that represents the specification of a service mesh.
 class MeshSpec {
   /// The egress filter rules for the service mesh.
   final EgressFilter? egressFilter;
+  final MeshServiceDiscovery? serviceDiscovery;
 
   MeshSpec({
     this.egressFilter,
+    this.serviceDiscovery,
   });
 
   factory MeshSpec.fromJson(Map<String, dynamic> json) {
@@ -6077,13 +6183,19 @@ class MeshSpec {
       egressFilter: json['egressFilter'] != null
           ? EgressFilter.fromJson(json['egressFilter'] as Map<String, dynamic>)
           : null,
+      serviceDiscovery: json['serviceDiscovery'] != null
+          ? MeshServiceDiscovery.fromJson(
+              json['serviceDiscovery'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final egressFilter = this.egressFilter;
+    final serviceDiscovery = this.serviceDiscovery;
     return {
       if (egressFilter != null) 'egressFilter': egressFilter,
+      if (serviceDiscovery != null) 'serviceDiscovery': serviceDiscovery,
     };
   }
 }
@@ -6293,16 +6405,17 @@ class ResourceMetadata {
   /// The Unix epoch timestamp in seconds for when the resource was last updated.
   final DateTime lastUpdatedAt;
 
-  /// The AWS IAM account ID of the service mesh owner. If the account ID is not
-  /// your own, then it's the ID of the account that shared the mesh with your
-  /// account. For more information about mesh sharing, see <a
+  /// The Amazon Web Services IAM account ID of the service mesh owner. If the
+  /// account ID is not your own, then it's the ID of the account that shared the
+  /// mesh with your account. For more information about mesh sharing, see <a
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
   final String meshOwner;
 
-  /// The AWS IAM account ID of the resource owner. If the account ID is not your
-  /// own, then it's the ID of the mesh owner or of another account that the mesh
-  /// is shared with. For more information about mesh sharing, see <a
+  /// The Amazon Web Services IAM account ID of the resource owner. If the account
+  /// ID is not your own, then it's the ID of the mesh owner or of another account
+  /// that the mesh is shared with. For more information about mesh sharing, see
+  /// <a
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
   final String resourceOwner;
@@ -6430,16 +6543,17 @@ class RouteRef {
   /// The name of the service mesh that the route resides in.
   final String meshName;
 
-  /// The AWS IAM account ID of the service mesh owner. If the account ID is not
-  /// your own, then it's the ID of the account that shared the mesh with your
-  /// account. For more information about mesh sharing, see <a
+  /// The Amazon Web Services IAM account ID of the service mesh owner. If the
+  /// account ID is not your own, then it's the ID of the account that shared the
+  /// mesh with your account. For more information about mesh sharing, see <a
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
   final String meshOwner;
 
-  /// The AWS IAM account ID of the resource owner. If the account ID is not your
-  /// own, then it's the ID of the mesh owner or of another account that the mesh
-  /// is shared with. For more information about mesh sharing, see <a
+  /// The Amazon Web Services IAM account ID of the resource owner. If the account
+  /// ID is not your own, then it's the ID of the mesh owner or of another account
+  /// that the mesh is shared with. For more information about mesh sharing, see
+  /// <a
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
   final String resourceOwner;
@@ -8142,16 +8256,17 @@ class VirtualGatewayRef {
   /// The name of the service mesh that the resource resides in.
   final String meshName;
 
-  /// The AWS IAM account ID of the service mesh owner. If the account ID is not
-  /// your own, then it's the ID of the account that shared the mesh with your
-  /// account. For more information about mesh sharing, see <a
+  /// The Amazon Web Services IAM account ID of the service mesh owner. If the
+  /// account ID is not your own, then it's the ID of the account that shared the
+  /// mesh with your account. For more information about mesh sharing, see <a
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
   final String meshOwner;
 
-  /// The AWS IAM account ID of the resource owner. If the account ID is not your
-  /// own, then it's the ID of the mesh owner or of another account that the mesh
-  /// is shared with. For more information about mesh sharing, see <a
+  /// The Amazon Web Services IAM account ID of the resource owner. If the account
+  /// ID is not your own, then it's the ID of the mesh owner or of another account
+  /// that the mesh is shared with. For more information about mesh sharing, see
+  /// <a
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
   final String resourceOwner;
@@ -8697,16 +8812,17 @@ class VirtualNodeRef {
   /// The name of the service mesh that the virtual node resides in.
   final String meshName;
 
-  /// The AWS IAM account ID of the service mesh owner. If the account ID is not
-  /// your own, then it's the ID of the account that shared the mesh with your
-  /// account. For more information about mesh sharing, see <a
+  /// The Amazon Web Services IAM account ID of the service mesh owner. If the
+  /// account ID is not your own, then it's the ID of the account that shared the
+  /// mesh with your account. For more information about mesh sharing, see <a
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
   final String meshOwner;
 
-  /// The AWS IAM account ID of the resource owner. If the account ID is not your
-  /// own, then it's the ID of the mesh owner or of another account that the mesh
-  /// is shared with. For more information about mesh sharing, see <a
+  /// The Amazon Web Services IAM account ID of the resource owner. If the account
+  /// ID is not your own, then it's the ID of the mesh owner or of another account
+  /// that the mesh is shared with. For more information about mesh sharing, see
+  /// <a
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
   final String resourceOwner;
@@ -9027,16 +9143,17 @@ class VirtualRouterRef {
   /// The name of the service mesh that the virtual router resides in.
   final String meshName;
 
-  /// The AWS IAM account ID of the service mesh owner. If the account ID is not
-  /// your own, then it's the ID of the account that shared the mesh with your
-  /// account. For more information about mesh sharing, see <a
+  /// The Amazon Web Services IAM account ID of the service mesh owner. If the
+  /// account ID is not your own, then it's the ID of the account that shared the
+  /// mesh with your account. For more information about mesh sharing, see <a
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
   final String meshOwner;
 
-  /// The AWS IAM account ID of the resource owner. If the account ID is not your
-  /// own, then it's the ID of the mesh owner or of another account that the mesh
-  /// is shared with. For more information about mesh sharing, see <a
+  /// The Amazon Web Services IAM account ID of the resource owner. If the account
+  /// ID is not your own, then it's the ID of the mesh owner or of another account
+  /// that the mesh is shared with. For more information about mesh sharing, see
+  /// <a
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
   final String resourceOwner;
@@ -9335,16 +9452,17 @@ class VirtualServiceRef {
   /// The name of the service mesh that the virtual service resides in.
   final String meshName;
 
-  /// The AWS IAM account ID of the service mesh owner. If the account ID is not
-  /// your own, then it's the ID of the account that shared the mesh with your
-  /// account. For more information about mesh sharing, see <a
+  /// The Amazon Web Services IAM account ID of the service mesh owner. If the
+  /// account ID is not your own, then it's the ID of the account that shared the
+  /// mesh with your account. For more information about mesh sharing, see <a
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
   final String meshOwner;
 
-  /// The AWS IAM account ID of the resource owner. If the account ID is not your
-  /// own, then it's the ID of the mesh owner or of another account that the mesh
-  /// is shared with. For more information about mesh sharing, see <a
+  /// The Amazon Web Services IAM account ID of the resource owner. If the account
+  /// ID is not your own, then it's the ID of the mesh owner or of another account
+  /// that the mesh is shared with. For more information about mesh sharing, see
+  /// <a
   /// href="https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html">Working
   /// with shared meshes</a>.
   final String resourceOwner;

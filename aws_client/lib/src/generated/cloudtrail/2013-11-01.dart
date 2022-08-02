@@ -37,14 +37,14 @@ class CloudTrail {
           endpointUrl: endpointUrl,
         );
 
-  /// Adds one or more tags to a trail, up to a limit of 50. Overwrites an
-  /// existing tag's value when a new value is specified for an existing tag
-  /// key. Tag key names must be unique for a trail; you cannot have two keys
-  /// with the same name but different values. If you specify a key without a
-  /// value, the tag will be created with the specified key and a value of null.
-  /// You can tag a trail that applies to all Amazon Web Services Regions only
-  /// from the Region in which the trail was created (also known as its home
-  /// region).
+  /// Adds one or more tags to a trail or event data store, up to a limit of 50.
+  /// Overwrites an existing tag's value when a new value is specified for an
+  /// existing tag key. Tag key names must be unique for a trail; you cannot
+  /// have two keys with the same name but different values. If you specify a
+  /// key without a value, the tag will be created with the specified key and a
+  /// value of null. You can tag a trail or event data store that applies to all
+  /// Amazon Web Services Regions only from the Region in which the trail or
+  /// event data store was created (also known as its home region).
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [CloudTrailARNInvalidException].
@@ -60,8 +60,8 @@ class CloudTrail {
   /// May throw [ConflictException].
   ///
   /// Parameter [resourceId] :
-  /// Specifies the ARN of the trail to which one or more tags will be added.
-  /// The format of a trail ARN is:
+  /// Specifies the ARN of the trail or event data store to which one or more
+  /// tags will be added. The format of a trail ARN is:
   ///
   /// <code>arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail</code>
   ///
@@ -92,11 +92,12 @@ class CloudTrail {
   }
 
   /// Cancels a query if the query is not in a terminated state, such as
-  /// <code>CANCELLED</code>, <code>FAILED</code> or <code>FINISHED</code>. You
-  /// must specify an ARN value for <code>EventDataStore</code>. The ID of the
-  /// query that you want to cancel is also required. When you run
-  /// <code>CancelQuery</code>, the query status might show as
-  /// <code>CANCELLED</code> even if the operation is not yet finished.
+  /// <code>CANCELLED</code>, <code>FAILED</code>, <code>TIMED_OUT</code>, or
+  /// <code>FINISHED</code>. You must specify an ARN value for
+  /// <code>EventDataStore</code>. The ID of the query that you want to cancel
+  /// is also required. When you run <code>CancelQuery</code>, the query status
+  /// might show as <code>CANCELLED</code> even if the operation is not yet
+  /// finished.
   ///
   /// May throw [EventDataStoreARNInvalidException].
   /// May throw [EventDataStoreNotFoundException].
@@ -196,7 +197,7 @@ class CloudTrail {
       'retentionPeriod',
       retentionPeriod,
       7,
-      2555,
+      2557,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -423,16 +424,18 @@ class CloudTrail {
 
   /// Disables the event data store specified by <code>EventDataStore</code>,
   /// which accepts an event data store ARN. After you run
-  /// <code>DeleteEventDataStore</code>, the event data store is automatically
-  /// deleted after a wait period of seven days.
-  /// <code>TerminationProtectionEnabled</code> must be set to
-  /// <code>False</code> on the event data store; this operation cannot work if
-  /// <code>TerminationProtectionEnabled</code> is <code>True</code>.
+  /// <code>DeleteEventDataStore</code>, the event data store enters a
+  /// <code>PENDING_DELETION</code> state, and is automatically deleted after a
+  /// wait period of seven days. <code>TerminationProtectionEnabled</code> must
+  /// be set to <code>False</code> on the event data store; this operation
+  /// cannot work if <code>TerminationProtectionEnabled</code> is
+  /// <code>True</code>.
   ///
   /// After you run <code>DeleteEventDataStore</code> on an event data store,
   /// you cannot run <code>ListQueries</code>, <code>DescribeQuery</code>, or
   /// <code>GetQueryResults</code> on queries that are using an event data store
-  /// in a <code>PENDING_DELETION</code> state.
+  /// in a <code>PENDING_DELETION</code> state. An event data store in the
+  /// <code>PENDING_DELETION</code> state does not incur costs.
   ///
   /// May throw [EventDataStoreARNInvalidException].
   /// May throw [EventDataStoreNotFoundException].
@@ -1032,8 +1035,8 @@ class CloudTrail {
   /// timestamps, by adding <code>StartTime</code> and <code>EndTime</code>
   /// parameters, and a <code>QueryStatus</code> value. Valid values for
   /// <code>QueryStatus</code> include <code>QUEUED</code>,
-  /// <code>RUNNING</code>, <code>FINISHED</code>, <code>FAILED</code>, or
-  /// <code>CANCELLED</code>.
+  /// <code>RUNNING</code>, <code>FINISHED</code>, <code>FAILED</code>,
+  /// <code>TIMED_OUT</code>, or <code>CANCELLED</code>.
   ///
   /// May throw [EventDataStoreARNInvalidException].
   /// May throw [EventDataStoreNotFoundException].
@@ -1064,8 +1067,8 @@ class CloudTrail {
   /// Parameter [queryStatus] :
   /// The status of queries that you want to return in results. Valid values for
   /// <code>QueryStatus</code> include <code>QUEUED</code>,
-  /// <code>RUNNING</code>, <code>FINISHED</code>, <code>FAILED</code>, or
-  /// <code>CANCELLED</code>.
+  /// <code>RUNNING</code>, <code>FINISHED</code>, <code>FAILED</code>,
+  /// <code>TIMED_OUT</code>, or <code>CANCELLED</code>.
   ///
   /// Parameter [startTime] :
   /// Use with <code>EndTime</code> to bound a <code>ListQueries</code> request,
@@ -1110,7 +1113,7 @@ class CloudTrail {
     return ListQueriesResponse.fromJson(jsonResponse.body);
   }
 
-  /// Lists the tags for the trail in the current region.
+  /// Lists the tags for the trail or event data store in the current region.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [CloudTrailARNInvalidException].
@@ -1123,10 +1126,8 @@ class CloudTrail {
   /// May throw [InvalidTokenException].
   ///
   /// Parameter [resourceIdList] :
-  /// Specifies a list of trail ARNs whose tags will be listed. The list has a
-  /// limit of 20 ARNs. The following is the format of a trail ARN.
-  ///
-  /// <code>arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail</code>
+  /// Specifies a list of trail and event data store ARNs whose tags will be
+  /// listed. The list has a limit of 20 ARNs.
   ///
   /// Parameter [nextToken] :
   /// Reserved for future use.
@@ -1509,7 +1510,7 @@ class CloudTrail {
     return PutInsightSelectorsResponse.fromJson(jsonResponse.body);
   }
 
-  /// Removes the specified tags from a trail.
+  /// Removes the specified tags from a trail or event data store.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [CloudTrailARNInvalidException].
@@ -1523,10 +1524,14 @@ class CloudTrail {
   /// May throw [NotOrganizationMasterAccountException].
   ///
   /// Parameter [resourceId] :
-  /// Specifies the ARN of the trail from which tags should be removed. The
-  /// format of a trail ARN is:
+  /// Specifies the ARN of the trail or event data store from which tags should
+  /// be removed.
   ///
+  /// Example trail ARN format:
   /// <code>arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail</code>
+  ///
+  /// Example event data store ARN format:
+  /// <code>arn:aws:cloudtrail:us-east-2:12345678910:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE</code>
   ///
   /// Parameter [tagsList] :
   /// Specifies a list of tags to be removed.
@@ -1783,7 +1788,7 @@ class CloudTrail {
       'retentionPeriod',
       retentionPeriod,
       7,
-      2555,
+      2557,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2107,9 +2112,10 @@ class AdvancedFieldSelector {
   /// <ul>
   /// <li>
   /// <b> <code>readOnly</code> </b> - Optional. Can be set to <code>Equals</code>
-  /// a value of <code>true</code> or <code>false</code>. A value of
-  /// <code>false</code> logs both <code>read</code> and <code>write</code>
-  /// events.
+  /// a value of <code>true</code> or <code>false</code>. If you do not add this
+  /// field, CloudTrail logs both both <code>read</code> and <code>write</code>
+  /// events. A value of <code>true</code> logs only <code>read</code> events. A
+  /// value of <code>false</code> logs only <code>write</code> events.
   /// </li>
   /// <li>
   /// <b> <code>eventSource</code> </b> - For filtering management events only.
@@ -2159,6 +2165,9 @@ class AdvancedFieldSelector {
   /// </li>
   /// <li>
   /// <code>AWS::DynamoDB::Stream</code>
+  /// </li>
+  /// <li>
+  /// <code>AWS::Glue::Table</code>
   /// </li>
   /// </ul>
   /// You can have only one <code>resources.type</code> ﬁeld per selector. To log
@@ -2266,6 +2275,15 @@ class AdvancedFieldSelector {
   /// <ul>
   /// <li>
   /// <code>arn:&lt;partition&gt;:dynamodb:&lt;region&gt;:&lt;account_ID&gt;:table/&lt;table_name&gt;/stream/&lt;date_time&gt;</code>
+  /// </li>
+  /// </ul>
+  /// When <code>resources.type</code> equals <code>AWS::Glue::Table</code>, and
+  /// the operator is set to <code>Equals</code> or <code>NotEquals</code>, the
+  /// ARN must be in the following format:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>arn:&lt;partition&gt;:glue:&lt;region&gt;:&lt;account_ID&gt;:table/&lt;database_name&gt;/&lt;table_name&gt;</code>
   /// </li>
   /// </ul> </li>
   /// </ul>
@@ -2724,6 +2742,9 @@ class DataResource {
   /// <li>
   /// <code>AWS::DynamoDB::Stream</code>
   /// </li>
+  /// <li>
+  /// <code>AWS::Glue::Table</code>
+  /// </li>
   /// </ul>
   final String? type;
 
@@ -2839,7 +2860,7 @@ class DescribeQueryResponse {
 
   /// The status of a query. Values for <code>QueryStatus</code> include
   /// <code>QUEUED</code>, <code>RUNNING</code>, <code>FINISHED</code>,
-  /// <code>FAILED</code>, or <code>CANCELLED</code>
+  /// <code>FAILED</code>, <code>TIMED_OUT</code>, or <code>CANCELLED</code>
   final QueryStatus? queryStatus;
 
   /// The SQL code of a query.
@@ -3030,40 +3051,44 @@ extension on String {
 /// href="https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-data-events-with-cloudtrail.html#creating-data-event-selectors-advanced">advanced
 /// event selectors</a>.
 class EventDataStore {
-  /// The advanced event selectors that were used to select events for the data
-  /// store.
+  /// This field is being deprecated. The advanced event selectors that were used
+  /// to select events for the data store.
   final List<AdvancedEventSelector>? advancedEventSelectors;
 
-  /// The timestamp of the event data store's creation.
+  /// This field is being deprecated. The timestamp of the event data store's
+  /// creation.
   final DateTime? createdTimestamp;
 
   /// The ARN of the event data store.
   final String? eventDataStoreArn;
 
-  /// Indicates whether the event data store includes events from all regions, or
-  /// only from the region in which it was created.
+  /// This field is being deprecated. Indicates whether the event data store
+  /// includes events from all regions, or only from the region in which it was
+  /// created.
   final bool? multiRegionEnabled;
 
   /// The name of the event data store.
   final String? name;
 
-  /// Indicates that an event data store is collecting logged events for an
-  /// organization.
+  /// This field is being deprecated. Indicates that an event data store is
+  /// collecting logged events for an organization.
   final bool? organizationEnabled;
 
-  /// The retention period, in days.
+  /// This field is being deprecated. The retention period, in days.
   final int? retentionPeriod;
 
-  /// The status of an event data store. Values are <code>ENABLED</code> and
-  /// <code>PENDING_DELETION</code>.
+  /// This field is being deprecated. The status of an event data store. Values
+  /// are <code>ENABLED</code> and <code>PENDING_DELETION</code>.
   final EventDataStoreStatus? status;
 
-  /// Indicates whether the event data store is protected from termination.
+  /// This field is being deprecated. Indicates whether the event data store is
+  /// protected from termination.
   final bool? terminationProtectionEnabled;
 
-  /// The timestamp showing when an event data store was updated, if applicable.
-  /// <code>UpdatedTimestamp</code> is always either the same or newer than the
-  /// time shown in <code>CreatedTimestamp</code>.
+  /// This field is being deprecated. The timestamp showing when an event data
+  /// store was updated, if applicable. <code>UpdatedTimestamp</code> is always
+  /// either the same or newer than the time shown in
+  /// <code>CreatedTimestamp</code>.
   final DateTime? updatedTimestamp;
 
   EventDataStore({
@@ -3195,7 +3220,8 @@ class EventSelector {
   /// or Amazon RDS Data API events by containing <code>kms.amazonaws.com</code>
   /// or <code>rdsdata.amazonaws.com</code>. By default,
   /// <code>ExcludeManagementEventSources</code> is empty, and KMS and Amazon RDS
-  /// Data API events are logged to your trail.
+  /// Data API events are logged to your trail. You can exclude management event
+  /// sources only in regions that support the event source.
   final List<String>? excludeManagementEventSources;
 
   /// Specify if you want your event selector to include management events for
@@ -3450,8 +3476,8 @@ class GetQueryResultsResponse {
   final QueryStatistics? queryStatistics;
 
   /// The status of the query. Values include <code>QUEUED</code>,
-  /// <code>RUNNING</code>, <code>FINISHED</code>, <code>FAILED</code>, or
-  /// <code>CANCELLED</code>.
+  /// <code>RUNNING</code>, <code>FINISHED</code>, <code>FAILED</code>,
+  /// <code>TIMED_OUT</code>, or <code>CANCELLED</code>.
   final QueryStatus? queryStatus;
 
   GetQueryResultsResponse({
@@ -4206,8 +4232,8 @@ class Query {
   final String? queryId;
 
   /// The status of the query. This can be <code>QUEUED</code>,
-  /// <code>RUNNING</code>, <code>FINISHED</code>, <code>FAILED</code>, or
-  /// <code>CANCELLED</code>.
+  /// <code>RUNNING</code>, <code>FINISHED</code>, <code>FAILED</code>,
+  /// <code>TIMED_OUT</code>, or <code>CANCELLED</code>.
   final QueryStatus? queryStatus;
 
   Query({
@@ -4239,6 +4265,11 @@ class Query {
 
 /// Metadata about a query, such as the number of results.
 class QueryStatistics {
+  /// The total bytes that the query scanned in the event data store. This value
+  /// matches the number of bytes for which your account is billed for the query,
+  /// unless the query is still running.
+  final int? bytesScanned;
+
   /// The number of results returned.
   final int? resultsCount;
 
@@ -4246,21 +4277,25 @@ class QueryStatistics {
   final int? totalResultsCount;
 
   QueryStatistics({
+    this.bytesScanned,
     this.resultsCount,
     this.totalResultsCount,
   });
 
   factory QueryStatistics.fromJson(Map<String, dynamic> json) {
     return QueryStatistics(
+      bytesScanned: json['BytesScanned'] as int?,
       resultsCount: json['ResultsCount'] as int?,
       totalResultsCount: json['TotalResultsCount'] as int?,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final bytesScanned = this.bytesScanned;
     final resultsCount = this.resultsCount;
     final totalResultsCount = this.totalResultsCount;
     return {
+      if (bytesScanned != null) 'BytesScanned': bytesScanned,
       if (resultsCount != null) 'ResultsCount': resultsCount,
       if (totalResultsCount != null) 'TotalResultsCount': totalResultsCount,
     };
@@ -4271,6 +4306,11 @@ class QueryStatistics {
 /// matched, the total number of events scanned, the query run time in
 /// milliseconds, and the query's creation time.
 class QueryStatisticsForDescribeQuery {
+  /// The total bytes that the query scanned in the event data store. This value
+  /// matches the number of bytes for which your account is billed for the query,
+  /// unless the query is still running.
+  final int? bytesScanned;
+
   /// The creation time of the query.
   final DateTime? creationTime;
 
@@ -4284,6 +4324,7 @@ class QueryStatisticsForDescribeQuery {
   final int? executionTimeInMillis;
 
   QueryStatisticsForDescribeQuery({
+    this.bytesScanned,
     this.creationTime,
     this.eventsMatched,
     this.eventsScanned,
@@ -4292,6 +4333,7 @@ class QueryStatisticsForDescribeQuery {
 
   factory QueryStatisticsForDescribeQuery.fromJson(Map<String, dynamic> json) {
     return QueryStatisticsForDescribeQuery(
+      bytesScanned: json['BytesScanned'] as int?,
       creationTime: timeStampFromJson(json['CreationTime']),
       eventsMatched: json['EventsMatched'] as int?,
       eventsScanned: json['EventsScanned'] as int?,
@@ -4300,11 +4342,13 @@ class QueryStatisticsForDescribeQuery {
   }
 
   Map<String, dynamic> toJson() {
+    final bytesScanned = this.bytesScanned;
     final creationTime = this.creationTime;
     final eventsMatched = this.eventsMatched;
     final eventsScanned = this.eventsScanned;
     final executionTimeInMillis = this.executionTimeInMillis;
     return {
+      if (bytesScanned != null) 'BytesScanned': bytesScanned,
       if (creationTime != null)
         'CreationTime': unixTimestampToJson(creationTime),
       if (eventsMatched != null) 'EventsMatched': eventsMatched,
@@ -4321,6 +4365,7 @@ enum QueryStatus {
   finished,
   failed,
   cancelled,
+  timedOut,
 }
 
 extension on QueryStatus {
@@ -4336,6 +4381,8 @@ extension on QueryStatus {
         return 'FAILED';
       case QueryStatus.cancelled:
         return 'CANCELLED';
+      case QueryStatus.timedOut:
+        return 'TIMED_OUT';
     }
   }
 }
@@ -4353,6 +4400,8 @@ extension on String {
         return QueryStatus.failed;
       case 'CANCELLED':
         return QueryStatus.cancelled;
+      case 'TIMED_OUT':
+        return QueryStatus.timedOut;
     }
     throw Exception('$this is not known in enum QueryStatus');
   }

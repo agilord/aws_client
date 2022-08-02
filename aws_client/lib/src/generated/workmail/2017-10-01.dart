@@ -252,6 +252,64 @@ class WorkMail {
     );
   }
 
+  /// Creates an <code>AvailabilityConfiguration</code> for the given WorkMail
+  /// organization and domain.
+  ///
+  /// May throw [OrganizationNotFoundException].
+  /// May throw [OrganizationStateException].
+  /// May throw [NameAvailabilityException].
+  /// May throw [InvalidParameterException].
+  /// May throw [LimitExceededException].
+  ///
+  /// Parameter [domainName] :
+  /// The domain to which the provider applies.
+  ///
+  /// Parameter [organizationId] :
+  /// The Amazon WorkMail organization for which the
+  /// <code>AvailabilityConfiguration</code> will be created.
+  ///
+  /// Parameter [clientToken] :
+  /// An idempotent token that ensures that an API request is executed only
+  /// once.
+  ///
+  /// Parameter [ewsProvider] :
+  /// Exchange Web Services (EWS) availability provider definition. The request
+  /// must contain exactly one provider definition, either
+  /// <code>EwsProvider</code> or <code>LambdaProvider</code>.
+  ///
+  /// Parameter [lambdaProvider] :
+  /// Lambda availability provider definition. The request must contain exactly
+  /// one provider definition, either <code>EwsProvider</code> or
+  /// <code>LambdaProvider</code>.
+  Future<void> createAvailabilityConfiguration({
+    required String domainName,
+    required String organizationId,
+    String? clientToken,
+    EwsAvailabilityProvider? ewsProvider,
+    LambdaAvailabilityProvider? lambdaProvider,
+  }) async {
+    ArgumentError.checkNotNull(domainName, 'domainName');
+    ArgumentError.checkNotNull(organizationId, 'organizationId');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkMailService.CreateAvailabilityConfiguration'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'DomainName': domainName,
+        'OrganizationId': organizationId,
+        'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
+        if (ewsProvider != null) 'EwsProvider': ewsProvider,
+        if (lambdaProvider != null) 'LambdaProvider': lambdaProvider,
+      },
+    );
+  }
+
   /// Creates a group that can be used in Amazon WorkMail by calling the
   /// <a>RegisterToWorkMail</a> operation.
   ///
@@ -662,6 +720,42 @@ class WorkMail {
       payload: {
         'Alias': alias,
         'EntityId': entityId,
+        'OrganizationId': organizationId,
+      },
+    );
+  }
+
+  /// Deletes the <code>AvailabilityConfiguration</code> for the given WorkMail
+  /// organization and domain.
+  ///
+  /// May throw [OrganizationNotFoundException].
+  /// May throw [OrganizationStateException].
+  ///
+  /// Parameter [domainName] :
+  /// The domain for which the <code>AvailabilityConfiguration</code> will be
+  /// deleted.
+  ///
+  /// Parameter [organizationId] :
+  /// The Amazon WorkMail organization for which the
+  /// <code>AvailabilityConfiguration</code> will be deleted.
+  Future<void> deleteAvailabilityConfiguration({
+    required String domainName,
+    required String organizationId,
+  }) async {
+    ArgumentError.checkNotNull(domainName, 'domainName');
+    ArgumentError.checkNotNull(organizationId, 'organizationId');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkMailService.DeleteAvailabilityConfiguration'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'DomainName': domainName,
         'OrganizationId': organizationId,
       },
     );
@@ -1808,6 +1902,55 @@ class WorkMail {
     );
 
     return ListAliasesResponse.fromJson(jsonResponse.body);
+  }
+
+  /// List all the <code>AvailabilityConfiguration</code>'s for the given
+  /// WorkMail organization.
+  ///
+  /// May throw [OrganizationNotFoundException].
+  /// May throw [OrganizationStateException].
+  ///
+  /// Parameter [organizationId] :
+  /// The Amazon WorkMail organization for which the
+  /// <code>AvailabilityConfiguration</code>'s will be listed.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in a single call.
+  ///
+  /// Parameter [nextToken] :
+  /// The token to use to retrieve the next page of results. The first call does
+  /// not require a token.
+  Future<ListAvailabilityConfigurationsResponse>
+      listAvailabilityConfigurations({
+    required String organizationId,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    ArgumentError.checkNotNull(organizationId, 'organizationId');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkMailService.ListAvailabilityConfigurations'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'OrganizationId': organizationId,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListAvailabilityConfigurationsResponse.fromJson(jsonResponse.body);
   }
 
   /// Returns an overview of the members of a group. Users and groups can be
@@ -2997,6 +3140,61 @@ class WorkMail {
     );
   }
 
+  /// Performs a test on an availability provider to ensure that access is
+  /// allowed. For EWS, it verifies the provided credentials can be used to
+  /// successfully log in. For Lambda, it verifies that the Lambda function can
+  /// be invoked and that the resource access policy was configured to deny
+  /// anonymous access. An anonymous invocation is one done without providing
+  /// either a <code>SourceArn</code> or <code>SourceAccount</code> header.
+  /// <note>
+  /// The request must contain either one provider definition
+  /// (<code>EwsProvider</code> or <code>LambdaProvider</code>) or the
+  /// <code>DomainName</code> parameter. If the <code>DomainName</code>
+  /// parameter is provided, the configuration stored under the
+  /// <code>DomainName</code> will be tested.
+  /// </note>
+  ///
+  /// May throw [OrganizationNotFoundException].
+  /// May throw [OrganizationStateException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidParameterException].
+  ///
+  /// Parameter [organizationId] :
+  /// The Amazon WorkMail organization where the availability provider will be
+  /// tested.
+  ///
+  /// Parameter [domainName] :
+  /// The domain to which the provider applies. If this field is provided, a
+  /// stored availability provider associated to this domain name will be
+  /// tested.
+  Future<TestAvailabilityConfigurationResponse> testAvailabilityConfiguration({
+    required String organizationId,
+    String? domainName,
+    EwsAvailabilityProvider? ewsProvider,
+    LambdaAvailabilityProvider? lambdaProvider,
+  }) async {
+    ArgumentError.checkNotNull(organizationId, 'organizationId');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkMailService.TestAvailabilityConfiguration'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'OrganizationId': organizationId,
+        if (domainName != null) 'DomainName': domainName,
+        if (ewsProvider != null) 'EwsProvider': ewsProvider,
+        if (lambdaProvider != null) 'LambdaProvider': lambdaProvider,
+      },
+    );
+
+    return TestAvailabilityConfigurationResponse.fromJson(jsonResponse.body);
+  }
+
   /// Untags the specified tags from the specified Amazon WorkMail organization
   /// resource.
   ///
@@ -3026,6 +3224,59 @@ class WorkMail {
       payload: {
         'ResourceARN': resourceARN,
         'TagKeys': tagKeys,
+      },
+    );
+  }
+
+  /// Updates an existing <code>AvailabilityConfiguration</code> for the given
+  /// WorkMail organization and domain.
+  ///
+  /// May throw [OrganizationNotFoundException].
+  /// May throw [OrganizationStateException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidParameterException].
+  ///
+  /// Parameter [domainName] :
+  /// The domain to which the provider applies the availability configuration.
+  ///
+  /// Parameter [organizationId] :
+  /// The Amazon WorkMail organization for which the
+  /// <code>AvailabilityConfiguration</code> will be updated.
+  ///
+  /// Parameter [ewsProvider] :
+  /// The EWS availability provider definition. The request must contain exactly
+  /// one provider definition, either <code>EwsProvider</code> or
+  /// <code>LambdaProvider</code>. The previously stored provider will be
+  /// overridden by the one provided.
+  ///
+  /// Parameter [lambdaProvider] :
+  /// The Lambda availability provider definition. The request must contain
+  /// exactly one provider definition, either <code>EwsProvider</code> or
+  /// <code>LambdaProvider</code>. The previously stored provider will be
+  /// overridden by the one provided.
+  Future<void> updateAvailabilityConfiguration({
+    required String domainName,
+    required String organizationId,
+    EwsAvailabilityProvider? ewsProvider,
+    LambdaAvailabilityProvider? lambdaProvider,
+  }) async {
+    ArgumentError.checkNotNull(domainName, 'domainName');
+    ArgumentError.checkNotNull(organizationId, 'organizationId');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkMailService.UpdateAvailabilityConfiguration'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'DomainName': domainName,
+        'OrganizationId': organizationId,
+        if (ewsProvider != null) 'EwsProvider': ewsProvider,
+        if (lambdaProvider != null) 'LambdaProvider': lambdaProvider,
       },
     );
   }
@@ -3499,6 +3750,103 @@ class AssociateMemberToGroupResponse {
   }
 }
 
+/// List all the <code>AvailabilityConfiguration</code>'s for the given WorkMail
+/// organization.
+class AvailabilityConfiguration {
+  /// The date and time at which the availability configuration was created.
+  final DateTime? dateCreated;
+
+  /// The date and time at which the availability configuration was last modified.
+  final DateTime? dateModified;
+
+  /// Displays the domain to which the provider applies.
+  final String? domainName;
+
+  /// If <code>ProviderType</code> is <code>EWS</code>, then this field contains
+  /// <code>RedactedEwsAvailabilityProvider</code>. Otherwise, it is not requried.
+  final RedactedEwsAvailabilityProvider? ewsProvider;
+
+  /// If ProviderType is <code>LAMBDA</code> then this field contains
+  /// <code>LambdaAvailabilityProvider</code>. Otherwise, it is not required.
+  final LambdaAvailabilityProvider? lambdaProvider;
+
+  /// Displays the provider type that applies to this domain.
+  final AvailabilityProviderType? providerType;
+
+  AvailabilityConfiguration({
+    this.dateCreated,
+    this.dateModified,
+    this.domainName,
+    this.ewsProvider,
+    this.lambdaProvider,
+    this.providerType,
+  });
+
+  factory AvailabilityConfiguration.fromJson(Map<String, dynamic> json) {
+    return AvailabilityConfiguration(
+      dateCreated: timeStampFromJson(json['DateCreated']),
+      dateModified: timeStampFromJson(json['DateModified']),
+      domainName: json['DomainName'] as String?,
+      ewsProvider: json['EwsProvider'] != null
+          ? RedactedEwsAvailabilityProvider.fromJson(
+              json['EwsProvider'] as Map<String, dynamic>)
+          : null,
+      lambdaProvider: json['LambdaProvider'] != null
+          ? LambdaAvailabilityProvider.fromJson(
+              json['LambdaProvider'] as Map<String, dynamic>)
+          : null,
+      providerType:
+          (json['ProviderType'] as String?)?.toAvailabilityProviderType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dateCreated = this.dateCreated;
+    final dateModified = this.dateModified;
+    final domainName = this.domainName;
+    final ewsProvider = this.ewsProvider;
+    final lambdaProvider = this.lambdaProvider;
+    final providerType = this.providerType;
+    return {
+      if (dateCreated != null) 'DateCreated': unixTimestampToJson(dateCreated),
+      if (dateModified != null)
+        'DateModified': unixTimestampToJson(dateModified),
+      if (domainName != null) 'DomainName': domainName,
+      if (ewsProvider != null) 'EwsProvider': ewsProvider,
+      if (lambdaProvider != null) 'LambdaProvider': lambdaProvider,
+      if (providerType != null) 'ProviderType': providerType.toValue(),
+    };
+  }
+}
+
+enum AvailabilityProviderType {
+  ews,
+  lambda,
+}
+
+extension on AvailabilityProviderType {
+  String toValue() {
+    switch (this) {
+      case AvailabilityProviderType.ews:
+        return 'EWS';
+      case AvailabilityProviderType.lambda:
+        return 'LAMBDA';
+    }
+  }
+}
+
+extension on String {
+  AvailabilityProviderType toAvailabilityProviderType() {
+    switch (this) {
+      case 'EWS':
+        return AvailabilityProviderType.ews;
+      case 'LAMBDA':
+        return AvailabilityProviderType.lambda;
+    }
+    throw Exception('$this is not known in enum AvailabilityProviderType');
+  }
+}
+
 /// At least one delegate must be associated to the resource to disable
 /// automatic replies from the resource.
 class BookingOptions {
@@ -3559,6 +3907,19 @@ class CreateAliasResponse {
 
   factory CreateAliasResponse.fromJson(Map<String, dynamic> _) {
     return CreateAliasResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class CreateAvailabilityConfigurationResponse {
+  CreateAvailabilityConfigurationResponse();
+
+  factory CreateAvailabilityConfigurationResponse.fromJson(
+      Map<String, dynamic> _) {
+    return CreateAvailabilityConfigurationResponse();
   }
 
   Map<String, dynamic> toJson() {
@@ -3726,6 +4087,19 @@ class DeleteAliasResponse {
 
   factory DeleteAliasResponse.fromJson(Map<String, dynamic> _) {
     return DeleteAliasResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class DeleteAvailabilityConfigurationResponse {
+  DeleteAvailabilityConfigurationResponse();
+
+  factory DeleteAvailabilityConfigurationResponse.fromJson(
+      Map<String, dynamic> _) {
+    return DeleteAvailabilityConfigurationResponse();
   }
 
   Map<String, dynamic> toJson() {
@@ -4509,6 +4883,44 @@ extension on String {
   }
 }
 
+/// Describes an EWS based availability provider. This is only used as input to
+/// the service.
+class EwsAvailabilityProvider {
+  /// The endpoint of the remote EWS server.
+  final String ewsEndpoint;
+
+  /// The password used to authenticate the remote EWS server.
+  final String ewsPassword;
+
+  /// The username used to authenticate the remote EWS server.
+  final String ewsUsername;
+
+  EwsAvailabilityProvider({
+    required this.ewsEndpoint,
+    required this.ewsPassword,
+    required this.ewsUsername,
+  });
+
+  factory EwsAvailabilityProvider.fromJson(Map<String, dynamic> json) {
+    return EwsAvailabilityProvider(
+      ewsEndpoint: json['EwsEndpoint'] as String,
+      ewsPassword: json['EwsPassword'] as String,
+      ewsUsername: json['EwsUsername'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ewsEndpoint = this.ewsEndpoint;
+    final ewsPassword = this.ewsPassword;
+    final ewsUsername = this.ewsUsername;
+    return {
+      'EwsEndpoint': ewsEndpoint,
+      'EwsPassword': ewsPassword,
+      'EwsUsername': ewsUsername,
+    };
+  }
+}
+
 /// The configuration applied to an organization's folders by its retention
 /// policy.
 class FolderConfiguration {
@@ -4917,6 +5329,30 @@ class Group {
   }
 }
 
+/// Describes a Lambda based availability provider.
+class LambdaAvailabilityProvider {
+  /// The Amazon Resource Name (ARN) of the Lambda that acts as the availability
+  /// provider.
+  final String lambdaArn;
+
+  LambdaAvailabilityProvider({
+    required this.lambdaArn,
+  });
+
+  factory LambdaAvailabilityProvider.fromJson(Map<String, dynamic> json) {
+    return LambdaAvailabilityProvider(
+      lambdaArn: json['LambdaArn'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lambdaArn = this.lambdaArn;
+    return {
+      'LambdaArn': lambdaArn,
+    };
+  }
+}
+
 class ListAccessControlRulesResponse {
   /// The access control rules.
   final List<AccessControlRule>? rules;
@@ -4970,6 +5406,43 @@ class ListAliasesResponse {
     final nextToken = this.nextToken;
     return {
       if (aliases != null) 'Aliases': aliases,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListAvailabilityConfigurationsResponse {
+  /// The list of <code>AvailabilityConfiguration</code>'s that exist for the
+  /// specified Amazon WorkMail organization.
+  final List<AvailabilityConfiguration>? availabilityConfigurations;
+
+  /// The token to use to retrieve the next page of results. The value is
+  /// <code>null</code> when there are no further results to return.
+  final String? nextToken;
+
+  ListAvailabilityConfigurationsResponse({
+    this.availabilityConfigurations,
+    this.nextToken,
+  });
+
+  factory ListAvailabilityConfigurationsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListAvailabilityConfigurationsResponse(
+      availabilityConfigurations: (json['AvailabilityConfigurations'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              AvailabilityConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final availabilityConfigurations = this.availabilityConfigurations;
+    final nextToken = this.nextToken;
+    return {
+      if (availabilityConfigurations != null)
+        'AvailabilityConfigurations': availabilityConfigurations,
       if (nextToken != null) 'NextToken': nextToken,
     };
   }
@@ -6075,6 +6548,37 @@ class PutRetentionPolicyResponse {
   }
 }
 
+/// Describes an EWS based availability provider when returned from the service.
+/// It does not contain the password of the endpoint.
+class RedactedEwsAvailabilityProvider {
+  /// The endpoint of the remote EWS server.
+  final String? ewsEndpoint;
+
+  /// The username used to authenticate the remote EWS server.
+  final String? ewsUsername;
+
+  RedactedEwsAvailabilityProvider({
+    this.ewsEndpoint,
+    this.ewsUsername,
+  });
+
+  factory RedactedEwsAvailabilityProvider.fromJson(Map<String, dynamic> json) {
+    return RedactedEwsAvailabilityProvider(
+      ewsEndpoint: json['EwsEndpoint'] as String?,
+      ewsUsername: json['EwsUsername'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ewsEndpoint = this.ewsEndpoint;
+    final ewsUsername = this.ewsUsername;
+    return {
+      if (ewsEndpoint != null) 'EwsEndpoint': ewsEndpoint,
+      if (ewsUsername != null) 'EwsUsername': ewsUsername,
+    };
+  }
+}
+
 class RegisterMailDomainResponse {
   RegisterMailDomainResponse();
 
@@ -6302,11 +6806,55 @@ class TagResourceResponse {
   }
 }
 
+class TestAvailabilityConfigurationResponse {
+  /// String containing the reason for a failed test if <code>TestPassed</code> is
+  /// false.
+  final String? failureReason;
+
+  /// Boolean indicating whether the test passed or failed.
+  final bool? testPassed;
+
+  TestAvailabilityConfigurationResponse({
+    this.failureReason,
+    this.testPassed,
+  });
+
+  factory TestAvailabilityConfigurationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return TestAvailabilityConfigurationResponse(
+      failureReason: json['FailureReason'] as String?,
+      testPassed: json['TestPassed'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final failureReason = this.failureReason;
+    final testPassed = this.testPassed;
+    return {
+      if (failureReason != null) 'FailureReason': failureReason,
+      if (testPassed != null) 'TestPassed': testPassed,
+    };
+  }
+}
+
 class UntagResourceResponse {
   UntagResourceResponse();
 
   factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
     return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateAvailabilityConfigurationResponse {
+  UpdateAvailabilityConfigurationResponse();
+
+  factory UpdateAvailabilityConfigurationResponse.fromJson(
+      Map<String, dynamic> _) {
+    return UpdateAvailabilityConfigurationResponse();
   }
 
   Map<String, dynamic> toJson() {

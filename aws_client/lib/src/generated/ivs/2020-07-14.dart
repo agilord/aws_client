@@ -471,10 +471,16 @@ class Ivs {
   /// Parameter [tags] :
   /// Array of 1-50 maps, each of the form <code>string:string
   /// (key:value)</code>.
+  ///
+  /// Parameter [thumbnailConfiguration] :
+  /// A complex type that allows you to enable/disable the recording of
+  /// thumbnails for a live session and modify the interval at which thumbnails
+  /// are generated for the live session.
   Future<CreateRecordingConfigurationResponse> createRecordingConfiguration({
     required DestinationConfiguration destinationConfiguration,
     String? name,
     Map<String, String>? tags,
+    ThumbnailConfiguration? thumbnailConfiguration,
   }) async {
     ArgumentError.checkNotNull(
         destinationConfiguration, 'destinationConfiguration');
@@ -482,6 +488,8 @@ class Ivs {
       'destinationConfiguration': destinationConfiguration,
       if (name != null) 'name': name,
       if (tags != null) 'tags': tags,
+      if (thumbnailConfiguration != null)
+        'thumbnailConfiguration': thumbnailConfiguration,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1061,6 +1069,7 @@ class Ivs {
   /// Web Services region where the API request is processed.
   ///
   /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [filterBy] :
   /// Filters the stream list to match the specified criterion.
@@ -2171,7 +2180,7 @@ class ListStreamKeysResponse {
 }
 
 class ListStreamSessionsResponse {
-  /// <p/>
+  /// List of stream sessions.
   final List<StreamSessionSummary> streamSessions;
 
   /// If there are more streams than <code>maxResults</code>, use
@@ -2362,12 +2371,18 @@ class RecordingConfiguration {
   /// Array of 1-50 maps, each of the form <code>string:string (key:value)</code>.
   final Map<String, String>? tags;
 
+  /// A complex type that allows you to enable/disable the recording of thumbnails
+  /// for a live session and modify the interval at which thumbnails are generated
+  /// for the live session.
+  final ThumbnailConfiguration? thumbnailConfiguration;
+
   RecordingConfiguration({
     required this.arn,
     required this.destinationConfiguration,
     required this.state,
     this.name,
     this.tags,
+    this.thumbnailConfiguration,
   });
 
   factory RecordingConfiguration.fromJson(Map<String, dynamic> json) {
@@ -2379,6 +2394,10 @@ class RecordingConfiguration {
       name: json['name'] as String?,
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
+      thumbnailConfiguration: json['thumbnailConfiguration'] != null
+          ? ThumbnailConfiguration.fromJson(
+              json['thumbnailConfiguration'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -2388,12 +2407,15 @@ class RecordingConfiguration {
     final state = this.state;
     final name = this.name;
     final tags = this.tags;
+    final thumbnailConfiguration = this.thumbnailConfiguration;
     return {
       'arn': arn,
       'destinationConfiguration': destinationConfiguration,
       'state': state.toValue(),
       if (name != null) 'name': name,
       if (tags != null) 'tags': tags,
+      if (thumbnailConfiguration != null)
+        'thumbnailConfiguration': thumbnailConfiguration,
     };
   }
 }
@@ -2484,6 +2506,34 @@ class RecordingConfigurationSummary {
       if (name != null) 'name': name,
       if (tags != null) 'tags': tags,
     };
+  }
+}
+
+enum RecordingMode {
+  disabled,
+  interval,
+}
+
+extension on RecordingMode {
+  String toValue() {
+    switch (this) {
+      case RecordingMode.disabled:
+        return 'DISABLED';
+      case RecordingMode.interval:
+        return 'INTERVAL';
+    }
+  }
+}
+
+extension on String {
+  RecordingMode toRecordingMode() {
+    switch (this) {
+      case 'DISABLED':
+        return RecordingMode.disabled;
+      case 'INTERVAL':
+        return RecordingMode.interval;
+    }
+    throw Exception('$this is not known in enum RecordingMode');
   }
 }
 
@@ -3006,6 +3056,49 @@ class TagResourceResponse {
 
   Map<String, dynamic> toJson() {
     return {};
+  }
+}
+
+/// An object representing a configuration of thumbnails for recorded video.
+class ThumbnailConfiguration {
+  /// Thumbnail recording mode. Default: <code>INTERVAL</code>.
+  final RecordingMode? recordingMode;
+
+  /// The targeted thumbnail-generation interval in seconds. This is configurable
+  /// (and required) only if <code>recordingMode</code> is <code>INTERVAL</code>.
+  /// Default: 60.
+  ///
+  /// <b>Important:</b> Setting a value for <code>targetIntervalSeconds</code>
+  /// does not guarantee that thumbnails are generated at the specified interval.
+  /// For thumbnails to be generated at the <code>targetIntervalSeconds</code>
+  /// interval, the <code>IDR/Keyframe</code> value for the input video must be
+  /// less than the <code>targetIntervalSeconds</code> value. See <a
+  /// href="https://docs.aws.amazon.com/ivs/latest/userguide/streaming-config.html">
+  /// Amazon IVS Streaming Configuration</a> for information on setting
+  /// <code>IDR/Keyframe</code> to the recommended value in video-encoder
+  /// settings.
+  final int? targetIntervalSeconds;
+
+  ThumbnailConfiguration({
+    this.recordingMode,
+    this.targetIntervalSeconds,
+  });
+
+  factory ThumbnailConfiguration.fromJson(Map<String, dynamic> json) {
+    return ThumbnailConfiguration(
+      recordingMode: (json['recordingMode'] as String?)?.toRecordingMode(),
+      targetIntervalSeconds: json['targetIntervalSeconds'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final recordingMode = this.recordingMode;
+    final targetIntervalSeconds = this.targetIntervalSeconds;
+    return {
+      if (recordingMode != null) 'recordingMode': recordingMode.toValue(),
+      if (targetIntervalSeconds != null)
+        'targetIntervalSeconds': targetIntervalSeconds,
+    };
   }
 }
 

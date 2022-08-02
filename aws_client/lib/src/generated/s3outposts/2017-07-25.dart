@@ -37,17 +37,9 @@ class S3Outposts {
           endpointUrl: endpointUrl,
         );
 
-  /// Amazon S3 on Outposts Access Points simplify managing data access at scale
-  /// for shared datasets in S3 on Outposts. S3 on Outposts uses endpoints to
-  /// connect to Outposts buckets so that you can perform actions within your
-  /// virtual private cloud (VPC). For more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/AccessingS3Outposts.html">
-  /// Accessing S3 on Outposts using VPC only access points</a>.
-  ///
-  /// This action creates an endpoint and associates it with the specified
-  /// Outposts.
+  /// Creates an endpoint and associates it with the specified Outpost.
   /// <note>
-  /// It can take up to 5 minutes for this action to complete.
+  /// It can take up to 5 minutes for this action to finish.
   /// </note> <p/>
   /// Related actions include:
   ///
@@ -69,23 +61,29 @@ class S3Outposts {
   /// May throw [ConflictException].
   ///
   /// Parameter [outpostId] :
-  /// The ID of the AWS Outposts.
+  /// The ID of the Outposts.
   ///
   /// Parameter [securityGroupId] :
   /// The ID of the security group to use with the endpoint.
   ///
   /// Parameter [subnetId] :
   /// The ID of the subnet in the selected VPC. The endpoint subnet must belong
-  /// to the Outpost that has the Amazon S3 on Outposts provisioned.
+  /// to the Outpost that has Amazon S3 on Outposts provisioned.
   ///
   /// Parameter [accessType] :
-  /// The type of access for the on-premise network connectivity for the Outpost
-  /// endpoint. To access the endpoint from an on-premises network, you must
-  /// specify the access type and provide the customer owned IPv4 pool.
+  /// The type of access for the network connectivity for the Amazon S3 on
+  /// Outposts endpoint. To use the Amazon Web Services VPC, choose
+  /// <code>Private</code>. To use the endpoint with an on-premises network,
+  /// choose <code>CustomerOwnedIp</code>. If you choose
+  /// <code>CustomerOwnedIp</code>, you must also provide the customer-owned IP
+  /// address pool (CoIP pool).
+  /// <note>
+  /// <code>Private</code> is the default access type value.
+  /// </note>
   ///
   /// Parameter [customerOwnedIpv4Pool] :
-  /// The ID of the customer-owned IPv4 pool for the endpoint. IP addresses will
-  /// be allocated from this pool for the endpoint.
+  /// The ID of the customer-owned IPv4 address pool (CoIP pool) for the
+  /// endpoint. IP addresses are allocated from this pool for the endpoint.
   Future<CreateEndpointResult> createEndpoint({
     required String outpostId,
     required String securityGroupId,
@@ -113,16 +111,9 @@ class S3Outposts {
     return CreateEndpointResult.fromJson(response);
   }
 
-  /// Amazon S3 on Outposts Access Points simplify managing data access at scale
-  /// for shared datasets in S3 on Outposts. S3 on Outposts uses endpoints to
-  /// connect to Outposts buckets so that you can perform actions within your
-  /// virtual private cloud (VPC). For more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/AccessingS3Outposts.html">
-  /// Accessing S3 on Outposts using VPC only access points</a>.
-  ///
-  /// This action deletes an endpoint.
+  /// Deletes an endpoint.
   /// <note>
-  /// It can take up to 5 minutes for this action to complete.
+  /// It can take up to 5 minutes for this action to finish.
   /// </note> <p/>
   /// Related actions include:
   ///
@@ -146,7 +137,7 @@ class S3Outposts {
   /// The ID of the endpoint.
   ///
   /// Parameter [outpostId] :
-  /// The ID of the AWS Outposts.
+  /// The ID of the Outposts.
   Future<void> deleteEndpoint({
     required String endpointId,
     required String outpostId,
@@ -166,15 +157,8 @@ class S3Outposts {
     );
   }
 
-  /// Amazon S3 on Outposts Access Points simplify managing data access at scale
-  /// for shared datasets in S3 on Outposts. S3 on Outposts uses endpoints to
-  /// connect to Outposts buckets so that you can perform actions within your
-  /// virtual private cloud (VPC). For more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/AccessingS3Outposts.html">
-  /// Accessing S3 on Outposts using VPC only access points</a>.
+  /// Lists endpoints associated with the specified Outpost.
   ///
-  /// This action lists endpoints associated with the Outposts.
-  /// <p/>
   /// Related actions include:
   ///
   /// <ul>
@@ -194,10 +178,12 @@ class S3Outposts {
   /// May throw [ValidationException].
   ///
   /// Parameter [maxResults] :
-  /// The max number of endpoints that can be returned on the request.
+  /// The maximum number of endpoints that will be returned in the response.
   ///
   /// Parameter [nextToken] :
-  /// The next endpoint requested in the list.
+  /// If a previous response from this operation included a
+  /// <code>NextToken</code> value, provide that value here to retrieve the next
+  /// page of results.
   Future<ListEndpointsResult> listEndpoints({
     int? maxResults,
     String? nextToken,
@@ -220,6 +206,64 @@ class S3Outposts {
       exceptionFnMap: _exceptionFns,
     );
     return ListEndpointsResult.fromJson(response);
+  }
+
+  /// Lists all endpoints associated with an Outpost that has been shared by
+  /// Amazon Web Services Resource Access Manager (RAM).
+  ///
+  /// Related actions include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_s3outposts_CreateEndpoint.html">CreateEndpoint</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_s3outposts_DeleteEndpoint.html">DeleteEndpoint</a>
+  /// </li>
+  /// </ul>
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [outpostId] :
+  /// The ID of the Amazon Web Services Outpost.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of endpoints that will be returned in the response.
+  ///
+  /// Parameter [nextToken] :
+  /// If a previous response from this operation included a
+  /// <code>NextToken</code> value, you can provide that value here to retrieve
+  /// the next page of results.
+  Future<ListSharedEndpointsResult> listSharedEndpoints({
+    required String outpostId,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    ArgumentError.checkNotNull(outpostId, 'outpostId');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      100,
+    );
+    final $query = <String, List<String>>{
+      'outpostId': [outpostId],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/S3Outposts/ListSharedEndpoints',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListSharedEndpointsResult.fromJson(response);
   }
 }
 
@@ -249,10 +293,11 @@ class CreateEndpointResult {
 /// for shared datasets in S3 on Outposts. S3 on Outposts uses endpoints to
 /// connect to Outposts buckets so that you can perform actions within your
 /// virtual private cloud (VPC). For more information, see <a
-/// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/AccessingS3Outposts.html">
-/// Accessing S3 on Outposts using VPC only access points</a>.
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/WorkingWithS3Outposts.html">
+/// Accessing S3 on Outposts using VPC-only access points</a> in the <i>Amazon
+/// Simple Storage Service User Guide</i>.
 class Endpoint {
-  /// <p/>
+  /// The type of connectivity used to access the Amazon S3 on Outposts endpoint.
   final EndpointAccessType? accessType;
 
   /// The VPC CIDR committed by this endpoint.
@@ -261,7 +306,7 @@ class Endpoint {
   /// The time the endpoint was created.
   final DateTime? creationTime;
 
-  /// The ID of the customer-owned IPv4 pool used for the endpoint.
+  /// The ID of the customer-owned IPv4 address pool used for the endpoint.
   final String? customerOwnedIpv4Pool;
 
   /// The Amazon Resource Name (ARN) of the endpoint.
@@ -270,7 +315,7 @@ class Endpoint {
   /// The network interface of the endpoint.
   final List<NetworkInterface>? networkInterfaces;
 
-  /// The ID of the AWS Outposts.
+  /// The ID of the Outposts.
   final String? outpostsId;
 
   /// The ID of the security group used for the endpoint.
@@ -410,10 +455,12 @@ extension on String {
 }
 
 class ListEndpointsResult {
-  /// Returns an array of endpoints associated with AWS Outposts.
+  /// The list of endpoints associated with the specified Outpost.
   final List<Endpoint>? endpoints;
 
-  /// The next endpoint returned in the list.
+  /// If the number of endpoints associated with the specified Outpost exceeds
+  /// <code>MaxResults</code>, you can include this value in subsequent calls to
+  /// this operation to retrieve more results.
   final String? nextToken;
 
   ListEndpointsResult({
@@ -423,6 +470,41 @@ class ListEndpointsResult {
 
   factory ListEndpointsResult.fromJson(Map<String, dynamic> json) {
     return ListEndpointsResult(
+      endpoints: (json['Endpoints'] as List?)
+          ?.whereNotNull()
+          .map((e) => Endpoint.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endpoints = this.endpoints;
+    final nextToken = this.nextToken;
+    return {
+      if (endpoints != null) 'Endpoints': endpoints,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListSharedEndpointsResult {
+  /// The list of endpoints associated with the specified Outpost that have been
+  /// shared by Amazon Web Services Resource Access Manager (RAM).
+  final List<Endpoint>? endpoints;
+
+  /// If the number of endpoints associated with the specified Outpost exceeds
+  /// <code>MaxResults</code>, you can include this value in subsequent calls to
+  /// this operation to retrieve more results.
+  final String? nextToken;
+
+  ListSharedEndpointsResult({
+    this.endpoints,
+    this.nextToken,
+  });
+
+  factory ListSharedEndpointsResult.fromJson(Map<String, dynamic> json) {
+    return ListSharedEndpointsResult(
       endpoints: (json['Endpoints'] as List?)
           ?.whereNotNull()
           .map((e) => Endpoint.fromJson(e as Map<String, dynamic>))

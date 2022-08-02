@@ -256,7 +256,8 @@ class Ram {
   /// Parameter [permissionVersion] :
   /// Specifies the version of the RAM permission to associate with the resource
   /// share. If you don't specify this parameter, the operation uses the version
-  /// designated as the default.
+  /// designated as the default. You can use the <a>ListPermissionVersions</a>
+  /// operation to discover the available versions of a permission.
   ///
   /// Parameter [replace] :
   /// Specifies whether the specified permission should replace or add to the
@@ -957,11 +958,12 @@ class Ram {
   ///
   /// <ul>
   /// <li>
-  /// <b> <code>SELF</code> </b> – resources that you are sharing
+  /// <b> <code>SELF</code> </b> – resource shares that your account shares with
+  /// other accounts
   /// </li>
   /// <li>
-  /// <b> <code>OTHER-ACCOUNTS</code> </b> – resources that other accounts share
-  /// with you
+  /// <b> <code>OTHER-ACCOUNTS</code> </b> – resource shares that other accounts
+  /// share with your account
   /// </li>
   /// </ul>
   ///
@@ -1134,6 +1136,68 @@ class Ram {
     return ListPendingInvitationResourcesResponse.fromJson(response);
   }
 
+  /// Lists the available versions of the specified RAM permission.
+  ///
+  /// May throw [MalformedArnException].
+  /// May throw [UnknownResourceException].
+  /// May throw [InvalidNextTokenException].
+  /// May throw [ServerInternalException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [OperationNotPermittedException].
+  /// May throw [InvalidParameterException].
+  ///
+  /// Parameter [permissionArn] :
+  /// Specifies the <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resoure Name (ARN)</a> of the RAM permission whose versions you want to
+  /// list. You can use the <code>permissionVersion</code> parameter on the
+  /// <a>AssociateResourceSharePermission</a> operation to specify a non-default
+  /// version to attach.
+  ///
+  /// Parameter [maxResults] :
+  /// Specifies the total number of results that you want included on each page
+  /// of the response. If you do not include this parameter, it defaults to a
+  /// value that is specific to the operation. If additional items exist beyond
+  /// the number you specify, the <code>NextToken</code> response element is
+  /// returned with a value (not null). Include the specified value as the
+  /// <code>NextToken</code> request parameter in the next call to the operation
+  /// to get the next part of the results. Note that the service might return
+  /// fewer results than the maximum even when there are more results available.
+  /// You should check <code>NextToken</code> after every operation to ensure
+  /// that you receive all of the results.
+  ///
+  /// Parameter [nextToken] :
+  /// Specifies that you want to receive the next page of results. Valid only if
+  /// you received a <code>NextToken</code> response in the previous request. If
+  /// you did, it indicates that more output is available. Set this parameter to
+  /// the value provided by the previous call's <code>NextToken</code> response
+  /// to request the next page of results.
+  Future<ListPermissionVersionsResponse> listPermissionVersions({
+    required String permissionArn,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    ArgumentError.checkNotNull(permissionArn, 'permissionArn');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      500,
+    );
+    final $payload = <String, dynamic>{
+      'permissionArn': permissionArn,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/listpermissionversions',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListPermissionVersionsResponse.fromJson(response);
+  }
+
   /// Retrieves a list of available RAM permissions that you can use for the
   /// supported resource types.
   ///
@@ -1208,11 +1272,12 @@ class Ram {
   ///
   /// <ul>
   /// <li>
-  /// <b> <code>SELF</code> </b> – resources that you are sharing
+  /// <b> <code>SELF</code> </b> – principals that your account is sharing
+  /// resources with
   /// </li>
   /// <li>
-  /// <b> <code>OTHER-ACCOUNTS</code> </b> – resources that other accounts share
-  /// with you
+  /// <b> <code>OTHER-ACCOUNTS</code> </b> – principals that are sharing
+  /// resources with your account
   /// </li>
   /// </ul>
   ///
@@ -1453,7 +1518,7 @@ class Ram {
     return ListResourceTypesResponse.fromJson(response);
   }
 
-  /// Lists the resources that you added to a resource shares or the resources
+  /// Lists the resources that you added to a resource share or the resources
   /// that are shared with you.
   ///
   /// May throw [InvalidResourceTypeException].
@@ -1470,11 +1535,12 @@ class Ram {
   ///
   /// <ul>
   /// <li>
-  /// <b> <code>SELF</code> </b> – resources that you are sharing
+  /// <b> <code>SELF</code> </b> – resources that your account shares with other
+  /// accounts
   /// </li>
   /// <li>
   /// <b> <code>OTHER-ACCOUNTS</code> </b> – resources that other accounts share
-  /// with you
+  /// with your account
   /// </li>
   /// </ul>
   ///
@@ -2292,6 +2358,44 @@ class ListPendingInvitationResourcesResponse {
     return {
       if (nextToken != null) 'nextToken': nextToken,
       if (resources != null) 'resources': resources,
+    };
+  }
+}
+
+class ListPermissionVersionsResponse {
+  /// If present, this value indicates that more output is available than is
+  /// included in the current response. Use this value in the
+  /// <code>NextToken</code> request parameter in a subsequent call to the
+  /// operation to get the next part of the output. You should repeat this until
+  /// the <code>NextToken</code> response element comes back as <code>null</code>.
+  /// This indicates that this is the last page of results.
+  final String? nextToken;
+
+  /// An array of objects that contain details for each of the available versions.
+  final List<ResourceSharePermissionSummary>? permissions;
+
+  ListPermissionVersionsResponse({
+    this.nextToken,
+    this.permissions,
+  });
+
+  factory ListPermissionVersionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListPermissionVersionsResponse(
+      nextToken: json['nextToken'] as String?,
+      permissions: (json['permissions'] as List?)
+          ?.whereNotNull()
+          .map((e) => ResourceSharePermissionSummary.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final permissions = this.permissions;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (permissions != null) 'permissions': permissions,
     };
   }
 }

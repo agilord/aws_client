@@ -63,7 +63,7 @@
           "shape": "ConflictException"
         }
       ],
-      "documentation": "<p>Adds one or more tags to a trail, up to a limit of 50. Overwrites an existing tag's value when a new value is specified for an existing tag key. Tag key names must be unique for a trail; you cannot have two keys with the same name but different values. If you specify a key without a value, the tag will be created with the specified key and a value of null. You can tag a trail that applies to all Amazon Web Services Regions only from the Region in which the trail was created (also known as its home region).</p>",
+      "documentation": "<p>Adds one or more tags to a trail or event data store, up to a limit of 50. Overwrites an existing tag's value when a new value is specified for an existing tag key. Tag key names must be unique for a trail; you cannot have two keys with the same name but different values. If you specify a key without a value, the tag will be created with the specified key and a value of null. You can tag a trail or event data store that applies to all Amazon Web Services Regions only from the Region in which the trail or event data store was created (also known as its home region).</p>",
       "idempotent": true
     },
     "CancelQuery": {
@@ -107,7 +107,7 @@
           "shape": "ConflictException"
         }
       ],
-      "documentation": "<p>Cancels a query if the query is not in a terminated state, such as <code>CANCELLED</code>, <code>FAILED</code> or <code>FINISHED</code>. You must specify an ARN value for <code>EventDataStore</code>. The ID of the query that you want to cancel is also required. When you run <code>CancelQuery</code>, the query status might show as <code>CANCELLED</code> even if the operation is not yet finished.</p>",
+      "documentation": "<p>Cancels a query if the query is not in a terminated state, such as <code>CANCELLED</code>, <code>FAILED</code>, <code>TIMED_OUT</code>, or <code>FINISHED</code>. You must specify an ARN value for <code>EventDataStore</code>. The ID of the query that you want to cancel is also required. When you run <code>CancelQuery</code>, the query status might show as <code>CANCELLED</code> even if the operation is not yet finished.</p>",
       "idempotent": true
     },
     "CreateEventDataStore": {
@@ -304,7 +304,7 @@
           "shape": "InsufficientDependencyServiceAccessPermissionException"
         }
       ],
-      "documentation": "<p>Disables the event data store specified by <code>EventDataStore</code>, which accepts an event data store ARN. After you run <code>DeleteEventDataStore</code>, the event data store is automatically deleted after a wait period of seven days. <code>TerminationProtectionEnabled</code> must be set to <code>False</code> on the event data store; this operation cannot work if <code>TerminationProtectionEnabled</code> is <code>True</code>.</p> <p>After you run <code>DeleteEventDataStore</code> on an event data store, you cannot run <code>ListQueries</code>, <code>DescribeQuery</code>, or <code>GetQueryResults</code> on queries that are using an event data store in a <code>PENDING_DELETION</code> state.</p>"
+      "documentation": "<p>Disables the event data store specified by <code>EventDataStore</code>, which accepts an event data store ARN. After you run <code>DeleteEventDataStore</code>, the event data store enters a <code>PENDING_DELETION</code> state, and is automatically deleted after a wait period of seven days. <code>TerminationProtectionEnabled</code> must be set to <code>False</code> on the event data store; this operation cannot work if <code>TerminationProtectionEnabled</code> is <code>True</code>.</p> <p>After you run <code>DeleteEventDataStore</code> on an event data store, you cannot run <code>ListQueries</code>, <code>DescribeQuery</code>, or <code>GetQueryResults</code> on queries that are using an event data store in a <code>PENDING_DELETION</code> state. An event data store in the <code>PENDING_DELETION</code> state does not incur costs.</p>"
     },
     "DeleteTrail": {
       "name": "DeleteTrail",
@@ -707,7 +707,7 @@
           "shape": "UnsupportedOperationException"
         }
       ],
-      "documentation": "<p>Returns a list of queries and query statuses for the past seven days. You must specify an ARN value for <code>EventDataStore</code>. Optionally, to shorten the list of results, you can specify a time range, formatted as timestamps, by adding <code>StartTime</code> and <code>EndTime</code> parameters, and a <code>QueryStatus</code> value. Valid values for <code>QueryStatus</code> include <code>QUEUED</code>, <code>RUNNING</code>, <code>FINISHED</code>, <code>FAILED</code>, or <code>CANCELLED</code>.</p>",
+      "documentation": "<p>Returns a list of queries and query statuses for the past seven days. You must specify an ARN value for <code>EventDataStore</code>. Optionally, to shorten the list of results, you can specify a time range, formatted as timestamps, by adding <code>StartTime</code> and <code>EndTime</code> parameters, and a <code>QueryStatus</code> value. Valid values for <code>QueryStatus</code> include <code>QUEUED</code>, <code>RUNNING</code>, <code>FINISHED</code>, <code>FAILED</code>, <code>TIMED_OUT</code>, or <code>CANCELLED</code>.</p>",
       "idempotent": true
     },
     "ListTags": {
@@ -751,7 +751,7 @@
           "shape": "InvalidTokenException"
         }
       ],
-      "documentation": "<p>Lists the tags for the trail in the current region.</p>",
+      "documentation": "<p>Lists the tags for the trail or event data store in the current region.</p>",
       "idempotent": true
     },
     "ListTrails": {
@@ -950,7 +950,7 @@
           "shape": "NotOrganizationMasterAccountException"
         }
       ],
-      "documentation": "<p>Removes the specified tags from a trail.</p>",
+      "documentation": "<p>Removes the specified tags from a trail or event data store.</p>",
       "idempotent": true
     },
     "RestoreEventDataStore": {
@@ -1284,14 +1284,14 @@
       "members": {
         "ResourceId": {
           "shape": "String",
-          "documentation": "<p>Specifies the ARN of the trail to which one or more tags will be added. The format of a trail ARN is:</p> <p> <code>arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail</code> </p>"
+          "documentation": "<p>Specifies the ARN of the trail or event data store to which one or more tags will be added. The format of a trail ARN is:</p> <p> <code>arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail</code> </p>"
         },
         "TagsList": {
           "shape": "TagsList",
           "documentation": "<p>Contains a list of tags, up to a limit of 50</p>"
         }
       },
-      "documentation": "<p>Specifies the tags to add to a trail.</p>"
+      "documentation": "<p>Specifies the tags to add to a trail or event data store.</p>"
     },
     "AddTagsResponse": {
       "type": "structure",
@@ -1329,7 +1329,7 @@
       "members": {
         "Field": {
           "shape": "SelectorField",
-          "documentation": "<p> A field in an event record on which to filter events to be logged. Supported fields include <code>readOnly</code>, <code>eventCategory</code>, <code>eventSource</code> (for management events), <code>eventName</code>, <code>resources.type</code>, and <code>resources.ARN</code>. </p> <ul> <li> <p> <b> <code>readOnly</code> </b> - Optional. Can be set to <code>Equals</code> a value of <code>true</code> or <code>false</code>. A value of <code>false</code> logs both <code>read</code> and <code>write</code> events.</p> </li> <li> <p> <b> <code>eventSource</code> </b> - For filtering management events only. This can be set only to <code>NotEquals</code> <code>kms.amazonaws.com</code>.</p> </li> <li> <p> <b> <code>eventName</code> </b> - Can use any operator. You can use it to ﬁlter in or ﬁlter out any data event logged to CloudTrail, such as <code>PutBucket</code> or <code>GetSnapshotBlock</code>. You can have multiple values for this ﬁeld, separated by commas.</p> </li> <li> <p> <b> <code>eventCategory</code> </b> - This is required. It must be set to <code>Equals</code>, and the value must be <code>Management</code> or <code>Data</code>.</p> </li> <li> <p> <b> <code>resources.type</code> </b> - This ﬁeld is required. <code>resources.type</code> can only use the <code>Equals</code> operator, and the value can be one of the following:</p> <ul> <li> <p> <code>AWS::S3::Object</code> </p> </li> <li> <p> <code>AWS::Lambda::Function</code> </p> </li> <li> <p> <code>AWS::DynamoDB::Table</code> </p> </li> <li> <p> <code>AWS::S3Outposts::Object</code> </p> </li> <li> <p> <code>AWS::ManagedBlockchain::Node</code> </p> </li> <li> <p> <code>AWS::S3ObjectLambda::AccessPoint</code> </p> </li> <li> <p> <code>AWS::EC2::Snapshot</code> </p> </li> <li> <p> <code>AWS::S3::AccessPoint</code> </p> </li> <li> <p> <code>AWS::DynamoDB::Stream</code> </p> </li> </ul> <p> You can have only one <code>resources.type</code> ﬁeld per selector. To log data events on more than one resource type, add another selector.</p> </li> <li> <p> <b> <code>resources.ARN</code> </b> - You can use any operator with <code>resources.ARN</code>, but if you use <code>Equals</code> or <code>NotEquals</code>, the value must exactly match the ARN of a valid resource of the type you've speciﬁed in the template as the value of resources.type. For example, if resources.type equals <code>AWS::S3::Object</code>, the ARN must be in one of the following formats. To log all data events for all objects in a specific S3 bucket, use the <code>StartsWith</code> operator, and include only the bucket ARN as the matching value.</p> <p>The trailing slash is intentional; do not exclude it. Replace the text between less than and greater than symbols (&lt;&gt;) with resource-specific information. </p> <ul> <li> <p> <code>arn:&lt;partition&gt;:s3:::&lt;bucket_name&gt;/</code> </p> </li> <li> <p> <code>arn:&lt;partition&gt;:s3:::&lt;bucket_name&gt;/&lt;object_path&gt;/</code> </p> </li> </ul> <p>When <code>resources.type</code> equals <code>AWS::S3::AccessPoint</code>, and the operator is set to <code>Equals</code> or <code>NotEquals</code>, the ARN must be in one of the following formats. To log events on all objects in an S3 access point, we recommend that you use only the access point ARN, don’t include the object path, and use the <code>StartsWith</code> or <code>NotStartsWith</code> operators.</p> <ul> <li> <p> <code>arn:&lt;partition&gt;:s3:&lt;region&gt;:&lt;account_ID&gt;:accesspoint/&lt;access_point_name&gt;</code> </p> </li> <li> <p> <code>arn:&lt;partition&gt;:s3:&lt;region&gt;:&lt;account_ID&gt;:accesspoint/&lt;access_point_name&gt;/object/&lt;object_path&gt;</code> </p> </li> </ul> <p>When resources.type equals <code>AWS::Lambda::Function</code>, and the operator is set to <code>Equals</code> or <code>NotEquals</code>, the ARN must be in the following format:</p> <ul> <li> <p> <code>arn:&lt;partition&gt;:lambda:&lt;region&gt;:&lt;account_ID&gt;:function:&lt;function_name&gt;</code> </p> </li> </ul> <p>When resources.type equals <code>AWS::DynamoDB::Table</code>, and the operator is set to <code>Equals</code> or <code>NotEquals</code>, the ARN must be in the following format:</p> <ul> <li> <p> <code>arn:&lt;partition&gt;:dynamodb:&lt;region&gt;:&lt;account_ID&gt;:table/&lt;table_name&gt;</code> </p> </li> </ul> <p>When <code>resources.type</code> equals <code>AWS::S3Outposts::Object</code>, and the operator is set to <code>Equals</code> or <code>NotEquals</code>, the ARN must be in the following format:</p> <ul> <li> <p> <code>arn:&lt;partition&gt;:s3-outposts:&lt;region&gt;:&lt;account_ID&gt;:&lt;object_path&gt;</code> </p> </li> </ul> <p>When <code>resources.type</code> equals <code>AWS::ManagedBlockchain::Node</code>, and the operator is set to <code>Equals</code> or <code>NotEquals</code>, the ARN must be in the following format:</p> <ul> <li> <p> <code>arn:&lt;partition&gt;:managedblockchain:&lt;region&gt;:&lt;account_ID&gt;:nodes/&lt;node_ID&gt;</code> </p> </li> </ul> <p>When <code>resources.type</code> equals <code>AWS::S3ObjectLambda::AccessPoint</code>, and the operator is set to <code>Equals</code> or <code>NotEquals</code>, the ARN must be in the following format:</p> <ul> <li> <p> <code>arn:&lt;partition&gt;:s3-object-lambda:&lt;region&gt;:&lt;account_ID&gt;:accesspoint/&lt;access_point_name&gt;</code> </p> </li> </ul> <p>When <code>resources.type</code> equals <code>AWS::EC2::Snapshot</code>, and the operator is set to <code>Equals</code> or <code>NotEquals</code>, the ARN must be in the following format:</p> <ul> <li> <p> <code>arn:&lt;partition&gt;:ec2:&lt;region&gt;::snapshot/&lt;snapshot_ID&gt;</code> </p> </li> </ul> <p>When <code>resources.type</code> equals <code>AWS::DynamoDB::Stream</code>, and the operator is set to <code>Equals</code> or <code>NotEquals</code>, the ARN must be in the following format:</p> <ul> <li> <p> <code>arn:&lt;partition&gt;:dynamodb:&lt;region&gt;:&lt;account_ID&gt;:table/&lt;table_name&gt;/stream/&lt;date_time&gt;</code> </p> </li> </ul> </li> </ul>"
+          "documentation": "<p> A field in an event record on which to filter events to be logged. Supported fields include <code>readOnly</code>, <code>eventCategory</code>, <code>eventSource</code> (for management events), <code>eventName</code>, <code>resources.type</code>, and <code>resources.ARN</code>. </p> <ul> <li> <p> <b> <code>readOnly</code> </b> - Optional. Can be set to <code>Equals</code> a value of <code>true</code> or <code>false</code>. If you do not add this field, CloudTrail logs both both <code>read</code> and <code>write</code> events. A value of <code>true</code> logs only <code>read</code> events. A value of <code>false</code> logs only <code>write</code> events.</p> </li> <li> <p> <b> <code>eventSource</code> </b> - For filtering management events only. This can be set only to <code>NotEquals</code> <code>kms.amazonaws.com</code>.</p> </li> <li> <p> <b> <code>eventName</code> </b> - Can use any operator. You can use it to ﬁlter in or ﬁlter out any data event logged to CloudTrail, such as <code>PutBucket</code> or <code>GetSnapshotBlock</code>. You can have multiple values for this ﬁeld, separated by commas.</p> </li> <li> <p> <b> <code>eventCategory</code> </b> - This is required. It must be set to <code>Equals</code>, and the value must be <code>Management</code> or <code>Data</code>.</p> </li> <li> <p> <b> <code>resources.type</code> </b> - This ﬁeld is required. <code>resources.type</code> can only use the <code>Equals</code> operator, and the value can be one of the following:</p> <ul> <li> <p> <code>AWS::S3::Object</code> </p> </li> <li> <p> <code>AWS::Lambda::Function</code> </p> </li> <li> <p> <code>AWS::DynamoDB::Table</code> </p> </li> <li> <p> <code>AWS::S3Outposts::Object</code> </p> </li> <li> <p> <code>AWS::ManagedBlockchain::Node</code> </p> </li> <li> <p> <code>AWS::S3ObjectLambda::AccessPoint</code> </p> </li> <li> <p> <code>AWS::EC2::Snapshot</code> </p> </li> <li> <p> <code>AWS::S3::AccessPoint</code> </p> </li> <li> <p> <code>AWS::DynamoDB::Stream</code> </p> </li> <li> <p> <code>AWS::Glue::Table</code> </p> </li> </ul> <p> You can have only one <code>resources.type</code> ﬁeld per selector. To log data events on more than one resource type, add another selector.</p> </li> <li> <p> <b> <code>resources.ARN</code> </b> - You can use any operator with <code>resources.ARN</code>, but if you use <code>Equals</code> or <code>NotEquals</code>, the value must exactly match the ARN of a valid resource of the type you've speciﬁed in the template as the value of resources.type. For example, if resources.type equals <code>AWS::S3::Object</code>, the ARN must be in one of the following formats. To log all data events for all objects in a specific S3 bucket, use the <code>StartsWith</code> operator, and include only the bucket ARN as the matching value.</p> <p>The trailing slash is intentional; do not exclude it. Replace the text between less than and greater than symbols (&lt;&gt;) with resource-specific information. </p> <ul> <li> <p> <code>arn:&lt;partition&gt;:s3:::&lt;bucket_name&gt;/</code> </p> </li> <li> <p> <code>arn:&lt;partition&gt;:s3:::&lt;bucket_name&gt;/&lt;object_path&gt;/</code> </p> </li> </ul> <p>When <code>resources.type</code> equals <code>AWS::S3::AccessPoint</code>, and the operator is set to <code>Equals</code> or <code>NotEquals</code>, the ARN must be in one of the following formats. To log events on all objects in an S3 access point, we recommend that you use only the access point ARN, don’t include the object path, and use the <code>StartsWith</code> or <code>NotStartsWith</code> operators.</p> <ul> <li> <p> <code>arn:&lt;partition&gt;:s3:&lt;region&gt;:&lt;account_ID&gt;:accesspoint/&lt;access_point_name&gt;</code> </p> </li> <li> <p> <code>arn:&lt;partition&gt;:s3:&lt;region&gt;:&lt;account_ID&gt;:accesspoint/&lt;access_point_name&gt;/object/&lt;object_path&gt;</code> </p> </li> </ul> <p>When resources.type equals <code>AWS::Lambda::Function</code>, and the operator is set to <code>Equals</code> or <code>NotEquals</code>, the ARN must be in the following format:</p> <ul> <li> <p> <code>arn:&lt;partition&gt;:lambda:&lt;region&gt;:&lt;account_ID&gt;:function:&lt;function_name&gt;</code> </p> </li> </ul> <p>When resources.type equals <code>AWS::DynamoDB::Table</code>, and the operator is set to <code>Equals</code> or <code>NotEquals</code>, the ARN must be in the following format:</p> <ul> <li> <p> <code>arn:&lt;partition&gt;:dynamodb:&lt;region&gt;:&lt;account_ID&gt;:table/&lt;table_name&gt;</code> </p> </li> </ul> <p>When <code>resources.type</code> equals <code>AWS::S3Outposts::Object</code>, and the operator is set to <code>Equals</code> or <code>NotEquals</code>, the ARN must be in the following format:</p> <ul> <li> <p> <code>arn:&lt;partition&gt;:s3-outposts:&lt;region&gt;:&lt;account_ID&gt;:&lt;object_path&gt;</code> </p> </li> </ul> <p>When <code>resources.type</code> equals <code>AWS::ManagedBlockchain::Node</code>, and the operator is set to <code>Equals</code> or <code>NotEquals</code>, the ARN must be in the following format:</p> <ul> <li> <p> <code>arn:&lt;partition&gt;:managedblockchain:&lt;region&gt;:&lt;account_ID&gt;:nodes/&lt;node_ID&gt;</code> </p> </li> </ul> <p>When <code>resources.type</code> equals <code>AWS::S3ObjectLambda::AccessPoint</code>, and the operator is set to <code>Equals</code> or <code>NotEquals</code>, the ARN must be in the following format:</p> <ul> <li> <p> <code>arn:&lt;partition&gt;:s3-object-lambda:&lt;region&gt;:&lt;account_ID&gt;:accesspoint/&lt;access_point_name&gt;</code> </p> </li> </ul> <p>When <code>resources.type</code> equals <code>AWS::EC2::Snapshot</code>, and the operator is set to <code>Equals</code> or <code>NotEquals</code>, the ARN must be in the following format:</p> <ul> <li> <p> <code>arn:&lt;partition&gt;:ec2:&lt;region&gt;::snapshot/&lt;snapshot_ID&gt;</code> </p> </li> </ul> <p>When <code>resources.type</code> equals <code>AWS::DynamoDB::Stream</code>, and the operator is set to <code>Equals</code> or <code>NotEquals</code>, the ARN must be in the following format:</p> <ul> <li> <p> <code>arn:&lt;partition&gt;:dynamodb:&lt;region&gt;:&lt;account_ID&gt;:table/&lt;table_name&gt;/stream/&lt;date_time&gt;</code> </p> </li> </ul> <p>When <code>resources.type</code> equals <code>AWS::Glue::Table</code>, and the operator is set to <code>Equals</code> or <code>NotEquals</code>, the ARN must be in the following format:</p> <ul> <li> <p> <code>arn:&lt;partition&gt;:glue:&lt;region&gt;:&lt;account_ID&gt;:table/&lt;database_name&gt;/&lt;table_name&gt;</code> </p> </li> </ul> </li> </ul>"
         },
         "Equals": {
           "shape": "Operator",
@@ -1609,7 +1609,7 @@
       "members": {
         "Type": {
           "shape": "String",
-          "documentation": "<p>The resource type in which you want to log data events. You can specify the following <i>basic</i> event selector resource types:</p> <ul> <li> <p> <code>AWS::S3::Object</code> </p> </li> <li> <p> <code>AWS::Lambda::Function</code> </p> </li> <li> <p> <code>AWS::DynamoDB::Table</code> </p> </li> </ul> <p>The following resource types are also availble through <i>advanced</i> event selectors. Basic event selector resource types are valid in advanced event selectors, but advanced event selector resource types are not valid in basic event selectors. For more information, see <a>AdvancedFieldSelector$Field</a>.</p> <ul> <li> <p> <code>AWS::S3Outposts::Object</code> </p> </li> <li> <p> <code>AWS::ManagedBlockchain::Node</code> </p> </li> <li> <p> <code>AWS::S3ObjectLambda::AccessPoint</code> </p> </li> <li> <p> <code>AWS::EC2::Snapshot</code> </p> </li> <li> <p> <code>AWS::S3::AccessPoint</code> </p> </li> <li> <p> <code>AWS::DynamoDB::Stream</code> </p> </li> </ul>"
+          "documentation": "<p>The resource type in which you want to log data events. You can specify the following <i>basic</i> event selector resource types:</p> <ul> <li> <p> <code>AWS::S3::Object</code> </p> </li> <li> <p> <code>AWS::Lambda::Function</code> </p> </li> <li> <p> <code>AWS::DynamoDB::Table</code> </p> </li> </ul> <p>The following resource types are also availble through <i>advanced</i> event selectors. Basic event selector resource types are valid in advanced event selectors, but advanced event selector resource types are not valid in basic event selectors. For more information, see <a>AdvancedFieldSelector$Field</a>.</p> <ul> <li> <p> <code>AWS::S3Outposts::Object</code> </p> </li> <li> <p> <code>AWS::ManagedBlockchain::Node</code> </p> </li> <li> <p> <code>AWS::S3ObjectLambda::AccessPoint</code> </p> </li> <li> <p> <code>AWS::EC2::Snapshot</code> </p> </li> <li> <p> <code>AWS::S3::AccessPoint</code> </p> </li> <li> <p> <code>AWS::DynamoDB::Stream</code> </p> </li> <li> <p> <code>AWS::Glue::Table</code> </p> </li> </ul>"
         },
         "Values": {
           "shape": "DataResourceValues",
@@ -1697,7 +1697,7 @@
         },
         "QueryStatus": {
           "shape": "QueryStatus",
-          "documentation": "<p>The status of a query. Values for <code>QueryStatus</code> include <code>QUEUED</code>, <code>RUNNING</code>, <code>FINISHED</code>, <code>FAILED</code>, or <code>CANCELLED</code> </p>"
+          "documentation": "<p>The status of a query. Values for <code>QueryStatus</code> include <code>QUEUED</code>, <code>RUNNING</code>, <code>FINISHED</code>, <code>FAILED</code>, <code>TIMED_OUT</code>, or <code>CANCELLED</code> </p>"
         },
         "QueryStatistics": {
           "shape": "QueryStatisticsForDescribeQuery",
@@ -1800,35 +1800,51 @@
         },
         "TerminationProtectionEnabled": {
           "shape": "TerminationProtectionEnabled",
-          "documentation": "<p>Indicates whether the event data store is protected from termination.</p>"
+          "documentation": "<p>This field is being deprecated. Indicates whether the event data store is protected from termination.</p>",
+          "deprecated": true,
+          "deprecatedMessage": "TerminationProtectionEnabled is no longer returned by ListEventDataStores"
         },
         "Status": {
           "shape": "EventDataStoreStatus",
-          "documentation": "<p>The status of an event data store. Values are <code>ENABLED</code> and <code>PENDING_DELETION</code>.</p>"
+          "documentation": "<p>This field is being deprecated. The status of an event data store. Values are <code>ENABLED</code> and <code>PENDING_DELETION</code>.</p>",
+          "deprecated": true,
+          "deprecatedMessage": "Status is no longer returned by ListEventDataStores"
         },
         "AdvancedEventSelectors": {
           "shape": "AdvancedEventSelectors",
-          "documentation": "<p>The advanced event selectors that were used to select events for the data store.</p>"
+          "documentation": "<p>This field is being deprecated. The advanced event selectors that were used to select events for the data store.</p>",
+          "deprecated": true,
+          "deprecatedMessage": "AdvancedEventSelectors is no longer returned by ListEventDataStores"
         },
         "MultiRegionEnabled": {
           "shape": "Boolean",
-          "documentation": "<p>Indicates whether the event data store includes events from all regions, or only from the region in which it was created.</p>"
+          "documentation": "<p>This field is being deprecated. Indicates whether the event data store includes events from all regions, or only from the region in which it was created.</p>",
+          "deprecated": true,
+          "deprecatedMessage": "MultiRegionEnabled is no longer returned by ListEventDataStores"
         },
         "OrganizationEnabled": {
           "shape": "Boolean",
-          "documentation": "<p>Indicates that an event data store is collecting logged events for an organization.</p>"
+          "documentation": "<p>This field is being deprecated. Indicates that an event data store is collecting logged events for an organization.</p>",
+          "deprecated": true,
+          "deprecatedMessage": "OrganizationEnabled is no longer returned by ListEventDataStores"
         },
         "RetentionPeriod": {
           "shape": "RetentionPeriod",
-          "documentation": "<p>The retention period, in days.</p>"
+          "documentation": "<p>This field is being deprecated. The retention period, in days.</p>",
+          "deprecated": true,
+          "deprecatedMessage": "RetentionPeriod is no longer returned by ListEventDataStores"
         },
         "CreatedTimestamp": {
           "shape": "Date",
-          "documentation": "<p>The timestamp of the event data store's creation.</p>"
+          "documentation": "<p>This field is being deprecated. The timestamp of the event data store's creation.</p>",
+          "deprecated": true,
+          "deprecatedMessage": "CreatedTimestamp is no longer returned by ListEventDataStores"
         },
         "UpdatedTimestamp": {
           "shape": "Date",
-          "documentation": "<p>The timestamp showing when an event data store was updated, if applicable. <code>UpdatedTimestamp</code> is always either the same or newer than the time shown in <code>CreatedTimestamp</code>.</p>"
+          "documentation": "<p>This field is being deprecated. The timestamp showing when an event data store was updated, if applicable. <code>UpdatedTimestamp</code> is always either the same or newer than the time shown in <code>CreatedTimestamp</code>.</p>",
+          "deprecated": true,
+          "deprecatedMessage": "UpdatedTimestamp is no longer returned by ListEventDataStores"
         }
       },
       "documentation": "<p>A storage lake of event data against which you can run complex SQL-based queries. An event data store can include events that you have logged on your account from the last 90 to 2555 days (about three months to up to seven years). To select events for an event data store, use <a href=\"https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-data-events-with-cloudtrail.html#creating-data-event-selectors-advanced\">advanced event selectors</a>.</p>"
@@ -1876,7 +1892,7 @@
         },
         "ExcludeManagementEventSources": {
           "shape": "ExcludeManagementEventSources",
-          "documentation": "<p>An optional list of service event sources from which you do not want management events to be logged on your trail. In this release, the list can be empty (disables the filter), or it can filter out Key Management Service or Amazon RDS Data API events by containing <code>kms.amazonaws.com</code> or <code>rdsdata.amazonaws.com</code>. By default, <code>ExcludeManagementEventSources</code> is empty, and KMS and Amazon RDS Data API events are logged to your trail.</p>"
+          "documentation": "<p>An optional list of service event sources from which you do not want management events to be logged on your trail. In this release, the list can be empty (disables the filter), or it can filter out Key Management Service or Amazon RDS Data API events by containing <code>kms.amazonaws.com</code> or <code>rdsdata.amazonaws.com</code>. By default, <code>ExcludeManagementEventSources</code> is empty, and KMS and Amazon RDS Data API events are logged to your trail. You can exclude management event sources only in regions that support the event source.</p>"
         }
       },
       "documentation": "<p>Use event selectors to further specify the management and data event settings for your trail. By default, trails created without specific event selectors will be configured to log all read and write management events, and no data events. When an event occurs in your account, CloudTrail evaluates the event selector for all trails. For each trail, if the event matches any event selector, the trail processes and logs the event. If the event doesn't match any event selector, the trail doesn't log the event.</p> <p>You can configure up to five event selectors for a trail.</p> <p>You cannot apply both event selectors and advanced event selectors to a trail.</p>"
@@ -2040,7 +2056,7 @@
       "members": {
         "QueryStatus": {
           "shape": "QueryStatus",
-          "documentation": "<p>The status of the query. Values include <code>QUEUED</code>, <code>RUNNING</code>, <code>FINISHED</code>, <code>FAILED</code>, or <code>CANCELLED</code>.</p>"
+          "documentation": "<p>The status of the query. Values include <code>QUEUED</code>, <code>RUNNING</code>, <code>FINISHED</code>, <code>FAILED</code>, <code>TIMED_OUT</code>, or <code>CANCELLED</code>.</p>"
         },
         "QueryStatistics": {
           "shape": "QueryStatistics",
@@ -2289,7 +2305,7 @@
         },
         "QueryStatus": {
           "shape": "QueryStatus",
-          "documentation": "<p>The status of queries that you want to return in results. Valid values for <code>QueryStatus</code> include <code>QUEUED</code>, <code>RUNNING</code>, <code>FINISHED</code>, <code>FAILED</code>, or <code>CANCELLED</code>.</p>"
+          "documentation": "<p>The status of queries that you want to return in results. Valid values for <code>QueryStatus</code> include <code>QUEUED</code>, <code>RUNNING</code>, <code>FINISHED</code>, <code>FAILED</code>, <code>TIMED_OUT</code>, or <code>CANCELLED</code>.</p>"
         }
       }
     },
@@ -2314,14 +2330,14 @@
       "members": {
         "ResourceIdList": {
           "shape": "ResourceIdList",
-          "documentation": "<p>Specifies a list of trail ARNs whose tags will be listed. The list has a limit of 20 ARNs. The following is the format of a trail ARN.</p> <p> <code>arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail</code> </p>"
+          "documentation": "<p>Specifies a list of trail and event data store ARNs whose tags will be listed. The list has a limit of 20 ARNs.</p>"
         },
         "NextToken": {
           "shape": "String",
           "documentation": "<p>Reserved for future use.</p>"
         }
       },
-      "documentation": "<p>Specifies a list of trail tags to return.</p>"
+      "documentation": "<p>Specifies a list of tags to return.</p>"
     },
     "ListTagsResponse": {
       "type": "structure",
@@ -2585,7 +2601,7 @@
         },
         "QueryStatus": {
           "shape": "QueryStatus",
-          "documentation": "<p>The status of the query. This can be <code>QUEUED</code>, <code>RUNNING</code>, <code>FINISHED</code>, <code>FAILED</code>, or <code>CANCELLED</code>.</p>"
+          "documentation": "<p>The status of the query. This can be <code>QUEUED</code>, <code>RUNNING</code>, <code>FINISHED</code>, <code>FAILED</code>, <code>TIMED_OUT</code>, or <code>CANCELLED</code>.</p>"
         },
         "CreationTime": {
           "shape": "Date",
@@ -2637,6 +2653,10 @@
         "TotalResultsCount": {
           "shape": "Integer",
           "documentation": "<p>The total number of results returned by a query.</p>"
+        },
+        "BytesScanned": {
+          "shape": "Long",
+          "documentation": "<p>The total bytes that the query scanned in the event data store. This value matches the number of bytes for which your account is billed for the query, unless the query is still running.</p>"
         }
       },
       "documentation": "<p>Metadata about a query, such as the number of results.</p>"
@@ -2651,6 +2671,10 @@
         "EventsScanned": {
           "shape": "Long",
           "documentation": "<p>The number of events that the query scanned in the event data store.</p>"
+        },
+        "BytesScanned": {
+          "shape": "Long",
+          "documentation": "<p>The total bytes that the query scanned in the event data store. This value matches the number of bytes for which your account is billed for the query, unless the query is still running.</p>"
         },
         "ExecutionTimeInMillis": {
           "shape": "Integer",
@@ -2670,7 +2694,8 @@
         "RUNNING",
         "FINISHED",
         "FAILED",
-        "CANCELLED"
+        "CANCELLED",
+        "TIMED_OUT"
       ]
     },
     "ReadWriteType": {
@@ -2690,14 +2715,14 @@
       "members": {
         "ResourceId": {
           "shape": "String",
-          "documentation": "<p>Specifies the ARN of the trail from which tags should be removed. The format of a trail ARN is:</p> <p> <code>arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail</code> </p>"
+          "documentation": "<p>Specifies the ARN of the trail or event data store from which tags should be removed.</p> <p> Example trail ARN format: <code>arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail</code> </p> <p>Example event data store ARN format: <code>arn:aws:cloudtrail:us-east-2:12345678910:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE</code> </p>"
         },
         "TagsList": {
           "shape": "TagsList",
           "documentation": "<p>Specifies a list of tags to be removed.</p>"
         }
       },
-      "documentation": "<p>Specifies the tags to remove from a trail.</p>"
+      "documentation": "<p>Specifies the tags to remove from a trail or event data store.</p>"
     },
     "RemoveTagsResponse": {
       "type": "structure",
@@ -2810,7 +2835,7 @@
     },
     "RetentionPeriod": {
       "type": "integer",
-      "max": 2555,
+      "max": 2557,
       "min": 7
     },
     "SelectorField": {

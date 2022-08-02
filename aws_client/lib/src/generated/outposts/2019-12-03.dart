@@ -123,6 +123,13 @@ class Outposts {
   ///
   /// Parameter [siteId] :
   /// The ID or the Amazon Resource Name (ARN) of the site.
+  /// <note>
+  /// In requests, Amazon Web Services Outposts accepts the Amazon Resource Name
+  /// (ARN) or an ID for Outposts and sites throughout the Outposts Query API.
+  /// To address backwards compatibility, the parameter names
+  /// <code>OutpostID</code> or <code>SiteID</code> remain in use. Despite the
+  /// parameter name, you can make the request with an ARN.
+  /// </note>
   ///
   /// Parameter [supportedHardwareType] :
   /// The type of hardware for this Outpost.
@@ -227,6 +234,13 @@ class Outposts {
   ///
   /// Parameter [outpostId] :
   /// The ID or the Amazon Resource Name (ARN) of the Outpost.
+  /// <note>
+  /// In requests, Amazon Web Services Outposts accepts the Amazon Resource Name
+  /// (ARN) or an ID for Outposts and sites throughout the Outposts Query API.
+  /// To address backwards compatibility, the parameter names
+  /// <code>OutpostID</code> or <code>SiteID</code> remain in use. Despite the
+  /// parameter name, you can make the request with an ARN.
+  /// </note>
   Future<void> deleteOutpost({
     required String outpostId,
   }) async {
@@ -249,6 +263,13 @@ class Outposts {
   ///
   /// Parameter [siteId] :
   /// The ID or the Amazon Resource Name (ARN) of the site.
+  /// <note>
+  /// In requests, Amazon Web Services Outposts accepts the Amazon Resource Name
+  /// (ARN) or an ID for Outposts and sites throughout the Outposts Query API.
+  /// To address backwards compatibility, the parameter names
+  /// <code>OutpostID</code> or <code>SiteID</code> remain in use. Despite the
+  /// parameter name, you can make the request with an ARN.
+  /// </note>
   Future<void> deleteSite({
     required String siteId,
   }) async {
@@ -282,6 +303,41 @@ class Outposts {
     return GetCatalogItemOutput.fromJson(response);
   }
 
+  /// <note>
+  /// Amazon Web Services uses this action to install Outpost servers.
+  /// </note>
+  /// Gets information about a specified connection.
+  ///
+  /// Use CloudTrail to monitor this action or Amazon Web Services managed
+  /// policy for Amazon Web Services Outposts to secure it. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/outposts/latest/userguide/security-iam-awsmanpol.html">
+  /// Amazon Web Services managed policies for Amazon Web Services Outposts</a>
+  /// and <a
+  /// href="https://docs.aws.amazon.com/outposts/latest/userguide/logging-using-cloudtrail.html">
+  /// Logging Amazon Web Services Outposts API calls with Amazon Web Services
+  /// CloudTrail</a> in the <i>Amazon Web Services Outposts User Guide</i>.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [NotFoundException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [connectionId] :
+  /// The ID of the connection you request.
+  Future<GetConnectionResponse> getConnection({
+    required String connectionId,
+  }) async {
+    ArgumentError.checkNotNull(connectionId, 'connectionId');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/connections/${Uri.encodeComponent(connectionId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetConnectionResponse.fromJson(response);
+  }
+
   /// Gets an order.
   ///
   /// May throw [ValidationException].
@@ -312,6 +368,13 @@ class Outposts {
   ///
   /// Parameter [outpostId] :
   /// The ID or the Amazon Resource Name (ARN) of the Outpost.
+  /// <note>
+  /// In requests, Amazon Web Services Outposts accepts the Amazon Resource Name
+  /// (ARN) or an ID for Outposts and sites throughout the Outposts Query API.
+  /// To address backwards compatibility, the parameter names
+  /// <code>OutpostID</code> or <code>SiteID</code> remain in use. Despite the
+  /// parameter name, you can make the request with an ARN.
+  /// </note>
   Future<GetOutpostOutput> getOutpost({
     required String outpostId,
   }) async {
@@ -325,7 +388,7 @@ class Outposts {
     return GetOutpostOutput.fromJson(response);
   }
 
-  /// Lists the instance types for the specified Outpost.
+  /// Gets the instance types for the specified Outpost.
   ///
   /// May throw [ValidationException].
   /// May throw [NotFoundException].
@@ -334,6 +397,13 @@ class Outposts {
   ///
   /// Parameter [outpostId] :
   /// The ID or the Amazon Resource Name (ARN) of the Outpost.
+  /// <note>
+  /// In requests, Amazon Web Services Outposts accepts the Amazon Resource Name
+  /// (ARN) or an ID for Outposts and sites throughout the Outposts Query API.
+  /// To address backwards compatibility, the parameter names
+  /// <code>OutpostID</code> or <code>SiteID</code> remain in use. Despite the
+  /// parameter name, you can make the request with an ARN.
+  /// </note>
   Future<GetOutpostInstanceTypesOutput> getOutpostInstanceTypes({
     required String outpostId,
     int? maxResults,
@@ -369,6 +439,13 @@ class Outposts {
   ///
   /// Parameter [siteId] :
   /// The ID or the Amazon Resource Name (ARN) of the site.
+  /// <note>
+  /// In requests, Amazon Web Services Outposts accepts the Amazon Resource Name
+  /// (ARN) or an ID for Outposts and sites throughout the Outposts Query API.
+  /// To address backwards compatibility, the parameter names
+  /// <code>OutpostID</code> or <code>SiteID</code> remain in use. Despite the
+  /// parameter name, you can make the request with an ARN.
+  /// </note>
   Future<GetSiteOutput> getSite({
     required String siteId,
   }) async {
@@ -394,6 +471,13 @@ class Outposts {
   ///
   /// Parameter [siteId] :
   /// The ID or the Amazon Resource Name (ARN) of the site.
+  /// <note>
+  /// In requests, Amazon Web Services Outposts accepts the Amazon Resource Name
+  /// (ARN) or an ID for Outposts and sites throughout the Outposts Query API.
+  /// To address backwards compatibility, the parameter names
+  /// <code>OutpostID</code> or <code>SiteID</code> remain in use. Despite the
+  /// parameter name, you can make the request with an ARN.
+  /// </note>
   Future<GetSiteAddressOutput> getSiteAddress({
     required AddressType addressType,
     required String siteId,
@@ -413,9 +497,56 @@ class Outposts {
     return GetSiteAddressOutput.fromJson(response);
   }
 
-  /// Use to create a list of every item in the catalog. Add filters to your
-  /// request to return a more specific list of results. Use filters to match an
-  /// item class, storage option, or EC2 family.
+  /// Lists the hardware assets in an Outpost. If you are using Dedicated Hosts
+  /// on Amazon Web Services Outposts, you can filter your request by host ID to
+  /// return a list of hardware assets that allocate resources for Dedicated
+  /// Hosts.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [NotFoundException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [outpostIdentifier] :
+  /// The ID or the Amazon Resource Name (ARN) of the Outpost.
+  ///
+  /// Parameter [hostIdFilter] :
+  /// A filter for the host ID of Dedicated Hosts on the Outpost.
+  ///
+  /// Filter values are case sensitive. If you specify multiple values for a
+  /// filter, the values are joined with an <code>OR</code>, and the request
+  /// returns all results that match any of the specified values.
+  Future<ListAssetsOutput> listAssets({
+    required String outpostIdentifier,
+    List<String>? hostIdFilter,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    ArgumentError.checkNotNull(outpostIdentifier, 'outpostIdentifier');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final $query = <String, List<String>>{
+      if (hostIdFilter != null) 'HostIdFilter': hostIdFilter,
+      if (maxResults != null) 'MaxResults': [maxResults.toString()],
+      if (nextToken != null) 'NextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/outposts/${Uri.encodeComponent(outpostIdentifier)}/assets',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListAssetsOutput.fromJson(response);
+  }
+
+  /// Lists the items in the catalog. Add filters to your request to return a
+  /// more specific list of results. Use filters to match an item class, storage
+  /// option, or EC2 family.
   ///
   /// If you specify multiple filters, the filters are joined with an
   /// <code>AND</code>, and the request returns only results that match all of
@@ -478,9 +609,8 @@ class Outposts {
     return ListCatalogItemsOutput.fromJson(response);
   }
 
-  /// Create a list of the Outpost orders for your Amazon Web Services account.
-  /// You can filter your request by Outpost to return a more specific list of
-  /// results.
+  /// Lists the Outpost orders for your Amazon Web Services account. You can
+  /// filter your request by Outpost to return a more specific list of results.
   ///
   /// May throw [ValidationException].
   /// May throw [NotFoundException].
@@ -516,9 +646,9 @@ class Outposts {
     return ListOrdersOutput.fromJson(response);
   }
 
-  /// Create a list of the Outposts for your Amazon Web Services account. Add
-  /// filters to your request to return a more specific list of results. Use
-  /// filters to match an Outpost lifecycle status, Availability Zone
+  /// Lists the Outposts for your Amazon Web Services account. Add filters to
+  /// your request to return a more specific list of results. Use filters to
+  /// match an Outpost lifecycle status, Availability Zone
   /// (<code>us-east-1a</code>), and AZ ID (<code>use1-az1</code>).
   ///
   /// If you specify multiple filters, the filters are joined with an
@@ -583,14 +713,45 @@ class Outposts {
     return ListOutpostsOutput.fromJson(response);
   }
 
-  /// Lists the sites for your Amazon Web Services account.
+  /// Lists the Outpost sites for your Amazon Web Services account. Add
+  /// operating address filters to your request to return a more specific list
+  /// of results. Use filters to match site city, country code, or state/region
+  /// of the operating address.
+  ///
+  /// If you specify multiple filters, the filters are joined with an
+  /// <code>AND</code>, and the request returns only results that match all of
+  /// the specified filters.
   ///
   /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  ///
+  /// Parameter [operatingAddressCityFilter] :
+  /// A filter for the city of the Outpost site.
+  ///
+  /// Filter values are case sensitive. If you specify multiple values for a
+  /// filter, the values are joined with an <code>OR</code>, and the request
+  /// returns all results that match any of the specified values.
+  ///
+  /// Parameter [operatingAddressCountryCodeFilter] :
+  /// A filter for the country code of the Outpost site.
+  ///
+  /// Filter values are case sensitive. If you specify multiple values for a
+  /// filter, the values are joined with an <code>OR</code>, and the request
+  /// returns all results that match any of the specified values.
+  ///
+  /// Parameter [operatingAddressStateOrRegionFilter] :
+  /// A filter for the state/region of the Outpost site.
+  ///
+  /// Filter values are case sensitive. If you specify multiple values for a
+  /// filter, the values are joined with an <code>OR</code>, and the request
+  /// returns all results that match any of the specified values.
   Future<ListSitesOutput> listSites({
     int? maxResults,
     String? nextToken,
+    List<String>? operatingAddressCityFilter,
+    List<String>? operatingAddressCountryCodeFilter,
+    List<String>? operatingAddressStateOrRegionFilter,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -601,6 +762,13 @@ class Outposts {
     final $query = <String, List<String>>{
       if (maxResults != null) 'MaxResults': [maxResults.toString()],
       if (nextToken != null) 'NextToken': [nextToken],
+      if (operatingAddressCityFilter != null)
+        'OperatingAddressCityFilter': operatingAddressCityFilter,
+      if (operatingAddressCountryCodeFilter != null)
+        'OperatingAddressCountryCodeFilter': operatingAddressCountryCodeFilter,
+      if (operatingAddressStateOrRegionFilter != null)
+        'OperatingAddressStateOrRegionFilter':
+            operatingAddressStateOrRegionFilter,
     };
     final response = await _protocol.send(
       payload: null,
@@ -631,6 +799,70 @@ class Outposts {
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourceResponse.fromJson(response);
+  }
+
+  /// <note>
+  /// Amazon Web Services uses this action to install Outpost servers.
+  /// </note>
+  /// Starts the connection required for Outpost server installation.
+  ///
+  /// Use CloudTrail to monitor this action or Amazon Web Services managed
+  /// policy for Amazon Web Services Outposts to secure it. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/outposts/latest/userguide/security-iam-awsmanpol.html">
+  /// Amazon Web Services managed policies for Amazon Web Services Outposts</a>
+  /// and <a
+  /// href="https://docs.aws.amazon.com/outposts/latest/userguide/logging-using-cloudtrail.html">
+  /// Logging Amazon Web Services Outposts API calls with Amazon Web Services
+  /// CloudTrail</a> in the <i>Amazon Web Services Outposts User Guide</i>.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
+  /// May throw [NotFoundException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [assetId] :
+  /// The ID of the Outpost server.
+  ///
+  /// Parameter [clientPublicKey] :
+  /// The public key of the client.
+  ///
+  /// Parameter [deviceSerialNumber] :
+  /// The serial number of the dongle.
+  ///
+  /// Parameter [networkInterfaceDeviceIndex] :
+  /// The device index of the network interface on the Outpost server.
+  Future<StartConnectionResponse> startConnection({
+    required String assetId,
+    required String clientPublicKey,
+    required String deviceSerialNumber,
+    required int networkInterfaceDeviceIndex,
+  }) async {
+    ArgumentError.checkNotNull(assetId, 'assetId');
+    ArgumentError.checkNotNull(clientPublicKey, 'clientPublicKey');
+    ArgumentError.checkNotNull(deviceSerialNumber, 'deviceSerialNumber');
+    ArgumentError.checkNotNull(
+        networkInterfaceDeviceIndex, 'networkInterfaceDeviceIndex');
+    _s.validateNumRange(
+      'networkInterfaceDeviceIndex',
+      networkInterfaceDeviceIndex,
+      0,
+      1,
+      isRequired: true,
+    );
+    final $payload = <String, dynamic>{
+      'AssetId': assetId,
+      'ClientPublicKey': clientPublicKey,
+      'DeviceSerialNumber': deviceSerialNumber,
+      'NetworkInterfaceDeviceIndex': networkInterfaceDeviceIndex,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/connections',
+      exceptionFnMap: _exceptionFns,
+    );
+    return StartConnectionResponse.fromJson(response);
   }
 
   /// Adds tags to the specified resource.
@@ -700,6 +932,13 @@ class Outposts {
   ///
   /// Parameter [outpostId] :
   /// The ID or the Amazon Resource Name (ARN) of the Outpost.
+  /// <note>
+  /// In requests, Amazon Web Services Outposts accepts the Amazon Resource Name
+  /// (ARN) or an ID for Outposts and sites throughout the Outposts Query API.
+  /// To address backwards compatibility, the parameter names
+  /// <code>OutpostID</code> or <code>SiteID</code> remain in use. Despite the
+  /// parameter name, you can make the request with an ARN.
+  /// </note>
   ///
   /// Parameter [supportedHardwareType] :
   /// The type of hardware for this Outpost.
@@ -735,6 +974,13 @@ class Outposts {
   ///
   /// Parameter [siteId] :
   /// The ID or the Amazon Resource Name (ARN) of the site.
+  /// <note>
+  /// In requests, Amazon Web Services Outposts accepts the Amazon Resource Name
+  /// (ARN) or an ID for Outposts and sites throughout the Outposts Query API.
+  /// To address backwards compatibility, the parameter names
+  /// <code>OutpostID</code> or <code>SiteID</code> remain in use. Despite the
+  /// parameter name, you can make the request with an ARN.
+  /// </note>
   ///
   /// Parameter [notes] :
   /// Notes about a site.
@@ -781,6 +1027,13 @@ class Outposts {
   ///
   /// Parameter [siteId] :
   /// The ID or the Amazon Resource Name (ARN) of the site.
+  /// <note>
+  /// In requests, Amazon Web Services Outposts accepts the Amazon Resource Name
+  /// (ARN) or an ID for Outposts and sites throughout the Outposts Query API.
+  /// To address backwards compatibility, the parameter names
+  /// <code>OutpostID</code> or <code>SiteID</code> remain in use. Despite the
+  /// parameter name, you can make the request with an ARN.
+  /// </note>
   Future<UpdateSiteAddressOutput> updateSiteAddress({
     required Address address,
     required AddressType addressType,
@@ -818,6 +1071,13 @@ class Outposts {
   ///
   /// Parameter [siteId] :
   /// The ID or the Amazon Resource Name (ARN) of the site.
+  /// <note>
+  /// In requests, Amazon Web Services Outposts accepts the Amazon Resource Name
+  /// (ARN) or an ID for Outposts and sites throughout the Outposts Query API.
+  /// To address backwards compatibility, the parameter names
+  /// <code>OutpostID</code> or <code>SiteID</code> remain in use. Despite the
+  /// parameter name, you can make the request with an ARN.
+  /// </note>
   ///
   /// Parameter [fiberOpticCableType] :
   /// Specify the type of fiber that you will use to attach the Outpost to your
@@ -1108,6 +1368,109 @@ extension on String {
   }
 }
 
+/// Information about hardware assets.
+class AssetInfo {
+  /// The ID of the asset.
+  final String? assetId;
+
+  /// The position of an asset in a rack.
+  final AssetLocation? assetLocation;
+
+  /// The type of the asset.
+  final AssetType? assetType;
+
+  /// Information about compute hardware assets.
+  final ComputeAttributes? computeAttributes;
+
+  /// The rack ID of the asset.
+  final String? rackId;
+
+  AssetInfo({
+    this.assetId,
+    this.assetLocation,
+    this.assetType,
+    this.computeAttributes,
+    this.rackId,
+  });
+
+  factory AssetInfo.fromJson(Map<String, dynamic> json) {
+    return AssetInfo(
+      assetId: json['AssetId'] as String?,
+      assetLocation: json['AssetLocation'] != null
+          ? AssetLocation.fromJson(
+              json['AssetLocation'] as Map<String, dynamic>)
+          : null,
+      assetType: (json['AssetType'] as String?)?.toAssetType(),
+      computeAttributes: json['ComputeAttributes'] != null
+          ? ComputeAttributes.fromJson(
+              json['ComputeAttributes'] as Map<String, dynamic>)
+          : null,
+      rackId: json['RackId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assetId = this.assetId;
+    final assetLocation = this.assetLocation;
+    final assetType = this.assetType;
+    final computeAttributes = this.computeAttributes;
+    final rackId = this.rackId;
+    return {
+      if (assetId != null) 'AssetId': assetId,
+      if (assetLocation != null) 'AssetLocation': assetLocation,
+      if (assetType != null) 'AssetType': assetType.toValue(),
+      if (computeAttributes != null) 'ComputeAttributes': computeAttributes,
+      if (rackId != null) 'RackId': rackId,
+    };
+  }
+}
+
+/// Information about the position of the asset in a rack.
+class AssetLocation {
+  /// The position of an asset in a rack measured in rack units.
+  final double? rackElevation;
+
+  AssetLocation({
+    this.rackElevation,
+  });
+
+  factory AssetLocation.fromJson(Map<String, dynamic> json) {
+    return AssetLocation(
+      rackElevation: json['RackElevation'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final rackElevation = this.rackElevation;
+    return {
+      if (rackElevation != null) 'RackElevation': rackElevation,
+    };
+  }
+}
+
+enum AssetType {
+  compute,
+}
+
+extension on AssetType {
+  String toValue() {
+    switch (this) {
+      case AssetType.compute:
+        return 'COMPUTE';
+    }
+  }
+}
+
+extension on String {
+  AssetType toAssetType() {
+    switch (this) {
+      case 'COMPUTE':
+        return AssetType.compute;
+    }
+    throw Exception('$this is not known in enum AssetType');
+  }
+}
+
 class CancelOrderOutput {
   CancelOrderOutput();
 
@@ -1250,6 +1613,92 @@ extension on String {
         return CatalogItemStatus.discontinued;
     }
     throw Exception('$this is not known in enum CatalogItemStatus');
+  }
+}
+
+/// Information about compute hardware assets.
+class ComputeAttributes {
+  /// The host ID of any Dedicated Hosts on the asset.
+  final String? hostId;
+
+  ComputeAttributes({
+    this.hostId,
+  });
+
+  factory ComputeAttributes.fromJson(Map<String, dynamic> json) {
+    return ComputeAttributes(
+      hostId: json['HostId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hostId = this.hostId;
+    return {
+      if (hostId != null) 'HostId': hostId,
+    };
+  }
+}
+
+/// Information about a connection.
+class ConnectionDetails {
+  /// The allowed IP addresses.
+  final List<String>? allowedIps;
+
+  /// The public key of the client.
+  final String? clientPublicKey;
+
+  /// The client tunnel address.
+  final String? clientTunnelAddress;
+
+  /// The endpoint for the server.
+  final String? serverEndpoint;
+
+  /// The public key of the server.
+  final String? serverPublicKey;
+
+  /// The server tunnel address.
+  final String? serverTunnelAddress;
+
+  ConnectionDetails({
+    this.allowedIps,
+    this.clientPublicKey,
+    this.clientTunnelAddress,
+    this.serverEndpoint,
+    this.serverPublicKey,
+    this.serverTunnelAddress,
+  });
+
+  factory ConnectionDetails.fromJson(Map<String, dynamic> json) {
+    return ConnectionDetails(
+      allowedIps: (json['AllowedIps'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      clientPublicKey: json['ClientPublicKey'] as String?,
+      clientTunnelAddress: json['ClientTunnelAddress'] as String?,
+      serverEndpoint: json['ServerEndpoint'] as String?,
+      serverPublicKey: json['ServerPublicKey'] as String?,
+      serverTunnelAddress: json['ServerTunnelAddress'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allowedIps = this.allowedIps;
+    final clientPublicKey = this.clientPublicKey;
+    final clientTunnelAddress = this.clientTunnelAddress;
+    final serverEndpoint = this.serverEndpoint;
+    final serverPublicKey = this.serverPublicKey;
+    final serverTunnelAddress = this.serverTunnelAddress;
+    return {
+      if (allowedIps != null) 'AllowedIps': allowedIps,
+      if (clientPublicKey != null) 'ClientPublicKey': clientPublicKey,
+      if (clientTunnelAddress != null)
+        'ClientTunnelAddress': clientTunnelAddress,
+      if (serverEndpoint != null) 'ServerEndpoint': serverEndpoint,
+      if (serverPublicKey != null) 'ServerPublicKey': serverPublicKey,
+      if (serverTunnelAddress != null)
+        'ServerTunnelAddress': serverTunnelAddress,
+    };
   }
 }
 
@@ -1436,6 +1885,38 @@ class GetCatalogItemOutput {
   }
 }
 
+class GetConnectionResponse {
+  /// Information about a connection.
+  final ConnectionDetails? connectionDetails;
+
+  /// The ID of the connection you receive.
+  final String? connectionId;
+
+  GetConnectionResponse({
+    this.connectionDetails,
+    this.connectionId,
+  });
+
+  factory GetConnectionResponse.fromJson(Map<String, dynamic> json) {
+    return GetConnectionResponse(
+      connectionDetails: json['ConnectionDetails'] != null
+          ? ConnectionDetails.fromJson(
+              json['ConnectionDetails'] as Map<String, dynamic>)
+          : null,
+      connectionId: json['ConnectionId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectionDetails = this.connectionDetails;
+    final connectionId = this.connectionId;
+    return {
+      if (connectionDetails != null) 'ConnectionDetails': connectionDetails,
+      if (connectionId != null) 'ConnectionId': connectionId,
+    };
+  }
+}
+
 class GetOrderOutput {
   final Order? order;
 
@@ -1465,6 +1946,13 @@ class GetOutpostInstanceTypesOutput {
   final String? outpostArn;
 
   /// The ID of the Outpost.
+  /// <note>
+  /// In requests, Amazon Web Services Outposts accepts the Amazon Resource Name
+  /// (ARN) or an ID for Outposts and sites throughout the Outposts Query API. To
+  /// address backwards compatibility, the parameter names <code>OutpostID</code>
+  /// or <code>SiteID</code> remain in use. Despite the parameter name, you can
+  /// make the request with an ARN.
+  /// </note>
   final String? outpostId;
 
   GetOutpostInstanceTypesOutput({
@@ -1606,6 +2094,9 @@ class InstanceTypeItem {
 
 /// Information about a line item.
 class LineItem {
+  /// Information about assets.
+  final List<LineItemAssetInformation>? assetInformationList;
+
   /// The ID of the catalog item.
   final String? catalogItemId;
 
@@ -1615,35 +2106,88 @@ class LineItem {
   /// The quantity of the line item.
   final int? quantity;
 
+  /// Information about a line item shipment.
+  final ShipmentInformation? shipmentInformation;
+
   /// The status of the line item.
   final LineItemStatus? status;
 
   LineItem({
+    this.assetInformationList,
     this.catalogItemId,
     this.lineItemId,
     this.quantity,
+    this.shipmentInformation,
     this.status,
   });
 
   factory LineItem.fromJson(Map<String, dynamic> json) {
     return LineItem(
+      assetInformationList: (json['AssetInformationList'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              LineItemAssetInformation.fromJson(e as Map<String, dynamic>))
+          .toList(),
       catalogItemId: json['CatalogItemId'] as String?,
       lineItemId: json['LineItemId'] as String?,
       quantity: json['Quantity'] as int?,
+      shipmentInformation: json['ShipmentInformation'] != null
+          ? ShipmentInformation.fromJson(
+              json['ShipmentInformation'] as Map<String, dynamic>)
+          : null,
       status: (json['Status'] as String?)?.toLineItemStatus(),
     );
   }
 
   Map<String, dynamic> toJson() {
+    final assetInformationList = this.assetInformationList;
     final catalogItemId = this.catalogItemId;
     final lineItemId = this.lineItemId;
     final quantity = this.quantity;
+    final shipmentInformation = this.shipmentInformation;
     final status = this.status;
     return {
+      if (assetInformationList != null)
+        'AssetInformationList': assetInformationList,
       if (catalogItemId != null) 'CatalogItemId': catalogItemId,
       if (lineItemId != null) 'LineItemId': lineItemId,
       if (quantity != null) 'Quantity': quantity,
+      if (shipmentInformation != null)
+        'ShipmentInformation': shipmentInformation,
       if (status != null) 'Status': status.toValue(),
+    };
+  }
+}
+
+/// Information about a line item asset.
+class LineItemAssetInformation {
+  /// The ID of the asset.
+  final String? assetId;
+
+  /// MAC addresses of the asset.
+  final List<String>? macAddressList;
+
+  LineItemAssetInformation({
+    this.assetId,
+    this.macAddressList,
+  });
+
+  factory LineItemAssetInformation.fromJson(Map<String, dynamic> json) {
+    return LineItemAssetInformation(
+      assetId: json['AssetId'] as String?,
+      macAddressList: (json['MacAddressList'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assetId = this.assetId;
+    final macAddressList = this.macAddressList;
+    return {
+      if (assetId != null) 'AssetId': assetId,
+      if (macAddressList != null) 'MacAddressList': macAddressList,
     };
   }
 }
@@ -1733,6 +2277,36 @@ extension on String {
         return LineItemStatus.cancelled;
     }
     throw Exception('$this is not known in enum LineItemStatus');
+  }
+}
+
+class ListAssetsOutput {
+  /// Information about hardware assets.
+  final List<AssetInfo>? assets;
+  final String? nextToken;
+
+  ListAssetsOutput({
+    this.assets,
+    this.nextToken,
+  });
+
+  factory ListAssetsOutput.fromJson(Map<String, dynamic> json) {
+    return ListAssetsOutput(
+      assets: (json['Assets'] as List?)
+          ?.whereNotNull()
+          .map((e) => AssetInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assets = this.assets;
+    final nextToken = this.nextToken;
+    return {
+      if (assets != null) 'Assets': assets,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
   }
 }
 
@@ -2648,6 +3222,76 @@ class RackPhysicalProperties {
   }
 }
 
+enum ShipmentCarrier {
+  dhl,
+  dbs,
+  fedex,
+  ups,
+}
+
+extension on ShipmentCarrier {
+  String toValue() {
+    switch (this) {
+      case ShipmentCarrier.dhl:
+        return 'DHL';
+      case ShipmentCarrier.dbs:
+        return 'DBS';
+      case ShipmentCarrier.fedex:
+        return 'FEDEX';
+      case ShipmentCarrier.ups:
+        return 'UPS';
+    }
+  }
+}
+
+extension on String {
+  ShipmentCarrier toShipmentCarrier() {
+    switch (this) {
+      case 'DHL':
+        return ShipmentCarrier.dhl;
+      case 'DBS':
+        return ShipmentCarrier.dbs;
+      case 'FEDEX':
+        return ShipmentCarrier.fedex;
+      case 'UPS':
+        return ShipmentCarrier.ups;
+    }
+    throw Exception('$this is not known in enum ShipmentCarrier');
+  }
+}
+
+/// Information about a line item shipment.
+class ShipmentInformation {
+  /// The carrier of the shipment.
+  final ShipmentCarrier? shipmentCarrier;
+
+  /// The tracking number of the shipment.
+  final String? shipmentTrackingNumber;
+
+  ShipmentInformation({
+    this.shipmentCarrier,
+    this.shipmentTrackingNumber,
+  });
+
+  factory ShipmentInformation.fromJson(Map<String, dynamic> json) {
+    return ShipmentInformation(
+      shipmentCarrier:
+          (json['ShipmentCarrier'] as String?)?.toShipmentCarrier(),
+      shipmentTrackingNumber: json['ShipmentTrackingNumber'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final shipmentCarrier = this.shipmentCarrier;
+    final shipmentTrackingNumber = this.shipmentTrackingNumber;
+    return {
+      if (shipmentCarrier != null) 'ShipmentCarrier': shipmentCarrier.toValue(),
+      if (shipmentTrackingNumber != null)
+        'ShipmentTrackingNumber': shipmentTrackingNumber,
+    };
+  }
+}
+
 /// Information about a site.
 class Site {
   final String? accountId;
@@ -2740,6 +3384,35 @@ class Site {
       if (siteArn != null) 'SiteArn': siteArn,
       if (siteId != null) 'SiteId': siteId,
       if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+class StartConnectionResponse {
+  /// The ID of the connection.
+  final String? connectionId;
+
+  /// The underlay IP address.
+  final String? underlayIpAddress;
+
+  StartConnectionResponse({
+    this.connectionId,
+    this.underlayIpAddress,
+  });
+
+  factory StartConnectionResponse.fromJson(Map<String, dynamic> json) {
+    return StartConnectionResponse(
+      connectionId: json['ConnectionId'] as String?,
+      underlayIpAddress: json['UnderlayIpAddress'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectionId = this.connectionId;
+    final underlayIpAddress = this.underlayIpAddress;
+    return {
+      if (connectionId != null) 'ConnectionId': connectionId,
+      if (underlayIpAddress != null) 'UnderlayIpAddress': underlayIpAddress,
     };
   }
 }

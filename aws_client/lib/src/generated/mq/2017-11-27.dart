@@ -1055,6 +1055,44 @@ class MQ {
   }
 }
 
+/// The action required to resolve a broker issue when the broker is in a
+/// CRITICAL_ACTION_REQUIRED state.
+class ActionRequired {
+  /// The code you can use to resolve your broker issue when the broker is in a
+  /// CRITICAL_ACTION_REQUIRED state. You can find instructions by choosing the
+  /// link for your code from the list of action required codes in <a
+  /// href="https://docs.aws.amazon.com//latest/developer-guide/troubleshooting-action-required-codes.html">Amazon
+  /// MQ action required codes</a>. Each code references a topic with detailed
+  /// information, instructions, and recommendations for how to resolve the issue
+  /// and prevent future occurrences.
+  final String? actionRequiredCode;
+
+  /// Information about the action required to resolve your broker issue when the
+  /// broker is in a CRITICAL_ACTION_REQUIRED state.
+  final String? actionRequiredInfo;
+
+  ActionRequired({
+    this.actionRequiredCode,
+    this.actionRequiredInfo,
+  });
+
+  factory ActionRequired.fromJson(Map<String, dynamic> json) {
+    return ActionRequired(
+      actionRequiredCode: json['actionRequiredCode'] as String?,
+      actionRequiredInfo: json['actionRequiredInfo'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actionRequiredCode = this.actionRequiredCode;
+    final actionRequiredInfo = this.actionRequiredInfo;
+    return {
+      if (actionRequiredCode != null) 'actionRequiredCode': actionRequiredCode,
+      if (actionRequiredInfo != null) 'actionRequiredInfo': actionRequiredInfo,
+    };
+  }
+}
+
 /// Optional. The authentication strategy used to secure the broker. The default
 /// is SIMPLE.
 enum AuthenticationStrategy {
@@ -1259,6 +1297,7 @@ enum BrokerState {
   deletionInProgress,
   running,
   rebootInProgress,
+  criticalActionRequired,
 }
 
 extension on BrokerState {
@@ -1274,6 +1313,8 @@ extension on BrokerState {
         return 'RUNNING';
       case BrokerState.rebootInProgress:
         return 'REBOOT_IN_PROGRESS';
+      case BrokerState.criticalActionRequired:
+        return 'CRITICAL_ACTION_REQUIRED';
     }
   }
 }
@@ -1291,6 +1332,8 @@ extension on String {
         return BrokerState.running;
       case 'REBOOT_IN_PROGRESS':
         return BrokerState.rebootInProgress;
+      case 'CRITICAL_ACTION_REQUIRED':
+        return BrokerState.criticalActionRequired;
     }
     throw Exception('$this is not known in enum BrokerState');
   }
@@ -1960,6 +2003,9 @@ class DescribeBrokerInstanceOptionsResponse {
 }
 
 class DescribeBrokerResponse {
+  /// A list of actions required for a broker.
+  final List<ActionRequired>? actionsRequired;
+
   /// The authentication strategy used to secure the broker. The default is
   /// SIMPLE.
   final AuthenticationStrategy? authenticationStrategy;
@@ -2068,6 +2114,7 @@ class DescribeBrokerResponse {
   final List<UserSummary>? users;
 
   DescribeBrokerResponse({
+    this.actionsRequired,
     this.authenticationStrategy,
     this.autoMinorVersionUpgrade,
     this.brokerArn,
@@ -2100,6 +2147,10 @@ class DescribeBrokerResponse {
 
   factory DescribeBrokerResponse.fromJson(Map<String, dynamic> json) {
     return DescribeBrokerResponse(
+      actionsRequired: (json['actionsRequired'] as List?)
+          ?.whereNotNull()
+          .map((e) => ActionRequired.fromJson(e as Map<String, dynamic>))
+          .toList(),
       authenticationStrategy: (json['authenticationStrategy'] as String?)
           ?.toAuthenticationStrategy(),
       autoMinorVersionUpgrade: json['autoMinorVersionUpgrade'] as bool?,
@@ -2168,6 +2219,7 @@ class DescribeBrokerResponse {
   }
 
   Map<String, dynamic> toJson() {
+    final actionsRequired = this.actionsRequired;
     final authenticationStrategy = this.authenticationStrategy;
     final autoMinorVersionUpgrade = this.autoMinorVersionUpgrade;
     final brokerArn = this.brokerArn;
@@ -2197,6 +2249,7 @@ class DescribeBrokerResponse {
     final tags = this.tags;
     final users = this.users;
     return {
+      if (actionsRequired != null) 'actionsRequired': actionsRequired,
       if (authenticationStrategy != null)
         'authenticationStrategy': authenticationStrategy.toValue(),
       if (autoMinorVersionUpgrade != null)

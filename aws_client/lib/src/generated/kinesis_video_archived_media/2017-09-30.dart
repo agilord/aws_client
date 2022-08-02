@@ -935,6 +935,157 @@ class KinesisVideoArchivedMedia {
     return GetHLSStreamingSessionURLOutput.fromJson(response);
   }
 
+  /// Retrieves a list of Images corresponding to each timestamp for a given
+  /// time range, sampling interval, and image format configuration.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [ClientLimitExceededException].
+  /// May throw [NotAuthorizedException].
+  ///
+  /// Parameter [endTimestamp] :
+  /// The end timestamp for the range of images to be generated.
+  ///
+  /// Parameter [format] :
+  /// The format that will be used to encode the image.
+  ///
+  /// Parameter [imageSelectorType] :
+  /// The origin of the Server or Producer timestamps to use to generate the
+  /// images.
+  ///
+  /// Parameter [samplingInterval] :
+  /// The time interval in milliseconds (ms) at which the images need to be
+  /// generated from the stream. The minimum value that can be provided is 3000
+  /// ms. If the timestamp range is less than the sampling interval, the Image
+  /// from the <code>startTimestamp</code> will be returned if available.
+  /// <note>
+  /// The minimum value of 3000 ms is a soft limit. If needed, a lower sampling
+  /// frequency can be requested.
+  /// </note>
+  ///
+  /// Parameter [startTimestamp] :
+  /// The starting point from which the images should be generated. This
+  /// <code>StartTimestamp</code> must be within an inclusive range of
+  /// timestamps for an image to be returned.
+  ///
+  /// Parameter [formatConfig] :
+  /// The list of a key-value pair structure that contains extra parameters that
+  /// can be applied when the image is generated. The <code>FormatConfig</code>
+  /// key is the <code>JPEGQuality</code>, which indicates the JPEG quality key
+  /// to be used to generate the image. The <code>FormatConfig</code> value
+  /// accepts ints from 1 to 100. If the value is 1, the image will be generated
+  /// with less quality and the best compression. If the value is 100, the image
+  /// will be generated with the best quality and less compression. If no value
+  /// is provided, the default value of the <code>JPEGQuality</code> key will be
+  /// set to 80.
+  ///
+  /// Parameter [heightPixels] :
+  /// The height of the output image that is used in conjunction with the
+  /// <code>WidthPixels</code> parameter. When both <code>HeightPixels</code>
+  /// and <code>WidthPixels</code> parameters are provided, the image will be
+  /// stretched to fit the specified aspect ratio. If only the
+  /// <code>HeightPixels</code> parameter is provided, its original aspect ratio
+  /// will be used to calculate the <code>WidthPixels</code> ratio. If neither
+  /// parameter is provided, the original image size will be returned.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of images to be returned by the API.
+  /// <note>
+  /// The default limit is 100 images per API response. The additional results
+  /// will be paginated.
+  /// </note>
+  ///
+  /// Parameter [nextToken] :
+  /// A token that specifies where to start paginating the next set of Images.
+  /// This is the <code>GetImages:NextToken</code> from a previously truncated
+  /// response.
+  ///
+  /// Parameter [streamARN] :
+  /// The Amazon Resource Name (ARN) of the stream from which to retrieve the
+  /// images. You must specify either the <code>StreamName</code> or the
+  /// <code>StreamARN</code>.
+  ///
+  /// Parameter [streamName] :
+  /// The name of the stream from which to retrieve the images. You must specify
+  /// either the <code>StreamName</code> or the <code>StreamARN</code>.
+  ///
+  /// Parameter [widthPixels] :
+  /// The width of the output image that is used in conjunction with the
+  /// <code>HeightPixels</code> parameter. When both <code>WidthPixels</code>
+  /// and <code>HeightPixels</code> parameters are provided, the image will be
+  /// stretched to fit the specified aspect ratio. If only the
+  /// <code>WidthPixels</code> parameter is provided or if only the
+  /// <code>HeightPixels</code> is provided, a <code>ValidationException</code>
+  /// will be thrown. If neither parameter is provided, the original image size
+  /// from the stream will be returned.
+  Future<GetImagesOutput> getImages({
+    required DateTime endTimestamp,
+    required Format format,
+    required ImageSelectorType imageSelectorType,
+    required int samplingInterval,
+    required DateTime startTimestamp,
+    Map<FormatConfigKey, String>? formatConfig,
+    int? heightPixels,
+    int? maxResults,
+    String? nextToken,
+    String? streamARN,
+    String? streamName,
+    int? widthPixels,
+  }) async {
+    ArgumentError.checkNotNull(endTimestamp, 'endTimestamp');
+    ArgumentError.checkNotNull(format, 'format');
+    ArgumentError.checkNotNull(imageSelectorType, 'imageSelectorType');
+    ArgumentError.checkNotNull(samplingInterval, 'samplingInterval');
+    _s.validateNumRange(
+      'samplingInterval',
+      samplingInterval,
+      3000,
+      20000,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(startTimestamp, 'startTimestamp');
+    _s.validateNumRange(
+      'heightPixels',
+      heightPixels,
+      1,
+      2160,
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    _s.validateNumRange(
+      'widthPixels',
+      widthPixels,
+      1,
+      3840,
+    );
+    final $payload = <String, dynamic>{
+      'EndTimestamp': unixTimestampToJson(endTimestamp),
+      'Format': format.toValue(),
+      'ImageSelectorType': imageSelectorType.toValue(),
+      'SamplingInterval': samplingInterval,
+      'StartTimestamp': unixTimestampToJson(startTimestamp),
+      if (formatConfig != null)
+        'FormatConfig': formatConfig.map((k, e) => MapEntry(k.toValue(), e)),
+      if (heightPixels != null) 'HeightPixels': heightPixels,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (streamARN != null) 'StreamARN': streamARN,
+      if (streamName != null) 'StreamName': streamName,
+      if (widthPixels != null) 'WidthPixels': widthPixels,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/getImages',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetImagesOutput.fromJson(response);
+  }
+
   /// Gets media for a list of fragments (specified by fragment number) from the
   /// archived data in an Amazon Kinesis video stream.
   /// <note>
@@ -1514,6 +1665,57 @@ class DASHTimestampRange {
   }
 }
 
+enum Format {
+  jpeg,
+  png,
+}
+
+extension on Format {
+  String toValue() {
+    switch (this) {
+      case Format.jpeg:
+        return 'JPEG';
+      case Format.png:
+        return 'PNG';
+    }
+  }
+}
+
+extension on String {
+  Format toFormat() {
+    switch (this) {
+      case 'JPEG':
+        return Format.jpeg;
+      case 'PNG':
+        return Format.png;
+    }
+    throw Exception('$this is not known in enum Format');
+  }
+}
+
+enum FormatConfigKey {
+  jPEGQuality,
+}
+
+extension on FormatConfigKey {
+  String toValue() {
+    switch (this) {
+      case FormatConfigKey.jPEGQuality:
+        return 'JPEGQuality';
+    }
+  }
+}
+
+extension on String {
+  FormatConfigKey toFormatConfigKey() {
+    switch (this) {
+      case 'JPEGQuality':
+        return FormatConfigKey.jPEGQuality;
+    }
+    throw Exception('$this is not known in enum FormatConfigKey');
+  }
+}
+
 /// Represents a segment of video or other time-delimited data.
 class Fragment {
   /// The playback duration or other time value associated with the fragment.
@@ -1730,6 +1932,42 @@ class GetHLSStreamingSessionURLOutput {
     return {
       if (hLSStreamingSessionURL != null)
         'HLSStreamingSessionURL': hLSStreamingSessionURL,
+    };
+  }
+}
+
+class GetImagesOutput {
+  /// The list of images generated from the video stream. If there is no media
+  /// available for the given timestamp, the <code>NO_MEDIA</code> error will be
+  /// listed in the output. If an error occurs while the image is being generated,
+  /// the <code>MEDIA_ERROR</code> will be listed in the output as the cause of
+  /// the missing image.
+  final List<Image>? images;
+
+  /// The encrypted token that was used in the request to get more images.
+  final String? nextToken;
+
+  GetImagesOutput({
+    this.images,
+    this.nextToken,
+  });
+
+  factory GetImagesOutput.fromJson(Map<String, dynamic> json) {
+    return GetImagesOutput(
+      images: (json['Images'] as List?)
+          ?.whereNotNull()
+          .map((e) => Image.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final images = this.images;
+    final nextToken = this.nextToken;
+    return {
+      if (images != null) 'Images': images,
+      if (nextToken != null) 'NextToken': nextToken,
     };
   }
 }
@@ -2045,6 +2283,115 @@ class HLSTimestampRange {
       if (startTimestamp != null)
         'StartTimestamp': unixTimestampToJson(startTimestamp),
     };
+  }
+}
+
+/// A structure that contains the <code>Timestamp</code>, <code>Error</code>,
+/// and <code>ImageContent</code>.
+class Image {
+  /// The error message shown when the image for the provided timestamp was not
+  /// extracted due to a non-tryable error. An error will be returned if:
+  ///
+  /// <ul>
+  /// <li>
+  /// There is no media that exists for the specified <code>Timestamp</code>.
+  /// </li>
+  /// </ul>
+  /// <ul>
+  /// <li>
+  /// The media for the specified time does not allow an image to be extracted. In
+  /// this case the media is audio only, or the incorrect media has been ingested.
+  /// </li>
+  /// </ul>
+  final ImageError? error;
+
+  /// An attribute of the <code>Image</code> object that is Base64 encoded.
+  final String? imageContent;
+
+  /// An attribute of the <code>Image</code> object that is used to extract an
+  /// image from the video stream. This field is used to manage gaps on images or
+  /// to better understand the pagination window.
+  final DateTime? timeStamp;
+
+  Image({
+    this.error,
+    this.imageContent,
+    this.timeStamp,
+  });
+
+  factory Image.fromJson(Map<String, dynamic> json) {
+    return Image(
+      error: (json['Error'] as String?)?.toImageError(),
+      imageContent: json['ImageContent'] as String?,
+      timeStamp: timeStampFromJson(json['TimeStamp']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final error = this.error;
+    final imageContent = this.imageContent;
+    final timeStamp = this.timeStamp;
+    return {
+      if (error != null) 'Error': error.toValue(),
+      if (imageContent != null) 'ImageContent': imageContent,
+      if (timeStamp != null) 'TimeStamp': unixTimestampToJson(timeStamp),
+    };
+  }
+}
+
+enum ImageError {
+  noMedia,
+  mediaError,
+}
+
+extension on ImageError {
+  String toValue() {
+    switch (this) {
+      case ImageError.noMedia:
+        return 'NO_MEDIA';
+      case ImageError.mediaError:
+        return 'MEDIA_ERROR';
+    }
+  }
+}
+
+extension on String {
+  ImageError toImageError() {
+    switch (this) {
+      case 'NO_MEDIA':
+        return ImageError.noMedia;
+      case 'MEDIA_ERROR':
+        return ImageError.mediaError;
+    }
+    throw Exception('$this is not known in enum ImageError');
+  }
+}
+
+enum ImageSelectorType {
+  producerTimestamp,
+  serverTimestamp,
+}
+
+extension on ImageSelectorType {
+  String toValue() {
+    switch (this) {
+      case ImageSelectorType.producerTimestamp:
+        return 'PRODUCER_TIMESTAMP';
+      case ImageSelectorType.serverTimestamp:
+        return 'SERVER_TIMESTAMP';
+    }
+  }
+}
+
+extension on String {
+  ImageSelectorType toImageSelectorType() {
+    switch (this) {
+      case 'PRODUCER_TIMESTAMP':
+        return ImageSelectorType.producerTimestamp;
+      case 'SERVER_TIMESTAMP':
+        return ImageSelectorType.serverTimestamp;
+    }
+    throw Exception('$this is not known in enum ImageSelectorType');
   }
 }
 

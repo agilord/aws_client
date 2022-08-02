@@ -18,15 +18,15 @@ import '../../shared/shared.dart'
 
 export '../../shared/shared.dart' show AwsClientCredentials;
 
-/// AWS CodeArtifact is a fully managed artifact repository compatible with
+/// CodeArtifact is a fully managed artifact repository compatible with
 /// language-native package managers and build tools such as npm, Apache Maven,
-/// and pip. You can use CodeArtifact to share packages with development teams
-/// and pull packages. Packages can be pulled from both public and CodeArtifact
-/// repositories. You can also create an upstream relationship between a
-/// CodeArtifact repository and another repository, which effectively merges
-/// their contents from the point of view of a package manager client.
+/// pip, and dotnet. You can use CodeArtifact to share packages with development
+/// teams and pull packages. Packages can be pulled from both public and
+/// CodeArtifact repositories. You can also create an upstream relationship
+/// between a CodeArtifact repository and another repository, which effectively
+/// merges their contents from the point of view of a package manager client.
 ///
-/// <b>AWS CodeArtifact Components</b>
+/// <b>CodeArtifact Components</b>
 ///
 /// Use the information in this guide to help you work with the following
 /// CodeArtifact components:
@@ -39,7 +39,9 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// are polyglot, so a single repository can contain packages of any supported
 /// type. Each repository exposes endpoints for fetching and publishing packages
 /// using tools like the <b> <code>npm</code> </b> CLI, the Maven CLI (<b>
-/// <code>mvn</code> </b>), and <b> <code>pip</code> </b>.
+/// <code>mvn</code> </b>), Python CLIs (<b> <code>pip</code> </b> and
+/// <code>twine</code>), and NuGet CLIs (<code>nuget</code> and
+/// <code>dotnet</code>).
 /// </li>
 /// <li>
 /// <b>Domain</b>: Repositories are aggregated into a higher-level entity known
@@ -47,8 +49,8 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// domain, but are consumed through repositories. A given package asset, such
 /// as a Maven JAR file, is stored once per domain, no matter how many
 /// repositories it's present in. All of the assets and metadata in a domain are
-/// encrypted with the same customer master key (CMK) stored in AWS Key
-/// Management Service (AWS KMS).
+/// encrypted with the same customer master key (CMK) stored in Key Management
+/// Service (KMS).
 ///
 /// Each repository is a member of a single domain and can't be moved to a
 /// different domain.
@@ -68,8 +70,10 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// href="https://docs.aws.amazon.com/codeartifact/latest/ug/using-npm.html">npm</a>,
 /// <a
 /// href="https://docs.aws.amazon.com/codeartifact/latest/ug/using-python.html">PyPI</a>,
+/// <a
+/// href="https://docs.aws.amazon.com/codeartifact/latest/ug/using-maven">Maven</a>,
 /// and <a
-/// href="https://docs.aws.amazon.com/codeartifact/latest/ug/using-maven">Maven</a>
+/// href="https://docs.aws.amazon.com/codeartifact/latest/ug/using-nuget">NuGet</a>
 /// package formats.
 ///
 /// In CodeArtifact, a package consists of:
@@ -155,6 +159,11 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// that contains information about the requested domain.
 /// </li>
 /// <li>
+/// <code>DescribePackage</code>: Returns a <a
+/// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageDescription.html">PackageDescription</a>
+/// object that contains details about a package.
+/// </li>
+/// <li>
 /// <code>DescribePackageVersion</code>: Returns a <a
 /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageVersionDescription.html">PackageVersionDescription</a>
 /// object that contains details about a package version.
@@ -198,13 +207,16 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 ///
 /// <ul>
 /// <li>
+/// <code>maven</code>
+/// </li>
+/// <li>
 /// <code>npm</code>
 /// </li>
 /// <li>
-/// <code>pypi</code>
+/// <code>nuget</code>
 /// </li>
 /// <li>
-/// <code>maven</code>
+/// <code>pypi</code>
 /// </li>
 /// </ul> </li>
 /// <li>
@@ -233,7 +245,7 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// </li>
 /// <li>
 /// <code>ListRepositories</code>: Returns a list of repositories owned by the
-/// AWS account that called this method.
+/// Amazon Web Services account that called this method.
 /// </li>
 /// <li>
 /// <code>ListRepositoriesInDomain</code>: Returns a list of the repositories in
@@ -242,6 +254,11 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// <li>
 /// <code>PutDomainPermissionsPolicy</code>: Attaches a resource policy to a
 /// domain.
+/// </li>
+/// <li>
+/// <code>PutPackageOriginConfiguration</code>: Sets the package origin
+/// configuration for a package, which determine how new versions of the package
+/// can be added to a specific repository.
 /// </li>
 /// <li>
 /// <code>PutRepositoryPermissionsPolicy</code>: Sets the resource policy on a
@@ -323,8 +340,8 @@ class CodeArtifact {
   /// The name of the repository to which the external connection is added.
   ///
   /// Parameter [domainOwner] :
-  /// The 12-digit account number of the AWS account that owns the domain. It
-  /// does not include dashes or spaces.
+  /// The 12-digit account number of the Amazon Web Services account that owns
+  /// the domain. It does not include dashes or spaces.
   Future<AssociateExternalConnectionResult> associateExternalConnection({
     required String domain,
     required String externalConnection,
@@ -373,26 +390,14 @@ class CodeArtifact {
   /// repositories.
   ///
   /// Parameter [format] :
-  /// The format of the package that is copied. The valid package types are:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>npm</code>: A Node Package Manager (npm) package.
-  /// </li>
-  /// <li>
-  /// <code>pypi</code>: A Python Package Index (PyPI) package.
-  /// </li>
-  /// <li>
-  /// <code>maven</code>: A Maven package that contains compiled code in a
-  /// distributable format, such as a JAR file.
-  /// </li>
-  /// </ul>
+  /// The format of the package versions to be copied.
   ///
   /// Parameter [package] :
-  /// The name of the package that is copied.
+  /// The name of the package that contains the versions to be copied.
   ///
   /// Parameter [sourceRepository] :
-  /// The name of the repository that contains the package versions to copy.
+  /// The name of the repository that contains the package versions to be
+  /// copied.
   ///
   /// Parameter [allowOverwrite] :
   /// Set to true to overwrite a package version that already exists in the
@@ -402,8 +407,8 @@ class CodeArtifact {
   /// <code>ALREADY_EXISTS</code> error code.
   ///
   /// Parameter [domainOwner] :
-  /// The 12-digit account number of the AWS account that owns the domain. It
-  /// does not include dashes or spaces.
+  /// The 12-digit account number of the Amazon Web Services account that owns
+  /// the domain. It does not include dashes or spaces.
   ///
   /// Parameter [includeFromUpstream] :
   /// Set to true to copy packages from repositories that are upstream from the
@@ -413,19 +418,20 @@ class CodeArtifact {
   /// with upstream repositories</a>.
   ///
   /// Parameter [namespace] :
-  /// The namespace of the package. The package component that specifies its
-  /// namespace depends on its type. For example:
+  /// The namespace of the package versions to be copied. The package version
+  /// component that specifies its namespace depends on its type. For example:
   ///
   /// <ul>
   /// <li>
-  /// The namespace of a Maven package is its <code>groupId</code>.
+  /// The namespace of a Maven package version is its <code>groupId</code>. The
+  /// namespace is required when copying Maven package versions.
   /// </li>
   /// <li>
-  /// The namespace of an npm package is its <code>scope</code>.
+  /// The namespace of an npm package version is its <code>scope</code>.
   /// </li>
   /// <li>
-  /// A Python package does not contain a corresponding component, so Python
-  /// packages do not have a namespace.
+  /// Python and NuGet package versions do not contain a corresponding
+  /// component, package versions of those formats do not have a namespace.
   /// </li>
   /// </ul>
   ///
@@ -440,7 +446,7 @@ class CodeArtifact {
   /// </note>
   ///
   /// Parameter [versions] :
-  /// The versions of the package to copy.
+  /// The versions of the package to be copied.
   /// <note>
   /// You must specify <code>versions</code> or <code>versionRevisions</code>.
   /// You cannot specify both.
@@ -491,9 +497,9 @@ class CodeArtifact {
 
   /// Creates a domain. CodeArtifact <i>domains</i> make it easier to manage
   /// multiple repositories across an organization. You can use a domain to
-  /// apply permissions across many repositories owned by different AWS
-  /// accounts. An asset is stored only once in a domain, even if it's in
-  /// multiple repositories.
+  /// apply permissions across many repositories owned by different Amazon Web
+  /// Services accounts. An asset is stored only once in a domain, even if it's
+  /// in multiple repositories.
   ///
   /// Although you can have multiple domains, we recommend a single production
   /// domain that contains all published artifacts so that your development
@@ -509,10 +515,11 @@ class CodeArtifact {
   /// May throw [ValidationException].
   ///
   /// Parameter [domain] :
-  /// The name of the domain to create. All domain names in an AWS Region that
-  /// are in the same AWS account must be unique. The domain name is used as the
-  /// prefix in DNS hostnames. Do not use sensitive information in a domain name
-  /// because it is publicly discoverable.
+  /// The name of the domain to create. All domain names in an Amazon Web
+  /// Services Region that are in the same Amazon Web Services account must be
+  /// unique. The domain name is used as the prefix in DNS hostnames. Do not use
+  /// sensitive information in a domain name because it is publicly
+  /// discoverable.
   ///
   /// Parameter [encryptionKey] :
   /// The encryption key for the domain. This is used to encrypt content stored
@@ -522,15 +529,15 @@ class CodeArtifact {
   /// <code>kms:DescribeKey</code> and <code>kms:CreateGrant</code> permissions
   /// on the encryption key that is used. For more information, see <a
   /// href="https://docs.aws.amazon.com/kms/latest/APIReference/API_DescribeKey.html#API_DescribeKey_RequestSyntax">DescribeKey</a>
-  /// in the <i>AWS Key Management Service API Reference</i> and <a
-  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html">AWS
-  /// KMS API Permissions Reference</a> in the <i>AWS Key Management Service
-  /// Developer Guide</i>.
+  /// in the <i>Key Management Service API Reference</i> and <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html">Key
+  /// Management Service API Permissions Reference</a> in the <i>Key Management
+  /// Service Developer Guide</i>.
   /// <important>
   /// CodeArtifact supports only symmetric CMKs. Do not associate an asymmetric
   /// CMK with your domain. For more information, see <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html">Using
-  /// symmetric and asymmetric keys</a> in the <i>AWS Key Management Service
+  /// symmetric and asymmetric keys</a> in the <i>Key Management Service
   /// Developer Guide</i>.
   /// </important>
   ///
@@ -579,8 +586,8 @@ class CodeArtifact {
   /// A description of the created repository.
   ///
   /// Parameter [domainOwner] :
-  /// The 12-digit account number of the AWS account that owns the domain. It
-  /// does not include dashes or spaces.
+  /// The 12-digit account number of the Amazon Web Services account that owns
+  /// the domain. It does not include dashes or spaces.
   ///
   /// Parameter [tags] :
   /// One or more tag key-value pairs for the repository.
@@ -588,8 +595,8 @@ class CodeArtifact {
   /// Parameter [upstreams] :
   /// A list of upstream repositories to associate with the repository. The
   /// order of the upstream repositories in the list determines their priority
-  /// order when AWS CodeArtifact looks for a requested package version. For
-  /// more information, see <a
+  /// order when CodeArtifact looks for a requested package version. For more
+  /// information, see <a
   /// href="https://docs.aws.amazon.com/codeartifact/latest/ug/repos-upstream.html">Working
   /// with upstream repositories</a>.
   Future<CreateRepositoryResult> createRepository({
@@ -636,8 +643,8 @@ class CodeArtifact {
   /// The name of the domain to delete.
   ///
   /// Parameter [domainOwner] :
-  /// The 12-digit account number of the AWS account that owns the domain. It
-  /// does not include dashes or spaces.
+  /// The 12-digit account number of the Amazon Web Services account that owns
+  /// the domain. It does not include dashes or spaces.
   Future<DeleteDomainResult> deleteDomain({
     required String domain,
     String? domainOwner,
@@ -670,8 +677,8 @@ class CodeArtifact {
   /// The name of the domain associated with the resource policy to be deleted.
   ///
   /// Parameter [domainOwner] :
-  /// The 12-digit account number of the AWS account that owns the domain. It
-  /// does not include dashes or spaces.
+  /// The 12-digit account number of the Amazon Web Services account that owns
+  /// the domain. It does not include dashes or spaces.
   ///
   /// Parameter [policyRevision] :
   /// The current revision of the resource policy to be deleted. This revision
@@ -719,19 +726,7 @@ class CodeArtifact {
   /// The name of the domain that contains the package to delete.
   ///
   /// Parameter [format] :
-  /// The format of the package versions to delete. The valid values are:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>npm</code>
-  /// </li>
-  /// <li>
-  /// <code>pypi</code>
-  /// </li>
-  /// <li>
-  /// <code>maven</code>
-  /// </li>
-  /// </ul>
+  /// The format of the package versions to delete.
   ///
   /// Parameter [package] :
   /// The name of the package with the versions to delete.
@@ -743,44 +738,27 @@ class CodeArtifact {
   /// An array of strings that specify the versions of the package to delete.
   ///
   /// Parameter [domainOwner] :
-  /// The 12-digit account number of the AWS account that owns the domain. It
-  /// does not include dashes or spaces.
+  /// The 12-digit account number of the Amazon Web Services account that owns
+  /// the domain. It does not include dashes or spaces.
   ///
   /// Parameter [expectedStatus] :
-  /// The expected status of the package version to delete. Valid values are:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>Published</code>
-  /// </li>
-  /// <li>
-  /// <code>Unfinished</code>
-  /// </li>
-  /// <li>
-  /// <code>Unlisted</code>
-  /// </li>
-  /// <li>
-  /// <code>Archived</code>
-  /// </li>
-  /// <li>
-  /// <code>Disposed</code>
-  /// </li>
-  /// </ul>
+  /// The expected status of the package version to delete.
   ///
   /// Parameter [namespace] :
-  /// The namespace of the package. The package component that specifies its
-  /// namespace depends on its type. For example:
+  /// The namespace of the package versions to be deleted. The package version
+  /// component that specifies its namespace depends on its type. For example:
   ///
   /// <ul>
   /// <li>
-  /// The namespace of a Maven package is its <code>groupId</code>.
+  /// The namespace of a Maven package version is its <code>groupId</code>. The
+  /// namespace is required when deleting Maven package versions.
   /// </li>
   /// <li>
-  /// The namespace of an npm package is its <code>scope</code>.
+  /// The namespace of an npm package version is its <code>scope</code>.
   /// </li>
   /// <li>
-  /// A Python package does not contain a corresponding component, so Python
-  /// packages do not have a namespace.
+  /// Python and NuGet package versions do not contain a corresponding
+  /// component, package versions of those formats do not have a namespace.
   /// </li>
   /// </ul>
   Future<DeletePackageVersionsResult> deletePackageVersions({
@@ -836,8 +814,8 @@ class CodeArtifact {
   /// The name of the repository to delete.
   ///
   /// Parameter [domainOwner] :
-  /// The 12-digit account number of the AWS account that owns the domain. It
-  /// does not include dashes or spaces.
+  /// The 12-digit account number of the Amazon Web Services account that owns
+  /// the domain. It does not include dashes or spaces.
   Future<DeleteRepositoryResult> deleteRepository({
     required String domain,
     required String repository,
@@ -866,8 +844,9 @@ class CodeArtifact {
   /// immediate.
   /// <important>
   /// Use <code>DeleteRepositoryPermissionsPolicy</code> with caution. After a
-  /// policy is deleted, AWS users, roles, and accounts lose permissions to
-  /// perform the repository actions granted by the deleted policy.
+  /// policy is deleted, Amazon Web Services users, roles, and accounts lose
+  /// permissions to perform the repository actions granted by the deleted
+  /// policy.
   /// </important>
   ///
   /// May throw [AccessDeniedException].
@@ -886,8 +865,8 @@ class CodeArtifact {
   /// be deleted
   ///
   /// Parameter [domainOwner] :
-  /// The 12-digit account number of the AWS account that owns the domain. It
-  /// does not include dashes or spaces.
+  /// The 12-digit account number of the Amazon Web Services account that owns
+  /// the domain. It does not include dashes or spaces.
   ///
   /// Parameter [policyRevision] :
   /// The revision of the repository's resource policy to be deleted. This
@@ -932,8 +911,8 @@ class CodeArtifact {
   /// A string that specifies the name of the requested domain.
   ///
   /// Parameter [domainOwner] :
-  /// The 12-digit account number of the AWS account that owns the domain. It
-  /// does not include dashes or spaces.
+  /// The 12-digit account number of the Amazon Web Services account that owns
+  /// the domain. It does not include dashes or spaces.
   Future<DescribeDomainResult> describeDomain({
     required String domain,
     String? domainOwner,
@@ -954,6 +933,80 @@ class CodeArtifact {
   }
 
   /// Returns a <a
+  /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageDescription.html">PackageDescription</a>
+  /// object that contains information about the requested package.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [domain] :
+  /// The name of the domain that contains the repository that contains the
+  /// package.
+  ///
+  /// Parameter [format] :
+  /// A format that specifies the type of the requested package.
+  ///
+  /// Parameter [package] :
+  /// The name of the requested package.
+  ///
+  /// Parameter [repository] :
+  /// The name of the repository that contains the requested package.
+  ///
+  /// Parameter [domainOwner] :
+  /// The 12-digit account number of the Amazon Web Services account that owns
+  /// the domain. It does not include dashes or spaces.
+  ///
+  /// Parameter [namespace] :
+  /// The namespace of the requested package. The package component that
+  /// specifies its namespace depends on its type. For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// The namespace of a Maven package is its <code>groupId</code>. The
+  /// namespace is required when requesting Maven packages.
+  /// </li>
+  /// <li>
+  /// The namespace of an npm package is its <code>scope</code>.
+  /// </li>
+  /// <li>
+  /// Python and NuGet packages do not contain a corresponding component,
+  /// packages of those formats do not have a namespace.
+  /// </li>
+  /// </ul>
+  Future<DescribePackageResult> describePackage({
+    required String domain,
+    required PackageFormat format,
+    required String package,
+    required String repository,
+    String? domainOwner,
+    String? namespace,
+  }) async {
+    ArgumentError.checkNotNull(domain, 'domain');
+    ArgumentError.checkNotNull(format, 'format');
+    ArgumentError.checkNotNull(package, 'package');
+    ArgumentError.checkNotNull(repository, 'repository');
+    final $query = <String, List<String>>{
+      'domain': [domain],
+      'format': [format.toValue()],
+      'package': [package],
+      'repository': [repository],
+      if (domainOwner != null) 'domain-owner': [domainOwner],
+      if (namespace != null) 'namespace': [namespace],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/v1/package',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribePackageResult.fromJson(response);
+  }
+
+  /// Returns a <a
   /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageVersionDescription.html">PackageVersionDescription</a>
   /// object that contains information about the requested package version.
   ///
@@ -969,20 +1022,7 @@ class CodeArtifact {
   /// package version.
   ///
   /// Parameter [format] :
-  /// A format that specifies the type of the requested package version. The
-  /// valid values are:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>npm</code>
-  /// </li>
-  /// <li>
-  /// <code>pypi</code>
-  /// </li>
-  /// <li>
-  /// <code>maven</code>
-  /// </li>
-  /// </ul>
+  /// A format that specifies the type of the requested package version.
   ///
   /// Parameter [package] :
   /// The name of the requested package version.
@@ -995,23 +1035,23 @@ class CodeArtifact {
   /// The name of the repository that contains the package version.
   ///
   /// Parameter [domainOwner] :
-  /// The 12-digit account number of the AWS account that owns the domain. It
-  /// does not include dashes or spaces.
+  /// The 12-digit account number of the Amazon Web Services account that owns
+  /// the domain. It does not include dashes or spaces.
   ///
   /// Parameter [namespace] :
-  /// The namespace of the package. The package component that specifies its
-  /// namespace depends on its type. For example:
+  /// The namespace of the requested package version. The package version
+  /// component that specifies its namespace depends on its type. For example:
   ///
   /// <ul>
   /// <li>
-  /// The namespace of a Maven package is its <code>groupId</code>.
+  /// The namespace of a Maven package version is its <code>groupId</code>.
   /// </li>
   /// <li>
-  /// The namespace of an npm package is its <code>scope</code>.
+  /// The namespace of an npm package version is its <code>scope</code>.
   /// </li>
   /// <li>
-  /// A Python package does not contain a corresponding component, so Python
-  /// packages do not have a namespace.
+  /// Python and NuGet package versions do not contain a corresponding
+  /// component, package versions of those formats do not have a namespace.
   /// </li>
   /// </ul>
   Future<DescribePackageVersionResult> describePackageVersion({
@@ -1063,8 +1103,8 @@ class CodeArtifact {
   /// A string that specifies the name of the requested repository.
   ///
   /// Parameter [domainOwner] :
-  /// The 12-digit account number of the AWS account that owns the domain. It
-  /// does not include dashes or spaces.
+  /// The 12-digit account number of the Amazon Web Services account that owns
+  /// the domain. It does not include dashes or spaces.
   Future<DescribeRepositoryResult> describeRepository({
     required String domain,
     required String repository,
@@ -1109,8 +1149,8 @@ class CodeArtifact {
   /// removed.
   ///
   /// Parameter [domainOwner] :
-  /// The 12-digit account number of the AWS account that owns the domain. It
-  /// does not include dashes or spaces.
+  /// The 12-digit account number of the Amazon Web Services account that owns
+  /// the domain. It does not include dashes or spaces.
   Future<DisassociateExternalConnectionResult> disassociateExternalConnection({
     required String domain,
     required String externalConnection,
@@ -1161,19 +1201,6 @@ class CodeArtifact {
   ///
   /// Parameter [format] :
   /// A format that specifies the type of package versions you want to dispose.
-  /// The valid values are:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>npm</code>
-  /// </li>
-  /// <li>
-  /// <code>pypi</code>
-  /// </li>
-  /// <li>
-  /// <code>maven</code>
-  /// </li>
-  /// </ul>
   ///
   /// Parameter [package] :
   /// The name of the package with the versions you want to dispose.
@@ -1186,44 +1213,26 @@ class CodeArtifact {
   /// The versions of the package you want to dispose.
   ///
   /// Parameter [domainOwner] :
-  /// The 12-digit account number of the AWS account that owns the domain. It
-  /// does not include dashes or spaces.
+  /// The 12-digit account number of the Amazon Web Services account that owns
+  /// the domain. It does not include dashes or spaces.
   ///
   /// Parameter [expectedStatus] :
-  /// The expected status of the package version to dispose. Valid values are:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>Published</code>
-  /// </li>
-  /// <li>
-  /// <code>Unfinished</code>
-  /// </li>
-  /// <li>
-  /// <code>Unlisted</code>
-  /// </li>
-  /// <li>
-  /// <code>Archived</code>
-  /// </li>
-  /// <li>
-  /// <code>Disposed</code>
-  /// </li>
-  /// </ul>
+  /// The expected status of the package version to dispose.
   ///
   /// Parameter [namespace] :
-  /// The namespace of the package. The package component that specifies its
-  /// namespace depends on its type. For example:
+  /// The namespace of the package versions to be disposed. The package version
+  /// component that specifies its namespace depends on its type. For example:
   ///
   /// <ul>
   /// <li>
-  /// The namespace of a Maven package is its <code>groupId</code>.
+  /// The namespace of a Maven package version is its <code>groupId</code>.
   /// </li>
   /// <li>
-  /// The namespace of an npm package is its <code>scope</code>.
+  /// The namespace of an npm package version is its <code>scope</code>.
   /// </li>
   /// <li>
-  /// A Python package does not contain a corresponding component, so Python
-  /// packages do not have a namespace.
+  /// Python and NuGet package versions do not contain a corresponding
+  /// component, package versions of those formats do not have a namespace.
   /// </li>
   /// </ul>
   ///
@@ -1273,8 +1282,8 @@ class CodeArtifact {
   /// <code>codeartifact:GetAuthorizationToken</code> and
   /// <code>sts:GetServiceBearerToken</code> permissions. For more information
   /// about authorization tokens, see <a
-  /// href="https://docs.aws.amazon.com/codeartifact/latest/ug/tokens-authentication.html">AWS
-  /// CodeArtifact authentication and tokens</a>.
+  /// href="https://docs.aws.amazon.com/codeartifact/latest/ug/tokens-authentication.html">CodeArtifact
+  /// authentication and tokens</a>.
   /// <note>
   /// CodeArtifact authorization tokens are valid for a period of 12 hours when
   /// created with the <code>login</code> command. You can call
@@ -1308,8 +1317,8 @@ class CodeArtifact {
   /// token.
   ///
   /// Parameter [domainOwner] :
-  /// The 12-digit account number of the AWS account that owns the domain. It
-  /// does not include dashes or spaces.
+  /// The 12-digit account number of the Amazon Web Services account that owns
+  /// the domain. It does not include dashes or spaces.
   ///
   /// Parameter [durationSeconds] :
   /// The time, in seconds, that the generated authorization token is valid.
@@ -1349,8 +1358,7 @@ class CodeArtifact {
   /// The policy is a resource-based policy, not an identity-based policy. For
   /// more information, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html">Identity-based
-  /// policies and resource-based policies </a> in the <i>AWS Identity and
-  /// Access Management User Guide</i>.
+  /// policies and resource-based policies </a> in the <i>IAM User Guide</i>.
   /// </note>
   ///
   /// May throw [AccessDeniedException].
@@ -1363,8 +1371,8 @@ class CodeArtifact {
   /// The name of the domain to which the resource policy is attached.
   ///
   /// Parameter [domainOwner] :
-  /// The 12-digit account number of the AWS account that owns the domain. It
-  /// does not include dashes or spaces.
+  /// The 12-digit account number of the Amazon Web Services account that owns
+  /// the domain. It does not include dashes or spaces.
   Future<GetDomainPermissionsPolicyResult> getDomainPermissionsPolicy({
     required String domain,
     String? domainOwner,
@@ -1405,19 +1413,7 @@ class CodeArtifact {
   ///
   /// Parameter [format] :
   /// A format that specifies the type of the package version with the requested
-  /// asset file. The valid values are:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>npm</code>
-  /// </li>
-  /// <li>
-  /// <code>pypi</code>
-  /// </li>
-  /// <li>
-  /// <code>maven</code>
-  /// </li>
-  /// </ul>
+  /// asset file.
   ///
   /// Parameter [package] :
   /// The name of the package that contains the requested asset.
@@ -1430,23 +1426,24 @@ class CodeArtifact {
   /// The repository that contains the package version with the requested asset.
   ///
   /// Parameter [domainOwner] :
-  /// The 12-digit account number of the AWS account that owns the domain. It
-  /// does not include dashes or spaces.
+  /// The 12-digit account number of the Amazon Web Services account that owns
+  /// the domain. It does not include dashes or spaces.
   ///
   /// Parameter [namespace] :
-  /// The namespace of the package. The package component that specifies its
-  /// namespace depends on its type. For example:
+  /// The namespace of the package version with the requested asset file. The
+  /// package version component that specifies its namespace depends on its
+  /// type. For example:
   ///
   /// <ul>
   /// <li>
-  /// The namespace of a Maven package is its <code>groupId</code>.
+  /// The namespace of a Maven package version is its <code>groupId</code>.
   /// </li>
   /// <li>
-  /// The namespace of an npm package is its <code>scope</code>.
+  /// The namespace of an npm package version is its <code>scope</code>.
   /// </li>
   /// <li>
-  /// A Python package does not contain a corresponding component, so Python
-  /// packages do not have a namespace.
+  /// Python and NuGet package versions do not contain a corresponding
+  /// component, package versions of those formats do not have a namespace.
   /// </li>
   /// </ul>
   ///
@@ -1519,19 +1516,7 @@ class CodeArtifact {
   ///
   /// Parameter [format] :
   /// A format that specifies the type of the package version with the requested
-  /// readme file. The valid values are:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>npm</code>
-  /// </li>
-  /// <li>
-  /// <code>pypi</code>
-  /// </li>
-  /// <li>
-  /// <code>maven</code>
-  /// </li>
-  /// </ul>
+  /// readme file.
   ///
   /// Parameter [package] :
   /// The name of the package version that contains the requested readme file.
@@ -1544,23 +1529,24 @@ class CodeArtifact {
   /// The repository that contains the package with the requested readme file.
   ///
   /// Parameter [domainOwner] :
-  /// The 12-digit account number of the AWS account that owns the domain. It
-  /// does not include dashes or spaces.
+  /// The 12-digit account number of the Amazon Web Services account that owns
+  /// the domain. It does not include dashes or spaces.
   ///
   /// Parameter [namespace] :
-  /// The namespace of the package. The package component that specifies its
-  /// namespace depends on its type. For example:
+  /// The namespace of the package version with the requested readme file. The
+  /// package version component that specifies its namespace depends on its
+  /// type. For example:
   ///
   /// <ul>
   /// <li>
-  /// The namespace of a Maven package is its <code>groupId</code>.
+  /// The namespace of a Maven package version is its <code>groupId</code>.
   /// </li>
   /// <li>
-  /// The namespace of an npm package is its <code>scope</code>.
+  /// The namespace of an npm package version is its <code>scope</code>.
   /// </li>
   /// <li>
-  /// A Python package does not contain a corresponding component, so Python
-  /// packages do not have a namespace.
+  /// Python and NuGet package versions do not contain a corresponding
+  /// component, package versions of those formats do not have a namespace.
   /// </li>
   /// </ul>
   Future<GetPackageVersionReadmeResult> getPackageVersionReadme({
@@ -1601,13 +1587,16 @@ class CodeArtifact {
   ///
   /// <ul>
   /// <li>
+  /// <code>maven</code>
+  /// </li>
+  /// <li>
   /// <code>npm</code>
   /// </li>
   /// <li>
-  /// <code>pypi</code>
+  /// <code>nuget</code>
   /// </li>
   /// <li>
-  /// <code>maven</code>
+  /// <code>pypi</code>
   /// </li>
   /// </ul>
   ///
@@ -1622,26 +1611,15 @@ class CodeArtifact {
   ///
   /// Parameter [format] :
   /// Returns which endpoint of a repository to return. A repository has one
-  /// endpoint for each package format:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>npm</code>
-  /// </li>
-  /// <li>
-  /// <code>pypi</code>
-  /// </li>
-  /// <li>
-  /// <code>maven</code>
-  /// </li>
-  /// </ul>
+  /// endpoint for each package format.
   ///
   /// Parameter [repository] :
   /// The name of the repository.
   ///
   /// Parameter [domainOwner] :
-  /// The 12-digit account number of the AWS account that owns the domain that
-  /// contains the repository. It does not include dashes or spaces.
+  /// The 12-digit account number of the Amazon Web Services account that owns
+  /// the domain that contains the repository. It does not include dashes or
+  /// spaces.
   Future<GetRepositoryEndpointResult> getRepositoryEndpoint({
     required String domain,
     required PackageFormat format,
@@ -1684,8 +1662,8 @@ class CodeArtifact {
   /// retrieved.
   ///
   /// Parameter [domainOwner] :
-  /// The 12-digit account number of the AWS account that owns the domain. It
-  /// does not include dashes or spaces.
+  /// The 12-digit account number of the Amazon Web Services account that owns
+  /// the domain. It does not include dashes or spaces.
   Future<GetRepositoryPermissionsPolicyResult> getRepositoryPermissionsPolicy({
     required String domain,
     required String repository,
@@ -1710,9 +1688,9 @@ class CodeArtifact {
 
   /// Returns a list of <a
   /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageVersionDescription.html">DomainSummary</a>
-  /// objects for all domains owned by the AWS account that makes this call.
-  /// Each returned <code>DomainSummary</code> object contains information about
-  /// a domain.
+  /// objects for all domains owned by the Amazon Web Services account that
+  /// makes this call. Each returned <code>DomainSummary</code> object contains
+  /// information about a domain.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
@@ -1763,24 +1741,12 @@ class CodeArtifact {
   /// package version assets.
   ///
   /// Parameter [format] :
-  /// The format of the package that contains the returned package version
-  /// assets. The valid package types are:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>npm</code>: A Node Package Manager (npm) package.
-  /// </li>
-  /// <li>
-  /// <code>pypi</code>: A Python Package Index (PyPI) package.
-  /// </li>
-  /// <li>
-  /// <code>maven</code>: A Maven package that contains compiled code in a
-  /// distributable format, such as a JAR file.
-  /// </li>
-  /// </ul>
+  /// The format of the package that contains the requested package version
+  /// assets.
   ///
   /// Parameter [package] :
-  /// The name of the package that contains the returned package version assets.
+  /// The name of the package that contains the requested package version
+  /// assets.
   ///
   /// Parameter [packageVersion] :
   /// A string that contains the package version (for example,
@@ -1788,29 +1754,30 @@ class CodeArtifact {
   ///
   /// Parameter [repository] :
   /// The name of the repository that contains the package that contains the
-  /// returned package version assets.
+  /// requested package version assets.
   ///
   /// Parameter [domainOwner] :
-  /// The 12-digit account number of the AWS account that owns the domain. It
-  /// does not include dashes or spaces.
+  /// The 12-digit account number of the Amazon Web Services account that owns
+  /// the domain. It does not include dashes or spaces.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return per page.
   ///
   /// Parameter [namespace] :
-  /// The namespace of the package. The package component that specifies its
-  /// namespace depends on its type. For example:
+  /// The namespace of the package version that contains the requested package
+  /// version assets. The package version component that specifies its namespace
+  /// depends on its type. For example:
   ///
   /// <ul>
   /// <li>
-  /// The namespace of a Maven package is its <code>groupId</code>.
+  /// The namespace of a Maven package version is its <code>groupId</code>.
   /// </li>
   /// <li>
-  /// The namespace of an npm package is its <code>scope</code>.
+  /// The namespace of an npm package version is its <code>scope</code>.
   /// </li>
   /// <li>
-  /// A Python package does not contain a corresponding component, so Python
-  /// packages do not have a namespace.
+  /// Python and NuGet package versions do not contain a corresponding
+  /// component, package versions of those formats do not have a namespace.
   /// </li>
   /// </ul>
   ///
@@ -1880,21 +1847,7 @@ class CodeArtifact {
   /// requested package version dependencies.
   ///
   /// Parameter [format] :
-  /// The format of the package with the requested dependencies. The valid
-  /// package types are:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>npm</code>: A Node Package Manager (npm) package.
-  /// </li>
-  /// <li>
-  /// <code>pypi</code>: A Python Package Index (PyPI) package.
-  /// </li>
-  /// <li>
-  /// <code>maven</code>: A Maven package that contains compiled code in a
-  /// distributable format, such as a JAR file.
-  /// </li>
-  /// </ul>
+  /// The format of the package with the requested dependencies.
   ///
   /// Parameter [package] :
   /// The name of the package versions' package.
@@ -1907,23 +1860,24 @@ class CodeArtifact {
   /// The name of the repository that contains the requested package version.
   ///
   /// Parameter [domainOwner] :
-  /// The 12-digit account number of the AWS account that owns the domain. It
-  /// does not include dashes or spaces.
+  /// The 12-digit account number of the Amazon Web Services account that owns
+  /// the domain. It does not include dashes or spaces.
   ///
   /// Parameter [namespace] :
-  /// The namespace of the package. The package component that specifies its
-  /// namespace depends on its type. For example:
+  /// The namespace of the package version with the requested dependencies. The
+  /// package version component that specifies its namespace depends on its
+  /// type. For example:
   ///
   /// <ul>
   /// <li>
-  /// The namespace of a Maven package is its <code>groupId</code>.
+  /// The namespace of a Maven package version is its <code>groupId</code>.
   /// </li>
   /// <li>
-  /// The namespace of an npm package is its <code>scope</code>.
+  /// The namespace of an npm package version is its <code>scope</code>.
   /// </li>
   /// <li>
-  /// A Python package does not contain a corresponding component, so Python
-  /// packages do not have a namespace.
+  /// Python and NuGet package versions do not contain a corresponding
+  /// component, package versions of those formats do not have a namespace.
   /// </li>
   /// </ul>
   ///
@@ -1978,41 +1932,28 @@ class CodeArtifact {
   ///
   /// Parameter [domain] :
   /// The name of the domain that contains the repository that contains the
-  /// returned package versions.
+  /// requested package versions.
   ///
   /// Parameter [format] :
-  /// The format of the returned packages. The valid package types are:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>npm</code>: A Node Package Manager (npm) package.
-  /// </li>
-  /// <li>
-  /// <code>pypi</code>: A Python Package Index (PyPI) package.
-  /// </li>
-  /// <li>
-  /// <code>maven</code>: A Maven package that contains compiled code in a
-  /// distributable format, such as a JAR file.
-  /// </li>
-  /// </ul>
+  /// The format of the returned package versions.
   ///
   /// Parameter [package] :
-  /// The name of the package for which you want to return a list of package
-  /// versions.
+  /// The name of the package for which you want to request package versions.
   ///
   /// Parameter [repository] :
-  /// The name of the repository that contains the package.
+  /// The name of the repository that contains the requested package versions.
   ///
   /// Parameter [domainOwner] :
-  /// The 12-digit account number of the AWS account that owns the domain. It
-  /// does not include dashes or spaces.
+  /// The 12-digit account number of the Amazon Web Services account that owns
+  /// the domain. It does not include dashes or spaces.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return per page.
   ///
   /// Parameter [namespace] :
-  /// The namespace of the package. The package component that specifies its
-  /// namespace depends on its type. For example:
+  /// The namespace of the package that contains the requested package versions.
+  /// The package component that specifies its namespace depends on its type.
+  /// For example:
   ///
   /// <ul>
   /// <li>
@@ -2022,8 +1963,8 @@ class CodeArtifact {
   /// The namespace of an npm package is its <code>scope</code>.
   /// </li>
   /// <li>
-  /// A Python package does not contain a corresponding component, so Python
-  /// packages do not have a namespace.
+  /// Python and NuGet packages do not contain a corresponding component,
+  /// packages of those formats do not have a namespace.
   /// </li>
   /// </ul>
   ///
@@ -2031,30 +1972,15 @@ class CodeArtifact {
   /// The token for the next set of results. Use the value returned in the
   /// previous response in the next request to retrieve the next set of results.
   ///
+  /// Parameter [originType] :
+  /// The <code>originType</code> used to filter package versions. Only package
+  /// versions with the provided <code>originType</code> will be returned.
+  ///
   /// Parameter [sortBy] :
-  /// How to sort the returned list of package versions.
+  /// How to sort the requested list of package versions.
   ///
   /// Parameter [status] :
-  /// A string that specifies the status of the package versions to include in
-  /// the returned list. It can be one of the following:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>Published</code>
-  /// </li>
-  /// <li>
-  /// <code>Unfinished</code>
-  /// </li>
-  /// <li>
-  /// <code>Unlisted</code>
-  /// </li>
-  /// <li>
-  /// <code>Archived</code>
-  /// </li>
-  /// <li>
-  /// <code>Disposed</code>
-  /// </li>
-  /// </ul>
+  /// A string that filters the requested package versions by status.
   Future<ListPackageVersionsResult> listPackageVersions({
     required String domain,
     required PackageFormat format,
@@ -2064,6 +1990,7 @@ class CodeArtifact {
     int? maxResults,
     String? namespace,
     String? nextToken,
+    PackageVersionOriginType? originType,
     PackageVersionSortType? sortBy,
     PackageVersionStatus? status,
   }) async {
@@ -2086,6 +2013,7 @@ class CodeArtifact {
       if (maxResults != null) 'max-results': [maxResults.toString()],
       if (namespace != null) 'namespace': [namespace],
       if (nextToken != null) 'next-token': [nextToken],
+      if (originType != null) 'originType': [originType.toValue()],
       if (sortBy != null) 'sortBy': [sortBy.toValue()],
       if (status != null) 'status': [status.toValue()],
     };
@@ -2111,37 +2039,26 @@ class CodeArtifact {
   ///
   /// Parameter [domain] :
   /// The name of the domain that contains the repository that contains the
-  /// requested list of packages.
+  /// requested packages.
   ///
   /// Parameter [repository] :
-  /// The name of the repository from which packages are to be listed.
+  /// The name of the repository that contains the requested packages.
   ///
   /// Parameter [domainOwner] :
-  /// The 12-digit account number of the AWS account that owns the domain. It
-  /// does not include dashes or spaces.
+  /// The 12-digit account number of the Amazon Web Services account that owns
+  /// the domain. It does not include dashes or spaces.
   ///
   /// Parameter [format] :
-  /// The format of the packages. The valid package types are:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>npm</code>: A Node Package Manager (npm) package.
-  /// </li>
-  /// <li>
-  /// <code>pypi</code>: A Python Package Index (PyPI) package.
-  /// </li>
-  /// <li>
-  /// <code>maven</code>: A Maven package that contains compiled code in a
-  /// distributable format, such as a JAR file.
-  /// </li>
-  /// </ul>
+  /// The format used to filter requested packages. Only packages from the
+  /// provided format will be returned.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return per page.
   ///
   /// Parameter [namespace] :
-  /// The namespace of the package. The package component that specifies its
-  /// namespace depends on its type. For example:
+  /// The namespace used to filter requested packages. Only packages with the
+  /// provided namespace will be returned. The package component that specifies
+  /// its namespace depends on its type. For example:
   ///
   /// <ul>
   /// <li>
@@ -2151,8 +2068,8 @@ class CodeArtifact {
   /// The namespace of an npm package is its <code>scope</code>.
   /// </li>
   /// <li>
-  /// A Python package does not contain a corresponding component, so Python
-  /// packages do not have a namespace.
+  /// Python and NuGet packages do not contain a corresponding component,
+  /// packages of those formats do not have a namespace.
   /// </li>
   /// </ul>
   ///
@@ -2161,8 +2078,20 @@ class CodeArtifact {
   /// previous response in the next request to retrieve the next set of results.
   ///
   /// Parameter [packagePrefix] :
-  /// A prefix used to filter returned packages. Only packages with names that
+  /// A prefix used to filter requested packages. Only packages with names that
   /// start with <code>packagePrefix</code> are returned.
+  ///
+  /// Parameter [publish] :
+  /// The value of the <code>Publish</code> package origin control restriction
+  /// used to filter requested packages. Only packages with the provided
+  /// restriction are returned. For more information, see <a
+  /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageOriginRestrictions.html">PackageOriginRestrictions</a>.
+  ///
+  /// Parameter [upstream] :
+  /// The value of the <code>Upstream</code> package origin control restriction
+  /// used to filter requested packages. Only packages with the provided
+  /// restriction are returned. For more information, see <a
+  /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageOriginRestrictions.html">PackageOriginRestrictions</a>.
   Future<ListPackagesResult> listPackages({
     required String domain,
     required String repository,
@@ -2172,6 +2101,8 @@ class CodeArtifact {
     String? namespace,
     String? nextToken,
     String? packagePrefix,
+    AllowPublish? publish,
+    AllowUpstream? upstream,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
     ArgumentError.checkNotNull(repository, 'repository');
@@ -2190,6 +2121,8 @@ class CodeArtifact {
       if (namespace != null) 'namespace': [namespace],
       if (nextToken != null) 'next-token': [nextToken],
       if (packagePrefix != null) 'package-prefix': [packagePrefix],
+      if (publish != null) 'publish': [publish.toValue()],
+      if (upstream != null) 'upstream': [upstream.toValue()],
     };
     final response = await _protocol.send(
       payload: null,
@@ -2204,8 +2137,8 @@ class CodeArtifact {
   /// Returns a list of <a
   /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_RepositorySummary.html">RepositorySummary</a>
   /// objects. Each <code>RepositorySummary</code> contains information about a
-  /// repository in the specified AWS account and that matches the input
-  /// parameters.
+  /// repository in the specified Amazon Web Services account and that matches
+  /// the input parameters.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
@@ -2264,11 +2197,11 @@ class CodeArtifact {
   ///
   /// Parameter [administratorAccount] :
   /// Filter the list of repositories to only include those that are managed by
-  /// the AWS account ID.
+  /// the Amazon Web Services account ID.
   ///
   /// Parameter [domainOwner] :
-  /// The 12-digit account number of the AWS account that owns the domain. It
-  /// does not include dashes or spaces.
+  /// The 12-digit account number of the Amazon Web Services account that owns
+  /// the domain. It does not include dashes or spaces.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return per page.
@@ -2314,8 +2247,8 @@ class CodeArtifact {
     return ListRepositoriesInDomainResult.fromJson(response);
   }
 
-  /// Gets information about AWS tags for a specified Amazon Resource Name (ARN)
-  /// in AWS CodeArtifact.
+  /// Gets information about Amazon Web Services tags for a specified Amazon
+  /// Resource Name (ARN) in CodeArtifact.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ResourceNotFoundException].
@@ -2365,8 +2298,8 @@ class CodeArtifact {
   /// control resource policy on the provided domain.
   ///
   /// Parameter [domainOwner] :
-  /// The 12-digit account number of the AWS account that owns the domain. It
-  /// does not include dashes or spaces.
+  /// The 12-digit account number of the Amazon Web Services account that owns
+  /// the domain. It does not include dashes or spaces.
   ///
   /// Parameter [policyRevision] :
   /// The current revision of the resource policy to be set. This revision is
@@ -2393,6 +2326,112 @@ class CodeArtifact {
       exceptionFnMap: _exceptionFns,
     );
     return PutDomainPermissionsPolicyResult.fromJson(response);
+  }
+
+  /// Sets the package origin configuration for a package.
+  ///
+  /// The package origin configuration determines how new versions of a package
+  /// can be added to a repository. You can allow or block direct publishing of
+  /// new package versions, or ingestion and retaining of new package versions
+  /// from an external connection or upstream source. For more information about
+  /// package origin controls and configuration, see <a
+  /// href="https://docs.aws.amazon.com/codeartifact/latest/ug/package-origin-controls.html">Editing
+  /// package origin controls</a> in the <i>CodeArtifact User Guide</i>.
+  ///
+  /// <code>PutPackageOriginConfiguration</code> can be called on a package that
+  /// doesn't yet exist in the repository. When called on a package that does
+  /// not exist, a package is created in the repository with no versions and the
+  /// requested restrictions are set on the package. This can be used to
+  /// preemptively block ingesting or retaining any versions from external
+  /// connections or upstream repositories, or to block publishing any versions
+  /// of the package into the repository before connecting any package managers
+  /// or publishers to the repository.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [domain] :
+  /// The name of the domain that contains the repository that contains the
+  /// package.
+  ///
+  /// Parameter [format] :
+  /// A format that specifies the type of the package to be updated.
+  ///
+  /// Parameter [package] :
+  /// The name of the package to be updated.
+  ///
+  /// Parameter [repository] :
+  /// The name of the repository that contains the package.
+  ///
+  /// Parameter [restrictions] :
+  /// A <a
+  /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageOriginRestrictions.html">PackageOriginRestrictions</a>
+  /// object that contains information about the <code>upstream</code> and
+  /// <code>publish</code> package origin restrictions. The
+  /// <code>upstream</code> restriction determines if new package versions can
+  /// be ingested or retained from external connections or upstream
+  /// repositories. The <code>publish</code> restriction determines if new
+  /// package versions can be published directly to the repository.
+  ///
+  /// You must include both the desired <code>upstream</code> and
+  /// <code>publish</code> restrictions.
+  ///
+  /// Parameter [domainOwner] :
+  /// The 12-digit account number of the Amazon Web Services account that owns
+  /// the domain. It does not include dashes or spaces.
+  ///
+  /// Parameter [namespace] :
+  /// The namespace of the package to be updated. The package component that
+  /// specifies its namespace depends on its type. For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// The namespace of a Maven package is its <code>groupId</code>.
+  /// </li>
+  /// <li>
+  /// The namespace of an npm package is its <code>scope</code>.
+  /// </li>
+  /// <li>
+  /// Python and NuGet packages do not contain a corresponding component,
+  /// packages of those formats do not have a namespace.
+  /// </li>
+  /// </ul>
+  Future<PutPackageOriginConfigurationResult> putPackageOriginConfiguration({
+    required String domain,
+    required PackageFormat format,
+    required String package,
+    required String repository,
+    required PackageOriginRestrictions restrictions,
+    String? domainOwner,
+    String? namespace,
+  }) async {
+    ArgumentError.checkNotNull(domain, 'domain');
+    ArgumentError.checkNotNull(format, 'format');
+    ArgumentError.checkNotNull(package, 'package');
+    ArgumentError.checkNotNull(repository, 'repository');
+    ArgumentError.checkNotNull(restrictions, 'restrictions');
+    final $query = <String, List<String>>{
+      'domain': [domain],
+      'format': [format.toValue()],
+      'package': [package],
+      'repository': [repository],
+      if (domainOwner != null) 'domain-owner': [domainOwner],
+      if (namespace != null) 'namespace': [namespace],
+    };
+    final $payload = <String, dynamic>{
+      'restrictions': restrictions,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/v1/package',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return PutPackageOriginConfigurationResult.fromJson(response);
   }
 
   /// Sets the resource policy on a repository that specifies permissions to
@@ -2424,8 +2463,8 @@ class CodeArtifact {
   /// The name of the repository to set the resource policy on.
   ///
   /// Parameter [domainOwner] :
-  /// The 12-digit account number of the AWS account that owns the domain. It
-  /// does not include dashes or spaces.
+  /// The 12-digit account number of the Amazon Web Services account that owns
+  /// the domain. It does not include dashes or spaces.
   ///
   /// Parameter [policyRevision] :
   /// Sets the revision of the resource policy that specifies permissions to
@@ -2461,7 +2500,7 @@ class CodeArtifact {
     return PutRepositoryPermissionsPolicyResult.fromJson(response);
   }
 
-  /// Adds or updates tags for a resource in AWS CodeArtifact.
+  /// Adds or updates tags for a resource in CodeArtifact.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ResourceNotFoundException].
@@ -2496,7 +2535,7 @@ class CodeArtifact {
     );
   }
 
-  /// Removes tags from a resource in AWS CodeArtifact.
+  /// Removes tags from a resource in CodeArtifact.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ResourceNotFoundException].
@@ -2530,7 +2569,12 @@ class CodeArtifact {
     );
   }
 
-  /// Updates the status of one or more versions of a package.
+  /// Updates the status of one or more versions of a package. Using
+  /// <code>UpdatePackageVersionsStatus</code>, you can update the status of
+  /// package versions to <code>Archived</code>, <code>Published</code>, or
+  /// <code>Unlisted</code>. To set the status of a package version to
+  /// <code>Disposed</code>, use <a
+  /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_DisposePackageVersions.html">DisposePackageVersions</a>.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
@@ -2545,19 +2589,7 @@ class CodeArtifact {
   ///
   /// Parameter [format] :
   /// A format that specifies the type of the package with the statuses to
-  /// update. The valid values are:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>npm</code>
-  /// </li>
-  /// <li>
-  /// <code>pypi</code>
-  /// </li>
-  /// <li>
-  /// <code>maven</code>
-  /// </li>
-  /// </ul>
+  /// update.
   ///
   /// Parameter [package] :
   /// The name of the package with the version statuses to update.
@@ -2574,8 +2606,8 @@ class CodeArtifact {
   /// statuses to update.
   ///
   /// Parameter [domainOwner] :
-  /// The 12-digit account number of the AWS account that owns the domain. It
-  /// does not include dashes or spaces.
+  /// The 12-digit account number of the Amazon Web Services account that owns
+  /// the domain. It does not include dashes or spaces.
   ///
   /// Parameter [expectedStatus] :
   /// The package version’s expected status before it is updated. If
@@ -2585,19 +2617,19 @@ class CodeArtifact {
   /// <code>expectedStatus</code>.
   ///
   /// Parameter [namespace] :
-  /// The namespace of the package. The package component that specifies its
-  /// namespace depends on its type. For example:
+  /// The namespace of the package version to be updated. The package version
+  /// component that specifies its namespace depends on its type. For example:
   ///
   /// <ul>
   /// <li>
-  /// The namespace of a Maven package is its <code>groupId</code>.
+  /// The namespace of a Maven package version is its <code>groupId</code>.
   /// </li>
   /// <li>
-  /// The namespace of an npm package is its <code>scope</code>.
+  /// The namespace of an npm package version is its <code>scope</code>.
   /// </li>
   /// <li>
-  /// A Python package does not contain a corresponding component, so Python
-  /// packages do not have a namespace.
+  /// Python and NuGet package versions do not contain a corresponding
+  /// component, package versions of those formats do not have a namespace.
   /// </li>
   /// </ul>
   ///
@@ -2667,14 +2699,14 @@ class CodeArtifact {
   /// An updated repository description.
   ///
   /// Parameter [domainOwner] :
-  /// The 12-digit account number of the AWS account that owns the domain. It
-  /// does not include dashes or spaces.
+  /// The 12-digit account number of the Amazon Web Services account that owns
+  /// the domain. It does not include dashes or spaces.
   ///
   /// Parameter [upstreams] :
   /// A list of upstream repositories to associate with the repository. The
   /// order of the upstream repositories in the list determines their priority
-  /// order when AWS CodeArtifact looks for a requested package version. For
-  /// more information, see <a
+  /// order when CodeArtifact looks for a requested package version. For more
+  /// information, see <a
   /// href="https://docs.aws.amazon.com/codeartifact/latest/ug/repos-upstream.html">Working
   /// with upstream repositories</a>.
   Future<UpdateRepositoryResult> updateRepository({
@@ -2703,6 +2735,62 @@ class CodeArtifact {
       exceptionFnMap: _exceptionFns,
     );
     return UpdateRepositoryResult.fromJson(response);
+  }
+}
+
+enum AllowPublish {
+  allow,
+  block,
+}
+
+extension on AllowPublish {
+  String toValue() {
+    switch (this) {
+      case AllowPublish.allow:
+        return 'ALLOW';
+      case AllowPublish.block:
+        return 'BLOCK';
+    }
+  }
+}
+
+extension on String {
+  AllowPublish toAllowPublish() {
+    switch (this) {
+      case 'ALLOW':
+        return AllowPublish.allow;
+      case 'BLOCK':
+        return AllowPublish.block;
+    }
+    throw Exception('$this is not known in enum AllowPublish');
+  }
+}
+
+enum AllowUpstream {
+  allow,
+  block,
+}
+
+extension on AllowUpstream {
+  String toValue() {
+    switch (this) {
+      case AllowUpstream.allow:
+        return 'ALLOW';
+      case AllowUpstream.block:
+        return 'BLOCK';
+    }
+  }
+}
+
+extension on String {
+  AllowUpstream toAllowUpstream() {
+    switch (this) {
+      case 'ALLOW':
+        return AllowUpstream.allow;
+      case 'BLOCK':
+        return AllowUpstream.block;
+    }
+    throw Exception('$this is not known in enum AllowUpstream');
   }
 }
 
@@ -2954,7 +3042,8 @@ class DeletePackageVersionsResult {
   /// </ul>
   final Map<String, PackageVersionError>? failedVersions;
 
-  /// A list of the package versions that were successfully deleted.
+  /// A list of the package versions that were successfully deleted. The status of
+  /// every successful version will be <code>Deleted</code>.
   final Map<String, SuccessfulPackageVersionInfo>? successfulVersions;
 
   DeletePackageVersionsResult({
@@ -3054,6 +3143,31 @@ class DescribeDomainResult {
     final domain = this.domain;
     return {
       if (domain != null) 'domain': domain,
+    };
+  }
+}
+
+class DescribePackageResult {
+  /// A <a
+  /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageDescription.html">PackageDescription</a>
+  /// object that contains information about the requested package.
+  final PackageDescription package;
+
+  DescribePackageResult({
+    required this.package,
+  });
+
+  factory DescribePackageResult.fromJson(Map<String, dynamic> json) {
+    return DescribePackageResult(
+      package:
+          PackageDescription.fromJson(json['package'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final package = this.package;
+    return {
+      'package': package,
     };
   }
 }
@@ -3205,14 +3319,13 @@ class DomainDescription {
   /// A timestamp that represents the date and time the domain was created.
   final DateTime? createdTime;
 
-  /// The ARN of an AWS Key Management Service (AWS KMS) key associated with a
-  /// domain.
+  /// The ARN of an Key Management Service (KMS) key associated with a domain.
   final String? encryptionKey;
 
   /// The name of the domain.
   final String? name;
 
-  /// The AWS account ID that owns the domain.
+  /// The Amazon Web Services account ID that owns the domain.
   final String? owner;
 
   /// The number of repositories in the domain.
@@ -3222,16 +3335,7 @@ class DomainDescription {
   /// package assets in the domain.
   final String? s3BucketArn;
 
-  /// The current status of a domain. The valid values are
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>Active</code>
-  /// </li>
-  /// <li>
-  /// <code>Deleted</code>
-  /// </li>
-  /// </ul>
+  /// The current status of a domain.
   final DomainStatus? status;
 
   DomainDescription({
@@ -3284,6 +3388,42 @@ class DomainDescription {
   }
 }
 
+/// Information about how a package originally entered the CodeArtifact domain.
+/// For packages published directly to CodeArtifact, the entry point is the
+/// repository it was published to. For packages ingested from an external
+/// repository, the entry point is the external connection that it was ingested
+/// from. An external connection is a CodeArtifact repository that is connected
+/// to an external repository such as the npm registry or NuGet gallery.
+class DomainEntryPoint {
+  /// The name of the external connection that a package was ingested from.
+  final String? externalConnectionName;
+
+  /// The name of the repository that a package was originally published to.
+  final String? repositoryName;
+
+  DomainEntryPoint({
+    this.externalConnectionName,
+    this.repositoryName,
+  });
+
+  factory DomainEntryPoint.fromJson(Map<String, dynamic> json) {
+    return DomainEntryPoint(
+      externalConnectionName: json['externalConnectionName'] as String?,
+      repositoryName: json['repositoryName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final externalConnectionName = this.externalConnectionName;
+    final repositoryName = this.repositoryName;
+    return {
+      if (externalConnectionName != null)
+        'externalConnectionName': externalConnectionName,
+      if (repositoryName != null) 'repositoryName': repositoryName,
+    };
+  }
+}
+
 enum DomainStatus {
   active,
   deleted,
@@ -3329,20 +3469,11 @@ class DomainSummary {
   /// The name of the domain.
   final String? name;
 
-  /// The 12-digit account number of the AWS account that owns the domain. It does
-  /// not include dashes or spaces.
+  /// The 12-digit account number of the Amazon Web Services account that owns the
+  /// domain. It does not include dashes or spaces.
   final String? owner;
 
-  /// A string that contains the status of the domain. The valid values are:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>Active</code>
-  /// </li>
-  /// <li>
-  /// <code>Deleted</code>
-  /// </li>
-  /// </ul>
+  /// A string that contains the status of the domain.
   final DomainStatus? status;
 
   DomainSummary({
@@ -3502,35 +3633,23 @@ class GetPackageVersionAssetResult {
 }
 
 class GetPackageVersionReadmeResult {
-  /// The format of the package with the requested readme file. Valid format types
-  /// are:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>npm</code>
-  /// </li>
-  /// <li>
-  /// <code>pypi</code>
-  /// </li>
-  /// <li>
-  /// <code>maven</code>
-  /// </li>
-  /// </ul>
+  /// The format of the package with the requested readme file.
   final PackageFormat? format;
 
-  /// The namespace of the package. The package component that specifies its
-  /// namespace depends on its type. For example:
+  /// The namespace of the package version with the requested readme file. The
+  /// package version component that specifies its namespace depends on its type.
+  /// For example:
   ///
   /// <ul>
   /// <li>
-  /// The namespace of a Maven package is its <code>groupId</code>.
+  /// The namespace of a Maven package version is its <code>groupId</code>.
   /// </li>
   /// <li>
-  /// The namespace of an npm package is its <code>scope</code>.
+  /// The namespace of an npm package version is its <code>scope</code>.
   /// </li>
   /// <li>
-  /// A Python package does not contain a corresponding component, so Python
-  /// packages do not have a namespace.
+  /// Python and NuGet package versions do not contain a corresponding component,
+  /// package versions of those formats do not have a namespace.
   /// </li>
   /// </ul>
   final String? namespace;
@@ -3741,22 +3860,24 @@ class ListPackageVersionAssetsResult {
   /// objects.
   final List<AssetSummary>? assets;
 
-  /// The format of the package that contains the returned package version assets.
+  /// The format of the package that contains the requested package version
+  /// assets.
   final PackageFormat? format;
 
-  /// The namespace of the package. The package component that specifies its
-  /// namespace depends on its type. For example:
+  /// The namespace of the package version that contains the requested package
+  /// version assets. The package version component that specifies its namespace
+  /// depends on its type. For example:
   ///
   /// <ul>
   /// <li>
-  /// The namespace of a Maven package is its <code>groupId</code>.
+  /// The namespace of a Maven package version is its <code>groupId</code>.
   /// </li>
   /// <li>
-  /// The namespace of an npm package is its <code>scope</code>.
+  /// The namespace of an npm package version is its <code>scope</code>.
   /// </li>
   /// <li>
-  /// A Python package does not contain a corresponding component, so Python
-  /// packages do not have a namespace.
+  /// Python and NuGet package versions do not contain a corresponding component,
+  /// package versions of those formats do not have a namespace.
   /// </li>
   /// </ul>
   final String? namespace;
@@ -3765,10 +3886,10 @@ class ListPackageVersionAssetsResult {
   /// results.
   final String? nextToken;
 
-  /// The name of the package that contains the returned package version assets.
+  /// The name of the package that contains the requested package version assets.
   final String? package;
 
-  /// The version of the package associated with the returned assets.
+  /// The version of the package associated with the requested assets.
   final String? version;
 
   /// The current revision associated with the package version.
@@ -3826,34 +3947,23 @@ class ListPackageVersionDependenciesResult {
   final List<PackageDependency>? dependencies;
 
   /// A format that specifies the type of the package that contains the returned
-  /// dependencies. The valid values are:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>npm</code>
-  /// </li>
-  /// <li>
-  /// <code>pypi</code>
-  /// </li>
-  /// <li>
-  /// <code>maven</code>
-  /// </li>
-  /// </ul>
+  /// dependencies.
   final PackageFormat? format;
 
-  /// The namespace of the package. The package component that specifies its
-  /// namespace depends on its type. For example:
+  /// The namespace of the package version that contains the returned
+  /// dependencies. The package version component that specifies its namespace
+  /// depends on its type. For example:
   ///
   /// <ul>
   /// <li>
-  /// The namespace of a Maven package is its <code>groupId</code>.
+  /// The namespace of a Maven package version is its <code>groupId</code>.
   /// </li>
   /// <li>
-  /// The namespace of an npm package is its <code>scope</code>.
+  /// The namespace of an npm package version is its <code>scope</code>.
   /// </li>
   /// <li>
-  /// A Python package does not contain a corresponding component, so Python
-  /// packages do not have a namespace.
+  /// Python and NuGet package versions do not contain a corresponding component,
+  /// package versions of those formats do not have a namespace.
   /// </li>
   /// </ul>
   final String? namespace;
@@ -3934,23 +4044,12 @@ class ListPackageVersionsResult {
   /// </ul>
   final String? defaultDisplayVersion;
 
-  /// A format of the package. Valid package format values are:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>npm</code>
-  /// </li>
-  /// <li>
-  /// <code>pypi</code>
-  /// </li>
-  /// <li>
-  /// <code>maven</code>
-  /// </li>
-  /// </ul>
+  /// A format of the package.
   final PackageFormat? format;
 
-  /// The namespace of the package. The package component that specifies its
-  /// namespace depends on its type. For example:
+  /// The namespace of the package that contains the requested package versions.
+  /// The package component that specifies its namespace depends on its type. For
+  /// example:
   ///
   /// <ul>
   /// <li>
@@ -3960,8 +4059,8 @@ class ListPackageVersionsResult {
   /// The namespace of an npm package is its <code>scope</code>.
   /// </li>
   /// <li>
-  /// A Python package does not contain a corresponding component, so Python
-  /// packages do not have a namespace.
+  /// Python and NuGet packages do not contain a corresponding component, packages
+  /// of those formats do not have a namespace.
   /// </li>
   /// </ul>
   final String? namespace;
@@ -4156,8 +4255,8 @@ class PackageDependency {
   /// <code>prod</code>, and <code>optional</code> for npm packages.
   final String? dependencyType;
 
-  /// The namespace of the package. The package component that specifies its
-  /// namespace depends on its type. For example:
+  /// The namespace of the package that this package depends on. The package
+  /// component that specifies its namespace depends on its type. For example:
   ///
   /// <ul>
   /// <li>
@@ -4167,8 +4266,8 @@ class PackageDependency {
   /// The namespace of an npm package is its <code>scope</code>.
   /// </li>
   /// <li>
-  /// A Python package does not contain a corresponding component, so Python
-  /// packages do not have a namespace.
+  /// Python and NuGet packages do not contain a corresponding component, packages
+  /// of those formats do not have a namespace.
   /// </li>
   /// </ul>
   final String? namespace;
@@ -4212,6 +4311,68 @@ class PackageDependency {
   }
 }
 
+/// Details about a package.
+class PackageDescription {
+  /// A format that specifies the type of the package.
+  final PackageFormat? format;
+
+  /// The name of the package.
+  final String? name;
+
+  /// The namespace of the package. The package component that specifies its
+  /// namespace depends on its type. For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// The namespace of a Maven package is its <code>groupId</code>.
+  /// </li>
+  /// <li>
+  /// The namespace of an npm package is its <code>scope</code>.
+  /// </li>
+  /// <li>
+  /// Python and NuGet packages do not contain a corresponding component, packages
+  /// of those formats do not have a namespace.
+  /// </li>
+  /// </ul>
+  final String? namespace;
+
+  /// The package origin configuration for the package.
+  final PackageOriginConfiguration? originConfiguration;
+
+  PackageDescription({
+    this.format,
+    this.name,
+    this.namespace,
+    this.originConfiguration,
+  });
+
+  factory PackageDescription.fromJson(Map<String, dynamic> json) {
+    return PackageDescription(
+      format: (json['format'] as String?)?.toPackageFormat(),
+      name: json['name'] as String?,
+      namespace: json['namespace'] as String?,
+      originConfiguration: json['originConfiguration'] != null
+          ? PackageOriginConfiguration.fromJson(
+              json['originConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final format = this.format;
+    final name = this.name;
+    final namespace = this.namespace;
+    final originConfiguration = this.originConfiguration;
+    return {
+      if (format != null) 'format': format.toValue(),
+      if (name != null) 'name': name,
+      if (namespace != null) 'namespace': namespace,
+      if (originConfiguration != null)
+        'originConfiguration': originConfiguration,
+    };
+  }
+}
+
 enum PackageFormat {
   npm,
   pypi,
@@ -4250,23 +4411,73 @@ extension on String {
   }
 }
 
+/// Details about the package origin configuration of a package.
+class PackageOriginConfiguration {
+  /// A <code>PackageOriginRestrictions</code> object that contains information
+  /// about the upstream and publish package origin configuration for the package.
+  final PackageOriginRestrictions? restrictions;
+
+  PackageOriginConfiguration({
+    this.restrictions,
+  });
+
+  factory PackageOriginConfiguration.fromJson(Map<String, dynamic> json) {
+    return PackageOriginConfiguration(
+      restrictions: json['restrictions'] != null
+          ? PackageOriginRestrictions.fromJson(
+              json['restrictions'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final restrictions = this.restrictions;
+    return {
+      if (restrictions != null) 'restrictions': restrictions,
+    };
+  }
+}
+
+/// Details about the origin restrictions set on the package. The package origin
+/// restrictions determine how new versions of a package can be added to a
+/// specific repository.
+class PackageOriginRestrictions {
+  /// The package origin configuration that determines if new versions of the
+  /// package can be published directly to the repository.
+  final AllowPublish publish;
+
+  /// The package origin configuration that determines if new versions of the
+  /// package can be added to the repository from an external connection or
+  /// upstream source.
+  final AllowUpstream upstream;
+
+  PackageOriginRestrictions({
+    required this.publish,
+    required this.upstream,
+  });
+
+  factory PackageOriginRestrictions.fromJson(Map<String, dynamic> json) {
+    return PackageOriginRestrictions(
+      publish: (json['publish'] as String).toAllowPublish(),
+      upstream: (json['upstream'] as String).toAllowUpstream(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final publish = this.publish;
+    final upstream = this.upstream;
+    return {
+      'publish': publish.toValue(),
+      'upstream': upstream.toValue(),
+    };
+  }
+}
+
 /// Details about a package, including its format, namespace, and name. The <a
 /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_ListPackages.html">ListPackages</a>
 /// operation returns a list of <code>PackageSummary</code> objects.
 class PackageSummary {
-  /// The format of the package. Valid values are:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>npm</code>
-  /// </li>
-  /// <li>
-  /// <code>pypi</code>
-  /// </li>
-  /// <li>
-  /// <code>maven</code>
-  /// </li>
-  /// </ul>
+  /// The format of the package.
   final PackageFormat? format;
 
   /// The namespace of the package. The package component that specifies its
@@ -4280,11 +4491,19 @@ class PackageSummary {
   /// The namespace of an npm package is its <code>scope</code>.
   /// </li>
   /// <li>
-  /// A Python package does not contain a corresponding component, so Python
-  /// packages do not have a namespace.
+  /// Python and NuGet packages do not contain a corresponding component, packages
+  /// of those formats do not have a namespace.
   /// </li>
   /// </ul>
   final String? namespace;
+
+  /// A <a
+  /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageOriginConfiguration.html">PackageOriginConfiguration</a>
+  /// object that contains a <a
+  /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageOriginRestrictions.html">PackageOriginRestrictions</a>
+  /// object that contains information about the upstream and publish package
+  /// origin restrictions.
+  final PackageOriginConfiguration? originConfiguration;
 
   /// The name of the package.
   final String? package;
@@ -4292,6 +4511,7 @@ class PackageSummary {
   PackageSummary({
     this.format,
     this.namespace,
+    this.originConfiguration,
     this.package,
   });
 
@@ -4299,6 +4519,10 @@ class PackageSummary {
     return PackageSummary(
       format: (json['format'] as String?)?.toPackageFormat(),
       namespace: json['namespace'] as String?,
+      originConfiguration: json['originConfiguration'] != null
+          ? PackageOriginConfiguration.fromJson(
+              json['originConfiguration'] as Map<String, dynamic>)
+          : null,
       package: json['package'] as String?,
     );
   }
@@ -4306,10 +4530,13 @@ class PackageSummary {
   Map<String, dynamic> toJson() {
     final format = this.format;
     final namespace = this.namespace;
+    final originConfiguration = this.originConfiguration;
     final package = this.package;
     return {
       if (format != null) 'format': format.toValue(),
       if (namespace != null) 'namespace': namespace,
+      if (originConfiguration != null)
+        'originConfiguration': originConfiguration,
       if (package != null) 'package': package,
     };
   }
@@ -4324,20 +4551,7 @@ class PackageVersionDescription {
   /// <code>@vue/ui</code>.
   final String? displayName;
 
-  /// The format of the package version. The valid package formats are:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>npm</code>: A Node Package Manager (npm) package.
-  /// </li>
-  /// <li>
-  /// <code>pypi</code>: A Python Package Index (PyPI) package.
-  /// </li>
-  /// <li>
-  /// <code>maven</code>: A Maven package that contains compiled code in a
-  /// distributable format, such as a JAR file.
-  /// </li>
-  /// </ul>
+  /// The format of the package version.
   final PackageFormat? format;
 
   /// The homepage associated with the package.
@@ -4346,22 +4560,28 @@ class PackageVersionDescription {
   /// Information about licenses associated with the package version.
   final List<LicenseInfo>? licenses;
 
-  /// The namespace of the package. The package component that specifies its
-  /// namespace depends on its type. For example:
+  /// The namespace of the package version. The package version component that
+  /// specifies its namespace depends on its type. For example:
   ///
   /// <ul>
   /// <li>
-  /// The namespace of a Maven package is its <code>groupId</code>.
+  /// The namespace of a Maven package version is its <code>groupId</code>.
   /// </li>
   /// <li>
-  /// The namespace of an npm package is its <code>scope</code>.
+  /// The namespace of an npm package version is its <code>scope</code>.
   /// </li>
   /// <li>
-  /// A Python package does not contain a corresponding component, so Python
-  /// packages do not have a namespace.
+  /// Python and NuGet package versions do not contain a corresponding component,
+  /// package versions of those formats do not have a namespace.
   /// </li>
   /// </ul>
   final String? namespace;
+
+  /// A <a
+  /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageVersionOrigin.html">PackageVersionOrigin</a>
+  /// object that contains information about how the package version was added to
+  /// the repository.
+  final PackageVersionOrigin? origin;
 
   /// The name of the requested package.
   final String? packageName;
@@ -4377,26 +4597,7 @@ class PackageVersionDescription {
   /// code used to build it.
   final String? sourceCodeRepository;
 
-  /// A string that contains the status of the package version. It can be one of
-  /// the following:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>Published</code>
-  /// </li>
-  /// <li>
-  /// <code>Unfinished</code>
-  /// </li>
-  /// <li>
-  /// <code>Unlisted</code>
-  /// </li>
-  /// <li>
-  /// <code>Archived</code>
-  /// </li>
-  /// <li>
-  /// <code>Disposed</code>
-  /// </li>
-  /// </ul>
+  /// A string that contains the status of the package version.
   final PackageVersionStatus? status;
 
   /// A summary of the package version. The summary is extracted from the package.
@@ -4413,6 +4614,7 @@ class PackageVersionDescription {
     this.homePage,
     this.licenses,
     this.namespace,
+    this.origin,
     this.packageName,
     this.publishedTime,
     this.revision,
@@ -4432,6 +4634,10 @@ class PackageVersionDescription {
           .map((e) => LicenseInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
       namespace: json['namespace'] as String?,
+      origin: json['origin'] != null
+          ? PackageVersionOrigin.fromJson(
+              json['origin'] as Map<String, dynamic>)
+          : null,
       packageName: json['packageName'] as String?,
       publishedTime: timeStampFromJson(json['publishedTime']),
       revision: json['revision'] as String?,
@@ -4448,6 +4654,7 @@ class PackageVersionDescription {
     final homePage = this.homePage;
     final licenses = this.licenses;
     final namespace = this.namespace;
+    final origin = this.origin;
     final packageName = this.packageName;
     final publishedTime = this.publishedTime;
     final revision = this.revision;
@@ -4461,6 +4668,7 @@ class PackageVersionDescription {
       if (homePage != null) 'homePage': homePage,
       if (licenses != null) 'licenses': licenses,
       if (namespace != null) 'namespace': namespace,
+      if (origin != null) 'origin': origin,
       if (packageName != null) 'packageName': packageName,
       if (publishedTime != null)
         'publishedTime': unixTimestampToJson(publishedTime),
@@ -4474,7 +4682,7 @@ class PackageVersionDescription {
   }
 }
 
-/// An error associated with package.
+/// l An error associated with package.
 class PackageVersionError {
   /// The error code associated with the error. Valid error codes are:
   ///
@@ -4573,6 +4781,78 @@ extension on String {
   }
 }
 
+/// Information about how a package version was added to a repository.
+class PackageVersionOrigin {
+  /// A <a
+  /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_DomainEntryPoint.html">DomainEntryPoint</a>
+  /// object that contains information about from which repository or external
+  /// connection the package version was added to the domain.
+  final DomainEntryPoint? domainEntryPoint;
+
+  /// Describes how the package version was originally added to the domain. An
+  /// <code>INTERNAL</code> origin type means the package version was published
+  /// directly to a repository in the domain. An <code>EXTERNAL</code> origin type
+  /// means the package version was ingested from an external connection.
+  final PackageVersionOriginType? originType;
+
+  PackageVersionOrigin({
+    this.domainEntryPoint,
+    this.originType,
+  });
+
+  factory PackageVersionOrigin.fromJson(Map<String, dynamic> json) {
+    return PackageVersionOrigin(
+      domainEntryPoint: json['domainEntryPoint'] != null
+          ? DomainEntryPoint.fromJson(
+              json['domainEntryPoint'] as Map<String, dynamic>)
+          : null,
+      originType: (json['originType'] as String?)?.toPackageVersionOriginType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domainEntryPoint = this.domainEntryPoint;
+    final originType = this.originType;
+    return {
+      if (domainEntryPoint != null) 'domainEntryPoint': domainEntryPoint,
+      if (originType != null) 'originType': originType.toValue(),
+    };
+  }
+}
+
+enum PackageVersionOriginType {
+  internal,
+  external,
+  unknown,
+}
+
+extension on PackageVersionOriginType {
+  String toValue() {
+    switch (this) {
+      case PackageVersionOriginType.internal:
+        return 'INTERNAL';
+      case PackageVersionOriginType.external:
+        return 'EXTERNAL';
+      case PackageVersionOriginType.unknown:
+        return 'UNKNOWN';
+    }
+  }
+}
+
+extension on String {
+  PackageVersionOriginType toPackageVersionOriginType() {
+    switch (this) {
+      case 'INTERNAL':
+        return PackageVersionOriginType.internal;
+      case 'EXTERNAL':
+        return PackageVersionOriginType.external;
+      case 'UNKNOWN':
+        return PackageVersionOriginType.unknown;
+    }
+    throw Exception('$this is not known in enum PackageVersionOriginType');
+  }
+}
+
 enum PackageVersionSortType {
   publishedTime,
 }
@@ -4651,28 +4931,16 @@ extension on String {
 class PackageVersionSummary {
   /// A string that contains the status of the package version. It can be one of
   /// the following:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>Published</code>
-  /// </li>
-  /// <li>
-  /// <code>Unfinished</code>
-  /// </li>
-  /// <li>
-  /// <code>Unlisted</code>
-  /// </li>
-  /// <li>
-  /// <code>Archived</code>
-  /// </li>
-  /// <li>
-  /// <code>Disposed</code>
-  /// </li>
-  /// </ul>
   final PackageVersionStatus status;
 
   /// Information about a package version.
   final String version;
+
+  /// A <a
+  /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageVersionOrigin.html">PackageVersionOrigin</a>
+  /// object that contains information about how the package version was added to
+  /// the repository.
+  final PackageVersionOrigin? origin;
 
   /// The revision associated with a package version.
   final String? revision;
@@ -4680,6 +4948,7 @@ class PackageVersionSummary {
   PackageVersionSummary({
     required this.status,
     required this.version,
+    this.origin,
     this.revision,
   });
 
@@ -4687,6 +4956,10 @@ class PackageVersionSummary {
     return PackageVersionSummary(
       status: (json['status'] as String).toPackageVersionStatus(),
       version: json['version'] as String,
+      origin: json['origin'] != null
+          ? PackageVersionOrigin.fromJson(
+              json['origin'] as Map<String, dynamic>)
+          : null,
       revision: json['revision'] as String?,
     );
   }
@@ -4694,10 +4967,12 @@ class PackageVersionSummary {
   Map<String, dynamic> toJson() {
     final status = this.status;
     final version = this.version;
+    final origin = this.origin;
     final revision = this.revision;
     return {
       'status': status.toValue(),
       'version': version,
+      if (origin != null) 'origin': origin,
       if (revision != null) 'revision': revision,
     };
   }
@@ -4727,6 +5002,39 @@ class PutDomainPermissionsPolicyResult {
   }
 }
 
+class PutPackageOriginConfigurationResult {
+  /// A <a
+  /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageOriginConfiguration.html">PackageOriginConfiguration</a>
+  /// object that describes the origin configuration set for the package. It
+  /// contains a <a
+  /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageOriginRestrictions.html">PackageOriginRestrictions</a>
+  /// object that describes how new versions of the package can be introduced to
+  /// the repository.
+  final PackageOriginConfiguration? originConfiguration;
+
+  PutPackageOriginConfigurationResult({
+    this.originConfiguration,
+  });
+
+  factory PutPackageOriginConfigurationResult.fromJson(
+      Map<String, dynamic> json) {
+    return PutPackageOriginConfigurationResult(
+      originConfiguration: json['originConfiguration'] != null
+          ? PackageOriginConfiguration.fromJson(
+              json['originConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final originConfiguration = this.originConfiguration;
+    return {
+      if (originConfiguration != null)
+        'originConfiguration': originConfiguration,
+    };
+  }
+}
+
 class PutRepositoryPermissionsPolicyResult {
   /// The resource policy that was set after processing the request.
   final ResourcePolicy? policy;
@@ -4752,15 +5060,16 @@ class PutRepositoryPermissionsPolicyResult {
   }
 }
 
-/// The details of a repository stored in AWS CodeArtifact. A CodeArtifact
+/// The details of a repository stored in CodeArtifact. A CodeArtifact
 /// repository contains a set of package versions, each of which maps to a set
 /// of assets. Repositories are polyglot—a single repository can contain
 /// packages of any supported type. Each repository exposes endpoints for
 /// fetching and publishing packages using tools like the <code>npm</code> CLI,
 /// the Maven CLI (<code>mvn</code>), and <code>pip</code>. You can create up to
-/// 100 repositories per AWS account.
+/// 100 repositories per Amazon Web Services account.
 class RepositoryDescription {
-  /// The 12-digit account number of the AWS account that manages the repository.
+  /// The 12-digit account number of the Amazon Web Services account that manages
+  /// the repository.
   final String? administratorAccount;
 
   /// The Amazon Resource Name (ARN) of the repository.
@@ -4772,8 +5081,8 @@ class RepositoryDescription {
   /// The name of the domain that contains the repository.
   final String? domainName;
 
-  /// The 12-digit account number of the AWS account that owns the domain that
-  /// contains the repository. It does not include dashes or spaces.
+  /// The 12-digit account number of the Amazon Web Services account that owns the
+  /// domain that contains the repository. It does not include dashes or spaces.
   final String? domainOwner;
 
   /// An array of external connections associated with the repository.
@@ -4784,7 +5093,7 @@ class RepositoryDescription {
 
   /// A list of upstream repositories to associate with the repository. The order
   /// of the upstream repositories in the list determines their priority order
-  /// when AWS CodeArtifact looks for a requested package version. For more
+  /// when CodeArtifact looks for a requested package version. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/codeartifact/latest/ug/repos-upstream.html">Working
   /// with upstream repositories</a>.
@@ -4865,6 +5174,9 @@ class RepositoryExternalConnectionInfo {
   /// <code>maven</code>: A Maven package that contains compiled code in a
   /// distributable format, such as a JAR file.
   /// </li>
+  /// <li>
+  /// <code>nuget</code>: A NuGet package.
+  /// </li>
   /// </ul>
   final PackageFormat? packageFormat;
 
@@ -4904,7 +5216,7 @@ class RepositoryExternalConnectionInfo {
 /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_ListRepositories.html">ListRepositories</a>
 /// operation returns a list of <code>RepositorySummary</code> objects.
 class RepositorySummary {
-  /// The AWS account ID that manages the repository.
+  /// The Amazon Web Services account ID that manages the repository.
   final String? administratorAccount;
 
   /// The ARN of the repository.
@@ -4916,8 +5228,8 @@ class RepositorySummary {
   /// The name of the domain that contains the repository.
   final String? domainName;
 
-  /// The 12-digit account number of the AWS account that owns the domain. It does
-  /// not include dashes or spaces.
+  /// The 12-digit account number of the Amazon Web Services account that owns the
+  /// domain. It does not include dashes or spaces.
   final String? domainOwner;
 
   /// The name of the repository.
@@ -4962,7 +5274,7 @@ class RepositorySummary {
   }
 }
 
-/// An AWS CodeArtifact resource policy that contains a resource ARN, document
+/// An CodeArtifact resource policy that contains a resource ARN, document
 /// details, and a revision.
 class ResourcePolicy {
   /// The resource policy formatted in JSON.
@@ -5005,25 +5317,7 @@ class SuccessfulPackageVersionInfo {
   /// The revision of a package version.
   final String? revision;
 
-  /// The status of a package version. Valid statuses are:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>Published</code>
-  /// </li>
-  /// <li>
-  /// <code>Unfinished</code>
-  /// </li>
-  /// <li>
-  /// <code>Unlisted</code>
-  /// </li>
-  /// <li>
-  /// <code>Archived</code>
-  /// </li>
-  /// <li>
-  /// <code>Disposed</code>
-  /// </li>
-  /// </ul>
+  /// The status of a package version.
   final PackageVersionStatus? status;
 
   SuccessfulPackageVersionInfo({
@@ -5049,7 +5343,7 @@ class SuccessfulPackageVersionInfo {
 }
 
 /// A tag is a key-value pair that can be used to manage, search for, or filter
-/// resources in AWS CodeArtifact.
+/// resources in CodeArtifact.
 class Tag {
   /// The tag key.
   final String key;

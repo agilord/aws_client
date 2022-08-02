@@ -35,7 +35,7 @@ class IoTDataPlane {
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
-            endpointPrefix: 'data.iot',
+            endpointPrefix: 'data-ats.iot',
             signingName: 'iotdata',
           ),
           region: region,
@@ -99,8 +99,8 @@ class IoTDataPlane {
   /// action.
   ///
   /// For more information about messaging costs, see <a
-  /// href="http://aws.amazon.com/iot-core/pricing/#Messaging">IoT Core pricing
-  /// - Messaging</a>.
+  /// href="http://aws.amazon.com/iot-core/pricing/#Messaging">Amazon Web
+  /// Services IoT Core pricing - Messaging</a>.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
@@ -234,8 +234,8 @@ class IoTDataPlane {
   /// action.
   ///
   /// For more information about messaging costs, see <a
-  /// href="http://aws.amazon.com/iot-core/pricing/#Messaging">IoT Core pricing
-  /// - Messaging</a>.
+  /// href="http://aws.amazon.com/iot-core/pricing/#Messaging">Amazon Web
+  /// Services IoT Core pricing - Messaging</a>.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
@@ -286,8 +286,8 @@ class IoTDataPlane {
   /// Protocol</a> in the IoT Developer Guide.
   ///
   /// For more information about messaging costs, see <a
-  /// href="http://aws.amazon.com/iot-core/pricing/#Messaging">IoT Core pricing
-  /// - Messaging</a>.
+  /// href="http://aws.amazon.com/iot-core/pricing/#Messaging">Amazon Web
+  /// Services IoT Core pricing - Messaging</a>.
   ///
   /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
@@ -302,7 +302,8 @@ class IoTDataPlane {
   /// payloads.
   ///
   /// Publishing an empty (null) payload with <b>retain</b> = <code>true</code>
-  /// deletes the retained message identified by <b>topic</b> from IoT Core.
+  /// deletes the retained message identified by <b>topic</b> from Amazon Web
+  /// Services IoT Core.
   ///
   /// Parameter [qos] :
   /// The Quality of Service (QoS) level.

@@ -18,7 +18,22 @@ import '../../shared/shared.dart'
 
 export '../../shared/shared.dart' show AwsClientCredentials;
 
-/// AWS IoT Wireless API documentation
+/// AWS IoT Wireless provides bi-directional communication between
+/// internet-connected wireless devices and the AWS Cloud. To onboard both
+/// LoRaWAN and Sidewalk devices to AWS IoT, use the IoT Wireless API. These
+/// wireless devices use the Low Power Wide Area Networking (LPWAN)
+/// communication protocol to communicate with AWS IoT.
+///
+/// Using the API, you can perform create, read, update, and delete operations
+/// for your wireless devices, gateways, destinations, and profiles. After
+/// onboarding your devices, you can use the API operations to set log levels
+/// and monitor your devices with CloudWatch.
+///
+/// You can also use the API operations to create multicast groups and schedule
+/// a multicast session for sending a downlink message to devices in the group.
+/// By using Firmware Updates Over-The-Air (FUOTA) API operations, you can
+/// create a FUOTA task and schedule a session to update the firmware of
+/// individual devices or an entire group of devices in a multicast group.
 class IoTWireless {
   final _s.RestJsonProtocol _protocol;
   IoTWireless({
@@ -456,6 +471,53 @@ class IoTWireless {
     return CreateMulticastGroupResponse.fromJson(response);
   }
 
+  /// Creates a new network analyzer configuration.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [wirelessDevices] :
+  /// Wireless device resources to add to the network analyzer configuration.
+  /// Provide the <code>WirelessDeviceId</code> of the resource to add in the
+  /// input array.
+  ///
+  /// Parameter [wirelessGateways] :
+  /// Wireless gateway resources to add to the network analyzer configuration.
+  /// Provide the <code>WirelessGatewayId</code> of the resource to add in the
+  /// input array.
+  Future<CreateNetworkAnalyzerConfigurationResponse>
+      createNetworkAnalyzerConfiguration({
+    required String name,
+    String? clientRequestToken,
+    String? description,
+    List<Tag>? tags,
+    TraceContent? traceContent,
+    List<String>? wirelessDevices,
+    List<String>? wirelessGateways,
+  }) async {
+    ArgumentError.checkNotNull(name, 'name');
+    final $payload = <String, dynamic>{
+      'Name': name,
+      'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
+      if (description != null) 'Description': description,
+      if (tags != null) 'Tags': tags,
+      if (traceContent != null) 'TraceContent': traceContent,
+      if (wirelessDevices != null) 'WirelessDevices': wirelessDevices,
+      if (wirelessGateways != null) 'WirelessGateways': wirelessGateways,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/network-analyzer-configurations',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateNetworkAnalyzerConfigurationResponse.fromJson(response);
+  }
+
   /// Creates a new service profile.
   ///
   /// May throw [ValidationException].
@@ -781,6 +843,67 @@ class IoTWireless {
       payload: null,
       method: 'DELETE',
       requestUri: '/multicast-groups/${Uri.encodeComponent(id)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Deletes a network analyzer configuration.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ConflictException].
+  /// May throw [ThrottlingException].
+  Future<void> deleteNetworkAnalyzerConfiguration({
+    required String configurationName,
+  }) async {
+    ArgumentError.checkNotNull(configurationName, 'configurationName');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/network-analyzer-configurations/${Uri.encodeComponent(configurationName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Remove queued messages from the downlink queue.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [id] :
+  /// The ID of a given wireless device for which downlink messages will be
+  /// deleted.
+  ///
+  /// Parameter [messageId] :
+  /// If message ID is <code>"*"</code>, it cleares the entire downlink queue
+  /// for a given device, specified by the wireless device ID. Otherwise, the
+  /// downlink message with the specified message ID will be deleted.
+  ///
+  /// Parameter [wirelessDeviceType] :
+  /// The wireless device type, which can be either Sidewalk or LoRaWAN.
+  Future<void> deleteQueuedMessages({
+    required String id,
+    required String messageId,
+    WirelessDeviceType? wirelessDeviceType,
+  }) async {
+    ArgumentError.checkNotNull(id, 'id');
+    ArgumentError.checkNotNull(messageId, 'messageId');
+    final $query = <String, List<String>>{
+      'messageId': [messageId],
+      if (wirelessDeviceType != null)
+        'WirelessDeviceType': [wirelessDeviceType.toValue()],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/wireless-devices/${Uri.encodeComponent(id)}/data',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1113,6 +1236,22 @@ class IoTWireless {
     return GetDeviceProfileResponse.fromJson(response);
   }
 
+  /// Get the event configuration based on resource types.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  Future<GetEventConfigurationByResourceTypesResponse>
+      getEventConfigurationByResourceTypes() async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/event-configurations-resource-types',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetEventConfigurationByResourceTypesResponse.fromJson(response);
+  }
+
   /// Gets information about a FUOTA task.
   ///
   /// May throw [ValidationException].
@@ -1193,7 +1332,7 @@ class IoTWireless {
     return GetMulticastGroupSessionResponse.fromJson(response);
   }
 
-  /// Get NetworkAnalyzer configuration.
+  /// Get network analyzer configuration.
   ///
   /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
@@ -1248,6 +1387,72 @@ class IoTWireless {
     return GetPartnerAccountResponse.fromJson(response);
   }
 
+  /// Get the position information for a given resource.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [resourceIdentifier] :
+  /// Resource identifier used to retrieve the position information.
+  ///
+  /// Parameter [resourceType] :
+  /// Resource type of the resource for which position information is retrieved.
+  Future<GetPositionResponse> getPosition({
+    required String resourceIdentifier,
+    required PositionResourceType resourceType,
+  }) async {
+    ArgumentError.checkNotNull(resourceIdentifier, 'resourceIdentifier');
+    ArgumentError.checkNotNull(resourceType, 'resourceType');
+    final $query = <String, List<String>>{
+      'resourceType': [resourceType.toValue()],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/positions/${Uri.encodeComponent(resourceIdentifier)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetPositionResponse.fromJson(response);
+  }
+
+  /// Get position configuration for a given resource.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [resourceIdentifier] :
+  /// Resource identifier used in a position configuration.
+  ///
+  /// Parameter [resourceType] :
+  /// Resource type of the resource for which position configuration is
+  /// retrieved.
+  Future<GetPositionConfigurationResponse> getPositionConfiguration({
+    required String resourceIdentifier,
+    required PositionResourceType resourceType,
+  }) async {
+    ArgumentError.checkNotNull(resourceIdentifier, 'resourceIdentifier');
+    ArgumentError.checkNotNull(resourceType, 'resourceType');
+    final $query = <String, List<String>>{
+      'resourceType': [resourceType.toValue()],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/position-configurations/${Uri.encodeComponent(resourceIdentifier)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetPositionConfigurationResponse.fromJson(response);
+  }
+
   /// Get the event configuration for a particular resource identifier.
   ///
   /// May throw [ValidationException].
@@ -1264,7 +1469,8 @@ class IoTWireless {
   /// configuration.
   ///
   /// Parameter [partnerType] :
-  /// Partner type of the resource if the identifier type is PartnerAccountId.
+  /// Partner type of the resource if the identifier type is
+  /// <code>PartnerAccountId</code>.
   Future<GetResourceEventConfigurationResponse> getResourceEventConfiguration({
     required String identifier,
     required IdentifierType identifierType,
@@ -1328,7 +1534,8 @@ class IoTWireless {
   /// Parameter [serviceType] :
   /// The service type for which to get endpoint information about. Can be
   /// <code>CUPS</code> for the Configuration and Update Server endpoint, or
-  /// <code>LNS</code> for the LoRaWAN Network Server endpoint.
+  /// <code>LNS</code> for the LoRaWAN Network Server endpoint or
+  /// <code>CLAIM</code> for the global endpoint.
   Future<GetServiceEndpointResponse> getServiceEndpoint({
     WirelessGatewayServiceType? serviceType,
   }) async {
@@ -1653,6 +1860,47 @@ class IoTWireless {
     return ListDeviceProfilesResponse.fromJson(response);
   }
 
+  /// List event configurations where at least one event topic has been enabled.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [resourceType] :
+  /// Resource type to filter event configurations.
+  ///
+  /// Parameter [nextToken] :
+  /// To retrieve the next set of results, the <code>nextToken</code> value from
+  /// a previous response; otherwise <b>null</b> to receive the first set of
+  /// results.
+  Future<ListEventConfigurationsResponse> listEventConfigurations({
+    required EventNotificationResourceType resourceType,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    ArgumentError.checkNotNull(resourceType, 'resourceType');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      250,
+    );
+    final $query = <String, List<String>>{
+      'resourceType': [resourceType.toValue()],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/event-configurations',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListEventConfigurationsResponse.fromJson(response);
+  }
+
   /// Lists the FUOTA tasks registered to your AWS account.
   ///
   /// May throw [ValidationException].
@@ -1762,6 +2010,42 @@ class IoTWireless {
     return ListMulticastGroupsByFuotaTaskResponse.fromJson(response);
   }
 
+  /// Lists the network analyzer configurations.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [nextToken] :
+  /// To retrieve the next set of results, the <code>nextToken</code> value from
+  /// a previous response; otherwise <b>null</b> to receive the first set of
+  /// results.
+  Future<ListNetworkAnalyzerConfigurationsResponse>
+      listNetworkAnalyzerConfigurations({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      250,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/network-analyzer-configurations',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListNetworkAnalyzerConfigurationsResponse.fromJson(response);
+  }
+
   /// Lists the partner accounts associated with your AWS account.
   ///
   /// May throw [ValidationException].
@@ -1798,6 +2082,98 @@ class IoTWireless {
       exceptionFnMap: _exceptionFns,
     );
     return ListPartnerAccountsResponse.fromJson(response);
+  }
+
+  /// List position configurations for a given resource, such as positioning
+  /// solvers.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [nextToken] :
+  /// To retrieve the next set of results, the <code>nextToken</code> value from
+  /// a previous response; otherwise <b>null</b> to receive the first set of
+  /// results.
+  ///
+  /// Parameter [resourceType] :
+  /// Resource type for which position configurations are listed.
+  Future<ListPositionConfigurationsResponse> listPositionConfigurations({
+    int? maxResults,
+    String? nextToken,
+    PositionResourceType? resourceType,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      250,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+      if (resourceType != null) 'resourceType': [resourceType.toValue()],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/position-configurations',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListPositionConfigurationsResponse.fromJson(response);
+  }
+
+  /// List queued messages in the downlink queue.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [id] :
+  /// The ID of a given wireless device which the downlink message packets are
+  /// being sent.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in this operation.
+  ///
+  /// Parameter [nextToken] :
+  /// To retrieve the next set of results, the <code>nextToken</code> value from
+  /// a previous response; otherwise <b>null</b> to receive the first set of
+  /// results.
+  ///
+  /// Parameter [wirelessDeviceType] :
+  /// The wireless device type, whic can be either Sidewalk or LoRaWAN.
+  Future<ListQueuedMessagesResponse> listQueuedMessages({
+    required String id,
+    int? maxResults,
+    String? nextToken,
+    WirelessDeviceType? wirelessDeviceType,
+  }) async {
+    ArgumentError.checkNotNull(id, 'id');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      250,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+      if (wirelessDeviceType != null)
+        'WirelessDeviceType': [wirelessDeviceType.toValue()],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/wireless-devices/${Uri.encodeComponent(id)}/data',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListQueuedMessagesResponse.fromJson(response);
   }
 
   /// Lists the service profiles registered to your AWS account.
@@ -2012,6 +2388,53 @@ class IoTWireless {
       exceptionFnMap: _exceptionFns,
     );
     return ListWirelessGatewaysResponse.fromJson(response);
+  }
+
+  /// Put position configuration for a given resource.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [resourceIdentifier] :
+  /// Resource identifier used to update the position configuration.
+  ///
+  /// Parameter [resourceType] :
+  /// Resource type of the resource for which you want to update the position
+  /// configuration.
+  ///
+  /// Parameter [destination] :
+  /// The position data destination that describes the AWS IoT rule that
+  /// processes the device's position data for use by AWS IoT Core for LoRaWAN.
+  ///
+  /// Parameter [solvers] :
+  /// The positioning solvers used to update the position configuration of the
+  /// resource.
+  Future<void> putPositionConfiguration({
+    required String resourceIdentifier,
+    required PositionResourceType resourceType,
+    String? destination,
+    PositionSolverConfigurations? solvers,
+  }) async {
+    ArgumentError.checkNotNull(resourceIdentifier, 'resourceIdentifier');
+    ArgumentError.checkNotNull(resourceType, 'resourceType');
+    final $query = <String, List<String>>{
+      'resourceType': [resourceType.toValue()],
+    };
+    final $payload = <String, dynamic>{
+      if (destination != null) 'Destination': destination,
+      if (solvers != null) 'Solvers': solvers,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/position-configurations/${Uri.encodeComponent(resourceIdentifier)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
   }
 
   /// Sets the log-level override for a resource-ID and resource-type. This
@@ -2409,6 +2832,50 @@ class IoTWireless {
     );
   }
 
+  /// Update the event configuration based on resource types.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [connectionStatus] :
+  /// Connection status resource type event configuration object for enabling
+  /// and disabling wireless gateway topic.
+  ///
+  /// Parameter [deviceRegistrationState] :
+  /// Device registration state resource type event configuration object for
+  /// enabling and disabling wireless gateway topic.
+  ///
+  /// Parameter [join] :
+  /// Join resource type event configuration object for enabling and disabling
+  /// wireless device topic.
+  ///
+  /// Parameter [proximity] :
+  /// Proximity resource type event configuration object for enabling and
+  /// disabling wireless gateway topic.
+  Future<void> updateEventConfigurationByResourceTypes({
+    ConnectionStatusResourceTypeEventConfiguration? connectionStatus,
+    DeviceRegistrationStateResourceTypeEventConfiguration?
+        deviceRegistrationState,
+    JoinResourceTypeEventConfiguration? join,
+    ProximityResourceTypeEventConfiguration? proximity,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (connectionStatus != null) 'ConnectionStatus': connectionStatus,
+      if (deviceRegistrationState != null)
+        'DeviceRegistrationState': deviceRegistrationState,
+      if (join != null) 'Join': join,
+      if (proximity != null) 'Proximity': proximity,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PATCH',
+      requestUri: '/event-configurations-resource-types',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Updates properties of a FUOTA task.
   ///
   /// May throw [ValidationException].
@@ -2500,7 +2967,7 @@ class IoTWireless {
     );
   }
 
-  /// Update NetworkAnalyzer configuration.
+  /// Update network analyzer configuration.
   ///
   /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
@@ -2509,18 +2976,27 @@ class IoTWireless {
   /// May throw [ThrottlingException].
   ///
   /// Parameter [wirelessDevicesToAdd] :
-  /// WirelessDevices to add into NetworkAnalyzerConfiguration.
+  /// Wireless device resources to add to the network analyzer configuration.
+  /// Provide the <code>WirelessDeviceId</code> of the resource to add in the
+  /// input array.
   ///
   /// Parameter [wirelessDevicesToRemove] :
-  /// WirelessDevices to remove from NetworkAnalyzerConfiguration.
+  /// Wireless device resources to remove from the network analyzer
+  /// configuration. Provide the <code>WirelessDeviceId</code> of the resources
+  /// to remove in the input array.
   ///
   /// Parameter [wirelessGatewaysToAdd] :
-  /// WirelessGateways to add into NetworkAnalyzerConfiguration.
+  /// Wireless gateway resources to add to the network analyzer configuration.
+  /// Provide the <code>WirelessGatewayId</code> of the resource to add in the
+  /// input array.
   ///
   /// Parameter [wirelessGatewaysToRemove] :
-  /// WirelessGateways to remove from NetworkAnalyzerConfiguration.
+  /// Wireless gateway resources to remove from the network analyzer
+  /// configuration. Provide the <code>WirelessGatewayId</code> of the resources
+  /// to remove in the input array.
   Future<void> updateNetworkAnalyzerConfiguration({
     required String configurationName,
+    String? description,
     TraceContent? traceContent,
     List<String>? wirelessDevicesToAdd,
     List<String>? wirelessDevicesToRemove,
@@ -2529,6 +3005,7 @@ class IoTWireless {
   }) async {
     ArgumentError.checkNotNull(configurationName, 'configurationName');
     final $payload = <String, dynamic>{
+      if (description != null) 'Description': description,
       if (traceContent != null) 'TraceContent': traceContent,
       if (wirelessDevicesToAdd != null)
         'WirelessDevicesToAdd': wirelessDevicesToAdd,
@@ -2586,6 +3063,45 @@ class IoTWireless {
     );
   }
 
+  /// Update the position information of a resource.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [position] :
+  /// The position information of the resource.
+  ///
+  /// Parameter [resourceIdentifier] :
+  /// Resource identifier of the resource for which position is updated.
+  ///
+  /// Parameter [resourceType] :
+  /// Resource type of the resource for which position is updated.
+  Future<void> updatePosition({
+    required List<double> position,
+    required String resourceIdentifier,
+    required PositionResourceType resourceType,
+  }) async {
+    ArgumentError.checkNotNull(position, 'position');
+    ArgumentError.checkNotNull(resourceIdentifier, 'resourceIdentifier');
+    ArgumentError.checkNotNull(resourceType, 'resourceType');
+    final $query = <String, List<String>>{
+      'resourceType': [resourceType.toValue()],
+    };
+    final $payload = <String, dynamic>{
+      'Position': position,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PATCH',
+      requestUri: '/positions/${Uri.encodeComponent(resourceIdentifier)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Update the event configuration for a particular resource identifier.
   ///
   /// May throw [ValidationException].
@@ -2602,18 +3118,27 @@ class IoTWireless {
   /// Identifier type of the particular resource identifier for event
   /// configuration.
   ///
+  /// Parameter [connectionStatus] :
+  /// Event configuration for the connection status event.
+  ///
   /// Parameter [deviceRegistrationState] :
-  /// Event configuration for the device registration state event
+  /// Event configuration for the device registration state event.
+  ///
+  /// Parameter [join] :
+  /// Event configuration for the join event.
   ///
   /// Parameter [partnerType] :
-  /// Partner type of the resource if the identifier type is PartnerAccountId
+  /// Partner type of the resource if the identifier type is
+  /// <code>PartnerAccountId</code>
   ///
   /// Parameter [proximity] :
-  /// Event configuration for the Proximity event
+  /// Event configuration for the proximity event.
   Future<void> updateResourceEventConfiguration({
     required String identifier,
     required IdentifierType identifierType,
+    ConnectionStatusEventConfiguration? connectionStatus,
     DeviceRegistrationStateEventConfiguration? deviceRegistrationState,
+    JoinEventConfiguration? join,
     EventNotificationPartnerType? partnerType,
     ProximityEventConfiguration? proximity,
   }) async {
@@ -2624,8 +3149,10 @@ class IoTWireless {
       if (partnerType != null) 'partnerType': [partnerType.toValue()],
     };
     final $payload = <String, dynamic>{
+      if (connectionStatus != null) 'ConnectionStatus': connectionStatus,
       if (deviceRegistrationState != null)
         'DeviceRegistrationState': deviceRegistrationState,
+      if (join != null) 'Join': join,
       if (proximity != null) 'Proximity': proximity,
     };
     final response = await _protocol.send(
@@ -2725,17 +3252,22 @@ class AbpV1_0_x {
   /// The DevAddr value.
   final String? devAddr;
 
+  /// The FCnt init value.
+  final int? fCntStart;
+
   /// Session keys for ABP v1.0.x
   final SessionKeysAbpV1_0_x? sessionKeys;
 
   AbpV1_0_x({
     this.devAddr,
+    this.fCntStart,
     this.sessionKeys,
   });
 
   factory AbpV1_0_x.fromJson(Map<String, dynamic> json) {
     return AbpV1_0_x(
       devAddr: json['DevAddr'] as String?,
+      fCntStart: json['FCntStart'] as int?,
       sessionKeys: json['SessionKeys'] != null
           ? SessionKeysAbpV1_0_x.fromJson(
               json['SessionKeys'] as Map<String, dynamic>)
@@ -2745,9 +3277,11 @@ class AbpV1_0_x {
 
   Map<String, dynamic> toJson() {
     final devAddr = this.devAddr;
+    final fCntStart = this.fCntStart;
     final sessionKeys = this.sessionKeys;
     return {
       if (devAddr != null) 'DevAddr': devAddr,
+      if (fCntStart != null) 'FCntStart': fCntStart,
       if (sessionKeys != null) 'SessionKeys': sessionKeys,
     };
   }
@@ -2758,17 +3292,22 @@ class AbpV1_1 {
   /// The DevAddr value.
   final String? devAddr;
 
+  /// The FCnt init value.
+  final int? fCntStart;
+
   /// Session keys for ABP v1.1
   final SessionKeysAbpV1_1? sessionKeys;
 
   AbpV1_1({
     this.devAddr,
+    this.fCntStart,
     this.sessionKeys,
   });
 
   factory AbpV1_1.fromJson(Map<String, dynamic> json) {
     return AbpV1_1(
       devAddr: json['DevAddr'] as String?,
+      fCntStart: json['FCntStart'] as int?,
       sessionKeys: json['SessionKeys'] != null
           ? SessionKeysAbpV1_1.fromJson(
               json['SessionKeys'] as Map<String, dynamic>)
@@ -2778,10 +3317,45 @@ class AbpV1_1 {
 
   Map<String, dynamic> toJson() {
     final devAddr = this.devAddr;
+    final fCntStart = this.fCntStart;
     final sessionKeys = this.sessionKeys;
     return {
       if (devAddr != null) 'DevAddr': devAddr,
+      if (fCntStart != null) 'FCntStart': fCntStart,
       if (sessionKeys != null) 'SessionKeys': sessionKeys,
+    };
+  }
+}
+
+/// The accuracy of the estimated position in meters. An empty value indicates
+/// that no position data is available. A value of ‘0.0’ value indicates that
+/// position data is available. This data corresponds to the position
+/// information that you specified instead of the position computed by solver.
+class Accuracy {
+  /// The horizontal accuracy of the estimated position in meters.
+  final double? horizontalAccuracy;
+
+  /// The vertical accuracy of the estimated position in meters.
+  final double? verticalAccuracy;
+
+  Accuracy({
+    this.horizontalAccuracy,
+    this.verticalAccuracy,
+  });
+
+  factory Accuracy.fromJson(Map<String, dynamic> json) {
+    return Accuracy(
+      horizontalAccuracy: json['HorizontalAccuracy'] as double?,
+      verticalAccuracy: json['VerticalAccuracy'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final horizontalAccuracy = this.horizontalAccuracy;
+    final verticalAccuracy = this.verticalAccuracy;
+    return {
+      if (horizontalAccuracy != null) 'HorizontalAccuracy': horizontalAccuracy,
+      if (verticalAccuracy != null) 'VerticalAccuracy': verticalAccuracy,
     };
   }
 }
@@ -3011,6 +3585,75 @@ extension on String {
   }
 }
 
+/// Connection status event configuration object for enabling or disabling
+/// topic.
+class ConnectionStatusEventConfiguration {
+  /// Connection status event configuration object for enabling or disabling
+  /// LoRaWAN related event topics.
+  final LoRaWANConnectionStatusEventNotificationConfigurations? loRaWAN;
+
+  /// Enum to denote whether the wireless gateway ID connection status event topic
+  /// is enabled or disabled.
+  final EventNotificationTopicStatus? wirelessGatewayIdEventTopic;
+
+  ConnectionStatusEventConfiguration({
+    this.loRaWAN,
+    this.wirelessGatewayIdEventTopic,
+  });
+
+  factory ConnectionStatusEventConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return ConnectionStatusEventConfiguration(
+      loRaWAN: json['LoRaWAN'] != null
+          ? LoRaWANConnectionStatusEventNotificationConfigurations.fromJson(
+              json['LoRaWAN'] as Map<String, dynamic>)
+          : null,
+      wirelessGatewayIdEventTopic:
+          (json['WirelessGatewayIdEventTopic'] as String?)
+              ?.toEventNotificationTopicStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final loRaWAN = this.loRaWAN;
+    final wirelessGatewayIdEventTopic = this.wirelessGatewayIdEventTopic;
+    return {
+      if (loRaWAN != null) 'LoRaWAN': loRaWAN,
+      if (wirelessGatewayIdEventTopic != null)
+        'WirelessGatewayIdEventTopic': wirelessGatewayIdEventTopic.toValue(),
+    };
+  }
+}
+
+/// Connection status resource type event configuration object for enabling or
+/// disabling topic.
+class ConnectionStatusResourceTypeEventConfiguration {
+  /// Connection status resource type event configuration object for enabling or
+  /// disabling LoRaWAN related event topics.
+  final LoRaWANConnectionStatusResourceTypeEventConfiguration? loRaWAN;
+
+  ConnectionStatusResourceTypeEventConfiguration({
+    this.loRaWAN,
+  });
+
+  factory ConnectionStatusResourceTypeEventConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return ConnectionStatusResourceTypeEventConfiguration(
+      loRaWAN: json['LoRaWAN'] != null
+          ? LoRaWANConnectionStatusResourceTypeEventConfiguration.fromJson(
+              json['LoRaWAN'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final loRaWAN = this.loRaWAN;
+    return {
+      if (loRaWAN != null) 'LoRaWAN': loRaWAN,
+    };
+  }
+}
+
 class CreateDestinationResponse {
   /// The Amazon Resource Name of the new resource.
   final String? arn;
@@ -3117,6 +3760,34 @@ class CreateMulticastGroupResponse {
     return {
       if (arn != null) 'Arn': arn,
       if (id != null) 'Id': id,
+    };
+  }
+}
+
+class CreateNetworkAnalyzerConfigurationResponse {
+  /// The Amazon Resource Name of the new resource.
+  final String? arn;
+  final String? name;
+
+  CreateNetworkAnalyzerConfigurationResponse({
+    this.arn,
+    this.name,
+  });
+
+  factory CreateNetworkAnalyzerConfigurationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return CreateNetworkAnalyzerConfigurationResponse(
+      arn: json['Arn'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final name = this.name;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (name != null) 'Name': name,
     };
   }
 }
@@ -3319,6 +3990,31 @@ class DeleteMulticastGroupResponse {
   }
 }
 
+class DeleteNetworkAnalyzerConfigurationResponse {
+  DeleteNetworkAnalyzerConfigurationResponse();
+
+  factory DeleteNetworkAnalyzerConfigurationResponse.fromJson(
+      Map<String, dynamic> _) {
+    return DeleteNetworkAnalyzerConfigurationResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class DeleteQueuedMessagesResponse {
+  DeleteQueuedMessagesResponse();
+
+  factory DeleteQueuedMessagesResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteQueuedMessagesResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 class DeleteServiceProfileResponse {
   DeleteServiceProfileResponse();
 
@@ -3482,8 +4178,13 @@ class DeviceRegistrationStateEventConfiguration {
   /// disabling Sidewalk related event topics.
   final SidewalkEventNotificationConfigurations? sidewalk;
 
+  /// Enum to denote whether the wireless device id device registration state
+  /// event topic is enabled or disabled.
+  final EventNotificationTopicStatus? wirelessDeviceIdEventTopic;
+
   DeviceRegistrationStateEventConfiguration({
     this.sidewalk,
+    this.wirelessDeviceIdEventTopic,
   });
 
   factory DeviceRegistrationStateEventConfiguration.fromJson(
@@ -3491,6 +4192,41 @@ class DeviceRegistrationStateEventConfiguration {
     return DeviceRegistrationStateEventConfiguration(
       sidewalk: json['Sidewalk'] != null
           ? SidewalkEventNotificationConfigurations.fromJson(
+              json['Sidewalk'] as Map<String, dynamic>)
+          : null,
+      wirelessDeviceIdEventTopic:
+          (json['WirelessDeviceIdEventTopic'] as String?)
+              ?.toEventNotificationTopicStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sidewalk = this.sidewalk;
+    final wirelessDeviceIdEventTopic = this.wirelessDeviceIdEventTopic;
+    return {
+      if (sidewalk != null) 'Sidewalk': sidewalk,
+      if (wirelessDeviceIdEventTopic != null)
+        'WirelessDeviceIdEventTopic': wirelessDeviceIdEventTopic.toValue(),
+    };
+  }
+}
+
+/// Device registration state resource type event configuration object for
+/// enabling or disabling topic.
+class DeviceRegistrationStateResourceTypeEventConfiguration {
+  /// Device registration resource type state event configuration object for
+  /// enabling or disabling Sidewalk related event topics.
+  final SidewalkResourceTypeEventConfiguration? sidewalk;
+
+  DeviceRegistrationStateResourceTypeEventConfiguration({
+    this.sidewalk,
+  });
+
+  factory DeviceRegistrationStateResourceTypeEventConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return DeviceRegistrationStateResourceTypeEventConfiguration(
+      sidewalk: json['Sidewalk'] != null
+          ? SidewalkResourceTypeEventConfiguration.fromJson(
               json['Sidewalk'] as Map<String, dynamic>)
           : null,
     );
@@ -3663,6 +4399,55 @@ extension on String {
   }
 }
 
+/// The message in the downlink queue.
+class DownlinkQueueMessage {
+  final LoRaWANSendDataToDevice? loRaWAN;
+
+  /// The message ID assigned by IoT Wireless to each downlink message, which
+  /// helps identify the message.
+  final String? messageId;
+
+  /// The time at which Iot Wireless received the downlink message.
+  final String? receivedAt;
+
+  /// The transmit mode to use for sending data to the wireless device. This can
+  /// be <code>0</code> for UM (unacknowledge mode) or <code>1</code> for AM
+  /// (acknowledge mode).
+  final int? transmitMode;
+
+  DownlinkQueueMessage({
+    this.loRaWAN,
+    this.messageId,
+    this.receivedAt,
+    this.transmitMode,
+  });
+
+  factory DownlinkQueueMessage.fromJson(Map<String, dynamic> json) {
+    return DownlinkQueueMessage(
+      loRaWAN: json['LoRaWAN'] != null
+          ? LoRaWANSendDataToDevice.fromJson(
+              json['LoRaWAN'] as Map<String, dynamic>)
+          : null,
+      messageId: json['MessageId'] as String?,
+      receivedAt: json['ReceivedAt'] as String?,
+      transmitMode: json['TransmitMode'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final loRaWAN = this.loRaWAN;
+    final messageId = this.messageId;
+    final receivedAt = this.receivedAt;
+    final transmitMode = this.transmitMode;
+    return {
+      if (loRaWAN != null) 'LoRaWAN': loRaWAN,
+      if (messageId != null) 'MessageId': messageId,
+      if (receivedAt != null) 'ReceivedAt': receivedAt,
+      if (transmitMode != null) 'TransmitMode': transmitMode,
+    };
+  }
+}
+
 /// Sidewalk device status notification.
 enum Event {
   discovered,
@@ -3707,6 +4492,113 @@ extension on String {
   }
 }
 
+/// Event configuration object for a single resource.
+class EventConfigurationItem {
+  final EventNotificationItemConfigurations? events;
+
+  /// Resource identifier opted in for event messaging.
+  final String? identifier;
+
+  /// Identifier type of the particular resource identifier for event
+  /// configuration.
+  final IdentifierType? identifierType;
+
+  /// Partner type of the resource if the identifier type is PartnerAccountId.
+  final EventNotificationPartnerType? partnerType;
+
+  EventConfigurationItem({
+    this.events,
+    this.identifier,
+    this.identifierType,
+    this.partnerType,
+  });
+
+  factory EventConfigurationItem.fromJson(Map<String, dynamic> json) {
+    return EventConfigurationItem(
+      events: json['Events'] != null
+          ? EventNotificationItemConfigurations.fromJson(
+              json['Events'] as Map<String, dynamic>)
+          : null,
+      identifier: json['Identifier'] as String?,
+      identifierType: (json['IdentifierType'] as String?)?.toIdentifierType(),
+      partnerType:
+          (json['PartnerType'] as String?)?.toEventNotificationPartnerType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final events = this.events;
+    final identifier = this.identifier;
+    final identifierType = this.identifierType;
+    final partnerType = this.partnerType;
+    return {
+      if (events != null) 'Events': events,
+      if (identifier != null) 'Identifier': identifier,
+      if (identifierType != null) 'IdentifierType': identifierType.toValue(),
+      if (partnerType != null) 'PartnerType': partnerType.toValue(),
+    };
+  }
+}
+
+/// Object of all event configurations and the status of the event topics.
+class EventNotificationItemConfigurations {
+  /// Connection status event configuration for an event configuration item.
+  final ConnectionStatusEventConfiguration? connectionStatus;
+
+  /// Device registration state event configuration for an event configuration
+  /// item.
+  final DeviceRegistrationStateEventConfiguration? deviceRegistrationState;
+
+  /// Join event configuration for an event configuration item.
+  final JoinEventConfiguration? join;
+
+  /// Proximity event configuration for an event configuration item.
+  final ProximityEventConfiguration? proximity;
+
+  EventNotificationItemConfigurations({
+    this.connectionStatus,
+    this.deviceRegistrationState,
+    this.join,
+    this.proximity,
+  });
+
+  factory EventNotificationItemConfigurations.fromJson(
+      Map<String, dynamic> json) {
+    return EventNotificationItemConfigurations(
+      connectionStatus: json['ConnectionStatus'] != null
+          ? ConnectionStatusEventConfiguration.fromJson(
+              json['ConnectionStatus'] as Map<String, dynamic>)
+          : null,
+      deviceRegistrationState: json['DeviceRegistrationState'] != null
+          ? DeviceRegistrationStateEventConfiguration.fromJson(
+              json['DeviceRegistrationState'] as Map<String, dynamic>)
+          : null,
+      join: json['Join'] != null
+          ? JoinEventConfiguration.fromJson(
+              json['Join'] as Map<String, dynamic>)
+          : null,
+      proximity: json['Proximity'] != null
+          ? ProximityEventConfiguration.fromJson(
+              json['Proximity'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectionStatus = this.connectionStatus;
+    final deviceRegistrationState = this.deviceRegistrationState;
+    final join = this.join;
+    final proximity = this.proximity;
+    return {
+      if (connectionStatus != null) 'ConnectionStatus': connectionStatus,
+      if (deviceRegistrationState != null)
+        'DeviceRegistrationState': deviceRegistrationState,
+      if (join != null) 'Join': join,
+      if (proximity != null) 'Proximity': proximity,
+    };
+  }
+}
+
 enum EventNotificationPartnerType {
   sidewalk,
 }
@@ -3727,6 +4619,39 @@ extension on String {
         return EventNotificationPartnerType.sidewalk;
     }
     throw Exception('$this is not known in enum EventNotificationPartnerType');
+  }
+}
+
+enum EventNotificationResourceType {
+  sidewalkAccount,
+  wirelessDevice,
+  wirelessGateway,
+}
+
+extension on EventNotificationResourceType {
+  String toValue() {
+    switch (this) {
+      case EventNotificationResourceType.sidewalkAccount:
+        return 'SidewalkAccount';
+      case EventNotificationResourceType.wirelessDevice:
+        return 'WirelessDevice';
+      case EventNotificationResourceType.wirelessGateway:
+        return 'WirelessGateway';
+    }
+  }
+}
+
+extension on String {
+  EventNotificationResourceType toEventNotificationResourceType() {
+    switch (this) {
+      case 'SidewalkAccount':
+        return EventNotificationResourceType.sidewalkAccount;
+      case 'WirelessDevice':
+        return EventNotificationResourceType.wirelessDevice;
+      case 'WirelessGateway':
+        return EventNotificationResourceType.wirelessGateway;
+    }
+    throw Exception('$this is not known in enum EventNotificationResourceType');
   }
 }
 
@@ -3792,10 +4717,15 @@ class FPorts {
   final int? fuota;
   final int? multicast;
 
+  /// FPort values for the GNSS, stream, and ClockSync functions of the
+  /// positioning information.
+  final Positioning? positioning;
+
   FPorts({
     this.clockSync,
     this.fuota,
     this.multicast,
+    this.positioning,
   });
 
   factory FPorts.fromJson(Map<String, dynamic> json) {
@@ -3803,6 +4733,9 @@ class FPorts {
       clockSync: json['ClockSync'] as int?,
       fuota: json['Fuota'] as int?,
       multicast: json['Multicast'] as int?,
+      positioning: json['Positioning'] != null
+          ? Positioning.fromJson(json['Positioning'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -3810,10 +4743,12 @@ class FPorts {
     final clockSync = this.clockSync;
     final fuota = this.fuota;
     final multicast = this.multicast;
+    final positioning = this.positioning;
     return {
       if (clockSync != null) 'ClockSync': clockSync,
       if (fuota != null) 'Fuota': fuota,
       if (multicast != null) 'Multicast': multicast,
+      if (positioning != null) 'Positioning': positioning,
     };
   }
 }
@@ -4071,6 +5006,64 @@ class GetDeviceProfileResponse {
   }
 }
 
+class GetEventConfigurationByResourceTypesResponse {
+  /// Resource type event configuration for the connection status event.
+  final ConnectionStatusResourceTypeEventConfiguration? connectionStatus;
+
+  /// Resource type event configuration for the device registration state event.
+  final DeviceRegistrationStateResourceTypeEventConfiguration?
+      deviceRegistrationState;
+
+  /// Resource type event configuration for the join event.
+  final JoinResourceTypeEventConfiguration? join;
+
+  /// Resource type event configuration for the proximity event.
+  final ProximityResourceTypeEventConfiguration? proximity;
+
+  GetEventConfigurationByResourceTypesResponse({
+    this.connectionStatus,
+    this.deviceRegistrationState,
+    this.join,
+    this.proximity,
+  });
+
+  factory GetEventConfigurationByResourceTypesResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetEventConfigurationByResourceTypesResponse(
+      connectionStatus: json['ConnectionStatus'] != null
+          ? ConnectionStatusResourceTypeEventConfiguration.fromJson(
+              json['ConnectionStatus'] as Map<String, dynamic>)
+          : null,
+      deviceRegistrationState: json['DeviceRegistrationState'] != null
+          ? DeviceRegistrationStateResourceTypeEventConfiguration.fromJson(
+              json['DeviceRegistrationState'] as Map<String, dynamic>)
+          : null,
+      join: json['Join'] != null
+          ? JoinResourceTypeEventConfiguration.fromJson(
+              json['Join'] as Map<String, dynamic>)
+          : null,
+      proximity: json['Proximity'] != null
+          ? ProximityResourceTypeEventConfiguration.fromJson(
+              json['Proximity'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectionStatus = this.connectionStatus;
+    final deviceRegistrationState = this.deviceRegistrationState;
+    final join = this.join;
+    final proximity = this.proximity;
+    return {
+      if (connectionStatus != null) 'ConnectionStatus': connectionStatus,
+      if (deviceRegistrationState != null)
+        'DeviceRegistrationState': deviceRegistrationState,
+      if (join != null) 'Join': join,
+      if (proximity != null) 'Proximity': proximity,
+    };
+  }
+}
+
 class GetFuotaTaskResponse {
   final String? arn;
   final DateTime? createdAt;
@@ -4257,15 +5250,24 @@ class GetMulticastGroupSessionResponse {
 }
 
 class GetNetworkAnalyzerConfigurationResponse {
+  /// The Amazon Resource Name of the new resource.
+  final String? arn;
+  final String? description;
+  final String? name;
   final TraceContent? traceContent;
 
-  /// List of WirelessDevices in the NetworkAnalyzerConfiguration.
+  /// List of wireless gateway resources that have been added to the network
+  /// analyzer configuration.
   final List<String>? wirelessDevices;
 
-  /// List of WirelessGateways in the NetworkAnalyzerConfiguration.
+  /// List of wireless gateway resources that have been added to the network
+  /// analyzer configuration.
   final List<String>? wirelessGateways;
 
   GetNetworkAnalyzerConfigurationResponse({
+    this.arn,
+    this.description,
+    this.name,
     this.traceContent,
     this.wirelessDevices,
     this.wirelessGateways,
@@ -4274,6 +5276,9 @@ class GetNetworkAnalyzerConfigurationResponse {
   factory GetNetworkAnalyzerConfigurationResponse.fromJson(
       Map<String, dynamic> json) {
     return GetNetworkAnalyzerConfigurationResponse(
+      arn: json['Arn'] as String?,
+      description: json['Description'] as String?,
+      name: json['Name'] as String?,
       traceContent: json['TraceContent'] != null
           ? TraceContent.fromJson(json['TraceContent'] as Map<String, dynamic>)
           : null,
@@ -4289,10 +5294,16 @@ class GetNetworkAnalyzerConfigurationResponse {
   }
 
   Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final description = this.description;
+    final name = this.name;
     final traceContent = this.traceContent;
     final wirelessDevices = this.wirelessDevices;
     final wirelessGateways = this.wirelessGateways;
     return {
+      if (arn != null) 'Arn': arn,
+      if (description != null) 'Description': description,
+      if (name != null) 'Name': name,
       if (traceContent != null) 'TraceContent': traceContent,
       if (wirelessDevices != null) 'WirelessDevices': wirelessDevices,
       if (wirelessGateways != null) 'WirelessGateways': wirelessGateways,
@@ -4332,24 +5343,139 @@ class GetPartnerAccountResponse {
   }
 }
 
+class GetPositionConfigurationResponse {
+  /// The position data destination that describes the AWS IoT rule that processes
+  /// the device's position data for use by AWS IoT Core for LoRaWAN.
+  final String? destination;
+
+  /// The wrapper for the solver configuration details object.
+  final PositionSolverDetails? solvers;
+
+  GetPositionConfigurationResponse({
+    this.destination,
+    this.solvers,
+  });
+
+  factory GetPositionConfigurationResponse.fromJson(Map<String, dynamic> json) {
+    return GetPositionConfigurationResponse(
+      destination: json['Destination'] as String?,
+      solvers: json['Solvers'] != null
+          ? PositionSolverDetails.fromJson(
+              json['Solvers'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destination = this.destination;
+    final solvers = this.solvers;
+    return {
+      if (destination != null) 'Destination': destination,
+      if (solvers != null) 'Solvers': solvers,
+    };
+  }
+}
+
+class GetPositionResponse {
+  /// The accuracy of the estimated position in meters. An empty value indicates
+  /// that no position data is available. A value of ‘0.0’ value indicates that
+  /// position data is available. This data corresponds to the position
+  /// information that you specified instead of the position computed by solver.
+  final Accuracy? accuracy;
+
+  /// The position information of the resource.
+  final List<double>? position;
+
+  /// The vendor of the positioning solver.
+  final PositionSolverProvider? solverProvider;
+
+  /// The type of solver used to identify the position of the resource.
+  final PositionSolverType? solverType;
+
+  /// The version of the positioning solver.
+  final String? solverVersion;
+
+  /// The timestamp at which the device's position was determined.
+  final String? timestamp;
+
+  GetPositionResponse({
+    this.accuracy,
+    this.position,
+    this.solverProvider,
+    this.solverType,
+    this.solverVersion,
+    this.timestamp,
+  });
+
+  factory GetPositionResponse.fromJson(Map<String, dynamic> json) {
+    return GetPositionResponse(
+      accuracy: json['Accuracy'] != null
+          ? Accuracy.fromJson(json['Accuracy'] as Map<String, dynamic>)
+          : null,
+      position: (json['Position'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as double)
+          .toList(),
+      solverProvider:
+          (json['SolverProvider'] as String?)?.toPositionSolverProvider(),
+      solverType: (json['SolverType'] as String?)?.toPositionSolverType(),
+      solverVersion: json['SolverVersion'] as String?,
+      timestamp: json['Timestamp'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accuracy = this.accuracy;
+    final position = this.position;
+    final solverProvider = this.solverProvider;
+    final solverType = this.solverType;
+    final solverVersion = this.solverVersion;
+    final timestamp = this.timestamp;
+    return {
+      if (accuracy != null) 'Accuracy': accuracy,
+      if (position != null) 'Position': position,
+      if (solverProvider != null) 'SolverProvider': solverProvider.toValue(),
+      if (solverType != null) 'SolverType': solverType.toValue(),
+      if (solverVersion != null) 'SolverVersion': solverVersion,
+      if (timestamp != null) 'Timestamp': timestamp,
+    };
+  }
+}
+
 class GetResourceEventConfigurationResponse {
-  /// Event configuration for the device registration state event
+  /// Event configuration for the connection status event.
+  final ConnectionStatusEventConfiguration? connectionStatus;
+
+  /// Event configuration for the device registration state event.
   final DeviceRegistrationStateEventConfiguration? deviceRegistrationState;
 
-  /// Event configuration for the Proximity event
+  /// Event configuration for the join event.
+  final JoinEventConfiguration? join;
+
+  /// Event configuration for the proximity event.
   final ProximityEventConfiguration? proximity;
 
   GetResourceEventConfigurationResponse({
+    this.connectionStatus,
     this.deviceRegistrationState,
+    this.join,
     this.proximity,
   });
 
   factory GetResourceEventConfigurationResponse.fromJson(
       Map<String, dynamic> json) {
     return GetResourceEventConfigurationResponse(
+      connectionStatus: json['ConnectionStatus'] != null
+          ? ConnectionStatusEventConfiguration.fromJson(
+              json['ConnectionStatus'] as Map<String, dynamic>)
+          : null,
       deviceRegistrationState: json['DeviceRegistrationState'] != null
           ? DeviceRegistrationStateEventConfiguration.fromJson(
               json['DeviceRegistrationState'] as Map<String, dynamic>)
+          : null,
+      join: json['Join'] != null
+          ? JoinEventConfiguration.fromJson(
+              json['Join'] as Map<String, dynamic>)
           : null,
       proximity: json['Proximity'] != null
           ? ProximityEventConfiguration.fromJson(
@@ -4359,11 +5485,15 @@ class GetResourceEventConfigurationResponse {
   }
 
   Map<String, dynamic> toJson() {
+    final connectionStatus = this.connectionStatus;
     final deviceRegistrationState = this.deviceRegistrationState;
+    final join = this.join;
     final proximity = this.proximity;
     return {
+      if (connectionStatus != null) 'ConnectionStatus': connectionStatus,
       if (deviceRegistrationState != null)
         'DeviceRegistrationState': deviceRegistrationState,
+      if (join != null) 'Join': join,
       if (proximity != null) 'Proximity': proximity,
     };
   }
@@ -4886,6 +6016,10 @@ class GetWirelessGatewayTaskResponse {
 
 enum IdentifierType {
   partnerAccountId,
+  devEui,
+  gatewayEui,
+  wirelessDeviceId,
+  wirelessGatewayId,
 }
 
 extension on IdentifierType {
@@ -4893,6 +6027,14 @@ extension on IdentifierType {
     switch (this) {
       case IdentifierType.partnerAccountId:
         return 'PartnerAccountId';
+      case IdentifierType.devEui:
+        return 'DevEui';
+      case IdentifierType.gatewayEui:
+        return 'GatewayEui';
+      case IdentifierType.wirelessDeviceId:
+        return 'WirelessDeviceId';
+      case IdentifierType.wirelessGatewayId:
+        return 'WirelessGatewayId';
     }
   }
 }
@@ -4902,8 +6044,83 @@ extension on String {
     switch (this) {
       case 'PartnerAccountId':
         return IdentifierType.partnerAccountId;
+      case 'DevEui':
+        return IdentifierType.devEui;
+      case 'GatewayEui':
+        return IdentifierType.gatewayEui;
+      case 'WirelessDeviceId':
+        return IdentifierType.wirelessDeviceId;
+      case 'WirelessGatewayId':
+        return IdentifierType.wirelessGatewayId;
     }
     throw Exception('$this is not known in enum IdentifierType');
+  }
+}
+
+/// Join event configuration object for enabling or disabling topic.
+class JoinEventConfiguration {
+  /// Join event configuration object for enabling or disabling LoRaWAN related
+  /// event topics.
+  final LoRaWANJoinEventNotificationConfigurations? loRaWAN;
+
+  /// Enum to denote whether the wireless device id join event topic is enabled or
+  /// disabled.
+  final EventNotificationTopicStatus? wirelessDeviceIdEventTopic;
+
+  JoinEventConfiguration({
+    this.loRaWAN,
+    this.wirelessDeviceIdEventTopic,
+  });
+
+  factory JoinEventConfiguration.fromJson(Map<String, dynamic> json) {
+    return JoinEventConfiguration(
+      loRaWAN: json['LoRaWAN'] != null
+          ? LoRaWANJoinEventNotificationConfigurations.fromJson(
+              json['LoRaWAN'] as Map<String, dynamic>)
+          : null,
+      wirelessDeviceIdEventTopic:
+          (json['WirelessDeviceIdEventTopic'] as String?)
+              ?.toEventNotificationTopicStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final loRaWAN = this.loRaWAN;
+    final wirelessDeviceIdEventTopic = this.wirelessDeviceIdEventTopic;
+    return {
+      if (loRaWAN != null) 'LoRaWAN': loRaWAN,
+      if (wirelessDeviceIdEventTopic != null)
+        'WirelessDeviceIdEventTopic': wirelessDeviceIdEventTopic.toValue(),
+    };
+  }
+}
+
+/// Join resource type event configuration object for enabling or disabling
+/// topic.
+class JoinResourceTypeEventConfiguration {
+  /// Join resource type event configuration object for enabling or disabling
+  /// LoRaWAN related event topics.
+  final LoRaWANJoinResourceTypeEventConfiguration? loRaWAN;
+
+  JoinResourceTypeEventConfiguration({
+    this.loRaWAN,
+  });
+
+  factory JoinResourceTypeEventConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return JoinResourceTypeEventConfiguration(
+      loRaWAN: json['LoRaWAN'] != null
+          ? LoRaWANJoinResourceTypeEventConfiguration.fromJson(
+              json['LoRaWAN'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final loRaWAN = this.loRaWAN;
+    return {
+      if (loRaWAN != null) 'LoRaWAN': loRaWAN,
+    };
   }
 }
 
@@ -4968,6 +6185,42 @@ class ListDeviceProfilesResponse {
     final nextToken = this.nextToken;
     return {
       if (deviceProfileList != null) 'DeviceProfileList': deviceProfileList,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListEventConfigurationsResponse {
+  /// Event configurations of all events for a single resource.
+  final List<EventConfigurationItem>? eventConfigurationsList;
+
+  /// To retrieve the next set of results, the <code>nextToken</code> value from a
+  /// previous response; otherwise <b>null</b> to receive the first set of
+  /// results.
+  final String? nextToken;
+
+  ListEventConfigurationsResponse({
+    this.eventConfigurationsList,
+    this.nextToken,
+  });
+
+  factory ListEventConfigurationsResponse.fromJson(Map<String, dynamic> json) {
+    return ListEventConfigurationsResponse(
+      eventConfigurationsList: (json['EventConfigurationsList'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => EventConfigurationItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eventConfigurationsList = this.eventConfigurationsList;
+    final nextToken = this.nextToken;
+    return {
+      if (eventConfigurationsList != null)
+        'EventConfigurationsList': eventConfigurationsList,
       if (nextToken != null) 'NextToken': nextToken,
     };
   }
@@ -5074,6 +6327,44 @@ class ListMulticastGroupsResponse {
   }
 }
 
+class ListNetworkAnalyzerConfigurationsResponse {
+  /// The list of network analyzer configurations.
+  final List<NetworkAnalyzerConfigurations>? networkAnalyzerConfigurationList;
+
+  /// The token to use to get the next set of results, or <b>null</b> if there are
+  /// no additional results.
+  final String? nextToken;
+
+  ListNetworkAnalyzerConfigurationsResponse({
+    this.networkAnalyzerConfigurationList,
+    this.nextToken,
+  });
+
+  factory ListNetworkAnalyzerConfigurationsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListNetworkAnalyzerConfigurationsResponse(
+      networkAnalyzerConfigurationList:
+          (json['NetworkAnalyzerConfigurationList'] as List?)
+              ?.whereNotNull()
+              .map((e) => NetworkAnalyzerConfigurations.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final networkAnalyzerConfigurationList =
+        this.networkAnalyzerConfigurationList;
+    final nextToken = this.nextToken;
+    return {
+      if (networkAnalyzerConfigurationList != null)
+        'NetworkAnalyzerConfigurationList': networkAnalyzerConfigurationList,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
 class ListPartnerAccountsResponse {
   /// The token to use to get the next set of results, or <b>null</b> if there are
   /// no additional results.
@@ -5104,6 +6395,77 @@ class ListPartnerAccountsResponse {
     return {
       if (nextToken != null) 'NextToken': nextToken,
       if (sidewalk != null) 'Sidewalk': sidewalk,
+    };
+  }
+}
+
+class ListPositionConfigurationsResponse {
+  /// The token to use to get the next set of results, or <b>null</b> if there are
+  /// no additional results.
+  final String? nextToken;
+
+  /// A list of position configurations.
+  final List<PositionConfigurationItem>? positionConfigurationList;
+
+  ListPositionConfigurationsResponse({
+    this.nextToken,
+    this.positionConfigurationList,
+  });
+
+  factory ListPositionConfigurationsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListPositionConfigurationsResponse(
+      nextToken: json['NextToken'] as String?,
+      positionConfigurationList: (json['PositionConfigurationList'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              PositionConfigurationItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final positionConfigurationList = this.positionConfigurationList;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (positionConfigurationList != null)
+        'PositionConfigurationList': positionConfigurationList,
+    };
+  }
+}
+
+class ListQueuedMessagesResponse {
+  /// The messages in the downlink queue.
+  final List<DownlinkQueueMessage>? downlinkQueueMessagesList;
+
+  /// To retrieve the next set of results, the <code>nextToken</code> value from a
+  /// previous response; otherwise <b>null</b> to receive the first set of
+  /// results.
+  final String? nextToken;
+
+  ListQueuedMessagesResponse({
+    this.downlinkQueueMessagesList,
+    this.nextToken,
+  });
+
+  factory ListQueuedMessagesResponse.fromJson(Map<String, dynamic> json) {
+    return ListQueuedMessagesResponse(
+      downlinkQueueMessagesList: (json['DownlinkQueueMessagesList'] as List?)
+          ?.whereNotNull()
+          .map((e) => DownlinkQueueMessage.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final downlinkQueueMessagesList = this.downlinkQueueMessagesList;
+    final nextToken = this.nextToken;
+    return {
+      if (downlinkQueueMessagesList != null)
+        'DownlinkQueueMessagesList': downlinkQueueMessagesList,
+      if (nextToken != null) 'NextToken': nextToken,
     };
   }
 }
@@ -5267,6 +6629,60 @@ class ListWirelessGatewaysResponse {
       if (nextToken != null) 'NextToken': nextToken,
       if (wirelessGatewayList != null)
         'WirelessGatewayList': wirelessGatewayList,
+    };
+  }
+}
+
+/// Object for LoRaWAN connection status resource type event configuration.
+class LoRaWANConnectionStatusEventNotificationConfigurations {
+  /// Enum to denote whether the gateway EUI connection status event topic is
+  /// enabled or disabled.
+  final EventNotificationTopicStatus? gatewayEuiEventTopic;
+
+  LoRaWANConnectionStatusEventNotificationConfigurations({
+    this.gatewayEuiEventTopic,
+  });
+
+  factory LoRaWANConnectionStatusEventNotificationConfigurations.fromJson(
+      Map<String, dynamic> json) {
+    return LoRaWANConnectionStatusEventNotificationConfigurations(
+      gatewayEuiEventTopic: (json['GatewayEuiEventTopic'] as String?)
+          ?.toEventNotificationTopicStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final gatewayEuiEventTopic = this.gatewayEuiEventTopic;
+    return {
+      if (gatewayEuiEventTopic != null)
+        'GatewayEuiEventTopic': gatewayEuiEventTopic.toValue(),
+    };
+  }
+}
+
+/// Object for LoRaWAN connection status resource type event configuration.
+class LoRaWANConnectionStatusResourceTypeEventConfiguration {
+  /// Enum to denote whether the wireless gateway connection status event topic is
+  /// enabled or disabled.
+  final EventNotificationTopicStatus? wirelessGatewayEventTopic;
+
+  LoRaWANConnectionStatusResourceTypeEventConfiguration({
+    this.wirelessGatewayEventTopic,
+  });
+
+  factory LoRaWANConnectionStatusResourceTypeEventConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return LoRaWANConnectionStatusResourceTypeEventConfiguration(
+      wirelessGatewayEventTopic: (json['WirelessGatewayEventTopic'] as String?)
+          ?.toEventNotificationTopicStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final wirelessGatewayEventTopic = this.wirelessGatewayEventTopic;
+    return {
+      if (wirelessGatewayEventTopic != null)
+        'WirelessGatewayEventTopic': wirelessGatewayEventTopic.toValue(),
     };
   }
 }
@@ -5922,6 +7338,59 @@ class LoRaWANGetServiceProfileInfo {
   }
 }
 
+/// Object for LoRaWAN join resource type event configuration.
+class LoRaWANJoinEventNotificationConfigurations {
+  /// Enum to denote whether the Dev EUI join event topic is enabled or disabled.
+  final EventNotificationTopicStatus? devEuiEventTopic;
+
+  LoRaWANJoinEventNotificationConfigurations({
+    this.devEuiEventTopic,
+  });
+
+  factory LoRaWANJoinEventNotificationConfigurations.fromJson(
+      Map<String, dynamic> json) {
+    return LoRaWANJoinEventNotificationConfigurations(
+      devEuiEventTopic: (json['DevEuiEventTopic'] as String?)
+          ?.toEventNotificationTopicStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final devEuiEventTopic = this.devEuiEventTopic;
+    return {
+      if (devEuiEventTopic != null)
+        'DevEuiEventTopic': devEuiEventTopic.toValue(),
+    };
+  }
+}
+
+/// Object for LoRaWAN join resource type event configuration.
+class LoRaWANJoinResourceTypeEventConfiguration {
+  /// Enum to denote whether the wireless device join event topic is enabled or
+  /// disabled.
+  final EventNotificationTopicStatus? wirelessDeviceEventTopic;
+
+  LoRaWANJoinResourceTypeEventConfiguration({
+    this.wirelessDeviceEventTopic,
+  });
+
+  factory LoRaWANJoinResourceTypeEventConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return LoRaWANJoinResourceTypeEventConfiguration(
+      wirelessDeviceEventTopic: (json['WirelessDeviceEventTopic'] as String?)
+          ?.toEventNotificationTopicStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final wirelessDeviceEventTopic = this.wirelessDeviceEventTopic;
+    return {
+      if (wirelessDeviceEventTopic != null)
+        'WirelessDeviceEventTopic': wirelessDeviceEventTopic.toValue(),
+    };
+  }
+}
+
 /// LoRaWAN object for list functions.
 class LoRaWANListDevice {
   /// The DevEUI value.
@@ -6141,29 +7610,56 @@ class LoRaWANStartFuotaTask {
 
 /// LoRaWAN object for update functions.
 class LoRaWANUpdateDevice {
+  /// ABP device object for update APIs for v1.0.x
+  final UpdateAbpV1_0_x? abpV1_0X;
+
+  /// ABP device object for update APIs for v1.1
+  final UpdateAbpV1_1? abpV1_1;
+
   /// The ID of the device profile for the wireless device.
   final String? deviceProfileId;
+
+  /// FPorts object for the positioning information of the device.
+  final UpdateFPorts? fPorts;
 
   /// The ID of the service profile.
   final String? serviceProfileId;
 
   LoRaWANUpdateDevice({
+    this.abpV1_0X,
+    this.abpV1_1,
     this.deviceProfileId,
+    this.fPorts,
     this.serviceProfileId,
   });
 
   factory LoRaWANUpdateDevice.fromJson(Map<String, dynamic> json) {
     return LoRaWANUpdateDevice(
+      abpV1_0X: json['AbpV1_0_x'] != null
+          ? UpdateAbpV1_0_x.fromJson(json['AbpV1_0_x'] as Map<String, dynamic>)
+          : null,
+      abpV1_1: json['AbpV1_1'] != null
+          ? UpdateAbpV1_1.fromJson(json['AbpV1_1'] as Map<String, dynamic>)
+          : null,
       deviceProfileId: json['DeviceProfileId'] as String?,
+      fPorts: json['FPorts'] != null
+          ? UpdateFPorts.fromJson(json['FPorts'] as Map<String, dynamic>)
+          : null,
       serviceProfileId: json['ServiceProfileId'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final abpV1_0X = this.abpV1_0X;
+    final abpV1_1 = this.abpV1_1;
     final deviceProfileId = this.deviceProfileId;
+    final fPorts = this.fPorts;
     final serviceProfileId = this.serviceProfileId;
     return {
+      if (abpV1_0X != null) 'AbpV1_0_x': abpV1_0X,
+      if (abpV1_1 != null) 'AbpV1_1': abpV1_1,
       if (deviceProfileId != null) 'DeviceProfileId': deviceProfileId,
+      if (fPorts != null) 'FPorts': fPorts,
       if (serviceProfileId != null) 'ServiceProfileId': serviceProfileId,
     };
   }
@@ -6255,7 +7751,9 @@ class LoRaWANUpdateGatewayTaskEntry {
   }
 }
 
-/// The log level for a log message.
+/// The log level for a log message. The log levels can be disabled, or set to
+/// <code>ERROR</code> to display less verbose logs containing only error
+/// information, or to <code>INFO</code> for more detailed logs.
 enum LogLevel {
   info,
   error,
@@ -6408,6 +7906,34 @@ class MulticastWirelessMetadata {
   }
 }
 
+/// Network analyzer configurations.
+class NetworkAnalyzerConfigurations {
+  /// The Amazon Resource Name of the new resource.
+  final String? arn;
+  final String? name;
+
+  NetworkAnalyzerConfigurations({
+    this.arn,
+    this.name,
+  });
+
+  factory NetworkAnalyzerConfigurations.fromJson(Map<String, dynamic> json) {
+    return NetworkAnalyzerConfigurations(
+      arn: json['Arn'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final name = this.name;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (name != null) 'Name': name,
+    };
+  }
+}
+
 /// OTAA device object for v1.0.x
 class OtaaV1_0_x {
   /// The AppEUI value.
@@ -6505,6 +8031,268 @@ extension on String {
   }
 }
 
+enum PositionConfigurationFec {
+  rose,
+  none,
+}
+
+extension on PositionConfigurationFec {
+  String toValue() {
+    switch (this) {
+      case PositionConfigurationFec.rose:
+        return 'ROSE';
+      case PositionConfigurationFec.none:
+        return 'NONE';
+    }
+  }
+}
+
+extension on String {
+  PositionConfigurationFec toPositionConfigurationFec() {
+    switch (this) {
+      case 'ROSE':
+        return PositionConfigurationFec.rose;
+      case 'NONE':
+        return PositionConfigurationFec.none;
+    }
+    throw Exception('$this is not known in enum PositionConfigurationFec');
+  }
+}
+
+/// The wrapper for a position configuration.
+class PositionConfigurationItem {
+  /// The position data destination that describes the AWS IoT rule that processes
+  /// the device's position data for use by AWS IoT Core for LoRaWAN.
+  final String? destination;
+
+  /// Resource identifier for the position configuration.
+  final String? resourceIdentifier;
+
+  /// Resource type of the resource for the position configuration.
+  final PositionResourceType? resourceType;
+
+  /// The details of the positioning solver object used to compute the location.
+  final PositionSolverDetails? solvers;
+
+  PositionConfigurationItem({
+    this.destination,
+    this.resourceIdentifier,
+    this.resourceType,
+    this.solvers,
+  });
+
+  factory PositionConfigurationItem.fromJson(Map<String, dynamic> json) {
+    return PositionConfigurationItem(
+      destination: json['Destination'] as String?,
+      resourceIdentifier: json['ResourceIdentifier'] as String?,
+      resourceType: (json['ResourceType'] as String?)?.toPositionResourceType(),
+      solvers: json['Solvers'] != null
+          ? PositionSolverDetails.fromJson(
+              json['Solvers'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destination = this.destination;
+    final resourceIdentifier = this.resourceIdentifier;
+    final resourceType = this.resourceType;
+    final solvers = this.solvers;
+    return {
+      if (destination != null) 'Destination': destination,
+      if (resourceIdentifier != null) 'ResourceIdentifier': resourceIdentifier,
+      if (resourceType != null) 'ResourceType': resourceType.toValue(),
+      if (solvers != null) 'Solvers': solvers,
+    };
+  }
+}
+
+enum PositionConfigurationStatus {
+  enabled,
+  disabled,
+}
+
+extension on PositionConfigurationStatus {
+  String toValue() {
+    switch (this) {
+      case PositionConfigurationStatus.enabled:
+        return 'Enabled';
+      case PositionConfigurationStatus.disabled:
+        return 'Disabled';
+    }
+  }
+}
+
+extension on String {
+  PositionConfigurationStatus toPositionConfigurationStatus() {
+    switch (this) {
+      case 'Enabled':
+        return PositionConfigurationStatus.enabled;
+      case 'Disabled':
+        return PositionConfigurationStatus.disabled;
+    }
+    throw Exception('$this is not known in enum PositionConfigurationStatus');
+  }
+}
+
+enum PositionResourceType {
+  wirelessDevice,
+  wirelessGateway,
+}
+
+extension on PositionResourceType {
+  String toValue() {
+    switch (this) {
+      case PositionResourceType.wirelessDevice:
+        return 'WirelessDevice';
+      case PositionResourceType.wirelessGateway:
+        return 'WirelessGateway';
+    }
+  }
+}
+
+extension on String {
+  PositionResourceType toPositionResourceType() {
+    switch (this) {
+      case 'WirelessDevice':
+        return PositionResourceType.wirelessDevice;
+      case 'WirelessGateway':
+        return PositionResourceType.wirelessGateway;
+    }
+    throw Exception('$this is not known in enum PositionResourceType');
+  }
+}
+
+/// The wrapper for position solver configurations.
+class PositionSolverConfigurations {
+  /// The Semtech GNSS solver configuration object.
+  final SemtechGnssConfiguration? semtechGnss;
+
+  PositionSolverConfigurations({
+    this.semtechGnss,
+  });
+
+  factory PositionSolverConfigurations.fromJson(Map<String, dynamic> json) {
+    return PositionSolverConfigurations(
+      semtechGnss: json['SemtechGnss'] != null
+          ? SemtechGnssConfiguration.fromJson(
+              json['SemtechGnss'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final semtechGnss = this.semtechGnss;
+    return {
+      if (semtechGnss != null) 'SemtechGnss': semtechGnss,
+    };
+  }
+}
+
+/// The wrapper for position solver details.
+class PositionSolverDetails {
+  /// The Semtech GNSS solver object details.
+  final SemtechGnssDetail? semtechGnss;
+
+  PositionSolverDetails({
+    this.semtechGnss,
+  });
+
+  factory PositionSolverDetails.fromJson(Map<String, dynamic> json) {
+    return PositionSolverDetails(
+      semtechGnss: json['SemtechGnss'] != null
+          ? SemtechGnssDetail.fromJson(
+              json['SemtechGnss'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final semtechGnss = this.semtechGnss;
+    return {
+      if (semtechGnss != null) 'SemtechGnss': semtechGnss,
+    };
+  }
+}
+
+enum PositionSolverProvider {
+  semtech,
+}
+
+extension on PositionSolverProvider {
+  String toValue() {
+    switch (this) {
+      case PositionSolverProvider.semtech:
+        return 'Semtech';
+    }
+  }
+}
+
+extension on String {
+  PositionSolverProvider toPositionSolverProvider() {
+    switch (this) {
+      case 'Semtech':
+        return PositionSolverProvider.semtech;
+    }
+    throw Exception('$this is not known in enum PositionSolverProvider');
+  }
+}
+
+enum PositionSolverType {
+  gnss,
+}
+
+extension on PositionSolverType {
+  String toValue() {
+    switch (this) {
+      case PositionSolverType.gnss:
+        return 'GNSS';
+    }
+  }
+}
+
+extension on String {
+  PositionSolverType toPositionSolverType() {
+    switch (this) {
+      case 'GNSS':
+        return PositionSolverType.gnss;
+    }
+    throw Exception('$this is not known in enum PositionSolverType');
+  }
+}
+
+/// The FPorts for the position information.
+class Positioning {
+  final int? clockSync;
+  final int? gnss;
+  final int? stream;
+
+  Positioning({
+    this.clockSync,
+    this.gnss,
+    this.stream,
+  });
+
+  factory Positioning.fromJson(Map<String, dynamic> json) {
+    return Positioning(
+      clockSync: json['ClockSync'] as int?,
+      gnss: json['Gnss'] as int?,
+      stream: json['Stream'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clockSync = this.clockSync;
+    final gnss = this.gnss;
+    final stream = this.stream;
+    return {
+      if (clockSync != null) 'ClockSync': clockSync,
+      if (gnss != null) 'Gnss': gnss,
+      if (stream != null) 'Stream': stream,
+    };
+  }
+}
+
 /// Proximity event configuration object for enabling and disabling relevant
 /// topics.
 class ProximityEventConfiguration {
@@ -6512,14 +8300,54 @@ class ProximityEventConfiguration {
   /// related event topics.
   final SidewalkEventNotificationConfigurations? sidewalk;
 
+  /// Enum to denote whether the wireless device id proximity event topic is
+  /// enabled or disabled.
+  final EventNotificationTopicStatus? wirelessDeviceIdEventTopic;
+
   ProximityEventConfiguration({
     this.sidewalk,
+    this.wirelessDeviceIdEventTopic,
   });
 
   factory ProximityEventConfiguration.fromJson(Map<String, dynamic> json) {
     return ProximityEventConfiguration(
       sidewalk: json['Sidewalk'] != null
           ? SidewalkEventNotificationConfigurations.fromJson(
+              json['Sidewalk'] as Map<String, dynamic>)
+          : null,
+      wirelessDeviceIdEventTopic:
+          (json['WirelessDeviceIdEventTopic'] as String?)
+              ?.toEventNotificationTopicStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sidewalk = this.sidewalk;
+    final wirelessDeviceIdEventTopic = this.wirelessDeviceIdEventTopic;
+    return {
+      if (sidewalk != null) 'Sidewalk': sidewalk,
+      if (wirelessDeviceIdEventTopic != null)
+        'WirelessDeviceIdEventTopic': wirelessDeviceIdEventTopic.toValue(),
+    };
+  }
+}
+
+/// Proximity resource type event configuration object for enabling or disabling
+/// topic.
+class ProximityResourceTypeEventConfiguration {
+  /// Proximity resource type event configuration object for enabling and
+  /// disabling wireless device topic.
+  final SidewalkResourceTypeEventConfiguration? sidewalk;
+
+  ProximityResourceTypeEventConfiguration({
+    this.sidewalk,
+  });
+
+  factory ProximityResourceTypeEventConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return ProximityResourceTypeEventConfiguration(
+      sidewalk: json['Sidewalk'] != null
+          ? SidewalkResourceTypeEventConfiguration.fromJson(
               json['Sidewalk'] as Map<String, dynamic>)
           : null,
     );
@@ -6530,6 +8358,18 @@ class ProximityEventConfiguration {
     return {
       if (sidewalk != null) 'Sidewalk': sidewalk,
     };
+  }
+}
+
+class PutPositionConfigurationResponse {
+  PutPositionConfigurationResponse();
+
+  factory PutPositionConfigurationResponse.fromJson(Map<String, dynamic> _) {
+    return PutPositionConfigurationResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
@@ -6566,6 +8406,80 @@ class ResetResourceLogLevelResponse {
 
   Map<String, dynamic> toJson() {
     return {};
+  }
+}
+
+/// Information about the Semtech GNSS solver configuration.
+class SemtechGnssConfiguration {
+  /// Whether forward error correction is enabled.
+  final PositionConfigurationFec fec;
+
+  /// The status indicating whether the solver is enabled.
+  final PositionConfigurationStatus status;
+
+  SemtechGnssConfiguration({
+    required this.fec,
+    required this.status,
+  });
+
+  factory SemtechGnssConfiguration.fromJson(Map<String, dynamic> json) {
+    return SemtechGnssConfiguration(
+      fec: (json['Fec'] as String).toPositionConfigurationFec(),
+      status: (json['Status'] as String).toPositionConfigurationStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fec = this.fec;
+    final status = this.status;
+    return {
+      'Fec': fec.toValue(),
+      'Status': status.toValue(),
+    };
+  }
+}
+
+/// Details of the Semtech GNSS solver object.
+class SemtechGnssDetail {
+  /// Whether forward error correction is enabled.
+  final PositionConfigurationFec? fec;
+
+  /// The vendor of the solver object.
+  final PositionSolverProvider? provider;
+
+  /// The status indicating whether the solver is enabled.
+  final PositionConfigurationStatus? status;
+
+  /// The type of positioning solver used.
+  final PositionSolverType? type;
+
+  SemtechGnssDetail({
+    this.fec,
+    this.provider,
+    this.status,
+    this.type,
+  });
+
+  factory SemtechGnssDetail.fromJson(Map<String, dynamic> json) {
+    return SemtechGnssDetail(
+      fec: (json['Fec'] as String?)?.toPositionConfigurationFec(),
+      provider: (json['Provider'] as String?)?.toPositionSolverProvider(),
+      status: (json['Status'] as String?)?.toPositionConfigurationStatus(),
+      type: (json['Type'] as String?)?.toPositionSolverType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fec = this.fec;
+    final provider = this.provider;
+    final status = this.status;
+    final type = this.type;
+    return {
+      if (fec != null) 'Fec': fec.toValue(),
+      if (provider != null) 'Provider': provider.toValue(),
+      if (status != null) 'Status': status.toValue(),
+      if (type != null) 'Type': type.toValue(),
+    };
   }
 }
 
@@ -6883,8 +8797,8 @@ class SidewalkDeviceMetadata {
   }
 }
 
-/// SidewalkEventNotificationConfigurations object Event configuration object
-/// for Sidewalk related event topics.
+/// <code>SidewalkEventNotificationConfigurations</code> object, which is the
+/// event configuration object for Sidewalk-related event topics.
 class SidewalkEventNotificationConfigurations {
   /// Enum to denote whether amazon id event topic is enabled or disabled.
   final EventNotificationTopicStatus? amazonIdEventTopic;
@@ -6954,6 +8868,34 @@ class SidewalkListDevice {
       if (sidewalkId != null) 'SidewalkId': sidewalkId,
       if (sidewalkManufacturingSn != null)
         'SidewalkManufacturingSn': sidewalkManufacturingSn,
+    };
+  }
+}
+
+/// Sidewalk resource type event configuration object for enabling or disabling
+/// topic.
+class SidewalkResourceTypeEventConfiguration {
+  /// Enum to denote whether the wireless device join event topic is enabled or
+  /// disabled.
+  final EventNotificationTopicStatus? wirelessDeviceEventTopic;
+
+  SidewalkResourceTypeEventConfiguration({
+    this.wirelessDeviceEventTopic,
+  });
+
+  factory SidewalkResourceTypeEventConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return SidewalkResourceTypeEventConfiguration(
+      wirelessDeviceEventTopic: (json['WirelessDeviceEventTopic'] as String?)
+          ?.toEventNotificationTopicStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final wirelessDeviceEventTopic = this.wirelessDeviceEventTopic;
+    return {
+      if (wirelessDeviceEventTopic != null)
+        'WirelessDeviceEventTopic': wirelessDeviceEventTopic.toValue(),
     };
   }
 }
@@ -7193,7 +9135,7 @@ class TestWirelessDeviceResponse {
   }
 }
 
-/// Trace Content for resources.
+/// Trace content for your wireless gateway and wireless device resources.
 class TraceContent {
   final LogLevel? logLevel;
   final WirelessDeviceFrameInfo? wirelessDeviceFrameInfo;
@@ -7234,6 +9176,52 @@ class UntagResourceResponse {
   }
 }
 
+/// ABP device object for LoRaWAN specification v1.0.x
+class UpdateAbpV1_0_x {
+  /// The FCnt init value.
+  final int? fCntStart;
+
+  UpdateAbpV1_0_x({
+    this.fCntStart,
+  });
+
+  factory UpdateAbpV1_0_x.fromJson(Map<String, dynamic> json) {
+    return UpdateAbpV1_0_x(
+      fCntStart: json['FCntStart'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fCntStart = this.fCntStart;
+    return {
+      if (fCntStart != null) 'FCntStart': fCntStart,
+    };
+  }
+}
+
+/// ABP device object for LoRaWAN specification v1.1
+class UpdateAbpV1_1 {
+  /// The FCnt init value.
+  final int? fCntStart;
+
+  UpdateAbpV1_1({
+    this.fCntStart,
+  });
+
+  factory UpdateAbpV1_1.fromJson(Map<String, dynamic> json) {
+    return UpdateAbpV1_1(
+      fCntStart: json['FCntStart'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fCntStart = this.fCntStart;
+    return {
+      if (fCntStart != null) 'FCntStart': fCntStart,
+    };
+  }
+}
+
 class UpdateDestinationResponse {
   UpdateDestinationResponse();
 
@@ -7243,6 +9231,44 @@ class UpdateDestinationResponse {
 
   Map<String, dynamic> toJson() {
     return {};
+  }
+}
+
+class UpdateEventConfigurationByResourceTypesResponse {
+  UpdateEventConfigurationByResourceTypesResponse();
+
+  factory UpdateEventConfigurationByResourceTypesResponse.fromJson(
+      Map<String, dynamic> _) {
+    return UpdateEventConfigurationByResourceTypesResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// Object for updating the FPorts information.
+class UpdateFPorts {
+  /// Positioning FPorts for the ClockSync, Stream, and GNSS functions.
+  final Positioning? positioning;
+
+  UpdateFPorts({
+    this.positioning,
+  });
+
+  factory UpdateFPorts.fromJson(Map<String, dynamic> json) {
+    return UpdateFPorts(
+      positioning: json['Positioning'] != null
+          ? Positioning.fromJson(json['Positioning'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final positioning = this.positioning;
+    return {
+      if (positioning != null) 'Positioning': positioning,
+    };
   }
 }
 
@@ -7301,6 +9327,18 @@ class UpdatePartnerAccountResponse {
 
   factory UpdatePartnerAccountResponse.fromJson(Map<String, dynamic> _) {
     return UpdatePartnerAccountResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdatePositionResponse {
+  UpdatePositionResponse();
+
+  factory UpdatePositionResponse.fromJson(Map<String, dynamic> _) {
+    return UpdatePositionResponse();
   }
 
   Map<String, dynamic> toJson() {
@@ -7504,7 +9542,9 @@ class WirelessDeviceEventLogOption {
   }
 }
 
-/// WirelessDevice FrameInfo for trace content.
+/// <code>FrameInfo</code> of your wireless device resources for the trace
+/// content. Use FrameInfo to debug the communication between your LoRaWAN end
+/// devices and the network server.
 enum WirelessDeviceFrameInfo {
   enabled,
   disabled,

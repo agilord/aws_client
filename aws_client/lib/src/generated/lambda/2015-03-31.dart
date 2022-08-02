@@ -124,16 +124,18 @@ class Lambda {
     return AddLayerVersionPermissionResponse.fromJson(response);
   }
 
-  /// Grants an Amazon Web Services service or another account permission to use
-  /// a function. You can apply the policy at the function level, or specify a
-  /// qualifier to restrict access to a single version or alias. If you use a
-  /// qualifier, the invoker must use the full Amazon Resource Name (ARN) of
-  /// that version or alias to invoke the function. Note: Lambda does not
-  /// support adding policies to version $LATEST.
+  /// Grants an Amazon Web Services service, account, or organization permission
+  /// to use a function. You can apply the policy at the function level, or
+  /// specify a qualifier to restrict access to a single version or alias. If
+  /// you use a qualifier, the invoker must use the full Amazon Resource Name
+  /// (ARN) of that version or alias to invoke the function. Note: Lambda does
+  /// not support adding policies to version $LATEST.
   ///
   /// To grant permission to another account, specify the account ID as the
-  /// <code>Principal</code>. For Amazon Web Services services, the principal is
-  /// a domain-style identifier defined by the service, like
+  /// <code>Principal</code>. To grant permission to an organization defined in
+  /// Organizations, specify the organization ID as the
+  /// <code>PrincipalOrgID</code>. For Amazon Web Services services, the
+  /// principal is a domain-style identifier defined by the service, like
   /// <code>s3.amazonaws.com</code> or <code>sns.amazonaws.com</code>. For
   /// Amazon Web Services services, you can also specify the ARN of the
   /// associated resource as the <code>SourceArn</code>. If you grant permission
@@ -193,6 +195,20 @@ class Lambda {
   /// For Alexa Smart Home functions, a token that must be supplied by the
   /// invoker.
   ///
+  /// Parameter [functionUrlAuthType] :
+  /// The type of authentication that your function URL uses. Set to
+  /// <code>AWS_IAM</code> if you want to restrict access to authenticated
+  /// <code>IAM</code> users only. Set to <code>NONE</code> if you want to
+  /// bypass IAM authentication to create a public endpoint. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html">
+  /// Security and auth model for Lambda function URLs</a>.
+  ///
+  /// Parameter [principalOrgID] :
+  /// The identifier for your organization in Organizations. Use this to grant
+  /// permissions to all the Amazon Web Services accounts under this
+  /// organization.
+  ///
   /// Parameter [qualifier] :
   /// Specify a version or alias to add permissions to a published version of
   /// the function.
@@ -221,6 +237,8 @@ class Lambda {
     required String principal,
     required String statementId,
     String? eventSourceToken,
+    FunctionUrlAuthType? functionUrlAuthType,
+    String? principalOrgID,
     String? qualifier,
     String? revisionId,
     String? sourceAccount,
@@ -238,6 +256,9 @@ class Lambda {
       'Principal': principal,
       'StatementId': statementId,
       if (eventSourceToken != null) 'EventSourceToken': eventSourceToken,
+      if (functionUrlAuthType != null)
+        'FunctionUrlAuthType': functionUrlAuthType.toValue(),
+      if (principalOrgID != null) 'PrincipalOrgID': principalOrgID,
       if (revisionId != null) 'RevisionId': revisionId,
       if (sourceAccount != null) 'SourceAccount': sourceAccount,
       if (sourceArn != null) 'SourceArn': sourceArn,
@@ -504,7 +525,7 @@ class Lambda {
   /// <b>Amazon Kinesis</b> - Default 100. Max 10,000.
   /// </li>
   /// <li>
-  /// <b>Amazon DynamoDB Streams</b> - Default 100. Max 1,000.
+  /// <b>Amazon DynamoDB Streams</b> - Default 100. Max 10,000.
   /// </li>
   /// <li>
   /// <b>Amazon Simple Queue Service</b> - Default 10. For standard queues the
@@ -846,6 +867,10 @@ class Lambda {
   /// Environment variables that are accessible from function code during
   /// execution.
   ///
+  /// Parameter [ephemeralStorage] :
+  /// The size of the function’s /tmp directory in MB. The default value is 512,
+  /// but can be any whole number between 512 and 10240 MB.
+  ///
   /// Parameter [fileSystemConfigs] :
   /// Connection settings for an Amazon EFS file system.
   ///
@@ -926,6 +951,7 @@ class Lambda {
     DeadLetterConfig? deadLetterConfig,
     String? description,
     Environment? environment,
+    EphemeralStorage? ephemeralStorage,
     List<FileSystemConfig>? fileSystemConfigs,
     String? handler,
     ImageConfig? imageConfig,
@@ -966,6 +992,7 @@ class Lambda {
       if (deadLetterConfig != null) 'DeadLetterConfig': deadLetterConfig,
       if (description != null) 'Description': description,
       if (environment != null) 'Environment': environment,
+      if (ephemeralStorage != null) 'EphemeralStorage': ephemeralStorage,
       if (fileSystemConfigs != null) 'FileSystemConfigs': fileSystemConfigs,
       if (handler != null) 'Handler': handler,
       if (imageConfig != null) 'ImageConfig': imageConfig,
@@ -987,6 +1014,77 @@ class Lambda {
       exceptionFnMap: _exceptionFns,
     );
     return FunctionConfiguration.fromJson(response);
+  }
+
+  /// Creates a Lambda function URL with the specified configuration parameters.
+  /// A function URL is a dedicated HTTP(S) endpoint that you can use to invoke
+  /// your function.
+  ///
+  /// May throw [ResourceConflictException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ServiceException].
+  /// May throw [TooManyRequestsException].
+  ///
+  /// Parameter [authType] :
+  /// The type of authentication that your function URL uses. Set to
+  /// <code>AWS_IAM</code> if you want to restrict access to authenticated
+  /// <code>IAM</code> users only. Set to <code>NONE</code> if you want to
+  /// bypass IAM authentication to create a public endpoint. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html">
+  /// Security and auth model for Lambda function URLs</a>.
+  ///
+  /// Parameter [functionName] :
+  /// The name of the Lambda function.
+  /// <p class="title"> <b>Name formats</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Function name</b> - <code>my-function</code>.
+  /// </li>
+  /// <li>
+  /// <b>Function ARN</b> -
+  /// <code>arn:aws:lambda:us-west-2:123456789012:function:my-function</code>.
+  /// </li>
+  /// <li>
+  /// <b>Partial ARN</b> - <code>123456789012:function:my-function</code>.
+  /// </li>
+  /// </ul>
+  /// The length constraint applies only to the full ARN. If you specify only
+  /// the function name, it is limited to 64 characters in length.
+  ///
+  /// Parameter [cors] :
+  /// The <a
+  /// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS">cross-origin
+  /// resource sharing (CORS)</a> settings for your function URL.
+  ///
+  /// Parameter [qualifier] :
+  /// The alias name.
+  Future<CreateFunctionUrlConfigResponse> createFunctionUrlConfig({
+    required FunctionUrlAuthType authType,
+    required String functionName,
+    Cors? cors,
+    String? qualifier,
+  }) async {
+    ArgumentError.checkNotNull(authType, 'authType');
+    ArgumentError.checkNotNull(functionName, 'functionName');
+    final $query = <String, List<String>>{
+      if (qualifier != null) 'Qualifier': [qualifier],
+    };
+    final $payload = <String, dynamic>{
+      'AuthType': authType.toValue(),
+      if (cors != null) 'Cors': cors,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/2021-10-31/functions/${Uri.encodeComponent(functionName)}/url',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateFunctionUrlConfigResponse.fromJson(response);
   }
 
   /// Deletes a Lambda function <a
@@ -1269,6 +1367,54 @@ class Lambda {
       method: 'DELETE',
       requestUri:
           '/2019-09-25/functions/${Uri.encodeComponent(functionName)}/event-invoke-config',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Deletes a Lambda function URL. When you delete a function URL, you can't
+  /// recover it. Creating a new function URL results in a different URL
+  /// address.
+  ///
+  /// May throw [ResourceConflictException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceException].
+  /// May throw [TooManyRequestsException].
+  ///
+  /// Parameter [functionName] :
+  /// The name of the Lambda function.
+  /// <p class="title"> <b>Name formats</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Function name</b> - <code>my-function</code>.
+  /// </li>
+  /// <li>
+  /// <b>Function ARN</b> -
+  /// <code>arn:aws:lambda:us-west-2:123456789012:function:my-function</code>.
+  /// </li>
+  /// <li>
+  /// <b>Partial ARN</b> - <code>123456789012:function:my-function</code>.
+  /// </li>
+  /// </ul>
+  /// The length constraint applies only to the full ARN. If you specify only
+  /// the function name, it is limited to 64 characters in length.
+  ///
+  /// Parameter [qualifier] :
+  /// The alias name.
+  Future<void> deleteFunctionUrlConfig({
+    required String functionName,
+    String? qualifier,
+  }) async {
+    ArgumentError.checkNotNull(functionName, 'functionName');
+    final $query = <String, List<String>>{
+      if (qualifier != null) 'Qualifier': [qualifier],
+    };
+    await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/2021-10-31/functions/${Uri.encodeComponent(functionName)}/url',
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
@@ -1696,6 +1842,53 @@ class Lambda {
       exceptionFnMap: _exceptionFns,
     );
     return FunctionEventInvokeConfig.fromJson(response);
+  }
+
+  /// Returns details about a Lambda function URL.
+  ///
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ServiceException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [TooManyRequestsException].
+  ///
+  /// Parameter [functionName] :
+  /// The name of the Lambda function.
+  /// <p class="title"> <b>Name formats</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Function name</b> - <code>my-function</code>.
+  /// </li>
+  /// <li>
+  /// <b>Function ARN</b> -
+  /// <code>arn:aws:lambda:us-west-2:123456789012:function:my-function</code>.
+  /// </li>
+  /// <li>
+  /// <b>Partial ARN</b> - <code>123456789012:function:my-function</code>.
+  /// </li>
+  /// </ul>
+  /// The length constraint applies only to the full ARN. If you specify only
+  /// the function name, it is limited to 64 characters in length.
+  ///
+  /// Parameter [qualifier] :
+  /// The alias name.
+  Future<GetFunctionUrlConfigResponse> getFunctionUrlConfig({
+    required String functionName,
+    String? qualifier,
+  }) async {
+    ArgumentError.checkNotNull(functionName, 'functionName');
+    final $query = <String, List<String>>{
+      if (qualifier != null) 'Qualifier': [qualifier],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/2021-10-31/functions/${Uri.encodeComponent(functionName)}/url',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetFunctionUrlConfigResponse.fromJson(response);
   }
 
   /// Returns information about a version of an <a
@@ -2366,6 +2559,67 @@ class Lambda {
       exceptionFnMap: _exceptionFns,
     );
     return ListFunctionEventInvokeConfigsResponse.fromJson(response);
+  }
+
+  /// Returns a list of Lambda function URLs for the specified function.
+  ///
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ServiceException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [TooManyRequestsException].
+  ///
+  /// Parameter [functionName] :
+  /// The name of the Lambda function.
+  /// <p class="title"> <b>Name formats</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Function name</b> - <code>my-function</code>.
+  /// </li>
+  /// <li>
+  /// <b>Function ARN</b> -
+  /// <code>arn:aws:lambda:us-west-2:123456789012:function:my-function</code>.
+  /// </li>
+  /// <li>
+  /// <b>Partial ARN</b> - <code>123456789012:function:my-function</code>.
+  /// </li>
+  /// </ul>
+  /// The length constraint applies only to the full ARN. If you specify only
+  /// the function name, it is limited to 64 characters in length.
+  ///
+  /// Parameter [marker] :
+  /// Specify the pagination token that's returned by a previous request to
+  /// retrieve the next page of results.
+  ///
+  /// Parameter [maxItems] :
+  /// The maximum number of function URLs to return in the response. Note that
+  /// <code>ListFunctionUrlConfigs</code> returns a maximum of 50 items in each
+  /// response, even if you set the number higher.
+  Future<ListFunctionUrlConfigsResponse> listFunctionUrlConfigs({
+    required String functionName,
+    String? marker,
+    int? maxItems,
+  }) async {
+    ArgumentError.checkNotNull(functionName, 'functionName');
+    _s.validateNumRange(
+      'maxItems',
+      maxItems,
+      1,
+      50,
+    );
+    final $query = <String, List<String>>{
+      if (marker != null) 'Marker': [marker],
+      if (maxItems != null) 'MaxItems': [maxItems.toString()],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/2021-10-31/functions/${Uri.encodeComponent(functionName)}/urls',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListFunctionUrlConfigsResponse.fromJson(response);
   }
 
   /// Returns a list of Lambda functions, with the version-specific
@@ -3625,7 +3879,7 @@ class Lambda {
   /// <b>Amazon Kinesis</b> - Default 100. Max 10,000.
   /// </li>
   /// <li>
-  /// <b>Amazon DynamoDB Streams</b> - Default 100. Max 1,000.
+  /// <b>Amazon DynamoDB Streams</b> - Default 100. Max 10,000.
   /// </li>
   /// <li>
   /// <b>Amazon Simple Queue Service</b> - Default 10. For standard queues the
@@ -3815,6 +4069,22 @@ class Lambda {
   /// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-trustedcode.html">Configuring
   /// code signing</a>.
   ///
+  /// If the function's package type is <code>Image</code>, you must specify the
+  /// code package in <code>ImageUri</code> as the URI of a <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-images.html">container
+  /// image</a> in the Amazon ECR registry.
+  ///
+  /// If the function's package type is <code>Zip</code>, you must specify the
+  /// deployment package as a <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-package.html#gettingstarted-package-zip">.zip
+  /// file archive</a>. Enter the Amazon S3 bucket and key of the code .zip file
+  /// location. You can also provide the function code inline using the
+  /// <code>ZipFile</code> field.
+  ///
+  /// The code in the deployment package must be compatible with the target
+  /// instruction set architecture of the function (<code>x86-64</code> or
+  /// <code>arm64</code>).
+  ///
   /// The function's code is locked when you publish a version. You can't modify
   /// the code of a published version, only the unpublished version.
   /// <note>
@@ -3863,7 +4133,8 @@ class Lambda {
   /// without modifying the function code.
   ///
   /// Parameter [imageUri] :
-  /// URI of a container image in the Amazon ECR registry.
+  /// URI of a container image in the Amazon ECR registry. Do not use for a
+  /// function defined with a .zip file archive.
   ///
   /// Parameter [publish] :
   /// Set to true to publish a new version of the function after updating the
@@ -3878,9 +4149,12 @@ class Lambda {
   /// Parameter [s3Bucket] :
   /// An Amazon S3 bucket in the same Amazon Web Services Region as your
   /// function. The bucket can be in a different Amazon Web Services account.
+  /// Use only with a function defined with a .zip file archive deployment
+  /// package.
   ///
   /// Parameter [s3Key] :
-  /// The Amazon S3 key of the deployment package.
+  /// The Amazon S3 key of the deployment package. Use only with a function
+  /// defined with a .zip file archive deployment package.
   ///
   /// Parameter [s3ObjectVersion] :
   /// For versioned objects, the version of the deployment package object to
@@ -3888,7 +4162,8 @@ class Lambda {
   ///
   /// Parameter [zipFile] :
   /// The base64-encoded contents of the deployment package. Amazon Web Services
-  /// SDK and Amazon Web Services CLI clients handle the encoding for you.
+  /// SDK and Amazon Web Services CLI clients handle the encoding for you. Use
+  /// only with a function defined with a .zip file archive deployment package.
   Future<FunctionConfiguration> updateFunctionCode({
     required String functionName,
     List<Architecture>? architectures,
@@ -3989,6 +4264,10 @@ class Lambda {
   /// Environment variables that are accessible from function code during
   /// execution.
   ///
+  /// Parameter [ephemeralStorage] :
+  /// The size of the function’s /tmp directory in MB. The default value is 512,
+  /// but can be any whole number between 512 and 10240 MB.
+  ///
   /// Parameter [fileSystemConfigs] :
   /// Connection settings for an Amazon EFS file system.
   ///
@@ -4062,6 +4341,7 @@ class Lambda {
     DeadLetterConfig? deadLetterConfig,
     String? description,
     Environment? environment,
+    EphemeralStorage? ephemeralStorage,
     List<FileSystemConfig>? fileSystemConfigs,
     String? handler,
     ImageConfig? imageConfig,
@@ -4092,6 +4372,7 @@ class Lambda {
       if (deadLetterConfig != null) 'DeadLetterConfig': deadLetterConfig,
       if (description != null) 'Description': description,
       if (environment != null) 'Environment': environment,
+      if (ephemeralStorage != null) 'EphemeralStorage': ephemeralStorage,
       if (fileSystemConfigs != null) 'FileSystemConfigs': fileSystemConfigs,
       if (handler != null) 'Handler': handler,
       if (imageConfig != null) 'ImageConfig': imageConfig,
@@ -4216,6 +4497,74 @@ class Lambda {
       exceptionFnMap: _exceptionFns,
     );
     return FunctionEventInvokeConfig.fromJson(response);
+  }
+
+  /// Updates the configuration for a Lambda function URL.
+  ///
+  /// May throw [ResourceConflictException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ServiceException].
+  /// May throw [TooManyRequestsException].
+  ///
+  /// Parameter [functionName] :
+  /// The name of the Lambda function.
+  /// <p class="title"> <b>Name formats</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Function name</b> - <code>my-function</code>.
+  /// </li>
+  /// <li>
+  /// <b>Function ARN</b> -
+  /// <code>arn:aws:lambda:us-west-2:123456789012:function:my-function</code>.
+  /// </li>
+  /// <li>
+  /// <b>Partial ARN</b> - <code>123456789012:function:my-function</code>.
+  /// </li>
+  /// </ul>
+  /// The length constraint applies only to the full ARN. If you specify only
+  /// the function name, it is limited to 64 characters in length.
+  ///
+  /// Parameter [authType] :
+  /// The type of authentication that your function URL uses. Set to
+  /// <code>AWS_IAM</code> if you want to restrict access to authenticated
+  /// <code>IAM</code> users only. Set to <code>NONE</code> if you want to
+  /// bypass IAM authentication to create a public endpoint. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html">
+  /// Security and auth model for Lambda function URLs</a>.
+  ///
+  /// Parameter [cors] :
+  /// The <a
+  /// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS">cross-origin
+  /// resource sharing (CORS)</a> settings for your function URL.
+  ///
+  /// Parameter [qualifier] :
+  /// The alias name.
+  Future<UpdateFunctionUrlConfigResponse> updateFunctionUrlConfig({
+    required String functionName,
+    FunctionUrlAuthType? authType,
+    Cors? cors,
+    String? qualifier,
+  }) async {
+    ArgumentError.checkNotNull(functionName, 'functionName');
+    final $query = <String, List<String>>{
+      if (qualifier != null) 'Qualifier': [qualifier],
+    };
+    final $payload = <String, dynamic>{
+      if (authType != null) 'AuthType': authType.toValue(),
+      if (cors != null) 'Cors': cors,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/2021-10-31/functions/${Uri.encodeComponent(functionName)}/url',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateFunctionUrlConfigResponse.fromJson(response);
   }
 }
 
@@ -4662,6 +5011,95 @@ class Concurrency {
   }
 }
 
+/// The <a
+/// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS">cross-origin
+/// resource sharing (CORS)</a> settings for your Lambda function URL. Use CORS
+/// to grant access to your function URL from any origin. You can also use CORS
+/// to control access for specific HTTP headers and methods in requests to your
+/// function URL.
+class Cors {
+  /// Whether to allow cookies or other credentials in requests to your function
+  /// URL. The default is <code>false</code>.
+  final bool? allowCredentials;
+
+  /// The HTTP headers that origins can include in requests to your function URL.
+  /// For example: <code>Date</code>, <code>Keep-Alive</code>,
+  /// <code>X-Custom-Header</code>.
+  final List<String>? allowHeaders;
+
+  /// The HTTP methods that are allowed when calling your function URL. For
+  /// example: <code>GET</code>, <code>POST</code>, <code>DELETE</code>, or the
+  /// wildcard character (<code>*</code>).
+  final List<String>? allowMethods;
+
+  /// The origins that can access your function URL. You can list any number of
+  /// specific origins, separated by a comma. For example:
+  /// <code>https://www.example.com</code>, <code>http://localhost:60905</code>.
+  ///
+  /// Alternatively, you can grant access to all origins using the wildcard
+  /// character (<code>*</code>).
+  final List<String>? allowOrigins;
+
+  /// The HTTP headers in your function response that you want to expose to
+  /// origins that call your function URL. For example: <code>Date</code>,
+  /// <code>Keep-Alive</code>, <code>X-Custom-Header</code>.
+  final List<String>? exposeHeaders;
+
+  /// The maximum amount of time, in seconds, that web browsers can cache results
+  /// of a preflight request. By default, this is set to <code>0</code>, which
+  /// means that the browser doesn't cache results.
+  final int? maxAge;
+
+  Cors({
+    this.allowCredentials,
+    this.allowHeaders,
+    this.allowMethods,
+    this.allowOrigins,
+    this.exposeHeaders,
+    this.maxAge,
+  });
+
+  factory Cors.fromJson(Map<String, dynamic> json) {
+    return Cors(
+      allowCredentials: json['AllowCredentials'] as bool?,
+      allowHeaders: (json['AllowHeaders'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      allowMethods: (json['AllowMethods'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      allowOrigins: (json['AllowOrigins'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      exposeHeaders: (json['ExposeHeaders'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      maxAge: json['MaxAge'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allowCredentials = this.allowCredentials;
+    final allowHeaders = this.allowHeaders;
+    final allowMethods = this.allowMethods;
+    final allowOrigins = this.allowOrigins;
+    final exposeHeaders = this.exposeHeaders;
+    final maxAge = this.maxAge;
+    return {
+      if (allowCredentials != null) 'AllowCredentials': allowCredentials,
+      if (allowHeaders != null) 'AllowHeaders': allowHeaders,
+      if (allowMethods != null) 'AllowMethods': allowMethods,
+      if (allowOrigins != null) 'AllowOrigins': allowOrigins,
+      if (exposeHeaders != null) 'ExposeHeaders': exposeHeaders,
+      if (maxAge != null) 'MaxAge': maxAge,
+    };
+  }
+}
+
 class CreateCodeSigningConfigResponse {
   /// The code signing configuration.
   final CodeSigningConfig codeSigningConfig;
@@ -4681,6 +5119,67 @@ class CreateCodeSigningConfigResponse {
     final codeSigningConfig = this.codeSigningConfig;
     return {
       'CodeSigningConfig': codeSigningConfig,
+    };
+  }
+}
+
+class CreateFunctionUrlConfigResponse {
+  /// The type of authentication that your function URL uses. Set to
+  /// <code>AWS_IAM</code> if you want to restrict access to authenticated
+  /// <code>IAM</code> users only. Set to <code>NONE</code> if you want to bypass
+  /// IAM authentication to create a public endpoint. For more information, see <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html"> Security
+  /// and auth model for Lambda function URLs</a>.
+  final FunctionUrlAuthType authType;
+
+  /// When the function URL was created, in <a
+  /// href="https://www.w3.org/TR/NOTE-datetime">ISO-8601 format</a>
+  /// (YYYY-MM-DDThh:mm:ss.sTZD).
+  final String creationTime;
+
+  /// The Amazon Resource Name (ARN) of your function.
+  final String functionArn;
+
+  /// The HTTP URL endpoint for your function.
+  final String functionUrl;
+
+  /// The <a
+  /// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS">cross-origin
+  /// resource sharing (CORS)</a> settings for your function URL.
+  final Cors? cors;
+
+  CreateFunctionUrlConfigResponse({
+    required this.authType,
+    required this.creationTime,
+    required this.functionArn,
+    required this.functionUrl,
+    this.cors,
+  });
+
+  factory CreateFunctionUrlConfigResponse.fromJson(Map<String, dynamic> json) {
+    return CreateFunctionUrlConfigResponse(
+      authType: (json['AuthType'] as String).toFunctionUrlAuthType(),
+      creationTime: json['CreationTime'] as String,
+      functionArn: json['FunctionArn'] as String,
+      functionUrl: json['FunctionUrl'] as String,
+      cors: json['Cors'] != null
+          ? Cors.fromJson(json['Cors'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authType = this.authType;
+    final creationTime = this.creationTime;
+    final functionArn = this.functionArn;
+    final functionUrl = this.functionUrl;
+    final cors = this.cors;
+    return {
+      'AuthType': authType.toValue(),
+      'CreationTime': creationTime,
+      'FunctionArn': functionArn,
+      'FunctionUrl': functionUrl,
+      if (cors != null) 'Cors': cors,
     };
   }
 }
@@ -4874,6 +5373,30 @@ class EnvironmentResponse {
   }
 }
 
+/// The size of the function’s /tmp directory in MB. The default value is 512,
+/// but can be any whole number between 512 and 10240 MB.
+class EphemeralStorage {
+  /// The size of the function’s /tmp directory.
+  final int size;
+
+  EphemeralStorage({
+    required this.size,
+  });
+
+  factory EphemeralStorage.fromJson(Map<String, dynamic> json) {
+    return EphemeralStorage(
+      size: json['Size'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final size = this.size;
+    return {
+      'Size': size,
+    };
+  }
+}
+
 /// A mapping between an Amazon Web Services resource and a Lambda function. For
 /// details, see <a>CreateEventSourceMapping</a>.
 class EventSourceMappingConfiguration {
@@ -4910,8 +5433,8 @@ class EventSourceMappingConfiguration {
   /// The ARN of the Lambda function.
   final String? functionArn;
 
-  /// (Streams only) A list of current response type enums applied to the event
-  /// source mapping.
+  /// (Streams and Amazon SQS) A list of current response type enums applied to
+  /// the event source mapping.
   final List<FunctionResponseType>? functionResponseTypes;
 
   /// The date that the event source mapping was last updated or that its state
@@ -5376,6 +5899,10 @@ class FunctionConfiguration {
   /// variables</a>.
   final EnvironmentResponse? environment;
 
+  /// The size of the function’s /tmp directory in MB. The default value is 512,
+  /// but can be any whole number between 512 and 10240 MB.
+  final EphemeralStorage? ephemeralStorage;
+
   /// Connection settings for an <a
   /// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html">Amazon
   /// EFS file system</a>.
@@ -5473,6 +6000,7 @@ class FunctionConfiguration {
     this.deadLetterConfig,
     this.description,
     this.environment,
+    this.ephemeralStorage,
     this.fileSystemConfigs,
     this.functionArn,
     this.functionName,
@@ -5517,6 +6045,10 @@ class FunctionConfiguration {
       environment: json['Environment'] != null
           ? EnvironmentResponse.fromJson(
               json['Environment'] as Map<String, dynamic>)
+          : null,
+      ephemeralStorage: json['EphemeralStorage'] != null
+          ? EphemeralStorage.fromJson(
+              json['EphemeralStorage'] as Map<String, dynamic>)
           : null,
       fileSystemConfigs: (json['FileSystemConfigs'] as List?)
           ?.whereNotNull()
@@ -5573,6 +6105,7 @@ class FunctionConfiguration {
     final deadLetterConfig = this.deadLetterConfig;
     final description = this.description;
     final environment = this.environment;
+    final ephemeralStorage = this.ephemeralStorage;
     final fileSystemConfigs = this.fileSystemConfigs;
     final functionArn = this.functionArn;
     final functionName = this.functionName;
@@ -5607,6 +6140,7 @@ class FunctionConfiguration {
       if (deadLetterConfig != null) 'DeadLetterConfig': deadLetterConfig,
       if (description != null) 'Description': description,
       if (environment != null) 'Environment': environment,
+      if (ephemeralStorage != null) 'EphemeralStorage': ephemeralStorage,
       if (fileSystemConfigs != null) 'FileSystemConfigs': fileSystemConfigs,
       if (functionArn != null) 'FunctionArn': functionArn,
       if (functionName != null) 'FunctionName': functionName,
@@ -5735,6 +6269,105 @@ extension on String {
         return FunctionResponseType.reportBatchItemFailures;
     }
     throw Exception('$this is not known in enum FunctionResponseType');
+  }
+}
+
+enum FunctionUrlAuthType {
+  none,
+  awsIam,
+}
+
+extension on FunctionUrlAuthType {
+  String toValue() {
+    switch (this) {
+      case FunctionUrlAuthType.none:
+        return 'NONE';
+      case FunctionUrlAuthType.awsIam:
+        return 'AWS_IAM';
+    }
+  }
+}
+
+extension on String {
+  FunctionUrlAuthType toFunctionUrlAuthType() {
+    switch (this) {
+      case 'NONE':
+        return FunctionUrlAuthType.none;
+      case 'AWS_IAM':
+        return FunctionUrlAuthType.awsIam;
+    }
+    throw Exception('$this is not known in enum FunctionUrlAuthType');
+  }
+}
+
+/// Details about a Lambda function URL.
+class FunctionUrlConfig {
+  /// The type of authentication that your function URL uses. Set to
+  /// <code>AWS_IAM</code> if you want to restrict access to authenticated
+  /// <code>IAM</code> users only. Set to <code>NONE</code> if you want to bypass
+  /// IAM authentication to create a public endpoint. For more information, see <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html"> Security
+  /// and auth model for Lambda function URLs</a>.
+  final FunctionUrlAuthType authType;
+
+  /// When the function URL was created, in <a
+  /// href="https://www.w3.org/TR/NOTE-datetime">ISO-8601 format</a>
+  /// (YYYY-MM-DDThh:mm:ss.sTZD).
+  final String creationTime;
+
+  /// The Amazon Resource Name (ARN) of your function.
+  final String functionArn;
+
+  /// The HTTP URL endpoint for your function.
+  final String functionUrl;
+
+  /// When the function URL configuration was last updated, in <a
+  /// href="https://www.w3.org/TR/NOTE-datetime">ISO-8601 format</a>
+  /// (YYYY-MM-DDThh:mm:ss.sTZD).
+  final String lastModifiedTime;
+
+  /// The <a
+  /// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS">cross-origin
+  /// resource sharing (CORS)</a> settings for your function URL.
+  final Cors? cors;
+
+  FunctionUrlConfig({
+    required this.authType,
+    required this.creationTime,
+    required this.functionArn,
+    required this.functionUrl,
+    required this.lastModifiedTime,
+    this.cors,
+  });
+
+  factory FunctionUrlConfig.fromJson(Map<String, dynamic> json) {
+    return FunctionUrlConfig(
+      authType: (json['AuthType'] as String).toFunctionUrlAuthType(),
+      creationTime: json['CreationTime'] as String,
+      functionArn: json['FunctionArn'] as String,
+      functionUrl: json['FunctionUrl'] as String,
+      lastModifiedTime: json['LastModifiedTime'] as String,
+      cors: json['Cors'] != null
+          ? Cors.fromJson(json['Cors'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authType = this.authType;
+    final creationTime = this.creationTime;
+    final functionArn = this.functionArn;
+    final functionUrl = this.functionUrl;
+    final lastModifiedTime = this.lastModifiedTime;
+    final cors = this.cors;
+    return {
+      'AuthType': authType.toValue(),
+      'CreationTime': creationTime,
+      'FunctionArn': functionArn,
+      'FunctionUrl': functionUrl,
+      'LastModifiedTime': lastModifiedTime,
+      if (cors != null) 'Cors': cors,
+    };
   }
 }
 
@@ -5937,6 +6570,76 @@ class GetFunctionResponse {
       if (concurrency != null) 'Concurrency': concurrency,
       if (configuration != null) 'Configuration': configuration,
       if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+class GetFunctionUrlConfigResponse {
+  /// The type of authentication that your function URL uses. Set to
+  /// <code>AWS_IAM</code> if you want to restrict access to authenticated
+  /// <code>IAM</code> users only. Set to <code>NONE</code> if you want to bypass
+  /// IAM authentication to create a public endpoint. For more information, see <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html"> Security
+  /// and auth model for Lambda function URLs</a>.
+  final FunctionUrlAuthType authType;
+
+  /// When the function URL was created, in <a
+  /// href="https://www.w3.org/TR/NOTE-datetime">ISO-8601 format</a>
+  /// (YYYY-MM-DDThh:mm:ss.sTZD).
+  final String creationTime;
+
+  /// The Amazon Resource Name (ARN) of your function.
+  final String functionArn;
+
+  /// The HTTP URL endpoint for your function.
+  final String functionUrl;
+
+  /// When the function URL configuration was last updated, in <a
+  /// href="https://www.w3.org/TR/NOTE-datetime">ISO-8601 format</a>
+  /// (YYYY-MM-DDThh:mm:ss.sTZD).
+  final String lastModifiedTime;
+
+  /// The <a
+  /// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS">cross-origin
+  /// resource sharing (CORS)</a> settings for your function URL.
+  final Cors? cors;
+
+  GetFunctionUrlConfigResponse({
+    required this.authType,
+    required this.creationTime,
+    required this.functionArn,
+    required this.functionUrl,
+    required this.lastModifiedTime,
+    this.cors,
+  });
+
+  factory GetFunctionUrlConfigResponse.fromJson(Map<String, dynamic> json) {
+    return GetFunctionUrlConfigResponse(
+      authType: (json['AuthType'] as String).toFunctionUrlAuthType(),
+      creationTime: json['CreationTime'] as String,
+      functionArn: json['FunctionArn'] as String,
+      functionUrl: json['FunctionUrl'] as String,
+      lastModifiedTime: json['LastModifiedTime'] as String,
+      cors: json['Cors'] != null
+          ? Cors.fromJson(json['Cors'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authType = this.authType;
+    final creationTime = this.creationTime;
+    final functionArn = this.functionArn;
+    final functionUrl = this.functionUrl;
+    final lastModifiedTime = this.lastModifiedTime;
+    final cors = this.cors;
+    return {
+      'AuthType': authType.toValue(),
+      'CreationTime': creationTime,
+      'FunctionArn': functionArn,
+      'FunctionUrl': functionUrl,
+      'LastModifiedTime': lastModifiedTime,
+      if (cors != null) 'Cors': cors,
     };
   }
 }
@@ -6892,6 +7595,38 @@ class ListFunctionEventInvokeConfigsResponse {
   }
 }
 
+class ListFunctionUrlConfigsResponse {
+  /// A list of function URL configurations.
+  final List<FunctionUrlConfig> functionUrlConfigs;
+
+  /// The pagination token that's included if more results are available.
+  final String? nextMarker;
+
+  ListFunctionUrlConfigsResponse({
+    required this.functionUrlConfigs,
+    this.nextMarker,
+  });
+
+  factory ListFunctionUrlConfigsResponse.fromJson(Map<String, dynamic> json) {
+    return ListFunctionUrlConfigsResponse(
+      functionUrlConfigs: (json['FunctionUrlConfigs'] as List)
+          .whereNotNull()
+          .map((e) => FunctionUrlConfig.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextMarker: json['NextMarker'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final functionUrlConfigs = this.functionUrlConfigs;
+    final nextMarker = this.nextMarker;
+    return {
+      'FunctionUrlConfigs': functionUrlConfigs,
+      if (nextMarker != null) 'NextMarker': nextMarker,
+    };
+  }
+}
+
 class ListFunctionsByCodeSigningConfigResponse {
   /// The function ARNs.
   final List<String>? functionArns;
@@ -7554,6 +8289,7 @@ enum Runtime {
   nodejs10X,
   nodejs12X,
   nodejs14X,
+  nodejs16X,
   java8,
   java8Al2,
   java11,
@@ -7566,6 +8302,7 @@ enum Runtime {
   dotnetcore2_0,
   dotnetcore2_1,
   dotnetcore3_1,
+  dotnet6,
   nodejs4_3Edge,
   go1X,
   ruby2_5,
@@ -7591,6 +8328,8 @@ extension on Runtime {
         return 'nodejs12.x';
       case Runtime.nodejs14X:
         return 'nodejs14.x';
+      case Runtime.nodejs16X:
+        return 'nodejs16.x';
       case Runtime.java8:
         return 'java8';
       case Runtime.java8Al2:
@@ -7615,6 +8354,8 @@ extension on Runtime {
         return 'dotnetcore2.1';
       case Runtime.dotnetcore3_1:
         return 'dotnetcore3.1';
+      case Runtime.dotnet6:
+        return 'dotnet6';
       case Runtime.nodejs4_3Edge:
         return 'nodejs4.3-edge';
       case Runtime.go1X:
@@ -7648,6 +8389,8 @@ extension on String {
         return Runtime.nodejs12X;
       case 'nodejs14.x':
         return Runtime.nodejs14X;
+      case 'nodejs16.x':
+        return Runtime.nodejs16X;
       case 'java8':
         return Runtime.java8;
       case 'java8.al2':
@@ -7672,6 +8415,8 @@ extension on String {
         return Runtime.dotnetcore2_1;
       case 'dotnetcore3.1':
         return Runtime.dotnetcore3_1;
+      case 'dotnet6':
+        return Runtime.dotnet6;
       case 'nodejs4.3-edge':
         return Runtime.nodejs4_3Edge;
       case 'go1.x':
@@ -8074,6 +8819,76 @@ class UpdateCodeSigningConfigResponse {
     final codeSigningConfig = this.codeSigningConfig;
     return {
       'CodeSigningConfig': codeSigningConfig,
+    };
+  }
+}
+
+class UpdateFunctionUrlConfigResponse {
+  /// The type of authentication that your function URL uses. Set to
+  /// <code>AWS_IAM</code> if you want to restrict access to authenticated
+  /// <code>IAM</code> users only. Set to <code>NONE</code> if you want to bypass
+  /// IAM authentication to create a public endpoint. For more information, see <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html"> Security
+  /// and auth model for Lambda function URLs</a>.
+  final FunctionUrlAuthType authType;
+
+  /// When the function URL was created, in <a
+  /// href="https://www.w3.org/TR/NOTE-datetime">ISO-8601 format</a>
+  /// (YYYY-MM-DDThh:mm:ss.sTZD).
+  final String creationTime;
+
+  /// The Amazon Resource Name (ARN) of your function.
+  final String functionArn;
+
+  /// The HTTP URL endpoint for your function.
+  final String functionUrl;
+
+  /// When the function URL configuration was last updated, in <a
+  /// href="https://www.w3.org/TR/NOTE-datetime">ISO-8601 format</a>
+  /// (YYYY-MM-DDThh:mm:ss.sTZD).
+  final String lastModifiedTime;
+
+  /// The <a
+  /// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS">cross-origin
+  /// resource sharing (CORS)</a> settings for your function URL.
+  final Cors? cors;
+
+  UpdateFunctionUrlConfigResponse({
+    required this.authType,
+    required this.creationTime,
+    required this.functionArn,
+    required this.functionUrl,
+    required this.lastModifiedTime,
+    this.cors,
+  });
+
+  factory UpdateFunctionUrlConfigResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateFunctionUrlConfigResponse(
+      authType: (json['AuthType'] as String).toFunctionUrlAuthType(),
+      creationTime: json['CreationTime'] as String,
+      functionArn: json['FunctionArn'] as String,
+      functionUrl: json['FunctionUrl'] as String,
+      lastModifiedTime: json['LastModifiedTime'] as String,
+      cors: json['Cors'] != null
+          ? Cors.fromJson(json['Cors'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authType = this.authType;
+    final creationTime = this.creationTime;
+    final functionArn = this.functionArn;
+    final functionUrl = this.functionUrl;
+    final lastModifiedTime = this.lastModifiedTime;
+    final cors = this.cors;
+    return {
+      'AuthType': authType.toValue(),
+      'CreationTime': creationTime,
+      'FunctionArn': functionArn,
+      'FunctionUrl': functionUrl,
+      'LastModifiedTime': lastModifiedTime,
+      if (cors != null) 'Cors': cors,
     };
   }
 }

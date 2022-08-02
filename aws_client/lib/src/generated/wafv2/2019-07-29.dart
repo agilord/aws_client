@@ -51,6 +51,20 @@ class Wafv2 {
   /// Name (ARN) of the web ACL. For information, see <a
   /// href="https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_UpdateDistribution.html">UpdateDistribution</a>.
   ///
+  /// When you make changes to web ACLs or web ACL components, like rules and
+  /// rule groups, WAF propagates the changes everywhere that the web ACL and
+  /// its components are stored and used. Your changes are applied within
+  /// seconds, but there might be a brief period of inconsistency when the
+  /// changes have arrived in some places and not in others. So, for example, if
+  /// you change a rule action setting, the action might be the old action in
+  /// one area and the new action in another area. Or if you add an IP address
+  /// to an IP set used in a blocking rule, the new address might briefly be
+  /// blocked in one area while still allowed in another. This temporary
+  /// inconsistency can occur when you first associate a web ACL with an Amazon
+  /// Web Services resource and when you change a web ACL that is already
+  /// associated with a resource. Generally, any inconsistencies of this type
+  /// last only a few seconds.
+  ///
   /// May throw [WAFInternalErrorException].
   /// May throw [WAFInvalidParameterException].
   /// May throw [WAFNonexistentItemException].
@@ -190,11 +204,11 @@ class Wafv2 {
   /// May throw [WAFInvalidOperationException].
   ///
   /// Parameter [addresses] :
-  /// Contains an array of strings that specify one or more IP addresses or
+  /// Contains an array of strings that specifies zero or more IP addresses or
   /// blocks of IP addresses in Classless Inter-Domain Routing (CIDR) notation.
   /// WAF supports all IPv4 and IPv6 CIDR ranges except for /0.
   ///
-  /// Examples:
+  /// Example address strings:
   ///
   /// <ul>
   /// <li>
@@ -221,6 +235,24 @@ class Wafv2 {
   /// For more information about CIDR notation, see the Wikipedia entry <a
   /// href="https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing">Classless
   /// Inter-Domain Routing</a>.
+  ///
+  /// Example JSON <code>Addresses</code> specifications:
+  ///
+  /// <ul>
+  /// <li>
+  /// Empty array: <code>"Addresses": []</code>
+  /// </li>
+  /// <li>
+  /// Array with one address: <code>"Addresses": ["192.0.2.44/32"]</code>
+  /// </li>
+  /// <li>
+  /// Array with three addresses: <code>"Addresses": ["192.0.2.44/32",
+  /// "192.0.2.0/24", "192.0.0.0/16"]</code>
+  /// </li>
+  /// <li>
+  /// INVALID specification: <code>"Addresses": [""]</code> INVALID
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [iPAddressVersion] :
   /// The version of the IP addresses, either <code>IPV4</code> or
@@ -526,6 +558,7 @@ class Wafv2 {
   /// May throw [WAFTagOperationInternalErrorException].
   /// May throw [WAFSubscriptionNotFoundException].
   /// May throw [WAFInvalidOperationException].
+  /// May throw [WAFConfigurationWarningException].
   ///
   /// Parameter [defaultAction] :
   /// The action to perform if none of the <code>Rules</code> contained in the
@@ -984,6 +1017,38 @@ class Wafv2 {
   ///
   /// You can only use this if <code>ManagedByFirewallManager</code> is false in
   /// the specified <a>WebACL</a>.
+  /// <note>
+  /// Before deleting any web ACL, first disassociate it from all resources.
+  ///
+  /// <ul>
+  /// <li>
+  /// To retrieve a list of the resources that are associated with a web ACL,
+  /// use the following calls:
+  ///
+  /// <ul>
+  /// <li>
+  /// For regional resources, call <a>ListResourcesForWebACL</a>.
+  /// </li>
+  /// <li>
+  /// For Amazon CloudFront distributions, use the CloudFront call
+  /// <code>ListDistributionsByWebACLId</code>. For information, see <a
+  /// href="https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_ListDistributionsByWebACLId.html">ListDistributionsByWebACLId</a>.
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// To disassociate a resource from a web ACL, use the following calls:
+  ///
+  /// <ul>
+  /// <li>
+  /// For regional resources, call <a>DisassociateWebACL</a>.
+  /// </li>
+  /// <li>
+  /// For Amazon CloudFront distributions, provide an empty web ACL ID in the
+  /// CloudFront call <code>UpdateDistribution</code>. For information, see <a
+  /// href="https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_UpdateDistribution.html">UpdateDistribution</a>.
+  /// </li>
+  /// </ul> </li>
+  /// </ul> </note>
   ///
   /// May throw [WAFInternalErrorException].
   /// May throw [WAFInvalidParameterException].
@@ -1130,9 +1195,10 @@ class Wafv2 {
     return DescribeManagedRuleGroupResponse.fromJson(jsonResponse.body);
   }
 
-  /// Disassociates a web ACL from a regional application resource. A regional
-  /// application can be an Application Load Balancer (ALB), an Amazon API
-  /// Gateway REST API, or an AppSync GraphQL API.
+  /// Disassociates the specified regional application resource from any
+  /// existing web ACL association. A resource can have at most one web ACL
+  /// association. A regional application can be an Application Load Balancer
+  /// (ALB), an Amazon API Gateway REST API, or an AppSync GraphQL API.
   ///
   /// For Amazon CloudFront, don't use this call. Instead, use your CloudFront
   /// distribution configuration. To disassociate a web ACL, provide an empty
@@ -1186,6 +1252,52 @@ class Wafv2 {
         'ResourceArn': resourceArn,
       },
     );
+  }
+
+  /// Generates a presigned download URL for the specified release of the mobile
+  /// SDK.
+  ///
+  /// The mobile SDK is not generally available. Customers who have access to
+  /// the mobile SDK can use it to establish and manage Security Token Service
+  /// (STS) security tokens for use in HTTP(S) requests from a mobile device to
+  /// WAF. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-application-integration.html">WAF
+  /// client application integration</a> in the <i>WAF Developer Guide</i>.
+  ///
+  /// May throw [WAFInternalErrorException].
+  /// May throw [WAFNonexistentItemException].
+  /// May throw [WAFInvalidParameterException].
+  /// May throw [WAFInvalidOperationException].
+  ///
+  /// Parameter [platform] :
+  /// The device platform.
+  ///
+  /// Parameter [releaseVersion] :
+  /// The release version. For the latest available version, specify
+  /// <code>LATEST</code>.
+  Future<GenerateMobileSdkReleaseUrlResponse> generateMobileSdkReleaseUrl({
+    required Platform platform,
+    required String releaseVersion,
+  }) async {
+    ArgumentError.checkNotNull(platform, 'platform');
+    ArgumentError.checkNotNull(releaseVersion, 'releaseVersion');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSWAF_20190729.GenerateMobileSdkReleaseUrl'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Platform': platform.toValue(),
+        'ReleaseVersion': releaseVersion,
+      },
+    );
+
+    return GenerateMobileSdkReleaseUrlResponse.fromJson(jsonResponse.body);
   }
 
   /// Retrieves the specified <a>IPSet</a>.
@@ -1353,6 +1465,52 @@ class Wafv2 {
     );
 
     return GetManagedRuleSetResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves information for the specified mobile SDK release, including
+  /// release notes and tags.
+  ///
+  /// The mobile SDK is not generally available. Customers who have access to
+  /// the mobile SDK can use it to establish and manage Security Token Service
+  /// (STS) security tokens for use in HTTP(S) requests from a mobile device to
+  /// WAF. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-application-integration.html">WAF
+  /// client application integration</a> in the <i>WAF Developer Guide</i>.
+  ///
+  /// May throw [WAFInternalErrorException].
+  /// May throw [WAFNonexistentItemException].
+  /// May throw [WAFInvalidParameterException].
+  /// May throw [WAFInvalidOperationException].
+  ///
+  /// Parameter [platform] :
+  /// The device platform.
+  ///
+  /// Parameter [releaseVersion] :
+  /// The release version. For the latest available version, specify
+  /// <code>LATEST</code>.
+  Future<GetMobileSdkReleaseResponse> getMobileSdkRelease({
+    required Platform platform,
+    required String releaseVersion,
+  }) async {
+    ArgumentError.checkNotNull(platform, 'platform');
+    ArgumentError.checkNotNull(releaseVersion, 'releaseVersion');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSWAF_20190729.GetMobileSdkRelease'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Platform': platform.toValue(),
+        'ReleaseVersion': releaseVersion,
+      },
+    );
+
+    return GetMobileSdkReleaseResponse.fromJson(jsonResponse.body);
   }
 
   /// Returns the IAM policy that is attached to the specified rule group.
@@ -1802,6 +1960,7 @@ class Wafv2 {
   ///
   /// May throw [WAFInternalErrorException].
   /// May throw [WAFInvalidParameterException].
+  /// May throw [WAFNonexistentItemException].
   /// May throw [WAFInvalidOperationException].
   ///
   /// Parameter [name] :
@@ -2169,6 +2328,67 @@ class Wafv2 {
     return ListManagedRuleSetsResponse.fromJson(jsonResponse.body);
   }
 
+  /// Retrieves a list of the available releases for the mobile SDK and the
+  /// specified device platform.
+  ///
+  /// The mobile SDK is not generally available. Customers who have access to
+  /// the mobile SDK can use it to establish and manage Security Token Service
+  /// (STS) security tokens for use in HTTP(S) requests from a mobile device to
+  /// WAF. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-application-integration.html">WAF
+  /// client application integration</a> in the <i>WAF Developer Guide</i>.
+  ///
+  /// May throw [WAFInternalErrorException].
+  /// May throw [WAFInvalidParameterException].
+  /// May throw [WAFInvalidOperationException].
+  ///
+  /// Parameter [platform] :
+  /// The device platform to retrieve the list for.
+  ///
+  /// Parameter [limit] :
+  /// The maximum number of objects that you want WAF to return for this
+  /// request. If more objects are available, in the response, WAF provides a
+  /// <code>NextMarker</code> value that you can use in a subsequent call to get
+  /// the next batch of objects.
+  ///
+  /// Parameter [nextMarker] :
+  /// When you request a list of objects with a <code>Limit</code> setting, if
+  /// the number of objects that are still available for retrieval exceeds the
+  /// limit, WAF returns a <code>NextMarker</code> value in the response. To
+  /// retrieve the next batch of objects, provide the marker from the prior call
+  /// in your next request.
+  Future<ListMobileSdkReleasesResponse> listMobileSdkReleases({
+    required Platform platform,
+    int? limit,
+    String? nextMarker,
+  }) async {
+    ArgumentError.checkNotNull(platform, 'platform');
+    _s.validateNumRange(
+      'limit',
+      limit,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSWAF_20190729.ListMobileSdkReleases'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Platform': platform.toValue(),
+        if (limit != null) 'Limit': limit,
+        if (nextMarker != null) 'NextMarker': nextMarker,
+      },
+    );
+
+    return ListMobileSdkReleasesResponse.fromJson(jsonResponse.body);
+  }
+
   /// Retrieves an array of <a>RegexPatternSetSummary</a> objects for the regex
   /// pattern sets that you manage.
   ///
@@ -2484,8 +2704,10 @@ class Wafv2 {
 
   /// Enables the specified <a>LoggingConfiguration</a>, to start logging from a
   /// web ACL, according to the configuration provided.
-  ///
-  /// You can access information about all traffic that WAF inspects using the
+  /// <note>
+  /// You can define one logging destination per web ACL.
+  /// </note>
+  /// You can access information about the traffic that WAF inspects using the
   /// following steps:
   /// <ol>
   /// <li>
@@ -2506,6 +2728,10 @@ class Wafv2 {
   /// For an Amazon CloudWatch Logs log group, WAF creates a resource policy on
   /// the log group. For an Amazon S3 bucket, WAF creates a bucket policy. For
   /// an Amazon Kinesis Data Firehose, WAF creates a service-linked role.
+  ///
+  /// For additional information about web ACL logging, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/logging.html">Logging
+  /// web ACL traffic information</a> in the <i>WAF Developer Guide</i>.
   /// <note>
   /// This operation completely replaces the mutable specifications that you
   /// already have for the logging configuration with the ones that you provide
@@ -2708,8 +2934,9 @@ class Wafv2 {
   /// <li>
   /// <code>Action</code> must specify <code>wafv2:CreateWebACL</code>,
   /// <code>wafv2:UpdateWebACL</code>, and
-  /// <code>wafv2:PutFirewallManagerRuleGroups</code>. WAF rejects any extra
-  /// actions or wildcard actions in the policy.
+  /// <code>wafv2:PutFirewallManagerRuleGroups</code> and may optionally specify
+  /// <code>wafv2:GetRuleGroup</code>. WAF rejects any extra actions or wildcard
+  /// actions in the policy.
   /// </li>
   /// <li>
   /// The policy must not include a <code>Resource</code> parameter.
@@ -2841,6 +3068,19 @@ class Wafv2 {
   /// settings as needed, and then provide the complete IP set specification to
   /// this call.
   /// </note>
+  /// When you make changes to web ACLs or web ACL components, like rules and
+  /// rule groups, WAF propagates the changes everywhere that the web ACL and
+  /// its components are stored and used. Your changes are applied within
+  /// seconds, but there might be a brief period of inconsistency when the
+  /// changes have arrived in some places and not in others. So, for example, if
+  /// you change a rule action setting, the action might be the old action in
+  /// one area and the new action in another area. Or if you add an IP address
+  /// to an IP set used in a blocking rule, the new address might briefly be
+  /// blocked in one area while still allowed in another. This temporary
+  /// inconsistency can occur when you first associate a web ACL with an Amazon
+  /// Web Services resource and when you change a web ACL that is already
+  /// associated with a resource. Generally, any inconsistencies of this type
+  /// last only a few seconds.
   ///
   /// May throw [WAFInternalErrorException].
   /// May throw [WAFInvalidParameterException].
@@ -2851,11 +3091,11 @@ class Wafv2 {
   /// May throw [WAFInvalidOperationException].
   ///
   /// Parameter [addresses] :
-  /// Contains an array of strings that specify one or more IP addresses or
+  /// Contains an array of strings that specifies zero or more IP addresses or
   /// blocks of IP addresses in Classless Inter-Domain Routing (CIDR) notation.
   /// WAF supports all IPv4 and IPv6 CIDR ranges except for /0.
   ///
-  /// Examples:
+  /// Example address strings:
   ///
   /// <ul>
   /// <li>
@@ -2882,6 +3122,24 @@ class Wafv2 {
   /// For more information about CIDR notation, see the Wikipedia entry <a
   /// href="https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing">Classless
   /// Inter-Domain Routing</a>.
+  ///
+  /// Example JSON <code>Addresses</code> specifications:
+  ///
+  /// <ul>
+  /// <li>
+  /// Empty array: <code>"Addresses": []</code>
+  /// </li>
+  /// <li>
+  /// Array with one address: <code>"Addresses": ["192.0.2.44/32"]</code>
+  /// </li>
+  /// <li>
+  /// Array with three addresses: <code>"Addresses": ["192.0.2.44/32",
+  /// "192.0.2.0/24", "192.0.0.0/16"]</code>
+  /// </li>
+  /// <li>
+  /// INVALID specification: <code>"Addresses": [""]</code> INVALID
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [id] :
   /// A unique identifier for the set. This ID is returned in the responses to
@@ -2961,7 +3219,7 @@ class Wafv2 {
 
   /// Updates the expiration information for your managed rule set. Use this to
   /// initiate the expiration of a managed rule group version. After you
-  /// initiate expiration for a version, WAF excludes it from the reponse to
+  /// initiate expiration for a version, WAF excludes it from the response to
   /// <a>ListAvailableManagedRuleGroupVersions</a> for the managed rule group.
   /// <note>
   /// This is intended for use only by vendors of managed rule sets. Vendors are
@@ -3077,6 +3335,19 @@ class Wafv2 {
   /// <a>GetRegexPatternSet</a>, update the settings as needed, and then provide
   /// the complete regex pattern set specification to this call.
   /// </note>
+  /// When you make changes to web ACLs or web ACL components, like rules and
+  /// rule groups, WAF propagates the changes everywhere that the web ACL and
+  /// its components are stored and used. Your changes are applied within
+  /// seconds, but there might be a brief period of inconsistency when the
+  /// changes have arrived in some places and not in others. So, for example, if
+  /// you change a rule action setting, the action might be the old action in
+  /// one area and the new action in another area. Or if you add an IP address
+  /// to an IP set used in a blocking rule, the new address might briefly be
+  /// blocked in one area while still allowed in another. This temporary
+  /// inconsistency can occur when you first associate a web ACL with an Amazon
+  /// Web Services resource and when you change a web ACL that is already
+  /// associated with a resource. Generally, any inconsistencies of this type
+  /// last only a few seconds.
   ///
   /// May throw [WAFInternalErrorException].
   /// May throw [WAFInvalidParameterException].
@@ -3172,6 +3443,20 @@ class Wafv2 {
   /// <a>GetRuleGroup</a>, update the settings as needed, and then provide the
   /// complete rule group specification to this call.
   /// </note>
+  /// When you make changes to web ACLs or web ACL components, like rules and
+  /// rule groups, WAF propagates the changes everywhere that the web ACL and
+  /// its components are stored and used. Your changes are applied within
+  /// seconds, but there might be a brief period of inconsistency when the
+  /// changes have arrived in some places and not in others. So, for example, if
+  /// you change a rule action setting, the action might be the old action in
+  /// one area and the new action in another area. Or if you add an IP address
+  /// to an IP set used in a blocking rule, the new address might briefly be
+  /// blocked in one area while still allowed in another. This temporary
+  /// inconsistency can occur when you first associate a web ACL with an Amazon
+  /// Web Services resource and when you change a web ACL that is already
+  /// associated with a resource. Generally, any inconsistencies of this type
+  /// last only a few seconds.
+  ///
   /// A rule group defines a collection of rules to inspect and control web
   /// requests that you can use in a <a>WebACL</a>. When you create a rule
   /// group, you define an immutable capacity limit. If you update a rule group,
@@ -3187,6 +3472,7 @@ class Wafv2 {
   /// May throw [WAFUnavailableEntityException].
   /// May throw [WAFSubscriptionNotFoundException].
   /// May throw [WAFInvalidOperationException].
+  /// May throw [WAFConfigurationWarningException].
   ///
   /// Parameter [id] :
   /// A unique identifier for the rule group. This ID is returned in the
@@ -3298,7 +3584,23 @@ class Wafv2 {
     return UpdateRuleGroupResponse.fromJson(jsonResponse.body);
   }
 
-  /// Updates the specified <a>WebACL</a>.
+  /// Updates the specified <a>WebACL</a>. While updating a web ACL, WAF
+  /// provides continuous coverage to the resources that you have associated
+  /// with the web ACL.
+  ///
+  /// When you make changes to web ACLs or web ACL components, like rules and
+  /// rule groups, WAF propagates the changes everywhere that the web ACL and
+  /// its components are stored and used. Your changes are applied within
+  /// seconds, but there might be a brief period of inconsistency when the
+  /// changes have arrived in some places and not in others. So, for example, if
+  /// you change a rule action setting, the action might be the old action in
+  /// one area and the new action in another area. Or if you add an IP address
+  /// to an IP set used in a blocking rule, the new address might briefly be
+  /// blocked in one area while still allowed in another. This temporary
+  /// inconsistency can occur when you first associate a web ACL with an Amazon
+  /// Web Services resource and when you change a web ACL that is already
+  /// associated with a resource. Generally, any inconsistencies of this type
+  /// last only a few seconds.
   /// <note>
   /// This operation completely replaces the mutable specifications that you
   /// already have for the web ACL with the ones that you provide to this call.
@@ -3328,6 +3630,7 @@ class Wafv2 {
   /// May throw [WAFSubscriptionNotFoundException].
   /// May throw [WAFInvalidOperationException].
   /// May throw [WAFExpiredManagedRuleGroupVersionException].
+  /// May throw [WAFConfigurationWarningException].
   ///
   /// Parameter [defaultAction] :
   /// The action to perform if none of the <code>Rules</code> contained in the
@@ -3523,12 +3826,11 @@ extension on String {
 }
 
 /// Inspect all of the elements that WAF has parsed and extracted from the web
-/// request JSON body that are within the <a>JsonBody</a>
-/// <code>MatchScope</code>. This is used with the <a>FieldToMatch</a> option
-/// <code>JsonBody</code>.
+/// request component that you've identified in your <a>FieldToMatch</a>
+/// specifications.
 ///
-/// This is used only to indicate the web request component for WAF to inspect,
-/// in the <a>FieldToMatch</a> specification.
+/// This is used only in the <a>FieldToMatch</a> specification for some web
+/// request component types.
 ///
 /// JSON specification: <code>"All": {}</code>
 class All {
@@ -3543,10 +3845,10 @@ class All {
   }
 }
 
-/// All query arguments of a web request.
+/// Inspect all query arguments of the web request.
 ///
-/// This is used only to indicate the web request component for WAF to inspect,
-/// in the <a>FieldToMatch</a> specification.
+/// This is used only in the <a>FieldToMatch</a> specification for some web
+/// request component types.
 ///
 /// JSON specification: <code>"AllQueryArguments": {}</code>
 class AllQueryArguments {
@@ -3675,21 +3977,57 @@ class BlockAction {
   }
 }
 
-/// The body of a web request. This immediately follows the request headers.
+/// Inspect the body of the web request. The body immediately follows the
+/// request headers.
 ///
-/// This is used only to indicate the web request component for WAF to inspect,
-/// in the <a>FieldToMatch</a> specification.
-///
-/// JSON specification: <code>"Body": {}</code>
+/// This is used to indicate the web request component to inspect, in the
+/// <a>FieldToMatch</a> specification.
 class Body {
-  Body();
+  /// What WAF should do if the body is larger than WAF can inspect. WAF does not
+  /// support inspecting the entire contents of the body of a web request when the
+  /// body exceeds 8 KB (8192 bytes). Only the first 8 KB of the request body are
+  /// forwarded to WAF by the underlying host service.
+  ///
+  /// The options for oversize handling are the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CONTINUE</code> - Inspect the body normally, according to the rule
+  /// inspection criteria.
+  /// </li>
+  /// <li>
+  /// <code>MATCH</code> - Treat the web request as matching the rule statement.
+  /// WAF applies the rule action to the request.
+  /// </li>
+  /// <li>
+  /// <code>NO_MATCH</code> - Treat the web request as not matching the rule
+  /// statement.
+  /// </li>
+  /// </ul>
+  /// You can combine the <code>MATCH</code> or <code>NO_MATCH</code> settings for
+  /// oversize handling with your rule and web ACL action settings, so that you
+  /// block any request whose body is over 8 KB.
+  ///
+  /// Default: <code>CONTINUE</code>
+  final OversizeHandling? oversizeHandling;
 
-  factory Body.fromJson(Map<String, dynamic> _) {
-    return Body();
+  Body({
+    this.oversizeHandling,
+  });
+
+  factory Body.fromJson(Map<String, dynamic> json) {
+    return Body(
+      oversizeHandling:
+          (json['OversizeHandling'] as String?)?.toOversizeHandling(),
+    );
   }
 
   Map<String, dynamic> toJson() {
-    return {};
+    final oversizeHandling = this.oversizeHandling;
+    return {
+      if (oversizeHandling != null)
+        'OversizeHandling': oversizeHandling.toValue(),
+    };
   }
 }
 
@@ -3730,15 +4068,14 @@ extension on String {
 /// requests. The byte match statement provides the bytes to search for, the
 /// location in requests that you want WAF to search, and other settings. The
 /// bytes to search for are typically a string that corresponds with ASCII
-/// characters. In the WAF console and the developer guide, this is refered to
-/// as a string match statement.
+/// characters. In the WAF console and the developer guide, this is called a
+/// string match statement.
 class ByteMatchStatement {
-  /// The part of a web request that you want WAF to inspect. For more
-  /// information, see <a>FieldToMatch</a>.
+  /// The part of the web request that you want WAF to inspect.
   final FieldToMatch fieldToMatch;
 
-  /// The area within the portion of a web request that you want WAF to search for
-  /// <code>SearchString</code>. Valid values include the following:
+  /// The area within the portion of the web request that you want WAF to search
+  /// for <code>SearchString</code>. Valid values include the following:
   ///
   /// <b>CONTAINS</b>
   ///
@@ -3902,9 +4239,6 @@ class ByteMatchStatement {
 ///
 /// This action option is available for rules. It isn't available for web ACL
 /// default actions.
-///
-/// This is used in the context of other settings, for example to specify values
-/// for <a>RuleAction</a> and web ACL <a>DefaultAction</a>.
 class CaptchaAction {
   /// Defines custom handling for the web request.
   ///
@@ -4079,10 +4413,15 @@ extension on String {
 
 /// A single match condition for a <a>Filter</a>.
 class Condition {
-  /// A single action condition.
+  /// A single action condition. This is the action setting that a log record must
+  /// contain in order to meet the condition.
   final ActionCondition? actionCondition;
 
-  /// A single label name condition.
+  /// A single label name condition. This is the fully qualified label name that a
+  /// log record must contain in order to meet the condition. Fully qualified
+  /// labels have a prefix, optional namespaces, and label name. The prefix
+  /// identifies the rule group or web ACL context of the rule that added the
+  /// label.
   final LabelNameCondition? labelNameCondition;
 
   Condition({
@@ -4109,6 +4448,136 @@ class Condition {
     return {
       if (actionCondition != null) 'ActionCondition': actionCondition,
       if (labelNameCondition != null) 'LabelNameCondition': labelNameCondition,
+    };
+  }
+}
+
+/// The filter to use to identify the subset of cookies to inspect in a web
+/// request.
+///
+/// You must specify exactly one setting: either <code>All</code>,
+/// <code>IncludedCookies</code>, or <code>ExcludedCookies</code>.
+///
+/// Example JSON: <code>"MatchPattern": { "IncludedCookies": {"KeyToInclude1",
+/// "KeyToInclude2", "KeyToInclude3"} }</code>
+class CookieMatchPattern {
+  /// Inspect all cookies.
+  final All? all;
+
+  /// Inspect only the cookies whose keys don't match any of the strings specified
+  /// here.
+  final List<String>? excludedCookies;
+
+  /// Inspect only the cookies that have a key that matches one of the strings
+  /// specified here.
+  final List<String>? includedCookies;
+
+  CookieMatchPattern({
+    this.all,
+    this.excludedCookies,
+    this.includedCookies,
+  });
+
+  factory CookieMatchPattern.fromJson(Map<String, dynamic> json) {
+    return CookieMatchPattern(
+      all: json['All'] != null
+          ? All.fromJson(json['All'] as Map<String, dynamic>)
+          : null,
+      excludedCookies: (json['ExcludedCookies'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      includedCookies: (json['IncludedCookies'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final all = this.all;
+    final excludedCookies = this.excludedCookies;
+    final includedCookies = this.includedCookies;
+    return {
+      if (all != null) 'All': all,
+      if (excludedCookies != null) 'ExcludedCookies': excludedCookies,
+      if (includedCookies != null) 'IncludedCookies': includedCookies,
+    };
+  }
+}
+
+/// Inspect the cookies in the web request. You can specify the parts of the
+/// cookies to inspect and you can narrow the set of cookies to inspect by
+/// including or excluding specific keys.
+///
+/// This is used to indicate the web request component to inspect, in the
+/// <a>FieldToMatch</a> specification.
+///
+/// Example JSON: <code>"Cookies": { "MatchPattern": { "All": {} },
+/// "MatchScope": "KEY", "OversizeHandling": "MATCH" }</code>
+class Cookies {
+  /// The filter to use to identify the subset of cookies to inspect in a web
+  /// request.
+  ///
+  /// You must specify exactly one setting: either <code>All</code>,
+  /// <code>IncludedCookies</code>, or <code>ExcludedCookies</code>.
+  ///
+  /// Example JSON: <code>"MatchPattern": { "IncludedCookies": {"KeyToInclude1",
+  /// "KeyToInclude2", "KeyToInclude3"} }</code>
+  final CookieMatchPattern matchPattern;
+
+  /// The parts of the cookies to inspect with the rule inspection criteria. If
+  /// you specify <code>All</code>, WAF inspects both keys and values.
+  final MapMatchScope matchScope;
+
+  /// What WAF should do if the cookies of the request are larger than WAF can
+  /// inspect. WAF does not support inspecting the entire contents of request
+  /// cookies when they exceed 8 KB (8192 bytes) or 200 total cookies. The
+  /// underlying host service forwards a maximum of 200 cookies and at most 8 KB
+  /// of cookie contents to WAF.
+  ///
+  /// The options for oversize handling are the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CONTINUE</code> - Inspect the cookies normally, according to the rule
+  /// inspection criteria.
+  /// </li>
+  /// <li>
+  /// <code>MATCH</code> - Treat the web request as matching the rule statement.
+  /// WAF applies the rule action to the request.
+  /// </li>
+  /// <li>
+  /// <code>NO_MATCH</code> - Treat the web request as not matching the rule
+  /// statement.
+  /// </li>
+  /// </ul>
+  final OversizeHandling oversizeHandling;
+
+  Cookies({
+    required this.matchPattern,
+    required this.matchScope,
+    required this.oversizeHandling,
+  });
+
+  factory Cookies.fromJson(Map<String, dynamic> json) {
+    return Cookies(
+      matchPattern: CookieMatchPattern.fromJson(
+          json['MatchPattern'] as Map<String, dynamic>),
+      matchScope: (json['MatchScope'] as String).toMapMatchScope(),
+      oversizeHandling:
+          (json['OversizeHandling'] as String).toOversizeHandling(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final matchPattern = this.matchPattern;
+    final matchScope = this.matchScope;
+    final oversizeHandling = this.oversizeHandling;
+    return {
+      'MatchPattern': matchPattern,
+      'MatchScope': matchScope.toValue(),
+      'OversizeHandling': oversizeHandling.toValue(),
     };
   }
 }
@@ -4400,6 +4869,7 @@ enum CountryCode {
   ye,
   zm,
   zw,
+  xk,
 }
 
 extension on CountryCode {
@@ -4903,6 +5373,8 @@ extension on CountryCode {
         return 'ZM';
       case CountryCode.zw:
         return 'ZW';
+      case CountryCode.xk:
+        return 'XK';
     }
   }
 }
@@ -5408,6 +5880,8 @@ extension on String {
         return CountryCode.zm;
       case 'ZW':
         return CountryCode.zw;
+      case 'XK':
+        return CountryCode.xk;
     }
     throw Exception('$this is not known in enum CountryCode');
   }
@@ -5615,7 +6089,7 @@ class CustomRequestHandling {
 class CustomResponse {
   /// The HTTP status code to return to the client.
   ///
-  /// For a list of status codes that you can use in your custom reqponses, see <a
+  /// For a list of status codes that you can use in your custom responses, see <a
   /// href="https://docs.aws.amazon.com/waf/latest/developerguide/customizing-the-response-status-codes.html">Supported
   /// status codes for custom response</a> in the <a
   /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">WAF
@@ -6059,14 +6533,14 @@ extension on String {
   }
 }
 
-/// The part of a web request that you want WAF to inspect. Include the single
+/// The part of the web request that you want WAF to inspect. Include the single
 /// <code>FieldToMatch</code> type that you want to inspect, with additional
 /// specifications as needed, according to the type. You specify a single
 /// request component in <code>FieldToMatch</code> for each rule statement that
-/// requires it. To inspect more than one component of a web request, create a
+/// requires it. To inspect more than one component of the web request, create a
 /// separate rule statement for each component.
 ///
-/// JSON specification for a <code>QueryString</code> field to match:
+/// Example JSON for a <code>QueryString</code> field to match:
 ///
 /// <code> "FieldToMatch": { "QueryString": {} }</code>
 ///
@@ -6082,31 +6556,43 @@ class FieldToMatch {
   /// additional data that you want to send to your web server as the HTTP request
   /// body, such as data from a form.
   ///
-  /// Note that only the first 8 KB (8192 bytes) of the request body are forwarded
-  /// to WAF for inspection by the underlying host service. If you don't need to
-  /// inspect more than 8 KB, you can guarantee that you don't allow additional
-  /// bytes in by combining a statement that inspects the body of the web request,
-  /// such as <a>ByteMatchStatement</a> or
-  /// <a>RegexPatternSetReferenceStatement</a>, with a
-  /// <a>SizeConstraintStatement</a> that enforces an 8 KB size limit on the body
-  /// of the request. WAF doesn't support inspecting the entire contents of web
-  /// requests whose bodies exceed the 8 KB limit.
+  /// Only the first 8 KB (8192 bytes) of the request body are forwarded to WAF
+  /// for inspection by the underlying host service. For information about how to
+  /// handle oversized request bodies, see the <code>Body</code> object
+  /// configuration.
   final Body? body;
+
+  /// Inspect the request cookies. You must configure scope and pattern matching
+  /// filters in the <code>Cookies</code> object, to define the set of cookies and
+  /// the parts of the cookies that WAF inspects.
+  ///
+  /// Only the first 8 KB (8192 bytes) of a request's cookies and only the first
+  /// 200 cookies are forwarded to WAF for inspection by the underlying host
+  /// service. You must configure how to handle any oversize cookie content in the
+  /// <code>Cookies</code> object. WAF applies the pattern matching filters to the
+  /// cookies that it receives from the underlying host service.
+  final Cookies? cookies;
+
+  /// Inspect the request headers. You must configure scope and pattern matching
+  /// filters in the <code>Headers</code> object, to define the set of headers to
+  /// and the parts of the headers that WAF inspects.
+  ///
+  /// Only the first 8 KB (8192 bytes) of a request's headers and only the first
+  /// 200 headers are forwarded to WAF for inspection by the underlying host
+  /// service. You must configure how to handle any oversize header content in the
+  /// <code>Headers</code> object. WAF applies the pattern matching filters to the
+  /// headers that it receives from the underlying host service.
+  final Headers? headers;
 
   /// Inspect the request body as JSON. The request body immediately follows the
   /// request headers. This is the part of a request that contains any additional
   /// data that you want to send to your web server as the HTTP request body, such
   /// as data from a form.
   ///
-  /// Note that only the first 8 KB (8192 bytes) of the request body are forwarded
-  /// to WAF for inspection by the underlying host service. If you don't need to
-  /// inspect more than 8 KB, you can guarantee that you don't allow additional
-  /// bytes in by combining a statement that inspects the body of the web request,
-  /// such as <a>ByteMatchStatement</a> or
-  /// <a>RegexPatternSetReferenceStatement</a>, with a
-  /// <a>SizeConstraintStatement</a> that enforces an 8 KB size limit on the body
-  /// of the request. WAF doesn't support inspecting the entire contents of web
-  /// requests whose bodies exceed the 8 KB limit.
+  /// Only the first 8 KB (8192 bytes) of the request body are forwarded to WAF
+  /// for inspection by the underlying host service. For information about how to
+  /// handle oversized request bodies, see the <code>JsonBody</code> object
+  /// configuration.
   final JsonBody? jsonBody;
 
   /// Inspect the HTTP method. The method indicates the type of operation that the
@@ -6122,25 +6608,27 @@ class FieldToMatch {
   /// case sensitive.
   ///
   /// Example JSON: <code>"SingleHeader": { "Name": "haystack" }</code>
+  ///
+  /// Alternately, you can filter and inspect all headers with the
+  /// <code>Headers</code> <code>FieldToMatch</code> setting.
   final SingleHeader? singleHeader;
 
   /// Inspect a single query argument. Provide the name of the query argument to
   /// inspect, such as <i>UserName</i> or <i>SalesRegion</i>. The name can be up
   /// to 30 characters long and isn't case sensitive.
   ///
-  /// This is used only to indicate the web request component for WAF to inspect,
-  /// in the <a>FieldToMatch</a> specification.
-  ///
   /// Example JSON: <code>"SingleQueryArgument": { "Name": "myArgument" }</code>
   final SingleQueryArgument? singleQueryArgument;
 
-  /// Inspect the request URI path. This is the part of a web request that
+  /// Inspect the request URI path. This is the part of the web request that
   /// identifies a resource, for example, <code>/images/daily-ad.jpg</code>.
   final UriPath? uriPath;
 
   FieldToMatch({
     this.allQueryArguments,
     this.body,
+    this.cookies,
+    this.headers,
     this.jsonBody,
     this.method,
     this.queryString,
@@ -6157,6 +6645,12 @@ class FieldToMatch {
           : null,
       body: json['Body'] != null
           ? Body.fromJson(json['Body'] as Map<String, dynamic>)
+          : null,
+      cookies: json['Cookies'] != null
+          ? Cookies.fromJson(json['Cookies'] as Map<String, dynamic>)
+          : null,
+      headers: json['Headers'] != null
+          ? Headers.fromJson(json['Headers'] as Map<String, dynamic>)
           : null,
       jsonBody: json['JsonBody'] != null
           ? JsonBody.fromJson(json['JsonBody'] as Map<String, dynamic>)
@@ -6183,6 +6677,8 @@ class FieldToMatch {
   Map<String, dynamic> toJson() {
     final allQueryArguments = this.allQueryArguments;
     final body = this.body;
+    final cookies = this.cookies;
+    final headers = this.headers;
     final jsonBody = this.jsonBody;
     final method = this.method;
     final queryString = this.queryString;
@@ -6192,6 +6688,8 @@ class FieldToMatch {
     return {
       if (allQueryArguments != null) 'AllQueryArguments': allQueryArguments,
       if (body != null) 'Body': body,
+      if (cookies != null) 'Cookies': cookies,
+      if (headers != null) 'Headers': headers,
       if (jsonBody != null) 'JsonBody': jsonBody,
       if (method != null) 'Method': method,
       if (queryString != null) 'QueryString': queryString,
@@ -6523,6 +7021,29 @@ extension on String {
   }
 }
 
+class GenerateMobileSdkReleaseUrlResponse {
+  /// The presigned download URL for the specified SDK release.
+  final String? url;
+
+  GenerateMobileSdkReleaseUrlResponse({
+    this.url,
+  });
+
+  factory GenerateMobileSdkReleaseUrlResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GenerateMobileSdkReleaseUrlResponse(
+      url: json['Url'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final url = this.url;
+    return {
+      if (url != null) 'Url': url,
+    };
+  }
+}
+
 /// A rule statement used to identify web requests based on country of origin.
 class GeoMatchStatement {
   /// An array of two-character country codes, for example, <code>[ "US", "CN"
@@ -6670,6 +7191,31 @@ class GetManagedRuleSetResponse {
     return {
       if (lockToken != null) 'LockToken': lockToken,
       if (managedRuleSet != null) 'ManagedRuleSet': managedRuleSet,
+    };
+  }
+}
+
+class GetMobileSdkReleaseResponse {
+  /// Information for a specified SDK release, including release notes and tags.
+  final MobileSdkRelease? mobileSdkRelease;
+
+  GetMobileSdkReleaseResponse({
+    this.mobileSdkRelease,
+  });
+
+  factory GetMobileSdkReleaseResponse.fromJson(Map<String, dynamic> json) {
+    return GetMobileSdkReleaseResponse(
+      mobileSdkRelease: json['MobileSdkRelease'] != null
+          ? MobileSdkRelease.fromJson(
+              json['MobileSdkRelease'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final mobileSdkRelease = this.mobileSdkRelease;
+    return {
+      if (mobileSdkRelease != null) 'MobileSdkRelease': mobileSdkRelease,
     };
   }
 }
@@ -6887,6 +7433,16 @@ class GetWebACLForResourceResponse {
 }
 
 class GetWebACLResponse {
+  /// The URL to use in SDK integrations with Amazon Web Services managed rule
+  /// groups. For example, you can use the integration SDKs with the account
+  /// takeover prevention managed rule group
+  /// <code>AWSManagedRulesATPRuleSet</code>. This is only populated if you are
+  /// using a rule group in your web ACL that integrates with your applications in
+  /// this way. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-application-integration.html">WAF
+  /// client application integration</a> in the <i>WAF Developer Guide</i>.
+  final String? applicationIntegrationURL;
+
   /// A token used for optimistic locking. WAF returns a token to your
   /// <code>get</code> and <code>list</code> requests, to mark the state of the
   /// entity at the time of the request. To make changes to the entity associated
@@ -6903,12 +7459,14 @@ class GetWebACLResponse {
   final WebACL? webACL;
 
   GetWebACLResponse({
+    this.applicationIntegrationURL,
     this.lockToken,
     this.webACL,
   });
 
   factory GetWebACLResponse.fromJson(Map<String, dynamic> json) {
     return GetWebACLResponse(
+      applicationIntegrationURL: json['ApplicationIntegrationURL'] as String?,
       lockToken: json['LockToken'] as String?,
       webACL: json['WebACL'] != null
           ? WebACL.fromJson(json['WebACL'] as Map<String, dynamic>)
@@ -6917,9 +7475,12 @@ class GetWebACLResponse {
   }
 
   Map<String, dynamic> toJson() {
+    final applicationIntegrationURL = this.applicationIntegrationURL;
     final lockToken = this.lockToken;
     final webACL = this.webACL;
     return {
+      if (applicationIntegrationURL != null)
+        'ApplicationIntegrationURL': applicationIntegrationURL,
       if (lockToken != null) 'LockToken': lockToken,
       if (webACL != null) 'WebACL': webACL,
     };
@@ -7041,6 +7602,139 @@ class HTTPRequest {
   }
 }
 
+/// The filter to use to identify the subset of headers to inspect in a web
+/// request.
+///
+/// You must specify exactly one setting: either <code>All</code>,
+/// <code>IncludedHeaders</code>, or <code>ExcludedHeaders</code>.
+///
+/// Example JSON: <code>"MatchPattern": { "ExcludedHeaders": {"KeyToExclude1",
+/// "KeyToExclude2"} }</code>
+class HeaderMatchPattern {
+  /// Inspect all headers.
+  final All? all;
+
+  /// Inspect only the headers whose keys don't match any of the strings specified
+  /// here.
+  final List<String>? excludedHeaders;
+
+  /// Inspect only the headers that have a key that matches one of the strings
+  /// specified here.
+  final List<String>? includedHeaders;
+
+  HeaderMatchPattern({
+    this.all,
+    this.excludedHeaders,
+    this.includedHeaders,
+  });
+
+  factory HeaderMatchPattern.fromJson(Map<String, dynamic> json) {
+    return HeaderMatchPattern(
+      all: json['All'] != null
+          ? All.fromJson(json['All'] as Map<String, dynamic>)
+          : null,
+      excludedHeaders: (json['ExcludedHeaders'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      includedHeaders: (json['IncludedHeaders'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final all = this.all;
+    final excludedHeaders = this.excludedHeaders;
+    final includedHeaders = this.includedHeaders;
+    return {
+      if (all != null) 'All': all,
+      if (excludedHeaders != null) 'ExcludedHeaders': excludedHeaders,
+      if (includedHeaders != null) 'IncludedHeaders': includedHeaders,
+    };
+  }
+}
+
+/// Inspect all headers in the web request. You can specify the parts of the
+/// headers to inspect and you can narrow the set of headers to inspect by
+/// including or excluding specific keys.
+///
+/// This is used to indicate the web request component to inspect, in the
+/// <a>FieldToMatch</a> specification.
+///
+/// If you want to inspect just the value of a single header, use the
+/// <code>SingleHeader</code> <code>FieldToMatch</code> setting instead.
+///
+/// Example JSON: <code>"Headers": { "MatchPattern": { "All": {} },
+/// "MatchScope": "KEY", "OversizeHandling": "MATCH" }</code>
+class Headers {
+  /// The filter to use to identify the subset of headers to inspect in a web
+  /// request.
+  ///
+  /// You must specify exactly one setting: either <code>All</code>,
+  /// <code>IncludedHeaders</code>, or <code>ExcludedHeaders</code>.
+  ///
+  /// Example JSON: <code>"MatchPattern": { "ExcludedHeaders": {"KeyToExclude1",
+  /// "KeyToExclude2"} }</code>
+  final HeaderMatchPattern matchPattern;
+
+  /// The parts of the headers to match with the rule inspection criteria. If you
+  /// specify <code>All</code>, WAF inspects both keys and values.
+  final MapMatchScope matchScope;
+
+  /// What WAF should do if the headers of the request are larger than WAF can
+  /// inspect. WAF does not support inspecting the entire contents of request
+  /// headers when they exceed 8 KB (8192 bytes) or 200 total headers. The
+  /// underlying host service forwards a maximum of 200 headers and at most 8 KB
+  /// of header contents to WAF.
+  ///
+  /// The options for oversize handling are the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CONTINUE</code> - Inspect the headers normally, according to the rule
+  /// inspection criteria.
+  /// </li>
+  /// <li>
+  /// <code>MATCH</code> - Treat the web request as matching the rule statement.
+  /// WAF applies the rule action to the request.
+  /// </li>
+  /// <li>
+  /// <code>NO_MATCH</code> - Treat the web request as not matching the rule
+  /// statement.
+  /// </li>
+  /// </ul>
+  final OversizeHandling oversizeHandling;
+
+  Headers({
+    required this.matchPattern,
+    required this.matchScope,
+    required this.oversizeHandling,
+  });
+
+  factory Headers.fromJson(Map<String, dynamic> json) {
+    return Headers(
+      matchPattern: HeaderMatchPattern.fromJson(
+          json['MatchPattern'] as Map<String, dynamic>),
+      matchScope: (json['MatchScope'] as String).toMapMatchScope(),
+      oversizeHandling:
+          (json['OversizeHandling'] as String).toOversizeHandling(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final matchPattern = this.matchPattern;
+    final matchScope = this.matchScope;
+    final oversizeHandling = this.oversizeHandling;
+    return {
+      'MatchPattern': matchPattern,
+      'MatchScope': matchScope.toValue(),
+      'OversizeHandling': oversizeHandling.toValue(),
+    };
+  }
+}
+
 enum IPAddressVersion {
   ipv4,
   ipv6,
@@ -7069,7 +7763,7 @@ extension on String {
   }
 }
 
-/// Contains one or more IP addresses or blocks of IP addresses specified in
+/// Contains zero or more IP addresses or blocks of IP addresses specified in
 /// Classless Inter-Domain Routing (CIDR) notation. WAF supports all IPv4 and
 /// IPv6 CIDR ranges except for /0. For information about CIDR notation, see the
 /// Wikipedia entry <a
@@ -7083,11 +7777,11 @@ class IPSet {
   /// The Amazon Resource Name (ARN) of the entity.
   final String arn;
 
-  /// Contains an array of strings that specify one or more IP addresses or blocks
-  /// of IP addresses in Classless Inter-Domain Routing (CIDR) notation. WAF
-  /// supports all IPv4 and IPv6 CIDR ranges except for /0.
+  /// Contains an array of strings that specifies zero or more IP addresses or
+  /// blocks of IP addresses in Classless Inter-Domain Routing (CIDR) notation.
+  /// WAF supports all IPv4 and IPv6 CIDR ranges except for /0.
   ///
-  /// Examples:
+  /// Example address strings:
   ///
   /// <ul>
   /// <li>
@@ -7113,6 +7807,24 @@ class IPSet {
   /// For more information about CIDR notation, see the Wikipedia entry <a
   /// href="https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing">Classless
   /// Inter-Domain Routing</a>.
+  ///
+  /// Example JSON <code>Addresses</code> specifications:
+  ///
+  /// <ul>
+  /// <li>
+  /// Empty array: <code>"Addresses": []</code>
+  /// </li>
+  /// <li>
+  /// Array with one address: <code>"Addresses": ["192.0.2.44/32"]</code>
+  /// </li>
+  /// <li>
+  /// Array with three addresses: <code>"Addresses": ["192.0.2.44/32",
+  /// "192.0.2.0/24", "192.0.0.0/16"]</code>
+  /// </li>
+  /// <li>
+  /// INVALID specification: <code>"Addresses": [""]</code> INVALID
+  /// </li>
+  /// </ul>
   final List<String> addresses;
 
   /// The version of the IP addresses, either <code>IPV4</code> or
@@ -7404,8 +8116,11 @@ class ImmunityTimeProperty {
   }
 }
 
-/// The body of a web request, inspected as JSON. The body immediately follows
-/// the request headers. This is used in the <a>FieldToMatch</a> specification.
+/// Inspect the body of the web request as JSON. The body immediately follows
+/// the request headers.
+///
+/// This is used to indicate the web request component to inspect, in the
+/// <a>FieldToMatch</a> specification.
 ///
 /// Use the specifications in this object to indicate which parts of the JSON
 /// body to inspect using the rule's inspection criteria. WAF inspects only the
@@ -7462,10 +8177,39 @@ class JsonBody {
   /// </ul>
   final BodyParsingFallbackBehavior? invalidFallbackBehavior;
 
+  /// What WAF should do if the body is larger than WAF can inspect. WAF does not
+  /// support inspecting the entire contents of the body of a web request when the
+  /// body exceeds 8 KB (8192 bytes). Only the first 8 KB of the request body are
+  /// forwarded to WAF by the underlying host service.
+  ///
+  /// The options for oversize handling are the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CONTINUE</code> - Inspect the body normally, according to the rule
+  /// inspection criteria.
+  /// </li>
+  /// <li>
+  /// <code>MATCH</code> - Treat the web request as matching the rule statement.
+  /// WAF applies the rule action to the request.
+  /// </li>
+  /// <li>
+  /// <code>NO_MATCH</code> - Treat the web request as not matching the rule
+  /// statement.
+  /// </li>
+  /// </ul>
+  /// You can combine the <code>MATCH</code> or <code>NO_MATCH</code> settings for
+  /// oversize handling with your rule and web ACL action settings, so that you
+  /// block any request whose body is over 8 KB.
+  ///
+  /// Default: <code>CONTINUE</code>
+  final OversizeHandling? oversizeHandling;
+
   JsonBody({
     required this.matchPattern,
     required this.matchScope,
     this.invalidFallbackBehavior,
+    this.oversizeHandling,
   });
 
   factory JsonBody.fromJson(Map<String, dynamic> json) {
@@ -7475,6 +8219,8 @@ class JsonBody {
       matchScope: (json['MatchScope'] as String).toJsonMatchScope(),
       invalidFallbackBehavior: (json['InvalidFallbackBehavior'] as String?)
           ?.toBodyParsingFallbackBehavior(),
+      oversizeHandling:
+          (json['OversizeHandling'] as String?)?.toOversizeHandling(),
     );
   }
 
@@ -7482,11 +8228,14 @@ class JsonBody {
     final matchPattern = this.matchPattern;
     final matchScope = this.matchScope;
     final invalidFallbackBehavior = this.invalidFallbackBehavior;
+    final oversizeHandling = this.oversizeHandling;
     return {
       'MatchPattern': matchPattern,
       'MatchScope': matchScope.toValue(),
       if (invalidFallbackBehavior != null)
         'InvalidFallbackBehavior': invalidFallbackBehavior.toValue(),
+      if (oversizeHandling != null)
+        'OversizeHandling': oversizeHandling.toValue(),
     };
   }
 }
@@ -7755,6 +8504,9 @@ class LabelSummary {
 }
 
 class ListAvailableManagedRuleGroupVersionsResponse {
+  /// The name of the version that's currently set as the default.
+  final String? currentDefaultVersion;
+
   /// When you request a list of objects with a <code>Limit</code> setting, if the
   /// number of objects that are still available for retrieval exceeds the limit,
   /// WAF returns a <code>NextMarker</code> value in the response. To retrieve the
@@ -7767,6 +8519,7 @@ class ListAvailableManagedRuleGroupVersionsResponse {
   final List<ManagedRuleGroupVersion>? versions;
 
   ListAvailableManagedRuleGroupVersionsResponse({
+    this.currentDefaultVersion,
     this.nextMarker,
     this.versions,
   });
@@ -7774,6 +8527,7 @@ class ListAvailableManagedRuleGroupVersionsResponse {
   factory ListAvailableManagedRuleGroupVersionsResponse.fromJson(
       Map<String, dynamic> json) {
     return ListAvailableManagedRuleGroupVersionsResponse(
+      currentDefaultVersion: json['CurrentDefaultVersion'] as String?,
       nextMarker: json['NextMarker'] as String?,
       versions: (json['Versions'] as List?)
           ?.whereNotNull()
@@ -7784,9 +8538,12 @@ class ListAvailableManagedRuleGroupVersionsResponse {
   }
 
   Map<String, dynamic> toJson() {
+    final currentDefaultVersion = this.currentDefaultVersion;
     final nextMarker = this.nextMarker;
     final versions = this.versions;
     return {
+      if (currentDefaultVersion != null)
+        'CurrentDefaultVersion': currentDefaultVersion,
       if (nextMarker != null) 'NextMarker': nextMarker,
       if (versions != null) 'Versions': versions,
     };
@@ -7938,6 +8695,42 @@ class ListManagedRuleSetsResponse {
     return {
       if (managedRuleSets != null) 'ManagedRuleSets': managedRuleSets,
       if (nextMarker != null) 'NextMarker': nextMarker,
+    };
+  }
+}
+
+class ListMobileSdkReleasesResponse {
+  /// When you request a list of objects with a <code>Limit</code> setting, if the
+  /// number of objects that are still available for retrieval exceeds the limit,
+  /// WAF returns a <code>NextMarker</code> value in the response. To retrieve the
+  /// next batch of objects, provide the marker from the prior call in your next
+  /// request.
+  final String? nextMarker;
+
+  /// High level information for the available SDK releases.
+  final List<ReleaseSummary>? releaseSummaries;
+
+  ListMobileSdkReleasesResponse({
+    this.nextMarker,
+    this.releaseSummaries,
+  });
+
+  factory ListMobileSdkReleasesResponse.fromJson(Map<String, dynamic> json) {
+    return ListMobileSdkReleasesResponse(
+      nextMarker: json['NextMarker'] as String?,
+      releaseSummaries: (json['ReleaseSummaries'] as List?)
+          ?.whereNotNull()
+          .map((e) => ReleaseSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextMarker = this.nextMarker;
+    final releaseSummaries = this.releaseSummaries;
+    return {
+      if (nextMarker != null) 'NextMarker': nextMarker,
+      if (releaseSummaries != null) 'ReleaseSummaries': releaseSummaries,
     };
   }
 }
@@ -8116,13 +8909,40 @@ class ListWebACLsResponse {
 /// for logging from WAF. As part of the association, you can specify parts of
 /// the standard logging fields to keep out of the logs and you can specify
 /// filters so that you log only a subset of the logging records.
+/// <note>
+/// You can define one logging destination per web ACL.
+/// </note>
+/// You can access information about the traffic that WAF inspects using the
+/// following steps:
+/// <ol>
+/// <li>
+/// Create your logging destination. You can use an Amazon CloudWatch Logs log
+/// group, an Amazon Simple Storage Service (Amazon S3) bucket, or an Amazon
+/// Kinesis Data Firehose. For information about configuring logging
+/// destinations and the permissions that are required for each, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/logging.html">Logging
+/// web ACL traffic information</a> in the <i>WAF Developer Guide</i>.
+/// </li>
+/// <li>
+/// Associate your logging destination to your web ACL using a
+/// <code>PutLoggingConfiguration</code> request.
+/// </li> </ol>
+/// When you successfully enable logging using a
+/// <code>PutLoggingConfiguration</code> request, WAF creates an additional role
+/// or policy that is required to write logs to the logging destination. For an
+/// Amazon CloudWatch Logs log group, WAF creates a resource policy on the log
+/// group. For an Amazon S3 bucket, WAF creates a bucket policy. For an Amazon
+/// Kinesis Data Firehose, WAF creates a service-linked role.
 ///
-/// For information about configuring web ACL logging destinations, see <a
+/// For additional information about web ACL logging, see <a
 /// href="https://docs.aws.amazon.com/waf/latest/developerguide/logging.html">Logging
 /// web ACL traffic information</a> in the <i>WAF Developer Guide</i>.
 class LoggingConfiguration {
-  /// The Amazon Resource Names (ARNs) of the logging destinations that you want
-  /// to associate with the web ACL.
+  /// The logging destination configuration that you want to associate with the
+  /// web ACL.
+  /// <note>
+  /// You can associate one logging destination to a web ACL.
+  /// </note>
   final List<String> logDestinationConfigs;
 
   /// The Amazon Resource Name (ARN) of the web ACL that you want to associate
@@ -8231,6 +9051,71 @@ class LoggingFilter {
   }
 }
 
+/// Additional information that's used by a managed rule group. Most managed
+/// rule groups don't require this.
+///
+/// Use this for the account takeover prevention managed rule group
+/// <code>AWSManagedRulesATPRuleSet</code>, to provide information about the
+/// sign-in page of your application.
+///
+/// You can provide multiple individual <code>ManagedRuleGroupConfig</code>
+/// objects for any rule group configuration, for example
+/// <code>UsernameField</code> and <code>PasswordField</code>. The configuration
+/// that you provide depends on the needs of the managed rule group. For the ATP
+/// managed rule group, you provide the following individual configuration
+/// objects: <code>LoginPath</code>, <code>PasswordField</code>,
+/// <code>PayloadType</code> and <code>UsernameField</code>.
+class ManagedRuleGroupConfig {
+  /// The path of the login endpoint for your application. For example, for the
+  /// URL <code>https://example.com/web/login</code>, you would provide the path
+  /// <code>/web/login</code>.
+  final String? loginPath;
+
+  /// Details about your login page password field.
+  final PasswordField? passwordField;
+
+  /// The payload type for your login endpoint, either JSON or form encoded.
+  final PayloadType? payloadType;
+
+  /// Details about your login page username field.
+  final UsernameField? usernameField;
+
+  ManagedRuleGroupConfig({
+    this.loginPath,
+    this.passwordField,
+    this.payloadType,
+    this.usernameField,
+  });
+
+  factory ManagedRuleGroupConfig.fromJson(Map<String, dynamic> json) {
+    return ManagedRuleGroupConfig(
+      loginPath: json['LoginPath'] as String?,
+      passwordField: json['PasswordField'] != null
+          ? PasswordField.fromJson(
+              json['PasswordField'] as Map<String, dynamic>)
+          : null,
+      payloadType: (json['PayloadType'] as String?)?.toPayloadType(),
+      usernameField: json['UsernameField'] != null
+          ? UsernameField.fromJson(
+              json['UsernameField'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final loginPath = this.loginPath;
+    final passwordField = this.passwordField;
+    final payloadType = this.payloadType;
+    final usernameField = this.usernameField;
+    return {
+      if (loginPath != null) 'LoginPath': loginPath,
+      if (passwordField != null) 'PasswordField': passwordField,
+      if (payloadType != null) 'PayloadType': payloadType.toValue(),
+      if (usernameField != null) 'UsernameField': usernameField,
+    };
+  }
+}
+
 /// A rule statement used to run the rules that are defined in a managed rule
 /// group. To use this, provide the vendor name and the name of the rule group
 /// in this statement. You can retrieve the required names by calling
@@ -8255,6 +9140,22 @@ class ManagedRuleGroupStatement {
   /// handle your web traffic.
   final List<ExcludedRule>? excludedRules;
 
+  /// Additional information that's used by a managed rule group. Most managed
+  /// rule groups don't require this.
+  ///
+  /// Use this for the account takeover prevention managed rule group
+  /// <code>AWSManagedRulesATPRuleSet</code>, to provide information about the
+  /// sign-in page of your application.
+  ///
+  /// You can provide multiple individual <code>ManagedRuleGroupConfig</code>
+  /// objects for any rule group configuration, for example
+  /// <code>UsernameField</code> and <code>PasswordField</code>. The configuration
+  /// that you provide depends on the needs of the managed rule group. For the ATP
+  /// managed rule group, you provide the following individual configuration
+  /// objects: <code>LoginPath</code>, <code>PasswordField</code>,
+  /// <code>PayloadType</code> and <code>UsernameField</code>.
+  final List<ManagedRuleGroupConfig>? managedRuleGroupConfigs;
+
   /// An optional nested statement that narrows the scope of the web requests that
   /// are evaluated by the managed rule group. Requests are only evaluated by the
   /// rule group if they match the scope-down statement. You can use any nestable
@@ -8272,6 +9173,7 @@ class ManagedRuleGroupStatement {
     required this.name,
     required this.vendorName,
     this.excludedRules,
+    this.managedRuleGroupConfigs,
     this.scopeDownStatement,
     this.version,
   });
@@ -8283,6 +9185,11 @@ class ManagedRuleGroupStatement {
       excludedRules: (json['ExcludedRules'] as List?)
           ?.whereNotNull()
           .map((e) => ExcludedRule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      managedRuleGroupConfigs: (json['ManagedRuleGroupConfigs'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => ManagedRuleGroupConfig.fromJson(e as Map<String, dynamic>))
           .toList(),
       scopeDownStatement: json['ScopeDownStatement'] != null
           ? Statement.fromJson(
@@ -8296,12 +9203,15 @@ class ManagedRuleGroupStatement {
     final name = this.name;
     final vendorName = this.vendorName;
     final excludedRules = this.excludedRules;
+    final managedRuleGroupConfigs = this.managedRuleGroupConfigs;
     final scopeDownStatement = this.scopeDownStatement;
     final version = this.version;
     return {
       'Name': name,
       'VendorName': vendorName,
       if (excludedRules != null) 'ExcludedRules': excludedRules,
+      if (managedRuleGroupConfigs != null)
+        'ManagedRuleGroupConfigs': managedRuleGroupConfigs,
       if (scopeDownStatement != null) 'ScopeDownStatement': scopeDownStatement,
       if (version != null) 'Version': version,
     };
@@ -8328,10 +9238,16 @@ class ManagedRuleGroupSummary {
   /// group name, to identify the rule group.
   final String? vendorName;
 
+  /// Indicates whether the managed rule group is versioned. If it is, you can
+  /// retrieve the versions list by calling
+  /// <a>ListAvailableManagedRuleGroupVersions</a>.
+  final bool? versioningSupported;
+
   ManagedRuleGroupSummary({
     this.description,
     this.name,
     this.vendorName,
+    this.versioningSupported,
   });
 
   factory ManagedRuleGroupSummary.fromJson(Map<String, dynamic> json) {
@@ -8339,6 +9255,7 @@ class ManagedRuleGroupSummary {
       description: json['Description'] as String?,
       name: json['Name'] as String?,
       vendorName: json['VendorName'] as String?,
+      versioningSupported: json['VersioningSupported'] as bool?,
     );
   }
 
@@ -8346,10 +9263,13 @@ class ManagedRuleGroupSummary {
     final description = this.description;
     final name = this.name;
     final vendorName = this.vendorName;
+    final versioningSupported = this.versioningSupported;
     return {
       if (description != null) 'Description': description,
       if (name != null) 'Name': name,
       if (vendorName != null) 'VendorName': vendorName,
+      if (versioningSupported != null)
+        'VersioningSupported': versioningSupported,
     };
   }
 }
@@ -8683,11 +9603,44 @@ class ManagedRuleSetVersion {
   }
 }
 
-/// The HTTP method of a web request. The method indicates the type of operation
-/// that the request is asking the origin to perform.
+enum MapMatchScope {
+  all,
+  key,
+  value,
+}
+
+extension on MapMatchScope {
+  String toValue() {
+    switch (this) {
+      case MapMatchScope.all:
+        return 'ALL';
+      case MapMatchScope.key:
+        return 'KEY';
+      case MapMatchScope.value:
+        return 'VALUE';
+    }
+  }
+}
+
+extension on String {
+  MapMatchScope toMapMatchScope() {
+    switch (this) {
+      case 'ALL':
+        return MapMatchScope.all;
+      case 'KEY':
+        return MapMatchScope.key;
+      case 'VALUE':
+        return MapMatchScope.value;
+    }
+    throw Exception('$this is not known in enum MapMatchScope');
+  }
+}
+
+/// Inspect the HTTP method of the web request. The method indicates the type of
+/// operation that the request is asking the origin to perform.
 ///
-/// This is used only to indicate the web request component for WAF to inspect,
-/// in the <a>FieldToMatch</a> specification.
+/// This is used only in the <a>FieldToMatch</a> specification for some web
+/// request component types.
 ///
 /// JSON specification: <code>"Method": {}</code>
 class Method {
@@ -8699,6 +9652,61 @@ class Method {
 
   Map<String, dynamic> toJson() {
     return {};
+  }
+}
+
+/// Information for a release of the mobile SDK, including release notes and
+/// tags.
+///
+/// The mobile SDK is not generally available. Customers who have access to the
+/// mobile SDK can use it to establish and manage Security Token Service (STS)
+/// security tokens for use in HTTP(S) requests from a mobile device to WAF. For
+/// more information, see <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-application-integration.html">WAF
+/// client application integration</a> in the <i>WAF Developer Guide</i>.
+class MobileSdkRelease {
+  /// Notes describing the release.
+  final String? releaseNotes;
+
+  /// The release version.
+  final String? releaseVersion;
+
+  /// Tags that are associated with the release.
+  final List<Tag>? tags;
+
+  /// The timestamp of the release.
+  final DateTime? timestamp;
+
+  MobileSdkRelease({
+    this.releaseNotes,
+    this.releaseVersion,
+    this.tags,
+    this.timestamp,
+  });
+
+  factory MobileSdkRelease.fromJson(Map<String, dynamic> json) {
+    return MobileSdkRelease(
+      releaseNotes: json['ReleaseNotes'] as String?,
+      releaseVersion: json['ReleaseVersion'] as String?,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      timestamp: timeStampFromJson(json['Timestamp']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final releaseNotes = this.releaseNotes;
+    final releaseVersion = this.releaseVersion;
+    final tags = this.tags;
+    final timestamp = this.timestamp;
+    return {
+      if (releaseNotes != null) 'ReleaseNotes': releaseNotes,
+      if (releaseVersion != null) 'ReleaseVersion': releaseVersion,
+      if (tags != null) 'Tags': tags,
+      if (timestamp != null) 'Timestamp': unixTimestampToJson(timestamp),
+    };
   }
 }
 
@@ -8829,6 +9837,119 @@ class OverrideAction {
   }
 }
 
+enum OversizeHandling {
+  $continue,
+  match,
+  noMatch,
+}
+
+extension on OversizeHandling {
+  String toValue() {
+    switch (this) {
+      case OversizeHandling.$continue:
+        return 'CONTINUE';
+      case OversizeHandling.match:
+        return 'MATCH';
+      case OversizeHandling.noMatch:
+        return 'NO_MATCH';
+    }
+  }
+}
+
+extension on String {
+  OversizeHandling toOversizeHandling() {
+    switch (this) {
+      case 'CONTINUE':
+        return OversizeHandling.$continue;
+      case 'MATCH':
+        return OversizeHandling.match;
+      case 'NO_MATCH':
+        return OversizeHandling.noMatch;
+    }
+    throw Exception('$this is not known in enum OversizeHandling');
+  }
+}
+
+/// Details about your login page password field, used in a
+/// <code>ManagedRuleGroupConfig</code>.
+class PasswordField {
+  /// The name of the password field. For example <code>/form/password</code>.
+  final String identifier;
+
+  PasswordField({
+    required this.identifier,
+  });
+
+  factory PasswordField.fromJson(Map<String, dynamic> json) {
+    return PasswordField(
+      identifier: json['Identifier'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final identifier = this.identifier;
+    return {
+      'Identifier': identifier,
+    };
+  }
+}
+
+enum PayloadType {
+  json,
+  formEncoded,
+}
+
+extension on PayloadType {
+  String toValue() {
+    switch (this) {
+      case PayloadType.json:
+        return 'JSON';
+      case PayloadType.formEncoded:
+        return 'FORM_ENCODED';
+    }
+  }
+}
+
+extension on String {
+  PayloadType toPayloadType() {
+    switch (this) {
+      case 'JSON':
+        return PayloadType.json;
+      case 'FORM_ENCODED':
+        return PayloadType.formEncoded;
+    }
+    throw Exception('$this is not known in enum PayloadType');
+  }
+}
+
+enum Platform {
+  ios,
+  android,
+}
+
+extension on Platform {
+  String toValue() {
+    switch (this) {
+      case Platform.ios:
+        return 'IOS';
+      case Platform.android:
+        return 'ANDROID';
+    }
+  }
+}
+
+extension on String {
+  Platform toPlatform() {
+    switch (this) {
+      case 'IOS':
+        return Platform.ios;
+      case 'ANDROID':
+        return Platform.android;
+    }
+    throw Exception('$this is not known in enum Platform');
+  }
+}
+
 enum PositionalConstraint {
   exactly,
   startsWith,
@@ -8941,11 +10062,11 @@ class PutPermissionPolicyResponse {
   }
 }
 
-/// The query string of a web request. This is the part of a URL that appears
-/// after a <code>?</code> character, if any.
+/// Inspect the query string of the web request. This is the part of a URL that
+/// appears after a <code>?</code> character, if any.
 ///
-/// This is used only to indicate the web request component for WAF to inspect,
-/// in the <a>FieldToMatch</a> specification.
+/// This is used only in the <a>FieldToMatch</a> specification for some web
+/// request component types.
 ///
 /// JSON specification: <code>"QueryString": {}</code>
 class QueryString {
@@ -8994,10 +10115,11 @@ class QueryString {
 /// </li>
 /// </ul>
 /// In this rate-based rule, you also define a rate limit. For this example, the
-/// rate limit is 1,000. Requests that meet both of the conditions in the
+/// rate limit is 1,000. Requests that meet the criteria of both of the nested
 /// statements are counted. If the count exceeds 1,000 requests per five
-/// minutes, the rule action triggers. Requests that do not meet both conditions
-/// are not counted towards the rate limit and are not affected by this rule.
+/// minutes, the rule action triggers. Requests that do not meet the criteria of
+/// both of the nested statements are not counted towards the rate limit and are
+/// not affected by this rule.
 ///
 /// You cannot nest a <code>RateBasedStatement</code> inside another statement,
 /// for example inside a <code>NotStatement</code> or <code>OrStatement</code>.
@@ -9174,8 +10296,7 @@ class Regex {
 /// A rule statement used to search web request components for a match against a
 /// single regular expression.
 class RegexMatchStatement {
-  /// The part of a web request that you want WAF to inspect. For more
-  /// information, see <a>FieldToMatch</a>.
+  /// The part of the web request that you want WAF to inspect.
   final FieldToMatch fieldToMatch;
 
   /// The string representing the regular expression.
@@ -9296,8 +10417,7 @@ class RegexPatternSetReferenceStatement {
   /// statement references.
   final String arn;
 
-  /// The part of a web request that you want WAF to inspect. For more
-  /// information, see <a>FieldToMatch</a>.
+  /// The part of the web request that you want WAF to inspect.
   final FieldToMatch fieldToMatch;
 
   /// Text transformations eliminate some of the unusual formatting that attackers
@@ -9401,6 +10521,36 @@ class RegexPatternSetSummary {
       if (id != null) 'Id': id,
       if (lockToken != null) 'LockToken': lockToken,
       if (name != null) 'Name': name,
+    };
+  }
+}
+
+/// High level information for an SDK release.
+class ReleaseSummary {
+  /// The release version.
+  final String? releaseVersion;
+
+  /// The timestamp of the release.
+  final DateTime? timestamp;
+
+  ReleaseSummary({
+    this.releaseVersion,
+    this.timestamp,
+  });
+
+  factory ReleaseSummary.fromJson(Map<String, dynamic> json) {
+    return ReleaseSummary(
+      releaseVersion: json['ReleaseVersion'] as String?,
+      timestamp: timeStampFromJson(json['Timestamp']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final releaseVersion = this.releaseVersion;
+    final timestamp = this.timestamp;
+    return {
+      if (releaseVersion != null) 'ReleaseVersion': releaseVersion,
+      if (timestamp != null) 'Timestamp': unixTimestampToJson(timestamp),
     };
   }
 }
@@ -10139,12 +11289,43 @@ extension on String {
   }
 }
 
-/// One of the headers in a web request, identified by name, for example,
-/// <code>User-Agent</code> or <code>Referer</code>. This setting isn't case
-/// sensitive.
+enum SensitivityLevel {
+  low,
+  high,
+}
+
+extension on SensitivityLevel {
+  String toValue() {
+    switch (this) {
+      case SensitivityLevel.low:
+        return 'LOW';
+      case SensitivityLevel.high:
+        return 'HIGH';
+    }
+  }
+}
+
+extension on String {
+  SensitivityLevel toSensitivityLevel() {
+    switch (this) {
+      case 'LOW':
+        return SensitivityLevel.low;
+      case 'HIGH':
+        return SensitivityLevel.high;
+    }
+    throw Exception('$this is not known in enum SensitivityLevel');
+  }
+}
+
+/// Inspect one of the headers in the web request, identified by name, for
+/// example, <code>User-Agent</code> or <code>Referer</code>. The name isn't
+/// case sensitive.
 ///
-/// This is used only to indicate the web request component for WAF to inspect,
-/// in the <a>FieldToMatch</a> specification.
+/// You can filter and inspect all headers with the <code>FieldToMatch</code>
+/// setting <code>Headers</code>.
+///
+/// This is used to indicate the web request component to inspect, in the
+/// <a>FieldToMatch</a> specification.
 ///
 /// Example JSON: <code>"SingleHeader": { "Name": "haystack" }</code>
 class SingleHeader {
@@ -10169,9 +11350,12 @@ class SingleHeader {
   }
 }
 
-/// One query argument in a web request, identified by name, for example
-/// <i>UserName</i> or <i>SalesRegion</i>. The name can be up to 30 characters
-/// long and isn't case sensitive.
+/// Inspect one query argument in the web request, identified by name, for
+/// example <i>UserName</i> or <i>SalesRegion</i>. The name isn't case
+/// sensitive.
+///
+/// This is used to indicate the web request component to inspect, in the
+/// <a>FieldToMatch</a> specification.
 ///
 /// Example JSON: <code>"SingleQueryArgument": { "Name": "myArgument" }</code>
 class SingleQueryArgument {
@@ -10203,7 +11387,7 @@ class SingleQueryArgument {
 ///
 /// If you configure WAF to inspect the request body, WAF inspects only the
 /// first 8192 bytes (8 KB). If the request body for your web requests never
-/// exceeds 8192 bytes, you can create a size constraint condition and block
+/// exceeds 8192 bytes, you could use a size constraint statement to block
 /// requests that have a request body greater than 8192 bytes.
 ///
 /// If you choose URI for the value of Part of the request to filter on, the
@@ -10213,8 +11397,7 @@ class SizeConstraintStatement {
   /// The operator to use to compare the request part to the size setting.
   final ComparisonOperator comparisonOperator;
 
-  /// The part of a web request that you want WAF to inspect. For more
-  /// information, see <a>FieldToMatch</a>.
+  /// The part of the web request that you want WAF to inspect.
   final FieldToMatch fieldToMatch;
 
   /// The size, in byte, to compare to the request part, after any
@@ -10264,16 +11447,11 @@ class SizeConstraintStatement {
   }
 }
 
-/// Attackers sometimes insert malicious SQL code into web requests in an effort
-/// to extract data from your database. To allow or block web requests that
-/// appear to contain malicious SQL code, create one or more SQL injection match
-/// conditions. An SQL injection match condition identifies the part of web
-/// requests, such as the URI or the query string, that you want WAF to inspect.
-/// Later in the process, when you create a web ACL, you specify whether to
-/// allow or block requests that appear to contain malicious SQL code.
+/// A rule statement that inspects for malicious SQL code. Attackers insert
+/// malicious SQL code into web requests to do things like modify your database
+/// or extract data from it.
 class SqliMatchStatement {
-  /// The part of a web request that you want WAF to inspect. For more
-  /// information, see <a>FieldToMatch</a>.
+  /// The part of the web request that you want WAF to inspect.
   final FieldToMatch fieldToMatch;
 
   /// Text transformations eliminate some of the unusual formatting that attackers
@@ -10284,9 +11462,27 @@ class SqliMatchStatement {
   /// inspecting the content for a match.
   final List<TextTransformation> textTransformations;
 
+  /// The sensitivity that you want WAF to use to inspect for SQL injection
+  /// attacks.
+  ///
+  /// <code>HIGH</code> detects more attacks, but might generate more false
+  /// positives, especially if your web requests frequently contain unusual
+  /// strings. For information about identifying and mitigating false positives,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/web-acl-testing.html">Testing
+  /// and tuning</a> in the <i>WAF Developer Guide</i>.
+  ///
+  /// <code>LOW</code> is generally a better choice for resources that already
+  /// have other protections against SQL injection attacks or that have a low
+  /// tolerance for false positives.
+  ///
+  /// Default: <code>LOW</code>
+  final SensitivityLevel? sensitivityLevel;
+
   SqliMatchStatement({
     required this.fieldToMatch,
     required this.textTransformations,
+    this.sensitivityLevel,
   });
 
   factory SqliMatchStatement.fromJson(Map<String, dynamic> json) {
@@ -10297,15 +11493,20 @@ class SqliMatchStatement {
           .whereNotNull()
           .map((e) => TextTransformation.fromJson(e as Map<String, dynamic>))
           .toList(),
+      sensitivityLevel:
+          (json['SensitivityLevel'] as String?)?.toSensitivityLevel(),
     );
   }
 
   Map<String, dynamic> toJson() {
     final fieldToMatch = this.fieldToMatch;
     final textTransformations = this.textTransformations;
+    final sensitivityLevel = this.sensitivityLevel;
     return {
       'FieldToMatch': fieldToMatch,
       'TextTransformations': textTransformations,
+      if (sensitivityLevel != null)
+        'SensitivityLevel': sensitivityLevel.toValue(),
     };
   }
 }
@@ -10322,8 +11523,8 @@ class Statement {
   /// requests. The byte match statement provides the bytes to search for, the
   /// location in requests that you want WAF to search, and other settings. The
   /// bytes to search for are typically a string that corresponds with ASCII
-  /// characters. In the WAF console and the developer guide, this is refered to
-  /// as a string match statement.
+  /// characters. In the WAF console and the developer guide, this is called a
+  /// string match statement.
   final ByteMatchStatement? byteMatchStatement;
 
   /// A rule statement used to identify web requests based on country of origin.
@@ -10407,10 +11608,11 @@ class Statement {
   /// </li>
   /// </ul>
   /// In this rate-based rule, you also define a rate limit. For this example, the
-  /// rate limit is 1,000. Requests that meet both of the conditions in the
+  /// rate limit is 1,000. Requests that meet the criteria of both of the nested
   /// statements are counted. If the count exceeds 1,000 requests per five
-  /// minutes, the rule action triggers. Requests that do not meet both conditions
-  /// are not counted towards the rate limit and are not affected by this rule.
+  /// minutes, the rule action triggers. Requests that do not meet the criteria of
+  /// both of the nested statements are not counted towards the rate limit and are
+  /// not affected by this rule.
   ///
   /// You cannot nest a <code>RateBasedStatement</code> inside another statement,
   /// for example inside a <code>NotStatement</code> or <code>OrStatement</code>.
@@ -10451,7 +11653,7 @@ class Statement {
   ///
   /// If you configure WAF to inspect the request body, WAF inspects only the
   /// first 8192 bytes (8 KB). If the request body for your web requests never
-  /// exceeds 8192 bytes, you can create a size constraint condition and block
+  /// exceeds 8192 bytes, you could use a size constraint statement to block
   /// requests that have a request body greater than 8192 bytes.
   ///
   /// If you choose URI for the value of Part of the request to filter on, the
@@ -10459,22 +11661,15 @@ class Statement {
   /// <code>/logo.jpg</code> is nine characters long.
   final SizeConstraintStatement? sizeConstraintStatement;
 
-  /// Attackers sometimes insert malicious SQL code into web requests in an effort
-  /// to extract data from your database. To allow or block web requests that
-  /// appear to contain malicious SQL code, create one or more SQL injection match
-  /// conditions. An SQL injection match condition identifies the part of web
-  /// requests, such as the URI or the query string, that you want WAF to inspect.
-  /// Later in the process, when you create a web ACL, you specify whether to
-  /// allow or block requests that appear to contain malicious SQL code.
+  /// A rule statement that inspects for malicious SQL code. Attackers insert
+  /// malicious SQL code into web requests to do things like modify your database
+  /// or extract data from it.
   final SqliMatchStatement? sqliMatchStatement;
 
-  /// A rule statement that defines a cross-site scripting (XSS) match search for
-  /// WAF to apply to web requests. XSS attacks are those where the attacker uses
-  /// vulnerabilities in a benign website as a vehicle to inject malicious
-  /// client-site scripts into other legitimate web browsers. The XSS match
-  /// statement provides the location in requests that you want WAF to search and
-  /// text transformations to use on the search area before WAF searches for
-  /// character sequences that are likely to be malicious strings.
+  /// A rule statement that inspects for cross-site scripting (XSS) attacks. In
+  /// XSS attacks, the attacker uses vulnerabilities in a benign website as a
+  /// vehicle to inject malicious client-site scripts into other legitimate web
+  /// browsers.
   final XssMatchStatement? xssMatchStatement;
 
   Statement({
@@ -11217,12 +12412,12 @@ class UpdateWebACLResponse {
   }
 }
 
-/// The path component of the URI of a web request. This is the part of a web
-/// request that identifies a resource. For example,
+/// Inspect the path component of the URI of the web request. This is the part
+/// of the web request that identifies a resource. For example,
 /// <code>/images/daily-ad.jpg</code>.
 ///
-/// This is used only to indicate the web request component for WAF to inspect,
-/// in the <a>FieldToMatch</a> specification.
+/// This is used only in the <a>FieldToMatch</a> specification for some web
+/// request component types.
 ///
 /// JSON specification: <code>"UriPath": {}</code>
 class UriPath {
@@ -11234,6 +12429,30 @@ class UriPath {
 
   Map<String, dynamic> toJson() {
     return {};
+  }
+}
+
+/// Details about your login page username field, used in a
+/// <code>ManagedRuleGroupConfig</code>.
+class UsernameField {
+  /// The name of the username field. For example <code>/form/username</code>.
+  final String identifier;
+
+  UsernameField({
+    required this.identifier,
+  });
+
+  factory UsernameField.fromJson(Map<String, dynamic> json) {
+    return UsernameField(
+      identifier: json['Identifier'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final identifier = this.identifier;
+    return {
+      'Identifier': identifier,
+    };
   }
 }
 
@@ -11293,7 +12512,8 @@ class VisibilityConfig {
   /// A name of the Amazon CloudWatch metric. The name can contain only the
   /// characters: A-Z, a-z, 0-9, - (hyphen), and _ (underscore). The name can be
   /// from one to 128 characters long. It can't contain whitespace or metric names
-  /// reserved for WAF, for example "All" and "Default_Action."
+  /// reserved for WAF, for example <code>All</code> and
+  /// <code>Default_Action</code>.
   final String metricName;
 
   /// A boolean indicating whether WAF should store a sampling of the web requests
@@ -11613,16 +12833,12 @@ class WebACLSummary {
   }
 }
 
-/// A rule statement that defines a cross-site scripting (XSS) match search for
-/// WAF to apply to web requests. XSS attacks are those where the attacker uses
-/// vulnerabilities in a benign website as a vehicle to inject malicious
-/// client-site scripts into other legitimate web browsers. The XSS match
-/// statement provides the location in requests that you want WAF to search and
-/// text transformations to use on the search area before WAF searches for
-/// character sequences that are likely to be malicious strings.
+/// A rule statement that inspects for cross-site scripting (XSS) attacks. In
+/// XSS attacks, the attacker uses vulnerabilities in a benign website as a
+/// vehicle to inject malicious client-site scripts into other legitimate web
+/// browsers.
 class XssMatchStatement {
-  /// The part of a web request that you want WAF to inspect. For more
-  /// information, see <a>FieldToMatch</a>.
+  /// The part of the web request that you want WAF to inspect.
   final FieldToMatch fieldToMatch;
 
   /// Text transformations eliminate some of the unusual formatting that attackers
@@ -11662,6 +12878,14 @@ class XssMatchStatement {
 class WAFAssociatedItemException extends _s.GenericAwsException {
   WAFAssociatedItemException({String? type, String? message})
       : super(type: type, code: 'WAFAssociatedItemException', message: message);
+}
+
+class WAFConfigurationWarningException extends _s.GenericAwsException {
+  WAFConfigurationWarningException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'WAFConfigurationWarningException',
+            message: message);
 }
 
 class WAFDuplicateItemException extends _s.GenericAwsException {
@@ -11773,6 +12997,8 @@ class WAFUnavailableEntityException extends _s.GenericAwsException {
 final _exceptionFns = <String, _s.AwsExceptionFn>{
   'WAFAssociatedItemException': (type, message) =>
       WAFAssociatedItemException(type: type, message: message),
+  'WAFConfigurationWarningException': (type, message) =>
+      WAFConfigurationWarningException(type: type, message: message),
   'WAFDuplicateItemException': (type, message) =>
       WAFDuplicateItemException(type: type, message: message),
   'WAFExpiredManagedRuleGroupVersionException': (type, message) =>

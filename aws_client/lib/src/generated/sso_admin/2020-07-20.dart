@@ -18,19 +18,7 @@ import '../../shared/shared.dart'
 
 export '../../shared/shared.dart' show AwsClientCredentials;
 
-/// Amazon Web Services Single Sign On (SSO) is a cloud SSO service that makes
-/// it easy to centrally manage SSO access to multiple Amazon Web Services
-/// accounts and business applications. This guide provides information on SSO
-/// operations which could be used for access management of Amazon Web Services
-/// accounts. For information about Amazon Web Services SSO features, see the <a
-/// href="https://docs.aws.amazon.com/singlesignon/latest/userguide/what-is.html">Amazon
-/// Web Services Single Sign-On User Guide</a>.
-///
-/// Many operations in the SSO APIs rely on identifiers for users and groups,
-/// known as principals. For more information about how to work with principals
-/// and principal IDs in Amazon Web Services SSO, see the <a
-/// href="https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/welcome.html">Amazon
-/// Web Services SSO Identity Store API Reference</a>.
+/// <p/>
 class SsoAdmin {
   final _s.JsonProtocol _protocol;
   SsoAdmin({
@@ -49,7 +37,57 @@ class SsoAdmin {
           endpointUrl: endpointUrl,
         );
 
-  /// Attaches an IAM managed policy ARN to a permission set.
+  /// Attaches the specified IAM customer managed policy to the specified
+  /// <a>PermissionSet</a>.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [customerManagedPolicyReference] :
+  /// Specifies the name and path of the IAM customer managed policy. You must
+  /// have an IAM policy that matches the name and path in each Amazon Web
+  /// Services account where you want to deploy your permission set.
+  ///
+  /// Parameter [instanceArn] :
+  /// The ARN of the SSO instance under which the operation will be executed.
+  ///
+  /// Parameter [permissionSetArn] :
+  /// The ARN of the <code>PermissionSet</code>.
+  Future<void> attachCustomerManagedPolicyReferenceToPermissionSet({
+    required CustomerManagedPolicyReference customerManagedPolicyReference,
+    required String instanceArn,
+    required String permissionSetArn,
+  }) async {
+    ArgumentError.checkNotNull(
+        customerManagedPolicyReference, 'customerManagedPolicyReference');
+    ArgumentError.checkNotNull(instanceArn, 'instanceArn');
+    ArgumentError.checkNotNull(permissionSetArn, 'permissionSetArn');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'SWBExternalService.AttachCustomerManagedPolicyReferenceToPermissionSet'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'CustomerManagedPolicyReference': customerManagedPolicyReference,
+        'InstanceArn': instanceArn,
+        'PermissionSetArn': permissionSetArn,
+      },
+    );
+  }
+
+  /// Attaches an Amazon Web Services managed IAM policy ARN to a permission
+  /// set.
   /// <note>
   /// If the permission set is already referenced by one or more account
   /// assignments, you will need to call <code> <a>ProvisionPermissionSet</a>
@@ -73,7 +111,8 @@ class SsoAdmin {
   /// <i>Amazon Web Services General Reference</i>.
   ///
   /// Parameter [managedPolicyArn] :
-  /// The IAM managed policy ARN to be attached to a permission set.
+  /// The Amazon Web Services managed policy ARN to be attached to a permission
+  /// set.
   ///
   /// Parameter [permissionSetArn] :
   /// The ARN of the <a>PermissionSet</a> that the managed policy should be
@@ -509,6 +548,43 @@ class SsoAdmin {
     );
   }
 
+  /// Deletes the permissions boundary from a specified <a>PermissionSet</a>.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [instanceArn] :
+  /// The ARN of the SSO instance under which the operation will be executed.
+  ///
+  /// Parameter [permissionSetArn] :
+  /// The ARN of the <code>PermissionSet</code>.
+  Future<void> deletePermissionsBoundaryFromPermissionSet({
+    required String instanceArn,
+    required String permissionSetArn,
+  }) async {
+    ArgumentError.checkNotNull(instanceArn, 'instanceArn');
+    ArgumentError.checkNotNull(permissionSetArn, 'permissionSetArn');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'SWBExternalService.DeletePermissionsBoundaryFromPermissionSet'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'InstanceArn': instanceArn,
+        'PermissionSetArn': permissionSetArn,
+      },
+    );
+  }
+
   /// Describes the status of the assignment creation request.
   ///
   /// May throw [ResourceNotFoundException].
@@ -733,8 +809,56 @@ class SsoAdmin {
         jsonResponse.body);
   }
 
-  /// Detaches the attached IAM managed policy ARN from the specified permission
-  /// set.
+  /// Detaches the specified IAM customer managed policy from the specified
+  /// <a>PermissionSet</a>.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [customerManagedPolicyReference] :
+  /// Specifies the name and path of the IAM customer managed policy. You must
+  /// have an IAM policy that matches the name and path in each Amazon Web
+  /// Services account where you want to deploy your permission set.
+  ///
+  /// Parameter [instanceArn] :
+  /// The ARN of the SSO instance under which the operation will be executed.
+  ///
+  /// Parameter [permissionSetArn] :
+  /// The ARN of the <code>PermissionSet</code>.
+  Future<void> detachCustomerManagedPolicyReferenceFromPermissionSet({
+    required CustomerManagedPolicyReference customerManagedPolicyReference,
+    required String instanceArn,
+    required String permissionSetArn,
+  }) async {
+    ArgumentError.checkNotNull(
+        customerManagedPolicyReference, 'customerManagedPolicyReference');
+    ArgumentError.checkNotNull(instanceArn, 'instanceArn');
+    ArgumentError.checkNotNull(permissionSetArn, 'permissionSetArn');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'SWBExternalService.DetachCustomerManagedPolicyReferenceFromPermissionSet'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'CustomerManagedPolicyReference': customerManagedPolicyReference,
+        'InstanceArn': instanceArn,
+        'PermissionSetArn': permissionSetArn,
+      },
+    );
+  }
+
+  /// Detaches the attached Amazon Web Services managed IAM policy ARN from the
+  /// specified permission set.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
@@ -751,7 +875,8 @@ class SsoAdmin {
   /// <i>Amazon Web Services General Reference</i>.
   ///
   /// Parameter [managedPolicyArn] :
-  /// The IAM managed policy ARN to be attached to a permission set.
+  /// The Amazon Web Services managed policy ARN to be detached from a
+  /// permission set.
   ///
   /// Parameter [permissionSetArn] :
   /// The ARN of the <a>PermissionSet</a> from which the policy should be
@@ -823,6 +948,47 @@ class SsoAdmin {
     );
 
     return GetInlinePolicyForPermissionSetResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Obtains the permissions boundary for a specified <a>PermissionSet</a>.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [instanceArn] :
+  /// The ARN of the SSO instance under which the operation will be executed.
+  ///
+  /// Parameter [permissionSetArn] :
+  /// The ARN of the <code>PermissionSet</code>.
+  Future<GetPermissionsBoundaryForPermissionSetResponse>
+      getPermissionsBoundaryForPermissionSet({
+    required String instanceArn,
+    required String permissionSetArn,
+  }) async {
+    ArgumentError.checkNotNull(instanceArn, 'instanceArn');
+    ArgumentError.checkNotNull(permissionSetArn, 'permissionSetArn');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'SWBExternalService.GetPermissionsBoundaryForPermissionSet'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'InstanceArn': instanceArn,
+        'PermissionSetArn': permissionSetArn,
+      },
+    );
+
+    return GetPermissionsBoundaryForPermissionSetResponse.fromJson(
+        jsonResponse.body);
   }
 
   /// Lists the status of the Amazon Web Services account assignment creation
@@ -1084,6 +1250,65 @@ class SsoAdmin {
         jsonResponse.body);
   }
 
+  /// Lists all IAM customer managed policies attached to a specified
+  /// <a>PermissionSet</a>.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [instanceArn] :
+  /// The ARN of the SSO instance under which the operation will be executed.
+  ///
+  /// Parameter [permissionSetArn] :
+  /// The ARN of the <code>PermissionSet</code>.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to display for the list call.
+  ///
+  /// Parameter [nextToken] :
+  /// The pagination token for the list API. Initially the value is null. Use
+  /// the output of previous API calls to make subsequent calls.
+  Future<ListCustomerManagedPolicyReferencesInPermissionSetResponse>
+      listCustomerManagedPolicyReferencesInPermissionSet({
+    required String instanceArn,
+    required String permissionSetArn,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    ArgumentError.checkNotNull(instanceArn, 'instanceArn');
+    ArgumentError.checkNotNull(permissionSetArn, 'permissionSetArn');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'SWBExternalService.ListCustomerManagedPolicyReferencesInPermissionSet'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'InstanceArn': instanceArn,
+        'PermissionSetArn': permissionSetArn,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListCustomerManagedPolicyReferencesInPermissionSetResponse.fromJson(
+        jsonResponse.body);
+  }
+
   /// Lists the SSO instances that the caller has access to.
   ///
   /// May throw [InternalServerException].
@@ -1126,8 +1351,8 @@ class SsoAdmin {
     return ListInstancesResponse.fromJson(jsonResponse.body);
   }
 
-  /// Lists the IAM managed policy that is attached to a specified permission
-  /// set.
+  /// Lists the Amazon Web Services managed IAM policy that is attached to a
+  /// specified permission set.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
@@ -1530,6 +1755,51 @@ class SsoAdmin {
     );
   }
 
+  /// Attaches an Amazon Web Services managed or customer managed IAM policy to
+  /// the specified <a>PermissionSet</a> as a permissions boundary.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [instanceArn] :
+  /// The ARN of the SSO instance under which the operation will be executed.
+  ///
+  /// Parameter [permissionSetArn] :
+  /// The ARN of the <code>PermissionSet</code>.
+  ///
+  /// Parameter [permissionsBoundary] :
+  /// The permissions boundary that you want to attach to a
+  /// <code>PermissionSet</code>.
+  Future<void> putPermissionsBoundaryToPermissionSet({
+    required String instanceArn,
+    required String permissionSetArn,
+    required PermissionsBoundary permissionsBoundary,
+  }) async {
+    ArgumentError.checkNotNull(instanceArn, 'instanceArn');
+    ArgumentError.checkNotNull(permissionSetArn, 'permissionSetArn');
+    ArgumentError.checkNotNull(permissionsBoundary, 'permissionsBoundary');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'SWBExternalService.PutPermissionsBoundaryToPermissionSet'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'InstanceArn': instanceArn,
+        'PermissionSetArn': permissionSetArn,
+        'PermissionsBoundary': permissionsBoundary,
+      },
+    );
+  }
+
   /// Associates a set of tags with a specified resource.
   ///
   /// May throw [ResourceNotFoundException].
@@ -1773,7 +2043,10 @@ class AccessControlAttribute {
   }
 }
 
-/// The value used for mapping a specified attribute to an identity source.
+/// The value used for mapping a specified attribute to an identity source. For
+/// more information, see <a
+/// href="https://docs.aws.amazon.com/singlesignon/latest/userguide/attributemappingsconcept.html">Attribute
+/// mappings</a> in the Amazon Web Services Single Sign-On User Guide.
 class AccessControlAttributeValue {
   /// The identity source to use when mapping a specified attribute to Amazon Web
   /// Services SSO.
@@ -1987,6 +2260,19 @@ class AccountAssignmentOperationStatusMetadata {
   }
 }
 
+class AttachCustomerManagedPolicyReferenceToPermissionSetResponse {
+  AttachCustomerManagedPolicyReferenceToPermissionSetResponse();
+
+  factory AttachCustomerManagedPolicyReferenceToPermissionSetResponse.fromJson(
+      Map<String, dynamic> _) {
+    return AttachCustomerManagedPolicyReferenceToPermissionSetResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 class AttachManagedPolicyToPermissionSetResponse {
   AttachManagedPolicyToPermissionSetResponse();
 
@@ -2000,15 +2286,17 @@ class AttachManagedPolicyToPermissionSetResponse {
   }
 }
 
-/// A structure that stores the details of the IAM managed policy.
+/// A structure that stores the details of the Amazon Web Services managed IAM
+/// policy.
 class AttachedManagedPolicy {
-  /// The ARN of the IAM managed policy. For more information about ARNs, see <a
+  /// The ARN of the Amazon Web Services managed IAM policy. For more information
+  /// about ARNs, see <a
   /// href="/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource Names
   /// (ARNs) and Amazon Web Services Service Namespaces</a> in the <i>Amazon Web
   /// Services General Reference</i>.
   final String? arn;
 
-  /// The name of the IAM managed policy.
+  /// The name of the Amazon Web Services managed IAM policy.
   final String? name;
 
   AttachedManagedPolicy({
@@ -2100,6 +2388,41 @@ class CreatePermissionSetResponse {
   }
 }
 
+/// Specifies the name and path of the IAM customer managed policy. You must
+/// have an IAM policy that matches the name and path in each Amazon Web
+/// Services account where you want to deploy your permission set.
+class CustomerManagedPolicyReference {
+  /// The name of the policy document.
+  final String name;
+
+  /// The path for the policy. The default is <code>/</code>. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-friendly-names">Friendly
+  /// names and paths</a> in the Identity and Access Management user guide.
+  final String? path;
+
+  CustomerManagedPolicyReference({
+    required this.name,
+    this.path,
+  });
+
+  factory CustomerManagedPolicyReference.fromJson(Map<String, dynamic> json) {
+    return CustomerManagedPolicyReference(
+      name: json['Name'] as String,
+      path: json['Path'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final path = this.path;
+    return {
+      'Name': name,
+      if (path != null) 'Path': path,
+    };
+  }
+}
+
 class DeleteAccountAssignmentResponse {
   /// The status object for the account assignment deletion operation.
   final AccountAssignmentOperationStatus? accountAssignmentDeletionStatus;
@@ -2160,6 +2483,19 @@ class DeletePermissionSetResponse {
 
   factory DeletePermissionSetResponse.fromJson(Map<String, dynamic> _) {
     return DeletePermissionSetResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class DeletePermissionsBoundaryFromPermissionSetResponse {
+  DeletePermissionsBoundaryFromPermissionSetResponse();
+
+  factory DeletePermissionsBoundaryFromPermissionSetResponse.fromJson(
+      Map<String, dynamic> _) {
+    return DeletePermissionsBoundaryFromPermissionSetResponse();
   }
 
   Map<String, dynamic> toJson() {
@@ -2330,6 +2666,19 @@ class DescribePermissionSetResponse {
   }
 }
 
+class DetachCustomerManagedPolicyReferenceFromPermissionSetResponse {
+  DetachCustomerManagedPolicyReferenceFromPermissionSetResponse();
+
+  factory DetachCustomerManagedPolicyReferenceFromPermissionSetResponse.fromJson(
+      Map<String, dynamic> _) {
+    return DetachCustomerManagedPolicyReferenceFromPermissionSetResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 class DetachManagedPolicyFromPermissionSetResponse {
   DetachManagedPolicyFromPermissionSetResponse();
 
@@ -2362,6 +2711,33 @@ class GetInlinePolicyForPermissionSetResponse {
     final inlinePolicy = this.inlinePolicy;
     return {
       if (inlinePolicy != null) 'InlinePolicy': inlinePolicy,
+    };
+  }
+}
+
+class GetPermissionsBoundaryForPermissionSetResponse {
+  /// The permissions boundary attached to the specified permission set.
+  final PermissionsBoundary? permissionsBoundary;
+
+  GetPermissionsBoundaryForPermissionSetResponse({
+    this.permissionsBoundary,
+  });
+
+  factory GetPermissionsBoundaryForPermissionSetResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetPermissionsBoundaryForPermissionSetResponse(
+      permissionsBoundary: json['PermissionsBoundary'] != null
+          ? PermissionsBoundary.fromJson(
+              json['PermissionsBoundary'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final permissionsBoundary = this.permissionsBoundary;
+    return {
+      if (permissionsBoundary != null)
+        'PermissionsBoundary': permissionsBoundary,
     };
   }
 }
@@ -2607,6 +2983,45 @@ class ListAccountsForProvisionedPermissionSetResponse {
     final nextToken = this.nextToken;
     return {
       if (accountIds != null) 'AccountIds': accountIds,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListCustomerManagedPolicyReferencesInPermissionSetResponse {
+  /// Specifies the names and paths of the IAM customer managed policies that you
+  /// have attached to your permission set.
+  final List<CustomerManagedPolicyReference>? customerManagedPolicyReferences;
+
+  /// The pagination token for the list API. Initially the value is null. Use the
+  /// output of previous API calls to make subsequent calls.
+  final String? nextToken;
+
+  ListCustomerManagedPolicyReferencesInPermissionSetResponse({
+    this.customerManagedPolicyReferences,
+    this.nextToken,
+  });
+
+  factory ListCustomerManagedPolicyReferencesInPermissionSetResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListCustomerManagedPolicyReferencesInPermissionSetResponse(
+      customerManagedPolicyReferences:
+          (json['CustomerManagedPolicyReferences'] as List?)
+              ?.whereNotNull()
+              .map((e) => CustomerManagedPolicyReference.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final customerManagedPolicyReferences =
+        this.customerManagedPolicyReferences;
+    final nextToken = this.nextToken;
+    return {
+      if (customerManagedPolicyReferences != null)
+        'CustomerManagedPolicyReferences': customerManagedPolicyReferences,
       if (nextToken != null) 'NextToken': nextToken,
     };
   }
@@ -3010,6 +3425,61 @@ class PermissionSetProvisioningStatusMetadata {
   }
 }
 
+/// Specifies the configuration of the Amazon Web Services managed or customer
+/// managed policy that you want to set as a permissions boundary. Specify
+/// either <code>CustomerManagedPolicyReference</code> to use the name and path
+/// of a customer managed policy, or <code>ManagedPolicyArn</code> to use the
+/// ARN of an Amazon Web Services managed IAM policy. A permissions boundary
+/// represents the maximum permissions that any policy can grant your role. For
+/// more information, see <a
+/// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html">Permissions
+/// boundaries for IAM entities</a> in the <i>Identity and Access Management
+/// User Guide</i>.
+/// <important>
+/// Policies used as permissions boundaries do not provide permissions. You must
+/// also attach an IAM policy to the role. To learn how the effective
+/// permissions for a role are evaluated, see <a
+/// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html">IAM
+/// JSON policy evaluation logic</a> in the <i>Identity and Access Management
+/// User Guide</i>.
+/// </important>
+class PermissionsBoundary {
+  /// Specifies the name and path of the IAM customer managed policy. You must
+  /// have an IAM policy that matches the name and path in each Amazon Web
+  /// Services account where you want to deploy your permission set.
+  final CustomerManagedPolicyReference? customerManagedPolicyReference;
+
+  /// The Amazon Web Services managed policy ARN that you want to attach to a
+  /// permission set as a permissions boundary.
+  final String? managedPolicyArn;
+
+  PermissionsBoundary({
+    this.customerManagedPolicyReference,
+    this.managedPolicyArn,
+  });
+
+  factory PermissionsBoundary.fromJson(Map<String, dynamic> json) {
+    return PermissionsBoundary(
+      customerManagedPolicyReference: json['CustomerManagedPolicyReference'] !=
+              null
+          ? CustomerManagedPolicyReference.fromJson(
+              json['CustomerManagedPolicyReference'] as Map<String, dynamic>)
+          : null,
+      managedPolicyArn: json['ManagedPolicyArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final customerManagedPolicyReference = this.customerManagedPolicyReference;
+    final managedPolicyArn = this.managedPolicyArn;
+    return {
+      if (customerManagedPolicyReference != null)
+        'CustomerManagedPolicyReference': customerManagedPolicyReference,
+      if (managedPolicyArn != null) 'ManagedPolicyArn': managedPolicyArn,
+    };
+  }
+}
+
 enum PrincipalType {
   user,
   group,
@@ -3136,6 +3606,19 @@ class PutInlinePolicyToPermissionSetResponse {
   }
 }
 
+class PutPermissionsBoundaryToPermissionSetResponse {
+  PutPermissionsBoundaryToPermissionSetResponse();
+
+  factory PutPermissionsBoundaryToPermissionSetResponse.fromJson(
+      Map<String, dynamic> _) {
+    return PutPermissionsBoundaryToPermissionSetResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 enum StatusValues {
   inProgress,
   failed,
@@ -3174,20 +3657,20 @@ extension on String {
 /// that Amazon Web Services SSO creates in Amazon Web Services accounts.
 class Tag {
   /// The key for the tag.
-  final String? key;
+  final String key;
 
   /// The value of the tag.
-  final String? value;
+  final String value;
 
   Tag({
-    this.key,
-    this.value,
+    required this.key,
+    required this.value,
   });
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: json['Key'] as String?,
-      value: json['Value'] as String?,
+      key: json['Key'] as String,
+      value: json['Value'] as String,
     );
   }
 
@@ -3195,8 +3678,8 @@ class Tag {
     final key = this.key;
     final value = this.value;
     return {
-      if (key != null) 'Key': key,
-      if (value != null) 'Value': value,
+      'Key': key,
+      'Value': value,
     };
   }
 }

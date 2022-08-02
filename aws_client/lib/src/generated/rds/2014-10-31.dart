@@ -171,6 +171,10 @@ class Rds {
   /// If the source type is a DB cluster snapshot, a
   /// <code>DBClusterSnapshotIdentifier</code> value must be supplied.
   /// </li>
+  /// <li>
+  /// If the source type is an RDS Proxy, a <code>DBProxyName</code> value must
+  /// be supplied.
+  /// </li>
   /// </ul>
   ///
   /// Parameter [subscriptionName] :
@@ -396,9 +400,9 @@ class Rds {
   /// For more information on backtracking, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/AuroraMySQL.Managing.Backtrack.html">
   /// Backtracking an Aurora DB Cluster</a> in the <i>Amazon Aurora User
-  /// Guide.</i>
+  /// Guide</i>.
   /// <note>
-  /// This action only applies to Aurora MySQL DB clusters.
+  /// This action applies only to Aurora MySQL DB clusters.
   /// </note>
   ///
   /// May throw [DBClusterNotFoundFault].
@@ -597,7 +601,7 @@ class Rds {
   ///
   /// You can copy an encrypted DB cluster snapshot from another Amazon Web
   /// Services Region. In that case, the Amazon Web Services Region where you
-  /// call the <code>CopyDBClusterSnapshot</code> action is the destination
+  /// call the <code>CopyDBClusterSnapshot</code> operation is the destination
   /// Amazon Web Services Region for the encrypted DB cluster snapshot to be
   /// copied to. To copy an encrypted DB cluster snapshot from another Amazon
   /// Web Services Region, you must provide the following values:
@@ -610,55 +614,6 @@ class Rds {
   /// Region.
   /// </li>
   /// <li>
-  /// <code>PreSignedUrl</code> - A URL that contains a Signature Version 4
-  /// signed request for the <code>CopyDBClusterSnapshot</code> action to be
-  /// called in the source Amazon Web Services Region where the DB cluster
-  /// snapshot is copied from. The pre-signed URL must be a valid request for
-  /// the <code>CopyDBClusterSnapshot</code> API action that can be executed in
-  /// the source Amazon Web Services Region that contains the encrypted DB
-  /// cluster snapshot to be copied.
-  ///
-  /// The pre-signed URL request must contain the following parameter values:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>KmsKeyId</code> - The Amazon Web Services KMS key identifier for the
-  /// KMS key to use to encrypt the copy of the DB cluster snapshot in the
-  /// destination Amazon Web Services Region. This is the same identifier for
-  /// both the <code>CopyDBClusterSnapshot</code> action that is called in the
-  /// destination Amazon Web Services Region, and the action contained in the
-  /// pre-signed URL.
-  /// </li>
-  /// <li>
-  /// <code>DestinationRegion</code> - The name of the Amazon Web Services
-  /// Region that the DB cluster snapshot is to be created in.
-  /// </li>
-  /// <li>
-  /// <code>SourceDBClusterSnapshotIdentifier</code> - The DB cluster snapshot
-  /// identifier for the encrypted DB cluster snapshot to be copied. This
-  /// identifier must be in the Amazon Resource Name (ARN) format for the source
-  /// Amazon Web Services Region. For example, if you are copying an encrypted
-  /// DB cluster snapshot from the us-west-2 Amazon Web Services Region, then
-  /// your <code>SourceDBClusterSnapshotIdentifier</code> looks like the
-  /// following example:
-  /// <code>arn:aws:rds:us-west-2:123456789012:cluster-snapshot:aurora-cluster1-snapshot-20161115</code>.
-  /// </li>
-  /// </ul>
-  /// To learn how to generate a Signature Version 4 signed request, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/sigv4-query-string-auth.html">
-  /// Authenticating Requests: Using Query Parameters (Amazon Web Services
-  /// Signature Version 4)</a> and <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">
-  /// Signature Version 4 Signing Process</a>.
-  /// <note>
-  /// If you are using an Amazon Web Services SDK tool or the CLI, you can
-  /// specify <code>SourceRegion</code> (or <code>--source-region</code> for the
-  /// CLI) instead of specifying <code>PreSignedUrl</code> manually. Specifying
-  /// <code>SourceRegion</code> autogenerates a pre-signed URL that is a valid
-  /// request for the operation that can be executed in the source Amazon Web
-  /// Services Region.
-  /// </note> </li>
-  /// <li>
   /// <code>TargetDBClusterSnapshotIdentifier</code> - The identifier for the
   /// new copy of the DB cluster snapshot in the destination Amazon Web Services
   /// Region.
@@ -668,7 +623,7 @@ class Rds {
   /// identifier for the encrypted DB cluster snapshot to be copied. This
   /// identifier must be in the ARN format for the source Amazon Web Services
   /// Region and is the same value as the
-  /// <code>SourceDBClusterSnapshotIdentifier</code> in the pre-signed URL.
+  /// <code>SourceDBClusterSnapshotIdentifier</code> in the presigned URL.
   /// </li>
   /// </ul>
   /// To cancel the copy operation once it is in progress, delete the target DB
@@ -679,19 +634,16 @@ class Rds {
   /// For more information on copying encrypted Amazon Aurora DB cluster
   /// snapshots from one Amazon Web Services Region to another, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_CopySnapshot.html">
-  /// Copying a Snapshot</a> in the <i>Amazon Aurora User Guide.</i>
+  /// Copying a Snapshot</a> in the <i>Amazon Aurora User Guide</i>.
   ///
   /// For more information on Amazon Aurora DB clusters, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html">
-  /// What is Amazon Aurora?</a> in the <i>Amazon Aurora User Guide.</i>
+  /// What is Amazon Aurora?</a> in the <i>Amazon Aurora User Guide</i>.
   ///
   /// For more information on Multi-AZ DB clusters, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html">
   /// Multi-AZ deployments with two readable standby DB instances</a> in the
-  /// <i>Amazon RDS User Guide.</i>
-  /// <note>
-  /// The Multi-AZ DB clusters feature is in preview and is subject to change.
-  /// </note>
+  /// <i>Amazon RDS User Guide</i>.
   ///
   /// May throw [DBClusterSnapshotAlreadyExistsFault].
   /// May throw [DBClusterSnapshotNotFoundFault].
@@ -723,7 +675,7 @@ class Rds {
   /// go to <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_CopySnapshot.html#USER_CopySnapshot.AcrossRegions">
   /// Copying Snapshots Across Amazon Web Services Regions</a> in the <i>Amazon
-  /// Aurora User Guide.</i>
+  /// Aurora User Guide</i>.
   /// </li>
   /// </ul>
   /// Example: <code>my-cluster-snapshot1</code>
@@ -779,28 +731,32 @@ class Rds {
   /// <code>KmsKeyId</code> parameter, an error is returned.
   ///
   /// Parameter [preSignedUrl] :
-  /// The URL that contains a Signature Version 4 signed request for the
-  /// <code>CopyDBClusterSnapshot</code> API action in the Amazon Web Services
-  /// Region that contains the source DB cluster snapshot to copy. The
-  /// <code>PreSignedUrl</code> parameter must be used when copying an encrypted
-  /// DB cluster snapshot from another Amazon Web Services Region. Don't specify
-  /// <code>PreSignedUrl</code> when you are copying an encrypted DB cluster
-  /// snapshot in the same Amazon Web Services Region.
+  /// When you are copying a DB cluster snapshot from one Amazon Web Services
+  /// GovCloud (US) Region to another, the URL that contains a Signature Version
+  /// 4 signed request for the <code>CopyDBClusterSnapshot</code> API operation
+  /// in the Amazon Web Services Region that contains the source DB cluster
+  /// snapshot to copy. Use the <code>PreSignedUrl</code> parameter when copying
+  /// an encrypted DB cluster snapshot from another Amazon Web Services Region.
+  /// Don't specify <code>PreSignedUrl</code> when copying an encrypted DB
+  /// cluster snapshot in the same Amazon Web Services Region.
   ///
-  /// The pre-signed URL must be a valid request for the
-  /// <code>CopyDBClusterSnapshot</code> API action that can be executed in the
+  /// This setting applies only to Amazon Web Services GovCloud (US) Regions.
+  /// It's ignored in other Amazon Web Services Regions.
+  ///
+  /// The presigned URL must be a valid request for the
+  /// <code>CopyDBClusterSnapshot</code> API operation that can run in the
   /// source Amazon Web Services Region that contains the encrypted DB cluster
-  /// snapshot to be copied. The pre-signed URL request must contain the
-  /// following parameter values:
+  /// snapshot to copy. The presigned URL request must contain the following
+  /// parameter values:
   ///
   /// <ul>
   /// <li>
-  /// <code>KmsKeyId</code> - The Amazon Web Services KMS key identifier for the
-  /// KMS key to use to encrypt the copy of the DB cluster snapshot in the
-  /// destination Amazon Web Services Region. This is the same identifier for
-  /// both the <code>CopyDBClusterSnapshot</code> action that is called in the
-  /// destination Amazon Web Services Region, and the action contained in the
-  /// pre-signed URL.
+  /// <code>KmsKeyId</code> - The KMS key identifier for the KMS key to use to
+  /// encrypt the copy of the DB cluster snapshot in the destination Amazon Web
+  /// Services Region. This is the same identifier for both the
+  /// <code>CopyDBClusterSnapshot</code> operation that is called in the
+  /// destination Amazon Web Services Region, and the operation contained in the
+  /// presigned URL.
   /// </li>
   /// <li>
   /// <code>DestinationRegion</code> - The name of the Amazon Web Services
@@ -827,9 +783,9 @@ class Rds {
   /// If you are using an Amazon Web Services SDK tool or the CLI, you can
   /// specify <code>SourceRegion</code> (or <code>--source-region</code> for the
   /// CLI) instead of specifying <code>PreSignedUrl</code> manually. Specifying
-  /// <code>SourceRegion</code> autogenerates a pre-signed URL that is a valid
-  /// request for the operation that can be executed in the source Amazon Web
-  /// Services Region.
+  /// <code>SourceRegion</code> autogenerates a presigned URL that is a valid
+  /// request for the operation that can run in the source Amazon Web Services
+  /// Region.
   /// </note><note>
   /// If you supply a value for this operation's <code>SourceRegion</code>
   /// parameter, a pre-signed URL will be calculated on your behalf.
@@ -957,14 +913,14 @@ class Rds {
   ///
   /// You can copy a snapshot from one Amazon Web Services Region to another. In
   /// that case, the Amazon Web Services Region where you call the
-  /// <code>CopyDBSnapshot</code> action is the destination Amazon Web Services
-  /// Region for the DB snapshot copy.
+  /// <code>CopyDBSnapshot</code> operation is the destination Amazon Web
+  /// Services Region for the DB snapshot copy.
   ///
   /// This command doesn't apply to RDS Custom.
   ///
   /// For more information about copying snapshots, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_CopySnapshot.html#USER_CopyDBSnapshot">Copying
-  /// a DB Snapshot</a> in the <i>Amazon RDS User Guide.</i>
+  /// a DB Snapshot</a> in the <i>Amazon RDS User Guide</i>.
   ///
   /// May throw [DBSnapshotAlreadyExistsFault].
   /// May throw [DBSnapshotNotFoundFault].
@@ -988,9 +944,7 @@ class Rds {
   /// be the Amazon Resource Name (ARN) of the shared DB snapshot.
   ///
   /// If you are copying an encrypted snapshot this parameter must be in the ARN
-  /// format for the source Amazon Web Services Region, and must match the
-  /// <code>SourceDBSnapshotIdentifier</code> in the <code>PreSignedUrl</code>
-  /// parameter.
+  /// format for the source Amazon Web Services Region.
   ///
   /// Constraints:
   ///
@@ -1062,12 +1016,16 @@ class Rds {
   /// Oracle or Microsoft SQL Server, you must specify this option when copying
   /// across Amazon Web Services Regions. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_CopySnapshot.html#USER_CopySnapshot.Options">Option
-  /// group considerations</a> in the <i>Amazon RDS User Guide.</i>
+  /// group considerations</a> in the <i>Amazon RDS User Guide</i>.
   ///
   /// Parameter [preSignedUrl] :
-  /// The URL that contains a Signature Version 4 signed request for the
-  /// <code>CopyDBSnapshot</code> API action in the source Amazon Web Services
-  /// Region that contains the source DB snapshot to copy.
+  /// When you are copying a snapshot from one Amazon Web Services GovCloud (US)
+  /// Region to another, the URL that contains a Signature Version 4 signed
+  /// request for the <code>CopyDBSnapshot</code> API operation in the source
+  /// Amazon Web Services Region that contains the source DB snapshot to copy.
+  ///
+  /// This setting applies only to Amazon Web Services GovCloud (US) Regions.
+  /// It's ignored in other Amazon Web Services Regions.
   ///
   /// You must specify this parameter when you copy an encrypted DB snapshot
   /// from another Amazon Web Services Region by using the Amazon RDS API. Don't
@@ -1075,32 +1033,34 @@ class Rds {
   /// snapshot in the same Amazon Web Services Region.
   ///
   /// The presigned URL must be a valid request for the
-  /// <code>CopyDBSnapshot</code> API action that can be executed in the source
-  /// Amazon Web Services Region that contains the encrypted DB snapshot to be
-  /// copied. The presigned URL request must contain the following parameter
-  /// values:
+  /// <code>CopyDBClusterSnapshot</code> API operation that can run in the
+  /// source Amazon Web Services Region that contains the encrypted DB cluster
+  /// snapshot to copy. The presigned URL request must contain the following
+  /// parameter values:
   ///
   /// <ul>
   /// <li>
   /// <code>DestinationRegion</code> - The Amazon Web Services Region that the
   /// encrypted DB snapshot is copied to. This Amazon Web Services Region is the
-  /// same one where the <code>CopyDBSnapshot</code> action is called that
+  /// same one where the <code>CopyDBSnapshot</code> operation is called that
   /// contains this presigned URL.
   ///
   /// For example, if you copy an encrypted DB snapshot from the us-west-2
   /// Amazon Web Services Region to the us-east-1 Amazon Web Services Region,
-  /// then you call the <code>CopyDBSnapshot</code> action in the us-east-1
+  /// then you call the <code>CopyDBSnapshot</code> operation in the us-east-1
   /// Amazon Web Services Region and provide a presigned URL that contains a
-  /// call to the <code>CopyDBSnapshot</code> action in the us-west-2 Amazon Web
-  /// Services Region. For this example, the <code>DestinationRegion</code> in
-  /// the presigned URL must be set to the us-east-1 Amazon Web Services Region.
+  /// call to the <code>CopyDBSnapshot</code> operation in the us-west-2 Amazon
+  /// Web Services Region. For this example, the <code>DestinationRegion</code>
+  /// in the presigned URL must be set to the us-east-1 Amazon Web Services
+  /// Region.
   /// </li>
   /// <li>
-  /// <code>KmsKeyId</code> - The Amazon Web Services KMS key identifier for the
-  /// KMS key to use to encrypt the copy of the DB snapshot in the destination
-  /// Amazon Web Services Region. This is the same identifier for both the
-  /// <code>CopyDBSnapshot</code> action that is called in the destination
-  /// Amazon Web Services Region, and the action contained in the presigned URL.
+  /// <code>KmsKeyId</code> - The KMS key identifier for the KMS key to use to
+  /// encrypt the copy of the DB snapshot in the destination Amazon Web Services
+  /// Region. This is the same identifier for both the
+  /// <code>CopyDBSnapshot</code> operation that is called in the destination
+  /// Amazon Web Services Region, and the operation contained in the presigned
+  /// URL.
   /// </li>
   /// <li>
   /// <code>SourceDBSnapshotIdentifier</code> - The DB snapshot identifier for
@@ -1122,9 +1082,9 @@ class Rds {
   /// If you are using an Amazon Web Services SDK tool or the CLI, you can
   /// specify <code>SourceRegion</code> (or <code>--source-region</code> for the
   /// CLI) instead of specifying <code>PreSignedUrl</code> manually. Specifying
-  /// <code>SourceRegion</code> autogenerates a pre-signed URL that is a valid
-  /// request for the operation that can be executed in the source Amazon Web
-  /// Services Region.
+  /// <code>SourceRegion</code> autogenerates a presigned URL that is a valid
+  /// request for the operation that can run in the source Amazon Web Services
+  /// Region.
   /// </note><note>
   /// If you supply a value for this operation's <code>SourceRegion</code>
   /// parameter, a pre-signed URL will be calculated on your behalf.
@@ -1248,70 +1208,20 @@ class Rds {
     return CopyOptionGroupResult.fromXml($result);
   }
 
-  /// Creates a custom Availability Zone (AZ).
-  ///
-  /// A custom AZ is an on-premises AZ that is integrated with a VMware vSphere
-  /// cluster.
-  ///
-  /// For more information about RDS on VMware, see the <a
-  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/RDSonVMwareUserGuide/rds-on-vmware.html">
-  /// RDS on VMware User Guide.</a>
-  ///
-  /// May throw [CustomAvailabilityZoneAlreadyExistsFault].
-  /// May throw [CustomAvailabilityZoneQuotaExceededFault].
-  /// May throw [KMSKeyNotAccessibleFault].
-  ///
-  /// Parameter [customAvailabilityZoneName] :
-  /// The name of the custom Availability Zone (AZ).
-  ///
-  /// Parameter [existingVpnId] :
-  /// The ID of an existing virtual private network (VPN) between the Amazon RDS
-  /// website and the VMware vSphere cluster.
-  ///
-  /// Parameter [newVpnTunnelName] :
-  /// The name of a new VPN tunnel between the Amazon RDS website and the VMware
-  /// vSphere cluster.
-  ///
-  /// Specify this parameter only if <code>ExistingVpnId</code> isn't specified.
-  ///
-  /// Parameter [vpnTunnelOriginatorIP] :
-  /// The IP address of network traffic from your on-premises data center. A
-  /// custom AZ receives the network traffic.
-  ///
-  /// Specify this parameter only if <code>ExistingVpnId</code> isn't specified.
-  Future<CreateCustomAvailabilityZoneResult> createCustomAvailabilityZone({
-    required String customAvailabilityZoneName,
-    String? existingVpnId,
-    String? newVpnTunnelName,
-    String? vpnTunnelOriginatorIP,
-  }) async {
-    ArgumentError.checkNotNull(
-        customAvailabilityZoneName, 'customAvailabilityZoneName');
-    final $request = <String, dynamic>{};
-    $request['CustomAvailabilityZoneName'] = customAvailabilityZoneName;
-    existingVpnId?.also((arg) => $request['ExistingVpnId'] = arg);
-    newVpnTunnelName?.also((arg) => $request['NewVpnTunnelName'] = arg);
-    vpnTunnelOriginatorIP
-        ?.also((arg) => $request['VpnTunnelOriginatorIP'] = arg);
-    final $result = await _protocol.send(
-      $request,
-      action: 'CreateCustomAvailabilityZone',
-      version: '2014-10-31',
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      shape: shapes['CreateCustomAvailabilityZoneMessage'],
-      shapes: shapes,
-      resultWrapper: 'CreateCustomAvailabilityZoneResult',
-    );
-    return CreateCustomAvailabilityZoneResult.fromXml($result);
-  }
-
   /// Creates a custom DB engine version (CEV). A CEV is a binary volume
-  /// snapshot of a database engine and specific AMI. The only supported engine
-  /// is Oracle Database 19c Enterprise Edition with the January 2021 or later
-  /// RU/RUR.
+  /// snapshot of a database engine and specific AMI. The supported engines are
+  /// the following:
   ///
+  /// <ul>
+  /// <li>
+  /// Oracle Database 12.1 Enterprise Edition with the January 2021 or later
+  /// RU/RUR
+  /// </li>
+  /// <li>
+  /// Oracle Database 19c Enterprise Edition with the January 2021 or later
+  /// RU/RUR
+  /// </li>
+  /// </ul>
   /// Amazon RDS, which is a fully managed service, supplies the Amazon Machine
   /// Image (AMI) and database software. The Amazon RDS database software is
   /// preinstalled, so you need only select a DB engine and version, and create
@@ -1456,22 +1366,16 @@ class Rds {
   ///
   /// You can use the <code>ReplicationSourceIdentifier</code> parameter to
   /// create an Amazon Aurora DB cluster as a read replica of another DB cluster
-  /// or Amazon RDS MySQL or PostgreSQL DB instance. For cross-Region
-  /// replication where the DB cluster identified by
-  /// <code>ReplicationSourceIdentifier</code> is encrypted, also specify the
-  /// <code>PreSignedUrl</code> parameter.
+  /// or Amazon RDS MySQL or PostgreSQL DB instance.
   ///
   /// For more information on Amazon Aurora, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html">
-  /// What is Amazon Aurora?</a> in the <i>Amazon Aurora User Guide.</i>
+  /// What is Amazon Aurora?</a> in the <i>Amazon Aurora User Guide</i>.
   ///
   /// For more information on Multi-AZ DB clusters, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html">
   /// Multi-AZ deployments with two readable standby DB instances</a> in the
-  /// <i>Amazon RDS User Guide.</i>
-  /// <note>
-  /// The Multi-AZ DB clusters feature is in preview and is subject to change.
-  /// </note>
+  /// <i>Amazon RDS User Guide</i>.
   ///
   /// May throw [DBClusterAlreadyExistsFault].
   /// May throw [InsufficientStorageClusterCapacityFault].
@@ -1604,7 +1508,7 @@ class Rds {
   /// A value that indicates whether to copy all tags from the DB cluster to
   /// snapshots of the DB cluster. The default is not to copy them.
   ///
-  /// Valid for: Aurora DB clusters only
+  /// Valid for: Aurora DB clusters and Multi-AZ DB clusters
   ///
   /// Parameter [dBClusterInstanceClass] :
   /// The compute and memory capacity of each DB instance in the Multi-AZ DB
@@ -1614,7 +1518,7 @@ class Rds {
   /// For the full list of DB instance classes and availability for your engine,
   /// see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html">DB
-  /// instance class</a> in the <i>Amazon RDS User Guide.</i>
+  /// instance class</a> in the <i>Amazon RDS User Guide</i>.
   ///
   /// This setting is required to create a Multi-AZ DB cluster.
   ///
@@ -1643,7 +1547,7 @@ class Rds {
   /// Constraints: Must match the name of an existing DBSubnetGroup. Must not be
   /// default.
   ///
-  /// Example: <code>mySubnetgroup</code>
+  /// Example: <code>mydbsubnetgroup</code>
   ///
   /// Valid for: Aurora DB clusters and Multi-AZ DB clusters
   ///
@@ -1681,11 +1585,16 @@ class Rds {
   ///
   /// Parameter [enableCloudwatchLogsExports] :
   /// The list of log types that need to be enabled for exporting to CloudWatch
-  /// Logs. The values in the list depend on the DB engine being used. For more
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch">Publishing
-  /// Database Logs to Amazon CloudWatch Logs</a> in the <i>Amazon Aurora User
-  /// Guide</i>.
+  /// Logs. The values in the list depend on the DB engine being used.
+  ///
+  /// <b>RDS for MySQL</b>
+  ///
+  /// Possible values are <code>error</code>, <code>general</code>, and
+  /// <code>slowquery</code>.
+  ///
+  /// <b>RDS for PostgreSQL</b>
+  ///
+  /// Possible values are <code>postgresql</code> and <code>upgrade</code>.
   ///
   /// <b>Aurora MySQL</b>
   ///
@@ -1696,7 +1605,19 @@ class Rds {
   ///
   /// Possible value is <code>postgresql</code>.
   ///
-  /// Valid for: Aurora DB clusters only
+  /// For more information about exporting CloudWatch Logs for Amazon RDS, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch">Publishing
+  /// Database Logs to Amazon CloudWatch Logs</a> in the <i>Amazon RDS User
+  /// Guide</i>.
+  ///
+  /// For more information about exporting CloudWatch Logs for Amazon Aurora,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch">Publishing
+  /// Database Logs to Amazon CloudWatch Logs</a> in the <i>Amazon Aurora User
+  /// Guide</i>.
+  ///
+  /// Valid for: Aurora DB clusters and Multi-AZ DB clusters
   ///
   /// Parameter [enableGlobalWriteForwarding] :
   /// A value that indicates whether to enable this DB cluster to forward write
@@ -1717,15 +1638,16 @@ class Rds {
   ///
   /// Parameter [enableHttpEndpoint] :
   /// A value that indicates whether to enable the HTTP endpoint for an Aurora
-  /// Serverless DB cluster. By default, the HTTP endpoint is disabled.
+  /// Serverless v1 DB cluster. By default, the HTTP endpoint is disabled.
   ///
   /// When enabled, the HTTP endpoint provides a connectionless web service API
-  /// for running SQL queries on the Aurora Serverless DB cluster. You can also
-  /// query your database from inside the RDS console with the query editor.
+  /// for running SQL queries on the Aurora Serverless v1 DB cluster. You can
+  /// also query your database from inside the RDS console with the query
+  /// editor.
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/data-api.html">Using
-  /// the Data API for Aurora Serverless</a> in the <i>Amazon Aurora User
+  /// the Data API for Aurora Serverless v1</a> in the <i>Amazon Aurora User
   /// Guide</i>.
   ///
   /// Valid for: Aurora DB clusters only
@@ -1737,7 +1659,7 @@ class Rds {
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.IAMDBAuth.html">
-  /// IAM Database Authentication</a> in the <i>Amazon Aurora User Guide.</i>
+  /// IAM Database Authentication</a> in the <i>Amazon Aurora User Guide</i>.
   ///
   /// Valid for: Aurora DB clusters only
   ///
@@ -1767,6 +1689,9 @@ class Rds {
   /// The <code>multimaster</code> engine mode only applies for DB clusters
   /// created with Aurora MySQL version 5.6.10a.
   ///
+  /// The <code>serverless</code> engine mode only applies for Aurora Serverless
+  /// v1 DB clusters.
+  ///
   /// For Aurora PostgreSQL, the <code>global</code> engine mode isn't required,
   /// and both the <code>parallelquery</code> and the <code>multimaster</code>
   /// engine modes currently aren't supported.
@@ -1778,23 +1703,28 @@ class Rds {
   /// <ul>
   /// <li>
   /// <a
-  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless.html#aurora-serverless.limitations">
-  /// Limitations of Aurora Serverless</a>
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless.html#aurora-serverless.limitations">Limitations
+  /// of Aurora Serverless v1</a>
   /// </li>
   /// <li>
   /// <a
-  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-mysql-parallel-query.html#aurora-mysql-parallel-query-limitations">
-  /// Limitations of Parallel Query</a>
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless-v2.requirements.html">Requirements
+  /// for Aurora Serverless v2</a>
   /// </li>
   /// <li>
   /// <a
-  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-global-database.html#aurora-global-database.limitations">
-  /// Limitations of Aurora Global Databases</a>
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-mysql-parallel-query.html#aurora-mysql-parallel-query-limitations">Limitations
+  /// of Parallel Query</a>
   /// </li>
   /// <li>
   /// <a
-  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-multi-master.html#aurora-multi-master-limitations">
-  /// Limitations of Multi-Master Clusters</a>
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-global-database.html#aurora-global-database.limitations">Limitations
+  /// of Aurora Global Databases</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-multi-master.html#aurora-multi-master-limitations">Limitations
+  /// of Multi-Master Clusters</a>
   /// </li>
   /// </ul>
   /// Valid for: Aurora DB clusters only
@@ -1836,27 +1766,27 @@ class Rds {
   ///
   /// For information, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/AuroraMySQL.Updates.html">MySQL
-  /// on Amazon RDS Versions</a> in the <i>Amazon Aurora User Guide.</i>
+  /// on Amazon RDS Versions</a> in the <i>Amazon Aurora User Guide</i>.
   ///
   /// <b>Aurora PostgreSQL</b>
   ///
   /// For information, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/AuroraPostgreSQL.Updates.20180305.html">Amazon
   /// Aurora PostgreSQL releases and engine versions</a> in the <i>Amazon Aurora
-  /// User Guide.</i>
+  /// User Guide</i>.
   ///
   /// <b>MySQL</b>
   ///
   /// For information, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_MySQL.html#MySQL.Concepts.VersionMgmt">MySQL
-  /// on Amazon RDS Versions</a> in the <i>Amazon RDS User Guide.</i>
+  /// on Amazon RDS Versions</a> in the <i>Amazon RDS User Guide</i>.
   ///
   /// <b>PostgreSQL</b>
   ///
   /// For information, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_PostgreSQL.html#PostgreSQL.Concepts">Amazon
   /// RDS for PostgreSQL versions and extensions</a> in the <i>Amazon RDS User
-  /// Guide.</i>
+  /// Guide</i>.
   ///
   /// Valid for: Aurora DB clusters and Multi-AZ DB clusters
   ///
@@ -1989,8 +1919,38 @@ class Rds {
   /// Valid for: Multi-AZ DB clusters only
   ///
   /// Parameter [performanceInsightsRetentionPeriod] :
-  /// The amount of time, in days, to retain Performance Insights data. Valid
-  /// values are 7 or 731 (2 years).
+  /// The number of days to retain Performance Insights data. The default is 7
+  /// days. The following values are valid:
+  ///
+  /// <ul>
+  /// <li>
+  /// 7
+  /// </li>
+  /// <li>
+  /// <i>month</i> * 31, where <i>month</i> is a number of months from 1-23
+  /// </li>
+  /// <li>
+  /// 731
+  /// </li>
+  /// </ul>
+  /// For example, the following values are valid:
+  ///
+  /// <ul>
+  /// <li>
+  /// 93 (3 months * 31)
+  /// </li>
+  /// <li>
+  /// 341 (11 months * 31)
+  /// </li>
+  /// <li>
+  /// 589 (19 months * 31)
+  /// </li>
+  /// <li>
+  /// 731
+  /// </li>
+  /// </ul>
+  /// If you specify a retention period such as 94, which isn't a valid value,
+  /// RDS issues an error.
   ///
   /// Valid for: Multi-AZ DB clusters only
   ///
@@ -2013,26 +1973,26 @@ class Rds {
   /// Valid for: Aurora DB clusters and Multi-AZ DB clusters
   ///
   /// Parameter [preSignedUrl] :
-  /// A URL that contains a Signature Version 4 signed request for the
-  /// <code>CreateDBCluster</code> action to be called in the source Amazon Web
-  /// Services Region where the DB cluster is replicated from. Specify
-  /// <code>PreSignedUrl</code> only when you are performing cross-Region
-  /// replication from an encrypted DB cluster.
+  /// When you are replicating a DB cluster from one Amazon Web Services
+  /// GovCloud (US) Region to another, an URL that contains a Signature Version
+  /// 4 signed request for the <code>CreateDBCluster</code> operation to be
+  /// called in the source Amazon Web Services Region where the DB cluster is
+  /// replicated from. Specify <code>PreSignedUrl</code> only when you are
+  /// performing cross-Region replication from an encrypted DB cluster.
   ///
-  /// The pre-signed URL must be a valid request for the
-  /// <code>CreateDBCluster</code> API action that can be executed in the source
-  /// Amazon Web Services Region that contains the encrypted DB cluster to be
-  /// copied.
+  /// The presigned URL must be a valid request for the
+  /// <code>CreateDBCluster</code> API operation that can run in the source
+  /// Amazon Web Services Region that contains the encrypted DB cluster to copy.
   ///
-  /// The pre-signed URL request must contain the following parameter values:
+  /// The presigned URL request must contain the following parameter values:
   ///
   /// <ul>
   /// <li>
-  /// <code>KmsKeyId</code> - The Amazon Web Services KMS key identifier for the
-  /// KMS key to use to encrypt the copy of the DB cluster in the destination
-  /// Amazon Web Services Region. This should refer to the same KMS key for both
-  /// the <code>CreateDBCluster</code> action that is called in the destination
-  /// Amazon Web Services Region, and the action contained in the pre-signed
+  /// <code>KmsKeyId</code> - The KMS key identifier for the KMS key to use to
+  /// encrypt the copy of the DB cluster in the destination Amazon Web Services
+  /// Region. This should refer to the same KMS key for both the
+  /// <code>CreateDBCluster</code> operation that is called in the destination
+  /// Amazon Web Services Region, and the operation contained in the presigned
   /// URL.
   /// </li>
   /// <li>
@@ -2059,9 +2019,9 @@ class Rds {
   /// If you are using an Amazon Web Services SDK tool or the CLI, you can
   /// specify <code>SourceRegion</code> (or <code>--source-region</code> for the
   /// CLI) instead of specifying <code>PreSignedUrl</code> manually. Specifying
-  /// <code>SourceRegion</code> autogenerates a pre-signed URL that is a valid
-  /// request for the operation that can be executed in the source Amazon Web
-  /// Services Region.
+  /// <code>SourceRegion</code> autogenerates a presigned URL that is a valid
+  /// request for the operation that can run in the source Amazon Web Services
+  /// Region.
   /// </note>
   /// Valid for: Aurora DB clusters only
   /// <note>
@@ -2078,7 +2038,7 @@ class Rds {
   /// of time for each Amazon Web Services Region. To view the time blocks
   /// available, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Aurora.Managing.Backups.html#Aurora.Managing.Backups.BackupWindow">
-  /// Backup window</a> in the <i>Amazon Aurora User Guide.</i>
+  /// Backup window</a> in the <i>Amazon Aurora User Guide</i>.
   ///
   /// Constraints:
   ///
@@ -2109,7 +2069,7 @@ class Rds {
   /// the week. To see the time blocks available, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_UpgradeDBInstance.Maintenance.html#AdjustingTheMaintenanceWindow.Aurora">
   /// Adjusting the Preferred DB Cluster Maintenance Window</a> in the <i>Amazon
-  /// Aurora User Guide.</i>
+  /// Aurora User Guide</i>.
   ///
   /// Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun.
   ///
@@ -2245,6 +2205,7 @@ class Rds {
     bool? publiclyAccessible,
     String? replicationSourceIdentifier,
     ScalingConfiguration? scalingConfiguration,
+    ServerlessV2ScalingConfiguration? serverlessV2ScalingConfiguration,
     String? sourceRegion,
     bool? storageEncrypted,
     String? storageType,
@@ -2308,6 +2269,8 @@ class Rds {
     replicationSourceIdentifier
         ?.also((arg) => $request['ReplicationSourceIdentifier'] = arg);
     scalingConfiguration?.also((arg) => $request['ScalingConfiguration'] = arg);
+    serverlessV2ScalingConfiguration
+        ?.also((arg) => $request['ServerlessV2ScalingConfiguration'] = arg);
     sourceRegion?.also((arg) => $request['SourceRegion'] = arg);
     storageEncrypted?.also((arg) => $request['StorageEncrypted'] = arg);
     storageType?.also((arg) => $request['StorageType'] = arg);
@@ -2330,7 +2293,7 @@ class Rds {
   /// Creates a new custom endpoint and associates it with an Amazon Aurora DB
   /// cluster.
   /// <note>
-  /// This action only applies to Aurora DB clusters.
+  /// This action applies only to Aurora DB clusters.
   /// </note>
   ///
   /// May throw [DBClusterEndpointQuotaExceededFault].
@@ -2427,20 +2390,17 @@ class Rds {
   /// <code>character_set_database</code> parameter. You can use the
   /// <i>Parameter Groups</i> option of the <a
   /// href="https://console.aws.amazon.com/rds/">Amazon RDS console</a> or the
-  /// <code>DescribeDBClusterParameters</code> action to verify that your DB
+  /// <code>DescribeDBClusterParameters</code> operation to verify that your DB
   /// cluster parameter group has been created or modified.
   /// </important>
   /// For more information on Amazon Aurora, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html">
-  /// What is Amazon Aurora?</a> in the <i>Amazon Aurora User Guide.</i>
+  /// What is Amazon Aurora?</a> in the <i>Amazon Aurora User Guide</i>.
   ///
   /// For more information on Multi-AZ DB clusters, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html">
   /// Multi-AZ deployments with two readable standby DB instances</a> in the
-  /// <i>Amazon RDS User Guide.</i>
-  /// <note>
-  /// The Multi-AZ DB clusters feature is in preview and is subject to change.
-  /// </note>
+  /// <i>Amazon RDS User Guide</i>.
   ///
   /// May throw [DBParameterGroupQuotaExceededFault].
   /// May throw [DBParameterGroupAlreadyExistsFault].
@@ -2556,15 +2516,12 @@ class Rds {
   ///
   /// For more information on Amazon Aurora, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html">
-  /// What is Amazon Aurora?</a> in the <i>Amazon Aurora User Guide.</i>
+  /// What is Amazon Aurora?</a> in the <i>Amazon Aurora User Guide</i>.
   ///
   /// For more information on Multi-AZ DB clusters, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html">
   /// Multi-AZ deployments with two readable standby DB instances</a> in the
-  /// <i>Amazon RDS User Guide.</i>
-  /// <note>
-  /// The Multi-AZ DB clusters feature is in preview and is subject to change.
-  /// </note>
+  /// <i>Amazon RDS User Guide</i>.
   ///
   /// May throw [DBClusterSnapshotAlreadyExistsFault].
   /// May throw [InvalidDBClusterStateFault].
@@ -2634,6 +2591,21 @@ class Rds {
 
   /// Creates a new DB instance.
   ///
+  /// The new DB instance can be an RDS DB instance, or it can be a DB instance
+  /// in an Aurora DB cluster. For an Aurora DB cluster, you can call this
+  /// operation multiple times to add more than one DB instance to the cluster.
+  ///
+  /// For more information about creating an RDS DB instance, see <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_CreateDBInstance.html">
+  /// Creating an Amazon RDS DB instance</a> in the <i>Amazon RDS User
+  /// Guide</i>.
+  ///
+  /// For more information about creating a DB instance in an Aurora DB cluster,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Aurora.CreateInstance.html">
+  /// Creating an Amazon Aurora DB cluster</a> in the <i>Amazon Aurora User
+  /// Guide</i>.
+  ///
   /// May throw [DBInstanceAlreadyExistsFault].
   /// May throw [InsufficientDBInstanceCapacityFault].
   /// May throw [DBParameterGroupNotFoundFault].
@@ -2653,14 +2625,17 @@ class Rds {
   /// May throw [KMSKeyNotAccessibleFault].
   /// May throw [DomainNotFoundFault].
   /// May throw [BackupPolicyNotFoundFault].
+  /// May throw [NetworkTypeNotSupported].
   ///
   /// Parameter [dBInstanceClass] :
   /// The compute and memory capacity of the DB instance, for example
-  /// db.m4.large. Not all DB instance classes are available in all Amazon Web
+  /// db.m5.large. Not all DB instance classes are available in all Amazon Web
   /// Services Regions, or for all database engines. For the full list of DB
   /// instance classes, and availability for your engine, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html">DB
-  /// Instance Class</a> in the <i>Amazon RDS User Guide.</i>
+  /// instance classes</a> in the <i>Amazon RDS User Guide</i> or <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Concepts.DBInstanceClass.html">Aurora
+  /// DB instance classes</a> in the <i>Amazon Aurora User Guide</i>.
   ///
   /// Parameter [dBInstanceIdentifier] :
   /// The DB instance identifier. This parameter is stored as a lowercase
@@ -2895,7 +2870,10 @@ class Rds {
   ///
   /// <b>Amazon Aurora</b>
   ///
-  /// Not applicable. Availability Zones are managed by the DB cluster.
+  /// Each Aurora DB cluster hosts copies of its storage in three separate
+  /// Availability Zones. Specify one of these Availability Zones. Aurora
+  /// automatically chooses an appropriate Availability Zone if you don't
+  /// specify one.
   ///
   /// Default: A random, system-chosen Availability Zone in the endpoint's
   /// Amazon Web Services Region.
@@ -2906,15 +2884,6 @@ class Rds {
   /// if the DB instance is a Multi-AZ deployment. The specified Availability
   /// Zone must be in the same Amazon Web Services Region as the current
   /// endpoint.
-  /// <note>
-  /// If you're creating a DB instance in an RDS on VMware environment, specify
-  /// the identifier of the custom Availability Zone to create the DB instance
-  /// in.
-  ///
-  /// For more information about RDS on VMware, see the <a
-  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/RDSonVMwareUserGuide/rds-on-vmware.html">
-  /// RDS on VMware User Guide.</a>
-  /// </note>
   ///
   /// Parameter [backupRetentionPeriod] :
   /// The number of days for which automated backups are retained. Setting this
@@ -2938,7 +2907,7 @@ class Rds {
   /// Can't be set to 0 if the DB instance is a source to read replicas
   /// </li>
   /// <li>
-  /// Can't be set to 0 or 35 for an RDS Custom for Oracle DB instance
+  /// Can't be set to 0 for an RDS Custom for Oracle DB instance
   /// </li>
   /// </ul>
   ///
@@ -2996,8 +2965,7 @@ class Rds {
   /// </ul>
   /// For the list of permissions required for the IAM role, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-setup-orcl.html#custom-setup-orcl.iam-vpc">
-  /// Configure IAM and your VPC</a> in the <i>Amazon Relational Database
-  /// Service User Guide</i>.
+  /// Configure IAM and your VPC</a> in the <i>Amazon RDS User Guide</i>.
   ///
   /// This setting is required for RDS Custom.
   ///
@@ -3174,12 +3142,17 @@ class Rds {
   /// Parameter [dBSecurityGroups] :
   /// A list of DB security groups to associate with this DB instance.
   ///
-  /// Default: The default DB security group for the database engine.
+  /// This setting applies to the legacy EC2-Classic platform, which is no
+  /// longer used to create new DB instances. Use the
+  /// <code>VpcSecurityGroupIds</code> setting instead.
   ///
   /// Parameter [dBSubnetGroupName] :
   /// A DB subnet group to associate with this DB instance.
   ///
-  /// If there is no DB subnet group, then it is a non-VPC DB instance.
+  /// Constraints: Must match the name of an existing DBSubnetGroup. Must not be
+  /// default.
+  ///
+  /// Example: <code>mydbsubnetgroup</code>
   ///
   /// Parameter [deletionProtection] :
   /// A value that indicates whether the DB instance has deletion protection
@@ -3207,19 +3180,27 @@ class Rds {
   ///
   /// This setting doesn't apply to RDS Custom.
   ///
+  /// <b>Amazon Aurora</b>
+  ///
+  /// Not applicable. The domain is managed by the DB cluster.
+  ///
   /// Parameter [domainIAMRoleName] :
   /// Specify the name of the IAM role to be used when making API calls to the
   /// Directory Service.
   ///
   /// This setting doesn't apply to RDS Custom.
   ///
+  /// <b>Amazon Aurora</b>
+  ///
+  /// Not applicable. The domain is managed by the DB cluster.
+  ///
   /// Parameter [enableCloudwatchLogsExports] :
   /// The list of log types that need to be enabled for exporting to CloudWatch
   /// Logs. The values in the list depend on the DB engine. For more
   /// information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch">Publishing
-  /// Database Logs to Amazon CloudWatch Logs</a> in the <i>Amazon Relational
-  /// Database Service User Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch">
+  /// Publishing Database Logs to Amazon CloudWatch Logs</a> in the <i>Amazon
+  /// RDS User Guide</i>.
   ///
   /// <b>Amazon Aurora</b>
   ///
@@ -3275,21 +3256,23 @@ class Rds {
   /// Identity and Access Management (IAM) accounts to database accounts. By
   /// default, mapping isn't enabled.
   ///
-  /// This setting doesn't apply to RDS Custom or Amazon Aurora. In Aurora,
-  /// mapping Amazon Web Services IAM accounts to database accounts is managed
-  /// by the DB cluster.
-  ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.IAMDBAuth.html">
   /// IAM Database Authentication for MySQL and PostgreSQL</a> in the <i>Amazon
-  /// RDS User Guide.</i>
+  /// RDS User Guide</i>.
+  ///
+  /// This setting doesn't apply to RDS Custom.
+  ///
+  /// <b>Amazon Aurora</b>
+  ///
+  /// Not applicable. Mapping Amazon Web Services IAM accounts to database
+  /// accounts is managed by the DB cluster.
   ///
   /// Parameter [enablePerformanceInsights] :
   /// A value that indicates whether to enable Performance Insights for the DB
   /// instance. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_PerfInsights.html">Using
-  /// Amazon Performance Insights</a> in the <i>Amazon Relational Database
-  /// Service User Guide</i>.
+  /// Amazon Performance Insights</a> in the <i>Amazon RDS User Guide</i>.
   ///
   /// This setting doesn't apply to RDS Custom.
   ///
@@ -3297,7 +3280,7 @@ class Rds {
   /// The version number of the database engine to use.
   ///
   /// For a list of valid engine versions, use the
-  /// <code>DescribeDBEngineVersions</code> action.
+  /// <code>DescribeDBEngineVersions</code> operation.
   ///
   /// The following are the database engines and links to information about the
   /// major and minor versions that are available with Amazon RDS. Not every
@@ -3316,45 +3299,45 @@ class Rds {
   /// identifier is <code>19.my_cev1</code>. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-creating.html#custom-creating.create">
   /// Creating an RDS Custom for Oracle DB instance</a> in the <i>Amazon RDS
-  /// User Guide.</i>.
+  /// User Guide</i>.
   ///
   /// <b>Amazon RDS Custom for SQL Server</b>
   ///
   /// See <a
-  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-reqs-limits.html#custom-reqs-limits.reqsMS">RDS
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-reqs-limits-MS.html">RDS
   /// Custom for SQL Server general requirements</a> in the <i>Amazon RDS User
-  /// Guide.</i>
+  /// Guide</i>.
   ///
   /// <b>MariaDB</b>
   ///
   /// For information, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_MariaDB.html#MariaDB.Concepts.VersionMgmt">MariaDB
-  /// on Amazon RDS Versions</a> in the <i>Amazon RDS User Guide.</i>
+  /// on Amazon RDS Versions</a> in the <i>Amazon RDS User Guide</i>.
   ///
   /// <b>Microsoft SQL Server</b>
   ///
   /// For information, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_SQLServer.html#SQLServer.Concepts.General.VersionSupport">Microsoft
-  /// SQL Server Versions on Amazon RDS</a> in the <i>Amazon RDS User Guide.</i>
+  /// SQL Server Versions on Amazon RDS</a> in the <i>Amazon RDS User Guide</i>.
   ///
   /// <b>MySQL</b>
   ///
   /// For information, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_MySQL.html#MySQL.Concepts.VersionMgmt">MySQL
-  /// on Amazon RDS Versions</a> in the <i>Amazon RDS User Guide.</i>
+  /// on Amazon RDS Versions</a> in the <i>Amazon RDS User Guide</i>.
   ///
   /// <b>Oracle</b>
   ///
   /// For information, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Appendix.Oracle.PatchComposition.html">Oracle
-  /// Database Engine Release Notes</a> in the <i>Amazon RDS User Guide.</i>
+  /// Database Engine Release Notes</a> in the <i>Amazon RDS User Guide</i>.
   ///
   /// <b>PostgreSQL</b>
   ///
   /// For information, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_PostgreSQL.html#PostgreSQL.Concepts">Amazon
   /// RDS for PostgreSQL versions and extensions</a> in the <i>Amazon RDS User
-  /// Guide.</i>
+  /// Guide</i>.
   ///
   /// Parameter [iops] :
   /// The amount of Provisioned IOPS (input/output operations per second) to be
@@ -3368,6 +3351,10 @@ class Rds {
   /// be a multiple between .5 and 50 of the storage amount for the DB instance.
   /// For SQL Server DB instances, must be a multiple between 1 and 50 of the
   /// storage amount for the DB instance.
+  ///
+  /// <b>Amazon Aurora</b>
+  ///
+  /// Not applicable. Storage is managed by the DB cluster.
   ///
   /// Parameter [kmsKeyId] :
   /// The Amazon Web Services KMS key identifier for an encrypted DB instance.
@@ -3402,6 +3389,10 @@ class Rds {
   /// <code>bring-your-own-license</code> | <code>general-public-license</code>
   ///
   /// This setting doesn't apply to RDS Custom.
+  ///
+  /// <b>Amazon Aurora</b>
+  ///
+  /// Not applicable.
   ///
   /// Parameter [masterUserPassword] :
   /// The password for the master user. The password can include any printable
@@ -3470,6 +3461,10 @@ class Rds {
   ///
   /// This setting doesn't apply to RDS Custom.
   ///
+  /// <b>Amazon Aurora</b>
+  ///
+  /// Not applicable. Storage is managed by the DB cluster.
+  ///
   /// Parameter [monitoringInterval] :
   /// The interval, in seconds, between points when Enhanced Monitoring metrics
   /// are collected for the DB instance. To disable collection of Enhanced
@@ -3503,10 +3498,37 @@ class Rds {
   ///
   /// This setting doesn't apply to RDS Custom.
   ///
+  /// <b>Amazon Aurora</b>
+  ///
+  /// Not applicable. DB instance Availability Zones (AZs) are managed by the DB
+  /// cluster.
+  ///
   /// Parameter [ncharCharacterSetName] :
   /// The name of the NCHAR character set for the Oracle DB instance.
   ///
   /// This parameter doesn't apply to RDS Custom.
+  ///
+  /// Parameter [networkType] :
+  /// The network type of the DB instance.
+  ///
+  /// Valid values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>IPV4</code>
+  /// </li>
+  /// <li>
+  /// <code>DUAL</code>
+  /// </li>
+  /// </ul>
+  /// The network type is determined by the <code>DBSubnetGroup</code> specified
+  /// for the DB instance. A <code>DBSubnetGroup</code> can support only the
+  /// IPv4 protocol or the IPv4 and the IPv6 protocols (<code>DUAL</code>).
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_VPC.WorkingWithRDSInstanceinaVPC.html">
+  /// Working with a DB instance in a VPC</a> in the <i>Amazon RDS User
+  /// Guide.</i>
   ///
   /// Parameter [optionGroupName] :
   /// A value that indicates that the DB instance should be associated with the
@@ -3517,6 +3539,10 @@ class Rds {
   /// be removed from a DB instance after it is associated with a DB instance.
   ///
   /// This setting doesn't apply to RDS Custom.
+  ///
+  /// <b>Amazon Aurora</b>
+  ///
+  /// Not applicable.
   ///
   /// Parameter [performanceInsightsKMSKeyId] :
   /// The Amazon Web Services KMS key identifier for encryption of Performance
@@ -3534,8 +3560,38 @@ class Rds {
   /// This setting doesn't apply to RDS Custom.
   ///
   /// Parameter [performanceInsightsRetentionPeriod] :
-  /// The amount of time, in days, to retain Performance Insights data. Valid
-  /// values are 7 or 731 (2 years).
+  /// The number of days to retain Performance Insights data. The default is 7
+  /// days. The following values are valid:
+  ///
+  /// <ul>
+  /// <li>
+  /// 7
+  /// </li>
+  /// <li>
+  /// <i>month</i> * 31, where <i>month</i> is a number of months from 1-23
+  /// </li>
+  /// <li>
+  /// 731
+  /// </li>
+  /// </ul>
+  /// For example, the following values are valid:
+  ///
+  /// <ul>
+  /// <li>
+  /// 93 (3 months * 31)
+  /// </li>
+  /// <li>
+  /// 341 (11 months * 31)
+  /// </li>
+  /// <li>
+  /// 589 (19 months * 31)
+  /// </li>
+  /// <li>
+  /// 731
+  /// </li>
+  /// </ul>
+  /// If you specify a retention period such as 94, which isn't a valid value,
+  /// RDS issues an error.
   ///
   /// This setting doesn't apply to RDS Custom.
   ///
@@ -3641,6 +3697,10 @@ class Rds {
   ///
   /// This setting doesn't apply to RDS Custom.
   ///
+  /// <b>Amazon Aurora</b>
+  ///
+  /// Not applicable.
+  ///
   /// Parameter [promotionTier] :
   /// A value that specifies the order in which an Aurora Replica is promoted to
   /// the primary instance after a failure of the existing primary instance. For
@@ -3723,6 +3783,10 @@ class Rds {
   /// Default: <code>io1</code> if the <code>Iops</code> parameter is specified,
   /// otherwise <code>gp2</code>
   ///
+  /// <b>Amazon Aurora</b>
+  ///
+  /// Not applicable. Storage is managed by the DB cluster.
+  ///
   /// Parameter [tags] :
   /// Tags to assign to the DB instance.
   ///
@@ -3731,6 +3795,10 @@ class Rds {
   /// encryption.
   ///
   /// This setting doesn't apply to RDS Custom.
+  ///
+  /// <b>Amazon Aurora</b>
+  ///
+  /// Not applicable.
   ///
   /// Parameter [tdeCredentialPassword] :
   /// The password for the given ARN from the key store in order to access the
@@ -3789,6 +3857,7 @@ class Rds {
     String? monitoringRoleArn,
     bool? multiAZ,
     String? ncharCharacterSetName,
+    String? networkType,
     String? optionGroupName,
     String? performanceInsightsKMSKeyId,
     int? performanceInsightsRetentionPeriod,
@@ -3852,6 +3921,7 @@ class Rds {
     multiAZ?.also((arg) => $request['MultiAZ'] = arg);
     ncharCharacterSetName
         ?.also((arg) => $request['NcharCharacterSetName'] = arg);
+    networkType?.also((arg) => $request['NetworkType'] = arg);
     optionGroupName?.also((arg) => $request['OptionGroupName'] = arg);
     performanceInsightsKMSKeyId
         ?.also((arg) => $request['PerformanceInsightsKMSKeyId'] = arg);
@@ -3894,9 +3964,9 @@ class Rds {
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_ReadRepl.html">Working
   /// with Read Replicas</a> in the <i>Amazon RDS User Guide</i>.
   ///
-  /// Amazon Aurora doesn't support this action. Call the
-  /// <code>CreateDBInstance</code> action to create a DB instance for an Aurora
-  /// DB cluster.
+  /// Amazon Aurora doesn't support this operation. Call the
+  /// <code>CreateDBInstance</code> operation to create a DB instance for an
+  /// Aurora DB cluster.
   ///
   /// All read replica DB instances are created with backups disabled. All other
   /// DB instance attributes (including DB security groups and DB parameter
@@ -3924,6 +3994,7 @@ class Rds {
   /// May throw [StorageTypeNotSupportedFault].
   /// May throw [KMSKeyNotAccessibleFault].
   /// May throw [DomainNotFoundFault].
+  /// May throw [NetworkTypeNotSupported].
   ///
   /// Parameter [dBInstanceIdentifier] :
   /// The DB instance identifier of the read replica. This identifier is the
@@ -4019,8 +4090,7 @@ class Rds {
   /// </ul>
   /// For the list of permissions required for the IAM role, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-setup-orcl.html#custom-setup-orcl.iam-vpc">
-  /// Configure IAM and your VPC</a> in the <i>Amazon Relational Database
-  /// Service User Guide</i>.
+  /// Configure IAM and your VPC</a> in the <i>Amazon RDS User Guide</i>.
   ///
   /// This setting is required for RDS Custom.
   ///
@@ -4030,7 +4100,7 @@ class Rds {
   /// Services Regions, or for all database engines. For the full list of DB
   /// instance classes, and availability for your engine, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html">DB
-  /// Instance Class</a> in the <i>Amazon RDS User Guide.</i>
+  /// Instance Class</a> in the <i>Amazon RDS User Guide</i>.
   ///
   /// Default: Inherits from the source DB instance.
   ///
@@ -4044,7 +4114,7 @@ class Rds {
   /// cross-Region read replica.
   ///
   /// Specifying a parameter group for this operation is only supported for
-  /// Oracle DB instances. It isn't supported for RDS Custom.
+  /// MySQL and Oracle DB instances. It isn't supported for RDS Custom.
   ///
   /// Constraints:
   ///
@@ -4094,7 +4164,7 @@ class Rds {
   /// </li>
   /// </ul> </li>
   /// </ul>
-  /// Example: <code>mySubnetgroup</code>
+  /// Example: <code>mydbsubnetgroup</code>
   ///
   /// Parameter [deletionProtection] :
   /// A value that indicates whether the DB instance has deletion protection
@@ -4139,7 +4209,7 @@ class Rds {
   /// For more information about IAM database authentication, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.IAMDBAuth.html">
   /// IAM Database Authentication for MySQL and PostgreSQL</a> in the <i>Amazon
-  /// RDS User Guide.</i>
+  /// RDS User Guide</i>.
   ///
   /// This setting doesn't apply to RDS Custom.
   ///
@@ -4227,6 +4297,28 @@ class Rds {
   ///
   /// This setting doesn't apply to RDS Custom.
   ///
+  /// Parameter [networkType] :
+  /// The network type of the DB instance.
+  ///
+  /// Valid values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>IPV4</code>
+  /// </li>
+  /// <li>
+  /// <code>DUAL</code>
+  /// </li>
+  /// </ul>
+  /// The network type is determined by the <code>DBSubnetGroup</code> specified
+  /// for read replica. A <code>DBSubnetGroup</code> can support only the IPv4
+  /// protocol or the IPv4 and the IPv6 protocols (<code>DUAL</code>).
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_VPC.WorkingWithRDSInstanceinaVPC.html">
+  /// Working with a DB instance in a VPC</a> in the <i>Amazon RDS User
+  /// Guide.</i>
+  ///
   /// Parameter [optionGroupName] :
   /// The option group the DB instance is associated with. If omitted, the
   /// option group associated with the source instance is used.
@@ -4252,8 +4344,38 @@ class Rds {
   /// This setting doesn't apply to RDS Custom.
   ///
   /// Parameter [performanceInsightsRetentionPeriod] :
-  /// The amount of time, in days, to retain Performance Insights data. Valid
-  /// values are 7 or 731 (2 years).
+  /// The number of days to retain Performance Insights data. The default is 7
+  /// days. The following values are valid:
+  ///
+  /// <ul>
+  /// <li>
+  /// 7
+  /// </li>
+  /// <li>
+  /// <i>month</i> * 31, where <i>month</i> is a number of months from 1-23
+  /// </li>
+  /// <li>
+  /// 731
+  /// </li>
+  /// </ul>
+  /// For example, the following values are valid:
+  ///
+  /// <ul>
+  /// <li>
+  /// 93 (3 months * 31)
+  /// </li>
+  /// <li>
+  /// 341 (11 months * 31)
+  /// </li>
+  /// <li>
+  /// 589 (19 months * 31)
+  /// </li>
+  /// <li>
+  /// 731
+  /// </li>
+  /// </ul>
+  /// If you specify a retention period such as 94, which isn't a valid value,
+  /// RDS issues an error.
   ///
   /// This setting doesn't apply to RDS Custom.
   ///
@@ -4265,9 +4387,15 @@ class Rds {
   /// Valid Values: <code>1150-65535</code>
   ///
   /// Parameter [preSignedUrl] :
-  /// The URL that contains a Signature Version 4 signed request for the
-  /// <code>CreateDBInstanceReadReplica</code> API action in the source Amazon
-  /// Web Services Region that contains the source DB instance.
+  /// When you are creating a read replica from one Amazon Web Services GovCloud
+  /// (US) Region to another or from one China Amazon Web Services Region to
+  /// another, the URL that contains a Signature Version 4 signed request for
+  /// the <code>CreateDBInstanceReadReplica</code> API operation in the source
+  /// Amazon Web Services Region that contains the source DB instance.
+  ///
+  /// This setting applies only to Amazon Web Services GovCloud (US) Regions and
+  /// China Amazon Web Services Regions. It's ignored in other Amazon Web
+  /// Services Regions.
   ///
   /// You must specify this parameter when you create an encrypted read replica
   /// from another Amazon Web Services Region by using the Amazon RDS API. Don't
@@ -4275,34 +4403,34 @@ class Rds {
   /// replica in the same Amazon Web Services Region.
   ///
   /// The presigned URL must be a valid request for the
-  /// <code>CreateDBInstanceReadReplica</code> API action that can be executed
-  /// in the source Amazon Web Services Region that contains the encrypted
-  /// source DB instance. The presigned URL request must contain the following
-  /// parameter values:
+  /// <code>CreateDBInstanceReadReplica</code> API operation that can run in the
+  /// source Amazon Web Services Region that contains the encrypted source DB
+  /// instance. The presigned URL request must contain the following parameter
+  /// values:
   ///
   /// <ul>
   /// <li>
   /// <code>DestinationRegion</code> - The Amazon Web Services Region that the
   /// encrypted read replica is created in. This Amazon Web Services Region is
-  /// the same one where the <code>CreateDBInstanceReadReplica</code> action is
-  /// called that contains this presigned URL.
+  /// the same one where the <code>CreateDBInstanceReadReplica</code> operation
+  /// is called that contains this presigned URL.
   ///
   /// For example, if you create an encrypted DB instance in the us-west-1
   /// Amazon Web Services Region, from a source DB instance in the us-east-2
   /// Amazon Web Services Region, then you call the
-  /// <code>CreateDBInstanceReadReplica</code> action in the us-east-1 Amazon
+  /// <code>CreateDBInstanceReadReplica</code> operation in the us-east-1 Amazon
   /// Web Services Region and provide a presigned URL that contains a call to
-  /// the <code>CreateDBInstanceReadReplica</code> action in the us-west-2
+  /// the <code>CreateDBInstanceReadReplica</code> operation in the us-west-2
   /// Amazon Web Services Region. For this example, the
   /// <code>DestinationRegion</code> in the presigned URL must be set to the
   /// us-east-1 Amazon Web Services Region.
   /// </li>
   /// <li>
-  /// <code>KmsKeyId</code> - The Amazon Web Services KMS key identifier for the
-  /// key to use to encrypt the read replica in the destination Amazon Web
-  /// Services Region. This is the same identifier for both the
-  /// <code>CreateDBInstanceReadReplica</code> action that is called in the
-  /// destination Amazon Web Services Region, and the action contained in the
+  /// <code>KmsKeyId</code> - The KMS key identifier for the key to use to
+  /// encrypt the read replica in the destination Amazon Web Services Region.
+  /// This is the same identifier for both the
+  /// <code>CreateDBInstanceReadReplica</code> operation that is called in the
+  /// destination Amazon Web Services Region, and the operation contained in the
   /// presigned URL.
   /// </li>
   /// <li>
@@ -4326,11 +4454,11 @@ class Rds {
   /// specify <code>SourceRegion</code> (or <code>--source-region</code> for the
   /// CLI) instead of specifying <code>PreSignedUrl</code> manually. Specifying
   /// <code>SourceRegion</code> autogenerates a presigned URL that is a valid
-  /// request for the operation that can be executed in the source Amazon Web
-  /// Services Region.
+  /// request for the operation that can run in the source Amazon Web Services
+  /// Region.
   ///
-  /// <code>SourceRegion</code> isn't supported for SQL Server, because SQL
-  /// Server on Amazon RDS doesn't support cross-Region read replicas.
+  /// <code>SourceRegion</code> isn't supported for SQL Server, because Amazon
+  /// RDS for SQL Server doesn't support cross-Region read replicas.
   /// </note>
   /// This setting doesn't apply to RDS Custom.
   /// <note>
@@ -4430,6 +4558,7 @@ class Rds {
     int? monitoringInterval,
     String? monitoringRoleArn,
     bool? multiAZ,
+    String? networkType,
     String? optionGroupName,
     String? performanceInsightsKMSKeyId,
     int? performanceInsightsRetentionPeriod,
@@ -4474,6 +4603,7 @@ class Rds {
     monitoringInterval?.also((arg) => $request['MonitoringInterval'] = arg);
     monitoringRoleArn?.also((arg) => $request['MonitoringRoleArn'] = arg);
     multiAZ?.also((arg) => $request['MultiAZ'] = arg);
+    networkType?.also((arg) => $request['NetworkType'] = arg);
     optionGroupName?.also((arg) => $request['OptionGroupName'] = arg);
     performanceInsightsKMSKeyId
         ?.also((arg) => $request['PerformanceInsightsKMSKeyId'] = arg);
@@ -4675,8 +4805,10 @@ class Rds {
   /// Parameter [engineFamily] :
   /// The kinds of databases that the proxy can connect to. This value
   /// determines which database network protocol the proxy recognizes when it
-  /// interprets network traffic to and from the database. The engine family
-  /// applies to MySQL and PostgreSQL for both RDS and Aurora.
+  /// interprets network traffic to and from the database. For Aurora MySQL, RDS
+  /// for MariaDB, and RDS for MySQL databases, specify <code>MYSQL</code>. For
+  /// Aurora PostgreSQL and RDS for PostgreSQL databases, specify
+  /// <code>POSTGRESQL</code>.
   ///
   /// Parameter [roleArn] :
   /// The Amazon Resource Name (ARN) of the IAM role that the proxy uses to
@@ -4960,10 +5092,21 @@ class Rds {
   /// The name for the DB subnet group. This value is stored as a lowercase
   /// string.
   ///
-  /// Constraints: Must contain no more than 255 letters, numbers, periods,
-  /// underscores, spaces, or hyphens. Must not be default.
+  /// Constraints:
   ///
-  /// Example: <code>mySubnetgroup</code>
+  /// <ul>
+  /// <li>
+  /// Must contain no more than 255 letters, numbers, periods, underscores,
+  /// spaces, or hyphens.
+  /// </li>
+  /// <li>
+  /// Must not be default.
+  /// </li>
+  /// <li>
+  /// First character must be a letter.
+  /// </li>
+  /// </ul>
+  /// Example: <code>mydbsubnetgroup</code>
   ///
   /// Parameter [subnetIds] :
   /// The EC2 Subnet IDs for the DB subnet group.
@@ -4999,7 +5142,7 @@ class Rds {
     return CreateDBSubnetGroupResult.fromXml($result);
   }
 
-  /// Creates an RDS event notification subscription. This action requires a
+  /// Creates an RDS event notification subscription. This operation requires a
   /// topic Amazon Resource Name (ARN) created by either the RDS console, the
   /// SNS console, or the SNS API. To obtain an ARN with SNS, you must create a
   /// topic in Amazon SNS and subscribe to the topic. The ARN is displayed in
@@ -5017,14 +5160,14 @@ class Rds {
   ///
   /// If you specify both the <code>SourceType</code> and
   /// <code>SourceIds</code>, such as <code>SourceType</code> =
-  /// <code>db-instance</code> and <code>SourceIdentifier</code> =
+  /// <code>db-instance</code> and <code>SourceIds</code> =
   /// <code>myDBInstance1</code>, you are notified of all the
   /// <code>db-instance</code> events for the specified source. If you specify a
-  /// <code>SourceType</code> but do not specify a
-  /// <code>SourceIdentifier</code>, you receive notice of the events for that
-  /// source type for all your RDS sources. If you don't specify either the
-  /// SourceType or the <code>SourceIdentifier</code>, you are notified of
-  /// events generated from all RDS sources belonging to your customer account.
+  /// <code>SourceType</code> but do not specify <code>SourceIds</code>, you
+  /// receive notice of the events for that source type for all your RDS
+  /// sources. If you don't specify either the SourceType or the
+  /// <code>SourceIds</code>, you are notified of events generated from all RDS
+  /// sources belonging to your customer account.
   /// <note>
   /// RDS event notification is only available for unencrypted SNS topics. If
   /// you specify an encrypted SNS topic, event notifications aren't sent for
@@ -5057,10 +5200,13 @@ class Rds {
   /// Parameter [eventCategories] :
   /// A list of event categories for a particular source type
   /// (<code>SourceType</code>) that you want to subscribe to. You can see a
-  /// list of the categories for a given source type in <a
-  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Events.html">Events</a>
-  /// in the <i>Amazon RDS User Guide</i> or by using the
-  /// <code>DescribeEventCategories</code> operation.
+  /// list of the categories for a given source type in the "Amazon RDS event
+  /// categories and event messages" section of the <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Events.Messages.html">
+  /// <i>Amazon RDS User Guide</i> </a> or the <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Events.Messages.html">
+  /// <i>Amazon Aurora User Guide</i> </a>. You can also see this list by using
+  /// the <code>DescribeEventCategories</code> operation.
   ///
   /// Parameter [sourceIds] :
   /// The list of identifiers of the event sources for which events are
@@ -5100,17 +5246,23 @@ class Rds {
   /// If the source type is a DB cluster snapshot, a
   /// <code>DBClusterSnapshotIdentifier</code> value must be supplied.
   /// </li>
+  /// <li>
+  /// If the source type is an RDS Proxy, a <code>DBProxyName</code> value must
+  /// be supplied.
+  /// </li>
   /// </ul>
   ///
   /// Parameter [sourceType] :
   /// The type of source that is generating the events. For example, if you want
   /// to be notified of events generated by a DB instance, you set this
-  /// parameter to <code>db-instance</code>. If this value isn't specified, all
-  /// events are returned.
+  /// parameter to <code>db-instance</code>. For RDS Proxy events, specify
+  /// <code>db-proxy</code>. If this value isn't specified, all events are
+  /// returned.
   ///
   /// Valid values: <code>db-instance</code> | <code>db-cluster</code> |
   /// <code>db-parameter-group</code> | <code>db-security-group</code> |
-  /// <code>db-snapshot</code> | <code>db-cluster-snapshot</code>
+  /// <code>db-snapshot</code> | <code>db-cluster-snapshot</code> |
+  /// <code>db-proxy</code>
   Future<CreateEventSubscriptionResult> createEventSubscription({
     required String snsTopicArn,
     required String subscriptionName,
@@ -5155,7 +5307,7 @@ class Rds {
   /// existing Aurora cluster during the create operation, and this cluster
   /// becomes the primary cluster of the global database.
   /// <note>
-  /// This action only applies to Aurora DB clusters.
+  /// This action applies only to Aurora DB clusters.
   /// </note>
   ///
   /// May throw [GlobalClusterAlreadyExistsFault].
@@ -5164,7 +5316,7 @@ class Rds {
   /// May throw [DBClusterNotFoundFault].
   ///
   /// Parameter [databaseName] :
-  /// The name for your database of up to 64 alpha-numeric characters. If you do
+  /// The name for your database of up to 64 alphanumeric characters. If you do
   /// not provide a name, Amazon Aurora will not create a database in the global
   /// database cluster you are creating.
   ///
@@ -5328,41 +5480,6 @@ class Rds {
     return CreateOptionGroupResult.fromXml($result);
   }
 
-  /// Deletes a custom Availability Zone (AZ).
-  ///
-  /// A custom AZ is an on-premises AZ that is integrated with a VMware vSphere
-  /// cluster.
-  ///
-  /// For more information about RDS on VMware, see the <a
-  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/RDSonVMwareUserGuide/rds-on-vmware.html">
-  /// RDS on VMware User Guide.</a>
-  ///
-  /// May throw [CustomAvailabilityZoneNotFoundFault].
-  /// May throw [KMSKeyNotAccessibleFault].
-  ///
-  /// Parameter [customAvailabilityZoneId] :
-  /// The custom AZ identifier.
-  Future<DeleteCustomAvailabilityZoneResult> deleteCustomAvailabilityZone({
-    required String customAvailabilityZoneId,
-  }) async {
-    ArgumentError.checkNotNull(
-        customAvailabilityZoneId, 'customAvailabilityZoneId');
-    final $request = <String, dynamic>{};
-    $request['CustomAvailabilityZoneId'] = customAvailabilityZoneId;
-    final $result = await _protocol.send(
-      $request,
-      action: 'DeleteCustomAvailabilityZone',
-      version: '2014-10-31',
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      shape: shapes['DeleteCustomAvailabilityZoneMessage'],
-      shapes: shapes,
-      resultWrapper: 'DeleteCustomAvailabilityZoneResult',
-    );
-    return DeleteCustomAvailabilityZoneResult.fromXml($result);
-  }
-
   /// Deletes a custom engine version. To run this command, make sure you meet
   /// the following prerequisites:
   ///
@@ -5432,15 +5549,12 @@ class Rds {
   ///
   /// For more information on Amazon Aurora, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html">
-  /// What is Amazon Aurora?</a> in the <i>Amazon Aurora User Guide.</i>
+  /// What is Amazon Aurora?</a> in the <i>Amazon Aurora User Guide</i>.
   ///
   /// For more information on Multi-AZ DB clusters, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html">
   /// Multi-AZ deployments with two readable standby DB instances</a> in the
-  /// <i>Amazon RDS User Guide.</i>
-  /// <note>
-  /// The Multi-AZ DB clusters feature is in preview and is subject to change.
-  /// </note>
+  /// <i>Amazon RDS User Guide</i>.
   ///
   /// May throw [DBClusterNotFoundFault].
   /// May throw [InvalidDBClusterStateFault].
@@ -5556,15 +5670,12 @@ class Rds {
   ///
   /// For more information on Amazon Aurora, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html">
-  /// What is Amazon Aurora?</a> in the <i>Amazon Aurora User Guide.</i>
+  /// What is Amazon Aurora?</a> in the <i>Amazon Aurora User Guide</i>.
   ///
   /// For more information on Multi-AZ DB clusters, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html">
   /// Multi-AZ deployments with two readable standby DB instances</a> in the
-  /// <i>Amazon RDS User Guide.</i>
-  /// <note>
-  /// The Multi-AZ DB clusters feature is in preview and is subject to change.
-  /// </note>
+  /// <i>Amazon RDS User Guide</i>.
   ///
   /// May throw [InvalidDBParameterGroupStateFault].
   /// May throw [DBParameterGroupNotFoundFault].
@@ -5612,15 +5723,12 @@ class Rds {
   /// </note>
   /// For more information on Amazon Aurora, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html">
-  /// What is Amazon Aurora?</a> in the <i>Amazon Aurora User Guide.</i>
+  /// What is Amazon Aurora?</a> in the <i>Amazon Aurora User Guide</i>.
   ///
   /// For more information on Multi-AZ DB clusters, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html">
   /// Multi-AZ deployments with two readable standby DB instances</a> in the
-  /// <i>Amazon RDS User Guide.</i>
-  /// <note>
-  /// The Multi-AZ DB clusters feature is in preview and is subject to change.
-  /// </note>
+  /// <i>Amazon RDS User Guide</i>.
   ///
   /// May throw [InvalidDBClusterSnapshotStateFault].
   /// May throw [DBClusterSnapshotNotFoundFault].
@@ -6018,12 +6126,10 @@ class Rds {
   /// <note>
   /// You can't delete the default subnet group.
   /// </note>
-  /// Constraints:
-  ///
   /// Constraints: Must match the name of an existing DBSubnetGroup. Must not be
   /// default.
   ///
-  /// Example: <code>mySubnetgroup</code>
+  /// Example: <code>mydbsubnetgroup</code>
   Future<void> deleteDBSubnetGroup({
     required String dBSubnetGroupName,
   }) async {
@@ -6099,33 +6205,6 @@ class Rds {
       resultWrapper: 'DeleteGlobalClusterResult',
     );
     return DeleteGlobalClusterResult.fromXml($result);
-  }
-
-  /// Deletes the installation medium for a DB engine that requires an
-  /// on-premises customer provided license, such as Microsoft SQL Server.
-  ///
-  /// May throw [InstallationMediaNotFoundFault].
-  ///
-  /// Parameter [installationMediaId] :
-  /// The installation medium ID.
-  Future<InstallationMedia> deleteInstallationMedia({
-    required String installationMediaId,
-  }) async {
-    ArgumentError.checkNotNull(installationMediaId, 'installationMediaId');
-    final $request = <String, dynamic>{};
-    $request['InstallationMediaId'] = installationMediaId;
-    final $result = await _protocol.send(
-      $request,
-      action: 'DeleteInstallationMedia',
-      version: '2014-10-31',
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      shape: shapes['DeleteInstallationMediaMessage'],
-      shapes: shapes,
-      resultWrapper: 'DeleteInstallationMediaResult',
-    );
-    return InstallationMedia.fromXml($result);
   }
 
   /// Deletes an existing option group.
@@ -6286,70 +6365,11 @@ class Rds {
     return CertificateMessage.fromXml($result);
   }
 
-  /// Returns information about custom Availability Zones (AZs).
-  ///
-  /// A custom AZ is an on-premises AZ that is integrated with a VMware vSphere
-  /// cluster.
-  ///
-  /// For more information about RDS on VMware, see the <a
-  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/RDSonVMwareUserGuide/rds-on-vmware.html">
-  /// RDS on VMware User Guide.</a>
-  ///
-  /// May throw [CustomAvailabilityZoneNotFoundFault].
-  ///
-  /// Parameter [customAvailabilityZoneId] :
-  /// The custom AZ identifier. If this parameter is specified, information from
-  /// only the specific custom AZ is returned.
-  ///
-  /// Parameter [filters] :
-  /// A filter that specifies one or more custom AZs to describe.
-  ///
-  /// Parameter [marker] :
-  /// An optional pagination token provided by a previous
-  /// <code>DescribeCustomAvailabilityZones</code> request. If this parameter is
-  /// specified, the response includes only records beyond the marker, up to the
-  /// value specified by <code>MaxRecords</code>.
-  ///
-  /// Parameter [maxRecords] :
-  /// The maximum number of records to include in the response. If more records
-  /// exist than the specified <code>MaxRecords</code> value, a pagination token
-  /// called a marker is included in the response so you can retrieve the
-  /// remaining results.
-  ///
-  /// Default: 100
-  ///
-  /// Constraints: Minimum 20, maximum 100.
-  Future<CustomAvailabilityZoneMessage> describeCustomAvailabilityZones({
-    String? customAvailabilityZoneId,
-    List<Filter>? filters,
-    String? marker,
-    int? maxRecords,
-  }) async {
-    final $request = <String, dynamic>{};
-    customAvailabilityZoneId
-        ?.also((arg) => $request['CustomAvailabilityZoneId'] = arg);
-    filters?.also((arg) => $request['Filters'] = arg);
-    marker?.also((arg) => $request['Marker'] = arg);
-    maxRecords?.also((arg) => $request['MaxRecords'] = arg);
-    final $result = await _protocol.send(
-      $request,
-      action: 'DescribeCustomAvailabilityZones',
-      version: '2014-10-31',
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      shape: shapes['DescribeCustomAvailabilityZonesMessage'],
-      shapes: shapes,
-      resultWrapper: 'DescribeCustomAvailabilityZonesResult',
-    );
-    return CustomAvailabilityZoneMessage.fromXml($result);
-  }
-
   /// Returns information about backtracks for a DB cluster.
   ///
   /// For more information on Amazon Aurora, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html">
-  /// What is Amazon Aurora?</a> in the <i>Amazon Aurora User Guide.</i>
+  /// What is Amazon Aurora?</a> in the <i>Amazon Aurora User Guide</i>.
   /// <note>
   /// This action only applies to Aurora MySQL DB clusters.
   /// </note>
@@ -6549,15 +6569,12 @@ class Rds {
   ///
   /// For more information on Amazon Aurora, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html">
-  /// What is Amazon Aurora?</a> in the <i>Amazon Aurora User Guide.</i>
+  /// What is Amazon Aurora?</a> in the <i>Amazon Aurora User Guide</i>.
   ///
   /// For more information on Multi-AZ DB clusters, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html">
   /// Multi-AZ deployments with two readable standby DB instances</a> in the
-  /// <i>Amazon RDS User Guide.</i>
-  /// <note>
-  /// The Multi-AZ DB clusters feature is in preview and is subject to change.
-  /// </note>
+  /// <i>Amazon RDS User Guide</i>.
   ///
   /// May throw [DBParameterGroupNotFoundFault].
   ///
@@ -6621,15 +6638,12 @@ class Rds {
   ///
   /// For more information on Amazon Aurora, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html">
-  /// What is Amazon Aurora?</a> in the <i>Amazon Aurora User Guide.</i>
+  /// What is Amazon Aurora?</a> in the <i>Amazon Aurora User Guide</i>.
   ///
   /// For more information on Multi-AZ DB clusters, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html">
   /// Multi-AZ deployments with two readable standby DB instances</a> in the
-  /// <i>Amazon RDS User Guide.</i>
-  /// <note>
-  /// The Multi-AZ DB clusters feature is in preview and is subject to change.
-  /// </note>
+  /// <i>Amazon RDS User Guide</i>.
   ///
   /// May throw [DBParameterGroupNotFoundFault].
   ///
@@ -6745,15 +6759,12 @@ class Rds {
   ///
   /// For more information on Amazon Aurora DB clusters, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html">
-  /// What is Amazon Aurora?</a> in the <i>Amazon Aurora User Guide.</i>
+  /// What is Amazon Aurora?</a> in the <i>Amazon Aurora User Guide</i>.
   ///
   /// For more information on Multi-AZ DB clusters, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html">
   /// Multi-AZ deployments with two readable standby DB instances</a> in the
-  /// <i>Amazon RDS User Guide.</i>
-  /// <note>
-  /// The Multi-AZ DB clusters feature is in preview and is subject to change.
-  /// </note>
+  /// <i>Amazon RDS User Guide</i>.
   ///
   /// May throw [DBClusterSnapshotNotFoundFault].
   ///
@@ -6918,15 +6929,13 @@ class Rds {
   ///
   /// For more information on Amazon Aurora DB clusters, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html">
-  /// What is Amazon Aurora?</a> in the <i>Amazon Aurora User Guide.</i>
+  /// What is Amazon Aurora?</a> in the <i>Amazon Aurora User Guide</i>.
   ///
   /// For more information on Multi-AZ DB clusters, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html">
   /// Multi-AZ deployments with two readable standby DB instances</a> in the
-  /// <i>Amazon RDS User Guide.</i>
-  /// <note>
-  /// The Multi-AZ DB clusters feature is in preview and is subject to change.
-  /// </note>
+  /// <i>Amazon RDS User Guide</i>.
+  ///
   /// This operation can also return information for Amazon Neptune DB instances
   /// and Amazon DocumentDB instances.
   ///
@@ -6953,22 +6962,22 @@ class Rds {
   /// <ul>
   /// <li>
   /// <code>clone-group-id</code> - Accepts clone group identifiers. The results
-  /// list will only include information about the DB clusters associated with
-  /// these clone groups.
+  /// list only includes information about the DB clusters associated with these
+  /// clone groups.
   /// </li>
   /// <li>
   /// <code>db-cluster-id</code> - Accepts DB cluster identifiers and DB cluster
-  /// Amazon Resource Names (ARNs). The results list will only include
-  /// information about the DB clusters identified by these ARNs.
+  /// Amazon Resource Names (ARNs). The results list only includes information
+  /// about the DB clusters identified by these ARNs.
   /// </li>
   /// <li>
   /// <code>domain</code> - Accepts Active Directory directory IDs. The results
-  /// list will only include information about the DB clusters associated with
-  /// these domains.
+  /// list only includes information about the DB clusters associated with these
+  /// domains.
   /// </li>
   /// <li>
-  /// <code>engine</code> - Accepts engine names. The results list will only
-  /// include information about the DB clusters for these engines.
+  /// <code>engine</code> - Accepts engine names. The results list only includes
+  /// information about the DB clusters for these engines.
   /// </li>
   /// </ul>
   ///
@@ -7092,7 +7101,61 @@ class Rds {
   /// Example: <code>5.1.49</code>
   ///
   /// Parameter [filters] :
-  /// This parameter isn't currently supported.
+  /// A filter that specifies one or more DB engine versions to describe.
+  ///
+  /// Supported filters:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>db-parameter-group-family</code> - Accepts parameter groups family
+  /// names. The results list only includes information about the DB engine
+  /// versions for these parameter group families.
+  /// </li>
+  /// <li>
+  /// <code>engine</code> - Accepts engine names. The results list only includes
+  /// information about the DB engine versions for these engines.
+  /// </li>
+  /// <li>
+  /// <code>engine-mode</code> - Accepts DB engine modes. The results list only
+  /// includes information about the DB engine versions for these engine modes.
+  /// Valid DB engine modes are the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>global</code>
+  /// </li>
+  /// <li>
+  /// <code>multimaster</code>
+  /// </li>
+  /// <li>
+  /// <code>parallelquery</code>
+  /// </li>
+  /// <li>
+  /// <code>provisioned</code>
+  /// </li>
+  /// <li>
+  /// <code>serverless</code>
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// <code>engine-version</code> - Accepts engine versions. The results list
+  /// only includes information about the DB engine versions for these engine
+  /// versions.
+  /// </li>
+  /// <li>
+  /// <code>status</code> - Accepts engine version statuses. The results list
+  /// only includes information about the DB engine versions for these statuses.
+  /// Valid statuses are the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>available</code>
+  /// </li>
+  /// <li>
+  /// <code>deprecated</code>
+  /// </li>
+  /// </ul> </li>
+  /// </ul>
   ///
   /// Parameter [includeAll] :
   /// A value that indicates whether to include engine versions that aren't
@@ -7312,13 +7375,13 @@ class Rds {
   /// <ul>
   /// <li>
   /// <code>db-cluster-id</code> - Accepts DB cluster identifiers and DB cluster
-  /// Amazon Resource Names (ARNs). The results list will only include
-  /// information about the DB instances associated with the DB clusters
-  /// identified by these ARNs.
+  /// Amazon Resource Names (ARNs). The results list only includes information
+  /// about the DB instances associated with the DB clusters identified by these
+  /// ARNs.
   /// </li>
   /// <li>
   /// <code>db-instance-id</code> - Accepts DB instance identifiers and DB
-  /// instance Amazon Resource Names (ARNs). The results list will only include
+  /// instance Amazon Resource Names (ARNs). The results list only includes
   /// information about the DB instances identified by these ARNs.
   /// </li>
   /// <li>
@@ -7328,12 +7391,12 @@ class Rds {
   /// </li>
   /// <li>
   /// <code>domain</code> - Accepts Active Directory directory IDs. The results
-  /// list will only include information about the DB instances associated with
+  /// list only includes information about the DB instances associated with
   /// these domains.
   /// </li>
   /// <li>
-  /// <code>engine</code> - Accepts engine names. The results list will only
-  /// include information about the DB instances for these engines.
+  /// <code>engine</code> - Accepts engine names. The results list only includes
+  /// information about the DB instances for these engines.
   /// </li>
   /// </ul>
   ///
@@ -7929,8 +7992,7 @@ class Rds {
   ///
   /// Parameter [dBInstanceIdentifier] :
   /// The ID of the DB instance to retrieve the list of DB snapshots for. This
-  /// parameter can't be used in conjunction with
-  /// <code>DBSnapshotIdentifier</code>. This parameter isn't case-sensitive.
+  /// parameter isn't case-sensitive.
   ///
   /// Constraints:
   ///
@@ -7941,9 +8003,8 @@ class Rds {
   /// </ul>
   ///
   /// Parameter [dBSnapshotIdentifier] :
-  /// A specific DB snapshot identifier to describe. This parameter can't be
-  /// used in conjunction with <code>DBInstanceIdentifier</code>. This value is
-  /// stored as a lowercase string.
+  /// A specific DB snapshot identifier to describe. This value is stored as a
+  /// lowercase string.
   ///
   /// Constraints:
   ///
@@ -8163,7 +8224,7 @@ class Rds {
   ///
   /// For more information on Amazon Aurora, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html">
-  /// What is Amazon Aurora?</a> in the <i>Amazon Aurora User Guide.</i>
+  /// What is Amazon Aurora?</a> in the <i>Amazon Aurora User Guide</i>.
   ///
   /// Parameter [dBParameterGroupFamily] :
   /// The name of the DB cluster parameter group family to return engine
@@ -8221,6 +8282,128 @@ class Rds {
   /// Parameter [dBParameterGroupFamily] :
   /// The name of the DB parameter group family.
   ///
+  /// Valid Values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>aurora5.6</code>
+  /// </li>
+  /// <li>
+  /// <code>aurora-mysql5.7</code>
+  /// </li>
+  /// <li>
+  /// <code>aurora-mysql8.0</code>
+  /// </li>
+  /// <li>
+  /// <code>aurora-postgresql10</code>
+  /// </li>
+  /// <li>
+  /// <code>aurora-postgresql11</code>
+  /// </li>
+  /// <li>
+  /// <code>aurora-postgresql12</code>
+  /// </li>
+  /// <li>
+  /// <code>aurora-postgresql13</code>
+  /// </li>
+  /// <li>
+  /// <code>mariadb10.2</code>
+  /// </li>
+  /// <li>
+  /// <code>mariadb10.3</code>
+  /// </li>
+  /// <li>
+  /// <code>mariadb10.4</code>
+  /// </li>
+  /// <li>
+  /// <code>mariadb10.5</code>
+  /// </li>
+  /// <li>
+  /// <code>mariadb10.6</code>
+  /// </li>
+  /// <li>
+  /// <code>mysql5.7</code>
+  /// </li>
+  /// <li>
+  /// <code>mysql8.0</code>
+  /// </li>
+  /// <li>
+  /// <code>postgres10</code>
+  /// </li>
+  /// <li>
+  /// <code>postgres11</code>
+  /// </li>
+  /// <li>
+  /// <code>postgres12</code>
+  /// </li>
+  /// <li>
+  /// <code>postgres13</code>
+  /// </li>
+  /// <li>
+  /// <code>postgres14</code>
+  /// </li>
+  /// <li>
+  /// <code>sqlserver-ee-11.0</code>
+  /// </li>
+  /// <li>
+  /// <code>sqlserver-ee-12.0</code>
+  /// </li>
+  /// <li>
+  /// <code>sqlserver-ee-13.0</code>
+  /// </li>
+  /// <li>
+  /// <code>sqlserver-ee-14.0</code>
+  /// </li>
+  /// <li>
+  /// <code>sqlserver-ee-15.0</code>
+  /// </li>
+  /// <li>
+  /// <code>sqlserver-ex-11.0</code>
+  /// </li>
+  /// <li>
+  /// <code>sqlserver-ex-12.0</code>
+  /// </li>
+  /// <li>
+  /// <code>sqlserver-ex-13.0</code>
+  /// </li>
+  /// <li>
+  /// <code>sqlserver-ex-14.0</code>
+  /// </li>
+  /// <li>
+  /// <code>sqlserver-ex-15.0</code>
+  /// </li>
+  /// <li>
+  /// <code>sqlserver-se-11.0</code>
+  /// </li>
+  /// <li>
+  /// <code>sqlserver-se-12.0</code>
+  /// </li>
+  /// <li>
+  /// <code>sqlserver-se-13.0</code>
+  /// </li>
+  /// <li>
+  /// <code>sqlserver-se-14.0</code>
+  /// </li>
+  /// <li>
+  /// <code>sqlserver-se-15.0</code>
+  /// </li>
+  /// <li>
+  /// <code>sqlserver-web-11.0</code>
+  /// </li>
+  /// <li>
+  /// <code>sqlserver-web-12.0</code>
+  /// </li>
+  /// <li>
+  /// <code>sqlserver-web-13.0</code>
+  /// </li>
+  /// <li>
+  /// <code>sqlserver-web-14.0</code>
+  /// </li>
+  /// <li>
+  /// <code>sqlserver-web-15.0</code>
+  /// </li>
+  /// </ul>
+  ///
   /// Parameter [filters] :
   /// This parameter isn't currently supported.
   ///
@@ -8268,20 +8451,24 @@ class Rds {
   }
 
   /// Displays a list of categories for all event source types, or, if
-  /// specified, for a specified source type. You can see a list of the event
-  /// categories and source types in <a
-  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Events.html">
-  /// Events</a> in the <i>Amazon RDS User Guide.</i>
+  /// specified, for a specified source type. You can also see this list in the
+  /// "Amazon RDS event categories and event messages" section of the <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Events.Messages.html">
+  /// <i>Amazon RDS User Guide</i> </a> or the <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Events.Messages.html">
+  /// <i>Amazon Aurora User Guide</i> </a>.
   ///
   /// Parameter [filters] :
   /// This parameter isn't currently supported.
   ///
   /// Parameter [sourceType] :
-  /// The type of source that is generating the events.
+  /// The type of source that is generating the events. For RDS Proxy events,
+  /// specify <code>db-proxy</code>.
   ///
   /// Valid values: <code>db-instance</code> | <code>db-cluster</code> |
   /// <code>db-parameter-group</code> | <code>db-security-group</code> |
-  /// <code>db-snapshot</code> | <code>db-cluster-snapshot</code>
+  /// <code>db-snapshot</code> | <code>db-cluster-snapshot</code> |
+  /// <code>db-proxy</code>
   Future<EventCategoriesMessage> describeEventCategories({
     List<Filter>? filters,
     String? sourceType,
@@ -8361,12 +8548,19 @@ class Rds {
   }
 
   /// Returns events related to DB instances, DB clusters, DB parameter groups,
-  /// DB security groups, DB snapshots, and DB cluster snapshots for the past 14
-  /// days. Events specific to a particular DB instances, DB clusters, DB
-  /// parameter groups, DB security groups, DB snapshots, and DB cluster
-  /// snapshots group can be obtained by providing the name as a parameter.
+  /// DB security groups, DB snapshots, DB cluster snapshots, and RDS Proxies
+  /// for the past 14 days. Events specific to a particular DB instance, DB
+  /// cluster, DB parameter group, DB security group, DB snapshot, DB cluster
+  /// snapshot group, or RDS Proxy can be obtained by providing the name as a
+  /// parameter.
+  ///
+  /// For more information on working with events, see <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/working-with-events.html">Monitoring
+  /// Amazon RDS events</a> in the <i>Amazon RDS User Guide</i> and <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/working-with-events.html">Monitoring
+  /// Amazon Aurora events</a> in the <i>Amazon Aurora User Guide</i>.
   /// <note>
-  /// By default, the past hour of events are returned.
+  /// By default, RDS returns events that were generated in the past hour.
   /// </note>
   ///
   /// Parameter [duration] :
@@ -8438,6 +8632,10 @@ class Rds {
   /// <li>
   /// If the source type is a DB cluster snapshot, a
   /// <code>DBClusterSnapshotIdentifier</code> value must be supplied.
+  /// </li>
+  /// <li>
+  /// If the source type is an RDS Proxy, a <code>DBProxyName</code> value must
+  /// be supplied.
   /// </li>
   /// <li>
   /// Can't end with a hyphen or contain two consecutive hyphens.
@@ -8599,7 +8797,7 @@ class Rds {
   ///
   /// For more information on Amazon Aurora, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html">
-  /// What is Amazon Aurora?</a> in the <i>Amazon Aurora User Guide.</i>
+  /// What is Amazon Aurora?</a> in the <i>Amazon Aurora User Guide</i>.
   /// <note>
   /// This action only applies to Aurora DB clusters.
   /// </note>
@@ -8661,69 +8859,6 @@ class Rds {
       resultWrapper: 'DescribeGlobalClustersResult',
     );
     return GlobalClustersMessage.fromXml($result);
-  }
-
-  /// Describes the available installation media for a DB engine that requires
-  /// an on-premises customer provided license, such as Microsoft SQL Server.
-  ///
-  /// May throw [InstallationMediaNotFoundFault].
-  ///
-  /// Parameter [filters] :
-  /// A filter that specifies one or more installation media to describe.
-  /// Supported filters include the following:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>custom-availability-zone-id</code> - Accepts custom Availability
-  /// Zone (AZ) identifiers. The results list includes information about only
-  /// the custom AZs identified by these identifiers.
-  /// </li>
-  /// <li>
-  /// <code>engine</code> - Accepts database engines. The results list includes
-  /// information about only the database engines identified by these
-  /// identifiers.
-  ///
-  /// For more information about the valid engines for installation media, see
-  /// <a>ImportInstallationMedia</a>.
-  /// </li>
-  /// </ul>
-  ///
-  /// Parameter [installationMediaId] :
-  /// The installation medium ID.
-  ///
-  /// Parameter [marker] :
-  /// An optional pagination token provided by a previous request. If this
-  /// parameter is specified, the response includes only records beyond the
-  /// marker, up to the value specified by <code>MaxRecords</code>.
-  ///
-  /// Parameter [maxRecords] :
-  /// An optional pagination token provided by a previous
-  /// DescribeInstallationMedia request. If this parameter is specified, the
-  /// response includes only records beyond the marker, up to the value
-  /// specified by <code>MaxRecords</code>.
-  Future<InstallationMediaMessage> describeInstallationMedia({
-    List<Filter>? filters,
-    String? installationMediaId,
-    String? marker,
-    int? maxRecords,
-  }) async {
-    final $request = <String, dynamic>{};
-    filters?.also((arg) => $request['Filters'] = arg);
-    installationMediaId?.also((arg) => $request['InstallationMediaId'] = arg);
-    marker?.also((arg) => $request['Marker'] = arg);
-    maxRecords?.also((arg) => $request['MaxRecords'] = arg);
-    final $result = await _protocol.send(
-      $request,
-      action: 'DescribeInstallationMedia',
-      version: '2014-10-31',
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      shape: shapes['DescribeInstallationMediaMessage'],
-      shapes: shapes,
-      resultWrapper: 'DescribeInstallationMediaResult',
-    );
-    return InstallationMediaMessage.fromXml($result);
   }
 
   /// Describes all available options.
@@ -9006,7 +9141,7 @@ class Rds {
   /// An optional pagination token provided by a previous
   /// DescribeOrderableDBInstanceOptions request. If this parameter is
   /// specified, the response includes only records beyond the marker, up to the
-  /// value specified by <code>MaxRecords</code> .
+  /// value specified by <code>MaxRecords</code>.
   ///
   /// Parameter [maxRecords] :
   /// The maximum number of records to include in the response. If more records
@@ -9016,7 +9151,7 @@ class Rds {
   ///
   /// Default: 100
   ///
-  /// Constraints: Minimum 20, maximum 100.
+  /// Constraints: Minimum 20, maximum 10000.
   ///
   /// Parameter [vpc] :
   /// A value that indicates whether to show only VPC or non-VPC offerings. RDS
@@ -9075,13 +9210,13 @@ class Rds {
   /// <ul>
   /// <li>
   /// <code>db-cluster-id</code> - Accepts DB cluster identifiers and DB cluster
-  /// Amazon Resource Names (ARNs). The results list will only include pending
+  /// Amazon Resource Names (ARNs). The results list only includes pending
   /// maintenance actions for the DB clusters identified by these ARNs.
   /// </li>
   /// <li>
   /// <code>db-instance-id</code> - Accepts DB instance identifiers and DB
-  /// instance ARNs. The results list will only include pending maintenance
-  /// actions for the DB instances identified by these ARNs.
+  /// instance ARNs. The results list only includes pending maintenance actions
+  /// for the DB instances identified by these ARNs.
   /// </li>
   /// </ul>
   ///
@@ -9511,7 +9646,7 @@ class Rds {
   ///
   /// An Amazon Aurora DB cluster automatically fails over to an Aurora Replica,
   /// if one exists, when the primary DB instance fails. A Multi-AZ DB cluster
-  /// automatically fails over to a readbable standby DB instance when the
+  /// automatically fails over to a readable standby DB instance when the
   /// primary DB instance fails.
   ///
   /// To simulate a failure of a primary instance for testing, you can force a
@@ -9521,15 +9656,12 @@ class Rds {
   ///
   /// For more information on Amazon Aurora DB clusters, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html">
-  /// What is Amazon Aurora?</a> in the <i>Amazon Aurora User Guide.</i>
+  /// What is Amazon Aurora?</a> in the <i>Amazon Aurora User Guide</i>.
   ///
   /// For more information on Multi-AZ DB clusters, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html">
   /// Multi-AZ deployments with two readable standby DB instances</a> in the
-  /// <i>Amazon RDS User Guide.</i>
-  /// <note>
-  /// The Multi-AZ DB clusters feature is in preview and is subject to change.
-  /// </note>
+  /// <i>Amazon RDS User Guide</i>.
   ///
   /// May throw [DBClusterNotFoundFault].
   /// May throw [InvalidDBClusterStateFault].
@@ -9592,7 +9724,7 @@ class Rds {
   /// see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-global-database-disaster-recovery.html#aurora-global-database-disaster-recovery.managed-failover">Managed
   /// planned failover for Amazon Aurora global databases</a> in the <i>Amazon
-  /// Aurora User Guide.</i>
+  /// Aurora User Guide</i>.
   /// <note>
   /// This action applies to <a>GlobalCluster</a> (Aurora global databases)
   /// only. Use this action only on healthy Aurora global databases with running
@@ -9650,102 +9782,6 @@ class Rds {
     return FailoverGlobalClusterResult.fromXml($result);
   }
 
-  /// Imports the installation media for a DB engine that requires an
-  /// on-premises customer provided license, such as SQL Server.
-  ///
-  /// May throw [CustomAvailabilityZoneNotFoundFault].
-  /// May throw [InstallationMediaAlreadyExistsFault].
-  ///
-  /// Parameter [customAvailabilityZoneId] :
-  /// The identifier of the custom Availability Zone (AZ) to import the
-  /// installation media to.
-  ///
-  /// Parameter [engine] :
-  /// The name of the database engine to be used for this instance.
-  ///
-  /// The list only includes supported DB engines that require an on-premises
-  /// customer provided license.
-  ///
-  /// Valid Values:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>sqlserver-ee</code>
-  /// </li>
-  /// <li>
-  /// <code>sqlserver-se</code>
-  /// </li>
-  /// <li>
-  /// <code>sqlserver-ex</code>
-  /// </li>
-  /// <li>
-  /// <code>sqlserver-web</code>
-  /// </li>
-  /// </ul>
-  ///
-  /// Parameter [engineInstallationMediaPath] :
-  /// The path to the installation medium for the specified DB engine.
-  ///
-  /// Example:
-  /// <code>SQLServerISO/en_sql_server_2016_enterprise_x64_dvd_8701793.iso</code>
-  ///
-  /// Parameter [engineVersion] :
-  /// The version number of the database engine to use.
-  ///
-  /// For a list of valid engine versions, call <a>DescribeDBEngineVersions</a>.
-  ///
-  /// The following are the database engines and links to information about the
-  /// major and minor versions. The list only includes DB engines that require
-  /// an on-premises customer provided license.
-  ///
-  /// <b>Microsoft SQL Server</b>
-  ///
-  /// See <a
-  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_SQLServer.html#SQLServer.Concepts.General.VersionSupport">
-  /// Microsoft SQL Server Versions on Amazon RDS</a> in the <i>Amazon RDS User
-  /// Guide.</i>
-  ///
-  /// Parameter [oSInstallationMediaPath] :
-  /// The path to the installation medium for the operating system associated
-  /// with the specified DB engine.
-  ///
-  /// Example:
-  /// <code>WindowsISO/en_windows_server_2016_x64_dvd_9327751.iso</code>
-  Future<InstallationMedia> importInstallationMedia({
-    required String customAvailabilityZoneId,
-    required String engine,
-    required String engineInstallationMediaPath,
-    required String engineVersion,
-    required String oSInstallationMediaPath,
-  }) async {
-    ArgumentError.checkNotNull(
-        customAvailabilityZoneId, 'customAvailabilityZoneId');
-    ArgumentError.checkNotNull(engine, 'engine');
-    ArgumentError.checkNotNull(
-        engineInstallationMediaPath, 'engineInstallationMediaPath');
-    ArgumentError.checkNotNull(engineVersion, 'engineVersion');
-    ArgumentError.checkNotNull(
-        oSInstallationMediaPath, 'oSInstallationMediaPath');
-    final $request = <String, dynamic>{};
-    $request['CustomAvailabilityZoneId'] = customAvailabilityZoneId;
-    $request['Engine'] = engine;
-    $request['EngineInstallationMediaPath'] = engineInstallationMediaPath;
-    $request['EngineVersion'] = engineVersion;
-    $request['OSInstallationMediaPath'] = oSInstallationMediaPath;
-    final $result = await _protocol.send(
-      $request,
-      action: 'ImportInstallationMedia',
-      version: '2014-10-31',
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      shape: shapes['ImportInstallationMediaMessage'],
-      shapes: shapes,
-      resultWrapper: 'ImportInstallationMediaResult',
-    );
-    return InstallationMedia.fromXml($result);
-  }
-
   /// Lists all tags on an Amazon RDS resource.
   ///
   /// For an overview on tagging an Amazon RDS resource, see <a
@@ -9789,9 +9825,56 @@ class Rds {
     return TagListMessage.fromXml($result);
   }
 
+  /// Changes the audit policy state of a database activity stream to either
+  /// locked (default) or unlocked. A locked policy is read-only, whereas an
+  /// unlocked policy is read/write. If your activity stream is started and
+  /// locked, you can unlock it, customize your audit policy, and then lock your
+  /// activity stream. Restarting the activity stream isn't required. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/DBActivityStreams.Modifying.html">
+  /// Modifying a database activity stream</a> in the <i>Amazon RDS User
+  /// Guide</i>.
+  ///
+  /// This operation is supported for RDS for Oracle only.
+  ///
+  /// May throw [InvalidDBInstanceStateFault].
+  /// May throw [ResourceNotFoundFault].
+  /// May throw [DBInstanceNotFoundFault].
+  ///
+  /// Parameter [auditPolicyState] :
+  /// The audit policy state. When a policy is unlocked, it is read/write. When
+  /// it is locked, it is read-only. You can edit your audit policy only when
+  /// the activity stream is unlocked or stopped.
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) of the RDS for Oracle DB instance, for
+  /// example,
+  /// <code>arn:aws:rds:us-east-1:12345667890:instance:my-orcl-db</code>.
+  Future<ModifyActivityStreamResponse> modifyActivityStream({
+    AuditPolicyState? auditPolicyState,
+    String? resourceArn,
+  }) async {
+    final $request = <String, dynamic>{};
+    auditPolicyState
+        ?.also((arg) => $request['AuditPolicyState'] = arg.toValue());
+    resourceArn?.also((arg) => $request['ResourceArn'] = arg);
+    final $result = await _protocol.send(
+      $request,
+      action: 'ModifyActivityStream',
+      version: '2014-10-31',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['ModifyActivityStreamRequest'],
+      shapes: shapes,
+      resultWrapper: 'ModifyActivityStreamResult',
+    );
+    return ModifyActivityStreamResponse.fromXml($result);
+  }
+
   /// Override the system-default Secure Sockets Layer/Transport Layer Security
-  /// (SSL/TLS) certificate for Amazon RDS for new DB instances temporarily, or
-  /// remove the override.
+  /// (SSL/TLS) certificate for Amazon RDS for new DB instances, or remove the
+  /// override.
   ///
   /// By using this operation, you can specify an RDS-approved SSL/TLS
   /// certificate for new DB instances that is different from the default
@@ -9861,31 +9944,32 @@ class Rds {
     return ModifyCertificatesResult.fromXml($result);
   }
 
-  /// Set the capacity of an Aurora Serverless DB cluster to a specific value.
+  /// Set the capacity of an Aurora Serverless v1 DB cluster to a specific
+  /// value.
   ///
-  /// Aurora Serverless scales seamlessly based on the workload on the DB
+  /// Aurora Serverless v1 scales seamlessly based on the workload on the DB
   /// cluster. In some cases, the capacity might not scale fast enough to meet a
   /// sudden change in workload, such as a large number of new transactions.
   /// Call <code>ModifyCurrentDBClusterCapacity</code> to set the capacity
   /// explicitly.
   ///
-  /// After this call sets the DB cluster capacity, Aurora Serverless can
+  /// After this call sets the DB cluster capacity, Aurora Serverless v1 can
   /// automatically scale the DB cluster based on the cooldown period for
   /// scaling up and the cooldown period for scaling down.
   ///
-  /// For more information about Aurora Serverless, see <a
+  /// For more information about Aurora Serverless v1, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless.html">Using
-  /// Amazon Aurora Serverless</a> in the <i>Amazon Aurora User Guide</i>.
+  /// Amazon Aurora Serverless v1</a> in the <i>Amazon Aurora User Guide</i>.
   /// <important>
   /// If you call <code>ModifyCurrentDBClusterCapacity</code> with the default
-  /// <code>TimeoutAction</code>, connections that prevent Aurora Serverless
+  /// <code>TimeoutAction</code>, connections that prevent Aurora Serverless v1
   /// from finding a scaling point might be dropped. For more information about
   /// scaling points, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless.how-it-works.html#aurora-serverless.how-it-works.auto-scaling">
-  /// Autoscaling for Aurora Serverless</a> in the <i>Amazon Aurora User
+  /// Autoscaling for Aurora Serverless v1</a> in the <i>Amazon Aurora User
   /// Guide</i>.
   /// </important> <note>
-  /// This action only applies to Aurora Serverless DB clusters.
+  /// This action only applies to Aurora Serverless v1 DB clusters.
   /// </note>
   ///
   /// May throw [DBClusterNotFoundFault].
@@ -9907,8 +9991,8 @@ class Rds {
   /// Parameter [capacity] :
   /// The DB cluster capacity.
   ///
-  /// When you change the capacity of a paused Aurora Serverless DB cluster, it
-  /// automatically resumes.
+  /// When you change the capacity of a paused Aurora Serverless v1 DB cluster,
+  /// it automatically resumes.
   ///
   /// Constraints:
   ///
@@ -9926,7 +10010,7 @@ class Rds {
   /// </ul>
   ///
   /// Parameter [secondsBeforeTimeout] :
-  /// The amount of time, in seconds, that Aurora Serverless tries to find a
+  /// The amount of time, in seconds, that Aurora Serverless v1 tries to find a
   /// scaling point to perform seamless scaling before enforcing the timeout
   /// action. The default is 300.
   ///
@@ -10047,15 +10131,12 @@ class Rds {
   ///
   /// For more information on Amazon Aurora DB clusters, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html">
-  /// What is Amazon Aurora?</a> in the <i>Amazon Aurora User Guide.</i>
+  /// What is Amazon Aurora?</a> in the <i>Amazon Aurora User Guide</i>.
   ///
   /// For more information on Multi-AZ DB clusters, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html">
   /// Multi-AZ deployments with two readable standby DB instances</a> in the
-  /// <i>Amazon RDS User Guide.</i>
-  /// <note>
-  /// The Multi-AZ DB clusters feature is in preview and is subject to change.
-  /// </note>
+  /// <i>Amazon RDS User Guide</i>.
   ///
   /// May throw [DBClusterNotFoundFault].
   /// May throw [InvalidDBClusterStateFault].
@@ -10157,15 +10238,46 @@ class Rds {
   ///
   /// Parameter [cloudwatchLogsExportConfiguration] :
   /// The configuration setting for the log types to be enabled for export to
-  /// CloudWatch Logs for a specific DB cluster.
+  /// CloudWatch Logs for a specific DB cluster. The values in the list depend
+  /// on the DB engine being used.
   ///
-  /// Valid for: Aurora DB clusters only
+  /// <b>RDS for MySQL</b>
+  ///
+  /// Possible values are <code>error</code>, <code>general</code>, and
+  /// <code>slowquery</code>.
+  ///
+  /// <b>RDS for PostgreSQL</b>
+  ///
+  /// Possible values are <code>postgresql</code> and <code>upgrade</code>.
+  ///
+  /// <b>Aurora MySQL</b>
+  ///
+  /// Possible values are <code>audit</code>, <code>error</code>,
+  /// <code>general</code>, and <code>slowquery</code>.
+  ///
+  /// <b>Aurora PostgreSQL</b>
+  ///
+  /// Possible value is <code>postgresql</code>.
+  ///
+  /// For more information about exporting CloudWatch Logs for Amazon RDS, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch">
+  /// Publishing Database Logs to Amazon CloudWatch Logs</a> in the <i>Amazon
+  /// RDS User Guide</i>.
+  ///
+  /// For more information about exporting CloudWatch Logs for Amazon Aurora,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch">Publishing
+  /// Database Logs to Amazon CloudWatch Logs</a> in the <i>Amazon Aurora User
+  /// Guide</i>.
+  ///
+  /// Valid for: Aurora DB clusters and Multi-AZ DB clusters
   ///
   /// Parameter [copyTagsToSnapshot] :
   /// A value that indicates whether to copy all tags from the DB cluster to
   /// snapshots of the DB cluster. The default is not to copy them.
   ///
-  /// Valid for: Aurora DB clusters only
+  /// Valid for: Aurora DB clusters and Multi-AZ DB clusters
   ///
   /// Parameter [dBClusterInstanceClass] :
   /// The compute and memory capacity of each DB instance in the Multi-AZ DB
@@ -10174,8 +10286,8 @@ class Rds {
   ///
   /// For the full list of DB instance classes and availability for your engine,
   /// see <a
-  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html">DB
-  /// Instance Class</a> in the <i>Amazon RDS User Guide.</i>
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html">
+  /// DB Instance Class</a> in the <i>Amazon RDS User Guide</i>.
   ///
   /// Valid for: Multi-AZ DB clusters only
   ///
@@ -10190,8 +10302,8 @@ class Rds {
   /// <note>
   /// When you apply a parameter group using the
   /// <code>DBInstanceParameterGroupName</code> parameter, the DB cluster isn't
-  /// rebooted automatically. Also, parameter changes aren't applied during the
-  /// next maintenance window but instead are applied immediately.
+  /// rebooted automatically. Also, parameter changes are applied immediately
+  /// rather than during the next maintenance window.
   /// </note>
   /// Default: The existing name setting
   ///
@@ -10203,8 +10315,9 @@ class Rds {
   /// this DB cluster.
   /// </li>
   /// <li>
-  /// The <code>DBInstanceParameterGroupName</code> parameter is only valid in
-  /// combination with the <code>AllowMajorVersionUpgrade</code> parameter.
+  /// The <code>DBInstanceParameterGroupName</code> parameter is valid in
+  /// combination with the <code>AllowMajorVersionUpgrade</code> parameter for a
+  /// major version upgrade only.
   /// </li>
   /// </ul>
   /// Valid for: Aurora DB clusters only
@@ -10252,15 +10365,16 @@ class Rds {
   ///
   /// Parameter [enableHttpEndpoint] :
   /// A value that indicates whether to enable the HTTP endpoint for an Aurora
-  /// Serverless DB cluster. By default, the HTTP endpoint is disabled.
+  /// Serverless v1 DB cluster. By default, the HTTP endpoint is disabled.
   ///
   /// When enabled, the HTTP endpoint provides a connectionless web service API
-  /// for running SQL queries on the Aurora Serverless DB cluster. You can also
-  /// query your database from inside the RDS console with the query editor.
+  /// for running SQL queries on the Aurora Serverless v1 DB cluster. You can
+  /// also query your database from inside the RDS console with the query
+  /// editor.
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/data-api.html">Using
-  /// the Data API for Aurora Serverless</a> in the <i>Amazon Aurora User
+  /// the Data API for Aurora Serverless v1</a> in the <i>Amazon Aurora User
   /// Guide</i>.
   ///
   /// Valid for: Aurora DB clusters only
@@ -10272,7 +10386,7 @@ class Rds {
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.IAMDBAuth.html">
-  /// IAM Database Authentication</a> in the <i>Amazon Aurora User Guide.</i>
+  /// IAM Database Authentication</a> in the <i>Amazon Aurora User Guide</i>.
   ///
   /// Valid for: Aurora DB clusters only
   ///
@@ -10415,8 +10529,38 @@ class Rds {
   /// Valid for: Multi-AZ DB clusters only
   ///
   /// Parameter [performanceInsightsRetentionPeriod] :
-  /// The amount of time, in days, to retain Performance Insights data. Valid
-  /// values are 7 or 731 (2 years).
+  /// The number of days to retain Performance Insights data. The default is 7
+  /// days. The following values are valid:
+  ///
+  /// <ul>
+  /// <li>
+  /// 7
+  /// </li>
+  /// <li>
+  /// <i>month</i> * 31, where <i>month</i> is a number of months from 1-23
+  /// </li>
+  /// <li>
+  /// 731
+  /// </li>
+  /// </ul>
+  /// For example, the following values are valid:
+  ///
+  /// <ul>
+  /// <li>
+  /// 93 (3 months * 31)
+  /// </li>
+  /// <li>
+  /// 341 (11 months * 31)
+  /// </li>
+  /// <li>
+  /// 589 (19 months * 31)
+  /// </li>
+  /// <li>
+  /// 731
+  /// </li>
+  /// </ul>
+  /// If you specify a retention period such as 94, which isn't a valid value,
+  /// RDS issues an error.
   ///
   /// Valid for: Multi-AZ DB clusters only
   ///
@@ -10438,7 +10582,7 @@ class Rds {
   /// of time for each Amazon Web Services Region. To view the time blocks
   /// available, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Aurora.Managing.Backups.html#Aurora.Managing.Backups.BackupWindow">
-  /// Backup window</a> in the <i>Amazon Aurora User Guide.</i>
+  /// Backup window</a> in the <i>Amazon Aurora User Guide</i>.
   ///
   /// Constraints:
   ///
@@ -10469,7 +10613,7 @@ class Rds {
   /// the week. To see the time blocks available, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_UpgradeDBInstance.Maintenance.html#AdjustingTheMaintenanceWindow.Aurora">
   /// Adjusting the Preferred DB Cluster Maintenance Window</a> in the <i>Amazon
-  /// Aurora User Guide.</i>
+  /// Aurora User Guide</i>.
   ///
   /// Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun.
   ///
@@ -10531,6 +10675,7 @@ class Rds {
     String? preferredBackupWindow,
     String? preferredMaintenanceWindow,
     ScalingConfiguration? scalingConfiguration,
+    ServerlessV2ScalingConfiguration? serverlessV2ScalingConfiguration,
     String? storageType,
     List<String>? vpcSecurityGroupIds,
   }) async {
@@ -10583,6 +10728,8 @@ class Rds {
     preferredMaintenanceWindow
         ?.also((arg) => $request['PreferredMaintenanceWindow'] = arg);
     scalingConfiguration?.also((arg) => $request['ScalingConfiguration'] = arg);
+    serverlessV2ScalingConfiguration
+        ?.also((arg) => $request['ServerlessV2ScalingConfiguration'] = arg);
     storageType?.also((arg) => $request['StorageType'] = arg);
     vpcSecurityGroupIds?.also((arg) => $request['VpcSecurityGroupIds'] = arg);
     final $result = await _protocol.send(
@@ -10669,26 +10816,23 @@ class Rds {
   /// <code>character_set_database</code> parameter. You can use the
   /// <i>Parameter Groups</i> option of the <a
   /// href="https://console.aws.amazon.com/rds/">Amazon RDS console</a> or the
-  /// <code>DescribeDBClusterParameters</code> action to verify that your DB
+  /// <code>DescribeDBClusterParameters</code> operation to verify that your DB
   /// cluster parameter group has been created or modified.
   ///
   /// If the modified DB cluster parameter group is used by an Aurora Serverless
-  /// cluster, Aurora applies the update immediately. The cluster restart might
-  /// interrupt your workload. In that case, your application must reopen any
-  /// connections and retry any transactions that were active when the parameter
-  /// changes took effect.
+  /// v1 cluster, Aurora applies the update immediately. The cluster restart
+  /// might interrupt your workload. In that case, your application must reopen
+  /// any connections and retry any transactions that were active when the
+  /// parameter changes took effect.
   /// </important>
   /// For more information on Amazon Aurora DB clusters, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html">
-  /// What is Amazon Aurora?</a> in the <i>Amazon Aurora User Guide.</i>
+  /// What is Amazon Aurora?</a> in the <i>Amazon Aurora User Guide</i>.
   ///
   /// For more information on Multi-AZ DB clusters, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html">
   /// Multi-AZ deployments with two readable standby DB instances</a> in the
   /// <i>Amazon RDS User Guide.</i>
-  /// <note>
-  /// The Multi-AZ DB clusters feature is in preview and is subject to change.
-  /// </note>
   ///
   /// May throw [DBParameterGroupNotFoundFault].
   /// May throw [InvalidDBParameterGroupStateFault].
@@ -10760,8 +10904,8 @@ class Rds {
   /// To view which Amazon Web Services accounts have access to copy or restore
   /// a manual DB cluster snapshot, or whether a manual DB cluster snapshot is
   /// public or private, use the <a>DescribeDBClusterSnapshotAttributes</a> API
-  /// action. The accounts are returned as values for the <code>restore</code>
-  /// attribute.
+  /// operation. The accounts are returned as values for the
+  /// <code>restore</code> attribute.
   ///
   /// May throw [DBClusterSnapshotNotFoundFault].
   /// May throw [InvalidDBClusterSnapshotStateFault].
@@ -10775,7 +10919,7 @@ class Rds {
   /// <code>restore</code>.
   /// <note>
   /// To view the list of attributes available to modify, use the
-  /// <a>DescribeDBClusterSnapshotAttributes</a> API action.
+  /// <a>DescribeDBClusterSnapshotAttributes</a> API operation.
   /// </note>
   ///
   /// Parameter [dBClusterSnapshotIdentifier] :
@@ -10859,6 +11003,7 @@ class Rds {
   /// May throw [BackupPolicyNotFoundFault].
   /// May throw [KMSKeyNotAccessibleFault].
   /// May throw [InvalidDBClusterStateFault].
+  /// May throw [NetworkTypeNotSupported].
   ///
   /// Parameter [dBInstanceIdentifier] :
   /// The DB instance identifier. This value is stored as a lowercase string.
@@ -10970,8 +11115,8 @@ class Rds {
   /// <ul>
   /// <li>
   /// It must be a value from 0 to 35. It can't be set to 0 if the DB instance
-  /// is a source to read replicas. It can't be set to 0 or 35 for an RDS Custom
-  /// for Oracle DB instance.
+  /// is a source to read replicas. It can't be set to 0 for an RDS Custom for
+  /// Oracle DB instance.
   /// </li>
   /// <li>
   /// It can be specified for a MySQL read replica only if the source is running
@@ -11016,7 +11161,7 @@ class Rds {
   /// engines, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.SSL-certificate-rotation.html">
   /// Rotating Your SSL/TLS Certificate</a> in the <i>Amazon Aurora User
-  /// Guide.</i>
+  /// Guide</i>.
   /// </li>
   /// </ul>
   /// This setting doesn't apply to RDS Custom.
@@ -11043,11 +11188,13 @@ class Rds {
   ///
   /// Parameter [dBInstanceClass] :
   /// The new compute and memory capacity of the DB instance, for example
-  /// db.m4.large. Not all DB instance classes are available in all Amazon Web
+  /// db.m5.large. Not all DB instance classes are available in all Amazon Web
   /// Services Regions, or for all database engines. For the full list of DB
   /// instance classes, and availability for your engine, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html">DB
-  /// Instance Class</a> in the <i>Amazon RDS User Guide</i>.
+  /// instance classes</a> in the <i>Amazon RDS User Guide</i> or <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Concepts.DBInstanceClass.html">Aurora
+  /// DB instance classes</a> in the <i>Amazon Aurora User Guide</i>.
   ///
   /// If you modify the DB instance class, an outage occurs during the change.
   /// The change is applied during the next maintenance window, unless
@@ -11159,7 +11306,7 @@ class Rds {
   /// Constraints: If supplied, must match the name of an existing
   /// DBSubnetGroup.
   ///
-  /// Example: <code>mySubnetGroup</code>
+  /// Example: <code>mydbsubnetgroup</code>
   ///
   /// Parameter [deletionProtection] :
   /// A value that indicates whether the DB instance has deletion protection
@@ -11227,8 +11374,7 @@ class Rds {
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_PerfInsights.html">Using
-  /// Amazon Performance Insights</a> in the <i>Amazon Relational Database
-  /// Service User Guide</i>.
+  /// Amazon Performance Insights</a> in the <i>Amazon RDS User Guide</i>.
   ///
   /// This setting doesn't apply to RDS Custom.
   ///
@@ -11331,10 +11477,10 @@ class Rds {
   ///
   /// Constraints: Must contain from 8 to 128 characters.
   /// <note>
-  /// Amazon RDS API actions never return the password, so this action provides
-  /// a way to regain access to a primary instance user if the password is lost.
-  /// This includes restoring privileges that might have been accidentally
-  /// revoked.
+  /// Amazon RDS API operations never return the password, so this action
+  /// provides a way to regain access to a primary instance user if the password
+  /// is lost. This includes restoring privileges that might have been
+  /// accidentally revoked.
   /// </note>
   ///
   /// Parameter [maxAllocatedStorage] :
@@ -11382,6 +11528,28 @@ class Rds {
   /// <code>ApplyImmediately</code> parameter is enabled for this request.
   ///
   /// This setting doesn't apply to RDS Custom.
+  ///
+  /// Parameter [networkType] :
+  /// The network type of the DB instance.
+  ///
+  /// Valid values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>IPV4</code>
+  /// </li>
+  /// <li>
+  /// <code>DUAL</code>
+  /// </li>
+  /// </ul>
+  /// The network type is determined by the <code>DBSubnetGroup</code> specified
+  /// for the DB instance. A <code>DBSubnetGroup</code> can support only the
+  /// IPv4 protocol or the IPv4 and the IPv6 protocols (<code>DUAL</code>).
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_VPC.WorkingWithRDSInstanceinaVPC.html">
+  /// Working with a DB instance in a VPC</a> in the <i>Amazon RDS User
+  /// Guide.</i>
   ///
   /// Parameter [newDBInstanceIdentifier] :
   /// The new DB instance identifier for the DB instance when renaming a DB
@@ -11441,8 +11609,38 @@ class Rds {
   /// This setting doesn't apply to RDS Custom.
   ///
   /// Parameter [performanceInsightsRetentionPeriod] :
-  /// The amount of time, in days, to retain Performance Insights data. Valid
-  /// values are 7 or 731 (2 years).
+  /// The number of days to retain Performance Insights data. The default is 7
+  /// days. The following values are valid:
+  ///
+  /// <ul>
+  /// <li>
+  /// 7
+  /// </li>
+  /// <li>
+  /// <i>month</i> * 31, where <i>month</i> is a number of months from 1-23
+  /// </li>
+  /// <li>
+  /// 731
+  /// </li>
+  /// </ul>
+  /// For example, the following values are valid:
+  ///
+  /// <ul>
+  /// <li>
+  /// 93 (3 months * 31)
+  /// </li>
+  /// <li>
+  /// 341 (11 months * 31)
+  /// </li>
+  /// <li>
+  /// 589 (19 months * 31)
+  /// </li>
+  /// <li>
+  /// 731
+  /// </li>
+  /// </ul>
+  /// If you specify a retention period such as 94, which isn't a valid value,
+  /// RDS issues an error.
   ///
   /// This setting doesn't apply to RDS Custom.
   ///
@@ -11661,6 +11859,7 @@ class Rds {
     int? monitoringInterval,
     String? monitoringRoleArn,
     bool? multiAZ,
+    String? networkType,
     String? newDBInstanceIdentifier,
     String? optionGroupName,
     String? performanceInsightsKMSKeyId,
@@ -11721,6 +11920,7 @@ class Rds {
     monitoringInterval?.also((arg) => $request['MonitoringInterval'] = arg);
     monitoringRoleArn?.also((arg) => $request['MonitoringRoleArn'] = arg);
     multiAZ?.also((arg) => $request['MultiAZ'] = arg);
+    networkType?.also((arg) => $request['NetworkType'] = arg);
     newDBInstanceIdentifier
         ?.also((arg) => $request['NewDBInstanceIdentifier'] = arg);
     optionGroupName?.also((arg) => $request['OptionGroupName'] = arg);
@@ -11972,10 +12172,10 @@ class Rds {
   /// May throw [InvalidDBProxyStateFault].
   ///
   /// Parameter [dBProxyName] :
-  /// The name of the new proxy to which to assign the target group.
+  /// The name of the proxy.
   ///
   /// Parameter [targetGroupName] :
-  /// The name of the new target group to assign to the proxy.
+  /// The name of the target group to modify.
   ///
   /// Parameter [connectionPoolConfig] :
   /// The settings that determine the size and behavior of the connection pool
@@ -12110,8 +12310,8 @@ class Rds {
   ///
   /// To view which Amazon Web Services accounts have access to copy or restore
   /// a manual DB snapshot, or whether a manual DB snapshot public or private,
-  /// use the <a>DescribeDBSnapshotAttributes</a> API action. The accounts are
-  /// returned as values for the <code>restore</code> attribute.
+  /// use the <a>DescribeDBSnapshotAttributes</a> API operation. The accounts
+  /// are returned as values for the <code>restore</code> attribute.
   ///
   /// May throw [DBSnapshotNotFoundFault].
   /// May throw [InvalidDBSnapshotStateFault].
@@ -12124,7 +12324,7 @@ class Rds {
   /// restore a manual DB snapshot, set this value to <code>restore</code>.
   /// <note>
   /// To view the list of attributes available to modify, use the
-  /// <a>DescribeDBSnapshotAttributes</a> API action.
+  /// <a>DescribeDBSnapshotAttributes</a> API operation.
   /// </note>
   ///
   /// Parameter [dBSnapshotIdentifier] :
@@ -12195,7 +12395,7 @@ class Rds {
   /// Constraints: Must match the name of an existing DBSubnetGroup. Must not be
   /// default.
   ///
-  /// Example: <code>mySubnetgroup</code>
+  /// Example: <code>mydbsubnetgroup</code>
   ///
   /// Parameter [subnetIds] :
   /// The EC2 subnet IDs for the DB subnet group.
@@ -12268,12 +12468,14 @@ class Rds {
   /// Parameter [sourceType] :
   /// The type of source that is generating the events. For example, if you want
   /// to be notified of events generated by a DB instance, you would set this
-  /// parameter to db-instance. If this value isn't specified, all events are
+  /// parameter to db-instance. For RDS Proxy events, specify
+  /// <code>db-proxy</code>. If this value isn't specified, all events are
   /// returned.
   ///
   /// Valid values: <code>db-instance</code> | <code>db-cluster</code> |
   /// <code>db-parameter-group</code> | <code>db-security-group</code> |
-  /// <code>db-snapshot</code> | <code>db-cluster-snapshot</code>
+  /// <code>db-snapshot</code> | <code>db-cluster-snapshot</code> |
+  /// <code>db-proxy</code>
   Future<ModifyEventSubscriptionResult> modifyEventSubscription({
     required String subscriptionName,
     bool? enabled,
@@ -12307,7 +12509,7 @@ class Rds {
   /// and the new values in the request. For more information on Amazon Aurora,
   /// see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html">
-  /// What is Amazon Aurora?</a> in the <i>Amazon Aurora User Guide.</i>
+  /// What is Amazon Aurora?</a> in the <i>Amazon Aurora User Guide</i>.
   /// <note>
   /// This action only applies to Aurora DB clusters.
   /// </note>
@@ -12668,8 +12870,7 @@ class Rds {
   /// DB cluster results in a momentary outage, during which the DB cluster
   /// status is set to rebooting.
   ///
-  /// Use this operation only for a non-Aurora Multi-AZ DB cluster. The Multi-AZ
-  /// DB clusters feature is in preview and is subject to change.
+  /// Use this operation only for a non-Aurora Multi-AZ DB cluster.
   ///
   /// For more information on Multi-AZ DB clusters, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html">
@@ -12724,6 +12925,9 @@ class Rds {
   /// a DB Instance</a> in the <i>Amazon RDS User Guide.</i>
   ///
   /// This command doesn't apply to RDS Custom.
+  ///
+  /// If your DB instance is part of a Multi-AZ DB cluster, you can reboot the
+  /// DB cluster with the <code>RebootDBCluster</code> operation.
   ///
   /// May throw [InvalidDBInstanceStateFault].
   /// May throw [DBInstanceNotFoundFault].
@@ -12865,15 +13069,12 @@ class Rds {
   ///
   /// For more information on Amazon Aurora DB clusters, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html">
-  /// What is Amazon Aurora?</a> in the <i>Amazon Aurora User Guide.</i>
+  /// What is Amazon Aurora?</a> in the <i>Amazon Aurora User Guide</i>.
   ///
   /// For more information on Multi-AZ DB clusters, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html">
   /// Multi-AZ deployments with two readable standby DB instances</a> in the
   /// <i>Amazon RDS User Guide.</i>
-  /// <note>
-  /// The Multi-AZ DB clusters feature is in preview and is subject to change.
-  /// </note>
   ///
   /// May throw [DBClusterNotFoundFault].
   /// May throw [DBClusterRoleNotFoundFault].
@@ -13053,15 +13254,12 @@ class Rds {
   ///
   /// For more information on Amazon Aurora DB clusters, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html">
-  /// What is Amazon Aurora?</a> in the <i>Amazon Aurora User Guide.</i>
+  /// What is Amazon Aurora?</a> in the <i>Amazon Aurora User Guide</i>.
   ///
   /// For more information on Multi-AZ DB clusters, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html">
   /// Multi-AZ deployments with two readable standby DB instances</a> in the
   /// <i>Amazon RDS User Guide.</i>
-  /// <note>
-  /// The Multi-AZ DB clusters feature is in preview and is subject to change.
-  /// </note>
   ///
   /// May throw [InvalidDBParameterGroupStateFault].
   /// May throw [DBParameterGroupNotFoundFault].
@@ -13202,7 +13400,7 @@ class Rds {
   /// </note>
   /// For more information on Amazon Aurora, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html">
-  /// What is Amazon Aurora?</a> in the <i>Amazon Aurora User Guide.</i>
+  /// What is Amazon Aurora?</a> in the <i>Amazon Aurora User Guide</i>.
   /// <note>
   /// This action only applies to Aurora DB clusters. The source DB engine must
   /// be MySQL.
@@ -13245,9 +13443,9 @@ class Rds {
   /// Parameter [engine] :
   /// The name of the database engine to be used for this DB cluster.
   ///
-  /// Valid Values: <code>aurora</code> (for MySQL 5.6-compatible Aurora),
+  /// Valid Values: <code>aurora</code> (for MySQL 5.6-compatible Aurora) and
   /// <code>aurora-mysql</code> (for MySQL 5.7-compatible and MySQL
-  /// 8.0-compatible Aurora), and <code>aurora-postgresql</code>
+  /// 8.0-compatible Aurora)
   ///
   /// Parameter [masterUserPassword] :
   /// The password for the master database user. This password can contain any
@@ -13357,7 +13555,7 @@ class Rds {
   /// Constraints: If supplied, must match the name of an existing
   /// DBSubnetGroup.
   ///
-  /// Example: <code>mySubnetgroup</code>
+  /// Example: <code>mydbsubnetgroup</code>
   ///
   /// Parameter [databaseName] :
   /// The database name for the restored DB cluster.
@@ -13383,8 +13581,19 @@ class Rds {
   ///
   /// Parameter [enableCloudwatchLogsExports] :
   /// The list of logs that the restored DB cluster is to export to CloudWatch
-  /// Logs. The values in the list depend on the DB engine being used. For more
-  /// information, see <a
+  /// Logs. The values in the list depend on the DB engine being used.
+  ///
+  /// <b>Aurora MySQL</b>
+  ///
+  /// Possible values are <code>audit</code>, <code>error</code>,
+  /// <code>general</code>, and <code>slowquery</code>.
+  ///
+  /// <b>Aurora PostgreSQL</b>
+  ///
+  /// Possible value is <code>postgresql</code>.
+  ///
+  /// For more information about exporting CloudWatch Logs for Amazon Aurora,
+  /// see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch">Publishing
   /// Database Logs to Amazon CloudWatch Logs</a> in the <i>Amazon Aurora User
   /// Guide</i>.
@@ -13396,7 +13605,7 @@ class Rds {
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.IAMDBAuth.html">
-  /// IAM Database Authentication</a> in the <i>Amazon Aurora User Guide.</i>
+  /// IAM Database Authentication</a> in the <i>Amazon Aurora User Guide</i>.
   ///
   /// Parameter [engineVersion] :
   /// The version number of the database engine to use.
@@ -13414,21 +13623,10 @@ class Rds {
   /// <code>aws rds describe-db-engine-versions --engine aurora-mysql --query
   /// "DBEngineVersions[].EngineVersion"</code>
   ///
-  /// To list all of the available engine versions for
-  /// <code>aurora-postgresql</code>, use the following command:
-  ///
-  /// <code>aws rds describe-db-engine-versions --engine aurora-postgresql
-  /// --query "DBEngineVersions[].EngineVersion"</code>
-  ///
   /// <b>Aurora MySQL</b>
   ///
   /// Example: <code>5.6.10a</code>, <code>5.6.mysql_aurora.1.19.2</code>,
-  /// <code>5.7.12</code>, <code>5.7.mysql_aurora.2.04.5</code>,
-  /// <code>8.0.mysql_aurora.3.01.0</code>
-  ///
-  /// <b>Aurora PostgreSQL</b>
-  ///
-  /// Example: <code>9.6.3</code>, <code>10.7</code>
+  /// <code>5.7.mysql_aurora.2.07.1</code>, <code>8.0.mysql_aurora.3.02.0</code>
   ///
   /// Parameter [kmsKeyId] :
   /// The Amazon Web Services KMS key identifier for an encrypted DB cluster.
@@ -13466,7 +13664,7 @@ class Rds {
   /// of time for each Amazon Web Services Region. To view the time blocks
   /// available, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Aurora.Managing.Backups.html#Aurora.Managing.Backups.BackupWindow">
-  /// Backup window</a> in the <i>Amazon Aurora User Guide.</i>
+  /// Backup window</a> in the <i>Amazon Aurora User Guide</i>.
   ///
   /// Constraints:
   ///
@@ -13496,7 +13694,7 @@ class Rds {
   /// the week. To see the time blocks available, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_UpgradeDBInstance.Maintenance.html#AdjustingTheMaintenanceWindow.Aurora">
   /// Adjusting the Preferred Maintenance Window</a> in the <i>Amazon Aurora
-  /// User Guide.</i>
+  /// User Guide</i>.
   ///
   /// Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun.
   ///
@@ -13543,6 +13741,7 @@ class Rds {
     String? preferredBackupWindow,
     String? preferredMaintenanceWindow,
     String? s3Prefix,
+    ServerlessV2ScalingConfiguration? serverlessV2ScalingConfiguration,
     bool? storageEncrypted,
     List<Tag>? tags,
     List<String>? vpcSecurityGroupIds,
@@ -13590,6 +13789,8 @@ class Rds {
     preferredMaintenanceWindow
         ?.also((arg) => $request['PreferredMaintenanceWindow'] = arg);
     s3Prefix?.also((arg) => $request['S3Prefix'] = arg);
+    serverlessV2ScalingConfiguration
+        ?.also((arg) => $request['ServerlessV2ScalingConfiguration'] = arg);
     storageEncrypted?.also((arg) => $request['StorageEncrypted'] = arg);
     tags?.also((arg) => $request['Tags'] = arg);
     vpcSecurityGroupIds?.also((arg) => $request['VpcSecurityGroupIds'] = arg);
@@ -13623,15 +13824,12 @@ class Rds {
   /// </note>
   /// For more information on Amazon Aurora DB clusters, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html">
-  /// What is Amazon Aurora?</a> in the <i>Amazon Aurora User Guide.</i>
+  /// What is Amazon Aurora?</a> in the <i>Amazon Aurora User Guide</i>.
   ///
   /// For more information on Multi-AZ DB clusters, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html">
   /// Multi-AZ deployments with two readable standby DB instances</a> in the
   /// <i>Amazon RDS User Guide.</i>
-  /// <note>
-  /// The Multi-AZ DB clusters feature is in preview and is subject to change.
-  /// </note>
   ///
   /// May throw [DBClusterAlreadyExistsFault].
   /// May throw [DBClusterQuotaExceededFault].
@@ -13728,7 +13926,7 @@ class Rds {
   /// cluster to snapshots of the restored DB cluster. The default is not to
   /// copy them.
   ///
-  /// Valid for: Aurora DB clusters only
+  /// Valid for: Aurora DB clusters and Multi-AZ DB clusters
   ///
   /// Parameter [dBClusterInstanceClass] :
   /// The compute and memory capacity of the each DB instance in the Multi-AZ DB
@@ -13740,7 +13938,7 @@ class Rds {
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html">DB
   /// Instance Class</a> in the <i>Amazon RDS User Guide.</i>
   ///
-  /// Valid for: Aurora DB clusters and Multi-AZ DB clusters
+  /// Valid for: Multi-AZ DB clusters only
   ///
   /// Parameter [dBClusterParameterGroupName] :
   /// The name of the DB cluster parameter group to associate with this DB
@@ -13772,7 +13970,7 @@ class Rds {
   /// Constraints: If supplied, must match the name of an existing DB subnet
   /// group.
   ///
-  /// Example: <code>mySubnetgroup</code>
+  /// Example: <code>mydbsubnetgroup</code>
   ///
   /// Valid for: Aurora DB clusters and Multi-AZ DB clusters
   ///
@@ -13811,12 +14009,37 @@ class Rds {
   /// CloudWatch Logs. The values in the list depend on the DB engine being
   /// used.
   ///
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch">Publishing
-  /// Database Logs to Amazon CloudWatch Logs </a> in the <i>Amazon Aurora User
+  /// <b>RDS for MySQL</b>
+  ///
+  /// Possible values are <code>error</code>, <code>general</code>, and
+  /// <code>slowquery</code>.
+  ///
+  /// <b>RDS for PostgreSQL</b>
+  ///
+  /// Possible values are <code>postgresql</code> and <code>upgrade</code>.
+  ///
+  /// <b>Aurora MySQL</b>
+  ///
+  /// Possible values are <code>audit</code>, <code>error</code>,
+  /// <code>general</code>, and <code>slowquery</code>.
+  ///
+  /// <b>Aurora PostgreSQL</b>
+  ///
+  /// Possible value is <code>postgresql</code>.
+  ///
+  /// For more information about exporting CloudWatch Logs for Amazon RDS, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch">Publishing
+  /// Database Logs to Amazon CloudWatch Logs</a> in the <i>Amazon RDS User
   /// Guide</i>.
   ///
-  /// Valid for: Aurora DB clusters only
+  /// For more information about exporting CloudWatch Logs for Amazon Aurora,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch">Publishing
+  /// Database Logs to Amazon CloudWatch Logs</a> in the <i>Amazon Aurora User
+  /// Guide</i>.
+  ///
+  /// Valid for: Aurora DB clusters and Multi-AZ DB clusters
   ///
   /// Parameter [enableIAMDatabaseAuthentication] :
   /// A value that indicates whether to enable mapping of Amazon Web Services
@@ -13825,7 +14048,7 @@ class Rds {
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.IAMDBAuth.html">
-  /// IAM Database Authentication</a> in the <i>Amazon Aurora User Guide.</i>
+  /// IAM Database Authentication</a> in the <i>Amazon Aurora User Guide</i>.
   ///
   /// Valid for: Aurora DB clusters only
   ///
@@ -13877,14 +14100,14 @@ class Rds {
   ///
   /// See <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/AuroraMySQL.Updates.html">MySQL
-  /// on Amazon RDS Versions</a> in the <i>Amazon Aurora User Guide.</i>
+  /// on Amazon RDS Versions</a> in the <i>Amazon Aurora User Guide</i>.
   ///
   /// <b>Aurora PostgreSQL</b>
   ///
   /// See <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/AuroraPostgreSQL.Updates.20180305.html">Amazon
   /// Aurora PostgreSQL releases and engine versions</a> in the <i>Amazon Aurora
-  /// User Guide.</i>
+  /// User Guide</i>.
   ///
   /// <b>MySQL</b>
   ///
@@ -14052,6 +14275,7 @@ class Rds {
     int? port,
     bool? publiclyAccessible,
     ScalingConfiguration? scalingConfiguration,
+    ServerlessV2ScalingConfiguration? serverlessV2ScalingConfiguration,
     String? storageType,
     List<Tag>? tags,
     List<String>? vpcSecurityGroupIds,
@@ -14087,6 +14311,8 @@ class Rds {
     port?.also((arg) => $request['Port'] = arg);
     publiclyAccessible?.also((arg) => $request['PubliclyAccessible'] = arg);
     scalingConfiguration?.also((arg) => $request['ScalingConfiguration'] = arg);
+    serverlessV2ScalingConfiguration
+        ?.also((arg) => $request['ServerlessV2ScalingConfiguration'] = arg);
     storageType?.also((arg) => $request['StorageType'] = arg);
     tags?.also((arg) => $request['Tags'] = arg);
     vpcSecurityGroupIds?.also((arg) => $request['VpcSecurityGroupIds'] = arg);
@@ -14121,15 +14347,12 @@ class Rds {
   /// </note>
   /// For more information on Amazon Aurora DB clusters, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html">
-  /// What is Amazon Aurora?</a> in the <i>Amazon Aurora User Guide.</i>
+  /// What is Amazon Aurora?</a> in the <i>Amazon Aurora User Guide</i>.
   ///
   /// For more information on Multi-AZ DB clusters, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html">
   /// Multi-AZ deployments with two readable standby DB instances</a> in the
   /// <i>Amazon RDS User Guide.</i>
-  /// <note>
-  /// The Multi-AZ DB clusters feature is in preview and is subject to change.
-  /// </note>
   ///
   /// May throw [DBClusterAlreadyExistsFault].
   /// May throw [DBClusterNotFoundFault].
@@ -14201,7 +14424,7 @@ class Rds {
   /// cluster to snapshots of the restored DB cluster. The default is not to
   /// copy them.
   ///
-  /// Valid for: Aurora DB clusters only
+  /// Valid for: Aurora DB clusters and Multi-AZ DB clusters
   ///
   /// Parameter [dBClusterInstanceClass] :
   /// The compute and memory capacity of the each DB instance in the Multi-AZ DB
@@ -14245,7 +14468,7 @@ class Rds {
   /// Constraints: If supplied, must match the name of an existing
   /// DBSubnetGroup.
   ///
-  /// Example: <code>mySubnetgroup</code>
+  /// Example: <code>mydbsubnetgroup</code>
   ///
   /// Valid for: Aurora DB clusters and Multi-AZ DB clusters
   ///
@@ -14278,12 +14501,37 @@ class Rds {
   /// The list of logs that the restored DB cluster is to export to CloudWatch
   /// Logs. The values in the list depend on the DB engine being used.
   ///
-  /// For more information, see <a
+  /// <b>RDS for MySQL</b>
+  ///
+  /// Possible values are <code>error</code>, <code>general</code>, and
+  /// <code>slowquery</code>.
+  ///
+  /// <b>RDS for PostgreSQL</b>
+  ///
+  /// Possible values are <code>postgresql</code> and <code>upgrade</code>.
+  ///
+  /// <b>Aurora MySQL</b>
+  ///
+  /// Possible values are <code>audit</code>, <code>error</code>,
+  /// <code>general</code>, and <code>slowquery</code>.
+  ///
+  /// <b>Aurora PostgreSQL</b>
+  ///
+  /// Possible value is <code>postgresql</code>.
+  ///
+  /// For more information about exporting CloudWatch Logs for Amazon RDS, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch">Publishing
+  /// Database Logs to Amazon CloudWatch Logs</a> in the <i>Amazon RDS User
+  /// Guide</i>.
+  ///
+  /// For more information about exporting CloudWatch Logs for Amazon Aurora,
+  /// see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch">Publishing
   /// Database Logs to Amazon CloudWatch Logs</a> in the <i>Amazon Aurora User
   /// Guide</i>.
   ///
-  /// Valid for: Aurora DB clusters only
+  /// Valid for: Aurora DB clusters and Multi-AZ DB clusters
   ///
   /// Parameter [enableIAMDatabaseAuthentication] :
   /// A value that indicates whether to enable mapping of Amazon Web Services
@@ -14292,17 +14540,18 @@ class Rds {
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.IAMDBAuth.html">
-  /// IAM Database Authentication</a> in the <i>Amazon Aurora User Guide.</i>
+  /// IAM Database Authentication</a> in the <i>Amazon Aurora User Guide</i>.
   ///
   /// Valid for: Aurora DB clusters only
   ///
   /// Parameter [engineMode] :
   /// The engine mode of the new cluster. Specify <code>provisioned</code> or
   /// <code>serverless</code>, depending on the type of the cluster you are
-  /// creating. You can create an Aurora Serverless clone from a provisioned
-  /// cluster, or a provisioned clone from an Aurora Serverless cluster. To
-  /// create a clone that is an Aurora Serverless cluster, the original cluster
-  /// must be an Aurora Serverless cluster or an encrypted provisioned cluster.
+  /// creating. You can create an Aurora Serverless v1 clone from a provisioned
+  /// cluster, or a provisioned clone from an Aurora Serverless v1 cluster. To
+  /// create a clone that is an Aurora Serverless v1 cluster, the original
+  /// cluster must be an Aurora Serverless v1 cluster or an encrypted
+  /// provisioned cluster.
   ///
   /// Valid for: Aurora DB clusters only
   ///
@@ -14516,6 +14765,7 @@ class Rds {
     DateTime? restoreToTime,
     String? restoreType,
     ScalingConfiguration? scalingConfiguration,
+    ServerlessV2ScalingConfiguration? serverlessV2ScalingConfiguration,
     String? storageType,
     List<Tag>? tags,
     bool? useLatestRestorableTime,
@@ -14551,6 +14801,8 @@ class Rds {
         ?.also((arg) => $request['RestoreToTime'] = _s.iso8601ToJson(arg));
     restoreType?.also((arg) => $request['RestoreType'] = arg);
     scalingConfiguration?.also((arg) => $request['ScalingConfiguration'] = arg);
+    serverlessV2ScalingConfiguration
+        ?.also((arg) => $request['ServerlessV2ScalingConfiguration'] = arg);
     storageType?.also((arg) => $request['StorageType'] = arg);
     tags?.also((arg) => $request['Tags'] = arg);
     useLatestRestorableTime
@@ -14615,6 +14867,7 @@ class Rds {
   /// May throw [DomainNotFoundFault].
   /// May throw [DBParameterGroupNotFoundFault].
   /// May throw [BackupPolicyNotFoundFault].
+  /// May throw [NetworkTypeNotSupported].
   ///
   /// Parameter [dBInstanceIdentifier] :
   /// Name of the DB instance to create from the DB snapshot. This parameter
@@ -14682,7 +14935,18 @@ class Rds {
   ///
   /// Parameter [copyTagsToSnapshot] :
   /// A value that indicates whether to copy all tags from the restored DB
-  /// instance to snapshots of the DB instance. By default, tags are not copied.
+  /// instance to snapshots of the DB instance.
+  ///
+  /// In most cases, tags aren't copied by default. However, when you restore a
+  /// DB instance from a DB snapshot, RDS checks whether you specify new tags.
+  /// If yes, the new tags are added to the restored DB instance. If there are
+  /// no new tags, RDS looks for the tags from the source DB instance for the DB
+  /// snapshot, and then adds those tags to the restored DB instance.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html#USER_Tagging.CopyTags">
+  /// Copying tags to DB instance snapshots</a> in the <i>Amazon RDS User
+  /// Guide</i>.
   ///
   /// Parameter [customIamInstanceProfile] :
   /// The instance profile associated with the underlying Amazon EC2 instance of
@@ -14704,8 +14968,7 @@ class Rds {
   /// </ul>
   /// For the list of permissions required for the IAM role, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-setup-orcl.html#custom-setup-orcl.iam-vpc">
-  /// Configure IAM and your VPC</a> in the <i>Amazon Relational Database
-  /// Service User Guide</i>.
+  /// Configure IAM and your VPC</a> in the <i>Amazon RDS User Guide</i>.
   ///
   /// This setting is required for RDS Custom.
   ///
@@ -14757,7 +15020,7 @@ class Rds {
   /// Constraints: If supplied, must match the name of an existing
   /// DBSubnetGroup.
   ///
-  /// Example: <code>mySubnetgroup</code>
+  /// Example: <code>mydbsubnetgroup</code>
   ///
   /// Parameter [deletionProtection] :
   /// A value that indicates whether the DB instance has deletion protection
@@ -14909,6 +15172,28 @@ class Rds {
   /// Constraint: You can't specify the <code>AvailabilityZone</code> parameter
   /// if the DB instance is a Multi-AZ deployment.
   ///
+  /// Parameter [networkType] :
+  /// The network type of the DB instance.
+  ///
+  /// Valid values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>IPV4</code>
+  /// </li>
+  /// <li>
+  /// <code>DUAL</code>
+  /// </li>
+  /// </ul>
+  /// The network type is determined by the <code>DBSubnetGroup</code> specified
+  /// for the DB instance. A <code>DBSubnetGroup</code> can support only the
+  /// IPv4 protocol or the IPv4 and the IPv6 protocols (<code>DUAL</code>).
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_VPC.WorkingWithRDSInstanceinaVPC.html">
+  /// Working with a DB instance in a VPC</a> in the <i>Amazon RDS User
+  /// Guide.</i>
+  ///
   /// Parameter [optionGroupName] :
   /// The name of the option group to be used for the restored DB instance.
   ///
@@ -15003,6 +15288,7 @@ class Rds {
     int? iops,
     String? licenseModel,
     bool? multiAZ,
+    String? networkType,
     String? optionGroupName,
     int? port,
     List<ProcessorFeature>? processorFeatures,
@@ -15043,6 +15329,7 @@ class Rds {
     iops?.also((arg) => $request['Iops'] = arg);
     licenseModel?.also((arg) => $request['LicenseModel'] = arg);
     multiAZ?.also((arg) => $request['MultiAZ'] = arg);
+    networkType?.also((arg) => $request['NetworkType'] = arg);
     optionGroupName?.also((arg) => $request['OptionGroupName'] = arg);
     port?.also((arg) => $request['Port'] = arg);
     processorFeatures?.also((arg) => $request['ProcessorFeatures'] = arg);
@@ -15097,6 +15384,7 @@ class Rds {
   /// May throw [AuthorizationNotFoundFault].
   /// May throw [KMSKeyNotAccessibleFault].
   /// May throw [BackupPolicyNotFoundFault].
+  /// May throw [NetworkTypeNotSupported].
   ///
   /// Parameter [dBInstanceClass] :
   /// The compute and memory capacity of the DB instance, for example
@@ -15211,6 +15499,11 @@ class Rds {
   /// Parameter [dBSubnetGroupName] :
   /// A DB subnet group to associate with this DB instance.
   ///
+  /// Constraints: If supplied, must match the name of an existing
+  /// DBSubnetGroup.
+  ///
+  /// Example: <code>mydbsubnetgroup</code>
+  ///
   /// Parameter [deletionProtection] :
   /// A value that indicates whether the DB instance has deletion protection
   /// enabled. The database can't be deleted when deletion protection is
@@ -15243,8 +15536,7 @@ class Rds {
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_PerfInsights.html">Using
-  /// Amazon Performance Insights</a> in the <i>Amazon Relational Database
-  /// Service User Guide</i>.
+  /// Amazon Performance Insights</a> in the <i>Amazon RDS User Guide</i>.
   ///
   /// Parameter [engineVersion] :
   /// The version number of the database engine to use. Choose the latest minor
@@ -15339,6 +15631,28 @@ class Rds {
   /// If the DB instance is a Multi-AZ deployment, you can't set the
   /// <code>AvailabilityZone</code> parameter.
   ///
+  /// Parameter [networkType] :
+  /// The network type of the DB instance.
+  ///
+  /// Valid values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>IPV4</code>
+  /// </li>
+  /// <li>
+  /// <code>DUAL</code>
+  /// </li>
+  /// </ul>
+  /// The network type is determined by the <code>DBSubnetGroup</code> specified
+  /// for the DB instance. A <code>DBSubnetGroup</code> can support only the
+  /// IPv4 protocol or the IPv4 and the IPv6 protocols (<code>DUAL</code>).
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_VPC.WorkingWithRDSInstanceinaVPC.html">
+  /// Working with a DB instance in a VPC</a> in the <i>Amazon RDS User
+  /// Guide.</i>
+  ///
   /// Parameter [optionGroupName] :
   /// The name of the option group to associate with this DB instance. If this
   /// argument is omitted, the default option group for the specified engine is
@@ -15358,8 +15672,38 @@ class Rds {
   /// for each Amazon Web Services Region.
   ///
   /// Parameter [performanceInsightsRetentionPeriod] :
-  /// The amount of time, in days, to retain Performance Insights data. Valid
-  /// values are 7 or 731 (2 years).
+  /// The number of days to retain Performance Insights data. The default is 7
+  /// days. The following values are valid:
+  ///
+  /// <ul>
+  /// <li>
+  /// 7
+  /// </li>
+  /// <li>
+  /// <i>month</i> * 31, where <i>month</i> is a number of months from 1-23
+  /// </li>
+  /// <li>
+  /// 731
+  /// </li>
+  /// </ul>
+  /// For example, the following values are valid:
+  ///
+  /// <ul>
+  /// <li>
+  /// 93 (3 months * 31)
+  /// </li>
+  /// <li>
+  /// 341 (11 months * 31)
+  /// </li>
+  /// <li>
+  /// 589 (19 months * 31)
+  /// </li>
+  /// <li>
+  /// 731
+  /// </li>
+  /// </ul>
+  /// If you specify a retention period such as 94, which isn't a valid value,
+  /// RDS issues an error.
   ///
   /// Parameter [port] :
   /// The port number on which the database accepts connections.
@@ -15499,6 +15843,7 @@ class Rds {
     int? monitoringInterval,
     String? monitoringRoleArn,
     bool? multiAZ,
+    String? networkType,
     String? optionGroupName,
     String? performanceInsightsKMSKeyId,
     int? performanceInsightsRetentionPeriod,
@@ -15557,6 +15902,7 @@ class Rds {
     monitoringInterval?.also((arg) => $request['MonitoringInterval'] = arg);
     monitoringRoleArn?.also((arg) => $request['MonitoringRoleArn'] = arg);
     multiAZ?.also((arg) => $request['MultiAZ'] = arg);
+    networkType?.also((arg) => $request['NetworkType'] = arg);
     optionGroupName?.also((arg) => $request['OptionGroupName'] = arg);
     performanceInsightsKMSKeyId
         ?.also((arg) => $request['PerformanceInsightsKMSKeyId'] = arg);
@@ -15629,6 +15975,7 @@ class Rds {
   /// May throw [BackupPolicyNotFoundFault].
   /// May throw [DBParameterGroupNotFoundFault].
   /// May throw [DBInstanceAutomatedBackupNotFoundFault].
+  /// May throw [NetworkTypeNotSupported].
   ///
   /// Parameter [targetDBInstanceIdentifier] :
   /// The name of the new DB instance to be created.
@@ -15700,8 +16047,7 @@ class Rds {
   /// </ul>
   /// For the list of permissions required for the IAM role, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-setup-orcl.html#custom-setup-orcl.iam-vpc">
-  /// Configure IAM and your VPC</a> in the <i>Amazon Relational Database
-  /// Service User Guide</i>.
+  /// Configure IAM and your VPC</a> in the <i>Amazon RDS User Guide</i>.
   ///
   /// This setting is required for RDS Custom.
   ///
@@ -15711,7 +16057,7 @@ class Rds {
   /// Services Regions, or for all database engines. For the full list of DB
   /// instance classes, and availability for your engine, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html">DB
-  /// Instance Class</a> in the <i>Amazon RDS User Guide.</i>
+  /// Instance Class</a> in the <i>Amazon RDS User Guide</i>.
   ///
   /// Default: The same DBInstanceClass as the original DB instance.
   ///
@@ -15754,7 +16100,7 @@ class Rds {
   /// Constraints: If supplied, must match the name of an existing
   /// DBSubnetGroup.
   ///
-  /// Example: <code>mySubnetgroup</code>
+  /// Example: <code>mydbsubnetgroup</code>
   ///
   /// Parameter [deletionProtection] :
   /// A value that indicates whether the DB instance has deletion protection
@@ -15911,6 +16257,28 @@ class Rds {
   /// Constraint: You can't specify the <code>AvailabilityZone</code> parameter
   /// if the DB instance is a Multi-AZ deployment.
   ///
+  /// Parameter [networkType] :
+  /// The network type of the DB instance.
+  ///
+  /// Valid values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>IPV4</code>
+  /// </li>
+  /// <li>
+  /// <code>DUAL</code>
+  /// </li>
+  /// </ul>
+  /// The network type is determined by the <code>DBSubnetGroup</code> specified
+  /// for the DB instance. A <code>DBSubnetGroup</code> can support only the
+  /// IPv4 protocol or the IPv4 and the IPv6 protocols (<code>DUAL</code>).
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_VPC.WorkingWithRDSInstanceinaVPC.html">
+  /// Working with a DB instance in a VPC</a> in the <i>Amazon RDS User
+  /// Guide.</i>
+  ///
   /// Parameter [optionGroupName] :
   /// The name of the option group to be used for the restored DB instance.
   ///
@@ -16052,6 +16420,7 @@ class Rds {
     String? licenseModel,
     int? maxAllocatedStorage,
     bool? multiAZ,
+    String? networkType,
     String? optionGroupName,
     int? port,
     List<ProcessorFeature>? processorFeatures,
@@ -16097,6 +16466,7 @@ class Rds {
     licenseModel?.also((arg) => $request['LicenseModel'] = arg);
     maxAllocatedStorage?.also((arg) => $request['MaxAllocatedStorage'] = arg);
     multiAZ?.also((arg) => $request['MultiAZ'] = arg);
+    networkType?.also((arg) => $request['NetworkType'] = arg);
     optionGroupName?.also((arg) => $request['OptionGroupName'] = arg);
     port?.also((arg) => $request['Port'] = arg);
     processorFeatures?.also((arg) => $request['ProcessorFeatures'] = arg);
@@ -16272,7 +16642,7 @@ class Rds {
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-cluster-stop-start.html">
   /// Stopping and Starting an Aurora Cluster</a> in the <i>Amazon Aurora User
-  /// Guide.</i>
+  /// Guide</i>.
   /// <note>
   /// This action only applies to Aurora DB clusters.
   /// </note>
@@ -16384,12 +16754,32 @@ class Rds {
   /// <code>arn:aws:kms:us-east-1:123456789012:key/AKIAIOSFODNN7EXAMPLE</code>.
   ///
   /// Parameter [preSignedUrl] :
-  /// A URL that contains a Signature Version 4 signed request for the
-  /// StartDBInstanceAutomatedBackupsReplication action to be called in the
-  /// Amazon Web Services Region of the source DB instance. The presigned URL
-  /// must be a valid request for the StartDBInstanceAutomatedBackupsReplication
-  /// API action that can be executed in the Amazon Web Services Region that
-  /// contains the source DB instance.
+  /// In an Amazon Web Services GovCloud (US) Region, an URL that contains a
+  /// Signature Version 4 signed request for the
+  /// <code>StartDBInstanceAutomatedBackupsReplication</code> operation to call
+  /// in the Amazon Web Services Region of the source DB instance. The presigned
+  /// URL must be a valid request for the
+  /// <code>StartDBInstanceAutomatedBackupsReplication</code> API operation that
+  /// can run in the Amazon Web Services Region that contains the source DB
+  /// instance.
+  ///
+  /// This setting applies only to Amazon Web Services GovCloud (US) Regions.
+  /// It's ignored in other Amazon Web Services Regions.
+  ///
+  /// To learn how to generate a Signature Version 4 signed request, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/sigv4-query-string-auth.html">
+  /// Authenticating Requests: Using Query Parameters (Amazon Web Services
+  /// Signature Version 4)</a> and <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">
+  /// Signature Version 4 Signing Process</a>.
+  /// <note>
+  /// If you are using an Amazon Web Services SDK tool or the CLI, you can
+  /// specify <code>SourceRegion</code> (or <code>--source-region</code> for the
+  /// CLI) instead of specifying <code>PreSignedUrl</code> manually. Specifying
+  /// <code>SourceRegion</code> autogenerates a presigned URL that is a valid
+  /// request for the operation that can run in the source Amazon Web Services
+  /// Region.
+  /// </note>
   Future<StartDBInstanceAutomatedBackupsReplicationResult>
       startDBInstanceAutomatedBackupsReplication({
     required String sourceDBInstanceArn,
@@ -16602,7 +16992,7 @@ class Rds {
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-cluster-stop-start.html">
   /// Stopping and Starting an Aurora Cluster</a> in the <i>Amazon Aurora User
-  /// Guide.</i>
+  /// Guide</i>.
   /// <note>
   /// This action only applies to Aurora DB clusters.
   /// </note>
@@ -16684,7 +17074,8 @@ class Rds {
 
   /// Stops automated backup replication for a DB instance.
   ///
-  /// This command doesn't apply to RDS Custom.
+  /// This command doesn't apply to RDS Custom, Aurora MySQL, and Aurora
+  /// PostgreSQL.
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_ReplicateBackups.html">
@@ -16934,6 +17325,44 @@ extension on String {
   }
 }
 
+enum ActivityStreamPolicyStatus {
+  locked,
+  unlocked,
+  lockingPolicy,
+  unlockingPolicy,
+}
+
+extension on ActivityStreamPolicyStatus {
+  String toValue() {
+    switch (this) {
+      case ActivityStreamPolicyStatus.locked:
+        return 'locked';
+      case ActivityStreamPolicyStatus.unlocked:
+        return 'unlocked';
+      case ActivityStreamPolicyStatus.lockingPolicy:
+        return 'locking-policy';
+      case ActivityStreamPolicyStatus.unlockingPolicy:
+        return 'unlocking-policy';
+    }
+  }
+}
+
+extension on String {
+  ActivityStreamPolicyStatus toActivityStreamPolicyStatus() {
+    switch (this) {
+      case 'locked':
+        return ActivityStreamPolicyStatus.locked;
+      case 'unlocked':
+        return ActivityStreamPolicyStatus.unlocked;
+      case 'locking-policy':
+        return ActivityStreamPolicyStatus.lockingPolicy;
+      case 'unlocking-policy':
+        return ActivityStreamPolicyStatus.unlockingPolicy;
+    }
+    throw Exception('$this is not known in enum ActivityStreamPolicyStatus');
+  }
+}
+
 enum ActivityStreamStatus {
   stopped,
   starting,
@@ -17067,6 +17496,34 @@ class ApplyPendingMaintenanceActionResult {
       if (resourcePendingMaintenanceActions != null)
         'ResourcePendingMaintenanceActions': resourcePendingMaintenanceActions,
     };
+  }
+}
+
+enum AuditPolicyState {
+  locked,
+  unlocked,
+}
+
+extension on AuditPolicyState {
+  String toValue() {
+    switch (this) {
+      case AuditPolicyState.locked:
+        return 'locked';
+      case AuditPolicyState.unlocked:
+        return 'unlocked';
+    }
+  }
+}
+
+extension on String {
+  AuditPolicyState toAuditPolicyState() {
+    switch (this) {
+      case 'locked':
+        return AuditPolicyState.locked;
+      case 'unlocked':
+        return AuditPolicyState.unlocked;
+    }
+    throw Exception('$this is not known in enum AuditPolicyState');
   }
 }
 
@@ -17567,9 +18024,9 @@ class ConnectionPoolConfiguration {
   final String? initQuery;
 
   /// The maximum size of the connection pool for each target in a target group.
-  /// For Aurora MySQL, it is expressed as a percentage of the
-  /// <code>max_connections</code> setting for the RDS DB instance or Aurora DB
-  /// cluster used by the target group.
+  /// The value is expressed as a percentage of the <code>max_connections</code>
+  /// setting for the RDS DB instance or Aurora DB cluster used by the target
+  /// group.
   ///
   /// Default: 100
   ///
@@ -17577,12 +18034,11 @@ class ConnectionPoolConfiguration {
   final int? maxConnectionsPercent;
 
   /// Controls how actively the proxy closes idle database connections in the
-  /// connection pool. A high value enables the proxy to leave a high percentage
-  /// of idle connections open. A low value causes the proxy to close idle client
-  /// connections and return the underlying database connections to the connection
-  /// pool. For Aurora MySQL, it is expressed as a percentage of the
+  /// connection pool. The value is expressed as a percentage of the
   /// <code>max_connections</code> setting for the RDS DB instance or Aurora DB
-  /// cluster used by the target group.
+  /// cluster used by the target group. With a high value, the proxy leaves a high
+  /// percentage of idle database connections open. A low value causes the proxy
+  /// to close more idle connections and return them to the database.
   ///
   /// Default: 50
   ///
@@ -17656,18 +18112,17 @@ class ConnectionPoolConfigurationInfo {
   final String? initQuery;
 
   /// The maximum size of the connection pool for each target in a target group.
-  /// For Aurora MySQL, it is expressed as a percentage of the
-  /// <code>max_connections</code> setting for the RDS DB instance or Aurora DB
-  /// cluster used by the target group.
+  /// The value is expressed as a percentage of the <code>max_connections</code>
+  /// setting for the RDS DB instance or Aurora DB cluster used by the target
+  /// group.
   final int? maxConnectionsPercent;
 
   /// Controls how actively the proxy closes idle database connections in the
-  /// connection pool. A high value enables the proxy to leave a high percentage
-  /// of idle connections open. A low value causes the proxy to close idle client
-  /// connections and return the underlying database connections to the connection
-  /// pool. For Aurora MySQL, it is expressed as a percentage of the
+  /// connection pool. The value is expressed as a percentage of the
   /// <code>max_connections</code> setting for the RDS DB instance or Aurora DB
-  /// cluster used by the target group.
+  /// cluster used by the target group. With a high value, the proxy leaves a high
+  /// percentage of idle database connections open. A low value causes the proxy
+  /// to close more idle connections and return them to the database.
   final int? maxIdleConnectionsPercent;
 
   /// Each item in the list represents a class of SQL operations that normally
@@ -17887,40 +18342,6 @@ class CopyOptionGroupResult {
     final optionGroup = this.optionGroup;
     return {
       if (optionGroup != null) 'OptionGroup': optionGroup,
-    };
-  }
-}
-
-class CreateCustomAvailabilityZoneResult {
-  final CustomAvailabilityZone? customAvailabilityZone;
-
-  CreateCustomAvailabilityZoneResult({
-    this.customAvailabilityZone,
-  });
-
-  factory CreateCustomAvailabilityZoneResult.fromJson(
-      Map<String, dynamic> json) {
-    return CreateCustomAvailabilityZoneResult(
-      customAvailabilityZone: json['CustomAvailabilityZone'] != null
-          ? CustomAvailabilityZone.fromJson(
-              json['CustomAvailabilityZone'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  factory CreateCustomAvailabilityZoneResult.fromXml(_s.XmlElement elem) {
-    return CreateCustomAvailabilityZoneResult(
-      customAvailabilityZone: _s
-          .extractXmlChild(elem, 'CustomAvailabilityZone')
-          ?.let(CustomAvailabilityZone.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final customAvailabilityZone = this.customAvailabilityZone;
-    return {
-      if (customAvailabilityZone != null)
-        'CustomAvailabilityZone': customAvailabilityZone,
     };
   }
 }
@@ -18365,127 +18786,6 @@ class CreateOptionGroupResult {
   }
 }
 
-/// A custom Availability Zone (AZ) is an on-premises AZ that is integrated with
-/// a VMware vSphere cluster.
-///
-/// For more information about RDS on VMware, see the <a
-/// href="https://docs.aws.amazon.com/AmazonRDS/latest/RDSonVMwareUserGuide/rds-on-vmware.html">
-/// RDS on VMware User Guide.</a>
-class CustomAvailabilityZone {
-  /// The identifier of the custom AZ.
-  ///
-  /// Amazon RDS generates a unique identifier when a custom AZ is created.
-  final String? customAvailabilityZoneId;
-
-  /// The name of the custom AZ.
-  final String? customAvailabilityZoneName;
-
-  /// The status of the custom AZ.
-  final String? customAvailabilityZoneStatus;
-
-  /// Information about the virtual private network (VPN) between the VMware
-  /// vSphere cluster and the Amazon Web Services website.
-  final VpnDetails? vpnDetails;
-
-  CustomAvailabilityZone({
-    this.customAvailabilityZoneId,
-    this.customAvailabilityZoneName,
-    this.customAvailabilityZoneStatus,
-    this.vpnDetails,
-  });
-
-  factory CustomAvailabilityZone.fromJson(Map<String, dynamic> json) {
-    return CustomAvailabilityZone(
-      customAvailabilityZoneId: json['CustomAvailabilityZoneId'] as String?,
-      customAvailabilityZoneName: json['CustomAvailabilityZoneName'] as String?,
-      customAvailabilityZoneStatus:
-          json['CustomAvailabilityZoneStatus'] as String?,
-      vpnDetails: json['VpnDetails'] != null
-          ? VpnDetails.fromJson(json['VpnDetails'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  factory CustomAvailabilityZone.fromXml(_s.XmlElement elem) {
-    return CustomAvailabilityZone(
-      customAvailabilityZoneId:
-          _s.extractXmlStringValue(elem, 'CustomAvailabilityZoneId'),
-      customAvailabilityZoneName:
-          _s.extractXmlStringValue(elem, 'CustomAvailabilityZoneName'),
-      customAvailabilityZoneStatus:
-          _s.extractXmlStringValue(elem, 'CustomAvailabilityZoneStatus'),
-      vpnDetails:
-          _s.extractXmlChild(elem, 'VpnDetails')?.let(VpnDetails.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final customAvailabilityZoneId = this.customAvailabilityZoneId;
-    final customAvailabilityZoneName = this.customAvailabilityZoneName;
-    final customAvailabilityZoneStatus = this.customAvailabilityZoneStatus;
-    final vpnDetails = this.vpnDetails;
-    return {
-      if (customAvailabilityZoneId != null)
-        'CustomAvailabilityZoneId': customAvailabilityZoneId,
-      if (customAvailabilityZoneName != null)
-        'CustomAvailabilityZoneName': customAvailabilityZoneName,
-      if (customAvailabilityZoneStatus != null)
-        'CustomAvailabilityZoneStatus': customAvailabilityZoneStatus,
-      if (vpnDetails != null) 'VpnDetails': vpnDetails,
-    };
-  }
-}
-
-class CustomAvailabilityZoneMessage {
-  /// The list of <a>CustomAvailabilityZone</a> objects for the Amazon Web
-  /// Services account.
-  final List<CustomAvailabilityZone>? customAvailabilityZones;
-
-  /// An optional pagination token provided by a previous
-  /// <code>DescribeCustomAvailabilityZones</code> request. If this parameter is
-  /// specified, the response includes only records beyond the marker, up to the
-  /// value specified by <code>MaxRecords</code>.
-  final String? marker;
-
-  CustomAvailabilityZoneMessage({
-    this.customAvailabilityZones,
-    this.marker,
-  });
-
-  factory CustomAvailabilityZoneMessage.fromJson(Map<String, dynamic> json) {
-    return CustomAvailabilityZoneMessage(
-      customAvailabilityZones: (json['CustomAvailabilityZones'] as List?)
-          ?.whereNotNull()
-          .map(
-              (e) => CustomAvailabilityZone.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      marker: json['Marker'] as String?,
-    );
-  }
-
-  factory CustomAvailabilityZoneMessage.fromXml(_s.XmlElement elem) {
-    return CustomAvailabilityZoneMessage(
-      customAvailabilityZones: _s
-          .extractXmlChild(elem, 'CustomAvailabilityZones')
-          ?.let((elem) => elem
-              .findElements('CustomAvailabilityZone')
-              .map(CustomAvailabilityZone.fromXml)
-              .toList()),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final customAvailabilityZones = this.customAvailabilityZones;
-    final marker = this.marker;
-    return {
-      if (customAvailabilityZones != null)
-        'CustomAvailabilityZones': customAvailabilityZones,
-      if (marker != null) 'Marker': marker,
-    };
-  }
-}
-
 enum CustomEngineVersionStatus {
   available,
   inactive,
@@ -18546,9 +18846,6 @@ extension on String {
 /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html">
 /// Multi-AZ deployments with two readable standby DB instances</a> in the
 /// <i>Amazon RDS User Guide.</i>
-/// <note>
-/// The Multi-AZ DB clusters feature is in preview and is subject to change.
-/// </note>
 class DBCluster {
   /// The name of the Amazon Kinesis data stream used for the database activity
   /// stream.
@@ -18604,12 +18901,12 @@ class DBCluster {
   /// Specifies the number of days for which automatic DB snapshots are retained.
   final int? backupRetentionPeriod;
 
-  /// The current capacity of an Aurora Serverless DB cluster. The capacity is 0
-  /// (zero) when the cluster is paused.
+  /// The current capacity of an Aurora Serverless v1 DB cluster. The capacity is
+  /// 0 (zero) when the cluster is paused.
   ///
-  /// For more information about Aurora Serverless, see <a
+  /// For more information about Aurora Serverless v1, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless.html">Using
-  /// Amazon Aurora Serverless</a> in the <i>Amazon Aurora User Guide</i>.
+  /// Amazon Aurora Serverless v1</a> in the <i>Amazon Aurora User Guide</i>.
   final int? capacity;
 
   /// If present, specifies the name of the character set that this cluster is
@@ -18726,16 +19023,16 @@ class DBCluster {
   /// Specifies the ID that Amazon Route 53 assigns when you create a hosted zone.
   final String? hostedZoneId;
 
-  /// A value that indicates whether the HTTP endpoint for an Aurora Serverless DB
-  /// cluster is enabled.
+  /// A value that indicates whether the HTTP endpoint for an Aurora Serverless v1
+  /// DB cluster is enabled.
   ///
   /// When enabled, the HTTP endpoint provides a connectionless web service API
-  /// for running SQL queries on the Aurora Serverless DB cluster. You can also
+  /// for running SQL queries on the Aurora Serverless v1 DB cluster. You can also
   /// query your database from inside the RDS console with the query editor.
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/data-api.html">Using
-  /// the Data API for Aurora Serverless</a> in the <i>Amazon Aurora User
+  /// the Data API for Aurora Serverless v1</a> in the <i>Amazon Aurora User
   /// Guide</i>.
   final bool? httpEndpointEnabled;
 
@@ -18801,9 +19098,36 @@ class DBCluster {
   /// This setting is only for non-Aurora Multi-AZ DB clusters.
   final String? performanceInsightsKMSKeyId;
 
-  /// The amount of time, in days, to retain Performance Insights data. Valid
-  /// values are 7 or 731 (2 years).
+  /// The number of days to retain Performance Insights data. The default is 7
+  /// days. The following values are valid:
   ///
+  /// <ul>
+  /// <li>
+  /// 7
+  /// </li>
+  /// <li>
+  /// <i>month</i> * 31, where <i>month</i> is a number of months from 1-23
+  /// </li>
+  /// <li>
+  /// 731
+  /// </li>
+  /// </ul>
+  /// For example, the following values are valid:
+  ///
+  /// <ul>
+  /// <li>
+  /// 93 (3 months * 31)
+  /// </li>
+  /// <li>
+  /// 341 (11 months * 31)
+  /// </li>
+  /// <li>
+  /// 589 (19 months * 31)
+  /// </li>
+  /// <li>
+  /// 731
+  /// </li>
+  /// </ul>
   /// This setting is only for non-Aurora Multi-AZ DB clusters.
   final int? performanceInsightsRetentionPeriod;
 
@@ -18858,6 +19182,7 @@ class DBCluster {
   /// read replica.
   final String? replicationSourceIdentifier;
   final ScalingConfigurationInfo? scalingConfigurationInfo;
+  final ServerlessV2ScalingConfigurationInfo? serverlessV2ScalingConfiguration;
 
   /// Specifies the current state of this DB cluster.
   final String? status;
@@ -18937,6 +19262,7 @@ class DBCluster {
     this.readerEndpoint,
     this.replicationSourceIdentifier,
     this.scalingConfigurationInfo,
+    this.serverlessV2ScalingConfiguration,
     this.status,
     this.storageEncrypted,
     this.storageType,
@@ -19052,6 +19378,12 @@ class DBCluster {
           ? ScalingConfigurationInfo.fromJson(
               json['ScalingConfigurationInfo'] as Map<String, dynamic>)
           : null,
+      serverlessV2ScalingConfiguration:
+          json['ServerlessV2ScalingConfiguration'] != null
+              ? ServerlessV2ScalingConfigurationInfo.fromJson(
+                  json['ServerlessV2ScalingConfiguration']
+                      as Map<String, dynamic>)
+              : null,
       status: json['Status'] as String?,
       storageEncrypted: json['StorageEncrypted'] as bool?,
       storageType: json['StorageType'] as String?,
@@ -19187,6 +19519,9 @@ class DBCluster {
       scalingConfigurationInfo: _s
           .extractXmlChild(elem, 'ScalingConfigurationInfo')
           ?.let(ScalingConfigurationInfo.fromXml),
+      serverlessV2ScalingConfiguration: _s
+          .extractXmlChild(elem, 'ServerlessV2ScalingConfiguration')
+          ?.let(ServerlessV2ScalingConfigurationInfo.fromXml),
       status: _s.extractXmlStringValue(elem, 'Status'),
       storageEncrypted: _s.extractXmlBoolValue(elem, 'StorageEncrypted'),
       storageType: _s.extractXmlStringValue(elem, 'StorageType'),
@@ -19268,6 +19603,8 @@ class DBCluster {
     final readerEndpoint = this.readerEndpoint;
     final replicationSourceIdentifier = this.replicationSourceIdentifier;
     final scalingConfigurationInfo = this.scalingConfigurationInfo;
+    final serverlessV2ScalingConfiguration =
+        this.serverlessV2ScalingConfiguration;
     final status = this.status;
     final storageEncrypted = this.storageEncrypted;
     final storageType = this.storageType;
@@ -19368,6 +19705,8 @@ class DBCluster {
         'ReplicationSourceIdentifier': replicationSourceIdentifier,
       if (scalingConfigurationInfo != null)
         'ScalingConfigurationInfo': scalingConfigurationInfo,
+      if (serverlessV2ScalingConfiguration != null)
+        'ServerlessV2ScalingConfiguration': serverlessV2ScalingConfiguration,
       if (status != null) 'Status': status,
       if (storageEncrypted != null) 'StorageEncrypted': storageEncrypted,
       if (storageType != null) 'StorageType': storageType,
@@ -20007,9 +20346,9 @@ class DBClusterParameterGroup {
 /// in the DB cluster parameter group.
 class DBClusterParameterGroupDetails {
   /// An optional pagination token provided by a previous
-  /// DescribeDBClusterParameters request. If this parameter is specified, the
-  /// response includes only records beyond the marker, up to the value specified
-  /// by <code>MaxRecords</code> .
+  /// <code>DescribeDBClusterParameters</code> request. If this parameter is
+  /// specified, the response includes only records beyond the marker, up to the
+  /// value specified by <code>MaxRecords</code>.
   final String? marker;
 
   /// Provides a list of parameters for the DB cluster parameter group.
@@ -20715,6 +21054,10 @@ class DBEngineVersion {
   /// <code>Timezone</code> parameter of the <code>CreateDBInstance</code> action.
   final List<Timezone>? supportedTimezones;
 
+  /// A value that indicates whether the engine version supports Babelfish for
+  /// Aurora PostgreSQL.
+  final bool? supportsBabelfish;
+
   /// A value that indicates whether you can use Aurora global databases with a
   /// specific DB engine version.
   final bool? supportsGlobalDatabases;
@@ -20755,6 +21098,7 @@ class DBEngineVersion {
     this.supportedFeatureNames,
     this.supportedNcharCharacterSets,
     this.supportedTimezones,
+    this.supportsBabelfish,
     this.supportsGlobalDatabases,
     this.supportsLogExportsToCloudwatchLogs,
     this.supportsParallelQuery,
@@ -20808,6 +21152,7 @@ class DBEngineVersion {
           ?.whereNotNull()
           .map((e) => Timezone.fromJson(e as Map<String, dynamic>))
           .toList(),
+      supportsBabelfish: json['SupportsBabelfish'] as bool?,
       supportsGlobalDatabases: json['SupportsGlobalDatabases'] as bool?,
       supportsLogExportsToCloudwatchLogs:
           json['SupportsLogExportsToCloudwatchLogs'] as bool?,
@@ -20870,6 +21215,7 @@ class DBEngineVersion {
       supportedTimezones: _s.extractXmlChild(elem, 'SupportedTimezones')?.let(
           (elem) =>
               elem.findElements('Timezone').map(Timezone.fromXml).toList()),
+      supportsBabelfish: _s.extractXmlBoolValue(elem, 'SupportsBabelfish'),
       supportsGlobalDatabases:
           _s.extractXmlBoolValue(elem, 'SupportsGlobalDatabases'),
       supportsLogExportsToCloudwatchLogs:
@@ -20910,6 +21256,7 @@ class DBEngineVersion {
     final supportedFeatureNames = this.supportedFeatureNames;
     final supportedNcharCharacterSets = this.supportedNcharCharacterSets;
     final supportedTimezones = this.supportedTimezones;
+    final supportsBabelfish = this.supportsBabelfish;
     final supportsGlobalDatabases = this.supportsGlobalDatabases;
     final supportsLogExportsToCloudwatchLogs =
         this.supportsLogExportsToCloudwatchLogs;
@@ -20948,6 +21295,7 @@ class DBEngineVersion {
       if (supportedNcharCharacterSets != null)
         'SupportedNcharCharacterSets': supportedNcharCharacterSets,
       if (supportedTimezones != null) 'SupportedTimezones': supportedTimezones,
+      if (supportsBabelfish != null) 'SupportsBabelfish': supportsBabelfish,
       if (supportsGlobalDatabases != null)
         'SupportsGlobalDatabases': supportsGlobalDatabases,
       if (supportsLogExportsToCloudwatchLogs != null)
@@ -21039,6 +21387,9 @@ class DBInstance {
   /// these events asynchronously.
   final ActivityStreamMode? activityStreamMode;
 
+  /// The status of the policy state of the activity stream.
+  final ActivityStreamPolicyStatus? activityStreamPolicyStatus;
+
   /// The status of the database activity stream.
   final ActivityStreamStatus? activityStreamStatus;
 
@@ -21111,8 +21462,7 @@ class DBInstance {
   /// </ul>
   /// For the list of permissions required for the IAM role, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-setup-orcl.html#custom-setup-orcl.iam-vpc">
-  /// Configure IAM and your VPC</a> in the <i>Amazon Relational Database Service
-  /// User Guide</i>.
+  /// Configure IAM and your VPC</a> in the <i>Amazon RDS User Guide</i>.
   final String? customIamInstanceProfile;
 
   /// Specifies whether a customer-owned IP address (CoIP) is enabled for an RDS
@@ -21303,6 +21653,31 @@ class DBInstance {
   /// columns of type NCHAR, NCLOB, or NVARCHAR2.
   final String? ncharCharacterSetName;
 
+  /// The network type of the DB instance.
+  ///
+  /// Valid values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>IPV4</code>
+  /// </li>
+  /// <li>
+  /// <code>DUAL</code>
+  /// </li>
+  /// </ul>
+  /// The network type is determined by the <code>DBSubnetGroup</code> specified
+  /// for the DB instance. A <code>DBSubnetGroup</code> can support only the IPv4
+  /// protocol or the IPv4 and the IPv6 protocols (<code>DUAL</code>).
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_VPC.WorkingWithRDSInstanceinaVPC.html">
+  /// Working with a DB instance in a VPC</a> in the <i>Amazon RDS User Guide</i>
+  /// and <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_VPC.WorkingWithRDSInstanceinaVPC.html">
+  /// Working with a DB instance in a VPC</a> in the <i>Amazon Aurora User
+  /// Guide.</i>
+  final String? networkType;
+
   /// Provides the list of option group memberships for this DB instance.
   final List<OptionGroupMembership>? optionGroupMemberships;
 
@@ -21322,8 +21697,36 @@ class DBInstance {
   /// ARN, or alias name for the KMS key.
   final String? performanceInsightsKMSKeyId;
 
-  /// The amount of time, in days, to retain Performance Insights data. Valid
-  /// values are 7 or 731 (2 years).
+  /// The number of days to retain Performance Insights data. The default is 7
+  /// days. The following values are valid:
+  ///
+  /// <ul>
+  /// <li>
+  /// 7
+  /// </li>
+  /// <li>
+  /// <i>month</i> * 31, where <i>month</i> is a number of months from 1-23
+  /// </li>
+  /// <li>
+  /// 731
+  /// </li>
+  /// </ul>
+  /// For example, the following values are valid:
+  ///
+  /// <ul>
+  /// <li>
+  /// 93 (3 months * 31)
+  /// </li>
+  /// <li>
+  /// 341 (11 months * 31)
+  /// </li>
+  /// <li>
+  /// 589 (19 months * 31)
+  /// </li>
+  /// <li>
+  /// 731
+  /// </li>
+  /// </ul>
   final int? performanceInsightsRetentionPeriod;
 
   /// Specifies the daily time range during which automated backups are created if
@@ -21428,6 +21831,7 @@ class DBInstance {
     this.activityStreamKinesisStreamName,
     this.activityStreamKmsKeyId,
     this.activityStreamMode,
+    this.activityStreamPolicyStatus,
     this.activityStreamStatus,
     this.allocatedStorage,
     this.associatedRoles,
@@ -21475,6 +21879,7 @@ class DBInstance {
     this.monitoringRoleArn,
     this.multiAZ,
     this.ncharCharacterSetName,
+    this.networkType,
     this.optionGroupMemberships,
     this.pendingModifiedValues,
     this.performanceInsightsEnabled,
@@ -21509,6 +21914,9 @@ class DBInstance {
       activityStreamKmsKeyId: json['ActivityStreamKmsKeyId'] as String?,
       activityStreamMode:
           (json['ActivityStreamMode'] as String?)?.toActivityStreamMode(),
+      activityStreamPolicyStatus:
+          (json['ActivityStreamPolicyStatus'] as String?)
+              ?.toActivityStreamPolicyStatus(),
       activityStreamStatus:
           (json['ActivityStreamStatus'] as String?)?.toActivityStreamStatus(),
       allocatedStorage: json['AllocatedStorage'] as int?,
@@ -21589,6 +21997,7 @@ class DBInstance {
       monitoringRoleArn: json['MonitoringRoleArn'] as String?,
       multiAZ: json['MultiAZ'] as bool?,
       ncharCharacterSetName: json['NcharCharacterSetName'] as String?,
+      networkType: json['NetworkType'] as String?,
       optionGroupMemberships: (json['OptionGroupMemberships'] as List?)
           ?.whereNotNull()
           .map((e) => OptionGroupMembership.fromJson(e as Map<String, dynamic>))
@@ -21657,6 +22066,9 @@ class DBInstance {
       activityStreamMode: _s
           .extractXmlStringValue(elem, 'ActivityStreamMode')
           ?.toActivityStreamMode(),
+      activityStreamPolicyStatus: _s
+          .extractXmlStringValue(elem, 'ActivityStreamPolicyStatus')
+          ?.toActivityStreamPolicyStatus(),
       activityStreamStatus: _s
           .extractXmlStringValue(elem, 'ActivityStreamStatus')
           ?.toActivityStreamStatus(),
@@ -21746,6 +22158,7 @@ class DBInstance {
       multiAZ: _s.extractXmlBoolValue(elem, 'MultiAZ'),
       ncharCharacterSetName:
           _s.extractXmlStringValue(elem, 'NcharCharacterSetName'),
+      networkType: _s.extractXmlStringValue(elem, 'NetworkType'),
       optionGroupMemberships: _s
           .extractXmlChild(elem, 'OptionGroupMemberships')
           ?.let((elem) => elem
@@ -21814,6 +22227,7 @@ class DBInstance {
         this.activityStreamKinesisStreamName;
     final activityStreamKmsKeyId = this.activityStreamKmsKeyId;
     final activityStreamMode = this.activityStreamMode;
+    final activityStreamPolicyStatus = this.activityStreamPolicyStatus;
     final activityStreamStatus = this.activityStreamStatus;
     final allocatedStorage = this.allocatedStorage;
     final associatedRoles = this.associatedRoles;
@@ -21863,6 +22277,7 @@ class DBInstance {
     final monitoringRoleArn = this.monitoringRoleArn;
     final multiAZ = this.multiAZ;
     final ncharCharacterSetName = this.ncharCharacterSetName;
+    final networkType = this.networkType;
     final optionGroupMemberships = this.optionGroupMemberships;
     final pendingModifiedValues = this.pendingModifiedValues;
     final performanceInsightsEnabled = this.performanceInsightsEnabled;
@@ -21900,6 +22315,8 @@ class DBInstance {
         'ActivityStreamKmsKeyId': activityStreamKmsKeyId,
       if (activityStreamMode != null)
         'ActivityStreamMode': activityStreamMode.toValue(),
+      if (activityStreamPolicyStatus != null)
+        'ActivityStreamPolicyStatus': activityStreamPolicyStatus.toValue(),
       if (activityStreamStatus != null)
         'ActivityStreamStatus': activityStreamStatus.toValue(),
       if (allocatedStorage != null) 'AllocatedStorage': allocatedStorage,
@@ -21966,6 +22383,7 @@ class DBInstance {
       if (multiAZ != null) 'MultiAZ': multiAZ,
       if (ncharCharacterSetName != null)
         'NcharCharacterSetName': ncharCharacterSetName,
+      if (networkType != null) 'NetworkType': networkType,
       if (optionGroupMemberships != null)
         'OptionGroupMemberships': optionGroupMemberships,
       if (pendingModifiedValues != null)
@@ -22319,7 +22737,7 @@ class DBInstanceAutomatedBackupMessage {
 
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the
-  /// marker, up to the value specified by <code>MaxRecords</code> .
+  /// marker, up to the value specified by <code>MaxRecords</code>.
   final String? marker;
 
   DBInstanceAutomatedBackupMessage({
@@ -22847,7 +23265,11 @@ class DBProxy {
   /// endpoint value in the connection string for a database client application.
   final String? endpoint;
 
-  /// The engine family applies to MySQL and PostgreSQL for both RDS and Aurora.
+  /// The kinds of databases that the proxy can connect to. This value determines
+  /// which database network protocol the proxy recognizes when it interprets
+  /// network traffic to and from the database. <code>MYSQL</code> supports Aurora
+  /// MySQL, RDS for MariaDB, and RDS for MySQL databases. <code>POSTGRESQL</code>
+  /// supports Aurora PostgreSQL and RDS for PostgreSQL databases.
   final String? engineFamily;
 
   /// The number of seconds a connection to the proxy can have no activity before
@@ -24172,6 +24594,26 @@ class DBSubnetGroup {
   /// Contains a list of <code>Subnet</code> elements.
   final List<Subnet>? subnets;
 
+  /// The network type of the DB subnet group.
+  ///
+  /// Valid values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>IPV4</code>
+  /// </li>
+  /// <li>
+  /// <code>DUAL</code>
+  /// </li>
+  /// </ul>
+  /// A <code>DBSubnetGroup</code> can support only the IPv4 protocol or the IPv4
+  /// and the IPv6 protocols (<code>DUAL</code>).
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_VPC.WorkingWithRDSInstanceinaVPC.html">
+  /// Working with a DB instance in a VPC</a> in the <i>Amazon RDS User Guide.</i>
+  final List<String>? supportedNetworkTypes;
+
   /// Provides the VpcId of the DB subnet group.
   final String? vpcId;
 
@@ -24181,6 +24623,7 @@ class DBSubnetGroup {
     this.dBSubnetGroupName,
     this.subnetGroupStatus,
     this.subnets,
+    this.supportedNetworkTypes,
     this.vpcId,
   });
 
@@ -24193,6 +24636,10 @@ class DBSubnetGroup {
       subnets: (json['Subnets'] as List?)
           ?.whereNotNull()
           .map((e) => Subnet.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      supportedNetworkTypes: (json['SupportedNetworkTypes'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
           .toList(),
       vpcId: json['VpcId'] as String?,
     );
@@ -24207,6 +24654,9 @@ class DBSubnetGroup {
       subnetGroupStatus: _s.extractXmlStringValue(elem, 'SubnetGroupStatus'),
       subnets: _s.extractXmlChild(elem, 'Subnets')?.let(
           (elem) => elem.findElements('Subnet').map(Subnet.fromXml).toList()),
+      supportedNetworkTypes: _s
+          .extractXmlChild(elem, 'SupportedNetworkTypes')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       vpcId: _s.extractXmlStringValue(elem, 'VpcId'),
     );
   }
@@ -24217,6 +24667,7 @@ class DBSubnetGroup {
     final dBSubnetGroupName = this.dBSubnetGroupName;
     final subnetGroupStatus = this.subnetGroupStatus;
     final subnets = this.subnets;
+    final supportedNetworkTypes = this.supportedNetworkTypes;
     final vpcId = this.vpcId;
     return {
       if (dBSubnetGroupArn != null) 'DBSubnetGroupArn': dBSubnetGroupArn,
@@ -24225,6 +24676,8 @@ class DBSubnetGroup {
       if (dBSubnetGroupName != null) 'DBSubnetGroupName': dBSubnetGroupName,
       if (subnetGroupStatus != null) 'SubnetGroupStatus': subnetGroupStatus,
       if (subnets != null) 'Subnets': subnets,
+      if (supportedNetworkTypes != null)
+        'SupportedNetworkTypes': supportedNetworkTypes,
       if (vpcId != null) 'VpcId': vpcId,
     };
   }
@@ -24273,40 +24726,6 @@ class DBSubnetGroupMessage {
     return {
       if (dBSubnetGroups != null) 'DBSubnetGroups': dBSubnetGroups,
       if (marker != null) 'Marker': marker,
-    };
-  }
-}
-
-class DeleteCustomAvailabilityZoneResult {
-  final CustomAvailabilityZone? customAvailabilityZone;
-
-  DeleteCustomAvailabilityZoneResult({
-    this.customAvailabilityZone,
-  });
-
-  factory DeleteCustomAvailabilityZoneResult.fromJson(
-      Map<String, dynamic> json) {
-    return DeleteCustomAvailabilityZoneResult(
-      customAvailabilityZone: json['CustomAvailabilityZone'] != null
-          ? CustomAvailabilityZone.fromJson(
-              json['CustomAvailabilityZone'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  factory DeleteCustomAvailabilityZoneResult.fromXml(_s.XmlElement elem) {
-    return DeleteCustomAvailabilityZoneResult(
-      customAvailabilityZone: _s
-          .extractXmlChild(elem, 'CustomAvailabilityZone')
-          ?.let(CustomAvailabilityZone.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final customAvailabilityZone = this.customAvailabilityZone;
-    return {
-      if (customAvailabilityZone != null)
-        'CustomAvailabilityZone': customAvailabilityZone,
     };
   }
 }
@@ -24700,7 +25119,8 @@ class DescribeDBLogFilesResponse {
   /// The DB log files returned.
   final List<DescribeDBLogFilesDetails>? describeDBLogFiles;
 
-  /// A pagination token that can be used in a later DescribeDBLogFiles request.
+  /// A pagination token that can be used in a later
+  /// <code>DescribeDBLogFiles</code> request.
   final String? marker;
 
   DescribeDBLogFilesResponse({
@@ -25159,8 +25579,8 @@ class DownloadDBLogFilePortionDetails {
   /// Entries from the specified log file.
   final String? logFileData;
 
-  /// A pagination token that can be used in a later DownloadDBLogFilePortion
-  /// request.
+  /// A pagination token that can be used in a later
+  /// <code>DownloadDBLogFilePortion</code> request.
   final String? marker;
 
   DownloadDBLogFilePortionDetails({
@@ -25414,8 +25834,9 @@ extension on String {
   }
 }
 
-/// This data type is used as a response element in the
-/// <code>DescribeEvents</code> action.
+/// This data type is used as a response element in the <a
+/// href="https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_DescribeEvents.html">DescribeEvents</a>
+/// action.
 class Event {
   /// Specifies the date and time of the event.
   final DateTime? date;
@@ -25489,8 +25910,9 @@ class Event {
   }
 }
 
-/// Contains the results of a successful invocation of the
-/// <code>DescribeEventCategories</code> operation.
+/// Contains the results of a successful invocation of the <a
+/// href="https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_DescribeEventCategories.html">DescribeEventCategories</a>
+/// operation.
 class EventCategoriesMap {
   /// The event categories for the specified source type
   final List<String>? eventCategories;
@@ -25534,7 +25956,7 @@ class EventCategoriesMap {
 
 /// Data returned from the <code>DescribeEventCategories</code> operation.
 class EventCategoriesMessage {
-  /// A list of EventCategoriesMap data types.
+  /// A list of <code>EventCategoriesMap</code> data types.
   final List<EventCategoriesMap>? eventCategoriesMapList;
 
   EventCategoriesMessage({
@@ -25755,7 +26177,7 @@ class EventsMessage {
 
   /// An optional pagination token provided by a previous Events request. If this
   /// parameter is specified, the response includes only records beyond the
-  /// marker, up to the value specified by <code>MaxRecords</code> .
+  /// marker, up to the value specified by <code>MaxRecords</code>.
   final String? marker;
 
   EventsMessage({
@@ -26555,185 +26977,6 @@ class IPRange {
   }
 }
 
-/// Contains the installation media for a DB engine that requires an on-premises
-/// customer provided license, such as Microsoft SQL Server.
-class InstallationMedia {
-  /// The custom Availability Zone (AZ) that contains the installation media.
-  final String? customAvailabilityZoneId;
-
-  /// The DB engine.
-  final String? engine;
-
-  /// The path to the installation medium for the DB engine.
-  final String? engineInstallationMediaPath;
-
-  /// The engine version of the DB engine.
-  final String? engineVersion;
-
-  /// If an installation media failure occurred, the cause of the failure.
-  final InstallationMediaFailureCause? failureCause;
-
-  /// The installation medium ID.
-  final String? installationMediaId;
-
-  /// The path to the installation medium for the operating system associated with
-  /// the DB engine.
-  final String? oSInstallationMediaPath;
-
-  /// The status of the installation medium.
-  final String? status;
-
-  InstallationMedia({
-    this.customAvailabilityZoneId,
-    this.engine,
-    this.engineInstallationMediaPath,
-    this.engineVersion,
-    this.failureCause,
-    this.installationMediaId,
-    this.oSInstallationMediaPath,
-    this.status,
-  });
-
-  factory InstallationMedia.fromJson(Map<String, dynamic> json) {
-    return InstallationMedia(
-      customAvailabilityZoneId: json['CustomAvailabilityZoneId'] as String?,
-      engine: json['Engine'] as String?,
-      engineInstallationMediaPath:
-          json['EngineInstallationMediaPath'] as String?,
-      engineVersion: json['EngineVersion'] as String?,
-      failureCause: json['FailureCause'] != null
-          ? InstallationMediaFailureCause.fromJson(
-              json['FailureCause'] as Map<String, dynamic>)
-          : null,
-      installationMediaId: json['InstallationMediaId'] as String?,
-      oSInstallationMediaPath: json['OSInstallationMediaPath'] as String?,
-      status: json['Status'] as String?,
-    );
-  }
-
-  factory InstallationMedia.fromXml(_s.XmlElement elem) {
-    return InstallationMedia(
-      customAvailabilityZoneId:
-          _s.extractXmlStringValue(elem, 'CustomAvailabilityZoneId'),
-      engine: _s.extractXmlStringValue(elem, 'Engine'),
-      engineInstallationMediaPath:
-          _s.extractXmlStringValue(elem, 'EngineInstallationMediaPath'),
-      engineVersion: _s.extractXmlStringValue(elem, 'EngineVersion'),
-      failureCause: _s
-          .extractXmlChild(elem, 'FailureCause')
-          ?.let(InstallationMediaFailureCause.fromXml),
-      installationMediaId:
-          _s.extractXmlStringValue(elem, 'InstallationMediaId'),
-      oSInstallationMediaPath:
-          _s.extractXmlStringValue(elem, 'OSInstallationMediaPath'),
-      status: _s.extractXmlStringValue(elem, 'Status'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final customAvailabilityZoneId = this.customAvailabilityZoneId;
-    final engine = this.engine;
-    final engineInstallationMediaPath = this.engineInstallationMediaPath;
-    final engineVersion = this.engineVersion;
-    final failureCause = this.failureCause;
-    final installationMediaId = this.installationMediaId;
-    final oSInstallationMediaPath = this.oSInstallationMediaPath;
-    final status = this.status;
-    return {
-      if (customAvailabilityZoneId != null)
-        'CustomAvailabilityZoneId': customAvailabilityZoneId,
-      if (engine != null) 'Engine': engine,
-      if (engineInstallationMediaPath != null)
-        'EngineInstallationMediaPath': engineInstallationMediaPath,
-      if (engineVersion != null) 'EngineVersion': engineVersion,
-      if (failureCause != null) 'FailureCause': failureCause,
-      if (installationMediaId != null)
-        'InstallationMediaId': installationMediaId,
-      if (oSInstallationMediaPath != null)
-        'OSInstallationMediaPath': oSInstallationMediaPath,
-      if (status != null) 'Status': status,
-    };
-  }
-}
-
-/// Contains the cause of an installation media failure. Installation media is
-/// used for a DB engine that requires an on-premises customer provided license,
-/// such as Microsoft SQL Server.
-class InstallationMediaFailureCause {
-  /// The reason that an installation media import failed.
-  final String? message;
-
-  InstallationMediaFailureCause({
-    this.message,
-  });
-
-  factory InstallationMediaFailureCause.fromJson(Map<String, dynamic> json) {
-    return InstallationMediaFailureCause(
-      message: json['Message'] as String?,
-    );
-  }
-
-  factory InstallationMediaFailureCause.fromXml(_s.XmlElement elem) {
-    return InstallationMediaFailureCause(
-      message: _s.extractXmlStringValue(elem, 'Message'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final message = this.message;
-    return {
-      if (message != null) 'Message': message,
-    };
-  }
-}
-
-class InstallationMediaMessage {
-  /// The list of <a>InstallationMedia</a> objects for the Amazon Web Services
-  /// account.
-  final List<InstallationMedia>? installationMedia;
-
-  /// An optional pagination token provided by a previous
-  /// <a>DescribeInstallationMedia</a> request. If this parameter is specified,
-  /// the response includes only records beyond the marker, up to the value
-  /// specified by <code>MaxRecords</code>.
-  final String? marker;
-
-  InstallationMediaMessage({
-    this.installationMedia,
-    this.marker,
-  });
-
-  factory InstallationMediaMessage.fromJson(Map<String, dynamic> json) {
-    return InstallationMediaMessage(
-      installationMedia: (json['InstallationMedia'] as List?)
-          ?.whereNotNull()
-          .map((e) => InstallationMedia.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      marker: json['Marker'] as String?,
-    );
-  }
-
-  factory InstallationMediaMessage.fromXml(_s.XmlElement elem) {
-    return InstallationMediaMessage(
-      installationMedia: _s.extractXmlChild(elem, 'InstallationMedia')?.let(
-          (elem) => elem
-              .findElements('InstallationMedia')
-              .map(InstallationMedia.fromXml)
-              .toList()),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final installationMedia = this.installationMedia;
-    final marker = this.marker;
-    return {
-      if (installationMedia != null) 'InstallationMedia': installationMedia,
-      if (marker != null) 'Marker': marker,
-    };
-  }
-}
-
 /// The minimum DB engine version required for each corresponding allowed value
 /// for an option setting.
 class MinimumEngineVersionPerAllowedValue {
@@ -26771,6 +27014,86 @@ class MinimumEngineVersionPerAllowedValue {
       if (allowedValue != null) 'AllowedValue': allowedValue,
       if (minimumEngineVersion != null)
         'MinimumEngineVersion': minimumEngineVersion,
+    };
+  }
+}
+
+class ModifyActivityStreamResponse {
+  /// Indicates whether engine-native audit fields are included in the database
+  /// activity stream.
+  final bool? engineNativeAuditFieldsIncluded;
+
+  /// The name of the Amazon Kinesis data stream to be used for the database
+  /// activity stream.
+  final String? kinesisStreamName;
+
+  /// The Amazon Web Services KMS key identifier for encryption of messages in the
+  /// database activity stream.
+  final String? kmsKeyId;
+
+  /// The mode of the database activity stream.
+  final ActivityStreamMode? mode;
+
+  /// The status of the modification to the policy state of the database activity
+  /// stream.
+  final ActivityStreamPolicyStatus? policyStatus;
+
+  /// The status of the modification to the database activity stream.
+  final ActivityStreamStatus? status;
+
+  ModifyActivityStreamResponse({
+    this.engineNativeAuditFieldsIncluded,
+    this.kinesisStreamName,
+    this.kmsKeyId,
+    this.mode,
+    this.policyStatus,
+    this.status,
+  });
+
+  factory ModifyActivityStreamResponse.fromJson(Map<String, dynamic> json) {
+    return ModifyActivityStreamResponse(
+      engineNativeAuditFieldsIncluded:
+          json['EngineNativeAuditFieldsIncluded'] as bool?,
+      kinesisStreamName: json['KinesisStreamName'] as String?,
+      kmsKeyId: json['KmsKeyId'] as String?,
+      mode: (json['Mode'] as String?)?.toActivityStreamMode(),
+      policyStatus:
+          (json['PolicyStatus'] as String?)?.toActivityStreamPolicyStatus(),
+      status: (json['Status'] as String?)?.toActivityStreamStatus(),
+    );
+  }
+
+  factory ModifyActivityStreamResponse.fromXml(_s.XmlElement elem) {
+    return ModifyActivityStreamResponse(
+      engineNativeAuditFieldsIncluded:
+          _s.extractXmlBoolValue(elem, 'EngineNativeAuditFieldsIncluded'),
+      kinesisStreamName: _s.extractXmlStringValue(elem, 'KinesisStreamName'),
+      kmsKeyId: _s.extractXmlStringValue(elem, 'KmsKeyId'),
+      mode: _s.extractXmlStringValue(elem, 'Mode')?.toActivityStreamMode(),
+      policyStatus: _s
+          .extractXmlStringValue(elem, 'PolicyStatus')
+          ?.toActivityStreamPolicyStatus(),
+      status:
+          _s.extractXmlStringValue(elem, 'Status')?.toActivityStreamStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final engineNativeAuditFieldsIncluded =
+        this.engineNativeAuditFieldsIncluded;
+    final kinesisStreamName = this.kinesisStreamName;
+    final kmsKeyId = this.kmsKeyId;
+    final mode = this.mode;
+    final policyStatus = this.policyStatus;
+    final status = this.status;
+    return {
+      if (engineNativeAuditFieldsIncluded != null)
+        'EngineNativeAuditFieldsIncluded': engineNativeAuditFieldsIncluded,
+      if (kinesisStreamName != null) 'KinesisStreamName': kinesisStreamName,
+      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+      if (mode != null) 'Mode': mode.toValue(),
+      if (policyStatus != null) 'PolicyStatus': policyStatus.toValue(),
+      if (status != null) 'Status': status.toValue(),
     };
   }
 }
@@ -28123,9 +28446,18 @@ class OrderableDBInstanceOption {
   /// A list of the supported DB engine modes.
   final List<String>? supportedEngineModes;
 
-  /// Whether DB instances can be configured as a Multi-AZ DB cluster.
+  /// The network types supported by the DB instance (<code>IPV4</code> or
+  /// <code>DUAL</code>).
   ///
-  /// The Multi-AZ DB clusters feature is in preview and is subject to change.
+  /// A DB instance can support only the IPv4 protocol or the IPv4 and the IPv6
+  /// protocols (<code>DUAL</code>).
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_VPC.WorkingWithRDSInstanceinaVPC.html">
+  /// Working with a DB instance in a VPC</a> in the <i>Amazon RDS User Guide.</i>
+  final List<String>? supportedNetworkTypes;
+
+  /// Whether DB instances can be configured as a Multi-AZ DB cluster.
   ///
   /// For more information on Multi-AZ DB clusters, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html">
@@ -28183,6 +28515,7 @@ class OrderableDBInstanceOption {
     this.storageType,
     this.supportedActivityStreamModes,
     this.supportedEngineModes,
+    this.supportedNetworkTypes,
     this.supportsClusters,
     this.supportsEnhancedMonitoring,
     this.supportsGlobalDatabases,
@@ -28227,6 +28560,10 @@ class OrderableDBInstanceOption {
               .map((e) => e as String)
               .toList(),
       supportedEngineModes: (json['SupportedEngineModes'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      supportedNetworkTypes: (json['SupportedNetworkTypes'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
@@ -28280,6 +28617,9 @@ class OrderableDBInstanceOption {
       supportedEngineModes: _s
           .extractXmlChild(elem, 'SupportedEngineModes')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      supportedNetworkTypes: _s
+          .extractXmlChild(elem, 'SupportedNetworkTypes')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       supportsClusters: _s.extractXmlBoolValue(elem, 'SupportsClusters'),
       supportsEnhancedMonitoring:
           _s.extractXmlBoolValue(elem, 'SupportsEnhancedMonitoring'),
@@ -28320,6 +28660,7 @@ class OrderableDBInstanceOption {
     final storageType = this.storageType;
     final supportedActivityStreamModes = this.supportedActivityStreamModes;
     final supportedEngineModes = this.supportedEngineModes;
+    final supportedNetworkTypes = this.supportedNetworkTypes;
     final supportsClusters = this.supportsClusters;
     final supportsEnhancedMonitoring = this.supportsEnhancedMonitoring;
     final supportsGlobalDatabases = this.supportsGlobalDatabases;
@@ -28357,6 +28698,8 @@ class OrderableDBInstanceOption {
         'SupportedActivityStreamModes': supportedActivityStreamModes,
       if (supportedEngineModes != null)
         'SupportedEngineModes': supportedEngineModes,
+      if (supportedNetworkTypes != null)
+        'SupportedNetworkTypes': supportedNetworkTypes,
       if (supportsClusters != null) 'SupportsClusters': supportsClusters,
       if (supportsEnhancedMonitoring != null)
         'SupportsEnhancedMonitoring': supportsEnhancedMonitoring,
@@ -28384,7 +28727,7 @@ class OrderableDBInstanceOptionsMessage {
   /// An optional pagination token provided by a previous
   /// OrderableDBInstanceOptions request. If this parameter is specified, the
   /// response includes only records beyond the marker, up to the value specified
-  /// by <code>MaxRecords</code> .
+  /// by <code>MaxRecords</code>.
   final String? marker;
 
   /// An <code>OrderableDBInstanceOption</code> structure containing information
@@ -30141,11 +30484,11 @@ class RevokeDBSecurityGroupIngressResult {
   }
 }
 
-/// Contains the scaling configuration of an Aurora Serverless DB cluster.
+/// Contains the scaling configuration of an Aurora Serverless v1 DB cluster.
 ///
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless.html">Using
-/// Amazon Aurora Serverless</a> in the <i>Amazon Aurora User Guide</i>.
+/// Amazon Aurora Serverless v1</a> in the <i>Amazon Aurora User Guide</i>.
 class ScalingConfiguration {
   /// A value that indicates whether to allow or disallow automatic pause for an
   /// Aurora DB cluster in <code>serverless</code> DB engine mode. A DB cluster
@@ -30185,7 +30528,7 @@ class ScalingConfiguration {
   /// The minimum capacity must be less than or equal to the maximum capacity.
   final int? minCapacity;
 
-  /// The amount of time, in seconds, that Aurora Serverless tries to find a
+  /// The amount of time, in seconds, that Aurora Serverless v1 tries to find a
   /// scaling point to perform seamless scaling before enforcing the timeout
   /// action. The default is 300.
   ///
@@ -30209,11 +30552,11 @@ class ScalingConfiguration {
   /// change if a scaling point isn't found in the timeout period.
   /// <important>
   /// If you specify <code>ForceApplyCapacityChange</code>, connections that
-  /// prevent Aurora Serverless from finding a scaling point might be dropped.
+  /// prevent Aurora Serverless v1 from finding a scaling point might be dropped.
   /// </important>
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless.how-it-works.html#aurora-serverless.how-it-works.auto-scaling">
-  /// Autoscaling for Aurora Serverless</a> in the <i>Amazon Aurora User
+  /// Autoscaling for Aurora Serverless v1</a> in the <i>Amazon Aurora User
   /// Guide</i>.
   final String? timeoutAction;
 
@@ -30262,20 +30605,20 @@ class ScalingConfiguration {
 ///
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless.html">Using
-/// Amazon Aurora Serverless</a> in the <i>Amazon Aurora User Guide</i>.
+/// Amazon Aurora Serverless v1</a> in the <i>Amazon Aurora User Guide</i>.
 class ScalingConfigurationInfo {
   /// A value that indicates whether automatic pause is allowed for the Aurora DB
   /// cluster in <code>serverless</code> DB engine mode.
   ///
-  /// When the value is set to false for an Aurora Serverless DB cluster, the DB
-  /// cluster automatically resumes.
+  /// When the value is set to false for an Aurora Serverless v1 DB cluster, the
+  /// DB cluster automatically resumes.
   final bool? autoPause;
 
   /// The maximum capacity for an Aurora DB cluster in <code>serverless</code> DB
   /// engine mode.
   final int? maxCapacity;
 
-  /// The maximum capacity for the Aurora DB cluster in <code>serverless</code> DB
+  /// The minimum capacity for an Aurora DB cluster in <code>serverless</code> DB
   /// engine mode.
   final int? minCapacity;
 
@@ -30290,7 +30633,7 @@ class ScalingConfigurationInfo {
   final int? secondsUntilAutoPause;
 
   /// The action that occurs when Aurora times out while attempting to change the
-  /// capacity of an Aurora Serverless cluster. The value is either
+  /// capacity of an Aurora Serverless v1 cluster. The value is either
   /// <code>ForceApplyCapacityChange</code> or
   /// <code>RollbackCapacityChange</code>.
   ///
@@ -30349,6 +30692,94 @@ class ScalingConfigurationInfo {
       if (secondsUntilAutoPause != null)
         'SecondsUntilAutoPause': secondsUntilAutoPause,
       if (timeoutAction != null) 'TimeoutAction': timeoutAction,
+    };
+  }
+}
+
+/// Contains the scaling configuration of an Aurora Serverless v2 DB cluster.
+///
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless-v2.html">Using
+/// Amazon Aurora Serverless v2</a> in the <i>Amazon Aurora User Guide</i>.
+class ServerlessV2ScalingConfiguration {
+  /// The maximum number of Aurora capacity units (ACUs) for a DB instance in an
+  /// Aurora Serverless v2 cluster. You can specify ACU values in half-step
+  /// increments, such as 40, 40.5, 41, and so on. The largest value that you can
+  /// use is 128.
+  final double? maxCapacity;
+
+  /// The minimum number of Aurora capacity units (ACUs) for a DB instance in an
+  /// Aurora Serverless v2 cluster. You can specify ACU values in half-step
+  /// increments, such as 8, 8.5, 9, and so on. The smallest value that you can
+  /// use is 0.5.
+  final double? minCapacity;
+
+  ServerlessV2ScalingConfiguration({
+    this.maxCapacity,
+    this.minCapacity,
+  });
+
+  factory ServerlessV2ScalingConfiguration.fromJson(Map<String, dynamic> json) {
+    return ServerlessV2ScalingConfiguration(
+      maxCapacity: json['MaxCapacity'] as double?,
+      minCapacity: json['MinCapacity'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maxCapacity = this.maxCapacity;
+    final minCapacity = this.minCapacity;
+    return {
+      if (maxCapacity != null) 'MaxCapacity': maxCapacity,
+      if (minCapacity != null) 'MinCapacity': minCapacity,
+    };
+  }
+}
+
+/// Shows the scaling configuration for an Aurora Serverless v2 DB cluster.
+///
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless-v2.html">Using
+/// Amazon Aurora Serverless v2</a> in the <i>Amazon Aurora User Guide</i>.
+class ServerlessV2ScalingConfigurationInfo {
+  /// The maximum number of Aurora capacity units (ACUs) for a DB instance in an
+  /// Aurora Serverless v2 cluster. You can specify ACU values in half-step
+  /// increments, such as 40, 40.5, 41, and so on. The largest value that you can
+  /// use is 128.
+  final double? maxCapacity;
+
+  /// The minimum number of Aurora capacity units (ACUs) for a DB instance in an
+  /// Aurora Serverless v2 cluster. You can specify ACU values in half-step
+  /// increments, such as 8, 8.5, 9, and so on. The smallest value that you can
+  /// use is 0.5.
+  final double? minCapacity;
+
+  ServerlessV2ScalingConfigurationInfo({
+    this.maxCapacity,
+    this.minCapacity,
+  });
+
+  factory ServerlessV2ScalingConfigurationInfo.fromJson(
+      Map<String, dynamic> json) {
+    return ServerlessV2ScalingConfigurationInfo(
+      maxCapacity: json['MaxCapacity'] as double?,
+      minCapacity: json['MinCapacity'] as double?,
+    );
+  }
+
+  factory ServerlessV2ScalingConfigurationInfo.fromXml(_s.XmlElement elem) {
+    return ServerlessV2ScalingConfigurationInfo(
+      maxCapacity: _s.extractXmlDoubleValue(elem, 'MaxCapacity'),
+      minCapacity: _s.extractXmlDoubleValue(elem, 'MinCapacity'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maxCapacity = this.maxCapacity;
+    final minCapacity = this.minCapacity;
+    return {
+      if (maxCapacity != null) 'MaxCapacity': maxCapacity,
+      if (minCapacity != null) 'MinCapacity': minCapacity,
     };
   }
 }
@@ -30421,9 +30852,9 @@ class SourceRegionMessage {
   /// marker, up to the value specified by <code>MaxRecords</code>.
   final String? marker;
 
-  /// A list of SourceRegion instances that contains each source Amazon Web
-  /// Services Region that the current Amazon Web Services Region can get a read
-  /// replica or a DB snapshot from.
+  /// A list of <code>SourceRegion</code> instances that contains each source
+  /// Amazon Web Services Region that the current Amazon Web Services Region can
+  /// get a read replica or a DB snapshot from.
   final List<SourceRegion>? sourceRegions;
 
   SourceRegionMessage({
@@ -30467,6 +30898,7 @@ enum SourceType {
   dbCluster,
   dbClusterSnapshot,
   customEngineVersion,
+  dbProxy,
 }
 
 extension on SourceType {
@@ -30486,6 +30918,8 @@ extension on SourceType {
         return 'db-cluster-snapshot';
       case SourceType.customEngineVersion:
         return 'custom-engine-version';
+      case SourceType.dbProxy:
+        return 'db-proxy';
     }
   }
 }
@@ -30507,6 +30941,8 @@ extension on String {
         return SourceType.dbClusterSnapshot;
       case 'custom-engine-version':
         return SourceType.customEngineVersion;
+      case 'db-proxy':
+        return SourceType.dbProxy;
     }
     throw Exception('$this is not known in enum SourceType');
   }
@@ -30941,7 +31377,7 @@ class Tag {
 
 /// <p/>
 class TagListMessage {
-  /// List of tags returned by the ListTagsForResource operation.
+  /// List of tags returned by the <code>ListTagsForResource</code> operation.
   final List<Tag>? tagList;
 
   TagListMessage({
@@ -31222,6 +31658,10 @@ class UpgradeTarget {
   /// A list of the supported DB engine modes for the target engine version.
   final List<String>? supportedEngineModes;
 
+  /// A value that indicates whether you can use Babelfish for Aurora PostgreSQL
+  /// with the target engine version.
+  final bool? supportsBabelfish;
+
   /// A value that indicates whether you can use Aurora global databases with the
   /// target engine version.
   final bool? supportsGlobalDatabases;
@@ -31237,6 +31677,7 @@ class UpgradeTarget {
     this.engineVersion,
     this.isMajorVersionUpgrade,
     this.supportedEngineModes,
+    this.supportsBabelfish,
     this.supportsGlobalDatabases,
     this.supportsParallelQuery,
   });
@@ -31252,6 +31693,7 @@ class UpgradeTarget {
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
+      supportsBabelfish: json['SupportsBabelfish'] as bool?,
       supportsGlobalDatabases: json['SupportsGlobalDatabases'] as bool?,
       supportsParallelQuery: json['SupportsParallelQuery'] as bool?,
     );
@@ -31268,6 +31710,7 @@ class UpgradeTarget {
       supportedEngineModes: _s
           .extractXmlChild(elem, 'SupportedEngineModes')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      supportsBabelfish: _s.extractXmlBoolValue(elem, 'SupportsBabelfish'),
       supportsGlobalDatabases:
           _s.extractXmlBoolValue(elem, 'SupportsGlobalDatabases'),
       supportsParallelQuery:
@@ -31282,6 +31725,7 @@ class UpgradeTarget {
     final engineVersion = this.engineVersion;
     final isMajorVersionUpgrade = this.isMajorVersionUpgrade;
     final supportedEngineModes = this.supportedEngineModes;
+    final supportsBabelfish = this.supportsBabelfish;
     final supportsGlobalDatabases = this.supportsGlobalDatabases;
     final supportsParallelQuery = this.supportsParallelQuery;
     return {
@@ -31293,6 +31737,7 @@ class UpgradeTarget {
         'IsMajorVersionUpgrade': isMajorVersionUpgrade,
       if (supportedEngineModes != null)
         'SupportedEngineModes': supportedEngineModes,
+      if (supportsBabelfish != null) 'SupportsBabelfish': supportsBabelfish,
       if (supportsGlobalDatabases != null)
         'SupportsGlobalDatabases': supportsGlobalDatabases,
       if (supportsParallelQuery != null)
@@ -31568,7 +32013,9 @@ class ValidStorageOptions {
 /// This data type is used as a response element for queries on VPC security
 /// group membership.
 class VpcSecurityGroupMembership {
-  /// The status of the VPC security group.
+  /// The membership status of the VPC security group.
+  ///
+  /// Currently, the only valid status is <code>active</code>.
   final String? status;
 
   /// The name of the VPC security group.
@@ -31599,84 +32046,6 @@ class VpcSecurityGroupMembership {
     return {
       if (status != null) 'Status': status,
       if (vpcSecurityGroupId != null) 'VpcSecurityGroupId': vpcSecurityGroupId,
-    };
-  }
-}
-
-/// Information about the virtual private network (VPN) between the VMware
-/// vSphere cluster and the Amazon Web Services website.
-///
-/// For more information about RDS on VMware, see the <a
-/// href="https://docs.aws.amazon.com/AmazonRDS/latest/RDSonVMwareUserGuide/rds-on-vmware.html">
-/// RDS on VMware User Guide.</a>
-class VpnDetails {
-  /// The IP address of network traffic from Amazon Web Services to your
-  /// on-premises data center.
-  final String? vpnGatewayIp;
-
-  /// The ID of the VPN.
-  final String? vpnId;
-
-  /// The name of the VPN.
-  final String? vpnName;
-
-  /// The preshared key (PSK) for the VPN.
-  final String? vpnPSK;
-
-  /// The state of the VPN.
-  final String? vpnState;
-
-  /// The IP address of network traffic from your on-premises data center. A
-  /// custom AZ receives the network traffic.
-  final String? vpnTunnelOriginatorIP;
-
-  VpnDetails({
-    this.vpnGatewayIp,
-    this.vpnId,
-    this.vpnName,
-    this.vpnPSK,
-    this.vpnState,
-    this.vpnTunnelOriginatorIP,
-  });
-
-  factory VpnDetails.fromJson(Map<String, dynamic> json) {
-    return VpnDetails(
-      vpnGatewayIp: json['VpnGatewayIp'] as String?,
-      vpnId: json['VpnId'] as String?,
-      vpnName: json['VpnName'] as String?,
-      vpnPSK: json['VpnPSK'] as String?,
-      vpnState: json['VpnState'] as String?,
-      vpnTunnelOriginatorIP: json['VpnTunnelOriginatorIP'] as String?,
-    );
-  }
-
-  factory VpnDetails.fromXml(_s.XmlElement elem) {
-    return VpnDetails(
-      vpnGatewayIp: _s.extractXmlStringValue(elem, 'VpnGatewayIp'),
-      vpnId: _s.extractXmlStringValue(elem, 'VpnId'),
-      vpnName: _s.extractXmlStringValue(elem, 'VpnName'),
-      vpnPSK: _s.extractXmlStringValue(elem, 'VpnPSK'),
-      vpnState: _s.extractXmlStringValue(elem, 'VpnState'),
-      vpnTunnelOriginatorIP:
-          _s.extractXmlStringValue(elem, 'VpnTunnelOriginatorIP'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final vpnGatewayIp = this.vpnGatewayIp;
-    final vpnId = this.vpnId;
-    final vpnName = this.vpnName;
-    final vpnPSK = this.vpnPSK;
-    final vpnState = this.vpnState;
-    final vpnTunnelOriginatorIP = this.vpnTunnelOriginatorIP;
-    return {
-      if (vpnGatewayIp != null) 'VpnGatewayIp': vpnGatewayIp,
-      if (vpnId != null) 'VpnId': vpnId,
-      if (vpnName != null) 'VpnName': vpnName,
-      if (vpnPSK != null) 'VpnPSK': vpnPSK,
-      if (vpnState != null) 'VpnState': vpnState,
-      if (vpnTunnelOriginatorIP != null)
-        'VpnTunnelOriginatorIP': vpnTunnelOriginatorIP,
     };
   }
 }
@@ -31755,27 +32124,11 @@ class CertificateNotFoundFault extends _s.GenericAwsException {
       : super(type: type, code: 'CertificateNotFoundFault', message: message);
 }
 
-class CustomAvailabilityZoneAlreadyExistsFault extends _s.GenericAwsException {
-  CustomAvailabilityZoneAlreadyExistsFault({String? type, String? message})
-      : super(
-            type: type,
-            code: 'CustomAvailabilityZoneAlreadyExistsFault',
-            message: message);
-}
-
 class CustomAvailabilityZoneNotFoundFault extends _s.GenericAwsException {
   CustomAvailabilityZoneNotFoundFault({String? type, String? message})
       : super(
             type: type,
             code: 'CustomAvailabilityZoneNotFoundFault',
-            message: message);
-}
-
-class CustomAvailabilityZoneQuotaExceededFault extends _s.GenericAwsException {
-  CustomAvailabilityZoneQuotaExceededFault({String? type, String? message})
-      : super(
-            type: type,
-            code: 'CustomAvailabilityZoneQuotaExceededFault',
             message: message);
 }
 
@@ -32181,22 +32534,6 @@ class IamRoleNotFoundFault extends _s.GenericAwsException {
       : super(type: type, code: 'IamRoleNotFoundFault', message: message);
 }
 
-class InstallationMediaAlreadyExistsFault extends _s.GenericAwsException {
-  InstallationMediaAlreadyExistsFault({String? type, String? message})
-      : super(
-            type: type,
-            code: 'InstallationMediaAlreadyExistsFault',
-            message: message);
-}
-
-class InstallationMediaNotFoundFault extends _s.GenericAwsException {
-  InstallationMediaNotFoundFault({String? type, String? message})
-      : super(
-            type: type,
-            code: 'InstallationMediaNotFoundFault',
-            message: message);
-}
-
 class InstanceQuotaExceededFault extends _s.GenericAwsException {
   InstanceQuotaExceededFault({String? type, String? message})
       : super(type: type, code: 'InstanceQuotaExceededFault', message: message);
@@ -32406,6 +32743,11 @@ class KMSKeyNotAccessibleFault extends _s.GenericAwsException {
       : super(type: type, code: 'KMSKeyNotAccessibleFault', message: message);
 }
 
+class NetworkTypeNotSupported extends _s.GenericAwsException {
+  NetworkTypeNotSupported({String? type, String? message})
+      : super(type: type, code: 'NetworkTypeNotSupported', message: message);
+}
+
 class OptionGroupAlreadyExistsFault extends _s.GenericAwsException {
   OptionGroupAlreadyExistsFault({String? type, String? message})
       : super(
@@ -32561,12 +32903,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       BackupPolicyNotFoundFault(type: type, message: message),
   'CertificateNotFoundFault': (type, message) =>
       CertificateNotFoundFault(type: type, message: message),
-  'CustomAvailabilityZoneAlreadyExistsFault': (type, message) =>
-      CustomAvailabilityZoneAlreadyExistsFault(type: type, message: message),
   'CustomAvailabilityZoneNotFoundFault': (type, message) =>
       CustomAvailabilityZoneNotFoundFault(type: type, message: message),
-  'CustomAvailabilityZoneQuotaExceededFault': (type, message) =>
-      CustomAvailabilityZoneQuotaExceededFault(type: type, message: message),
   'CustomDBEngineVersionAlreadyExistsFault': (type, message) =>
       CustomDBEngineVersionAlreadyExistsFault(type: type, message: message),
   'CustomDBEngineVersionNotFoundFault': (type, message) =>
@@ -32683,10 +33021,6 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       IamRoleMissingPermissionsFault(type: type, message: message),
   'IamRoleNotFoundFault': (type, message) =>
       IamRoleNotFoundFault(type: type, message: message),
-  'InstallationMediaAlreadyExistsFault': (type, message) =>
-      InstallationMediaAlreadyExistsFault(type: type, message: message),
-  'InstallationMediaNotFoundFault': (type, message) =>
-      InstallationMediaNotFoundFault(type: type, message: message),
   'InstanceQuotaExceededFault': (type, message) =>
       InstanceQuotaExceededFault(type: type, message: message),
   'InsufficientAvailableIPsInSubnetFault': (type, message) =>
@@ -32749,6 +33083,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       InvalidVPCNetworkStateFault(type: type, message: message),
   'KMSKeyNotAccessibleFault': (type, message) =>
       KMSKeyNotAccessibleFault(type: type, message: message),
+  'NetworkTypeNotSupported': (type, message) =>
+      NetworkTypeNotSupported(type: type, message: message),
   'OptionGroupAlreadyExistsFault': (type, message) =>
       OptionGroupAlreadyExistsFault(type: type, message: message),
   'OptionGroupNotFoundFault': (type, message) =>

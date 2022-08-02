@@ -2244,6 +2244,51 @@ class AiffSettings {
   }
 }
 
+/// Use Allowed renditions to specify a list of possible resolutions in your ABR
+/// stack. * MediaConvert will create an ABR stack exclusively from the list of
+/// resolutions that you specify. * Some resolutions in the Allowed renditions
+/// list may not be included, however you can force a resolution to be included
+/// by setting Required to ENABLED. * You must specify at least one resolution
+/// that is greater than or equal to any resolutions that you specify in Min top
+/// rendition size or Min bottom rendition size. * If you specify Allowed
+/// renditions, you must not specify a separate rule for Force include
+/// renditions.
+class AllowedRenditionSize {
+  /// Use Height to define the video resolution height, in pixels, for this rule.
+  final int? height;
+
+  /// Set to ENABLED to force a rendition to be included.
+  final RequiredFlag? required;
+
+  /// Use Width to define the video resolution width, in pixels, for this rule.
+  final int? width;
+
+  AllowedRenditionSize({
+    this.height,
+    this.required,
+    this.width,
+  });
+
+  factory AllowedRenditionSize.fromJson(Map<String, dynamic> json) {
+    return AllowedRenditionSize(
+      height: json['height'] as int?,
+      required: (json['required'] as String?)?.toRequiredFlag(),
+      width: json['width'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final height = this.height;
+    final required = this.required;
+    final width = this.width;
+    return {
+      if (height != null) 'height': height,
+      if (required != null) 'required': required.toValue(),
+      if (width != null) 'width': width,
+    };
+  }
+}
+
 /// Ignore this setting unless this input is a QuickTime animation with an alpha
 /// channel. Use this setting to create separate Key and Fill outputs. In each
 /// output, specify which part of the input MediaConvert uses. Leave this
@@ -2983,6 +3028,59 @@ class AudioDescription {
   }
 }
 
+/// Apply audio timing corrections to help synchronize audio and video in your
+/// output. To apply timing corrections, your input must meet the following
+/// requirements: * Container: MP4, or MOV, with an accurate time-to-sample
+/// (STTS) table. * Audio track: AAC. Choose from the following audio timing
+/// correction settings: * Disabled (Default): Apply no correction. * Auto:
+/// Recommended for most inputs. MediaConvert analyzes the audio timing in your
+/// input and determines which correction setting to use, if needed. * Track:
+/// Adjust the duration of each audio frame by a constant amount to align the
+/// audio track length with STTS duration. Track-level correction does not
+/// affect pitch, and is recommended for tonal audio content such as music. *
+/// Frame: Adjust the duration of each audio frame by a variable amount to align
+/// audio frames with STTS timestamps. No corrections are made to
+/// already-aligned frames. Frame-level correction may affect the pitch of
+/// corrected frames, and is recommended for atonal audio content such as speech
+/// or percussion.
+enum AudioDurationCorrection {
+  disabled,
+  auto,
+  track,
+  frame,
+}
+
+extension on AudioDurationCorrection {
+  String toValue() {
+    switch (this) {
+      case AudioDurationCorrection.disabled:
+        return 'DISABLED';
+      case AudioDurationCorrection.auto:
+        return 'AUTO';
+      case AudioDurationCorrection.track:
+        return 'TRACK';
+      case AudioDurationCorrection.frame:
+        return 'FRAME';
+    }
+  }
+}
+
+extension on String {
+  AudioDurationCorrection toAudioDurationCorrection() {
+    switch (this) {
+      case 'DISABLED':
+        return AudioDurationCorrection.disabled;
+      case 'AUTO':
+        return AudioDurationCorrection.auto;
+      case 'TRACK':
+        return AudioDurationCorrection.track;
+      case 'FRAME':
+        return AudioDurationCorrection.frame;
+    }
+    throw Exception('$this is not known in enum AudioDurationCorrection');
+  }
+}
+
 /// Specify which source for language code takes precedence for this audio
 /// track. When you choose Follow input (FOLLOW_INPUT), the service uses the
 /// language code from the input track if it's present. If there's no languge
@@ -3243,6 +3341,23 @@ class AudioNormalizationSettings {
 /// from the input that you will use in your outputs. You can use multiple Audio
 /// selectors per input.
 class AudioSelector {
+  /// Apply audio timing corrections to help synchronize audio and video in your
+  /// output. To apply timing corrections, your input must meet the following
+  /// requirements: * Container: MP4, or MOV, with an accurate time-to-sample
+  /// (STTS) table. * Audio track: AAC. Choose from the following audio timing
+  /// correction settings: * Disabled (Default): Apply no correction. * Auto:
+  /// Recommended for most inputs. MediaConvert analyzes the audio timing in your
+  /// input and determines which correction setting to use, if needed. * Track:
+  /// Adjust the duration of each audio frame by a constant amount to align the
+  /// audio track length with STTS duration. Track-level correction does not
+  /// affect pitch, and is recommended for tonal audio content such as music. *
+  /// Frame: Adjust the duration of each audio frame by a variable amount to align
+  /// audio frames with STTS timestamps. No corrections are made to
+  /// already-aligned frames. Frame-level correction may affect the pitch of
+  /// corrected frames, and is recommended for atonal audio content such as speech
+  /// or percussion.
+  final AudioDurationCorrection? audioDurationCorrection;
+
   /// Selects a specific language code from within an audio source, using the ISO
   /// 639-2 or ISO 639-3 three-letter language code
   final String? customLanguageCode;
@@ -3305,6 +3420,7 @@ class AudioSelector {
   final List<int>? tracks;
 
   AudioSelector({
+    this.audioDurationCorrection,
     this.customLanguageCode,
     this.defaultSelection,
     this.externalAudioFileInput,
@@ -3320,6 +3436,8 @@ class AudioSelector {
 
   factory AudioSelector.fromJson(Map<String, dynamic> json) {
     return AudioSelector(
+      audioDurationCorrection: (json['audioDurationCorrection'] as String?)
+          ?.toAudioDurationCorrection(),
       customLanguageCode: json['customLanguageCode'] as String?,
       defaultSelection:
           (json['defaultSelection'] as String?)?.toAudioDefaultSelection(),
@@ -3346,6 +3464,7 @@ class AudioSelector {
   }
 
   Map<String, dynamic> toJson() {
+    final audioDurationCorrection = this.audioDurationCorrection;
     final customLanguageCode = this.customLanguageCode;
     final defaultSelection = this.defaultSelection;
     final externalAudioFileInput = this.externalAudioFileInput;
@@ -3358,6 +3477,8 @@ class AudioSelector {
     final selectorType = this.selectorType;
     final tracks = this.tracks;
     return {
+      if (audioDurationCorrection != null)
+        'audioDurationCorrection': audioDurationCorrection.toValue(),
       if (customLanguageCode != null) 'customLanguageCode': customLanguageCode,
       if (defaultSelection != null)
         'defaultSelection': defaultSelection.toValue(),
@@ -3482,6 +3603,122 @@ extension on String {
   }
 }
 
+/// Specify one or more Automated ABR rule types. Note: Force include and
+/// Allowed renditions are mutually exclusive.
+class AutomatedAbrRule {
+  /// When customer adds the allowed renditions rule for auto ABR ladder, they are
+  /// required to add at leat one rendition to allowedRenditions list
+  final List<AllowedRenditionSize>? allowedRenditions;
+
+  /// When customer adds the force include renditions rule for auto ABR ladder,
+  /// they are required to add at leat one rendition to forceIncludeRenditions
+  /// list
+  final List<ForceIncludeRenditionSize>? forceIncludeRenditions;
+
+  /// Use Min bottom rendition size to specify a minimum size for the lowest
+  /// resolution in your ABR stack. * The lowest resolution in your ABR stack will
+  /// be equal to or greater than the value that you enter. For example: If you
+  /// specify 640x360 the lowest resolution in your ABR stack will be equal to or
+  /// greater than to 640x360. * If you specify a Min top rendition size rule, the
+  /// value that you specify for Min bottom rendition size must be less than, or
+  /// equal to, Min top rendition size.
+  final MinBottomRenditionSize? minBottomRenditionSize;
+
+  /// Use Min top rendition size to specify a minimum size for the highest
+  /// resolution in your ABR stack. * The highest resolution in your ABR stack
+  /// will be equal to or greater than the value that you enter. For example: If
+  /// you specify 1280x720 the highest resolution in your ABR stack will be equal
+  /// to or greater than 1280x720. * If you specify a value for Max resolution,
+  /// the value that you specify for Min top rendition size must be less than, or
+  /// equal to, Max resolution.
+  final MinTopRenditionSize? minTopRenditionSize;
+
+  /// Use Min top rendition size to specify a minimum size for the highest
+  /// resolution in your ABR stack. * The highest resolution in your ABR stack
+  /// will be equal to or greater than the value that you enter. For example: If
+  /// you specify 1280x720 the highest resolution in your ABR stack will be equal
+  /// to or greater than 1280x720. * If you specify a value for Max resolution,
+  /// the value that you specify for Min top rendition size must be less than, or
+  /// equal to, Max resolution. Use Min bottom rendition size to specify a minimum
+  /// size for the lowest resolution in your ABR stack. * The lowest resolution in
+  /// your ABR stack will be equal to or greater than the value that you enter.
+  /// For example: If you specify 640x360 the lowest resolution in your ABR stack
+  /// will be equal to or greater than to 640x360. * If you specify a Min top
+  /// rendition size rule, the value that you specify for Min bottom rendition
+  /// size must be less than, or equal to, Min top rendition size. Use Force
+  /// include renditions to specify one or more resolutions to include your ABR
+  /// stack. * (Recommended) To optimize automated ABR, specify as few resolutions
+  /// as possible. * (Required) The number of resolutions that you specify must be
+  /// equal to, or less than, the Max renditions setting. * If you specify a Min
+  /// top rendition size rule, specify at least one resolution that is equal to,
+  /// or greater than, Min top rendition size. * If you specify a Min bottom
+  /// rendition size rule, only specify resolutions that are equal to, or greater
+  /// than, Min bottom rendition size. * If you specify a Force include renditions
+  /// rule, do not specify a separate rule for Allowed renditions. * Note: The ABR
+  /// stack may include other resolutions that you do not specify here, depending
+  /// on the Max renditions setting. Use Allowed renditions to specify a list of
+  /// possible resolutions in your ABR stack. * (Required) The number of
+  /// resolutions that you specify must be equal to, or greater than, the Max
+  /// renditions setting. * MediaConvert will create an ABR stack exclusively from
+  /// the list of resolutions that you specify. * Some resolutions in the Allowed
+  /// renditions list may not be included, however you can force a resolution to
+  /// be included by setting Required to ENABLED. * You must specify at least one
+  /// resolution that is greater than or equal to any resolutions that you specify
+  /// in Min top rendition size or Min bottom rendition size. * If you specify
+  /// Allowed renditions, you must not specify a separate rule for Force include
+  /// renditions.
+  final RuleType? type;
+
+  AutomatedAbrRule({
+    this.allowedRenditions,
+    this.forceIncludeRenditions,
+    this.minBottomRenditionSize,
+    this.minTopRenditionSize,
+    this.type,
+  });
+
+  factory AutomatedAbrRule.fromJson(Map<String, dynamic> json) {
+    return AutomatedAbrRule(
+      allowedRenditions: (json['allowedRenditions'] as List?)
+          ?.whereNotNull()
+          .map((e) => AllowedRenditionSize.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      forceIncludeRenditions: (json['forceIncludeRenditions'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ForceIncludeRenditionSize.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      minBottomRenditionSize: json['minBottomRenditionSize'] != null
+          ? MinBottomRenditionSize.fromJson(
+              json['minBottomRenditionSize'] as Map<String, dynamic>)
+          : null,
+      minTopRenditionSize: json['minTopRenditionSize'] != null
+          ? MinTopRenditionSize.fromJson(
+              json['minTopRenditionSize'] as Map<String, dynamic>)
+          : null,
+      type: (json['type'] as String?)?.toRuleType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allowedRenditions = this.allowedRenditions;
+    final forceIncludeRenditions = this.forceIncludeRenditions;
+    final minBottomRenditionSize = this.minBottomRenditionSize;
+    final minTopRenditionSize = this.minTopRenditionSize;
+    final type = this.type;
+    return {
+      if (allowedRenditions != null) 'allowedRenditions': allowedRenditions,
+      if (forceIncludeRenditions != null)
+        'forceIncludeRenditions': forceIncludeRenditions,
+      if (minBottomRenditionSize != null)
+        'minBottomRenditionSize': minBottomRenditionSize,
+      if (minTopRenditionSize != null)
+        'minTopRenditionSize': minTopRenditionSize,
+      if (type != null) 'type': type.toValue(),
+    };
+  }
+}
+
 /// Use automated ABR to have MediaConvert set up the renditions in your ABR
 /// package for you automatically, based on characteristics of your input video.
 /// This feature optimizes video quality while minimizing the overall size of
@@ -3508,10 +3745,17 @@ class AutomatedAbrSettings {
   /// uses 600,000 (600 kb/s) by default.
   final int? minAbrBitrate;
 
+  /// Optional. Use Automated ABR rules to specify restrictions for the rendition
+  /// sizes MediaConvert will create in your ABR stack. You can use these rules if
+  /// your ABR workflow has specific rendition size requirements, but you still
+  /// want MediaConvert to optimize for video quality and overall file size.
+  final List<AutomatedAbrRule>? rules;
+
   AutomatedAbrSettings({
     this.maxAbrBitrate,
     this.maxRenditions,
     this.minAbrBitrate,
+    this.rules,
   });
 
   factory AutomatedAbrSettings.fromJson(Map<String, dynamic> json) {
@@ -3519,6 +3763,10 @@ class AutomatedAbrSettings {
       maxAbrBitrate: json['maxAbrBitrate'] as int?,
       maxRenditions: json['maxRenditions'] as int?,
       minAbrBitrate: json['minAbrBitrate'] as int?,
+      rules: (json['rules'] as List?)
+          ?.whereNotNull()
+          .map((e) => AutomatedAbrRule.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
@@ -3526,10 +3774,12 @@ class AutomatedAbrSettings {
     final maxAbrBitrate = this.maxAbrBitrate;
     final maxRenditions = this.maxRenditions;
     final minAbrBitrate = this.minAbrBitrate;
+    final rules = this.rules;
     return {
       if (maxAbrBitrate != null) 'maxAbrBitrate': maxAbrBitrate,
       if (maxRenditions != null) 'maxRenditions': maxRenditions,
       if (minAbrBitrate != null) 'minAbrBitrate': minAbrBitrate,
+      if (rules != null) 'rules': rules,
     };
   }
 }
@@ -3612,6 +3862,36 @@ extension on String {
         return Av1AdaptiveQuantization.max;
     }
     throw Exception('$this is not known in enum Av1AdaptiveQuantization');
+  }
+}
+
+/// Specify the Bit depth (Av1BitDepth). You can choose 8-bit (BIT_8) or 10-bit
+/// (BIT_10).
+enum Av1BitDepth {
+  bit_8,
+  bit_10,
+}
+
+extension on Av1BitDepth {
+  String toValue() {
+    switch (this) {
+      case Av1BitDepth.bit_8:
+        return 'BIT_8';
+      case Av1BitDepth.bit_10:
+        return 'BIT_10';
+    }
+  }
+}
+
+extension on String {
+  Av1BitDepth toAv1BitDepth() {
+    switch (this) {
+      case 'BIT_8':
+        return Av1BitDepth.bit_8;
+      case 'BIT_10':
+        return Av1BitDepth.bit_10;
+    }
+    throw Exception('$this is not known in enum Av1BitDepth');
   }
 }
 
@@ -3700,7 +3980,7 @@ extension on String {
   }
 }
 
-/// Settings for quality-defined variable bitrate encoding with the H.265 codec.
+/// Settings for quality-defined variable bitrate encoding with the AV1 codec.
 /// Use these settings only when you set QVBR for Rate control mode
 /// (RateControlMode).
 class Av1QvbrSettings {
@@ -3782,6 +4062,10 @@ class Av1Settings {
   /// The value that you choose here applies to Spatial adaptive quantization
   /// (spatialAdaptiveQuantization).
   final Av1AdaptiveQuantization? adaptiveQuantization;
+
+  /// Specify the Bit depth (Av1BitDepth). You can choose 8-bit (BIT_8) or 10-bit
+  /// (BIT_10).
+  final Av1BitDepth? bitDepth;
 
   /// If you are using the console, use the Framerate setting to specify the frame
   /// rate for this output. If you want to keep the same frame rate as the input
@@ -3876,6 +4160,7 @@ class Av1Settings {
 
   Av1Settings({
     this.adaptiveQuantization,
+    this.bitDepth,
     this.framerateControl,
     this.framerateConversionAlgorithm,
     this.framerateDenominator,
@@ -3893,6 +4178,7 @@ class Av1Settings {
     return Av1Settings(
       adaptiveQuantization: (json['adaptiveQuantization'] as String?)
           ?.toAv1AdaptiveQuantization(),
+      bitDepth: (json['bitDepth'] as String?)?.toAv1BitDepth(),
       framerateControl:
           (json['framerateControl'] as String?)?.toAv1FramerateControl(),
       framerateConversionAlgorithm:
@@ -3919,6 +4205,7 @@ class Av1Settings {
 
   Map<String, dynamic> toJson() {
     final adaptiveQuantization = this.adaptiveQuantization;
+    final bitDepth = this.bitDepth;
     final framerateControl = this.framerateControl;
     final framerateConversionAlgorithm = this.framerateConversionAlgorithm;
     final framerateDenominator = this.framerateDenominator;
@@ -3934,6 +4221,7 @@ class Av1Settings {
     return {
       if (adaptiveQuantization != null)
         'adaptiveQuantization': adaptiveQuantization.toValue(),
+      if (bitDepth != null) 'bitDepth': bitDepth.toValue(),
       if (framerateControl != null)
         'framerateControl': framerateControl.toValue(),
       if (framerateConversionAlgorithm != null)
@@ -7330,6 +7618,39 @@ extension on String {
   }
 }
 
+/// To include key-length-value metadata in this output: Set KLV metadata
+/// insertion to Passthrough. MediaConvert reads KLV metadata present in your
+/// input and writes each instance to a separate event message box in the
+/// output, according to MISB ST1910.1. To exclude this KLV metadata: Set KLV
+/// metadata insertion to None or leave blank.
+enum CmfcKlvMetadata {
+  passthrough,
+  none,
+}
+
+extension on CmfcKlvMetadata {
+  String toValue() {
+    switch (this) {
+      case CmfcKlvMetadata.passthrough:
+        return 'PASSTHROUGH';
+      case CmfcKlvMetadata.none:
+        return 'NONE';
+    }
+  }
+}
+
+extension on String {
+  CmfcKlvMetadata toCmfcKlvMetadata() {
+    switch (this) {
+      case 'PASSTHROUGH':
+        return CmfcKlvMetadata.passthrough;
+      case 'NONE':
+        return CmfcKlvMetadata.none;
+    }
+    throw Exception('$this is not known in enum CmfcKlvMetadata');
+  }
+}
+
 /// Use this setting only when you specify SCTE-35 markers from ESAM. Choose
 /// INSERT to put SCTE-35 markers in this output at the insertion points that
 /// you specify in an ESAM XML document. Provide the document in the setting SCC
@@ -7480,6 +7801,13 @@ class CmfcSettings {
   /// the default value Exclude (EXCLUDE).
   final CmfcIFrameOnlyManifest? iFrameOnlyManifest;
 
+  /// To include key-length-value metadata in this output: Set KLV metadata
+  /// insertion to Passthrough. MediaConvert reads KLV metadata present in your
+  /// input and writes each instance to a separate event message box in the
+  /// output, according to MISB ST1910.1. To exclude this KLV metadata: Set KLV
+  /// metadata insertion to None or leave blank.
+  final CmfcKlvMetadata? klvMetadata;
+
   /// Use this setting only when you specify SCTE-35 markers from ESAM. Choose
   /// INSERT to put SCTE-35 markers in this output at the insertion points that
   /// you specify in an ESAM XML document. Provide the document in the setting SCC
@@ -7492,6 +7820,13 @@ class CmfcSettings {
   /// you don't want those SCTE-35 markers in this output.
   final CmfcScte35Source? scte35Source;
 
+  /// To include ID3 metadata in this output: Set ID3 metadata (timedMetadata) to
+  /// Passthrough (PASSTHROUGH). Specify this ID3 metadata in Custom ID3 metadata
+  /// inserter (timedMetadataInsertion). MediaConvert writes each instance of ID3
+  /// metadata in a separate Event Message (eMSG) box. To exclude this ID3
+  /// metadata: Set ID3 metadata to None (NONE) or leave blank.
+  final CmfcTimedMetadata? timedMetadata;
+
   CmfcSettings({
     this.audioDuration,
     this.audioGroupId,
@@ -7499,8 +7834,10 @@ class CmfcSettings {
     this.audioTrackType,
     this.descriptiveVideoServiceFlag,
     this.iFrameOnlyManifest,
+    this.klvMetadata,
     this.scte35Esam,
     this.scte35Source,
+    this.timedMetadata,
   });
 
   factory CmfcSettings.fromJson(Map<String, dynamic> json) {
@@ -7515,8 +7852,10 @@ class CmfcSettings {
               ?.toCmfcDescriptiveVideoServiceFlag(),
       iFrameOnlyManifest:
           (json['iFrameOnlyManifest'] as String?)?.toCmfcIFrameOnlyManifest(),
+      klvMetadata: (json['klvMetadata'] as String?)?.toCmfcKlvMetadata(),
       scte35Esam: (json['scte35Esam'] as String?)?.toCmfcScte35Esam(),
       scte35Source: (json['scte35Source'] as String?)?.toCmfcScte35Source(),
+      timedMetadata: (json['timedMetadata'] as String?)?.toCmfcTimedMetadata(),
     );
   }
 
@@ -7527,8 +7866,10 @@ class CmfcSettings {
     final audioTrackType = this.audioTrackType;
     final descriptiveVideoServiceFlag = this.descriptiveVideoServiceFlag;
     final iFrameOnlyManifest = this.iFrameOnlyManifest;
+    final klvMetadata = this.klvMetadata;
     final scte35Esam = this.scte35Esam;
     final scte35Source = this.scte35Source;
+    final timedMetadata = this.timedMetadata;
     return {
       if (audioDuration != null) 'audioDuration': audioDuration.toValue(),
       if (audioGroupId != null) 'audioGroupId': audioGroupId,
@@ -7538,9 +7879,44 @@ class CmfcSettings {
         'descriptiveVideoServiceFlag': descriptiveVideoServiceFlag.toValue(),
       if (iFrameOnlyManifest != null)
         'iFrameOnlyManifest': iFrameOnlyManifest.toValue(),
+      if (klvMetadata != null) 'klvMetadata': klvMetadata.toValue(),
       if (scte35Esam != null) 'scte35Esam': scte35Esam.toValue(),
       if (scte35Source != null) 'scte35Source': scte35Source.toValue(),
+      if (timedMetadata != null) 'timedMetadata': timedMetadata.toValue(),
     };
+  }
+}
+
+/// To include ID3 metadata in this output: Set ID3 metadata (timedMetadata) to
+/// Passthrough (PASSTHROUGH). Specify this ID3 metadata in Custom ID3 metadata
+/// inserter (timedMetadataInsertion). MediaConvert writes each instance of ID3
+/// metadata in a separate Event Message (eMSG) box. To exclude this ID3
+/// metadata: Set ID3 metadata to None (NONE) or leave blank.
+enum CmfcTimedMetadata {
+  passthrough,
+  none,
+}
+
+extension on CmfcTimedMetadata {
+  String toValue() {
+    switch (this) {
+      case CmfcTimedMetadata.passthrough:
+        return 'PASSTHROUGH';
+      case CmfcTimedMetadata.none:
+        return 'NONE';
+    }
+  }
+}
+
+extension on String {
+  CmfcTimedMetadata toCmfcTimedMetadata() {
+    switch (this) {
+      case 'PASSTHROUGH':
+        return CmfcTimedMetadata.passthrough;
+      case 'NONE':
+        return CmfcTimedMetadata.none;
+    }
+    throw Exception('$this is not known in enum CmfcTimedMetadata');
   }
 }
 
@@ -9291,9 +9667,7 @@ class DisassociateCertificateResponse {
   }
 }
 
-/// With AWS Elemental MediaConvert, you can create profile 5 Dolby Vision
-/// outputs from MXF and IMF sources that contain mastering information as
-/// frame-interleaved Dolby Vision metadata.
+/// Create Dolby Vision Profile 5 or Profile 8.1  compatible video output.
 class DolbyVision {
   /// Use these settings when you set DolbyVisionLevel6Mode to SPECIFY to override
   /// the MaxCLL and MaxFALL values in your input with new values.
@@ -9303,14 +9677,28 @@ class DolbyVision {
   /// MaxCLL and MaxFALL properies.
   final DolbyVisionLevel6Mode? l6Mode;
 
-  /// In the current MediaConvert implementation, the Dolby Vision profile is
-  /// always 5 (PROFILE_5). Therefore, all of your inputs must contain Dolby
-  /// Vision frame interleaved data.
+  /// Required when you set Dolby Vision Profile to Profile 8.1. When you set
+  /// Content mapping to None, content mapping is not applied to the
+  /// HDR10-compatible signal. Depending on the source peak nit level, clipping
+  /// might occur on HDR devices without Dolby Vision. When you set Content
+  /// mapping to HDR10 1000, the transcoder creates a 1,000 nits peak
+  /// HDR10-compatible signal by applying static content mapping to the source.
+  /// This mode is speed-optimized for PQ10 sources with metadata that is created
+  /// from analysis. For graded Dolby Vision content, be aware that creative
+  /// intent might not be guaranteed with extreme 1,000 nits trims.
+  final DolbyVisionMapping? mapping;
+
+  /// Required when you enable Dolby Vision. Use Profile 5 to include
+  /// frame-interleaved Dolby Vision metadata in your output. Your input must
+  /// include Dolby Vision metadata or an HDR10 YUV color space. Use Profile 8.1
+  /// to include frame-interleaved Dolby Vision metadata and HDR10 metadata in
+  /// your output. Your input must include Dolby Vision metadata.
   final DolbyVisionProfile? profile;
 
   DolbyVision({
     this.l6Metadata,
     this.l6Mode,
+    this.mapping,
     this.profile,
   });
 
@@ -9321,6 +9709,7 @@ class DolbyVision {
               json['l6Metadata'] as Map<String, dynamic>)
           : null,
       l6Mode: (json['l6Mode'] as String?)?.toDolbyVisionLevel6Mode(),
+      mapping: (json['mapping'] as String?)?.toDolbyVisionMapping(),
       profile: (json['profile'] as String?)?.toDolbyVisionProfile(),
     );
   }
@@ -9328,10 +9717,12 @@ class DolbyVision {
   Map<String, dynamic> toJson() {
     final l6Metadata = this.l6Metadata;
     final l6Mode = this.l6Mode;
+    final mapping = this.mapping;
     final profile = this.profile;
     return {
       if (l6Metadata != null) 'l6Metadata': l6Metadata,
       if (l6Mode != null) 'l6Mode': l6Mode.toValue(),
+      if (mapping != null) 'mapping': mapping.toValue(),
       if (profile != null) 'profile': profile.toValue(),
     };
   }
@@ -9405,11 +9796,51 @@ extension on String {
   }
 }
 
-/// In the current MediaConvert implementation, the Dolby Vision profile is
-/// always 5 (PROFILE_5). Therefore, all of your inputs must contain Dolby
-/// Vision frame interleaved data.
+/// Required when you set Dolby Vision Profile to Profile 8.1. When you set
+/// Content mapping to None, content mapping is not applied to the
+/// HDR10-compatible signal. Depending on the source peak nit level, clipping
+/// might occur on HDR devices without Dolby Vision. When you set Content
+/// mapping to HDR10 1000, the transcoder creates a 1,000 nits peak
+/// HDR10-compatible signal by applying static content mapping to the source.
+/// This mode is speed-optimized for PQ10 sources with metadata that is created
+/// from analysis. For graded Dolby Vision content, be aware that creative
+/// intent might not be guaranteed with extreme 1,000 nits trims.
+enum DolbyVisionMapping {
+  hdr10Nomap,
+  hdr10_1000,
+}
+
+extension on DolbyVisionMapping {
+  String toValue() {
+    switch (this) {
+      case DolbyVisionMapping.hdr10Nomap:
+        return 'HDR10_NOMAP';
+      case DolbyVisionMapping.hdr10_1000:
+        return 'HDR10_1000';
+    }
+  }
+}
+
+extension on String {
+  DolbyVisionMapping toDolbyVisionMapping() {
+    switch (this) {
+      case 'HDR10_NOMAP':
+        return DolbyVisionMapping.hdr10Nomap;
+      case 'HDR10_1000':
+        return DolbyVisionMapping.hdr10_1000;
+    }
+    throw Exception('$this is not known in enum DolbyVisionMapping');
+  }
+}
+
+/// Required when you enable Dolby Vision. Use Profile 5 to include
+/// frame-interleaved Dolby Vision metadata in your output. Your input must
+/// include Dolby Vision metadata or an HDR10 YUV color space. Use Profile 8.1
+/// to include frame-interleaved Dolby Vision metadata and HDR10 metadata in
+/// your output. Your input must include Dolby Vision metadata.
 enum DolbyVisionProfile {
   profile_5,
+  profile_8_1,
 }
 
 extension on DolbyVisionProfile {
@@ -9417,6 +9848,8 @@ extension on DolbyVisionProfile {
     switch (this) {
       case DolbyVisionProfile.profile_5:
         return 'PROFILE_5';
+      case DolbyVisionProfile.profile_8_1:
+        return 'PROFILE_8_1';
     }
   }
 }
@@ -9426,6 +9859,8 @@ extension on String {
     switch (this) {
       case 'PROFILE_5':
         return DolbyVisionProfile.profile_5;
+      case 'PROFILE_8_1':
+        return DolbyVisionProfile.profile_8_1;
     }
     throw Exception('$this is not known in enum DolbyVisionProfile');
   }
@@ -12026,6 +12461,40 @@ extension on String {
   }
 }
 
+/// Set Embedded timecode override (embeddedTimecodeOverride) to Use MDPM
+/// (USE_MDPM) when your AVCHD input contains timecode tag data in the Modified
+/// Digital Video Pack Metadata (MDPM). When you do, we recommend you also set
+/// Timecode source (inputTimecodeSource) to Embedded (EMBEDDED). Leave Embedded
+/// timecode override blank, or set to None (NONE), when your input does not
+/// contain MDPM timecode.
+enum EmbeddedTimecodeOverride {
+  none,
+  useMdpm,
+}
+
+extension on EmbeddedTimecodeOverride {
+  String toValue() {
+    switch (this) {
+      case EmbeddedTimecodeOverride.none:
+        return 'NONE';
+      case EmbeddedTimecodeOverride.useMdpm:
+        return 'USE_MDPM';
+    }
+  }
+}
+
+extension on String {
+  EmbeddedTimecodeOverride toEmbeddedTimecodeOverride() {
+    switch (this) {
+      case 'NONE':
+        return EmbeddedTimecodeOverride.none;
+      case 'USE_MDPM':
+        return EmbeddedTimecodeOverride.useMdpm;
+    }
+    throw Exception('$this is not known in enum EmbeddedTimecodeOverride');
+  }
+}
+
 /// Describes an account-specific API endpoint.
 class Endpoint {
   /// URL of endpoint
@@ -12491,6 +12960,46 @@ extension on String {
         return FontScript.hant;
     }
     throw Exception('$this is not known in enum FontScript');
+  }
+}
+
+/// Use Force include renditions to specify one or more resolutions to include
+/// your ABR stack. * (Recommended) To optimize automated ABR, specify as few
+/// resolutions as possible. * (Required) The number of resolutions that you
+/// specify must be equal to, or less than, the Max renditions setting. * If you
+/// specify a Min top rendition size rule, specify at least one resolution that
+/// is equal to, or greater than, Min top rendition size. * If you specify a Min
+/// bottom rendition size rule, only specify resolutions that are equal to, or
+/// greater than, Min bottom rendition size. * If you specify a Force include
+/// renditions rule, do not specify a separate rule for Allowed renditions. *
+/// Note: The ABR stack may include other resolutions that you do not specify
+/// here, depending on the Max renditions setting.
+class ForceIncludeRenditionSize {
+  /// Use Height to define the video resolution height, in pixels, for this rule.
+  final int? height;
+
+  /// Use Width to define the video resolution width, in pixels, for this rule.
+  final int? width;
+
+  ForceIncludeRenditionSize({
+    this.height,
+    this.width,
+  });
+
+  factory ForceIncludeRenditionSize.fromJson(Map<String, dynamic> json) {
+    return ForceIncludeRenditionSize(
+      height: json['height'] as int?,
+      width: json['width'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final height = this.height;
+    final width = this.width;
+    return {
+      if (height != null) 'height': height,
+      if (width != null) 'width': width,
+    };
   }
 }
 
@@ -13326,7 +13835,7 @@ extension on String {
   }
 }
 
-/// Settings for quality-defined variable bitrate encoding with the H.265 codec.
+/// Settings for quality-defined variable bitrate encoding with the H.264 codec.
 /// Use these settings only when you set QVBR for Rate control mode
 /// (RateControlMode).
 class H264QvbrSettings {
@@ -14343,11 +14852,17 @@ extension on String {
   }
 }
 
-/// Specify the strength of any adaptive quantization filters that you enable.
-/// The value that you choose here applies to the following settings: Flicker
-/// adaptive quantization (flickerAdaptiveQuantization), Spatial adaptive
-/// quantization (spatialAdaptiveQuantization), and Temporal adaptive
-/// quantization (temporalAdaptiveQuantization).
+/// When you set Adaptive Quantization (H265AdaptiveQuantization) to Auto
+/// (AUTO), or leave blank, MediaConvert automatically applies quantization to
+/// improve the video quality of your output. Set Adaptive Quantization to Low
+/// (LOW), Medium (MEDIUM), High (HIGH), Higher (HIGHER), or Max (MAX) to
+/// manually control the strength of the quantization filter. When you do, you
+/// can specify a value for Spatial Adaptive Quantization
+/// (H265SpatialAdaptiveQuantization), Temporal Adaptive Quantization
+/// (H265TemporalAdaptiveQuantization), and Flicker Adaptive Quantization
+/// (H265FlickerAdaptiveQuantization), to further control the quantization
+/// filter. Set Adaptive Quantization to Off (OFF) to apply no quantization to
+/// your output.
 enum H265AdaptiveQuantization {
   off,
   low,
@@ -14355,6 +14870,7 @@ enum H265AdaptiveQuantization {
   high,
   higher,
   max,
+  auto,
 }
 
 extension on H265AdaptiveQuantization {
@@ -14372,6 +14888,8 @@ extension on H265AdaptiveQuantization {
         return 'HIGHER';
       case H265AdaptiveQuantization.max:
         return 'MAX';
+      case H265AdaptiveQuantization.auto:
+        return 'AUTO';
     }
   }
 }
@@ -14391,6 +14909,8 @@ extension on String {
         return H265AdaptiveQuantization.higher;
       case 'MAX':
         return H265AdaptiveQuantization.max;
+      case 'AUTO':
+        return H265AdaptiveQuantization.auto;
     }
     throw Exception('$this is not known in enum H265AdaptiveQuantization');
   }
@@ -15148,11 +15668,17 @@ extension on String {
 
 /// Settings for H265 codec
 class H265Settings {
-  /// Specify the strength of any adaptive quantization filters that you enable.
-  /// The value that you choose here applies to the following settings: Flicker
-  /// adaptive quantization (flickerAdaptiveQuantization), Spatial adaptive
-  /// quantization (spatialAdaptiveQuantization), and Temporal adaptive
-  /// quantization (temporalAdaptiveQuantization).
+  /// When you set Adaptive Quantization (H265AdaptiveQuantization) to Auto
+  /// (AUTO), or leave blank, MediaConvert automatically applies quantization to
+  /// improve the video quality of your output. Set Adaptive Quantization to Low
+  /// (LOW), Medium (MEDIUM), High (HIGH), Higher (HIGHER), or Max (MAX) to
+  /// manually control the strength of the quantization filter. When you do, you
+  /// can specify a value for Spatial Adaptive Quantization
+  /// (H265SpatialAdaptiveQuantization), Temporal Adaptive Quantization
+  /// (H265TemporalAdaptiveQuantization), and Flicker Adaptive Quantization
+  /// (H265FlickerAdaptiveQuantization), to further control the quantization
+  /// filter. Set Adaptive Quantization to Off (OFF) to apply no quantization to
+  /// your output.
   final H265AdaptiveQuantization? adaptiveQuantization;
 
   /// Enables Alternate Transfer Function SEI message for outputs using Hybrid Log
@@ -16439,6 +16965,41 @@ extension on String {
   }
 }
 
+/// Set Caption segment length control (CaptionSegmentLengthControl) to Match
+/// video (MATCH_VIDEO) to create caption segments that align with the video
+/// segments from the first video output in this output group. For example, if
+/// the video segments are 2 seconds long, your WebVTT segments will also be 2
+/// seconds long. Keep the default setting, Large segments (LARGE_SEGMENTS) to
+/// create caption segments that are 300 seconds long.
+enum HlsCaptionSegmentLengthControl {
+  largeSegments,
+  matchVideo,
+}
+
+extension on HlsCaptionSegmentLengthControl {
+  String toValue() {
+    switch (this) {
+      case HlsCaptionSegmentLengthControl.largeSegments:
+        return 'LARGE_SEGMENTS';
+      case HlsCaptionSegmentLengthControl.matchVideo:
+        return 'MATCH_VIDEO';
+    }
+  }
+}
+
+extension on String {
+  HlsCaptionSegmentLengthControl toHlsCaptionSegmentLengthControl() {
+    switch (this) {
+      case 'LARGE_SEGMENTS':
+        return HlsCaptionSegmentLengthControl.largeSegments;
+      case 'MATCH_VIDEO':
+        return HlsCaptionSegmentLengthControl.matchVideo;
+    }
+    throw Exception(
+        '$this is not known in enum HlsCaptionSegmentLengthControl');
+  }
+}
+
 /// Disable this setting only when your workflow requires the
 /// #EXT-X-ALLOW-CACHE:no tag. Otherwise, keep the default value Enabled
 /// (ENABLED) and control caching in your video distribution set up. For
@@ -16732,6 +17293,14 @@ class HlsGroupSettings {
   /// Omit: Omit any CLOSED-CAPTIONS line from the manifest.
   final HlsCaptionLanguageSetting? captionLanguageSetting;
 
+  /// Set Caption segment length control (CaptionSegmentLengthControl) to Match
+  /// video (MATCH_VIDEO) to create caption segments that align with the video
+  /// segments from the first video output in this output group. For example, if
+  /// the video segments are 2 seconds long, your WebVTT segments will also be 2
+  /// seconds long. Keep the default setting, Large segments (LARGE_SEGMENTS) to
+  /// create caption segments that are 300 seconds long.
+  final HlsCaptionSegmentLengthControl? captionSegmentLengthControl;
+
   /// Disable this setting only when your workflow requires the
   /// #EXT-X-ALLOW-CACHE:no tag. Otherwise, keep the default value Enabled
   /// (ENABLED) and control caching in your video distribution set up. For
@@ -16852,10 +17421,19 @@ class HlsGroupSettings {
   /// longer than the target duration.
   final HlsTargetDurationCompatibilityMode? targetDurationCompatibilityMode;
 
-  /// Indicates ID3 frame that has the timecode.
+  /// Specify the type of the ID3 frame (timedMetadataId3Frame) to use for ID3
+  /// timestamps (timedMetadataId3Period) in your output. To include ID3
+  /// timestamps: Specify PRIV (PRIV) or TDRL (TDRL) and set ID3 metadata
+  /// (timedMetadata) to Passthrough (PASSTHROUGH). To exclude ID3 timestamps: Set
+  /// ID3 timestamp frame type to None (NONE).
   final HlsTimedMetadataId3Frame? timedMetadataId3Frame;
 
-  /// Timed Metadata interval in seconds.
+  /// Specify the interval in seconds to write ID3 timestamps in your output. The
+  /// first timestamp starts at the output timecode and date, and increases
+  /// incrementally with each ID3 timestamp. To use the default interval of 10
+  /// seconds: Leave blank. To include this metadata in your output: Set ID3
+  /// timestamp frame type (timedMetadataId3Frame) to PRIV (PRIV) or TDRL (TDRL),
+  /// and set ID3 metadata (timedMetadata) to Passthrough (PASSTHROUGH).
   final int? timedMetadataId3Period;
 
   /// Provides an extra millisecond delta offset to fine tune the timestamps.
@@ -16868,6 +17446,7 @@ class HlsGroupSettings {
     this.baseUrl,
     this.captionLanguageMappings,
     this.captionLanguageSetting,
+    this.captionSegmentLengthControl,
     this.clientCache,
     this.codecSpecification,
     this.destination,
@@ -16914,6 +17493,9 @@ class HlsGroupSettings {
           .toList(),
       captionLanguageSetting: (json['captionLanguageSetting'] as String?)
           ?.toHlsCaptionLanguageSetting(),
+      captionSegmentLengthControl:
+          (json['captionSegmentLengthControl'] as String?)
+              ?.toHlsCaptionSegmentLengthControl(),
       clientCache: (json['clientCache'] as String?)?.toHlsClientCache(),
       codecSpecification:
           (json['codecSpecification'] as String?)?.toHlsCodecSpecification(),
@@ -16970,6 +17552,7 @@ class HlsGroupSettings {
     final baseUrl = this.baseUrl;
     final captionLanguageMappings = this.captionLanguageMappings;
     final captionLanguageSetting = this.captionLanguageSetting;
+    final captionSegmentLengthControl = this.captionSegmentLengthControl;
     final clientCache = this.clientCache;
     final codecSpecification = this.codecSpecification;
     final destination = this.destination;
@@ -17006,6 +17589,8 @@ class HlsGroupSettings {
         'captionLanguageMappings': captionLanguageMappings,
       if (captionLanguageSetting != null)
         'captionLanguageSetting': captionLanguageSetting.toValue(),
+      if (captionSegmentLengthControl != null)
+        'captionSegmentLengthControl': captionSegmentLengthControl.toValue(),
       if (clientCache != null) 'clientCache': clientCache.toValue(),
       if (codecSpecification != null)
         'codecSpecification': codecSpecification.toValue(),
@@ -17739,7 +18324,11 @@ extension on String {
   }
 }
 
-/// Indicates ID3 frame that has the timecode.
+/// Specify the type of the ID3 frame (timedMetadataId3Frame) to use for ID3
+/// timestamps (timedMetadataId3Period) in your output. To include ID3
+/// timestamps: Specify PRIV (PRIV) or TDRL (TDRL) and set ID3 metadata
+/// (timedMetadata) to Passthrough (PASSTHROUGH). To exclude ID3 timestamps: Set
+/// ID3 timestamp frame type to None (NONE).
 enum HlsTimedMetadataId3Frame {
   none,
   priv,
@@ -17825,7 +18414,7 @@ class HopDestination {
 /// the time when the tag should be inserted. To insert multiple ID3 tags in
 /// your output, create multiple instances of ID3 insertion (Id3Insertion).
 class Id3Insertion {
-  /// Use ID3 tag (Id3) to provide a tag value in base64-encode format.
+  /// Use ID3 tag (Id3) to provide a fully formed ID3 tag in base64-encode format.
   final String? id3;
 
   /// Provide a Timecode (TimeCode) in HH:MM:SS:FF or HH:MM:SS;FF format.
@@ -17884,6 +18473,42 @@ class ImageInserter {
   }
 }
 
+/// Set Accessibility subtitles to Enabled if the ISMC or WebVTT captions track
+/// is intended to provide accessibility for people who are deaf or hard of
+/// hearing. When you enable this feature, MediaConvert adds the following
+/// attributes under EXT-X-MEDIA in the HLS or CMAF manifest for this track:
+/// CHARACTERISTICS="public.accessibility.describes-spoken-dialog,public.accessibility.describes-music-and-sound"
+/// and AUTOSELECT="YES". Keep the default value, Disabled, if the captions
+/// track is not intended to provide such accessibility. MediaConvert will not
+/// add the above attributes.
+enum ImscAccessibilitySubs {
+  disabled,
+  enabled,
+}
+
+extension on ImscAccessibilitySubs {
+  String toValue() {
+    switch (this) {
+      case ImscAccessibilitySubs.disabled:
+        return 'DISABLED';
+      case ImscAccessibilitySubs.enabled:
+        return 'ENABLED';
+    }
+  }
+}
+
+extension on String {
+  ImscAccessibilitySubs toImscAccessibilitySubs() {
+    switch (this) {
+      case 'DISABLED':
+        return ImscAccessibilitySubs.disabled;
+      case 'ENABLED':
+        return ImscAccessibilitySubs.enabled;
+    }
+    throw Exception('$this is not known in enum ImscAccessibilitySubs');
+  }
+}
+
 /// Settings related to IMSC captions. IMSC is a sidecar format that holds
 /// captions in a file that is separate from the video container. Set up sidecar
 /// captions in the same output group, but different output from your video. For
@@ -17892,6 +18517,16 @@ class ImageInserter {
 /// When you work directly in your JSON job specification, include this object
 /// and any required children when you set destinationType to IMSC.
 class ImscDestinationSettings {
+  /// Set Accessibility subtitles to Enabled if the ISMC or WebVTT captions track
+  /// is intended to provide accessibility for people who are deaf or hard of
+  /// hearing. When you enable this feature, MediaConvert adds the following
+  /// attributes under EXT-X-MEDIA in the HLS or CMAF manifest for this track:
+  /// CHARACTERISTICS="public.accessibility.describes-spoken-dialog,public.accessibility.describes-music-and-sound"
+  /// and AUTOSELECT="YES". Keep the default value, Disabled, if the captions
+  /// track is not intended to provide such accessibility. MediaConvert will not
+  /// add the above attributes.
+  final ImscAccessibilitySubs? accessibility;
+
   /// Keep this setting enabled to have MediaConvert use the font style and
   /// position information from the captions source in the output. This option is
   /// available only when your input captions are IMSC, SMPTE-TT, or TTML. Disable
@@ -17899,19 +18534,24 @@ class ImscDestinationSettings {
   final ImscStylePassthrough? stylePassthrough;
 
   ImscDestinationSettings({
+    this.accessibility,
     this.stylePassthrough,
   });
 
   factory ImscDestinationSettings.fromJson(Map<String, dynamic> json) {
     return ImscDestinationSettings(
+      accessibility:
+          (json['accessibility'] as String?)?.toImscAccessibilitySubs(),
       stylePassthrough:
           (json['stylePassthrough'] as String?)?.toImscStylePassthrough(),
     );
   }
 
   Map<String, dynamic> toJson() {
+    final accessibility = this.accessibility;
     final stylePassthrough = this.stylePassthrough;
     return {
+      if (accessibility != null) 'accessibility': accessibility.toValue(),
       if (stylePassthrough != null)
         'stylePassthrough': stylePassthrough.toValue(),
     };
@@ -17994,6 +18634,18 @@ class Input {
   /// is disabled. Only applicable to MPEG2, H.264, H.265, and uncompressed video
   /// inputs.
   final InputDenoiseFilter? denoiseFilter;
+
+  /// Use this setting only when your video source has Dolby Vision studio
+  /// mastering metadata that is carried in a separate XML file. Specify the
+  /// Amazon S3 location for the metadata XML file. MediaConvert uses this file to
+  /// provide global and frame-level metadata for Dolby Vision preprocessing. When
+  /// you specify a file here and your input also has interleaved global and frame
+  /// level metadata, MediaConvert ignores the interleaved metadata and uses only
+  /// the the metadata from this external XML file. Note that your IAM service
+  /// role must grant MediaConvert read permissions to this file. For more
+  /// information, see
+  /// https://docs.aws.amazon.com/mediaconvert/latest/ug/iam-role.html.
+  final String? dolbyVisionMetadataXml;
 
   /// Specify the source file for your transcoding job. You can use multiple
   /// inputs in a single job. The service concatenates these inputs, in the order
@@ -18091,6 +18743,14 @@ class Input {
   /// https://docs.aws.amazon.com/console/mediaconvert/timecode.
   final String? timecodeStart;
 
+  /// When you include Video generator, MediaConvert creates a video input with
+  /// black frames. Use this setting if you do not have a video input or if you
+  /// want to add black video frames before, or after, other inputs. You can
+  /// specify Video generator, or you can specify an Input file, but you cannot
+  /// specify both. For more information, see
+  /// https://docs.aws.amazon.com/mediaconvert/latest/ug/video-generator.html
+  final InputVideoGenerator? videoGenerator;
+
   /// Input video selectors contain the video settings for the input. Each of your
   /// inputs can have up to one video selector.
   final VideoSelector? videoSelector;
@@ -18103,6 +18763,7 @@ class Input {
     this.deblockFilter,
     this.decryptionSettings,
     this.denoiseFilter,
+    this.dolbyVisionMetadataXml,
     this.fileInput,
     this.filterEnable,
     this.filterStrength,
@@ -18115,6 +18776,7 @@ class Input {
     this.supplementalImps,
     this.timecodeSource,
     this.timecodeStart,
+    this.videoGenerator,
     this.videoSelector,
   });
 
@@ -18139,6 +18801,7 @@ class Input {
               json['decryptionSettings'] as Map<String, dynamic>)
           : null,
       denoiseFilter: (json['denoiseFilter'] as String?)?.toInputDenoiseFilter(),
+      dolbyVisionMetadataXml: json['dolbyVisionMetadataXml'] as String?,
       fileInput: json['fileInput'] as String?,
       filterEnable: (json['filterEnable'] as String?)?.toInputFilterEnable(),
       filterStrength: json['filterStrength'] as int?,
@@ -18163,6 +18826,10 @@ class Input {
       timecodeSource:
           (json['timecodeSource'] as String?)?.toInputTimecodeSource(),
       timecodeStart: json['timecodeStart'] as String?,
+      videoGenerator: json['videoGenerator'] != null
+          ? InputVideoGenerator.fromJson(
+              json['videoGenerator'] as Map<String, dynamic>)
+          : null,
       videoSelector: json['videoSelector'] != null
           ? VideoSelector.fromJson(
               json['videoSelector'] as Map<String, dynamic>)
@@ -18178,6 +18845,7 @@ class Input {
     final deblockFilter = this.deblockFilter;
     final decryptionSettings = this.decryptionSettings;
     final denoiseFilter = this.denoiseFilter;
+    final dolbyVisionMetadataXml = this.dolbyVisionMetadataXml;
     final fileInput = this.fileInput;
     final filterEnable = this.filterEnable;
     final filterStrength = this.filterStrength;
@@ -18190,6 +18858,7 @@ class Input {
     final supplementalImps = this.supplementalImps;
     final timecodeSource = this.timecodeSource;
     final timecodeStart = this.timecodeStart;
+    final videoGenerator = this.videoGenerator;
     final videoSelector = this.videoSelector;
     return {
       if (audioSelectorGroups != null)
@@ -18200,6 +18869,8 @@ class Input {
       if (deblockFilter != null) 'deblockFilter': deblockFilter.toValue(),
       if (decryptionSettings != null) 'decryptionSettings': decryptionSettings,
       if (denoiseFilter != null) 'denoiseFilter': denoiseFilter.toValue(),
+      if (dolbyVisionMetadataXml != null)
+        'dolbyVisionMetadataXml': dolbyVisionMetadataXml,
       if (fileInput != null) 'fileInput': fileInput,
       if (filterEnable != null) 'filterEnable': filterEnable.toValue(),
       if (filterStrength != null) 'filterStrength': filterStrength,
@@ -18212,6 +18883,7 @@ class Input {
       if (supplementalImps != null) 'supplementalImps': supplementalImps,
       if (timecodeSource != null) 'timecodeSource': timecodeSource.toValue(),
       if (timecodeStart != null) 'timecodeStart': timecodeStart,
+      if (videoGenerator != null) 'videoGenerator': videoGenerator,
       if (videoSelector != null) 'videoSelector': videoSelector,
     };
   }
@@ -18654,6 +19326,18 @@ class InputTemplate {
   /// inputs.
   final InputDenoiseFilter? denoiseFilter;
 
+  /// Use this setting only when your video source has Dolby Vision studio
+  /// mastering metadata that is carried in a separate XML file. Specify the
+  /// Amazon S3 location for the metadata XML file. MediaConvert uses this file to
+  /// provide global and frame-level metadata for Dolby Vision preprocessing. When
+  /// you specify a file here and your input also has interleaved global and frame
+  /// level metadata, MediaConvert ignores the interleaved metadata and uses only
+  /// the the metadata from this external XML file. Note that your IAM service
+  /// role must grant MediaConvert read permissions to this file. For more
+  /// information, see
+  /// https://docs.aws.amazon.com/mediaconvert/latest/ug/iam-role.html.
+  final String? dolbyVisionMetadataXml;
+
   /// Specify how the transcoding service applies the denoise and deblock filters.
   /// You must also enable the filters separately, with Denoise
   /// (InputDenoiseFilter) and Deblock (InputDeblockFilter). * Auto - The
@@ -18744,6 +19428,7 @@ class InputTemplate {
     this.crop,
     this.deblockFilter,
     this.denoiseFilter,
+    this.dolbyVisionMetadataXml,
     this.filterEnable,
     this.filterStrength,
     this.imageInserter,
@@ -18774,6 +19459,7 @@ class InputTemplate {
           : null,
       deblockFilter: (json['deblockFilter'] as String?)?.toInputDeblockFilter(),
       denoiseFilter: (json['denoiseFilter'] as String?)?.toInputDenoiseFilter(),
+      dolbyVisionMetadataXml: json['dolbyVisionMetadataXml'] as String?,
       filterEnable: (json['filterEnable'] as String?)?.toInputFilterEnable(),
       filterStrength: json['filterStrength'] as int?,
       imageInserter: json['imageInserter'] != null
@@ -18807,6 +19493,7 @@ class InputTemplate {
     final crop = this.crop;
     final deblockFilter = this.deblockFilter;
     final denoiseFilter = this.denoiseFilter;
+    final dolbyVisionMetadataXml = this.dolbyVisionMetadataXml;
     final filterEnable = this.filterEnable;
     final filterStrength = this.filterStrength;
     final imageInserter = this.imageInserter;
@@ -18826,6 +19513,8 @@ class InputTemplate {
       if (crop != null) 'crop': crop,
       if (deblockFilter != null) 'deblockFilter': deblockFilter.toValue(),
       if (denoiseFilter != null) 'denoiseFilter': denoiseFilter.toValue(),
+      if (dolbyVisionMetadataXml != null)
+        'dolbyVisionMetadataXml': dolbyVisionMetadataXml,
       if (filterEnable != null) 'filterEnable': filterEnable.toValue(),
       if (filterStrength != null) 'filterStrength': filterStrength,
       if (imageInserter != null) 'imageInserter': imageInserter,
@@ -18882,6 +19571,36 @@ extension on String {
         return InputTimecodeSource.specifiedstart;
     }
     throw Exception('$this is not known in enum InputTimecodeSource');
+  }
+}
+
+/// When you include Video generator, MediaConvert creates a video input with
+/// black frames. Use this setting if you do not have a video input or if you
+/// want to add black video frames before, or after, other inputs. You can
+/// specify Video generator, or you can specify an Input file, but you cannot
+/// specify both. For more information, see
+/// https://docs.aws.amazon.com/mediaconvert/latest/ug/video-generator.html
+class InputVideoGenerator {
+  /// Specify an integer value for Black video duration from 50 to 86400000 to
+  /// generate a black video input for that many milliseconds. Required when you
+  /// include Video generator.
+  final int? duration;
+
+  InputVideoGenerator({
+    this.duration,
+  });
+
+  factory InputVideoGenerator.fromJson(Map<String, dynamic> json) {
+    return InputVideoGenerator(
+      duration: json['duration'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final duration = this.duration;
+    return {
+      if (duration != null) 'duration': duration,
+    };
   }
 }
 
@@ -19408,10 +20127,9 @@ class JobSettings {
   /// These settings don't affect input clipping.
   final TimecodeConfig? timecodeConfig;
 
-  /// Enable Timed metadata insertion (TimedMetadataInsertion) to include ID3 tags
-  /// in any HLS outputs. To include timed metadata, you must enable it here,
-  /// enable it in each output container, and specify tags and timecodes in ID3
-  /// insertion (Id3Insertion) objects.
+  /// Insert user-defined custom ID3 metadata (id3) at timecodes (timecode) that
+  /// you specify. In each output that you want to include this metadata, you must
+  /// set ID3 metadata (timedMetadata) to Passthrough (PASSTHROUGH).
   final TimedMetadataInsertion? timedMetadataInsertion;
 
   JobSettings({
@@ -19796,10 +20514,9 @@ class JobTemplateSettings {
   /// These settings don't affect input clipping.
   final TimecodeConfig? timecodeConfig;
 
-  /// Enable Timed metadata insertion (TimedMetadataInsertion) to include ID3 tags
-  /// in any HLS outputs. To include timed metadata, you must enable it here,
-  /// enable it in each output container, and specify tags and timecodes in ID3
-  /// insertion (Id3Insertion) objects.
+  /// Insert user-defined custom ID3 metadata (id3) at timecodes (timecode) that
+  /// you specify. In each output that you want to include this metadata, you must
+  /// set ID3 metadata (timedMetadata) to Passthrough (PASSTHROUGH).
   final TimedMetadataInsertion? timedMetadataInsertion;
 
   JobTemplateSettings({
@@ -20232,6 +20949,7 @@ enum LanguageCode {
   orj,
   qpc,
   tng,
+  srp,
 }
 
 extension on LanguageCode {
@@ -20619,6 +21337,8 @@ extension on LanguageCode {
         return 'QPC';
       case LanguageCode.tng:
         return 'TNG';
+      case LanguageCode.srp:
+        return 'SRP';
     }
   }
 }
@@ -21008,6 +21728,8 @@ extension on String {
         return LanguageCode.qpc;
       case 'TNG':
         return LanguageCode.tng;
+      case 'SRP':
+        return LanguageCode.srp;
     }
     throw Exception('$this is not known in enum LanguageCode');
   }
@@ -21427,6 +22149,38 @@ extension on String {
   }
 }
 
+/// To include key-length-value metadata in this output: Set KLV metadata
+/// insertion to Passthrough. MediaConvert reads KLV metadata present in your
+/// input and passes it through to the output transport stream. To exclude this
+/// KLV metadata: Set KLV metadata insertion to None or leave blank.
+enum M2tsKlvMetadata {
+  passthrough,
+  none,
+}
+
+extension on M2tsKlvMetadata {
+  String toValue() {
+    switch (this) {
+      case M2tsKlvMetadata.passthrough:
+        return 'PASSTHROUGH';
+      case M2tsKlvMetadata.none:
+        return 'NONE';
+    }
+  }
+}
+
+extension on String {
+  M2tsKlvMetadata toM2tsKlvMetadata() {
+    switch (this) {
+      case 'PASSTHROUGH':
+        return M2tsKlvMetadata.passthrough;
+      case 'NONE':
+        return M2tsKlvMetadata.none;
+    }
+    throw Exception('$this is not known in enum M2tsKlvMetadata');
+  }
+}
+
 /// If INSERT, Nielsen inaudible tones for media tracking will be detected in
 /// the input audio and an equivalent ID3 tag will be inserted in the output.
 enum M2tsNielsenId3 {
@@ -21783,6 +22537,12 @@ class M2tsSettings {
   /// The length, in seconds, of each fragment. Only used with EBP markers.
   final double? fragmentTime;
 
+  /// To include key-length-value metadata in this output: Set KLV metadata
+  /// insertion to Passthrough. MediaConvert reads KLV metadata present in your
+  /// input and passes it through to the output transport stream. To exclude this
+  /// KLV metadata: Set KLV metadata insertion to None or leave blank.
+  final M2tsKlvMetadata? klvMetadata;
+
   /// Specify the maximum time, in milliseconds, between Program Clock References
   /// (PCRs) inserted into the transport stream.
   final int? maxPcrInterval;
@@ -21888,8 +22648,7 @@ class M2tsSettings {
   /// set to _none_.
   final double? segmentationTime;
 
-  /// Specify the packet identifier (PID) for timed metadata in this output.
-  /// Default is 502.
+  /// Packet Identifier (PID) of the ID3 metadata stream in the transport stream.
   final int? timedMetadataPid;
 
   /// Specify the ID for the transport stream itself in the program map table for
@@ -21919,6 +22678,7 @@ class M2tsSettings {
     this.esRateInPes,
     this.forceTsVideoEbpOrder,
     this.fragmentTime,
+    this.klvMetadata,
     this.maxPcrInterval,
     this.minEbpInterval,
     this.nielsenId3,
@@ -21980,6 +22740,7 @@ class M2tsSettings {
       forceTsVideoEbpOrder: (json['forceTsVideoEbpOrder'] as String?)
           ?.toM2tsForceTsVideoEbpOrder(),
       fragmentTime: json['fragmentTime'] as double?,
+      klvMetadata: (json['klvMetadata'] as String?)?.toM2tsKlvMetadata(),
       maxPcrInterval: json['maxPcrInterval'] as int?,
       minEbpInterval: json['minEbpInterval'] as int?,
       nielsenId3: (json['nielsenId3'] as String?)?.toM2tsNielsenId3(),
@@ -22026,6 +22787,7 @@ class M2tsSettings {
     final esRateInPes = this.esRateInPes;
     final forceTsVideoEbpOrder = this.forceTsVideoEbpOrder;
     final fragmentTime = this.fragmentTime;
+    final klvMetadata = this.klvMetadata;
     final maxPcrInterval = this.maxPcrInterval;
     final minEbpInterval = this.minEbpInterval;
     final nielsenId3 = this.nielsenId3;
@@ -22068,6 +22830,7 @@ class M2tsSettings {
       if (forceTsVideoEbpOrder != null)
         'forceTsVideoEbpOrder': forceTsVideoEbpOrder.toValue(),
       if (fragmentTime != null) 'fragmentTime': fragmentTime,
+      if (klvMetadata != null) 'klvMetadata': klvMetadata.toValue(),
       if (maxPcrInterval != null) 'maxPcrInterval': maxPcrInterval,
       if (minEbpInterval != null) 'minEbpInterval': minEbpInterval,
       if (nielsenId3 != null) 'nielsenId3': nielsenId3.toValue(),
@@ -22351,12 +23114,14 @@ class M3u8Settings {
   /// processing notification XML (sccXml).
   final M3u8Scte35Source? scte35Source;
 
-  /// Applies only to HLS outputs. Use this setting to specify whether the service
-  /// inserts the ID3 timed metadata from the input in this output.
+  /// Set ID3 metadata (timedMetadata) to Passthrough (PASSTHROUGH) to include ID3
+  /// metadata in this output. This includes ID3 metadata from the following
+  /// features: ID3 timestamp period (timedMetadataId3Period), and Custom ID3
+  /// metadata inserter (timedMetadataInsertion). To exclude this ID3 metadata in
+  /// this output: set ID3 metadata to None (NONE) or leave blank.
   final TimedMetadata? timedMetadata;
 
-  /// Packet Identifier (PID) of the timed metadata stream in the transport
-  /// stream.
+  /// Packet Identifier (PID) of the ID3 metadata stream in the transport stream.
   final int? timedMetadataPid;
 
   /// The value of the transport stream ID field in the Program Map Table.
@@ -22456,6 +23221,78 @@ class M3u8Settings {
       if (timedMetadataPid != null) 'timedMetadataPid': timedMetadataPid,
       if (transportStreamId != null) 'transportStreamId': transportStreamId,
       if (videoPid != null) 'videoPid': videoPid,
+    };
+  }
+}
+
+/// Use Min bottom rendition size to specify a minimum size for the lowest
+/// resolution in your ABR stack. * The lowest resolution in your ABR stack will
+/// be equal to or greater than the value that you enter. For example: If you
+/// specify 640x360 the lowest resolution in your ABR stack will be equal to or
+/// greater than to 640x360. * If you specify a Min top rendition size rule, the
+/// value that you specify for Min bottom rendition size must be less than, or
+/// equal to, Min top rendition size.
+class MinBottomRenditionSize {
+  /// Use Height to define the video resolution height, in pixels, for this rule.
+  final int? height;
+
+  /// Use Width to define the video resolution width, in pixels, for this rule.
+  final int? width;
+
+  MinBottomRenditionSize({
+    this.height,
+    this.width,
+  });
+
+  factory MinBottomRenditionSize.fromJson(Map<String, dynamic> json) {
+    return MinBottomRenditionSize(
+      height: json['height'] as int?,
+      width: json['width'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final height = this.height;
+    final width = this.width;
+    return {
+      if (height != null) 'height': height,
+      if (width != null) 'width': width,
+    };
+  }
+}
+
+/// Use Min top rendition size to specify a minimum size for the highest
+/// resolution in your ABR stack. * The highest resolution in your ABR stack
+/// will be equal to or greater than the value that you enter. For example: If
+/// you specify 1280x720 the highest resolution in your ABR stack will be equal
+/// to or greater than 1280x720. * If you specify a value for Max resolution,
+/// the value that you specify for Min top rendition size must be less than, or
+/// equal to, Max resolution.
+class MinTopRenditionSize {
+  /// Use Height to define the video resolution height, in pixels, for this rule.
+  final int? height;
+
+  /// Use Width to define the video resolution width, in pixels, for this rule.
+  final int? width;
+
+  MinTopRenditionSize({
+    this.height,
+    this.width,
+  });
+
+  factory MinTopRenditionSize.fromJson(Map<String, dynamic> json) {
+    return MinTopRenditionSize(
+      height: json['height'] as int?,
+      width: json['width'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final height = this.height;
+    final width = this.width;
+    return {
+      if (height != null) 'height': height,
+      if (width != null) 'width': width,
     };
   }
 }
@@ -23330,6 +24167,39 @@ extension on String {
   }
 }
 
+/// To include key-length-value metadata in this output: Set KLV metadata
+/// insertion to Passthrough. MediaConvert reads KLV metadata present in your
+/// input and writes each instance to a separate event message box in the
+/// output, according to MISB ST1910.1. To exclude this KLV metadata: Set KLV
+/// metadata insertion to None or leave blank.
+enum MpdKlvMetadata {
+  none,
+  passthrough,
+}
+
+extension on MpdKlvMetadata {
+  String toValue() {
+    switch (this) {
+      case MpdKlvMetadata.none:
+        return 'NONE';
+      case MpdKlvMetadata.passthrough:
+        return 'PASSTHROUGH';
+    }
+  }
+}
+
+extension on String {
+  MpdKlvMetadata toMpdKlvMetadata() {
+    switch (this) {
+      case 'NONE':
+        return MpdKlvMetadata.none;
+      case 'PASSTHROUGH':
+        return MpdKlvMetadata.passthrough;
+    }
+    throw Exception('$this is not known in enum MpdKlvMetadata');
+  }
+}
+
 /// Use this setting only when you specify SCTE-35 markers from ESAM. Choose
 /// INSERT to put SCTE-35 markers in this output at the insertion points that
 /// you specify in an ESAM XML document. Provide the document in the setting SCC
@@ -23430,6 +24300,13 @@ class MpdSettings {
   /// files is separate from your video and audio fragmented MP4 files.
   final MpdCaptionContainerType? captionContainerType;
 
+  /// To include key-length-value metadata in this output: Set KLV metadata
+  /// insertion to Passthrough. MediaConvert reads KLV metadata present in your
+  /// input and writes each instance to a separate event message box in the
+  /// output, according to MISB ST1910.1. To exclude this KLV metadata: Set KLV
+  /// metadata insertion to None or leave blank.
+  final MpdKlvMetadata? klvMetadata;
+
   /// Use this setting only when you specify SCTE-35 markers from ESAM. Choose
   /// INSERT to put SCTE-35 markers in this output at the insertion points that
   /// you specify in an ESAM XML document. Provide the document in the setting SCC
@@ -23442,12 +24319,21 @@ class MpdSettings {
   /// you don't want those SCTE-35 markers in this output.
   final MpdScte35Source? scte35Source;
 
+  /// To include ID3 metadata in this output: Set ID3 metadata (timedMetadata) to
+  /// Passthrough (PASSTHROUGH). Specify this ID3 metadata in Custom ID3 metadata
+  /// inserter (timedMetadataInsertion). MediaConvert writes each instance of ID3
+  /// metadata in a separate Event Message (eMSG) box. To exclude this ID3
+  /// metadata: Set ID3 metadata to None (NONE) or leave blank.
+  final MpdTimedMetadata? timedMetadata;
+
   MpdSettings({
     this.accessibilityCaptionHints,
     this.audioDuration,
     this.captionContainerType,
+    this.klvMetadata,
     this.scte35Esam,
     this.scte35Source,
+    this.timedMetadata,
   });
 
   factory MpdSettings.fromJson(Map<String, dynamic> json) {
@@ -23457,8 +24343,10 @@ class MpdSettings {
       audioDuration: (json['audioDuration'] as String?)?.toMpdAudioDuration(),
       captionContainerType: (json['captionContainerType'] as String?)
           ?.toMpdCaptionContainerType(),
+      klvMetadata: (json['klvMetadata'] as String?)?.toMpdKlvMetadata(),
       scte35Esam: (json['scte35Esam'] as String?)?.toMpdScte35Esam(),
       scte35Source: (json['scte35Source'] as String?)?.toMpdScte35Source(),
+      timedMetadata: (json['timedMetadata'] as String?)?.toMpdTimedMetadata(),
     );
   }
 
@@ -23466,17 +24354,54 @@ class MpdSettings {
     final accessibilityCaptionHints = this.accessibilityCaptionHints;
     final audioDuration = this.audioDuration;
     final captionContainerType = this.captionContainerType;
+    final klvMetadata = this.klvMetadata;
     final scte35Esam = this.scte35Esam;
     final scte35Source = this.scte35Source;
+    final timedMetadata = this.timedMetadata;
     return {
       if (accessibilityCaptionHints != null)
         'accessibilityCaptionHints': accessibilityCaptionHints.toValue(),
       if (audioDuration != null) 'audioDuration': audioDuration.toValue(),
       if (captionContainerType != null)
         'captionContainerType': captionContainerType.toValue(),
+      if (klvMetadata != null) 'klvMetadata': klvMetadata.toValue(),
       if (scte35Esam != null) 'scte35Esam': scte35Esam.toValue(),
       if (scte35Source != null) 'scte35Source': scte35Source.toValue(),
+      if (timedMetadata != null) 'timedMetadata': timedMetadata.toValue(),
     };
+  }
+}
+
+/// To include ID3 metadata in this output: Set ID3 metadata (timedMetadata) to
+/// Passthrough (PASSTHROUGH). Specify this ID3 metadata in Custom ID3 metadata
+/// inserter (timedMetadataInsertion). MediaConvert writes each instance of ID3
+/// metadata in a separate Event Message (eMSG) box. To exclude this ID3
+/// metadata: Set ID3 metadata to None (NONE) or leave blank.
+enum MpdTimedMetadata {
+  passthrough,
+  none,
+}
+
+extension on MpdTimedMetadata {
+  String toValue() {
+    switch (this) {
+      case MpdTimedMetadata.passthrough:
+        return 'PASSTHROUGH';
+      case MpdTimedMetadata.none:
+        return 'NONE';
+    }
+  }
+}
+
+extension on String {
+  MpdTimedMetadata toMpdTimedMetadata() {
+    switch (this) {
+      case 'PASSTHROUGH':
+        return MpdTimedMetadata.passthrough;
+      case 'NONE':
+        return MpdTimedMetadata.none;
+    }
+    throw Exception('$this is not known in enum MpdTimedMetadata');
   }
 }
 
@@ -25501,14 +26426,15 @@ extension on String {
 }
 
 /// When you set Noise reducer (noiseReducer) to Temporal (TEMPORAL), the
-/// sharpness of your output is reduced. You can optionally use Post temporal
-/// sharpening (PostTemporalSharpening) to apply sharpening to the edges of your
-/// output. The default behavior, Auto (AUTO), allows the transcoder to
-/// determine whether to apply sharpening, depending on your input type and
-/// quality. When you set Post temporal sharpening to Enabled (ENABLED), specify
-/// how much sharpening is applied using Post temporal sharpening strength
-/// (PostTemporalSharpeningStrength). Set Post temporal sharpening to Disabled
-/// (DISABLED) to not apply sharpening.
+/// bandwidth and sharpness of your output is reduced. You can optionally use
+/// Post temporal sharpening (postTemporalSharpening) to apply sharpening to the
+/// edges of your output. Note that Post temporal sharpening will also make the
+/// bandwidth reduction from the Noise reducer smaller. The default behavior,
+/// Auto (AUTO), allows the transcoder to determine whether to apply sharpening,
+/// depending on your input type and quality. When you set Post temporal
+/// sharpening to Enabled (ENABLED), specify how much sharpening is applied
+/// using Post temporal sharpening strength (postTemporalSharpeningStrength).
+/// Set Post temporal sharpening to Disabled (DISABLED) to not apply sharpening.
 enum NoiseFilterPostTemporalSharpening {
   disabled,
   enabled,
@@ -25543,12 +26469,10 @@ extension on String {
   }
 }
 
-/// Use Post temporal sharpening strength (PostTemporalSharpeningStrength) to
+/// Use Post temporal sharpening strength (postTemporalSharpeningStrength) to
 /// define the amount of sharpening the transcoder applies to your output. Set
-/// Post temporal sharpening strength to Low (LOW), or leave blank, to apply a
-/// low amount of sharpening. Set Post temporal sharpening strength to Medium
-/// (MEDIUM) to apply medium amount of sharpening. Set Post temporal sharpening
-/// strength to High (HIGH) to apply a high amount of sharpening.
+/// Post temporal sharpening strength to Low (LOW), Medium (MEDIUM), or High
+/// (HIGH) to indicate the amount of sharpening.
 enum NoiseFilterPostTemporalSharpeningStrength {
   low,
   medium,
@@ -25788,22 +26712,21 @@ class NoiseReducerTemporalFilterSettings {
   final int? aggressiveMode;
 
   /// When you set Noise reducer (noiseReducer) to Temporal (TEMPORAL), the
-  /// sharpness of your output is reduced. You can optionally use Post temporal
-  /// sharpening (PostTemporalSharpening) to apply sharpening to the edges of your
-  /// output. The default behavior, Auto (AUTO), allows the transcoder to
-  /// determine whether to apply sharpening, depending on your input type and
-  /// quality. When you set Post temporal sharpening to Enabled (ENABLED), specify
-  /// how much sharpening is applied using Post temporal sharpening strength
-  /// (PostTemporalSharpeningStrength). Set Post temporal sharpening to Disabled
-  /// (DISABLED) to not apply sharpening.
+  /// bandwidth and sharpness of your output is reduced. You can optionally use
+  /// Post temporal sharpening (postTemporalSharpening) to apply sharpening to the
+  /// edges of your output. Note that Post temporal sharpening will also make the
+  /// bandwidth reduction from the Noise reducer smaller. The default behavior,
+  /// Auto (AUTO), allows the transcoder to determine whether to apply sharpening,
+  /// depending on your input type and quality. When you set Post temporal
+  /// sharpening to Enabled (ENABLED), specify how much sharpening is applied
+  /// using Post temporal sharpening strength (postTemporalSharpeningStrength).
+  /// Set Post temporal sharpening to Disabled (DISABLED) to not apply sharpening.
   final NoiseFilterPostTemporalSharpening? postTemporalSharpening;
 
-  /// Use Post temporal sharpening strength (PostTemporalSharpeningStrength) to
+  /// Use Post temporal sharpening strength (postTemporalSharpeningStrength) to
   /// define the amount of sharpening the transcoder applies to your output. Set
-  /// Post temporal sharpening strength to Low (LOW), or leave blank, to apply a
-  /// low amount of sharpening. Set Post temporal sharpening strength to Medium
-  /// (MEDIUM) to apply medium amount of sharpening. Set Post temporal sharpening
-  /// strength to High (HIGH) to apply a high amount of sharpening.
+  /// Post temporal sharpening strength to Low (LOW), Medium (MEDIUM), or High
+  /// (HIGH) to indicate the amount of sharpening.
   final NoiseFilterPostTemporalSharpeningStrength?
       postTemporalSharpeningStrength;
 
@@ -26417,6 +27340,42 @@ class OutputSettings {
     return {
       if (hlsSettings != null) 'hlsSettings': hlsSettings,
     };
+  }
+}
+
+/// Use this setting if your input has video and audio durations that don't
+/// align, and your output or player has strict alignment requirements.
+/// Examples: Input audio track has a delayed start. Input video track ends
+/// before audio ends. When you set Pad video (padVideo) to Black (BLACK),
+/// MediaConvert generates black video frames so that output video and audio
+/// durations match. Black video frames are added at the beginning or end,
+/// depending on your input. To keep the default behavior and not generate black
+/// video, set Pad video to Disabled (DISABLED) or leave blank.
+enum PadVideo {
+  disabled,
+  black,
+}
+
+extension on PadVideo {
+  String toValue() {
+    switch (this) {
+      case PadVideo.disabled:
+        return 'DISABLED';
+      case PadVideo.black:
+        return 'BLACK';
+    }
+  }
+}
+
+extension on String {
+  PadVideo toPadVideo() {
+    switch (this) {
+      case 'DISABLED':
+        return PadVideo.disabled;
+      case 'BLACK':
+        return PadVideo.black;
+    }
+    throw Exception('$this is not known in enum PadVideo');
   }
 }
 
@@ -27672,6 +28631,35 @@ extension on String {
   }
 }
 
+/// Set to ENABLED to force a rendition to be included.
+enum RequiredFlag {
+  enabled,
+  disabled,
+}
+
+extension on RequiredFlag {
+  String toValue() {
+    switch (this) {
+      case RequiredFlag.enabled:
+        return 'ENABLED';
+      case RequiredFlag.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension on String {
+  RequiredFlag toRequiredFlag() {
+    switch (this) {
+      case 'ENABLED':
+        return RequiredFlag.enabled;
+      case 'DISABLED':
+        return RequiredFlag.disabled;
+    }
+    throw Exception('$this is not known in enum RequiredFlag');
+  }
+}
+
 /// Details about the pricing plan for your reserved queue. Required for
 /// reserved queues and not applicable to on-demand queues.
 class ReservationPlan {
@@ -27889,6 +28877,78 @@ extension on String {
         return RespondToAfd.passthrough;
     }
     throw Exception('$this is not known in enum RespondToAfd');
+  }
+}
+
+/// Use Min top rendition size to specify a minimum size for the highest
+/// resolution in your ABR stack. * The highest resolution in your ABR stack
+/// will be equal to or greater than the value that you enter. For example: If
+/// you specify 1280x720 the highest resolution in your ABR stack will be equal
+/// to or greater than 1280x720. * If you specify a value for Max resolution,
+/// the value that you specify for Min top rendition size must be less than, or
+/// equal to, Max resolution. Use Min bottom rendition size to specify a minimum
+/// size for the lowest resolution in your ABR stack. * The lowest resolution in
+/// your ABR stack will be equal to or greater than the value that you enter.
+/// For example: If you specify 640x360 the lowest resolution in your ABR stack
+/// will be equal to or greater than to 640x360. * If you specify a Min top
+/// rendition size rule, the value that you specify for Min bottom rendition
+/// size must be less than, or equal to, Min top rendition size. Use Force
+/// include renditions to specify one or more resolutions to include your ABR
+/// stack. * (Recommended) To optimize automated ABR, specify as few resolutions
+/// as possible. * (Required) The number of resolutions that you specify must be
+/// equal to, or less than, the Max renditions setting. * If you specify a Min
+/// top rendition size rule, specify at least one resolution that is equal to,
+/// or greater than, Min top rendition size. * If you specify a Min bottom
+/// rendition size rule, only specify resolutions that are equal to, or greater
+/// than, Min bottom rendition size. * If you specify a Force include renditions
+/// rule, do not specify a separate rule for Allowed renditions. * Note: The ABR
+/// stack may include other resolutions that you do not specify here, depending
+/// on the Max renditions setting. Use Allowed renditions to specify a list of
+/// possible resolutions in your ABR stack. * (Required) The number of
+/// resolutions that you specify must be equal to, or greater than, the Max
+/// renditions setting. * MediaConvert will create an ABR stack exclusively from
+/// the list of resolutions that you specify. * Some resolutions in the Allowed
+/// renditions list may not be included, however you can force a resolution to
+/// be included by setting Required to ENABLED. * You must specify at least one
+/// resolution that is greater than or equal to any resolutions that you specify
+/// in Min top rendition size or Min bottom rendition size. * If you specify
+/// Allowed renditions, you must not specify a separate rule for Force include
+/// renditions.
+enum RuleType {
+  minTopRenditionSize,
+  minBottomRenditionSize,
+  forceIncludeRenditions,
+  allowedRenditions,
+}
+
+extension on RuleType {
+  String toValue() {
+    switch (this) {
+      case RuleType.minTopRenditionSize:
+        return 'MIN_TOP_RENDITION_SIZE';
+      case RuleType.minBottomRenditionSize:
+        return 'MIN_BOTTOM_RENDITION_SIZE';
+      case RuleType.forceIncludeRenditions:
+        return 'FORCE_INCLUDE_RENDITIONS';
+      case RuleType.allowedRenditions:
+        return 'ALLOWED_RENDITIONS';
+    }
+  }
+}
+
+extension on String {
+  RuleType toRuleType() {
+    switch (this) {
+      case 'MIN_TOP_RENDITION_SIZE':
+        return RuleType.minTopRenditionSize;
+      case 'MIN_BOTTOM_RENDITION_SIZE':
+        return RuleType.minBottomRenditionSize;
+      case 'FORCE_INCLUDE_RENDITIONS':
+        return RuleType.forceIncludeRenditions;
+      case 'ALLOWED_RENDITIONS':
+        return RuleType.allowedRenditions;
+    }
+    throw Exception('$this is not known in enum RuleType');
   }
 }
 
@@ -28986,8 +30046,11 @@ extension on String {
   }
 }
 
-/// Applies only to HLS outputs. Use this setting to specify whether the service
-/// inserts the ID3 timed metadata from the input in this output.
+/// Set ID3 metadata (timedMetadata) to Passthrough (PASSTHROUGH) to include ID3
+/// metadata in this output. This includes ID3 metadata from the following
+/// features: ID3 timestamp period (timedMetadataId3Period), and Custom ID3
+/// metadata inserter (timedMetadataInsertion). To exclude this ID3 metadata in
+/// this output: set ID3 metadata to None (NONE) or leave blank.
 enum TimedMetadata {
   passthrough,
   none,
@@ -29016,10 +30079,9 @@ extension on String {
   }
 }
 
-/// Enable Timed metadata insertion (TimedMetadataInsertion) to include ID3 tags
-/// in any HLS outputs. To include timed metadata, you must enable it here,
-/// enable it in each output container, and specify tags and timecodes in ID3
-/// insertion (Id3Insertion) objects.
+/// Insert user-defined custom ID3 metadata (id3) at timecodes (timecode) that
+/// you specify. In each output that you want to include this metadata, you must
+/// set ID3 metadata (timedMetadata) to Passthrough (PASSTHROUGH).
 class TimedMetadataInsertion {
   /// Id3Insertions contains the array of Id3Insertion instances.
   final List<Id3Insertion>? id3Insertions;
@@ -30335,6 +31397,14 @@ class VideoSelector {
   /// values you specify in the input settings.
   final ColorSpaceUsage? colorSpaceUsage;
 
+  /// Set Embedded timecode override (embeddedTimecodeOverride) to Use MDPM
+  /// (USE_MDPM) when your AVCHD input contains timecode tag data in the Modified
+  /// Digital Video Pack Metadata (MDPM). When you do, we recommend you also set
+  /// Timecode source (inputTimecodeSource) to Embedded (EMBEDDED). Leave Embedded
+  /// timecode override blank, or set to None (NONE), when your input does not
+  /// contain MDPM timecode.
+  final EmbeddedTimecodeOverride? embeddedTimecodeOverride;
+
   /// Use these settings to provide HDR 10 metadata that is missing or inaccurate
   /// in your input video. Appropriate values vary depending on the input video
   /// and must be provided by a color grader. The color grader generates these
@@ -30348,6 +31418,16 @@ class VideoSelector {
   /// (ColorMetadata). For more information about MediaConvert HDR jobs, see
   /// https://docs.aws.amazon.com/console/mediaconvert/hdr.
   final Hdr10Metadata? hdr10Metadata;
+
+  /// Use this setting if your input has video and audio durations that don't
+  /// align, and your output or player has strict alignment requirements.
+  /// Examples: Input audio track has a delayed start. Input video track ends
+  /// before audio ends. When you set Pad video (padVideo) to Black (BLACK),
+  /// MediaConvert generates black video frames so that output video and audio
+  /// durations match. Black video frames are added at the beginning or end,
+  /// depending on your input. To keep the default behavior and not generate black
+  /// video, set Pad video to Disabled (DISABLED) or leave blank.
+  final PadVideo? padVideo;
 
   /// Use PID (Pid) to select specific video data from an input file. Specify this
   /// value as an integer; the system automatically converts it to the hexidecimal
@@ -30386,7 +31466,9 @@ class VideoSelector {
     this.alphaBehavior,
     this.colorSpace,
     this.colorSpaceUsage,
+    this.embeddedTimecodeOverride,
     this.hdr10Metadata,
+    this.padVideo,
     this.pid,
     this.programNumber,
     this.rotate,
@@ -30399,10 +31481,13 @@ class VideoSelector {
       colorSpace: (json['colorSpace'] as String?)?.toColorSpace(),
       colorSpaceUsage:
           (json['colorSpaceUsage'] as String?)?.toColorSpaceUsage(),
+      embeddedTimecodeOverride: (json['embeddedTimecodeOverride'] as String?)
+          ?.toEmbeddedTimecodeOverride(),
       hdr10Metadata: json['hdr10Metadata'] != null
           ? Hdr10Metadata.fromJson(
               json['hdr10Metadata'] as Map<String, dynamic>)
           : null,
+      padVideo: (json['padVideo'] as String?)?.toPadVideo(),
       pid: json['pid'] as int?,
       programNumber: json['programNumber'] as int?,
       rotate: (json['rotate'] as String?)?.toInputRotate(),
@@ -30414,7 +31499,9 @@ class VideoSelector {
     final alphaBehavior = this.alphaBehavior;
     final colorSpace = this.colorSpace;
     final colorSpaceUsage = this.colorSpaceUsage;
+    final embeddedTimecodeOverride = this.embeddedTimecodeOverride;
     final hdr10Metadata = this.hdr10Metadata;
+    final padVideo = this.padVideo;
     final pid = this.pid;
     final programNumber = this.programNumber;
     final rotate = this.rotate;
@@ -30423,7 +31510,10 @@ class VideoSelector {
       if (alphaBehavior != null) 'alphaBehavior': alphaBehavior.toValue(),
       if (colorSpace != null) 'colorSpace': colorSpace.toValue(),
       if (colorSpaceUsage != null) 'colorSpaceUsage': colorSpaceUsage.toValue(),
+      if (embeddedTimecodeOverride != null)
+        'embeddedTimecodeOverride': embeddedTimecodeOverride.toValue(),
       if (hdr10Metadata != null) 'hdr10Metadata': hdr10Metadata,
+      if (padVideo != null) 'padVideo': padVideo.toValue(),
       if (pid != null) 'pid': pid,
       if (programNumber != null) 'programNumber': programNumber,
       if (rotate != null) 'rotate': rotate.toValue(),
@@ -31340,6 +32430,42 @@ class WavSettings {
   }
 }
 
+/// Set Accessibility subtitles to Enabled if the ISMC or WebVTT captions track
+/// is intended to provide accessibility for people who are deaf or hard of
+/// hearing. When you enable this feature, MediaConvert adds the following
+/// attributes under EXT-X-MEDIA in the HLS or CMAF manifest for this track:
+/// CHARACTERISTICS="public.accessibility.describes-spoken-dialog,public.accessibility.describes-music-and-sound"
+/// and AUTOSELECT="YES". Keep the default value, Disabled, if the captions
+/// track is not intended to provide such accessibility. MediaConvert will not
+/// add the above attributes.
+enum WebvttAccessibilitySubs {
+  disabled,
+  enabled,
+}
+
+extension on WebvttAccessibilitySubs {
+  String toValue() {
+    switch (this) {
+      case WebvttAccessibilitySubs.disabled:
+        return 'DISABLED';
+      case WebvttAccessibilitySubs.enabled:
+        return 'ENABLED';
+    }
+  }
+}
+
+extension on String {
+  WebvttAccessibilitySubs toWebvttAccessibilitySubs() {
+    switch (this) {
+      case 'DISABLED':
+        return WebvttAccessibilitySubs.disabled;
+      case 'ENABLED':
+        return WebvttAccessibilitySubs.enabled;
+    }
+    throw Exception('$this is not known in enum WebvttAccessibilitySubs');
+  }
+}
+
 /// Settings related to WebVTT captions. WebVTT is a sidecar format that holds
 /// captions in a file that is separate from the video container. Set up sidecar
 /// captions in the same output group, but different output from your video. For
@@ -31348,28 +32474,47 @@ class WavSettings {
 /// When you work directly in your JSON job specification, include this object
 /// and any required children when you set destinationType to WebVTT.
 class WebvttDestinationSettings {
-  /// Set Style passthrough (StylePassthrough) to ENABLED to use the available
-  /// style, color, and position information from your input captions.
-  /// MediaConvert uses default settings for any missing style and position
-  /// information in your input captions. Set Style passthrough to DISABLED, or
-  /// leave blank, to ignore the style and position information from your input
-  /// captions and use simplified output captions.
+  /// Set Accessibility subtitles to Enabled if the ISMC or WebVTT captions track
+  /// is intended to provide accessibility for people who are deaf or hard of
+  /// hearing. When you enable this feature, MediaConvert adds the following
+  /// attributes under EXT-X-MEDIA in the HLS or CMAF manifest for this track:
+  /// CHARACTERISTICS="public.accessibility.describes-spoken-dialog,public.accessibility.describes-music-and-sound"
+  /// and AUTOSELECT="YES". Keep the default value, Disabled, if the captions
+  /// track is not intended to provide such accessibility. MediaConvert will not
+  /// add the above attributes.
+  final WebvttAccessibilitySubs? accessibility;
+
+  /// To use the available style, color, and position information from your input
+  /// captions: Set Style passthrough (stylePassthrough) to Enabled (ENABLED).
+  /// MediaConvert uses default settings when style and position information is
+  /// missing from your input captions. To recreate the input captions exactly:
+  /// Set Style passthrough to Strict (STRICT). MediaConvert automatically applies
+  /// timing adjustments, including adjustments for frame rate conversion, ad
+  /// avails, and input clipping. Your input captions format must be WebVTT. To
+  /// ignore the style and position information from your input captions and use
+  /// simplified output captions: Set Style passthrough to Disabled (DISABLED), or
+  /// leave blank.
   final WebvttStylePassthrough? stylePassthrough;
 
   WebvttDestinationSettings({
+    this.accessibility,
     this.stylePassthrough,
   });
 
   factory WebvttDestinationSettings.fromJson(Map<String, dynamic> json) {
     return WebvttDestinationSettings(
+      accessibility:
+          (json['accessibility'] as String?)?.toWebvttAccessibilitySubs(),
       stylePassthrough:
           (json['stylePassthrough'] as String?)?.toWebvttStylePassthrough(),
     );
   }
 
   Map<String, dynamic> toJson() {
+    final accessibility = this.accessibility;
     final stylePassthrough = this.stylePassthrough;
     return {
+      if (accessibility != null) 'accessibility': accessibility.toValue(),
       if (stylePassthrough != null)
         'stylePassthrough': stylePassthrough.toValue(),
     };
@@ -31423,15 +32568,20 @@ class WebvttHlsSourceSettings {
   }
 }
 
-/// Set Style passthrough (StylePassthrough) to ENABLED to use the available
-/// style, color, and position information from your input captions.
-/// MediaConvert uses default settings for any missing style and position
-/// information in your input captions. Set Style passthrough to DISABLED, or
-/// leave blank, to ignore the style and position information from your input
-/// captions and use simplified output captions.
+/// To use the available style, color, and position information from your input
+/// captions: Set Style passthrough (stylePassthrough) to Enabled (ENABLED).
+/// MediaConvert uses default settings when style and position information is
+/// missing from your input captions. To recreate the input captions exactly:
+/// Set Style passthrough to Strict (STRICT). MediaConvert automatically applies
+/// timing adjustments, including adjustments for frame rate conversion, ad
+/// avails, and input clipping. Your input captions format must be WebVTT. To
+/// ignore the style and position information from your input captions and use
+/// simplified output captions: Set Style passthrough to Disabled (DISABLED), or
+/// leave blank.
 enum WebvttStylePassthrough {
   enabled,
   disabled,
+  strict,
 }
 
 extension on WebvttStylePassthrough {
@@ -31441,6 +32591,8 @@ extension on WebvttStylePassthrough {
         return 'ENABLED';
       case WebvttStylePassthrough.disabled:
         return 'DISABLED';
+      case WebvttStylePassthrough.strict:
+        return 'STRICT';
     }
   }
 }
@@ -31452,6 +32604,8 @@ extension on String {
         return WebvttStylePassthrough.enabled;
       case 'DISABLED':
         return WebvttStylePassthrough.disabled;
+      case 'STRICT':
+        return WebvttStylePassthrough.strict;
     }
     throw Exception('$this is not known in enum WebvttStylePassthrough');
   }

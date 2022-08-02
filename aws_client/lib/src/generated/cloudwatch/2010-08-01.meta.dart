@@ -3,6 +3,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   "AccountId": {"type": "string", "flattened": false},
   "ActionPrefix": {"type": "string", "flattened": false},
   "ActionsEnabled": {"type": "boolean", "flattened": false},
+  "ActionsSuppressedBy": {"type": "string", "flattened": false},
+  "ActionsSuppressedReason": {"type": "string", "flattened": false},
   "AlarmArn": {"type": "string", "flattened": false},
   "AlarmDescription": {"type": "string", "flattened": false},
   "AlarmHistoryItem": {
@@ -117,7 +119,25 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "StateReason": {"shape": "StateReason", "flattened": false},
       "StateReasonData": {"shape": "StateReasonData", "flattened": false},
       "StateUpdatedTimestamp": {"shape": "Timestamp", "flattened": false},
-      "StateValue": {"shape": "StateValue", "flattened": false}
+      "StateValue": {"shape": "StateValue", "flattened": false},
+      "StateTransitionedTimestamp": {"shape": "Timestamp", "flattened": false},
+      "ActionsSuppressedBy": {
+        "shape": "ActionsSuppressedBy",
+        "flattened": false
+      },
+      "ActionsSuppressedReason": {
+        "shape": "ActionsSuppressedReason",
+        "flattened": false
+      },
+      "ActionsSuppressor": {"shape": "AlarmArn", "flattened": false},
+      "ActionsSuppressorWaitPeriod": {
+        "shape": "SuppressorPeriod",
+        "flattened": false
+      },
+      "ActionsSuppressorExtensionPeriod": {
+        "shape": "SuppressorPeriod",
+        "flattened": false
+      }
     },
     "flattened": false
   },
@@ -584,7 +604,11 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "State": {"shape": "MetricStreamState", "flattened": false},
       "CreationDate": {"shape": "Timestamp", "flattened": false},
       "LastUpdateDate": {"shape": "Timestamp", "flattened": false},
-      "OutputFormat": {"shape": "MetricStreamOutputFormat", "flattened": false}
+      "OutputFormat": {"shape": "MetricStreamOutputFormat", "flattened": false},
+      "StatisticsConfigurations": {
+        "shape": "MetricStreamStatisticsConfigurations",
+        "flattened": false
+      }
     },
     "flattened": false
   },
@@ -977,6 +1001,44 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   },
   "MetricStreamOutputFormat": {"type": "string", "flattened": false},
   "MetricStreamState": {"type": "string", "flattened": false},
+  "MetricStreamStatistic": {"type": "string", "flattened": false},
+  "MetricStreamStatisticsAdditionalStatistics": {
+    "type": "list",
+    "member": {"shape": "MetricStreamStatistic"},
+    "flattened": false
+  },
+  "MetricStreamStatisticsConfiguration": {
+    "type": "structure",
+    "members": {
+      "IncludeMetrics": {
+        "shape": "MetricStreamStatisticsIncludeMetrics",
+        "flattened": false
+      },
+      "AdditionalStatistics": {
+        "shape": "MetricStreamStatisticsAdditionalStatistics",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
+  "MetricStreamStatisticsConfigurations": {
+    "type": "list",
+    "member": {"shape": "MetricStreamStatisticsConfiguration"},
+    "flattened": false
+  },
+  "MetricStreamStatisticsIncludeMetrics": {
+    "type": "list",
+    "member": {"shape": "MetricStreamStatisticsMetric"},
+    "flattened": false
+  },
+  "MetricStreamStatisticsMetric": {
+    "type": "structure",
+    "members": {
+      "Namespace": {"shape": "Namespace", "flattened": false},
+      "MetricName": {"shape": "MetricName", "flattened": false}
+    },
+    "flattened": false
+  },
   "MetricWidget": {"type": "string", "flattened": false},
   "MetricWidgetImage": {"type": "blob", "flattened": false},
   "Metrics": {
@@ -1035,7 +1097,16 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "AlarmRule": {"shape": "AlarmRule", "flattened": false},
       "InsufficientDataActions": {"shape": "ResourceList", "flattened": false},
       "OKActions": {"shape": "ResourceList", "flattened": false},
-      "Tags": {"shape": "TagList", "flattened": false}
+      "Tags": {"shape": "TagList", "flattened": false},
+      "ActionsSuppressor": {"shape": "AlarmArn", "flattened": false},
+      "ActionsSuppressorWaitPeriod": {
+        "shape": "SuppressorPeriod",
+        "flattened": false
+      },
+      "ActionsSuppressorExtensionPeriod": {
+        "shape": "SuppressorPeriod",
+        "flattened": false
+      }
     },
     "flattened": false
   },
@@ -1120,7 +1191,11 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "FirehoseArn": {"shape": "AmazonResourceName", "flattened": false},
       "RoleArn": {"shape": "AmazonResourceName", "flattened": false},
       "OutputFormat": {"shape": "MetricStreamOutputFormat", "flattened": false},
-      "Tags": {"shape": "TagList", "flattened": false}
+      "Tags": {"shape": "TagList", "flattened": false},
+      "StatisticsConfigurations": {
+        "shape": "MetricStreamStatisticsConfigurations",
+        "flattened": false
+      }
     },
     "flattened": false
   },
@@ -1216,6 +1291,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "flattened": false
   },
   "StorageResolution": {"type": "integer", "flattened": false},
+  "SuppressorPeriod": {"type": "integer", "flattened": false},
   "Tag": {
     "type": "structure",
     "members": {

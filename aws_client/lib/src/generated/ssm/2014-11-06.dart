@@ -18,29 +18,19 @@ import '../../shared/shared.dart'
 
 export '../../shared/shared.dart' show AwsClientCredentials;
 
-/// Amazon Web Services Systems Manager is a collection of capabilities that
-/// helps you automate management tasks such as collecting system inventory,
-/// applying operating system (OS) patches, automating the creation of Amazon
-/// Machine Images (AMIs), and configuring operating systems (OSs) and
-/// applications at scale. Systems Manager lets you remotely and securely manage
-/// the configuration of your managed nodes. A <i>managed node</i> is any Amazon
-/// Elastic Compute Cloud (Amazon EC2) instance, edge device, or on-premises
-/// server or virtual machine (VM) that has been configured for Systems Manager.
-/// <note>
-/// With support for IoT Greengrass Version 2 devices, the phrase <i>managed
-/// instance</i> has been changed to <i>managed node</i> in most of the Systems
-/// Manager documentation. The Systems Manager console, API calls, error
-/// messages, and SSM documents still use the term instance.
-/// </note>
+/// Amazon Web Services Systems Manager is a collection of capabilities to help
+/// you manage your applications and infrastructure running in the Amazon Web
+/// Services Cloud;. Systems Manager simplifies application and resource
+/// management, shortens the time to detect and resolve operational problems,
+/// and helps you manage your Amazon Web Services resources securely at scale.
+///
 /// This reference is intended to be used with the <a
 /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/">Amazon
 /// Web Services Systems Manager User Guide</a>.
 ///
-/// To get started, verify prerequisites and configure managed nodes. For more
-/// information, see <a
+/// To get started, verify prerequisites. For more information, see <a
 /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-setting-up.html">Setting
-/// up Amazon Web Services Systems Manager</a> in the <i>Amazon Web Services
-/// Systems Manager User Guide</i>.
+/// up Amazon Web Services Systems Manager</a>.
 /// <p class="title"> <b>Related resources</b>
 ///
 /// <ul>
@@ -88,14 +78,14 @@ class Ssm {
           endpointUrl: endpointUrl,
         );
 
-  /// Adds or overwrites one or more tags for the specified resource. Tags are
-  /// metadata that you can assign to your documents, managed nodes, maintenance
-  /// windows, Parameter Store parameters, and patch baselines. Tags enable you
-  /// to categorize your resources in different ways, for example, by purpose,
-  /// owner, or environment. Each tag consists of a key and an optional value,
-  /// both of which you define. For example, you could define a set of tags for
-  /// your account's managed nodes that helps you track each node's owner and
-  /// stack level. For example:
+  /// Adds or overwrites one or more tags for the specified resource.
+  /// <i>Tags</i> are metadata that you can assign to your automations,
+  /// documents, managed nodes, maintenance windows, Parameter Store parameters,
+  /// and patch baselines. Tags enable you to categorize your resources in
+  /// different ways, for example, by purpose, owner, or environment. Each tag
+  /// consists of a key and an optional value, both of which you define. For
+  /// example, you could define a set of tags for your account's managed nodes
+  /// that helps you track each node's owner and stack level. For example:
   ///
   /// <ul>
   /// <li>
@@ -117,7 +107,8 @@ class Ssm {
   /// <code>Key=Stack,Value=Test</code>
   /// </li>
   /// </ul>
-  /// Each resource can have a maximum of 50 tags.
+  /// Most resources can have a maximum of 50 tags. Automations can have a
+  /// maximum of 5 tags.
   ///
   /// We recommend that you devise a set of tag keys that meets your needs for
   /// each resource type. Using a consistent set of tag keys makes it easier for
@@ -144,6 +135,8 @@ class Ssm {
   /// <code>MaintenanceWindow</code>: <code>mw-012345abcde</code>
   ///
   /// <code>PatchBaseline</code>: <code>pb-012345abcde</code>
+  ///
+  /// <code>Automation</code>: <code>example-c160-4567-8519-012345abcde</code>
   ///
   /// <code>OpsMetadata</code> object: <code>ResourceID</code> for tagging is
   /// created from the Amazon Resource Name (ARN) for the object. Specifically,
@@ -494,6 +487,7 @@ class Ssm {
   /// May throw [InvalidParameters].
   /// May throw [InvalidTarget].
   /// May throw [InvalidSchedule].
+  /// May throw [InvalidTargetMaps].
   ///
   /// Parameter [name] :
   /// The name of the SSM Command document or Automation runbook that contains
@@ -546,6 +540,15 @@ class Ssm {
   /// Parameter [documentVersion] :
   /// The document version you want to associate with the target(s). Can be a
   /// specific version or the default version.
+  /// <important>
+  /// State Manager doesn't support running associations that use a new version
+  /// of a document if that document is shared from another account. State
+  /// Manager always runs the <code>default</code> version of a document if
+  /// shared from another account, even though the Systems Manager console shows
+  /// that a new version was processed. If you want to run an association using
+  /// a new version of a document shared form another account, you must set the
+  /// document version to <code>default</code>.
+  /// </important>
   ///
   /// Parameter [instanceId] :
   /// The managed node ID.
@@ -601,6 +604,21 @@ class Ssm {
   /// Parameter [scheduleExpression] :
   /// A cron expression when the association will be applied to the target(s).
   ///
+  /// Parameter [scheduleOffset] :
+  /// Number of days to wait after the scheduled day to run an association. For
+  /// example, if you specified a cron schedule of <code>cron(0 0 ? * THU#2
+  /// *)</code>, you could specify an offset of 3 to run the association each
+  /// Sunday after the second Thursday of the month. For more information about
+  /// cron schedules for associations, see <a
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/reference-cron-and-rate-expressions.html">Reference:
+  /// Cron and rate expressions for Systems Manager</a> in the <i>Amazon Web
+  /// Services Systems Manager User Guide</i>.
+  /// <note>
+  /// To use offsets, you must specify the <code>ApplyOnlyAtCronInterval</code>
+  /// parameter. This option tells the system not to run an association
+  /// immediately after you create it.
+  /// </note>
+  ///
   /// Parameter [syncCompliance] :
   /// The mode for generating association compliance. You can specify
   /// <code>AUTO</code> or <code>MANUAL</code>. In <code>AUTO</code> mode, the
@@ -621,6 +639,10 @@ class Ssm {
   /// A location is a combination of Amazon Web Services Regions and Amazon Web
   /// Services accounts where you want to run the association. Use this action
   /// to create an association in multiple Regions and multiple accounts.
+  ///
+  /// Parameter [targetMaps] :
+  /// A key-value mapping of document parameters to target resources. Both
+  /// Targets and TargetMaps can't be specified together.
   ///
   /// Parameter [targets] :
   /// The targets for the association. You can target managed nodes by using
@@ -646,11 +668,19 @@ class Ssm {
     InstanceAssociationOutputLocation? outputLocation,
     Map<String, List<String>>? parameters,
     String? scheduleExpression,
+    int? scheduleOffset,
     AssociationSyncCompliance? syncCompliance,
     List<TargetLocation>? targetLocations,
+    List<Map<String, List<String>>>? targetMaps,
     List<Target>? targets,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
+    _s.validateNumRange(
+      'scheduleOffset',
+      scheduleOffset,
+      1,
+      6,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.CreateAssociation'
@@ -679,8 +709,10 @@ class Ssm {
         if (parameters != null) 'Parameters': parameters,
         if (scheduleExpression != null)
           'ScheduleExpression': scheduleExpression,
+        if (scheduleOffset != null) 'ScheduleOffset': scheduleOffset,
         if (syncCompliance != null) 'SyncCompliance': syncCompliance.toValue(),
         if (targetLocations != null) 'TargetLocations': targetLocations,
+        if (targetMaps != null) 'TargetMaps': targetMaps,
         if (targets != null) 'Targets': targets,
       },
     );
@@ -710,6 +742,7 @@ class Ssm {
   /// May throw [InvalidOutputLocation].
   /// May throw [InvalidTarget].
   /// May throw [InvalidSchedule].
+  /// May throw [InvalidTargetMaps].
   ///
   /// Parameter [entries] :
   /// One or more associations.
@@ -810,6 +843,10 @@ class Ssm {
   ///
   /// Parameter [documentType] :
   /// The type of document to create.
+  /// <note>
+  /// The <code>DeploymentStrategy</code> document type is an internal-use-only
+  /// document type reserved for AppConfig.
+  /// </note>
   ///
   /// Parameter [requires] :
   /// A list of SSM documents required by a document. This parameter is used
@@ -854,7 +891,7 @@ class Ssm {
   ///
   /// Parameter [versionName] :
   /// An optional field specifying the version of the artifact you are creating
-  /// with the document. For example, "Release 12, Update 6". This value is
+  /// with the document. For example, <code>Release12.1</code>. This value is
   /// unique across all versions of a document, and can't be changed.
   Future<CreateDocumentResult> createDocument({
     required String content,
@@ -4324,20 +4361,19 @@ class Ssm {
   /// environment that is configured for Amazon Web Services Systems Manager.
   ///
   /// Parameter [pluginName] :
-  /// The name of the plugin for which you want detailed results. If the
-  /// document contains only one plugin, you can omit the name and details for
-  /// that plugin. If the document contains more than one plugin, you must
-  /// specify the name of the plugin for which you want to view details.
-  ///
-  /// Plugin names are also referred to as <i>step names</i> in Systems Manager
-  /// documents (SSM documents). For example, <code>aws:RunShellScript</code> is
-  /// a plugin.
+  /// The name of the step for which you want detailed results. If the document
+  /// contains only one step, you can omit the name and details for that step.
+  /// If the document contains more than one step, you must specify the name of
+  /// the step for which you want to view details. Be sure to specify the name
+  /// of the step, not the name of a plugin like
+  /// <code>aws:RunShellScript</code>.
   ///
   /// To find the <code>PluginName</code>, check the document content and find
-  /// the name of the plugin. Alternatively, use <a>ListCommandInvocations</a>
-  /// with the <code>CommandId</code> and <code>Details</code> parameters. The
-  /// <code>PluginName</code> is the <code>Name</code> attribute of the
-  /// <code>CommandPlugin</code> object in the <code>CommandPlugins</code> list.
+  /// the name of the step you want details for. Alternatively, use
+  /// <a>ListCommandInvocations</a> with the <code>CommandId</code> and
+  /// <code>Details</code> parameters. The <code>PluginName</code> is the
+  /// <code>Name</code> attribute of the <code>CommandPlugin</code> object in
+  /// the <code>CommandPlugins</code> list.
   Future<GetCommandInvocationResult> getCommandInvocation({
     required String commandId,
     required String instanceId,
@@ -4806,7 +4842,7 @@ class Ssm {
         jsonResponse.body);
   }
 
-  /// Lists the tasks in a maintenance window.
+  /// Retrieves the details of a maintenance window task.
   /// <note>
   /// For maintenance window tasks without a specified target, you can't supply
   /// values for <code>--max-errors</code> and <code>--max-concurrency</code>.
@@ -4814,6 +4850,8 @@ class Ssm {
   /// may be reported in the response to this command. These values don't affect
   /// the running of your task and can be ignored.
   /// </note>
+  /// To retrieve a list of tasks in a maintenance window, instead use the
+  /// <a>DescribeMaintenanceWindowTasks</a> command.
   ///
   /// May throw [DoesNotExistException].
   /// May throw [InternalServerError].
@@ -5178,8 +5216,8 @@ class Ssm {
   ///
   /// Parameter [path] :
   /// The hierarchy for the parameter. Hierarchies start with a forward slash
-  /// (/). The hierachy is the parameter name except the last part of the
-  /// parameter. For the API call to succeeed, the last part of the parameter
+  /// (/). The hierarchy is the parameter name except the last part of the
+  /// parameter. For the API call to succeed, the last part of the parameter
   /// name can't be in the path. A parameter name hierarchy can have a maximum
   /// of 15 levels. Here is an example of a hierarchy:
   /// <code>/Finance/Prod/IAD/WinServ2016/license33 </code>
@@ -5302,7 +5340,7 @@ class Ssm {
   /// The name of the patch group whose patch baseline should be retrieved.
   ///
   /// Parameter [operatingSystem] :
-  /// Returns he operating system rule specified for patch groups using the
+  /// Returns the operating system rule specified for patch groups using the
   /// patch baseline.
   Future<GetPatchBaselineForPatchGroupResult> getPatchBaselineForPatchGroup({
     required String patchGroup,
@@ -5367,13 +5405,16 @@ class Ssm {
   /// <code>/ssm/documents/console/public-sharing-permission</code>
   /// </li>
   /// <li>
+  /// <code>/ssm/managed-instance/activation-tier</code>
+  /// </li>
+  /// <li>
+  /// <code>/ssm/opsinsights/opscenter</code>
+  /// </li>
+  /// <li>
   /// <code>/ssm/parameter-store/default-parameter-tier</code>
   /// </li>
   /// <li>
   /// <code>/ssm/parameter-store/high-throughput-enabled</code>
-  /// </li>
-  /// <li>
-  /// <code>/ssm/managed-instance/activation-tier</code>
   /// </li>
   /// </ul>
   Future<GetServiceSettingResult> getServiceSetting({
@@ -6494,7 +6535,7 @@ class Ssm {
   /// associations.
   /// </li>
   /// <li>
-  /// Severity: A patch severity. For example, <code>critical</code>.
+  /// Severity: A patch severity. For example, <code>Critical</code>.
   /// </li>
   /// <li>
   /// DocumentName: An SSM document name. For example,
@@ -6717,13 +6758,11 @@ class Ssm {
   /// Systems Manager parameters</a> in the <i>Amazon Web Services Systems
   /// Manager User Guide</i>.
   /// <note>
-  /// The maximum length constraint listed below includes capacity for
-  /// additional system attributes that aren't part of the name. The maximum
-  /// length for a parameter name, including the full length of the parameter
-  /// ARN, is 1011 characters. For example, the length of the following
-  /// parameter name is 65 characters, not 20 characters:
-  ///
-  /// <code>arn:aws:ssm:us-east-2:111122223333:parameter/ExampleParameterName</code>
+  /// The maximum length constraint of 2048 characters listed below includes
+  /// 1037 characters reserved for internal use by Systems Manager. The maximum
+  /// length for a parameter name that you create is 1011 characters. This
+  /// includes the characters in the ARN that precede the name you specify, such
+  /// as <code>arn:aws:ssm:us-east-2:111122223333:parameter/</code>.
   /// </note>
   ///
   /// Parameter [value] :
@@ -6753,6 +6792,9 @@ class Ssm {
   /// </li>
   /// <li>
   /// <code>aws:ec2:image</code>
+  /// </li>
+  /// <li>
+  /// <code>aws:ssm:integration</code>
   /// </li>
   /// </ul>
   /// When you create a <code>String</code> parameter and specify
@@ -7230,8 +7272,13 @@ class Ssm {
   /// </note>
   ///
   /// Parameter [maxConcurrency] :
-  /// The maximum number of targets this task can be run for in parallel.
+  /// The maximum number of targets this task can be run for, in parallel.
   /// <note>
+  /// Although this element is listed as "Required: No", a value can be omitted
+  /// only when you are registering or updating a <a
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/maintenance-windows-targetless-tasks.html">targetless
+  /// task</a> You must provide a value in all other cases.
+  ///
   /// For maintenance window tasks without a target specified, you can't supply
   /// a value for this option. Instead, the system inserts a placeholder value
   /// of <code>1</code>. This value doesn't affect the running of your task.
@@ -7241,6 +7288,11 @@ class Ssm {
   /// The maximum number of errors allowed before this task stops being
   /// scheduled.
   /// <note>
+  /// Although this element is listed as "Required: No", a value can be omitted
+  /// only when you are registering or updating a <a
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/maintenance-windows-targetless-tasks.html">targetless
+  /// task</a> You must provide a value in all other cases.
+  ///
   /// For maintenance window tasks without a target specified, you can't supply
   /// a value for this option. Instead, the system inserts a placeholder value
   /// of <code>1</code>. This value doesn't affect the running of your task.
@@ -7388,6 +7440,8 @@ class Ssm {
   ///
   /// MaintenanceWindow: mw-012345abcde
   ///
+  /// <code>Automation</code>: <code>example-c160-4567-8519-012345abcde</code>
+  ///
   /// PatchBaseline: pb-012345abcde
   ///
   /// OpsMetadata object: <code>ResourceID</code> for tagging is created from
@@ -7482,13 +7536,16 @@ class Ssm {
   /// <code>/ssm/documents/console/public-sharing-permission</code>
   /// </li>
   /// <li>
+  /// <code>/ssm/managed-instance/activation-tier</code>
+  /// </li>
+  /// <li>
+  /// <code>/ssm/opsinsights/opscenter</code>
+  /// </li>
+  /// <li>
   /// <code>/ssm/parameter-store/default-parameter-tier</code>
   /// </li>
   /// <li>
   /// <code>/ssm/parameter-store/high-throughput-enabled</code>
-  /// </li>
-  /// <li>
-  /// <code>/ssm/managed-instance/activation-tier</code>
   /// </li>
   /// </ul>
   Future<ResetServiceSettingResult> resetServiceSetting({
@@ -7915,8 +7972,8 @@ class Ssm {
   /// <code>Key=OS,Value=Windows</code>
   /// </li>
   /// </ul> <note>
-  /// To add tags to an existing patch baseline, use the
-  /// <a>AddTagsToResource</a> operation.
+  /// To add tags to an existing automation, use the <a>AddTagsToResource</a>
+  /// operation.
   /// </note>
   ///
   /// Parameter [targetLocations] :
@@ -8144,14 +8201,19 @@ class Ssm {
   /// The managed node to connect to for the session.
   ///
   /// Parameter [documentName] :
-  /// The name of the SSM document to define the parameters and plugin settings
-  /// for the session. For example, <code>SSM-SessionManagerRunShell</code>. You
-  /// can call the <a>GetDocument</a> API to verify the document exists before
-  /// attempting to start a session. If no document name is provided, a shell to
-  /// the managed node is launched by default.
+  /// The name of the SSM document you want to use to define the type of
+  /// session, input parameters, or preferences for the session. For example,
+  /// <code>SSM-SessionManagerRunShell</code>. You can call the
+  /// <a>GetDocument</a> API to verify the document exists before attempting to
+  /// start a session. If no document name is provided, a shell to the managed
+  /// node is launched by default. For more information, see <a
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-working-with-sessions-start.html">Start
+  /// a session</a> in the <i>Amazon Web Services Systems Manager User
+  /// Guide</i>.
   ///
   /// Parameter [parameters] :
-  /// Reserved for future use.
+  /// The values you want to specify for the parameters defined in the Session
+  /// document.
   ///
   /// Parameter [reason] :
   /// The reason for connecting to the instance. This value is included in the
@@ -8221,9 +8283,8 @@ class Ssm {
 
   /// Permanently ends a session and closes the data connection between the
   /// Session Manager client and SSM Agent on the managed node. A terminated
-  /// session isn't be resumed.
+  /// session can't be resumed.
   ///
-  /// May throw [DoesNotExistException].
   /// May throw [InternalServerError].
   ///
   /// Parameter [sessionId] :
@@ -8297,7 +8358,14 @@ class Ssm {
 
   /// Updates an association. You can update the association name and version,
   /// the document version, schedule, parameters, and Amazon Simple Storage
-  /// Service (Amazon S3) output.
+  /// Service (Amazon S3) output. When you call <code>UpdateAssociation</code>,
+  /// the system removes all optional parameters from the request and overwrites
+  /// the association with null values for those parameters. This is by design.
+  /// You must specify all optional parameters in the call, even if you are not
+  /// changing the parameters. This includes the <code>Name</code> parameter.
+  /// Before calling this API action, we recommend that you call the
+  /// <a>DescribeAssociation</a> API operation and make a note of all optional
+  /// parameters required for your <code>UpdateAssociation</code> call.
   ///
   /// In order to call this API operation, your Identity and Access Management
   /// (IAM) user account, group, or role must be configured with permission to
@@ -8309,7 +8377,9 @@ class Ssm {
   /// &lt;resource_arn&gt;</code>
   /// <important>
   /// When you update an association, the association immediately runs against
-  /// the specified targets.
+  /// the specified targets. You can add the
+  /// <code>ApplyOnlyAtCronInterval</code> parameter to run the association
+  /// during the next schedule run.
   /// </important>
   ///
   /// May throw [InternalServerError].
@@ -8324,6 +8394,7 @@ class Ssm {
   /// May throw [InvalidTarget].
   /// May throw [InvalidAssociationVersion].
   /// May throw [AssociationVersionLimitExceeded].
+  /// May throw [InvalidTargetMaps].
   ///
   /// Parameter [associationId] :
   /// The ID of the association you want to update.
@@ -8334,8 +8405,18 @@ class Ssm {
   /// Specify this option if you don't want an association to run immediately
   /// after you update it. This parameter isn't supported for rate expressions.
   ///
-  /// Also, if you specified this option when you created the association, you
-  /// can reset it. To do so, specify the
+  /// If you chose this option when you created an association and later you
+  /// edit that association or you make changes to the SSM document on which
+  /// that association is based (by using the Documents page in the console),
+  /// State Manager applies the association at the next specified cron interval.
+  /// For example, if you chose the <code>Latest</code> version of an SSM
+  /// document when you created an association and you edit the association by
+  /// choosing a different document version on the Documents page, State Manager
+  /// applies the association at the next specified cron interval if you
+  /// previously selected this option. If this option wasn't selected, State
+  /// Manager immediately runs the association.
+  ///
+  /// You can reset this option. To do so, specify the
   /// <code>no-apply-only-at-cron-interval</code> parameter when you update the
   /// association from the command line. This parameter forces the association
   /// to run immediately after updating it and according to the interval
@@ -8368,6 +8449,15 @@ class Ssm {
   ///
   /// Parameter [documentVersion] :
   /// The document version you want update for the association.
+  /// <important>
+  /// State Manager doesn't support running associations that use a new version
+  /// of a document if that document is shared from another account. State
+  /// Manager always runs the <code>default</code> version of a document if
+  /// shared from another account, even though the Systems Manager console shows
+  /// that a new version was processed. If you want to run an association using
+  /// a new version of a document shared form another account, you must set the
+  /// document version to <code>default</code>.
+  /// </important>
   ///
   /// Parameter [maxConcurrency] :
   /// The maximum number of targets allowed to run the association at the same
@@ -8433,6 +8523,21 @@ class Ssm {
   /// The cron expression used to schedule the association that you want to
   /// update.
   ///
+  /// Parameter [scheduleOffset] :
+  /// Number of days to wait after the scheduled day to run an association. For
+  /// example, if you specified a cron schedule of <code>cron(0 0 ? * THU#2
+  /// *)</code>, you could specify an offset of 3 to run the association each
+  /// Sunday after the second Thursday of the month. For more information about
+  /// cron schedules for associations, see <a
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/reference-cron-and-rate-expressions.html">Reference:
+  /// Cron and rate expressions for Systems Manager</a> in the <i>Amazon Web
+  /// Services Systems Manager User Guide</i>.
+  /// <note>
+  /// To use offsets, you must specify the <code>ApplyOnlyAtCronInterval</code>
+  /// parameter. This option tells the system not to run an association
+  /// immediately after you create it.
+  /// </note>
+  ///
   /// Parameter [syncCompliance] :
   /// The mode for generating association compliance. You can specify
   /// <code>AUTO</code> or <code>MANUAL</code>. In <code>AUTO</code> mode, the
@@ -8455,6 +8560,10 @@ class Ssm {
   /// Services accounts where you want to run the association. Use this action
   /// to update an association in multiple Regions and multiple accounts.
   ///
+  /// Parameter [targetMaps] :
+  /// A key-value mapping of document parameters to target resources. Both
+  /// Targets and TargetMaps can't be specified together.
+  ///
   /// Parameter [targets] :
   /// The targets of the association.
   Future<UpdateAssociationResult> updateAssociation({
@@ -8472,11 +8581,19 @@ class Ssm {
     InstanceAssociationOutputLocation? outputLocation,
     Map<String, List<String>>? parameters,
     String? scheduleExpression,
+    int? scheduleOffset,
     AssociationSyncCompliance? syncCompliance,
     List<TargetLocation>? targetLocations,
+    List<Map<String, List<String>>>? targetMaps,
     List<Target>? targets,
   }) async {
     ArgumentError.checkNotNull(associationId, 'associationId');
+    _s.validateNumRange(
+      'scheduleOffset',
+      scheduleOffset,
+      1,
+      6,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.UpdateAssociation'
@@ -8507,8 +8624,10 @@ class Ssm {
         if (parameters != null) 'Parameters': parameters,
         if (scheduleExpression != null)
           'ScheduleExpression': scheduleExpression,
+        if (scheduleOffset != null) 'ScheduleOffset': scheduleOffset,
         if (syncCompliance != null) 'SyncCompliance': syncCompliance.toValue(),
         if (targetLocations != null) 'TargetLocations': targetLocations,
+        if (targetMaps != null) 'TargetMaps': targetMaps,
         if (targets != null) 'Targets': targets,
       },
     );
@@ -8605,6 +8724,11 @@ class Ssm {
   /// Manager supports updating only the latest version of the document. You can
   /// specify the version number of the latest version or use the
   /// <code>$LATEST</code> variable.
+  /// <note>
+  /// If you change a document version for a State Manager association, Systems
+  /// Manager immediately runs the association unless you previously specifed
+  /// the <code>apply-only-at-cron-interval</code> parameter.
+  /// </note>
   ///
   /// Parameter [targetType] :
   /// Specify a new target type for the document.
@@ -8651,6 +8775,11 @@ class Ssm {
   }
 
   /// Set the default version of a document.
+  /// <note>
+  /// If you change a document version for a State Manager association, Systems
+  /// Manager immediately runs the association unless you previously specifed
+  /// the <code>apply-only-at-cron-interval</code> parameter.
+  /// </note>
   ///
   /// May throw [InternalServerError].
   /// May throw [InvalidDocument].
@@ -8803,11 +8932,10 @@ class Ssm {
   /// the IANA website.
   ///
   /// Parameter [startDate] :
-  /// The time zone that the scheduled maintenance window executions are based
-  /// on, in Internet Assigned Numbers Authority (IANA) format. For example:
-  /// "America/Los_Angeles", "UTC", or "Asia/Seoul". For more information, see
-  /// the <a href="https://www.iana.org/time-zones">Time Zone Database</a> on
-  /// the IANA website.
+  /// The date and time, in ISO-8601 Extended format, for when you want the
+  /// maintenance window to become active. <code>StartDate</code> allows you to
+  /// delay activation of the maintenance window until the specified future
+  /// date.
   Future<UpdateMaintenanceWindowResult> updateMaintenanceWindow({
     required String windowId,
     bool? allowUnassociatedTargets,
@@ -9071,12 +9199,16 @@ class Ssm {
   /// Parameter [maxConcurrency] :
   /// The new <code>MaxConcurrency</code> value you want to specify.
   /// <code>MaxConcurrency</code> is the number of targets that are allowed to
-  /// run this task in parallel.
+  /// run this task, in parallel.
   /// <note>
+  /// Although this element is listed as "Required: No", a value can be omitted
+  /// only when you are registering or updating a <a
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/maintenance-windows-targetless-tasks.html">targetless
+  /// task</a> You must provide a value in all other cases.
+  ///
   /// For maintenance window tasks without a target specified, you can't supply
   /// a value for this option. Instead, the system inserts a placeholder value
-  /// of <code>1</code>, which may be reported in the response to this command.
-  /// This value doesn't affect the running of your task and can be ignored.
+  /// of <code>1</code>. This value doesn't affect the running of your task.
   /// </note>
   ///
   /// Parameter [maxErrors] :
@@ -9084,10 +9216,14 @@ class Ssm {
   /// the maximum number of errors that are allowed before the task stops being
   /// scheduled.
   /// <note>
+  /// Although this element is listed as "Required: No", a value can be omitted
+  /// only when you are registering or updating a <a
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/maintenance-windows-targetless-tasks.html">targetless
+  /// task</a> You must provide a value in all other cases.
+  ///
   /// For maintenance window tasks without a target specified, you can't supply
   /// a value for this option. Instead, the system inserts a placeholder value
-  /// of <code>1</code>, which may be reported in the response to this command.
-  /// This value doesn't affect the running of your task and can be ignored.
+  /// of <code>1</code>. This value doesn't affect the running of your task.
   /// </note>
   ///
   /// Parameter [name] :
@@ -9447,7 +9583,7 @@ class Ssm {
   /// May throw [InternalServerError].
   ///
   /// Parameter [opsMetadataArn] :
-  /// The Amazon Resoure Name (ARN) of the OpsMetadata Object to update.
+  /// The Amazon Resource Name (ARN) of the OpsMetadata Object to update.
   ///
   /// Parameter [keysToDelete] :
   /// The metadata keys to delete from the OpsMetadata object.
@@ -9702,13 +9838,16 @@ class Ssm {
   /// <code>/ssm/documents/console/public-sharing-permission</code>
   /// </li>
   /// <li>
+  /// <code>/ssm/managed-instance/activation-tier</code>
+  /// </li>
+  /// <li>
+  /// <code>/ssm/opsinsights/opscenter</code>
+  /// </li>
+  /// <li>
   /// <code>/ssm/parameter-store/default-parameter-tier</code>
   /// </li>
   /// <li>
   /// <code>/ssm/parameter-store/high-throughput-enabled</code>
-  /// </li>
-  /// <li>
-  /// <code>/ssm/managed-instance/activation-tier</code>
   /// </li>
   /// </ul>
   ///
@@ -9717,19 +9856,6 @@ class Ssm {
   /// specifies the available values for each setting.
   ///
   /// <ul>
-  /// <li>
-  /// <code>/ssm/parameter-store/default-parameter-tier</code>:
-  /// <code>Standard</code>, <code>Advanced</code>,
-  /// <code>Intelligent-Tiering</code>
-  /// </li>
-  /// <li>
-  /// <code>/ssm/parameter-store/high-throughput-enabled</code>:
-  /// <code>true</code> or <code>false</code>
-  /// </li>
-  /// <li>
-  /// <code>/ssm/managed-instance/activation-tier</code>: <code>true</code> or
-  /// <code>false</code>
-  /// </li>
   /// <li>
   /// <code>/ssm/automation/customer-script-log-destination</code>:
   /// <code>CloudWatch</code>
@@ -9745,6 +9871,19 @@ class Ssm {
   /// <li>
   /// <code>/ssm/managed-instance/activation-tier</code>: <code>standard</code>
   /// or <code>advanced</code>
+  /// </li>
+  /// <li>
+  /// <code>/ssm/opsinsights/opscenter</code>: <code>Enabled</code> or
+  /// <code>Disabled</code>
+  /// </li>
+  /// <li>
+  /// <code>/ssm/parameter-store/default-parameter-tier</code>:
+  /// <code>Standard</code>, <code>Advanced</code>,
+  /// <code>Intelligent-Tiering</code>
+  /// </li>
+  /// <li>
+  /// <code>/ssm/parameter-store/high-throughput-enabled</code>:
+  /// <code>true</code> or <code>false</code>
   /// </li>
   /// </ul>
   Future<void> updateServiceSetting({
@@ -9947,7 +10086,19 @@ class Association {
   /// The association version.
   final String? associationVersion;
 
-  /// The version of the document used in the association.
+  /// The version of the document used in the association. If you change a
+  /// document version for a State Manager association, Systems Manager
+  /// immediately runs the association unless you previously specifed the
+  /// <code>apply-only-at-cron-interval</code> parameter.
+  /// <important>
+  /// State Manager doesn't support running associations that use a new version of
+  /// a document if that document is shared from another account. State Manager
+  /// always runs the <code>default</code> version of a document if shared from
+  /// another account, even though the Systems Manager console shows that a new
+  /// version was processed. If you want to run an association using a new version
+  /// of a document shared form another account, you must set the document version
+  /// to <code>default</code>.
+  /// </important>
   final String? documentVersion;
 
   /// The managed node ID.
@@ -9966,6 +10117,13 @@ class Association {
   /// schedule runs in Coordinated Universal Time (UTC).
   final String? scheduleExpression;
 
+  /// Number of days to wait after the scheduled day to run an association.
+  final int? scheduleOffset;
+
+  /// A key-value mapping of document parameters to target resources. Both Targets
+  /// and TargetMaps can't be specified together.
+  final List<Map<String, List<String>>>? targetMaps;
+
   /// The managed nodes targeted by the request to create an association. You can
   /// target all managed nodes in an Amazon Web Services account by specifying the
   /// <code>InstanceIds</code> key with a value of <code>*</code>.
@@ -9981,6 +10139,8 @@ class Association {
     this.name,
     this.overview,
     this.scheduleExpression,
+    this.scheduleOffset,
+    this.targetMaps,
     this.targets,
   });
 
@@ -9998,6 +10158,12 @@ class Association {
               json['Overview'] as Map<String, dynamic>)
           : null,
       scheduleExpression: json['ScheduleExpression'] as String?,
+      scheduleOffset: json['ScheduleOffset'] as int?,
+      targetMaps: (json['TargetMaps'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as Map<String, dynamic>).map((k, e) => MapEntry(
+              k, (e as List).whereNotNull().map((e) => e as String).toList())))
+          .toList(),
       targets: (json['Targets'] as List?)
           ?.whereNotNull()
           .map((e) => Target.fromJson(e as Map<String, dynamic>))
@@ -10015,6 +10181,8 @@ class Association {
     final name = this.name;
     final overview = this.overview;
     final scheduleExpression = this.scheduleExpression;
+    final scheduleOffset = this.scheduleOffset;
+    final targetMaps = this.targetMaps;
     final targets = this.targets;
     return {
       if (associationId != null) 'AssociationId': associationId,
@@ -10027,6 +10195,8 @@ class Association {
       if (name != null) 'Name': name,
       if (overview != null) 'Overview': overview,
       if (scheduleExpression != null) 'ScheduleExpression': scheduleExpression,
+      if (scheduleOffset != null) 'ScheduleOffset': scheduleOffset,
+      if (targetMaps != null) 'TargetMaps': targetMaps,
       if (targets != null) 'Targets': targets,
     };
   }
@@ -10170,6 +10340,9 @@ class AssociationDescription {
   /// A cron expression that specifies a schedule when the association runs.
   final String? scheduleExpression;
 
+  /// Number of days to wait after the scheduled day to run an association.
+  final int? scheduleOffset;
+
   /// The association status.
   final AssociationStatus? status;
 
@@ -10192,6 +10365,10 @@ class AssociationDescription {
   /// The combination of Amazon Web Services Regions and Amazon Web Services
   /// accounts where you want to run the association.
   final List<TargetLocation>? targetLocations;
+
+  /// A key-value mapping of document parameters to target resources. Both Targets
+  /// and TargetMaps can't be specified together.
+  final List<Map<String, List<String>>>? targetMaps;
 
   /// The managed nodes targeted by the request.
   final List<Target>? targets;
@@ -10217,9 +10394,11 @@ class AssociationDescription {
     this.overview,
     this.parameters,
     this.scheduleExpression,
+    this.scheduleOffset,
     this.status,
     this.syncCompliance,
     this.targetLocations,
+    this.targetMaps,
     this.targets,
   });
 
@@ -10260,6 +10439,7 @@ class AssociationDescription {
           MapEntry(
               k, (e as List).whereNotNull().map((e) => e as String).toList())),
       scheduleExpression: json['ScheduleExpression'] as String?,
+      scheduleOffset: json['ScheduleOffset'] as int?,
       status: json['Status'] != null
           ? AssociationStatus.fromJson(json['Status'] as Map<String, dynamic>)
           : null,
@@ -10268,6 +10448,11 @@ class AssociationDescription {
       targetLocations: (json['TargetLocations'] as List?)
           ?.whereNotNull()
           .map((e) => TargetLocation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      targetMaps: (json['TargetMaps'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as Map<String, dynamic>).map((k, e) => MapEntry(
+              k, (e as List).whereNotNull().map((e) => e as String).toList())))
           .toList(),
       targets: (json['Targets'] as List?)
           ?.whereNotNull()
@@ -10297,9 +10482,11 @@ class AssociationDescription {
     final overview = this.overview;
     final parameters = this.parameters;
     final scheduleExpression = this.scheduleExpression;
+    final scheduleOffset = this.scheduleOffset;
     final status = this.status;
     final syncCompliance = this.syncCompliance;
     final targetLocations = this.targetLocations;
+    final targetMaps = this.targetMaps;
     final targets = this.targets;
     return {
       if (applyOnlyAtCronInterval != null)
@@ -10330,9 +10517,11 @@ class AssociationDescription {
       if (overview != null) 'Overview': overview,
       if (parameters != null) 'Parameters': parameters,
       if (scheduleExpression != null) 'ScheduleExpression': scheduleExpression,
+      if (scheduleOffset != null) 'ScheduleOffset': scheduleOffset,
       if (status != null) 'Status': status,
       if (syncCompliance != null) 'SyncCompliance': syncCompliance.toValue(),
       if (targetLocations != null) 'TargetLocations': targetLocations,
+      if (targetMaps != null) 'TargetMaps': targetMaps,
       if (targets != null) 'Targets': targets,
     };
   }
@@ -10982,6 +11171,9 @@ class AssociationVersionInfo {
   /// version was created.
   final String? scheduleExpression;
 
+  /// Number of days to wait after the scheduled day to run an association.
+  final int? scheduleOffset;
+
   /// The mode for generating association compliance. You can specify
   /// <code>AUTO</code> or <code>MANUAL</code>. In <code>AUTO</code> mode, the
   /// system uses the status of the association execution to determine the
@@ -11003,6 +11195,10 @@ class AssociationVersionInfo {
   /// version was created.
   final List<TargetLocation>? targetLocations;
 
+  /// A key-value mapping of document parameters to target resources. Both Targets
+  /// and TargetMaps can't be specified together.
+  final List<Map<String, List<String>>>? targetMaps;
+
   /// The targets specified for the association when the association version was
   /// created.
   final List<Target>? targets;
@@ -11022,8 +11218,10 @@ class AssociationVersionInfo {
     this.outputLocation,
     this.parameters,
     this.scheduleExpression,
+    this.scheduleOffset,
     this.syncCompliance,
     this.targetLocations,
+    this.targetMaps,
     this.targets,
   });
 
@@ -11052,11 +11250,17 @@ class AssociationVersionInfo {
           MapEntry(
               k, (e as List).whereNotNull().map((e) => e as String).toList())),
       scheduleExpression: json['ScheduleExpression'] as String?,
+      scheduleOffset: json['ScheduleOffset'] as int?,
       syncCompliance:
           (json['SyncCompliance'] as String?)?.toAssociationSyncCompliance(),
       targetLocations: (json['TargetLocations'] as List?)
           ?.whereNotNull()
           .map((e) => TargetLocation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      targetMaps: (json['TargetMaps'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as Map<String, dynamic>).map((k, e) => MapEntry(
+              k, (e as List).whereNotNull().map((e) => e as String).toList())))
           .toList(),
       targets: (json['Targets'] as List?)
           ?.whereNotNull()
@@ -11080,8 +11284,10 @@ class AssociationVersionInfo {
     final outputLocation = this.outputLocation;
     final parameters = this.parameters;
     final scheduleExpression = this.scheduleExpression;
+    final scheduleOffset = this.scheduleOffset;
     final syncCompliance = this.syncCompliance;
     final targetLocations = this.targetLocations;
+    final targetMaps = this.targetMaps;
     final targets = this.targets;
     return {
       if (applyOnlyAtCronInterval != null)
@@ -11100,8 +11306,10 @@ class AssociationVersionInfo {
       if (outputLocation != null) 'OutputLocation': outputLocation,
       if (parameters != null) 'Parameters': parameters,
       if (scheduleExpression != null) 'ScheduleExpression': scheduleExpression,
+      if (scheduleOffset != null) 'ScheduleOffset': scheduleOffset,
       if (syncCompliance != null) 'SyncCompliance': syncCompliance.toValue(),
       if (targetLocations != null) 'TargetLocations': targetLocations,
+      if (targetMaps != null) 'TargetMaps': targetMaps,
       if (targets != null) 'Targets': targets,
     };
   }
@@ -12368,7 +12576,7 @@ class Command {
 
   /// The number of targets for which the command invocation reached a terminal
   /// state. Terminal states include the following: Success, Failed, Execution
-  /// Timed Out, Delivery Timed Out, Canceled, Terminated, or Undeliverable.
+  /// Timed Out, Delivery Timed Out, Cancelled, Terminated, or Undeliverable.
   final int? completedCount;
 
   /// The number of targets for which the status is Delivery Timed Out.
@@ -12383,9 +12591,14 @@ class Command {
   /// The number of targets for which the status is Failed or Execution Timed Out.
   final int? errorCount;
 
-  /// If this time is reached and the command hasn't already started running, it
-  /// won't run. Calculated based on the <code>ExpiresAfter</code> user input
-  /// provided as part of the <code>SendCommand</code> API operation.
+  /// If a command expires, it changes status to <code>DeliveryTimedOut</code> for
+  /// all invocations that have the status <code>InProgress</code>,
+  /// <code>Pending</code>, or <code>Delayed</code>. <code>ExpiresAfter</code> is
+  /// calculated based on the total timeout for the overall command. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/monitor-commands.html?icmpid=docs_ec2_console#monitor-about-status-timeouts">Understanding
+  /// command timeout values</a> in the <i>Amazon Web Services Systems Manager
+  /// User Guide</i>.
   final DateTime? expiresAfter;
 
   /// The managed node IDs against which this command was requested.
@@ -12480,13 +12693,17 @@ class Command {
   /// failed for the status to be Failed. This is a terminal state.
   /// </li>
   /// <li>
-  /// Canceled: The command was terminated before it was completed. This is a
+  /// Cancelled: The command was terminated before it was completed. This is a
   /// terminal state.
   /// </li>
   /// <li>
   /// Rate Exceeded: The number of managed nodes targeted by the command exceeded
   /// the account limit for pending invocations. The system has canceled the
   /// command before running it on any managed node. This is a terminal state.
+  /// </li>
+  /// <li>
+  /// Delayed: The system attempted to send the command to the managed node but
+  /// wasn't successful. The system retries again.
   /// </li>
   /// </ul>
   final String? statusDetails;
@@ -12937,7 +13154,7 @@ class CommandInvocation {
   /// parent command. This is a terminal state.
   /// </li>
   /// <li>
-  /// Canceled: The command was terminated before it was completed. This is a
+  /// Cancelled: The command was terminated before it was completed. This is a
   /// terminal state.
   /// </li>
   /// <li>
@@ -12950,6 +13167,10 @@ class CommandInvocation {
   /// <li>
   /// Terminated: The parent command exceeded its MaxErrors limit and subsequent
   /// command invocations were canceled by the system. This is a terminal state.
+  /// </li>
+  /// <li>
+  /// Delayed: The system attempted to send the command to the managed node but
+  /// wasn't successful. The system retries again.
   /// </li>
   /// </ul>
   final String? statusDetails;
@@ -13217,7 +13438,7 @@ class CommandPlugin {
   /// This is a terminal state.
   /// </li>
   /// <li>
-  /// Canceled: The command was terminated before it was completed. This is a
+  /// Cancelled: The command was terminated before it was completed. This is a
   /// terminal state.
   /// </li>
   /// <li>
@@ -14028,6 +14249,9 @@ class CreateAssociationBatchRequestEntry {
   /// A cron expression that specifies a schedule when the association runs.
   final String? scheduleExpression;
 
+  /// Number of days to wait after the scheduled day to run an association.
+  final int? scheduleOffset;
+
   /// The mode for generating association compliance. You can specify
   /// <code>AUTO</code> or <code>MANUAL</code>. In <code>AUTO</code> mode, the
   /// system uses the status of the association execution to determine the
@@ -14048,6 +14272,10 @@ class CreateAssociationBatchRequestEntry {
   /// accounts.
   final List<TargetLocation>? targetLocations;
 
+  /// A key-value mapping of document parameters to target resources. Both Targets
+  /// and TargetMaps can't be specified together.
+  final List<Map<String, List<String>>>? targetMaps;
+
   /// The managed nodes targeted by the request.
   final List<Target>? targets;
 
@@ -14065,8 +14293,10 @@ class CreateAssociationBatchRequestEntry {
     this.outputLocation,
     this.parameters,
     this.scheduleExpression,
+    this.scheduleOffset,
     this.syncCompliance,
     this.targetLocations,
+    this.targetMaps,
     this.targets,
   });
 
@@ -14096,11 +14326,17 @@ class CreateAssociationBatchRequestEntry {
           MapEntry(
               k, (e as List).whereNotNull().map((e) => e as String).toList())),
       scheduleExpression: json['ScheduleExpression'] as String?,
+      scheduleOffset: json['ScheduleOffset'] as int?,
       syncCompliance:
           (json['SyncCompliance'] as String?)?.toAssociationSyncCompliance(),
       targetLocations: (json['TargetLocations'] as List?)
           ?.whereNotNull()
           .map((e) => TargetLocation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      targetMaps: (json['TargetMaps'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as Map<String, dynamic>).map((k, e) => MapEntry(
+              k, (e as List).whereNotNull().map((e) => e as String).toList())))
           .toList(),
       targets: (json['Targets'] as List?)
           ?.whereNotNull()
@@ -14123,8 +14359,10 @@ class CreateAssociationBatchRequestEntry {
     final outputLocation = this.outputLocation;
     final parameters = this.parameters;
     final scheduleExpression = this.scheduleExpression;
+    final scheduleOffset = this.scheduleOffset;
     final syncCompliance = this.syncCompliance;
     final targetLocations = this.targetLocations;
+    final targetMaps = this.targetMaps;
     final targets = this.targets;
     return {
       'Name': name,
@@ -14143,8 +14381,10 @@ class CreateAssociationBatchRequestEntry {
       if (outputLocation != null) 'OutputLocation': outputLocation,
       if (parameters != null) 'Parameters': parameters,
       if (scheduleExpression != null) 'ScheduleExpression': scheduleExpression,
+      if (scheduleOffset != null) 'ScheduleOffset': scheduleOffset,
       if (syncCompliance != null) 'SyncCompliance': syncCompliance.toValue(),
       if (targetLocations != null) 'TargetLocations': targetLocations,
+      if (targetMaps != null) 'TargetMaps': targetMaps,
       if (targets != null) 'Targets': targets,
     };
   }
@@ -16029,7 +16269,7 @@ class DocumentDefaultVersionDescription {
   }
 }
 
-/// Describes a Amazon Web Services Systems Manager document (SSM document).
+/// Describes an Amazon Web Services Systems Manager document (SSM document).
 class DocumentDescription {
   /// The version of the document currently approved for use in the organization.
   final String? approvedVersion;
@@ -16040,6 +16280,13 @@ class DocumentDescription {
 
   /// The user in your organization who created the document.
   final String? author;
+
+  /// The classification of a document to help you identify and categorize its
+  /// use.
+  final List<String>? category;
+
+  /// The value that identifies a document's category.
+  final List<String>? categoryEnum;
 
   /// The date when the document was created.
   final DateTime? createdDate;
@@ -16092,7 +16339,8 @@ class DocumentDescription {
   /// The version of the document that is currently under review.
   final String? pendingReviewVersion;
 
-  /// The list of OS platforms compatible with this SSM document.
+  /// The list of operating system (OS) platforms compatible with this SSM
+  /// document.
   final List<PlatformType>? platformTypes;
 
   /// A list of SSM documents required by a document. For example, an
@@ -16139,6 +16387,8 @@ class DocumentDescription {
     this.approvedVersion,
     this.attachmentsInformation,
     this.author,
+    this.category,
+    this.categoryEnum,
     this.createdDate,
     this.defaultVersion,
     this.description,
@@ -16174,6 +16424,14 @@ class DocumentDescription {
           .map((e) => AttachmentInformation.fromJson(e as Map<String, dynamic>))
           .toList(),
       author: json['Author'] as String?,
+      category: (json['Category'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      categoryEnum: (json['CategoryEnum'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
       createdDate: timeStampFromJson(json['CreatedDate']),
       defaultVersion: json['DefaultVersion'] as String?,
       description: json['Description'] as String?,
@@ -16221,6 +16479,8 @@ class DocumentDescription {
     final approvedVersion = this.approvedVersion;
     final attachmentsInformation = this.attachmentsInformation;
     final author = this.author;
+    final category = this.category;
+    final categoryEnum = this.categoryEnum;
     final createdDate = this.createdDate;
     final defaultVersion = this.defaultVersion;
     final description = this.description;
@@ -16251,6 +16511,8 @@ class DocumentDescription {
       if (attachmentsInformation != null)
         'AttachmentsInformation': attachmentsInformation,
       if (author != null) 'Author': author,
+      if (category != null) 'Category': category,
+      if (categoryEnum != null) 'CategoryEnum': categoryEnum,
       if (createdDate != null) 'CreatedDate': unixTimestampToJson(createdDate),
       if (defaultVersion != null) 'DefaultVersion': defaultVersion,
       if (description != null) 'Description': description,
@@ -16578,9 +16840,6 @@ class DocumentIdentifier {
 /// </li>
 /// <li>
 /// <code>Command</code>
-/// </li>
-/// <li>
-/// <code>DeploymentStrategy</code>
 /// </li>
 /// <li>
 /// <code>Package</code>
@@ -17651,7 +17910,7 @@ class GetCommandInvocationResult {
   /// limit of the parent command. This is a terminal state.
   /// </li>
   /// <li>
-  /// Canceled: The command was terminated before it was completed. This is a
+  /// Cancelled: The command was terminated before it was completed. This is a
   /// terminal state.
   /// </li>
   /// <li>
@@ -22415,9 +22674,29 @@ class MaintenanceWindowTask {
   final LoggingInfo? loggingInfo;
 
   /// The maximum number of targets this task can be run for, in parallel.
+  /// <note>
+  /// Although this element is listed as "Required: No", a value can be omitted
+  /// only when you are registering or updating a <a
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/maintenance-windows-targetless-tasks.html">targetless
+  /// task</a> You must provide a value in all other cases.
+  ///
+  /// For maintenance window tasks without a target specified, you can't supply a
+  /// value for this option. Instead, the system inserts a placeholder value of
+  /// <code>1</code>. This value doesn't affect the running of your task.
+  /// </note>
   final String? maxConcurrency;
 
   /// The maximum number of errors allowed before this task stops being scheduled.
+  /// <note>
+  /// Although this element is listed as "Required: No", a value can be omitted
+  /// only when you are registering or updating a <a
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/maintenance-windows-targetless-tasks.html">targetless
+  /// task</a> You must provide a value in all other cases.
+  ///
+  /// For maintenance window tasks without a target specified, you can't supply a
+  /// value for this option. Instead, the system inserts a placeholder value of
+  /// <code>1</code>. This value doesn't affect the running of your task.
+  /// </note>
   final String? maxErrors;
 
   /// The task name.
@@ -22919,6 +23198,7 @@ enum OperatingSystem {
   debian,
   macos,
   raspbian,
+  rockyLinux,
 }
 
 extension on OperatingSystem {
@@ -22946,6 +23226,8 @@ extension on OperatingSystem {
         return 'MACOS';
       case OperatingSystem.raspbian:
         return 'RASPBIAN';
+      case OperatingSystem.rockyLinux:
+        return 'ROCKY_LINUX';
     }
   }
 }
@@ -22975,6 +23257,8 @@ extension on String {
         return OperatingSystem.macos;
       case 'RASPBIAN':
         return OperatingSystem.raspbian;
+      case 'ROCKY_LINUX':
+        return OperatingSystem.rockyLinux;
     }
     throw Exception('$this is not known in enum OperatingSystem');
   }
@@ -24560,9 +24844,17 @@ class Parameter {
 
   /// The type of parameter. Valid values include the following:
   /// <code>String</code>, <code>StringList</code>, and <code>SecureString</code>.
+  /// <note>
+  /// If type is <code>StringList</code>, the system returns a comma-separated
+  /// string with no spaces between commas in the <code>Value</code> field.
+  /// </note>
   final ParameterType? type;
 
   /// The parameter value.
+  /// <note>
+  /// If type is <code>StringList</code>, the system returns a comma-separated
+  /// string with no spaces between commas in the <code>Value</code> field.
+  /// </note>
   final String? value;
 
   /// The parameter version.
@@ -24753,7 +25045,7 @@ class ParameterInlinePolicy {
   /// The JSON text of the policy.
   final String? policyText;
 
-  /// The type of policy. Parameter Store, a capablility of Amazon Web Services
+  /// The type of policy. Parameter Store, a capability of Amazon Web Services
   /// Systems Manager, supports the following policy types: Expiration,
   /// ExpirationNotification, and NoChangeNotification.
   final String? policyType;
@@ -25396,7 +25688,7 @@ class PatchComplianceData {
   /// The operating system-specific ID of the patch.
   final String kBId;
 
-  /// The severity of the patchsuch as <code>Critical</code>,
+  /// The severity of the patch such as <code>Critical</code>,
   /// <code>Important</code>, and <code>Moderate</code>.
   final String severity;
 
@@ -27213,6 +27505,7 @@ enum ResourceTypeForTagging {
   patchBaseline,
   opsItem,
   opsMetadata,
+  automation,
 }
 
 extension on ResourceTypeForTagging {
@@ -27232,6 +27525,8 @@ extension on ResourceTypeForTagging {
         return 'OpsItem';
       case ResourceTypeForTagging.opsMetadata:
         return 'OpsMetadata';
+      case ResourceTypeForTagging.automation:
+        return 'Automation';
     }
   }
 }
@@ -27253,6 +27548,8 @@ extension on String {
         return ResourceTypeForTagging.opsItem;
       case 'OpsMetadata':
         return ResourceTypeForTagging.opsMetadata;
+      case 'Automation':
+        return ResourceTypeForTagging.automation;
     }
     throw Exception('$this is not known in enum ResourceTypeForTagging');
   }
@@ -27440,6 +27737,10 @@ class Runbook {
   /// accounts targeted by the current Runbook operation.
   final List<TargetLocation>? targetLocations;
 
+  /// A key-value mapping of runbook parameters to target resources. Both Targets
+  /// and TargetMaps can't be specified together.
+  final List<Map<String, List<String>>>? targetMaps;
+
   /// The name of the parameter used as the target resource for the
   /// rate-controlled runbook workflow. Required if you specify
   /// <code>Targets</code>.
@@ -27456,6 +27757,7 @@ class Runbook {
     this.maxErrors,
     this.parameters,
     this.targetLocations,
+    this.targetMaps,
     this.targetParameterName,
     this.targets,
   });
@@ -27473,6 +27775,11 @@ class Runbook {
           ?.whereNotNull()
           .map((e) => TargetLocation.fromJson(e as Map<String, dynamic>))
           .toList(),
+      targetMaps: (json['TargetMaps'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as Map<String, dynamic>).map((k, e) => MapEntry(
+              k, (e as List).whereNotNull().map((e) => e as String).toList())))
+          .toList(),
       targetParameterName: json['TargetParameterName'] as String?,
       targets: (json['Targets'] as List?)
           ?.whereNotNull()
@@ -27488,6 +27795,7 @@ class Runbook {
     final maxErrors = this.maxErrors;
     final parameters = this.parameters;
     final targetLocations = this.targetLocations;
+    final targetMaps = this.targetMaps;
     final targetParameterName = this.targetParameterName;
     final targets = this.targets;
     return {
@@ -27497,6 +27805,7 @@ class Runbook {
       if (maxErrors != null) 'MaxErrors': maxErrors,
       if (parameters != null) 'Parameters': parameters,
       if (targetLocations != null) 'TargetLocations': targetLocations,
+      if (targetMaps != null) 'TargetMaps': targetMaps,
       if (targetParameterName != null)
         'TargetParameterName': targetParameterName,
       if (targets != null) 'Targets': targets,
@@ -28068,8 +28377,8 @@ extension on String {
 /// the request filter.
 class SeveritySummary {
   /// The total number of resources or compliance items that have a severity level
-  /// of critical. Critical severity is determined by the organization that
-  /// published the compliance items.
+  /// of <code>Critical</code>. Critical severity is determined by the
+  /// organization that published the compliance items.
   final int? criticalCount;
 
   /// The total number of resources or compliance items that have a severity level
@@ -30030,6 +30339,11 @@ class InvalidTarget extends _s.GenericAwsException {
       : super(type: type, code: 'InvalidTarget', message: message);
 }
 
+class InvalidTargetMaps extends _s.GenericAwsException {
+  InvalidTargetMaps({String? type, String? message})
+      : super(type: type, code: 'InvalidTargetMaps', message: message);
+}
+
 class InvalidTypeNameException extends _s.GenericAwsException {
   InvalidTypeNameException({String? type, String? message})
       : super(type: type, code: 'InvalidTypeNameException', message: message);
@@ -30504,6 +30818,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       InvalidSchedule(type: type, message: message),
   'InvalidTarget': (type, message) =>
       InvalidTarget(type: type, message: message),
+  'InvalidTargetMaps': (type, message) =>
+      InvalidTargetMaps(type: type, message: message),
   'InvalidTypeNameException': (type, message) =>
       InvalidTypeNameException(type: type, message: message),
   'InvalidUpdate': (type, message) =>

@@ -512,7 +512,7 @@ class Eks {
   /// Before you can launch nodes and register them into a cluster, you must
   /// create an IAM role for those nodes to use when they are launched. For more
   /// information, see <a
-  /// href="https://docs.aws.amazon.com/eks/latest/userguide/worker_node_IAM_role.html">Amazon
+  /// href="https://docs.aws.amazon.com/eks/latest/userguide/create-node-role.html">Amazon
   /// EKS node IAM role</a> in the <i> <i>Amazon EKS User Guide</i> </i>. If you
   /// specify <code>launchTemplate</code>, then don't specify <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_IamInstanceProfile.html">
@@ -520,7 +520,7 @@ class Eks {
   /// group deployment will fail. For more information about using launch
   /// templates with Amazon EKS, see <a
   /// href="https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html">Launch
-  /// template support</a> in the Amazon EKS User Guide.
+  /// template support</a> in the <i>Amazon EKS User Guide</i>.
   ///
   /// Parameter [nodegroupName] :
   /// The unique name to give your node group.
@@ -534,7 +534,7 @@ class Eks {
   /// deployment will fail. For more information about using launch templates
   /// with Amazon EKS, see <a
   /// href="https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html">Launch
-  /// template support</a> in the Amazon EKS User Guide.
+  /// template support</a> in the <i>Amazon EKS User Guide</i>.
   ///
   /// Parameter [amiType] :
   /// The AMI type for your node group. GPU instance types should use the
@@ -546,7 +546,7 @@ class Eks {
   /// <code>amiType</code>, or the node group deployment will fail. For more
   /// information about using launch templates with Amazon EKS, see <a
   /// href="https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html">Launch
-  /// template support</a> in the Amazon EKS User Guide.
+  /// template support</a> in the <i>Amazon EKS User Guide</i>.
   ///
   /// Parameter [capacityType] :
   /// The capacity type for your node group.
@@ -562,7 +562,7 @@ class Eks {
   /// will fail. For more information about using launch templates with Amazon
   /// EKS, see <a
   /// href="https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html">Launch
-  /// template support</a> in the Amazon EKS User Guide.
+  /// template support</a> in the <i>Amazon EKS User Guide</i>.
   ///
   /// Parameter [instanceTypes] :
   /// Specify the instance types for a node group. If you specify a GPU instance
@@ -605,7 +605,7 @@ class Eks {
   /// <code>releaseVersion</code>, or the node group deployment will fail. For
   /// more information about using launch templates with Amazon EKS, see <a
   /// href="https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html">Launch
-  /// template support</a> in the Amazon EKS User Guide.
+  /// template support</a> in the <i>Amazon EKS User Guide</i>.
   ///
   /// Parameter [remoteAccess] :
   /// The remote access (SSH) configuration to use with your node group. If you
@@ -613,7 +613,7 @@ class Eks {
   /// <code>remoteAccess</code>, or the node group deployment will fail. For
   /// more information about using launch templates with Amazon EKS, see <a
   /// href="https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html">Launch
-  /// template support</a> in the Amazon EKS User Guide.
+  /// template support</a> in the <i>Amazon EKS User Guide</i>.
   ///
   /// Parameter [scalingConfig] :
   /// The scaling configuration details for the Auto Scaling group that is
@@ -626,7 +626,10 @@ class Eks {
   /// with the node group, such as the Amazon EC2 instances or subnets.
   ///
   /// Parameter [taints] :
-  /// The Kubernetes taints to be applied to the nodes in the node group.
+  /// The Kubernetes taints to be applied to the nodes in the node group. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/eks/latest/userguide/node-taints-managed-node-groups.html">Node
+  /// taints on managed node groups</a>.
   ///
   /// Parameter [updateConfig] :
   /// The node group update configuration.
@@ -639,7 +642,7 @@ class Eks {
   /// <code>version</code>, or the node group deployment will fail. For more
   /// information about using launch templates with Amazon EKS, see <a
   /// href="https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html">Launch
-  /// template support</a> in the Amazon EKS User Guide.
+  /// template support</a> in the <i>Amazon EKS User Guide</i>.
   Future<CreateNodegroupResponse> createNodegroup({
     required String clusterName,
     required String nodeRole,
@@ -1082,7 +1085,7 @@ class Eks {
   }
 
   /// Returns descriptive information about an update against your Amazon EKS
-  /// cluster or associated managed node group.
+  /// cluster or associated managed node group or Amazon EKS add-on.
   ///
   /// When the status of the update is <code>Succeeded</code>, the update is
   /// complete. If an update fails, the status is <code>Failed</code>, and an
@@ -1103,10 +1106,12 @@ class Eks {
   /// The name of the add-on. The name must match one of the names returned by
   /// <a
   /// href="https://docs.aws.amazon.com/eks/latest/APIReference/API_ListAddons.html">
-  /// <code>ListAddons</code> </a>.
+  /// <code>ListAddons</code> </a>. This parameter is required if the update is
+  /// an add-on update.
   ///
   /// Parameter [nodegroupName] :
-  /// The name of the Amazon EKS node group associated with the update.
+  /// The name of the Amazon EKS node group associated with the update. This
+  /// parameter is required if the update is a node group update.
   Future<DescribeUpdateResponse> describeUpdate({
     required String name,
     required String updateId,
@@ -1926,7 +1931,9 @@ class Eks {
   ///
   /// Parameter [taints] :
   /// The Kubernetes taints to be applied to the nodes in the node group after
-  /// the update.
+  /// the update. For more information, see <a
+  /// href="https://docs.aws.amazon.com/eks/latest/userguide/node-taints-managed-node-groups.html">Node
+  /// taints on managed node groups</a>.
   ///
   /// Parameter [updateConfig] :
   /// The node group update configuration.
@@ -2027,7 +2034,7 @@ class Eks {
   /// <code>releaseVersion</code>, or the node group update will fail. For more
   /// information about using launch templates with Amazon EKS, see <a
   /// href="https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html">Launch
-  /// template support</a> in the Amazon EKS User Guide.
+  /// template support</a> in the <i>Amazon EKS User Guide</i>.
   ///
   /// Parameter [version] :
   /// The Kubernetes version to update to. If no version is specified, then the
@@ -2039,7 +2046,7 @@ class Eks {
   /// fail. For more information about using launch templates with Amazon EKS,
   /// see <a
   /// href="https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html">Launch
-  /// template support</a> in the Amazon EKS User Guide.
+  /// template support</a> in the <i>Amazon EKS User Guide</i>.
   Future<UpdateNodegroupVersionResponse> updateNodegroupVersion({
     required String clusterName,
     required String nodegroupName,
@@ -2076,6 +2083,8 @@ enum AMITypes {
   custom,
   bottlerocketArm_64,
   bottlerocketX86_64,
+  bottlerocketArm_64Nvidia,
+  bottlerocketX86_64Nvidia,
 }
 
 extension on AMITypes {
@@ -2093,6 +2102,10 @@ extension on AMITypes {
         return 'BOTTLEROCKET_ARM_64';
       case AMITypes.bottlerocketX86_64:
         return 'BOTTLEROCKET_x86_64';
+      case AMITypes.bottlerocketArm_64Nvidia:
+        return 'BOTTLEROCKET_ARM_64_NVIDIA';
+      case AMITypes.bottlerocketX86_64Nvidia:
+        return 'BOTTLEROCKET_x86_64_NVIDIA';
     }
   }
 }
@@ -2112,6 +2125,10 @@ extension on String {
         return AMITypes.bottlerocketArm_64;
       case 'BOTTLEROCKET_x86_64':
         return AMITypes.bottlerocketX86_64;
+      case 'BOTTLEROCKET_ARM_64_NVIDIA':
+        return AMITypes.bottlerocketArm_64Nvidia;
+      case 'BOTTLEROCKET_x86_64_NVIDIA':
+        return AMITypes.bottlerocketX86_64Nvidia;
     }
     throw Exception('$this is not known in enum AMITypes');
   }
@@ -3856,7 +3873,8 @@ class IdentityProviderConfig {
   /// The name of the identity provider configuration.
   final String name;
 
-  /// The type of the identity provider configuration.
+  /// The type of the identity provider configuration. The only type available is
+  /// <code>oidc</code>.
   final String type;
 
   IdentityProviderConfig({
@@ -3988,8 +4006,8 @@ class Issue {
   /// public IP address, then you need to enable the <code>auto-assign public IP
   /// address</code> setting for the subnet. See <a
   /// href="https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#subnet-public-ip">Modifying
-  /// the public IPv4 addressing attribute for your subnet</a> in the Amazon VPC
-  /// User Guide.
+  /// the public IPv4 addressing attribute for your subnet</a> in the <i>Amazon
+  /// VPC User Guide</i>.
   /// </li>
   /// <li>
   /// <b>IamInstanceProfileNotFound</b>: We couldn't find the IAM instance profile
@@ -4062,22 +4080,23 @@ class Issue {
 
 /// The Kubernetes network configuration for the cluster.
 class KubernetesNetworkConfigRequest {
-  /// Specify which IP version is used to assign Kubernetes Pod and Service IP
+  /// Specify which IP family is used to assign Kubernetes pod and service IP
   /// addresses. If you don't specify a value, <code>ipv4</code> is used by
   /// default. You can only specify an IP family when you create a cluster and
   /// can't change this value once the cluster is created. If you specify
   /// <code>ipv6</code>, the VPC and subnets that you specify for cluster creation
-  /// must have both IPv4 and IPv6 CIDR blocks assigned to them.
+  /// must have both IPv4 and IPv6 CIDR blocks assigned to them. You can't specify
+  /// <code>ipv6</code> for clusters in China Regions.
   ///
   /// You can only specify <code>ipv6</code> for 1.21 and later clusters that use
-  /// version 1.10.0 or later of the Amazon VPC CNI add-on. If you specify
-  /// <code>ipv6</code>, then ensure that your VPC meets the requirements and that
-  /// you're familiar with the considerations listed in <a
+  /// version 1.10.1 or later of the Amazon VPC CNI add-on. If you specify
+  /// <code>ipv6</code>, then ensure that your VPC meets the requirements listed
+  /// in the considerations listed in <a
   /// href="https://docs.aws.amazon.com/eks/latest/userguide/cni-ipv6.html">Assigning
-  /// IPv6 addresses to Pods and Services</a> in the Amazon EKS User Guide. If you
-  /// specify <code>ipv6</code>, Kubernetes assigns Service and Pod addresses from
-  /// the unique local address range (fc00::/7). You can't specify a custom IPv6
-  /// CIDR block.
+  /// IPv6 addresses to pods and services</a> in the Amazon EKS User Guide.
+  /// Kubernetes assigns services IPv6 addresses from the unique local address
+  /// range (fc00::/7). You can't specify a custom IPv6 CIDR block. Pod addresses
+  /// are assigned from the subnet's IPv6 CIDR.
   final IpFamily? ipFamily;
 
   /// Don't specify a value if you select <code>ipv6</code> for <b>ipFamily</b>.
@@ -4130,13 +4149,13 @@ class KubernetesNetworkConfigRequest {
 /// The Kubernetes network configuration for the cluster. The response contains
 /// a value for <b>serviceIpv6Cidr</b> or <b>serviceIpv4Cidr</b>, but not both.
 class KubernetesNetworkConfigResponse {
-  /// The IP family used to assign Kubernetes Pod and Service IP addresses. The IP
+  /// The IP family used to assign Kubernetes pod and service IP addresses. The IP
   /// family is always <code>ipv4</code>, unless you have a <code>1.21</code> or
-  /// later cluster running version 1.10.0 or later of the Amazon VPC CNI add-on
+  /// later cluster running version 1.10.1 or later of the Amazon VPC CNI add-on
   /// and specified <code>ipv6</code> when you created the cluster.
   final IpFamily? ipFamily;
 
-  /// The CIDR block that Kubernetes Pod and Service IP addresses are assigned
+  /// The CIDR block that Kubernetes pod and service IP addresses are assigned
   /// from. Kubernetes assigns addresses from an IPv4 CIDR block assigned to a
   /// subnet that the node is in. If you didn't specify a CIDR block when you
   /// created the cluster, then Kubernetes assigns addresses from either the
@@ -4144,11 +4163,13 @@ class KubernetesNetworkConfigResponse {
   /// was specified when the cluster was created and it can't be changed.
   final String? serviceIpv4Cidr;
 
-  /// The CIDR block that Kubernetes Pod and Service IP addresses are assigned
-  /// from if you created a 1.21 or later cluster with version 1.10.0 or later of
+  /// The CIDR block that Kubernetes pod and service IP addresses are assigned
+  /// from if you created a 1.21 or later cluster with version 1.10.1 or later of
   /// the Amazon VPC CNI add-on and specified <code>ipv6</code> for
-  /// <b>ipFamily</b> when you created the cluster. Kubernetes assigns addresses
-  /// from the unique local address range (fc00::/7).
+  /// <b>ipFamily</b> when you created the cluster. Kubernetes assigns service
+  /// addresses from the unique local address range (<code>fc00::/7</code>)
+  /// because you can't specify a custom IPv6 CIDR block when you create the
+  /// cluster.
   final String? serviceIpv6Cidr;
 
   KubernetesNetworkConfigResponse({
@@ -4194,7 +4215,7 @@ class KubernetesNetworkConfigResponse {
 /// <code>CreateLaunchTemplate</code> </a> in the Amazon EC2 API Reference. For
 /// more information about using launch templates with Amazon EKS, see <a
 /// href="https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html">Launch
-/// template support</a> in the Amazon EKS User Guide.
+/// template support</a> in the <i>Amazon EKS User Guide</i>.
 ///
 /// Specify either <code>name</code> or <code>id</code>, but not both.
 class LaunchTemplateSpecification {
@@ -4684,7 +4705,9 @@ class Nodegroup {
   /// are created. Effect is one of <code>No_Schedule</code>,
   /// <code>Prefer_No_Schedule</code>, or <code>No_Execute</code>. Kubernetes
   /// taints can be used together with tolerations to control how workloads are
-  /// scheduled to your nodes.
+  /// scheduled to your nodes. For more information, see <a
+  /// href="https://docs.aws.amazon.com/eks/latest/userguide/node-taints-managed-node-groups.html">Node
+  /// taints on managed node groups</a>.
   final List<Taint>? taints;
 
   /// The node group update configuration.
@@ -4872,6 +4895,7 @@ enum NodegroupIssueCode {
   accessDenied,
   internalFailure,
   clusterUnreachable,
+  ec2SubnetMissingIpv6Assignment,
 }
 
 extension on NodegroupIssueCode {
@@ -4913,6 +4937,8 @@ extension on NodegroupIssueCode {
         return 'InternalFailure';
       case NodegroupIssueCode.clusterUnreachable:
         return 'ClusterUnreachable';
+      case NodegroupIssueCode.ec2SubnetMissingIpv6Assignment:
+        return 'Ec2SubnetMissingIpv6Assignment';
     }
   }
 }
@@ -4956,6 +4982,8 @@ extension on String {
         return NodegroupIssueCode.internalFailure;
       case 'ClusterUnreachable':
         return NodegroupIssueCode.clusterUnreachable;
+      case 'Ec2SubnetMissingIpv6Assignment':
+        return NodegroupIssueCode.ec2SubnetMissingIpv6Assignment;
     }
     throw Exception('$this is not known in enum NodegroupIssueCode');
   }
@@ -5530,7 +5558,10 @@ class TagResourceResponse {
   }
 }
 
-/// A property that allows a node to repel a set of pods.
+/// A property that allows a node to repel a set of pods. For more information,
+/// see <a
+/// href="https://docs.aws.amazon.com/eks/latest/userguide/node-taints-managed-node-groups.html">Node
+/// taints on managed node groups</a>.
 class Taint {
   /// The effect of the taint.
   final TaintEffect? effect;
@@ -6027,7 +6058,10 @@ extension on String {
   }
 }
 
-/// An object representing the details of an update to a taints payload.
+/// An object representing the details of an update to a taints payload. For
+/// more information, see <a
+/// href="https://docs.aws.amazon.com/eks/latest/userguide/node-taints-managed-node-groups.html">Node
+/// taints on managed node groups</a>.
 class UpdateTaintsPayload {
   /// Kubernetes taints to be added or updated.
   final List<Taint>? addOrUpdateTaints;

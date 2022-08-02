@@ -50,10 +50,24 @@ class ApplicationInsights {
   /// May throw [TagsAlreadyExistException].
   /// May throw [AccessDeniedException].
   ///
+  /// Parameter [autoConfigEnabled] :
+  /// Indicates whether Application Insights automatically configures
+  /// unmonitored resources in the resource group.
+  ///
+  /// Parameter [autoCreate] :
+  /// Configures all of the resources in the resource group by applying the
+  /// recommended configurations.
+  ///
   /// Parameter [cWEMonitorEnabled] :
   /// Indicates whether Application Insights can listen to CloudWatch events for
   /// the application resources, such as <code>instance terminated</code>,
   /// <code>failed deployment</code>, and others.
+  ///
+  /// Parameter [groupingType] :
+  /// Application Insights can create applications based on a resource group or
+  /// on an account. To create an account-based application using all of the
+  /// resources in the account, set this parameter to
+  /// <code>ACCOUNT_BASED</code>.
   ///
   /// Parameter [opsCenterEnabled] :
   /// When set to <code>true</code>, creates opsItems for any problems detected
@@ -75,6 +89,7 @@ class ApplicationInsights {
     bool? autoConfigEnabled,
     bool? autoCreate,
     bool? cWEMonitorEnabled,
+    GroupingType? groupingType,
     bool? opsCenterEnabled,
     String? opsItemSNSTopicArn,
     String? resourceGroupName,
@@ -94,6 +109,7 @@ class ApplicationInsights {
         if (autoConfigEnabled != null) 'AutoConfigEnabled': autoConfigEnabled,
         if (autoCreate != null) 'AutoCreate': autoCreate,
         if (cWEMonitorEnabled != null) 'CWEMonitorEnabled': cWEMonitorEnabled,
+        if (groupingType != null) 'GroupingType': groupingType.toValue(),
         if (opsCenterEnabled != null) 'OpsCenterEnabled': opsCenterEnabled,
         if (opsItemSNSTopicArn != null)
           'OpsItemSNSTopicArn': opsItemSNSTopicArn,
@@ -438,10 +454,7 @@ class ApplicationInsights {
   /// The name of the resource group.
   ///
   /// Parameter [tier] :
-  /// The tier of the application component. Supported tiers include
-  /// <code>DOT_NET_CORE</code>, <code>DOT_NET_WORKER</code>,
-  /// <code>DOT_NET_WEB</code>, <code>SQL_SERVER</code>, and
-  /// <code>DEFAULT</code>.
+  /// The tier of the application component.
   Future<DescribeComponentConfigurationRecommendationResponse>
       describeComponentConfigurationRecommendation({
     required String componentName,
@@ -890,6 +903,9 @@ class ApplicationInsights {
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
   ///
+  /// Parameter [componentName] :
+  /// The name of the component.
+  ///
   /// Parameter [endTime] :
   /// The time when the problem ended, in epoch seconds. If not specified,
   /// problems within the past seven days are returned.
@@ -1076,6 +1092,9 @@ class ApplicationInsights {
   /// Parameter [resourceGroupName] :
   /// The name of the resource group.
   ///
+  /// Parameter [autoConfigEnabled] :
+  /// Turns auto-configuration on or off.
+  ///
   /// Parameter [cWEMonitorEnabled] :
   /// Indicates whether Application Insights can listen to CloudWatch events for
   /// the application resources, such as <code>instance terminated</code>,
@@ -1187,6 +1206,10 @@ class ApplicationInsights {
   /// Parameter [resourceGroupName] :
   /// The name of the resource group.
   ///
+  /// Parameter [autoConfigEnabled] :
+  /// Automatically configures the component by applying the recommended
+  /// configurations.
+  ///
   /// Parameter [componentConfiguration] :
   /// The configuration settings of the component. The value is the escaped JSON
   /// of the configuration. For more information about the JSON format, see <a
@@ -1202,10 +1225,7 @@ class ApplicationInsights {
   /// Indicates whether the application component is monitored.
   ///
   /// Parameter [tier] :
-  /// The tier of the application component. Supported tiers include
-  /// <code>DOT_NET_WORKER</code>, <code>DOT_NET_WEB</code>,
-  /// <code>DOT_NET_CORE</code>, <code>SQL_SERVER</code>, and
-  /// <code>DEFAULT</code>.
+  /// The tier of the application component.
   Future<void> updateComponentConfiguration({
     required String componentName,
     required String resourceGroupName,
@@ -1380,12 +1400,15 @@ class ApplicationComponent {
 
 /// Describes the status of the application.
 class ApplicationInfo {
+  /// Indicates whether auto-configuration is turned on for this application.
   final bool? autoConfigEnabled;
 
   /// Indicates whether Application Insights can listen to CloudWatch events for
   /// the application resources, such as <code>instance terminated</code>,
   /// <code>failed deployment</code>, and others.
   final bool? cWEMonitorEnabled;
+
+  /// The method used by Application Insights to onboard your resources.
   final DiscoveryType? discoveryType;
 
   /// The lifecycle of the application.
@@ -2055,6 +2078,29 @@ extension on String {
   }
 }
 
+enum GroupingType {
+  accountBased,
+}
+
+extension on GroupingType {
+  String toValue() {
+    switch (this) {
+      case GroupingType.accountBased:
+        return 'ACCOUNT_BASED';
+    }
+  }
+}
+
+extension on String {
+  GroupingType toGroupingType() {
+    switch (this) {
+      case 'ACCOUNT_BASED':
+        return GroupingType.accountBased;
+    }
+    throw Exception('$this is not known in enum GroupingType');
+  }
+}
+
 class ListApplicationsResponse {
   /// The list of applications.
   final List<ApplicationInfo>? applicationInfoList;
@@ -2246,6 +2292,8 @@ class ListProblemsResponse {
 
   /// The list of problems.
   final List<Problem>? problemList;
+
+  /// The name of the resource group.
   final String? resourceGroupName;
 
   ListProblemsResponse({
@@ -2797,7 +2845,12 @@ class Problem {
 
   /// A detailed analysis of the problem using machine learning.
   final String? insights;
+
+  /// The last time that the problem reoccurred after its last resolution.
   final DateTime? lastRecurrenceTime;
+
+  /// The number of times that the same problem reoccurred after the first time it
+  /// was resolved.
   final int? recurringCount;
 
   /// The name of the resource group affected by the problem.
@@ -2907,6 +2960,7 @@ class RelatedObservations {
 }
 
 enum SeverityLevel {
+  informative,
   low,
   medium,
   high,
@@ -2915,6 +2969,8 @@ enum SeverityLevel {
 extension on SeverityLevel {
   String toValue() {
     switch (this) {
+      case SeverityLevel.informative:
+        return 'Informative';
       case SeverityLevel.low:
         return 'Low';
       case SeverityLevel.medium:
@@ -2928,6 +2984,8 @@ extension on SeverityLevel {
 extension on String {
   SeverityLevel toSeverityLevel() {
     switch (this) {
+      case 'Informative':
+        return SeverityLevel.informative;
       case 'Low':
         return SeverityLevel.low;
       case 'Medium':
@@ -3067,6 +3125,8 @@ enum Tier {
   sapHanaSingleNode,
   sapHanaHighAvailability,
   sqlServerFailoverClusterInstance,
+  sharepoint,
+  activeDirectory,
 }
 
 extension on Tier {
@@ -3104,6 +3164,10 @@ extension on Tier {
         return 'SAP_HANA_HIGH_AVAILABILITY';
       case Tier.sqlServerFailoverClusterInstance:
         return 'SQL_SERVER_FAILOVER_CLUSTER_INSTANCE';
+      case Tier.sharepoint:
+        return 'SHAREPOINT';
+      case Tier.activeDirectory:
+        return 'ACTIVE_DIRECTORY';
     }
   }
 }
@@ -3143,6 +3207,10 @@ extension on String {
         return Tier.sapHanaHighAvailability;
       case 'SQL_SERVER_FAILOVER_CLUSTER_INSTANCE':
         return Tier.sqlServerFailoverClusterInstance;
+      case 'SHAREPOINT':
+        return Tier.sharepoint;
+      case 'ACTIVE_DIRECTORY':
+        return Tier.activeDirectory;
     }
     throw Exception('$this is not known in enum Tier');
   }

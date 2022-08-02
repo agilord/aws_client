@@ -223,7 +223,14 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       },
       "WarmPoolSize": {"shape": "WarmPoolSize", "flattened": false},
       "Context": {"shape": "Context", "flattened": false},
-      "DesiredCapacityType": {"shape": "XmlStringMaxLen255", "flattened": false}
+      "DesiredCapacityType": {
+        "shape": "XmlStringMaxLen255",
+        "flattened": false
+      },
+      "DefaultInstanceWarmup": {
+        "shape": "DefaultInstanceWarmup",
+        "flattened": false
+      }
     },
     "flattened": false
   },
@@ -529,7 +536,14 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "flattened": false
       },
       "Context": {"shape": "Context", "flattened": false},
-      "DesiredCapacityType": {"shape": "XmlStringMaxLen255", "flattened": false}
+      "DesiredCapacityType": {
+        "shape": "XmlStringMaxLen255",
+        "flattened": false
+      },
+      "DefaultInstanceWarmup": {
+        "shape": "DefaultInstanceWarmup",
+        "flattened": false
+      }
     },
     "flattened": false
   },
@@ -594,6 +608,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     },
     "flattened": false
   },
+  "DefaultInstanceWarmup": {"type": "integer", "flattened": false},
   "DeleteAutoScalingGroupType": {
     "type": "structure",
     "members": {
@@ -1384,6 +1399,13 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     },
     "flattened": false
   },
+  "InstanceReusePolicy": {
+    "type": "structure",
+    "members": {
+      "ReuseOnScaleIn": {"shape": "ReuseOnScaleIn", "flattened": false}
+    },
+    "flattened": false
+  },
   "Instances": {
     "type": "list",
     "member": {"shape": "Instance"},
@@ -2157,7 +2179,11 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "flattened": false
       },
       "MinSize": {"shape": "WarmPoolMinSize", "flattened": false},
-      "PoolState": {"shape": "WarmPoolState", "flattened": false}
+      "PoolState": {"shape": "WarmPoolState", "flattened": false},
+      "InstanceReusePolicy": {
+        "shape": "InstanceReusePolicy",
+        "flattened": false
+      }
     },
     "flattened": false
   },
@@ -2200,6 +2226,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   "RefreshStrategy": {"type": "string", "flattened": false},
   "ResourceName": {"type": "string", "flattened": false},
   "ReturnData": {"type": "boolean", "flattened": false},
+  "ReuseOnScaleIn": {"type": "boolean", "flattened": false},
   "ScalingActivityStatusCode": {"type": "string", "flattened": false},
   "ScalingPolicies": {
     "type": "list",
@@ -2577,7 +2604,14 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "flattened": false
       },
       "Context": {"shape": "Context", "flattened": false},
-      "DesiredCapacityType": {"shape": "XmlStringMaxLen255", "flattened": false}
+      "DesiredCapacityType": {
+        "shape": "XmlStringMaxLen255",
+        "flattened": false
+      },
+      "DefaultInstanceWarmup": {
+        "shape": "DefaultInstanceWarmup",
+        "flattened": false
+      }
     },
     "flattened": false
   },
@@ -2603,7 +2637,11 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       },
       "MinSize": {"shape": "WarmPoolMinSize", "flattened": false},
       "PoolState": {"shape": "WarmPoolState", "flattened": false},
-      "Status": {"shape": "WarmPoolStatus", "flattened": false}
+      "Status": {"shape": "WarmPoolStatus", "flattened": false},
+      "InstanceReusePolicy": {
+        "shape": "InstanceReusePolicy",
+        "flattened": false
+      }
     },
     "flattened": false
   },

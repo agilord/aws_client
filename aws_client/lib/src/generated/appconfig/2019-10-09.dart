@@ -29,9 +29,10 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// production systems where a simple typo could cause an unexpected outage,
 /// AppConfig includes validators. A validator provides a syntactic or semantic
 /// check to ensure that the configuration you want to deploy works as intended.
-/// To validate your application configuration data, you provide a schema or a
-/// Lambda function that runs against the configuration. The configuration
-/// deployment or update can only proceed when the configuration data is valid.
+/// To validate your application configuration data, you provide a schema or an
+/// Amazon Web Services Lambda function that runs against the configuration. The
+/// configuration deployment or update can only proceed when the configuration
+/// data is valid.
 ///
 /// During a configuration deployment, AppConfig monitors the application to
 /// ensure that the deployment is successful. If the system encounters an error,
@@ -46,12 +47,12 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 ///
 /// <ul>
 /// <li>
-/// <b>Application tuning</b>: Use AppConfig to carefully introduce changes to
-/// your application that can only be tested with production traffic.
+/// <b>Feature flags</b>: Use AppConfig to turn on new features that require a
+/// timely deployment, such as a product launch or announcement.
 /// </li>
 /// <li>
-/// <b>Feature toggle</b>: Use AppConfig to turn on new features that require a
-/// timely deployment, such as a product launch or announcement.
+/// <b>Application tuning</b>: Use AppConfig to carefully introduce changes to
+/// your application that can only be tested with production traffic.
 /// </li>
 /// <li>
 /// <b>Allow list</b>: Use AppConfig to allow premium subscribers to access paid
@@ -83,11 +84,11 @@ class AppConfig {
           endpointUrl: endpointUrl,
         );
 
-  /// Creates an application. An application in AppConfig is a logical unit of
-  /// code that provides capabilities for your customers. For example, an
-  /// application can be a microservice that runs on Amazon EC2 instances, a
-  /// mobile application installed by your users, a serverless application using
-  /// Amazon API Gateway and Lambda, or any system you run on behalf of others.
+  /// Creates an application. In AppConfig, an application is simply an
+  /// organizational construct like a folder. This organizational construct has
+  /// a relationship with some unit of executable code. For example, you could
+  /// create an application called MyMobileApp to organize and manage
+  /// configuration data for a mobile application installed by your users.
   ///
   /// May throw [BadRequestException].
   /// May throw [InternalServerException].
@@ -141,7 +142,7 @@ class AppConfig {
   /// </li>
   /// <li>
   /// A validator for the configuration data. Available validators include
-  /// either a JSON Schema or an Lambda function.
+  /// either a JSON Schema or an Amazon Web Services Lambda function.
   /// </li>
   /// </ul>
   /// For more information, see <a
@@ -190,10 +191,16 @@ class AppConfig {
   /// optional value, both of which you define.
   ///
   /// Parameter [type] :
-  /// The type of configurations that the configuration profile contains. A
-  /// configuration can be a feature flag used for enabling or disabling new
-  /// features or a free-form configuration used for distributing configurations
-  /// to your application.
+  /// The type of configurations contained in the profile. AppConfig supports
+  /// <code>feature flags</code> and <code>freeform</code> configurations. We
+  /// recommend you create feature flag configurations to enable or disable new
+  /// features and freeform configurations to distribute configurations to an
+  /// application. When calling this API, enter one of the following values for
+  /// <code>Type</code>:
+  ///
+  /// <code>AWS.AppConfig.FeatureFlags</code>
+  ///
+  /// <code>AWS.Freeform</code>
   ///
   /// Parameter [validators] :
   /// A list of methods for validating the configuration.
@@ -248,15 +255,19 @@ class AppConfig {
   /// Parameter [name] :
   /// A name for the deployment strategy.
   ///
-  /// Parameter [replicateTo] :
-  /// Save the deployment strategy to a Systems Manager (SSM) document.
-  ///
   /// Parameter [description] :
   /// A description of the deployment strategy.
   ///
   /// Parameter [finalBakeTimeInMinutes] :
-  /// The amount of time AppConfig monitors for alarms before considering the
-  /// deployment to be complete and no longer eligible for automatic roll back.
+  /// Specifies the amount of time AppConfig monitors for Amazon CloudWatch
+  /// alarms after the configuration has been deployed to 100% of its targets,
+  /// before considering the deployment to be complete. If an alarm is triggered
+  /// during this time, AppConfig rolls back the deployment. You must configure
+  /// permissions for AppConfig to roll back based on CloudWatch alarms. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/appconfig/latest/userguide/getting-started-with-appconfig-cloudwatch-alarms-permissions.html">Configuring
+  /// permissions for rollback based on Amazon CloudWatch alarms</a> in the
+  /// <i>AppConfig User Guide</i>.
   ///
   /// Parameter [growthType] :
   /// The algorithm used to define how percentage grows over time. AppConfig
@@ -287,6 +298,9 @@ class AppConfig {
   /// targets, 4% of the targets, 8% of the targets, and continues until the
   /// configuration has been deployed to all targets.
   ///
+  /// Parameter [replicateTo] :
+  /// Save the deployment strategy to a Systems Manager (SSM) document.
+  ///
   /// Parameter [tags] :
   /// Metadata to assign to the deployment strategy. Tags help organize and
   /// categorize your AppConfig resources. Each tag consists of a key and an
@@ -295,10 +309,10 @@ class AppConfig {
     required int deploymentDurationInMinutes,
     required double growthFactor,
     required String name,
-    required ReplicateTo replicateTo,
     String? description,
     int? finalBakeTimeInMinutes,
     GrowthType? growthType,
+    ReplicateTo? replicateTo,
     Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(
@@ -319,7 +333,6 @@ class AppConfig {
       isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
-    ArgumentError.checkNotNull(replicateTo, 'replicateTo');
     _s.validateNumRange(
       'finalBakeTimeInMinutes',
       finalBakeTimeInMinutes,
@@ -330,11 +343,11 @@ class AppConfig {
       'DeploymentDurationInMinutes': deploymentDurationInMinutes,
       'GrowthFactor': growthFactor,
       'Name': name,
-      'ReplicateTo': replicateTo.toValue(),
       if (description != null) 'Description': description,
       if (finalBakeTimeInMinutes != null)
         'FinalBakeTimeInMinutes': finalBakeTimeInMinutes,
       if (growthType != null) 'GrowthType': growthType.toValue(),
+      if (replicateTo != null) 'ReplicateTo': replicateTo.toValue(),
       if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
@@ -347,14 +360,14 @@ class AppConfig {
   }
 
   /// Creates an environment. For each application, you define one or more
-  /// environments. An environment is a logical deployment group of AppConfig
-  /// targets, such as applications in a <code>Beta</code> or
-  /// <code>Production</code> environment. You can also define environments for
-  /// application subcomponents such as the <code>Web</code>,
-  /// <code>Mobile</code> and <code>Back-end</code> components for your
-  /// application. You can configure Amazon CloudWatch alarms for each
-  /// environment. The system monitors alarms during a configuration deployment.
-  /// If an alarm is triggered, the system rolls back the configuration.
+  /// environments. An environment is a deployment group of AppConfig targets,
+  /// such as applications in a <code>Beta</code> or <code>Production</code>
+  /// environment. You can also define environments for application
+  /// subcomponents such as the <code>Web</code>, <code>Mobile</code> and
+  /// <code>Back-end</code> components for your application. You can configure
+  /// Amazon CloudWatch alarms for each environment. The system monitors alarms
+  /// during a configuration deployment. If an alarm is triggered, the system
+  /// rolls back the configuration.
   ///
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
@@ -399,6 +412,144 @@ class AppConfig {
       exceptionFnMap: _exceptionFns,
     );
     return Environment.fromJson(response);
+  }
+
+  /// Creates an AppConfig extension. An extension augments your ability to
+  /// inject logic or behavior at different points during the AppConfig workflow
+  /// of creating or deploying a configuration.
+  ///
+  /// You can create your own extensions or use the Amazon Web Services-authored
+  /// extensions provided by AppConfig. For most use-cases, to create your own
+  /// extension, you must create an Lambda function to perform any computation
+  /// and processing defined in the extension. For more information about
+  /// extensions, see <a
+  /// href="https://docs.aws.amazon.com/appconfig/latest/userguide/working-with-appconfig-extensions.html">Working
+  /// with AppConfig extensions</a> in the <i>AppConfig User Guide</i>.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ConflictException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [actions] :
+  /// The actions defined in the extension.
+  ///
+  /// Parameter [name] :
+  /// A name for the extension. Each extension name in your account must be
+  /// unique. Extension versions use the same name.
+  ///
+  /// Parameter [description] :
+  /// Information about the extension.
+  ///
+  /// Parameter [latestVersionNumber] :
+  /// You can omit this field when you create an extension. When you create a
+  /// new version, specify the most recent current version number. For example,
+  /// you create version 3, enter 2 for this field.
+  ///
+  /// Parameter [parameters] :
+  /// The parameters accepted by the extension. You specify parameter values
+  /// when you associate the extension to an AppConfig resource by using the
+  /// <code>CreateExtensionAssociation</code> API action. For Lambda extension
+  /// actions, these parameters are included in the Lambda request object.
+  ///
+  /// Parameter [tags] :
+  /// Adds one or more tags for the specified extension. Tags are metadata that
+  /// help you categorize resources in different ways, for example, by purpose,
+  /// owner, or environment. Each tag consists of a key and an optional value,
+  /// both of which you define.
+  Future<Extension> createExtension({
+    required Map<ActionPoint, List<Action>> actions,
+    required String name,
+    String? description,
+    int? latestVersionNumber,
+    Map<String, Parameter>? parameters,
+    Map<String, String>? tags,
+  }) async {
+    ArgumentError.checkNotNull(actions, 'actions');
+    ArgumentError.checkNotNull(name, 'name');
+    final headers = <String, String>{
+      if (latestVersionNumber != null)
+        'Latest-Version-Number': latestVersionNumber.toString(),
+    };
+    final $payload = <String, dynamic>{
+      'Actions': actions.map((k, e) => MapEntry(k.toValue(), e)),
+      'Name': name,
+      if (description != null) 'Description': description,
+      if (parameters != null) 'Parameters': parameters,
+      if (tags != null) 'Tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/extensions',
+      headers: headers,
+      exceptionFnMap: _exceptionFns,
+    );
+    return Extension.fromJson(response);
+  }
+
+  /// When you create an extension or configure an Amazon Web Services-authored
+  /// extension, you associate the extension with an AppConfig application,
+  /// environment, or configuration profile. For example, you can choose to run
+  /// the <code>AppConfig deployment events to Amazon SNS</code> Amazon Web
+  /// Services-authored extension and receive notifications on an Amazon SNS
+  /// topic anytime a configuration deployment is started for a specific
+  /// application. Defining which extension to associate with an AppConfig
+  /// resource is called an <i>extension association</i>. An extension
+  /// association is a specified relationship between an extension and an
+  /// AppConfig resource, such as an application or a configuration profile. For
+  /// more information about extensions and associations, see <a
+  /// href="https://docs.aws.amazon.com/appconfig/latest/userguide/working-with-appconfig-extensions.html">Working
+  /// with AppConfig extensions</a> in the <i>AppConfig User Guide</i>.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [ServiceQuotaExceededException].
+  ///
+  /// Parameter [extensionIdentifier] :
+  /// The name, the ID, or the Amazon Resource Name (ARN) of the extension.
+  ///
+  /// Parameter [resourceIdentifier] :
+  /// The ARN of an application, configuration profile, or environment.
+  ///
+  /// Parameter [extensionVersionNumber] :
+  /// The version number of the extension. If not specified, AppConfig uses the
+  /// maximum version of the extension.
+  ///
+  /// Parameter [parameters] :
+  /// The parameter names and values defined in the extensions. Extension
+  /// parameters marked <code>Required</code> must be entered for this field.
+  ///
+  /// Parameter [tags] :
+  /// Adds one or more tags for the specified extension association. Tags are
+  /// metadata that help you categorize resources in different ways, for
+  /// example, by purpose, owner, or environment. Each tag consists of a key and
+  /// an optional value, both of which you define.
+  Future<ExtensionAssociation> createExtensionAssociation({
+    required String extensionIdentifier,
+    required String resourceIdentifier,
+    int? extensionVersionNumber,
+    Map<String, String>? parameters,
+    Map<String, String>? tags,
+  }) async {
+    ArgumentError.checkNotNull(extensionIdentifier, 'extensionIdentifier');
+    ArgumentError.checkNotNull(resourceIdentifier, 'resourceIdentifier');
+    final $payload = <String, dynamic>{
+      'ExtensionIdentifier': extensionIdentifier,
+      'ResourceIdentifier': resourceIdentifier,
+      if (extensionVersionNumber != null)
+        'ExtensionVersionNumber': extensionVersionNumber,
+      if (parameters != null) 'Parameters': parameters,
+      if (tags != null) 'Tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/extensionassociations',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ExtensionAssociation.fromJson(response);
   }
 
   /// Creates a new configuration in the AppConfig hosted configuration store.
@@ -575,6 +726,60 @@ class AppConfig {
     );
   }
 
+  /// Deletes an AppConfig extension. You must delete all associations to an
+  /// extension before you delete the extension.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [BadRequestException].
+  ///
+  /// Parameter [extensionIdentifier] :
+  /// The name, ID, or Amazon Resource Name (ARN) of the extension you want to
+  /// delete.
+  ///
+  /// Parameter [versionNumber] :
+  /// A specific version of an extension to delete. If omitted, the highest
+  /// version is deleted.
+  Future<void> deleteExtension({
+    required String extensionIdentifier,
+    int? versionNumber,
+  }) async {
+    ArgumentError.checkNotNull(extensionIdentifier, 'extensionIdentifier');
+    final $query = <String, List<String>>{
+      if (versionNumber != null) 'version': [versionNumber.toString()],
+    };
+    await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/extensions/${Uri.encodeComponent(extensionIdentifier)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Deletes an extension association. This action doesn't delete extensions
+  /// defined in the association.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [extensionAssociationId] :
+  /// The ID of the extension association to delete.
+  Future<void> deleteExtensionAssociation({
+    required String extensionAssociationId,
+  }) async {
+    ArgumentError.checkNotNull(
+        extensionAssociationId, 'extensionAssociationId');
+    await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/extensionassociations/${Uri.encodeComponent(extensionAssociationId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Deletes a version of a configuration from the AppConfig hosted
   /// configuration store.
   ///
@@ -629,8 +834,24 @@ class AppConfig {
     return Application.fromJson(response);
   }
 
-  /// Retrieves information about a configuration.
+  /// Retrieves the latest deployed configuration.
   /// <important>
+  /// Note the following important information.
+  ///
+  /// <ul>
+  /// <li>
+  /// This API action has been deprecated. Calls to receive configuration data
+  /// should use the <a
+  /// href="https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_StartConfigurationSession.html">StartConfigurationSession</a>
+  /// and <a
+  /// href="https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_GetLatestConfiguration.html">GetLatestConfiguration</a>
+  /// APIs instead.
+  /// </li>
+  /// <li>
+  /// <code>GetConfiguration</code> is a priced call. For more information, see
+  /// <a href="https://aws.amazon.com/systems-manager/pricing/">Pricing</a>.
+  /// </li>
+  /// <li>
   /// AppConfig uses the value of the <code>ClientConfigurationVersion</code>
   /// parameter to identify the configuration version on your clients. If you
   /// don’t send <code>ClientConfigurationVersion</code> with each call to
@@ -638,12 +859,20 @@ class AppConfig {
   /// configuration. You are charged each time your clients receive a
   /// configuration.
   ///
-  /// To avoid excess charges, we recommend that you include the
-  /// <code>ClientConfigurationVersion</code> value with every call to
-  /// <code>GetConfiguration</code>. This value must be saved on your client.
-  /// Subsequent calls to <code>GetConfiguration</code> must pass this value by
-  /// using the <code>ClientConfigurationVersion</code> parameter.
-  /// </important>
+  /// To avoid excess charges, we recommend you use the <a
+  /// href="https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/StartConfigurationSession.html">StartConfigurationSession</a>
+  /// and <a
+  /// href="https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/GetLatestConfiguration.html">GetLatestConfiguration</a>
+  /// APIs, which track the client configuration version on your behalf. If you
+  /// choose to continue using <code>GetConfiguration</code>, we recommend that
+  /// you include the <code>ClientConfigurationVersion</code> value with every
+  /// call to <code>GetConfiguration</code>. The value to use for
+  /// <code>ClientConfigurationVersion</code> comes from the
+  /// <code>ConfigurationVersion</code> attribute returned by
+  /// <code>GetConfiguration</code> when there is new or updated data, and
+  /// should be saved for subsequent calls to <code>GetConfiguration</code>.
+  /// </li>
+  /// </ul> </important>
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
@@ -687,6 +916,7 @@ class AppConfig {
   /// For more information about working with configurations, see <a
   /// href="http://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-retrieving-the-configuration.html">Retrieving
   /// the Configuration</a> in the <i>AppConfig User Guide</i>.
+  @Deprecated('Deprecated')
   Future<Configuration> getConfiguration({
     required String application,
     required String clientId,
@@ -807,8 +1037,8 @@ class AppConfig {
     return DeploymentStrategy.fromJson(response);
   }
 
-  /// Retrieves information about an environment. An environment is a logical
-  /// deployment group of AppConfig applications, such as applications in a
+  /// Retrieves information about an environment. An environment is a deployment
+  /// group of AppConfig applications, such as applications in a
   /// <code>Production</code> environment or in an <code>EU_Region</code>
   /// environment. Each configuration deployment targets an environment. You can
   /// enable one or more Amazon CloudWatch alarms for an environment. If an
@@ -838,6 +1068,62 @@ class AppConfig {
       exceptionFnMap: _exceptionFns,
     );
     return Environment.fromJson(response);
+  }
+
+  /// Returns information about an AppConfig extension.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [BadRequestException].
+  ///
+  /// Parameter [extensionIdentifier] :
+  /// The name, the ID, or the Amazon Resource Name (ARN) of the extension.
+  ///
+  /// Parameter [versionNumber] :
+  /// The extension version number. If no version number was defined, AppConfig
+  /// uses the highest version.
+  Future<Extension> getExtension({
+    required String extensionIdentifier,
+    int? versionNumber,
+  }) async {
+    ArgumentError.checkNotNull(extensionIdentifier, 'extensionIdentifier');
+    final $query = <String, List<String>>{
+      if (versionNumber != null) 'version_number': [versionNumber.toString()],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/extensions/${Uri.encodeComponent(extensionIdentifier)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return Extension.fromJson(response);
+  }
+
+  /// Returns information about an AppConfig extension association. For more
+  /// information about extensions and associations, see <a
+  /// href="https://docs.aws.amazon.com/appconfig/latest/userguide/working-with-appconfig-extensions.html">Working
+  /// with AppConfig extensions</a> in the <i>AppConfig User Guide</i>.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [extensionAssociationId] :
+  /// The extension association ID to get.
+  Future<ExtensionAssociation> getExtensionAssociation({
+    required String extensionAssociationId,
+  }) async {
+    ArgumentError.checkNotNull(
+        extensionAssociationId, 'extensionAssociationId');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/extensionassociations/${Uri.encodeComponent(extensionAssociationId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ExtensionAssociation.fromJson(response);
   }
 
   /// Retrieves information about a specific configuration version.
@@ -943,7 +1229,7 @@ class AppConfig {
   ///
   /// Parameter [type] :
   /// A filter based on the type of configurations that the configuration
-  /// profile contains. A configuration can be a feature flag or a free-form
+  /// profile contains. A configuration can be a feature flag or a freeform
   /// configuration.
   Future<ConfigurationProfiles> listConfigurationProfiles({
     required String applicationId,
@@ -1010,7 +1296,8 @@ class AppConfig {
     return DeploymentStrategies.fromJson(response);
   }
 
-  /// Lists the deployments for an environment.
+  /// Lists the deployments for an environment in descending deployment number
+  /// order.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
@@ -1023,12 +1310,15 @@ class AppConfig {
   /// The environment ID.
   ///
   /// Parameter [maxResults] :
-  /// The maximum number of items to return for this call. The call also returns
-  /// a token that you can specify in a subsequent call to get the next set of
-  /// results.
+  /// The maximum number of items that may be returned for this call. If there
+  /// are items that have not yet been returned, the response will include a
+  /// non-null <code>NextToken</code> that you can provide in a subsequent call
+  /// to get the next set of results.
   ///
   /// Parameter [nextToken] :
-  /// A token to start the list. Use this token to get the next set of results.
+  /// The token returned by a prior call to this operation indicating the next
+  /// set of results to be returned. If not specified, the operation will return
+  /// the first set of results.
   Future<Deployments> listDeployments({
     required String applicationId,
     required String environmentId,
@@ -1099,6 +1389,108 @@ class AppConfig {
       exceptionFnMap: _exceptionFns,
     );
     return Environments.fromJson(response);
+  }
+
+  /// Lists all AppConfig extension associations in the account. For more
+  /// information about extensions and associations, see <a
+  /// href="https://docs.aws.amazon.com/appconfig/latest/userguide/working-with-appconfig-extensions.html">Working
+  /// with AppConfig extensions</a> in the <i>AppConfig User Guide</i>.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [BadRequestException].
+  ///
+  /// Parameter [extensionIdentifier] :
+  /// The name, the ID, or the Amazon Resource Name (ARN) of the extension.
+  ///
+  /// Parameter [extensionVersionNumber] :
+  /// The version number for the extension defined in the association.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of items to return for this call. The call also returns
+  /// a token that you can specify in a subsequent call to get the next set of
+  /// results.
+  ///
+  /// Parameter [nextToken] :
+  /// A token to start the list. Use this token to get the next set of results
+  /// or pass null to get the first set of results.
+  ///
+  /// Parameter [resourceIdentifier] :
+  /// The ARN of an application, configuration profile, or environment.
+  Future<ExtensionAssociations> listExtensionAssociations({
+    String? extensionIdentifier,
+    int? extensionVersionNumber,
+    int? maxResults,
+    String? nextToken,
+    String? resourceIdentifier,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    final $query = <String, List<String>>{
+      if (extensionIdentifier != null)
+        'extension_identifier': [extensionIdentifier],
+      if (extensionVersionNumber != null)
+        'extension_version_number': [extensionVersionNumber.toString()],
+      if (maxResults != null) 'max_results': [maxResults.toString()],
+      if (nextToken != null) 'next_token': [nextToken],
+      if (resourceIdentifier != null)
+        'resource_identifier': [resourceIdentifier],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/extensionassociations',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ExtensionAssociations.fromJson(response);
+  }
+
+  /// Lists all custom and Amazon Web Services-authored AppConfig extensions in
+  /// the account. For more information about extensions, see <a
+  /// href="https://docs.aws.amazon.com/appconfig/latest/userguide/working-with-appconfig-extensions.html">Working
+  /// with AppConfig extensions</a> in the <i>AppConfig User Guide</i>.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [BadRequestException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of items to return for this call. The call also returns
+  /// a token that you can specify in a subsequent call to get the next set of
+  /// results.
+  ///
+  /// Parameter [name] :
+  /// The extension name.
+  ///
+  /// Parameter [nextToken] :
+  /// A token to start the list. Use this token to get the next set of results.
+  Future<Extensions> listExtensions({
+    int? maxResults,
+    String? name,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'max_results': [maxResults.toString()],
+      if (name != null) 'name': [name],
+      if (nextToken != null) 'next_token': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/extensions',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return Extensions.fromJson(response);
   }
 
   /// Lists configurations stored in the AppConfig hosted configuration store by
@@ -1555,6 +1947,87 @@ class AppConfig {
     return Environment.fromJson(response);
   }
 
+  /// Updates an AppConfig extension. For more information about extensions, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/appconfig/latest/userguide/working-with-appconfig-extensions.html">Working
+  /// with AppConfig extensions</a> in the <i>AppConfig User Guide</i>.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [extensionIdentifier] :
+  /// The name, the ID, or the Amazon Resource Name (ARN) of the extension.
+  ///
+  /// Parameter [actions] :
+  /// The actions defined in the extension.
+  ///
+  /// Parameter [description] :
+  /// Information about the extension.
+  ///
+  /// Parameter [parameters] :
+  /// One or more parameters for the actions called by the extension.
+  ///
+  /// Parameter [versionNumber] :
+  /// The extension version number.
+  Future<Extension> updateExtension({
+    required String extensionIdentifier,
+    Map<ActionPoint, List<Action>>? actions,
+    String? description,
+    Map<String, Parameter>? parameters,
+    int? versionNumber,
+  }) async {
+    ArgumentError.checkNotNull(extensionIdentifier, 'extensionIdentifier');
+    final $payload = <String, dynamic>{
+      if (actions != null)
+        'Actions': actions.map((k, e) => MapEntry(k.toValue(), e)),
+      if (description != null) 'Description': description,
+      if (parameters != null) 'Parameters': parameters,
+      if (versionNumber != null) 'VersionNumber': versionNumber,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PATCH',
+      requestUri: '/extensions/${Uri.encodeComponent(extensionIdentifier)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return Extension.fromJson(response);
+  }
+
+  /// Updates an association. For more information about extensions and
+  /// associations, see <a
+  /// href="https://docs.aws.amazon.com/appconfig/latest/userguide/working-with-appconfig-extensions.html">Working
+  /// with AppConfig extensions</a> in the <i>AppConfig User Guide</i>.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [extensionAssociationId] :
+  /// The system-generated ID for the association.
+  ///
+  /// Parameter [parameters] :
+  /// The parameter names and values defined in the extension.
+  Future<ExtensionAssociation> updateExtensionAssociation({
+    required String extensionAssociationId,
+    Map<String, String>? parameters,
+  }) async {
+    ArgumentError.checkNotNull(
+        extensionAssociationId, 'extensionAssociationId');
+    final $payload = <String, dynamic>{
+      if (parameters != null) 'Parameters': parameters,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PATCH',
+      requestUri:
+          '/extensionassociations/${Uri.encodeComponent(extensionAssociationId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ExtensionAssociation.fromJson(response);
+  }
+
   /// Uses the validators in a configuration profile to validate a
   /// configuration.
   ///
@@ -1590,6 +2063,210 @@ class AppConfig {
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
+  }
+}
+
+/// An action defines the tasks the extension performs during the AppConfig
+/// workflow. Each action includes an action point such as
+/// <code>ON_CREATE_HOSTED_CONFIGURATION</code>, <code>PRE_DEPLOYMENT</code>, or
+/// <code>ON_DEPLOYMENT</code>. Each action also includes a name, a URI to an
+/// Lambda function, and an Amazon Resource Name (ARN) for an Identity and
+/// Access Management assume role. You specify the name, URI, and ARN for each
+/// <i>action point</i> defined in the extension. You can specify the following
+/// actions for an extension:
+///
+/// <ul>
+/// <li>
+/// <code>PRE_CREATE_HOSTED_CONFIGURATION_VERSION</code>
+/// </li>
+/// <li>
+/// <code>PRE_START_DEPLOYMENT</code>
+/// </li>
+/// <li>
+/// <code>ON_DEPLOYMENT_START</code>
+/// </li>
+/// <li>
+/// <code>ON_DEPLOYMENT_STEP</code>
+/// </li>
+/// <li>
+/// <code>ON_DEPLOYMENT_BAKING</code>
+/// </li>
+/// <li>
+/// <code>ON_DEPLOYMENT_COMPLETE</code>
+/// </li>
+/// <li>
+/// <code>ON_DEPLOYMENT_ROLLED_BACK</code>
+/// </li>
+/// </ul>
+class Action {
+  /// Information about the action.
+  final String? description;
+
+  /// The action name.
+  final String? name;
+
+  /// An Amazon Resource Name (ARN) for an Identity and Access Management assume
+  /// role.
+  final String? roleArn;
+
+  /// The extension URI associated to the action point in the extension
+  /// definition. The URI can be an Amazon Resource Name (ARN) for one of the
+  /// following: an Lambda function, an Amazon Simple Queue Service queue, an
+  /// Amazon Simple Notification Service topic, or the Amazon EventBridge default
+  /// event bus.
+  final String? uri;
+
+  Action({
+    this.description,
+    this.name,
+    this.roleArn,
+    this.uri,
+  });
+
+  factory Action.fromJson(Map<String, dynamic> json) {
+    return Action(
+      description: json['Description'] as String?,
+      name: json['Name'] as String?,
+      roleArn: json['RoleArn'] as String?,
+      uri: json['Uri'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final name = this.name;
+    final roleArn = this.roleArn;
+    final uri = this.uri;
+    return {
+      if (description != null) 'Description': description,
+      if (name != null) 'Name': name,
+      if (roleArn != null) 'RoleArn': roleArn,
+      if (uri != null) 'Uri': uri,
+    };
+  }
+}
+
+/// An extension that was invoked as part of a deployment event.
+class ActionInvocation {
+  /// The name of the action.
+  final String? actionName;
+
+  /// The error code when an extension invocation fails.
+  final String? errorCode;
+
+  /// The error message when an extension invocation fails.
+  final String? errorMessage;
+
+  /// The name, the ID, or the Amazon Resource Name (ARN) of the extension.
+  final String? extensionIdentifier;
+
+  /// A system-generated ID for this invocation.
+  final String? invocationId;
+
+  /// An Amazon Resource Name (ARN) for an Identity and Access Management assume
+  /// role.
+  final String? roleArn;
+
+  /// The extension URI associated to the action point in the extension
+  /// definition. The URI can be an Amazon Resource Name (ARN) for one of the
+  /// following: an Lambda function, an Amazon Simple Queue Service queue, an
+  /// Amazon Simple Notification Service topic, or the Amazon EventBridge default
+  /// event bus.
+  final String? uri;
+
+  ActionInvocation({
+    this.actionName,
+    this.errorCode,
+    this.errorMessage,
+    this.extensionIdentifier,
+    this.invocationId,
+    this.roleArn,
+    this.uri,
+  });
+
+  factory ActionInvocation.fromJson(Map<String, dynamic> json) {
+    return ActionInvocation(
+      actionName: json['ActionName'] as String?,
+      errorCode: json['ErrorCode'] as String?,
+      errorMessage: json['ErrorMessage'] as String?,
+      extensionIdentifier: json['ExtensionIdentifier'] as String?,
+      invocationId: json['InvocationId'] as String?,
+      roleArn: json['RoleArn'] as String?,
+      uri: json['Uri'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actionName = this.actionName;
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    final extensionIdentifier = this.extensionIdentifier;
+    final invocationId = this.invocationId;
+    final roleArn = this.roleArn;
+    final uri = this.uri;
+    return {
+      if (actionName != null) 'ActionName': actionName,
+      if (errorCode != null) 'ErrorCode': errorCode,
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
+      if (extensionIdentifier != null)
+        'ExtensionIdentifier': extensionIdentifier,
+      if (invocationId != null) 'InvocationId': invocationId,
+      if (roleArn != null) 'RoleArn': roleArn,
+      if (uri != null) 'Uri': uri,
+    };
+  }
+}
+
+enum ActionPoint {
+  preCreateHostedConfigurationVersion,
+  preStartDeployment,
+  onDeploymentStart,
+  onDeploymentStep,
+  onDeploymentBaking,
+  onDeploymentComplete,
+  onDeploymentRolledBack,
+}
+
+extension on ActionPoint {
+  String toValue() {
+    switch (this) {
+      case ActionPoint.preCreateHostedConfigurationVersion:
+        return 'PRE_CREATE_HOSTED_CONFIGURATION_VERSION';
+      case ActionPoint.preStartDeployment:
+        return 'PRE_START_DEPLOYMENT';
+      case ActionPoint.onDeploymentStart:
+        return 'ON_DEPLOYMENT_START';
+      case ActionPoint.onDeploymentStep:
+        return 'ON_DEPLOYMENT_STEP';
+      case ActionPoint.onDeploymentBaking:
+        return 'ON_DEPLOYMENT_BAKING';
+      case ActionPoint.onDeploymentComplete:
+        return 'ON_DEPLOYMENT_COMPLETE';
+      case ActionPoint.onDeploymentRolledBack:
+        return 'ON_DEPLOYMENT_ROLLED_BACK';
+    }
+  }
+}
+
+extension on String {
+  ActionPoint toActionPoint() {
+    switch (this) {
+      case 'PRE_CREATE_HOSTED_CONFIGURATION_VERSION':
+        return ActionPoint.preCreateHostedConfigurationVersion;
+      case 'PRE_START_DEPLOYMENT':
+        return ActionPoint.preStartDeployment;
+      case 'ON_DEPLOYMENT_START':
+        return ActionPoint.onDeploymentStart;
+      case 'ON_DEPLOYMENT_STEP':
+        return ActionPoint.onDeploymentStep;
+      case 'ON_DEPLOYMENT_BAKING':
+        return ActionPoint.onDeploymentBaking;
+      case 'ON_DEPLOYMENT_COMPLETE':
+        return ActionPoint.onDeploymentComplete;
+      case 'ON_DEPLOYMENT_ROLLED_BACK':
+        return ActionPoint.onDeploymentRolledBack;
+    }
+    throw Exception('$this is not known in enum ActionPoint');
   }
 }
 
@@ -1662,18 +2339,63 @@ class Applications {
   }
 }
 
+/// An extension that was invoked during a deployment.
+class AppliedExtension {
+  /// The system-generated ID for the association.
+  final String? extensionAssociationId;
+
+  /// The system-generated ID of the extension.
+  final String? extensionId;
+
+  /// One or more parameters for the actions called by the extension.
+  final Map<String, String>? parameters;
+
+  /// The extension version number.
+  final int? versionNumber;
+
+  AppliedExtension({
+    this.extensionAssociationId,
+    this.extensionId,
+    this.parameters,
+    this.versionNumber,
+  });
+
+  factory AppliedExtension.fromJson(Map<String, dynamic> json) {
+    return AppliedExtension(
+      extensionAssociationId: json['ExtensionAssociationId'] as String?,
+      extensionId: json['ExtensionId'] as String?,
+      parameters: (json['Parameters'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      versionNumber: json['VersionNumber'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final extensionAssociationId = this.extensionAssociationId;
+    final extensionId = this.extensionId;
+    final parameters = this.parameters;
+    final versionNumber = this.versionNumber;
+    return {
+      if (extensionAssociationId != null)
+        'ExtensionAssociationId': extensionAssociationId,
+      if (extensionId != null) 'ExtensionId': extensionId,
+      if (parameters != null) 'Parameters': parameters,
+      if (versionNumber != null) 'VersionNumber': versionNumber,
+    };
+  }
+}
+
 class Configuration {
   /// The configuration version.
   final String? configurationVersion;
 
   /// The content of the configuration or the configuration data.
   /// <important>
-  /// Compare the configuration version numbers of the configuration cached
-  /// locally on your machine and the configuration number in the the header. If
-  /// the configuration numbers are the same, the content can be ignored. The
-  /// <code>Content</code> section only appears if the system finds new or updated
-  /// configuration data. If the system doesn't find new or updated configuration
-  /// data, then the <code>Content</code> section is not returned.
+  /// The <code>Content</code> attribute only contains data if the system finds
+  /// new or updated configuration data. If there is no new or updated data and
+  /// <code>ClientConfigurationVersion</code> matches the version of the current
+  /// configuration, AppConfig returns a <code>204 No Content</code> HTTP response
+  /// code and the <code>Content</code> value will be empty.
   /// </important>
   final Uint8List? content;
 
@@ -1726,10 +2448,16 @@ class ConfigurationProfile {
   /// specified <code>LocationUri</code>.
   final String? retrievalRoleArn;
 
-  /// The type of configurations that the configuration profile contains. A
-  /// configuration can be a feature flag used for enabling or disabling new
-  /// features or a free-form configuration used for distributing configurations
-  /// to your application.
+  /// The type of configurations contained in the profile. AppConfig supports
+  /// <code>feature flags</code> and <code>freeform</code> configurations. We
+  /// recommend you create feature flag configurations to enable or disable new
+  /// features and freeform configurations to distribute configurations to an
+  /// application. When calling this API, enter one of the following values for
+  /// <code>Type</code>:
+  ///
+  /// <code>AWS.AppConfig.FeatureFlags</code>
+  ///
+  /// <code>AWS.Freeform</code>
   final String? type;
 
   /// A list of methods for validating the configuration.
@@ -1798,10 +2526,16 @@ class ConfigurationProfileSummary {
   /// The name of the configuration profile.
   final String? name;
 
-  /// The type of configurations that the configuration profile contains. A
-  /// configuration can be a feature flag used for enabling or disabling new
-  /// features or a free-form configuration used to introduce changes to your
-  /// application.
+  /// The type of configurations contained in the profile. AppConfig supports
+  /// <code>feature flags</code> and <code>freeform</code> configurations. We
+  /// recommend you create feature flag configurations to enable or disable new
+  /// features and freeform configurations to distribute configurations to an
+  /// application. When calling this API, enter one of the following values for
+  /// <code>Type</code>:
+  ///
+  /// <code>AWS.AppConfig.FeatureFlags</code>
+  ///
+  /// <code>AWS.Freeform</code>
   final String? type;
 
   /// The types of validators in the configuration profile.
@@ -1887,6 +2621,12 @@ class Deployment {
   /// The ID of the application that was deployed.
   final String? applicationId;
 
+  /// A list of extensions that were processed as part of the deployment. The
+  /// extensions that were previously associated to the configuration profile,
+  /// environment, or the application when <code>StartDeployment</code> was
+  /// called.
+  final List<AppliedExtension>? appliedExtensions;
+
   /// The time the deployment completed.
   final DateTime? completedAt;
 
@@ -1943,6 +2683,7 @@ class Deployment {
 
   Deployment({
     this.applicationId,
+    this.appliedExtensions,
     this.completedAt,
     this.configurationLocationUri,
     this.configurationName,
@@ -1965,6 +2706,10 @@ class Deployment {
   factory Deployment.fromJson(Map<String, dynamic> json) {
     return Deployment(
       applicationId: json['ApplicationId'] as String?,
+      appliedExtensions: (json['AppliedExtensions'] as List?)
+          ?.whereNotNull()
+          .map((e) => AppliedExtension.fromJson(e as Map<String, dynamic>))
+          .toList(),
       completedAt: timeStampFromJson(json['CompletedAt']),
       configurationLocationUri: json['ConfigurationLocationUri'] as String?,
       configurationName: json['ConfigurationName'] as String?,
@@ -1990,6 +2735,7 @@ class Deployment {
 
   Map<String, dynamic> toJson() {
     final applicationId = this.applicationId;
+    final appliedExtensions = this.appliedExtensions;
     final completedAt = this.completedAt;
     final configurationLocationUri = this.configurationLocationUri;
     final configurationName = this.configurationName;
@@ -2009,6 +2755,7 @@ class Deployment {
     final state = this.state;
     return {
       if (applicationId != null) 'ApplicationId': applicationId,
+      if (appliedExtensions != null) 'AppliedExtensions': appliedExtensions,
       if (completedAt != null) 'CompletedAt': iso8601ToJson(completedAt),
       if (configurationLocationUri != null)
         'ConfigurationLocationUri': configurationLocationUri,
@@ -2038,6 +2785,9 @@ class Deployment {
 
 /// An object that describes a deployment event.
 class DeploymentEvent {
+  /// The list of extensions that were invoked as part of the deployment.
+  final List<ActionInvocation>? actionInvocations;
+
   /// A description of the deployment event. Descriptions include, but are not
   /// limited to, the user account or the Amazon CloudWatch alarm ARN that
   /// initiated a rollback, the percentage of hosts that received the deployment,
@@ -2058,6 +2808,7 @@ class DeploymentEvent {
   final TriggeredBy? triggeredBy;
 
   DeploymentEvent({
+    this.actionInvocations,
     this.description,
     this.eventType,
     this.occurredAt,
@@ -2066,6 +2817,10 @@ class DeploymentEvent {
 
   factory DeploymentEvent.fromJson(Map<String, dynamic> json) {
     return DeploymentEvent(
+      actionInvocations: (json['ActionInvocations'] as List?)
+          ?.whereNotNull()
+          .map((e) => ActionInvocation.fromJson(e as Map<String, dynamic>))
+          .toList(),
       description: json['Description'] as String?,
       eventType: (json['EventType'] as String?)?.toDeploymentEventType(),
       occurredAt: timeStampFromJson(json['OccurredAt']),
@@ -2074,11 +2829,13 @@ class DeploymentEvent {
   }
 
   Map<String, dynamic> toJson() {
+    final actionInvocations = this.actionInvocations;
     final description = this.description;
     final eventType = this.eventType;
     final occurredAt = this.occurredAt;
     final triggeredBy = this.triggeredBy;
     return {
+      if (actionInvocations != null) 'ActionInvocations': actionInvocations,
       if (description != null) 'Description': description,
       if (eventType != null) 'EventType': eventType.toValue(),
       if (occurredAt != null) 'OccurredAt': iso8601ToJson(occurredAt),
@@ -2555,6 +3312,306 @@ class Environments {
   }
 }
 
+class Extension {
+  /// The actions defined in the extension.
+  final Map<ActionPoint, List<Action>>? actions;
+
+  /// The system-generated Amazon Resource Name (ARN) for the extension.
+  final String? arn;
+
+  /// Information about the extension.
+  final String? description;
+
+  /// The system-generated ID of the extension.
+  final String? id;
+
+  /// The extension name.
+  final String? name;
+
+  /// The parameters accepted by the extension. You specify parameter values when
+  /// you associate the extension to an AppConfig resource by using the
+  /// <code>CreateExtensionAssociation</code> API action. For Lambda extension
+  /// actions, these parameters are included in the Lambda request object.
+  final Map<String, Parameter>? parameters;
+
+  /// The extension version number.
+  final int? versionNumber;
+
+  Extension({
+    this.actions,
+    this.arn,
+    this.description,
+    this.id,
+    this.name,
+    this.parameters,
+    this.versionNumber,
+  });
+
+  factory Extension.fromJson(Map<String, dynamic> json) {
+    return Extension(
+      actions: (json['Actions'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(
+              k.toActionPoint(),
+              (e as List)
+                  .whereNotNull()
+                  .map((e) => Action.fromJson(e as Map<String, dynamic>))
+                  .toList())),
+      arn: json['Arn'] as String?,
+      description: json['Description'] as String?,
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+      parameters: (json['Parameters'] as Map<String, dynamic>?)?.map(
+          (k, e) => MapEntry(k, Parameter.fromJson(e as Map<String, dynamic>))),
+      versionNumber: json['VersionNumber'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actions = this.actions;
+    final arn = this.arn;
+    final description = this.description;
+    final id = this.id;
+    final name = this.name;
+    final parameters = this.parameters;
+    final versionNumber = this.versionNumber;
+    return {
+      if (actions != null)
+        'Actions': actions.map((k, e) => MapEntry(k.toValue(), e)),
+      if (arn != null) 'Arn': arn,
+      if (description != null) 'Description': description,
+      if (id != null) 'Id': id,
+      if (name != null) 'Name': name,
+      if (parameters != null) 'Parameters': parameters,
+      if (versionNumber != null) 'VersionNumber': versionNumber,
+    };
+  }
+}
+
+class ExtensionAssociation {
+  /// The system-generated Amazon Resource Name (ARN) for the extension.
+  final String? arn;
+
+  /// The ARN of the extension defined in the association.
+  final String? extensionArn;
+
+  /// The version number for the extension defined in the association.
+  final int? extensionVersionNumber;
+
+  /// The system-generated ID for the association.
+  final String? id;
+
+  /// The parameter names and values defined in the association.
+  final Map<String, String>? parameters;
+
+  /// The ARNs of applications, configuration profiles, or environments defined in
+  /// the association.
+  final String? resourceArn;
+
+  ExtensionAssociation({
+    this.arn,
+    this.extensionArn,
+    this.extensionVersionNumber,
+    this.id,
+    this.parameters,
+    this.resourceArn,
+  });
+
+  factory ExtensionAssociation.fromJson(Map<String, dynamic> json) {
+    return ExtensionAssociation(
+      arn: json['Arn'] as String?,
+      extensionArn: json['ExtensionArn'] as String?,
+      extensionVersionNumber: json['ExtensionVersionNumber'] as int?,
+      id: json['Id'] as String?,
+      parameters: (json['Parameters'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      resourceArn: json['ResourceArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final extensionArn = this.extensionArn;
+    final extensionVersionNumber = this.extensionVersionNumber;
+    final id = this.id;
+    final parameters = this.parameters;
+    final resourceArn = this.resourceArn;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (extensionArn != null) 'ExtensionArn': extensionArn,
+      if (extensionVersionNumber != null)
+        'ExtensionVersionNumber': extensionVersionNumber,
+      if (id != null) 'Id': id,
+      if (parameters != null) 'Parameters': parameters,
+      if (resourceArn != null) 'ResourceArn': resourceArn,
+    };
+  }
+}
+
+/// Information about an association between an extension and an AppConfig
+/// resource such as an application, environment, or configuration profile. Call
+/// <code>GetExtensionAssociation</code> to get more information about an
+/// association.
+class ExtensionAssociationSummary {
+  /// The system-generated Amazon Resource Name (ARN) for the extension.
+  final String? extensionArn;
+
+  /// The extension association ID. This ID is used to call other
+  /// <code>ExtensionAssociation</code> API actions such as
+  /// <code>GetExtensionAssociation</code> or
+  /// <code>DeleteExtensionAssociation</code>.
+  final String? id;
+
+  /// The ARNs of applications, configuration profiles, or environments defined in
+  /// the association.
+  final String? resourceArn;
+
+  ExtensionAssociationSummary({
+    this.extensionArn,
+    this.id,
+    this.resourceArn,
+  });
+
+  factory ExtensionAssociationSummary.fromJson(Map<String, dynamic> json) {
+    return ExtensionAssociationSummary(
+      extensionArn: json['ExtensionArn'] as String?,
+      id: json['Id'] as String?,
+      resourceArn: json['ResourceArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final extensionArn = this.extensionArn;
+    final id = this.id;
+    final resourceArn = this.resourceArn;
+    return {
+      if (extensionArn != null) 'ExtensionArn': extensionArn,
+      if (id != null) 'Id': id,
+      if (resourceArn != null) 'ResourceArn': resourceArn,
+    };
+  }
+}
+
+class ExtensionAssociations {
+  /// The list of extension associations. Each item represents an extension
+  /// association to an application, environment, or configuration profile.
+  final List<ExtensionAssociationSummary>? items;
+
+  /// The token for the next set of items to return. Use this token to get the
+  /// next set of results.
+  final String? nextToken;
+
+  ExtensionAssociations({
+    this.items,
+    this.nextToken,
+  });
+
+  factory ExtensionAssociations.fromJson(Map<String, dynamic> json) {
+    return ExtensionAssociations(
+      items: (json['Items'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ExtensionAssociationSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final items = this.items;
+    final nextToken = this.nextToken;
+    return {
+      if (items != null) 'Items': items,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+/// Information about an extension. Call <code>GetExtension</code> to get more
+/// information about an extension.
+class ExtensionSummary {
+  /// The system-generated Amazon Resource Name (ARN) for the extension.
+  final String? arn;
+
+  /// Information about the extension.
+  final String? description;
+
+  /// The system-generated ID of the extension.
+  final String? id;
+
+  /// The extension name.
+  final String? name;
+
+  /// The extension version number.
+  final int? versionNumber;
+
+  ExtensionSummary({
+    this.arn,
+    this.description,
+    this.id,
+    this.name,
+    this.versionNumber,
+  });
+
+  factory ExtensionSummary.fromJson(Map<String, dynamic> json) {
+    return ExtensionSummary(
+      arn: json['Arn'] as String?,
+      description: json['Description'] as String?,
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+      versionNumber: json['VersionNumber'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final description = this.description;
+    final id = this.id;
+    final name = this.name;
+    final versionNumber = this.versionNumber;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (description != null) 'Description': description,
+      if (id != null) 'Id': id,
+      if (name != null) 'Name': name,
+      if (versionNumber != null) 'VersionNumber': versionNumber,
+    };
+  }
+}
+
+class Extensions {
+  /// The list of available extensions. The list includes Amazon Web
+  /// Services-authored and user-created extensions.
+  final List<ExtensionSummary>? items;
+
+  /// The token for the next set of items to return. Use this token to get the
+  /// next set of results.
+  final String? nextToken;
+
+  Extensions({
+    this.items,
+    this.nextToken,
+  });
+
+  factory Extensions.fromJson(Map<String, dynamic> json) {
+    return Extensions(
+      items: (json['Items'] as List?)
+          ?.whereNotNull()
+          .map((e) => ExtensionSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final items = this.items;
+    final nextToken = this.nextToken;
+    return {
+      if (items != null) 'Items': items,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
 enum GrowthType {
   linear,
   exponential,
@@ -2757,6 +3814,41 @@ class Monitor {
   }
 }
 
+/// A value such as an Amazon Resource Name (ARN) or an Amazon Simple
+/// Notification Service topic entered in an extension when invoked. Parameter
+/// values are specified in an extension association. For more information about
+/// extensions, see <a
+/// href="https://docs.aws.amazon.com/appconfig/latest/userguide/working-with-appconfig-extensions.html">Working
+/// with AppConfig extensions</a> in the <i>AppConfig User Guide</i>.
+class Parameter {
+  /// Information about the parameter.
+  final String? description;
+
+  /// A parameter value must be specified in the extension association.
+  final bool? required;
+
+  Parameter({
+    this.description,
+    this.required,
+  });
+
+  factory Parameter.fromJson(Map<String, dynamic> json) {
+    return Parameter(
+      description: json['Description'] as String?,
+      required: json['Required'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final required = this.required;
+    return {
+      if (description != null) 'Description': description,
+      if (required != null) 'Required': required,
+    };
+  }
+}
+
 enum ReplicateTo {
   none,
   ssmDocument,
@@ -2850,9 +3942,10 @@ extension on String {
 
 /// A validator provides a syntactic or semantic check to ensure the
 /// configuration that you want to deploy functions as intended. To validate
-/// your application configuration data, you provide a schema or a Lambda
-/// function that runs against the configuration. The configuration deployment
-/// or update can only proceed when the configuration data is valid.
+/// your application configuration data, you provide a schema or an Amazon Web
+/// Services Lambda function that runs against the configuration. The
+/// configuration deployment or update can only proceed when the configuration
+/// data is valid.
 class Validator {
   /// Either the JSON Schema content or the Amazon Resource Name (ARN) of an
   /// Lambda function.

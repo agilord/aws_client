@@ -18,25 +18,26 @@ import '../../shared/shared.dart'
 
 export '../../shared/shared.dart' show AwsClientCredentials;
 
-/// This is the API Reference for AWS Network Firewall. This guide is for
-/// developers who need detailed information about the Network Firewall API
-/// actions, data types, and errors.
+/// This is the API Reference for Network Firewall. This guide is for developers
+/// who need detailed information about the Network Firewall API actions, data
+/// types, and errors.
 ///
 /// <ul>
 /// <li>
 /// The REST API requires you to handle connection details, such as calculating
 /// signatures, handling request retries, and error handling. For general
-/// information about using the AWS REST APIs, see <a
-/// href="https://docs.aws.amazon.com/general/latest/gr/aws-apis.html">AWS
-/// APIs</a>.
+/// information about using the Amazon Web Services REST APIs, see <a
+/// href="https://docs.aws.amazon.com/general/latest/gr/aws-apis.html">Amazon
+/// Web Services APIs</a>.
 ///
 /// To access Network Firewall using the REST API endpoint:
 /// <code>https://network-firewall.&lt;region&gt;.amazonaws.com </code>
 /// </li>
 /// <li>
-/// Alternatively, you can use one of the AWS SDKs to access an API that's
-/// tailored to the programming language or platform that you're using. For more
-/// information, see <a href="http://aws.amazon.com/tools/#SDKs">AWS SDKs</a>.
+/// Alternatively, you can use one of the Amazon Web Services SDKs to access an
+/// API that's tailored to the programming language or platform that you're
+/// using. For more information, see <a
+/// href="http://aws.amazon.com/tools/#SDKs">Amazon Web Services SDKs</a>.
 /// </li>
 /// <li>
 /// For descriptions of Network Firewall features, including and step-by-step
@@ -50,10 +51,10 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// detection and prevention service for Amazon Virtual Private Cloud (Amazon
 /// VPC). With Network Firewall, you can filter traffic at the perimeter of your
 /// VPC. This includes filtering traffic going to and coming from an internet
-/// gateway, NAT gateway, or over VPN or AWS Direct Connect. Network Firewall
-/// uses rules that are compatible with Suricata, a free, open source intrusion
-/// detection system (IDS) engine. AWS Network Firewall supports Suricata
-/// version 5.0.2. For information about Suricata, see the <a
+/// gateway, NAT gateway, or over VPN or Direct Connect. Network Firewall uses
+/// rules that are compatible with Suricata, a free, open source intrusion
+/// detection system (IDS) engine. Network Firewall supports Suricata version
+/// 5.0.2. For information about Suricata, see the <a
 /// href="https://suricata-ids.org/">Suricata website</a>.
 ///
 /// You can use Network Firewall to monitor and protect your VPC traffic in a
@@ -61,8 +62,8 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 ///
 /// <ul>
 /// <li>
-/// Allow domains or IP addresses for known AWS service endpoints, such as
-/// Amazon S3, and block all other forms of traffic.
+/// Allow domains or IP addresses for known Amazon Web Services service
+/// endpoints, such as Amazon S3, and block all other forms of traffic.
 /// </li>
 /// <li>
 /// Use custom lists of known bad domains to limit the types of domain names
@@ -204,11 +205,11 @@ class NetworkFirewall {
   /// can specify one subnet for each of the Availability Zones that the VPC
   /// spans.
   ///
-  /// This request creates an AWS Network Firewall firewall endpoint in each of
-  /// the subnets. To enable the firewall's protections, you must also modify
-  /// the VPC's route tables for each subnet's Availability Zone, to redirect
-  /// the traffic that's coming into and going out of the zone through the
-  /// firewall endpoint.
+  /// This request creates an Network Firewall firewall endpoint in each of the
+  /// subnets. To enable the firewall's protections, you must also modify the
+  /// VPC's route tables for each subnet's Availability Zone, to redirect the
+  /// traffic that's coming into and going out of the zone through the firewall
+  /// endpoint.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [InternalServerError].
@@ -277,13 +278,14 @@ class NetworkFirewall {
     return AssociateSubnetsResponse.fromJson(jsonResponse.body);
   }
 
-  /// Creates an AWS Network Firewall <a>Firewall</a> and accompanying
+  /// Creates an Network Firewall <a>Firewall</a> and accompanying
   /// <a>FirewallStatus</a> for a VPC.
   ///
-  /// The firewall defines the configuration settings for an AWS Network
-  /// Firewall firewall. The settings that you can define at creation include
-  /// the firewall policy, the subnets in your VPC to use for the firewall
-  /// endpoints, and any tags that are attached to the firewall AWS resource.
+  /// The firewall defines the configuration settings for an Network Firewall
+  /// firewall. The settings that you can define at creation include the
+  /// firewall policy, the subnets in your VPC to use for the firewall
+  /// endpoints, and any tags that are attached to the firewall Amazon Web
+  /// Services resource.
   ///
   /// After you create a firewall, you can provide additional settings, like the
   /// logging configuration.
@@ -292,8 +294,8 @@ class NetworkFirewall {
   /// to the settings themselves, for example <a>UpdateLoggingConfiguration</a>,
   /// <a>AssociateSubnets</a>, and <a>UpdateFirewallDeleteProtection</a>.
   ///
-  /// To manage a firewall's tags, use the standard AWS resource tagging
-  /// operations, <a>ListTagsForResource</a>, <a>TagResource</a>, and
+  /// To manage a firewall's tags, use the standard Amazon Web Services resource
+  /// tagging operations, <a>ListTagsForResource</a>, <a>TagResource</a>, and
   /// <a>UntagResource</a>.
   ///
   /// To retrieve information about firewalls, use <a>ListFirewalls</a> and
@@ -335,6 +337,10 @@ class NetworkFirewall {
   /// Parameter [description] :
   /// A description of the firewall.
   ///
+  /// Parameter [encryptionConfiguration] :
+  /// A complex type that contains settings for encryption of your firewall
+  /// resources.
+  ///
   /// Parameter [firewallPolicyChangeProtection] :
   /// A setting indicating whether the firewall is protected against a change to
   /// the firewall policy association. Use this setting to protect against
@@ -358,6 +364,7 @@ class NetworkFirewall {
     required String vpcId,
     bool? deleteProtection,
     String? description,
+    EncryptionConfiguration? encryptionConfiguration,
     bool? firewallPolicyChangeProtection,
     bool? subnetChangeProtection,
     List<Tag>? tags,
@@ -383,6 +390,8 @@ class NetworkFirewall {
         'VpcId': vpcId,
         if (deleteProtection != null) 'DeleteProtection': deleteProtection,
         if (description != null) 'Description': description,
+        if (encryptionConfiguration != null)
+          'EncryptionConfiguration': encryptionConfiguration,
         if (firewallPolicyChangeProtection != null)
           'FirewallPolicyChangeProtection': firewallPolicyChangeProtection,
         if (subnetChangeProtection != null)
@@ -397,9 +406,9 @@ class NetworkFirewall {
   /// Creates the firewall policy for the firewall according to the
   /// specifications.
   ///
-  /// An AWS Network Firewall firewall policy defines the behavior of a
-  /// firewall, in a collection of stateless and stateful rule groups and other
-  /// settings. You can use one firewall policy for multiple firewalls.
+  /// An Network Firewall firewall policy defines the behavior of a firewall, in
+  /// a collection of stateless and stateful rule groups and other settings. You
+  /// can use one firewall policy for multiple firewalls.
   ///
   /// May throw [LimitExceededException].
   /// May throw [InvalidRequestException].
@@ -432,6 +441,10 @@ class NetworkFirewall {
   /// If set to <code>FALSE</code>, Network Firewall makes the requested changes
   /// to your resources.
   ///
+  /// Parameter [encryptionConfiguration] :
+  /// A complex type that contains settings for encryption of your firewall
+  /// policy resources.
+  ///
   /// Parameter [tags] :
   /// The key:value pairs to associate with the resource.
   Future<CreateFirewallPolicyResponse> createFirewallPolicy({
@@ -439,6 +452,7 @@ class NetworkFirewall {
     required String firewallPolicyName,
     String? description,
     bool? dryRun,
+    EncryptionConfiguration? encryptionConfiguration,
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(firewallPolicy, 'firewallPolicy');
@@ -458,6 +472,8 @@ class NetworkFirewall {
         'FirewallPolicyName': firewallPolicyName,
         if (description != null) 'Description': description,
         if (dryRun != null) 'DryRun': dryRun,
+        if (encryptionConfiguration != null)
+          'EncryptionConfiguration': encryptionConfiguration,
         if (tags != null) 'Tags': tags,
       },
     );
@@ -552,6 +568,10 @@ class NetworkFirewall {
   /// If set to <code>FALSE</code>, Network Firewall makes the requested changes
   /// to your resources.
   ///
+  /// Parameter [encryptionConfiguration] :
+  /// A complex type that contains settings for encryption of your rule group
+  /// resources.
+  ///
   /// Parameter [ruleGroup] :
   /// An object that defines the rule group rules.
   /// <note>
@@ -572,6 +592,11 @@ class NetworkFirewall {
   /// response returns a <a>RuleGroup</a> object that Network Firewall has
   /// populated from your string.
   ///
+  /// Parameter [sourceMetadata] :
+  /// A complex type that contains metadata about the rule group that your own
+  /// rule group is copied from. You can use the metadata to keep track of
+  /// updates made to the originating rule group.
+  ///
   /// Parameter [tags] :
   /// The key:value pairs to associate with the resource.
   Future<CreateRuleGroupResponse> createRuleGroup({
@@ -580,8 +605,10 @@ class NetworkFirewall {
     required RuleGroupType type,
     String? description,
     bool? dryRun,
+    EncryptionConfiguration? encryptionConfiguration,
     RuleGroup? ruleGroup,
     String? rules,
+    SourceMetadata? sourceMetadata,
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(capacity, 'capacity');
@@ -603,8 +630,11 @@ class NetworkFirewall {
         'Type': type.toValue(),
         if (description != null) 'Description': description,
         if (dryRun != null) 'DryRun': dryRun,
+        if (encryptionConfiguration != null)
+          'EncryptionConfiguration': encryptionConfiguration,
         if (ruleGroup != null) 'RuleGroup': ruleGroup,
         if (rules != null) 'Rules': rules,
+        if (sourceMetadata != null) 'SourceMetadata': sourceMetadata,
         if (tags != null) 'Tags': tags,
       },
     );
@@ -1244,6 +1274,10 @@ class NetworkFirewall {
   /// May throw [ThrottlingException].
   /// May throw [InternalServerError].
   ///
+  /// Parameter [managedType] :
+  /// Indicates the general category of the Amazon Web Services managed rule
+  /// group.
+  ///
   /// Parameter [maxResults] :
   /// The maximum number of objects that you want Network Firewall to return for
   /// this request. If more objects are available, in the response, Network
@@ -1263,10 +1297,17 @@ class NetworkFirewall {
   /// setting of <code>NULL</code> returns all of the rule groups in your
   /// account. A setting of <code>MANAGED</code> returns all available managed
   /// rule groups.
+  ///
+  /// Parameter [type] :
+  /// Indicates whether the rule group is stateless or stateful. If the rule
+  /// group is stateless, it contains stateless rules. If it is stateful, it
+  /// contains stateful rules.
   Future<ListRuleGroupsResponse> listRuleGroups({
+    ResourceManagedType? managedType,
     int? maxResults,
     String? nextToken,
     ResourceManagedStatus? scope,
+    RuleGroupType? type,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1285,9 +1326,11 @@ class NetworkFirewall {
       // TODO queryParams
       headers: headers,
       payload: {
+        if (managedType != null) 'ManagedType': managedType.toValue(),
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
         if (scope != null) 'Scope': scope.toValue(),
+        if (type != null) 'Type': type.toValue(),
       },
     );
 
@@ -1298,10 +1341,11 @@ class NetworkFirewall {
   /// key:value pairs that you can use to categorize and manage your resources,
   /// for purposes like billing. For example, you might set the tag key to
   /// "customer" and the value to the customer name or ID. You can specify one
-  /// or more tags to add to each AWS resource, up to 50 tags for a resource.
+  /// or more tags to add to each Amazon Web Services resource, up to 50 tags
+  /// for a resource.
   ///
-  /// You can tag the AWS resources that you manage through AWS Network
-  /// Firewall: firewalls, firewall policies, and rule groups.
+  /// You can tag the Amazon Web Services resources that you manage through
+  /// Network Firewall: firewalls, firewall policies, and rule groups.
   ///
   /// May throw [ThrottlingException].
   /// May throw [InternalServerError].
@@ -1356,11 +1400,11 @@ class NetworkFirewall {
     return ListTagsForResourceResponse.fromJson(jsonResponse.body);
   }
 
-  /// Creates or updates an AWS Identity and Access Management policy for your
-  /// rule group or firewall policy. Use this to share rule groups and firewall
-  /// policies between accounts. This operation works in conjunction with the
-  /// AWS Resource Access Manager (RAM) service to manage resource sharing for
-  /// Network Firewall.
+  /// Creates or updates an IAM policy for your rule group or firewall policy.
+  /// Use this to share rule groups and firewall policies between accounts. This
+  /// operation works in conjunction with the Amazon Web Services Resource
+  /// Access Manager (RAM) service to manage resource sharing for Network
+  /// Firewall.
   ///
   /// Use this operation to create or update a resource policy for your rule
   /// group or firewall policy. In the policy, you specify the accounts that you
@@ -1385,8 +1429,8 @@ class NetworkFirewall {
   /// </li>
   /// </ul>
   /// For additional information about resource sharing using RAM, see <a
-  /// href="https://docs.aws.amazon.com/ram/latest/userguide/what-is.html">AWS
-  /// Resource Access Manager User Guide</a>.
+  /// href="https://docs.aws.amazon.com/ram/latest/userguide/what-is.html">Resource
+  /// Access Manager User Guide</a>.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [InternalServerError].
@@ -1395,9 +1439,9 @@ class NetworkFirewall {
   /// May throw [InvalidResourcePolicyException].
   ///
   /// Parameter [policy] :
-  /// The AWS Identity and Access Management policy statement that lists the
-  /// accounts that you want to share your rule group or firewall policy with
-  /// and the operations that you want the accounts to be able to perform.
+  /// The IAM policy statement that lists the accounts that you want to share
+  /// your rule group or firewall policy with and the operations that you want
+  /// the accounts to be able to perform.
   ///
   /// For a rule group resource, you can specify the following operations in the
   /// Actions section of the statement:
@@ -1464,10 +1508,11 @@ class NetworkFirewall {
   /// pairs that you can use to categorize and manage your resources, for
   /// purposes like billing. For example, you might set the tag key to
   /// "customer" and the value to the customer name or ID. You can specify one
-  /// or more tags to add to each AWS resource, up to 50 tags for a resource.
+  /// or more tags to add to each Amazon Web Services resource, up to 50 tags
+  /// for a resource.
   ///
-  /// You can tag the AWS resources that you manage through AWS Network
-  /// Firewall: firewalls, firewall policies, and rule groups.
+  /// You can tag the Amazon Web Services resources that you manage through
+  /// Network Firewall: firewalls, firewall policies, and rule groups.
   ///
   /// May throw [ThrottlingException].
   /// May throw [InternalServerError].
@@ -1506,11 +1551,11 @@ class NetworkFirewall {
   /// are key:value pairs that you can use to categorize and manage your
   /// resources, for purposes like billing. For example, you might set the tag
   /// key to "customer" and the value to the customer name or ID. You can
-  /// specify one or more tags to add to each AWS resource, up to 50 tags for a
-  /// resource.
+  /// specify one or more tags to add to each Amazon Web Services resource, up
+  /// to 50 tags for a resource.
   ///
-  /// You can manage tags for the AWS resources that you manage through AWS
-  /// Network Firewall: firewalls, firewall policies, and rule groups.
+  /// You can manage tags for the Amazon Web Services resources that you manage
+  /// through Network Firewall: firewalls, firewall policies, and rule groups.
   ///
   /// May throw [ThrottlingException].
   /// May throw [InternalServerError].
@@ -1690,6 +1735,71 @@ class NetworkFirewall {
     return UpdateFirewallDescriptionResponse.fromJson(jsonResponse.body);
   }
 
+  /// A complex type that contains settings for encryption of your firewall
+  /// resources.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InternalServerError].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InvalidTokenException].
+  /// May throw [ResourceOwnerCheckException].
+  ///
+  /// Parameter [firewallArn] :
+  /// The Amazon Resource Name (ARN) of the firewall.
+  ///
+  /// Parameter [firewallName] :
+  /// The descriptive name of the firewall. You can't change the name of a
+  /// firewall after you create it.
+  ///
+  /// Parameter [updateToken] :
+  /// An optional token that you can use for optimistic locking. Network
+  /// Firewall returns a token to your requests that access the firewall. The
+  /// token marks the state of the firewall resource at the time of the request.
+  ///
+  /// To make an unconditional change to the firewall, omit the token in your
+  /// update request. Without the token, Network Firewall performs your updates
+  /// regardless of whether the firewall has changed since you last retrieved
+  /// it.
+  ///
+  /// To make a conditional change to the firewall, provide the token in your
+  /// update request. Network Firewall uses the token to ensure that the
+  /// firewall hasn't changed since you last retrieved it. If it has changed,
+  /// the operation fails with an <code>InvalidTokenException</code>. If this
+  /// happens, retrieve the firewall again to get a current copy of it with a
+  /// new token. Reapply your changes as needed, then try the operation again
+  /// using the new token.
+  Future<UpdateFirewallEncryptionConfigurationResponse>
+      updateFirewallEncryptionConfiguration({
+    EncryptionConfiguration? encryptionConfiguration,
+    String? firewallArn,
+    String? firewallName,
+    String? updateToken,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target':
+          'NetworkFirewall_20201112.UpdateFirewallEncryptionConfiguration'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (encryptionConfiguration != null)
+          'EncryptionConfiguration': encryptionConfiguration,
+        if (firewallArn != null) 'FirewallArn': firewallArn,
+        if (firewallName != null) 'FirewallName': firewallName,
+        if (updateToken != null) 'UpdateToken': updateToken,
+      },
+    );
+
+    return UpdateFirewallEncryptionConfigurationResponse.fromJson(
+        jsonResponse.body);
+  }
+
   /// Updates the properties of the specified firewall policy.
   ///
   /// May throw [InvalidRequestException].
@@ -1732,6 +1842,10 @@ class NetworkFirewall {
   /// If set to <code>FALSE</code>, Network Firewall makes the requested changes
   /// to your resources.
   ///
+  /// Parameter [encryptionConfiguration] :
+  /// A complex type that contains settings for encryption of your firewall
+  /// policy resources.
+  ///
   /// Parameter [firewallPolicyArn] :
   /// The Amazon Resource Name (ARN) of the firewall policy.
   ///
@@ -1747,6 +1861,7 @@ class NetworkFirewall {
     required String updateToken,
     String? description,
     bool? dryRun,
+    EncryptionConfiguration? encryptionConfiguration,
     String? firewallPolicyArn,
     String? firewallPolicyName,
   }) async {
@@ -1767,6 +1882,8 @@ class NetworkFirewall {
         'UpdateToken': updateToken,
         if (description != null) 'Description': description,
         if (dryRun != null) 'DryRun': dryRun,
+        if (encryptionConfiguration != null)
+          'EncryptionConfiguration': encryptionConfiguration,
         if (firewallPolicyArn != null) 'FirewallPolicyArn': firewallPolicyArn,
         if (firewallPolicyName != null)
           'FirewallPolicyName': firewallPolicyName,
@@ -1981,6 +2098,10 @@ class NetworkFirewall {
   /// If set to <code>FALSE</code>, Network Firewall makes the requested changes
   /// to your resources.
   ///
+  /// Parameter [encryptionConfiguration] :
+  /// A complex type that contains settings for encryption of your rule group
+  /// resources.
+  ///
   /// Parameter [ruleGroup] :
   /// An object that defines the rule group rules.
   /// <note>
@@ -2012,6 +2133,11 @@ class NetworkFirewall {
   /// response returns a <a>RuleGroup</a> object that Network Firewall has
   /// populated from your string.
   ///
+  /// Parameter [sourceMetadata] :
+  /// A complex type that contains metadata about the rule group that your own
+  /// rule group is copied from. You can use the metadata to keep track of
+  /// updates made to the originating rule group.
+  ///
   /// Parameter [type] :
   /// Indicates whether the rule group is stateless or stateful. If the rule
   /// group is stateless, it contains stateless rules. If it is stateful, it
@@ -2024,10 +2150,12 @@ class NetworkFirewall {
     required String updateToken,
     String? description,
     bool? dryRun,
+    EncryptionConfiguration? encryptionConfiguration,
     RuleGroup? ruleGroup,
     String? ruleGroupArn,
     String? ruleGroupName,
     String? rules,
+    SourceMetadata? sourceMetadata,
     RuleGroupType? type,
   }) async {
     ArgumentError.checkNotNull(updateToken, 'updateToken');
@@ -2045,10 +2173,13 @@ class NetworkFirewall {
         'UpdateToken': updateToken,
         if (description != null) 'Description': description,
         if (dryRun != null) 'DryRun': dryRun,
+        if (encryptionConfiguration != null)
+          'EncryptionConfiguration': encryptionConfiguration,
         if (ruleGroup != null) 'RuleGroup': ruleGroup,
         if (ruleGroupArn != null) 'RuleGroupArn': ruleGroupArn,
         if (ruleGroupName != null) 'RuleGroupName': ruleGroupName,
         if (rules != null) 'Rules': rules,
+        if (sourceMetadata != null) 'SourceMetadata': sourceMetadata,
         if (type != null) 'Type': type.toValue(),
       },
     );
@@ -2326,7 +2457,7 @@ class AssociateSubnetsResponse {
 }
 
 /// The configuration and status for a single subnet that you've specified for
-/// use by the AWS Network Firewall firewall. This is part of the
+/// use by the Network Firewall firewall. This is part of the
 /// <a>FirewallStatus</a>.
 class Attachment {
   /// The identifier of the firewall endpoint that Network Firewall has
@@ -2412,9 +2543,79 @@ extension on String {
   }
 }
 
+/// Summarizes the CIDR blocks used by the IP set references in a firewall.
+/// Network Firewall calculates the number of CIDRs by taking an aggregated
+/// count of all CIDRs used by the IP sets you are referencing.
+class CIDRSummary {
+  /// The number of CIDR blocks available for use by the IP set references in a
+  /// firewall.
+  final int? availableCIDRCount;
+
+  /// The list of the IP set references used by a firewall.
+  final Map<String, IPSetMetadata>? iPSetReferences;
+
+  /// The number of CIDR blocks used by the IP set references in a firewall.
+  final int? utilizedCIDRCount;
+
+  CIDRSummary({
+    this.availableCIDRCount,
+    this.iPSetReferences,
+    this.utilizedCIDRCount,
+  });
+
+  factory CIDRSummary.fromJson(Map<String, dynamic> json) {
+    return CIDRSummary(
+      availableCIDRCount: json['AvailableCIDRCount'] as int?,
+      iPSetReferences: (json['IPSetReferences'] as Map<String, dynamic>?)?.map(
+          (k, e) =>
+              MapEntry(k, IPSetMetadata.fromJson(e as Map<String, dynamic>))),
+      utilizedCIDRCount: json['UtilizedCIDRCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final availableCIDRCount = this.availableCIDRCount;
+    final iPSetReferences = this.iPSetReferences;
+    final utilizedCIDRCount = this.utilizedCIDRCount;
+    return {
+      if (availableCIDRCount != null) 'AvailableCIDRCount': availableCIDRCount,
+      if (iPSetReferences != null) 'IPSetReferences': iPSetReferences,
+      if (utilizedCIDRCount != null) 'UtilizedCIDRCount': utilizedCIDRCount,
+    };
+  }
+}
+
+/// The capacity usage summary of the resources used by the <a>ReferenceSets</a>
+/// in a firewall.
+class CapacityUsageSummary {
+  /// Describes the capacity usage of the CIDR blocks used by the IP set
+  /// references in a firewall.
+  final CIDRSummary? cIDRs;
+
+  CapacityUsageSummary({
+    this.cIDRs,
+  });
+
+  factory CapacityUsageSummary.fromJson(Map<String, dynamic> json) {
+    return CapacityUsageSummary(
+      cIDRs: json['CIDRs'] != null
+          ? CIDRSummary.fromJson(json['CIDRs'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cIDRs = this.cIDRs;
+    return {
+      if (cIDRs != null) 'CIDRs': cIDRs,
+    };
+  }
+}
+
 enum ConfigurationSyncState {
   pending,
   inSync,
+  capacityConstrained,
 }
 
 extension on ConfigurationSyncState {
@@ -2424,6 +2625,8 @@ extension on ConfigurationSyncState {
         return 'PENDING';
       case ConfigurationSyncState.inSync:
         return 'IN_SYNC';
+      case ConfigurationSyncState.capacityConstrained:
+        return 'CAPACITY_CONSTRAINED';
     }
   }
 }
@@ -2435,6 +2638,8 @@ extension on String {
         return ConfigurationSyncState.pending;
       case 'IN_SYNC':
         return ConfigurationSyncState.inSync;
+      case 'CAPACITY_CONSTRAINED':
+        return ConfigurationSyncState.capacityConstrained;
     }
     throw Exception('$this is not known in enum ConfigurationSyncState');
   }
@@ -2849,7 +3054,7 @@ class DescribeLoggingConfigurationResponse {
 }
 
 class DescribeResourcePolicyResponse {
-  /// The AWS Identity and Access Management policy for the resource.
+  /// The IAM policy for the resource.
   final String? policy;
 
   DescribeResourcePolicyResponse({
@@ -2895,6 +3100,9 @@ class DescribeRuleGroupMetadataResponse {
 
   /// Returns the metadata objects for the specified rule group.
   final String? description;
+
+  /// The last time that the rule group was changed.
+  final DateTime? lastModifiedTime;
   final StatefulRuleOptions? statefulRuleOptions;
 
   /// Indicates whether the rule group is stateless or stateful. If the rule group
@@ -2911,6 +3119,7 @@ class DescribeRuleGroupMetadataResponse {
     required this.ruleGroupName,
     this.capacity,
     this.description,
+    this.lastModifiedTime,
     this.statefulRuleOptions,
     this.type,
   });
@@ -2922,6 +3131,7 @@ class DescribeRuleGroupMetadataResponse {
       ruleGroupName: json['RuleGroupName'] as String,
       capacity: json['Capacity'] as int?,
       description: json['Description'] as String?,
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       statefulRuleOptions: json['StatefulRuleOptions'] != null
           ? StatefulRuleOptions.fromJson(
               json['StatefulRuleOptions'] as Map<String, dynamic>)
@@ -2935,6 +3145,7 @@ class DescribeRuleGroupMetadataResponse {
     final ruleGroupName = this.ruleGroupName;
     final capacity = this.capacity;
     final description = this.description;
+    final lastModifiedTime = this.lastModifiedTime;
     final statefulRuleOptions = this.statefulRuleOptions;
     final type = this.type;
     return {
@@ -2942,6 +3153,8 @@ class DescribeRuleGroupMetadataResponse {
       'RuleGroupName': ruleGroupName,
       if (capacity != null) 'Capacity': capacity,
       if (description != null) 'Description': description,
+      if (lastModifiedTime != null)
+        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
       if (statefulRuleOptions != null)
         'StatefulRuleOptions': statefulRuleOptions,
       if (type != null) 'Type': type.toValue(),
@@ -2971,9 +3184,9 @@ class DescribeRuleGroupResponse {
   /// <a>RuleGroupResponse</a>, define the rule group. You can retrieve all
   /// objects for a rule group by calling <a>DescribeRuleGroup</a>.
   ///
-  /// AWS Network Firewall uses a rule group to inspect and control network
-  /// traffic. You define stateless rule groups to inspect individual packets and
-  /// you define stateful rule groups to inspect packets in the context of their
+  /// Network Firewall uses a rule group to inspect and control network traffic.
+  /// You define stateless rule groups to inspect individual packets and you
+  /// define stateful rule groups to inspect packets in the context of their
   /// traffic flow.
   ///
   /// To use a rule group, you include it by reference in an Network Firewall
@@ -3016,8 +3229,8 @@ class DescribeRuleGroupResponse {
 /// custom metric dimension is a name/value pair that's part of the identity of
 /// a metric.
 ///
-/// AWS Network Firewall sets the dimension name to <code>CustomAction</code>
-/// and you provide the dimension value.
+/// Network Firewall sets the dimension name to <code>CustomAction</code> and
+/// you provide the dimension value.
 ///
 /// For more information about CloudWatch custom metric dimensions, see <a
 /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/publishingMetrics.html#usingDimensions">Publishing
@@ -3106,10 +3319,83 @@ class DisassociateSubnetsResponse {
   }
 }
 
-/// The firewall defines the configuration settings for an AWS Network Firewall
+/// A complex type that contains optional Amazon Web Services Key Management
+/// Service (KMS) encryption settings for your Network Firewall resources. Your
+/// data is encrypted by default with an Amazon Web Services owned key that
+/// Amazon Web Services owns and manages for you. You can use either the Amazon
+/// Web Services owned key, or provide your own customer managed key. To learn
+/// more about KMS encryption of your Network Firewall resources, see <a
+/// href="https://docs.aws.amazon.com/kms/latest/developerguide/kms-encryption-at-rest.html">Encryption
+/// at rest with Amazon Web Services Key Managment Service</a> in the <i>Network
+/// Firewall Developer Guide</i>.
+class EncryptionConfiguration {
+  /// The type of Amazon Web Services KMS key to use for encryption of your
+  /// Network Firewall resources.
+  final EncryptionType type;
+
+  /// The ID of the Amazon Web Services Key Management Service (KMS) customer
+  /// managed key. You can use any of the key identifiers that KMS supports,
+  /// unless you're using a key that's managed by another account. If you're using
+  /// a key managed by another account, then specify the key ARN. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id">Key
+  /// ID</a> in the <i>Amazon Web Services KMS Developer Guide</i>.
+  final String? keyId;
+
+  EncryptionConfiguration({
+    required this.type,
+    this.keyId,
+  });
+
+  factory EncryptionConfiguration.fromJson(Map<String, dynamic> json) {
+    return EncryptionConfiguration(
+      type: (json['Type'] as String).toEncryptionType(),
+      keyId: json['KeyId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final keyId = this.keyId;
+    return {
+      'Type': type.toValue(),
+      if (keyId != null) 'KeyId': keyId,
+    };
+  }
+}
+
+enum EncryptionType {
+  customerKms,
+  awsOwnedKmsKey,
+}
+
+extension on EncryptionType {
+  String toValue() {
+    switch (this) {
+      case EncryptionType.customerKms:
+        return 'CUSTOMER_KMS';
+      case EncryptionType.awsOwnedKmsKey:
+        return 'AWS_OWNED_KMS_KEY';
+    }
+  }
+}
+
+extension on String {
+  EncryptionType toEncryptionType() {
+    switch (this) {
+      case 'CUSTOMER_KMS':
+        return EncryptionType.customerKms;
+      case 'AWS_OWNED_KMS_KEY':
+        return EncryptionType.awsOwnedKmsKey;
+    }
+    throw Exception('$this is not known in enum EncryptionType');
+  }
+}
+
+/// The firewall defines the configuration settings for an Network Firewall
 /// firewall. These settings include the firewall policy, the subnets in your
 /// VPC to use for the firewall endpoints, and any tags that are attached to the
-/// firewall AWS resource.
+/// firewall Amazon Web Services resource.
 ///
 /// The status of the firewall, for example whether it's ready to filter network
 /// traffic, is provided in the corresponding <a>FirewallStatus</a>. You can
@@ -3142,6 +3428,10 @@ class Firewall {
   /// A description of the firewall.
   final String? description;
 
+  /// A complex type that contains the Amazon Web Services KMS encryption
+  /// configuration settings for your firewall.
+  final EncryptionConfiguration? encryptionConfiguration;
+
   /// The Amazon Resource Name (ARN) of the firewall.
   final String? firewallArn;
 
@@ -3173,6 +3463,7 @@ class Firewall {
     required this.vpcId,
     this.deleteProtection,
     this.description,
+    this.encryptionConfiguration,
     this.firewallArn,
     this.firewallName,
     this.firewallPolicyChangeProtection,
@@ -3191,6 +3482,10 @@ class Firewall {
       vpcId: json['VpcId'] as String,
       deleteProtection: json['DeleteProtection'] as bool?,
       description: json['Description'] as String?,
+      encryptionConfiguration: json['EncryptionConfiguration'] != null
+          ? EncryptionConfiguration.fromJson(
+              json['EncryptionConfiguration'] as Map<String, dynamic>)
+          : null,
       firewallArn: json['FirewallArn'] as String?,
       firewallName: json['FirewallName'] as String?,
       firewallPolicyChangeProtection:
@@ -3210,6 +3505,7 @@ class Firewall {
     final vpcId = this.vpcId;
     final deleteProtection = this.deleteProtection;
     final description = this.description;
+    final encryptionConfiguration = this.encryptionConfiguration;
     final firewallArn = this.firewallArn;
     final firewallName = this.firewallName;
     final firewallPolicyChangeProtection = this.firewallPolicyChangeProtection;
@@ -3222,6 +3518,8 @@ class Firewall {
       'VpcId': vpcId,
       if (deleteProtection != null) 'DeleteProtection': deleteProtection,
       if (description != null) 'Description': description,
+      if (encryptionConfiguration != null)
+        'EncryptionConfiguration': encryptionConfiguration,
       if (firewallArn != null) 'FirewallArn': firewallArn,
       if (firewallName != null) 'FirewallName': firewallName,
       if (firewallPolicyChangeProtection != null)
@@ -3325,8 +3623,8 @@ class FirewallPolicy {
   /// </li>
   /// </ul>
   /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/network-firewall/latest/developerguide/suricata-strict-rule-evaluation-order.html">Strict
-  /// evaluation order</a> in the <i>AWS Network Firewall Developer Guide</i>.
+  /// href="https://docs.aws.amazon.com/network-firewall/latest/developerguide/suricata-rule-evaluation-order.html#suricata-strict-rule-evaluation-order.html">Strict
+  /// evaluation order</a> in the <i>Network Firewall Developer Guide</i>.
   final List<String>? statefulDefaultActions;
 
   /// Additional options governing how Network Firewall handles stateful rules.
@@ -3486,10 +3784,17 @@ class FirewallPolicyResponse {
   /// A description of the firewall policy.
   final String? description;
 
+  /// A complex type that contains the Amazon Web Services KMS encryption
+  /// configuration settings for your firewall policy.
+  final EncryptionConfiguration? encryptionConfiguration;
+
   /// The current status of the firewall policy. You can retrieve this for a
   /// firewall policy by calling <a>DescribeFirewallPolicy</a> and providing the
   /// firewall policy's name or ARN.
   final ResourceStatus? firewallPolicyStatus;
+
+  /// The last time that the firewall policy was changed.
+  final DateTime? lastModifiedTime;
 
   /// The number of firewalls that are associated with this firewall policy.
   final int? numberOfAssociations;
@@ -3504,7 +3809,9 @@ class FirewallPolicyResponse {
     this.consumedStatefulRuleCapacity,
     this.consumedStatelessRuleCapacity,
     this.description,
+    this.encryptionConfiguration,
     this.firewallPolicyStatus,
+    this.lastModifiedTime,
     this.numberOfAssociations,
     this.tags,
   });
@@ -3519,8 +3826,13 @@ class FirewallPolicyResponse {
       consumedStatelessRuleCapacity:
           json['ConsumedStatelessRuleCapacity'] as int?,
       description: json['Description'] as String?,
+      encryptionConfiguration: json['EncryptionConfiguration'] != null
+          ? EncryptionConfiguration.fromJson(
+              json['EncryptionConfiguration'] as Map<String, dynamic>)
+          : null,
       firewallPolicyStatus:
           (json['FirewallPolicyStatus'] as String?)?.toResourceStatus(),
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       numberOfAssociations: json['NumberOfAssociations'] as int?,
       tags: (json['Tags'] as List?)
           ?.whereNotNull()
@@ -3536,7 +3848,9 @@ class FirewallPolicyResponse {
     final consumedStatefulRuleCapacity = this.consumedStatefulRuleCapacity;
     final consumedStatelessRuleCapacity = this.consumedStatelessRuleCapacity;
     final description = this.description;
+    final encryptionConfiguration = this.encryptionConfiguration;
     final firewallPolicyStatus = this.firewallPolicyStatus;
+    final lastModifiedTime = this.lastModifiedTime;
     final numberOfAssociations = this.numberOfAssociations;
     final tags = this.tags;
     return {
@@ -3548,8 +3862,12 @@ class FirewallPolicyResponse {
       if (consumedStatelessRuleCapacity != null)
         'ConsumedStatelessRuleCapacity': consumedStatelessRuleCapacity,
       if (description != null) 'Description': description,
+      if (encryptionConfiguration != null)
+        'EncryptionConfiguration': encryptionConfiguration,
       if (firewallPolicyStatus != null)
         'FirewallPolicyStatus': firewallPolicyStatus.toValue(),
+      if (lastModifiedTime != null)
+        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
       if (numberOfAssociations != null)
         'NumberOfAssociations': numberOfAssociations,
       if (tags != null) 'Tags': tags,
@@ -3584,6 +3902,12 @@ class FirewallStatus {
   /// <code>READY</code>.
   final FirewallStatusValue status;
 
+  /// Describes the capacity usage of the resources contained in a firewall's
+  /// reference sets. Network Firewall calclulates the capacity usage by taking an
+  /// aggregated count of all of the resources used by all of the reference sets
+  /// in a firewall.
+  final CapacityUsageSummary? capacityUsageSummary;
+
   /// The subnets that you've configured for use by the Network Firewall firewall.
   /// This contains one array element per Availability Zone where you've
   /// configured a subnet. These objects provide details of the information that
@@ -3594,6 +3918,7 @@ class FirewallStatus {
   FirewallStatus({
     required this.configurationSyncStateSummary,
     required this.status,
+    this.capacityUsageSummary,
     this.syncStates,
   });
 
@@ -3603,6 +3928,10 @@ class FirewallStatus {
           (json['ConfigurationSyncStateSummary'] as String)
               .toConfigurationSyncState(),
       status: (json['Status'] as String).toFirewallStatusValue(),
+      capacityUsageSummary: json['CapacityUsageSummary'] != null
+          ? CapacityUsageSummary.fromJson(
+              json['CapacityUsageSummary'] as Map<String, dynamic>)
+          : null,
       syncStates: (json['SyncStates'] as Map<String, dynamic>?)?.map(
           (k, e) => MapEntry(k, SyncState.fromJson(e as Map<String, dynamic>))),
     );
@@ -3611,10 +3940,13 @@ class FirewallStatus {
   Map<String, dynamic> toJson() {
     final configurationSyncStateSummary = this.configurationSyncStateSummary;
     final status = this.status;
+    final capacityUsageSummary = this.capacityUsageSummary;
     final syncStates = this.syncStates;
     return {
       'ConfigurationSyncStateSummary': configurationSyncStateSummary.toValue(),
       'Status': status.toValue(),
+      if (capacityUsageSummary != null)
+        'CapacityUsageSummary': capacityUsageSummary,
       if (syncStates != null) 'SyncStates': syncStates,
     };
   }
@@ -3681,7 +4013,7 @@ extension on String {
   }
 }
 
-/// The basic rule criteria for AWS Network Firewall to use to inspect packet
+/// The basic rule criteria for Network Firewall to use to inspect packet
 /// headers in stateful traffic flow inspection. Traffic flows that match the
 /// criteria are a match for the corresponding <a>StatefulRule</a>.
 class Header {
@@ -3722,7 +4054,7 @@ class Header {
   final StatefulRuleDirection direction;
 
   /// The protocol to inspect for. To specify all, you can use <code>IP</code>,
-  /// because all traffic on AWS and on the internet is IP.
+  /// because all traffic on Amazon Web Services and on the internet is IP.
   final StatefulRuleProtocol protocol;
 
   /// The source IP address or address range to inspect for, in CIDR notation. To
@@ -3815,6 +4147,69 @@ class IPSet {
     final definition = this.definition;
     return {
       'Definition': definition,
+    };
+  }
+}
+
+/// General information about the IP set.
+class IPSetMetadata {
+  /// Describes the total number of CIDR blocks currently in use by the IP set
+  /// references in a firewall. To determine how many CIDR blocks are available
+  /// for you to use in a firewall, you can call <code>AvailableCIDRCount</code>.
+  final int? resolvedCIDRCount;
+
+  IPSetMetadata({
+    this.resolvedCIDRCount,
+  });
+
+  factory IPSetMetadata.fromJson(Map<String, dynamic> json) {
+    return IPSetMetadata(
+      resolvedCIDRCount: json['ResolvedCIDRCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resolvedCIDRCount = this.resolvedCIDRCount;
+    return {
+      if (resolvedCIDRCount != null) 'ResolvedCIDRCount': resolvedCIDRCount,
+    };
+  }
+}
+
+/// Configures one or more IP set references for a Suricata-compatible rule
+/// group. This is used in <a>CreateRuleGroup</a> or <a>UpdateRuleGroup</a>. An
+/// IP set reference is a rule variable that references a resource that you
+/// create and manage in another Amazon Web Services service, such as an Amazon
+/// VPC prefix list. Network Firewall IP set references enable you to
+/// dynamically update the contents of your rules. When you create, update, or
+/// delete the IP set you are referencing in your rule, Network Firewall
+/// automatically updates the rule's content with the changes. For more
+/// information about IP set references in Network Firewall, see <a
+/// href="https://docs.aws.amazon.com/network-firewall/latest/developerguide/rule-groups-ip-set-references">Using
+/// IP set references</a> in the <i>Network Firewall Developer Guide</i>.
+///
+/// Network Firewall currently supports only <a
+/// href="https://docs.aws.amazon.com/vpc/latest/userguide/managed-prefix-lists.html">Amazon
+/// VPC prefix lists</a> as IP set references.
+class IPSetReference {
+  /// The Amazon Resource Name (ARN) of the resource that you are referencing in
+  /// your rule group.
+  final String? referenceArn;
+
+  IPSetReference({
+    this.referenceArn,
+  });
+
+  factory IPSetReference.fromJson(Map<String, dynamic> json) {
+    return IPSetReference(
+      referenceArn: json['ReferenceArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final referenceArn = this.referenceArn;
+    return {
+      if (referenceArn != null) 'ReferenceArn': referenceArn,
     };
   }
 }
@@ -3970,10 +4365,10 @@ class ListTagsForResourceResponse {
   }
 }
 
-/// Defines where AWS Network Firewall sends logs for the firewall for one log
-/// type. This is used in <a>LoggingConfiguration</a>. You can send each type of
-/// log to an Amazon S3 bucket, a CloudWatch log group, or a Kinesis Data
-/// Firehose delivery stream.
+/// Defines where Network Firewall sends logs for the firewall for one log type.
+/// This is used in <a>LoggingConfiguration</a>. You can send each type of log
+/// to an Amazon S3 bucket, a CloudWatch log group, or a Kinesis Data Firehose
+/// delivery stream.
 ///
 /// Network Firewall generates logs for stateful rule groups. You can save alert
 /// and flow log types. The stateful rules engine records flow logs for all
@@ -4110,7 +4505,7 @@ extension on String {
   }
 }
 
-/// Defines how AWS Network Firewall performs logging for a <a>Firewall</a>.
+/// Defines how Network Firewall performs logging for a <a>Firewall</a>.
 class LoggingConfiguration {
   /// Defines the logging destinations for the logs for a firewall. Network
   /// Firewall generates logs for stateful rule groups.
@@ -4292,6 +4687,7 @@ class PerObjectStatus {
 enum PerObjectSyncStatus {
   pending,
   inSync,
+  capacityConstrained,
 }
 
 extension on PerObjectSyncStatus {
@@ -4301,6 +4697,8 @@ extension on PerObjectSyncStatus {
         return 'PENDING';
       case PerObjectSyncStatus.inSync:
         return 'IN_SYNC';
+      case PerObjectSyncStatus.capacityConstrained:
+        return 'CAPACITY_CONSTRAINED';
     }
   }
 }
@@ -4312,6 +4710,8 @@ extension on String {
         return PerObjectSyncStatus.pending;
       case 'IN_SYNC':
         return PerObjectSyncStatus.inSync;
+      case 'CAPACITY_CONSTRAINED':
+        return PerObjectSyncStatus.capacityConstrained;
     }
     throw Exception('$this is not known in enum PerObjectSyncStatus');
   }
@@ -4417,6 +4817,31 @@ class PutResourcePolicyResponse {
   }
 }
 
+/// Contains a set of IP set references.
+class ReferenceSets {
+  /// The list of IP set references.
+  final Map<String, IPSetReference>? iPSetReferences;
+
+  ReferenceSets({
+    this.iPSetReferences,
+  });
+
+  factory ReferenceSets.fromJson(Map<String, dynamic> json) {
+    return ReferenceSets(
+      iPSetReferences: (json['IPSetReferences'] as Map<String, dynamic>?)?.map(
+          (k, e) =>
+              MapEntry(k, IPSetReference.fromJson(e as Map<String, dynamic>))),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final iPSetReferences = this.iPSetReferences;
+    return {
+      if (iPSetReferences != null) 'IPSetReferences': iPSetReferences,
+    };
+  }
+}
+
 enum ResourceManagedStatus {
   managed,
   account,
@@ -4442,6 +4867,34 @@ extension on String {
         return ResourceManagedStatus.account;
     }
     throw Exception('$this is not known in enum ResourceManagedStatus');
+  }
+}
+
+enum ResourceManagedType {
+  awsManagedThreatSignatures,
+  awsManagedDomainLists,
+}
+
+extension on ResourceManagedType {
+  String toValue() {
+    switch (this) {
+      case ResourceManagedType.awsManagedThreatSignatures:
+        return 'AWS_MANAGED_THREAT_SIGNATURES';
+      case ResourceManagedType.awsManagedDomainLists:
+        return 'AWS_MANAGED_DOMAIN_LISTS';
+    }
+  }
+}
+
+extension on String {
+  ResourceManagedType toResourceManagedType() {
+    switch (this) {
+      case 'AWS_MANAGED_THREAT_SIGNATURES':
+        return ResourceManagedType.awsManagedThreatSignatures;
+      case 'AWS_MANAGED_DOMAIN_LISTS':
+        return ResourceManagedType.awsManagedDomainLists;
+    }
+    throw Exception('$this is not known in enum ResourceManagedType');
   }
 }
 
@@ -4473,7 +4926,7 @@ extension on String {
   }
 }
 
-/// The inspection criteria and action for a single stateless rule. AWS Network
+/// The inspection criteria and action for a single stateless rule. Network
 /// Firewall inspects each packet for the specified matching criteria. When a
 /// packet matches the criteria, Network Firewall performs the rule's actions on
 /// the packet.
@@ -4552,9 +5005,9 @@ class RuleDefinition {
 /// <a>RuleGroupResponse</a>, define the rule group. You can retrieve all
 /// objects for a rule group by calling <a>DescribeRuleGroup</a>.
 ///
-/// AWS Network Firewall uses a rule group to inspect and control network
-/// traffic. You define stateless rule groups to inspect individual packets and
-/// you define stateful rule groups to inspect packets in the context of their
+/// Network Firewall uses a rule group to inspect and control network traffic.
+/// You define stateless rule groups to inspect individual packets and you
+/// define stateful rule groups to inspect packets in the context of their
 /// traffic flow.
 ///
 /// To use a rule group, you include it by reference in an Network Firewall
@@ -4564,6 +5017,9 @@ class RuleDefinition {
 class RuleGroup {
   /// The stateful rules or stateless rules for the rule group.
   final RulesSource rulesSource;
+
+  /// The list of a rule group's reference sets.
+  final ReferenceSets? referenceSets;
 
   /// Settings that are available for use in the rules in the rule group. You can
   /// only use these for stateful rule groups.
@@ -4576,6 +5032,7 @@ class RuleGroup {
 
   RuleGroup({
     required this.rulesSource,
+    this.referenceSets,
     this.ruleVariables,
     this.statefulRuleOptions,
   });
@@ -4584,6 +5041,10 @@ class RuleGroup {
     return RuleGroup(
       rulesSource:
           RulesSource.fromJson(json['RulesSource'] as Map<String, dynamic>),
+      referenceSets: json['ReferenceSets'] != null
+          ? ReferenceSets.fromJson(
+              json['ReferenceSets'] as Map<String, dynamic>)
+          : null,
       ruleVariables: json['RuleVariables'] != null
           ? RuleVariables.fromJson(
               json['RuleVariables'] as Map<String, dynamic>)
@@ -4597,10 +5058,12 @@ class RuleGroup {
 
   Map<String, dynamic> toJson() {
     final rulesSource = this.rulesSource;
+    final referenceSets = this.referenceSets;
     final ruleVariables = this.ruleVariables;
     final statefulRuleOptions = this.statefulRuleOptions;
     return {
       'RulesSource': rulesSource,
+      if (referenceSets != null) 'ReferenceSets': referenceSets,
       if (ruleVariables != null) 'RuleVariables': ruleVariables,
       if (statefulRuleOptions != null)
         'StatefulRuleOptions': statefulRuleOptions,
@@ -4676,11 +5139,32 @@ class RuleGroupResponse {
   /// A description of the rule group.
   final String? description;
 
+  /// A complex type that contains the Amazon Web Services KMS encryption
+  /// configuration settings for your rule group.
+  final EncryptionConfiguration? encryptionConfiguration;
+
+  /// The last time that the rule group was changed.
+  final DateTime? lastModifiedTime;
+
   /// The number of firewall policies that use this rule group.
   final int? numberOfAssociations;
 
   /// Detailed information about the current status of a rule group.
   final ResourceStatus? ruleGroupStatus;
+
+  /// The Amazon resource name (ARN) of the Amazon Simple Notification Service SNS
+  /// topic that's used to record changes to the managed rule group. You can
+  /// subscribe to the SNS topic to receive notifications when the managed rule
+  /// group is modified, such as for new versions and for version expiration. For
+  /// more information, see the <a
+  /// href="https://docs.aws.amazon.com/sns/latest/dg/welcome.html">Amazon Simple
+  /// Notification Service Developer Guide.</a>.
+  final String? snsTopic;
+
+  /// A complex type that contains metadata about the rule group that your own
+  /// rule group is copied from. You can use the metadata to track the version
+  /// updates made to the originating rule group.
+  final SourceMetadata? sourceMetadata;
 
   /// The key:value pairs to associate with the resource.
   final List<Tag>? tags;
@@ -4697,8 +5181,12 @@ class RuleGroupResponse {
     this.capacity,
     this.consumedCapacity,
     this.description,
+    this.encryptionConfiguration,
+    this.lastModifiedTime,
     this.numberOfAssociations,
     this.ruleGroupStatus,
+    this.snsTopic,
+    this.sourceMetadata,
     this.tags,
     this.type,
   });
@@ -4711,8 +5199,18 @@ class RuleGroupResponse {
       capacity: json['Capacity'] as int?,
       consumedCapacity: json['ConsumedCapacity'] as int?,
       description: json['Description'] as String?,
+      encryptionConfiguration: json['EncryptionConfiguration'] != null
+          ? EncryptionConfiguration.fromJson(
+              json['EncryptionConfiguration'] as Map<String, dynamic>)
+          : null,
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       numberOfAssociations: json['NumberOfAssociations'] as int?,
       ruleGroupStatus: (json['RuleGroupStatus'] as String?)?.toResourceStatus(),
+      snsTopic: json['SnsTopic'] as String?,
+      sourceMetadata: json['SourceMetadata'] != null
+          ? SourceMetadata.fromJson(
+              json['SourceMetadata'] as Map<String, dynamic>)
+          : null,
       tags: (json['Tags'] as List?)
           ?.whereNotNull()
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
@@ -4728,8 +5226,12 @@ class RuleGroupResponse {
     final capacity = this.capacity;
     final consumedCapacity = this.consumedCapacity;
     final description = this.description;
+    final encryptionConfiguration = this.encryptionConfiguration;
+    final lastModifiedTime = this.lastModifiedTime;
     final numberOfAssociations = this.numberOfAssociations;
     final ruleGroupStatus = this.ruleGroupStatus;
+    final snsTopic = this.snsTopic;
+    final sourceMetadata = this.sourceMetadata;
     final tags = this.tags;
     final type = this.type;
     return {
@@ -4739,9 +5241,15 @@ class RuleGroupResponse {
       if (capacity != null) 'Capacity': capacity,
       if (consumedCapacity != null) 'ConsumedCapacity': consumedCapacity,
       if (description != null) 'Description': description,
+      if (encryptionConfiguration != null)
+        'EncryptionConfiguration': encryptionConfiguration,
+      if (lastModifiedTime != null)
+        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
       if (numberOfAssociations != null)
         'NumberOfAssociations': numberOfAssociations,
       if (ruleGroupStatus != null) 'RuleGroupStatus': ruleGroupStatus.toValue(),
+      if (snsTopic != null) 'SnsTopic': snsTopic,
+      if (sourceMetadata != null) 'SourceMetadata': sourceMetadata,
       if (tags != null) 'Tags': tags,
       if (type != null) 'Type': type.toValue(),
     };
@@ -4952,8 +5460,8 @@ class RulesSource {
 /// deployment VPC plus the other CIDR ranges. For more information, see
 /// <a>RuleVariables</a> in this guide and <a
 /// href="https://docs.aws.amazon.com/network-firewall/latest/developerguide/stateful-rule-groups-domain-names.html">Stateful
-/// domain list rule groups in AWS Network Firewall</a> in the <i>Network
-/// Firewall Developer Guide</i>.
+/// domain list rule groups in Network Firewall</a> in the <i>Network Firewall
+/// Developer Guide</i>.
 class RulesSourceList {
   /// Whether you want to allow or deny access to the domains in your target list.
   final GeneratedRulesType generatedRulesType;
@@ -5014,6 +5522,44 @@ class RulesSourceList {
   }
 }
 
+/// High-level information about the managed rule group that your own rule group
+/// is copied from. You can use the the metadata to track version updates made
+/// to the originating rule group. You can retrieve all objects for a rule group
+/// by calling <a
+/// href="https://docs.aws.amazon.com/network-firewall/latest/APIReference/API_DescribeRuleGroup.html">DescribeRuleGroup</a>.
+class SourceMetadata {
+  /// The Amazon Resource Name (ARN) of the rule group that your own rule group is
+  /// copied from.
+  final String? sourceArn;
+
+  /// The update token of the Amazon Web Services managed rule group that your own
+  /// rule group is copied from. To determine the update token for the managed
+  /// rule group, call <a
+  /// href="https://docs.aws.amazon.com/network-firewall/latest/APIReference/API_DescribeRuleGroup.html#networkfirewall-DescribeRuleGroup-response-UpdateToken">DescribeRuleGroup</a>.
+  final String? sourceUpdateToken;
+
+  SourceMetadata({
+    this.sourceArn,
+    this.sourceUpdateToken,
+  });
+
+  factory SourceMetadata.fromJson(Map<String, dynamic> json) {
+    return SourceMetadata(
+      sourceArn: json['SourceArn'] as String?,
+      sourceUpdateToken: json['SourceUpdateToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sourceArn = this.sourceArn;
+    final sourceUpdateToken = this.sourceUpdateToken;
+    return {
+      if (sourceArn != null) 'SourceArn': sourceArn,
+      if (sourceUpdateToken != null) 'SourceUpdateToken': sourceUpdateToken,
+    };
+  }
+}
+
 enum StatefulAction {
   pass,
   drop,
@@ -5056,8 +5602,7 @@ class StatefulEngineOptions {
   /// Suricata evaluates them based on certain settings. For more information, see
   /// <a
   /// href="https://docs.aws.amazon.com/network-firewall/latest/developerguide/suricata-rule-evaluation-order.html">Evaluation
-  /// order for stateful rules</a> in the <i>AWS Network Firewall Developer
-  /// Guide</i>.
+  /// order for stateful rules</a> in the <i>Network Firewall Developer Guide</i>.
   final RuleOrder? ruleOrder;
 
   StatefulEngineOptions({
@@ -5265,8 +5810,7 @@ class StatefulRuleOptions {
   /// are provided to the rule engine as Suricata compatible strings, and Suricata
   /// evaluates them based on certain settings. For more information, see <a
   /// href="https://docs.aws.amazon.com/network-firewall/latest/developerguide/suricata-rule-evaluation-order.html">Evaluation
-  /// order for stateful rules</a> in the <i>AWS Network Firewall Developer
-  /// Guide</i>.
+  /// order for stateful rules</a> in the <i>Network Firewall Developer Guide</i>.
   final RuleOrder? ruleOrder;
 
   StatefulRuleOptions({
@@ -5525,7 +6069,7 @@ class StatelessRulesAndCustomActions {
 }
 
 /// The ID for a subnet that you want to associate with the firewall. This is
-/// used with <a>CreateFirewall</a> and <a>AssociateSubnets</a>. AWS Network
+/// used with <a>CreateFirewall</a> and <a>AssociateSubnets</a>. Network
 /// Firewall creates an instance of the associated firewall in each subnet that
 /// you specify, to filter traffic in the subnet's Availability Zone.
 class SubnetMapping {
@@ -5553,7 +6097,7 @@ class SubnetMapping {
 /// The status of the firewall endpoint and firewall policy configuration for a
 /// single VPC subnet.
 ///
-/// For each VPC subnet that you associate with a firewall, AWS Network Firewall
+/// For each VPC subnet that you associate with a firewall, Network Firewall
 /// does the following:
 ///
 /// <ul>
@@ -5720,11 +6264,11 @@ class TCPFlagField {
   }
 }
 
-/// A key:value pair associated with an AWS resource. The key:value pair can be
-/// anything you define. Typically, the tag key represents a category (such as
-/// "environment") and the tag value represents a specific value within that
-/// category (such as "test," "development," or "production"). You can add up to
-/// 50 tags to each AWS resource.
+/// A key:value pair associated with an Amazon Web Services resource. The
+/// key:value pair can be anything you define. Typically, the tag key represents
+/// a category (such as "environment") and the tag value represents a specific
+/// value within that category (such as "test," "development," or "production").
+/// You can add up to 50 tags to each Amazon Web Services resource.
 class Tag {
   /// The part of the key:value pair that defines a tag. You can use a tag key to
   /// describe a category of information, such as "customer." Tag keys are
@@ -5923,6 +6467,67 @@ class UpdateFirewallDescriptionResponse {
     final updateToken = this.updateToken;
     return {
       if (description != null) 'Description': description,
+      if (firewallArn != null) 'FirewallArn': firewallArn,
+      if (firewallName != null) 'FirewallName': firewallName,
+      if (updateToken != null) 'UpdateToken': updateToken,
+    };
+  }
+}
+
+class UpdateFirewallEncryptionConfigurationResponse {
+  final EncryptionConfiguration? encryptionConfiguration;
+
+  /// The Amazon Resource Name (ARN) of the firewall.
+  final String? firewallArn;
+
+  /// The descriptive name of the firewall. You can't change the name of a
+  /// firewall after you create it.
+  final String? firewallName;
+
+  /// An optional token that you can use for optimistic locking. Network Firewall
+  /// returns a token to your requests that access the firewall. The token marks
+  /// the state of the firewall resource at the time of the request.
+  ///
+  /// To make an unconditional change to the firewall, omit the token in your
+  /// update request. Without the token, Network Firewall performs your updates
+  /// regardless of whether the firewall has changed since you last retrieved it.
+  ///
+  /// To make a conditional change to the firewall, provide the token in your
+  /// update request. Network Firewall uses the token to ensure that the firewall
+  /// hasn't changed since you last retrieved it. If it has changed, the operation
+  /// fails with an <code>InvalidTokenException</code>. If this happens, retrieve
+  /// the firewall again to get a current copy of it with a new token. Reapply
+  /// your changes as needed, then try the operation again using the new token.
+  final String? updateToken;
+
+  UpdateFirewallEncryptionConfigurationResponse({
+    this.encryptionConfiguration,
+    this.firewallArn,
+    this.firewallName,
+    this.updateToken,
+  });
+
+  factory UpdateFirewallEncryptionConfigurationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateFirewallEncryptionConfigurationResponse(
+      encryptionConfiguration: json['EncryptionConfiguration'] != null
+          ? EncryptionConfiguration.fromJson(
+              json['EncryptionConfiguration'] as Map<String, dynamic>)
+          : null,
+      firewallArn: json['FirewallArn'] as String?,
+      firewallName: json['FirewallName'] as String?,
+      updateToken: json['UpdateToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final encryptionConfiguration = this.encryptionConfiguration;
+    final firewallArn = this.firewallArn;
+    final firewallName = this.firewallName;
+    final updateToken = this.updateToken;
+    return {
+      if (encryptionConfiguration != null)
+        'EncryptionConfiguration': encryptionConfiguration,
       if (firewallArn != null) 'FirewallArn': firewallArn,
       if (firewallName != null) 'FirewallName': firewallName,
       if (updateToken != null) 'UpdateToken': updateToken,

@@ -61,7 +61,8 @@ class Forecast {
   /// (hourly, daily, weekly, etc).
   /// </li>
   /// <li>
-  /// <code>ForecastHorizon</code> - The number of time steps being forecasted.
+  /// <code>ForecastHorizon</code> - The number of time-steps that the model
+  /// predicts. The forecast horizon is also called the prediction length.
   /// </li>
   /// </ul>
   /// When creating a new predictor, do not specify a value for
@@ -126,11 +127,29 @@ class Forecast {
   /// The number of time-steps that the model predicts. The forecast horizon is
   /// also called the prediction length.
   ///
+  /// The maximum forecast horizon is the lesser of 500 time-steps or 1/4 of the
+  /// TARGET_TIME_SERIES dataset length. If you are retraining an existing
+  /// AutoPredictor, then the maximum forecast horizon is the lesser of 500
+  /// time-steps or 1/3 of the TARGET_TIME_SERIES dataset length.
+  ///
+  /// If you are upgrading to an AutoPredictor or retraining an existing
+  /// AutoPredictor, you cannot update the forecast horizon parameter. You can
+  /// meet this requirement by providing longer time-series in the dataset.
+  ///
   /// Parameter [forecastTypes] :
   /// The forecast types used to train a predictor. You can specify up to five
   /// forecast types. Forecast types can be quantiles from 0.01 to 0.99, by
   /// increments of 0.01 or higher. You can also specify the mean forecast with
   /// <code>mean</code>.
+  ///
+  /// Parameter [monitorConfig] :
+  /// The configuration details for predictor monitoring. Provide a name for the
+  /// monitor resource to enable predictor monitoring.
+  ///
+  /// Predictor monitoring allows you to see how your predictor's performance
+  /// changes over time. For more information, see <a
+  /// href="https://docs.aws.amazon.com/forecast/latest/dg/predictor-monitoring.html">Predictor
+  /// Monitoring</a>.
   ///
   /// Parameter [optimizationMetric] :
   /// The accuracy metric used to optimize the predictor.
@@ -181,6 +200,17 @@ class Forecast {
   /// with this prefix.
   /// </li>
   /// </ul>
+  ///
+  /// Parameter [timeAlignmentBoundary] :
+  /// The time boundary Forecast uses to align and aggregate any data that
+  /// doesn't align with your forecast frequency. Provide the unit of time and
+  /// the time boundary as a key value pair. For more information on specifying
+  /// a time boundary, see <a
+  /// href="https://docs.aws.amazon.com/forecast/latest/dg/data-aggregation.html#specifying-time-boundary">Specifying
+  /// a Time Boundary</a>. If you don't provide a time boundary, Forecast uses a
+  /// set of <a
+  /// href="https://docs.aws.amazon.com/forecast/latest/dg/data-aggregation.html#default-time-boundaries">Default
+  /// Time Boundaries</a>.
   Future<CreateAutoPredictorResponse> createAutoPredictor({
     required String predictorName,
     DataConfig? dataConfig,
@@ -190,9 +220,11 @@ class Forecast {
     String? forecastFrequency,
     int? forecastHorizon,
     List<String>? forecastTypes,
+    MonitorConfig? monitorConfig,
     OptimizationMetric? optimizationMetric,
     String? referencePredictorArn,
     List<Tag>? tags,
+    TimeAlignmentBoundary? timeAlignmentBoundary,
   }) async {
     ArgumentError.checkNotNull(predictorName, 'predictorName');
     final headers = <String, String>{
@@ -215,11 +247,14 @@ class Forecast {
         if (forecastFrequency != null) 'ForecastFrequency': forecastFrequency,
         if (forecastHorizon != null) 'ForecastHorizon': forecastHorizon,
         if (forecastTypes != null) 'ForecastTypes': forecastTypes,
+        if (monitorConfig != null) 'MonitorConfig': monitorConfig,
         if (optimizationMetric != null)
           'OptimizationMetric': optimizationMetric.toValue(),
         if (referencePredictorArn != null)
           'ReferencePredictorArn': referencePredictorArn,
         if (tags != null) 'Tags': tags,
+        if (timeAlignmentBoundary != null)
+          'TimeAlignmentBoundary': timeAlignmentBoundary,
       },
     );
 
@@ -250,17 +285,22 @@ class Forecast {
   /// </ul>
   /// After creating a dataset, you import your training data into it and add
   /// the dataset to a dataset group. You use the dataset group to create a
-  /// predictor. For more information, see <a>howitworks-datasets-groups</a>.
+  /// predictor. For more information, see <a
+  /// href="https://docs.aws.amazon.com/forecast/latest/dg/howitworks-datasets-groups.html">Importing
+  /// datasets</a>.
   ///
-  /// To get a list of all your datasets, use the <a>ListDatasets</a> operation.
+  /// To get a list of all your datasets, use the <a
+  /// href="https://docs.aws.amazon.com/forecast/latest/dg/API_ListDatasets.html">ListDatasets</a>
+  /// operation.
   ///
   /// For example Forecast datasets, see the <a
   /// href="https://github.com/aws-samples/amazon-forecast-samples">Amazon
   /// Forecast Sample GitHub repository</a>.
   /// <note>
   /// The <code>Status</code> of a dataset must be <code>ACTIVE</code> before
-  /// you can import training data. Use the <a>DescribeDataset</a> operation to
-  /// get the status.
+  /// you can import training data. Use the <a
+  /// href="https://docs.aws.amazon.com/forecast/latest/dg/API_DescribeDataset.html">DescribeDataset</a>
+  /// operation to get the status.
   /// </note>
   ///
   /// May throw [InvalidInputException].
@@ -276,8 +316,9 @@ class Forecast {
   /// Parameter [domain] :
   /// The domain associated with the dataset. When you add a dataset to a
   /// dataset group, this value and the value specified for the
-  /// <code>Domain</code> parameter of the <a>CreateDatasetGroup</a> operation
-  /// must match.
+  /// <code>Domain</code> parameter of the <a
+  /// href="https://docs.aws.amazon.com/forecast/latest/dg/API_CreateDatasetGroup.html">CreateDatasetGroup</a>
+  /// operation must match.
   ///
   /// The <code>Domain</code> and <code>DatasetType</code> that you choose
   /// determine the fields that must be present in the training data that you
@@ -285,15 +326,18 @@ class Forecast {
   /// domain and <code>TARGET_TIME_SERIES</code> as the
   /// <code>DatasetType</code>, Amazon Forecast requires <code>item_id</code>,
   /// <code>timestamp</code>, and <code>demand</code> fields to be present in
-  /// your data. For more information, see <a>howitworks-datasets-groups</a>.
+  /// your data. For more information, see <a
+  /// href="https://docs.aws.amazon.com/forecast/latest/dg/howitworks-datasets-groups.html">Importing
+  /// datasets</a>.
   ///
   /// Parameter [schema] :
   /// The schema for the dataset. The schema attributes and their order must
   /// match the fields in your data. The dataset <code>Domain</code> and
   /// <code>DatasetType</code> that you choose determine the minimum required
   /// fields in your training data. For information about the required fields
-  /// for a specific dataset domain and type, see
-  /// <a>howitworks-domains-ds-types</a>.
+  /// for a specific dataset domain and type, see <a
+  /// href="https://docs.aws.amazon.com/forecast/latest/dg/howitworks-domains-ds-types.html">Dataset
+  /// Domains and Dataset Types</a>.
   ///
   /// Parameter [dataFrequency] :
   /// The frequency of data collection. This parameter is required for
@@ -387,18 +431,24 @@ class Forecast {
 
   /// Creates a dataset group, which holds a collection of related datasets. You
   /// can add datasets to the dataset group when you create the dataset group,
-  /// or later by using the <a>UpdateDatasetGroup</a> operation.
+  /// or later by using the <a
+  /// href="https://docs.aws.amazon.com/forecast/latest/dg/API_UpdateDatasetGroup.html">UpdateDatasetGroup</a>
+  /// operation.
   ///
   /// After creating a dataset group and adding datasets, you use the dataset
-  /// group when you create a predictor. For more information, see
-  /// <a>howitworks-datasets-groups</a>.
+  /// group when you create a predictor. For more information, see <a
+  /// href="https://docs.aws.amazon.com/forecast/latest/dg/howitworks-datasets-groups.html">Dataset
+  /// groups</a>.
   ///
-  /// To get a list of all your datasets groups, use the
-  /// <a>ListDatasetGroups</a> operation.
+  /// To get a list of all your datasets groups, use the <a
+  /// href="https://docs.aws.amazon.com/forecast/latest/dg/API_ListDatasetGroups.html">ListDatasetGroups</a>
+  /// operation.
   /// <note>
   /// The <code>Status</code> of a dataset group must be <code>ACTIVE</code>
   /// before you can use the dataset group to create a predictor. To get the
-  /// status, use the <a>DescribeDatasetGroup</a> operation.
+  /// status, use the <a
+  /// href="https://docs.aws.amazon.com/forecast/latest/dg/API_DescribeDatasetGroup.html">DescribeDatasetGroup</a>
+  /// operation.
   /// </note>
   ///
   /// May throw [InvalidInputException].
@@ -413,8 +463,9 @@ class Forecast {
   /// Parameter [domain] :
   /// The domain associated with the dataset group. When you add a dataset to a
   /// dataset group, this value and the value specified for the
-  /// <code>Domain</code> parameter of the <a>CreateDataset</a> operation must
-  /// match.
+  /// <code>Domain</code> parameter of the <a
+  /// href="https://docs.aws.amazon.com/forecast/latest/dg/API_CreateDataset.html">CreateDataset</a>
+  /// operation must match.
   ///
   /// The <code>Domain</code> and <code>DatasetType</code> that you choose
   /// determine the fields that must be present in training data that you import
@@ -422,7 +473,9 @@ class Forecast {
   /// and <code>TARGET_TIME_SERIES</code> as the <code>DatasetType</code>,
   /// Amazon Forecast requires that <code>item_id</code>,
   /// <code>timestamp</code>, and <code>demand</code> fields are present in your
-  /// data. For more information, see <a>howitworks-datasets-groups</a>.
+  /// data. For more information, see <a
+  /// href="https://docs.aws.amazon.com/forecast/latest/dg/howitworks-datasets-groups.html">Dataset
+  /// groups</a>.
   ///
   /// Parameter [datasetArns] :
   /// An array of Amazon Resource Names (ARNs) of the datasets that you want to
@@ -502,18 +555,21 @@ class Forecast {
   /// S3) bucket and the Amazon Resource Name (ARN) of the dataset that you want
   /// to import the data to.
   ///
-  /// You must specify a <a>DataSource</a> object that includes an AWS Identity
-  /// and Access Management (IAM) role that Amazon Forecast can assume to access
-  /// the data, as Amazon Forecast makes a copy of your data and processes it in
-  /// an internal AWS system. For more information, see
-  /// <a>aws-forecast-iam-roles</a>.
+  /// You must specify a <a
+  /// href="https://docs.aws.amazon.com/forecast/latest/dg/API_DataSource.html">DataSource</a>
+  /// object that includes an AWS Identity and Access Management (IAM) role that
+  /// Amazon Forecast can assume to access the data, as Amazon Forecast makes a
+  /// copy of your data and processes it in an internal AWS system. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/forecast/latest/dg/aws-forecast-iam-roles.html">Set
+  /// up permissions</a>.
   ///
-  /// The training data must be in CSV format. The delimiter must be a comma
-  /// (,).
+  /// The training data must be in CSV or Parquet format. The delimiter must be
+  /// a comma (,).
   ///
-  /// You can specify the path to a specific CSV file, the S3 bucket, or to a
-  /// folder in the S3 bucket. For the latter two cases, Amazon Forecast imports
-  /// all files up to the limit of 10,000 files.
+  /// You can specify the path to a specific file, the S3 bucket, or to a folder
+  /// in the S3 bucket. For the latter two cases, Amazon Forecast imports all
+  /// files up to the limit of 10,000 files.
   ///
   /// Because dataset imports are not aggregated, your most recent dataset
   /// import is the one that is used when training a predictor or generating a
@@ -522,7 +578,9 @@ class Forecast {
   /// since the previous import.
   ///
   /// To get a list of all your dataset import jobs, filtered by specified
-  /// criteria, use the <a>ListDatasetImportJobs</a> operation.
+  /// criteria, use the <a
+  /// href="https://docs.aws.amazon.com/forecast/latest/dg/API_ListDatasetImportJobs.html">ListDatasetImportJobs</a>
+  /// operation.
   ///
   /// May throw [InvalidInputException].
   /// May throw [ResourceAlreadyExistsException].
@@ -538,8 +596,9 @@ class Forecast {
   /// If encryption is used, <code>DataSource</code> must include an AWS Key
   /// Management Service (KMS) key and the IAM role must allow Amazon Forecast
   /// permission to access the key. The KMS key and IAM role must match those
-  /// specified in the <code>EncryptionConfig</code> parameter of the
-  /// <a>CreateDataset</a> operation.
+  /// specified in the <code>EncryptionConfig</code> parameter of the <a
+  /// href="https://docs.aws.amazon.com/forecast/latest/dg/API_CreateDataset.html">CreateDataset</a>
+  /// operation.
   ///
   /// Parameter [datasetArn] :
   /// The Amazon Resource Name (ARN) of the Amazon Forecast dataset that you
@@ -550,6 +609,9 @@ class Forecast {
   /// timestamp in the name, for example, <code>20190721DatasetImport</code>.
   /// This can help you avoid getting a
   /// <code>ResourceAlreadyExistsException</code> exception.
+  ///
+  /// Parameter [format] :
+  /// The format of the imported data, CSV or PARQUET. The default value is CSV.
   ///
   /// Parameter [geolocationFormat] :
   /// The format of the geolocation attribute. The geolocation attribute can be
@@ -645,6 +707,7 @@ class Forecast {
     required DataSource dataSource,
     required String datasetArn,
     required String datasetImportJobName,
+    String? format,
     String? geolocationFormat,
     List<Tag>? tags,
     String? timeZone,
@@ -668,6 +731,7 @@ class Forecast {
         'DataSource': dataSource,
         'DatasetArn': datasetArn,
         'DatasetImportJobName': datasetImportJobName,
+        if (format != null) 'Format': format,
         if (geolocationFormat != null) 'GeolocationFormat': geolocationFormat,
         if (tags != null) 'Tags': tags,
         if (timeZone != null) 'TimeZone': timeZone,
@@ -806,7 +870,7 @@ class Forecast {
   /// the Explainability.
   ///
   /// Parameter [enableVisualization] :
-  /// Create an Expainability visualization that is viewable within the AWS
+  /// Create an Explainability visualization that is viewable within the AWS
   /// console.
   ///
   /// Parameter [endDateTime] :
@@ -927,6 +991,9 @@ class Forecast {
   /// Parameter [explainabilityExportName] :
   /// A unique name for the Explainability export.
   ///
+  /// Parameter [format] :
+  /// The format of the exported data, CSV or PARQUET.
+  ///
   /// Parameter [tags] :
   /// Optional metadata to help you categorize and organize your resources. Each
   /// tag consists of a key and an optional value, both of which you define. Tag
@@ -968,6 +1035,7 @@ class Forecast {
     required DataDestination destination,
     required String explainabilityArn,
     required String explainabilityExportName,
+    String? format,
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(destination, 'destination');
@@ -988,6 +1056,7 @@ class Forecast {
         'Destination': destination,
         'ExplainabilityArn': explainabilityArn,
         'ExplainabilityExportName': explainabilityExportName,
+        if (format != null) 'Format': format,
         if (tags != null) 'Tags': tags,
       },
     );
@@ -1019,6 +1088,13 @@ class Forecast {
   /// you can query or export the forecast. Use the <a>DescribeForecast</a>
   /// operation to get the status.
   /// </note>
+  /// By default, a forecast includes predictions for every item
+  /// (<code>item_id</code>) in the dataset group that was used to train the
+  /// predictor. However, you can use the <code>TimeSeriesSelector</code> object
+  /// to generate a forecast on a subset of time series. Forecast creation is
+  /// skipped for any time series that you specify that are not in the input
+  /// dataset. The forecast export file will not contain these time series or
+  /// their forecasted values.
   ///
   /// May throw [InvalidInputException].
   /// May throw [ResourceAlreadyExistsException].
@@ -1039,7 +1115,11 @@ class Forecast {
   /// include <code>0.01 to 0.99</code> (increments of .01 only) and
   /// <code>mean</code>. The mean forecast is different from the median (0.50)
   /// when the distribution is not symmetric (for example, Beta and Negative
-  /// Binomial). The default value is <code>["0.1", "0.5", "0.9"]</code>.
+  /// Binomial).
+  ///
+  /// The default quantiles are the quantiles you specified during predictor
+  /// creation. If you didn't specify quantiles, the default values are
+  /// <code>["0.1", "0.5", "0.9"]</code>.
   ///
   /// Parameter [tags] :
   /// The optional metadata that you apply to the forecast to help you
@@ -1081,11 +1161,31 @@ class Forecast {
   /// not count against your tags per resource limit.
   /// </li>
   /// </ul>
+  ///
+  /// Parameter [timeSeriesSelector] :
+  /// Defines the set of time series that are used to create the forecasts in a
+  /// <code>TimeSeriesIdentifiers</code> object.
+  ///
+  /// The <code>TimeSeriesIdentifiers</code> object needs the following
+  /// information:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>DataSource</code>
+  /// </li>
+  /// <li>
+  /// <code>Format</code>
+  /// </li>
+  /// <li>
+  /// <code>Schema</code>
+  /// </li>
+  /// </ul>
   Future<CreateForecastResponse> createForecast({
     required String forecastName,
     required String predictorArn,
     List<String>? forecastTypes,
     List<Tag>? tags,
+    TimeSeriesSelector? timeSeriesSelector,
   }) async {
     ArgumentError.checkNotNull(forecastName, 'forecastName');
     ArgumentError.checkNotNull(predictorArn, 'predictorArn');
@@ -1104,6 +1204,8 @@ class Forecast {
         'PredictorArn': predictorArn,
         if (forecastTypes != null) 'ForecastTypes': forecastTypes,
         if (tags != null) 'Tags': tags,
+        if (timeSeriesSelector != null)
+          'TimeSeriesSelector': timeSeriesSelector,
       },
     );
 
@@ -1156,6 +1258,9 @@ class Forecast {
   /// Parameter [forecastExportJobName] :
   /// The name for the forecast export job.
   ///
+  /// Parameter [format] :
+  /// The format of the exported data, CSV or PARQUET. The default value is CSV.
+  ///
   /// Parameter [tags] :
   /// The optional metadata that you apply to the forecast export job to help
   /// you categorize and organize them. Each tag consists of a key and an
@@ -1200,6 +1305,7 @@ class Forecast {
     required DataDestination destination,
     required String forecastArn,
     required String forecastExportJobName,
+    String? format,
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(destination, 'destination');
@@ -1219,11 +1325,61 @@ class Forecast {
         'Destination': destination,
         'ForecastArn': forecastArn,
         'ForecastExportJobName': forecastExportJobName,
+        if (format != null) 'Format': format,
         if (tags != null) 'Tags': tags,
       },
     );
 
     return CreateForecastExportJobResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Creates a predictor monitor resource for an existing auto predictor.
+  /// Predictor monitoring allows you to see how your predictor's performance
+  /// changes over time. For more information, see <a
+  /// href="https://docs.aws.amazon.com/forecast/latest/dg/predictor-monitoring.html">Predictor
+  /// Monitoring</a>.
+  ///
+  /// May throw [InvalidInputException].
+  /// May throw [ResourceAlreadyExistsException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ResourceInUseException].
+  /// May throw [LimitExceededException].
+  ///
+  /// Parameter [monitorName] :
+  /// The name of the monitor resource.
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) of the predictor to monitor.
+  ///
+  /// Parameter [tags] :
+  /// A list of <a
+  /// href="https://docs.aws.amazon.com/forecast/latest/dg/tagging-forecast-resources.html">tags</a>
+  /// to apply to the monitor resource.
+  Future<CreateMonitorResponse> createMonitor({
+    required String monitorName,
+    required String resourceArn,
+    List<Tag>? tags,
+  }) async {
+    ArgumentError.checkNotNull(monitorName, 'monitorName');
+    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonForecast.CreateMonitor'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'MonitorName': monitorName,
+        'ResourceArn': resourceArn,
+        if (tags != null) 'Tags': tags,
+      },
+    );
+
+    return CreateMonitorResponse.fromJson(jsonResponse.body);
   }
 
   /// <note>
@@ -1537,7 +1693,8 @@ class Forecast {
 
   /// Exports backtest forecasts and accuracy metrics generated by the
   /// <a>CreateAutoPredictor</a> or <a>CreatePredictor</a> operations. Two
-  /// folders containing CSV files are exported to your specified S3 bucket.
+  /// folders containing CSV or Parquet files are exported to your specified S3
+  /// bucket.
   ///
   /// The export file names will match the following conventions:
   ///
@@ -1567,6 +1724,9 @@ class Forecast {
   ///
   /// Parameter [predictorBacktestExportJobName] :
   /// The name for the backtest export job.
+  ///
+  /// Parameter [format] :
+  /// The format of the exported data, CSV or PARQUET. The default value is CSV.
   ///
   /// Parameter [tags] :
   /// Optional metadata to help you categorize and organize your backtests. Each
@@ -1610,6 +1770,7 @@ class Forecast {
     required DataDestination destination,
     required String predictorArn,
     required String predictorBacktestExportJobName,
+    String? format,
     List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(destination, 'destination');
@@ -1630,6 +1791,7 @@ class Forecast {
         'Destination': destination,
         'PredictorArn': predictorArn,
         'PredictorBacktestExportJobName': predictorBacktestExportJobName,
+        if (format != null) 'Format': format,
         if (tags != null) 'Tags': tags,
       },
     );
@@ -1637,14 +1799,18 @@ class Forecast {
     return CreatePredictorBacktestExportJobResponse.fromJson(jsonResponse.body);
   }
 
-  /// Deletes an Amazon Forecast dataset that was created using the
-  /// <a>CreateDataset</a> operation. You can only delete datasets that have a
-  /// status of <code>ACTIVE</code> or <code>CREATE_FAILED</code>. To get the
-  /// status use the <a>DescribeDataset</a> operation.
+  /// Deletes an Amazon Forecast dataset that was created using the <a
+  /// href="https://docs.aws.amazon.com/forecast/latest/dg/API_CreateDataset.html">CreateDataset</a>
+  /// operation. You can only delete datasets that have a status of
+  /// <code>ACTIVE</code> or <code>CREATE_FAILED</code>. To get the status use
+  /// the <a
+  /// href="https://docs.aws.amazon.com/forecast/latest/dg/API_DescribeDataset.html">DescribeDataset</a>
+  /// operation.
   /// <note>
   /// Forecast does not automatically update any dataset groups that contain the
-  /// deleted dataset. In order to update the dataset group, use the operation,
-  /// omitting the deleted dataset's ARN.
+  /// deleted dataset. In order to update the dataset group, use the <a
+  /// href="https://docs.aws.amazon.com/forecast/latest/dg/API_UpdateDatasetGroup.html">UpdateDatasetGroup</a>
+  /// operation, omitting the deleted dataset's ARN.
   /// </note>
   ///
   /// May throw [InvalidInputException].
@@ -1673,11 +1839,13 @@ class Forecast {
     );
   }
 
-  /// Deletes a dataset group created using the <a>CreateDatasetGroup</a>
+  /// Deletes a dataset group created using the <a
+  /// href="https://docs.aws.amazon.com/forecast/latest/dg/API_CreateDatasetGroup.html">CreateDatasetGroup</a>
   /// operation. You can only delete dataset groups that have a status of
   /// <code>ACTIVE</code>, <code>CREATE_FAILED</code>, or
-  /// <code>UPDATE_FAILED</code>. To get the status, use the
-  /// <a>DescribeDatasetGroup</a> operation.
+  /// <code>UPDATE_FAILED</code>. To get the status, use the <a
+  /// href="https://docs.aws.amazon.com/forecast/latest/dg/API_DescribeDatasetGroup.html">DescribeDatasetGroup</a>
+  /// operation.
   ///
   /// This operation deletes only the dataset group, not the datasets in the
   /// group.
@@ -1708,11 +1876,13 @@ class Forecast {
     );
   }
 
-  /// Deletes a dataset import job created using the
-  /// <a>CreateDatasetImportJob</a> operation. You can delete only dataset
-  /// import jobs that have a status of <code>ACTIVE</code> or
-  /// <code>CREATE_FAILED</code>. To get the status, use the
-  /// <a>DescribeDatasetImportJob</a> operation.
+  /// Deletes a dataset import job created using the <a
+  /// href="https://docs.aws.amazon.com/forecast/latest/dg/API_CreateDatasetImportJob.html">CreateDatasetImportJob</a>
+  /// operation. You can delete only dataset import jobs that have a status of
+  /// <code>ACTIVE</code> or <code>CREATE_FAILED</code>. To get the status, use
+  /// the <a
+  /// href="https://docs.aws.amazon.com/forecast/latest/dg/API_DescribeDatasetImportJob.html">DescribeDatasetImportJob</a>
+  /// operation.
   ///
   /// May throw [InvalidInputException].
   /// May throw [ResourceNotFoundException].
@@ -1866,6 +2036,36 @@ class Forecast {
     );
   }
 
+  /// Deletes a monitor resource. You can only delete a monitor resource with a
+  /// status of <code>ACTIVE</code>, <code>ACTIVE_STOPPED</code>,
+  /// <code>CREATE_FAILED</code>, or <code>CREATE_STOPPED</code>.
+  ///
+  /// May throw [InvalidInputException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ResourceInUseException].
+  ///
+  /// Parameter [monitorArn] :
+  /// The Amazon Resource Name (ARN) of the monitor resource to delete.
+  Future<void> deleteMonitor({
+    required String monitorArn,
+  }) async {
+    ArgumentError.checkNotNull(monitorArn, 'monitorArn');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonForecast.DeleteMonitor'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'MonitorArn': monitorArn,
+      },
+    );
+  }
+
   /// Deletes a predictor created using the <a>DescribePredictor</a> or
   /// <a>CreatePredictor</a> operations. You can delete only predictor that have
   /// a status of <code>ACTIVE</code> or <code>CREATE_FAILED</code>. To get the
@@ -2014,8 +2214,9 @@ class Forecast {
     return DescribeAutoPredictorResponse.fromJson(jsonResponse.body);
   }
 
-  /// Describes an Amazon Forecast dataset created using the
-  /// <a>CreateDataset</a> operation.
+  /// Describes an Amazon Forecast dataset created using the <a
+  /// href="https://docs.aws.amazon.com/forecast/latest/dg/API_CreateDataset.html">CreateDataset</a>
+  /// operation.
   ///
   /// In addition to listing the parameters specified in the
   /// <code>CreateDataset</code> request, this operation includes the following
@@ -2060,7 +2261,8 @@ class Forecast {
     return DescribeDatasetResponse.fromJson(jsonResponse.body);
   }
 
-  /// Describes a dataset group created using the <a>CreateDatasetGroup</a>
+  /// Describes a dataset group created using the <a
+  /// href="https://docs.aws.amazon.com/forecast/latest/dg/API_CreateDatasetGroup.html">CreateDatasetGroup</a>
   /// operation.
   ///
   /// In addition to listing the parameters provided in the
@@ -2109,8 +2311,9 @@ class Forecast {
     return DescribeDatasetGroupResponse.fromJson(jsonResponse.body);
   }
 
-  /// Describes a dataset import job created using the
-  /// <a>CreateDatasetImportJob</a> operation.
+  /// Describes a dataset import job created using the <a
+  /// href="https://docs.aws.amazon.com/forecast/latest/dg/API_CreateDatasetImportJob.html">CreateDatasetImportJob</a>
+  /// operation.
   ///
   /// In addition to listing the parameters provided in the
   /// <code>CreateDatasetImportJob</code> request, this operation includes the
@@ -2326,6 +2529,61 @@ class Forecast {
     return DescribeForecastExportJobResponse.fromJson(jsonResponse.body);
   }
 
+  /// Describes a monitor resource. In addition to listing the properties
+  /// provided in the <a>CreateMonitor</a> request, this operation lists the
+  /// following properties:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Baseline</code>
+  /// </li>
+  /// <li>
+  /// <code>CreationTime</code>
+  /// </li>
+  /// <li>
+  /// <code>LastEvaluationTime</code>
+  /// </li>
+  /// <li>
+  /// <code>LastEvaluationState</code>
+  /// </li>
+  /// <li>
+  /// <code>LastModificationTime</code>
+  /// </li>
+  /// <li>
+  /// <code>Message</code>
+  /// </li>
+  /// <li>
+  /// <code>Status</code>
+  /// </li>
+  /// </ul>
+  ///
+  /// May throw [InvalidInputException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [monitorArn] :
+  /// The Amazon Resource Name (ARN) of the monitor resource to describe.
+  Future<DescribeMonitorResponse> describeMonitor({
+    required String monitorArn,
+  }) async {
+    ArgumentError.checkNotNull(monitorArn, 'monitorArn');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonForecast.DescribeMonitor'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'MonitorArn': monitorArn,
+      },
+    );
+
+    return DescribeMonitorResponse.fromJson(jsonResponse.body);
+  }
+
   /// <note>
   /// This operation is only valid for legacy predictors created with
   /// CreatePredictor. If you are not using a legacy predictor, use
@@ -2494,11 +2752,12 @@ class Forecast {
     return GetAccuracyMetricsResponse.fromJson(jsonResponse.body);
   }
 
-  /// Returns a list of dataset groups created using the
-  /// <a>CreateDatasetGroup</a> operation. For each dataset group, this
-  /// operation returns a summary of its properties, including its Amazon
-  /// Resource Name (ARN). You can retrieve the complete set of properties by
-  /// using the dataset group ARN with the <a>DescribeDatasetGroup</a>
+  /// Returns a list of dataset groups created using the <a
+  /// href="https://docs.aws.amazon.com/forecast/latest/dg/API_CreateDatasetGroup.html">CreateDatasetGroup</a>
+  /// operation. For each dataset group, this operation returns a summary of its
+  /// properties, including its Amazon Resource Name (ARN). You can retrieve the
+  /// complete set of properties by using the dataset group ARN with the <a
+  /// href="https://docs.aws.amazon.com/forecast/latest/dg/API_DescribeDatasetGroup.html">DescribeDatasetGroup</a>
   /// operation.
   ///
   /// May throw [InvalidNextTokenException].
@@ -2539,12 +2798,15 @@ class Forecast {
     return ListDatasetGroupsResponse.fromJson(jsonResponse.body);
   }
 
-  /// Returns a list of dataset import jobs created using the
-  /// <a>CreateDatasetImportJob</a> operation. For each import job, this
-  /// operation returns a summary of its properties, including its Amazon
-  /// Resource Name (ARN). You can retrieve the complete set of properties by
-  /// using the ARN with the <a>DescribeDatasetImportJob</a> operation. You can
-  /// filter the list by providing an array of <a>Filter</a> objects.
+  /// Returns a list of dataset import jobs created using the <a
+  /// href="https://docs.aws.amazon.com/forecast/latest/dg/API_CreateDatasetImportJob.html">CreateDatasetImportJob</a>
+  /// operation. For each import job, this operation returns a summary of its
+  /// properties, including its Amazon Resource Name (ARN). You can retrieve the
+  /// complete set of properties by using the ARN with the <a
+  /// href="https://docs.aws.amazon.com/forecast/latest/dg/API_DescribeDatasetImportJob.html">DescribeDatasetImportJob</a>
+  /// operation. You can filter the list by providing an array of <a
+  /// href="https://docs.aws.amazon.com/forecast/latest/dg/API_Filter.html">Filter</a>
+  /// objects.
   ///
   /// May throw [InvalidNextTokenException].
   /// May throw [InvalidInputException].
@@ -2617,10 +2879,13 @@ class Forecast {
     return ListDatasetImportJobsResponse.fromJson(jsonResponse.body);
   }
 
-  /// Returns a list of datasets created using the <a>CreateDataset</a>
+  /// Returns a list of datasets created using the <a
+  /// href="https://docs.aws.amazon.com/forecast/latest/dg/API_CreateDataset.html">CreateDataset</a>
   /// operation. For each dataset, a summary of its properties, including its
   /// Amazon Resource Name (ARN), is returned. To retrieve the complete set of
-  /// properties, use the ARN with the <a>DescribeDataset</a> operation.
+  /// properties, use the ARN with the <a
+  /// href="https://docs.aws.amazon.com/forecast/latest/dg/API_DescribeDataset.html">DescribeDataset</a>
+  /// operation.
   ///
   /// May throw [InvalidNextTokenException].
   ///
@@ -2962,6 +3227,168 @@ class Forecast {
     return ListForecastsResponse.fromJson(jsonResponse.body);
   }
 
+  /// Returns a list of the monitoring evaluation results and predictor events
+  /// collected by the monitor resource during different windows of time.
+  ///
+  /// For information about monitoring see <a>predictor-monitoring</a>. For more
+  /// information about retrieving monitoring results see <a
+  /// href="https://docs.aws.amazon.com/forecast/latest/dg/predictor-monitoring-results.html">Viewing
+  /// Monitoring Results</a>.
+  ///
+  /// May throw [InvalidNextTokenException].
+  /// May throw [InvalidInputException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [monitorArn] :
+  /// The Amazon Resource Name (ARN) of the monitor resource to get results
+  /// from.
+  ///
+  /// Parameter [filters] :
+  /// An array of filters. For each filter, provide a condition and a match
+  /// statement. The condition is either <code>IS</code> or <code>IS_NOT</code>,
+  /// which specifies whether to include or exclude the resources that match the
+  /// statement from the list. The match statement consists of a key and a
+  /// value.
+  ///
+  /// <b>Filter properties</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Condition</code> - The condition to apply. Valid values are
+  /// <code>IS</code> and <code>IS_NOT</code>.
+  /// </li>
+  /// <li>
+  /// <code>Key</code> - The name of the parameter to filter on. The only valid
+  /// value is <code>EvaluationState</code>.
+  /// </li>
+  /// <li>
+  /// <code>Value</code> - The value to match. Valid values are only
+  /// <code>SUCCESS</code> or <code>FAILURE</code>.
+  /// </li>
+  /// </ul>
+  /// For example, to list only successful monitor evaluations, you would
+  /// specify:
+  ///
+  /// <code>"Filters": [ { "Condition": "IS", "Key": "EvaluationState", "Value":
+  /// "SUCCESS" } ]</code>
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of monitoring results to return.
+  ///
+  /// Parameter [nextToken] :
+  /// If the result of the previous request was truncated, the response includes
+  /// a <code>NextToken</code>. To retrieve the next set of results, use the
+  /// token in the next request. Tokens expire after 24 hours.
+  Future<ListMonitorEvaluationsResponse> listMonitorEvaluations({
+    required String monitorArn,
+    List<Filter>? filters,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    ArgumentError.checkNotNull(monitorArn, 'monitorArn');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonForecast.ListMonitorEvaluations'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'MonitorArn': monitorArn,
+        if (filters != null) 'Filters': filters,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListMonitorEvaluationsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Returns a list of monitors created with the <a>CreateMonitor</a> operation
+  /// and <a>CreateAutoPredictor</a> operation. For each monitor resource, this
+  /// operation returns of a summary of its properties, including its Amazon
+  /// Resource Name (ARN). You can retrieve a complete set of properties of a
+  /// monitor resource by specify the monitor's ARN in the
+  /// <a>DescribeMonitor</a> operation.
+  ///
+  /// May throw [InvalidNextTokenException].
+  /// May throw [InvalidInputException].
+  ///
+  /// Parameter [filters] :
+  /// An array of filters. For each filter, provide a condition and a match
+  /// statement. The condition is either <code>IS</code> or <code>IS_NOT</code>,
+  /// which specifies whether to include or exclude the resources that match the
+  /// statement from the list. The match statement consists of a key and a
+  /// value.
+  ///
+  /// <b>Filter properties</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Condition</code> - The condition to apply. Valid values are
+  /// <code>IS</code> and <code>IS_NOT</code>.
+  /// </li>
+  /// <li>
+  /// <code>Key</code> - The name of the parameter to filter on. The only valid
+  /// value is <code>Status</code>.
+  /// </li>
+  /// <li>
+  /// <code>Value</code> - The value to match.
+  /// </li>
+  /// </ul>
+  /// For example, to list all monitors who's status is ACTIVE, you would
+  /// specify:
+  ///
+  /// <code>"Filters": [ { "Condition": "IS", "Key": "Status", "Value": "ACTIVE"
+  /// } ]</code>
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of monitors to include in the response.
+  ///
+  /// Parameter [nextToken] :
+  /// If the result of the previous request was truncated, the response includes
+  /// a <code>NextToken</code>. To retrieve the next set of results, use the
+  /// token in the next request. Tokens expire after 24 hours.
+  Future<ListMonitorsResponse> listMonitors({
+    List<Filter>? filters,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonForecast.ListMonitors'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (filters != null) 'Filters': filters,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListMonitorsResponse.fromJson(jsonResponse.body);
+  }
+
   /// Returns a list of predictor backtest export jobs created using the
   /// <a>CreatePredictorBacktestExportJob</a> operation. This operation returns
   /// a summary for each backtest export job. You can filter the list using an
@@ -3148,6 +3575,35 @@ class Forecast {
     return ListTagsForResourceResponse.fromJson(jsonResponse.body);
   }
 
+  /// Resumes a stopped monitor resource.
+  ///
+  /// May throw [InvalidInputException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ResourceInUseException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) of the monitor resource to resume.
+  Future<void> resumeResource({
+    required String resourceArn,
+  }) async {
+    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonForecast.ResumeResource'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ResourceArn': resourceArn,
+      },
+    );
+  }
+
   /// Stops a resource.
   ///
   /// The resource undergoes the following states: <code>CREATE_STOPPING</code>
@@ -3322,8 +3778,9 @@ class Forecast {
   /// Replaces the datasets in a dataset group with the specified datasets.
   /// <note>
   /// The <code>Status</code> of the dataset group must be <code>ACTIVE</code>
-  /// before you can use the dataset group to create a predictor. Use the
-  /// <a>DescribeDatasetGroup</a> operation to get the status.
+  /// before you can use the dataset group to create a predictor. Use the <a
+  /// href="https://docs.aws.amazon.com/forecast/latest/dg/API_DescribeDatasetGroup.html">DescribeDatasetGroup</a>
+  /// operation to get the status.
   /// </note>
   ///
   /// May throw [InvalidInputException].
@@ -3391,6 +3848,8 @@ class AdditionalDataset {
   ///
   /// To enable the Weather Index, do not specify a value for
   /// <code>Configuration</code>.
+  ///
+  /// <b>Holidays</b>
   ///
   /// <b>Holidays</b>
   ///
@@ -3786,6 +4245,68 @@ extension on String {
   }
 }
 
+/// Metrics you can use as a baseline for comparison purposes. Use these metrics
+/// when you interpret monitoring results for an auto predictor.
+class Baseline {
+  /// The initial <a
+  /// href="https://docs.aws.amazon.com/forecast/latest/dg/metrics.html">accuracy
+  /// metrics</a> for the predictor you are monitoring. Use these metrics as a
+  /// baseline for comparison purposes as you use your predictor and the metrics
+  /// change.
+  final PredictorBaseline? predictorBaseline;
+
+  Baseline({
+    this.predictorBaseline,
+  });
+
+  factory Baseline.fromJson(Map<String, dynamic> json) {
+    return Baseline(
+      predictorBaseline: json['PredictorBaseline'] != null
+          ? PredictorBaseline.fromJson(
+              json['PredictorBaseline'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final predictorBaseline = this.predictorBaseline;
+    return {
+      if (predictorBaseline != null) 'PredictorBaseline': predictorBaseline,
+    };
+  }
+}
+
+/// An individual metric that you can use for comparison as you evaluate your
+/// monitoring results.
+class BaselineMetric {
+  /// The name of the metric.
+  final String? name;
+
+  /// The value for the metric.
+  final double? value;
+
+  BaselineMetric({
+    this.name,
+    this.value,
+  });
+
+  factory BaselineMetric.fromJson(Map<String, dynamic> json) {
+    return BaselineMetric(
+      name: json['Name'] as String?,
+      value: json['Value'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      if (name != null) 'Name': name,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
 /// Specifies a categorical hyperparameter and it's range of tunable values.
 /// This object is part of the <a>ParameterRanges</a> object.
 class CategoricalParameterRange {
@@ -4067,6 +4588,28 @@ class CreateForecastResponse {
   }
 }
 
+class CreateMonitorResponse {
+  /// The Amazon Resource Name (ARN) of the monitor resource.
+  final String? monitorArn;
+
+  CreateMonitorResponse({
+    this.monitorArn,
+  });
+
+  factory CreateMonitorResponse.fromJson(Map<String, dynamic> json) {
+    return CreateMonitorResponse(
+      monitorArn: json['MonitorArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final monitorArn = this.monitorArn;
+    return {
+      if (monitorArn != null) 'MonitorArn': monitorArn,
+    };
+  }
+}
+
 class CreatePredictorBacktestExportJobResponse {
   /// The Amazon Resource Name (ARN) of the predictor backtest export job that you
   /// want to export.
@@ -4210,10 +4753,11 @@ class DataSource {
   }
 }
 
-/// Provides a summary of the dataset group properties used in the
-/// <a>ListDatasetGroups</a> operation. To get the complete set of properties,
-/// call the <a>DescribeDatasetGroup</a> operation, and provide the
-/// <code>DatasetGroupArn</code>.
+/// Provides a summary of the dataset group properties used in the <a
+/// href="https://docs.aws.amazon.com/forecast/latest/dg/API_ListDatasetGroups.html">ListDatasetGroups</a>
+/// operation. To get the complete set of properties, call the <a
+/// href="https://docs.aws.amazon.com/forecast/latest/dg/API_DescribeDatasetGroup.html">DescribeDatasetGroup</a>
+/// operation, and provide the <code>DatasetGroupArn</code>.
 class DatasetGroupSummary {
   /// When the dataset group was created.
   final DateTime? creationTime;
@@ -4224,9 +4768,10 @@ class DatasetGroupSummary {
   /// The name of the dataset group.
   final String? datasetGroupName;
 
-  /// When the dataset group was created or last updated from a call to the
-  /// <a>UpdateDatasetGroup</a> operation. While the dataset group is being
-  /// updated, <code>LastModificationTime</code> is the current time of the
+  /// When the dataset group was created or last updated from a call to the <a
+  /// href="https://docs.aws.amazon.com/forecast/latest/dg/API_UpdateDatasetGroup.html">UpdateDatasetGroup</a>
+  /// operation. While the dataset group is being updated,
+  /// <code>LastModificationTime</code> is the current time of the
   /// <code>ListDatasetGroups</code> call.
   final DateTime? lastModificationTime;
 
@@ -4262,10 +4807,11 @@ class DatasetGroupSummary {
   }
 }
 
-/// Provides a summary of the dataset import job properties used in the
-/// <a>ListDatasetImportJobs</a> operation. To get the complete set of
-/// properties, call the <a>DescribeDatasetImportJob</a> operation, and provide
-/// the <code>DatasetImportJobArn</code>.
+/// Provides a summary of the dataset import job properties used in the <a
+/// href="https://docs.aws.amazon.com/forecast/latest/dg/API_ListDatasetImportJobs.html">ListDatasetImportJobs</a>
+/// operation. To get the complete set of properties, call the <a
+/// href="https://docs.aws.amazon.com/forecast/latest/dg/API_DescribeDatasetImportJob.html">DescribeDatasetImportJob</a>
+/// operation, and provide the <code>DatasetImportJobArn</code>.
 class DatasetImportJobSummary {
   /// When the dataset import job was created.
   final DateTime? creationTime;
@@ -4378,9 +4924,11 @@ class DatasetImportJobSummary {
   }
 }
 
-/// Provides a summary of the dataset properties used in the <a>ListDatasets</a>
-/// operation. To get the complete set of properties, call the
-/// <a>DescribeDataset</a> operation, and provide the <code>DatasetArn</code>.
+/// Provides a summary of the dataset properties used in the <a
+/// href="https://docs.aws.amazon.com/forecast/latest/dg/API_ListDatasets.html">ListDatasets</a>
+/// operation. To get the complete set of properties, call the <a
+/// href="https://docs.aws.amazon.com/forecast/latest/dg/API_DescribeDataset.html">DescribeDataset</a>
+/// operation, and provide the <code>DatasetArn</code>.
 class DatasetSummary {
   /// When the dataset was created.
   final DateTime? creationTime;
@@ -4400,7 +4948,8 @@ class DatasetSummary {
   /// When you create a dataset, <code>LastModificationTime</code> is the same as
   /// <code>CreationTime</code>. While data is being imported to the dataset,
   /// <code>LastModificationTime</code> is the current time of the
-  /// <code>ListDatasets</code> call. After a <a>CreateDatasetImportJob</a>
+  /// <code>ListDatasets</code> call. After a <a
+  /// href="https://docs.aws.amazon.com/forecast/latest/dg/API_CreateDatasetImportJob.html">CreateDatasetImportJob</a>
   /// operation has finished, <code>LastModificationTime</code> is when the import
   /// job completed or failed.
   final DateTime? lastModificationTime;
@@ -4478,6 +5027,59 @@ extension on String {
   }
 }
 
+enum DayOfWeek {
+  monday,
+  tuesday,
+  wednesday,
+  thursday,
+  friday,
+  saturday,
+  sunday,
+}
+
+extension on DayOfWeek {
+  String toValue() {
+    switch (this) {
+      case DayOfWeek.monday:
+        return 'MONDAY';
+      case DayOfWeek.tuesday:
+        return 'TUESDAY';
+      case DayOfWeek.wednesday:
+        return 'WEDNESDAY';
+      case DayOfWeek.thursday:
+        return 'THURSDAY';
+      case DayOfWeek.friday:
+        return 'FRIDAY';
+      case DayOfWeek.saturday:
+        return 'SATURDAY';
+      case DayOfWeek.sunday:
+        return 'SUNDAY';
+    }
+  }
+}
+
+extension on String {
+  DayOfWeek toDayOfWeek() {
+    switch (this) {
+      case 'MONDAY':
+        return DayOfWeek.monday;
+      case 'TUESDAY':
+        return DayOfWeek.tuesday;
+      case 'WEDNESDAY':
+        return DayOfWeek.wednesday;
+      case 'THURSDAY':
+        return DayOfWeek.thursday;
+      case 'FRIDAY':
+        return DayOfWeek.friday;
+      case 'SATURDAY':
+        return DayOfWeek.saturday;
+      case 'SUNDAY':
+        return DayOfWeek.sunday;
+    }
+    throw Exception('$this is not known in enum DayOfWeek');
+  }
+}
+
 class DescribeAutoPredictorResponse {
   /// The timestamp of the CreateAutoPredictor request.
   final DateTime? creationTime;
@@ -4543,6 +5145,10 @@ class DescribeAutoPredictorResponse {
   /// In the event of an error, a message detailing the cause of the error.
   final String? message;
 
+  /// A object with the Amazon Resource Name (ARN) and status of the monitor
+  /// resource.
+  final MonitorInfo? monitorInfo;
+
   /// The accuracy metric used to optimize the predictor.
   final OptimizationMetric? optimizationMetric;
 
@@ -4576,6 +5182,9 @@ class DescribeAutoPredictorResponse {
   /// </ul>
   final String? status;
 
+  /// The time boundary Forecast uses when aggregating data.
+  final TimeAlignmentBoundary? timeAlignmentBoundary;
+
   DescribeAutoPredictorResponse({
     this.creationTime,
     this.dataConfig,
@@ -4589,11 +5198,13 @@ class DescribeAutoPredictorResponse {
     this.forecastTypes,
     this.lastModificationTime,
     this.message,
+    this.monitorInfo,
     this.optimizationMetric,
     this.predictorArn,
     this.predictorName,
     this.referencePredictorSummary,
     this.status,
+    this.timeAlignmentBoundary,
   });
 
   factory DescribeAutoPredictorResponse.fromJson(Map<String, dynamic> json) {
@@ -4628,6 +5239,9 @@ class DescribeAutoPredictorResponse {
           .toList(),
       lastModificationTime: timeStampFromJson(json['LastModificationTime']),
       message: json['Message'] as String?,
+      monitorInfo: json['MonitorInfo'] != null
+          ? MonitorInfo.fromJson(json['MonitorInfo'] as Map<String, dynamic>)
+          : null,
       optimizationMetric:
           (json['OptimizationMetric'] as String?)?.toOptimizationMetric(),
       predictorArn: json['PredictorArn'] as String?,
@@ -4637,6 +5251,10 @@ class DescribeAutoPredictorResponse {
               json['ReferencePredictorSummary'] as Map<String, dynamic>)
           : null,
       status: json['Status'] as String?,
+      timeAlignmentBoundary: json['TimeAlignmentBoundary'] != null
+          ? TimeAlignmentBoundary.fromJson(
+              json['TimeAlignmentBoundary'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -4654,11 +5272,13 @@ class DescribeAutoPredictorResponse {
     final forecastTypes = this.forecastTypes;
     final lastModificationTime = this.lastModificationTime;
     final message = this.message;
+    final monitorInfo = this.monitorInfo;
     final optimizationMetric = this.optimizationMetric;
     final predictorArn = this.predictorArn;
     final predictorName = this.predictorName;
     final referencePredictorSummary = this.referencePredictorSummary;
     final status = this.status;
+    final timeAlignmentBoundary = this.timeAlignmentBoundary;
     return {
       if (creationTime != null)
         'CreationTime': unixTimestampToJson(creationTime),
@@ -4676,6 +5296,7 @@ class DescribeAutoPredictorResponse {
       if (lastModificationTime != null)
         'LastModificationTime': unixTimestampToJson(lastModificationTime),
       if (message != null) 'Message': message,
+      if (monitorInfo != null) 'MonitorInfo': monitorInfo,
       if (optimizationMetric != null)
         'OptimizationMetric': optimizationMetric.toValue(),
       if (predictorArn != null) 'PredictorArn': predictorArn,
@@ -4683,6 +5304,8 @@ class DescribeAutoPredictorResponse {
       if (referencePredictorSummary != null)
         'ReferencePredictorSummary': referencePredictorSummary,
       if (status != null) 'Status': status,
+      if (timeAlignmentBoundary != null)
+        'TimeAlignmentBoundary': timeAlignmentBoundary,
     };
   }
 }
@@ -4704,9 +5327,10 @@ class DescribeDatasetGroupResponse {
   /// The domain associated with the dataset group.
   final Domain? domain;
 
-  /// When the dataset group was created or last updated from a call to the
-  /// <a>UpdateDatasetGroup</a> operation. While the dataset group is being
-  /// updated, <code>LastModificationTime</code> is the current time of the
+  /// When the dataset group was created or last updated from a call to the <a
+  /// href="https://docs.aws.amazon.com/forecast/latest/dg/API_UpdateDatasetGroup.html">UpdateDatasetGroup</a>
+  /// operation. While the dataset group is being updated,
+  /// <code>LastModificationTime</code> is the current time of the
   /// <code>DescribeDatasetGroup</code> call.
   final DateTime? lastModificationTime;
 
@@ -4729,8 +5353,9 @@ class DescribeDatasetGroupResponse {
   /// <code>UPDATE_FAILED</code>
   /// </li>
   /// </ul>
-  /// The <code>UPDATE</code> states apply when you call the
-  /// <a>UpdateDatasetGroup</a> operation.
+  /// The <code>UPDATE</code> states apply when you call the <a
+  /// href="https://docs.aws.amazon.com/forecast/latest/dg/API_UpdateDatasetGroup.html">UpdateDatasetGroup</a>
+  /// operation.
   /// <note>
   /// The <code>Status</code> of the dataset group must be <code>ACTIVE</code>
   /// before you can use the dataset group to create a predictor.
@@ -4814,6 +5439,9 @@ class DescribeDatasetImportJobResponse {
 
   /// Statistical information about each field in the input data.
   final Map<String, Statistics>? fieldStatistics;
+
+  /// The format of the imported data, CSV or PARQUET.
+  final String? format;
 
   /// The format of the geolocation attribute. Valid
   /// Values:<code>"LAT_LONG"</code> and <code>"CC_POSTALCODE"</code>.
@@ -4900,6 +5528,7 @@ class DescribeDatasetImportJobResponse {
     this.datasetImportJobName,
     this.estimatedTimeRemainingInMinutes,
     this.fieldStatistics,
+    this.format,
     this.geolocationFormat,
     this.lastModificationTime,
     this.message,
@@ -4924,6 +5553,7 @@ class DescribeDatasetImportJobResponse {
       fieldStatistics: (json['FieldStatistics'] as Map<String, dynamic>?)?.map(
           (k, e) =>
               MapEntry(k, Statistics.fromJson(e as Map<String, dynamic>))),
+      format: json['Format'] as String?,
       geolocationFormat: json['GeolocationFormat'] as String?,
       lastModificationTime: timeStampFromJson(json['LastModificationTime']),
       message: json['Message'] as String?,
@@ -4944,6 +5574,7 @@ class DescribeDatasetImportJobResponse {
     final estimatedTimeRemainingInMinutes =
         this.estimatedTimeRemainingInMinutes;
     final fieldStatistics = this.fieldStatistics;
+    final format = this.format;
     final geolocationFormat = this.geolocationFormat;
     final lastModificationTime = this.lastModificationTime;
     final message = this.message;
@@ -4964,6 +5595,7 @@ class DescribeDatasetImportJobResponse {
       if (estimatedTimeRemainingInMinutes != null)
         'EstimatedTimeRemainingInMinutes': estimatedTimeRemainingInMinutes,
       if (fieldStatistics != null) 'FieldStatistics': fieldStatistics,
+      if (format != null) 'Format': format,
       if (geolocationFormat != null) 'GeolocationFormat': geolocationFormat,
       if (lastModificationTime != null)
         'LastModificationTime': unixTimestampToJson(lastModificationTime),
@@ -5008,7 +5640,8 @@ class DescribeDatasetResponse {
   /// When you create a dataset, <code>LastModificationTime</code> is the same as
   /// <code>CreationTime</code>. While data is being imported to the dataset,
   /// <code>LastModificationTime</code> is the current time of the
-  /// <code>DescribeDataset</code> call. After a <a>CreateDatasetImportJob</a>
+  /// <code>DescribeDataset</code> call. After a <a
+  /// href="https://docs.aws.amazon.com/forecast/latest/dg/API_CreateDatasetImportJob.html">CreateDatasetImportJob</a>
   /// operation has finished, <code>LastModificationTime</code> is when the import
   /// job completed or failed.
   final DateTime? lastModificationTime;
@@ -5038,10 +5671,11 @@ class DescribeDatasetResponse {
   /// </li>
   /// </ul>
   /// The <code>UPDATE</code> states apply while data is imported to the dataset
-  /// from a call to the <a>CreateDatasetImportJob</a> operation and reflect the
-  /// status of the dataset import job. For example, when the import job status is
-  /// <code>CREATE_IN_PROGRESS</code>, the status of the dataset is
-  /// <code>UPDATE_IN_PROGRESS</code>.
+  /// from a call to the <a
+  /// href="https://docs.aws.amazon.com/forecast/latest/dg/API_CreateDatasetImportJob.html">CreateDatasetImportJob</a>
+  /// operation and reflect the status of the dataset import job. For example,
+  /// when the import job status is <code>CREATE_IN_PROGRESS</code>, the status of
+  /// the dataset is <code>UPDATE_IN_PROGRESS</code>.
   /// <note>
   /// The <code>Status</code> of the dataset must be <code>ACTIVE</code> before
   /// you can import training data.
@@ -5114,7 +5748,7 @@ class DescribeExplainabilityExportResponse {
   final DateTime? creationTime;
   final DataDestination? destination;
 
-  /// The Amazon Resource Name (ARN) of the Explainability.
+  /// The Amazon Resource Name (ARN) of the Explainability export.
   final String? explainabilityArn;
 
   /// The Amazon Resource Name (ARN) of the Explainability export.
@@ -5122,6 +5756,9 @@ class DescribeExplainabilityExportResponse {
 
   /// The name of the Explainability export.
   final String? explainabilityExportName;
+
+  /// The format of the exported data, CSV or PARQUET.
+  final String? format;
 
   /// The last time the resource was modified. The timestamp depends on the status
   /// of the job:
@@ -5175,6 +5812,7 @@ class DescribeExplainabilityExportResponse {
     this.explainabilityArn,
     this.explainabilityExportArn,
     this.explainabilityExportName,
+    this.format,
     this.lastModificationTime,
     this.message,
     this.status,
@@ -5191,6 +5829,7 @@ class DescribeExplainabilityExportResponse {
       explainabilityArn: json['ExplainabilityArn'] as String?,
       explainabilityExportArn: json['ExplainabilityExportArn'] as String?,
       explainabilityExportName: json['ExplainabilityExportName'] as String?,
+      format: json['Format'] as String?,
       lastModificationTime: timeStampFromJson(json['LastModificationTime']),
       message: json['Message'] as String?,
       status: json['Status'] as String?,
@@ -5203,6 +5842,7 @@ class DescribeExplainabilityExportResponse {
     final explainabilityArn = this.explainabilityArn;
     final explainabilityExportArn = this.explainabilityExportArn;
     final explainabilityExportName = this.explainabilityExportName;
+    final format = this.format;
     final lastModificationTime = this.lastModificationTime;
     final message = this.message;
     final status = this.status;
@@ -5215,6 +5855,7 @@ class DescribeExplainabilityExportResponse {
         'ExplainabilityExportArn': explainabilityExportArn,
       if (explainabilityExportName != null)
         'ExplainabilityExportName': explainabilityExportName,
+      if (format != null) 'Format': format,
       if (lastModificationTime != null)
         'LastModificationTime': unixTimestampToJson(lastModificationTime),
       if (message != null) 'Message': message,
@@ -5405,6 +6046,9 @@ class DescribeForecastExportJobResponse {
   /// The name of the forecast export job.
   final String? forecastExportJobName;
 
+  /// The format of the exported data, CSV or PARQUET.
+  final String? format;
+
   /// The last time the resource was modified. The timestamp depends on the status
   /// of the job:
   ///
@@ -5460,6 +6104,7 @@ class DescribeForecastExportJobResponse {
     this.forecastArn,
     this.forecastExportJobArn,
     this.forecastExportJobName,
+    this.format,
     this.lastModificationTime,
     this.message,
     this.status,
@@ -5476,6 +6121,7 @@ class DescribeForecastExportJobResponse {
       forecastArn: json['ForecastArn'] as String?,
       forecastExportJobArn: json['ForecastExportJobArn'] as String?,
       forecastExportJobName: json['ForecastExportJobName'] as String?,
+      format: json['Format'] as String?,
       lastModificationTime: timeStampFromJson(json['LastModificationTime']),
       message: json['Message'] as String?,
       status: json['Status'] as String?,
@@ -5488,6 +6134,7 @@ class DescribeForecastExportJobResponse {
     final forecastArn = this.forecastArn;
     final forecastExportJobArn = this.forecastExportJobArn;
     final forecastExportJobName = this.forecastExportJobName;
+    final format = this.format;
     final lastModificationTime = this.lastModificationTime;
     final message = this.message;
     final status = this.status;
@@ -5500,6 +6147,7 @@ class DescribeForecastExportJobResponse {
         'ForecastExportJobArn': forecastExportJobArn,
       if (forecastExportJobName != null)
         'ForecastExportJobName': forecastExportJobName,
+      if (format != null) 'Format': format,
       if (lastModificationTime != null)
         'LastModificationTime': unixTimestampToJson(lastModificationTime),
       if (message != null) 'Message': message,
@@ -5580,6 +6228,9 @@ class DescribeForecastResponse {
   /// </note>
   final String? status;
 
+  /// The time series to include in the forecast.
+  final TimeSeriesSelector? timeSeriesSelector;
+
   DescribeForecastResponse({
     this.creationTime,
     this.datasetGroupArn,
@@ -5591,6 +6242,7 @@ class DescribeForecastResponse {
     this.message,
     this.predictorArn,
     this.status,
+    this.timeSeriesSelector,
   });
 
   factory DescribeForecastResponse.fromJson(Map<String, dynamic> json) {
@@ -5609,6 +6261,10 @@ class DescribeForecastResponse {
       message: json['Message'] as String?,
       predictorArn: json['PredictorArn'] as String?,
       status: json['Status'] as String?,
+      timeSeriesSelector: json['TimeSeriesSelector'] != null
+          ? TimeSeriesSelector.fromJson(
+              json['TimeSeriesSelector'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -5624,6 +6280,7 @@ class DescribeForecastResponse {
     final message = this.message;
     final predictorArn = this.predictorArn;
     final status = this.status;
+    final timeSeriesSelector = this.timeSeriesSelector;
     return {
       if (creationTime != null)
         'CreationTime': unixTimestampToJson(creationTime),
@@ -5638,6 +6295,111 @@ class DescribeForecastResponse {
       if (message != null) 'Message': message,
       if (predictorArn != null) 'PredictorArn': predictorArn,
       if (status != null) 'Status': status,
+      if (timeSeriesSelector != null) 'TimeSeriesSelector': timeSeriesSelector,
+    };
+  }
+}
+
+class DescribeMonitorResponse {
+  /// Metrics you can use as a baseline for comparison purposes. Use these values
+  /// you interpret monitoring results for an auto predictor.
+  final Baseline? baseline;
+
+  /// The timestamp for when the monitor resource was created.
+  final DateTime? creationTime;
+
+  /// The estimated number of minutes remaining before the monitor resource
+  /// finishes its current evaluation.
+  final int? estimatedEvaluationTimeRemainingInMinutes;
+
+  /// The state of the monitor's latest evaluation.
+  final String? lastEvaluationState;
+
+  /// The timestamp of the latest evaluation completed by the monitor.
+  final DateTime? lastEvaluationTime;
+
+  /// The timestamp of the latest modification to the monitor.
+  final DateTime? lastModificationTime;
+
+  /// An error message, if any, for the monitor.
+  final String? message;
+
+  /// The Amazon Resource Name (ARN) of the monitor resource described.
+  final String? monitorArn;
+
+  /// The name of the monitor.
+  final String? monitorName;
+
+  /// The Amazon Resource Name (ARN) of the auto predictor being monitored.
+  final String? resourceArn;
+
+  /// The status of the monitor resource.
+  final String? status;
+
+  DescribeMonitorResponse({
+    this.baseline,
+    this.creationTime,
+    this.estimatedEvaluationTimeRemainingInMinutes,
+    this.lastEvaluationState,
+    this.lastEvaluationTime,
+    this.lastModificationTime,
+    this.message,
+    this.monitorArn,
+    this.monitorName,
+    this.resourceArn,
+    this.status,
+  });
+
+  factory DescribeMonitorResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeMonitorResponse(
+      baseline: json['Baseline'] != null
+          ? Baseline.fromJson(json['Baseline'] as Map<String, dynamic>)
+          : null,
+      creationTime: timeStampFromJson(json['CreationTime']),
+      estimatedEvaluationTimeRemainingInMinutes:
+          json['EstimatedEvaluationTimeRemainingInMinutes'] as int?,
+      lastEvaluationState: json['LastEvaluationState'] as String?,
+      lastEvaluationTime: timeStampFromJson(json['LastEvaluationTime']),
+      lastModificationTime: timeStampFromJson(json['LastModificationTime']),
+      message: json['Message'] as String?,
+      monitorArn: json['MonitorArn'] as String?,
+      monitorName: json['MonitorName'] as String?,
+      resourceArn: json['ResourceArn'] as String?,
+      status: json['Status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final baseline = this.baseline;
+    final creationTime = this.creationTime;
+    final estimatedEvaluationTimeRemainingInMinutes =
+        this.estimatedEvaluationTimeRemainingInMinutes;
+    final lastEvaluationState = this.lastEvaluationState;
+    final lastEvaluationTime = this.lastEvaluationTime;
+    final lastModificationTime = this.lastModificationTime;
+    final message = this.message;
+    final monitorArn = this.monitorArn;
+    final monitorName = this.monitorName;
+    final resourceArn = this.resourceArn;
+    final status = this.status;
+    return {
+      if (baseline != null) 'Baseline': baseline,
+      if (creationTime != null)
+        'CreationTime': unixTimestampToJson(creationTime),
+      if (estimatedEvaluationTimeRemainingInMinutes != null)
+        'EstimatedEvaluationTimeRemainingInMinutes':
+            estimatedEvaluationTimeRemainingInMinutes,
+      if (lastEvaluationState != null)
+        'LastEvaluationState': lastEvaluationState,
+      if (lastEvaluationTime != null)
+        'LastEvaluationTime': unixTimestampToJson(lastEvaluationTime),
+      if (lastModificationTime != null)
+        'LastModificationTime': unixTimestampToJson(lastModificationTime),
+      if (message != null) 'Message': message,
+      if (monitorArn != null) 'MonitorArn': monitorArn,
+      if (monitorName != null) 'MonitorName': monitorName,
+      if (resourceArn != null) 'ResourceArn': resourceArn,
+      if (status != null) 'Status': status,
     };
   }
 }
@@ -5646,6 +6408,9 @@ class DescribePredictorBacktestExportJobResponse {
   /// When the predictor backtest export job was created.
   final DateTime? creationTime;
   final DataDestination? destination;
+
+  /// The format of the exported data, CSV or PARQUET.
+  final String? format;
 
   /// The last time the resource was modified. The timestamp depends on the status
   /// of the job:
@@ -5706,6 +6471,7 @@ class DescribePredictorBacktestExportJobResponse {
   DescribePredictorBacktestExportJobResponse({
     this.creationTime,
     this.destination,
+    this.format,
     this.lastModificationTime,
     this.message,
     this.predictorArn,
@@ -5722,6 +6488,7 @@ class DescribePredictorBacktestExportJobResponse {
           ? DataDestination.fromJson(
               json['Destination'] as Map<String, dynamic>)
           : null,
+      format: json['Format'] as String?,
       lastModificationTime: timeStampFromJson(json['LastModificationTime']),
       message: json['Message'] as String?,
       predictorArn: json['PredictorArn'] as String?,
@@ -5736,6 +6503,7 @@ class DescribePredictorBacktestExportJobResponse {
   Map<String, dynamic> toJson() {
     final creationTime = this.creationTime;
     final destination = this.destination;
+    final format = this.format;
     final lastModificationTime = this.lastModificationTime;
     final message = this.message;
     final predictorArn = this.predictorArn;
@@ -5746,6 +6514,7 @@ class DescribePredictorBacktestExportJobResponse {
       if (creationTime != null)
         'CreationTime': unixTimestampToJson(creationTime),
       if (destination != null) 'Destination': destination,
+      if (format != null) 'Format': format,
       if (lastModificationTime != null)
         'LastModificationTime': unixTimestampToJson(lastModificationTime),
       if (message != null) 'Message': message,
@@ -6324,8 +7093,8 @@ class ExplainabilityConfig {
   /// <code>ALL</code>. To create an Explainability for specific time series in
   /// your datasets, use <code>SPECIFIC</code>.
   ///
-  /// Specify time series by uploading a CSV file to an Amazon S3 bucket and set
-  /// the location within the <a>DataDestination</a> data type.
+  /// Specify time series by uploading a CSV or Parquet file to an Amazon S3
+  /// bucket and set the location within the <a>DataDestination</a> data type.
   final TimeSeriesGranularity timeSeriesGranularity;
 
   ExplainabilityConfig({
@@ -7653,6 +8422,84 @@ class ListForecastsResponse {
   }
 }
 
+class ListMonitorEvaluationsResponse {
+  /// If the response is truncated, Amazon Forecast returns this token. To
+  /// retrieve the next set of results, use the token in the next request. Tokens
+  /// expire after 24 hours.
+  final String? nextToken;
+
+  /// The monitoring results and predictor events collected by the monitor
+  /// resource during different windows of time.
+  ///
+  /// For information about monitoring see <a
+  /// href="https://docs.aws.amazon.com/forecast/latest/dg/predictor-monitoring-results.html">Viewing
+  /// Monitoring Results</a>. For more information about retrieving monitoring
+  /// results see <a
+  /// href="https://docs.aws.amazon.com/forecast/latest/dg/predictor-monitoring-results.html">Viewing
+  /// Monitoring Results</a>.
+  final List<PredictorMonitorEvaluation>? predictorMonitorEvaluations;
+
+  ListMonitorEvaluationsResponse({
+    this.nextToken,
+    this.predictorMonitorEvaluations,
+  });
+
+  factory ListMonitorEvaluationsResponse.fromJson(Map<String, dynamic> json) {
+    return ListMonitorEvaluationsResponse(
+      nextToken: json['NextToken'] as String?,
+      predictorMonitorEvaluations: (json['PredictorMonitorEvaluations']
+              as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              PredictorMonitorEvaluation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final predictorMonitorEvaluations = this.predictorMonitorEvaluations;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (predictorMonitorEvaluations != null)
+        'PredictorMonitorEvaluations': predictorMonitorEvaluations,
+    };
+  }
+}
+
+class ListMonitorsResponse {
+  /// An array of objects that summarize each monitor's properties.
+  final List<MonitorSummary>? monitors;
+
+  /// If the response is truncated, Amazon Forecast returns this token. To
+  /// retrieve the next set of results, use the token in the next request.
+  final String? nextToken;
+
+  ListMonitorsResponse({
+    this.monitors,
+    this.nextToken,
+  });
+
+  factory ListMonitorsResponse.fromJson(Map<String, dynamic> json) {
+    return ListMonitorsResponse(
+      monitors: (json['Monitors'] as List?)
+          ?.whereNotNull()
+          .map((e) => MonitorSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final monitors = this.monitors;
+    final nextToken = this.nextToken;
+    return {
+      if (monitors != null) 'Monitors': monitors,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
 class ListPredictorBacktestExportJobsResponse {
   /// Returns this token if the response is truncated. To retrieve the next set of
   /// results, use the token in the next request.
@@ -7749,6 +8596,42 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// An individual metric Forecast calculated when monitoring predictor usage.
+/// You can compare the value for this metric to the metric's value in the
+/// <a>Baseline</a> to see how your predictor's performance is changing.
+///
+/// For more information about metrics generated by Forecast see <a
+/// href="https://docs.aws.amazon.com/forecast/latest/dg/metrics.html">Evaluating
+/// Predictor Accuracy</a>
+class MetricResult {
+  /// The name of the metric.
+  final String? metricName;
+
+  /// The value for the metric.
+  final double? metricValue;
+
+  MetricResult({
+    this.metricName,
+    this.metricValue,
+  });
+
+  factory MetricResult.fromJson(Map<String, dynamic> json) {
+    return MetricResult(
+      metricName: json['MetricName'] as String?,
+      metricValue: json['MetricValue'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metricName = this.metricName;
+    final metricValue = this.metricValue;
+    return {
+      if (metricName != null) 'MetricName': metricName,
+      if (metricValue != null) 'MetricValue': metricValue,
+    };
+  }
+}
+
 /// Provides metrics that are used to evaluate the performance of a predictor.
 /// This object is part of the <a>WindowSummary</a> object.
 class Metrics {
@@ -7804,6 +8687,297 @@ class Metrics {
       if (weightedQuantileLosses != null)
         'WeightedQuantileLosses': weightedQuantileLosses,
     };
+  }
+}
+
+/// The configuration details for the predictor monitor.
+class MonitorConfig {
+  /// The name of the monitor resource.
+  final String monitorName;
+
+  MonitorConfig({
+    required this.monitorName,
+  });
+
+  factory MonitorConfig.fromJson(Map<String, dynamic> json) {
+    return MonitorConfig(
+      monitorName: json['MonitorName'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final monitorName = this.monitorName;
+    return {
+      'MonitorName': monitorName,
+    };
+  }
+}
+
+/// The source of the data the monitor used during the evaluation.
+class MonitorDataSource {
+  /// The Amazon Resource Name (ARN) of the dataset import job used to import the
+  /// data that initiated the monitor evaluation.
+  final String? datasetImportJobArn;
+
+  /// The Amazon Resource Name (ARN) of the forecast the monitor used during the
+  /// evaluation.
+  final String? forecastArn;
+
+  /// The Amazon Resource Name (ARN) of the predictor resource you are monitoring.
+  final String? predictorArn;
+
+  MonitorDataSource({
+    this.datasetImportJobArn,
+    this.forecastArn,
+    this.predictorArn,
+  });
+
+  factory MonitorDataSource.fromJson(Map<String, dynamic> json) {
+    return MonitorDataSource(
+      datasetImportJobArn: json['DatasetImportJobArn'] as String?,
+      forecastArn: json['ForecastArn'] as String?,
+      predictorArn: json['PredictorArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final datasetImportJobArn = this.datasetImportJobArn;
+    final forecastArn = this.forecastArn;
+    final predictorArn = this.predictorArn;
+    return {
+      if (datasetImportJobArn != null)
+        'DatasetImportJobArn': datasetImportJobArn,
+      if (forecastArn != null) 'ForecastArn': forecastArn,
+      if (predictorArn != null) 'PredictorArn': predictorArn,
+    };
+  }
+}
+
+/// Provides information about the monitor resource.
+class MonitorInfo {
+  /// The Amazon Resource Name (ARN) of the monitor resource.
+  final String? monitorArn;
+
+  /// The status of the monitor. States include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ACTIVE</code>
+  /// </li>
+  /// <li>
+  /// <code>ACTIVE_STOPPING</code>, <code>ACTIVE_STOPPED</code>
+  /// </li>
+  /// <li>
+  /// <code>UPDATE_IN_PROGRESS</code>
+  /// </li>
+  /// <li>
+  /// <code>CREATE_PENDING</code>, <code>CREATE_IN_PROGRESS</code>,
+  /// <code>CREATE_FAILED</code>
+  /// </li>
+  /// <li>
+  /// <code>DELETE_PENDING</code>, <code>DELETE_IN_PROGRESS</code>,
+  /// <code>DELETE_FAILED</code>
+  /// </li>
+  /// </ul>
+  final String? status;
+
+  MonitorInfo({
+    this.monitorArn,
+    this.status,
+  });
+
+  factory MonitorInfo.fromJson(Map<String, dynamic> json) {
+    return MonitorInfo(
+      monitorArn: json['MonitorArn'] as String?,
+      status: json['Status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final monitorArn = this.monitorArn;
+    final status = this.status;
+    return {
+      if (monitorArn != null) 'MonitorArn': monitorArn,
+      if (status != null) 'Status': status,
+    };
+  }
+}
+
+/// Provides a summary of the monitor properties used in the <a>ListMonitors</a>
+/// operation. To get a complete set of properties, call the
+/// <a>DescribeMonitor</a> operation, and provide the listed
+/// <code>MonitorArn</code>.
+class MonitorSummary {
+  /// When the monitor resource was created.
+  final DateTime? creationTime;
+
+  /// The last time the monitor resource was modified. The timestamp depends on
+  /// the status of the job:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CREATE_PENDING</code> - The <code>CreationTime</code>.
+  /// </li>
+  /// <li>
+  /// <code>CREATE_IN_PROGRESS</code> - The current timestamp.
+  /// </li>
+  /// <li>
+  /// <code>STOPPED</code> - When the resource stopped.
+  /// </li>
+  /// <li>
+  /// <code>ACTIVE</code> or <code>CREATE_FAILED</code> - When the monitor
+  /// creation finished or failed.
+  /// </li>
+  /// </ul>
+  final DateTime? lastModificationTime;
+
+  /// The Amazon Resource Name (ARN) of the monitor resource.
+  final String? monitorArn;
+
+  /// The name of the monitor resource.
+  final String? monitorName;
+
+  /// The Amazon Resource Name (ARN) of the predictor being monitored.
+  final String? resourceArn;
+
+  /// The status of the monitor. States include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ACTIVE</code>
+  /// </li>
+  /// <li>
+  /// <code>ACTIVE_STOPPING</code>, <code>ACTIVE_STOPPED</code>
+  /// </li>
+  /// <li>
+  /// <code>UPDATE_IN_PROGRESS</code>
+  /// </li>
+  /// <li>
+  /// <code>CREATE_PENDING</code>, <code>CREATE_IN_PROGRESS</code>,
+  /// <code>CREATE_FAILED</code>
+  /// </li>
+  /// <li>
+  /// <code>DELETE_PENDING</code>, <code>DELETE_IN_PROGRESS</code>,
+  /// <code>DELETE_FAILED</code>
+  /// </li>
+  /// </ul>
+  final String? status;
+
+  MonitorSummary({
+    this.creationTime,
+    this.lastModificationTime,
+    this.monitorArn,
+    this.monitorName,
+    this.resourceArn,
+    this.status,
+  });
+
+  factory MonitorSummary.fromJson(Map<String, dynamic> json) {
+    return MonitorSummary(
+      creationTime: timeStampFromJson(json['CreationTime']),
+      lastModificationTime: timeStampFromJson(json['LastModificationTime']),
+      monitorArn: json['MonitorArn'] as String?,
+      monitorName: json['MonitorName'] as String?,
+      resourceArn: json['ResourceArn'] as String?,
+      status: json['Status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTime = this.creationTime;
+    final lastModificationTime = this.lastModificationTime;
+    final monitorArn = this.monitorArn;
+    final monitorName = this.monitorName;
+    final resourceArn = this.resourceArn;
+    final status = this.status;
+    return {
+      if (creationTime != null)
+        'CreationTime': unixTimestampToJson(creationTime),
+      if (lastModificationTime != null)
+        'LastModificationTime': unixTimestampToJson(lastModificationTime),
+      if (monitorArn != null) 'MonitorArn': monitorArn,
+      if (monitorName != null) 'MonitorName': monitorName,
+      if (resourceArn != null) 'ResourceArn': resourceArn,
+      if (status != null) 'Status': status,
+    };
+  }
+}
+
+enum Month {
+  january,
+  february,
+  march,
+  april,
+  may,
+  june,
+  july,
+  august,
+  september,
+  october,
+  november,
+  december,
+}
+
+extension on Month {
+  String toValue() {
+    switch (this) {
+      case Month.january:
+        return 'JANUARY';
+      case Month.february:
+        return 'FEBRUARY';
+      case Month.march:
+        return 'MARCH';
+      case Month.april:
+        return 'APRIL';
+      case Month.may:
+        return 'MAY';
+      case Month.june:
+        return 'JUNE';
+      case Month.july:
+        return 'JULY';
+      case Month.august:
+        return 'AUGUST';
+      case Month.september:
+        return 'SEPTEMBER';
+      case Month.october:
+        return 'OCTOBER';
+      case Month.november:
+        return 'NOVEMBER';
+      case Month.december:
+        return 'DECEMBER';
+    }
+  }
+}
+
+extension on String {
+  Month toMonth() {
+    switch (this) {
+      case 'JANUARY':
+        return Month.january;
+      case 'FEBRUARY':
+        return Month.february;
+      case 'MARCH':
+        return Month.march;
+      case 'APRIL':
+        return Month.april;
+      case 'MAY':
+        return Month.may;
+      case 'JUNE':
+        return Month.june;
+      case 'JULY':
+        return Month.july;
+      case 'AUGUST':
+        return Month.august;
+      case 'SEPTEMBER':
+        return Month.september;
+      case 'OCTOBER':
+        return Month.october;
+      case 'NOVEMBER':
+        return Month.november;
+      case 'DECEMBER':
+        return Month.december;
+    }
+    throw Exception('$this is not known in enum Month');
   }
 }
 
@@ -8019,6 +9193,69 @@ class PredictorBacktestExportJobSummary {
   }
 }
 
+/// Metrics you can use as a baseline for comparison purposes. Use these metrics
+/// when you interpret monitoring results for an auto predictor.
+class PredictorBaseline {
+  /// The initial <a
+  /// href="https://docs.aws.amazon.com/forecast/latest/dg/metrics.html">accuracy
+  /// metrics</a> for the predictor. Use these metrics as a baseline for
+  /// comparison purposes as you use your predictor and the metrics change.
+  final List<BaselineMetric>? baselineMetrics;
+
+  PredictorBaseline({
+    this.baselineMetrics,
+  });
+
+  factory PredictorBaseline.fromJson(Map<String, dynamic> json) {
+    return PredictorBaseline(
+      baselineMetrics: (json['BaselineMetrics'] as List?)
+          ?.whereNotNull()
+          .map((e) => BaselineMetric.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final baselineMetrics = this.baselineMetrics;
+    return {
+      if (baselineMetrics != null) 'BaselineMetrics': baselineMetrics,
+    };
+  }
+}
+
+/// Provides details about a predictor event, such as a retraining.
+class PredictorEvent {
+  /// The timestamp for when the event occurred.
+  final DateTime? datetime;
+
+  /// The type of event. For example, <code>Retrain</code>. A retraining event
+  /// denotes the timepoint when a predictor was retrained. Any monitor results
+  /// from before the <code>Datetime</code> are from the previous predictor. Any
+  /// new metrics are for the newly retrained predictor.
+  final String? detail;
+
+  PredictorEvent({
+    this.datetime,
+    this.detail,
+  });
+
+  factory PredictorEvent.fromJson(Map<String, dynamic> json) {
+    return PredictorEvent(
+      datetime: timeStampFromJson(json['Datetime']),
+      detail: json['Detail'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final datetime = this.datetime;
+    final detail = this.detail;
+    return {
+      if (datetime != null) 'Datetime': unixTimestampToJson(datetime),
+      if (detail != null) 'Detail': detail,
+    };
+  }
+}
+
 /// The algorithm used to perform a backtest and the status of those tests.
 class PredictorExecution {
   /// The ARN of the algorithm used to test the predictor.
@@ -8083,6 +9320,117 @@ class PredictorExecutionDetails {
     return {
       if (predictorExecutions != null)
         'PredictorExecutions': predictorExecutions,
+    };
+  }
+}
+
+/// Describes the results of a monitor evaluation.
+class PredictorMonitorEvaluation {
+  /// The status of the monitor evaluation. The state can be <code>SUCCESS</code>
+  /// or <code>FAILURE</code>.
+  final String? evaluationState;
+
+  /// The timestamp that indicates when the monitor evaluation was started.
+  final DateTime? evaluationTime;
+
+  /// Information about any errors that may have occurred during the monitor
+  /// evaluation.
+  final String? message;
+
+  /// A list of metrics Forecast calculated when monitoring a predictor. You can
+  /// compare the value for each metric in the list to the metric's value in the
+  /// <a>Baseline</a> to see how your predictor's performance is changing.
+  final List<MetricResult>? metricResults;
+
+  /// The Amazon Resource Name (ARN) of the monitor resource.
+  final String? monitorArn;
+
+  /// The source of the data the monitor resource used during the evaluation.
+  final MonitorDataSource? monitorDataSource;
+
+  /// The number of items considered during the evaluation.
+  final int? numItemsEvaluated;
+
+  /// Provides details about a predictor event, such as a retraining.
+  final PredictorEvent? predictorEvent;
+
+  /// The Amazon Resource Name (ARN) of the resource to monitor.
+  final String? resourceArn;
+
+  /// The timestamp that indicates the end of the window that is used for monitor
+  /// evaluation.
+  final DateTime? windowEndDatetime;
+
+  /// The timestamp that indicates the start of the window that is used for
+  /// monitor evaluation.
+  final DateTime? windowStartDatetime;
+
+  PredictorMonitorEvaluation({
+    this.evaluationState,
+    this.evaluationTime,
+    this.message,
+    this.metricResults,
+    this.monitorArn,
+    this.monitorDataSource,
+    this.numItemsEvaluated,
+    this.predictorEvent,
+    this.resourceArn,
+    this.windowEndDatetime,
+    this.windowStartDatetime,
+  });
+
+  factory PredictorMonitorEvaluation.fromJson(Map<String, dynamic> json) {
+    return PredictorMonitorEvaluation(
+      evaluationState: json['EvaluationState'] as String?,
+      evaluationTime: timeStampFromJson(json['EvaluationTime']),
+      message: json['Message'] as String?,
+      metricResults: (json['MetricResults'] as List?)
+          ?.whereNotNull()
+          .map((e) => MetricResult.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      monitorArn: json['MonitorArn'] as String?,
+      monitorDataSource: json['MonitorDataSource'] != null
+          ? MonitorDataSource.fromJson(
+              json['MonitorDataSource'] as Map<String, dynamic>)
+          : null,
+      numItemsEvaluated: json['NumItemsEvaluated'] as int?,
+      predictorEvent: json['PredictorEvent'] != null
+          ? PredictorEvent.fromJson(
+              json['PredictorEvent'] as Map<String, dynamic>)
+          : null,
+      resourceArn: json['ResourceArn'] as String?,
+      windowEndDatetime: timeStampFromJson(json['WindowEndDatetime']),
+      windowStartDatetime: timeStampFromJson(json['WindowStartDatetime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final evaluationState = this.evaluationState;
+    final evaluationTime = this.evaluationTime;
+    final message = this.message;
+    final metricResults = this.metricResults;
+    final monitorArn = this.monitorArn;
+    final monitorDataSource = this.monitorDataSource;
+    final numItemsEvaluated = this.numItemsEvaluated;
+    final predictorEvent = this.predictorEvent;
+    final resourceArn = this.resourceArn;
+    final windowEndDatetime = this.windowEndDatetime;
+    final windowStartDatetime = this.windowStartDatetime;
+    return {
+      if (evaluationState != null) 'EvaluationState': evaluationState,
+      if (evaluationTime != null)
+        'EvaluationTime': unixTimestampToJson(evaluationTime),
+      if (message != null) 'Message': message,
+      if (metricResults != null) 'MetricResults': metricResults,
+      if (monitorArn != null) 'MonitorArn': monitorArn,
+      if (monitorDataSource != null) 'MonitorDataSource': monitorDataSource,
+      if (numItemsEvaluated != null) 'NumItemsEvaluated': numItemsEvaluated,
+      if (predictorEvent != null) 'PredictorEvent': predictorEvent,
+      if (resourceArn != null) 'ResourceArn': resourceArn,
+      if (windowEndDatetime != null)
+        'WindowEndDatetime': unixTimestampToJson(windowEndDatetime),
+      if (windowStartDatetime != null)
+        'WindowStartDatetime': unixTimestampToJson(windowStartDatetime),
     };
   }
 }
@@ -8364,13 +9712,18 @@ class Schema {
 }
 
 /// An attribute of a schema, which defines a dataset field. A schema attribute
-/// is required for every field in a dataset. The <a>Schema</a> object contains
-/// an array of <code>SchemaAttribute</code> objects.
+/// is required for every field in a dataset. The <a
+/// href="https://docs.aws.amazon.com/forecast/latest/dg/API_Schema.html">Schema</a>
+/// object contains an array of <code>SchemaAttribute</code> objects.
 class SchemaAttribute {
   /// The name of the dataset field.
   final String? attributeName;
 
   /// The data type of the field.
+  ///
+  /// For a related time series dataset, other than date, item_id, and forecast
+  /// dimensions attributes, all attributes should be of numerical type
+  /// (integer/float).
   final AttributeType? attributeType;
 
   SchemaAttribute({
@@ -8424,7 +9777,9 @@ extension on String {
 }
 
 /// Provides statistics for each data field imported into to an Amazon Forecast
-/// dataset with the <a>CreateDatasetImportJob</a> operation.
+/// dataset with the <a
+/// href="https://docs.aws.amazon.com/forecast/latest/dg/API_CreateDatasetImportJob.html">CreateDatasetImportJob</a>
+/// operation.
 class Statistics {
   /// For a numeric field, the average value in the field.
   final double? avg;
@@ -8943,6 +10298,64 @@ class TestWindowSummary {
   }
 }
 
+/// The time boundary Forecast uses to align and aggregate your data to match
+/// your forecast frequency. Provide the unit of time and the time boundary as a
+/// key value pair. If you don't provide a time boundary, Forecast uses a set of
+/// <a
+/// href="https://docs.aws.amazon.com/forecast/latest/dg/data-aggregation.html#default-time-boundaries">Default
+/// Time Boundaries</a>.
+///
+/// For more information about aggregation, see <a
+/// href="https://docs.aws.amazon.com/forecast/latest/dg/data-aggregation.html">Data
+/// Aggregation for Different Forecast Frequencies</a>. For more information
+/// setting a custom time boundary, see <a
+/// href="https://docs.aws.amazon.com/forecast/latest/dg/data-aggregation.html#specifying-time-boundary">Specifying
+/// a Time Boundary</a>.
+class TimeAlignmentBoundary {
+  /// The day of the month to use for time alignment during aggregation.
+  final int? dayOfMonth;
+
+  /// The day of week to use for time alignment during aggregation. The day must
+  /// be in uppercase.
+  final DayOfWeek? dayOfWeek;
+
+  /// The hour of day to use for time alignment during aggregation.
+  final int? hour;
+
+  /// The month to use for time alignment during aggregation. The month must be in
+  /// uppercase.
+  final Month? month;
+
+  TimeAlignmentBoundary({
+    this.dayOfMonth,
+    this.dayOfWeek,
+    this.hour,
+    this.month,
+  });
+
+  factory TimeAlignmentBoundary.fromJson(Map<String, dynamic> json) {
+    return TimeAlignmentBoundary(
+      dayOfMonth: json['DayOfMonth'] as int?,
+      dayOfWeek: (json['DayOfWeek'] as String?)?.toDayOfWeek(),
+      hour: json['Hour'] as int?,
+      month: (json['Month'] as String?)?.toMonth(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dayOfMonth = this.dayOfMonth;
+    final dayOfWeek = this.dayOfWeek;
+    final hour = this.hour;
+    final month = this.month;
+    return {
+      if (dayOfMonth != null) 'DayOfMonth': dayOfMonth,
+      if (dayOfWeek != null) 'DayOfWeek': dayOfWeek.toValue(),
+      if (hour != null) 'Hour': hour,
+      if (month != null) 'Month': month.toValue(),
+    };
+  }
+}
+
 enum TimePointGranularity {
   all,
   specific,
@@ -8996,6 +10409,89 @@ extension on String {
         return TimeSeriesGranularity.specific;
     }
     throw Exception('$this is not known in enum TimeSeriesGranularity');
+  }
+}
+
+/// Details about the import file that contains the time series for which you
+/// want to create forecasts.
+class TimeSeriesIdentifiers {
+  final DataSource? dataSource;
+
+  /// The format of the data, either CSV or PARQUET.
+  final String? format;
+  final Schema? schema;
+
+  TimeSeriesIdentifiers({
+    this.dataSource,
+    this.format,
+    this.schema,
+  });
+
+  factory TimeSeriesIdentifiers.fromJson(Map<String, dynamic> json) {
+    return TimeSeriesIdentifiers(
+      dataSource: json['DataSource'] != null
+          ? DataSource.fromJson(json['DataSource'] as Map<String, dynamic>)
+          : null,
+      format: json['Format'] as String?,
+      schema: json['Schema'] != null
+          ? Schema.fromJson(json['Schema'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataSource = this.dataSource;
+    final format = this.format;
+    final schema = this.schema;
+    return {
+      if (dataSource != null) 'DataSource': dataSource,
+      if (format != null) 'Format': format,
+      if (schema != null) 'Schema': schema,
+    };
+  }
+}
+
+/// Defines the set of time series that are used to create the forecasts in a
+/// <code>TimeSeriesIdentifiers</code> object.
+///
+/// The <code>TimeSeriesIdentifiers</code> object needs the following
+/// information:
+///
+/// <ul>
+/// <li>
+/// <code>DataSource</code>
+/// </li>
+/// <li>
+/// <code>Format</code>
+/// </li>
+/// <li>
+/// <code>Schema</code>
+/// </li>
+/// </ul>
+class TimeSeriesSelector {
+  /// Details about the import file that contains the time series for which you
+  /// want to create forecasts.
+  final TimeSeriesIdentifiers? timeSeriesIdentifiers;
+
+  TimeSeriesSelector({
+    this.timeSeriesIdentifiers,
+  });
+
+  factory TimeSeriesSelector.fromJson(Map<String, dynamic> json) {
+    return TimeSeriesSelector(
+      timeSeriesIdentifiers: json['TimeSeriesIdentifiers'] != null
+          ? TimeSeriesIdentifiers.fromJson(
+              json['TimeSeriesIdentifiers'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final timeSeriesIdentifiers = this.timeSeriesIdentifiers;
+    return {
+      if (timeSeriesIdentifiers != null)
+        'TimeSeriesIdentifiers': timeSeriesIdentifiers,
+    };
   }
 }
 

@@ -1608,6 +1608,51 @@ class Directory {
     return DescribeRegionsResult.fromJson(jsonResponse.body);
   }
 
+  /// Retrieves information about the configurable settings for the specified
+  /// directory.
+  ///
+  /// May throw [DirectoryDoesNotExistException].
+  /// May throw [UnsupportedOperationException].
+  /// May throw [InvalidParameterException].
+  /// May throw [InvalidNextTokenException].
+  /// May throw [ClientException].
+  /// May throw [ServiceException].
+  ///
+  /// Parameter [directoryId] :
+  /// The identifier of the directory for which to retrieve information.
+  ///
+  /// Parameter [nextToken] :
+  /// The <code>DescribeSettingsResult.NextToken</code> value from a previous
+  /// call to <a>DescribeSettings</a>. Pass null if this is the first call.
+  ///
+  /// Parameter [status] :
+  /// The status of the directory settings for which to retrieve information.
+  Future<DescribeSettingsResult> describeSettings({
+    required String directoryId,
+    String? nextToken,
+    DirectoryConfigurationStatus? status,
+  }) async {
+    ArgumentError.checkNotNull(directoryId, 'directoryId');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'DirectoryService_20150416.DescribeSettings'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'DirectoryId': directoryId,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (status != null) 'Status': status.toValue(),
+      },
+    );
+
+    return DescribeSettingsResult.fromJson(jsonResponse.body);
+  }
+
   /// Returns the shared directories in your account.
   ///
   /// May throw [EntityDoesNotExistException].
@@ -3093,6 +3138,47 @@ class Directory {
     );
   }
 
+  /// Updates the configurable settings for the specified directory.
+  ///
+  /// May throw [DirectoryDoesNotExistException].
+  /// May throw [UnsupportedOperationException].
+  /// May throw [DirectoryUnavailableException].
+  /// May throw [IncompatibleSettingsException].
+  /// May throw [UnsupportedSettingsException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ClientException].
+  /// May throw [ServiceException].
+  ///
+  /// Parameter [directoryId] :
+  /// The identifier of the directory for which to update settings.
+  ///
+  /// Parameter [settings] :
+  /// The list of <a>Setting</a> objects.
+  Future<UpdateSettingsResult> updateSettings({
+    required String directoryId,
+    required List<Setting> settings,
+  }) async {
+    ArgumentError.checkNotNull(directoryId, 'directoryId');
+    ArgumentError.checkNotNull(settings, 'settings');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'DirectoryService_20150416.UpdateSettings'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'DirectoryId': directoryId,
+        'Settings': settings,
+      },
+    );
+
+    return UpdateSettingsResult.fromJson(jsonResponse.body);
+  }
+
   /// Updates the trust that has been set up between your Managed Microsoft AD
   /// directory and an self-managed Active Directory.
   ///
@@ -3553,6 +3639,7 @@ extension on String {
 
 enum ClientAuthenticationType {
   smartCard,
+  smartCardOrPassword,
 }
 
 extension on ClientAuthenticationType {
@@ -3560,6 +3647,8 @@ extension on ClientAuthenticationType {
     switch (this) {
       case ClientAuthenticationType.smartCard:
         return 'SmartCard';
+      case ClientAuthenticationType.smartCardOrPassword:
+        return 'SmartCardOrPassword';
     }
   }
 }
@@ -3569,6 +3658,8 @@ extension on String {
     switch (this) {
       case 'SmartCard':
         return ClientAuthenticationType.smartCard;
+      case 'SmartCardOrPassword':
+        return ClientAuthenticationType.smartCardOrPassword;
     }
     throw Exception('$this is not known in enum ClientAuthenticationType');
   }
@@ -4273,6 +4364,52 @@ class DescribeRegionsResult {
   }
 }
 
+class DescribeSettingsResult {
+  /// The identifier of the directory.
+  final String? directoryId;
+
+  /// If not null, token that indicates that more results are available. Pass this
+  /// value for the <code>NextToken</code> parameter in a subsequent call to
+  /// <code>DescribeSettings</code> to retrieve the next set of items.
+  final String? nextToken;
+
+  /// The list of <a>SettingEntry</a> objects that were retrieved.
+  ///
+  /// It is possible that this list contains less than the number of items
+  /// specified in the <code>Limit</code> member of the request. This occurs if
+  /// there are less than the requested number of items left to retrieve, or if
+  /// the limitations of the operation have been exceeded.
+  final List<SettingEntry>? settingEntries;
+
+  DescribeSettingsResult({
+    this.directoryId,
+    this.nextToken,
+    this.settingEntries,
+  });
+
+  factory DescribeSettingsResult.fromJson(Map<String, dynamic> json) {
+    return DescribeSettingsResult(
+      directoryId: json['DirectoryId'] as String?,
+      nextToken: json['NextToken'] as String?,
+      settingEntries: (json['SettingEntries'] as List?)
+          ?.whereNotNull()
+          .map((e) => SettingEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final directoryId = this.directoryId;
+    final nextToken = this.nextToken;
+    final settingEntries = this.settingEntries;
+    return {
+      if (directoryId != null) 'DirectoryId': directoryId,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (settingEntries != null) 'SettingEntries': settingEntries,
+    };
+  }
+}
+
 class DescribeSharedDirectoriesResult {
   /// If not null, token that indicates that more results are available. Pass this
   /// value for the <code>NextToken</code> parameter in a subsequent call to
@@ -4383,6 +4520,49 @@ class DescribeTrustsResult {
       if (nextToken != null) 'NextToken': nextToken,
       if (trusts != null) 'Trusts': trusts,
     };
+  }
+}
+
+enum DirectoryConfigurationStatus {
+  requested,
+  updating,
+  updated,
+  failed,
+  $default,
+}
+
+extension on DirectoryConfigurationStatus {
+  String toValue() {
+    switch (this) {
+      case DirectoryConfigurationStatus.requested:
+        return 'Requested';
+      case DirectoryConfigurationStatus.updating:
+        return 'Updating';
+      case DirectoryConfigurationStatus.updated:
+        return 'Updated';
+      case DirectoryConfigurationStatus.failed:
+        return 'Failed';
+      case DirectoryConfigurationStatus.$default:
+        return 'Default';
+    }
+  }
+}
+
+extension on String {
+  DirectoryConfigurationStatus toDirectoryConfigurationStatus() {
+    switch (this) {
+      case 'Requested':
+        return DirectoryConfigurationStatus.requested;
+      case 'Updating':
+        return DirectoryConfigurationStatus.updating;
+      case 'Updated':
+        return DirectoryConfigurationStatus.updated;
+      case 'Failed':
+        return DirectoryConfigurationStatus.failed;
+      case 'Default':
+        return DirectoryConfigurationStatus.$default;
+    }
+    throw Exception('$this is not known in enum DirectoryConfigurationStatus');
   }
 }
 
@@ -6593,6 +6773,144 @@ extension on String {
   }
 }
 
+/// Contains information about the configurable settings for a directory.
+class Setting {
+  /// The name of the directory setting. For example:
+  ///
+  /// <code>TLS_1_0</code>
+  final String name;
+
+  /// The value of the directory setting for which to retrieve information. For
+  /// example, for <code>TLS_1_0</code>, the valid values are: <code>Enable</code>
+  /// and <code>Disable</code>.
+  final String value;
+
+  Setting({
+    required this.name,
+    required this.value,
+  });
+
+  factory Setting.fromJson(Map<String, dynamic> json) {
+    return Setting(
+      name: json['Name'] as String,
+      value: json['Value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      'Name': name,
+      'Value': value,
+    };
+  }
+}
+
+/// Contains information about the specified configurable setting for a
+/// directory.
+class SettingEntry {
+  /// The valid range of values for the directory setting.
+  final String? allowedValues;
+
+  /// The value of the directory setting that is applied to the directory.
+  final String? appliedValue;
+
+  /// The date and time when the request to update a directory setting was last
+  /// submitted.
+  final DateTime? lastRequestedDateTime;
+
+  /// The date and time when the directory setting was last updated.
+  final DateTime? lastUpdatedDateTime;
+
+  /// The name of the directory setting. For example:
+  ///
+  /// <code>TLS_1_0</code>
+  final String? name;
+
+  /// Details about the status of the request to update the directory setting. If
+  /// the directory setting is deployed in more than one region, status is
+  /// returned for the request in each region where the setting is deployed.
+  final Map<String, DirectoryConfigurationStatus>? requestDetailedStatus;
+
+  /// The overall status of the request to update the directory setting request.
+  /// If the directory setting is deployed in more than one region, and the
+  /// request fails in any region, the overall status is <code>Failed</code>.
+  final DirectoryConfigurationStatus? requestStatus;
+
+  /// The last status message for the directory status request.
+  final String? requestStatusMessage;
+
+  /// The value that was last requested for the directory setting.
+  final String? requestedValue;
+
+  /// The type of directory setting. For example, <code>Protocol</code> or
+  /// <code>Cipher</code>.
+  final String? type;
+
+  SettingEntry({
+    this.allowedValues,
+    this.appliedValue,
+    this.lastRequestedDateTime,
+    this.lastUpdatedDateTime,
+    this.name,
+    this.requestDetailedStatus,
+    this.requestStatus,
+    this.requestStatusMessage,
+    this.requestedValue,
+    this.type,
+  });
+
+  factory SettingEntry.fromJson(Map<String, dynamic> json) {
+    return SettingEntry(
+      allowedValues: json['AllowedValues'] as String?,
+      appliedValue: json['AppliedValue'] as String?,
+      lastRequestedDateTime: timeStampFromJson(json['LastRequestedDateTime']),
+      lastUpdatedDateTime: timeStampFromJson(json['LastUpdatedDateTime']),
+      name: json['Name'] as String?,
+      requestDetailedStatus:
+          (json['RequestDetailedStatus'] as Map<String, dynamic>?)?.map(
+              (k, e) =>
+                  MapEntry(k, (e as String).toDirectoryConfigurationStatus())),
+      requestStatus:
+          (json['RequestStatus'] as String?)?.toDirectoryConfigurationStatus(),
+      requestStatusMessage: json['RequestStatusMessage'] as String?,
+      requestedValue: json['RequestedValue'] as String?,
+      type: json['Type'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allowedValues = this.allowedValues;
+    final appliedValue = this.appliedValue;
+    final lastRequestedDateTime = this.lastRequestedDateTime;
+    final lastUpdatedDateTime = this.lastUpdatedDateTime;
+    final name = this.name;
+    final requestDetailedStatus = this.requestDetailedStatus;
+    final requestStatus = this.requestStatus;
+    final requestStatusMessage = this.requestStatusMessage;
+    final requestedValue = this.requestedValue;
+    final type = this.type;
+    return {
+      if (allowedValues != null) 'AllowedValues': allowedValues,
+      if (appliedValue != null) 'AppliedValue': appliedValue,
+      if (lastRequestedDateTime != null)
+        'LastRequestedDateTime': unixTimestampToJson(lastRequestedDateTime),
+      if (lastUpdatedDateTime != null)
+        'LastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
+      if (name != null) 'Name': name,
+      if (requestDetailedStatus != null)
+        'RequestDetailedStatus':
+            requestDetailedStatus.map((k, e) => MapEntry(k, e.toValue())),
+      if (requestStatus != null) 'RequestStatus': requestStatus.toValue(),
+      if (requestStatusMessage != null)
+        'RequestStatusMessage': requestStatusMessage,
+      if (requestedValue != null) 'RequestedValue': requestedValue,
+      if (type != null) 'Type': type,
+    };
+  }
+}
+
 class ShareDirectoryResult {
   /// Identifier of the directory that is stored in the directory consumer account
   /// that is shared from the specified directory (<code>DirectoryId</code>).
@@ -7434,6 +7752,28 @@ class UpdateRadiusResult {
   }
 }
 
+class UpdateSettingsResult {
+  /// The identifier of the directory.
+  final String? directoryId;
+
+  UpdateSettingsResult({
+    this.directoryId,
+  });
+
+  factory UpdateSettingsResult.fromJson(Map<String, dynamic> json) {
+    return UpdateSettingsResult(
+      directoryId: json['DirectoryId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final directoryId = this.directoryId;
+    return {
+      if (directoryId != null) 'DirectoryId': directoryId,
+    };
+  }
+}
+
 class UpdateTrustResult {
   final String? requestId;
 
@@ -7598,6 +7938,14 @@ class EntityDoesNotExistException extends _s.GenericAwsException {
             type: type, code: 'EntityDoesNotExistException', message: message);
 }
 
+class IncompatibleSettingsException extends _s.GenericAwsException {
+  IncompatibleSettingsException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'IncompatibleSettingsException',
+            message: message);
+}
+
 class InsufficientPermissionsException extends _s.GenericAwsException {
   InsufficientPermissionsException({String? type, String? message})
       : super(
@@ -7705,6 +8053,12 @@ class UnsupportedOperationException extends _s.GenericAwsException {
             message: message);
 }
 
+class UnsupportedSettingsException extends _s.GenericAwsException {
+  UnsupportedSettingsException({String? type, String? message})
+      : super(
+            type: type, code: 'UnsupportedSettingsException', message: message);
+}
+
 class UserDoesNotExistException extends _s.GenericAwsException {
   UserDoesNotExistException({String? type, String? message})
       : super(type: type, code: 'UserDoesNotExistException', message: message);
@@ -7743,6 +8097,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       EntityAlreadyExistsException(type: type, message: message),
   'EntityDoesNotExistException': (type, message) =>
       EntityDoesNotExistException(type: type, message: message),
+  'IncompatibleSettingsException': (type, message) =>
+      IncompatibleSettingsException(type: type, message: message),
   'InsufficientPermissionsException': (type, message) =>
       InsufficientPermissionsException(type: type, message: message),
   'InvalidCertificateException': (type, message) =>
@@ -7777,6 +8133,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       TagLimitExceededException(type: type, message: message),
   'UnsupportedOperationException': (type, message) =>
       UnsupportedOperationException(type: type, message: message),
+  'UnsupportedSettingsException': (type, message) =>
+      UnsupportedSettingsException(type: type, message: message),
   'UserDoesNotExistException': (type, message) =>
       UserDoesNotExistException(type: type, message: message),
 };

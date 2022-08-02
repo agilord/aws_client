@@ -564,6 +564,8 @@ class Neptune {
   /// May throw [DBClusterNotFoundFault].
   /// May throw [DBInstanceNotFoundFault].
   /// May throw [DBSubnetGroupDoesNotCoverEnoughAZs].
+  /// May throw [GlobalClusterNotFoundFault].
+  /// May throw [InvalidGlobalClusterStateFault].
   ///
   /// Parameter [dBClusterIdentifier] :
   /// The DB cluster identifier. This parameter is stored as a lowercase string.
@@ -658,6 +660,10 @@ class Neptune {
   /// The version number of the database engine to use for the new DB cluster.
   ///
   /// Example: <code>1.0.2.1</code>
+  ///
+  /// Parameter [globalClusterIdentifier] :
+  /// The ID of the Neptune global database to which this new DB cluster should
+  /// be added.
   ///
   /// Parameter [kmsKeyId] :
   /// The Amazon KMS key identifier for an encrypted DB cluster.
@@ -781,6 +787,7 @@ class Neptune {
     List<String>? enableCloudwatchLogsExports,
     bool? enableIAMDatabaseAuthentication,
     String? engineVersion,
+    String? globalClusterIdentifier,
     String? kmsKeyId,
     String? masterUserPassword,
     String? masterUsername,
@@ -814,6 +821,8 @@ class Neptune {
     enableIAMDatabaseAuthentication
         ?.also((arg) => $request['EnableIAMDatabaseAuthentication'] = arg);
     engineVersion?.also((arg) => $request['EngineVersion'] = arg);
+    globalClusterIdentifier
+        ?.also((arg) => $request['GlobalClusterIdentifier'] = arg);
     kmsKeyId?.also((arg) => $request['KmsKeyId'] = arg);
     masterUserPassword?.also((arg) => $request['MasterUserPassword'] = arg);
     masterUsername?.also((arg) => $request['MasterUsername'] = arg);
@@ -1748,6 +1757,77 @@ class Neptune {
     return CreateEventSubscriptionResult.fromXml($result);
   }
 
+  /// Creates a Neptune global database spread across multiple Amazon Regions.
+  /// The global database contains a single primary cluster with read-write
+  /// capability, and read-only secondary clusters that receive data from the
+  /// primary cluster through high-speed replication performed by the Neptune
+  /// storage subsystem.
+  ///
+  /// You can create a global database that is initially empty, and then add a
+  /// primary cluster and secondary clusters to it, or you can specify an
+  /// existing Neptune cluster during the create operation to become the primary
+  /// cluster of the global database.
+  ///
+  /// May throw [GlobalClusterAlreadyExistsFault].
+  /// May throw [GlobalClusterQuotaExceededFault].
+  /// May throw [InvalidDBClusterStateFault].
+  /// May throw [DBClusterNotFoundFault].
+  ///
+  /// Parameter [globalClusterIdentifier] :
+  /// The cluster identifier of the new global database cluster.
+  ///
+  /// Parameter [deletionProtection] :
+  /// The deletion protection setting for the new global database. The global
+  /// database can't be deleted when deletion protection is enabled.
+  ///
+  /// Parameter [engine] :
+  /// The name of the database engine to be used in the global database.
+  ///
+  /// Valid values: <code>neptune</code>
+  ///
+  /// Parameter [engineVersion] :
+  /// The Neptune engine version to be used by the global database.
+  ///
+  /// Valid values: <code>1.2.0.0</code> or above.
+  ///
+  /// Parameter [sourceDBClusterIdentifier] :
+  /// (<i>Optional</i>) The Amazon Resource Name (ARN) of an existing Neptune DB
+  /// cluster to use as the primary cluster of the new global database.
+  ///
+  /// Parameter [storageEncrypted] :
+  /// The storage encryption setting for the new global database cluster.
+  Future<CreateGlobalClusterResult> createGlobalCluster({
+    required String globalClusterIdentifier,
+    bool? deletionProtection,
+    String? engine,
+    String? engineVersion,
+    String? sourceDBClusterIdentifier,
+    bool? storageEncrypted,
+  }) async {
+    ArgumentError.checkNotNull(
+        globalClusterIdentifier, 'globalClusterIdentifier');
+    final $request = <String, dynamic>{};
+    $request['GlobalClusterIdentifier'] = globalClusterIdentifier;
+    deletionProtection?.also((arg) => $request['DeletionProtection'] = arg);
+    engine?.also((arg) => $request['Engine'] = arg);
+    engineVersion?.also((arg) => $request['EngineVersion'] = arg);
+    sourceDBClusterIdentifier
+        ?.also((arg) => $request['SourceDBClusterIdentifier'] = arg);
+    storageEncrypted?.also((arg) => $request['StorageEncrypted'] = arg);
+    final $result = await _protocol.send(
+      $request,
+      action: 'CreateGlobalCluster',
+      version: '2014-10-31',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateGlobalClusterMessage'],
+      shapes: shapes,
+      resultWrapper: 'CreateGlobalClusterResult',
+    );
+    return CreateGlobalClusterResult.fromXml($result);
+  }
+
   /// The DeleteDBCluster action deletes a previously provisioned DB cluster.
   /// When you delete a DB cluster, all automated backups for that DB cluster
   /// are deleted and can't be recovered. Manual DB cluster snapshots of the
@@ -2145,6 +2225,35 @@ class Neptune {
       resultWrapper: 'DeleteEventSubscriptionResult',
     );
     return DeleteEventSubscriptionResult.fromXml($result);
+  }
+
+  /// Deletes a global database. The primary and all secondary clusters must
+  /// already be detached or deleted first.
+  ///
+  /// May throw [GlobalClusterNotFoundFault].
+  /// May throw [InvalidGlobalClusterStateFault].
+  ///
+  /// Parameter [globalClusterIdentifier] :
+  /// The cluster identifier of the global database cluster being deleted.
+  Future<DeleteGlobalClusterResult> deleteGlobalCluster({
+    required String globalClusterIdentifier,
+  }) async {
+    ArgumentError.checkNotNull(
+        globalClusterIdentifier, 'globalClusterIdentifier');
+    final $request = <String, dynamic>{};
+    $request['GlobalClusterIdentifier'] = globalClusterIdentifier;
+    final $result = await _protocol.send(
+      $request,
+      action: 'DeleteGlobalCluster',
+      version: '2014-10-31',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteGlobalClusterMessage'],
+      shapes: shapes,
+      resultWrapper: 'DeleteGlobalClusterResult',
+    );
+    return DeleteGlobalClusterResult.fromXml($result);
   }
 
   /// Returns information about endpoints for an Amazon Neptune DB cluster.
@@ -3285,6 +3394,57 @@ class Neptune {
     return EventsMessage.fromXml($result);
   }
 
+  /// Returns information about Neptune global database clusters. This API
+  /// supports pagination.
+  ///
+  /// May throw [GlobalClusterNotFoundFault].
+  ///
+  /// Parameter [globalClusterIdentifier] :
+  /// The user-supplied DB cluster identifier. If this parameter is specified,
+  /// only information about the specified DB cluster is returned. This
+  /// parameter is not case-sensitive.
+  ///
+  /// Constraints: If supplied, must match an existing DB cluster identifier.
+  ///
+  /// Parameter [marker] :
+  /// (<i>Optional</i>) A pagination token returned by a previous call to
+  /// <code>DescribeGlobalClusters</code>. If this parameter is specified, the
+  /// response will only include records beyond the marker, up to the number
+  /// specified by <code>MaxRecords</code>.
+  ///
+  /// Parameter [maxRecords] :
+  /// The maximum number of records to include in the response. If more records
+  /// exist than the specified <code>MaxRecords</code> value, a pagination
+  /// marker token is included in the response that you can use to retrieve the
+  /// remaining results.
+  ///
+  /// Default: <code>100</code>
+  ///
+  /// Constraints: Minimum 20, maximum 100.
+  Future<GlobalClustersMessage> describeGlobalClusters({
+    String? globalClusterIdentifier,
+    String? marker,
+    int? maxRecords,
+  }) async {
+    final $request = <String, dynamic>{};
+    globalClusterIdentifier
+        ?.also((arg) => $request['GlobalClusterIdentifier'] = arg);
+    marker?.also((arg) => $request['Marker'] = arg);
+    maxRecords?.also((arg) => $request['MaxRecords'] = arg);
+    final $result = await _protocol.send(
+      $request,
+      action: 'DescribeGlobalClusters',
+      version: '2014-10-31',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeGlobalClustersMessage'],
+      shapes: shapes,
+      resultWrapper: 'DescribeGlobalClustersResult',
+    );
+    return GlobalClustersMessage.fromXml($result);
+  }
+
   /// Returns a list of orderable DB instance options for the specified engine.
   ///
   /// Parameter [engine] :
@@ -3509,6 +3669,63 @@ class Neptune {
       resultWrapper: 'FailoverDBClusterResult',
     );
     return FailoverDBClusterResult.fromXml($result);
+  }
+
+  /// Initiates the failover process for a Neptune global database.
+  ///
+  /// A failover for a Neptune global database promotes one of secondary
+  /// read-only DB clusters to be the primary DB cluster and demotes the primary
+  /// DB cluster to being a secondary (read-only) DB cluster. In other words,
+  /// the role of the current primary DB cluster and the selected target
+  /// secondary DB cluster are switched. The selected secondary DB cluster
+  /// assumes full read/write capabilities for the Neptune global database.
+  /// <note>
+  /// This action applies <b>only</b> to Neptune global databases. This action
+  /// is only intended for use on healthy Neptune global databases with healthy
+  /// Neptune DB clusters and no region-wide outages, to test disaster recovery
+  /// scenarios or to reconfigure the global database topology.
+  /// </note>
+  ///
+  /// May throw [GlobalClusterNotFoundFault].
+  /// May throw [InvalidGlobalClusterStateFault].
+  /// May throw [InvalidDBClusterStateFault].
+  /// May throw [DBClusterNotFoundFault].
+  ///
+  /// Parameter [globalClusterIdentifier] :
+  /// Identifier of the Neptune global database that should be failed over. The
+  /// identifier is the unique key assigned by the user when the Neptune global
+  /// database was created. In other words, it's the name of the global database
+  /// that you want to fail over.
+  ///
+  /// Constraints: Must match the identifier of an existing Neptune global
+  /// database.
+  ///
+  /// Parameter [targetDbClusterIdentifier] :
+  /// The Amazon Resource Name (ARN) of the secondary Neptune DB cluster that
+  /// you want to promote to primary for the global database.
+  Future<FailoverGlobalClusterResult> failoverGlobalCluster({
+    required String globalClusterIdentifier,
+    required String targetDbClusterIdentifier,
+  }) async {
+    ArgumentError.checkNotNull(
+        globalClusterIdentifier, 'globalClusterIdentifier');
+    ArgumentError.checkNotNull(
+        targetDbClusterIdentifier, 'targetDbClusterIdentifier');
+    final $request = <String, dynamic>{};
+    $request['GlobalClusterIdentifier'] = globalClusterIdentifier;
+    $request['TargetDbClusterIdentifier'] = targetDbClusterIdentifier;
+    final $result = await _protocol.send(
+      $request,
+      action: 'FailoverGlobalCluster',
+      version: '2014-10-31',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['FailoverGlobalClusterMessage'],
+      shapes: shapes,
+      resultWrapper: 'FailoverGlobalClusterResult',
+    );
+    return FailoverGlobalClusterResult.fromXml($result);
   }
 
   /// Lists all tags on an Amazon Neptune resource.
@@ -4616,6 +4833,94 @@ class Neptune {
     return ModifyEventSubscriptionResult.fromXml($result);
   }
 
+  /// Modify a setting for an Amazon Neptune global cluster. You can change one
+  /// or more database configuration parameters by specifying these parameters
+  /// and their new values in the request.
+  ///
+  /// May throw [GlobalClusterNotFoundFault].
+  /// May throw [InvalidGlobalClusterStateFault].
+  ///
+  /// Parameter [globalClusterIdentifier] :
+  /// The DB cluster identifier for the global cluster being modified. This
+  /// parameter is not case-sensitive.
+  ///
+  /// Constraints: Must match the identifier of an existing global database
+  /// cluster.
+  ///
+  /// Parameter [allowMajorVersionUpgrade] :
+  /// A value that indicates whether major version upgrades are allowed.
+  ///
+  /// Constraints: You must allow major version upgrades if you specify a value
+  /// for the <code>EngineVersion</code> parameter that is a different major
+  /// version than the DB cluster's current version.
+  ///
+  /// If you upgrade the major version of a global database, the cluster and DB
+  /// instance parameter groups are set to the default parameter groups for the
+  /// new version, so you will need to apply any custom parameter groups after
+  /// completing the upgrade.
+  ///
+  /// Parameter [deletionProtection] :
+  /// Indicates whether the global database has deletion protection enabled. The
+  /// global database cannot be deleted when deletion protection is enabled.
+  ///
+  /// Parameter [engineVersion] :
+  /// The version number of the database engine to which you want to upgrade.
+  /// Changing this parameter will result in an outage. The change is applied
+  /// during the next maintenance window unless <code>ApplyImmediately</code> is
+  /// enabled.
+  ///
+  /// To list all of the available Neptune engine versions, use the following
+  /// command:
+  ///
+  /// Parameter [newGlobalClusterIdentifier] :
+  /// A new cluster identifier to assign to the global database. This value is
+  /// stored as a lowercase string.
+  ///
+  /// Constraints:
+  ///
+  /// <ul>
+  /// <li>
+  /// Must contain from 1 to 63 letters, numbers, or hyphens.
+  /// </li>
+  /// <li>
+  /// The first character must be a letter.
+  /// </li>
+  /// <li>
+  /// Can't end with a hyphen or contain two consecutive hyphens
+  /// </li>
+  /// </ul>
+  /// Example: <code>my-cluster2</code>
+  Future<ModifyGlobalClusterResult> modifyGlobalCluster({
+    required String globalClusterIdentifier,
+    bool? allowMajorVersionUpgrade,
+    bool? deletionProtection,
+    String? engineVersion,
+    String? newGlobalClusterIdentifier,
+  }) async {
+    ArgumentError.checkNotNull(
+        globalClusterIdentifier, 'globalClusterIdentifier');
+    final $request = <String, dynamic>{};
+    $request['GlobalClusterIdentifier'] = globalClusterIdentifier;
+    allowMajorVersionUpgrade
+        ?.also((arg) => $request['AllowMajorVersionUpgrade'] = arg);
+    deletionProtection?.also((arg) => $request['DeletionProtection'] = arg);
+    engineVersion?.also((arg) => $request['EngineVersion'] = arg);
+    newGlobalClusterIdentifier
+        ?.also((arg) => $request['NewGlobalClusterIdentifier'] = arg);
+    final $result = await _protocol.send(
+      $request,
+      action: 'ModifyGlobalCluster',
+      version: '2014-10-31',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['ModifyGlobalClusterMessage'],
+      shapes: shapes,
+      resultWrapper: 'ModifyGlobalClusterResult',
+    );
+    return ModifyGlobalClusterResult.fromXml($result);
+  }
+
   /// Not supported.
   ///
   /// May throw [DBClusterNotFoundFault].
@@ -4693,6 +4998,46 @@ class Neptune {
       resultWrapper: 'RebootDBInstanceResult',
     );
     return RebootDBInstanceResult.fromXml($result);
+  }
+
+  /// Detaches a Neptune DB cluster from a Neptune global database. A secondary
+  /// cluster becomes a normal standalone cluster with read-write capability
+  /// instead of being read-only, and no longer receives data from a the primary
+  /// cluster.
+  ///
+  /// May throw [GlobalClusterNotFoundFault].
+  /// May throw [InvalidGlobalClusterStateFault].
+  /// May throw [DBClusterNotFoundFault].
+  ///
+  /// Parameter [dbClusterIdentifier] :
+  /// The Amazon Resource Name (ARN) identifying the cluster to be detached from
+  /// the Neptune global database cluster.
+  ///
+  /// Parameter [globalClusterIdentifier] :
+  /// The identifier of the Neptune global database from which to detach the
+  /// specified Neptune DB cluster.
+  Future<RemoveFromGlobalClusterResult> removeFromGlobalCluster({
+    required String dbClusterIdentifier,
+    required String globalClusterIdentifier,
+  }) async {
+    ArgumentError.checkNotNull(dbClusterIdentifier, 'dbClusterIdentifier');
+    ArgumentError.checkNotNull(
+        globalClusterIdentifier, 'globalClusterIdentifier');
+    final $request = <String, dynamic>{};
+    $request['DbClusterIdentifier'] = dbClusterIdentifier;
+    $request['GlobalClusterIdentifier'] = globalClusterIdentifier;
+    final $result = await _protocol.send(
+      $request,
+      action: 'RemoveFromGlobalCluster',
+      version: '2014-10-31',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['RemoveFromGlobalClusterMessage'],
+      shapes: shapes,
+      resultWrapper: 'RemoveFromGlobalClusterResult',
+    );
+    return RemoveFromGlobalClusterResult.fromXml($result);
   }
 
   /// Disassociates an Identity and Access Management (IAM) role from a DB
@@ -6136,6 +6481,37 @@ class CreateEventSubscriptionResult {
     final eventSubscription = this.eventSubscription;
     return {
       if (eventSubscription != null) 'EventSubscription': eventSubscription,
+    };
+  }
+}
+
+class CreateGlobalClusterResult {
+  final GlobalCluster? globalCluster;
+
+  CreateGlobalClusterResult({
+    this.globalCluster,
+  });
+
+  factory CreateGlobalClusterResult.fromJson(Map<String, dynamic> json) {
+    return CreateGlobalClusterResult(
+      globalCluster: json['GlobalCluster'] != null
+          ? GlobalCluster.fromJson(
+              json['GlobalCluster'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  factory CreateGlobalClusterResult.fromXml(_s.XmlElement elem) {
+    return CreateGlobalClusterResult(
+      globalCluster:
+          _s.extractXmlChild(elem, 'GlobalCluster')?.let(GlobalCluster.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final globalCluster = this.globalCluster;
+    return {
+      if (globalCluster != null) 'GlobalCluster': globalCluster,
     };
   }
 }
@@ -7630,6 +8006,10 @@ class DBEngineVersion {
   /// <code>Timezone</code> parameter of the <code>CreateDBInstance</code> action.
   final List<Timezone>? supportedTimezones;
 
+  /// A value that indicates whether you can use Aurora global databases with a
+  /// specific DB engine version.
+  final bool? supportsGlobalDatabases;
+
   /// A value that indicates whether the engine version supports exporting the log
   /// types specified by ExportableLogTypes to CloudWatch Logs.
   final bool? supportsLogExportsToCloudwatchLogs;
@@ -7651,6 +8031,7 @@ class DBEngineVersion {
     this.exportableLogTypes,
     this.supportedCharacterSets,
     this.supportedTimezones,
+    this.supportsGlobalDatabases,
     this.supportsLogExportsToCloudwatchLogs,
     this.supportsReadReplica,
     this.validUpgradeTarget,
@@ -7679,6 +8060,7 @@ class DBEngineVersion {
           ?.whereNotNull()
           .map((e) => Timezone.fromJson(e as Map<String, dynamic>))
           .toList(),
+      supportsGlobalDatabases: json['SupportsGlobalDatabases'] as bool?,
       supportsLogExportsToCloudwatchLogs:
           json['SupportsLogExportsToCloudwatchLogs'] as bool?,
       supportsReadReplica: json['SupportsReadReplica'] as bool?,
@@ -7714,6 +8096,8 @@ class DBEngineVersion {
       supportedTimezones: _s.extractXmlChild(elem, 'SupportedTimezones')?.let(
           (elem) =>
               elem.findElements('Timezone').map(Timezone.fromXml).toList()),
+      supportsGlobalDatabases:
+          _s.extractXmlBoolValue(elem, 'SupportsGlobalDatabases'),
       supportsLogExportsToCloudwatchLogs:
           _s.extractXmlBoolValue(elem, 'SupportsLogExportsToCloudwatchLogs'),
       supportsReadReplica: _s.extractXmlBoolValue(elem, 'SupportsReadReplica'),
@@ -7735,6 +8119,7 @@ class DBEngineVersion {
     final exportableLogTypes = this.exportableLogTypes;
     final supportedCharacterSets = this.supportedCharacterSets;
     final supportedTimezones = this.supportedTimezones;
+    final supportsGlobalDatabases = this.supportsGlobalDatabases;
     final supportsLogExportsToCloudwatchLogs =
         this.supportsLogExportsToCloudwatchLogs;
     final supportsReadReplica = this.supportsReadReplica;
@@ -7754,6 +8139,8 @@ class DBEngineVersion {
       if (supportedCharacterSets != null)
         'SupportedCharacterSets': supportedCharacterSets,
       if (supportedTimezones != null) 'SupportedTimezones': supportedTimezones,
+      if (supportsGlobalDatabases != null)
+        'SupportsGlobalDatabases': supportsGlobalDatabases,
       if (supportsLogExportsToCloudwatchLogs != null)
         'SupportsLogExportsToCloudwatchLogs':
             supportsLogExportsToCloudwatchLogs,
@@ -9184,6 +9571,37 @@ class DeleteEventSubscriptionResult {
   }
 }
 
+class DeleteGlobalClusterResult {
+  final GlobalCluster? globalCluster;
+
+  DeleteGlobalClusterResult({
+    this.globalCluster,
+  });
+
+  factory DeleteGlobalClusterResult.fromJson(Map<String, dynamic> json) {
+    return DeleteGlobalClusterResult(
+      globalCluster: json['GlobalCluster'] != null
+          ? GlobalCluster.fromJson(
+              json['GlobalCluster'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  factory DeleteGlobalClusterResult.fromXml(_s.XmlElement elem) {
+    return DeleteGlobalClusterResult(
+      globalCluster:
+          _s.extractXmlChild(elem, 'GlobalCluster')?.let(GlobalCluster.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final globalCluster = this.globalCluster;
+    return {
+      if (globalCluster != null) 'GlobalCluster': globalCluster,
+    };
+  }
+}
+
 class DescribeDBClusterSnapshotAttributesResult {
   final DBClusterSnapshotAttributesResult? dBClusterSnapshotAttributesResult;
 
@@ -9926,6 +10344,37 @@ class FailoverDBClusterResult {
   }
 }
 
+class FailoverGlobalClusterResult {
+  final GlobalCluster? globalCluster;
+
+  FailoverGlobalClusterResult({
+    this.globalCluster,
+  });
+
+  factory FailoverGlobalClusterResult.fromJson(Map<String, dynamic> json) {
+    return FailoverGlobalClusterResult(
+      globalCluster: json['GlobalCluster'] != null
+          ? GlobalCluster.fromJson(
+              json['GlobalCluster'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  factory FailoverGlobalClusterResult.fromXml(_s.XmlElement elem) {
+    return FailoverGlobalClusterResult(
+      globalCluster:
+          _s.extractXmlChild(elem, 'GlobalCluster')?.let(GlobalCluster.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final globalCluster = this.globalCluster;
+    return {
+      if (globalCluster != null) 'GlobalCluster': globalCluster,
+    };
+  }
+}
+
 /// This type is not currently supported.
 class Filter {
   /// This parameter is not currently supported.
@@ -9959,8 +10408,223 @@ class Filter {
   }
 }
 
+/// Contains the details of an Amazon Neptune global database.
+///
+/// This data type is used as a response element for the
+/// <a>CreateGlobalCluster</a>, <a>DescribeGlobalClusters</a>,
+/// <a>ModifyGlobalCluster</a>, <a>DeleteGlobalCluster</a>,
+/// <a>FailoverGlobalCluster</a>, and <a>RemoveFromGlobalCluster</a> actions.
+class GlobalCluster {
+  /// The deletion protection setting for the global database.
+  final bool? deletionProtection;
+
+  /// The Neptune database engine used by the global database
+  /// (<code>"neptune"</code>).
+  final String? engine;
+
+  /// The Neptune engine version used by the global database.
+  final String? engineVersion;
+
+  /// The Amazon Resource Name (ARN) for the global database.
+  final String? globalClusterArn;
+
+  /// Contains a user-supplied global database cluster identifier. This identifier
+  /// is the unique key that identifies a global database.
+  final String? globalClusterIdentifier;
+
+  /// A list of cluster ARNs and instance ARNs for all the DB clusters that are
+  /// part of the global database.
+  final List<GlobalClusterMember>? globalClusterMembers;
+
+  /// An immutable identifier for the global database that is unique within in all
+  /// regions. This identifier is found in CloudTrail log entries whenever the KMS
+  /// key for the DB cluster is accessed.
+  final String? globalClusterResourceId;
+
+  /// Specifies the current state of this global database.
+  final String? status;
+
+  /// The storage encryption setting for the global database.
+  final bool? storageEncrypted;
+
+  GlobalCluster({
+    this.deletionProtection,
+    this.engine,
+    this.engineVersion,
+    this.globalClusterArn,
+    this.globalClusterIdentifier,
+    this.globalClusterMembers,
+    this.globalClusterResourceId,
+    this.status,
+    this.storageEncrypted,
+  });
+
+  factory GlobalCluster.fromJson(Map<String, dynamic> json) {
+    return GlobalCluster(
+      deletionProtection: json['DeletionProtection'] as bool?,
+      engine: json['Engine'] as String?,
+      engineVersion: json['EngineVersion'] as String?,
+      globalClusterArn: json['GlobalClusterArn'] as String?,
+      globalClusterIdentifier: json['GlobalClusterIdentifier'] as String?,
+      globalClusterMembers: (json['GlobalClusterMembers'] as List?)
+          ?.whereNotNull()
+          .map((e) => GlobalClusterMember.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      globalClusterResourceId: json['GlobalClusterResourceId'] as String?,
+      status: json['Status'] as String?,
+      storageEncrypted: json['StorageEncrypted'] as bool?,
+    );
+  }
+
+  factory GlobalCluster.fromXml(_s.XmlElement elem) {
+    return GlobalCluster(
+      deletionProtection: _s.extractXmlBoolValue(elem, 'DeletionProtection'),
+      engine: _s.extractXmlStringValue(elem, 'Engine'),
+      engineVersion: _s.extractXmlStringValue(elem, 'EngineVersion'),
+      globalClusterArn: _s.extractXmlStringValue(elem, 'GlobalClusterArn'),
+      globalClusterIdentifier:
+          _s.extractXmlStringValue(elem, 'GlobalClusterIdentifier'),
+      globalClusterMembers: _s
+          .extractXmlChild(elem, 'GlobalClusterMembers')
+          ?.let((elem) => elem
+              .findElements('GlobalClusterMember')
+              .map(GlobalClusterMember.fromXml)
+              .toList()),
+      globalClusterResourceId:
+          _s.extractXmlStringValue(elem, 'GlobalClusterResourceId'),
+      status: _s.extractXmlStringValue(elem, 'Status'),
+      storageEncrypted: _s.extractXmlBoolValue(elem, 'StorageEncrypted'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deletionProtection = this.deletionProtection;
+    final engine = this.engine;
+    final engineVersion = this.engineVersion;
+    final globalClusterArn = this.globalClusterArn;
+    final globalClusterIdentifier = this.globalClusterIdentifier;
+    final globalClusterMembers = this.globalClusterMembers;
+    final globalClusterResourceId = this.globalClusterResourceId;
+    final status = this.status;
+    final storageEncrypted = this.storageEncrypted;
+    return {
+      if (deletionProtection != null) 'DeletionProtection': deletionProtection,
+      if (engine != null) 'Engine': engine,
+      if (engineVersion != null) 'EngineVersion': engineVersion,
+      if (globalClusterArn != null) 'GlobalClusterArn': globalClusterArn,
+      if (globalClusterIdentifier != null)
+        'GlobalClusterIdentifier': globalClusterIdentifier,
+      if (globalClusterMembers != null)
+        'GlobalClusterMembers': globalClusterMembers,
+      if (globalClusterResourceId != null)
+        'GlobalClusterResourceId': globalClusterResourceId,
+      if (status != null) 'Status': status,
+      if (storageEncrypted != null) 'StorageEncrypted': storageEncrypted,
+    };
+  }
+}
+
+/// A data structure with information about any primary and secondary clusters
+/// associated with an Neptune global database.
+class GlobalClusterMember {
+  /// The Amazon Resource Name (ARN) for each Neptune cluster.
+  final String? dBClusterArn;
+
+  /// Specifies whether the Neptune cluster is the primary cluster (that is, has
+  /// read-write capability) for the Neptune global database with which it is
+  /// associated.
+  final bool? isWriter;
+
+  /// The Amazon Resource Name (ARN) for each read-only secondary cluster
+  /// associated with the Neptune global database.
+  final List<String>? readers;
+
+  GlobalClusterMember({
+    this.dBClusterArn,
+    this.isWriter,
+    this.readers,
+  });
+
+  factory GlobalClusterMember.fromJson(Map<String, dynamic> json) {
+    return GlobalClusterMember(
+      dBClusterArn: json['DBClusterArn'] as String?,
+      isWriter: json['IsWriter'] as bool?,
+      readers: (json['Readers'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  factory GlobalClusterMember.fromXml(_s.XmlElement elem) {
+    return GlobalClusterMember(
+      dBClusterArn: _s.extractXmlStringValue(elem, 'DBClusterArn'),
+      isWriter: _s.extractXmlBoolValue(elem, 'IsWriter'),
+      readers: _s
+          .extractXmlChild(elem, 'Readers')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dBClusterArn = this.dBClusterArn;
+    final isWriter = this.isWriter;
+    final readers = this.readers;
+    return {
+      if (dBClusterArn != null) 'DBClusterArn': dBClusterArn,
+      if (isWriter != null) 'IsWriter': isWriter,
+      if (readers != null) 'Readers': readers,
+    };
+  }
+}
+
+class GlobalClustersMessage {
+  /// The list of global clusters and instances returned by this request.
+  final List<GlobalCluster>? globalClusters;
+
+  /// A pagination token. If this parameter is returned in the response, more
+  /// records are available, which can be retrieved by one or more additional
+  /// calls to <code>DescribeGlobalClusters</code>.
+  final String? marker;
+
+  GlobalClustersMessage({
+    this.globalClusters,
+    this.marker,
+  });
+
+  factory GlobalClustersMessage.fromJson(Map<String, dynamic> json) {
+    return GlobalClustersMessage(
+      globalClusters: (json['GlobalClusters'] as List?)
+          ?.whereNotNull()
+          .map((e) => GlobalCluster.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      marker: json['Marker'] as String?,
+    );
+  }
+
+  factory GlobalClustersMessage.fromXml(_s.XmlElement elem) {
+    return GlobalClustersMessage(
+      globalClusters: _s.extractXmlChild(elem, 'GlobalClusters')?.let((elem) =>
+          elem
+              .findElements('GlobalClusterMember')
+              .map(GlobalCluster.fromXml)
+              .toList()),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final globalClusters = this.globalClusters;
+    final marker = this.marker;
+    return {
+      if (globalClusters != null) 'GlobalClusters': globalClusters,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
 /// This data type represents the information you need to connect to an Amazon
-/// Aurora DB cluster. This data type is used as a response element in the
+/// Neptune DB cluster. This data type is used as a response element in the
 /// following actions:
 ///
 /// <ul>
@@ -10272,6 +10936,37 @@ class ModifyEventSubscriptionResult {
   }
 }
 
+class ModifyGlobalClusterResult {
+  final GlobalCluster? globalCluster;
+
+  ModifyGlobalClusterResult({
+    this.globalCluster,
+  });
+
+  factory ModifyGlobalClusterResult.fromJson(Map<String, dynamic> json) {
+    return ModifyGlobalClusterResult(
+      globalCluster: json['GlobalCluster'] != null
+          ? GlobalCluster.fromJson(
+              json['GlobalCluster'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  factory ModifyGlobalClusterResult.fromXml(_s.XmlElement elem) {
+    return ModifyGlobalClusterResult(
+      globalCluster:
+          _s.extractXmlChild(elem, 'GlobalCluster')?.let(GlobalCluster.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final globalCluster = this.globalCluster;
+    return {
+      if (globalCluster != null) 'GlobalCluster': globalCluster,
+    };
+  }
+}
+
 /// Not supported by Neptune.
 class OptionGroupMembership {
   /// Not supported by Neptune.
@@ -10360,6 +11055,10 @@ class OrderableDBInstanceOption {
   /// from 1 to 60 seconds.
   final bool? supportsEnhancedMonitoring;
 
+  /// A value that indicates whether you can use Neptune global databases with a
+  /// specific combination of other DB engine attributes.
+  final bool? supportsGlobalDatabases;
+
   /// Indicates whether a DB instance supports IAM database authentication.
   final bool? supportsIAMDatabaseAuthentication;
 
@@ -10391,6 +11090,7 @@ class OrderableDBInstanceOption {
     this.readReplicaCapable,
     this.storageType,
     this.supportsEnhancedMonitoring,
+    this.supportsGlobalDatabases,
     this.supportsIAMDatabaseAuthentication,
     this.supportsIops,
     this.supportsPerformanceInsights,
@@ -10418,6 +11118,7 @@ class OrderableDBInstanceOption {
       readReplicaCapable: json['ReadReplicaCapable'] as bool?,
       storageType: json['StorageType'] as String?,
       supportsEnhancedMonitoring: json['SupportsEnhancedMonitoring'] as bool?,
+      supportsGlobalDatabases: json['SupportsGlobalDatabases'] as bool?,
       supportsIAMDatabaseAuthentication:
           json['SupportsIAMDatabaseAuthentication'] as bool?,
       supportsIops: json['SupportsIops'] as bool?,
@@ -10449,6 +11150,8 @@ class OrderableDBInstanceOption {
       storageType: _s.extractXmlStringValue(elem, 'StorageType'),
       supportsEnhancedMonitoring:
           _s.extractXmlBoolValue(elem, 'SupportsEnhancedMonitoring'),
+      supportsGlobalDatabases:
+          _s.extractXmlBoolValue(elem, 'SupportsGlobalDatabases'),
       supportsIAMDatabaseAuthentication:
           _s.extractXmlBoolValue(elem, 'SupportsIAMDatabaseAuthentication'),
       supportsIops: _s.extractXmlBoolValue(elem, 'SupportsIops'),
@@ -10476,6 +11179,7 @@ class OrderableDBInstanceOption {
     final readReplicaCapable = this.readReplicaCapable;
     final storageType = this.storageType;
     final supportsEnhancedMonitoring = this.supportsEnhancedMonitoring;
+    final supportsGlobalDatabases = this.supportsGlobalDatabases;
     final supportsIAMDatabaseAuthentication =
         this.supportsIAMDatabaseAuthentication;
     final supportsIops = this.supportsIops;
@@ -10501,6 +11205,8 @@ class OrderableDBInstanceOption {
       if (storageType != null) 'StorageType': storageType,
       if (supportsEnhancedMonitoring != null)
         'SupportsEnhancedMonitoring': supportsEnhancedMonitoring,
+      if (supportsGlobalDatabases != null)
+        'SupportsGlobalDatabases': supportsGlobalDatabases,
       if (supportsIAMDatabaseAuthentication != null)
         'SupportsIAMDatabaseAuthentication': supportsIAMDatabaseAuthentication,
       if (supportsIops != null) 'SupportsIops': supportsIops,
@@ -11116,6 +11822,37 @@ class RebootDBInstanceResult {
   }
 }
 
+class RemoveFromGlobalClusterResult {
+  final GlobalCluster? globalCluster;
+
+  RemoveFromGlobalClusterResult({
+    this.globalCluster,
+  });
+
+  factory RemoveFromGlobalClusterResult.fromJson(Map<String, dynamic> json) {
+    return RemoveFromGlobalClusterResult(
+      globalCluster: json['GlobalCluster'] != null
+          ? GlobalCluster.fromJson(
+              json['GlobalCluster'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  factory RemoveFromGlobalClusterResult.fromXml(_s.XmlElement elem) {
+    return RemoveFromGlobalClusterResult(
+      globalCluster:
+          _s.extractXmlChild(elem, 'GlobalCluster')?.let(GlobalCluster.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final globalCluster = this.globalCluster;
+    return {
+      if (globalCluster != null) 'GlobalCluster': globalCluster,
+    };
+  }
+}
+
 class RemoveSourceIdentifierFromSubscriptionResult {
   final EventSubscription? eventSubscription;
 
@@ -11548,12 +12285,17 @@ class UpgradeTarget {
   /// version.
   final bool? isMajorVersionUpgrade;
 
+  /// A value that indicates whether you can use Neptune global databases with the
+  /// target engine version.
+  final bool? supportsGlobalDatabases;
+
   UpgradeTarget({
     this.autoUpgrade,
     this.description,
     this.engine,
     this.engineVersion,
     this.isMajorVersionUpgrade,
+    this.supportsGlobalDatabases,
   });
 
   factory UpgradeTarget.fromJson(Map<String, dynamic> json) {
@@ -11563,6 +12305,7 @@ class UpgradeTarget {
       engine: json['Engine'] as String?,
       engineVersion: json['EngineVersion'] as String?,
       isMajorVersionUpgrade: json['IsMajorVersionUpgrade'] as bool?,
+      supportsGlobalDatabases: json['SupportsGlobalDatabases'] as bool?,
     );
   }
 
@@ -11574,6 +12317,8 @@ class UpgradeTarget {
       engineVersion: _s.extractXmlStringValue(elem, 'EngineVersion'),
       isMajorVersionUpgrade:
           _s.extractXmlBoolValue(elem, 'IsMajorVersionUpgrade'),
+      supportsGlobalDatabases:
+          _s.extractXmlBoolValue(elem, 'SupportsGlobalDatabases'),
     );
   }
 
@@ -11583,6 +12328,7 @@ class UpgradeTarget {
     final engine = this.engine;
     final engineVersion = this.engineVersion;
     final isMajorVersionUpgrade = this.isMajorVersionUpgrade;
+    final supportsGlobalDatabases = this.supportsGlobalDatabases;
     return {
       if (autoUpgrade != null) 'AutoUpgrade': autoUpgrade,
       if (description != null) 'Description': description,
@@ -11590,6 +12336,8 @@ class UpgradeTarget {
       if (engineVersion != null) 'EngineVersion': engineVersion,
       if (isMajorVersionUpgrade != null)
         'IsMajorVersionUpgrade': isMajorVersionUpgrade,
+      if (supportsGlobalDatabases != null)
+        'SupportsGlobalDatabases': supportsGlobalDatabases,
     };
   }
 }
@@ -11947,6 +12695,27 @@ class EventSubscriptionQuotaExceededFault extends _s.GenericAwsException {
             message: message);
 }
 
+class GlobalClusterAlreadyExistsFault extends _s.GenericAwsException {
+  GlobalClusterAlreadyExistsFault({String? type, String? message})
+      : super(
+            type: type,
+            code: 'GlobalClusterAlreadyExistsFault',
+            message: message);
+}
+
+class GlobalClusterNotFoundFault extends _s.GenericAwsException {
+  GlobalClusterNotFoundFault({String? type, String? message})
+      : super(type: type, code: 'GlobalClusterNotFoundFault', message: message);
+}
+
+class GlobalClusterQuotaExceededFault extends _s.GenericAwsException {
+  GlobalClusterQuotaExceededFault({String? type, String? message})
+      : super(
+            type: type,
+            code: 'GlobalClusterQuotaExceededFault',
+            message: message);
+}
+
 class InstanceQuotaExceededFault extends _s.GenericAwsException {
   InstanceQuotaExceededFault({String? type, String? message})
       : super(type: type, code: 'InstanceQuotaExceededFault', message: message);
@@ -12043,6 +12812,14 @@ class InvalidEventSubscriptionStateFault extends _s.GenericAwsException {
       : super(
             type: type,
             code: 'InvalidEventSubscriptionStateFault',
+            message: message);
+}
+
+class InvalidGlobalClusterStateFault extends _s.GenericAwsException {
+  InvalidGlobalClusterStateFault({String? type, String? message})
+      : super(
+            type: type,
+            code: 'InvalidGlobalClusterStateFault',
             message: message);
 }
 
@@ -12216,6 +12993,12 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       DomainNotFoundFault(type: type, message: message),
   'EventSubscriptionQuotaExceededFault': (type, message) =>
       EventSubscriptionQuotaExceededFault(type: type, message: message),
+  'GlobalClusterAlreadyExistsFault': (type, message) =>
+      GlobalClusterAlreadyExistsFault(type: type, message: message),
+  'GlobalClusterNotFoundFault': (type, message) =>
+      GlobalClusterNotFoundFault(type: type, message: message),
+  'GlobalClusterQuotaExceededFault': (type, message) =>
+      GlobalClusterQuotaExceededFault(type: type, message: message),
   'InstanceQuotaExceededFault': (type, message) =>
       InstanceQuotaExceededFault(type: type, message: message),
   'InsufficientDBClusterCapacityFault': (type, message) =>
@@ -12244,6 +13027,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       InvalidDBSubnetStateFault(type: type, message: message),
   'InvalidEventSubscriptionStateFault': (type, message) =>
       InvalidEventSubscriptionStateFault(type: type, message: message),
+  'InvalidGlobalClusterStateFault': (type, message) =>
+      InvalidGlobalClusterStateFault(type: type, message: message),
   'InvalidRestoreFault': (type, message) =>
       InvalidRestoreFault(type: type, message: message),
   'InvalidSubnet': (type, message) =>

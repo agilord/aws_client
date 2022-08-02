@@ -1272,7 +1272,7 @@ class Sns {
   /// depends on the notification protocol for each subscribed endpoint.
   ///
   /// When a <code>messageId</code> is returned, the message is saved and Amazon
-  /// SNS immediately deliverers it to subscribers.
+  /// SNS immediately delivers it to subscribers.
   ///
   /// To use the <code>Publish</code> action for publishing a message to a
   /// mobile endpoint, such as an app on a Kindle device or mobile phone, you

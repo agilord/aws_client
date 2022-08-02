@@ -48,6 +48,41 @@ class Synthetics {
           endpointUrl: endpointUrl,
         );
 
+  /// Associates a canary with a group. Using groups can help you with managing
+  /// and automating your canaries, and you can also view aggregated run results
+  /// and statistics for all canaries in a group.
+  ///
+  /// You must run this operation in the Region where the canary exists.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
+  /// May throw [ServiceQuotaExceededException].
+  ///
+  /// Parameter [groupIdentifier] :
+  /// Specifies the group. You can specify the group name, the ARN, or the group
+  /// ID as the <code>GroupIdentifier</code>.
+  ///
+  /// Parameter [resourceArn] :
+  /// The ARN of the canary that you want to associate with the specified group.
+  Future<void> associateResource({
+    required String groupIdentifier,
+    required String resourceArn,
+  }) async {
+    ArgumentError.checkNotNull(groupIdentifier, 'groupIdentifier');
+    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
+    final $payload = <String, dynamic>{
+      'ResourceArn': resourceArn,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PATCH',
+      requestUri: '/group/${Uri.encodeComponent(groupIdentifier)}/associate',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Creates a canary. Canaries are scripts that monitor your endpoints and
   /// APIs from the outside-in. Canaries help you check the availability and
   /// latency of your web services and troubleshoot anomalies by investigating
@@ -60,7 +95,7 @@ class Synthetics {
   ///
   /// To create canaries, you must have the
   /// <code>CloudWatchSyntheticsFullAccess</code> policy. If you are creating a
-  /// new IAM role for the canary, you also need the the
+  /// new IAM role for the canary, you also need the
   /// <code>iam:CreateRole</code>, <code>iam:CreatePolicy</code> and
   /// <code>iam:AttachRolePolicy</code> permissions. For more information, see
   /// <a
@@ -76,6 +111,7 @@ class Synthetics {
   ///
   /// May throw [InternalServerException].
   /// May throw [ValidationException].
+  /// May throw [RequestEntityTooLargeException].
   ///
   /// Parameter [artifactS3Location] :
   /// The location in Amazon S3 where Synthetics stores artifacts from the test
@@ -149,7 +185,11 @@ class Synthetics {
   ///
   /// Parameter [runConfig] :
   /// A structure that contains the configuration for individual canary runs,
-  /// such as timeout value.
+  /// such as timeout value and environment variables.
+  /// <important>
+  /// The environment variables keys and values are not encrypted. Do not store
+  /// sensitive information in this field.
+  /// </important>
   ///
   /// Parameter [successRetentionPeriodInDays] :
   /// The number of days to retain data about successful runs of this canary. If
@@ -227,17 +267,75 @@ class Synthetics {
     return CreateCanaryResponse.fromJson(response);
   }
 
+  /// Creates a group which you can use to associate canaries with each other,
+  /// including cross-Region canaries. Using groups can help you with managing
+  /// and automating your canaries, and you can also view aggregated run results
+  /// and statistics for all canaries in a group.
+  ///
+  /// Groups are global resources. When you create a group, it is replicated
+  /// across Amazon Web Services Regions, and you can view it and add canaries
+  /// to it from any Region. Although the group ARN format reflects the Region
+  /// name where it was created, a group is not constrained to any Region. This
+  /// means that you can put canaries from multiple Regions into the same group,
+  /// and then use that group to view and manage all of those canaries in a
+  /// single view.
+  ///
+  /// Groups are supported in all Regions except the Regions that are disabled
+  /// by default. For more information about these Regions, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/rande-manage.html#rande-manage-enable">Enabling
+  /// a Region</a>.
+  ///
+  /// Each group can contain as many as 10 canaries. You can have as many as 20
+  /// groups in your account. Any single canary can be a member of up to 10
+  /// groups.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
+  /// May throw [ConflictException].
+  /// May throw [ServiceQuotaExceededException].
+  ///
+  /// Parameter [name] :
+  /// The name for the group. It can include any Unicode characters.
+  ///
+  /// The names for all groups in your account, across all Regions, must be
+  /// unique.
+  ///
+  /// Parameter [tags] :
+  /// A list of key-value pairs to associate with the group. You can associate
+  /// as many as 50 tags with a group.
+  ///
+  /// Tags can help you organize and categorize your resources. You can also use
+  /// them to scope user permissions, by granting a user permission to access or
+  /// change only the resources that have certain tag values.
+  Future<CreateGroupResponse> createGroup({
+    required String name,
+    Map<String, String>? tags,
+  }) async {
+    ArgumentError.checkNotNull(name, 'name');
+    final $payload = <String, dynamic>{
+      'Name': name,
+      if (tags != null) 'Tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/group',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateGroupResponse.fromJson(response);
+  }
+
   /// Permanently deletes the specified canary.
   ///
-  /// When you delete a canary, resources used and created by the canary are not
-  /// automatically deleted. After you delete a canary that you do not intend to
-  /// use again, you should also delete the following:
+  /// If you specify <code>DeleteLambda</code> to <code>true</code>, CloudWatch
+  /// Synthetics also deletes the Lambda functions and layers that are used by
+  /// the canary.
+  ///
+  /// Other resources used and created by the canary are not automatically
+  /// deleted. After you delete a canary that you do not intend to use again,
+  /// you should also delete the following:
   ///
   /// <ul>
-  /// <li>
-  /// The Lambda functions and layers used by this canary. These have the prefix
-  /// <code>cwsyn-<i>MyCanaryName</i> </code>.
-  /// </li>
   /// <li>
   /// The CloudWatch alarms created for this canary. These alarms have a name of
   /// <code>Synthetics-SharpDrop-Alarm-<i>MyCanaryName</i> </code>.
@@ -269,14 +367,53 @@ class Synthetics {
   /// The name of the canary that you want to delete. To find the names of your
   /// canaries, use <a
   /// href="https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_DescribeCanaries.html">DescribeCanaries</a>.
+  ///
+  /// Parameter [deleteLambda] :
+  /// Specifies whether to also delete the Lambda functions and layers used by
+  /// this canary. The default is false.
+  ///
+  /// Type: Boolean
   Future<void> deleteCanary({
     required String name,
+    bool? deleteLambda,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
+    final $query = <String, List<String>>{
+      if (deleteLambda != null) 'deleteLambda': [deleteLambda.toString()],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
       requestUri: '/canary/${Uri.encodeComponent(name)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Deletes a group. The group doesn't need to be empty to be deleted. If
+  /// there are canaries in the group, they are not deleted when you delete the
+  /// group.
+  ///
+  /// Groups are a global resource that appear in all Regions, but the request
+  /// to delete a group must be made from its home Region. You can find the home
+  /// Region of a group within its ARN.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [groupIdentifier] :
+  /// Specifies which group to delete. You can specify the group name, the ARN,
+  /// or the group ID as the <code>GroupIdentifier</code>.
+  Future<void> deleteGroup({
+    required String groupIdentifier,
+  }) async {
+    ArgumentError.checkNotNull(groupIdentifier, 'groupIdentifier');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/group/${Uri.encodeComponent(groupIdentifier)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -284,10 +421,18 @@ class Synthetics {
   /// This operation returns a list of the canaries in your account, along with
   /// full details about each canary.
   ///
-  /// This operation does not have resource-level authorization, so if a user is
-  /// able to use <code>DescribeCanaries</code>, the user can see all of the
-  /// canaries in the account. A deny policy can only be used to restrict access
-  /// to all canaries. It cannot be used on specific resources.
+  /// This operation supports resource-level authorization using an IAM policy
+  /// and the <code>Names</code> parameter. If you specify the
+  /// <code>Names</code> parameter, the operation is successful only if you have
+  /// authorization to view all the canaries that you specify in your request.
+  /// If you do not have permission to view any of the canaries, the request
+  /// fails with a 403 response.
+  ///
+  /// You are required to use the <code>Names</code> parameter if you are logged
+  /// on to a user or role that has an IAM policy that restricts which canaries
+  /// that you are allowed to view. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_Restricted.html">
+  /// Limiting a user to viewing specific canaries</a>.
   ///
   /// May throw [InternalServerException].
   /// May throw [ValidationException].
@@ -297,11 +442,27 @@ class Synthetics {
   /// you use the <code>DescribeCanaries</code> operation. If you omit this
   /// parameter, the default of 100 is used.
   ///
+  /// Parameter [names] :
+  /// Use this parameter to return only canaries that match the names that you
+  /// specify here. You can specify as many as five canary names.
+  ///
+  /// If you specify this parameter, the operation is successful only if you
+  /// have authorization to view all the canaries that you specify in your
+  /// request. If you do not have permission to view any of the canaries, the
+  /// request fails with a 403 response.
+  ///
+  /// You are required to use this parameter if you are logged on to a user or
+  /// role that has an IAM policy that restricts which canaries that you are
+  /// allowed to view. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_Restricted.html">
+  /// Limiting a user to viewing specific canaries</a>.
+  ///
   /// Parameter [nextToken] :
   /// A token that indicates that there is more data available. You can use this
   /// token in a subsequent operation to retrieve the next set of results.
   Future<DescribeCanariesResponse> describeCanaries({
     int? maxResults,
+    List<String>? names,
     String? nextToken,
   }) async {
     _s.validateNumRange(
@@ -312,6 +473,7 @@ class Synthetics {
     );
     final $payload = <String, dynamic>{
       if (maxResults != null) 'MaxResults': maxResults,
+      if (names != null) 'Names': names,
       if (nextToken != null) 'NextToken': nextToken,
     };
     final response = await _protocol.send(
@@ -326,6 +488,19 @@ class Synthetics {
   /// Use this operation to see information from the most recent run of each
   /// canary that you have created.
   ///
+  /// This operation supports resource-level authorization using an IAM policy
+  /// and the <code>Names</code> parameter. If you specify the
+  /// <code>Names</code> parameter, the operation is successful only if you have
+  /// authorization to view all the canaries that you specify in your request.
+  /// If you do not have permission to view any of the canaries, the request
+  /// fails with a 403 response.
+  ///
+  /// You are required to use the <code>Names</code> parameter if you are logged
+  /// on to a user or role that has an IAM policy that restricts which canaries
+  /// that you are allowed to view. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_Restricted.html">
+  /// Limiting a user to viewing specific canaries</a>.
+  ///
   /// May throw [InternalServerException].
   /// May throw [ValidationException].
   ///
@@ -334,12 +509,28 @@ class Synthetics {
   /// use the <code>DescribeLastRun</code> operation. If you omit this
   /// parameter, the default of 100 is used.
   ///
+  /// Parameter [names] :
+  /// Use this parameter to return only canaries that match the names that you
+  /// specify here. You can specify as many as five canary names.
+  ///
+  /// If you specify this parameter, the operation is successful only if you
+  /// have authorization to view all the canaries that you specify in your
+  /// request. If you do not have permission to view any of the canaries, the
+  /// request fails with a 403 response.
+  ///
+  /// You are required to use the <code>Names</code> parameter if you are logged
+  /// on to a user or role that has an IAM policy that restricts which canaries
+  /// that you are allowed to view. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_Restricted.html">
+  /// Limiting a user to viewing specific canaries</a>.
+  ///
   /// Parameter [nextToken] :
   /// A token that indicates that there is more data available. You can use this
-  /// token in a subsequent <code>DescribeCanaries</code> operation to retrieve
-  /// the next set of results.
+  /// token in a subsequent <code>DescribeCanariesLastRun</code> operation to
+  /// retrieve the next set of results.
   Future<DescribeCanariesLastRunResponse> describeCanariesLastRun({
     int? maxResults,
+    List<String>? names,
     String? nextToken,
   }) async {
     _s.validateNumRange(
@@ -350,6 +541,7 @@ class Synthetics {
     );
     final $payload = <String, dynamic>{
       if (maxResults != null) 'MaxResults': maxResults,
+      if (names != null) 'Names': names,
       if (nextToken != null) 'NextToken': nextToken,
     };
     final response = await _protocol.send(
@@ -399,6 +591,37 @@ class Synthetics {
       exceptionFnMap: _exceptionFns,
     );
     return DescribeRuntimeVersionsResponse.fromJson(response);
+  }
+
+  /// Removes a canary from a group. You must run this operation in the Region
+  /// where the canary exists.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [groupIdentifier] :
+  /// Specifies the group. You can specify the group name, the ARN, or the group
+  /// ID as the <code>GroupIdentifier</code>.
+  ///
+  /// Parameter [resourceArn] :
+  /// The ARN of the canary that you want to remove from the specified group.
+  Future<void> disassociateResource({
+    required String groupIdentifier,
+    required String resourceArn,
+  }) async {
+    ArgumentError.checkNotNull(groupIdentifier, 'groupIdentifier');
+    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
+    final $payload = <String, dynamic>{
+      'ResourceArn': resourceArn,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PATCH',
+      requestUri: '/group/${Uri.encodeComponent(groupIdentifier)}/disassociate',
+      exceptionFnMap: _exceptionFns,
+    );
   }
 
   /// Retrieves complete information about one canary. You must specify the name
@@ -467,18 +690,173 @@ class Synthetics {
     return GetCanaryRunsResponse.fromJson(response);
   }
 
-  /// Displays the tags associated with a canary.
+  /// Returns information about one group. Groups are a global resource, so you
+  /// can use this operation from any Region.
   ///
   /// May throw [InternalServerException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [groupIdentifier] :
+  /// Specifies the group to return information for. You can specify the group
+  /// name, the ARN, or the group ID as the <code>GroupIdentifier</code>.
+  Future<GetGroupResponse> getGroup({
+    required String groupIdentifier,
+  }) async {
+    ArgumentError.checkNotNull(groupIdentifier, 'groupIdentifier');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/group/${Uri.encodeComponent(groupIdentifier)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetGroupResponse.fromJson(response);
+  }
+
+  /// Returns a list of the groups that the specified canary is associated with.
+  /// The canary that you specify must be in the current Region.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [resourceArn] :
-  /// The ARN of the canary that you want to view tags for.
+  /// The ARN of the canary that you want to view groups for.
+  ///
+  /// Parameter [maxResults] :
+  /// Specify this parameter to limit how many groups are returned each time you
+  /// use the <code>ListAssociatedGroups</code> operation. If you omit this
+  /// parameter, the default of 20 is used.
+  ///
+  /// Parameter [nextToken] :
+  /// A token that indicates that there is more data available. You can use this
+  /// token in a subsequent operation to retrieve the next set of results.
+  Future<ListAssociatedGroupsResponse> listAssociatedGroups({
+    required String resourceArn,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      20,
+    );
+    final $payload = <String, dynamic>{
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/resource/${Uri.encodeComponent(resourceArn)}/groups',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListAssociatedGroupsResponse.fromJson(response);
+  }
+
+  /// This operation returns a list of the ARNs of the canaries that are
+  /// associated with the specified group.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [groupIdentifier] :
+  /// Specifies the group to return information for. You can specify the group
+  /// name, the ARN, or the group ID as the <code>GroupIdentifier</code>.
+  ///
+  /// Parameter [maxResults] :
+  /// Specify this parameter to limit how many canary ARNs are returned each
+  /// time you use the <code>ListGroupResources</code> operation. If you omit
+  /// this parameter, the default of 20 is used.
+  ///
+  /// Parameter [nextToken] :
+  /// A token that indicates that there is more data available. You can use this
+  /// token in a subsequent operation to retrieve the next set of results.
+  Future<ListGroupResourcesResponse> listGroupResources({
+    required String groupIdentifier,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    ArgumentError.checkNotNull(groupIdentifier, 'groupIdentifier');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      20,
+    );
+    final $payload = <String, dynamic>{
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/group/${Uri.encodeComponent(groupIdentifier)}/resources',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListGroupResourcesResponse.fromJson(response);
+  }
+
+  /// Returns a list of all groups in the account, displaying their names,
+  /// unique IDs, and ARNs. The groups from all Regions are returned.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [maxResults] :
+  /// Specify this parameter to limit how many groups are returned each time you
+  /// use the <code>ListGroups</code> operation. If you omit this parameter, the
+  /// default of 20 is used.
+  ///
+  /// Parameter [nextToken] :
+  /// A token that indicates that there is more data available. You can use this
+  /// token in a subsequent operation to retrieve the next set of results.
+  Future<ListGroupsResponse> listGroups({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      20,
+    );
+    final $payload = <String, dynamic>{
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/groups',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListGroupsResponse.fromJson(response);
+  }
+
+  /// Displays the tags associated with a canary or group.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ConflictException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The ARN of the canary or group that you want to view tags for.
   ///
   /// The ARN format of a canary is
   /// <code>arn:aws:synthetics:<i>Region</i>:<i>account-id</i>:canary:<i>canary-name</i>
   /// </code>.
+  ///
+  /// The ARN format of a group is
+  /// <code>arn:aws:synthetics:<i>Region</i>:<i>account-id</i>:group:<i>group-name</i>
+  /// </code>
   Future<ListTagsForResourceResponse> listTagsForResource({
     required String resourceArn,
   }) async {
@@ -518,10 +896,9 @@ class Synthetics {
   }
 
   /// Stops the canary to prevent all future runs. If the canary is currently
-  /// running, Synthetics stops waiting for the current run of the specified
-  /// canary to complete. The run that is in progress completes on its own,
-  /// publishes metrics, and uploads artifacts, but it is not recorded in
-  /// Synthetics as a completed run.
+  /// running,the run that is in progress completes on its own, publishes
+  /// metrics, and uploads artifacts, but it is not recorded in Synthetics as a
+  /// completed run.
   ///
   /// You can use <code>StartCanary</code> to start it running again with the
   /// canary’s current schedule at any point in the future.
@@ -534,7 +911,7 @@ class Synthetics {
   /// Parameter [name] :
   /// The name of the canary that you want to stop. To find the names of your
   /// canaries, use <a
-  /// href="https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_DescribeCanaries.html">DescribeCanaries</a>.
+  /// href="https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_DescribeCanaries.html">ListCanaries</a>.
   Future<void> stopCanary({
     required String name,
   }) async {
@@ -547,7 +924,8 @@ class Synthetics {
     );
   }
 
-  /// Assigns one or more tags (key-value pairs) to the specified canary.
+  /// Assigns one or more tags (key-value pairs) to the specified canary or
+  /// group.
   ///
   /// Tags can help you organize and categorize your resources. You can also use
   /// them to scope user permissions, by granting a user permission to access or
@@ -556,27 +934,33 @@ class Synthetics {
   /// Tags don't have any semantic meaning to Amazon Web Services and are
   /// interpreted strictly as strings of characters.
   ///
-  /// You can use the <code>TagResource</code> action with a canary that already
-  /// has tags. If you specify a new tag key for the alarm, this tag is appended
-  /// to the list of tags associated with the alarm. If you specify a tag key
-  /// that is already associated with the alarm, the new tag value that you
-  /// specify replaces the previous value for that tag.
+  /// You can use the <code>TagResource</code> action with a resource that
+  /// already has tags. If you specify a new tag key for the resource, this tag
+  /// is appended to the list of tags associated with the resource. If you
+  /// specify a tag key that is already associated with the resource, the new
+  /// tag value that you specify replaces the previous value for that tag.
   ///
-  /// You can associate as many as 50 tags with a canary.
+  /// You can associate as many as 50 tags with a canary or group.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ValidationException].
+  /// May throw [BadRequestException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ConflictException].
+  /// May throw [InternalFailureException].
   ///
   /// Parameter [resourceArn] :
-  /// The ARN of the canary that you're adding tags to.
+  /// The ARN of the canary or group that you're adding tags to.
   ///
   /// The ARN format of a canary is
   /// <code>arn:aws:synthetics:<i>Region</i>:<i>account-id</i>:canary:<i>canary-name</i>
   /// </code>.
   ///
+  /// The ARN format of a group is
+  /// <code>arn:aws:synthetics:<i>Region</i>:<i>account-id</i>:group:<i>group-name</i>
+  /// </code>
+  ///
   /// Parameter [tags] :
-  /// The list of key-value pairs to associate with the canary.
+  /// The list of key-value pairs to associate with the resource.
   Future<void> tagResource({
     required String resourceArn,
     required Map<String, String> tags,
@@ -594,18 +978,24 @@ class Synthetics {
     );
   }
 
-  /// Removes one or more tags from the specified canary.
+  /// Removes one or more tags from the specified resource.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ValidationException].
+  /// May throw [BadRequestException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ConflictException].
+  /// May throw [InternalFailureException].
   ///
   /// Parameter [resourceArn] :
-  /// The ARN of the canary that you're removing tags from.
+  /// The ARN of the canary or group that you're removing tags from.
   ///
   /// The ARN format of a canary is
   /// <code>arn:aws:synthetics:<i>Region</i>:<i>account-id</i>:canary:<i>canary-name</i>
   /// </code>.
+  ///
+  /// The ARN format of a group is
+  /// <code>arn:aws:synthetics:<i>Region</i>:<i>account-id</i>:group:<i>group-name</i>
+  /// </code>
   ///
   /// Parameter [tagKeys] :
   /// The list of tag keys to remove from the resource.
@@ -627,8 +1017,7 @@ class Synthetics {
     );
   }
 
-  /// Use this operation to change the settings of a canary that has already
-  /// been created.
+  /// Updates the configuration of a canary that has already been created.
   ///
   /// You can't use this operation to update the tags of an existing canary. To
   /// change the tags of an existing canary, use <a
@@ -638,6 +1027,7 @@ class Synthetics {
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
+  /// May throw [RequestEntityTooLargeException].
   ///
   /// Parameter [name] :
   /// The name of the canary that you want to update. To find the names of your
@@ -697,6 +1087,10 @@ class Synthetics {
   /// Parameter [runConfig] :
   /// A structure that contains the timeout value that is used for each
   /// individual run of the canary.
+  /// <important>
+  /// The environment variables keys and values are not encrypted. Do not store
+  /// sensitive information in this field.
+  /// </important>
   ///
   /// Parameter [runtimeVersion] :
   /// Specifies the runtime version to use for the canary. For a list of valid
@@ -845,6 +1239,18 @@ class ArtifactConfigOutput {
   }
 }
 
+class AssociateResourceResponse {
+  AssociateResourceResponse();
+
+  factory AssociateResourceResponse.fromJson(Map<String, dynamic> _) {
+    return AssociateResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 /// A structure representing a screenshot that is used as a baseline during
 /// visual monitoring comparisons made by the canary.
 class BaseScreenshot {
@@ -854,9 +1260,10 @@ class BaseScreenshot {
   final String screenshotName;
 
   /// Coordinates that define the part of a screen to ignore during screenshot
-  /// comparisons. To obtain the coordinates to use here, use the CloudWatch Logs
-  /// console to draw the boundaries on the screen. For more information, see
-  /// {LINK}
+  /// comparisons. To obtain the coordinates to use here, use the CloudWatch
+  /// console to draw the boundaries on the screen. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/synthetics_canaries_deletion.html">
+  /// Editing or deleting a canary</a>
   final List<String>? ignoreCoordinates;
 
   BaseScreenshot({
@@ -1060,9 +1467,16 @@ class Canary {
 /// canary directly, the script code is contained in the value of
 /// <code>Zipfile</code>.
 class CanaryCodeInput {
-  /// The entry point to use for the source code when running the canary. This
-  /// value must end with the string <code>.handler</code>. The string is limited
-  /// to 29 characters or fewer.
+  /// The entry point to use for the source code when running the canary. For
+  /// canaries that use the <code>syn-python-selenium-1.0</code> runtime or a
+  /// <code>syn-nodejs.puppeteer</code> runtime earlier than
+  /// <code>syn-nodejs.puppeteer-3.4</code>, the handler must be specified as
+  /// <code> <i>fileName</i>.handler</code>. For
+  /// <code>syn-python-selenium-1.1</code>, <code>syn-nodejs.puppeteer-3.4</code>,
+  /// and later runtimes, the handler can be specified as <code>
+  /// <i>fileName</i>.<i>functionName</i> </code>, or you can specify a folder
+  /// where canary scripts reside as <code>
+  /// <i>folder</i>/<i>fileName</i>.<i>functionName</i> </code>.
   final String handler;
 
   /// If your canary script is located in S3, specify the bucket name here. Do not
@@ -1080,7 +1494,10 @@ class CanaryCodeInput {
   /// If you input your canary script directly into the canary instead of
   /// referring to an S3 location, the value of this parameter is the
   /// base64-encoded contents of the .zip file that contains the script. It must
-  /// be smaller than 256 Kb.
+  /// be smaller than 225 Kb.
+  ///
+  /// For large canary scripts, we recommend that you use an S3 location instead
+  /// of inputting it directly with this parameter.
   final Uint8List? zipFile;
 
   CanaryCodeInput({
@@ -1262,6 +1679,10 @@ class CanaryRunConfigInput {
   /// variables. For more information about reserved keys, see <a
   /// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html#configuration-envvars-runtime">
   /// Runtime environment variables</a>.
+  /// <important>
+  /// The environment variables keys and values are not encrypted. Do not store
+  /// sensitive information in this field.
+  /// </important>
   final Map<String, String>? environmentVariables;
 
   /// The maximum amount of memory available to the canary while it is running, in
@@ -1646,6 +2067,17 @@ extension on String {
 
 enum CanaryStateReasonCode {
   invalidPermissions,
+  createPending,
+  createInProgress,
+  createFailed,
+  updatePending,
+  updateInProgress,
+  updateComplete,
+  rollbackComplete,
+  rollbackFailed,
+  deleteInProgress,
+  deleteFailed,
+  syncDeleteInProgress,
 }
 
 extension on CanaryStateReasonCode {
@@ -1653,6 +2085,28 @@ extension on CanaryStateReasonCode {
     switch (this) {
       case CanaryStateReasonCode.invalidPermissions:
         return 'INVALID_PERMISSIONS';
+      case CanaryStateReasonCode.createPending:
+        return 'CREATE_PENDING';
+      case CanaryStateReasonCode.createInProgress:
+        return 'CREATE_IN_PROGRESS';
+      case CanaryStateReasonCode.createFailed:
+        return 'CREATE_FAILED';
+      case CanaryStateReasonCode.updatePending:
+        return 'UPDATE_PENDING';
+      case CanaryStateReasonCode.updateInProgress:
+        return 'UPDATE_IN_PROGRESS';
+      case CanaryStateReasonCode.updateComplete:
+        return 'UPDATE_COMPLETE';
+      case CanaryStateReasonCode.rollbackComplete:
+        return 'ROLLBACK_COMPLETE';
+      case CanaryStateReasonCode.rollbackFailed:
+        return 'ROLLBACK_FAILED';
+      case CanaryStateReasonCode.deleteInProgress:
+        return 'DELETE_IN_PROGRESS';
+      case CanaryStateReasonCode.deleteFailed:
+        return 'DELETE_FAILED';
+      case CanaryStateReasonCode.syncDeleteInProgress:
+        return 'SYNC_DELETE_IN_PROGRESS';
     }
   }
 }
@@ -1662,6 +2116,28 @@ extension on String {
     switch (this) {
       case 'INVALID_PERMISSIONS':
         return CanaryStateReasonCode.invalidPermissions;
+      case 'CREATE_PENDING':
+        return CanaryStateReasonCode.createPending;
+      case 'CREATE_IN_PROGRESS':
+        return CanaryStateReasonCode.createInProgress;
+      case 'CREATE_FAILED':
+        return CanaryStateReasonCode.createFailed;
+      case 'UPDATE_PENDING':
+        return CanaryStateReasonCode.updatePending;
+      case 'UPDATE_IN_PROGRESS':
+        return CanaryStateReasonCode.updateInProgress;
+      case 'UPDATE_COMPLETE':
+        return CanaryStateReasonCode.updateComplete;
+      case 'ROLLBACK_COMPLETE':
+        return CanaryStateReasonCode.rollbackComplete;
+      case 'ROLLBACK_FAILED':
+        return CanaryStateReasonCode.rollbackFailed;
+      case 'DELETE_IN_PROGRESS':
+        return CanaryStateReasonCode.deleteInProgress;
+      case 'DELETE_FAILED':
+        return CanaryStateReasonCode.deleteFailed;
+      case 'SYNC_DELETE_IN_PROGRESS':
+        return CanaryStateReasonCode.syncDeleteInProgress;
     }
     throw Exception('$this is not known in enum CanaryStateReasonCode');
   }
@@ -1776,11 +2252,47 @@ class CreateCanaryResponse {
   }
 }
 
+class CreateGroupResponse {
+  /// A structure that contains information about the group that was just created.
+  final Group? group;
+
+  CreateGroupResponse({
+    this.group,
+  });
+
+  factory CreateGroupResponse.fromJson(Map<String, dynamic> json) {
+    return CreateGroupResponse(
+      group: json['Group'] != null
+          ? Group.fromJson(json['Group'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final group = this.group;
+    return {
+      if (group != null) 'Group': group,
+    };
+  }
+}
+
 class DeleteCanaryResponse {
   DeleteCanaryResponse();
 
   factory DeleteCanaryResponse.fromJson(Map<String, dynamic> _) {
     return DeleteCanaryResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class DeleteGroupResponse {
+  DeleteGroupResponse();
+
+  factory DeleteGroupResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteGroupResponse();
   }
 
   Map<String, dynamic> toJson() {
@@ -1893,6 +2405,18 @@ class DescribeRuntimeVersionsResponse {
   }
 }
 
+class DisassociateResourceResponse {
+  DisassociateResourceResponse();
+
+  factory DisassociateResourceResponse.fromJson(Map<String, dynamic> _) {
+    return DisassociateResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 enum EncryptionMode {
   sseS3,
   sseKms,
@@ -1922,7 +2446,7 @@ extension on String {
 }
 
 class GetCanaryResponse {
-  /// A strucure that contains the full information about the canary.
+  /// A structure that contains the full information about the canary.
   final Canary? canary;
 
   GetCanaryResponse({
@@ -1980,8 +2504,233 @@ class GetCanaryRunsResponse {
   }
 }
 
+class GetGroupResponse {
+  /// A structure that contains information about the group.
+  final Group? group;
+
+  GetGroupResponse({
+    this.group,
+  });
+
+  factory GetGroupResponse.fromJson(Map<String, dynamic> json) {
+    return GetGroupResponse(
+      group: json['Group'] != null
+          ? Group.fromJson(json['Group'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final group = this.group;
+    return {
+      if (group != null) 'Group': group,
+    };
+  }
+}
+
+/// This structure contains information about one group.
+class Group {
+  /// The ARN of the group.
+  final String? arn;
+
+  /// The date and time that the group was created.
+  final DateTime? createdTime;
+
+  /// The unique ID of the group.
+  final String? id;
+
+  /// The date and time that the group was most recently updated.
+  final DateTime? lastModifiedTime;
+
+  /// The name of the group.
+  final String? name;
+
+  /// The list of key-value pairs that are associated with the canary.
+  final Map<String, String>? tags;
+
+  Group({
+    this.arn,
+    this.createdTime,
+    this.id,
+    this.lastModifiedTime,
+    this.name,
+    this.tags,
+  });
+
+  factory Group.fromJson(Map<String, dynamic> json) {
+    return Group(
+      arn: json['Arn'] as String?,
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      id: json['Id'] as String?,
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+      name: json['Name'] as String?,
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdTime = this.createdTime;
+    final id = this.id;
+    final lastModifiedTime = this.lastModifiedTime;
+    final name = this.name;
+    final tags = this.tags;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
+      if (id != null) 'Id': id,
+      if (lastModifiedTime != null)
+        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
+      if (name != null) 'Name': name,
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+/// A structure containing some information about a group.
+class GroupSummary {
+  /// The ARN of the group.
+  final String? arn;
+
+  /// The unique ID of the group.
+  final String? id;
+
+  /// The name of the group.
+  final String? name;
+
+  GroupSummary({
+    this.arn,
+    this.id,
+    this.name,
+  });
+
+  factory GroupSummary.fromJson(Map<String, dynamic> json) {
+    return GroupSummary(
+      arn: json['Arn'] as String?,
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final id = this.id;
+    final name = this.name;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (id != null) 'Id': id,
+      if (name != null) 'Name': name,
+    };
+  }
+}
+
+class ListAssociatedGroupsResponse {
+  /// An array of structures that contain information about the groups that this
+  /// canary is associated with.
+  final List<GroupSummary>? groups;
+
+  /// A token that indicates that there is more data available. You can use this
+  /// token in a subsequent <code>ListAssociatedGroups</code> operation to
+  /// retrieve the next set of results.
+  final String? nextToken;
+
+  ListAssociatedGroupsResponse({
+    this.groups,
+    this.nextToken,
+  });
+
+  factory ListAssociatedGroupsResponse.fromJson(Map<String, dynamic> json) {
+    return ListAssociatedGroupsResponse(
+      groups: (json['Groups'] as List?)
+          ?.whereNotNull()
+          .map((e) => GroupSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final groups = this.groups;
+    final nextToken = this.nextToken;
+    return {
+      if (groups != null) 'Groups': groups,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListGroupResourcesResponse {
+  /// A token that indicates that there is more data available. You can use this
+  /// token in a subsequent <code>ListGroupResources</code> operation to retrieve
+  /// the next set of results.
+  final String? nextToken;
+
+  /// An array of ARNs. These ARNs are for the canaries that are associated with
+  /// the group.
+  final List<String>? resources;
+
+  ListGroupResourcesResponse({
+    this.nextToken,
+    this.resources,
+  });
+
+  factory ListGroupResourcesResponse.fromJson(Map<String, dynamic> json) {
+    return ListGroupResourcesResponse(
+      nextToken: json['NextToken'] as String?,
+      resources: (json['Resources'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final resources = this.resources;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (resources != null) 'Resources': resources,
+    };
+  }
+}
+
+class ListGroupsResponse {
+  /// An array of structures that each contain information about one group.
+  final List<GroupSummary>? groups;
+
+  /// A token that indicates that there is more data available. You can use this
+  /// token in a subsequent <code>ListGroups</code> operation to retrieve the next
+  /// set of results.
+  final String? nextToken;
+
+  ListGroupsResponse({
+    this.groups,
+    this.nextToken,
+  });
+
+  factory ListGroupsResponse.fromJson(Map<String, dynamic> json) {
+    return ListGroupsResponse(
+      groups: (json['Groups'] as List?)
+          ?.whereNotNull()
+          .map((e) => GroupSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final groups = this.groups;
+    final nextToken = this.nextToken;
+    return {
+      if (groups != null) 'Groups': groups,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
 class ListTagsForResourceResponse {
-  /// The list of tag keys and values associated with the canary that you
+  /// The list of tag keys and values associated with the resource that you
   /// specified.
   final Map<String, String>? tags;
 
@@ -2158,8 +2907,8 @@ class UpdateCanaryResponse {
 }
 
 /// An object that specifies what screenshots to use as a baseline for visual
-/// monitoring by this canary, and optionally the parts of the screenshots to
-/// ignore during the visual monitoring comparison.
+/// monitoring by this canary. It can optionally also specify parts of the
+/// screenshots to ignore during the visual monitoring comparison.
 ///
 /// Visual monitoring is supported only on canaries running the
 /// <b>syn-puppeteer-node-3.2</b> runtime or later. For more information, see <a
@@ -2216,9 +2965,8 @@ class VisualReferenceInput {
 /// Visual monitoring is supported only on canaries running the
 /// <b>syn-puppeteer-node-3.2</b> runtime or later.
 class VisualReferenceOutput {
-  /// The ID of the canary run that produced the screenshots that are used as the
-  /// baseline for visual monitoring comparisons during future runs of this
-  /// canary.
+  /// The ID of the canary run that produced the baseline screenshots that are
+  /// used for visual monitoring comparisons by this canary.
   final String? baseCanaryRunId;
 
   /// An array of screenshots that are used as the baseline for comparisons during
@@ -2337,9 +3085,19 @@ class VpcConfigOutput {
   }
 }
 
+class BadRequestException extends _s.GenericAwsException {
+  BadRequestException({String? type, String? message})
+      : super(type: type, code: 'BadRequestException', message: message);
+}
+
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
+}
+
+class InternalFailureException extends _s.GenericAwsException {
+  InternalFailureException({String? type, String? message})
+      : super(type: type, code: 'InternalFailureException', message: message);
 }
 
 class InternalServerException extends _s.GenericAwsException {
@@ -2347,9 +3105,35 @@ class InternalServerException extends _s.GenericAwsException {
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
+class NotFoundException extends _s.GenericAwsException {
+  NotFoundException({String? type, String? message})
+      : super(type: type, code: 'NotFoundException', message: message);
+}
+
+class RequestEntityTooLargeException extends _s.GenericAwsException {
+  RequestEntityTooLargeException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'RequestEntityTooLargeException',
+            message: message);
+}
+
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
+}
+
+class ServiceQuotaExceededException extends _s.GenericAwsException {
+  ServiceQuotaExceededException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'ServiceQuotaExceededException',
+            message: message);
+}
+
+class TooManyRequestsException extends _s.GenericAwsException {
+  TooManyRequestsException({String? type, String? message})
+      : super(type: type, code: 'TooManyRequestsException', message: message);
 }
 
 class ValidationException extends _s.GenericAwsException {
@@ -2358,12 +3142,24 @@ class ValidationException extends _s.GenericAwsException {
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{
+  'BadRequestException': (type, message) =>
+      BadRequestException(type: type, message: message),
   'ConflictException': (type, message) =>
       ConflictException(type: type, message: message),
+  'InternalFailureException': (type, message) =>
+      InternalFailureException(type: type, message: message),
   'InternalServerException': (type, message) =>
       InternalServerException(type: type, message: message),
+  'NotFoundException': (type, message) =>
+      NotFoundException(type: type, message: message),
+  'RequestEntityTooLargeException': (type, message) =>
+      RequestEntityTooLargeException(type: type, message: message),
   'ResourceNotFoundException': (type, message) =>
       ResourceNotFoundException(type: type, message: message),
+  'ServiceQuotaExceededException': (type, message) =>
+      ServiceQuotaExceededException(type: type, message: message),
+  'TooManyRequestsException': (type, message) =>
+      TooManyRequestsException(type: type, message: message),
   'ValidationException': (type, message) =>
       ValidationException(type: type, message: message),
 };

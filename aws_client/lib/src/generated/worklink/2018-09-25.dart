@@ -66,6 +66,7 @@ class WorkLink {
   ///
   /// Parameter [displayName] :
   /// The name to display.
+  @Deprecated('Deprecated')
   Future<void> associateDomain({
     required String acmCertificateArn,
     required String domainName,
@@ -109,6 +110,7 @@ class WorkLink {
   /// Parameter [domainName] :
   /// The domain name of the authorization provider. This applies only to
   /// SAML-based authorization providers.
+  @Deprecated('Deprecated')
   Future<AssociateWebsiteAuthorizationProviderResponse>
       associateWebsiteAuthorizationProvider({
     required AuthorizationProviderType authorizationProviderType,
@@ -151,6 +153,7 @@ class WorkLink {
   ///
   /// Parameter [displayName] :
   /// The certificate name to display.
+  @Deprecated('Deprecated')
   Future<AssociateWebsiteCertificateAuthorityResponse>
       associateWebsiteCertificateAuthority({
     required String certificate,
@@ -196,6 +199,7 @@ class WorkLink {
   ///
   /// Parameter [tags] :
   /// The tags to add to the resource. A tag is a key-value pair.
+  @Deprecated('Deprecated')
   Future<CreateFleetResponse> createFleet({
     required String fleetName,
     String? displayName,
@@ -230,6 +234,7 @@ class WorkLink {
   ///
   /// Parameter [fleetArn] :
   /// The ARN of the fleet.
+  @Deprecated('Deprecated')
   Future<void> deleteFleet({
     required String fleetArn,
   }) async {
@@ -256,6 +261,7 @@ class WorkLink {
   ///
   /// Parameter [fleetArn] :
   /// The ARN of the fleet.
+  @Deprecated('Deprecated')
   Future<DescribeAuditStreamConfigurationResponse>
       describeAuditStreamConfiguration({
     required String fleetArn,
@@ -284,6 +290,7 @@ class WorkLink {
   ///
   /// Parameter [fleetArn] :
   /// The ARN of the fleet.
+  @Deprecated('Deprecated')
   Future<DescribeCompanyNetworkConfigurationResponse>
       describeCompanyNetworkConfiguration({
     required String fleetArn,
@@ -314,6 +321,7 @@ class WorkLink {
   ///
   /// Parameter [fleetArn] :
   /// The ARN of the fleet.
+  @Deprecated('Deprecated')
   Future<DescribeDeviceResponse> describeDevice({
     required String deviceId,
     required String fleetArn,
@@ -343,6 +351,7 @@ class WorkLink {
   ///
   /// Parameter [fleetArn] :
   /// The ARN of the fleet.
+  @Deprecated('Deprecated')
   Future<DescribeDevicePolicyConfigurationResponse>
       describeDevicePolicyConfiguration({
     required String fleetArn,
@@ -373,6 +382,7 @@ class WorkLink {
   ///
   /// Parameter [fleetArn] :
   /// The ARN of the fleet.
+  @Deprecated('Deprecated')
   Future<DescribeDomainResponse> describeDomain({
     required String domainName,
     required String fleetArn,
@@ -403,6 +413,7 @@ class WorkLink {
   ///
   /// Parameter [fleetArn] :
   /// The Amazon Resource Name (ARN) of the fleet.
+  @Deprecated('Deprecated')
   Future<DescribeFleetMetadataResponse> describeFleetMetadata({
     required String fleetArn,
   }) async {
@@ -429,6 +440,7 @@ class WorkLink {
   ///
   /// Parameter [fleetArn] :
   /// The ARN of the fleet.
+  @Deprecated('Deprecated')
   Future<DescribeIdentityProviderConfigurationResponse>
       describeIdentityProviderConfiguration({
     required String fleetArn,
@@ -459,6 +471,7 @@ class WorkLink {
   ///
   /// Parameter [websiteCaId] :
   /// A unique identifier for the certificate authority.
+  @Deprecated('Deprecated')
   Future<DescribeWebsiteCertificateAuthorityResponse>
       describeWebsiteCertificateAuthority({
     required String fleetArn,
@@ -493,6 +506,7 @@ class WorkLink {
   ///
   /// Parameter [fleetArn] :
   /// The ARN of the fleet.
+  @Deprecated('Deprecated')
   Future<void> disassociateDomain({
     required String domainName,
     required String fleetArn,
@@ -527,6 +541,7 @@ class WorkLink {
   ///
   /// Parameter [fleetArn] :
   /// The ARN of the fleet.
+  @Deprecated('Deprecated')
   Future<void> disassociateWebsiteAuthorizationProvider({
     required String authorizationProviderId,
     required String fleetArn,
@@ -559,6 +574,7 @@ class WorkLink {
   ///
   /// Parameter [websiteCaId] :
   /// A unique identifier for the CA.
+  @Deprecated('Deprecated')
   Future<void> disassociateWebsiteCertificateAuthority({
     required String fleetArn,
     required String websiteCaId,
@@ -594,6 +610,7 @@ class WorkLink {
   /// Parameter [nextToken] :
   /// The pagination token used to retrieve the next page of results for this
   /// operation. If this value is null, it retrieves the first page.
+  @Deprecated('Deprecated')
   Future<ListDevicesResponse> listDevices({
     required String fleetArn,
     int? maxResults,
@@ -637,6 +654,7 @@ class WorkLink {
   /// Parameter [nextToken] :
   /// The pagination token used to retrieve the next page of results for this
   /// operation. If this value is null, it retrieves the first page.
+  @Deprecated('Deprecated')
   Future<ListDomainsResponse> listDomains({
     required String fleetArn,
     int? maxResults,
@@ -676,6 +694,7 @@ class WorkLink {
   /// Parameter [nextToken] :
   /// The pagination token used to retrieve the next page of results for this
   /// operation. If this value is null, it retrieves the first page.
+  @Deprecated('Deprecated')
   Future<ListFleetsResponse> listFleets({
     int? maxResults,
     String? nextToken,
@@ -705,6 +724,7 @@ class WorkLink {
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the fleet.
+  @Deprecated('Deprecated')
   Future<ListTagsForResourceResponse> listTagsForResource({
     required String resourceArn,
   }) async {
@@ -736,6 +756,7 @@ class WorkLink {
   /// Parameter [nextToken] :
   /// The pagination token to use to retrieve the next page of results for this
   /// operation. If this value is null, it retrieves the first page.
+  @Deprecated('Deprecated')
   Future<ListWebsiteAuthorizationProvidersResponse>
       listWebsiteAuthorizationProviders({
     required String fleetArn,
@@ -780,6 +801,7 @@ class WorkLink {
   /// Parameter [nextToken] :
   /// The pagination token used to retrieve the next page of results for this
   /// operation. If this value is null, it retrieves the first page.
+  @Deprecated('Deprecated')
   Future<ListWebsiteCertificateAuthoritiesResponse>
       listWebsiteCertificateAuthorities({
     required String fleetArn,
@@ -820,6 +842,7 @@ class WorkLink {
   ///
   /// Parameter [fleetArn] :
   /// The ARN of the fleet.
+  @Deprecated('Deprecated')
   Future<void> restoreDomainAccess({
     required String domainName,
     required String fleetArn,
@@ -851,6 +874,7 @@ class WorkLink {
   ///
   /// Parameter [fleetArn] :
   /// The ARN of the fleet.
+  @Deprecated('Deprecated')
   Future<void> revokeDomainAccess({
     required String domainName,
     required String fleetArn,
@@ -883,6 +907,7 @@ class WorkLink {
   ///
   /// Parameter [username] :
   /// The name of the user.
+  @Deprecated('Deprecated')
   Future<void> signOutUser({
     required String fleetArn,
     required String username,
@@ -912,6 +937,7 @@ class WorkLink {
   ///
   /// Parameter [tags] :
   /// The tags to add to the resource. A tag is a key-value pair.
+  @Deprecated('Deprecated')
   Future<void> tagResource({
     required String resourceArn,
     required Map<String, String> tags,
@@ -938,6 +964,7 @@ class WorkLink {
   ///
   /// Parameter [tagKeys] :
   /// The list of tag keys to remove from the resource.
+  @Deprecated('Deprecated')
   Future<void> untagResource({
     required String resourceArn,
     required List<String> tagKeys,
@@ -969,6 +996,7 @@ class WorkLink {
   ///
   /// Parameter [auditStreamArn] :
   /// The ARN of the Amazon Kinesis data stream that receives the audit events.
+  @Deprecated('Deprecated')
   Future<void> updateAuditStreamConfiguration({
     required String fleetArn,
     String? auditStreamArn,
@@ -1006,6 +1034,7 @@ class WorkLink {
   ///
   /// Parameter [vpcId] :
   /// The VPC with connectivity to associated websites.
+  @Deprecated('Deprecated')
   Future<void> updateCompanyNetworkConfiguration({
     required String fleetArn,
     required List<String> securityGroupIds,
@@ -1044,6 +1073,7 @@ class WorkLink {
   /// Parameter [deviceCaCertificate] :
   /// The certificate chain, including intermediate certificates and the root
   /// certificate authority certificate used to issue device certificates.
+  @Deprecated('Deprecated')
   Future<void> updateDevicePolicyConfiguration({
     required String fleetArn,
     String? deviceCaCertificate,
@@ -1078,6 +1108,7 @@ class WorkLink {
   ///
   /// Parameter [displayName] :
   /// The name to display.
+  @Deprecated('Deprecated')
   Future<void> updateDomainMetadata({
     required String domainName,
     required String fleetArn,
@@ -1116,6 +1147,7 @@ class WorkLink {
   /// Parameter [optimizeForEndUserLocation] :
   /// The option to optimize for better performance by routing traffic through
   /// the closest AWS Region to users, which may be outside of your home Region.
+  @Deprecated('Deprecated')
   Future<void> updateFleetMetadata({
     required String fleetArn,
     String? displayName,
@@ -1153,6 +1185,7 @@ class WorkLink {
   /// Parameter [identityProviderSamlMetadata] :
   /// The SAML metadata document provided by the customer’s identity provider.
   /// The existing IdentityProviderSamlMetadata is unset if null is passed.
+  @Deprecated('Deprecated')
   Future<void> updateIdentityProviderConfiguration({
     required String fleetArn,
     required IdentityProviderType identityProviderType,

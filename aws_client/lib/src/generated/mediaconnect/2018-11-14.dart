@@ -202,6 +202,7 @@ class MediaConnect {
     required String name,
     String? availabilityZone,
     List<GrantEntitlementRequest>? entitlements,
+    AddMaintenance? maintenance,
     List<AddMediaStreamRequest>? mediaStreams,
     List<AddOutputRequest>? outputs,
     SetSourceRequest? source,
@@ -214,6 +215,7 @@ class MediaConnect {
       'name': name,
       if (availabilityZone != null) 'availabilityZone': availabilityZone,
       if (entitlements != null) 'entitlements': entitlements,
+      if (maintenance != null) 'maintenance': maintenance,
       if (mediaStreams != null) 'mediaStreams': mediaStreams,
       if (outputs != null) 'outputs': outputs,
       if (source != null) 'source': source,
@@ -909,10 +911,12 @@ class MediaConnect {
   /// The flow that you want to update.
   Future<UpdateFlowResponse> updateFlow({
     required String flowArn,
+    UpdateMaintenance? maintenance,
     UpdateFailoverConfig? sourceFailoverConfig,
   }) async {
     ArgumentError.checkNotNull(flowArn, 'flowArn');
     final $payload = <String, dynamic>{
+      if (maintenance != null) 'maintenance': maintenance,
       if (sourceFailoverConfig != null)
         'sourceFailoverConfig': sourceFailoverConfig,
     };
@@ -1419,6 +1423,38 @@ class AddFlowVpcInterfacesResponse {
     return {
       if (flowArn != null) 'flowArn': flowArn,
       if (vpcInterfaces != null) 'vpcInterfaces': vpcInterfaces,
+    };
+  }
+}
+
+/// Create maintenance setting for a flow
+class AddMaintenance {
+  /// A day of a week when the maintenance will happen. Use
+  /// Monday/Tuesday/Wednesday/Thursday/Friday/Saturday/Sunday.
+  final MaintenanceDay maintenanceDay;
+
+  /// UTC time when the maintenance will happen. Use 24-hour HH:MM format. Minutes
+  /// must be 00. Example: 13:00. The default value is 02:00.
+  final String maintenanceStartHour;
+
+  AddMaintenance({
+    required this.maintenanceDay,
+    required this.maintenanceStartHour,
+  });
+
+  factory AddMaintenance.fromJson(Map<String, dynamic> json) {
+    return AddMaintenance(
+      maintenanceDay: (json['maintenanceDay'] as String).toMaintenanceDay(),
+      maintenanceStartHour: json['maintenanceStartHour'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maintenanceDay = this.maintenanceDay;
+    final maintenanceStartHour = this.maintenanceStartHour;
+    return {
+      'maintenanceDay': maintenanceDay.toValue(),
+      'maintenanceStartHour': maintenanceStartHour,
     };
   }
 }
@@ -2424,6 +2460,7 @@ class Flow {
 
   /// The IP address from which video will be sent to output destinations.
   final String? egressIp;
+  final Maintenance? maintenance;
 
   /// The media streams that are associated with the flow. After you associate a
   /// media stream with a source, you can also associate it with outputs on the
@@ -2445,6 +2482,7 @@ class Flow {
     required this.status,
     this.description,
     this.egressIp,
+    this.maintenance,
     this.mediaStreams,
     this.sourceFailoverConfig,
     this.sources,
@@ -2468,6 +2506,9 @@ class Flow {
       status: (json['status'] as String).toStatus(),
       description: json['description'] as String?,
       egressIp: json['egressIp'] as String?,
+      maintenance: json['maintenance'] != null
+          ? Maintenance.fromJson(json['maintenance'] as Map<String, dynamic>)
+          : null,
       mediaStreams: (json['mediaStreams'] as List?)
           ?.whereNotNull()
           .map((e) => MediaStream.fromJson(e as Map<String, dynamic>))
@@ -2497,6 +2538,7 @@ class Flow {
     final status = this.status;
     final description = this.description;
     final egressIp = this.egressIp;
+    final maintenance = this.maintenance;
     final mediaStreams = this.mediaStreams;
     final sourceFailoverConfig = this.sourceFailoverConfig;
     final sources = this.sources;
@@ -2511,6 +2553,7 @@ class Flow {
       'status': status.toValue(),
       if (description != null) 'description': description,
       if (egressIp != null) 'egressIp': egressIp,
+      if (maintenance != null) 'maintenance': maintenance,
       if (mediaStreams != null) 'mediaStreams': mediaStreams,
       if (sourceFailoverConfig != null)
         'sourceFailoverConfig': sourceFailoverConfig,
@@ -3152,6 +3195,7 @@ class ListedFlow {
 
   /// The current status of the flow.
   final Status status;
+  final Maintenance? maintenance;
 
   ListedFlow({
     required this.availabilityZone,
@@ -3160,6 +3204,7 @@ class ListedFlow {
     required this.name,
     required this.sourceType,
     required this.status,
+    this.maintenance,
   });
 
   factory ListedFlow.fromJson(Map<String, dynamic> json) {
@@ -3170,6 +3215,9 @@ class ListedFlow {
       name: json['name'] as String,
       sourceType: (json['sourceType'] as String).toSourceType(),
       status: (json['status'] as String).toStatus(),
+      maintenance: json['maintenance'] != null
+          ? Maintenance.fromJson(json['maintenance'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -3180,6 +3228,7 @@ class ListedFlow {
     final name = this.name;
     final sourceType = this.sourceType;
     final status = this.status;
+    final maintenance = this.maintenance;
     return {
       'availabilityZone': availabilityZone,
       'description': description,
@@ -3187,7 +3236,112 @@ class ListedFlow {
       'name': name,
       'sourceType': sourceType.toValue(),
       'status': status.toValue(),
+      if (maintenance != null) 'maintenance': maintenance,
     };
+  }
+}
+
+/// The maintenance setting of a flow
+class Maintenance {
+  /// A day of a week when the maintenance will happen. Use
+  /// Monday/Tuesday/Wednesday/Thursday/Friday/Saturday/Sunday.
+  final MaintenanceDay? maintenanceDay;
+
+  /// The Maintenance has to be performed before this deadline in ISO UTC format.
+  /// Example: 2021-01-30T08:30:00Z.
+  final String? maintenanceDeadline;
+
+  /// A scheduled date in ISO UTC format when the maintenance will happen. Use
+  /// YYYY-MM-DD format. Example: 2021-01-30.
+  final String? maintenanceScheduledDate;
+
+  /// UTC time when the maintenance will happen. Use 24-hour HH:MM format. Minutes
+  /// must be 00. Example: 13:00. The default value is 02:00.
+  final String? maintenanceStartHour;
+
+  Maintenance({
+    this.maintenanceDay,
+    this.maintenanceDeadline,
+    this.maintenanceScheduledDate,
+    this.maintenanceStartHour,
+  });
+
+  factory Maintenance.fromJson(Map<String, dynamic> json) {
+    return Maintenance(
+      maintenanceDay: (json['maintenanceDay'] as String?)?.toMaintenanceDay(),
+      maintenanceDeadline: json['maintenanceDeadline'] as String?,
+      maintenanceScheduledDate: json['maintenanceScheduledDate'] as String?,
+      maintenanceStartHour: json['maintenanceStartHour'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maintenanceDay = this.maintenanceDay;
+    final maintenanceDeadline = this.maintenanceDeadline;
+    final maintenanceScheduledDate = this.maintenanceScheduledDate;
+    final maintenanceStartHour = this.maintenanceStartHour;
+    return {
+      if (maintenanceDay != null) 'maintenanceDay': maintenanceDay.toValue(),
+      if (maintenanceDeadline != null)
+        'maintenanceDeadline': maintenanceDeadline,
+      if (maintenanceScheduledDate != null)
+        'maintenanceScheduledDate': maintenanceScheduledDate,
+      if (maintenanceStartHour != null)
+        'maintenanceStartHour': maintenanceStartHour,
+    };
+  }
+}
+
+enum MaintenanceDay {
+  monday,
+  tuesday,
+  wednesday,
+  thursday,
+  friday,
+  saturday,
+  sunday,
+}
+
+extension on MaintenanceDay {
+  String toValue() {
+    switch (this) {
+      case MaintenanceDay.monday:
+        return 'Monday';
+      case MaintenanceDay.tuesday:
+        return 'Tuesday';
+      case MaintenanceDay.wednesday:
+        return 'Wednesday';
+      case MaintenanceDay.thursday:
+        return 'Thursday';
+      case MaintenanceDay.friday:
+        return 'Friday';
+      case MaintenanceDay.saturday:
+        return 'Saturday';
+      case MaintenanceDay.sunday:
+        return 'Sunday';
+    }
+  }
+}
+
+extension on String {
+  MaintenanceDay toMaintenanceDay() {
+    switch (this) {
+      case 'Monday':
+        return MaintenanceDay.monday;
+      case 'Tuesday':
+        return MaintenanceDay.tuesday;
+      case 'Wednesday':
+        return MaintenanceDay.wednesday;
+      case 'Thursday':
+        return MaintenanceDay.thursday;
+      case 'Friday':
+        return MaintenanceDay.friday;
+      case 'Saturday':
+        return MaintenanceDay.saturday;
+      case 'Sunday':
+        return MaintenanceDay.sunday;
+    }
+    throw Exception('$this is not known in enum MaintenanceDay');
   }
 }
 
@@ -5335,6 +5489,48 @@ class UpdateFlowSourceResponse {
     return {
       if (flowArn != null) 'flowArn': flowArn,
       if (source != null) 'source': source,
+    };
+  }
+}
+
+/// Update maintenance setting for a flow
+class UpdateMaintenance {
+  /// A day of a week when the maintenance will happen. use
+  /// Monday/Tuesday/Wednesday/Thursday/Friday/Saturday/Sunday.
+  final MaintenanceDay? maintenanceDay;
+
+  /// A scheduled date in ISO UTC format when the maintenance will happen. Use
+  /// YYYY-MM-DD format. Example: 2021-01-30.
+  final String? maintenanceScheduledDate;
+
+  /// UTC time when the maintenance will happen. Use 24-hour HH:MM format. Minutes
+  /// must be 00. Example: 13:00. The default value is 02:00.
+  final String? maintenanceStartHour;
+
+  UpdateMaintenance({
+    this.maintenanceDay,
+    this.maintenanceScheduledDate,
+    this.maintenanceStartHour,
+  });
+
+  factory UpdateMaintenance.fromJson(Map<String, dynamic> json) {
+    return UpdateMaintenance(
+      maintenanceDay: (json['maintenanceDay'] as String?)?.toMaintenanceDay(),
+      maintenanceScheduledDate: json['maintenanceScheduledDate'] as String?,
+      maintenanceStartHour: json['maintenanceStartHour'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maintenanceDay = this.maintenanceDay;
+    final maintenanceScheduledDate = this.maintenanceScheduledDate;
+    final maintenanceStartHour = this.maintenanceStartHour;
+    return {
+      if (maintenanceDay != null) 'maintenanceDay': maintenanceDay.toValue(),
+      if (maintenanceScheduledDate != null)
+        'maintenanceScheduledDate': maintenanceScheduledDate,
+      if (maintenanceStartHour != null)
+        'maintenanceStartHour': maintenanceStartHour,
     };
   }
 }

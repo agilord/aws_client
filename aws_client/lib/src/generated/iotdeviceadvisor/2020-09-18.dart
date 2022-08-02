@@ -960,6 +960,34 @@ class ListTagsForResourceResponse {
   }
 }
 
+enum Protocol {
+  mqttV3_1_1,
+  mqttV5,
+}
+
+extension on Protocol {
+  String toValue() {
+    switch (this) {
+      case Protocol.mqttV3_1_1:
+        return 'MqttV3_1_1';
+      case Protocol.mqttV5:
+        return 'MqttV5';
+    }
+  }
+}
+
+extension on String {
+  Protocol toProtocol() {
+    switch (this) {
+      case 'MqttV3_1_1':
+        return Protocol.mqttV3_1_1;
+      case 'MqttV5':
+        return Protocol.mqttV5;
+    }
+    throw Exception('$this is not known in enum Protocol');
+  }
+}
+
 class StartSuiteRunResponse {
   /// Starts a Device Advisor test suite run based on suite create time.
   final DateTime? createdAt;
@@ -1082,6 +1110,12 @@ class SuiteDefinitionConfiguration {
   /// Gets the tests intended for qualification in a suite.
   final bool? intendedForQualification;
 
+  /// Verifies if the test suite is a long duration test.
+  final bool? isLongDurationTest;
+
+  /// Gets the MQTT protocol that is configured in the suite definition.
+  final Protocol? protocol;
+
   /// Gets test suite root group.
   final String? rootGroup;
 
@@ -1092,6 +1126,8 @@ class SuiteDefinitionConfiguration {
     this.devicePermissionRoleArn,
     this.devices,
     this.intendedForQualification,
+    this.isLongDurationTest,
+    this.protocol,
     this.rootGroup,
     this.suiteDefinitionName,
   });
@@ -1104,6 +1140,8 @@ class SuiteDefinitionConfiguration {
           .map((e) => DeviceUnderTest.fromJson(e as Map<String, dynamic>))
           .toList(),
       intendedForQualification: json['intendedForQualification'] as bool?,
+      isLongDurationTest: json['isLongDurationTest'] as bool?,
+      protocol: (json['protocol'] as String?)?.toProtocol(),
       rootGroup: json['rootGroup'] as String?,
       suiteDefinitionName: json['suiteDefinitionName'] as String?,
     );
@@ -1113,6 +1151,8 @@ class SuiteDefinitionConfiguration {
     final devicePermissionRoleArn = this.devicePermissionRoleArn;
     final devices = this.devices;
     final intendedForQualification = this.intendedForQualification;
+    final isLongDurationTest = this.isLongDurationTest;
+    final protocol = this.protocol;
     final rootGroup = this.rootGroup;
     final suiteDefinitionName = this.suiteDefinitionName;
     return {
@@ -1121,6 +1161,8 @@ class SuiteDefinitionConfiguration {
       if (devices != null) 'devices': devices,
       if (intendedForQualification != null)
         'intendedForQualification': intendedForQualification,
+      if (isLongDurationTest != null) 'isLongDurationTest': isLongDurationTest,
+      if (protocol != null) 'protocol': protocol.toValue(),
       if (rootGroup != null) 'rootGroup': rootGroup,
       if (suiteDefinitionName != null)
         'suiteDefinitionName': suiteDefinitionName,
@@ -1139,6 +1181,12 @@ class SuiteDefinitionInformation {
   /// Specifies if the test suite is intended for qualification.
   final bool? intendedForQualification;
 
+  /// Verifies if the test suite is a long duration test.
+  final bool? isLongDurationTest;
+
+  /// Gets the MQTT protocol that is configured in the suite definition.
+  final Protocol? protocol;
+
   /// Suite definition ID of the test suite.
   final String? suiteDefinitionId;
 
@@ -1149,6 +1197,8 @@ class SuiteDefinitionInformation {
     this.createdAt,
     this.defaultDevices,
     this.intendedForQualification,
+    this.isLongDurationTest,
+    this.protocol,
     this.suiteDefinitionId,
     this.suiteDefinitionName,
   });
@@ -1161,6 +1211,8 @@ class SuiteDefinitionInformation {
           .map((e) => DeviceUnderTest.fromJson(e as Map<String, dynamic>))
           .toList(),
       intendedForQualification: json['intendedForQualification'] as bool?,
+      isLongDurationTest: json['isLongDurationTest'] as bool?,
+      protocol: (json['protocol'] as String?)?.toProtocol(),
       suiteDefinitionId: json['suiteDefinitionId'] as String?,
       suiteDefinitionName: json['suiteDefinitionName'] as String?,
     );
@@ -1170,6 +1222,8 @@ class SuiteDefinitionInformation {
     final createdAt = this.createdAt;
     final defaultDevices = this.defaultDevices;
     final intendedForQualification = this.intendedForQualification;
+    final isLongDurationTest = this.isLongDurationTest;
+    final protocol = this.protocol;
     final suiteDefinitionId = this.suiteDefinitionId;
     final suiteDefinitionName = this.suiteDefinitionName;
     return {
@@ -1177,6 +1231,8 @@ class SuiteDefinitionInformation {
       if (defaultDevices != null) 'defaultDevices': defaultDevices,
       if (intendedForQualification != null)
         'intendedForQualification': intendedForQualification,
+      if (isLongDurationTest != null) 'isLongDurationTest': isLongDurationTest,
+      if (protocol != null) 'protocol': protocol.toValue(),
       if (suiteDefinitionId != null) 'suiteDefinitionId': suiteDefinitionId,
       if (suiteDefinitionName != null)
         'suiteDefinitionName': suiteDefinitionName,
@@ -1450,6 +1506,9 @@ class TestCaseRun {
   /// Provides the test case run ID.
   final String? testCaseRunId;
 
+  /// Provides the test scenarios for the test case run.
+  final List<TestCaseScenario>? testScenarios;
+
   /// Provides test case run warnings.
   final String? warnings;
 
@@ -1462,6 +1521,7 @@ class TestCaseRun {
     this.testCaseDefinitionId,
     this.testCaseDefinitionName,
     this.testCaseRunId,
+    this.testScenarios,
     this.warnings,
   });
 
@@ -1475,6 +1535,10 @@ class TestCaseRun {
       testCaseDefinitionId: json['testCaseDefinitionId'] as String?,
       testCaseDefinitionName: json['testCaseDefinitionName'] as String?,
       testCaseRunId: json['testCaseRunId'] as String?,
+      testScenarios: (json['testScenarios'] as List?)
+          ?.whereNotNull()
+          .map((e) => TestCaseScenario.fromJson(e as Map<String, dynamic>))
+          .toList(),
       warnings: json['warnings'] as String?,
     );
   }
@@ -1488,6 +1552,7 @@ class TestCaseRun {
     final testCaseDefinitionId = this.testCaseDefinitionId;
     final testCaseDefinitionName = this.testCaseDefinitionName;
     final testCaseRunId = this.testCaseRunId;
+    final testScenarios = this.testScenarios;
     final warnings = this.warnings;
     return {
       if (endTime != null) 'endTime': unixTimestampToJson(endTime),
@@ -1500,8 +1565,192 @@ class TestCaseRun {
       if (testCaseDefinitionName != null)
         'testCaseDefinitionName': testCaseDefinitionName,
       if (testCaseRunId != null) 'testCaseRunId': testCaseRunId,
+      if (testScenarios != null) 'testScenarios': testScenarios,
       if (warnings != null) 'warnings': warnings,
     };
+  }
+}
+
+/// Provides test case scenario.
+class TestCaseScenario {
+  /// Provides test case scenario failure result.
+  final String? failure;
+
+  /// Provides the test case scenario status. Status is one of the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>PASS</code>: Test passed.
+  /// </li>
+  /// <li>
+  /// <code>FAIL</code>: Test failed.
+  /// </li>
+  /// <li>
+  /// <code>PENDING</code>: Test has not started running but is scheduled.
+  /// </li>
+  /// <li>
+  /// <code>RUNNING</code>: Test is running.
+  /// </li>
+  /// <li>
+  /// <code>STOPPING</code>: Test is performing cleanup steps. You will see this
+  /// status only if you stop a suite run.
+  /// </li>
+  /// <li>
+  /// <code>STOPPED</code> Test is stopped. You will see this status only if you
+  /// stop a suite run.
+  /// </li>
+  /// <li>
+  /// <code>PASS_WITH_WARNINGS</code>: Test passed with warnings.
+  /// </li>
+  /// <li>
+  /// <code>ERORR</code>: Test faced an error when running due to an internal
+  /// issue.
+  /// </li>
+  /// </ul>
+  final TestCaseScenarioStatus? status;
+
+  ///
+  final String? systemMessage;
+
+  /// Provides test case scenario ID.
+  final String? testCaseScenarioId;
+
+  /// Provides test case scenario type. Type is one of the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// Advanced
+  /// </li>
+  /// <li>
+  /// Basic
+  /// </li>
+  /// </ul>
+  final TestCaseScenarioType? testCaseScenarioType;
+
+  TestCaseScenario({
+    this.failure,
+    this.status,
+    this.systemMessage,
+    this.testCaseScenarioId,
+    this.testCaseScenarioType,
+  });
+
+  factory TestCaseScenario.fromJson(Map<String, dynamic> json) {
+    return TestCaseScenario(
+      failure: json['failure'] as String?,
+      status: (json['status'] as String?)?.toTestCaseScenarioStatus(),
+      systemMessage: json['systemMessage'] as String?,
+      testCaseScenarioId: json['testCaseScenarioId'] as String?,
+      testCaseScenarioType:
+          (json['testCaseScenarioType'] as String?)?.toTestCaseScenarioType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final failure = this.failure;
+    final status = this.status;
+    final systemMessage = this.systemMessage;
+    final testCaseScenarioId = this.testCaseScenarioId;
+    final testCaseScenarioType = this.testCaseScenarioType;
+    return {
+      if (failure != null) 'failure': failure,
+      if (status != null) 'status': status.toValue(),
+      if (systemMessage != null) 'systemMessage': systemMessage,
+      if (testCaseScenarioId != null) 'testCaseScenarioId': testCaseScenarioId,
+      if (testCaseScenarioType != null)
+        'testCaseScenarioType': testCaseScenarioType.toValue(),
+    };
+  }
+}
+
+enum TestCaseScenarioStatus {
+  pass,
+  fail,
+  canceled,
+  pending,
+  running,
+  stopping,
+  stopped,
+  passWithWarnings,
+  error,
+}
+
+extension on TestCaseScenarioStatus {
+  String toValue() {
+    switch (this) {
+      case TestCaseScenarioStatus.pass:
+        return 'PASS';
+      case TestCaseScenarioStatus.fail:
+        return 'FAIL';
+      case TestCaseScenarioStatus.canceled:
+        return 'CANCELED';
+      case TestCaseScenarioStatus.pending:
+        return 'PENDING';
+      case TestCaseScenarioStatus.running:
+        return 'RUNNING';
+      case TestCaseScenarioStatus.stopping:
+        return 'STOPPING';
+      case TestCaseScenarioStatus.stopped:
+        return 'STOPPED';
+      case TestCaseScenarioStatus.passWithWarnings:
+        return 'PASS_WITH_WARNINGS';
+      case TestCaseScenarioStatus.error:
+        return 'ERROR';
+    }
+  }
+}
+
+extension on String {
+  TestCaseScenarioStatus toTestCaseScenarioStatus() {
+    switch (this) {
+      case 'PASS':
+        return TestCaseScenarioStatus.pass;
+      case 'FAIL':
+        return TestCaseScenarioStatus.fail;
+      case 'CANCELED':
+        return TestCaseScenarioStatus.canceled;
+      case 'PENDING':
+        return TestCaseScenarioStatus.pending;
+      case 'RUNNING':
+        return TestCaseScenarioStatus.running;
+      case 'STOPPING':
+        return TestCaseScenarioStatus.stopping;
+      case 'STOPPED':
+        return TestCaseScenarioStatus.stopped;
+      case 'PASS_WITH_WARNINGS':
+        return TestCaseScenarioStatus.passWithWarnings;
+      case 'ERROR':
+        return TestCaseScenarioStatus.error;
+    }
+    throw Exception('$this is not known in enum TestCaseScenarioStatus');
+  }
+}
+
+enum TestCaseScenarioType {
+  advanced,
+  basic,
+}
+
+extension on TestCaseScenarioType {
+  String toValue() {
+    switch (this) {
+      case TestCaseScenarioType.advanced:
+        return 'Advanced';
+      case TestCaseScenarioType.basic:
+        return 'Basic';
+    }
+  }
+}
+
+extension on String {
+  TestCaseScenarioType toTestCaseScenarioType() {
+    switch (this) {
+      case 'Advanced':
+        return TestCaseScenarioType.advanced;
+      case 'Basic':
+        return TestCaseScenarioType.basic;
+    }
+    throw Exception('$this is not known in enum TestCaseScenarioType');
   }
 }
 

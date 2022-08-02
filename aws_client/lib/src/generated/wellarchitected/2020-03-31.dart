@@ -220,7 +220,6 @@ class WellArchitected {
     required String description,
     required WorkloadEnvironment environment,
     required List<String> lenses,
-    required String reviewOwner,
     required String workloadName,
     List<String>? accountIds,
     String? architecturalDesign,
@@ -231,18 +230,17 @@ class WellArchitected {
     List<String>? nonAwsRegions,
     String? notes,
     List<String>? pillarPriorities,
+    String? reviewOwner,
     Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(description, 'description');
     ArgumentError.checkNotNull(environment, 'environment');
     ArgumentError.checkNotNull(lenses, 'lenses');
-    ArgumentError.checkNotNull(reviewOwner, 'reviewOwner');
     ArgumentError.checkNotNull(workloadName, 'workloadName');
     final $payload = <String, dynamic>{
       'Description': description,
       'Environment': environment.toValue(),
       'Lenses': lenses,
-      'ReviewOwner': reviewOwner,
       'WorkloadName': workloadName,
       if (accountIds != null) 'AccountIds': accountIds,
       if (architecturalDesign != null)
@@ -254,6 +252,7 @@ class WellArchitected {
       if (nonAwsRegions != null) 'NonAwsRegions': nonAwsRegions,
       if (notes != null) 'Notes': notes,
       if (pillarPriorities != null) 'PillarPriorities': pillarPriorities,
+      if (reviewOwner != null) 'ReviewOwner': reviewOwner,
       if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
@@ -964,6 +963,7 @@ class WellArchitected {
     int? maxResults,
     String? nextToken,
     String? sharedWithPrefix,
+    ShareStatus? status,
   }) async {
     ArgumentError.checkNotNull(lensAlias, 'lensAlias');
     _s.validateNumRange(
@@ -976,6 +976,7 @@ class WellArchitected {
       if (maxResults != null) 'MaxResults': [maxResults.toString()],
       if (nextToken != null) 'NextToken': [nextToken],
       if (sharedWithPrefix != null) 'SharedWithPrefix': [sharedWithPrefix],
+      if (status != null) 'Status': [status.toValue()],
     };
     final response = await _protocol.send(
       payload: null,
@@ -1145,6 +1146,10 @@ class WellArchitected {
   }
 
   /// List the tags for a resource.
+  /// <note>
+  /// The WorkloadArn parameter can be either a workload ARN or a custom lens
+  /// ARN.
+  /// </note>
   ///
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
@@ -1180,6 +1185,7 @@ class WellArchitected {
     int? maxResults,
     String? nextToken,
     String? sharedWithPrefix,
+    ShareStatus? status,
   }) async {
     ArgumentError.checkNotNull(workloadId, 'workloadId');
     _s.validateNumRange(
@@ -1192,6 +1198,7 @@ class WellArchitected {
       if (maxResults != null) 'MaxResults': [maxResults.toString()],
       if (nextToken != null) 'NextToken': [nextToken],
       if (sharedWithPrefix != null) 'SharedWithPrefix': [sharedWithPrefix],
+      if (status != null) 'Status': [status.toValue()],
     };
     final response = await _protocol.send(
       payload: null,
@@ -1238,6 +1245,10 @@ class WellArchitected {
   }
 
   /// Adds one or more tags to the specified resource.
+  /// <note>
+  /// The WorkloadArn parameter can be either a workload ARN or a custom lens
+  /// ARN.
+  /// </note>
   ///
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
@@ -1262,7 +1273,10 @@ class WellArchitected {
   }
 
   /// Deletes specified tags from a resource.
-  ///
+  /// <note>
+  /// The WorkloadArn parameter can be either a workload ARN or a custom lens
+  /// ARN.
+  /// </note>
   /// To specify multiple tags, use separate <b>tagKeys</b> parameters, for
   /// example:
   ///
@@ -1335,6 +1349,32 @@ class WellArchitected {
       exceptionFnMap: _exceptionFns,
     );
     return UpdateAnswerOutput.fromJson(response);
+  }
+
+  /// Updates whether the Amazon Web Services account is opted into organization
+  /// sharing features.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [organizationSharingStatus] :
+  /// The status of organization sharing settings.
+  Future<void> updateGlobalSettings({
+    OrganizationSharingStatus? organizationSharingStatus,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (organizationSharingStatus != null)
+        'OrganizationSharingStatus': organizationSharingStatus.toValue(),
+    };
+    await _protocol.send(
+      payload: $payload,
+      method: 'PATCH',
+      requestUri: '/global-settings',
+      exceptionFnMap: _exceptionFns,
+    );
   }
 
   /// Update lens review.
@@ -1515,6 +1555,68 @@ class WellArchitected {
           '/workloads/${Uri.encodeComponent(workloadId)}/lensReviews/${Uri.encodeComponent(lensAlias)}/upgrade',
       exceptionFnMap: _exceptionFns,
     );
+  }
+}
+
+enum AdditionalResourceType {
+  helpfulResource,
+  improvementPlan,
+}
+
+extension on AdditionalResourceType {
+  String toValue() {
+    switch (this) {
+      case AdditionalResourceType.helpfulResource:
+        return 'HELPFUL_RESOURCE';
+      case AdditionalResourceType.improvementPlan:
+        return 'IMPROVEMENT_PLAN';
+    }
+  }
+}
+
+extension on String {
+  AdditionalResourceType toAdditionalResourceType() {
+    switch (this) {
+      case 'HELPFUL_RESOURCE':
+        return AdditionalResourceType.helpfulResource;
+      case 'IMPROVEMENT_PLAN':
+        return AdditionalResourceType.improvementPlan;
+    }
+    throw Exception('$this is not known in enum AdditionalResourceType');
+  }
+}
+
+/// The choice level additional resources.
+class AdditionalResources {
+  /// The URLs for additional resources, either helpful resources or improvement
+  /// plans. Up to five additional URLs can be specified.
+  final List<ChoiceContent>? content;
+
+  /// Type of additional resource.
+  final AdditionalResourceType? type;
+
+  AdditionalResources({
+    this.content,
+    this.type,
+  });
+
+  factory AdditionalResources.fromJson(Map<String, dynamic> json) {
+    return AdditionalResources(
+      content: (json['Content'] as List?)
+          ?.whereNotNull()
+          .map((e) => ChoiceContent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      type: (json['Type'] as String?)?.toAdditionalResourceType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final content = this.content;
+    final type = this.type;
+    return {
+      if (content != null) 'Content': content,
+      if (type != null) 'Type': type.toValue(),
+    };
   }
 }
 
@@ -1741,6 +1843,10 @@ class AnswerSummary {
 
 /// A choice available to answer question.
 class Choice {
+  /// The additional resources for a choice. A choice can have up to two
+  /// additional resources: one of type <code>HELPFUL_RESOURCE</code>, one of type
+  /// <code>IMPROVEMENT_PLAN</code>, or both.
+  final List<AdditionalResources>? additionalResources;
   final String? choiceId;
   final String? description;
 
@@ -1752,6 +1858,7 @@ class Choice {
   final String? title;
 
   Choice({
+    this.additionalResources,
     this.choiceId,
     this.description,
     this.helpfulResource,
@@ -1761,6 +1868,10 @@ class Choice {
 
   factory Choice.fromJson(Map<String, dynamic> json) {
     return Choice(
+      additionalResources: (json['AdditionalResources'] as List?)
+          ?.whereNotNull()
+          .map((e) => AdditionalResources.fromJson(e as Map<String, dynamic>))
+          .toList(),
       choiceId: json['ChoiceId'] as String?,
       description: json['Description'] as String?,
       helpfulResource: json['HelpfulResource'] != null
@@ -1776,12 +1887,15 @@ class Choice {
   }
 
   Map<String, dynamic> toJson() {
+    final additionalResources = this.additionalResources;
     final choiceId = this.choiceId;
     final description = this.description;
     final helpfulResource = this.helpfulResource;
     final improvementPlan = this.improvementPlan;
     final title = this.title;
     return {
+      if (additionalResources != null)
+        'AdditionalResources': additionalResources,
       if (choiceId != null) 'ChoiceId': choiceId,
       if (description != null) 'Description': description,
       if (helpfulResource != null) 'HelpfulResource': helpfulResource,
@@ -2612,6 +2726,9 @@ class Lens {
   /// The ID assigned to the share invitation.
   final String? shareInvitationId;
 
+  /// The tags assigned to the lens.
+  final Map<String, String>? tags;
+
   Lens({
     this.description,
     this.lensArn,
@@ -2619,6 +2736,7 @@ class Lens {
     this.name,
     this.owner,
     this.shareInvitationId,
+    this.tags,
   });
 
   factory Lens.fromJson(Map<String, dynamic> json) {
@@ -2629,6 +2747,8 @@ class Lens {
       name: json['Name'] as String?,
       owner: json['Owner'] as String?,
       shareInvitationId: json['ShareInvitationId'] as String?,
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
     );
   }
 
@@ -2639,6 +2759,7 @@ class Lens {
     final name = this.name;
     final owner = this.owner;
     final shareInvitationId = this.shareInvitationId;
+    final tags = this.tags;
     return {
       if (description != null) 'Description': description,
       if (lensArn != null) 'LensArn': lensArn,
@@ -2646,6 +2767,7 @@ class Lens {
       if (name != null) 'Name': name,
       if (owner != null) 'Owner': owner,
       if (shareInvitationId != null) 'ShareInvitationId': shareInvitationId,
+      if (tags != null) 'Tags': tags,
     };
   }
 }
@@ -2829,10 +2951,14 @@ class LensShareSummary {
   final String? sharedWith;
   final ShareStatus? status;
 
+  /// Optional message to compliment the Status field.
+  final String? statusMessage;
+
   LensShareSummary({
     this.shareId,
     this.sharedWith,
     this.status,
+    this.statusMessage,
   });
 
   factory LensShareSummary.fromJson(Map<String, dynamic> json) {
@@ -2840,6 +2966,7 @@ class LensShareSummary {
       shareId: json['ShareId'] as String?,
       sharedWith: json['SharedWith'] as String?,
       status: (json['Status'] as String?)?.toShareStatus(),
+      statusMessage: json['StatusMessage'] as String?,
     );
   }
 
@@ -2847,10 +2974,12 @@ class LensShareSummary {
     final shareId = this.shareId;
     final sharedWith = this.sharedWith;
     final status = this.status;
+    final statusMessage = this.statusMessage;
     return {
       if (shareId != null) 'ShareId': shareId,
       if (sharedWith != null) 'SharedWith': sharedWith,
       if (status != null) 'Status': status.toValue(),
+      if (statusMessage != null) 'StatusMessage': statusMessage,
     };
   }
 }
@@ -3627,6 +3756,34 @@ extension on String {
   }
 }
 
+enum OrganizationSharingStatus {
+  enabled,
+  disabled,
+}
+
+extension on OrganizationSharingStatus {
+  String toValue() {
+    switch (this) {
+      case OrganizationSharingStatus.enabled:
+        return 'ENABLED';
+      case OrganizationSharingStatus.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension on String {
+  OrganizationSharingStatus toOrganizationSharingStatus() {
+    switch (this) {
+      case 'ENABLED':
+        return OrganizationSharingStatus.enabled;
+      case 'DISABLED':
+        return OrganizationSharingStatus.disabled;
+    }
+    throw Exception('$this is not known in enum OrganizationSharingStatus');
+  }
+}
+
 /// Permission granted on a workload share.
 enum PermissionType {
   readonly,
@@ -4003,6 +4160,9 @@ enum ShareStatus {
   pending,
   revoked,
   expired,
+  associating,
+  associated,
+  failed,
 }
 
 extension on ShareStatus {
@@ -4018,6 +4178,12 @@ extension on ShareStatus {
         return 'REVOKED';
       case ShareStatus.expired:
         return 'EXPIRED';
+      case ShareStatus.associating:
+        return 'ASSOCIATING';
+      case ShareStatus.associated:
+        return 'ASSOCIATED';
+      case ShareStatus.failed:
+        return 'FAILED';
     }
   }
 }
@@ -4035,6 +4201,12 @@ extension on String {
         return ShareStatus.revoked;
       case 'EXPIRED':
         return ShareStatus.expired;
+      case 'ASSOCIATING':
+        return ShareStatus.associating;
+      case 'ASSOCIATED':
+        return ShareStatus.associated;
+      case 'FAILED':
+        return ShareStatus.failed;
     }
     throw Exception('$this is not known in enum ShareStatus');
   }
@@ -4539,11 +4711,15 @@ class WorkloadShareSummary {
   final String? sharedWith;
   final ShareStatus? status;
 
+  /// Optional message to compliment the Status field.
+  final String? statusMessage;
+
   WorkloadShareSummary({
     this.permissionType,
     this.shareId,
     this.sharedWith,
     this.status,
+    this.statusMessage,
   });
 
   factory WorkloadShareSummary.fromJson(Map<String, dynamic> json) {
@@ -4552,6 +4728,7 @@ class WorkloadShareSummary {
       shareId: json['ShareId'] as String?,
       sharedWith: json['SharedWith'] as String?,
       status: (json['Status'] as String?)?.toShareStatus(),
+      statusMessage: json['StatusMessage'] as String?,
     );
   }
 
@@ -4560,11 +4737,13 @@ class WorkloadShareSummary {
     final shareId = this.shareId;
     final sharedWith = this.sharedWith;
     final status = this.status;
+    final statusMessage = this.statusMessage;
     return {
       if (permissionType != null) 'PermissionType': permissionType.toValue(),
       if (shareId != null) 'ShareId': shareId,
       if (sharedWith != null) 'SharedWith': sharedWith,
       if (status != null) 'Status': status.toValue(),
+      if (statusMessage != null) 'StatusMessage': statusMessage,
     };
   }
 }

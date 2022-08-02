@@ -85,7 +85,8 @@ class Appflow {
   /// account. There is a soft quota of 100 connector profiles per Amazon Web
   /// Services account. If you need more connector profiles than this quota
   /// allows, you can submit a request to the Amazon AppFlow team through the
-  /// Amazon AppFlow support channel.
+  /// Amazon AppFlow support channel. In each connector profile that you create,
+  /// you can provide the credentials and properties for only one connector.
   ///
   /// May throw [ValidationException].
   /// May throw [ConflictException].
@@ -109,6 +110,11 @@ class Appflow {
   /// Parameter [connectorType] :
   /// The type of connector, such as Salesforce, Amplitude, and so on.
   ///
+  /// Parameter [connectorLabel] :
+  /// The label of the connector. The label is unique for each
+  /// <code>ConnectorRegistration</code> in your Amazon Web Services account.
+  /// Only needed if calling for CUSTOMCONNECTOR connector type/.
+  ///
   /// Parameter [kmsArn] :
   /// The ARN (Amazon Resource Name) of the Key Management Service (KMS) key you
   /// provide for encryption. This is required if you do not want to use the
@@ -119,6 +125,7 @@ class Appflow {
     required ConnectorProfileConfig connectorProfileConfig,
     required String connectorProfileName,
     required ConnectorType connectorType,
+    String? connectorLabel,
     String? kmsArn,
   }) async {
     ArgumentError.checkNotNull(connectionMode, 'connectionMode');
@@ -131,6 +138,7 @@ class Appflow {
       'connectorProfileConfig': connectorProfileConfig,
       'connectorProfileName': connectorProfileName,
       'connectorType': connectorType.toValue(),
+      if (connectorLabel != null) 'connectorLabel': connectorLabel,
       if (kmsArn != null) 'kmsArn': kmsArn,
     };
     final response = await _protocol.send(
@@ -283,8 +291,42 @@ class Appflow {
     );
   }
 
+  /// Describes the given custom connector registered in your Amazon Web
+  /// Services account. This API can be used for custom connectors that are
+  /// registered in your account and also for Amazon authored connectors.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [connectorType] :
+  /// The connector type, such as CUSTOMCONNECTOR, Saleforce, Marketo. Please
+  /// choose CUSTOMCONNECTOR for Lambda based custom connectors.
+  ///
+  /// Parameter [connectorLabel] :
+  /// The label of the connector. The label is unique for each
+  /// <code>ConnectorRegistration</code> in your Amazon Web Services account.
+  /// Only needed if calling for CUSTOMCONNECTOR connector type/.
+  Future<DescribeConnectorResponse> describeConnector({
+    required ConnectorType connectorType,
+    String? connectorLabel,
+  }) async {
+    ArgumentError.checkNotNull(connectorType, 'connectorType');
+    final $payload = <String, dynamic>{
+      'connectorType': connectorType.toValue(),
+      if (connectorLabel != null) 'connectorLabel': connectorLabel,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/describe-connector',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeConnectorResponse.fromJson(response);
+  }
+
   /// Provides details regarding the entity used with the connector, with a
-  /// description of the data model for each entity.
+  /// description of the data model for each field in that entity.
   ///
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
@@ -295,6 +337,9 @@ class Appflow {
   /// Parameter [connectorEntityName] :
   /// The entity name for that connector.
   ///
+  /// Parameter [apiVersion] :
+  /// The version of the API that's used by the connector.
+  ///
   /// Parameter [connectorProfileName] :
   /// The name of the connector profile. The name is unique for each
   /// <code>ConnectorProfile</code> in the Amazon Web Services account.
@@ -304,12 +349,14 @@ class Appflow {
   /// on.
   Future<DescribeConnectorEntityResponse> describeConnectorEntity({
     required String connectorEntityName,
+    String? apiVersion,
     String? connectorProfileName,
     ConnectorType? connectorType,
   }) async {
     ArgumentError.checkNotNull(connectorEntityName, 'connectorEntityName');
     final $payload = <String, dynamic>{
       'connectorEntityName': connectorEntityName,
+      if (apiVersion != null) 'apiVersion': apiVersion,
       if (connectorProfileName != null)
         'connectorProfileName': connectorProfileName,
       if (connectorType != null) 'connectorType': connectorType.toValue(),
@@ -335,6 +382,11 @@ class Appflow {
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
   ///
+  /// Parameter [connectorLabel] :
+  /// The name of the connector. The name is unique for each
+  /// <code>ConnectorRegistration</code> in your Amazon Web Services account.
+  /// Only needed if calling for CUSTOMCONNECTOR connector type/.
+  ///
   /// Parameter [connectorProfileNames] :
   /// The name of the connector profile. The name is unique for each
   /// <code>ConnectorProfile</code> in the Amazon Web Services account.
@@ -350,6 +402,7 @@ class Appflow {
   /// Parameter [nextToken] :
   /// The pagination token for the next page of data.
   Future<DescribeConnectorProfilesResponse> describeConnectorProfiles({
+    String? connectorLabel,
     List<String>? connectorProfileNames,
     ConnectorType? connectorType,
     int? maxResults,
@@ -362,6 +415,7 @@ class Appflow {
       100,
     );
     final $payload = <String, dynamic>{
+      if (connectorLabel != null) 'connectorLabel': connectorLabel,
       if (connectorProfileNames != null)
         'connectorProfileNames': connectorProfileNames,
       if (connectorType != null) 'connectorType': connectorType.toValue(),
@@ -390,15 +444,27 @@ class Appflow {
   /// Parameter [connectorTypes] :
   /// The type of connector, such as Salesforce, Amplitude, and so on.
   ///
+  /// Parameter [maxResults] :
+  /// The maximum number of items that should be returned in the result set. The
+  /// default is 20.
+  ///
   /// Parameter [nextToken] :
   /// The pagination token for the next page of data.
   Future<DescribeConnectorsResponse> describeConnectors({
     List<ConnectorType>? connectorTypes,
+    int? maxResults,
     String? nextToken,
   }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
     final $payload = <String, dynamic>{
       if (connectorTypes != null)
         'connectorTypes': connectorTypes.map((e) => e.toValue()).toList(),
+      if (maxResults != null) 'maxResults': maxResults,
       if (nextToken != null) 'nextToken': nextToken,
     };
     final response = await _protocol.send(
@@ -488,6 +554,9 @@ class Appflow {
   /// May throw [ConnectorServerException].
   /// May throw [InternalServerException].
   ///
+  /// Parameter [apiVersion] :
+  /// The version of the API that's used by the connector.
+  ///
   /// Parameter [connectorProfileName] :
   /// The name of the connector profile. The name is unique for each
   /// <code>ConnectorProfile</code> in the Amazon Web Services account, and is
@@ -504,11 +573,13 @@ class Appflow {
   /// different roots, this initial request returns the list of roots.
   /// Otherwise, this request returns all entities supported by the provider.
   Future<ListConnectorEntitiesResponse> listConnectorEntities({
+    String? apiVersion,
     String? connectorProfileName,
     ConnectorType? connectorType,
     String? entitiesPath,
   }) async {
     final $payload = <String, dynamic>{
+      if (apiVersion != null) 'apiVersion': apiVersion,
       if (connectorProfileName != null)
         'connectorProfileName': connectorProfileName,
       if (connectorType != null) 'connectorType': connectorType.toValue(),
@@ -521,6 +592,43 @@ class Appflow {
       exceptionFnMap: _exceptionFns,
     );
     return ListConnectorEntitiesResponse.fromJson(response);
+  }
+
+  /// Returns the list of all registered custom connectors in your Amazon Web
+  /// Services account. This API lists only custom connectors registered in this
+  /// account, not the Amazon Web Services authored connectors.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [maxResults] :
+  /// Specifies the maximum number of items that should be returned in the
+  /// result set. The default for <code>maxResults</code> is 20 (for all
+  /// paginated API operations).
+  ///
+  /// Parameter [nextToken] :
+  /// The pagination token for the next page of data.
+  Future<ListConnectorsResponse> listConnectors({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $payload = <String, dynamic>{
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/list-connectors',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListConnectorsResponse.fromJson(response);
   }
 
   /// Lists all of the flows associated with your account.
@@ -576,6 +684,56 @@ class Appflow {
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourceResponse.fromJson(response);
+  }
+
+  /// Registers a new connector with your Amazon Web Services account. Before
+  /// you can register the connector, you must deploy lambda in your account.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ConflictException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  /// May throw [ConnectorServerException].
+  /// May throw [ConnectorAuthenticationException].
+  ///
+  /// Parameter [connectorLabel] :
+  /// The name of the connector. The name is unique for each
+  /// <code>ConnectorRegistration</code> in your Amazon Web Services account.
+  ///
+  /// Parameter [connectorProvisioningConfig] :
+  /// The provisioning type of the connector. Currently the only supported value
+  /// is LAMBDA.
+  ///
+  /// Parameter [connectorProvisioningType] :
+  /// The provisioning type of the connector. Currently the only supported value
+  /// is LAMBDA.
+  ///
+  /// Parameter [description] :
+  /// A description about the connector that's being registered.
+  Future<RegisterConnectorResponse> registerConnector({
+    String? connectorLabel,
+    ConnectorProvisioningConfig? connectorProvisioningConfig,
+    ConnectorProvisioningType? connectorProvisioningType,
+    String? description,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (connectorLabel != null) 'connectorLabel': connectorLabel,
+      if (connectorProvisioningConfig != null)
+        'connectorProvisioningConfig': connectorProvisioningConfig,
+      if (connectorProvisioningType != null)
+        'connectorProvisioningType': connectorProvisioningType.toValue(),
+      if (description != null) 'description': description,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/register-connector',
+      exceptionFnMap: _exceptionFns,
+    );
+    return RegisterConnectorResponse.fromJson(response);
   }
 
   /// Activates an existing flow. For on-demand flows, this operation runs the
@@ -658,6 +816,38 @@ class Appflow {
       payload: $payload,
       method: 'POST',
       requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Unregisters the custom connector registered in your account that matches
+  /// the connectorLabel provided in the request.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [connectorLabel] :
+  /// The label of the connector. The label is unique for each
+  /// <code>ConnectorRegistration</code> in your Amazon Web Services account.
+  ///
+  /// Parameter [forceDelete] :
+  /// Indicates whether Amazon AppFlow should unregister the connector, even if
+  /// it is currently in use in one or more connector profiles. The default
+  /// value is false.
+  Future<void> unregisterConnector({
+    required String connectorLabel,
+    bool? forceDelete,
+  }) async {
+    ArgumentError.checkNotNull(connectorLabel, 'connectorLabel');
+    final $payload = <String, dynamic>{
+      'connectorLabel': connectorLabel,
+      if (forceDelete != null) 'forceDelete': forceDelete,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/unregister-connector',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -949,6 +1139,205 @@ class AmplitudeSourceProperties {
   }
 }
 
+/// The API key credentials required for API key authentication.
+class ApiKeyCredentials {
+  /// The API key required for API key authentication.
+  final String apiKey;
+
+  /// The API secret key required for API key authentication.
+  final String? apiSecretKey;
+
+  ApiKeyCredentials({
+    required this.apiKey,
+    this.apiSecretKey,
+  });
+
+  factory ApiKeyCredentials.fromJson(Map<String, dynamic> json) {
+    return ApiKeyCredentials(
+      apiKey: json['apiKey'] as String,
+      apiSecretKey: json['apiSecretKey'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final apiKey = this.apiKey;
+    final apiSecretKey = this.apiSecretKey;
+    return {
+      'apiKey': apiKey,
+      if (apiSecretKey != null) 'apiSecretKey': apiSecretKey,
+    };
+  }
+}
+
+/// Information about required authentication parameters.
+class AuthParameter {
+  /// Contains default values for this authentication parameter that are supplied
+  /// by the connector.
+  final List<String>? connectorSuppliedValues;
+
+  /// A description about the authentication parameter.
+  final String? description;
+
+  /// Indicates whether this authentication parameter is required.
+  final bool? isRequired;
+
+  /// Indicates whether this authentication parameter is a sensitive field.
+  final bool? isSensitiveField;
+
+  /// The authentication key required to authenticate with the connector.
+  final String? key;
+
+  /// Label used for authentication parameter.
+  final String? label;
+
+  AuthParameter({
+    this.connectorSuppliedValues,
+    this.description,
+    this.isRequired,
+    this.isSensitiveField,
+    this.key,
+    this.label,
+  });
+
+  factory AuthParameter.fromJson(Map<String, dynamic> json) {
+    return AuthParameter(
+      connectorSuppliedValues: (json['connectorSuppliedValues'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      description: json['description'] as String?,
+      isRequired: json['isRequired'] as bool?,
+      isSensitiveField: json['isSensitiveField'] as bool?,
+      key: json['key'] as String?,
+      label: json['label'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectorSuppliedValues = this.connectorSuppliedValues;
+    final description = this.description;
+    final isRequired = this.isRequired;
+    final isSensitiveField = this.isSensitiveField;
+    final key = this.key;
+    final label = this.label;
+    return {
+      if (connectorSuppliedValues != null)
+        'connectorSuppliedValues': connectorSuppliedValues,
+      if (description != null) 'description': description,
+      if (isRequired != null) 'isRequired': isRequired,
+      if (isSensitiveField != null) 'isSensitiveField': isSensitiveField,
+      if (key != null) 'key': key,
+      if (label != null) 'label': label,
+    };
+  }
+}
+
+/// Contains information about the authentication config that the connector
+/// supports.
+class AuthenticationConfig {
+  /// Contains information required for custom authentication.
+  final List<CustomAuthConfig>? customAuthConfigs;
+
+  /// Indicates whether API key authentication is supported by the connector
+  final bool? isApiKeyAuthSupported;
+
+  /// Indicates whether basic authentication is supported by the connector.
+  final bool? isBasicAuthSupported;
+
+  /// Indicates whether custom authentication is supported by the connector
+  final bool? isCustomAuthSupported;
+
+  /// Indicates whether OAuth 2.0 authentication is supported by the connector.
+  final bool? isOAuth2Supported;
+
+  /// Contains the default values required for OAuth 2.0 authentication.
+  final OAuth2Defaults? oAuth2Defaults;
+
+  AuthenticationConfig({
+    this.customAuthConfigs,
+    this.isApiKeyAuthSupported,
+    this.isBasicAuthSupported,
+    this.isCustomAuthSupported,
+    this.isOAuth2Supported,
+    this.oAuth2Defaults,
+  });
+
+  factory AuthenticationConfig.fromJson(Map<String, dynamic> json) {
+    return AuthenticationConfig(
+      customAuthConfigs: (json['customAuthConfigs'] as List?)
+          ?.whereNotNull()
+          .map((e) => CustomAuthConfig.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      isApiKeyAuthSupported: json['isApiKeyAuthSupported'] as bool?,
+      isBasicAuthSupported: json['isBasicAuthSupported'] as bool?,
+      isCustomAuthSupported: json['isCustomAuthSupported'] as bool?,
+      isOAuth2Supported: json['isOAuth2Supported'] as bool?,
+      oAuth2Defaults: json['oAuth2Defaults'] != null
+          ? OAuth2Defaults.fromJson(
+              json['oAuth2Defaults'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final customAuthConfigs = this.customAuthConfigs;
+    final isApiKeyAuthSupported = this.isApiKeyAuthSupported;
+    final isBasicAuthSupported = this.isBasicAuthSupported;
+    final isCustomAuthSupported = this.isCustomAuthSupported;
+    final isOAuth2Supported = this.isOAuth2Supported;
+    final oAuth2Defaults = this.oAuth2Defaults;
+    return {
+      if (customAuthConfigs != null) 'customAuthConfigs': customAuthConfigs,
+      if (isApiKeyAuthSupported != null)
+        'isApiKeyAuthSupported': isApiKeyAuthSupported,
+      if (isBasicAuthSupported != null)
+        'isBasicAuthSupported': isBasicAuthSupported,
+      if (isCustomAuthSupported != null)
+        'isCustomAuthSupported': isCustomAuthSupported,
+      if (isOAuth2Supported != null) 'isOAuth2Supported': isOAuth2Supported,
+      if (oAuth2Defaults != null) 'oAuth2Defaults': oAuth2Defaults,
+    };
+  }
+}
+
+enum AuthenticationType {
+  oauth2,
+  apikey,
+  basic,
+  custom,
+}
+
+extension on AuthenticationType {
+  String toValue() {
+    switch (this) {
+      case AuthenticationType.oauth2:
+        return 'OAUTH2';
+      case AuthenticationType.apikey:
+        return 'APIKEY';
+      case AuthenticationType.basic:
+        return 'BASIC';
+      case AuthenticationType.custom:
+        return 'CUSTOM';
+    }
+  }
+}
+
+extension on String {
+  AuthenticationType toAuthenticationType() {
+    switch (this) {
+      case 'OAUTH2':
+        return AuthenticationType.oauth2;
+      case 'APIKEY':
+        return AuthenticationType.apikey;
+      case 'BASIC':
+        return AuthenticationType.basic;
+      case 'CUSTOM':
+        return AuthenticationType.custom;
+    }
+    throw Exception('$this is not known in enum AuthenticationType');
+  }
+}
+
 /// The basic auth credentials required for basic authentication.
 class BasicAuthCredentials {
   /// The password to use to connect to a resource.
@@ -1009,16 +1398,52 @@ extension on String {
 
 /// The configuration settings related to a given connector.
 class ConnectorConfiguration {
+  /// The authentication config required for the connector.
+  final AuthenticationConfig? authenticationConfig;
+
   /// Specifies whether the connector can be used as a destination.
   final bool? canUseAsDestination;
 
   /// Specifies whether the connector can be used as a source.
   final bool? canUseAsSource;
 
+  /// The Amazon Resource Name (ARN) for the registered connector.
+  final String? connectorArn;
+
+  /// A description about the connector.
+  final String? connectorDescription;
+
+  /// The label used for registering the connector.
+  final String? connectorLabel;
+
   /// Specifies connector-specific metadata such as <code>oAuthScopes</code>,
   /// <code>supportedRegions</code>, <code>privateLinkServiceUrl</code>, and so
   /// on.
   final ConnectorMetadata? connectorMetadata;
+
+  /// The connection modes that the connector supports.
+  final List<String>? connectorModes;
+
+  /// The connector name.
+  final String? connectorName;
+
+  /// The owner who developed the connector.
+  final String? connectorOwner;
+
+  /// The configuration required for registering the connector.
+  final ConnectorProvisioningConfig? connectorProvisioningConfig;
+
+  /// The provisioning type used to register the connector.
+  final ConnectorProvisioningType? connectorProvisioningType;
+
+  /// The required connector runtime settings.
+  final List<ConnectorRuntimeSetting>? connectorRuntimeSettings;
+
+  /// The connector type.
+  final ConnectorType? connectorType;
+
+  /// The connector version.
+  final String? connectorVersion;
 
   /// Specifies if PrivateLink is enabled for that connector.
   final bool? isPrivateLinkEnabled;
@@ -1026,8 +1451,23 @@ class ConnectorConfiguration {
   /// Specifies if a PrivateLink endpoint URL is required.
   final bool? isPrivateLinkEndpointUrlRequired;
 
+  /// Logo URL of the connector.
+  final String? logoURL;
+
+  /// The date on which the connector was registered.
+  final DateTime? registeredAt;
+
+  /// Information about who registered the connector.
+  final String? registeredBy;
+
+  /// A list of API versions that are supported by the connector.
+  final List<String>? supportedApiVersions;
+
   /// Lists the connectors that are available for use as destinations.
   final List<ConnectorType>? supportedDestinationConnectors;
+
+  /// A list of operators supported by the connector.
+  final List<Operators>? supportedOperators;
 
   /// Specifies the supported flow frequency for that connector.
   final List<ScheduleFrequencyType>? supportedSchedulingFrequencies;
@@ -1035,33 +1475,91 @@ class ConnectorConfiguration {
   /// Specifies the supported trigger types for the flow.
   final List<TriggerType>? supportedTriggerTypes;
 
+  /// A list of write operations supported by the connector.
+  final List<WriteOperationType>? supportedWriteOperations;
+
   ConnectorConfiguration({
+    this.authenticationConfig,
     this.canUseAsDestination,
     this.canUseAsSource,
+    this.connectorArn,
+    this.connectorDescription,
+    this.connectorLabel,
     this.connectorMetadata,
+    this.connectorModes,
+    this.connectorName,
+    this.connectorOwner,
+    this.connectorProvisioningConfig,
+    this.connectorProvisioningType,
+    this.connectorRuntimeSettings,
+    this.connectorType,
+    this.connectorVersion,
     this.isPrivateLinkEnabled,
     this.isPrivateLinkEndpointUrlRequired,
+    this.logoURL,
+    this.registeredAt,
+    this.registeredBy,
+    this.supportedApiVersions,
     this.supportedDestinationConnectors,
+    this.supportedOperators,
     this.supportedSchedulingFrequencies,
     this.supportedTriggerTypes,
+    this.supportedWriteOperations,
   });
 
   factory ConnectorConfiguration.fromJson(Map<String, dynamic> json) {
     return ConnectorConfiguration(
+      authenticationConfig: json['authenticationConfig'] != null
+          ? AuthenticationConfig.fromJson(
+              json['authenticationConfig'] as Map<String, dynamic>)
+          : null,
       canUseAsDestination: json['canUseAsDestination'] as bool?,
       canUseAsSource: json['canUseAsSource'] as bool?,
+      connectorArn: json['connectorArn'] as String?,
+      connectorDescription: json['connectorDescription'] as String?,
+      connectorLabel: json['connectorLabel'] as String?,
       connectorMetadata: json['connectorMetadata'] != null
           ? ConnectorMetadata.fromJson(
               json['connectorMetadata'] as Map<String, dynamic>)
           : null,
+      connectorModes: (json['connectorModes'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      connectorName: json['connectorName'] as String?,
+      connectorOwner: json['connectorOwner'] as String?,
+      connectorProvisioningConfig: json['connectorProvisioningConfig'] != null
+          ? ConnectorProvisioningConfig.fromJson(
+              json['connectorProvisioningConfig'] as Map<String, dynamic>)
+          : null,
+      connectorProvisioningType: (json['connectorProvisioningType'] as String?)
+          ?.toConnectorProvisioningType(),
+      connectorRuntimeSettings: (json['connectorRuntimeSettings'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ConnectorRuntimeSetting.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      connectorType: (json['connectorType'] as String?)?.toConnectorType(),
+      connectorVersion: json['connectorVersion'] as String?,
       isPrivateLinkEnabled: json['isPrivateLinkEnabled'] as bool?,
       isPrivateLinkEndpointUrlRequired:
           json['isPrivateLinkEndpointUrlRequired'] as bool?,
+      logoURL: json['logoURL'] as String?,
+      registeredAt: timeStampFromJson(json['registeredAt']),
+      registeredBy: json['registeredBy'] as String?,
+      supportedApiVersions: (json['supportedApiVersions'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
       supportedDestinationConnectors:
           (json['supportedDestinationConnectors'] as List?)
               ?.whereNotNull()
               .map((e) => (e as String).toConnectorType())
               .toList(),
+      supportedOperators: (json['supportedOperators'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toOperators())
+          .toList(),
       supportedSchedulingFrequencies:
           (json['supportedSchedulingFrequencies'] as List?)
               ?.whereNotNull()
@@ -1071,37 +1569,188 @@ class ConnectorConfiguration {
           ?.whereNotNull()
           .map((e) => (e as String).toTriggerType())
           .toList(),
+      supportedWriteOperations: (json['supportedWriteOperations'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toWriteOperationType())
+          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
+    final authenticationConfig = this.authenticationConfig;
     final canUseAsDestination = this.canUseAsDestination;
     final canUseAsSource = this.canUseAsSource;
+    final connectorArn = this.connectorArn;
+    final connectorDescription = this.connectorDescription;
+    final connectorLabel = this.connectorLabel;
     final connectorMetadata = this.connectorMetadata;
+    final connectorModes = this.connectorModes;
+    final connectorName = this.connectorName;
+    final connectorOwner = this.connectorOwner;
+    final connectorProvisioningConfig = this.connectorProvisioningConfig;
+    final connectorProvisioningType = this.connectorProvisioningType;
+    final connectorRuntimeSettings = this.connectorRuntimeSettings;
+    final connectorType = this.connectorType;
+    final connectorVersion = this.connectorVersion;
     final isPrivateLinkEnabled = this.isPrivateLinkEnabled;
     final isPrivateLinkEndpointUrlRequired =
         this.isPrivateLinkEndpointUrlRequired;
+    final logoURL = this.logoURL;
+    final registeredAt = this.registeredAt;
+    final registeredBy = this.registeredBy;
+    final supportedApiVersions = this.supportedApiVersions;
     final supportedDestinationConnectors = this.supportedDestinationConnectors;
+    final supportedOperators = this.supportedOperators;
     final supportedSchedulingFrequencies = this.supportedSchedulingFrequencies;
     final supportedTriggerTypes = this.supportedTriggerTypes;
+    final supportedWriteOperations = this.supportedWriteOperations;
     return {
+      if (authenticationConfig != null)
+        'authenticationConfig': authenticationConfig,
       if (canUseAsDestination != null)
         'canUseAsDestination': canUseAsDestination,
       if (canUseAsSource != null) 'canUseAsSource': canUseAsSource,
+      if (connectorArn != null) 'connectorArn': connectorArn,
+      if (connectorDescription != null)
+        'connectorDescription': connectorDescription,
+      if (connectorLabel != null) 'connectorLabel': connectorLabel,
       if (connectorMetadata != null) 'connectorMetadata': connectorMetadata,
+      if (connectorModes != null) 'connectorModes': connectorModes,
+      if (connectorName != null) 'connectorName': connectorName,
+      if (connectorOwner != null) 'connectorOwner': connectorOwner,
+      if (connectorProvisioningConfig != null)
+        'connectorProvisioningConfig': connectorProvisioningConfig,
+      if (connectorProvisioningType != null)
+        'connectorProvisioningType': connectorProvisioningType.toValue(),
+      if (connectorRuntimeSettings != null)
+        'connectorRuntimeSettings': connectorRuntimeSettings,
+      if (connectorType != null) 'connectorType': connectorType.toValue(),
+      if (connectorVersion != null) 'connectorVersion': connectorVersion,
       if (isPrivateLinkEnabled != null)
         'isPrivateLinkEnabled': isPrivateLinkEnabled,
       if (isPrivateLinkEndpointUrlRequired != null)
         'isPrivateLinkEndpointUrlRequired': isPrivateLinkEndpointUrlRequired,
+      if (logoURL != null) 'logoURL': logoURL,
+      if (registeredAt != null)
+        'registeredAt': unixTimestampToJson(registeredAt),
+      if (registeredBy != null) 'registeredBy': registeredBy,
+      if (supportedApiVersions != null)
+        'supportedApiVersions': supportedApiVersions,
       if (supportedDestinationConnectors != null)
         'supportedDestinationConnectors':
             supportedDestinationConnectors.map((e) => e.toValue()).toList(),
+      if (supportedOperators != null)
+        'supportedOperators':
+            supportedOperators.map((e) => e.toValue()).toList(),
       if (supportedSchedulingFrequencies != null)
         'supportedSchedulingFrequencies':
             supportedSchedulingFrequencies.map((e) => e.toValue()).toList(),
       if (supportedTriggerTypes != null)
         'supportedTriggerTypes':
             supportedTriggerTypes.map((e) => e.toValue()).toList(),
+      if (supportedWriteOperations != null)
+        'supportedWriteOperations':
+            supportedWriteOperations.map((e) => e.toValue()).toList(),
+    };
+  }
+}
+
+/// Information about the registered connector.
+class ConnectorDetail {
+  /// The application type of the connector.
+  final String? applicationType;
+
+  /// A description about the registered connector.
+  final String? connectorDescription;
+
+  /// A label used for the connector.
+  final String? connectorLabel;
+
+  /// The connection mode that the connector supports.
+  final List<String>? connectorModes;
+
+  /// The name of the connector.
+  final String? connectorName;
+
+  /// The owner of the connector.
+  final String? connectorOwner;
+
+  /// The provisioning type that the connector uses.
+  final ConnectorProvisioningType? connectorProvisioningType;
+
+  /// The connector type.
+  final ConnectorType? connectorType;
+
+  /// The connector version.
+  final String? connectorVersion;
+
+  /// The time at which the connector was registered.
+  final DateTime? registeredAt;
+
+  /// The user who registered the connector.
+  final String? registeredBy;
+
+  ConnectorDetail({
+    this.applicationType,
+    this.connectorDescription,
+    this.connectorLabel,
+    this.connectorModes,
+    this.connectorName,
+    this.connectorOwner,
+    this.connectorProvisioningType,
+    this.connectorType,
+    this.connectorVersion,
+    this.registeredAt,
+    this.registeredBy,
+  });
+
+  factory ConnectorDetail.fromJson(Map<String, dynamic> json) {
+    return ConnectorDetail(
+      applicationType: json['applicationType'] as String?,
+      connectorDescription: json['connectorDescription'] as String?,
+      connectorLabel: json['connectorLabel'] as String?,
+      connectorModes: (json['connectorModes'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      connectorName: json['connectorName'] as String?,
+      connectorOwner: json['connectorOwner'] as String?,
+      connectorProvisioningType: (json['connectorProvisioningType'] as String?)
+          ?.toConnectorProvisioningType(),
+      connectorType: (json['connectorType'] as String?)?.toConnectorType(),
+      connectorVersion: json['connectorVersion'] as String?,
+      registeredAt: timeStampFromJson(json['registeredAt']),
+      registeredBy: json['registeredBy'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationType = this.applicationType;
+    final connectorDescription = this.connectorDescription;
+    final connectorLabel = this.connectorLabel;
+    final connectorModes = this.connectorModes;
+    final connectorName = this.connectorName;
+    final connectorOwner = this.connectorOwner;
+    final connectorProvisioningType = this.connectorProvisioningType;
+    final connectorType = this.connectorType;
+    final connectorVersion = this.connectorVersion;
+    final registeredAt = this.registeredAt;
+    final registeredBy = this.registeredBy;
+    return {
+      if (applicationType != null) 'applicationType': applicationType,
+      if (connectorDescription != null)
+        'connectorDescription': connectorDescription,
+      if (connectorLabel != null) 'connectorLabel': connectorLabel,
+      if (connectorModes != null) 'connectorModes': connectorModes,
+      if (connectorName != null) 'connectorName': connectorName,
+      if (connectorOwner != null) 'connectorOwner': connectorOwner,
+      if (connectorProvisioningType != null)
+        'connectorProvisioningType': connectorProvisioningType.toValue(),
+      if (connectorType != null) 'connectorType': connectorType.toValue(),
+      if (connectorVersion != null) 'connectorVersion': connectorVersion,
+      if (registeredAt != null)
+        'registeredAt': unixTimestampToJson(registeredAt),
+      if (registeredBy != null) 'registeredBy': registeredBy,
     };
   }
 }
@@ -1157,6 +1806,12 @@ class ConnectorEntityField {
   /// The unique identifier of the connector field.
   final String identifier;
 
+  /// A map that has specific properties related to the ConnectorEntityField.
+  final Map<String, String>? customProperties;
+
+  /// Default value that can be assigned to this field.
+  final String? defaultValue;
+
   /// A description of the connector entity field.
   final String? description;
 
@@ -1164,8 +1819,18 @@ class ConnectorEntityField {
   /// destination.
   final DestinationFieldProperties? destinationProperties;
 
+  /// Booelan value that indicates whether this field is deprecated or not.
+  final bool? isDeprecated;
+
+  /// Booelan value that indicates whether this field can be used as a primary
+  /// key.
+  final bool? isPrimaryKey;
+
   /// The label applied to a connector entity field.
   final String? label;
+
+  /// The parent identifier of the connector field.
+  final String? parentIdentifier;
 
   /// The properties that can be applied to a field when the connector is being
   /// used as a source.
@@ -1178,9 +1843,14 @@ class ConnectorEntityField {
 
   ConnectorEntityField({
     required this.identifier,
+    this.customProperties,
+    this.defaultValue,
     this.description,
     this.destinationProperties,
+    this.isDeprecated,
+    this.isPrimaryKey,
     this.label,
+    this.parentIdentifier,
     this.sourceProperties,
     this.supportedFieldTypeDetails,
   });
@@ -1188,12 +1858,18 @@ class ConnectorEntityField {
   factory ConnectorEntityField.fromJson(Map<String, dynamic> json) {
     return ConnectorEntityField(
       identifier: json['identifier'] as String,
+      customProperties: (json['customProperties'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      defaultValue: json['defaultValue'] as String?,
       description: json['description'] as String?,
       destinationProperties: json['destinationProperties'] != null
           ? DestinationFieldProperties.fromJson(
               json['destinationProperties'] as Map<String, dynamic>)
           : null,
+      isDeprecated: json['isDeprecated'] as bool?,
+      isPrimaryKey: json['isPrimaryKey'] as bool?,
       label: json['label'] as String?,
+      parentIdentifier: json['parentIdentifier'] as String?,
       sourceProperties: json['sourceProperties'] != null
           ? SourceFieldProperties.fromJson(
               json['sourceProperties'] as Map<String, dynamic>)
@@ -1207,17 +1883,27 @@ class ConnectorEntityField {
 
   Map<String, dynamic> toJson() {
     final identifier = this.identifier;
+    final customProperties = this.customProperties;
+    final defaultValue = this.defaultValue;
     final description = this.description;
     final destinationProperties = this.destinationProperties;
+    final isDeprecated = this.isDeprecated;
+    final isPrimaryKey = this.isPrimaryKey;
     final label = this.label;
+    final parentIdentifier = this.parentIdentifier;
     final sourceProperties = this.sourceProperties;
     final supportedFieldTypeDetails = this.supportedFieldTypeDetails;
     return {
       'identifier': identifier,
+      if (customProperties != null) 'customProperties': customProperties,
+      if (defaultValue != null) 'defaultValue': defaultValue,
       if (description != null) 'description': description,
       if (destinationProperties != null)
         'destinationProperties': destinationProperties,
+      if (isDeprecated != null) 'isDeprecated': isDeprecated,
+      if (isPrimaryKey != null) 'isPrimaryKey': isPrimaryKey,
       if (label != null) 'label': label,
+      if (parentIdentifier != null) 'parentIdentifier': parentIdentifier,
       if (sourceProperties != null) 'sourceProperties': sourceProperties,
       if (supportedFieldTypeDetails != null)
         'supportedFieldTypeDetails': supportedFieldTypeDetails,
@@ -1479,6 +2165,9 @@ class ConnectorOperator {
   /// The operation to be performed on the provided Amplitude source fields.
   final AmplitudeConnectorOperator? amplitude;
 
+  /// Operators supported by the custom connector.
+  final Operator? customConnector;
+
   /// The operation to be performed on the provided Datadog source fields.
   final DatadogConnectorOperator? datadog;
 
@@ -1524,6 +2213,7 @@ class ConnectorOperator {
 
   ConnectorOperator({
     this.amplitude,
+    this.customConnector,
     this.datadog,
     this.dynatrace,
     this.googleAnalytics,
@@ -1543,6 +2233,7 @@ class ConnectorOperator {
   factory ConnectorOperator.fromJson(Map<String, dynamic> json) {
     return ConnectorOperator(
       amplitude: (json['Amplitude'] as String?)?.toAmplitudeConnectorOperator(),
+      customConnector: (json['CustomConnector'] as String?)?.toOperator(),
       datadog: (json['Datadog'] as String?)?.toDatadogConnectorOperator(),
       dynatrace: (json['Dynatrace'] as String?)?.toDynatraceConnectorOperator(),
       googleAnalytics: (json['GoogleAnalytics'] as String?)
@@ -1567,6 +2258,7 @@ class ConnectorOperator {
 
   Map<String, dynamic> toJson() {
     final amplitude = this.amplitude;
+    final customConnector = this.customConnector;
     final datadog = this.datadog;
     final dynatrace = this.dynatrace;
     final googleAnalytics = this.googleAnalytics;
@@ -1583,6 +2275,7 @@ class ConnectorOperator {
     final zendesk = this.zendesk;
     return {
       if (amplitude != null) 'Amplitude': amplitude.toValue(),
+      if (customConnector != null) 'CustomConnector': customConnector.toValue(),
       if (datadog != null) 'Datadog': datadog.toValue(),
       if (dynatrace != null) 'Dynatrace': dynatrace.toValue(),
       if (googleAnalytics != null) 'GoogleAnalytics': googleAnalytics.toValue(),
@@ -1611,6 +2304,9 @@ class ConnectorProfile {
   /// Indicates the connection mode and if it is public or private.
   final ConnectionMode? connectionMode;
 
+  /// The label for the connector profile being created.
+  final String? connectorLabel;
+
   /// The Amazon Resource Name (ARN) of the connector profile.
   final String? connectorProfileArn;
 
@@ -1638,6 +2334,7 @@ class ConnectorProfile {
 
   ConnectorProfile({
     this.connectionMode,
+    this.connectorLabel,
     this.connectorProfileArn,
     this.connectorProfileName,
     this.connectorProfileProperties,
@@ -1651,6 +2348,7 @@ class ConnectorProfile {
   factory ConnectorProfile.fromJson(Map<String, dynamic> json) {
     return ConnectorProfile(
       connectionMode: (json['connectionMode'] as String?)?.toConnectionMode(),
+      connectorLabel: json['connectorLabel'] as String?,
       connectorProfileArn: json['connectorProfileArn'] as String?,
       connectorProfileName: json['connectorProfileName'] as String?,
       connectorProfileProperties: json['connectorProfileProperties'] != null
@@ -1672,6 +2370,7 @@ class ConnectorProfile {
 
   Map<String, dynamic> toJson() {
     final connectionMode = this.connectionMode;
+    final connectorLabel = this.connectorLabel;
     final connectorProfileArn = this.connectorProfileArn;
     final connectorProfileName = this.connectorProfileName;
     final connectorProfileProperties = this.connectorProfileProperties;
@@ -1683,6 +2382,7 @@ class ConnectorProfile {
         this.privateConnectionProvisioningState;
     return {
       if (connectionMode != null) 'connectionMode': connectionMode.toValue(),
+      if (connectorLabel != null) 'connectorLabel': connectorLabel,
       if (connectorProfileArn != null)
         'connectorProfileArn': connectorProfileArn,
       if (connectorProfileName != null)
@@ -1738,6 +2438,7 @@ class ConnectorProfileConfig {
 class ConnectorProfileCredentials {
   /// The connector-specific credentials required when using Amplitude.
   final AmplitudeConnectorProfileCredentials? amplitude;
+  final CustomConnectorProfileCredentials? customConnector;
 
   /// The connector-specific credentials required when using Datadog.
   final DatadogConnectorProfileCredentials? datadog;
@@ -1787,6 +2488,7 @@ class ConnectorProfileCredentials {
 
   ConnectorProfileCredentials({
     this.amplitude,
+    this.customConnector,
     this.datadog,
     this.dynatrace,
     this.googleAnalytics,
@@ -1810,6 +2512,10 @@ class ConnectorProfileCredentials {
       amplitude: json['Amplitude'] != null
           ? AmplitudeConnectorProfileCredentials.fromJson(
               json['Amplitude'] as Map<String, dynamic>)
+          : null,
+      customConnector: json['CustomConnector'] != null
+          ? CustomConnectorProfileCredentials.fromJson(
+              json['CustomConnector'] as Map<String, dynamic>)
           : null,
       datadog: json['Datadog'] != null
           ? DatadogConnectorProfileCredentials.fromJson(
@@ -1880,6 +2586,7 @@ class ConnectorProfileCredentials {
 
   Map<String, dynamic> toJson() {
     final amplitude = this.amplitude;
+    final customConnector = this.customConnector;
     final datadog = this.datadog;
     final dynatrace = this.dynatrace;
     final googleAnalytics = this.googleAnalytics;
@@ -1898,6 +2605,7 @@ class ConnectorProfileCredentials {
     final zendesk = this.zendesk;
     return {
       if (amplitude != null) 'Amplitude': amplitude,
+      if (customConnector != null) 'CustomConnector': customConnector,
       if (datadog != null) 'Datadog': datadog,
       if (dynatrace != null) 'Dynatrace': dynatrace,
       if (googleAnalytics != null) 'GoogleAnalytics': googleAnalytics,
@@ -1922,6 +2630,9 @@ class ConnectorProfileCredentials {
 class ConnectorProfileProperties {
   /// The connector-specific properties required by Amplitude.
   final AmplitudeConnectorProfileProperties? amplitude;
+
+  /// The properties required by the custom connector.
+  final CustomConnectorProfileProperties? customConnector;
 
   /// The connector-specific properties required by Datadog.
   final DatadogConnectorProfileProperties? datadog;
@@ -1971,6 +2682,7 @@ class ConnectorProfileProperties {
 
   ConnectorProfileProperties({
     this.amplitude,
+    this.customConnector,
     this.datadog,
     this.dynatrace,
     this.googleAnalytics,
@@ -1994,6 +2706,10 @@ class ConnectorProfileProperties {
       amplitude: json['Amplitude'] != null
           ? AmplitudeConnectorProfileProperties.fromJson(
               json['Amplitude'] as Map<String, dynamic>)
+          : null,
+      customConnector: json['CustomConnector'] != null
+          ? CustomConnectorProfileProperties.fromJson(
+              json['CustomConnector'] as Map<String, dynamic>)
           : null,
       datadog: json['Datadog'] != null
           ? DatadogConnectorProfileProperties.fromJson(
@@ -2064,6 +2780,7 @@ class ConnectorProfileProperties {
 
   Map<String, dynamic> toJson() {
     final amplitude = this.amplitude;
+    final customConnector = this.customConnector;
     final datadog = this.datadog;
     final dynatrace = this.dynatrace;
     final googleAnalytics = this.googleAnalytics;
@@ -2082,6 +2799,7 @@ class ConnectorProfileProperties {
     final zendesk = this.zendesk;
     return {
       if (amplitude != null) 'Amplitude': amplitude,
+      if (customConnector != null) 'CustomConnector': customConnector,
       if (datadog != null) 'Datadog': datadog,
       if (dynatrace != null) 'Dynatrace': dynatrace,
       if (googleAnalytics != null) 'GoogleAnalytics': googleAnalytics,
@@ -2098,6 +2816,130 @@ class ConnectorProfileProperties {
       if (trendmicro != null) 'Trendmicro': trendmicro,
       if (veeva != null) 'Veeva': veeva,
       if (zendesk != null) 'Zendesk': zendesk,
+    };
+  }
+}
+
+/// Contains information about the configuration of the connector being
+/// registered.
+class ConnectorProvisioningConfig {
+  /// Contains information about the configuration of the lambda which is being
+  /// registered as the connector.
+  final LambdaConnectorProvisioningConfig? lambda;
+
+  ConnectorProvisioningConfig({
+    this.lambda,
+  });
+
+  factory ConnectorProvisioningConfig.fromJson(Map<String, dynamic> json) {
+    return ConnectorProvisioningConfig(
+      lambda: json['lambda'] != null
+          ? LambdaConnectorProvisioningConfig.fromJson(
+              json['lambda'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lambda = this.lambda;
+    return {
+      if (lambda != null) 'lambda': lambda,
+    };
+  }
+}
+
+/// The type of provisioning that the connector supports, such as Lambda.
+enum ConnectorProvisioningType {
+  lambda,
+}
+
+extension on ConnectorProvisioningType {
+  String toValue() {
+    switch (this) {
+      case ConnectorProvisioningType.lambda:
+        return 'LAMBDA';
+    }
+  }
+}
+
+extension on String {
+  ConnectorProvisioningType toConnectorProvisioningType() {
+    switch (this) {
+      case 'LAMBDA':
+        return ConnectorProvisioningType.lambda;
+    }
+    throw Exception('$this is not known in enum ConnectorProvisioningType');
+  }
+}
+
+/// Contains information about the connector runtime settings that are required
+/// for flow execution.
+class ConnectorRuntimeSetting {
+  /// Contains default values for the connector runtime setting that are supplied
+  /// by the connector.
+  final List<String>? connectorSuppliedValueOptions;
+
+  /// Data type of the connector runtime setting.
+  final String? dataType;
+
+  /// A description about the connector runtime setting.
+  final String? description;
+
+  /// Indicates whether this connector runtime setting is required.
+  final bool? isRequired;
+
+  /// Contains value information about the connector runtime setting.
+  final String? key;
+
+  /// A label used for connector runtime setting.
+  final String? label;
+
+  /// Indicates the scope of the connector runtime setting.
+  final String? scope;
+
+  ConnectorRuntimeSetting({
+    this.connectorSuppliedValueOptions,
+    this.dataType,
+    this.description,
+    this.isRequired,
+    this.key,
+    this.label,
+    this.scope,
+  });
+
+  factory ConnectorRuntimeSetting.fromJson(Map<String, dynamic> json) {
+    return ConnectorRuntimeSetting(
+      connectorSuppliedValueOptions:
+          (json['connectorSuppliedValueOptions'] as List?)
+              ?.whereNotNull()
+              .map((e) => e as String)
+              .toList(),
+      dataType: json['dataType'] as String?,
+      description: json['description'] as String?,
+      isRequired: json['isRequired'] as bool?,
+      key: json['key'] as String?,
+      label: json['label'] as String?,
+      scope: json['scope'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectorSuppliedValueOptions = this.connectorSuppliedValueOptions;
+    final dataType = this.dataType;
+    final description = this.description;
+    final isRequired = this.isRequired;
+    final key = this.key;
+    final label = this.label;
+    final scope = this.scope;
+    return {
+      if (connectorSuppliedValueOptions != null)
+        'connectorSuppliedValueOptions': connectorSuppliedValueOptions,
+      if (dataType != null) 'dataType': dataType,
+      if (description != null) 'description': description,
+      if (isRequired != null) 'isRequired': isRequired,
+      if (key != null) 'key': key,
+      if (label != null) 'label': label,
+      if (scope != null) 'scope': scope,
     };
   }
 }
@@ -2125,6 +2967,7 @@ enum ConnectorType {
   honeycode,
   customerProfiles,
   sAPOData,
+  customConnector,
 }
 
 extension on ConnectorType {
@@ -2174,6 +3017,8 @@ extension on ConnectorType {
         return 'CustomerProfiles';
       case ConnectorType.sAPOData:
         return 'SAPOData';
+      case ConnectorType.customConnector:
+        return 'CustomConnector';
     }
   }
 }
@@ -2225,6 +3070,8 @@ extension on String {
         return ConnectorType.customerProfiles;
       case 'SAPOData':
         return ConnectorType.sAPOData;
+      case 'CustomConnector':
+        return ConnectorType.customConnector;
     }
     throw Exception('$this is not known in enum ConnectorType');
   }
@@ -2278,6 +3125,269 @@ class CreateFlowResponse {
     return {
       if (flowArn != null) 'flowArn': flowArn,
       if (flowStatus != null) 'flowStatus': flowStatus.toValue(),
+    };
+  }
+}
+
+/// Configuration information required for custom authentication.
+class CustomAuthConfig {
+  /// Information about authentication parameters required for authentication.
+  final List<AuthParameter>? authParameters;
+
+  /// The authentication type that the custom connector uses.
+  final String? customAuthenticationType;
+
+  CustomAuthConfig({
+    this.authParameters,
+    this.customAuthenticationType,
+  });
+
+  factory CustomAuthConfig.fromJson(Map<String, dynamic> json) {
+    return CustomAuthConfig(
+      authParameters: (json['authParameters'] as List?)
+          ?.whereNotNull()
+          .map((e) => AuthParameter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      customAuthenticationType: json['customAuthenticationType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authParameters = this.authParameters;
+    final customAuthenticationType = this.customAuthenticationType;
+    return {
+      if (authParameters != null) 'authParameters': authParameters,
+      if (customAuthenticationType != null)
+        'customAuthenticationType': customAuthenticationType,
+    };
+  }
+}
+
+/// The custom credentials required for custom authentication.
+class CustomAuthCredentials {
+  /// The custom authentication type that the connector uses.
+  final String customAuthenticationType;
+
+  /// A map that holds custom authentication credentials.
+  final Map<String, String>? credentialsMap;
+
+  CustomAuthCredentials({
+    required this.customAuthenticationType,
+    this.credentialsMap,
+  });
+
+  factory CustomAuthCredentials.fromJson(Map<String, dynamic> json) {
+    return CustomAuthCredentials(
+      customAuthenticationType: json['customAuthenticationType'] as String,
+      credentialsMap: (json['credentialsMap'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final customAuthenticationType = this.customAuthenticationType;
+    final credentialsMap = this.credentialsMap;
+    return {
+      'customAuthenticationType': customAuthenticationType,
+      if (credentialsMap != null) 'credentialsMap': credentialsMap,
+    };
+  }
+}
+
+/// The properties that are applied when the custom connector is being used as a
+/// destination.
+class CustomConnectorDestinationProperties {
+  /// The entity specified in the custom connector as a destination in the flow.
+  final String entityName;
+
+  /// The custom properties that are specific to the connector when it's used as a
+  /// destination in the flow.
+  final Map<String, String>? customProperties;
+
+  /// The settings that determine how Amazon AppFlow handles an error when placing
+  /// data in the custom connector as destination.
+  final ErrorHandlingConfig? errorHandlingConfig;
+
+  /// The name of the field that Amazon AppFlow uses as an ID when performing a
+  /// write operation such as update, delete, or upsert.
+  final List<String>? idFieldNames;
+
+  /// Specifies the type of write operation to be performed in the custom
+  /// connector when it's used as destination.
+  final WriteOperationType? writeOperationType;
+
+  CustomConnectorDestinationProperties({
+    required this.entityName,
+    this.customProperties,
+    this.errorHandlingConfig,
+    this.idFieldNames,
+    this.writeOperationType,
+  });
+
+  factory CustomConnectorDestinationProperties.fromJson(
+      Map<String, dynamic> json) {
+    return CustomConnectorDestinationProperties(
+      entityName: json['entityName'] as String,
+      customProperties: (json['customProperties'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      errorHandlingConfig: json['errorHandlingConfig'] != null
+          ? ErrorHandlingConfig.fromJson(
+              json['errorHandlingConfig'] as Map<String, dynamic>)
+          : null,
+      idFieldNames: (json['idFieldNames'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      writeOperationType:
+          (json['writeOperationType'] as String?)?.toWriteOperationType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final entityName = this.entityName;
+    final customProperties = this.customProperties;
+    final errorHandlingConfig = this.errorHandlingConfig;
+    final idFieldNames = this.idFieldNames;
+    final writeOperationType = this.writeOperationType;
+    return {
+      'entityName': entityName,
+      if (customProperties != null) 'customProperties': customProperties,
+      if (errorHandlingConfig != null)
+        'errorHandlingConfig': errorHandlingConfig,
+      if (idFieldNames != null) 'idFieldNames': idFieldNames,
+      if (writeOperationType != null)
+        'writeOperationType': writeOperationType.toValue(),
+    };
+  }
+}
+
+/// The connector-specific profile credentials that are required when using the
+/// custom connector.
+class CustomConnectorProfileCredentials {
+  /// The authentication type that the custom connector uses for authenticating
+  /// while creating a connector profile.
+  final AuthenticationType authenticationType;
+
+  /// The API keys required for the authentication of the user.
+  final ApiKeyCredentials? apiKey;
+
+  /// The basic credentials that are required for the authentication of the user.
+  final BasicAuthCredentials? basic;
+
+  /// If the connector uses the custom authentication mechanism, this holds the
+  /// required credentials.
+  final CustomAuthCredentials? custom;
+
+  /// The OAuth 2.0 credentials required for the authentication of the user.
+  final OAuth2Credentials? oauth2;
+
+  CustomConnectorProfileCredentials({
+    required this.authenticationType,
+    this.apiKey,
+    this.basic,
+    this.custom,
+    this.oauth2,
+  });
+
+  factory CustomConnectorProfileCredentials.fromJson(
+      Map<String, dynamic> json) {
+    return CustomConnectorProfileCredentials(
+      authenticationType:
+          (json['authenticationType'] as String).toAuthenticationType(),
+      apiKey: json['apiKey'] != null
+          ? ApiKeyCredentials.fromJson(json['apiKey'] as Map<String, dynamic>)
+          : null,
+      basic: json['basic'] != null
+          ? BasicAuthCredentials.fromJson(json['basic'] as Map<String, dynamic>)
+          : null,
+      custom: json['custom'] != null
+          ? CustomAuthCredentials.fromJson(
+              json['custom'] as Map<String, dynamic>)
+          : null,
+      oauth2: json['oauth2'] != null
+          ? OAuth2Credentials.fromJson(json['oauth2'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authenticationType = this.authenticationType;
+    final apiKey = this.apiKey;
+    final basic = this.basic;
+    final custom = this.custom;
+    final oauth2 = this.oauth2;
+    return {
+      'authenticationType': authenticationType.toValue(),
+      if (apiKey != null) 'apiKey': apiKey,
+      if (basic != null) 'basic': basic,
+      if (custom != null) 'custom': custom,
+      if (oauth2 != null) 'oauth2': oauth2,
+    };
+  }
+}
+
+/// The profile properties required by the custom connector.
+class CustomConnectorProfileProperties {
+  final OAuth2Properties? oAuth2Properties;
+
+  /// A map of properties that are required to create a profile for the custom
+  /// connector.
+  final Map<String, String>? profileProperties;
+
+  CustomConnectorProfileProperties({
+    this.oAuth2Properties,
+    this.profileProperties,
+  });
+
+  factory CustomConnectorProfileProperties.fromJson(Map<String, dynamic> json) {
+    return CustomConnectorProfileProperties(
+      oAuth2Properties: json['oAuth2Properties'] != null
+          ? OAuth2Properties.fromJson(
+              json['oAuth2Properties'] as Map<String, dynamic>)
+          : null,
+      profileProperties: (json['profileProperties'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final oAuth2Properties = this.oAuth2Properties;
+    final profileProperties = this.profileProperties;
+    return {
+      if (oAuth2Properties != null) 'oAuth2Properties': oAuth2Properties,
+      if (profileProperties != null) 'profileProperties': profileProperties,
+    };
+  }
+}
+
+/// The properties that are applied when the custom connector is being used as a
+/// source.
+class CustomConnectorSourceProperties {
+  /// The entity specified in the custom connector as a source in the flow.
+  final String entityName;
+
+  /// Custom properties that are required to use the custom connector as a source.
+  final Map<String, String>? customProperties;
+
+  CustomConnectorSourceProperties({
+    required this.entityName,
+    this.customProperties,
+  });
+
+  factory CustomConnectorSourceProperties.fromJson(Map<String, dynamic> json) {
+    return CustomConnectorSourceProperties(
+      entityName: json['entityName'] as String,
+      customProperties: (json['customProperties'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final entityName = this.entityName;
+    final customProperties = this.customProperties;
+    return {
+      'entityName': entityName,
+      if (customProperties != null) 'customProperties': customProperties,
     };
   }
 }
@@ -2630,15 +3740,45 @@ class DescribeConnectorProfilesResponse {
   }
 }
 
+class DescribeConnectorResponse {
+  /// Configuration info of all the connectors that the user requested.
+  final ConnectorConfiguration? connectorConfiguration;
+
+  DescribeConnectorResponse({
+    this.connectorConfiguration,
+  });
+
+  factory DescribeConnectorResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeConnectorResponse(
+      connectorConfiguration: json['connectorConfiguration'] != null
+          ? ConnectorConfiguration.fromJson(
+              json['connectorConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectorConfiguration = this.connectorConfiguration;
+    return {
+      if (connectorConfiguration != null)
+        'connectorConfiguration': connectorConfiguration,
+    };
+  }
+}
+
 class DescribeConnectorsResponse {
   /// The configuration that is applied to the connectors used in the flow.
   final Map<ConnectorType, ConnectorConfiguration>? connectorConfigurations;
+
+  /// Information about the connectors supported in Amazon AppFlow.
+  final List<ConnectorDetail>? connectors;
 
   /// The pagination token for the next page of data.
   final String? nextToken;
 
   DescribeConnectorsResponse({
     this.connectorConfigurations,
+    this.connectors,
     this.nextToken,
   });
 
@@ -2648,17 +3788,23 @@ class DescribeConnectorsResponse {
           (json['connectorConfigurations'] as Map<String, dynamic>?)?.map(
               (k, e) => MapEntry(k.toConnectorType(),
                   ConnectorConfiguration.fromJson(e as Map<String, dynamic>))),
+      connectors: (json['connectors'] as List?)
+          ?.whereNotNull()
+          .map((e) => ConnectorDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
       nextToken: json['nextToken'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final connectorConfigurations = this.connectorConfigurations;
+    final connectors = this.connectors;
     final nextToken = this.nextToken;
     return {
       if (connectorConfigurations != null)
         'connectorConfigurations':
             connectorConfigurations.map((k, e) => MapEntry(k.toValue(), e)),
+      if (connectors != null) 'connectors': connectors,
       if (nextToken != null) 'nextToken': nextToken,
     };
   }
@@ -2855,6 +4001,9 @@ class DescribeFlowResponse {
 /// This stores the information that is required to query a particular
 /// connector.
 class DestinationConnectorProperties {
+  /// The properties that are required to query the custom Connector.
+  final CustomConnectorDestinationProperties? customConnector;
+
   /// The properties required to query Amazon Connect Customer Profiles.
   final CustomerProfilesDestinationProperties? customerProfiles;
 
@@ -2867,11 +4016,17 @@ class DestinationConnectorProperties {
   /// The properties required to query Amazon Lookout for Metrics.
   final LookoutMetricsDestinationProperties? lookoutMetrics;
 
+  /// The properties required to query Marketo.
+  final MarketoDestinationProperties? marketo;
+
   /// The properties required to query Amazon Redshift.
   final RedshiftDestinationProperties? redshift;
 
   /// The properties required to query Amazon S3.
   final S3DestinationProperties? s3;
+
+  /// The properties required to query SAPOData.
+  final SAPODataDestinationProperties? sAPOData;
 
   /// The properties required to query Salesforce.
   final SalesforceDestinationProperties? salesforce;
@@ -2886,12 +4041,15 @@ class DestinationConnectorProperties {
   final ZendeskDestinationProperties? zendesk;
 
   DestinationConnectorProperties({
+    this.customConnector,
     this.customerProfiles,
     this.eventBridge,
     this.honeycode,
     this.lookoutMetrics,
+    this.marketo,
     this.redshift,
     this.s3,
+    this.sAPOData,
     this.salesforce,
     this.snowflake,
     this.upsolver,
@@ -2900,6 +4058,10 @@ class DestinationConnectorProperties {
 
   factory DestinationConnectorProperties.fromJson(Map<String, dynamic> json) {
     return DestinationConnectorProperties(
+      customConnector: json['CustomConnector'] != null
+          ? CustomConnectorDestinationProperties.fromJson(
+              json['CustomConnector'] as Map<String, dynamic>)
+          : null,
       customerProfiles: json['CustomerProfiles'] != null
           ? CustomerProfilesDestinationProperties.fromJson(
               json['CustomerProfiles'] as Map<String, dynamic>)
@@ -2916,12 +4078,20 @@ class DestinationConnectorProperties {
           ? LookoutMetricsDestinationProperties.fromJson(
               json['LookoutMetrics'] as Map<String, dynamic>)
           : null,
+      marketo: json['Marketo'] != null
+          ? MarketoDestinationProperties.fromJson(
+              json['Marketo'] as Map<String, dynamic>)
+          : null,
       redshift: json['Redshift'] != null
           ? RedshiftDestinationProperties.fromJson(
               json['Redshift'] as Map<String, dynamic>)
           : null,
       s3: json['S3'] != null
           ? S3DestinationProperties.fromJson(json['S3'] as Map<String, dynamic>)
+          : null,
+      sAPOData: json['SAPOData'] != null
+          ? SAPODataDestinationProperties.fromJson(
+              json['SAPOData'] as Map<String, dynamic>)
           : null,
       salesforce: json['Salesforce'] != null
           ? SalesforceDestinationProperties.fromJson(
@@ -2943,23 +4113,29 @@ class DestinationConnectorProperties {
   }
 
   Map<String, dynamic> toJson() {
+    final customConnector = this.customConnector;
     final customerProfiles = this.customerProfiles;
     final eventBridge = this.eventBridge;
     final honeycode = this.honeycode;
     final lookoutMetrics = this.lookoutMetrics;
+    final marketo = this.marketo;
     final redshift = this.redshift;
     final s3 = this.s3;
+    final sAPOData = this.sAPOData;
     final salesforce = this.salesforce;
     final snowflake = this.snowflake;
     final upsolver = this.upsolver;
     final zendesk = this.zendesk;
     return {
+      if (customConnector != null) 'CustomConnector': customConnector,
       if (customerProfiles != null) 'CustomerProfiles': customerProfiles,
       if (eventBridge != null) 'EventBridge': eventBridge,
       if (honeycode != null) 'Honeycode': honeycode,
       if (lookoutMetrics != null) 'LookoutMetrics': lookoutMetrics,
+      if (marketo != null) 'Marketo': marketo,
       if (redshift != null) 'Redshift': redshift,
       if (s3 != null) 'S3': s3,
+      if (sAPOData != null) 'SAPOData': sAPOData,
       if (salesforce != null) 'Salesforce': salesforce,
       if (snowflake != null) 'Snowflake': snowflake,
       if (upsolver != null) 'Upsolver': upsolver,
@@ -2973,6 +4149,10 @@ class DestinationConnectorProperties {
 class DestinationFieldProperties {
   /// Specifies if the destination field can be created by the current user.
   final bool? isCreatable;
+
+  /// Specifies whether the field can use the default value during a Create
+  /// operation.
+  final bool? isDefaultedOnCreate;
 
   /// Specifies if the destination field can have a null value.
   final bool? isNullable;
@@ -2992,6 +4172,7 @@ class DestinationFieldProperties {
 
   DestinationFieldProperties({
     this.isCreatable,
+    this.isDefaultedOnCreate,
     this.isNullable,
     this.isUpdatable,
     this.isUpsertable,
@@ -3001,6 +4182,7 @@ class DestinationFieldProperties {
   factory DestinationFieldProperties.fromJson(Map<String, dynamic> json) {
     return DestinationFieldProperties(
       isCreatable: json['isCreatable'] as bool?,
+      isDefaultedOnCreate: json['isDefaultedOnCreate'] as bool?,
       isNullable: json['isNullable'] as bool?,
       isUpdatable: json['isUpdatable'] as bool?,
       isUpsertable: json['isUpsertable'] as bool?,
@@ -3013,12 +4195,15 @@ class DestinationFieldProperties {
 
   Map<String, dynamic> toJson() {
     final isCreatable = this.isCreatable;
+    final isDefaultedOnCreate = this.isDefaultedOnCreate;
     final isNullable = this.isNullable;
     final isUpdatable = this.isUpdatable;
     final isUpsertable = this.isUpsertable;
     final supportedWriteOperations = this.supportedWriteOperations;
     return {
       if (isCreatable != null) 'isCreatable': isCreatable,
+      if (isDefaultedOnCreate != null)
+        'isDefaultedOnCreate': isDefaultedOnCreate,
       if (isNullable != null) 'isNullable': isNullable,
       if (isUpdatable != null) 'isUpdatable': isUpdatable,
       if (isUpsertable != null) 'isUpsertable': isUpsertable,
@@ -3039,6 +4224,9 @@ class DestinationFlowConfig {
   /// connector.
   final DestinationConnectorProperties destinationConnectorProperties;
 
+  /// The API version that the destination connector uses.
+  final String? apiVersion;
+
   /// The name of the connector profile. This name must be unique for each
   /// connector profile in the Amazon Web Services account.
   final String? connectorProfileName;
@@ -3046,6 +4234,7 @@ class DestinationFlowConfig {
   DestinationFlowConfig({
     required this.connectorType,
     required this.destinationConnectorProperties,
+    this.apiVersion,
     this.connectorProfileName,
   });
 
@@ -3054,6 +4243,7 @@ class DestinationFlowConfig {
       connectorType: (json['connectorType'] as String).toConnectorType(),
       destinationConnectorProperties: DestinationConnectorProperties.fromJson(
           json['destinationConnectorProperties'] as Map<String, dynamic>),
+      apiVersion: json['apiVersion'] as String?,
       connectorProfileName: json['connectorProfileName'] as String?,
     );
   }
@@ -3061,10 +4251,12 @@ class DestinationFlowConfig {
   Map<String, dynamic> toJson() {
     final connectorType = this.connectorType;
     final destinationConnectorProperties = this.destinationConnectorProperties;
+    final apiVersion = this.apiVersion;
     final connectorProfileName = this.connectorProfileName;
     return {
       'connectorType': connectorType.toValue(),
       'destinationConnectorProperties': destinationConnectorProperties,
+      if (apiVersion != null) 'apiVersion': apiVersion,
       if (connectorProfileName != null)
         'connectorProfileName': connectorProfileName,
     };
@@ -3575,14 +4767,30 @@ class FieldTypeDetails {
   /// The list of operators supported by a field.
   final List<Operator> filterOperators;
 
+  /// This is the allowable length range for this field's value.
+  final Range? fieldLengthRange;
+
+  /// The range of values this field can hold.
+  final Range? fieldValueRange;
+
+  /// The date format that the field supports.
+  final String? supportedDateFormat;
+
   /// The list of values that a field can contain. For example, a Boolean
   /// <code>fieldType</code> can have two values: "true" and "false".
   final List<String>? supportedValues;
 
+  /// The regular expression pattern for the field name.
+  final String? valueRegexPattern;
+
   FieldTypeDetails({
     required this.fieldType,
     required this.filterOperators,
+    this.fieldLengthRange,
+    this.fieldValueRange,
+    this.supportedDateFormat,
     this.supportedValues,
+    this.valueRegexPattern,
   });
 
   factory FieldTypeDetails.fromJson(Map<String, dynamic> json) {
@@ -3592,21 +4800,38 @@ class FieldTypeDetails {
           .whereNotNull()
           .map((e) => (e as String).toOperator())
           .toList(),
+      fieldLengthRange: json['fieldLengthRange'] != null
+          ? Range.fromJson(json['fieldLengthRange'] as Map<String, dynamic>)
+          : null,
+      fieldValueRange: json['fieldValueRange'] != null
+          ? Range.fromJson(json['fieldValueRange'] as Map<String, dynamic>)
+          : null,
+      supportedDateFormat: json['supportedDateFormat'] as String?,
       supportedValues: (json['supportedValues'] as List?)
           ?.whereNotNull()
           .map((e) => e as String)
           .toList(),
+      valueRegexPattern: json['valueRegexPattern'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final fieldType = this.fieldType;
     final filterOperators = this.filterOperators;
+    final fieldLengthRange = this.fieldLengthRange;
+    final fieldValueRange = this.fieldValueRange;
+    final supportedDateFormat = this.supportedDateFormat;
     final supportedValues = this.supportedValues;
+    final valueRegexPattern = this.valueRegexPattern;
     return {
       'fieldType': fieldType,
       'filterOperators': filterOperators.map((e) => e.toValue()).toList(),
+      if (fieldLengthRange != null) 'fieldLengthRange': fieldLengthRange,
+      if (fieldValueRange != null) 'fieldValueRange': fieldValueRange,
+      if (supportedDateFormat != null)
+        'supportedDateFormat': supportedDateFormat,
       if (supportedValues != null) 'supportedValues': supportedValues,
+      if (valueRegexPattern != null) 'valueRegexPattern': valueRegexPattern,
     };
   }
 }
@@ -3656,6 +4881,9 @@ class FlowDefinition {
   /// A user-entered description of the flow.
   final String? description;
 
+  /// The label of the destination connector in the flow.
+  final String? destinationConnectorLabel;
+
   /// Specifies the destination connector type, such as Salesforce, Amazon S3,
   /// Amplitude, and so on.
   final ConnectorType? destinationConnectorType;
@@ -3679,6 +4907,9 @@ class FlowDefinition {
   /// Specifies the account user name that most recently updated the flow.
   final String? lastUpdatedBy;
 
+  /// The label of the source connector in the flow.
+  final String? sourceConnectorLabel;
+
   /// Specifies the source connector type, such as Salesforce, Amazon S3,
   /// Amplitude, and so on.
   final ConnectorType? sourceConnectorType;
@@ -3694,6 +4925,7 @@ class FlowDefinition {
     this.createdAt,
     this.createdBy,
     this.description,
+    this.destinationConnectorLabel,
     this.destinationConnectorType,
     this.flowArn,
     this.flowName,
@@ -3701,6 +4933,7 @@ class FlowDefinition {
     this.lastRunExecutionDetails,
     this.lastUpdatedAt,
     this.lastUpdatedBy,
+    this.sourceConnectorLabel,
     this.sourceConnectorType,
     this.tags,
     this.triggerType,
@@ -3711,6 +4944,7 @@ class FlowDefinition {
       createdAt: timeStampFromJson(json['createdAt']),
       createdBy: json['createdBy'] as String?,
       description: json['description'] as String?,
+      destinationConnectorLabel: json['destinationConnectorLabel'] as String?,
       destinationConnectorType:
           (json['destinationConnectorType'] as String?)?.toConnectorType(),
       flowArn: json['flowArn'] as String?,
@@ -3722,6 +4956,7 @@ class FlowDefinition {
           : null,
       lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
       lastUpdatedBy: json['lastUpdatedBy'] as String?,
+      sourceConnectorLabel: json['sourceConnectorLabel'] as String?,
       sourceConnectorType:
           (json['sourceConnectorType'] as String?)?.toConnectorType(),
       tags: (json['tags'] as Map<String, dynamic>?)
@@ -3734,6 +4969,7 @@ class FlowDefinition {
     final createdAt = this.createdAt;
     final createdBy = this.createdBy;
     final description = this.description;
+    final destinationConnectorLabel = this.destinationConnectorLabel;
     final destinationConnectorType = this.destinationConnectorType;
     final flowArn = this.flowArn;
     final flowName = this.flowName;
@@ -3741,6 +4977,7 @@ class FlowDefinition {
     final lastRunExecutionDetails = this.lastRunExecutionDetails;
     final lastUpdatedAt = this.lastUpdatedAt;
     final lastUpdatedBy = this.lastUpdatedBy;
+    final sourceConnectorLabel = this.sourceConnectorLabel;
     final sourceConnectorType = this.sourceConnectorType;
     final tags = this.tags;
     final triggerType = this.triggerType;
@@ -3748,6 +4985,8 @@ class FlowDefinition {
       if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
       if (createdBy != null) 'createdBy': createdBy,
       if (description != null) 'description': description,
+      if (destinationConnectorLabel != null)
+        'destinationConnectorLabel': destinationConnectorLabel,
       if (destinationConnectorType != null)
         'destinationConnectorType': destinationConnectorType.toValue(),
       if (flowArn != null) 'flowArn': flowArn,
@@ -3758,6 +4997,8 @@ class FlowDefinition {
       if (lastUpdatedAt != null)
         'lastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
       if (lastUpdatedBy != null) 'lastUpdatedBy': lastUpdatedBy,
+      if (sourceConnectorLabel != null)
+        'sourceConnectorLabel': sourceConnectorLabel,
       if (sourceConnectorType != null)
         'sourceConnectorType': sourceConnectorType.toValue(),
       if (tags != null) 'tags': tags,
@@ -4300,6 +5541,31 @@ class InforNexusSourceProperties {
   }
 }
 
+/// Contains information about the configuration of the lambda which is being
+/// registered as the connector.
+class LambdaConnectorProvisioningConfig {
+  /// Lambda ARN of the connector being registered.
+  final String lambdaArn;
+
+  LambdaConnectorProvisioningConfig({
+    required this.lambdaArn,
+  });
+
+  factory LambdaConnectorProvisioningConfig.fromJson(
+      Map<String, dynamic> json) {
+    return LambdaConnectorProvisioningConfig(
+      lambdaArn: json['lambdaArn'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lambdaArn = this.lambdaArn;
+    return {
+      'lambdaArn': lambdaArn,
+    };
+  }
+}
+
 class ListConnectorEntitiesResponse {
   /// The response of <code>ListConnectorEntities</code> lists entities grouped by
   /// category. This map's key represents the group name, and its value contains
@@ -4327,6 +5593,39 @@ class ListConnectorEntitiesResponse {
     final connectorEntityMap = this.connectorEntityMap;
     return {
       'connectorEntityMap': connectorEntityMap,
+    };
+  }
+}
+
+class ListConnectorsResponse {
+  /// Contains information about the connectors supported by Amazon AppFlow.
+  final List<ConnectorDetail>? connectors;
+
+  /// The pagination token for the next page of data. If nextToken=null, this
+  /// means that all records have been fetched.
+  final String? nextToken;
+
+  ListConnectorsResponse({
+    this.connectors,
+    this.nextToken,
+  });
+
+  factory ListConnectorsResponse.fromJson(Map<String, dynamic> json) {
+    return ListConnectorsResponse(
+      connectors: (json['connectors'] as List?)
+          ?.whereNotNull()
+          .map((e) => ConnectorDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectors = this.connectors;
+    final nextToken = this.nextToken;
+    return {
+      if (connectors != null) 'connectors': connectors,
+      if (nextToken != null) 'nextToken': nextToken,
     };
   }
 }
@@ -4572,6 +5871,39 @@ class MarketoConnectorProfileProperties {
   }
 }
 
+/// The properties that Amazon AppFlow applies when you use Marketo as a flow
+/// destination.
+class MarketoDestinationProperties {
+  /// The object specified in the Marketo flow destination.
+  final String object;
+  final ErrorHandlingConfig? errorHandlingConfig;
+
+  MarketoDestinationProperties({
+    required this.object,
+    this.errorHandlingConfig,
+  });
+
+  factory MarketoDestinationProperties.fromJson(Map<String, dynamic> json) {
+    return MarketoDestinationProperties(
+      object: json['object'] as String,
+      errorHandlingConfig: json['errorHandlingConfig'] != null
+          ? ErrorHandlingConfig.fromJson(
+              json['errorHandlingConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final object = this.object;
+    final errorHandlingConfig = this.errorHandlingConfig;
+    return {
+      'object': object,
+      if (errorHandlingConfig != null)
+        'errorHandlingConfig': errorHandlingConfig,
+    };
+  }
+}
+
 /// The connector metadata specific to Marketo.
 class MarketoMetadata {
   MarketoMetadata();
@@ -4604,6 +5936,297 @@ class MarketoSourceProperties {
     final object = this.object;
     return {
       'object': object,
+    };
+  }
+}
+
+/// The OAuth 2.0 credentials required for OAuth 2.0 authentication.
+class OAuth2Credentials {
+  /// The access token used to access the connector on your behalf.
+  final String? accessToken;
+
+  /// The identifier for the desired client.
+  final String? clientId;
+
+  /// The client secret used by the OAuth client to authenticate to the
+  /// authorization server.
+  final String? clientSecret;
+  final ConnectorOAuthRequest? oAuthRequest;
+
+  /// The refresh token used to refresh an expired access token.
+  final String? refreshToken;
+
+  OAuth2Credentials({
+    this.accessToken,
+    this.clientId,
+    this.clientSecret,
+    this.oAuthRequest,
+    this.refreshToken,
+  });
+
+  factory OAuth2Credentials.fromJson(Map<String, dynamic> json) {
+    return OAuth2Credentials(
+      accessToken: json['accessToken'] as String?,
+      clientId: json['clientId'] as String?,
+      clientSecret: json['clientSecret'] as String?,
+      oAuthRequest: json['oAuthRequest'] != null
+          ? ConnectorOAuthRequest.fromJson(
+              json['oAuthRequest'] as Map<String, dynamic>)
+          : null,
+      refreshToken: json['refreshToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accessToken = this.accessToken;
+    final clientId = this.clientId;
+    final clientSecret = this.clientSecret;
+    final oAuthRequest = this.oAuthRequest;
+    final refreshToken = this.refreshToken;
+    return {
+      if (accessToken != null) 'accessToken': accessToken,
+      if (clientId != null) 'clientId': clientId,
+      if (clientSecret != null) 'clientSecret': clientSecret,
+      if (oAuthRequest != null) 'oAuthRequest': oAuthRequest,
+      if (refreshToken != null) 'refreshToken': refreshToken,
+    };
+  }
+}
+
+/// Custom parameter required for OAuth 2.0 authentication.
+class OAuth2CustomParameter {
+  /// Contains default values for this authentication parameter that are supplied
+  /// by the connector.
+  final List<String>? connectorSuppliedValues;
+
+  /// A description about the custom parameter used for OAuth 2.0 authentication.
+  final String? description;
+
+  /// Indicates whether the custom parameter for OAuth 2.0 authentication is
+  /// required.
+  final bool? isRequired;
+
+  /// Indicates whether this authentication custom parameter is a sensitive field.
+  final bool? isSensitiveField;
+
+  /// The key of the custom parameter required for OAuth 2.0 authentication.
+  final String? key;
+
+  /// The label of the custom parameter used for OAuth 2.0 authentication.
+  final String? label;
+
+  /// Indicates whether custom parameter is used with TokenUrl or AuthUrl.
+  final OAuth2CustomPropType? type;
+
+  OAuth2CustomParameter({
+    this.connectorSuppliedValues,
+    this.description,
+    this.isRequired,
+    this.isSensitiveField,
+    this.key,
+    this.label,
+    this.type,
+  });
+
+  factory OAuth2CustomParameter.fromJson(Map<String, dynamic> json) {
+    return OAuth2CustomParameter(
+      connectorSuppliedValues: (json['connectorSuppliedValues'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      description: json['description'] as String?,
+      isRequired: json['isRequired'] as bool?,
+      isSensitiveField: json['isSensitiveField'] as bool?,
+      key: json['key'] as String?,
+      label: json['label'] as String?,
+      type: (json['type'] as String?)?.toOAuth2CustomPropType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectorSuppliedValues = this.connectorSuppliedValues;
+    final description = this.description;
+    final isRequired = this.isRequired;
+    final isSensitiveField = this.isSensitiveField;
+    final key = this.key;
+    final label = this.label;
+    final type = this.type;
+    return {
+      if (connectorSuppliedValues != null)
+        'connectorSuppliedValues': connectorSuppliedValues,
+      if (description != null) 'description': description,
+      if (isRequired != null) 'isRequired': isRequired,
+      if (isSensitiveField != null) 'isSensitiveField': isSensitiveField,
+      if (key != null) 'key': key,
+      if (label != null) 'label': label,
+      if (type != null) 'type': type.toValue(),
+    };
+  }
+}
+
+enum OAuth2CustomPropType {
+  tokenUrl,
+  authUrl,
+}
+
+extension on OAuth2CustomPropType {
+  String toValue() {
+    switch (this) {
+      case OAuth2CustomPropType.tokenUrl:
+        return 'TOKEN_URL';
+      case OAuth2CustomPropType.authUrl:
+        return 'AUTH_URL';
+    }
+  }
+}
+
+extension on String {
+  OAuth2CustomPropType toOAuth2CustomPropType() {
+    switch (this) {
+      case 'TOKEN_URL':
+        return OAuth2CustomPropType.tokenUrl;
+      case 'AUTH_URL':
+        return OAuth2CustomPropType.authUrl;
+    }
+    throw Exception('$this is not known in enum OAuth2CustomPropType');
+  }
+}
+
+/// Contains the default values required for OAuth 2.0 authentication.
+class OAuth2Defaults {
+  /// Auth code URLs that can be used for OAuth 2.0 authentication.
+  final List<String>? authCodeUrls;
+
+  /// List of custom parameters required for OAuth 2.0 authentication.
+  final List<OAuth2CustomParameter>? oauth2CustomProperties;
+
+  /// OAuth 2.0 grant types supported by the connector.
+  final List<OAuth2GrantType>? oauth2GrantTypesSupported;
+
+  /// OAuth 2.0 scopes that the connector supports.
+  final List<String>? oauthScopes;
+
+  /// Token URLs that can be used for OAuth 2.0 authentication.
+  final List<String>? tokenUrls;
+
+  OAuth2Defaults({
+    this.authCodeUrls,
+    this.oauth2CustomProperties,
+    this.oauth2GrantTypesSupported,
+    this.oauthScopes,
+    this.tokenUrls,
+  });
+
+  factory OAuth2Defaults.fromJson(Map<String, dynamic> json) {
+    return OAuth2Defaults(
+      authCodeUrls: (json['authCodeUrls'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      oauth2CustomProperties: (json['oauth2CustomProperties'] as List?)
+          ?.whereNotNull()
+          .map((e) => OAuth2CustomParameter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      oauth2GrantTypesSupported: (json['oauth2GrantTypesSupported'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toOAuth2GrantType())
+          .toList(),
+      oauthScopes: (json['oauthScopes'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      tokenUrls: (json['tokenUrls'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authCodeUrls = this.authCodeUrls;
+    final oauth2CustomProperties = this.oauth2CustomProperties;
+    final oauth2GrantTypesSupported = this.oauth2GrantTypesSupported;
+    final oauthScopes = this.oauthScopes;
+    final tokenUrls = this.tokenUrls;
+    return {
+      if (authCodeUrls != null) 'authCodeUrls': authCodeUrls,
+      if (oauth2CustomProperties != null)
+        'oauth2CustomProperties': oauth2CustomProperties,
+      if (oauth2GrantTypesSupported != null)
+        'oauth2GrantTypesSupported':
+            oauth2GrantTypesSupported.map((e) => e.toValue()).toList(),
+      if (oauthScopes != null) 'oauthScopes': oauthScopes,
+      if (tokenUrls != null) 'tokenUrls': tokenUrls,
+    };
+  }
+}
+
+enum OAuth2GrantType {
+  clientCredentials,
+  authorizationCode,
+}
+
+extension on OAuth2GrantType {
+  String toValue() {
+    switch (this) {
+      case OAuth2GrantType.clientCredentials:
+        return 'CLIENT_CREDENTIALS';
+      case OAuth2GrantType.authorizationCode:
+        return 'AUTHORIZATION_CODE';
+    }
+  }
+}
+
+extension on String {
+  OAuth2GrantType toOAuth2GrantType() {
+    switch (this) {
+      case 'CLIENT_CREDENTIALS':
+        return OAuth2GrantType.clientCredentials;
+      case 'AUTHORIZATION_CODE':
+        return OAuth2GrantType.authorizationCode;
+    }
+    throw Exception('$this is not known in enum OAuth2GrantType');
+  }
+}
+
+/// The OAuth 2.0 properties required for OAuth 2.0 authentication.
+class OAuth2Properties {
+  /// The OAuth 2.0 grant type used by connector for OAuth 2.0 authentication.
+  final OAuth2GrantType oAuth2GrantType;
+
+  /// The token URL required for OAuth 2.0 authentication.
+  final String tokenUrl;
+
+  /// Associates your token URL with a map of properties that you define. Use this
+  /// parameter to provide any additional details that the connector requires to
+  /// authenticate your request.
+  final Map<String, String>? tokenUrlCustomProperties;
+
+  OAuth2Properties({
+    required this.oAuth2GrantType,
+    required this.tokenUrl,
+    this.tokenUrlCustomProperties,
+  });
+
+  factory OAuth2Properties.fromJson(Map<String, dynamic> json) {
+    return OAuth2Properties(
+      oAuth2GrantType: (json['oAuth2GrantType'] as String).toOAuth2GrantType(),
+      tokenUrl: json['tokenUrl'] as String,
+      tokenUrlCustomProperties:
+          (json['tokenUrlCustomProperties'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final oAuth2GrantType = this.oAuth2GrantType;
+    final tokenUrl = this.tokenUrl;
+    final tokenUrlCustomProperties = this.tokenUrlCustomProperties;
+    return {
+      'oAuth2GrantType': oAuth2GrantType.toValue(),
+      'tokenUrl': tokenUrl,
+      if (tokenUrlCustomProperties != null)
+        'tokenUrlCustomProperties': tokenUrlCustomProperties,
     };
   }
 }
@@ -4922,6 +6545,129 @@ extension on String {
   }
 }
 
+enum Operators {
+  projection,
+  lessThan,
+  greaterThan,
+  contains,
+  between,
+  lessThanOrEqualTo,
+  greaterThanOrEqualTo,
+  equalTo,
+  notEqualTo,
+  addition,
+  multiplication,
+  division,
+  subtraction,
+  maskAll,
+  maskFirstN,
+  maskLastN,
+  validateNonNull,
+  validateNonZero,
+  validateNonNegative,
+  validateNumeric,
+  noOp,
+}
+
+extension on Operators {
+  String toValue() {
+    switch (this) {
+      case Operators.projection:
+        return 'PROJECTION';
+      case Operators.lessThan:
+        return 'LESS_THAN';
+      case Operators.greaterThan:
+        return 'GREATER_THAN';
+      case Operators.contains:
+        return 'CONTAINS';
+      case Operators.between:
+        return 'BETWEEN';
+      case Operators.lessThanOrEqualTo:
+        return 'LESS_THAN_OR_EQUAL_TO';
+      case Operators.greaterThanOrEqualTo:
+        return 'GREATER_THAN_OR_EQUAL_TO';
+      case Operators.equalTo:
+        return 'EQUAL_TO';
+      case Operators.notEqualTo:
+        return 'NOT_EQUAL_TO';
+      case Operators.addition:
+        return 'ADDITION';
+      case Operators.multiplication:
+        return 'MULTIPLICATION';
+      case Operators.division:
+        return 'DIVISION';
+      case Operators.subtraction:
+        return 'SUBTRACTION';
+      case Operators.maskAll:
+        return 'MASK_ALL';
+      case Operators.maskFirstN:
+        return 'MASK_FIRST_N';
+      case Operators.maskLastN:
+        return 'MASK_LAST_N';
+      case Operators.validateNonNull:
+        return 'VALIDATE_NON_NULL';
+      case Operators.validateNonZero:
+        return 'VALIDATE_NON_ZERO';
+      case Operators.validateNonNegative:
+        return 'VALIDATE_NON_NEGATIVE';
+      case Operators.validateNumeric:
+        return 'VALIDATE_NUMERIC';
+      case Operators.noOp:
+        return 'NO_OP';
+    }
+  }
+}
+
+extension on String {
+  Operators toOperators() {
+    switch (this) {
+      case 'PROJECTION':
+        return Operators.projection;
+      case 'LESS_THAN':
+        return Operators.lessThan;
+      case 'GREATER_THAN':
+        return Operators.greaterThan;
+      case 'CONTAINS':
+        return Operators.contains;
+      case 'BETWEEN':
+        return Operators.between;
+      case 'LESS_THAN_OR_EQUAL_TO':
+        return Operators.lessThanOrEqualTo;
+      case 'GREATER_THAN_OR_EQUAL_TO':
+        return Operators.greaterThanOrEqualTo;
+      case 'EQUAL_TO':
+        return Operators.equalTo;
+      case 'NOT_EQUAL_TO':
+        return Operators.notEqualTo;
+      case 'ADDITION':
+        return Operators.addition;
+      case 'MULTIPLICATION':
+        return Operators.multiplication;
+      case 'DIVISION':
+        return Operators.division;
+      case 'SUBTRACTION':
+        return Operators.subtraction;
+      case 'MASK_ALL':
+        return Operators.maskAll;
+      case 'MASK_FIRST_N':
+        return Operators.maskFirstN;
+      case 'MASK_LAST_N':
+        return Operators.maskLastN;
+      case 'VALIDATE_NON_NULL':
+        return Operators.validateNonNull;
+      case 'VALIDATE_NON_ZERO':
+        return Operators.validateNonZero;
+      case 'VALIDATE_NON_NEGATIVE':
+        return Operators.validateNonNegative;
+      case 'VALIDATE_NUMERIC':
+        return Operators.validateNumeric;
+      case 'NO_OP':
+        return Operators.noOp;
+    }
+    throw Exception('$this is not known in enum Operators');
+  }
+}
+
 /// Determines the prefix that Amazon AppFlow applies to the destination folder
 /// name. You can name your destination folders according to the flow frequency
 /// and date.
@@ -5151,6 +6897,36 @@ extension on String {
   }
 }
 
+/// The range of values that the property supports.
+class Range {
+  /// Maximum value supported by the field.
+  final double? maximum;
+
+  /// Minimum value supported by the field.
+  final double? minimum;
+
+  Range({
+    this.maximum,
+    this.minimum,
+  });
+
+  factory Range.fromJson(Map<String, dynamic> json) {
+    return Range(
+      maximum: json['maximum'] as double?,
+      minimum: json['minimum'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maximum = this.maximum;
+    final minimum = this.minimum;
+    return {
+      if (maximum != null) 'maximum': maximum,
+      if (minimum != null) 'minimum': minimum,
+    };
+  }
+}
+
 /// The connector-specific profile credentials required when using Amazon
 /// Redshift.
 class RedshiftConnectorProfileCredentials {
@@ -5295,6 +7071,28 @@ class RedshiftMetadata {
 
   Map<String, dynamic> toJson() {
     return {};
+  }
+}
+
+class RegisterConnectorResponse {
+  /// The ARN of the connector being registered.
+  final String? connectorArn;
+
+  RegisterConnectorResponse({
+    this.connectorArn,
+  });
+
+  factory RegisterConnectorResponse.fromJson(Map<String, dynamic> json) {
+    return RegisterConnectorResponse(
+      connectorArn: json['connectorArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectorArn = this.connectorArn;
+    return {
+      if (connectorArn != null) 'connectorArn': connectorArn,
+    };
   }
 }
 
@@ -5536,10 +7334,30 @@ class S3OutputFormatConfig {
   /// date.
   final PrefixConfig? prefixConfig;
 
+  /// If your file output format is Parquet, use this parameter to set whether
+  /// Amazon AppFlow preserves the data types in your source data when it writes
+  /// the output to Amazon S3.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>true</code>: Amazon AppFlow preserves the data types when it writes to
+  /// Amazon S3. For example, an integer or <code>1</code> in your source data is
+  /// still an integer in your output.
+  /// </li>
+  /// <li>
+  /// <code>false</code>: Amazon AppFlow converts all of the source data into
+  /// strings when it writes to Amazon S3. For example, an integer of
+  /// <code>1</code> in your source data becomes the string <code>"1"</code> in
+  /// the output.
+  /// </li>
+  /// </ul>
+  final bool? preserveSourceDataTyping;
+
   S3OutputFormatConfig({
     this.aggregationConfig,
     this.fileType,
     this.prefixConfig,
+    this.preserveSourceDataTyping,
   });
 
   factory S3OutputFormatConfig.fromJson(Map<String, dynamic> json) {
@@ -5552,6 +7370,7 @@ class S3OutputFormatConfig {
       prefixConfig: json['prefixConfig'] != null
           ? PrefixConfig.fromJson(json['prefixConfig'] as Map<String, dynamic>)
           : null,
+      preserveSourceDataTyping: json['preserveSourceDataTyping'] as bool?,
     );
   }
 
@@ -5559,10 +7378,13 @@ class S3OutputFormatConfig {
     final aggregationConfig = this.aggregationConfig;
     final fileType = this.fileType;
     final prefixConfig = this.prefixConfig;
+    final preserveSourceDataTyping = this.preserveSourceDataTyping;
     return {
       if (aggregationConfig != null) 'aggregationConfig': aggregationConfig,
       if (fileType != null) 'fileType': fileType.toValue(),
       if (prefixConfig != null) 'prefixConfig': prefixConfig,
+      if (preserveSourceDataTyping != null)
+        'preserveSourceDataTyping': preserveSourceDataTyping,
     };
   }
 }
@@ -5836,6 +7658,69 @@ class SAPODataConnectorProfileProperties {
       if (oAuthProperties != null) 'oAuthProperties': oAuthProperties,
       if (privateLinkServiceName != null)
         'privateLinkServiceName': privateLinkServiceName,
+    };
+  }
+}
+
+/// The properties that are applied when using SAPOData as a flow destination
+class SAPODataDestinationProperties {
+  /// The object path specified in the SAPOData flow destination.
+  final String objectPath;
+  final ErrorHandlingConfig? errorHandlingConfig;
+  final List<String>? idFieldNames;
+
+  /// Determines how Amazon AppFlow handles the success response that it gets from
+  /// the connector after placing data.
+  ///
+  /// For example, this setting would determine where to write the response from a
+  /// destination connector upon a successful insert operation.
+  final SuccessResponseHandlingConfig? successResponseHandlingConfig;
+  final WriteOperationType? writeOperationType;
+
+  SAPODataDestinationProperties({
+    required this.objectPath,
+    this.errorHandlingConfig,
+    this.idFieldNames,
+    this.successResponseHandlingConfig,
+    this.writeOperationType,
+  });
+
+  factory SAPODataDestinationProperties.fromJson(Map<String, dynamic> json) {
+    return SAPODataDestinationProperties(
+      objectPath: json['objectPath'] as String,
+      errorHandlingConfig: json['errorHandlingConfig'] != null
+          ? ErrorHandlingConfig.fromJson(
+              json['errorHandlingConfig'] as Map<String, dynamic>)
+          : null,
+      idFieldNames: (json['idFieldNames'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      successResponseHandlingConfig:
+          json['successResponseHandlingConfig'] != null
+              ? SuccessResponseHandlingConfig.fromJson(
+                  json['successResponseHandlingConfig'] as Map<String, dynamic>)
+              : null,
+      writeOperationType:
+          (json['writeOperationType'] as String?)?.toWriteOperationType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final objectPath = this.objectPath;
+    final errorHandlingConfig = this.errorHandlingConfig;
+    final idFieldNames = this.idFieldNames;
+    final successResponseHandlingConfig = this.successResponseHandlingConfig;
+    final writeOperationType = this.writeOperationType;
+    return {
+      'objectPath': objectPath,
+      if (errorHandlingConfig != null)
+        'errorHandlingConfig': errorHandlingConfig,
+      if (idFieldNames != null) 'idFieldNames': idFieldNames,
+      if (successResponseHandlingConfig != null)
+        'successResponseHandlingConfig': successResponseHandlingConfig,
+      if (writeOperationType != null)
+        'writeOperationType': writeOperationType.toValue(),
     };
   }
 }
@@ -6275,24 +8160,40 @@ class ScheduledTriggerProperties {
   /// first flow run.
   final DateTime? firstExecutionFrom;
 
-  /// Specifies the scheduled end time for a schedule-triggered flow.
+  /// Defines how many times a scheduled flow fails consecutively before Amazon
+  /// AppFlow deactivates it.
+  final int? flowErrorDeactivationThreshold;
+
+  /// The time at which the scheduled flow ends. The time is formatted as a
+  /// timestamp that follows the ISO 8601 standard, such as
+  /// <code>2022-04-27T13:00:00-07:00</code>.
   final DateTime? scheduleEndTime;
 
   /// Specifies the optional offset that is added to the time interval for a
   /// schedule-triggered flow.
   final int? scheduleOffset;
 
-  /// Specifies the scheduled start time for a schedule-triggered flow.
+  /// The time at which the scheduled flow starts. The time is formatted as a
+  /// timestamp that follows the ISO 8601 standard, such as
+  /// <code>2022-04-26T13:00:00-07:00</code>.
   final DateTime? scheduleStartTime;
 
-  /// Specifies the time zone used when referring to the date and time of a
-  /// scheduled-triggered flow, such as <code>America/New_York</code>.
+  /// Specifies the time zone used when referring to the dates and times of a
+  /// scheduled flow, such as <code>America/New_York</code>. This time zone is
+  /// only a descriptive label. It doesn't affect how Amazon AppFlow interprets
+  /// the timestamps that you specify to schedule the flow.
+  ///
+  /// If you want to schedule a flow by using times in a particular time zone,
+  /// indicate the time zone as a UTC offset in your timestamps. For example, the
+  /// UTC offsets for the <code>America/New_York</code> timezone are
+  /// <code>-04:00</code> EDT and <code>-05:00 EST</code>.
   final String? timezone;
 
   ScheduledTriggerProperties({
     required this.scheduleExpression,
     this.dataPullMode,
     this.firstExecutionFrom,
+    this.flowErrorDeactivationThreshold,
     this.scheduleEndTime,
     this.scheduleOffset,
     this.scheduleStartTime,
@@ -6304,6 +8205,8 @@ class ScheduledTriggerProperties {
       scheduleExpression: json['scheduleExpression'] as String,
       dataPullMode: (json['dataPullMode'] as String?)?.toDataPullMode(),
       firstExecutionFrom: timeStampFromJson(json['firstExecutionFrom']),
+      flowErrorDeactivationThreshold:
+          json['flowErrorDeactivationThreshold'] as int?,
       scheduleEndTime: timeStampFromJson(json['scheduleEndTime']),
       scheduleOffset: json['scheduleOffset'] as int?,
       scheduleStartTime: timeStampFromJson(json['scheduleStartTime']),
@@ -6315,6 +8218,7 @@ class ScheduledTriggerProperties {
     final scheduleExpression = this.scheduleExpression;
     final dataPullMode = this.dataPullMode;
     final firstExecutionFrom = this.firstExecutionFrom;
+    final flowErrorDeactivationThreshold = this.flowErrorDeactivationThreshold;
     final scheduleEndTime = this.scheduleEndTime;
     final scheduleOffset = this.scheduleOffset;
     final scheduleStartTime = this.scheduleStartTime;
@@ -6324,6 +8228,8 @@ class ScheduledTriggerProperties {
       if (dataPullMode != null) 'dataPullMode': dataPullMode.toValue(),
       if (firstExecutionFrom != null)
         'firstExecutionFrom': unixTimestampToJson(firstExecutionFrom),
+      if (flowErrorDeactivationThreshold != null)
+        'flowErrorDeactivationThreshold': flowErrorDeactivationThreshold,
       if (scheduleEndTime != null)
         'scheduleEndTime': unixTimestampToJson(scheduleEndTime),
       if (scheduleOffset != null) 'scheduleOffset': scheduleOffset,
@@ -7132,6 +9038,7 @@ class SnowflakeMetadata {
 class SourceConnectorProperties {
   /// Specifies the information that is required for querying Amplitude.
   final AmplitudeSourceProperties? amplitude;
+  final CustomConnectorSourceProperties? customConnector;
 
   /// Specifies the information that is required for querying Datadog.
   final DatadogSourceProperties? datadog;
@@ -7175,6 +9082,7 @@ class SourceConnectorProperties {
 
   SourceConnectorProperties({
     this.amplitude,
+    this.customConnector,
     this.datadog,
     this.dynatrace,
     this.googleAnalytics,
@@ -7196,6 +9104,10 @@ class SourceConnectorProperties {
       amplitude: json['Amplitude'] != null
           ? AmplitudeSourceProperties.fromJson(
               json['Amplitude'] as Map<String, dynamic>)
+          : null,
+      customConnector: json['CustomConnector'] != null
+          ? CustomConnectorSourceProperties.fromJson(
+              json['CustomConnector'] as Map<String, dynamic>)
           : null,
       datadog: json['Datadog'] != null
           ? DatadogSourceProperties.fromJson(
@@ -7257,6 +9169,7 @@ class SourceConnectorProperties {
 
   Map<String, dynamic> toJson() {
     final amplitude = this.amplitude;
+    final customConnector = this.customConnector;
     final datadog = this.datadog;
     final dynatrace = this.dynatrace;
     final googleAnalytics = this.googleAnalytics;
@@ -7273,6 +9186,7 @@ class SourceConnectorProperties {
     final zendesk = this.zendesk;
     return {
       if (amplitude != null) 'Amplitude': amplitude,
+      if (customConnector != null) 'CustomConnector': customConnector,
       if (datadog != null) 'Datadog': datadog,
       if (dynatrace != null) 'Dynatrace': dynatrace,
       if (googleAnalytics != null) 'GoogleAnalytics': googleAnalytics,
@@ -7300,24 +9214,35 @@ class SourceFieldProperties {
   /// Indicates whether the field can be returned in a search result.
   final bool? isRetrievable;
 
+  /// Indicates if this timestamp field can be used for incremental queries.
+  final bool? isTimestampFieldForIncrementalQueries;
+
   SourceFieldProperties({
     this.isQueryable,
     this.isRetrievable,
+    this.isTimestampFieldForIncrementalQueries,
   });
 
   factory SourceFieldProperties.fromJson(Map<String, dynamic> json) {
     return SourceFieldProperties(
       isQueryable: json['isQueryable'] as bool?,
       isRetrievable: json['isRetrievable'] as bool?,
+      isTimestampFieldForIncrementalQueries:
+          json['isTimestampFieldForIncrementalQueries'] as bool?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final isQueryable = this.isQueryable;
     final isRetrievable = this.isRetrievable;
+    final isTimestampFieldForIncrementalQueries =
+        this.isTimestampFieldForIncrementalQueries;
     return {
       if (isQueryable != null) 'isQueryable': isQueryable,
       if (isRetrievable != null) 'isRetrievable': isRetrievable,
+      if (isTimestampFieldForIncrementalQueries != null)
+        'isTimestampFieldForIncrementalQueries':
+            isTimestampFieldForIncrementalQueries,
     };
   }
 }
@@ -7332,6 +9257,9 @@ class SourceFlowConfig {
   /// connector.
   final SourceConnectorProperties sourceConnectorProperties;
 
+  /// The API version of the connector when it's used as a source in the flow.
+  final String? apiVersion;
+
   /// The name of the connector profile. This name must be unique for each
   /// connector profile in the Amazon Web Services account.
   final String? connectorProfileName;
@@ -7344,6 +9272,7 @@ class SourceFlowConfig {
   SourceFlowConfig({
     required this.connectorType,
     required this.sourceConnectorProperties,
+    this.apiVersion,
     this.connectorProfileName,
     this.incrementalPullConfig,
   });
@@ -7353,6 +9282,7 @@ class SourceFlowConfig {
       connectorType: (json['connectorType'] as String).toConnectorType(),
       sourceConnectorProperties: SourceConnectorProperties.fromJson(
           json['sourceConnectorProperties'] as Map<String, dynamic>),
+      apiVersion: json['apiVersion'] as String?,
       connectorProfileName: json['connectorProfileName'] as String?,
       incrementalPullConfig: json['incrementalPullConfig'] != null
           ? IncrementalPullConfig.fromJson(
@@ -7364,11 +9294,13 @@ class SourceFlowConfig {
   Map<String, dynamic> toJson() {
     final connectorType = this.connectorType;
     final sourceConnectorProperties = this.sourceConnectorProperties;
+    final apiVersion = this.apiVersion;
     final connectorProfileName = this.connectorProfileName;
     final incrementalPullConfig = this.incrementalPullConfig;
     return {
       'connectorType': connectorType.toValue(),
       'sourceConnectorProperties': sourceConnectorProperties,
+      if (apiVersion != null) 'apiVersion': apiVersion,
       if (connectorProfileName != null)
         'connectorProfileName': connectorProfileName,
       if (incrementalPullConfig != null)
@@ -7439,6 +9371,40 @@ class StopFlowResponse {
     return {
       if (flowArn != null) 'flowArn': flowArn,
       if (flowStatus != null) 'flowStatus': flowStatus.toValue(),
+    };
+  }
+}
+
+/// Determines how Amazon AppFlow handles the success response that it gets from
+/// the connector after placing data.
+///
+/// For example, this setting would determine where to write the response from
+/// the destination connector upon a successful insert operation.
+class SuccessResponseHandlingConfig {
+  /// The name of the Amazon S3 bucket.
+  final String? bucketName;
+
+  /// The Amazon S3 bucket prefix.
+  final String? bucketPrefix;
+
+  SuccessResponseHandlingConfig({
+    this.bucketName,
+    this.bucketPrefix,
+  });
+
+  factory SuccessResponseHandlingConfig.fromJson(Map<String, dynamic> json) {
+    return SuccessResponseHandlingConfig(
+      bucketName: json['bucketName'] as String?,
+      bucketPrefix: json['bucketPrefix'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketName = this.bucketName;
+    final bucketPrefix = this.bucketPrefix;
+    return {
+      if (bucketName != null) 'bucketName': bucketName,
+      if (bucketPrefix != null) 'bucketPrefix': bucketPrefix,
     };
   }
 }
@@ -7551,6 +9517,7 @@ enum TaskType {
   mapAll,
   mask,
   merge,
+  passthrough,
   truncate,
   validate,
 }
@@ -7570,6 +9537,8 @@ extension on TaskType {
         return 'Mask';
       case TaskType.merge:
         return 'Merge';
+      case TaskType.passthrough:
+        return 'Passthrough';
       case TaskType.truncate:
         return 'Truncate';
       case TaskType.validate:
@@ -7593,6 +9562,8 @@ extension on String {
         return TaskType.mask;
       case 'Merge':
         return TaskType.merge;
+      case 'Passthrough':
+        return TaskType.passthrough;
       case 'Truncate':
         return TaskType.truncate;
       case 'Validate':
@@ -7860,6 +9831,18 @@ extension on String {
         return TriggerType.onDemand;
     }
     throw Exception('$this is not known in enum TriggerType');
+  }
+}
+
+class UnregisterConnectorResponse {
+  UnregisterConnectorResponse();
+
+  factory UnregisterConnectorResponse.fromJson(Map<String, dynamic> _) {
+    return UnregisterConnectorResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
@@ -8261,6 +10244,7 @@ enum WriteOperationType {
   insert,
   upsert,
   update,
+  delete,
 }
 
 extension on WriteOperationType {
@@ -8272,6 +10256,8 @@ extension on WriteOperationType {
         return 'UPSERT';
       case WriteOperationType.update:
         return 'UPDATE';
+      case WriteOperationType.delete:
+        return 'DELETE';
     }
   }
 }
@@ -8285,6 +10271,8 @@ extension on String {
         return WriteOperationType.upsert;
       case 'UPDATE':
         return WriteOperationType.update;
+      case 'DELETE':
+        return WriteOperationType.delete;
     }
     throw Exception('$this is not known in enum WriteOperationType');
   }
@@ -8548,6 +10536,11 @@ class ZendeskSourceProperties {
   }
 }
 
+class AccessDeniedException extends _s.GenericAwsException {
+  AccessDeniedException({String? type, String? message})
+      : super(type: type, code: 'AccessDeniedException', message: message);
+}
+
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
@@ -8584,6 +10577,11 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+class ThrottlingException extends _s.GenericAwsException {
+  ThrottlingException({String? type, String? message})
+      : super(type: type, code: 'ThrottlingException', message: message);
+}
+
 class UnsupportedOperationException extends _s.GenericAwsException {
   UnsupportedOperationException({String? type, String? message})
       : super(
@@ -8598,6 +10596,8 @@ class ValidationException extends _s.GenericAwsException {
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{
+  'AccessDeniedException': (type, message) =>
+      AccessDeniedException(type: type, message: message),
   'ConflictException': (type, message) =>
       ConflictException(type: type, message: message),
   'ConnectorAuthenticationException': (type, message) =>
@@ -8610,6 +10610,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       ResourceNotFoundException(type: type, message: message),
   'ServiceQuotaExceededException': (type, message) =>
       ServiceQuotaExceededException(type: type, message: message),
+  'ThrottlingException': (type, message) =>
+      ThrottlingException(type: type, message: message),
   'UnsupportedOperationException': (type, message) =>
       UnsupportedOperationException(type: type, message: message),
   'ValidationException': (type, message) =>

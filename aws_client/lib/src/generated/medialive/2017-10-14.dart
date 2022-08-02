@@ -298,6 +298,9 @@ class MediaLive {
   /// Parameter [logLevel] :
   /// The log level to write to CloudWatch Logs.
   ///
+  /// Parameter [maintenance] :
+  /// Maintenance settings for this channel.
+  ///
   /// Parameter [name] :
   /// Name of channel.
   ///
@@ -325,6 +328,7 @@ class MediaLive {
     List<InputAttachment>? inputAttachments,
     InputSpecification? inputSpecification,
     LogLevel? logLevel,
+    MaintenanceCreateSettings? maintenance,
     String? name,
     String? requestId,
     String? reserved,
@@ -341,6 +345,7 @@ class MediaLive {
       if (inputAttachments != null) 'inputAttachments': inputAttachments,
       if (inputSpecification != null) 'inputSpecification': inputSpecification,
       if (logLevel != null) 'logLevel': logLevel.toValue(),
+      if (maintenance != null) 'maintenance': maintenance,
       if (name != null) 'name': name,
       'requestId': requestId ?? _s.generateIdempotencyToken(),
       if (reserved != null) 'reserved': reserved,
@@ -1573,6 +1578,9 @@ class MediaLive {
   /// Parameter [name] :
   /// Name for the new reservation
   ///
+  /// Parameter [renewalSettings] :
+  /// Renewal settings for the reservation
+  ///
   /// Parameter [requestId] :
   /// Unique request ID to be specified. This is needed to prevent retries from
   /// creating multiple resources.
@@ -1588,6 +1596,7 @@ class MediaLive {
     required int count,
     required String offeringId,
     String? name,
+    RenewalSettings? renewalSettings,
     String? requestId,
     String? start,
     Map<String, String>? tags,
@@ -1604,6 +1613,7 @@ class MediaLive {
     final $payload = <String, dynamic>{
       'count': count,
       if (name != null) 'name': name,
+      if (renewalSettings != null) 'renewalSettings': renewalSettings,
       'requestId': requestId ?? _s.generateIdempotencyToken(),
       if (start != null) 'start': start,
       if (tags != null) 'tags': tags,
@@ -1615,6 +1625,45 @@ class MediaLive {
       exceptionFnMap: _exceptionFns,
     );
     return PurchaseOfferingResponse.fromJson(response);
+  }
+
+  /// Send a reboot command to the specified input device. The device will begin
+  /// rebooting within a few seconds of sending the command. When the reboot is
+  /// complete, the device’s connection status will change to connected.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [UnprocessableEntityException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [BadGatewayException].
+  /// May throw [NotFoundException].
+  /// May throw [GatewayTimeoutException].
+  /// May throw [TooManyRequestsException].
+  ///
+  /// Parameter [inputDeviceId] :
+  /// The unique ID of the input device to reboot. For example,
+  /// hd-123456789abcdef.
+  ///
+  /// Parameter [force] :
+  /// Force a reboot of an input device. If the device is streaming, it will
+  /// stop streaming and begin rebooting within a few seconds of sending the
+  /// command. If the device was streaming prior to the reboot, the device will
+  /// resume streaming when the reboot completes.
+  Future<void> rebootInputDevice({
+    required String inputDeviceId,
+    RebootInputDeviceForce? force,
+  }) async {
+    ArgumentError.checkNotNull(inputDeviceId, 'inputDeviceId');
+    final $payload = <String, dynamic>{
+      if (force != null) 'force': force.toValue(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/prod/inputDevices/${Uri.encodeComponent(inputDeviceId)}/reboot',
+      exceptionFnMap: _exceptionFns,
+    );
   }
 
   /// Reject the transfer of the specified input device to your AWS account.
@@ -1669,6 +1718,41 @@ class MediaLive {
       exceptionFnMap: _exceptionFns,
     );
     return StartChannelResponse.fromJson(response);
+  }
+
+  /// Start a maintenance window for the specified input device. Starting a
+  /// maintenance window will give the device up to two hours to install
+  /// software. If the device was streaming prior to the maintenance, it will
+  /// resume streaming when the software is fully installed. Devices
+  /// automatically install updates while they are powered on and their
+  /// MediaLive channels are stopped. A maintenance window allows you to update
+  /// a device without having to stop MediaLive channels that use the device.
+  /// The device must remain powered on and connected to the internet for the
+  /// duration of the maintenance.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [UnprocessableEntityException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [BadGatewayException].
+  /// May throw [NotFoundException].
+  /// May throw [GatewayTimeoutException].
+  /// May throw [TooManyRequestsException].
+  ///
+  /// Parameter [inputDeviceId] :
+  /// The unique ID of the input device to start a maintenance window for. For
+  /// example, hd-123456789abcdef.
+  Future<void> startInputDeviceMaintenanceWindow({
+    required String inputDeviceId,
+  }) async {
+    ArgumentError.checkNotNull(inputDeviceId, 'inputDeviceId');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'POST',
+      requestUri:
+          '/prod/inputDevices/${Uri.encodeComponent(inputDeviceId)}/startInputDeviceMaintenanceWindow',
+      exceptionFnMap: _exceptionFns,
+    );
   }
 
   /// Start (run) the multiplex. Starting the multiplex does not start the
@@ -1824,6 +1908,9 @@ class MediaLive {
   /// Parameter [logLevel] :
   /// The log level to write to CloudWatch Logs.
   ///
+  /// Parameter [maintenance] :
+  /// Maintenance settings for this channel.
+  ///
   /// Parameter [name] :
   /// The name of the channel.
   ///
@@ -1839,6 +1926,7 @@ class MediaLive {
     List<InputAttachment>? inputAttachments,
     InputSpecification? inputSpecification,
     LogLevel? logLevel,
+    MaintenanceUpdateSettings? maintenance,
     String? name,
     String? roleArn,
   }) async {
@@ -1851,6 +1939,7 @@ class MediaLive {
       if (inputAttachments != null) 'inputAttachments': inputAttachments,
       if (inputSpecification != null) 'inputSpecification': inputSpecification,
       if (logLevel != null) 'logLevel': logLevel.toValue(),
+      if (maintenance != null) 'maintenance': maintenance,
       if (name != null) 'name': name,
       if (roleArn != null) 'roleArn': roleArn,
     };
@@ -2150,13 +2239,18 @@ class MediaLive {
   ///
   /// Parameter [name] :
   /// Name of the reservation
+  ///
+  /// Parameter [renewalSettings] :
+  /// Renewal settings for the reservation
   Future<UpdateReservationResponse> updateReservation({
     required String reservationId,
     String? name,
+    RenewalSettings? renewalSettings,
   }) async {
     ArgumentError.checkNotNull(reservationId, 'reservationId');
     final $payload = <String, dynamic>{
       if (name != null) 'name': name,
+      if (renewalSettings != null) 'renewalSettings': renewalSettings,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2762,6 +2856,35 @@ class AcceptInputDeviceTransferResponse {
 
   Map<String, dynamic> toJson() {
     return {};
+  }
+}
+
+/// Accessibility Type
+enum AccessibilityType {
+  doesNotImplementAccessibilityFeatures,
+  implementsAccessibilityFeatures,
+}
+
+extension on AccessibilityType {
+  String toValue() {
+    switch (this) {
+      case AccessibilityType.doesNotImplementAccessibilityFeatures:
+        return 'DOES_NOT_IMPLEMENT_ACCESSIBILITY_FEATURES';
+      case AccessibilityType.implementsAccessibilityFeatures:
+        return 'IMPLEMENTS_ACCESSIBILITY_FEATURES';
+    }
+  }
+}
+
+extension on String {
+  AccessibilityType toAccessibilityType() {
+    switch (this) {
+      case 'DOES_NOT_IMPLEMENT_ACCESSIBILITY_FEATURES':
+        return AccessibilityType.doesNotImplementAccessibilityFeatures;
+      case 'IMPLEMENTS_ACCESSIBILITY_FEATURES':
+        return AccessibilityType.implementsAccessibilityFeatures;
+    }
+    throw Exception('$this is not known in enum AccessibilityType');
   }
 }
 
@@ -5007,6 +5130,10 @@ class CaptionDescription {
   /// with an output.  Names must be unique within an event.
   final String name;
 
+  /// Indicates whether the caption track implements accessibility features such
+  /// as written descriptions of spoken dialog, music, and sounds.
+  final AccessibilityType? accessibility;
+
   /// Additional settings for captions destination that depend on the destination
   /// type.
   final CaptionDestinationSettings? destinationSettings;
@@ -5021,6 +5148,7 @@ class CaptionDescription {
   CaptionDescription({
     required this.captionSelectorName,
     required this.name,
+    this.accessibility,
     this.destinationSettings,
     this.languageCode,
     this.languageDescription,
@@ -5030,6 +5158,7 @@ class CaptionDescription {
     return CaptionDescription(
       captionSelectorName: json['captionSelectorName'] as String,
       name: json['name'] as String,
+      accessibility: (json['accessibility'] as String?)?.toAccessibilityType(),
       destinationSettings: json['destinationSettings'] != null
           ? CaptionDestinationSettings.fromJson(
               json['destinationSettings'] as Map<String, dynamic>)
@@ -5042,12 +5171,14 @@ class CaptionDescription {
   Map<String, dynamic> toJson() {
     final captionSelectorName = this.captionSelectorName;
     final name = this.name;
+    final accessibility = this.accessibility;
     final destinationSettings = this.destinationSettings;
     final languageCode = this.languageCode;
     final languageDescription = this.languageDescription;
     return {
       'captionSelectorName': captionSelectorName,
       'name': name,
+      if (accessibility != null) 'accessibility': accessibility.toValue(),
       if (destinationSettings != null)
         'destinationSettings': destinationSettings,
       if (languageCode != null) 'languageCode': languageCode,
@@ -5539,6 +5670,9 @@ class Channel {
   /// The log level being written to CloudWatch Logs.
   final LogLevel? logLevel;
 
+  /// Maintenance settings for this channel.
+  final MaintenanceStatus? maintenance;
+
   /// The name of the channel. (user-mutable)
   final String? name;
 
@@ -5569,6 +5703,7 @@ class Channel {
     this.inputAttachments,
     this.inputSpecification,
     this.logLevel,
+    this.maintenance,
     this.name,
     this.pipelineDetails,
     this.pipelinesRunningCount,
@@ -5608,6 +5743,10 @@ class Channel {
               json['inputSpecification'] as Map<String, dynamic>)
           : null,
       logLevel: (json['logLevel'] as String?)?.toLogLevel(),
+      maintenance: json['maintenance'] != null
+          ? MaintenanceStatus.fromJson(
+              json['maintenance'] as Map<String, dynamic>)
+          : null,
       name: json['name'] as String?,
       pipelineDetails: (json['pipelineDetails'] as List?)
           ?.whereNotNull()
@@ -5636,6 +5775,7 @@ class Channel {
     final inputAttachments = this.inputAttachments;
     final inputSpecification = this.inputSpecification;
     final logLevel = this.logLevel;
+    final maintenance = this.maintenance;
     final name = this.name;
     final pipelineDetails = this.pipelineDetails;
     final pipelinesRunningCount = this.pipelinesRunningCount;
@@ -5655,6 +5795,7 @@ class Channel {
       if (inputAttachments != null) 'inputAttachments': inputAttachments,
       if (inputSpecification != null) 'inputSpecification': inputSpecification,
       if (logLevel != null) 'logLevel': logLevel.toValue(),
+      if (maintenance != null) 'maintenance': maintenance,
       if (name != null) 'name': name,
       if (pipelineDetails != null) 'pipelineDetails': pipelineDetails,
       if (pipelinesRunningCount != null)
@@ -5826,6 +5967,9 @@ class ChannelSummary {
   /// The log level being written to CloudWatch Logs.
   final LogLevel? logLevel;
 
+  /// Maintenance settings for this channel.
+  final MaintenanceStatus? maintenance;
+
   /// The name of the channel. (user-mutable)
   final String? name;
 
@@ -5852,6 +5996,7 @@ class ChannelSummary {
     this.inputAttachments,
     this.inputSpecification,
     this.logLevel,
+    this.maintenance,
     this.name,
     this.pipelinesRunningCount,
     this.roleArn,
@@ -5886,6 +6031,10 @@ class ChannelSummary {
               json['inputSpecification'] as Map<String, dynamic>)
           : null,
       logLevel: (json['logLevel'] as String?)?.toLogLevel(),
+      maintenance: json['maintenance'] != null
+          ? MaintenanceStatus.fromJson(
+              json['maintenance'] as Map<String, dynamic>)
+          : null,
       name: json['name'] as String?,
       pipelinesRunningCount: json['pipelinesRunningCount'] as int?,
       roleArn: json['roleArn'] as String?,
@@ -5909,6 +6058,7 @@ class ChannelSummary {
     final inputAttachments = this.inputAttachments;
     final inputSpecification = this.inputSpecification;
     final logLevel = this.logLevel;
+    final maintenance = this.maintenance;
     final name = this.name;
     final pipelinesRunningCount = this.pipelinesRunningCount;
     final roleArn = this.roleArn;
@@ -5926,6 +6076,7 @@ class ChannelSummary {
       if (inputAttachments != null) 'inputAttachments': inputAttachments,
       if (inputSpecification != null) 'inputSpecification': inputSpecification,
       if (logLevel != null) 'logLevel': logLevel.toValue(),
+      if (maintenance != null) 'maintenance': maintenance,
       if (name != null) 'name': name,
       if (pipelinesRunningCount != null)
         'pipelinesRunningCount': pipelinesRunningCount,
@@ -6144,6 +6295,9 @@ class DeleteChannelResponse {
   /// The log level being written to CloudWatch Logs.
   final LogLevel? logLevel;
 
+  /// Maintenance settings for this channel.
+  final MaintenanceStatus? maintenance;
+
   /// The name of the channel. (user-mutable)
   final String? name;
 
@@ -6174,6 +6328,7 @@ class DeleteChannelResponse {
     this.inputAttachments,
     this.inputSpecification,
     this.logLevel,
+    this.maintenance,
     this.name,
     this.pipelineDetails,
     this.pipelinesRunningCount,
@@ -6213,6 +6368,10 @@ class DeleteChannelResponse {
               json['inputSpecification'] as Map<String, dynamic>)
           : null,
       logLevel: (json['logLevel'] as String?)?.toLogLevel(),
+      maintenance: json['maintenance'] != null
+          ? MaintenanceStatus.fromJson(
+              json['maintenance'] as Map<String, dynamic>)
+          : null,
       name: json['name'] as String?,
       pipelineDetails: (json['pipelineDetails'] as List?)
           ?.whereNotNull()
@@ -6241,6 +6400,7 @@ class DeleteChannelResponse {
     final inputAttachments = this.inputAttachments;
     final inputSpecification = this.inputSpecification;
     final logLevel = this.logLevel;
+    final maintenance = this.maintenance;
     final name = this.name;
     final pipelineDetails = this.pipelineDetails;
     final pipelinesRunningCount = this.pipelinesRunningCount;
@@ -6260,6 +6420,7 @@ class DeleteChannelResponse {
       if (inputAttachments != null) 'inputAttachments': inputAttachments,
       if (inputSpecification != null) 'inputSpecification': inputSpecification,
       if (logLevel != null) 'logLevel': logLevel.toValue(),
+      if (maintenance != null) 'maintenance': maintenance,
       if (name != null) 'name': name,
       if (pipelineDetails != null) 'pipelineDetails': pipelineDetails,
       if (pipelinesRunningCount != null)
@@ -6505,6 +6666,9 @@ class DeleteReservationResponse {
   /// AWS region, e.g. 'us-west-2'
   final String? region;
 
+  /// Renewal settings for the reservation
+  final RenewalSettings? renewalSettings;
+
   /// Unique reservation ID, e.g. '1234567'
   final String? reservationId;
 
@@ -6537,6 +6701,7 @@ class DeleteReservationResponse {
     this.offeringId,
     this.offeringType,
     this.region,
+    this.renewalSettings,
     this.reservationId,
     this.resourceSpecification,
     this.start,
@@ -6560,6 +6725,10 @@ class DeleteReservationResponse {
       offeringId: json['offeringId'] as String?,
       offeringType: (json['offeringType'] as String?)?.toOfferingType(),
       region: json['region'] as String?,
+      renewalSettings: json['renewalSettings'] != null
+          ? RenewalSettings.fromJson(
+              json['renewalSettings'] as Map<String, dynamic>)
+          : null,
       reservationId: json['reservationId'] as String?,
       resourceSpecification: json['resourceSpecification'] != null
           ? ReservationResourceSpecification.fromJson(
@@ -6586,6 +6755,7 @@ class DeleteReservationResponse {
     final offeringId = this.offeringId;
     final offeringType = this.offeringType;
     final region = this.region;
+    final renewalSettings = this.renewalSettings;
     final reservationId = this.reservationId;
     final resourceSpecification = this.resourceSpecification;
     final start = this.start;
@@ -6606,6 +6776,7 @@ class DeleteReservationResponse {
       if (offeringId != null) 'offeringId': offeringId,
       if (offeringType != null) 'offeringType': offeringType.toValue(),
       if (region != null) 'region': region,
+      if (renewalSettings != null) 'renewalSettings': renewalSettings,
       if (reservationId != null) 'reservationId': reservationId,
       if (resourceSpecification != null)
         'resourceSpecification': resourceSpecification,
@@ -6663,6 +6834,9 @@ class DescribeChannelResponse {
   /// The log level being written to CloudWatch Logs.
   final LogLevel? logLevel;
 
+  /// Maintenance settings for this channel.
+  final MaintenanceStatus? maintenance;
+
   /// The name of the channel. (user-mutable)
   final String? name;
 
@@ -6693,6 +6867,7 @@ class DescribeChannelResponse {
     this.inputAttachments,
     this.inputSpecification,
     this.logLevel,
+    this.maintenance,
     this.name,
     this.pipelineDetails,
     this.pipelinesRunningCount,
@@ -6732,6 +6907,10 @@ class DescribeChannelResponse {
               json['inputSpecification'] as Map<String, dynamic>)
           : null,
       logLevel: (json['logLevel'] as String?)?.toLogLevel(),
+      maintenance: json['maintenance'] != null
+          ? MaintenanceStatus.fromJson(
+              json['maintenance'] as Map<String, dynamic>)
+          : null,
       name: json['name'] as String?,
       pipelineDetails: (json['pipelineDetails'] as List?)
           ?.whereNotNull()
@@ -6760,6 +6939,7 @@ class DescribeChannelResponse {
     final inputAttachments = this.inputAttachments;
     final inputSpecification = this.inputSpecification;
     final logLevel = this.logLevel;
+    final maintenance = this.maintenance;
     final name = this.name;
     final pipelineDetails = this.pipelineDetails;
     final pipelinesRunningCount = this.pipelinesRunningCount;
@@ -6779,6 +6959,7 @@ class DescribeChannelResponse {
       if (inputAttachments != null) 'inputAttachments': inputAttachments,
       if (inputSpecification != null) 'inputSpecification': inputSpecification,
       if (logLevel != null) 'logLevel': logLevel.toValue(),
+      if (maintenance != null) 'maintenance': maintenance,
       if (name != null) 'name': name,
       if (pipelineDetails != null) 'pipelineDetails': pipelineDetails,
       if (pipelinesRunningCount != null)
@@ -7492,6 +7673,9 @@ class DescribeReservationResponse {
   /// AWS region, e.g. 'us-west-2'
   final String? region;
 
+  /// Renewal settings for the reservation
+  final RenewalSettings? renewalSettings;
+
   /// Unique reservation ID, e.g. '1234567'
   final String? reservationId;
 
@@ -7524,6 +7708,7 @@ class DescribeReservationResponse {
     this.offeringId,
     this.offeringType,
     this.region,
+    this.renewalSettings,
     this.reservationId,
     this.resourceSpecification,
     this.start,
@@ -7547,6 +7732,10 @@ class DescribeReservationResponse {
       offeringId: json['offeringId'] as String?,
       offeringType: (json['offeringType'] as String?)?.toOfferingType(),
       region: json['region'] as String?,
+      renewalSettings: json['renewalSettings'] != null
+          ? RenewalSettings.fromJson(
+              json['renewalSettings'] as Map<String, dynamic>)
+          : null,
       reservationId: json['reservationId'] as String?,
       resourceSpecification: json['resourceSpecification'] != null
           ? ReservationResourceSpecification.fromJson(
@@ -7573,6 +7762,7 @@ class DescribeReservationResponse {
     final offeringId = this.offeringId;
     final offeringType = this.offeringType;
     final region = this.region;
+    final renewalSettings = this.renewalSettings;
     final reservationId = this.reservationId;
     final resourceSpecification = this.resourceSpecification;
     final start = this.start;
@@ -7593,6 +7783,7 @@ class DescribeReservationResponse {
       if (offeringId != null) 'offeringId': offeringId,
       if (offeringType != null) 'offeringType': offeringType.toValue(),
       if (region != null) 'region': region,
+      if (renewalSettings != null) 'renewalSettings': renewalSettings,
       if (reservationId != null) 'reservationId': reservationId,
       if (resourceSpecification != null)
         'resourceSpecification': resourceSpecification,
@@ -7674,6 +7865,7 @@ extension on String {
 enum DeviceUpdateStatus {
   upToDate,
   notUpToDate,
+  updating,
 }
 
 extension on DeviceUpdateStatus {
@@ -7683,6 +7875,8 @@ extension on DeviceUpdateStatus {
         return 'UP_TO_DATE';
       case DeviceUpdateStatus.notUpToDate:
         return 'NOT_UP_TO_DATE';
+      case DeviceUpdateStatus.updating:
+        return 'UPDATING';
     }
   }
 }
@@ -7694,6 +7888,8 @@ extension on String {
         return DeviceUpdateStatus.upToDate;
       case 'NOT_UP_TO_DATE':
         return DeviceUpdateStatus.notUpToDate;
+      case 'UPDATING':
+        return DeviceUpdateStatus.updating;
     }
     throw Exception('$this is not known in enum DeviceUpdateStatus');
   }
@@ -9030,9 +9226,8 @@ extension on String {
 
 /// Ebu Tt DDestination Settings
 class EbuTtDDestinationSettings {
-  /// Applies only if you plan to convert these source captions to EBU-TT-D or
-  /// TTML in an output. Complete this field if you want to include the name of
-  /// the copyright holder in the copyright metadata tag in the TTML
+  /// Complete this field if you want to include the name of the copyright holder
+  /// in the copyright tag in the captions metadata.
   final String? copyrightHolder;
 
   /// Specifies how to handle the gap between the lines (in multi-line captions).
@@ -13059,11 +13254,21 @@ class HlsGroupSettings {
   final HlsOutputSelection? outputSelection;
 
   /// Includes or excludes EXT-X-PROGRAM-DATE-TIME tag in .m3u8 manifest files.
-  /// The value is calculated as follows: either the program date and time are
-  /// initialized using the input timecode source, or the time is initialized
-  /// using the input timecode source and the date is initialized using the
-  /// timestampOffset.
+  /// The value is calculated using the program date time clock.
   final HlsProgramDateTime? programDateTime;
+
+  /// Specifies the algorithm used to drive the HLS EXT-X-PROGRAM-DATE-TIME clock.
+  /// Options include:
+  ///
+  /// INITIALIZE_FROM_OUTPUT_TIMECODE: The PDT clock is initialized as a function
+  /// of the first output timecode, then incremented by the EXTINF duration of
+  /// each encoded segment.
+  ///
+  /// SYSTEM_CLOCK: The PDT clock is initialized as a function of the UTC wall
+  /// clock, then incremented by the EXTINF duration of each encoded segment. If
+  /// the PDT clock diverges from the wall clock by more than 500ms, it is
+  /// resynchronized to the wall clock.
+  final HlsProgramDateTimeClock? programDateTimeClock;
 
   /// Period of insertion of EXT-X-PROGRAM-DATE-TIME entry, in seconds.
   final int? programDateTimePeriod;
@@ -13154,6 +13359,7 @@ class HlsGroupSettings {
     this.mode,
     this.outputSelection,
     this.programDateTime,
+    this.programDateTimeClock,
     this.programDateTimePeriod,
     this.redundantManifest,
     this.segmentLength,
@@ -13227,6 +13433,8 @@ class HlsGroupSettings {
           (json['outputSelection'] as String?)?.toHlsOutputSelection(),
       programDateTime:
           (json['programDateTime'] as String?)?.toHlsProgramDateTime(),
+      programDateTimeClock: (json['programDateTimeClock'] as String?)
+          ?.toHlsProgramDateTimeClock(),
       programDateTimePeriod: json['programDateTimePeriod'] as int?,
       redundantManifest:
           (json['redundantManifest'] as String?)?.toHlsRedundantManifest(),
@@ -13277,6 +13485,7 @@ class HlsGroupSettings {
     final mode = this.mode;
     final outputSelection = this.outputSelection;
     final programDateTime = this.programDateTime;
+    final programDateTimeClock = this.programDateTimeClock;
     final programDateTimePeriod = this.programDateTimePeriod;
     final redundantManifest = this.redundantManifest;
     final segmentLength = this.segmentLength;
@@ -13332,6 +13541,8 @@ class HlsGroupSettings {
       if (mode != null) 'mode': mode.toValue(),
       if (outputSelection != null) 'outputSelection': outputSelection.toValue(),
       if (programDateTime != null) 'programDateTime': programDateTime.toValue(),
+      if (programDateTimeClock != null)
+        'programDateTimeClock': programDateTimeClock.toValue(),
       if (programDateTimePeriod != null)
         'programDateTimePeriod': programDateTimePeriod,
       if (redundantManifest != null)
@@ -13865,6 +14076,35 @@ extension on String {
         return HlsProgramDateTime.include;
     }
     throw Exception('$this is not known in enum HlsProgramDateTime');
+  }
+}
+
+/// Hls Program Date Time Clock
+enum HlsProgramDateTimeClock {
+  initializeFromOutputTimecode,
+  systemClock,
+}
+
+extension on HlsProgramDateTimeClock {
+  String toValue() {
+    switch (this) {
+      case HlsProgramDateTimeClock.initializeFromOutputTimecode:
+        return 'INITIALIZE_FROM_OUTPUT_TIMECODE';
+      case HlsProgramDateTimeClock.systemClock:
+        return 'SYSTEM_CLOCK';
+    }
+  }
+}
+
+extension on String {
+  HlsProgramDateTimeClock toHlsProgramDateTimeClock() {
+    switch (this) {
+      case 'INITIALIZE_FROM_OUTPUT_TIMECODE':
+        return HlsProgramDateTimeClock.initializeFromOutputTimecode;
+      case 'SYSTEM_CLOCK':
+        return HlsProgramDateTimeClock.systemClock;
+    }
+    throw Exception('$this is not known in enum HlsProgramDateTimeClock');
   }
 }
 
@@ -18335,6 +18575,183 @@ extension on String {
   }
 }
 
+/// Placeholder documentation for MaintenanceCreateSettings
+class MaintenanceCreateSettings {
+  /// Choose one day of the week for maintenance. The chosen day is used for all
+  /// future maintenance windows.
+  final MaintenanceDay? maintenanceDay;
+
+  /// Choose the hour that maintenance will start. The chosen time is used for all
+  /// future maintenance windows.
+  final String? maintenanceStartTime;
+
+  MaintenanceCreateSettings({
+    this.maintenanceDay,
+    this.maintenanceStartTime,
+  });
+
+  factory MaintenanceCreateSettings.fromJson(Map<String, dynamic> json) {
+    return MaintenanceCreateSettings(
+      maintenanceDay: (json['maintenanceDay'] as String?)?.toMaintenanceDay(),
+      maintenanceStartTime: json['maintenanceStartTime'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maintenanceDay = this.maintenanceDay;
+    final maintenanceStartTime = this.maintenanceStartTime;
+    return {
+      if (maintenanceDay != null) 'maintenanceDay': maintenanceDay.toValue(),
+      if (maintenanceStartTime != null)
+        'maintenanceStartTime': maintenanceStartTime,
+    };
+  }
+}
+
+/// The currently selected maintenance day.
+enum MaintenanceDay {
+  monday,
+  tuesday,
+  wednesday,
+  thursday,
+  friday,
+  saturday,
+  sunday,
+}
+
+extension on MaintenanceDay {
+  String toValue() {
+    switch (this) {
+      case MaintenanceDay.monday:
+        return 'MONDAY';
+      case MaintenanceDay.tuesday:
+        return 'TUESDAY';
+      case MaintenanceDay.wednesday:
+        return 'WEDNESDAY';
+      case MaintenanceDay.thursday:
+        return 'THURSDAY';
+      case MaintenanceDay.friday:
+        return 'FRIDAY';
+      case MaintenanceDay.saturday:
+        return 'SATURDAY';
+      case MaintenanceDay.sunday:
+        return 'SUNDAY';
+    }
+  }
+}
+
+extension on String {
+  MaintenanceDay toMaintenanceDay() {
+    switch (this) {
+      case 'MONDAY':
+        return MaintenanceDay.monday;
+      case 'TUESDAY':
+        return MaintenanceDay.tuesday;
+      case 'WEDNESDAY':
+        return MaintenanceDay.wednesday;
+      case 'THURSDAY':
+        return MaintenanceDay.thursday;
+      case 'FRIDAY':
+        return MaintenanceDay.friday;
+      case 'SATURDAY':
+        return MaintenanceDay.saturday;
+      case 'SUNDAY':
+        return MaintenanceDay.sunday;
+    }
+    throw Exception('$this is not known in enum MaintenanceDay');
+  }
+}
+
+/// Placeholder documentation for MaintenanceStatus
+class MaintenanceStatus {
+  /// The currently selected maintenance day.
+  final MaintenanceDay? maintenanceDay;
+
+  /// Maintenance is required by the displayed date and time. Date and time is in
+  /// ISO.
+  final String? maintenanceDeadline;
+
+  /// The currently scheduled maintenance date and time. Date and time is in ISO.
+  final String? maintenanceScheduledDate;
+
+  /// The currently selected maintenance start time. Time is in UTC.
+  final String? maintenanceStartTime;
+
+  MaintenanceStatus({
+    this.maintenanceDay,
+    this.maintenanceDeadline,
+    this.maintenanceScheduledDate,
+    this.maintenanceStartTime,
+  });
+
+  factory MaintenanceStatus.fromJson(Map<String, dynamic> json) {
+    return MaintenanceStatus(
+      maintenanceDay: (json['maintenanceDay'] as String?)?.toMaintenanceDay(),
+      maintenanceDeadline: json['maintenanceDeadline'] as String?,
+      maintenanceScheduledDate: json['maintenanceScheduledDate'] as String?,
+      maintenanceStartTime: json['maintenanceStartTime'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maintenanceDay = this.maintenanceDay;
+    final maintenanceDeadline = this.maintenanceDeadline;
+    final maintenanceScheduledDate = this.maintenanceScheduledDate;
+    final maintenanceStartTime = this.maintenanceStartTime;
+    return {
+      if (maintenanceDay != null) 'maintenanceDay': maintenanceDay.toValue(),
+      if (maintenanceDeadline != null)
+        'maintenanceDeadline': maintenanceDeadline,
+      if (maintenanceScheduledDate != null)
+        'maintenanceScheduledDate': maintenanceScheduledDate,
+      if (maintenanceStartTime != null)
+        'maintenanceStartTime': maintenanceStartTime,
+    };
+  }
+}
+
+/// Placeholder documentation for MaintenanceUpdateSettings
+class MaintenanceUpdateSettings {
+  /// Choose one day of the week for maintenance. The chosen day is used for all
+  /// future maintenance windows.
+  final MaintenanceDay? maintenanceDay;
+
+  /// Choose a specific date for maintenance to occur. The chosen date is used for
+  /// the next maintenance window only.
+  final String? maintenanceScheduledDate;
+
+  /// Choose the hour that maintenance will start. The chosen time is used for all
+  /// future maintenance windows.
+  final String? maintenanceStartTime;
+
+  MaintenanceUpdateSettings({
+    this.maintenanceDay,
+    this.maintenanceScheduledDate,
+    this.maintenanceStartTime,
+  });
+
+  factory MaintenanceUpdateSettings.fromJson(Map<String, dynamic> json) {
+    return MaintenanceUpdateSettings(
+      maintenanceDay: (json['maintenanceDay'] as String?)?.toMaintenanceDay(),
+      maintenanceScheduledDate: json['maintenanceScheduledDate'] as String?,
+      maintenanceStartTime: json['maintenanceStartTime'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maintenanceDay = this.maintenanceDay;
+    final maintenanceScheduledDate = this.maintenanceScheduledDate;
+    final maintenanceStartTime = this.maintenanceStartTime;
+    return {
+      if (maintenanceDay != null) 'maintenanceDay': maintenanceDay.toValue(),
+      if (maintenanceScheduledDate != null)
+        'maintenanceScheduledDate': maintenanceScheduledDate,
+      if (maintenanceStartTime != null)
+        'maintenanceStartTime': maintenanceStartTime,
+    };
+  }
+}
+
 /// The settings for a MediaConnect Flow.
 class MediaConnectFlow {
   /// The unique ARN of the MediaConnect Flow being used as a source.
@@ -20846,8 +21263,7 @@ class OutputGroup {
   final OutputGroupSettings outputGroupSettings;
   final List<Output> outputs;
 
-  /// Custom output group name optionally defined by the user.  Only letters,
-  /// numbers, and the underscore character allowed; only 32 characters allowed.
+  /// Custom output group name optionally defined by the user.
   final String? name;
 
   OutputGroup({
@@ -21304,6 +21720,48 @@ class RawSettings {
   }
 }
 
+/// Whether or not to force reboot the input device.
+enum RebootInputDeviceForce {
+  no,
+  yes,
+}
+
+extension on RebootInputDeviceForce {
+  String toValue() {
+    switch (this) {
+      case RebootInputDeviceForce.no:
+        return 'NO';
+      case RebootInputDeviceForce.yes:
+        return 'YES';
+    }
+  }
+}
+
+extension on String {
+  RebootInputDeviceForce toRebootInputDeviceForce() {
+    switch (this) {
+      case 'NO':
+        return RebootInputDeviceForce.no;
+      case 'YES':
+        return RebootInputDeviceForce.yes;
+    }
+    throw Exception('$this is not known in enum RebootInputDeviceForce');
+  }
+}
+
+/// Placeholder documentation for RebootInputDeviceResponse
+class RebootInputDeviceResponse {
+  RebootInputDeviceResponse();
+
+  factory RebootInputDeviceResponse.fromJson(Map<String, dynamic> _) {
+    return RebootInputDeviceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 /// Rec601 Settings
 class Rec601Settings {
   Rec601Settings();
@@ -21385,6 +21843,38 @@ class RemixSettings {
   }
 }
 
+/// The Renewal settings for Reservations
+class RenewalSettings {
+  /// Automatic renewal status for the reservation
+  final ReservationAutomaticRenewal? automaticRenewal;
+
+  /// Count for the reservation renewal
+  final int? renewalCount;
+
+  RenewalSettings({
+    this.automaticRenewal,
+    this.renewalCount,
+  });
+
+  factory RenewalSettings.fromJson(Map<String, dynamic> json) {
+    return RenewalSettings(
+      automaticRenewal: (json['automaticRenewal'] as String?)
+          ?.toReservationAutomaticRenewal(),
+      renewalCount: json['renewalCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final automaticRenewal = this.automaticRenewal;
+    final renewalCount = this.renewalCount;
+    return {
+      if (automaticRenewal != null)
+        'automaticRenewal': automaticRenewal.toValue(),
+      if (renewalCount != null) 'renewalCount': renewalCount,
+    };
+  }
+}
+
 /// Reserved resources available to use
 class Reservation {
   /// Unique reservation ARN, e.g.
@@ -21427,6 +21917,9 @@ class Reservation {
   /// AWS region, e.g. 'us-west-2'
   final String? region;
 
+  /// Renewal settings for the reservation
+  final RenewalSettings? renewalSettings;
+
   /// Unique reservation ID, e.g. '1234567'
   final String? reservationId;
 
@@ -21459,6 +21952,7 @@ class Reservation {
     this.offeringId,
     this.offeringType,
     this.region,
+    this.renewalSettings,
     this.reservationId,
     this.resourceSpecification,
     this.start,
@@ -21482,6 +21976,10 @@ class Reservation {
       offeringId: json['offeringId'] as String?,
       offeringType: (json['offeringType'] as String?)?.toOfferingType(),
       region: json['region'] as String?,
+      renewalSettings: json['renewalSettings'] != null
+          ? RenewalSettings.fromJson(
+              json['renewalSettings'] as Map<String, dynamic>)
+          : null,
       reservationId: json['reservationId'] as String?,
       resourceSpecification: json['resourceSpecification'] != null
           ? ReservationResourceSpecification.fromJson(
@@ -21508,6 +22006,7 @@ class Reservation {
     final offeringId = this.offeringId;
     final offeringType = this.offeringType;
     final region = this.region;
+    final renewalSettings = this.renewalSettings;
     final reservationId = this.reservationId;
     final resourceSpecification = this.resourceSpecification;
     final start = this.start;
@@ -21528,6 +22027,7 @@ class Reservation {
       if (offeringId != null) 'offeringId': offeringId,
       if (offeringType != null) 'offeringType': offeringType.toValue(),
       if (region != null) 'region': region,
+      if (renewalSettings != null) 'renewalSettings': renewalSettings,
       if (reservationId != null) 'reservationId': reservationId,
       if (resourceSpecification != null)
         'resourceSpecification': resourceSpecification,
@@ -21536,6 +22036,40 @@ class Reservation {
       if (tags != null) 'tags': tags,
       if (usagePrice != null) 'usagePrice': usagePrice,
     };
+  }
+}
+
+/// Automatic Renewal Status for Reservation
+enum ReservationAutomaticRenewal {
+  disabled,
+  enabled,
+  unavailable,
+}
+
+extension on ReservationAutomaticRenewal {
+  String toValue() {
+    switch (this) {
+      case ReservationAutomaticRenewal.disabled:
+        return 'DISABLED';
+      case ReservationAutomaticRenewal.enabled:
+        return 'ENABLED';
+      case ReservationAutomaticRenewal.unavailable:
+        return 'UNAVAILABLE';
+    }
+  }
+}
+
+extension on String {
+  ReservationAutomaticRenewal toReservationAutomaticRenewal() {
+    switch (this) {
+      case 'DISABLED':
+        return ReservationAutomaticRenewal.disabled;
+      case 'ENABLED':
+        return ReservationAutomaticRenewal.enabled;
+      case 'UNAVAILABLE':
+        return ReservationAutomaticRenewal.unavailable;
+    }
+    throw Exception('$this is not known in enum ReservationAutomaticRenewal');
   }
 }
 
@@ -23725,6 +24259,9 @@ class StartChannelResponse {
   /// The log level being written to CloudWatch Logs.
   final LogLevel? logLevel;
 
+  /// Maintenance settings for this channel.
+  final MaintenanceStatus? maintenance;
+
   /// The name of the channel. (user-mutable)
   final String? name;
 
@@ -23755,6 +24292,7 @@ class StartChannelResponse {
     this.inputAttachments,
     this.inputSpecification,
     this.logLevel,
+    this.maintenance,
     this.name,
     this.pipelineDetails,
     this.pipelinesRunningCount,
@@ -23794,6 +24332,10 @@ class StartChannelResponse {
               json['inputSpecification'] as Map<String, dynamic>)
           : null,
       logLevel: (json['logLevel'] as String?)?.toLogLevel(),
+      maintenance: json['maintenance'] != null
+          ? MaintenanceStatus.fromJson(
+              json['maintenance'] as Map<String, dynamic>)
+          : null,
       name: json['name'] as String?,
       pipelineDetails: (json['pipelineDetails'] as List?)
           ?.whereNotNull()
@@ -23822,6 +24364,7 @@ class StartChannelResponse {
     final inputAttachments = this.inputAttachments;
     final inputSpecification = this.inputSpecification;
     final logLevel = this.logLevel;
+    final maintenance = this.maintenance;
     final name = this.name;
     final pipelineDetails = this.pipelineDetails;
     final pipelinesRunningCount = this.pipelinesRunningCount;
@@ -23841,6 +24384,7 @@ class StartChannelResponse {
       if (inputAttachments != null) 'inputAttachments': inputAttachments,
       if (inputSpecification != null) 'inputSpecification': inputSpecification,
       if (logLevel != null) 'logLevel': logLevel.toValue(),
+      if (maintenance != null) 'maintenance': maintenance,
       if (name != null) 'name': name,
       if (pipelineDetails != null) 'pipelineDetails': pipelineDetails,
       if (pipelinesRunningCount != null)
@@ -23850,6 +24394,20 @@ class StartChannelResponse {
       if (tags != null) 'tags': tags,
       if (vpc != null) 'vpc': vpc,
     };
+  }
+}
+
+/// Placeholder documentation for StartInputDeviceMaintenanceWindowResponse
+class StartInputDeviceMaintenanceWindowResponse {
+  StartInputDeviceMaintenanceWindowResponse();
+
+  factory StartInputDeviceMaintenanceWindowResponse.fromJson(
+      Map<String, dynamic> _) {
+    return StartInputDeviceMaintenanceWindowResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
@@ -24182,6 +24740,9 @@ class StopChannelResponse {
   /// The log level being written to CloudWatch Logs.
   final LogLevel? logLevel;
 
+  /// Maintenance settings for this channel.
+  final MaintenanceStatus? maintenance;
+
   /// The name of the channel. (user-mutable)
   final String? name;
 
@@ -24212,6 +24773,7 @@ class StopChannelResponse {
     this.inputAttachments,
     this.inputSpecification,
     this.logLevel,
+    this.maintenance,
     this.name,
     this.pipelineDetails,
     this.pipelinesRunningCount,
@@ -24251,6 +24813,10 @@ class StopChannelResponse {
               json['inputSpecification'] as Map<String, dynamic>)
           : null,
       logLevel: (json['logLevel'] as String?)?.toLogLevel(),
+      maintenance: json['maintenance'] != null
+          ? MaintenanceStatus.fromJson(
+              json['maintenance'] as Map<String, dynamic>)
+          : null,
       name: json['name'] as String?,
       pipelineDetails: (json['pipelineDetails'] as List?)
           ?.whereNotNull()
@@ -24279,6 +24845,7 @@ class StopChannelResponse {
     final inputAttachments = this.inputAttachments;
     final inputSpecification = this.inputSpecification;
     final logLevel = this.logLevel;
+    final maintenance = this.maintenance;
     final name = this.name;
     final pipelineDetails = this.pipelineDetails;
     final pipelinesRunningCount = this.pipelinesRunningCount;
@@ -24298,6 +24865,7 @@ class StopChannelResponse {
       if (inputAttachments != null) 'inputAttachments': inputAttachments,
       if (inputSpecification != null) 'inputSpecification': inputSpecification,
       if (logLevel != null) 'logLevel': logLevel.toValue(),
+      if (maintenance != null) 'maintenance': maintenance,
       if (name != null) 'name': name,
       if (pipelineDetails != null) 'pipelineDetails': pipelineDetails,
       if (pipelinesRunningCount != null)
@@ -24804,9 +25372,8 @@ class TransferringInputDeviceSummary {
 
 /// Ttml Destination Settings
 class TtmlDestinationSettings {
-  /// When set to passthrough, passes through style and position information from
-  /// a TTML-like input source (TTML, SMPTE-TT, CFF-TT) to the CFF-TT output or
-  /// TTML output.
+  /// This field is not currently supported and will not affect the output
+  /// styling. Leave the default value.
   final TtmlDestinationStyleControl? styleControl;
 
   TtmlDestinationSettings({

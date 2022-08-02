@@ -139,6 +139,10 @@ class Emr {
   ///
   /// You can only add steps to a cluster that is in one of the following
   /// states: STARTING, BOOTSTRAPPING, RUNNING, or WAITING.
+  /// <note>
+  /// The string values passed into <code>HadoopJarStep</code> object cannot
+  /// exceed a total of 10240 characters.
+  /// </note>
   ///
   /// May throw [InternalServerError].
   ///
@@ -149,9 +153,20 @@ class Emr {
   ///
   /// Parameter [steps] :
   /// A list of <a>StepConfig</a> to be executed by the job flow.
+  ///
+  /// Parameter [executionRoleArn] :
+  /// The Amazon Resource Name (ARN) of the runtime role for a step on the
+  /// cluster. The runtime role can be a cross-account IAM role. The runtime
+  /// role ARN is a combination of account ID, role name, and role type using
+  /// the following format:
+  /// <code>arn:partition:service:region:account:resource</code>.
+  ///
+  /// For example, <code>arn:aws:iam::1234567890:role/ReadOnly</code> is a
+  /// correctly formatted runtime role ARN.
   Future<AddJobFlowStepsOutput> addJobFlowSteps({
     required String jobFlowId,
     required List<StepConfig> steps,
+    String? executionRoleArn,
   }) async {
     ArgumentError.checkNotNull(jobFlowId, 'jobFlowId');
     ArgumentError.checkNotNull(steps, 'steps');
@@ -168,6 +183,7 @@ class Emr {
       payload: {
         'JobFlowId': jobFlowId,
         'Steps': steps,
+        if (executionRoleArn != null) 'ExecutionRoleArn': executionRoleArn,
       },
     );
 
@@ -1721,6 +1737,12 @@ class Emr {
     return PutAutoScalingPolicyOutput.fromJson(jsonResponse.body);
   }
 
+  /// <note>
+  /// Auto-termination is supported in Amazon EMR versions 5.30.0 and 6.1.0 and
+  /// later. For more information, see <a
+  /// href="https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-auto-termination-policy.html">Using
+  /// an auto-termination policy</a>.
+  /// </note>
   /// Creates or updates an auto-termination policy for an Amazon EMR cluster.
   /// An auto-termination policy defines the amount of idle time in seconds
   /// after which a cluster automatically terminates. For alternative cluster
@@ -2022,8 +2044,8 @@ class Emr {
   /// applications for Amazon EMR to install and configure when launching the
   /// cluster. For a list of applications available for each Amazon EMR release
   /// version, see the <a
-  /// href="https://docs.aws.amazon.com/emr/latest/ReleaseGuide/">Amazon EMR
-  /// Release Guide</a>.
+  /// href="https://docs.aws.amazon.com/emr/latest/ReleaseGuide/">Amazon
+  /// EMRRelease Guide</a>.
   ///
   /// Parameter [autoScalingRole] :
   /// An IAM role for automatic scaling policies. The default role is
@@ -2129,6 +2151,11 @@ class Emr {
   /// </li>
   /// </ul>
   ///
+  /// Parameter [oSReleaseLabel] :
+  /// Specifies a particular Amazon Linux release for all nodes in a cluster
+  /// launch RunJobFlow request. If a release is not specified, Amazon EMR uses
+  /// the latest validated Amazon Linux release for cluster launch.
+  ///
   /// Parameter [placementGroupConfigs] :
   /// The specified placement group configuration for an Amazon EMR cluster.
   ///
@@ -2204,6 +2231,11 @@ class Emr {
   /// instances.
   ///
   /// Parameter [visibleToAllUsers] :
+  /// <important>
+  /// The VisibleToAllUsers parameter is no longer supported. By default, the
+  /// value is set to <code>true</code>. Setting it to <code>false</code> now
+  /// has no effect.
+  /// </important>
   /// Set this value to <code>true</code> so that IAM principals in the Amazon
   /// Web Services account associated with the cluster can perform EMR actions
   /// on the cluster that their IAM policies allow. This value defaults to
@@ -2236,6 +2268,7 @@ class Emr {
     String? logUri,
     ManagedScalingPolicy? managedScalingPolicy,
     List<SupportedProductConfig>? newSupportedProducts,
+    String? oSReleaseLabel,
     List<PlacementGroupConfig>? placementGroupConfigs,
     String? releaseLabel,
     RepoUpgradeOnBoot? repoUpgradeOnBoot,
@@ -2283,6 +2316,7 @@ class Emr {
           'ManagedScalingPolicy': managedScalingPolicy,
         if (newSupportedProducts != null)
           'NewSupportedProducts': newSupportedProducts,
+        if (oSReleaseLabel != null) 'OSReleaseLabel': oSReleaseLabel,
         if (placementGroupConfigs != null)
           'PlacementGroupConfigs': placementGroupConfigs,
         if (releaseLabel != null) 'ReleaseLabel': releaseLabel,
@@ -2362,6 +2396,13 @@ class Emr {
     );
   }
 
+  /// <important>
+  /// The SetVisibleToAllUsers parameter is no longer supported. Your cluster
+  /// may be visible to all users in your account. To restrict cluster access
+  /// using an IAM policy, see <a
+  /// href="https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-plan-access-iam.html">Identity
+  /// and Access Management for EMR</a>.
+  /// </important>
   /// Sets the <a>Cluster$VisibleToAllUsers</a> value for an EMR cluster. When
   /// <code>true</code>, IAM principals in the Amazon Web Services account can
   /// perform EMR cluster actions that their IAM policies allow. When
@@ -3637,6 +3678,11 @@ class Cluster {
   /// reflect the actual billing rate.
   final int? normalizedInstanceHours;
 
+  /// The Amazon Linux release specified in a cluster launch RunJobFlow request.
+  /// If no Amazon Linux release was specified, the default Amazon Linux release
+  /// is shown in the response.
+  final String? oSReleaseLabel;
+
   /// The Amazon Resource Name (ARN) of the Outpost where the cluster is launched.
   final String? outpostArn;
 
@@ -3712,13 +3758,7 @@ class Cluster {
   /// The default value is <code>true</code> if a value is not provided when
   /// creating a cluster using the EMR API <a>RunJobFlow</a> command, the CLI <a
   /// href="https://docs.aws.amazon.com/cli/latest/reference/emr/create-cluster.html">create-cluster</a>
-  /// command, or the Amazon Web Services Management Console. IAM principals that
-  /// are allowed to perform actions on the cluster can use the
-  /// <a>SetVisibleToAllUsers</a> action to change the value on a running cluster.
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/emr/latest/ManagementGuide/security_iam_emr-with-iam.html#security_set_visible_to_all_users">Understanding
-  /// the EMR Cluster VisibleToAllUsers Setting</a> in the <i>Amazon EMRManagement
-  /// Guide</i>.
+  /// command, or the Amazon Web Services Management Console.
   final bool? visibleToAllUsers;
 
   Cluster({
@@ -3738,6 +3778,7 @@ class Cluster {
     this.masterPublicDnsName,
     this.name,
     this.normalizedInstanceHours,
+    this.oSReleaseLabel,
     this.outpostArn,
     this.placementGroups,
     this.releaseLabel,
@@ -3785,6 +3826,7 @@ class Cluster {
       masterPublicDnsName: json['MasterPublicDnsName'] as String?,
       name: json['Name'] as String?,
       normalizedInstanceHours: json['NormalizedInstanceHours'] as int?,
+      oSReleaseLabel: json['OSReleaseLabel'] as String?,
       outpostArn: json['OutpostArn'] as String?,
       placementGroups: (json['PlacementGroups'] as List?)
           ?.whereNotNull()
@@ -3829,6 +3871,7 @@ class Cluster {
     final masterPublicDnsName = this.masterPublicDnsName;
     final name = this.name;
     final normalizedInstanceHours = this.normalizedInstanceHours;
+    final oSReleaseLabel = this.oSReleaseLabel;
     final outpostArn = this.outpostArn;
     final placementGroups = this.placementGroups;
     final releaseLabel = this.releaseLabel;
@@ -3865,6 +3908,7 @@ class Cluster {
       if (name != null) 'Name': name,
       if (normalizedInstanceHours != null)
         'NormalizedInstanceHours': normalizedInstanceHours,
+      if (oSReleaseLabel != null) 'OSReleaseLabel': oSReleaseLabel,
       if (outpostArn != null) 'OutpostArn': outpostArn,
       if (placementGroups != null) 'PlacementGroups': placementGroups,
       if (releaseLabel != null) 'ReleaseLabel': releaseLabel,
@@ -4567,6 +4611,13 @@ class DescribeReleaseLabelOutput {
   /// the concise version of the application.
   final List<SimplifiedApplication>? applications;
 
+  /// The list of available Amazon Linux release versions for an Amazon EMR
+  /// release. Contains a Label field that is formatted as shown in <a
+  /// href="https://docs.aws.amazon.com/AL2/latest/relnotes/relnotes-al2.html">
+  /// <i>Amazon Linux 2 Release Notes</i> </a>. For example, <a
+  /// href="https://docs.aws.amazon.com/AL2/latest/relnotes/relnotes-20220218.html">2.0.20220218.1</a>.
+  final List<OSRelease>? availableOSReleases;
+
   /// The pagination token. Reserved for future use. Currently set to null.
   final String? nextToken;
 
@@ -4575,6 +4626,7 @@ class DescribeReleaseLabelOutput {
 
   DescribeReleaseLabelOutput({
     this.applications,
+    this.availableOSReleases,
     this.nextToken,
     this.releaseLabel,
   });
@@ -4585,6 +4637,10 @@ class DescribeReleaseLabelOutput {
           ?.whereNotNull()
           .map((e) => SimplifiedApplication.fromJson(e as Map<String, dynamic>))
           .toList(),
+      availableOSReleases: (json['AvailableOSReleases'] as List?)
+          ?.whereNotNull()
+          .map((e) => OSRelease.fromJson(e as Map<String, dynamic>))
+          .toList(),
       nextToken: json['NextToken'] as String?,
       releaseLabel: json['ReleaseLabel'] as String?,
     );
@@ -4592,10 +4648,13 @@ class DescribeReleaseLabelOutput {
 
   Map<String, dynamic> toJson() {
     final applications = this.applications;
+    final availableOSReleases = this.availableOSReleases;
     final nextToken = this.nextToken;
     final releaseLabel = this.releaseLabel;
     return {
       if (applications != null) 'Applications': applications,
+      if (availableOSReleases != null)
+        'AvailableOSReleases': availableOSReleases,
       if (nextToken != null) 'NextToken': nextToken,
       if (releaseLabel != null) 'ReleaseLabel': releaseLabel,
     };
@@ -4696,9 +4755,9 @@ class EbsBlockDevice {
   /// The device name that is exposed to the instance, such as /dev/sdh.
   final String? device;
 
-  /// EBS volume specifications such as volume type, IOPS, and size (GiB) that
-  /// will be requested for the EBS volume attached to an EC2 instance in the
-  /// cluster.
+  /// EBS volume specifications such as volume type, IOPS, size (GiB) and
+  /// throughput (MiB/s) that are requested for the EBS volume attached to an EC2
+  /// instance in the cluster.
   final VolumeSpecification? volumeSpecification;
 
   EbsBlockDevice({
@@ -4728,14 +4787,14 @@ class EbsBlockDevice {
 }
 
 /// Configuration of requested EBS block device associated with the instance
-/// group with count of volumes that will be associated to every instance.
+/// group with count of volumes that are associated to every instance.
 class EbsBlockDeviceConfig {
-  /// EBS volume specifications such as volume type, IOPS, and size (GiB) that
-  /// will be requested for the EBS volume attached to an EC2 instance in the
-  /// cluster.
+  /// EBS volume specifications such as volume type, IOPS, size (GiB) and
+  /// throughput (MiB/s) that are requested for the EBS volume attached to an EC2
+  /// instance in the cluster.
   final VolumeSpecification volumeSpecification;
 
-  /// Number of EBS volumes with a specific volume configuration that will be
+  /// Number of EBS volumes with a specific volume configuration that are
   /// associated with every instance in the instance group
   final int? volumesPerInstance;
 
@@ -6452,8 +6511,8 @@ class InstanceGroupDetail {
   /// Market type of the EC2 instances used to create a cluster node.
   final MarketType market;
 
-  /// State of instance group. The following values are deprecated: STARTING,
-  /// TERMINATED, and FAILED.
+  /// State of instance group. The following values are no longer supported:
+  /// STARTING, TERMINATED, and FAILED.
   final InstanceGroupState state;
 
   /// If specified, indicates that the instance group uses Spot Instances. This is
@@ -6576,6 +6635,9 @@ class InstanceGroupModifyConfig {
   /// Target size for the instance group.
   final int? instanceCount;
 
+  /// Type of reconfiguration requested. Valid values are MERGE and OVERWRITE.
+  final ReconfigurationType? reconfigurationType;
+
   /// Policy for customizing shrink operations.
   final ShrinkPolicy? shrinkPolicy;
 
@@ -6584,6 +6646,7 @@ class InstanceGroupModifyConfig {
     this.configurations,
     this.eC2InstanceIdsToTerminate,
     this.instanceCount,
+    this.reconfigurationType,
     this.shrinkPolicy,
   });
 
@@ -6599,6 +6662,8 @@ class InstanceGroupModifyConfig {
           .map((e) => e as String)
           .toList(),
       instanceCount: json['InstanceCount'] as int?,
+      reconfigurationType:
+          (json['ReconfigurationType'] as String?)?.toReconfigurationType(),
       shrinkPolicy: json['ShrinkPolicy'] != null
           ? ShrinkPolicy.fromJson(json['ShrinkPolicy'] as Map<String, dynamic>)
           : null,
@@ -6610,6 +6675,7 @@ class InstanceGroupModifyConfig {
     final configurations = this.configurations;
     final eC2InstanceIdsToTerminate = this.eC2InstanceIdsToTerminate;
     final instanceCount = this.instanceCount;
+    final reconfigurationType = this.reconfigurationType;
     final shrinkPolicy = this.shrinkPolicy;
     return {
       'InstanceGroupId': instanceGroupId,
@@ -6617,6 +6683,8 @@ class InstanceGroupModifyConfig {
       if (eC2InstanceIdsToTerminate != null)
         'EC2InstanceIdsToTerminate': eC2InstanceIdsToTerminate,
       if (instanceCount != null) 'InstanceCount': instanceCount,
+      if (reconfigurationType != null)
+        'ReconfigurationType': reconfigurationType.toValue(),
       if (shrinkPolicy != null) 'ShrinkPolicy': shrinkPolicy,
     };
   }
@@ -7431,13 +7499,7 @@ class JobFlowDetail {
   /// The default value is <code>true</code> if a value is not provided when
   /// creating a cluster using the EMR API <a>RunJobFlow</a> command, the CLI <a
   /// href="https://docs.aws.amazon.com/cli/latest/reference/emr/create-cluster.html">create-cluster</a>
-  /// command, or the Amazon Web Services Management Console. IAM principals that
-  /// are authorized to perform actions on the cluster can use the
-  /// <a>SetVisibleToAllUsers</a> action to change the value on a running cluster.
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/emr/latest/ManagementGuide/security_iam_emr-with-iam.html#security_set_visible_to_all_users">Understanding
-  /// the EMR Cluster VisibleToAllUsers Setting</a> in the <i>Amazon EMRManagement
-  /// Guide</i>.
+  /// command, or the Amazon Web Services Management Console.
   final bool? visibleToAllUsers;
 
   JobFlowDetail({
@@ -8910,6 +8972,32 @@ class NotebookExecutionSummary {
   }
 }
 
+/// The Amazon Linux release specified for a cluster in the RunJobFlow request.
+class OSRelease {
+  /// The Amazon Linux release specified for a cluster in the RunJobFlow request.
+  /// The format is as shown in <a
+  /// href="https://docs.aws.amazon.com/AL2/latest/relnotes/relnotes-20220218.html">
+  /// <i>Amazon Linux 2 Release Notes</i> </a>. For example, 2.0.20220218.1.
+  final String? label;
+
+  OSRelease({
+    this.label,
+  });
+
+  factory OSRelease.fromJson(Map<String, dynamic> json) {
+    return OSRelease(
+      label: json['Label'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final label = this.label;
+    return {
+      if (label != null) 'Label': label,
+    };
+  }
+}
+
 /// Describes the strategy for using unused Capacity Reservations for fulfilling
 /// On-Demand capacity.
 class OnDemandCapacityReservationOptions {
@@ -9349,6 +9437,34 @@ class PutManagedScalingPolicyOutput {
 
   Map<String, dynamic> toJson() {
     return {};
+  }
+}
+
+enum ReconfigurationType {
+  overwrite,
+  merge,
+}
+
+extension on ReconfigurationType {
+  String toValue() {
+    switch (this) {
+      case ReconfigurationType.overwrite:
+        return 'OVERWRITE';
+      case ReconfigurationType.merge:
+        return 'MERGE';
+    }
+  }
+}
+
+extension on String {
+  ReconfigurationType toReconfigurationType() {
+    switch (this) {
+      case 'OVERWRITE':
+        return ReconfigurationType.overwrite;
+      case 'MERGE':
+        return ReconfigurationType.merge;
+    }
+    throw Exception('$this is not known in enum ReconfigurationType');
   }
 }
 
@@ -10033,6 +10149,11 @@ extension on String {
 /// The instance fleet configuration is available only in Amazon EMR versions
 /// 4.8.0 and later, excluding 5.0.x versions. Spot Instance allocation strategy
 /// is available in Amazon EMR version 5.12.1 and later.
+/// </note> <note>
+/// Spot Instances with a defined duration (also known as Spot blocks) are no
+/// longer available to new customers from July 1, 2021. For customers who have
+/// previously used the feature, we will continue to support Spot Instances with
+/// a defined duration until December 31, 2022.
 /// </note>
 class SpotProvisioningSpecification {
   /// The action to take when <code>TargetSpotCapacity</code> has not been
@@ -10064,6 +10185,12 @@ class SpotProvisioningSpecification {
   /// end of the duration, Amazon EC2 marks the Spot Instance for termination and
   /// provides a Spot Instance termination notice, which gives the instance a
   /// two-minute warning before it terminates.
+  /// <note>
+  /// Spot Instances with a defined duration (also known as Spot blocks) are no
+  /// longer available to new customers from July 1, 2021. For customers who have
+  /// previously used the feature, we will continue to support Spot Instances with
+  /// a defined duration until December 31, 2022.
+  /// </note>
   final int? blockDurationMinutes;
 
   SpotProvisioningSpecification({
@@ -10220,6 +10347,16 @@ class Step {
   /// The Hadoop job configuration of the cluster step.
   final HadoopStepConfig? config;
 
+  /// The Amazon Resource Name (ARN) of the runtime role for a step on the
+  /// cluster. The runtime role can be a cross-account IAM role. The runtime role
+  /// ARN is a combination of account ID, role name, and role type using the
+  /// following format:
+  /// <code>arn:partition:service:region:account:resource</code>.
+  ///
+  /// For example, <code>arn:aws:iam::1234567890:role/ReadOnly</code> is a
+  /// correctly formatted runtime role ARN.
+  final String? executionRoleArn;
+
   /// The identifier of the cluster step.
   final String? id;
 
@@ -10232,6 +10369,7 @@ class Step {
   Step({
     this.actionOnFailure,
     this.config,
+    this.executionRoleArn,
     this.id,
     this.name,
     this.status,
@@ -10244,6 +10382,7 @@ class Step {
       config: json['Config'] != null
           ? HadoopStepConfig.fromJson(json['Config'] as Map<String, dynamic>)
           : null,
+      executionRoleArn: json['ExecutionRoleArn'] as String?,
       id: json['Id'] as String?,
       name: json['Name'] as String?,
       status: json['Status'] != null
@@ -10255,12 +10394,14 @@ class Step {
   Map<String, dynamic> toJson() {
     final actionOnFailure = this.actionOnFailure;
     final config = this.config;
+    final executionRoleArn = this.executionRoleArn;
     final id = this.id;
     final name = this.name;
     final status = this.status;
     return {
       if (actionOnFailure != null) 'ActionOnFailure': actionOnFailure.toValue(),
       if (config != null) 'Config': config,
+      if (executionRoleArn != null) 'ExecutionRoleArn': executionRoleArn,
       if (id != null) 'Id': id,
       if (name != null) 'Name': name,
       if (status != null) 'Status': status,
@@ -11032,8 +11173,7 @@ class SupportedProductConfig {
 class Tag {
   /// A user-defined key, which is the minimum required information for a valid
   /// tag. For more information, see <a
-  /// href="https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-plan-tags.html">Tag
-  /// </a>.
+  /// href="https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-plan-tags.html">Tag</a>.
   final String? key;
 
   /// A user-defined value, which is optional in a tag. For more information, see
@@ -11217,24 +11357,29 @@ extension on String {
   }
 }
 
-/// EBS volume specifications such as volume type, IOPS, and size (GiB) that
-/// will be requested for the EBS volume attached to an EC2 instance in the
-/// cluster.
+/// EBS volume specifications such as volume type, IOPS, size (GiB) and
+/// throughput (MiB/s) that are requested for the EBS volume attached to an EC2
+/// instance in the cluster.
 class VolumeSpecification {
   /// The volume size, in gibibytes (GiB). This can be a number from 1 - 1024. If
   /// the volume type is EBS-optimized, the minimum value is 10.
   final int sizeInGB;
 
-  /// The volume type. Volume types supported are gp2, io1, standard.
+  /// The volume type. Volume types supported are gp2, io1, and standard.
   final String volumeType;
 
   /// The number of I/O operations per second (IOPS) that the volume supports.
   final int? iops;
 
+  /// The throughput, in mebibyte per second (MiB/s). This optional parameter can
+  /// be a number from 125 - 1000 and is valid only for gp3 volumes.
+  final int? throughput;
+
   VolumeSpecification({
     required this.sizeInGB,
     required this.volumeType,
     this.iops,
+    this.throughput,
   });
 
   factory VolumeSpecification.fromJson(Map<String, dynamic> json) {
@@ -11242,6 +11387,7 @@ class VolumeSpecification {
       sizeInGB: json['SizeInGB'] as int,
       volumeType: json['VolumeType'] as String,
       iops: json['Iops'] as int?,
+      throughput: json['Throughput'] as int?,
     );
   }
 
@@ -11249,10 +11395,12 @@ class VolumeSpecification {
     final sizeInGB = this.sizeInGB;
     final volumeType = this.volumeType;
     final iops = this.iops;
+    final throughput = this.throughput;
     return {
       'SizeInGB': sizeInGB,
       'VolumeType': volumeType,
       if (iops != null) 'Iops': iops,
+      if (throughput != null) 'Throughput': throughput,
     };
   }
 }

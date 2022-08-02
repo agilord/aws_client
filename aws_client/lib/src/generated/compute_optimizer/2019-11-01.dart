@@ -83,6 +83,10 @@ class ComputeOptimizer {
   /// instances that are part of Auto Scaling groups. The
   /// <code>AutoScalingGroup</code> option encompasses only instances that are
   /// part of an Auto Scaling group.
+  /// <note>
+  /// The valid values for this parameter are <code>Ec2Instance</code> and
+  /// <code>AutoScalingGroup</code>.
+  /// </note>
   ///
   /// Parameter [scope] :
   /// An object that describes the scope of the recommendation preference to
@@ -1221,6 +1225,10 @@ class ComputeOptimizer {
   /// instances that are part of Auto Scaling groups. The
   /// <code>AutoScalingGroup</code> option encompasses only instances that are
   /// part of an Auto Scaling group.
+  /// <note>
+  /// The valid values for this parameter are <code>Ec2Instance</code> and
+  /// <code>AutoScalingGroup</code>.
+  /// </note>
   ///
   /// Parameter [maxResults] :
   /// The maximum number of recommendation preferences to return with a single
@@ -1369,14 +1377,35 @@ class ComputeOptimizer {
   /// instances that are part of Auto Scaling groups. The
   /// <code>AutoScalingGroup</code> option encompasses only instances that are
   /// part of an Auto Scaling group.
+  /// <note>
+  /// The valid values for this parameter are <code>Ec2Instance</code> and
+  /// <code>AutoScalingGroup</code>.
+  /// </note>
   ///
   /// Parameter [enhancedInfrastructureMetrics] :
   /// The status of the enhanced infrastructure metrics recommendation
   /// preference to create or update.
   ///
-  /// A status of <code>Active</code> confirms that the preference is applied in
-  /// the latest recommendation refresh, and a status of <code>Inactive</code>
-  /// confirms that it's not yet applied.
+  /// Specify the <code>Active</code> status to activate the preference, or
+  /// specify <code>Inactive</code> to deactivate the preference.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/compute-optimizer/latest/ug/enhanced-infrastructure-metrics.html">Enhanced
+  /// infrastructure metrics</a> in the <i>Compute Optimizer User Guide</i>.
+  ///
+  /// Parameter [inferredWorkloadTypes] :
+  /// The status of the inferred workload types recommendation preference to
+  /// create or update.
+  /// <note>
+  /// The inferred workload type feature is active by default. To deactivate it,
+  /// create a recommendation preference.
+  /// </note>
+  /// Specify the <code>Inactive</code> status to deactivate the feature, or
+  /// specify <code>Active</code> to activate it.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/compute-optimizer/latest/ug/inferred-workload-types.html">Inferred
+  /// workload types</a> in the <i>Compute Optimizer User Guide</i>.
   ///
   /// Parameter [scope] :
   /// An object that describes the scope of the recommendation preference to
@@ -1394,12 +1423,16 @@ class ComputeOptimizer {
   /// preferences for Auto Scaling groups only at the resource level by
   /// specifying a scope name of <code>ResourceArn</code> and a scope value of
   /// the Auto Scaling group Amazon Resource Name (ARN). This will configure the
-  /// preference for all instances that are part of the specified the Auto
-  /// Scaling group.
+  /// preference for all instances that are part of the specified Auto Scaling
+  /// group. You also cannot create recommendation preferences at the resource
+  /// level for instances that are part of an Auto Scaling group. You can create
+  /// recommendation preferences at the resource level only for standalone
+  /// instances.
   /// </note>
   Future<void> putRecommendationPreferences({
     required ResourceType resourceType,
     EnhancedInfrastructureMetrics? enhancedInfrastructureMetrics,
+    InferredWorkloadTypesPreference? inferredWorkloadTypes,
     Scope? scope,
   }) async {
     ArgumentError.checkNotNull(resourceType, 'resourceType');
@@ -1418,6 +1451,8 @@ class ComputeOptimizer {
         if (enhancedInfrastructureMetrics != null)
           'enhancedInfrastructureMetrics':
               enhancedInfrastructureMetrics.toValue(),
+        if (inferredWorkloadTypes != null)
+          'inferredWorkloadTypes': inferredWorkloadTypes.toValue(),
         if (scope != null) 'scope': scope,
       },
     );
@@ -1645,6 +1680,42 @@ class AutoScalingGroupRecommendation {
   /// </ul>
   final Finding? finding;
 
+  /// The applications that might be running on the instances in the Auto Scaling
+  /// group as inferred by Compute Optimizer.
+  ///
+  /// Compute Optimizer can infer if one of the following applications might be
+  /// running on the instances:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>AmazonEmr</code> - Infers that Amazon EMR might be running on the
+  /// instances.
+  /// </li>
+  /// <li>
+  /// <code>ApacheCassandra</code> - Infers that Apache Cassandra might be running
+  /// on the instances.
+  /// </li>
+  /// <li>
+  /// <code>ApacheHadoop</code> - Infers that Apache Hadoop might be running on
+  /// the instances.
+  /// </li>
+  /// <li>
+  /// <code>Memcached</code> - Infers that Memcached might be running on the
+  /// instances.
+  /// </li>
+  /// <li>
+  /// <code>NGINX</code> - Infers that NGINX might be running on the instances.
+  /// </li>
+  /// <li>
+  /// <code>PostgreSql</code> - Infers that PostgreSQL might be running on the
+  /// instances.
+  /// </li>
+  /// <li>
+  /// <code>Redis</code> - Infers that Redis might be running on the instances.
+  /// </li>
+  /// </ul>
+  final List<InferredWorkloadType>? inferredWorkloadTypes;
+
   /// The timestamp of when the Auto Scaling group recommendation was last
   /// generated.
   final DateTime? lastRefreshTimestamp;
@@ -1669,6 +1740,7 @@ class AutoScalingGroupRecommendation {
     this.currentPerformanceRisk,
     this.effectiveRecommendationPreferences,
     this.finding,
+    this.inferredWorkloadTypes,
     this.lastRefreshTimestamp,
     this.lookBackPeriodInDays,
     this.recommendationOptions,
@@ -1693,6 +1765,10 @@ class AutoScalingGroupRecommendation {
                       as Map<String, dynamic>)
               : null,
       finding: (json['finding'] as String?)?.toFinding(),
+      inferredWorkloadTypes: (json['inferredWorkloadTypes'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toInferredWorkloadType())
+          .toList(),
       lastRefreshTimestamp: timeStampFromJson(json['lastRefreshTimestamp']),
       lookBackPeriodInDays: json['lookBackPeriodInDays'] as double?,
       recommendationOptions: (json['recommendationOptions'] as List?)
@@ -1716,6 +1792,7 @@ class AutoScalingGroupRecommendation {
     final effectiveRecommendationPreferences =
         this.effectiveRecommendationPreferences;
     final finding = this.finding;
+    final inferredWorkloadTypes = this.inferredWorkloadTypes;
     final lastRefreshTimestamp = this.lastRefreshTimestamp;
     final lookBackPeriodInDays = this.lookBackPeriodInDays;
     final recommendationOptions = this.recommendationOptions;
@@ -1734,6 +1811,9 @@ class AutoScalingGroupRecommendation {
         'effectiveRecommendationPreferences':
             effectiveRecommendationPreferences,
       if (finding != null) 'finding': finding.toValue(),
+      if (inferredWorkloadTypes != null)
+        'inferredWorkloadTypes':
+            inferredWorkloadTypes.map((e) => e.toValue()).toList(),
       if (lastRefreshTimestamp != null)
         'lastRefreshTimestamp': unixTimestampToJson(lastRefreshTimestamp),
       if (lookBackPeriodInDays != null)
@@ -1749,6 +1829,17 @@ class AutoScalingGroupRecommendation {
 class AutoScalingGroupRecommendationOption {
   /// An array of objects that describe an Auto Scaling group configuration.
   final AutoScalingGroupConfiguration? configuration;
+
+  /// The level of effort required to migrate from the current instance type to
+  /// the recommended instance type.
+  ///
+  /// For example, the migration effort is <code>Low</code> if Amazon EMR is the
+  /// inferred workload type and an Amazon Web Services Graviton instance type is
+  /// recommended. The migration effort is <code>Medium</code> if a workload type
+  /// couldn't be inferred but an Amazon Web Services Graviton instance type is
+  /// recommended. The migration effort is <code>VeryLow</code> if both the
+  /// current and recommended instance types are of the same CPU architecture.
+  final MigrationEffort? migrationEffort;
 
   /// The performance risk of the Auto Scaling group configuration recommendation.
   ///
@@ -1791,6 +1882,7 @@ class AutoScalingGroupRecommendationOption {
 
   AutoScalingGroupRecommendationOption({
     this.configuration,
+    this.migrationEffort,
     this.performanceRisk,
     this.projectedUtilizationMetrics,
     this.rank,
@@ -1804,6 +1896,8 @@ class AutoScalingGroupRecommendationOption {
           ? AutoScalingGroupConfiguration.fromJson(
               json['configuration'] as Map<String, dynamic>)
           : null,
+      migrationEffort:
+          (json['migrationEffort'] as String?)?.toMigrationEffort(),
       performanceRisk: json['performanceRisk'] as double?,
       projectedUtilizationMetrics:
           (json['projectedUtilizationMetrics'] as List?)
@@ -1820,12 +1914,14 @@ class AutoScalingGroupRecommendationOption {
 
   Map<String, dynamic> toJson() {
     final configuration = this.configuration;
+    final migrationEffort = this.migrationEffort;
     final performanceRisk = this.performanceRisk;
     final projectedUtilizationMetrics = this.projectedUtilizationMetrics;
     final rank = this.rank;
     final savingsOpportunity = this.savingsOpportunity;
     return {
       if (configuration != null) 'configuration': configuration,
+      if (migrationEffort != null) 'migrationEffort': migrationEffort.toValue(),
       if (performanceRisk != null) 'performanceRisk': performanceRisk,
       if (projectedUtilizationMetrics != null)
         'projectedUtilizationMetrics': projectedUtilizationMetrics,
@@ -2282,12 +2378,24 @@ class EffectiveRecommendationPreferences {
   ///
   /// A status of <code>Active</code> confirms that the preference is applied in
   /// the latest recommendation refresh, and a status of <code>Inactive</code>
-  /// confirms that it's not yet applied.
+  /// confirms that it's not yet applied to recommendations.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/compute-optimizer/latest/ug/enhanced-infrastructure-metrics.html">Enhanced
+  /// infrastructure metrics</a> in the <i>Compute Optimizer User Guide</i>.
   final EnhancedInfrastructureMetrics? enhancedInfrastructureMetrics;
+
+  /// Describes the activation status of the inferred workload types preference.
+  ///
+  /// A status of <code>Active</code> confirms that the preference is applied in
+  /// the latest recommendation refresh. A status of <code>Inactive</code>
+  /// confirms that it's not yet applied to recommendations.
+  final InferredWorkloadTypesPreference? inferredWorkloadTypes;
 
   EffectiveRecommendationPreferences({
     this.cpuVendorArchitectures,
     this.enhancedInfrastructureMetrics,
+    this.inferredWorkloadTypes,
   });
 
   factory EffectiveRecommendationPreferences.fromJson(
@@ -2300,12 +2408,15 @@ class EffectiveRecommendationPreferences {
       enhancedInfrastructureMetrics:
           (json['enhancedInfrastructureMetrics'] as String?)
               ?.toEnhancedInfrastructureMetrics(),
+      inferredWorkloadTypes: (json['inferredWorkloadTypes'] as String?)
+          ?.toInferredWorkloadTypesPreference(),
     );
   }
 
   Map<String, dynamic> toJson() {
     final cpuVendorArchitectures = this.cpuVendorArchitectures;
     final enhancedInfrastructureMetrics = this.enhancedInfrastructureMetrics;
+    final inferredWorkloadTypes = this.inferredWorkloadTypes;
     return {
       if (cpuVendorArchitectures != null)
         'cpuVendorArchitectures':
@@ -2313,6 +2424,8 @@ class EffectiveRecommendationPreferences {
       if (enhancedInfrastructureMetrics != null)
         'enhancedInfrastructureMetrics':
             enhancedInfrastructureMetrics.toValue(),
+      if (inferredWorkloadTypes != null)
+        'inferredWorkloadTypes': inferredWorkloadTypes.toValue(),
     };
   }
 }
@@ -2409,8 +2522,9 @@ extension on String {
   }
 }
 
-/// Describes the estimated monthly savings amount possible for a given resource
-/// based on On-Demand instance pricing
+/// Describes the estimated monthly savings amount possible, based on On-Demand
+/// instance pricing, by adopting Compute Optimizer recommendations for a given
+/// resource.
 ///
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/compute-optimizer/latest/ug/view-ec2-recommendations.html#ec2-savings-calculation">Estimated
@@ -2666,6 +2780,9 @@ enum ExportableAutoScalingGroupField {
   recommendationOptionsEstimatedMonthlySavingsValue,
   effectiveRecommendationPreferencesCpuVendorArchitectures,
   effectiveRecommendationPreferencesEnhancedInfrastructureMetrics,
+  effectiveRecommendationPreferencesInferredWorkloadTypes,
+  inferredWorkloadTypes,
+  recommendationOptionsMigrationEffort,
 }
 
 extension on ExportableAutoScalingGroupField {
@@ -2800,6 +2917,13 @@ extension on ExportableAutoScalingGroupField {
       case ExportableAutoScalingGroupField
           .effectiveRecommendationPreferencesEnhancedInfrastructureMetrics:
         return 'EffectiveRecommendationPreferencesEnhancedInfrastructureMetrics';
+      case ExportableAutoScalingGroupField
+          .effectiveRecommendationPreferencesInferredWorkloadTypes:
+        return 'EffectiveRecommendationPreferencesInferredWorkloadTypes';
+      case ExportableAutoScalingGroupField.inferredWorkloadTypes:
+        return 'InferredWorkloadTypes';
+      case ExportableAutoScalingGroupField.recommendationOptionsMigrationEffort:
+        return 'RecommendationOptionsMigrationEffort';
     }
   }
 }
@@ -2939,6 +3063,14 @@ extension on String {
       case 'EffectiveRecommendationPreferencesEnhancedInfrastructureMetrics':
         return ExportableAutoScalingGroupField
             .effectiveRecommendationPreferencesEnhancedInfrastructureMetrics;
+      case 'EffectiveRecommendationPreferencesInferredWorkloadTypes':
+        return ExportableAutoScalingGroupField
+            .effectiveRecommendationPreferencesInferredWorkloadTypes;
+      case 'InferredWorkloadTypes':
+        return ExportableAutoScalingGroupField.inferredWorkloadTypes;
+      case 'RecommendationOptionsMigrationEffort':
+        return ExportableAutoScalingGroupField
+            .recommendationOptionsMigrationEffort;
     }
     throw Exception(
         '$this is not known in enum ExportableAutoScalingGroupField');
@@ -2995,6 +3127,9 @@ enum ExportableInstanceField {
   recommendationOptionsEstimatedMonthlySavingsValue,
   effectiveRecommendationPreferencesCpuVendorArchitectures,
   effectiveRecommendationPreferencesEnhancedInfrastructureMetrics,
+  effectiveRecommendationPreferencesInferredWorkloadTypes,
+  inferredWorkloadTypes,
+  recommendationOptionsMigrationEffort,
 }
 
 extension on ExportableInstanceField {
@@ -3121,6 +3256,13 @@ extension on ExportableInstanceField {
       case ExportableInstanceField
           .effectiveRecommendationPreferencesEnhancedInfrastructureMetrics:
         return 'EffectiveRecommendationPreferencesEnhancedInfrastructureMetrics';
+      case ExportableInstanceField
+          .effectiveRecommendationPreferencesInferredWorkloadTypes:
+        return 'EffectiveRecommendationPreferencesInferredWorkloadTypes';
+      case ExportableInstanceField.inferredWorkloadTypes:
+        return 'InferredWorkloadTypes';
+      case ExportableInstanceField.recommendationOptionsMigrationEffort:
+        return 'RecommendationOptionsMigrationEffort';
     }
   }
 }
@@ -3251,6 +3393,13 @@ extension on String {
       case 'EffectiveRecommendationPreferencesEnhancedInfrastructureMetrics':
         return ExportableInstanceField
             .effectiveRecommendationPreferencesEnhancedInfrastructureMetrics;
+      case 'EffectiveRecommendationPreferencesInferredWorkloadTypes':
+        return ExportableInstanceField
+            .effectiveRecommendationPreferencesInferredWorkloadTypes;
+      case 'InferredWorkloadTypes':
+        return ExportableInstanceField.inferredWorkloadTypes;
+      case 'RecommendationOptionsMigrationEffort':
+        return ExportableInstanceField.recommendationOptionsMigrationEffort;
     }
     throw Exception('$this is not known in enum ExportableInstanceField');
   }
@@ -4087,12 +4236,16 @@ class GetEffectiveRecommendationPreferencesResponse {
   ///
   /// A status of <code>Active</code> confirms that the preference is applied in
   /// the latest recommendation refresh, and a status of <code>Inactive</code>
-  /// confirms that it's not yet applied.
+  /// confirms that it's not yet applied to recommendations.
   ///
   /// To validate whether the preference is applied to your last generated set of
   /// recommendations, review the <code>effectiveRecommendationPreferences</code>
   /// value in the response of the <a>GetAutoScalingGroupRecommendations</a> and
   /// <a>GetEC2InstanceRecommendations</a> actions.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/compute-optimizer/latest/ug/enhanced-infrastructure-metrics.html">Enhanced
+  /// infrastructure metrics</a> in the <i>Compute Optimizer User Guide</i>.
   final EnhancedInfrastructureMetrics? enhancedInfrastructureMetrics;
 
   GetEffectiveRecommendationPreferencesResponse({
@@ -4375,6 +4528,88 @@ class GetRecommendationSummariesResponse {
   }
 }
 
+enum InferredWorkloadType {
+  amazonEmr,
+  apacheCassandra,
+  apacheHadoop,
+  memcached,
+  nginx,
+  postgreSql,
+  redis,
+}
+
+extension on InferredWorkloadType {
+  String toValue() {
+    switch (this) {
+      case InferredWorkloadType.amazonEmr:
+        return 'AmazonEmr';
+      case InferredWorkloadType.apacheCassandra:
+        return 'ApacheCassandra';
+      case InferredWorkloadType.apacheHadoop:
+        return 'ApacheHadoop';
+      case InferredWorkloadType.memcached:
+        return 'Memcached';
+      case InferredWorkloadType.nginx:
+        return 'Nginx';
+      case InferredWorkloadType.postgreSql:
+        return 'PostgreSql';
+      case InferredWorkloadType.redis:
+        return 'Redis';
+    }
+  }
+}
+
+extension on String {
+  InferredWorkloadType toInferredWorkloadType() {
+    switch (this) {
+      case 'AmazonEmr':
+        return InferredWorkloadType.amazonEmr;
+      case 'ApacheCassandra':
+        return InferredWorkloadType.apacheCassandra;
+      case 'ApacheHadoop':
+        return InferredWorkloadType.apacheHadoop;
+      case 'Memcached':
+        return InferredWorkloadType.memcached;
+      case 'Nginx':
+        return InferredWorkloadType.nginx;
+      case 'PostgreSql':
+        return InferredWorkloadType.postgreSql;
+      case 'Redis':
+        return InferredWorkloadType.redis;
+    }
+    throw Exception('$this is not known in enum InferredWorkloadType');
+  }
+}
+
+enum InferredWorkloadTypesPreference {
+  active,
+  inactive,
+}
+
+extension on InferredWorkloadTypesPreference {
+  String toValue() {
+    switch (this) {
+      case InferredWorkloadTypesPreference.active:
+        return 'Active';
+      case InferredWorkloadTypesPreference.inactive:
+        return 'Inactive';
+    }
+  }
+}
+
+extension on String {
+  InferredWorkloadTypesPreference toInferredWorkloadTypesPreference() {
+    switch (this) {
+      case 'Active':
+        return InferredWorkloadTypesPreference.active;
+      case 'Inactive':
+        return InferredWorkloadTypesPreference.inactive;
+    }
+    throw Exception(
+        '$this is not known in enum InferredWorkloadTypesPreference');
+  }
+}
+
 /// Describes an Amazon EC2 instance recommendation.
 class InstanceRecommendation {
   /// The Amazon Web Services account ID of the instance.
@@ -4384,8 +4619,8 @@ class InstanceRecommendation {
   final String? currentInstanceType;
 
   /// The risk of the current instance not meeting the performance needs of its
-  /// workloads. The higher the risk, the more likely the current Lambda function
-  /// requires more memory.
+  /// workloads. The higher the risk, the more likely the current instance cannot
+  /// meet the performance requirements of its workload.
   final CurrentPerformanceRisk? currentPerformanceRisk;
 
   /// An object that describes the effective recommendation preferences for the
@@ -4568,6 +4803,42 @@ class InstanceRecommendation {
   /// </note>
   final List<InstanceRecommendationFindingReasonCode>? findingReasonCodes;
 
+  /// The applications that might be running on the instance as inferred by
+  /// Compute Optimizer.
+  ///
+  /// Compute Optimizer can infer if one of the following applications might be
+  /// running on the instance:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>AmazonEmr</code> - Infers that Amazon EMR might be running on the
+  /// instance.
+  /// </li>
+  /// <li>
+  /// <code>ApacheCassandra</code> - Infers that Apache Cassandra might be running
+  /// on the instance.
+  /// </li>
+  /// <li>
+  /// <code>ApacheHadoop</code> - Infers that Apache Hadoop might be running on
+  /// the instance.
+  /// </li>
+  /// <li>
+  /// <code>Memcached</code> - Infers that Memcached might be running on the
+  /// instance.
+  /// </li>
+  /// <li>
+  /// <code>NGINX</code> - Infers that NGINX might be running on the instance.
+  /// </li>
+  /// <li>
+  /// <code>PostgreSql</code> - Infers that PostgreSQL might be running on the
+  /// instance.
+  /// </li>
+  /// <li>
+  /// <code>Redis</code> - Infers that Redis might be running on the instance.
+  /// </li>
+  /// </ul>
+  final List<InferredWorkloadType>? inferredWorkloadTypes;
+
   /// The Amazon Resource Name (ARN) of the current instance.
   final String? instanceArn;
 
@@ -4598,6 +4869,7 @@ class InstanceRecommendation {
     this.effectiveRecommendationPreferences,
     this.finding,
     this.findingReasonCodes,
+    this.inferredWorkloadTypes,
     this.instanceArn,
     this.instanceName,
     this.lastRefreshTimestamp,
@@ -4623,6 +4895,10 @@ class InstanceRecommendation {
       findingReasonCodes: (json['findingReasonCodes'] as List?)
           ?.whereNotNull()
           .map((e) => (e as String).toInstanceRecommendationFindingReasonCode())
+          .toList(),
+      inferredWorkloadTypes: (json['inferredWorkloadTypes'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toInferredWorkloadType())
           .toList(),
       instanceArn: json['instanceArn'] as String?,
       instanceName: json['instanceName'] as String?,
@@ -4652,6 +4928,7 @@ class InstanceRecommendation {
         this.effectiveRecommendationPreferences;
     final finding = this.finding;
     final findingReasonCodes = this.findingReasonCodes;
+    final inferredWorkloadTypes = this.inferredWorkloadTypes;
     final instanceArn = this.instanceArn;
     final instanceName = this.instanceName;
     final lastRefreshTimestamp = this.lastRefreshTimestamp;
@@ -4672,6 +4949,9 @@ class InstanceRecommendation {
       if (findingReasonCodes != null)
         'findingReasonCodes':
             findingReasonCodes.map((e) => e.toValue()).toList(),
+      if (inferredWorkloadTypes != null)
+        'inferredWorkloadTypes':
+            inferredWorkloadTypes.map((e) => e.toValue()).toList(),
       if (instanceArn != null) 'instanceArn': instanceArn,
       if (instanceName != null) 'instanceName': instanceName,
       if (lastRefreshTimestamp != null)
@@ -4804,6 +5084,17 @@ extension on String {
 class InstanceRecommendationOption {
   /// The instance type of the instance recommendation.
   final String? instanceType;
+
+  /// The level of effort required to migrate from the current instance type to
+  /// the recommended instance type.
+  ///
+  /// For example, the migration effort is <code>Low</code> if Amazon EMR is the
+  /// inferred workload type and an Amazon Web Services Graviton instance type is
+  /// recommended. The migration effort is <code>Medium</code> if a workload type
+  /// couldn't be inferred but an Amazon Web Services Graviton instance type is
+  /// recommended. The migration effort is <code>VeryLow</code> if both the
+  /// current and recommended instance types are of the same CPU architecture.
+  final MigrationEffort? migrationEffort;
 
   /// The performance risk of the instance recommendation option.
   ///
@@ -4956,6 +5247,7 @@ class InstanceRecommendationOption {
 
   InstanceRecommendationOption({
     this.instanceType,
+    this.migrationEffort,
     this.performanceRisk,
     this.platformDifferences,
     this.projectedUtilizationMetrics,
@@ -4966,6 +5258,8 @@ class InstanceRecommendationOption {
   factory InstanceRecommendationOption.fromJson(Map<String, dynamic> json) {
     return InstanceRecommendationOption(
       instanceType: json['instanceType'] as String?,
+      migrationEffort:
+          (json['migrationEffort'] as String?)?.toMigrationEffort(),
       performanceRisk: json['performanceRisk'] as double?,
       platformDifferences: (json['platformDifferences'] as List?)
           ?.whereNotNull()
@@ -4986,6 +5280,7 @@ class InstanceRecommendationOption {
 
   Map<String, dynamic> toJson() {
     final instanceType = this.instanceType;
+    final migrationEffort = this.migrationEffort;
     final performanceRisk = this.performanceRisk;
     final platformDifferences = this.platformDifferences;
     final projectedUtilizationMetrics = this.projectedUtilizationMetrics;
@@ -4993,6 +5288,7 @@ class InstanceRecommendationOption {
     final savingsOpportunity = this.savingsOpportunity;
     return {
       if (instanceType != null) 'instanceType': instanceType,
+      if (migrationEffort != null) 'migrationEffort': migrationEffort.toValue(),
       if (performanceRisk != null) 'performanceRisk': performanceRisk,
       if (platformDifferences != null)
         'platformDifferences':
@@ -5359,7 +5655,7 @@ class LambdaFunctionRecommendation {
 
   /// The risk of the current Lambda function not meeting the performance needs of
   /// its workloads. The higher the risk, the more likely the current Lambda
-  /// function configuration is underperforming in its workload.
+  /// function requires more memory.
   final CurrentPerformanceRisk? currentPerformanceRisk;
 
   /// The finding classification of the function.
@@ -5901,6 +6197,44 @@ extension on String {
   }
 }
 
+enum MigrationEffort {
+  veryLow,
+  low,
+  medium,
+  high,
+}
+
+extension on MigrationEffort {
+  String toValue() {
+    switch (this) {
+      case MigrationEffort.veryLow:
+        return 'VeryLow';
+      case MigrationEffort.low:
+        return 'Low';
+      case MigrationEffort.medium:
+        return 'Medium';
+      case MigrationEffort.high:
+        return 'High';
+    }
+  }
+}
+
+extension on String {
+  MigrationEffort toMigrationEffort() {
+    switch (this) {
+      case 'VeryLow':
+        return MigrationEffort.veryLow;
+      case 'Low':
+        return MigrationEffort.low;
+      case 'Medium':
+        return MigrationEffort.medium;
+      case 'High':
+        return MigrationEffort.high;
+    }
+    throw Exception('$this is not known in enum MigrationEffort');
+  }
+}
+
 enum PlatformDifference {
   hypervisor,
   networkInterface,
@@ -6160,6 +6494,7 @@ class RecommendationExportJob {
 
 enum RecommendationPreferenceName {
   enhancedInfrastructureMetrics,
+  inferredWorkloadTypes,
 }
 
 extension on RecommendationPreferenceName {
@@ -6167,6 +6502,8 @@ extension on RecommendationPreferenceName {
     switch (this) {
       case RecommendationPreferenceName.enhancedInfrastructureMetrics:
         return 'EnhancedInfrastructureMetrics';
+      case RecommendationPreferenceName.inferredWorkloadTypes:
+        return 'InferredWorkloadTypes';
     }
   }
 }
@@ -6176,6 +6513,8 @@ extension on String {
     switch (this) {
       case 'EnhancedInfrastructureMetrics':
         return RecommendationPreferenceName.enhancedInfrastructureMetrics;
+      case 'InferredWorkloadTypes':
+        return RecommendationPreferenceName.inferredWorkloadTypes;
     }
     throw Exception('$this is not known in enum RecommendationPreferenceName');
   }
@@ -6239,8 +6578,19 @@ class RecommendationPreferencesDetail {
   ///
   /// A status of <code>Active</code> confirms that the preference is applied in
   /// the latest recommendation refresh, and a status of <code>Inactive</code>
-  /// confirms that it's not yet applied.
+  /// confirms that it's not yet applied to recommendations.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/compute-optimizer/latest/ug/enhanced-infrastructure-metrics.html">Enhanced
+  /// infrastructure metrics</a> in the <i>Compute Optimizer User Guide</i>.
   final EnhancedInfrastructureMetrics? enhancedInfrastructureMetrics;
+
+  /// The status of the inferred workload types recommendation preference.
+  ///
+  /// A status of <code>Active</code> confirms that the preference is applied in
+  /// the latest recommendation refresh. A status of <code>Inactive</code>
+  /// confirms that it's not yet applied to recommendations.
+  final InferredWorkloadTypesPreference? inferredWorkloadTypes;
 
   /// The target resource type of the recommendation preference to create.
   ///
@@ -6262,6 +6612,7 @@ class RecommendationPreferencesDetail {
 
   RecommendationPreferencesDetail({
     this.enhancedInfrastructureMetrics,
+    this.inferredWorkloadTypes,
     this.resourceType,
     this.scope,
   });
@@ -6271,6 +6622,8 @@ class RecommendationPreferencesDetail {
       enhancedInfrastructureMetrics:
           (json['enhancedInfrastructureMetrics'] as String?)
               ?.toEnhancedInfrastructureMetrics(),
+      inferredWorkloadTypes: (json['inferredWorkloadTypes'] as String?)
+          ?.toInferredWorkloadTypesPreference(),
       resourceType: (json['resourceType'] as String?)?.toResourceType(),
       scope: json['scope'] != null
           ? Scope.fromJson(json['scope'] as Map<String, dynamic>)
@@ -6280,12 +6633,15 @@ class RecommendationPreferencesDetail {
 
   Map<String, dynamic> toJson() {
     final enhancedInfrastructureMetrics = this.enhancedInfrastructureMetrics;
+    final inferredWorkloadTypes = this.inferredWorkloadTypes;
     final resourceType = this.resourceType;
     final scope = this.scope;
     return {
       if (enhancedInfrastructureMetrics != null)
         'enhancedInfrastructureMetrics':
             enhancedInfrastructureMetrics.toValue(),
+      if (inferredWorkloadTypes != null)
+        'inferredWorkloadTypes': inferredWorkloadTypes.toValue(),
       if (resourceType != null) 'resourceType': resourceType.toValue(),
       if (scope != null) 'scope': scope,
     };
@@ -6494,6 +6850,7 @@ enum ResourceType {
   autoScalingGroup,
   ebsVolume,
   lambdaFunction,
+  notApplicable,
 }
 
 extension on ResourceType {
@@ -6507,6 +6864,8 @@ extension on ResourceType {
         return 'EbsVolume';
       case ResourceType.lambdaFunction:
         return 'LambdaFunction';
+      case ResourceType.notApplicable:
+        return 'NotApplicable';
     }
   }
 }
@@ -6522,6 +6881,8 @@ extension on String {
         return ResourceType.ebsVolume;
       case 'LambdaFunction':
         return ResourceType.lambdaFunction;
+      case 'NotApplicable':
+        return ResourceType.notApplicable;
     }
     throw Exception('$this is not known in enum ResourceType');
   }
@@ -6634,11 +6995,13 @@ class S3DestinationConfig {
 /// User Guide</i>.
 /// </important>
 class SavingsOpportunity {
-  /// An object that describes the estimated monthly savings amount possible based
-  /// on On-Demand instance pricing.
+  /// An object that describes the estimated monthly savings amount possible,
+  /// based on On-Demand instance pricing, by adopting Compute Optimizer
+  /// recommendations for a given resource.
   final EstimatedMonthlySavings? estimatedMonthlySavings;
 
-  /// The estimated monthly savings possible as a percentage of monthly cost.
+  /// The estimated monthly savings possible as a percentage of monthly cost by
+  /// adopting Compute Optimizer recommendations for a given resource.
   final double? savingsOpportunityPercentage;
 
   SavingsOpportunity({
@@ -6683,7 +7046,10 @@ class SavingsOpportunity {
 /// for Auto Scaling groups only at the resource level by specifying a scope
 /// name of <code>ResourceArn</code> and a scope value of the Auto Scaling group
 /// Amazon Resource Name (ARN). This will configure the preference for all
-/// instances that are part of the specified the Auto Scaling group.
+/// instances that are part of the specified Auto Scaling group. You also cannot
+/// create recommendation preferences at the resource level for instances that
+/// are part of an Auto Scaling group. You can create recommendation preferences
+/// at the resource level only for standalone instances.
 /// </note>
 class Scope {
   /// The name of the scope.

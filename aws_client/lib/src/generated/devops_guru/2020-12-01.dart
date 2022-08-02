@@ -64,9 +64,16 @@ class DevOpsGuru {
   /// If you use an Amazon SNS topic in another account, you must attach a
   /// policy to it that grants DevOps Guru permission to it notifications.
   /// DevOps Guru adds the required policy on your behalf to send notifications
-  /// using Amazon SNS in your account. For more information, see <a
+  /// using Amazon SNS in your account. DevOps Guru only supports standard SNS
+  /// topics. For more information, see <a
   /// href="https://docs.aws.amazon.com/devops-guru/latest/userguide/sns-required-permissions.html">Permissions
   /// for cross account Amazon SNS topics</a>.
+  ///
+  /// If you use an Amazon SNS topic in another account, you must attach a
+  /// policy to it that grants DevOps Guru permission to it notifications.
+  /// DevOps Guru adds the required policy on your behalf to send notifications
+  /// using Amazon SNS in your account. For more information, see Permissions
+  /// for cross account Amazon SNS topics.
   ///
   /// If you use an Amazon SNS topic that is encrypted by an Amazon Web Services
   /// Key Management Service customer-managed key (CMK), then you must add
@@ -100,6 +107,30 @@ class DevOpsGuru {
       exceptionFnMap: _exceptionFns,
     );
     return AddNotificationChannelResponse.fromJson(response);
+  }
+
+  /// Deletes the insight along with the associated anomalies, events and
+  /// recommendations.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [id] :
+  /// The ID of the insight.
+  Future<void> deleteInsight({
+    required String id,
+  }) async {
+    ArgumentError.checkNotNull(id, 'id');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/insights/${Uri.encodeComponent(id)}',
+      exceptionFnMap: _exceptionFns,
+    );
   }
 
   /// Returns the number of open reactive insights, the number of open proactive
@@ -188,6 +219,26 @@ class DevOpsGuru {
       exceptionFnMap: _exceptionFns,
     );
     return DescribeAnomalyResponse.fromJson(response);
+  }
+
+  /// Returns the integration status of services that are integrated with DevOps
+  /// Guru as Consumer via EventBridge. The one service that can be integrated
+  /// with DevOps Guru is Amazon CodeGuru Profiler, which can produce proactive
+  /// recommendations which can be stored and viewed in DevOps Guru.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  Future<DescribeEventSourcesConfigResponse>
+      describeEventSourcesConfig() async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'POST',
+      requestUri: '/event-sources',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeEventSourcesConfigResponse.fromJson(response);
   }
 
   /// Returns the most recent feedback submitted in the current Amazon Web
@@ -452,6 +503,7 @@ class DevOpsGuru {
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   Future<DescribeServiceIntegrationResponse>
@@ -596,6 +648,51 @@ class DevOpsGuru {
     return ListAnomaliesForInsightResponse.fromJson(response);
   }
 
+  /// Returns the list of log groups that contain log anomalies.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [insightId] :
+  /// The ID of the insight containing the log groups.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return with a single call. To retrieve
+  /// the remaining results, make another call with the returned
+  /// <code>nextToken</code> value.
+  ///
+  /// Parameter [nextToken] :
+  /// The pagination token to use to retrieve the next page of results for this
+  /// operation. If this value is null, it retrieves the first page.
+  Future<ListAnomalousLogGroupsResponse> listAnomalousLogGroups({
+    required String insightId,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    ArgumentError.checkNotNull(insightId, 'insightId');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      200,
+    );
+    final $payload = <String, dynamic>{
+      'InsightId': insightId,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/list-log-anomalies',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListAnomalousLogGroupsResponse.fromJson(response);
+  }
+
   /// Returns a list of the events emitted by the resources that are evaluated
   /// by DevOps Guru. You can use filters to specify which events are returned.
   ///
@@ -693,6 +790,52 @@ class DevOpsGuru {
       exceptionFnMap: _exceptionFns,
     );
     return ListInsightsResponse.fromJson(response);
+  }
+
+  /// Returns the list of all log groups that are being monitored and tagged by
+  /// DevOps Guru.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [filters] :
+  /// Filters to determine which monitored resources you want to retrieve. You
+  /// can filter by resource type or resource permission status.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return with a single call. To retrieve
+  /// the remaining results, make another call with the returned
+  /// <code>nextToken</code> value.
+  ///
+  /// Parameter [nextToken] :
+  /// The pagination token to use to retrieve the next page of results for this
+  /// operation. If this value is null, it retrieves the first page.
+  Future<ListMonitoredResourcesResponse> listMonitoredResources({
+    required ListMonitoredResourcesFilters filters,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    ArgumentError.checkNotNull(filters, 'filters');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    final $payload = <String, dynamic>{
+      'Filters': filters,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/monitoredResources',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListMonitoredResourcesResponse.fromJson(response);
   }
 
   /// Returns a list of notification channels configured for DevOps Guru. Each
@@ -1039,6 +1182,33 @@ class DevOpsGuru {
     );
   }
 
+  /// Enables or disables integration with a service that can be integrated with
+  /// DevOps Guru. The one service that can be integrated with DevOps Guru is
+  /// Amazon CodeGuru Profiler, which can produce proactive recommendations
+  /// which can be stored and viewed in DevOps Guru.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [eventSources] :
+  /// Configuration information about the integration of DevOps Guru as the
+  /// Consumer via EventBridge with another AWS Service.
+  Future<void> updateEventSourcesConfig({
+    EventSourcesConfig? eventSources,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (eventSources != null) 'EventSources': eventSources,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/event-sources',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Updates the collection of resources that DevOps Guru analyzes. The two
   /// types of Amazon Web Services resource collections supported are Amazon Web
   /// Services CloudFormation stacks and Amazon Web Services resources that
@@ -1201,6 +1371,95 @@ class AddNotificationChannelResponse {
   }
 }
 
+/// Information about your account's integration with Amazon CodeGuru Profiler.
+/// This returns whether DevOps Guru is configured to consume recommendations
+/// generated from Amazon CodeGuru Profiler.
+class AmazonCodeGuruProfilerIntegration {
+  /// The status of the CodeGuru Profiler integration. Specifies if DevOps Guru is
+  /// enabled to consume recommendations that are generated from Amazon CodeGuru
+  /// Profiler.
+  final EventSourceOptInStatus? status;
+
+  AmazonCodeGuruProfilerIntegration({
+    this.status,
+  });
+
+  factory AmazonCodeGuruProfilerIntegration.fromJson(
+      Map<String, dynamic> json) {
+    return AmazonCodeGuruProfilerIntegration(
+      status: (json['Status'] as String?)?.toEventSourceOptInStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    return {
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
+}
+
+/// An Amazon CloudWatch log group that contains log anomalies and is used to
+/// generate an insight.
+class AnomalousLogGroup {
+  /// The time the anomalous log events stopped.
+  final DateTime? impactEndTime;
+
+  /// The time the anomalous log events began. The impact start time indicates the
+  /// time of the first log anomaly event that occurs.
+  final DateTime? impactStartTime;
+
+  /// The log anomalies in the log group. Each log anomaly displayed represents a
+  /// cluster of similar anomalous log events.
+  final List<LogAnomalyShowcase>? logAnomalyShowcases;
+
+  /// The name of the CloudWatch log group.
+  final String? logGroupName;
+
+  /// The number of log lines that were scanned for anomalous log events.
+  final int? numberOfLogLinesScanned;
+
+  AnomalousLogGroup({
+    this.impactEndTime,
+    this.impactStartTime,
+    this.logAnomalyShowcases,
+    this.logGroupName,
+    this.numberOfLogLinesScanned,
+  });
+
+  factory AnomalousLogGroup.fromJson(Map<String, dynamic> json) {
+    return AnomalousLogGroup(
+      impactEndTime: timeStampFromJson(json['ImpactEndTime']),
+      impactStartTime: timeStampFromJson(json['ImpactStartTime']),
+      logAnomalyShowcases: (json['LogAnomalyShowcases'] as List?)
+          ?.whereNotNull()
+          .map((e) => LogAnomalyShowcase.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      logGroupName: json['LogGroupName'] as String?,
+      numberOfLogLinesScanned: json['NumberOfLogLinesScanned'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final impactEndTime = this.impactEndTime;
+    final impactStartTime = this.impactStartTime;
+    final logAnomalyShowcases = this.logAnomalyShowcases;
+    final logGroupName = this.logGroupName;
+    final numberOfLogLinesScanned = this.numberOfLogLinesScanned;
+    return {
+      if (impactEndTime != null)
+        'ImpactEndTime': unixTimestampToJson(impactEndTime),
+      if (impactStartTime != null)
+        'ImpactStartTime': unixTimestampToJson(impactStartTime),
+      if (logAnomalyShowcases != null)
+        'LogAnomalyShowcases': logAnomalyShowcases,
+      if (logGroupName != null) 'LogGroupName': logGroupName,
+      if (numberOfLogLinesScanned != null)
+        'NumberOfLogLinesScanned': numberOfLogLinesScanned,
+    };
+  }
+}
+
 /// A time range that specifies when DevOps Guru opens and then closes an
 /// anomaly. This is different from <code>AnomalyTimeRange</code>, which
 /// specifies the time range when DevOps Guru actually observes the anomalous
@@ -1340,6 +1599,45 @@ class AnomalySourceDetails {
       if (cloudWatchMetrics != null) 'CloudWatchMetrics': cloudWatchMetrics,
       if (performanceInsightsMetrics != null)
         'PerformanceInsightsMetrics': performanceInsightsMetrics,
+    };
+  }
+}
+
+/// Metadata about the detection source that generates proactive anomalies. The
+/// anomaly is detected using analysis of the metric data&#x2028; over a period
+/// of time
+class AnomalySourceMetadata {
+  /// The source of the anomaly.
+  final String? source;
+
+  /// The name of the anomaly's resource.
+  final String? sourceResourceName;
+
+  /// The anomaly's resource type.
+  final String? sourceResourceType;
+
+  AnomalySourceMetadata({
+    this.source,
+    this.sourceResourceName,
+    this.sourceResourceType,
+  });
+
+  factory AnomalySourceMetadata.fromJson(Map<String, dynamic> json) {
+    return AnomalySourceMetadata(
+      source: json['Source'] as String?,
+      sourceResourceName: json['SourceResourceName'] as String?,
+      sourceResourceType: json['SourceResourceType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final source = this.source;
+    final sourceResourceName = this.sourceResourceName;
+    final sourceResourceType = this.sourceResourceType;
+    return {
+      if (source != null) 'Source': source,
+      if (sourceResourceName != null) 'SourceResourceName': sourceResourceName,
+      if (sourceResourceType != null) 'SourceResourceType': sourceResourceType,
     };
   }
 }
@@ -1714,7 +2012,7 @@ class CloudWatchMetricsDetail {
   }
 }
 
-/// The dimension of am Amazon CloudWatch metric that is used when DevOps Guru
+/// The dimension of an Amazon CloudWatch metric that is used when DevOps Guru
 /// analyzes the resources in your account for operational problems and
 /// anomalous behavior. A dimension is a name/value pair that is part of the
 /// identity of a metric. A metric can have up to 10 dimensions. For more
@@ -1979,6 +2277,18 @@ class CostEstimationTimeRange {
   }
 }
 
+class DeleteInsightResponse {
+  DeleteInsightResponse();
+
+  factory DeleteInsightResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteInsightResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 class DescribeAccountHealthResponse {
   /// An integer that specifies the number of metrics that have been analyzed in
   /// your Amazon Web Services account.
@@ -2101,6 +2411,32 @@ class DescribeAnomalyResponse {
     return {
       if (proactiveAnomaly != null) 'ProactiveAnomaly': proactiveAnomaly,
       if (reactiveAnomaly != null) 'ReactiveAnomaly': reactiveAnomaly,
+    };
+  }
+}
+
+class DescribeEventSourcesConfigResponse {
+  /// Lists the event sources in the configuration.
+  final EventSourcesConfig? eventSources;
+
+  DescribeEventSourcesConfigResponse({
+    this.eventSources,
+  });
+
+  factory DescribeEventSourcesConfigResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeEventSourcesConfigResponse(
+      eventSources: json['EventSources'] != null
+          ? EventSourcesConfig.fromJson(
+              json['EventSources'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eventSources = this.eventSources;
+    return {
+      if (eventSources != null) 'EventSources': eventSources,
     };
   }
 }
@@ -2693,6 +3029,63 @@ class EventResource {
   }
 }
 
+enum EventSourceOptInStatus {
+  enabled,
+  disabled,
+}
+
+extension on EventSourceOptInStatus {
+  String toValue() {
+    switch (this) {
+      case EventSourceOptInStatus.enabled:
+        return 'ENABLED';
+      case EventSourceOptInStatus.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension on String {
+  EventSourceOptInStatus toEventSourceOptInStatus() {
+    switch (this) {
+      case 'ENABLED':
+        return EventSourceOptInStatus.enabled;
+      case 'DISABLED':
+        return EventSourceOptInStatus.disabled;
+    }
+    throw Exception('$this is not known in enum EventSourceOptInStatus');
+  }
+}
+
+/// Information about the integration of DevOps Guru as consumer with another
+/// AWS service, such as AWS CodeGuru Profiler via EventBridge.
+class EventSourcesConfig {
+  /// Information about whether DevOps Guru is configured to consume
+  /// recommendations which are generated from AWS CodeGuru Profiler.
+  final AmazonCodeGuruProfilerIntegration? amazonCodeGuruProfiler;
+
+  EventSourcesConfig({
+    this.amazonCodeGuruProfiler,
+  });
+
+  factory EventSourcesConfig.fromJson(Map<String, dynamic> json) {
+    return EventSourcesConfig(
+      amazonCodeGuruProfiler: json['AmazonCodeGuruProfiler'] != null
+          ? AmazonCodeGuruProfilerIntegration.fromJson(
+              json['AmazonCodeGuruProfiler'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final amazonCodeGuruProfiler = this.amazonCodeGuruProfiler;
+    return {
+      if (amazonCodeGuruProfiler != null)
+        'AmazonCodeGuruProfiler': amazonCodeGuruProfiler,
+    };
+  }
+}
+
 /// The time range during which an Amazon Web Services event occurred. Amazon
 /// Web Services resource events and metrics are analyzed by DevOps Guru to find
 /// anomalous behavior and provide recommendations to improve your operational
@@ -3122,6 +3515,46 @@ class ListAnomaliesForInsightResponse {
   }
 }
 
+class ListAnomalousLogGroupsResponse {
+  /// The list of Amazon CloudWatch log groups that are related to an insight.
+  final List<AnomalousLogGroup> anomalousLogGroups;
+
+  /// The ID of the insight containing the log groups.
+  final String insightId;
+
+  /// The pagination token to use to retrieve the next page of results for this
+  /// operation. If there are no more pages, this value is null.
+  final String? nextToken;
+
+  ListAnomalousLogGroupsResponse({
+    required this.anomalousLogGroups,
+    required this.insightId,
+    this.nextToken,
+  });
+
+  factory ListAnomalousLogGroupsResponse.fromJson(Map<String, dynamic> json) {
+    return ListAnomalousLogGroupsResponse(
+      anomalousLogGroups: (json['AnomalousLogGroups'] as List)
+          .whereNotNull()
+          .map((e) => AnomalousLogGroup.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      insightId: json['InsightId'] as String,
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final anomalousLogGroups = this.anomalousLogGroups;
+    final insightId = this.insightId;
+    final nextToken = this.nextToken;
+    return {
+      'AnomalousLogGroups': anomalousLogGroups,
+      'InsightId': insightId,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
 /// Filters you can use to specify which events are returned when
 /// <code>ListEvents</code> is called.
 class ListEventsFilters {
@@ -3406,6 +3839,79 @@ class ListInsightsStatusFilter {
   }
 }
 
+/// Filters to determine which monitored resources you want to retrieve. You can
+/// filter by resource type or resource permission status.
+class ListMonitoredResourcesFilters {
+  /// The permission status of a resource.
+  final ResourcePermission resourcePermission;
+
+  /// The type of resource that you wish to retrieve, such as log groups.
+  final List<ResourceTypeFilter> resourceTypeFilters;
+
+  ListMonitoredResourcesFilters({
+    required this.resourcePermission,
+    required this.resourceTypeFilters,
+  });
+
+  factory ListMonitoredResourcesFilters.fromJson(Map<String, dynamic> json) {
+    return ListMonitoredResourcesFilters(
+      resourcePermission:
+          (json['ResourcePermission'] as String).toResourcePermission(),
+      resourceTypeFilters: (json['ResourceTypeFilters'] as List)
+          .whereNotNull()
+          .map((e) => (e as String).toResourceTypeFilter())
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourcePermission = this.resourcePermission;
+    final resourceTypeFilters = this.resourceTypeFilters;
+    return {
+      'ResourcePermission': resourcePermission.toValue(),
+      'ResourceTypeFilters':
+          resourceTypeFilters.map((e) => e.toValue()).toList(),
+    };
+  }
+}
+
+class ListMonitoredResourcesResponse {
+  /// Information about the resource that is being monitored, including the name
+  /// of the resource, the type of resource, and whether or not permission is
+  /// given to DevOps Guru to access that resource.
+  final List<MonitoredResourceIdentifier> monitoredResourceIdentifiers;
+
+  /// The pagination token to use to retrieve the next page of results for this
+  /// operation. If there are no more pages, this value is null.
+  final String? nextToken;
+
+  ListMonitoredResourcesResponse({
+    required this.monitoredResourceIdentifiers,
+    this.nextToken,
+  });
+
+  factory ListMonitoredResourcesResponse.fromJson(Map<String, dynamic> json) {
+    return ListMonitoredResourcesResponse(
+      monitoredResourceIdentifiers: (json['MonitoredResourceIdentifiers']
+              as List)
+          .whereNotNull()
+          .map((e) =>
+              MonitoredResourceIdentifier.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final monitoredResourceIdentifiers = this.monitoredResourceIdentifiers;
+    final nextToken = this.nextToken;
+    return {
+      'MonitoredResourceIdentifiers': monitoredResourceIdentifiers,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
 class ListNotificationChannelsResponse {
   /// An array that contains the requested notification channels.
   final List<NotificationChannel>? channels;
@@ -3592,6 +4098,254 @@ extension on String {
   }
 }
 
+/// Information about an anomalous log event found within a log group.
+class LogAnomalyClass {
+  /// The explanation for why the log event is considered an anomaly.
+  final String? explanation;
+
+  /// The token where the anomaly was detected. This may refer to an exception or
+  /// another location, or it may be blank for log anomalies such as format
+  /// anomalies.
+  final String? logAnomalyToken;
+
+  /// The type of log anomaly that has been detected.
+  final LogAnomalyType? logAnomalyType;
+
+  /// The ID of the log event.
+  final String? logEventId;
+
+  /// The time of the first occurrence of the anomalous log event.
+  final DateTime? logEventTimestamp;
+
+  /// The name of the Amazon CloudWatch log stream that the anomalous log event
+  /// belongs to. A log stream is a sequence of log events that share the same
+  /// source.
+  final String? logStreamName;
+
+  /// The number of log lines where this anomalous log event occurs.
+  final int? numberOfLogLinesOccurrences;
+
+  LogAnomalyClass({
+    this.explanation,
+    this.logAnomalyToken,
+    this.logAnomalyType,
+    this.logEventId,
+    this.logEventTimestamp,
+    this.logStreamName,
+    this.numberOfLogLinesOccurrences,
+  });
+
+  factory LogAnomalyClass.fromJson(Map<String, dynamic> json) {
+    return LogAnomalyClass(
+      explanation: json['Explanation'] as String?,
+      logAnomalyToken: json['LogAnomalyToken'] as String?,
+      logAnomalyType: (json['LogAnomalyType'] as String?)?.toLogAnomalyType(),
+      logEventId: json['LogEventId'] as String?,
+      logEventTimestamp: timeStampFromJson(json['LogEventTimestamp']),
+      logStreamName: json['LogStreamName'] as String?,
+      numberOfLogLinesOccurrences: json['NumberOfLogLinesOccurrences'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final explanation = this.explanation;
+    final logAnomalyToken = this.logAnomalyToken;
+    final logAnomalyType = this.logAnomalyType;
+    final logEventId = this.logEventId;
+    final logEventTimestamp = this.logEventTimestamp;
+    final logStreamName = this.logStreamName;
+    final numberOfLogLinesOccurrences = this.numberOfLogLinesOccurrences;
+    return {
+      if (explanation != null) 'Explanation': explanation,
+      if (logAnomalyToken != null) 'LogAnomalyToken': logAnomalyToken,
+      if (logAnomalyType != null) 'LogAnomalyType': logAnomalyType.toValue(),
+      if (logEventId != null) 'LogEventId': logEventId,
+      if (logEventTimestamp != null)
+        'LogEventTimestamp': unixTimestampToJson(logEventTimestamp),
+      if (logStreamName != null) 'LogStreamName': logStreamName,
+      if (numberOfLogLinesOccurrences != null)
+        'NumberOfLogLinesOccurrences': numberOfLogLinesOccurrences,
+    };
+  }
+}
+
+/// A cluster of similar anomalous log events found within a log group.
+class LogAnomalyShowcase {
+  /// A list of anomalous log events that may be related.
+  final List<LogAnomalyClass>? logAnomalyClasses;
+
+  LogAnomalyShowcase({
+    this.logAnomalyClasses,
+  });
+
+  factory LogAnomalyShowcase.fromJson(Map<String, dynamic> json) {
+    return LogAnomalyShowcase(
+      logAnomalyClasses: (json['LogAnomalyClasses'] as List?)
+          ?.whereNotNull()
+          .map((e) => LogAnomalyClass.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final logAnomalyClasses = this.logAnomalyClasses;
+    return {
+      if (logAnomalyClasses != null) 'LogAnomalyClasses': logAnomalyClasses,
+    };
+  }
+}
+
+enum LogAnomalyType {
+  keyword,
+  keywordToken,
+  format,
+  httpCode,
+  blockFormat,
+  numericalPoint,
+  numericalNan,
+  newFieldName,
+}
+
+extension on LogAnomalyType {
+  String toValue() {
+    switch (this) {
+      case LogAnomalyType.keyword:
+        return 'KEYWORD';
+      case LogAnomalyType.keywordToken:
+        return 'KEYWORD_TOKEN';
+      case LogAnomalyType.format:
+        return 'FORMAT';
+      case LogAnomalyType.httpCode:
+        return 'HTTP_CODE';
+      case LogAnomalyType.blockFormat:
+        return 'BLOCK_FORMAT';
+      case LogAnomalyType.numericalPoint:
+        return 'NUMERICAL_POINT';
+      case LogAnomalyType.numericalNan:
+        return 'NUMERICAL_NAN';
+      case LogAnomalyType.newFieldName:
+        return 'NEW_FIELD_NAME';
+    }
+  }
+}
+
+extension on String {
+  LogAnomalyType toLogAnomalyType() {
+    switch (this) {
+      case 'KEYWORD':
+        return LogAnomalyType.keyword;
+      case 'KEYWORD_TOKEN':
+        return LogAnomalyType.keywordToken;
+      case 'FORMAT':
+        return LogAnomalyType.format;
+      case 'HTTP_CODE':
+        return LogAnomalyType.httpCode;
+      case 'BLOCK_FORMAT':
+        return LogAnomalyType.blockFormat;
+      case 'NUMERICAL_POINT':
+        return LogAnomalyType.numericalPoint;
+      case 'NUMERICAL_NAN':
+        return LogAnomalyType.numericalNan;
+      case 'NEW_FIELD_NAME':
+        return LogAnomalyType.newFieldName;
+    }
+    throw Exception('$this is not known in enum LogAnomalyType');
+  }
+}
+
+/// Information about the integration of DevOps Guru with CloudWatch log groups
+/// for log anomaly detection.
+class LogsAnomalyDetectionIntegration {
+  /// Specifies if DevOps Guru is configured to perform log anomaly detection on
+  /// CloudWatch log groups.
+  final OptInStatus? optInStatus;
+
+  LogsAnomalyDetectionIntegration({
+    this.optInStatus,
+  });
+
+  factory LogsAnomalyDetectionIntegration.fromJson(Map<String, dynamic> json) {
+    return LogsAnomalyDetectionIntegration(
+      optInStatus: (json['OptInStatus'] as String?)?.toOptInStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final optInStatus = this.optInStatus;
+    return {
+      if (optInStatus != null) 'OptInStatus': optInStatus.toValue(),
+    };
+  }
+}
+
+/// Information about the integration of DevOps Guru with CloudWatch log groups
+/// for log anomaly detection. You can use this to update the configuration.
+class LogsAnomalyDetectionIntegrationConfig {
+  /// Specifies if DevOps Guru is configured to perform log anomaly detection on
+  /// CloudWatch log groups.
+  final OptInStatus? optInStatus;
+
+  LogsAnomalyDetectionIntegrationConfig({
+    this.optInStatus,
+  });
+
+  factory LogsAnomalyDetectionIntegrationConfig.fromJson(
+      Map<String, dynamic> json) {
+    return LogsAnomalyDetectionIntegrationConfig(
+      optInStatus: (json['OptInStatus'] as String?)?.toOptInStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final optInStatus = this.optInStatus;
+    return {
+      if (optInStatus != null) 'OptInStatus': optInStatus.toValue(),
+    };
+  }
+}
+
+/// Information about the resource that is being monitored, including the name
+/// of the resource, the type of resource, and whether or not permission is
+/// given to DevOps Guru to access that resource.
+class MonitoredResourceIdentifier {
+  /// The name of the resource being monitored.
+  final String? monitoredResourceName;
+
+  /// The permission status of a resource.
+  final ResourcePermission? resourcePermission;
+
+  /// The type of resource being monitored.
+  final String? type;
+
+  MonitoredResourceIdentifier({
+    this.monitoredResourceName,
+    this.resourcePermission,
+    this.type,
+  });
+
+  factory MonitoredResourceIdentifier.fromJson(Map<String, dynamic> json) {
+    return MonitoredResourceIdentifier(
+      monitoredResourceName: json['MonitoredResourceName'] as String?,
+      resourcePermission:
+          (json['ResourcePermission'] as String?)?.toResourcePermission(),
+      type: json['Type'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final monitoredResourceName = this.monitoredResourceName;
+    final resourcePermission = this.resourcePermission;
+    final type = this.type;
+    return {
+      if (monitoredResourceName != null)
+        'MonitoredResourceName': monitoredResourceName,
+      if (resourcePermission != null)
+        'ResourcePermission': resourcePermission.toValue(),
+      if (type != null) 'Type': type,
+    };
+  }
+}
+
 /// Information about a notification channel. A notification channel is used to
 /// notify you when DevOps Guru creates an insight. The one supported
 /// notification channel is Amazon Simple Notification Service (Amazon SNS).
@@ -3599,9 +4353,16 @@ extension on String {
 /// If you use an Amazon SNS topic in another account, you must attach a policy
 /// to it that grants DevOps Guru permission to it notifications. DevOps Guru
 /// adds the required policy on your behalf to send notifications using Amazon
-/// SNS in your account. For more information, see <a
+/// SNS in your account. DevOps Guru only supports standard SNS topics. For more
+/// information, see <a
 /// href="https://docs.aws.amazon.com/devops-guru/latest/userguide/sns-required-permissions.html">Permissions
 /// for cross account Amazon SNS topics</a>.
+///
+/// If you use an Amazon SNS topic in another account, you must attach a policy
+/// to it that grants DevOps Guru permission to it notifications. DevOps Guru
+/// adds the required policy on your behalf to send notifications using Amazon
+/// SNS in your account. For more information, see Permissions for cross account
+/// Amazon SNS topics.
 ///
 /// If you use an Amazon SNS topic that is encrypted by an Amazon Web Services
 /// Key Management Service customer-managed key (CMK), then you must add
@@ -3651,9 +4412,16 @@ class NotificationChannelConfig {
   /// If you use an Amazon SNS topic in another account, you must attach a policy
   /// to it that grants DevOps Guru permission to it notifications. DevOps Guru
   /// adds the required policy on your behalf to send notifications using Amazon
-  /// SNS in your account. For more information, see <a
+  /// SNS in your account. DevOps Guru only supports standard SNS topics. For more
+  /// information, see <a
   /// href="https://docs.aws.amazon.com/devops-guru/latest/userguide/sns-required-permissions.html">Permissions
   /// for cross account Amazon SNS topics</a>.
+  ///
+  /// If you use an Amazon SNS topic in another account, you must attach a policy
+  /// to it that grants DevOps Guru permission to it notifications. DevOps Guru
+  /// adds the required policy on your behalf to send notifications using Amazon
+  /// SNS in your account. For more information, see Permissions for cross account
+  /// Amazon SNS topics.
   ///
   /// If you use an Amazon SNS topic that is encrypted by an Amazon Web Services
   /// Key Management Service customer-managed key (CMK), then you must add
@@ -3706,7 +4474,8 @@ class OpsCenterIntegration {
 }
 
 /// Information about whether DevOps Guru is configured to create an OpsItem in
-/// Amazon Web Services Systems Manager OpsCenter for each created insight.
+/// Amazon Web Services Systems Manager OpsCenter for each created insight. You
+/// can use this to update the configuration.
 class OpsCenterIntegrationConfig {
   /// Specifies if DevOps Guru is enabled to create an Amazon Web Services Systems
   /// Manager OpsItem for each created insight.
@@ -4390,6 +5159,10 @@ class ProactiveAnomaly {
   /// An <code>AnomalyReportedTimeRange</code> object that specifies the time
   /// range between when the anomaly is opened and the time when it is closed.
   final AnomalyReportedTimeRange? anomalyReportedTimeRange;
+
+  /// Information about a resource in which DevOps Guru detected anomalous
+  /// behavior.
+  final List<AnomalyResource>? anomalyResources;
   final AnomalyTimeRange? anomalyTimeRange;
 
   /// The ID of the insight that contains this anomaly. An insight is composed of
@@ -4416,6 +5189,9 @@ class ProactiveAnomaly {
   /// anomaly. The one supported source is Amazon CloudWatch metrics.
   final AnomalySourceDetails? sourceDetails;
 
+  /// The metadata for the anomaly.
+  final AnomalySourceMetadata? sourceMetadata;
+
   /// The status of a proactive anomaly.
   final AnomalyStatus? status;
 
@@ -4424,6 +5200,7 @@ class ProactiveAnomaly {
 
   ProactiveAnomaly({
     this.anomalyReportedTimeRange,
+    this.anomalyResources,
     this.anomalyTimeRange,
     this.associatedInsightId,
     this.id,
@@ -4432,6 +5209,7 @@ class ProactiveAnomaly {
     this.resourceCollection,
     this.severity,
     this.sourceDetails,
+    this.sourceMetadata,
     this.status,
     this.updateTime,
   });
@@ -4442,6 +5220,10 @@ class ProactiveAnomaly {
           ? AnomalyReportedTimeRange.fromJson(
               json['AnomalyReportedTimeRange'] as Map<String, dynamic>)
           : null,
+      anomalyResources: (json['AnomalyResources'] as List?)
+          ?.whereNotNull()
+          .map((e) => AnomalyResource.fromJson(e as Map<String, dynamic>))
+          .toList(),
       anomalyTimeRange: json['AnomalyTimeRange'] != null
           ? AnomalyTimeRange.fromJson(
               json['AnomalyTimeRange'] as Map<String, dynamic>)
@@ -4462,6 +5244,10 @@ class ProactiveAnomaly {
           ? AnomalySourceDetails.fromJson(
               json['SourceDetails'] as Map<String, dynamic>)
           : null,
+      sourceMetadata: json['SourceMetadata'] != null
+          ? AnomalySourceMetadata.fromJson(
+              json['SourceMetadata'] as Map<String, dynamic>)
+          : null,
       status: (json['Status'] as String?)?.toAnomalyStatus(),
       updateTime: timeStampFromJson(json['UpdateTime']),
     );
@@ -4469,6 +5255,7 @@ class ProactiveAnomaly {
 
   Map<String, dynamic> toJson() {
     final anomalyReportedTimeRange = this.anomalyReportedTimeRange;
+    final anomalyResources = this.anomalyResources;
     final anomalyTimeRange = this.anomalyTimeRange;
     final associatedInsightId = this.associatedInsightId;
     final id = this.id;
@@ -4477,11 +5264,13 @@ class ProactiveAnomaly {
     final resourceCollection = this.resourceCollection;
     final severity = this.severity;
     final sourceDetails = this.sourceDetails;
+    final sourceMetadata = this.sourceMetadata;
     final status = this.status;
     final updateTime = this.updateTime;
     return {
       if (anomalyReportedTimeRange != null)
         'AnomalyReportedTimeRange': anomalyReportedTimeRange,
+      if (anomalyResources != null) 'AnomalyResources': anomalyResources,
       if (anomalyTimeRange != null) 'AnomalyTimeRange': anomalyTimeRange,
       if (associatedInsightId != null)
         'AssociatedInsightId': associatedInsightId,
@@ -4492,6 +5281,7 @@ class ProactiveAnomaly {
       if (resourceCollection != null) 'ResourceCollection': resourceCollection,
       if (severity != null) 'Severity': severity.toValue(),
       if (sourceDetails != null) 'SourceDetails': sourceDetails,
+      if (sourceMetadata != null) 'SourceMetadata': sourceMetadata,
       if (status != null) 'Status': status.toValue(),
       if (updateTime != null) 'UpdateTime': unixTimestampToJson(updateTime),
     };
@@ -4504,6 +5294,10 @@ class ProactiveAnomalySummary {
   /// An <code>AnomalyReportedTimeRange</code> object that specifies the time
   /// range between when the anomaly is opened and the time when it is closed.
   final AnomalyReportedTimeRange? anomalyReportedTimeRange;
+
+  /// Information about a resource in which DevOps Guru detected anomalous
+  /// behavior.
+  final List<AnomalyResource>? anomalyResources;
   final AnomalyTimeRange? anomalyTimeRange;
 
   /// The ID of the insight that contains this anomaly. An insight is composed of
@@ -4530,6 +5324,9 @@ class ProactiveAnomalySummary {
   /// anomaly. The one supported source is Amazon CloudWatch metrics.
   final AnomalySourceDetails? sourceDetails;
 
+  /// The metadata of the source which detects proactive anomalies.
+  final AnomalySourceMetadata? sourceMetadata;
+
   /// The status of the anomaly.
   final AnomalyStatus? status;
 
@@ -4538,6 +5335,7 @@ class ProactiveAnomalySummary {
 
   ProactiveAnomalySummary({
     this.anomalyReportedTimeRange,
+    this.anomalyResources,
     this.anomalyTimeRange,
     this.associatedInsightId,
     this.id,
@@ -4546,6 +5344,7 @@ class ProactiveAnomalySummary {
     this.resourceCollection,
     this.severity,
     this.sourceDetails,
+    this.sourceMetadata,
     this.status,
     this.updateTime,
   });
@@ -4556,6 +5355,10 @@ class ProactiveAnomalySummary {
           ? AnomalyReportedTimeRange.fromJson(
               json['AnomalyReportedTimeRange'] as Map<String, dynamic>)
           : null,
+      anomalyResources: (json['AnomalyResources'] as List?)
+          ?.whereNotNull()
+          .map((e) => AnomalyResource.fromJson(e as Map<String, dynamic>))
+          .toList(),
       anomalyTimeRange: json['AnomalyTimeRange'] != null
           ? AnomalyTimeRange.fromJson(
               json['AnomalyTimeRange'] as Map<String, dynamic>)
@@ -4576,6 +5379,10 @@ class ProactiveAnomalySummary {
           ? AnomalySourceDetails.fromJson(
               json['SourceDetails'] as Map<String, dynamic>)
           : null,
+      sourceMetadata: json['SourceMetadata'] != null
+          ? AnomalySourceMetadata.fromJson(
+              json['SourceMetadata'] as Map<String, dynamic>)
+          : null,
       status: (json['Status'] as String?)?.toAnomalyStatus(),
       updateTime: timeStampFromJson(json['UpdateTime']),
     );
@@ -4583,6 +5390,7 @@ class ProactiveAnomalySummary {
 
   Map<String, dynamic> toJson() {
     final anomalyReportedTimeRange = this.anomalyReportedTimeRange;
+    final anomalyResources = this.anomalyResources;
     final anomalyTimeRange = this.anomalyTimeRange;
     final associatedInsightId = this.associatedInsightId;
     final id = this.id;
@@ -4591,11 +5399,13 @@ class ProactiveAnomalySummary {
     final resourceCollection = this.resourceCollection;
     final severity = this.severity;
     final sourceDetails = this.sourceDetails;
+    final sourceMetadata = this.sourceMetadata;
     final status = this.status;
     final updateTime = this.updateTime;
     return {
       if (anomalyReportedTimeRange != null)
         'AnomalyReportedTimeRange': anomalyReportedTimeRange,
+      if (anomalyResources != null) 'AnomalyResources': anomalyResources,
       if (anomalyTimeRange != null) 'AnomalyTimeRange': anomalyTimeRange,
       if (associatedInsightId != null)
         'AssociatedInsightId': associatedInsightId,
@@ -4606,6 +5416,7 @@ class ProactiveAnomalySummary {
       if (resourceCollection != null) 'ResourceCollection': resourceCollection,
       if (severity != null) 'Severity': severity.toValue(),
       if (sourceDetails != null) 'SourceDetails': sourceDetails,
+      if (sourceMetadata != null) 'SourceMetadata': sourceMetadata,
       if (status != null) 'Status': status.toValue(),
       if (updateTime != null) 'UpdateTime': unixTimestampToJson(updateTime),
     };
@@ -4615,6 +5426,9 @@ class ProactiveAnomalySummary {
 /// Details about a proactive insight. This object is returned by
 /// <code>ListInsights</code>.
 class ProactiveInsight {
+  /// Describes the proactive insight.
+  final String? description;
+
   /// The ID of the proactive insight.
   final String? id;
   final InsightTimeRange? insightTimeRange;
@@ -4638,6 +5452,7 @@ class ProactiveInsight {
   final InsightStatus? status;
 
   ProactiveInsight({
+    this.description,
     this.id,
     this.insightTimeRange,
     this.name,
@@ -4650,6 +5465,7 @@ class ProactiveInsight {
 
   factory ProactiveInsight.fromJson(Map<String, dynamic> json) {
     return ProactiveInsight(
+      description: json['Description'] as String?,
       id: json['Id'] as String?,
       insightTimeRange: json['InsightTimeRange'] != null
           ? InsightTimeRange.fromJson(
@@ -4671,6 +5487,7 @@ class ProactiveInsight {
   }
 
   Map<String, dynamic> toJson() {
+    final description = this.description;
     final id = this.id;
     final insightTimeRange = this.insightTimeRange;
     final name = this.name;
@@ -4680,6 +5497,7 @@ class ProactiveInsight {
     final ssmOpsItemId = this.ssmOpsItemId;
     final status = this.status;
     return {
+      if (description != null) 'Description': description,
       if (id != null) 'Id': id,
       if (insightTimeRange != null) 'InsightTimeRange': insightTimeRange,
       if (name != null) 'Name': name,
@@ -5177,6 +5995,9 @@ class ReactiveAnomalySummary {
 /// Information about a reactive insight. This object is returned by
 /// <code>ListInsights</code>.
 class ReactiveInsight {
+  /// Describes the reactive insight.
+  final String? description;
+
   /// The ID of a reactive insight.
   final String? id;
   final InsightTimeRange? insightTimeRange;
@@ -5199,6 +6020,7 @@ class ReactiveInsight {
   final InsightStatus? status;
 
   ReactiveInsight({
+    this.description,
     this.id,
     this.insightTimeRange,
     this.name,
@@ -5210,6 +6032,7 @@ class ReactiveInsight {
 
   factory ReactiveInsight.fromJson(Map<String, dynamic> json) {
     return ReactiveInsight(
+      description: json['Description'] as String?,
       id: json['Id'] as String?,
       insightTimeRange: json['InsightTimeRange'] != null
           ? InsightTimeRange.fromJson(
@@ -5227,6 +6050,7 @@ class ReactiveInsight {
   }
 
   Map<String, dynamic> toJson() {
+    final description = this.description;
     final id = this.id;
     final insightTimeRange = this.insightTimeRange;
     final name = this.name;
@@ -5235,6 +6059,7 @@ class ReactiveInsight {
     final ssmOpsItemId = this.ssmOpsItemId;
     final status = this.status;
     return {
+      if (description != null) 'Description': description,
       if (id != null) 'Id': id,
       if (insightTimeRange != null) 'InsightTimeRange': insightTimeRange,
       if (name != null) 'Name': name,
@@ -5422,6 +6247,9 @@ class ReactiveOrganizationInsightSummary {
 /// Recommendation information to help you remediate detected anomalous behavior
 /// that generated an insight.
 class Recommendation {
+  /// The category type of the recommendation.
+  final String? category;
+
   /// A description of the problem.
   final String? description;
 
@@ -5443,6 +6271,7 @@ class Recommendation {
   final List<RecommendationRelatedEvent>? relatedEvents;
 
   Recommendation({
+    this.category,
     this.description,
     this.link,
     this.name,
@@ -5453,6 +6282,7 @@ class Recommendation {
 
   factory Recommendation.fromJson(Map<String, dynamic> json) {
     return Recommendation(
+      category: json['Category'] as String?,
       description: json['Description'] as String?,
       link: json['Link'] as String?,
       name: json['Name'] as String?,
@@ -5471,6 +6301,7 @@ class Recommendation {
   }
 
   Map<String, dynamic> toJson() {
+    final category = this.category;
     final description = this.description;
     final link = this.link;
     final name = this.name;
@@ -5478,6 +6309,7 @@ class Recommendation {
     final relatedAnomalies = this.relatedAnomalies;
     final relatedEvents = this.relatedEvents;
     return {
+      if (category != null) 'Category': category,
       if (description != null) 'Description': description,
       if (link != null) 'Link': link,
       if (name != null) 'Name': name,
@@ -5918,6 +6750,57 @@ extension on String {
   }
 }
 
+enum ResourcePermission {
+  fullPermission,
+  missingPermission,
+}
+
+extension on ResourcePermission {
+  String toValue() {
+    switch (this) {
+      case ResourcePermission.fullPermission:
+        return 'FULL_PERMISSION';
+      case ResourcePermission.missingPermission:
+        return 'MISSING_PERMISSION';
+    }
+  }
+}
+
+extension on String {
+  ResourcePermission toResourcePermission() {
+    switch (this) {
+      case 'FULL_PERMISSION':
+        return ResourcePermission.fullPermission;
+      case 'MISSING_PERMISSION':
+        return ResourcePermission.missingPermission;
+    }
+    throw Exception('$this is not known in enum ResourcePermission');
+  }
+}
+
+enum ResourceTypeFilter {
+  logGroups,
+}
+
+extension on ResourceTypeFilter {
+  String toValue() {
+    switch (this) {
+      case ResourceTypeFilter.logGroups:
+        return 'LOG_GROUPS';
+    }
+  }
+}
+
+extension on String {
+  ResourceTypeFilter toResourceTypeFilter() {
+    switch (this) {
+      case 'LOG_GROUPS':
+        return ResourceTypeFilter.logGroups;
+    }
+    throw Exception('$this is not known in enum ResourceTypeFilter');
+  }
+}
+
 /// Specifies one or more severity values and one or more status values that are
 /// used to search for insights.
 class SearchInsightsFilters {
@@ -6225,16 +7108,25 @@ class ServiceInsightHealth {
 /// Information about the integration of DevOps Guru with another Amazon Web
 /// Services service, such as Amazon Web Services Systems Manager.
 class ServiceIntegrationConfig {
+  /// Information about whether DevOps Guru is configured to perform log anomaly
+  /// detection on Amazon CloudWatch log groups.
+  final LogsAnomalyDetectionIntegration? logsAnomalyDetection;
+
   /// Information about whether DevOps Guru is configured to create an OpsItem in
   /// Amazon Web Services Systems Manager OpsCenter for each created insight.
   final OpsCenterIntegration? opsCenter;
 
   ServiceIntegrationConfig({
+    this.logsAnomalyDetection,
     this.opsCenter,
   });
 
   factory ServiceIntegrationConfig.fromJson(Map<String, dynamic> json) {
     return ServiceIntegrationConfig(
+      logsAnomalyDetection: json['LogsAnomalyDetection'] != null
+          ? LogsAnomalyDetectionIntegration.fromJson(
+              json['LogsAnomalyDetection'] as Map<String, dynamic>)
+          : null,
       opsCenter: json['OpsCenter'] != null
           ? OpsCenterIntegration.fromJson(
               json['OpsCenter'] as Map<String, dynamic>)
@@ -6243,8 +7135,11 @@ class ServiceIntegrationConfig {
   }
 
   Map<String, dynamic> toJson() {
+    final logsAnomalyDetection = this.logsAnomalyDetection;
     final opsCenter = this.opsCenter;
     return {
+      if (logsAnomalyDetection != null)
+        'LogsAnomalyDetection': logsAnomalyDetection,
       if (opsCenter != null) 'OpsCenter': opsCenter,
     };
   }
@@ -6466,9 +7361,16 @@ class ServiceResourceCost {
 /// If you use an Amazon SNS topic in another account, you must attach a policy
 /// to it that grants DevOps Guru permission to it notifications. DevOps Guru
 /// adds the required policy on your behalf to send notifications using Amazon
-/// SNS in your account. For more information, see <a
+/// SNS in your account. DevOps Guru only supports standard SNS topics. For more
+/// information, see <a
 /// href="https://docs.aws.amazon.com/devops-guru/latest/userguide/sns-required-permissions.html">Permissions
 /// for cross account Amazon SNS topics</a>.
+///
+/// If you use an Amazon SNS topic in another account, you must attach a policy
+/// to it that grants DevOps Guru permission to it notifications. DevOps Guru
+/// adds the required policy on your behalf to send notifications using Amazon
+/// SNS in your account. For more information, see Permissions for cross account
+/// Amazon SNS topics.
 ///
 /// If you use an Amazon SNS topic that is encrypted by an Amazon Web Services
 /// Key Management Service customer-managed key (CMK), then you must add
@@ -6879,6 +7781,18 @@ class UpdateCloudFormationCollectionFilter {
   }
 }
 
+class UpdateEventSourcesConfigResponse {
+  UpdateEventSourcesConfigResponse();
+
+  factory UpdateEventSourcesConfigResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateEventSourcesConfigResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 enum UpdateResourceCollectionAction {
   add,
   remove,
@@ -7001,14 +7915,22 @@ class UpdateResourceCollectionResponse {
 /// Information about updating the integration status of an Amazon Web Services
 /// service, such as Amazon Web Services Systems Manager, with DevOps Guru.
 class UpdateServiceIntegrationConfig {
+  /// Information about whether DevOps Guru is configured to perform log anomaly
+  /// detection on Amazon CloudWatch log groups.
+  final LogsAnomalyDetectionIntegrationConfig? logsAnomalyDetection;
   final OpsCenterIntegrationConfig? opsCenter;
 
   UpdateServiceIntegrationConfig({
+    this.logsAnomalyDetection,
     this.opsCenter,
   });
 
   factory UpdateServiceIntegrationConfig.fromJson(Map<String, dynamic> json) {
     return UpdateServiceIntegrationConfig(
+      logsAnomalyDetection: json['LogsAnomalyDetection'] != null
+          ? LogsAnomalyDetectionIntegrationConfig.fromJson(
+              json['LogsAnomalyDetection'] as Map<String, dynamic>)
+          : null,
       opsCenter: json['OpsCenter'] != null
           ? OpsCenterIntegrationConfig.fromJson(
               json['OpsCenter'] as Map<String, dynamic>)
@@ -7017,8 +7939,11 @@ class UpdateServiceIntegrationConfig {
   }
 
   Map<String, dynamic> toJson() {
+    final logsAnomalyDetection = this.logsAnomalyDetection;
     final opsCenter = this.opsCenter;
     return {
+      if (logsAnomalyDetection != null)
+        'LogsAnomalyDetection': logsAnomalyDetection,
       if (opsCenter != null) 'OpsCenter': opsCenter,
     };
   }

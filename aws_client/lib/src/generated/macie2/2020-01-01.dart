@@ -284,6 +284,19 @@ class Macie2 {
   /// May throw [ThrottlingException].
   /// May throw [ConflictException].
   ///
+  /// Parameter [name] :
+  /// A custom name for the custom data identifier. The name can contain as many
+  /// as 128 characters.
+  ///
+  /// We strongly recommend that you avoid including any sensitive data in the
+  /// name of a custom data identifier. Other users of your account might be
+  /// able to see this name, depending on the actions that they're allowed to
+  /// perform in Amazon Macie.
+  ///
+  /// Parameter [regex] :
+  /// The regular expression (<i>regex</i>) that defines the pattern to match.
+  /// The expression can contain as many as 512 characters.
+  ///
   /// Parameter [clientToken] :
   /// A unique, case-sensitive token that you provide to ensure the idempotency
   /// of the request.
@@ -306,29 +319,18 @@ class Macie2 {
   ///
   /// Parameter [keywords] :
   /// An array that lists specific character sequences (<i>keywords</i>), one of
-  /// which must be within proximity (maximumMatchDistance) of the regular
-  /// expression to match. The array can contain as many as 50 keywords. Each
-  /// keyword can contain 3-90 UTF-8 characters. Keywords aren't case sensitive.
+  /// which must precede and be within proximity (maximumMatchDistance) of the
+  /// regular expression to match. The array can contain as many as 50 keywords.
+  /// Each keyword can contain 3-90 UTF-8 characters. Keywords aren't case
+  /// sensitive.
   ///
   /// Parameter [maximumMatchDistance] :
-  /// The maximum number of characters that can exist between text that matches
-  /// the regular expression and the character sequences specified by the
-  /// keywords array. Amazon Macie includes or excludes a result based on the
-  /// proximity of a keyword to text that matches the regular expression. The
-  /// distance can be 1-300 characters. The default value is 50.
-  ///
-  /// Parameter [name] :
-  /// A custom name for the custom data identifier. The name can contain as many
-  /// as 128 characters.
-  ///
-  /// We strongly recommend that you avoid including any sensitive data in the
-  /// name of a custom data identifier. Other users of your account might be
-  /// able to see this name, depending on the actions that they're allowed to
-  /// perform in Amazon Macie.
-  ///
-  /// Parameter [regex] :
-  /// The regular expression (<i>regex</i>) that defines the pattern to match.
-  /// The expression can contain as many as 512 characters.
+  /// The maximum number of characters that can exist between the end of at
+  /// least one complete character sequence specified by the keywords array and
+  /// the end of the text that matches the regex pattern. If a complete keyword
+  /// precedes all the text that matches the pattern and the keyword is within
+  /// the specified distance, Amazon Macie includes the result. The distance can
+  /// be 1-300 characters. The default value is 50.
   ///
   /// Parameter [severityLevels] :
   /// The severity to assign to findings that the custom data identifier
@@ -354,25 +356,27 @@ class Macie2 {
   /// of a tag key and an associated tag value. The maximum length of a tag key
   /// is 128 characters. The maximum length of a tag value is 256 characters.
   Future<CreateCustomDataIdentifierResponse> createCustomDataIdentifier({
+    required String name,
+    required String regex,
     String? clientToken,
     String? description,
     List<String>? ignoreWords,
     List<String>? keywords,
     int? maximumMatchDistance,
-    String? name,
-    String? regex,
     List<SeverityLevel>? severityLevels,
     Map<String, String>? tags,
   }) async {
+    ArgumentError.checkNotNull(name, 'name');
+    ArgumentError.checkNotNull(regex, 'regex');
     final $payload = <String, dynamic>{
+      'name': name,
+      'regex': regex,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (description != null) 'description': description,
       if (ignoreWords != null) 'ignoreWords': ignoreWords,
       if (keywords != null) 'keywords': keywords,
       if (maximumMatchDistance != null)
         'maximumMatchDistance': maximumMatchDistance,
-      if (name != null) 'name': name,
-      if (regex != null) 'regex': regex,
       if (severityLevels != null) 'severityLevels': severityLevels,
       if (tags != null) 'tags': tags,
     };
@@ -1167,7 +1171,7 @@ class Macie2 {
   ///
   /// Parameter [findingIds] :
   /// An array of strings that lists the unique identifiers for the findings to
-  /// retrieve.
+  /// retrieve. You can specify as many as 50 unique identifiers in this array.
   ///
   /// Parameter [sortCriteria] :
   /// The criteria for sorting the results of the request.
@@ -1323,6 +1327,72 @@ class Macie2 {
       exceptionFnMap: _exceptionFns,
     );
     return GetMemberResponse.fromJson(response);
+  }
+
+  /// Retrieves the status and configuration settings for retrieving (revealing)
+  /// occurrences of sensitive data reported by findings.
+  ///
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
+  Future<GetRevealConfigurationResponse> getRevealConfiguration() async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/reveal-configuration',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetRevealConfigurationResponse.fromJson(response);
+  }
+
+  /// Retrieves (reveals) occurrences of sensitive data reported by a finding.
+  ///
+  /// May throw [UnprocessableEntityException].
+  /// May throw [InternalServerException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [findingId] :
+  /// The unique identifier for the finding.
+  Future<GetSensitiveDataOccurrencesResponse> getSensitiveDataOccurrences({
+    required String findingId,
+  }) async {
+    ArgumentError.checkNotNull(findingId, 'findingId');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/findings/${Uri.encodeComponent(findingId)}/reveal',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetSensitiveDataOccurrencesResponse.fromJson(response);
+  }
+
+  /// Checks whether occurrences of sensitive data can be retrieved (revealed)
+  /// for a finding.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [findingId] :
+  /// The unique identifier for the finding.
+  Future<GetSensitiveDataOccurrencesAvailabilityResponse>
+      getSensitiveDataOccurrencesAvailability({
+    required String findingId,
+  }) async {
+    ArgumentError.checkNotNull(findingId, 'findingId');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/findings/${Uri.encodeComponent(findingId)}/reveal/availability',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetSensitiveDataOccurrencesAvailabilityResponse.fromJson(response);
   }
 
   /// Retrieves (queries) quotas and aggregated usage data for one or more
@@ -1919,16 +1989,18 @@ class Macie2 {
   ///
   /// Parameter [keywords] :
   /// An array that lists specific character sequences (<i>keywords</i>), one of
-  /// which must be within proximity (maximumMatchDistance) of the regular
-  /// expression to match. The array can contain as many as 50 keywords. Each
-  /// keyword can contain 3-90 UTF-8 characters. Keywords aren't case sensitive.
+  /// which must precede and be within proximity (maximumMatchDistance) of the
+  /// regular expression to match. The array can contain as many as 50 keywords.
+  /// Each keyword can contain 3-90 UTF-8 characters. Keywords aren't case
+  /// sensitive.
   ///
   /// Parameter [maximumMatchDistance] :
-  /// The maximum number of characters that can exist between text that matches
-  /// the regular expression and the character sequences specified by the
-  /// keywords array. Amazon Macie includes or excludes a result based on the
-  /// proximity of a keyword to text that matches the regular expression. The
-  /// distance can be 1-300 characters. The default value is 50.
+  /// The maximum number of characters that can exist between the end of at
+  /// least one complete character sequence specified by the keywords array and
+  /// the end of the text that matches the regex pattern. If a complete keyword
+  /// precedes all the text that matches the pattern and the keyword is within
+  /// the specified distance, Amazon Macie includes the result. The distance can
+  /// be 1-300 characters. The default value is 50.
   Future<TestCustomDataIdentifierResponse> testCustomDataIdentifier({
     required String regex,
     required String sampleText,
@@ -1963,9 +2035,9 @@ class Macie2 {
   /// identifier, findings filter, or member account.
   ///
   /// Parameter [tagKeys] :
-  /// The key of the tag to remove from the resource. To remove multiple tags,
-  /// append the tagKeys parameter and argument for each additional tag to
-  /// remove, separated by an ampersand (&amp;).
+  /// One or more tags (keys) to remove from the resource. In an HTTP request to
+  /// remove multiple tags, append the tagKeys parameter and argument for each
+  /// tag to remove, and separate them with an ampersand (&amp;).
   Future<void> untagResource({
     required String resourceArn,
     required List<String> tagKeys,
@@ -2225,6 +2297,33 @@ class Macie2 {
       requestUri: '/admin/configuration',
       exceptionFnMap: _exceptionFns,
     );
+  }
+
+  /// Updates the status and configuration settings for retrieving (revealing)
+  /// occurrences of sensitive data reported by findings.
+  ///
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [configuration] :
+  /// The new configuration settings and the status of the configuration for the
+  /// account.
+  Future<UpdateRevealConfigurationResponse> updateRevealConfiguration({
+    required RevealConfiguration configuration,
+  }) async {
+    ArgumentError.checkNotNull(configuration, 'configuration');
+    final $payload = <String, dynamic>{
+      'configuration': configuration,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/reveal-configuration',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateRevealConfigurationResponse.fromJson(response);
   }
 }
 
@@ -2536,6 +2635,36 @@ class AssumedRole {
       if (principalId != null) 'principalId': principalId,
       if (sessionContext != null) 'sessionContext': sessionContext,
     };
+  }
+}
+
+/// Specifies whether occurrences of sensitive data can be retrieved for a
+/// finding. Possible values are:
+enum AvailabilityCode {
+  available,
+  unavailable,
+}
+
+extension on AvailabilityCode {
+  String toValue() {
+    switch (this) {
+      case AvailabilityCode.available:
+        return 'AVAILABLE';
+      case AvailabilityCode.unavailable:
+        return 'UNAVAILABLE';
+    }
+  }
+}
+
+extension on String {
+  AvailabilityCode toAvailabilityCode() {
+    switch (this) {
+      case 'AVAILABLE':
+        return AvailabilityCode.available;
+      case 'UNAVAILABLE':
+        return AvailabilityCode.unavailable;
+    }
+    throw Exception('$this is not known in enum AvailabilityCode');
   }
 }
 
@@ -3691,8 +3820,8 @@ class Cell {
   }
 }
 
-/// Provides information about a sensitive data finding, including the
-/// classification job that produced the finding.
+/// Provides information about a sensitive data finding and the details of the
+/// finding.
 class ClassificationDetails {
   /// The path to the folder or file (in Amazon S3) that contains the
   /// corresponding sensitive data discovery result for the finding. If a finding
@@ -3707,6 +3836,10 @@ class ClassificationDetails {
   /// The unique identifier for the classification job that produced the finding.
   final String? jobId;
 
+  /// Specifies how Amazon Macie found the sensitive data that produced the
+  /// finding: SENSITIVE_DATA_DISCOVERY_JOB, for a classification job.
+  final OriginType? originType;
+
   /// The status and other details of the finding.
   final ClassificationResult? result;
 
@@ -3714,6 +3847,7 @@ class ClassificationDetails {
     this.detailedResultsLocation,
     this.jobArn,
     this.jobId,
+    this.originType,
     this.result,
   });
 
@@ -3722,6 +3856,7 @@ class ClassificationDetails {
       detailedResultsLocation: json['detailedResultsLocation'] as String?,
       jobArn: json['jobArn'] as String?,
       jobId: json['jobId'] as String?,
+      originType: (json['originType'] as String?)?.toOriginType(),
       result: json['result'] != null
           ? ClassificationResult.fromJson(
               json['result'] as Map<String, dynamic>)
@@ -3733,12 +3868,14 @@ class ClassificationDetails {
     final detailedResultsLocation = this.detailedResultsLocation;
     final jobArn = this.jobArn;
     final jobId = this.jobId;
+    final originType = this.originType;
     final result = this.result;
     return {
       if (detailedResultsLocation != null)
         'detailedResultsLocation': detailedResultsLocation,
       if (jobArn != null) 'jobArn': jobArn,
       if (jobId != null) 'jobId': jobId,
+      if (originType != null) 'originType': originType.toValue(),
       if (result != null) 'result': result,
     };
   }
@@ -4833,7 +4970,7 @@ class DescribeClassificationJobResponse {
 
   /// The date and time, in UTC and extended ISO 8601 format, when the job
   /// started. If the job is a recurring job, this value indicates when the most
-  /// recent run started.
+  /// recent run started or, if the job hasn't run yet, when the job was created.
   final DateTime? lastRunTime;
 
   /// An array of unique identifiers, one for each managed data identifier that
@@ -5050,6 +5187,31 @@ class DescribeOrganizationConfigurationResponse {
       if (autoEnable != null) 'autoEnable': autoEnable,
       if (maxAccountLimitReached != null)
         'maxAccountLimitReached': maxAccountLimitReached,
+    };
+  }
+}
+
+/// Specifies 1-10 occurrences of a specific type of sensitive data reported by
+/// a finding.
+class DetectedDataDetails {
+  /// An occurrence of the specified type of sensitive data. Each occurrence can
+  /// contain 1-128 characters.
+  final String value;
+
+  DetectedDataDetails({
+    required this.value,
+  });
+
+  factory DetectedDataDetails.fromJson(Map<String, dynamic> json) {
+    return DetectedDataDetails(
+      value: json['value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final value = this.value;
+    return {
+      'value': value,
     };
   }
 }
@@ -6186,14 +6348,16 @@ class GetCustomDataIdentifierResponse {
   final List<String>? ignoreWords;
 
   /// An array that lists specific character sequences (<i>keywords</i>), one of
-  /// which must be within proximity (maximumMatchDistance) of the regular
-  /// expression to match. Keywords aren't case sensitive.
+  /// which must precede and be within proximity (maximumMatchDistance) of the
+  /// regular expression to match. Keywords aren't case sensitive.
   final List<String>? keywords;
 
-  /// The maximum number of characters that can exist between text that matches
-  /// the regular expression and the character sequences specified by the keywords
-  /// array. Amazon Macie includes or excludes a result based on the proximity of
-  /// a keyword to text that matches the regular expression.
+  /// The maximum number of characters that can exist between the end of at least
+  /// one complete character sequence specified by the keywords array and the end
+  /// of the text that matches the regex pattern. If a complete keyword precedes
+  /// all the text that matches the pattern and the keyword is within the
+  /// specified distance, Amazon Macie includes the result. Otherwise, Macie
+  /// excludes the result.
   final int? maximumMatchDistance;
 
   /// The custom name of the custom data identifier.
@@ -6646,6 +6810,166 @@ class GetMemberResponse {
         'relationshipStatus': relationshipStatus.toValue(),
       if (tags != null) 'tags': tags,
       if (updatedAt != null) 'updatedAt': iso8601ToJson(updatedAt),
+    };
+  }
+}
+
+class GetRevealConfigurationResponse {
+  /// The current configuration settings and the status of the configuration for
+  /// the account.
+  final RevealConfiguration? configuration;
+
+  GetRevealConfigurationResponse({
+    this.configuration,
+  });
+
+  factory GetRevealConfigurationResponse.fromJson(Map<String, dynamic> json) {
+    return GetRevealConfigurationResponse(
+      configuration: json['configuration'] != null
+          ? RevealConfiguration.fromJson(
+              json['configuration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final configuration = this.configuration;
+    return {
+      if (configuration != null) 'configuration': configuration,
+    };
+  }
+}
+
+class GetSensitiveDataOccurrencesAvailabilityResponse {
+  /// Specifies whether occurrences of sensitive data can be retrieved for the
+  /// finding. Possible values are: AVAILABLE, the sensitive data can be
+  /// retrieved; and, UNAVAILABLE, the sensitive data can't be retrieved. If this
+  /// value is UNAVAILABLE, the reasons array indicates why the data can't be
+  /// retrieved.
+  final AvailabilityCode? code;
+
+  /// Specifies why occurrences of sensitive data can't be retrieved for the
+  /// finding. Possible values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// INVALID_CLASSIFICATION_RESULT - Amazon Macie can't verify the location of
+  /// the sensitive data to retrieve. There isn't a corresponding sensitive data
+  /// discovery result for the finding. Or the sensitive data discovery result
+  /// specified by the ClassificationDetails.detailedResultsLocation field of the
+  /// finding isn't available, is malformed or corrupted, or uses an unsupported
+  /// storage format.
+  /// </li>
+  /// <li>
+  /// OBJECT_EXCEEDS_SIZE_QUOTA - The storage size of the affected S3 object
+  /// exceeds the size quota for retrieving occurrences of sensitive data.
+  /// </li>
+  /// <li>
+  /// OBJECT_UNAVAILABLE - The affected S3 object isn't available. The object
+  /// might have been renamed, moved, or deleted. Or the object was changed after
+  /// Amazon Macie created the finding.
+  /// </li>
+  /// <li>
+  /// UNSUPPORTED_FINDING_TYPE - The specified finding isn't a sensitive data
+  /// finding.
+  /// </li>
+  /// <li>
+  /// UNSUPPORTED_OBJECT_TYPE - The affected S3 object uses a file or storage
+  /// format that Macie doesn't support for retrieving occurrences of sensitive
+  /// data.
+  /// </li>
+  /// </ul>
+  /// This value is null if sensitive data can be retrieved for the finding.
+  final List<UnavailabilityReasonCode>? reasons;
+
+  GetSensitiveDataOccurrencesAvailabilityResponse({
+    this.code,
+    this.reasons,
+  });
+
+  factory GetSensitiveDataOccurrencesAvailabilityResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetSensitiveDataOccurrencesAvailabilityResponse(
+      code: (json['code'] as String?)?.toAvailabilityCode(),
+      reasons: (json['reasons'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toUnavailabilityReasonCode())
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final reasons = this.reasons;
+    return {
+      if (code != null) 'code': code.toValue(),
+      if (reasons != null) 'reasons': reasons.map((e) => e.toValue()).toList(),
+    };
+  }
+}
+
+class GetSensitiveDataOccurrencesResponse {
+  /// If an error occurred when Amazon Macie attempted to retrieve occurrences of
+  /// sensitive data reported by the finding, a description of the error that
+  /// occurred. This value is null if the status (status) of the request is
+  /// PROCESSING or SUCCESS.
+  final String? error;
+
+  /// A map that specifies 1-100 types of sensitive data reported by the finding
+  /// and, for each type, 1-10 occurrences of sensitive data.
+  final Map<String, List<DetectedDataDetails>>? sensitiveDataOccurrences;
+
+  /// The status of the request to retrieve occurrences of sensitive data reported
+  /// by the finding. Possible values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// ERROR - An error occurred when Amazon Macie attempted to locate, retrieve,
+  /// or encrypt the sensitive data. The error value indicates the nature of the
+  /// error that occurred.
+  /// </li>
+  /// <li>
+  /// PROCESSING - Macie is processing the request.
+  /// </li>
+  /// <li>
+  /// SUCCESS - Macie successfully located, retrieved, and encrypted the sensitive
+  /// data.
+  /// </li>
+  /// </ul>
+  final RevealRequestStatus? status;
+
+  GetSensitiveDataOccurrencesResponse({
+    this.error,
+    this.sensitiveDataOccurrences,
+    this.status,
+  });
+
+  factory GetSensitiveDataOccurrencesResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetSensitiveDataOccurrencesResponse(
+      error: json['error'] as String?,
+      sensitiveDataOccurrences: (json['sensitiveDataOccurrences']
+              as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(
+              k,
+              (e as List)
+                  .whereNotNull()
+                  .map((e) =>
+                      DetectedDataDetails.fromJson(e as Map<String, dynamic>))
+                  .toList())),
+      status: (json['status'] as String?)?.toRevealRequestStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final error = this.error;
+    final sensitiveDataOccurrences = this.sensitiveDataOccurrences;
+    final status = this.status;
+    return {
+      if (error != null) 'error': error,
+      if (sensitiveDataOccurrences != null)
+        'sensitiveDataOccurrences': sensitiveDataOccurrences,
+      if (status != null) 'status': status.toValue(),
     };
   }
 }
@@ -7154,7 +7478,8 @@ extension on String {
   }
 }
 
-/// The operator to use in a condition. Valid values are:
+/// The operator to use in a condition. Depending on the type of condition,
+/// possible values are:
 enum JobComparator {
   eq,
   gt,
@@ -7239,7 +7564,6 @@ class JobDetails {
   /// data for the bucket.
   /// </li>
   /// </ul>
-  ///
   final IsDefinedInJob? isDefinedInJob;
 
   /// Specifies whether any recurring jobs are configured to analyze data in the
@@ -8793,7 +9117,9 @@ class ObjectLevelStatistics {
 
 /// Specifies the location of 1-15 occurrences of sensitive data that was
 /// detected by a managed data identifier or a custom data identifier and
-/// produced a sensitive data finding.
+/// produced a sensitive data finding. Depending on the file or storage format
+/// of the affected S3 object, you can optionally retrieve (reveal) sample
+/// occurrences of the sensitive data that was detected.
 class Occurrences {
   /// An array of objects, one for each occurrence of sensitive data in a
   /// Microsoft Excel workbook, CSV file, or TSV file. This value is null for all
@@ -8909,6 +9235,31 @@ extension on String {
         return OrderBy.desc;
     }
     throw Exception('$this is not known in enum OrderBy');
+  }
+}
+
+/// Specifies how Amazon Macie found the sensitive data that produced a finding.
+/// The only possible value is:
+enum OriginType {
+  sensitiveDataDiscoveryJob,
+}
+
+extension on OriginType {
+  String toValue() {
+    switch (this) {
+      case OriginType.sensitiveDataDiscoveryJob:
+        return 'SENSITIVE_DATA_DISCOVERY_JOB';
+    }
+  }
+}
+
+extension on String {
+  OriginType toOriginType() {
+    switch (this) {
+      case 'SENSITIVE_DATA_DISCOVERY_JOB':
+        return OriginType.sensitiveDataDiscoveryJob;
+    }
+    throw Exception('$this is not known in enum OriginType');
   }
 }
 
@@ -9269,6 +9620,118 @@ class ResourcesAffected {
   }
 }
 
+/// Specifies the configuration settings for retrieving occurrences of sensitive
+/// data reported by findings, and the status of the configuration for an Amazon
+/// Macie account. When you enable the configuration for the first time, your
+/// request must specify an AWS Key Management Service (AWS KMS) key. Otherwise,
+/// an error occurs. Macie uses the specified key to encrypt the sensitive data
+/// that you retrieve.
+class RevealConfiguration {
+  /// The status of the configuration for the Amazon Macie account. In a request,
+  /// valid values are: ENABLED, enable the configuration for the account; and,
+  /// DISABLED, disable the configuration for the account. In a response, possible
+  /// values are: ENABLED, the configuration is currently enabled for the account;
+  /// and, DISABLED, the configuration is currently disabled for the account.
+  final RevealStatus status;
+
+  /// The Amazon Resource Name (ARN), ID, or alias of the KMS key to use to
+  /// encrypt sensitive data that's retrieved. The key must be an existing,
+  /// customer managed, symmetric encryption key that's in the same Amazon Web
+  /// Services Region as the Amazon Macie account.
+  ///
+  /// If this value specifies an alias, it must include the following prefix:
+  /// alias/. If this value specifies a key that's owned by another Amazon Web
+  /// Services account, it must specify the ARN of the key or the ARN of the key's
+  /// alias.
+  final String? kmsKeyId;
+
+  RevealConfiguration({
+    required this.status,
+    this.kmsKeyId,
+  });
+
+  factory RevealConfiguration.fromJson(Map<String, dynamic> json) {
+    return RevealConfiguration(
+      status: (json['status'] as String).toRevealStatus(),
+      kmsKeyId: json['kmsKeyId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    final kmsKeyId = this.kmsKeyId;
+    return {
+      'status': status.toValue(),
+      if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
+    };
+  }
+}
+
+/// The status of a request to retrieve occurrences of sensitive data reported
+/// by a finding. Possible values are:
+enum RevealRequestStatus {
+  success,
+  processing,
+  error,
+}
+
+extension on RevealRequestStatus {
+  String toValue() {
+    switch (this) {
+      case RevealRequestStatus.success:
+        return 'SUCCESS';
+      case RevealRequestStatus.processing:
+        return 'PROCESSING';
+      case RevealRequestStatus.error:
+        return 'ERROR';
+    }
+  }
+}
+
+extension on String {
+  RevealRequestStatus toRevealRequestStatus() {
+    switch (this) {
+      case 'SUCCESS':
+        return RevealRequestStatus.success;
+      case 'PROCESSING':
+        return RevealRequestStatus.processing;
+      case 'ERROR':
+        return RevealRequestStatus.error;
+    }
+    throw Exception('$this is not known in enum RevealRequestStatus');
+  }
+}
+
+/// The status of the configuration for the Amazon Macie account. In a request,
+/// valid values are:
+enum RevealStatus {
+  enabled,
+  disabled,
+}
+
+extension on RevealStatus {
+  String toValue() {
+    switch (this) {
+      case RevealStatus.enabled:
+        return 'ENABLED';
+      case RevealStatus.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension on String {
+  RevealStatus toRevealStatus() {
+    switch (this) {
+      case 'ENABLED':
+        return RevealStatus.enabled;
+      case 'DISABLED':
+        return RevealStatus.disabled;
+    }
+    throw Exception('$this is not known in enum RevealStatus');
+  }
+}
+
 /// Provides information about the S3 bucket that a finding applies to.
 class S3Bucket {
   /// Specifies whether the bucket policy for the bucket requires server-side
@@ -9495,9 +9958,10 @@ class S3Destination {
   /// The name of the bucket.
   final String bucketName;
 
-  /// The Amazon Resource Name (ARN) of the KMS key to use for encryption of the
-  /// results. This must be the ARN of an existing, symmetric, customer managed
-  /// KMS key that's in the same Amazon Web Services Region as the bucket.
+  /// The Amazon Resource Name (ARN) of the customer managed KMS key to use for
+  /// encryption of the results. This must be the ARN of an existing, symmetric
+  /// encryption KMS key that's in the same Amazon Web Services Region as the
+  /// bucket.
   final String kmsKeyArn;
 
   /// The path prefix to use in the path to the location in the bucket. This
@@ -11285,6 +11749,51 @@ extension on String {
   }
 }
 
+/// Specifies why occurrences of sensitive data can't be retrieved for a
+/// finding. Possible values are:
+enum UnavailabilityReasonCode {
+  objectExceedsSizeQuota,
+  unsupportedObjectType,
+  unsupportedFindingType,
+  invalidClassificationResult,
+  objectUnavailable,
+}
+
+extension on UnavailabilityReasonCode {
+  String toValue() {
+    switch (this) {
+      case UnavailabilityReasonCode.objectExceedsSizeQuota:
+        return 'OBJECT_EXCEEDS_SIZE_QUOTA';
+      case UnavailabilityReasonCode.unsupportedObjectType:
+        return 'UNSUPPORTED_OBJECT_TYPE';
+      case UnavailabilityReasonCode.unsupportedFindingType:
+        return 'UNSUPPORTED_FINDING_TYPE';
+      case UnavailabilityReasonCode.invalidClassificationResult:
+        return 'INVALID_CLASSIFICATION_RESULT';
+      case UnavailabilityReasonCode.objectUnavailable:
+        return 'OBJECT_UNAVAILABLE';
+    }
+  }
+}
+
+extension on String {
+  UnavailabilityReasonCode toUnavailabilityReasonCode() {
+    switch (this) {
+      case 'OBJECT_EXCEEDS_SIZE_QUOTA':
+        return UnavailabilityReasonCode.objectExceedsSizeQuota;
+      case 'UNSUPPORTED_OBJECT_TYPE':
+        return UnavailabilityReasonCode.unsupportedObjectType;
+      case 'UNSUPPORTED_FINDING_TYPE':
+        return UnavailabilityReasonCode.unsupportedFindingType;
+      case 'INVALID_CLASSIFICATION_RESULT':
+        return UnavailabilityReasonCode.invalidClassificationResult;
+      case 'OBJECT_UNAVAILABLE':
+        return UnavailabilityReasonCode.objectUnavailable;
+    }
+    throw Exception('$this is not known in enum UnavailabilityReasonCode');
+  }
+}
+
 enum Unit {
   terabytes,
 }
@@ -11434,6 +11943,33 @@ class UpdateOrganizationConfigurationResponse {
 
   Map<String, dynamic> toJson() {
     return {};
+  }
+}
+
+class UpdateRevealConfigurationResponse {
+  /// The new configuration settings and the status of the configuration for the
+  /// account.
+  final RevealConfiguration? configuration;
+
+  UpdateRevealConfigurationResponse({
+    this.configuration,
+  });
+
+  factory UpdateRevealConfigurationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateRevealConfigurationResponse(
+      configuration: json['configuration'] != null
+          ? RevealConfiguration.fromJson(
+              json['configuration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final configuration = this.configuration;
+    return {
+      if (configuration != null) 'configuration': configuration,
+    };
   }
 }
 
@@ -12127,6 +12663,12 @@ class ThrottlingException extends _s.GenericAwsException {
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+class UnprocessableEntityException extends _s.GenericAwsException {
+  UnprocessableEntityException({String? type, String? message})
+      : super(
+            type: type, code: 'UnprocessableEntityException', message: message);
+}
+
 class ValidationException extends _s.GenericAwsException {
   ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);
@@ -12145,6 +12687,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       ServiceQuotaExceededException(type: type, message: message),
   'ThrottlingException': (type, message) =>
       ThrottlingException(type: type, message: message),
+  'UnprocessableEntityException': (type, message) =>
+      UnprocessableEntityException(type: type, message: message),
   'ValidationException': (type, message) =>
       ValidationException(type: type, message: message),
 };

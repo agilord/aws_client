@@ -67,12 +67,12 @@ class PI {
   /// Insights return a limited number of values for a dimension.
   ///
   /// Parameter [identifier] :
-  /// An immutable, AWS Region-unique identifier for a data source. Performance
-  /// Insights gathers metrics from this data source.
+  /// An immutable, Amazon Web Services Region-unique identifier for a data
+  /// source. Performance Insights gathers metrics from this data source.
   ///
   /// To use an Amazon RDS instance as a data source, you specify its
   /// <code>DbiResourceId</code> value. For example, specify
-  /// <code>db-FAIHNTYBKTGAUSUZQYPDS2GW4A</code>
+  /// <code>db-FAIHNTYBKTGAUSUZQYPDS2GW4A</code>.
   ///
   /// Parameter [metric] :
   /// The name of a Performance Insights metric to be measured.
@@ -81,11 +81,11 @@ class PI {
   ///
   /// <ul>
   /// <li>
-  /// <code>db.load.avg</code> - a scaled representation of the number of active
+  /// <code>db.load.avg</code> - A scaled representation of the number of active
   /// sessions for the database engine.
   /// </li>
   /// <li>
-  /// <code>db.sampledload.avg</code> - the raw number of active sessions for
+  /// <code>db.sampledload.avg</code> - The raw number of active sessions for
   /// the database engine.
   /// </li>
   /// </ul>
@@ -100,8 +100,17 @@ class PI {
   /// <code>db.load.avg</code> only.
   ///
   /// Parameter [serviceType] :
-  /// The AWS service for which Performance Insights will return metrics. The
-  /// only valid value for <i>ServiceType</i> is <code>RDS</code>.
+  /// The Amazon Web Services service for which Performance Insights will return
+  /// metrics. Valid values are as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>RDS</code>
+  /// </li>
+  /// <li>
+  /// <code>DOCDB</code>
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [startTime] :
   /// The date and time specifying the beginning of the requested time series
@@ -111,6 +120,14 @@ class PI {
   ///
   /// The value for <code>StartTime</code> must be earlier than the value for
   /// <code>EndTime</code>.
+  ///
+  /// Parameter [additionalMetrics] :
+  /// Additional metrics for the top <code>N</code> dimension keys. If the
+  /// specified dimension group in the <code>GroupBy</code> parameter is
+  /// <code>db.sql_tokenized</code>, you can specify per-SQL metrics to get the
+  /// values for the top <code>N</code> SQL digests. The response syntax is as
+  /// follows: <code>"AdditionalMetrics" : { "<i>string</i>" : "<i>string</i>"
+  /// }</code>.
   ///
   /// Parameter [filter] :
   /// One or more filters to apply in the request. Restrictions:
@@ -171,6 +188,7 @@ class PI {
     required String metric,
     required ServiceType serviceType,
     required DateTime startTime,
+    List<String>? additionalMetrics,
     Map<String, String>? filter,
     int? maxResults,
     String? nextToken,
@@ -206,6 +224,7 @@ class PI {
         'Metric': metric,
         'ServiceType': serviceType.toValue(),
         'StartTime': unixTimestampToJson(startTime),
+        if (additionalMetrics != null) 'AdditionalMetrics': additionalMetrics,
         if (filter != null) 'Filter': filter,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
@@ -230,32 +249,63 @@ class PI {
   /// May throw [NotAuthorizedException].
   ///
   /// Parameter [group] :
-  /// The name of the dimension group. The only valid value is
-  /// <code>db.sql</code>. Performance Insights searches the specified group for
-  /// the dimension group ID.
+  /// The name of the dimension group. Performance Insights searches the
+  /// specified group for the dimension group ID. The following group name
+  /// values are valid:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>db.query</code> (Amazon DocumentDB only)
+  /// </li>
+  /// <li>
+  /// <code>db.sql</code> (Amazon RDS and Aurora only)
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [groupIdentifier] :
   /// The ID of the dimension group from which to retrieve dimension details.
   /// For dimension group <code>db.sql</code>, the group ID is
-  /// <code>db.sql.id</code>.
+  /// <code>db.sql.id</code>. The following group ID values are valid:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>db.sql.id</code> for dimension group <code>db.sql</code> (Aurora and
+  /// RDS only)
+  /// </li>
+  /// <li>
+  /// <code>db.query.id</code> for dimension group <code>db.query</code>
+  /// (DocumentDB only)
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [identifier] :
   /// The ID for a data source from which to gather dimension data. This ID must
-  /// be immutable and unique within an AWS Region. When a DB instance is the
-  /// data source, specify its <code>DbiResourceId</code> value. For example,
-  /// specify <code>db-ABCDEFGHIJKLMNOPQRSTU1VW2X</code>.
+  /// be immutable and unique within an Amazon Web Services Region. When a DB
+  /// instance is the data source, specify its <code>DbiResourceId</code> value.
+  /// For example, specify <code>db-ABCDEFGHIJKLMNOPQRSTU1VW2X</code>.
   ///
   /// Parameter [serviceType] :
-  /// The AWS service for which Performance Insights returns data. The only
-  /// valid value is <code>RDS</code>.
+  /// The Amazon Web Services service for which Performance Insights returns
+  /// data. The only valid value is <code>RDS</code>.
   ///
   /// Parameter [requestedDimensions] :
   /// A list of dimensions to retrieve the detail data for within the given
-  /// dimension group. For the dimension group <code>db.sql</code>, specify
-  /// either the full dimension name <code>db.sql.statement</code> or the short
-  /// dimension name <code>statement</code>. If you don't specify this
-  /// parameter, Performance Insights returns all dimension data within the
-  /// specified dimension group.
+  /// dimension group. If you don't specify this parameter, Performance Insights
+  /// returns all dimension data within the specified dimension group. Specify
+  /// dimension names for the following dimension groups:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>db.sql</code> - Specify either the full dimension name
+  /// <code>db.sql.statement</code> or the short dimension name
+  /// <code>statement</code> (Aurora and RDS only).
+  /// </li>
+  /// <li>
+  /// <code>db.query</code> - Specify either the full dimension name
+  /// <code>db.query.statement</code> or the short dimension name
+  /// <code>statement</code> (DocumentDB only).
+  /// </li>
+  /// </ul>
   Future<GetDimensionKeyDetailsResponse> getDimensionKeyDetails({
     required String group,
     required String groupIdentifier,
@@ -290,7 +340,50 @@ class PI {
     return GetDimensionKeyDetailsResponse.fromJson(jsonResponse.body);
   }
 
-  /// Retrieve Performance Insights metrics for a set of data sources, over a
+  /// Retrieve the metadata for different features. For example, the metadata
+  /// might indicate that a feature is turned on or off on a specific DB
+  /// instance.
+  ///
+  /// May throw [InvalidArgumentException].
+  /// May throw [InternalServiceError].
+  /// May throw [NotAuthorizedException].
+  ///
+  /// Parameter [identifier] :
+  /// An immutable identifier for a data source that is unique for an Amazon Web
+  /// Services Region. Performance Insights gathers metrics from this data
+  /// source. To use a DB instance as a data source, specify its
+  /// <code>DbiResourceId</code> value. For example, specify
+  /// <code>db-ABCDEFGHIJKLMNOPQRSTU1VW2X</code>.
+  ///
+  /// Parameter [serviceType] :
+  /// The Amazon Web Services service for which Performance Insights returns
+  /// metrics.
+  Future<GetResourceMetadataResponse> getResourceMetadata({
+    required String identifier,
+    required ServiceType serviceType,
+  }) async {
+    ArgumentError.checkNotNull(identifier, 'identifier');
+    ArgumentError.checkNotNull(serviceType, 'serviceType');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'PerformanceInsightsv20180227.GetResourceMetadata'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Identifier': identifier,
+        'ServiceType': serviceType.toValue(),
+      },
+    );
+
+    return GetResourceMetadataResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieve Performance Insights metrics for a set of data sources over a
   /// time period. You can provide specific dimension groups and dimensions, and
   /// provide aggregation and filtering criteria for each group.
   /// <note>
@@ -303,20 +396,23 @@ class PI {
   /// May throw [NotAuthorizedException].
   ///
   /// Parameter [endTime] :
-  /// The date and time specifying the end of the requested time series data.
-  /// The value specified is <i>exclusive</i> - data points less than (but not
-  /// equal to) <code>EndTime</code> will be returned.
+  /// The date and time specifying the end of the requested time series query
+  /// range. The value specified is <i>exclusive</i>. Thus, the command returns
+  /// data points less than (but not equal to) <code>EndTime</code>.
   ///
   /// The value for <code>EndTime</code> must be later than the value for
   /// <code>StartTime</code>.
   ///
   /// Parameter [identifier] :
-  /// An immutable, AWS Region-unique identifier for a data source. Performance
-  /// Insights gathers metrics from this data source.
+  /// An immutable identifier for a data source that is unique for an Amazon Web
+  /// Services Region. Performance Insights gathers metrics from this data
+  /// source. In the console, the identifier is shown as <i>ResourceID</i>. When
+  /// you call <code>DescribeDBInstances</code>, the identifier is returned as
+  /// <code>DbiResourceId</code>.
   ///
   /// To use a DB instance as a data source, specify its
   /// <code>DbiResourceId</code> value. For example, specify
-  /// <code>db-FAIHNTYBKTGAUSUZQYPDS2GW4A</code>.
+  /// <code>db-ABCDEFGHIJKLMNOPQRSTU1VW2X</code>.
   ///
   /// Parameter [metricQueries] :
   /// An array of one or more queries to perform. Each query must specify a
@@ -324,14 +420,25 @@ class PI {
   /// filtering criteria.
   ///
   /// Parameter [serviceType] :
-  /// The AWS service for which Performance Insights returns metrics. The only
-  /// valid value for <i>ServiceType</i> is <code>RDS</code>.
+  /// The Amazon Web Services service for which Performance Insights returns
+  /// metrics. Valid values are as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>RDS</code>
+  /// </li>
+  /// <li>
+  /// <code>DOCDB</code>
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [startTime] :
   /// The date and time specifying the beginning of the requested time series
-  /// data. You can't specify a <code>StartTime</code> that's earlier than 7
-  /// days ago. The value specified is <i>inclusive</i> - data points equal to
-  /// or greater than <code>StartTime</code> will be returned.
+  /// query range. You can't specify a <code>StartTime</code> that is earlier
+  /// than 7 days ago. By default, Performance Insights has 7 days of retention,
+  /// but you can extend this range up to 2 years. The value specified is
+  /// <i>inclusive</i>. Thus, the command returns data points equal to or
+  /// greater than <code>StartTime</code>.
   ///
   /// The value for <code>StartTime</code> must be earlier than the value for
   /// <code>EndTime</code>.
@@ -416,6 +523,165 @@ class PI {
 
     return GetResourceMetricsResponse.fromJson(jsonResponse.body);
   }
+
+  /// Retrieve the dimensions that can be queried for each specified metric type
+  /// on a specified DB instance.
+  ///
+  /// May throw [InvalidArgumentException].
+  /// May throw [InternalServiceError].
+  /// May throw [NotAuthorizedException].
+  ///
+  /// Parameter [identifier] :
+  /// An immutable identifier for a data source that is unique within an Amazon
+  /// Web Services Region. Performance Insights gathers metrics from this data
+  /// source. To use an Amazon RDS DB instance as a data source, specify its
+  /// <code>DbiResourceId</code> value. For example, specify
+  /// <code>db-ABCDEFGHIJKLMNOPQRSTU1VWZ</code>.
+  ///
+  /// Parameter [metrics] :
+  /// The types of metrics for which to retrieve dimensions. Valid values
+  /// include <code>db.load</code>.
+  ///
+  /// Parameter [serviceType] :
+  /// The Amazon Web Services service for which Performance Insights returns
+  /// metrics.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of items to return in the response. If more items exist
+  /// than the specified <code>MaxRecords</code> value, a pagination token is
+  /// included in the response so that the remaining results can be retrieved.
+  ///
+  /// Parameter [nextToken] :
+  /// An optional pagination token provided by a previous request. If this
+  /// parameter is specified, the response includes only records beyond the
+  /// token, up to the value specified by <code>MaxRecords</code>.
+  Future<ListAvailableResourceDimensionsResponse>
+      listAvailableResourceDimensions({
+    required String identifier,
+    required List<String> metrics,
+    required ServiceType serviceType,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    ArgumentError.checkNotNull(identifier, 'identifier');
+    ArgumentError.checkNotNull(metrics, 'metrics');
+    ArgumentError.checkNotNull(serviceType, 'serviceType');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      20,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'PerformanceInsightsv20180227.ListAvailableResourceDimensions'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Identifier': identifier,
+        'Metrics': metrics,
+        'ServiceType': serviceType.toValue(),
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListAvailableResourceDimensionsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieve metrics of the specified types that can be queried for a
+  /// specified DB instance.
+  ///
+  /// May throw [InvalidArgumentException].
+  /// May throw [InternalServiceError].
+  /// May throw [NotAuthorizedException].
+  ///
+  /// Parameter [identifier] :
+  /// An immutable identifier for a data source that is unique within an Amazon
+  /// Web Services Region. Performance Insights gathers metrics from this data
+  /// source. To use an Amazon RDS DB instance as a data source, specify its
+  /// <code>DbiResourceId</code> value. For example, specify
+  /// <code>db-ABCDEFGHIJKLMNOPQRSTU1VWZ</code>.
+  ///
+  /// Parameter [metricTypes] :
+  /// The types of metrics to return in the response. Valid values in the array
+  /// include the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>os</code> (OS counter metrics) - All engines
+  /// </li>
+  /// <li>
+  /// <code>db</code> (DB load metrics) - All engines except for Amazon
+  /// DocumentDB
+  /// </li>
+  /// <li>
+  /// <code>db.sql.stats</code> (per-SQL metrics) - All engines except for
+  /// Amazon DocumentDB
+  /// </li>
+  /// <li>
+  /// <code>db.sql_tokenized.stats</code> (per-SQL digest metrics) - All engines
+  /// except for Amazon DocumentDB
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [serviceType] :
+  /// The Amazon Web Services service for which Performance Insights returns
+  /// metrics.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of items to return. If the <code>MaxRecords</code>
+  /// value is less than the number of existing items, the response includes a
+  /// pagination token.
+  ///
+  /// Parameter [nextToken] :
+  /// An optional pagination token provided by a previous request. If this
+  /// parameter is specified, the response includes only records beyond the
+  /// token, up to the value specified by <code>MaxRecords</code>.
+  Future<ListAvailableResourceMetricsResponse> listAvailableResourceMetrics({
+    required String identifier,
+    required List<String> metricTypes,
+    required ServiceType serviceType,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    ArgumentError.checkNotNull(identifier, 'identifier');
+    ArgumentError.checkNotNull(metricTypes, 'metricTypes');
+    ArgumentError.checkNotNull(serviceType, 'serviceType');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      20,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'PerformanceInsightsv20180227.ListAvailableResourceMetrics'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Identifier': identifier,
+        'MetricTypes': metricTypes,
+        'ServiceType': serviceType.toValue(),
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListAvailableResourceMetricsResponse.fromJson(jsonResponse.body);
+  }
 }
 
 /// A timestamp, and a single numerical value, which together represent a
@@ -465,9 +731,10 @@ class DescribeDimensionKeysResponse {
   /// The dimension keys that were requested.
   final List<DimensionKeyDescription>? keys;
 
-  /// An optional pagination token provided by a previous request. If this
-  /// parameter is specified, the response includes only records beyond the token,
-  /// up to the value specified by <code>MaxRecords</code>.
+  /// A pagination token that indicates the response didn’t return all available
+  /// records because <code>MaxRecords</code> was specified in the previous
+  /// request. To get the remaining records, specify <code>NextToken</code> in a
+  /// separate request with this value.
   final String? nextToken;
 
   /// If <code>PartitionBy</code> was present in the request,
@@ -551,50 +818,135 @@ extension on String {
   }
 }
 
+/// The information about a dimension.
+class DimensionDetail {
+  /// The identifier of a dimension.
+  final String? identifier;
+
+  DimensionDetail({
+    this.identifier,
+  });
+
+  factory DimensionDetail.fromJson(Map<String, dynamic> json) {
+    return DimensionDetail(
+      identifier: json['Identifier'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final identifier = this.identifier;
+    return {
+      if (identifier != null) 'Identifier': identifier,
+    };
+  }
+}
+
 /// A logical grouping of Performance Insights metrics for a related subject
 /// area. For example, the <code>db.sql</code> dimension group consists of the
-/// following dimensions: <code>db.sql.id</code>, <code>db.sql.db_id</code>,
-/// <code>db.sql.statement</code>, and <code>db.sql.tokenized_id</code>.
-/// <note>
+/// following dimensions:
+///
+/// <ul>
+/// <li>
+/// <code>db.sql.id</code> - The hash of a running SQL statement, generated by
+/// Performance Insights.
+/// </li>
+/// <li>
+/// <code>db.sql.db_id</code> - Either the SQL ID generated by the database
+/// engine, or a value generated by Performance Insights that begins with
+/// <code>pi-</code>.
+/// </li>
+/// <li>
+/// <code>db.sql.statement</code> - The full text of the SQL statement that is
+/// running, for example, <code>SELECT * FROM employees</code>.
+/// </li>
+/// <li>
+/// <code>db.sql_tokenized.id</code> - The hash of the SQL digest generated by
+/// Performance Insights.
+/// </li>
+/// </ul> <note>
 /// Each response element returns a maximum of 500 bytes. For larger elements,
 /// such as SQL statements, only the first 500 bytes are returned.
 /// </note>
 class DimensionGroup {
-  /// The name of the dimension group. Valid values are:
+  /// The name of the dimension group. Valid values are as follows:
   ///
   /// <ul>
   /// <li>
-  /// <code>db</code> - The name of the database to which the client is connected
-  /// (only Aurora PostgreSQL, RDS PostgreSQL, Aurora MySQL, RDS MySQL, and
-  /// MariaDB)
+  /// <code>db</code> - The name of the database to which the client is connected.
+  /// The following values are permitted:
+  ///
+  /// <ul>
+  /// <li>
+  /// Aurora PostgreSQL
   /// </li>
+  /// <li>
+  /// Amazon RDS PostgreSQL
+  /// </li>
+  /// <li>
+  /// Aurora MySQL
+  /// </li>
+  /// <li>
+  /// Amazon RDS MySQL
+  /// </li>
+  /// <li>
+  /// Amazon RDS MariaDB
+  /// </li>
+  /// <li>
+  /// Amazon DocumentDB
+  /// </li>
+  /// </ul> </li>
   /// <li>
   /// <code>db.application</code> - The name of the application that is connected
-  /// to the database (only Aurora PostgreSQL and RDS PostgreSQL)
+  /// to the database. The following values are permitted:
+  ///
+  /// <ul>
+  /// <li>
+  /// Aurora PostgreSQL
   /// </li>
   /// <li>
-  /// <code>db.host</code> - The host name of the connected client (all engines)
+  /// Amazon RDS PostgreSQL
+  /// </li>
+  /// <li>
+  /// Amazon DocumentDB
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// <code>db.host</code> - The host name of the connected client (all engines).
+  /// </li>
+  /// <li>
+  /// <code>db.query</code> - The query that is currently running (only Amazon
+  /// DocumentDB).
+  /// </li>
+  /// <li>
+  /// <code>db.query_tokenized</code> - The digest query (only Amazon DocumentDB).
   /// </li>
   /// <li>
   /// <code>db.session_type</code> - The type of the current session (only Aurora
-  /// PostgreSQL and RDS PostgreSQL)
+  /// PostgreSQL and RDS PostgreSQL).
   /// </li>
   /// <li>
-  /// <code>db.sql</code> - The SQL that is currently executing (all engines)
+  /// <code>db.sql</code> - The text of the SQL statement that is currently
+  /// running (all engines except Amazon DocumentDB).
   /// </li>
   /// <li>
-  /// <code>db.sql_tokenized</code> - The SQL digest (all engines)
+  /// <code>db.sql_tokenized</code> - The SQL digest (all engines except Amazon
+  /// DocumentDB).
+  /// </li>
+  /// <li>
+  /// <code>db.user</code> - The user logged in to the database (all engines
+  /// except Amazon DocumentDB).
   /// </li>
   /// <li>
   /// <code>db.wait_event</code> - The event for which the database backend is
-  /// waiting (all engines)
+  /// waiting (all engines except Amazon DocumentDB).
   /// </li>
   /// <li>
   /// <code>db.wait_event_type</code> - The type of event for which the database
-  /// backend is waiting (all engines)
+  /// backend is waiting (all engines except Amazon DocumentDB).
   /// </li>
   /// <li>
-  /// <code>db.user</code> - The user logged in to the database (all engines)
+  /// <code>db.wait_state</code> - The event for which the database backend is
+  /// waiting (only Amazon DocumentDB).
   /// </li>
   /// </ul>
   final String group;
@@ -608,69 +960,139 @@ class DimensionGroup {
   /// <ul>
   /// <li>
   /// <code>db.application.name</code> - The name of the application that is
-  /// connected to the database (only Aurora PostgreSQL and RDS PostgreSQL)
+  /// connected to the database. Valid values are as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// Aurora PostgreSQL
   /// </li>
   /// <li>
-  /// <code>db.host.id</code> - The host ID of the connected client (all engines)
+  /// Amazon RDS PostgreSQL
+  /// </li>
+  /// <li>
+  /// Amazon DocumentDB
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// <code>db.host.id</code> - The host ID of the connected client (all engines).
   /// </li>
   /// <li>
   /// <code>db.host.name</code> - The host name of the connected client (all
-  /// engines)
+  /// engines).
   /// </li>
   /// <li>
   /// <code>db.name</code> - The name of the database to which the client is
-  /// connected (only Aurora PostgreSQL, RDS PostgreSQL, Aurora MySQL, RDS MySQL,
-  /// and MariaDB)
+  /// connected. Valid values are as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// Aurora PostgreSQL
+  /// </li>
+  /// <li>
+  /// Amazon RDS PostgreSQL
+  /// </li>
+  /// <li>
+  /// Aurora MySQL
+  /// </li>
+  /// <li>
+  /// Amazon RDS MySQL
+  /// </li>
+  /// <li>
+  /// Amazon RDS MariaDB
+  /// </li>
+  /// <li>
+  /// Amazon DocumentDB
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// <code>db.query.id</code> - The query ID generated by Performance Insights
+  /// (only Amazon DocumentDB).
+  /// </li>
+  /// <li>
+  /// <code>db.query.db_id</code> - The query ID generated by the database (only
+  /// Amazon DocumentDB).
+  /// </li>
+  /// <li>
+  /// <code>db.query.statement</code> - The text of the query that is being run
+  /// (only Amazon DocumentDB).
+  /// </li>
+  /// <li>
+  /// <code>db.query.tokenized_id</code>
+  /// </li>
+  /// <li>
+  /// <code>db.query.tokenized.id</code> - The query digest ID generated by
+  /// Performance Insights (only Amazon DocumentDB).
+  /// </li>
+  /// <li>
+  /// <code>db.query.tokenized.db_id</code> - The query digest ID generated by
+  /// Performance Insights (only Amazon DocumentDB).
+  /// </li>
+  /// <li>
+  /// <code>db.query.tokenized.statement</code> - The text of the query digest
+  /// (only Amazon DocumentDB).
   /// </li>
   /// <li>
   /// <code>db.session_type.name</code> - The type of the current session (only
-  /// Aurora PostgreSQL and RDS PostgreSQL)
+  /// Amazon DocumentDB).
   /// </li>
   /// <li>
-  /// <code>db.sql.id</code> - The SQL ID generated by Performance Insights (all
-  /// engines)
+  /// <code>db.sql.id</code> - The hash of the full, non-tokenized SQL statement
+  /// generated by Performance Insights (all engines except Amazon DocumentDB).
   /// </li>
   /// <li>
-  /// <code>db.sql.db_id</code> - The SQL ID generated by the database (all
-  /// engines)
+  /// <code>db.sql.db_id</code> - Either the SQL ID generated by the database
+  /// engine, or a value generated by Performance Insights that begins with
+  /// <code>pi-</code> (all engines except Amazon DocumentDB).
   /// </li>
   /// <li>
-  /// <code>db.sql.statement</code> - The SQL text that is being executed (all
-  /// engines)
+  /// <code>db.sql.statement</code> - The full text of the SQL statement that is
+  /// running, as in <code>SELECT * FROM employees</code> (all engines except
+  /// Amazon DocumentDB)
   /// </li>
   /// <li>
   /// <code>db.sql.tokenized_id</code>
   /// </li>
   /// <li>
-  /// <code>db.sql_tokenized.id</code> - The SQL digest ID generated by
-  /// Performance Insights (all engines)
+  /// <code>db.sql_tokenized.id</code> - The hash of the SQL digest generated by
+  /// Performance Insights (all engines except Amazon DocumentDB). In the console,
+  /// <code>db.sql_tokenized.id</code> is called the Support ID because Amazon Web
+  /// Services Support can look at this data to help you troubleshoot database
+  /// issues.
   /// </li>
   /// <li>
-  /// <code>db.sql_tokenized.db_id</code> - SQL digest ID generated by the
-  /// database (all engines)
+  /// <code>db.sql_tokenized.db_id</code> - Either the native database ID used to
+  /// refer to the SQL statement, or a synthetic ID such as
+  /// <code>pi-2372568224</code> that Performance Insights generates if the native
+  /// database ID isn't available (all engines except Amazon DocumentDB).
   /// </li>
   /// <li>
-  /// <code>db.sql_tokenized.statement</code> - The SQL digest text (all engines)
+  /// <code>db.sql_tokenized.statement</code> - The text of the SQL digest, as in
+  /// <code>SELECT * FROM employees WHERE employee_id = ?</code> (all engines
+  /// except Amazon DocumentDB)
   /// </li>
   /// <li>
   /// <code>db.user.id</code> - The ID of the user logged in to the database (all
-  /// engines)
+  /// engines except Amazon DocumentDB).
   /// </li>
   /// <li>
   /// <code>db.user.name</code> - The name of the user logged in to the database
-  /// (all engines)
+  /// (all engines except Amazon DocumentDB).
   /// </li>
   /// <li>
   /// <code>db.wait_event.name</code> - The event for which the backend is waiting
-  /// (all engines)
+  /// (all engines except Amazon DocumentDB).
   /// </li>
   /// <li>
   /// <code>db.wait_event.type</code> - The type of event for which the backend is
-  /// waiting (all engines)
+  /// waiting (all engines except Amazon DocumentDB).
   /// </li>
   /// <li>
   /// <code>db.wait_event_type.name</code> - The name of the event type for which
-  /// the backend is waiting (all engines)
+  /// the backend is waiting (all engines except Amazon DocumentDB).
+  /// </li>
+  /// <li>
+  /// <code>db.wait_state.name</code> - The event for which the backend is waiting
+  /// (only Amazon DocumentDB).
   /// </li>
   /// </ul>
   final List<String>? dimensions;
@@ -707,9 +1129,45 @@ class DimensionGroup {
   }
 }
 
-/// An array of descriptions and aggregated values for each dimension within a
-/// dimension group.
+/// Information about dimensions within a dimension group.
+class DimensionGroupDetail {
+  /// The dimensions within a dimension group.
+  final List<DimensionDetail>? dimensions;
+
+  /// The name of the dimension group.
+  final String? group;
+
+  DimensionGroupDetail({
+    this.dimensions,
+    this.group,
+  });
+
+  factory DimensionGroupDetail.fromJson(Map<String, dynamic> json) {
+    return DimensionGroupDetail(
+      dimensions: (json['Dimensions'] as List?)
+          ?.whereNotNull()
+          .map((e) => DimensionDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      group: json['Group'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dimensions = this.dimensions;
+    final group = this.group;
+    return {
+      if (dimensions != null) 'Dimensions': dimensions,
+      if (group != null) 'Group': group,
+    };
+  }
+}
+
+/// An object that includes the requested dimension key values and aggregated
+/// metric values within a dimension group.
 class DimensionKeyDescription {
+  /// A map that contains the value for each additional metric.
+  final Map<String, double>? additionalMetrics;
+
   /// A map of name-value pairs for the dimensions in the group.
   final Map<String, String>? dimensions;
 
@@ -717,11 +1175,12 @@ class DimensionKeyDescription {
   /// contains the dimensions that were.
   final List<double>? partitions;
 
-  /// The aggregated metric value for the dimension(s), over the requested time
+  /// The aggregated metric value for the dimensions, over the requested time
   /// range.
   final double? total;
 
   DimensionKeyDescription({
+    this.additionalMetrics,
     this.dimensions,
     this.partitions,
     this.total,
@@ -729,6 +1188,8 @@ class DimensionKeyDescription {
 
   factory DimensionKeyDescription.fromJson(Map<String, dynamic> json) {
     return DimensionKeyDescription(
+      additionalMetrics: (json['AdditionalMetrics'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as double)),
       dimensions: (json['Dimensions'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       partitions: (json['Partitions'] as List?)
@@ -740,10 +1201,12 @@ class DimensionKeyDescription {
   }
 
   Map<String, dynamic> toJson() {
+    final additionalMetrics = this.additionalMetrics;
     final dimensions = this.dimensions;
     final partitions = this.partitions;
     final total = this.total;
     return {
+      if (additionalMetrics != null) 'AdditionalMetrics': additionalMetrics,
       if (dimensions != null) 'Dimensions': dimensions,
       if (partitions != null) 'Partitions': partitions,
       if (total != null) 'Total': total,
@@ -754,7 +1217,16 @@ class DimensionKeyDescription {
 /// An object that describes the details for a specified dimension.
 class DimensionKeyDetail {
   /// The full name of the dimension. The full name includes the group name and
-  /// key name. The only valid value is <code>db.sql.statement</code>.
+  /// key name. The following values are valid:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>db.query.statement</code> (Amazon DocumentDB)
+  /// </li>
+  /// <li>
+  /// <code>db.sql.statement</code> (Amazon RDS and Aurora)
+  /// </li>
+  /// </ul>
   final String? dimension;
 
   /// The status of the dimension detail data. Possible values include the
@@ -767,8 +1239,8 @@ class DimensionKeyDetail {
   /// <li>
   /// <code>PROCESSING</code> - The dimension detail data isn't ready to be
   /// retrieved because more processing time is required. If the requested detail
-  /// data for <code>db.sql.statement</code> has the status
-  /// <code>PROCESSING</code>, Performance Insights returns the truncated query.
+  /// data has the status <code>PROCESSING</code>, Performance Insights returns
+  /// the truncated query.
   /// </li>
   /// <li>
   /// <code>UNAVAILABLE</code> - The dimension detail data could not be collected
@@ -777,9 +1249,18 @@ class DimensionKeyDetail {
   /// </ul>
   final DetailStatus? status;
 
-  /// The value of the dimension detail data. For the
-  /// <code>db.sql.statement</code> dimension, this value is either the full or
-  /// truncated SQL query, depending on the return status.
+  /// The value of the dimension detail data. Depending on the return status, this
+  /// value is either the full or truncated SQL query for the following
+  /// dimensions:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>db.query.statement</code> (Amazon DocumentDB)
+  /// </li>
+  /// <li>
+  /// <code>db.sql.statement</code> (Amazon RDS and Aurora)
+  /// </li>
+  /// </ul>
   final String? value;
 
   DimensionKeyDetail({
@@ -808,6 +1289,102 @@ class DimensionKeyDetail {
   }
 }
 
+/// The metadata for a feature. For example, the metadata might indicate that a
+/// feature is turned on or off on a specific DB instance.
+class FeatureMetadata {
+  /// The status of the feature on the DB instance. Possible values include the
+  /// following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ENABLED</code> - The feature is enabled on the instance.
+  /// </li>
+  /// <li>
+  /// <code>DISABLED</code> - The feature is disabled on the instance.
+  /// </li>
+  /// <li>
+  /// <code>UNSUPPORTED</code> - The feature isn't supported on the instance.
+  /// </li>
+  /// <li>
+  /// <code>ENABLED_PENDING_REBOOT</code> - The feature is enabled on the instance
+  /// but requires a reboot to take effect.
+  /// </li>
+  /// <li>
+  /// <code>DISABLED_PENDING_REBOOT</code> - The feature is disabled on the
+  /// instance but requires a reboot to take effect.
+  /// </li>
+  /// <li>
+  /// <code>UNKNOWN</code> - The feature status couldn't be determined.
+  /// </li>
+  /// </ul>
+  final FeatureStatus? status;
+
+  FeatureMetadata({
+    this.status,
+  });
+
+  factory FeatureMetadata.fromJson(Map<String, dynamic> json) {
+    return FeatureMetadata(
+      status: (json['Status'] as String?)?.toFeatureStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    return {
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
+}
+
+enum FeatureStatus {
+  enabled,
+  disabled,
+  unsupported,
+  enabledPendingReboot,
+  disabledPendingReboot,
+  unknown,
+}
+
+extension on FeatureStatus {
+  String toValue() {
+    switch (this) {
+      case FeatureStatus.enabled:
+        return 'ENABLED';
+      case FeatureStatus.disabled:
+        return 'DISABLED';
+      case FeatureStatus.unsupported:
+        return 'UNSUPPORTED';
+      case FeatureStatus.enabledPendingReboot:
+        return 'ENABLED_PENDING_REBOOT';
+      case FeatureStatus.disabledPendingReboot:
+        return 'DISABLED_PENDING_REBOOT';
+      case FeatureStatus.unknown:
+        return 'UNKNOWN';
+    }
+  }
+}
+
+extension on String {
+  FeatureStatus toFeatureStatus() {
+    switch (this) {
+      case 'ENABLED':
+        return FeatureStatus.enabled;
+      case 'DISABLED':
+        return FeatureStatus.disabled;
+      case 'UNSUPPORTED':
+        return FeatureStatus.unsupported;
+      case 'ENABLED_PENDING_REBOOT':
+        return FeatureStatus.enabledPendingReboot;
+      case 'DISABLED_PENDING_REBOOT':
+        return FeatureStatus.disabledPendingReboot;
+      case 'UNKNOWN':
+        return FeatureStatus.unknown;
+    }
+    throw Exception('$this is not known in enum FeatureStatus');
+  }
+}
+
 class GetDimensionKeyDetailsResponse {
   /// The details for the requested dimensions.
   final List<DimensionKeyDetail>? dimensions;
@@ -833,6 +1410,41 @@ class GetDimensionKeyDetailsResponse {
   }
 }
 
+class GetResourceMetadataResponse {
+  /// The metadata for different features. For example, the metadata might
+  /// indicate that a feature is turned on or off on a specific DB instance.
+  final Map<String, FeatureMetadata>? features;
+
+  /// An immutable identifier for a data source that is unique for an Amazon Web
+  /// Services Region. Performance Insights gathers metrics from this data source.
+  /// To use a DB instance as a data source, specify its
+  /// <code>DbiResourceId</code> value. For example, specify
+  /// <code>db-ABCDEFGHIJKLMNOPQRSTU1VW2X</code>.
+  final String? identifier;
+
+  GetResourceMetadataResponse({
+    this.features,
+    this.identifier,
+  });
+
+  factory GetResourceMetadataResponse.fromJson(Map<String, dynamic> json) {
+    return GetResourceMetadataResponse(
+      features: (json['Features'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k, FeatureMetadata.fromJson(e as Map<String, dynamic>))),
+      identifier: json['Identifier'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final features = this.features;
+    final identifier = this.identifier;
+    return {
+      if (features != null) 'Features': features,
+      if (identifier != null) 'Identifier': identifier,
+    };
+  }
+}
+
 class GetResourceMetricsResponse {
   /// The end time for the returned metrics, after alignment to a granular
   /// boundary (as specified by <code>PeriodInSeconds</code>).
@@ -846,15 +1458,14 @@ class GetResourceMetricsResponse {
   /// user-specified <code>StartTime</code>.
   final DateTime? alignedStartTime;
 
-  /// An immutable, AWS Region-unique identifier for a data source. Performance
-  /// Insights gathers metrics from this data source.
-  ///
-  /// To use a DB instance as a data source, you specify its
-  /// <code>DbiResourceId</code> value - for example:
-  /// <code>db-FAIHNTYBKTGAUSUZQYPDS2GW4A</code>
+  /// An immutable identifier for a data source that is unique for an Amazon Web
+  /// Services Region. Performance Insights gathers metrics from this data source.
+  /// In the console, the identifier is shown as <i>ResourceID</i>. When you call
+  /// <code>DescribeDBInstances</code>, the identifier is returned as
+  /// <code>DbiResourceId</code>.
   final String? identifier;
 
-  /// An array of metric results,, where each array element contains all of the
+  /// An array of metric results, where each array element contains all of the
   /// data points for a particular dimension.
   final List<MetricKeyDataPoints>? metricList;
 
@@ -902,6 +1513,112 @@ class GetResourceMetricsResponse {
   }
 }
 
+class ListAvailableResourceDimensionsResponse {
+  /// The dimension information returned for requested metric types.
+  final List<MetricDimensionGroups>? metricDimensions;
+
+  /// An optional pagination token provided by a previous request. If this
+  /// parameter is specified, the response includes only records beyond the token,
+  /// up to the value specified by <code>MaxRecords</code>.
+  final String? nextToken;
+
+  ListAvailableResourceDimensionsResponse({
+    this.metricDimensions,
+    this.nextToken,
+  });
+
+  factory ListAvailableResourceDimensionsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListAvailableResourceDimensionsResponse(
+      metricDimensions: (json['MetricDimensions'] as List?)
+          ?.whereNotNull()
+          .map((e) => MetricDimensionGroups.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metricDimensions = this.metricDimensions;
+    final nextToken = this.nextToken;
+    return {
+      if (metricDimensions != null) 'MetricDimensions': metricDimensions,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListAvailableResourceMetricsResponse {
+  /// An array of metrics available to query. Each array element contains the full
+  /// name, description, and unit of the metric.
+  final List<ResponseResourceMetric>? metrics;
+
+  /// A pagination token that indicates the response didn’t return all available
+  /// records because <code>MaxRecords</code> was specified in the previous
+  /// request. To get the remaining records, specify <code>NextToken</code> in a
+  /// separate request with this value.
+  final String? nextToken;
+
+  ListAvailableResourceMetricsResponse({
+    this.metrics,
+    this.nextToken,
+  });
+
+  factory ListAvailableResourceMetricsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListAvailableResourceMetricsResponse(
+      metrics: (json['Metrics'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => ResponseResourceMetric.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metrics = this.metrics;
+    final nextToken = this.nextToken;
+    return {
+      if (metrics != null) 'Metrics': metrics,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+/// The available dimension information for a metric type.
+class MetricDimensionGroups {
+  /// The available dimension groups for a metric type.
+  final List<DimensionGroupDetail>? groups;
+
+  /// The metric type to which the dimension information belongs.
+  final String? metric;
+
+  MetricDimensionGroups({
+    this.groups,
+    this.metric,
+  });
+
+  factory MetricDimensionGroups.fromJson(Map<String, dynamic> json) {
+    return MetricDimensionGroups(
+      groups: (json['Groups'] as List?)
+          ?.whereNotNull()
+          .map((e) => DimensionGroupDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      metric: json['Metric'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final groups = this.groups;
+    final metric = this.metric;
+    return {
+      if (groups != null) 'Groups': groups,
+      if (metric != null) 'Metric': metric,
+    };
+  }
+}
+
 /// A time-ordered series of data points, corresponding to a dimension of a
 /// Performance Insights metric.
 class MetricKeyDataPoints {
@@ -909,7 +1626,7 @@ class MetricKeyDataPoints {
   /// of time.
   final List<DataPoint>? dataPoints;
 
-  /// The dimension(s) to which the data points apply.
+  /// The dimensions to which the data points apply.
   final ResponseResourceMetricKey? key;
 
   MetricKeyDataPoints({
@@ -941,10 +1658,10 @@ class MetricKeyDataPoints {
 }
 
 /// A single query to be processed. You must provide the metric to query. If no
-/// other parameters are specified, Performance Insights returns all of the data
-/// points for that metric. You can optionally request that the data points be
-/// aggregated by dimension group ( <code>GroupBy</code>), and return only those
-/// data points that match your criteria (<code>Filter</code>).
+/// other parameters are specified, Performance Insights returns all data points
+/// for the specified metric. Optionally, you can request that the data points
+/// be aggregated by dimension group (<code>GroupBy</code>), and return only
+/// those data points that match your criteria (<code>Filter</code>).
 class MetricQuery {
   /// The name of a Performance Insights metric to be measured.
   ///
@@ -952,12 +1669,18 @@ class MetricQuery {
   ///
   /// <ul>
   /// <li>
-  /// <code>db.load.avg</code> - a scaled representation of the number of active
+  /// <code>db.load.avg</code> - A scaled representation of the number of active
   /// sessions for the database engine.
   /// </li>
   /// <li>
-  /// <code>db.sampledload.avg</code> - the raw number of active sessions for the
+  /// <code>db.sampledload.avg</code> - The raw number of active sessions for the
   /// database engine.
+  /// </li>
+  /// <li>
+  /// The counter metrics listed in <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_PerfInsights_Counters.html#USER_PerfInsights_Counters.OS">Performance
+  /// Insights operating system counters</a> in the <i>Amazon Aurora User
+  /// Guide</i>.
   /// </li>
   /// </ul>
   /// If the number of active sessions is less than an internal Performance
@@ -1023,7 +1746,7 @@ class MetricQuery {
 /// <code>DescribeDimensionKeys</code> request, the dimensions are returned in
 /// an array. Each element in the array specifies one dimension.
 class ResponsePartitionKey {
-  /// A dimension map that contains the dimension(s) for this partition.
+  /// A dimension map that contains the dimensions for this partition.
   final Map<String, String> dimensions;
 
   ResponsePartitionKey({
@@ -1045,6 +1768,43 @@ class ResponsePartitionKey {
   }
 }
 
+/// An object that contains the full name, description, and unit of a metric.
+class ResponseResourceMetric {
+  /// The description of the metric.
+  final String? description;
+
+  /// The full name of the metric.
+  final String? metric;
+
+  /// The unit of the metric.
+  final String? unit;
+
+  ResponseResourceMetric({
+    this.description,
+    this.metric,
+    this.unit,
+  });
+
+  factory ResponseResourceMetric.fromJson(Map<String, dynamic> json) {
+    return ResponseResourceMetric(
+      description: json['Description'] as String?,
+      metric: json['Metric'] as String?,
+      unit: json['Unit'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final metric = this.metric;
+    final unit = this.unit;
+    return {
+      if (description != null) 'Description': description,
+      if (metric != null) 'Metric': metric,
+      if (unit != null) 'Unit': unit,
+    };
+  }
+}
+
 /// An object describing a Performance Insights metric and one or more
 /// dimensions for that metric.
 class ResponseResourceMetricKey {
@@ -1054,12 +1814,18 @@ class ResponseResourceMetricKey {
   ///
   /// <ul>
   /// <li>
-  /// <code>db.load.avg</code> - a scaled representation of the number of active
+  /// <code>db.load.avg</code> - A scaled representation of the number of active
   /// sessions for the database engine.
   /// </li>
   /// <li>
-  /// <code>db.sampledload.avg</code> - the raw number of active sessions for the
+  /// <code>db.sampledload.avg</code> - The raw number of active sessions for the
   /// database engine.
+  /// </li>
+  /// <li>
+  /// The counter metrics listed in <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_PerfInsights_Counters.html#USER_PerfInsights_Counters.OS">Performance
+  /// Insights operating system counters</a> in the <i>Amazon Aurora User
+  /// Guide</i>.
   /// </li>
   /// </ul>
   /// If the number of active sessions is less than an internal Performance
@@ -1100,6 +1866,7 @@ class ResponseResourceMetricKey {
 
 enum ServiceType {
   rds,
+  docdb,
 }
 
 extension on ServiceType {
@@ -1107,6 +1874,8 @@ extension on ServiceType {
     switch (this) {
       case ServiceType.rds:
         return 'RDS';
+      case ServiceType.docdb:
+        return 'DOCDB';
     }
   }
 }
@@ -1116,6 +1885,8 @@ extension on String {
     switch (this) {
       case 'RDS':
         return ServiceType.rds;
+      case 'DOCDB':
+        return ServiceType.docdb;
     }
     throw Exception('$this is not known in enum ServiceType');
   }

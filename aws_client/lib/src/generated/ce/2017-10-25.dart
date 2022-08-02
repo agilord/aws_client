@@ -61,8 +61,46 @@ class CostExplorer {
   ///
   /// Parameter [anomalyMonitor] :
   /// The cost anomaly detection monitor object that you want to create.
+  ///
+  /// Parameter [resourceTags] :
+  /// An optional list of tags to associate with the specified <a
+  /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_AnomalyMonitor.html">
+  /// <code>AnomalyMonitor</code> </a>. You can use resource tags to control
+  /// access to your <code>monitor</code> using IAM policies.
+  ///
+  /// Each tag consists of a key and a value, and each key must be unique for
+  /// the resource. The following restrictions apply to resource tags:
+  ///
+  /// <ul>
+  /// <li>
+  /// Although the maximum number of array members is 200, you can assign a
+  /// maximum of 50 user-tags to one resource. The remaining are reserved for
+  /// Amazon Web Services use
+  /// </li>
+  /// <li>
+  /// The maximum length of a key is 128 characters
+  /// </li>
+  /// <li>
+  /// The maximum length of a value is 256 characters
+  /// </li>
+  /// <li>
+  /// Keys and values can only contain alphanumeric characters, spaces, and any
+  /// of the following: <code>_.:/=+@-</code>
+  /// </li>
+  /// <li>
+  /// Keys and values are case sensitive
+  /// </li>
+  /// <li>
+  /// Keys and values are trimmed for any leading or trailing whitespaces
+  /// </li>
+  /// <li>
+  /// Don’t use <code>aws:</code> as a prefix for your keys. This prefix is
+  /// reserved for Amazon Web Services use
+  /// </li>
+  /// </ul>
   Future<CreateAnomalyMonitorResponse> createAnomalyMonitor({
     required AnomalyMonitor anomalyMonitor,
+    List<ResourceTag>? resourceTags,
   }) async {
     ArgumentError.checkNotNull(anomalyMonitor, 'anomalyMonitor');
     final headers = <String, String>{
@@ -77,6 +115,7 @@ class CostExplorer {
       headers: headers,
       payload: {
         'AnomalyMonitor': anomalyMonitor,
+        if (resourceTags != null) 'ResourceTags': resourceTags,
       },
     );
 
@@ -93,8 +132,46 @@ class CostExplorer {
   ///
   /// Parameter [anomalySubscription] :
   /// The cost anomaly subscription object that you want to create.
+  ///
+  /// Parameter [resourceTags] :
+  /// An optional list of tags to associate with the specified <a
+  /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_AnomalySubscription.html">
+  /// <code>AnomalySubscription</code> </a>. You can use resource tags to
+  /// control access to your <code>subscription</code> using IAM policies.
+  ///
+  /// Each tag consists of a key and a value, and each key must be unique for
+  /// the resource. The following restrictions apply to resource tags:
+  ///
+  /// <ul>
+  /// <li>
+  /// Although the maximum number of array members is 200, you can assign a
+  /// maximum of 50 user-tags to one resource. The remaining are reserved for
+  /// Amazon Web Services use
+  /// </li>
+  /// <li>
+  /// The maximum length of a key is 128 characters
+  /// </li>
+  /// <li>
+  /// The maximum length of a value is 256 characters
+  /// </li>
+  /// <li>
+  /// Keys and values can only contain alphanumeric characters, spaces, and any
+  /// of the following: <code>_.:/=+@-</code>
+  /// </li>
+  /// <li>
+  /// Keys and values are case sensitive
+  /// </li>
+  /// <li>
+  /// Keys and values are trimmed for any leading or trailing whitespaces
+  /// </li>
+  /// <li>
+  /// Don’t use <code>aws:</code> as a prefix for your keys. This prefix is
+  /// reserved for Amazon Web Services use
+  /// </li>
+  /// </ul>
   Future<CreateAnomalySubscriptionResponse> createAnomalySubscription({
     required AnomalySubscription anomalySubscription,
+    List<ResourceTag>? resourceTags,
   }) async {
     ArgumentError.checkNotNull(anomalySubscription, 'anomalySubscription');
     final headers = <String, String>{
@@ -109,6 +186,7 @@ class CostExplorer {
       headers: headers,
       payload: {
         'AnomalySubscription': anomalySubscription,
+        if (resourceTags != null) 'ResourceTags': resourceTags,
       },
     );
 
@@ -125,6 +203,43 @@ class CostExplorer {
   /// see <a
   /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_CostCategoryRule.html">CostCategoryRule</a>.
   ///
+  /// Parameter [resourceTags] :
+  /// An optional list of tags to associate with the specified <a
+  /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_CostCategory.html">
+  /// <code>CostCategory</code> </a>. You can use resource tags to control
+  /// access to your <code>cost category</code> using IAM policies.
+  ///
+  /// Each tag consists of a key and a value, and each key must be unique for
+  /// the resource. The following restrictions apply to resource tags:
+  ///
+  /// <ul>
+  /// <li>
+  /// Although the maximum number of array members is 200, you can assign a
+  /// maximum of 50 user-tags to one resource. The remaining are reserved for
+  /// Amazon Web Services use
+  /// </li>
+  /// <li>
+  /// The maximum length of a key is 128 characters
+  /// </li>
+  /// <li>
+  /// The maximum length of a value is 256 characters
+  /// </li>
+  /// <li>
+  /// Keys and values can only contain alphanumeric characters, spaces, and any
+  /// of the following: <code>_.:/=+@-</code>
+  /// </li>
+  /// <li>
+  /// Keys and values are case sensitive
+  /// </li>
+  /// <li>
+  /// Keys and values are trimmed for any leading or trailing whitespaces
+  /// </li>
+  /// <li>
+  /// Don’t use <code>aws:</code> as a prefix for your keys. This prefix is
+  /// reserved for Amazon Web Services use
+  /// </li>
+  /// </ul>
+  ///
   /// Parameter [splitChargeRules] :
   /// The split charge rules used to allocate your charges between your Cost
   /// Category values.
@@ -133,6 +248,7 @@ class CostExplorer {
     required CostCategoryRuleVersion ruleVersion,
     required List<CostCategoryRule> rules,
     String? defaultValue,
+    List<ResourceTag>? resourceTags,
     List<CostCategorySplitChargeRule>? splitChargeRules,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
@@ -153,6 +269,7 @@ class CostExplorer {
         'RuleVersion': ruleVersion.toValue(),
         'Rules': rules,
         if (defaultValue != null) 'DefaultValue': defaultValue,
+        if (resourceTags != null) 'ResourceTags': resourceTags,
         if (splitChargeRules != null) 'SplitChargeRules': splitChargeRules,
       },
     );
@@ -245,12 +362,12 @@ class CostExplorer {
     return DeleteCostCategoryDefinitionResponse.fromJson(jsonResponse.body);
   }
 
-  /// Returns the name, ARN, rules, definition, and effective dates of a Cost
-  /// Category that's defined in the account.
+  /// Returns the name, Amazon Resource Name (ARN), rules, definition, and
+  /// effective dates of a Cost Category that's defined in the account.
   ///
   /// You have the option to use <code>EffectiveOn</code> to return a Cost
-  /// Category that is active on a specific date. If there is no
-  /// <code>EffectiveOn</code> specified, you’ll see a Cost Category that is
+  /// Category that's active on a specific date. If there's no
+  /// <code>EffectiveOn</code> specified, you see a Cost Category that's
   /// effective on the current date. If Cost Category is still effective,
   /// <code>EffectiveEnd</code> is omitted in the response.
   ///
@@ -504,15 +621,23 @@ class CostExplorer {
   /// combination of dimension filters. For more information, see <a
   /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Expression.html">Expression</a>.
   ///
+  /// Valid values for <code>MatchOptions</code> for <code>Dimensions</code> are
+  /// <code>EQUALS</code> and <code>CASE_SENSITIVE</code>.
+  ///
+  /// Valid values for <code>MatchOptions</code> for <code>CostCategories</code>
+  /// and <code>Tags</code> are <code>EQUALS</code>, <code>ABSENT</code>, and
+  /// <code>CASE_SENSITIVE</code>. Default values are <code>EQUALS</code> and
+  /// <code>CASE_SENSITIVE</code>.
+  ///
   /// Parameter [groupBy] :
   /// You can group Amazon Web Services costs using up to two different groups,
   /// either dimensions, tag keys, cost categories, or any two group by types.
   ///
   /// Valid values for the <code>DIMENSION</code> type are <code>AZ</code>,
   /// <code>INSTANCE_TYPE</code>, <code>LEGAL_ENTITY_NAME</code>,
-  /// <code>LINKED_ACCOUNT</code>, <code>OPERATION</code>,
-  /// <code>PLATFORM</code>, <code>PURCHASE_TYPE</code>, <code>SERVICE</code>,
-  /// <code>TENANCY</code>, <code>RECORD_TYPE</code>, and
+  /// <code>INVOICING_ENTITY</code>, <code>LINKED_ACCOUNT</code>,
+  /// <code>OPERATION</code>, <code>PLATFORM</code>, <code>PURCHASE_TYPE</code>,
+  /// <code>SERVICE</code>, <code>TENANCY</code>, <code>RECORD_TYPE</code>, and
   /// <code>USAGE_TYPE</code>.
   ///
   /// When you group by the <code>TAG</code> type and include a valid tag key,
@@ -568,7 +693,7 @@ class CostExplorer {
   /// Amazon Elastic Compute Cloud – Compute service only.
   /// <note>
   /// This is an opt-in only feature. You can enable this feature from the Cost
-  /// Explorer Settings page. For information on how to access the Settings
+  /// Explorer Settings page. For information about how to access the Settings
   /// page, see <a
   /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/ce-access.html">Controlling
   /// Access for Cost Explorer</a> in the <i>Billing and Cost Management User
@@ -594,6 +719,14 @@ class CostExplorer {
   /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Expression.html">Expression</a>
   /// <code>"SERVICE = Amazon Elastic Compute Cloud - Compute"</code> in the
   /// filter.
+  ///
+  /// Valid values for <code>MatchOptions</code> for <code>Dimensions</code> are
+  /// <code>EQUALS</code> and <code>CASE_SENSITIVE</code>.
+  ///
+  /// Valid values for <code>MatchOptions</code> for <code>CostCategories</code>
+  /// and <code>Tags</code> are <code>EQUALS</code>, <code>ABSENT</code>, and
+  /// <code>CASE_SENSITIVE</code>. Default values are <code>EQUALS</code> and
+  /// <code>CASE_SENSITIVE</code>.
   ///
   /// Parameter [granularity] :
   /// Sets the Amazon Web Services cost granularity to <code>MONTHLY</code>,
@@ -630,7 +763,7 @@ class CostExplorer {
   /// aggregates all usage numbers without taking the units into account. For
   /// example, if you aggregate <code>usageQuantity</code> across all of Amazon
   /// EC2, the results aren't meaningful because Amazon EC2 compute hours and
-  /// data transfer are measured in different units (for example, hours vs. GB).
+  /// data transfer are measured in different units (for example, hour or GB).
   /// To get more meaningful <code>UsageQuantity</code> metrics, filter by
   /// <code>UsageType</code> or <code>UsageTypeGroups</code>.
   /// </note>
@@ -688,35 +821,35 @@ class CostExplorer {
   /// May throw [RequestChangedException].
   ///
   /// Parameter [maxResults] :
-  /// This field is only used when <code>SortBy</code> is provided in the
-  /// request.
+  /// This field is only used when the <code>SortBy</code> value is provided in
+  /// the request.
   ///
-  /// The maximum number of objects that to be returned for this request. If
-  /// <code>MaxResults</code> is not specified with <code>SortBy</code>, the
-  /// request will return 1000 results as the default value for this parameter.
+  /// The maximum number of objects that are returned for this request. If
+  /// <code>MaxResults</code> isn't specified with the <code>SortBy</code>
+  /// value, the request returns 1000 results as the default value for this
+  /// parameter.
   ///
-  /// For <code>GetCostCategories</code>, MaxResults has an upper limit of 1000.
+  /// For <code>GetCostCategories</code>, MaxResults has an upper quota of 1000.
   ///
   /// Parameter [nextPageToken] :
   /// If the number of objects that are still available for retrieval exceeds
-  /// the limit, Amazon Web Services returns a NextPageToken value in the
+  /// the quota, Amazon Web Services returns a NextPageToken value in the
   /// response. To retrieve the next batch of objects, provide the NextPageToken
-  /// from the prior call in your next request.
+  /// from the previous call in your next request.
   ///
   /// Parameter [searchString] :
   /// The value that you want to search the filter values for.
   ///
-  /// If you do not specify a <code>CostCategoryName</code>,
-  /// <code>SearchString</code> will be used to filter Cost Category names that
-  /// match the <code>SearchString</code> pattern. If you do specifiy a
-  /// <code>CostCategoryName</code>, <code>SearchString</code> will be used to
-  /// filter Cost Category values that match the <code>SearchString</code>
-  /// pattern.
+  /// If you don't specify a <code>CostCategoryName</code>,
+  /// <code>SearchString</code> is used to filter Cost Category names that match
+  /// the <code>SearchString</code> pattern. If you specify a
+  /// <code>CostCategoryName</code>, <code>SearchString</code> is used to filter
+  /// Cost Category values that match the <code>SearchString</code> pattern.
   ///
   /// Parameter [sortBy] :
-  /// The value by which you want to sort the data.
+  /// The value that you sort the data by.
   ///
-  /// The key represents cost and usage metrics. The following values are
+  /// The key represents the cost and usage metrics. The following values are
   /// supported:
   ///
   /// <ul>
@@ -742,11 +875,11 @@ class CostExplorer {
   /// <code>NormalizedUsageAmount</code>
   /// </li>
   /// </ul>
-  /// Supported values for <code>SortOrder</code> are <code>ASCENDING</code> or
-  /// <code>DESCENDING</code>.
+  /// The supported key values for the <code>SortOrder</code> value are
+  /// <code>ASCENDING</code> and <code>DESCENDING</code>.
   ///
-  /// When using <code>SortBy</code>, <code>NextPageToken</code> and
-  /// <code>SearchString</code> are not supported.
+  /// When you use the <code>SortBy</code> value, the <code>NextPageToken</code>
+  /// and <code>SearchString</code> key values aren't supported.
   Future<GetCostCategoriesResponse> getCostCategories({
     required DateInterval timePeriod,
     String? costCategoryName,
@@ -994,12 +1127,47 @@ class CostExplorer {
   /// AZ - The Availability Zone. An example is <code>us-east-1a</code>.
   /// </li>
   /// <li>
+  /// BILLING_ENTITY - The Amazon Web Services seller that your account is with.
+  /// Possible values are the following:
+  ///
+  /// - Amazon Web Services(Amazon Web Services): The entity that sells Amazon
+  /// Web Services.
+  ///
+  /// - AISPL (Amazon Internet Services Pvt. Ltd.): The local Indian entity
+  /// that's an acting reseller for Amazon Web Services in India.
+  ///
+  /// - Amazon Web Services Marketplace: The entity that supports the sale of
+  /// solutions that are built on Amazon Web Services by third-party software
+  /// providers.
+  /// </li>
+  /// <li>
+  /// CACHE_ENGINE - The Amazon ElastiCache operating system. Examples are
+  /// Windows or Linux.
+  /// </li>
+  /// <li>
+  /// DEPLOYMENT_OPTION - The scope of Amazon Relational Database Service
+  /// deployments. Valid values are <code>SingleAZ</code> and
+  /// <code>MultiAZ</code>.
+  /// </li>
+  /// <li>
   /// DATABASE_ENGINE - The Amazon Relational Database Service database.
   /// Examples are Aurora or MySQL.
   /// </li>
   /// <li>
   /// INSTANCE_TYPE - The type of Amazon EC2 instance. An example is
   /// <code>m4.xlarge</code>.
+  /// </li>
+  /// <li>
+  /// INSTANCE_TYPE_FAMILY - A family of instance types optimized to fit
+  /// different use cases. Examples are <code>Compute Optimized</code> (for
+  /// example, <code>C4</code>, <code>C5</code>, <code>C6g</code>, and
+  /// <code>C7g</code>), <code>Memory Optimization</code> (for example,
+  /// <code>R4</code>, <code>R5n</code>, <code>R5b</code>, and
+  /// <code>R6g</code>).
+  /// </li>
+  /// <li>
+  /// INVOICING_ENTITY - The name of the entity that issues the Amazon Web
+  /// Services invoice.
   /// </li>
   /// <li>
   /// LEGAL_ENTITY_NAME - The name of the organization that sells you Amazon Web
@@ -1021,12 +1189,25 @@ class CostExplorer {
   /// PLATFORM - The Amazon EC2 operating system. Examples are Windows or Linux.
   /// </li>
   /// <li>
-  /// PURCHASE_TYPE - The reservation type of the purchase to which this usage
-  /// is related. Examples include On-Demand Instances and Standard Reserved
+  /// PURCHASE_TYPE - The reservation type of the purchase that this usage is
+  /// related to. Examples include On-Demand Instances and Standard Reserved
   /// Instances.
   /// </li>
   /// <li>
+  /// RESERVATION_ID - The unique identifier for an Amazon Web Services
+  /// Reservation Instance.
+  /// </li>
+  /// <li>
+  /// SAVINGS_PLAN_ARN - The unique identifier for your Savings Plans.
+  /// </li>
+  /// <li>
+  /// SAVINGS_PLANS_TYPE - Type of Savings Plans (EC2 Instance or Compute).
+  /// </li>
+  /// <li>
   /// SERVICE - The Amazon Web Services service such as Amazon DynamoDB.
+  /// </li>
+  /// <li>
+  /// TENANCY - The tenancy of a resource. Examples are shared or dedicated.
   /// </li>
   /// <li>
   /// USAGE_TYPE - The type of usage. An example is DataTransfer-In-Bytes. The
@@ -1042,8 +1223,8 @@ class CostExplorer {
   /// REGION - The Amazon Web Services Region.
   /// </li>
   /// <li>
-  /// RECORD_TYPE - The different types of charges such as RI fees, usage costs,
-  /// tax refunds, and credits.
+  /// RECORD_TYPE - The different types of charges such as Reserved Instance
+  /// (RI) fees, usage costs, tax refunds, and credits.
   /// </li>
   /// <li>
   /// RESOURCE_ID - The unique identifier of the resource. ResourceId is an
@@ -1101,8 +1282,8 @@ class CostExplorer {
   /// SAVINGS_PLANS_TYPE - Type of Savings Plans (EC2 Instance or Compute)
   /// </li>
   /// <li>
-  /// PAYMENT_OPTION - Payment option for the given Savings Plans (for example,
-  /// All Upfront)
+  /// PAYMENT_OPTION - The payment option for the given Savings Plans (for
+  /// example, All Upfront)
   /// </li>
   /// <li>
   /// REGION - The Amazon Web Services Region.
@@ -1117,15 +1298,15 @@ class CostExplorer {
   /// Services ID of the member account.
   /// </li>
   /// <li>
-  /// SAVINGS_PLAN_ARN - The unique identifier for your Savings Plan
+  /// SAVINGS_PLAN_ARN - The unique identifier for your Savings Plans.
   /// </li>
   /// </ul>
   ///
   /// Parameter [maxResults] :
   /// This field is only used when SortBy is provided in the request. The
-  /// maximum number of objects that to be returned for this request. If
-  /// MaxResults is not specified with SortBy, the request will return 1000
-  /// results as the default value for this parameter.
+  /// maximum number of objects that are returned for this request. If
+  /// MaxResults isn't specified with SortBy, the request returns 1000 results
+  /// as the default value for this parameter.
   ///
   /// For <code>GetDimensionValues</code>, MaxResults has an upper limit of
   /// 1000.
@@ -1139,7 +1320,7 @@ class CostExplorer {
   /// The value that you want to search the filter values for.
   ///
   /// Parameter [sortBy] :
-  /// The value by which you want to sort the data.
+  /// The value that you want to sort the data by.
   ///
   /// The key represents cost and usage metrics. The following values are
   /// supported:
@@ -1167,13 +1348,12 @@ class CostExplorer {
   /// <code>NormalizedUsageAmount</code>
   /// </li>
   /// </ul>
-  /// Supported values for <code>SortOrder</code> are <code>ASCENDING</code> or
-  /// <code>DESCENDING</code>.
+  /// The supported values for the <code>SortOrder</code> key are
+  /// <code>ASCENDING</code> or <code>DESCENDING</code>.
   ///
   /// When you specify a <code>SortBy</code> paramater, the context must be
   /// <code>COST_AND_USAGE</code>. Further, when using <code>SortBy</code>,
-  /// <code>NextPageToken</code> and <code>SearchString</code> are not
-  /// supported.
+  /// <code>NextPageToken</code> and <code>SearchString</code> aren't supported.
   Future<GetDimensionValuesResponse> getDimensionValues({
     required Dimension dimension,
     required DateInterval timePeriod,
@@ -1217,7 +1397,7 @@ class CostExplorer {
     return GetDimensionValuesResponse.fromJson(jsonResponse.body);
   }
 
-  /// Retrieves the reservation coverage for your account. This enables you to
+  /// Retrieves the reservation coverage for your account, which you can use to
   /// see how much of your Amazon Elastic Compute Cloud, Amazon ElastiCache,
   /// Amazon Relational Database Service, or Amazon Redshift usage is covered by
   /// a reservation. An organization's management account can see the coverage
@@ -1365,6 +1545,9 @@ class CostExplorer {
   /// INSTANCE_TYPE
   /// </li>
   /// <li>
+  /// INVOICING_ENTITY
+  /// </li>
+  /// <li>
   /// LINKED_ACCOUNT
   /// </li>
   /// <li>
@@ -1479,25 +1662,26 @@ class CostExplorer {
     return GetReservationCoverageResponse.fromJson(jsonResponse.body);
   }
 
-  /// Gets recommendations for which reservations to purchase. These
-  /// recommendations could help you reduce your costs. Reservations provide a
-  /// discounted hourly rate (up to 75%) compared to On-Demand pricing.
+  /// Gets recommendations for reservation purchases. These recommendations
+  /// might help you to reduce your costs. Reservations provide a discounted
+  /// hourly rate (up to 75%) compared to On-Demand pricing.
   ///
   /// Amazon Web Services generates your recommendations by identifying your
   /// On-Demand usage during a specific time period and collecting your usage
   /// into categories that are eligible for a reservation. After Amazon Web
   /// Services has these categories, it simulates every combination of
   /// reservations in each category of usage to identify the best number of each
-  /// type of RI to purchase to maximize your estimated savings.
+  /// type of Reserved Instance (RI) to purchase to maximize your estimated
+  /// savings.
   ///
   /// For example, Amazon Web Services automatically aggregates your Amazon EC2
   /// Linux, shared tenancy, and c4 family usage in the US West (Oregon) Region
   /// and recommends that you buy size-flexible regional reservations to apply
   /// to the c4 family usage. Amazon Web Services recommends the smallest size
   /// instance in an instance family. This makes it easier to purchase a
-  /// size-flexible RI. Amazon Web Services also shows the equal number of
-  /// normalized units so that you can purchase any instance size that you want.
-  /// For this example, your RI recommendation would be for
+  /// size-flexible Reserved Instance (RI). Amazon Web Services also shows the
+  /// equal number of normalized units. This way, you can purchase any instance
+  /// size that you want. For this example, your RI recommendation is for
   /// <code>c4.large</code> because that is the smallest size instance in the c4
   /// instance family.
   ///
@@ -1509,7 +1693,7 @@ class CostExplorer {
   /// The specific service that you want recommendations for.
   ///
   /// Parameter [accountId] :
-  /// The account ID that is associated with the recommendation.
+  /// The account ID that's associated with the recommendation.
   ///
   /// Parameter [accountScope] :
   /// The account scope that you want your recommendations for. Amazon Web
@@ -1601,12 +1785,12 @@ class CostExplorer {
   /// May throw [InvalidNextTokenException].
   ///
   /// Parameter [timePeriod] :
-  /// Sets the start and end dates for retrieving RI utilization. The start date
-  /// is inclusive, but the end date is exclusive. For example, if
-  /// <code>start</code> is <code>2017-01-01</code> and <code>end</code> is
-  /// <code>2017-05-01</code>, then the cost and usage data is retrieved from
-  /// <code>2017-01-01</code> up to and including <code>2017-04-30</code> but
-  /// not including <code>2017-05-01</code>.
+  /// Sets the start and end dates for retrieving Reserved Instance (RI)
+  /// utilization. The start date is inclusive, but the end date is exclusive.
+  /// For example, if <code>start</code> is <code>2017-01-01</code> and
+  /// <code>end</code> is <code>2017-05-01</code>, then the cost and usage data
+  /// is retrieved from <code>2017-01-01</code> up to and including
+  /// <code>2017-04-30</code> but not including <code>2017-05-01</code>.
   ///
   /// Parameter [filter] :
   /// Filters utilization data by dimensions. You can filter by the following
@@ -1679,7 +1863,7 @@ class CostExplorer {
   /// than the maximum page size.
   ///
   /// Parameter [sortBy] :
-  /// The value by which you want to sort the data.
+  /// The value that you want to sort the data by.
   ///
   /// The following values are supported for <code>Key</code>:
   ///
@@ -1736,8 +1920,8 @@ class CostExplorer {
   /// <code>UnrealizedSavings</code>
   /// </li>
   /// </ul>
-  /// Supported values for <code>SortOrder</code> are <code>ASCENDING</code> or
-  /// <code>DESCENDING</code>.
+  /// The supported values for <code>SortOrder</code> are <code>ASCENDING</code>
+  /// and <code>DESCENDING</code>.
   Future<GetReservationUtilizationResponse> getReservationUtilization({
     required DateInterval timePeriod,
     Expression? filter,
@@ -1782,8 +1966,8 @@ class CostExplorer {
   /// underutilized Amazon EC2 instances.
   ///
   /// Recommendations are generated to either downsize or terminate instances,
-  /// along with providing savings detail and metrics. For details on
-  /// calculation and function, see <a
+  /// along with providing savings detail and metrics. For more information
+  /// about calculation and function, see <a
   /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/ce-rightsizing.html">Optimizing
   /// Your Cost with Rightsizing Recommendations</a> in the <i>Billing and Cost
   /// Management User Guide</i>.
@@ -1797,11 +1981,12 @@ class CostExplorer {
   /// "<code>AmazonEC2</code>".
   ///
   /// Parameter [configuration] :
-  /// Enables you to customize recommendations across two attributes. You can
-  /// choose to view recommendations for instances within the same instance
-  /// families or across different instance families. You can also choose to
-  /// view your estimated savings associated with recommendations with
-  /// consideration of existing Savings Plans or RI benefits, or neither.
+  /// You can use Configuration to customize recommendations across two
+  /// attributes. You can choose to view recommendations for instances within
+  /// the same instance families or across different instance families. You can
+  /// also choose to view your estimated savings that are associated with
+  /// recommendations with consideration of existing Savings Plans or RI
+  /// benefits, or neither.
   ///
   /// Parameter [nextPageToken] :
   /// The pagination token that indicates the next set of results that you want
@@ -1932,7 +2117,7 @@ class CostExplorer {
   /// than the maximum page size.
   ///
   /// Parameter [sortBy] :
-  /// The value by which you want to sort the data.
+  /// The value that you want to sort the data by.
   ///
   /// The following values are supported for <code>Key</code>:
   ///
@@ -1959,8 +2144,8 @@ class CostExplorer {
   /// <code>Service</code>
   /// </li>
   /// </ul>
-  /// Supported values for <code>SortOrder</code> are <code>ASCENDING</code> or
-  /// <code>DESCENDING</code>.
+  /// The supported values for <code>SortOrder</code> are <code>ASCENDING</code>
+  /// and <code>DESCENDING</code>.
   Future<GetSavingsPlansCoverageResponse> getSavingsPlansCoverage({
     required DateInterval timePeriod,
     Expression? filter,
@@ -2010,16 +2195,16 @@ class CostExplorer {
   /// May throw [InvalidNextTokenException].
   ///
   /// Parameter [lookbackPeriodInDays] :
-  /// The lookback period used to generate the recommendation.
+  /// The lookback period that's used to generate the recommendation.
   ///
   /// Parameter [paymentOption] :
-  /// The payment option used to generate these recommendations.
+  /// The payment option that's used to generate these recommendations.
   ///
   /// Parameter [savingsPlansType] :
-  /// The Savings Plans recommendation type requested.
+  /// The Savings Plans recommendation type that's requested.
   ///
   /// Parameter [termInYears] :
-  /// The savings plan recommendation term used to generate these
+  /// The savings plan recommendation term that's used to generate these
   /// recommendations.
   ///
   /// Parameter [accountScope] :
@@ -2033,17 +2218,16 @@ class CostExplorer {
   /// You can filter your recommendations by Account ID with the
   /// <code>LINKED_ACCOUNT</code> dimension. To filter your recommendations by
   /// Account ID, specify <code>Key</code> as <code>LINKED_ACCOUNT</code> and
-  /// <code>Value</code> as the comma-separated Acount ID(s) for which you want
-  /// to see Savings Plans purchase recommendations.
+  /// <code>Value</code> as the comma-separated Acount ID(s) that you want to
+  /// see Savings Plans purchase recommendations for.
   ///
-  /// For GetSavingsPlansPurchaseRecommendation, the <code>Filter</code> does
-  /// not include <code>CostCategories</code> or <code>Tags</code>. It only
-  /// includes <code>Dimensions</code>. With <code>Dimensions</code>,
-  /// <code>Key</code> must be <code>LINKED_ACCOUNT</code> and
-  /// <code>Value</code> can be a single Account ID or multiple comma-separated
-  /// Account IDs for which you want to see Savings Plans Purchase
-  /// Recommendations. <code>AND</code> and <code>OR</code> operators are not
-  /// supported.
+  /// For GetSavingsPlansPurchaseRecommendation, the <code>Filter</code> doesn't
+  /// include <code>CostCategories</code> or <code>Tags</code>. It only includes
+  /// <code>Dimensions</code>. With <code>Dimensions</code>, <code>Key</code>
+  /// must be <code>LINKED_ACCOUNT</code> and <code>Value</code> can be a single
+  /// Account ID or multiple comma-separated Account IDs that you want to see
+  /// Savings Plans Purchase Recommendations for. <code>AND</code> and
+  /// <code>OR</code> operators are not supported.
   ///
   /// Parameter [nextPageToken] :
   /// The token to retrieve the next set of results. Amazon Web Services
@@ -2107,7 +2291,7 @@ class CostExplorer {
   /// <code>GetDimensionValues</code> in <code>SAVINGS_PLANS</code> to determine
   /// the possible dimension values.
   /// <note>
-  /// You cannot group by any dimension values for
+  /// You can't group by any dimension values for
   /// <code>GetSavingsPlansUtilization</code>.
   /// </note>
   ///
@@ -2157,7 +2341,7 @@ class CostExplorer {
   /// <code>DAILY</code> and <code>MONTHLY</code> granularities.
   ///
   /// Parameter [sortBy] :
-  /// The value by which you want to sort the data.
+  /// The value that you want to sort the data by.
   ///
   /// The following values are supported for <code>Key</code>:
   ///
@@ -2178,8 +2362,8 @@ class CostExplorer {
   /// <code>NetSavings</code>
   /// </li>
   /// </ul>
-  /// Supported values for <code>SortOrder</code> are <code>ASCENDING</code> or
-  /// <code>DESCENDING</code>.
+  /// The supported values for <code>SortOrder</code> are <code>ASCENDING</code>
+  /// and <code>DESCENDING</code>.
   Future<GetSavingsPlansUtilizationResponse> getSavingsPlansUtilization({
     required DateInterval timePeriod,
     Expression? filter,
@@ -2270,7 +2454,7 @@ class CostExplorer {
   /// than the maximum page size.
   ///
   /// Parameter [sortBy] :
-  /// The value by which you want to sort the data.
+  /// The value that you want to sort the data by.
   ///
   /// The following values are supported for <code>Key</code>:
   ///
@@ -2297,8 +2481,8 @@ class CostExplorer {
   /// <code>AmortizedUpfrontCommitment</code>
   /// </li>
   /// </ul>
-  /// Supported values for <code>SortOrder</code> are <code>ASCENDING</code> or
-  /// <code>DESCENDING</code>.
+  /// The supported values for <code>SortOrder</code> are <code>ASCENDING</code>
+  /// and <code>DESCENDING</code>.
   Future<GetSavingsPlansUtilizationDetailsResponse>
       getSavingsPlansUtilizationDetails({
     required DateInterval timePeriod,
@@ -2360,11 +2544,11 @@ class CostExplorer {
   ///
   /// Parameter [maxResults] :
   /// This field is only used when SortBy is provided in the request. The
-  /// maximum number of objects that to be returned for this request. If
-  /// MaxResults is not specified with SortBy, the request will return 1000
-  /// results as the default value for this parameter.
+  /// maximum number of objects that are returned for this request. If
+  /// MaxResults isn't specified with SortBy, the request returns 1000 results
+  /// as the default value for this parameter.
   ///
-  /// For <code>GetTags</code>, MaxResults has an upper limit of 1000.
+  /// For <code>GetTags</code>, MaxResults has an upper quota of 1000.
   ///
   /// Parameter [nextPageToken] :
   /// The token to retrieve the next set of results. Amazon Web Services
@@ -2375,7 +2559,7 @@ class CostExplorer {
   /// The value that you want to search for.
   ///
   /// Parameter [sortBy] :
-  /// The value by which you want to sort the data.
+  /// The value that you want to sort the data by.
   ///
   /// The key represents cost and usage metrics. The following values are
   /// supported:
@@ -2403,11 +2587,11 @@ class CostExplorer {
   /// <code>NormalizedUsageAmount</code>
   /// </li>
   /// </ul>
-  /// Supported values for <code>SortOrder</code> are <code>ASCENDING</code> or
-  /// <code>DESCENDING</code>.
+  /// The supported values for <code>SortOrder</code> are <code>ASCENDING</code>
+  /// and <code>DESCENDING</code>.
   ///
-  /// When using <code>SortBy</code>, <code>NextPageToken</code> and
-  /// <code>SearchString</code> are not supported.
+  /// When you use <code>SortBy</code>, <code>NextPageToken</code> and
+  /// <code>SearchString</code> aren't supported.
   ///
   /// Parameter [tagKey] :
   /// The key of the tag that you want to return values for.
@@ -2483,13 +2667,13 @@ class CostExplorer {
   ///
   /// Parameter [timePeriod] :
   /// The start and end dates of the period that you want to retrieve usage
-  /// forecast for. The start date is inclusive, but the end date is exclusive.
-  /// For example, if <code>start</code> is <code>2017-01-01</code> and
-  /// <code>end</code> is <code>2017-05-01</code>, then the cost and usage data
-  /// is retrieved from <code>2017-01-01</code> up to and including
-  /// <code>2017-04-30</code> but not including <code>2017-05-01</code>. The
-  /// start date must be equal to or later than the current date to avoid a
-  /// validation error.
+  /// forecast for. The start date is included in the period, but the end date
+  /// isn't included in the period. For example, if <code>start</code> is
+  /// <code>2017-01-01</code> and <code>end</code> is <code>2017-05-01</code>,
+  /// then the cost and usage data is retrieved from <code>2017-01-01</code> up
+  /// to and including <code>2017-04-30</code> but not including
+  /// <code>2017-05-01</code>. The start date must be equal to or later than the
+  /// current date to avoid a validation error.
   ///
   /// Parameter [filter] :
   /// The filters that you want to use to filter your forecast. The
@@ -2569,11 +2753,12 @@ class CostExplorer {
   /// </ul>
   ///
   /// Parameter [predictionIntervalLevel] :
-  /// Cost Explorer always returns the mean forecast as a single point. You can
-  /// request a prediction interval around the mean by specifying a confidence
-  /// level. The higher the confidence level, the more confident Cost Explorer
-  /// is about the actual value falling in the prediction interval. Higher
-  /// confidence levels result in wider prediction intervals.
+  /// Amazon Web Services Cost Explorer always returns the mean forecast as a
+  /// single point. You can request a prediction interval around the mean by
+  /// specifying a confidence level. The higher the confidence level, the more
+  /// confident Cost Explorer is about the actual value falling in the
+  /// prediction interval. Higher confidence levels result in wider prediction
+  /// intervals.
   Future<GetUsageForecastResponse> getUsageForecast({
     required Granularity granularity,
     required Metric metric,
@@ -2613,15 +2798,77 @@ class CostExplorer {
     return GetUsageForecastResponse.fromJson(jsonResponse.body);
   }
 
-  /// Returns the name, ARN, <code>NumberOfRules</code> and effective dates of
-  /// all Cost Categories defined in the account. You have the option to use
-  /// <code>EffectiveOn</code> to return a list of Cost Categories that were
-  /// active on a specific date. If there is no <code>EffectiveOn</code>
-  /// specified, you’ll see Cost Categories that are effective on the current
-  /// date. If Cost Category is still effective, <code>EffectiveEnd</code> is
-  /// omitted in the response. <code>ListCostCategoryDefinitions</code> supports
-  /// pagination. The request can have a <code>MaxResults</code> range up to
-  /// 100.
+  /// Get a list of cost allocation tags. All inputs in the API are optional and
+  /// serve as filters. By default, all cost allocation tags are returned.
+  ///
+  /// May throw [LimitExceededException].
+  /// May throw [InvalidNextTokenException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of objects that are returned for this request. By
+  /// default, the request returns 100 results.
+  ///
+  /// Parameter [nextToken] :
+  /// The token to retrieve the next set of results. Amazon Web Services
+  /// provides the token when the response from a previous call has more results
+  /// than the maximum page size.
+  ///
+  /// Parameter [status] :
+  /// The status of cost allocation tag keys that are returned for this request.
+  ///
+  /// Parameter [tagKeys] :
+  /// The list of cost allocation tag keys that are returned for this request.
+  ///
+  /// Parameter [type] :
+  /// The type of <code>CostAllocationTag</code> object that are returned for
+  /// this request. The <code>AWSGenerated</code> type tags are tags that Amazon
+  /// Web Services defines and applies to support Amazon Web Services resources
+  /// for cost allocation purposes. The <code>UserDefined</code> type tags are
+  /// tags that you define, create, and apply to resources.
+  Future<ListCostAllocationTagsResponse> listCostAllocationTags({
+    int? maxResults,
+    String? nextToken,
+    CostAllocationTagStatus? status,
+    List<String>? tagKeys,
+    CostAllocationTagType? type,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSInsightsIndexService.ListCostAllocationTags'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (status != null) 'Status': status.toValue(),
+        if (tagKeys != null) 'TagKeys': tagKeys,
+        if (type != null) 'Type': type.toValue(),
+      },
+    );
+
+    return ListCostAllocationTagsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Returns the name, Amazon Resource Name (ARN), <code>NumberOfRules</code>
+  /// and effective dates of all Cost Categories defined in the account. You
+  /// have the option to use <code>EffectiveOn</code> to return a list of Cost
+  /// Categories that were active on a specific date. If there is no
+  /// <code>EffectiveOn</code> specified, you’ll see Cost Categories that are
+  /// effective on the current date. If Cost Category is still effective,
+  /// <code>EffectiveEnd</code> is omitted in the response.
+  /// <code>ListCostCategoryDefinitions</code> supports pagination. The request
+  /// can have a <code>MaxResults</code> range up to 100.
   ///
   /// May throw [LimitExceededException].
   ///
@@ -2666,6 +2913,38 @@ class CostExplorer {
     return ListCostCategoryDefinitionsResponse.fromJson(jsonResponse.body);
   }
 
+  /// Returns a list of resource tags associated with the resource specified by
+  /// the Amazon Resource Name (ARN).
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [LimitExceededException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) of the resource. For a list of supported
+  /// resources, see <a
+  /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_ResourceTag.html">ResourceTag</a>.
+  Future<ListTagsForResourceResponse> listTagsForResource({
+    required String resourceArn,
+  }) async {
+    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSInsightsIndexService.ListTagsForResource'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ResourceArn': resourceArn,
+      },
+    );
+
+    return ListTagsForResourceResponse.fromJson(jsonResponse.body);
+  }
+
   /// Modifies the feedback property of a given cost anomaly.
   ///
   /// May throw [LimitExceededException].
@@ -2701,8 +2980,124 @@ class CostExplorer {
     return ProvideAnomalyFeedbackResponse.fromJson(jsonResponse.body);
   }
 
+  /// An API operation for adding one or more tags (key-value pairs) to a
+  /// resource.
+  ///
+  /// You can use the <code>TagResource</code> operation with a resource that
+  /// already has tags. If you specify a new tag key for the resource, this tag
+  /// is appended to the list of tags associated with the resource. If you
+  /// specify a tag key that is already associated with the resource, the new
+  /// tag value you specify replaces the previous value for that tag.
+  ///
+  /// Although the maximum number of array members is 200, user-tag maximum is
+  /// 50. The remaining are reserved for Amazon Web Services use.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [TooManyTagsException].
+  /// May throw [LimitExceededException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) of the resource. For a list of supported
+  /// resources, see <a
+  /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_ResourceTag.html">ResourceTag</a>.
+  ///
+  /// Parameter [resourceTags] :
+  /// A list of tag key-value pairs to be added to the resource.
+  ///
+  /// Each tag consists of a key and a value, and each key must be unique for
+  /// the resource. The following restrictions apply to resource tags:
+  ///
+  /// <ul>
+  /// <li>
+  /// Although the maximum number of array members is 200, you can assign a
+  /// maximum of 50 user-tags to one resource. The remaining are reserved for
+  /// Amazon Web Services use
+  /// </li>
+  /// <li>
+  /// The maximum length of a key is 128 characters
+  /// </li>
+  /// <li>
+  /// The maximum length of a value is 256 characters
+  /// </li>
+  /// <li>
+  /// Keys and values can only contain alphanumeric characters, spaces, and any
+  /// of the following: <code>_.:/=+@-</code>
+  /// </li>
+  /// <li>
+  /// Keys and values are case sensitive
+  /// </li>
+  /// <li>
+  /// Keys and values are trimmed for any leading or trailing whitespaces
+  /// </li>
+  /// <li>
+  /// Don’t use <code>aws:</code> as a prefix for your keys. This prefix is
+  /// reserved for Amazon Web Services use
+  /// </li>
+  /// </ul>
+  Future<void> tagResource({
+    required String resourceArn,
+    required List<ResourceTag> resourceTags,
+  }) async {
+    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
+    ArgumentError.checkNotNull(resourceTags, 'resourceTags');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSInsightsIndexService.TagResource'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ResourceArn': resourceArn,
+        'ResourceTags': resourceTags,
+      },
+    );
+  }
+
+  /// Removes one or more tags from a resource. Specify only tag keys in your
+  /// request. Don't specify the value.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [LimitExceededException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) of the resource. For a list of supported
+  /// resources, see <a
+  /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_ResourceTag.html">ResourceTag</a>.
+  ///
+  /// Parameter [resourceTagKeys] :
+  /// A list of tag keys associated with tags that need to be removed from the
+  /// resource. If you specify a tag key that doesn't exist, it's ignored.
+  /// Although the maximum number of array members is 200, user-tag maximum is
+  /// 50. The remaining are reserved for Amazon Web Services use.
+  Future<void> untagResource({
+    required String resourceArn,
+    required List<String> resourceTagKeys,
+  }) async {
+    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
+    ArgumentError.checkNotNull(resourceTagKeys, 'resourceTagKeys');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSInsightsIndexService.UntagResource'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ResourceArn': resourceArn,
+        'ResourceTagKeys': resourceTagKeys,
+      },
+    );
+  }
+
   /// Updates an existing cost anomaly monitor. The changes made are applied
-  /// going forward, and doesn'tt change anomalies detected in the past.
+  /// going forward, and doesn't change anomalies detected in the past.
   ///
   /// May throw [LimitExceededException].
   /// May throw [UnknownMonitorException].
@@ -2795,6 +3190,40 @@ class CostExplorer {
     );
 
     return UpdateAnomalySubscriptionResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Updates status for cost allocation tags in bulk, with maximum batch size
+  /// of 20. If the tag status that's updated is the same as the existing tag
+  /// status, the request doesn't fail. Instead, it doesn't have any effect on
+  /// the tag status (for example, activating the active tag).
+  ///
+  /// May throw [LimitExceededException].
+  ///
+  /// Parameter [costAllocationTagsStatus] :
+  /// The list of <code>CostAllocationTagStatusEntry</code> objects that are
+  /// used to update cost allocation tags status for this request.
+  Future<UpdateCostAllocationTagsStatusResponse>
+      updateCostAllocationTagsStatus({
+    required List<CostAllocationTagStatusEntry> costAllocationTagsStatus,
+  }) async {
+    ArgumentError.checkNotNull(
+        costAllocationTagsStatus, 'costAllocationTagsStatus');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSInsightsIndexService.UpdateCostAllocationTagsStatus'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'CostAllocationTagsStatus': costAllocationTagsStatus,
+      },
+    );
+
+    return UpdateCostAllocationTagsStatusResponse.fromJson(jsonResponse.body);
   }
 
   /// Updates an existing Cost Category. Changes made to the Cost Category rules
@@ -2900,8 +3329,8 @@ class Anomaly {
   /// The first day the anomaly is detected.
   final String? anomalyStartDate;
 
-  /// The dimension for the anomaly (for example, an Amazon Web Services service
-  /// in a service monitor).
+  /// The dimension for the anomaly (for example, an Amazon Web Service in a
+  /// service monitor).
   final String? dimensionValue;
 
   /// The feedback value.
@@ -3285,6 +3714,135 @@ extension on String {
   }
 }
 
+/// The cost allocation tag structure. This includes detailed metadata for the
+/// <code>CostAllocationTag</code> object.
+class CostAllocationTag {
+  /// The status of a cost allocation tag.
+  final CostAllocationTagStatus status;
+
+  /// The key for the cost allocation tag.
+  final String tagKey;
+
+  /// The type of cost allocation tag. You can use <code>AWSGenerated</code> or
+  /// <code>UserDefined</code> type tags. <code>AWSGenerated</code> type tags are
+  /// tags that Amazon Web Services defines and applies to support Amazon Web
+  /// Services resources for cost allocation purposes. <code>UserDefined</code>
+  /// type tags are tags that you define, create, and apply to resources.
+  final CostAllocationTagType type;
+
+  CostAllocationTag({
+    required this.status,
+    required this.tagKey,
+    required this.type,
+  });
+
+  factory CostAllocationTag.fromJson(Map<String, dynamic> json) {
+    return CostAllocationTag(
+      status: (json['Status'] as String).toCostAllocationTagStatus(),
+      tagKey: json['TagKey'] as String,
+      type: (json['Type'] as String).toCostAllocationTagType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    final tagKey = this.tagKey;
+    final type = this.type;
+    return {
+      'Status': status.toValue(),
+      'TagKey': tagKey,
+      'Type': type.toValue(),
+    };
+  }
+}
+
+enum CostAllocationTagStatus {
+  active,
+  inactive,
+}
+
+extension on CostAllocationTagStatus {
+  String toValue() {
+    switch (this) {
+      case CostAllocationTagStatus.active:
+        return 'Active';
+      case CostAllocationTagStatus.inactive:
+        return 'Inactive';
+    }
+  }
+}
+
+extension on String {
+  CostAllocationTagStatus toCostAllocationTagStatus() {
+    switch (this) {
+      case 'Active':
+        return CostAllocationTagStatus.active;
+      case 'Inactive':
+        return CostAllocationTagStatus.inactive;
+    }
+    throw Exception('$this is not known in enum CostAllocationTagStatus');
+  }
+}
+
+/// The cost allocation tag status. The status of a key can either be active or
+/// inactive.
+class CostAllocationTagStatusEntry {
+  /// The status of a cost allocation tag.
+  final CostAllocationTagStatus status;
+
+  /// The key for the cost allocation tag.
+  final String tagKey;
+
+  CostAllocationTagStatusEntry({
+    required this.status,
+    required this.tagKey,
+  });
+
+  factory CostAllocationTagStatusEntry.fromJson(Map<String, dynamic> json) {
+    return CostAllocationTagStatusEntry(
+      status: (json['Status'] as String).toCostAllocationTagStatus(),
+      tagKey: json['TagKey'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    final tagKey = this.tagKey;
+    return {
+      'Status': status.toValue(),
+      'TagKey': tagKey,
+    };
+  }
+}
+
+enum CostAllocationTagType {
+  awsGenerated,
+  userDefined,
+}
+
+extension on CostAllocationTagType {
+  String toValue() {
+    switch (this) {
+      case CostAllocationTagType.awsGenerated:
+        return 'AWSGenerated';
+      case CostAllocationTagType.userDefined:
+        return 'UserDefined';
+    }
+  }
+}
+
+extension on String {
+  CostAllocationTagType toCostAllocationTagType() {
+    switch (this) {
+      case 'AWSGenerated':
+        return CostAllocationTagType.awsGenerated;
+      case 'UserDefined':
+        return CostAllocationTagType.userDefined;
+    }
+    throw Exception('$this is not known in enum CostAllocationTagType');
+  }
+}
+
 /// The structure of Cost Categories. This includes detailed metadata and the
 /// set of rules for the <code>CostCategory</code> object.
 class CostCategory {
@@ -3374,14 +3932,14 @@ class CostCategory {
   }
 }
 
-/// When creating or updating a cost category, you can define the
+/// When you create or update a cost category, you can define the
 /// <code>CostCategoryRule</code> rule type as <code>INHERITED_VALUE</code>.
-/// This rule type adds the flexibility of defining a rule that dynamically
-/// inherits the cost category value from the dimension value defined by
-/// <code>CostCategoryInheritedValueDimension</code>. For example, if you want
-/// to dynamically group costs that are based on the value of a specific tag
-/// key, first choose an inherited value rule type, then choose the tag
-/// dimension and specify the tag key to use.
+/// This rule type adds the flexibility to define a rule that dynamically
+/// inherits the cost category value from the dimension value that's defined by
+/// <code>CostCategoryInheritedValueDimension</code>. For example, suppose that
+/// you want to dynamically group costs that are based on the value of a
+/// specific tag key. First, choose an inherited value rule type, and then
+/// choose the tag dimension and specify the tag key to use.
 class CostCategoryInheritedValueDimension {
   /// The key to extract cost category values.
   final String? dimensionKey;
@@ -3390,7 +3948,7 @@ class CostCategoryInheritedValueDimension {
   ///
   /// If you specify <code>LINKED_ACCOUNT_NAME</code>, the cost category value is
   /// based on account name. If you specify <code>TAG</code>, the cost category
-  /// value will be based on the value of the specified tag key.
+  /// value is based on the value of the specified tag key.
   final CostCategoryInheritedValueDimensionName? dimensionName;
 
   CostCategoryInheritedValueDimension({
@@ -3587,12 +4145,13 @@ class CostCategoryRule {
 
   /// You can define the <code>CostCategoryRule</code> rule type as either
   /// <code>REGULAR</code> or <code>INHERITED_VALUE</code>. The
-  /// <code>INHERITED_VALUE</code> rule type adds the flexibility of defining a
-  /// rule that dynamically inherits the cost category value from the dimension
-  /// value defined by <code>CostCategoryInheritedValueDimension</code>. For
-  /// example, if you want to dynamically group costs based on the value of a
-  /// specific tag key, first choose an inherited value rule type, then choose the
-  /// tag dimension and specify the tag key to use.
+  /// <code>INHERITED_VALUE</code> rule type adds the flexibility to define a rule
+  /// that dynamically inherits the cost category value. This value is from the
+  /// dimension value that's defined by
+  /// <code>CostCategoryInheritedValueDimension</code>. For example, suppose that
+  /// you want to costs to be dynamically grouped based on the value of a specific
+  /// tag key. First, choose an inherited value rule type, and then choose the tag
+  /// dimension and specify the tag key to use.
   final CostCategoryRuleType? type;
   final String? value;
 
@@ -4435,7 +4994,7 @@ class DeleteCostCategoryDefinitionResponse {
   final String? costCategoryArn;
 
   /// The effective end date of the Cost Category as a result of deleting it. No
-  /// costs after this date will be categorized by the deleted Cost Category.
+  /// costs after this date is categorized by the deleted Cost Category.
   final String? effectiveEnd;
 
   DeleteCostCategoryDefinitionResponse({
@@ -4517,6 +5076,7 @@ enum Dimension {
   paymentOption,
   agreementEndDateTimeAfter,
   agreementEndDateTimeBefore,
+  invoicingEntity,
 }
 
 extension on Dimension {
@@ -4584,6 +5144,8 @@ extension on Dimension {
         return 'AGREEMENT_END_DATE_TIME_AFTER';
       case Dimension.agreementEndDateTimeBefore:
         return 'AGREEMENT_END_DATE_TIME_BEFORE';
+      case Dimension.invoicingEntity:
+        return 'INVOICING_ENTITY';
     }
   }
 }
@@ -4653,6 +5215,8 @@ extension on String {
         return Dimension.agreementEndDateTimeAfter;
       case 'AGREEMENT_END_DATE_TIME_BEFORE':
         return Dimension.agreementEndDateTimeBefore;
+      case 'INVOICING_ENTITY':
+        return Dimension.invoicingEntity;
     }
     throw Exception('$this is not known in enum Dimension');
   }
@@ -4995,7 +5559,7 @@ class EC2ResourceDetails {
   }
 }
 
-/// Utilization metrics of the instance.
+/// Utilization metrics for the instance.
 class EC2ResourceUtilization {
   /// The field that contains a list of disk (local storage) metrics that are
   /// associated with the current instance.
@@ -5101,8 +5665,8 @@ class EC2Specification {
   }
 }
 
-/// Details about the Amazon ES instances that Amazon Web Services recommends
-/// that you purchase.
+/// Details about the Amazon OpenSearch Service instances that Amazon Web
+/// Services recommends that you purchase.
 class ESInstanceDetails {
   /// Determines whether the recommendation is for a current-generation instance.
   final bool? currentGeneration;
@@ -5660,7 +6224,7 @@ class GetCostAndUsageWithResourcesResponse {
   /// than the maximum page size.
   final String? nextPageToken;
 
-  /// The time period that is covered by the results in the response.
+  /// The time period that's covered by the results in the response.
   final List<ResultByTime>? resultsByTime;
 
   GetCostAndUsageWithResourcesResponse({
@@ -5706,7 +6270,7 @@ class GetCostAndUsageWithResourcesResponse {
 }
 
 class GetCostCategoriesResponse {
-  /// The number of objects returned.
+  /// The number of objects that are returned.
   final int returnSize;
 
   /// The total number of objects.
@@ -5717,12 +6281,12 @@ class GetCostCategoriesResponse {
 
   /// The Cost Category values.
   ///
-  /// <code>CostCategoryValues</code> are not returned if
-  /// <code>CostCategoryName</code> is not specified in the request.
+  /// If the <code>CostCategoryName</code> key isn't specified in the request, the
+  /// <code>CostCategoryValues</code> fields aren't returned.
   final List<String>? costCategoryValues;
 
   /// If the number of objects that are still available for retrieval exceeds the
-  /// limit, Amazon Web Services returns a NextPageToken value in the response. To
+  /// quota, Amazon Web Services returns a NextPageToken value in the response. To
   /// retrieve the next batch of objects, provide the marker from the prior call
   /// in your next request.
   final String? nextPageToken;
@@ -6076,7 +6640,7 @@ class GetReservationPurchaseRecommendationResponse {
 }
 
 class GetReservationUtilizationResponse {
-  /// The amount of time that you used your RIs.
+  /// The amount of time that you used your Reserved Instances (RIs).
   final List<UtilizationByTime> utilizationsByTime;
 
   /// The token for the next set of retrievable results. Amazon Web Services
@@ -6084,7 +6648,7 @@ class GetReservationUtilizationResponse {
   /// than the maximum page size.
   final String? nextPageToken;
 
-  /// The total amount of time that you used your RIs.
+  /// The total amount of time that you used your Reserved Instances (RIs).
   final ReservationAggregates? total;
 
   GetReservationUtilizationResponse({
@@ -6121,11 +6685,12 @@ class GetReservationUtilizationResponse {
 }
 
 class GetRightsizingRecommendationResponse {
-  /// Enables you to customize recommendations across two attributes. You can
-  /// choose to view recommendations for instances within the same instance
-  /// families or across different instance families. You can also choose to view
-  /// your estimated savings associated with recommendations with consideration of
-  /// existing Savings Plans or RI benefits, or neither.
+  /// You can use Configuration to customize recommendations across two
+  /// attributes. You can choose to view recommendations for instances within the
+  /// same instance families or across different instance families. You can also
+  /// choose to view your estimated savings that are associated with
+  /// recommendations with consideration of existing Savings Plans or RI benefits,
+  /// or neither.
   final RightsizingRecommendationConfiguration? configuration;
 
   /// Information regarding this specific recommendation set.
@@ -6224,7 +6789,7 @@ class GetSavingsPlansCoverageResponse {
 }
 
 class GetSavingsPlansPurchaseRecommendationResponse {
-  /// Information regarding this specific recommendation set.
+  /// Information that regards this specific recommendation set.
   final SavingsPlansPurchaseRecommendationMetadata? metadata;
 
   /// The token for the next set of retrievable results. Amazon Web Services
@@ -6333,8 +6898,8 @@ class GetSavingsPlansUtilizationResponse {
   /// regardless of date ranges.
   final SavingsPlansUtilizationAggregates total;
 
-  /// The amount of cost/commitment you used your Savings Plans. This allows you
-  /// to specify date ranges.
+  /// The amount of cost/commitment that you used your Savings Plans. You can use
+  /// it to specify date ranges.
   final List<SavingsPlansUtilizationByTime>? savingsPlansUtilizationsByTime;
 
   GetSavingsPlansUtilizationResponse({
@@ -6620,8 +7185,8 @@ class InstanceDetails {
   /// purchase.
   final EC2InstanceDetails? eC2InstanceDetails;
 
-  /// The Amazon ES instances that Amazon Web Services recommends that you
-  /// purchase.
+  /// The Amazon OpenSearch Service instances that Amazon Web Services recommends
+  /// that you purchase.
   final ESInstanceDetails? eSInstanceDetails;
 
   /// The ElastiCache instances that Amazon Web Services recommends that you
@@ -6687,9 +7252,44 @@ class InstanceDetails {
   }
 }
 
+class ListCostAllocationTagsResponse {
+  /// A list of cost allocation tags that includes the detailed metadata for each
+  /// one.
+  final List<CostAllocationTag>? costAllocationTags;
+
+  /// The token to retrieve the next set of results. Amazon Web Services provides
+  /// the token when the response from a previous call has more results than the
+  /// maximum page size.
+  final String? nextToken;
+
+  ListCostAllocationTagsResponse({
+    this.costAllocationTags,
+    this.nextToken,
+  });
+
+  factory ListCostAllocationTagsResponse.fromJson(Map<String, dynamic> json) {
+    return ListCostAllocationTagsResponse(
+      costAllocationTags: (json['CostAllocationTags'] as List?)
+          ?.whereNotNull()
+          .map((e) => CostAllocationTag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final costAllocationTags = this.costAllocationTags;
+    final nextToken = this.nextToken;
+    return {
+      if (costAllocationTags != null) 'CostAllocationTags': costAllocationTags,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
 class ListCostCategoryDefinitionsResponse {
-  /// A reference to a Cost Category containing enough information to identify the
-  /// Cost Category.
+  /// A reference to a Cost Category that contains enough information to identify
+  /// the Cost Category.
   final List<CostCategoryReference>? costCategoryReferences;
 
   /// The token to retrieve the next set of results. Amazon Web Services provides
@@ -6720,6 +7320,31 @@ class ListCostCategoryDefinitionsResponse {
       if (costCategoryReferences != null)
         'CostCategoryReferences': costCategoryReferences,
       if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListTagsForResourceResponse {
+  /// A list of tag key value pairs that are associated with the resource.
+  final List<ResourceTag>? resourceTags;
+
+  ListTagsForResourceResponse({
+    this.resourceTags,
+  });
+
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      resourceTags: (json['ResourceTags'] as List?)
+          ?.whereNotNull()
+          .map((e) => ResourceTag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceTags = this.resourceTags;
+    return {
+      if (resourceTags != null) 'ResourceTags': resourceTags,
     };
   }
 }
@@ -6893,7 +7518,7 @@ class MetricValue {
   }
 }
 
-/// Details on the modification recommendation.
+/// Details for the modification recommendation.
 class ModifyRecommendationDetail {
   /// Determines whether this instance type is the Amazon Web Services default
   /// recommendation.
@@ -6974,16 +7599,18 @@ extension on String {
 /// The network field that contains a list of network metrics that are
 /// associated with the current instance.
 class NetworkResourceUtilization {
-  /// The network inbound throughput utilization measured in Bytes per second.
+  /// The network inbound throughput utilization measured in Bytes per second
+  /// (Bps).
   final String? networkInBytesPerSecond;
 
-  /// The network outbound throughput utilization measured in Bytes per second.
+  /// The network outbound throughput utilization measured in Bytes per second
+  /// (Bps).
   final String? networkOutBytesPerSecond;
 
-  /// The network ingress packets that are measured in packets per second.
+  /// The network inbound packets that are measured in packets per second.
   final String? networkPacketsInPerSecond;
 
-  /// The network outgress packets that are measured in packets per second.
+  /// The network outbound packets that are measured in packets per second.
   final String? networkPacketsOutPerSecond;
 
   NetworkResourceUtilization({
@@ -7647,7 +8274,7 @@ class ReservationPurchaseRecommendation {
 
 /// Details about your recommended reservation purchase.
 class ReservationPurchaseRecommendationDetail {
-  /// The account that this RI recommendation is for.
+  /// The account that this Reserved Instance (RI) recommendation is for.
   final String? accountId;
 
   /// The average number of normalized units that you used in an hour during the
@@ -7677,15 +8304,15 @@ class ReservationPurchaseRecommendationDetail {
   final String? estimatedMonthlyOnDemandCost;
 
   /// How much Amazon Web Services estimates that this specific recommendation
-  /// could save you in a month.
+  /// might save you in a month.
   final String? estimatedMonthlySavingsAmount;
 
   /// How much Amazon Web Services estimates that this specific recommendation
-  /// could save you in a month, as a percentage of your overall costs.
+  /// might save you in a month, as a percentage of your overall costs.
   final String? estimatedMonthlySavingsPercentage;
 
-  /// How much Amazon Web Services estimates that you would have spent for all
-  /// usage during the specified historical period if you had a reservation.
+  /// How much Amazon Web Services estimates that you might spend for all usage
+  /// during the specified historical period if you had a reservation.
   final String? estimatedReservationCostForLookbackPeriod;
 
   /// Details about the instances that Amazon Web Services recommends that you
@@ -7994,9 +8621,9 @@ class ReservationUtilizationGroup {
   }
 }
 
-/// Details on the resource.
+/// Details for the resource.
 class ResourceDetails {
-  /// Details on the Amazon EC2 resource.
+  /// Details for the Amazon EC2 resource.
   final EC2ResourceDetails? eC2ResourceDetails;
 
   ResourceDetails({
@@ -8016,6 +8643,45 @@ class ResourceDetails {
     final eC2ResourceDetails = this.eC2ResourceDetails;
     return {
       if (eC2ResourceDetails != null) 'EC2ResourceDetails': eC2ResourceDetails,
+    };
+  }
+}
+
+/// The tag structure that contains a tag key and value.
+/// <note>
+/// Tagging is supported only for the following Cost Explorer resource types: <a
+/// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_AnomalyMonitor.html">
+/// <code>AnomalyMonitor</code> </a>, <a
+/// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_AnomalySubscription.html">
+/// <code>AnomalySubscription</code> </a>, <a
+/// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_CostCategory.html">
+/// <code>CostCategory</code> </a>.
+/// </note>
+class ResourceTag {
+  /// The key that's associated with the tag.
+  final String key;
+
+  /// The value that's associated with the tag.
+  final String value;
+
+  ResourceTag({
+    required this.key,
+    required this.value,
+  });
+
+  factory ResourceTag.fromJson(Map<String, dynamic> json) {
+    return ResourceTag(
+      key: json['Key'] as String,
+      value: json['Value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
     };
   }
 }
@@ -8105,8 +8771,8 @@ class RightsizingRecommendation {
   /// Context regarding the current instance.
   final CurrentInstance? currentInstance;
 
-  /// The list of possible reasons why the recommendation is generated such as
-  /// under or over utilization of specific metrics (for example, CPU, Memory,
+  /// The list of possible reasons why the recommendation is generated, such as
+  /// under- or over-utilization of specific metrics (for example, CPU, Memory,
   /// Network).
   final List<FindingReasonCode>? findingReasonCodes;
 
@@ -8180,7 +8846,7 @@ class RightsizingRecommendation {
 /// recommendations for instances within the same instance families or across
 /// different instance families. You can also choose to view your estimated
 /// savings that are associated with recommendations with consideration of
-/// existing Savings Plans or RI benefits, or neither.
+/// existing Savings Plans or Reserved Instance (RI) benefits, or neither.
 class RightsizingRecommendationConfiguration {
   /// The option to consider RI or Savings Plans discount benefits in your savings
   /// calculation. The default value is <code>TRUE</code>.
@@ -8344,8 +9010,8 @@ extension on String {
   }
 }
 
-/// The combination of Amazon Web Services service, linked account, Region, and
-/// usage type where a cost anomaly is observed.
+/// The combination of Amazon Web Service, linked account, Region, and usage
+/// type where a cost anomaly is observed.
 class RootCause {
   /// The member account value that's associated with the cost anomaly.
   final String? linkedAccount;
@@ -8353,8 +9019,7 @@ class RootCause {
   /// The Amazon Web Services Region that's associated with the cost anomaly.
   final String? region;
 
-  /// The Amazon Web Services service name that's associated with the cost
-  /// anomaly.
+  /// The Amazon Web Service name that's associated with the cost anomaly.
   final String? service;
 
   /// The <code>UsageType</code> value that's associated with the cost anomaly.
@@ -8435,7 +9100,7 @@ class SavingsPlansAmortizedCommitment {
   }
 }
 
-/// The amount of Savings Plans eligible usage that is covered by Savings Plans.
+/// The amount of Savings Plans eligible usage that's covered by Savings Plans.
 /// All calculations consider the On-Demand equivalent of your Savings Plans
 /// usage.
 class SavingsPlansCoverage {
@@ -8488,7 +9153,7 @@ class SavingsPlansCoverageData {
   /// The cost of your Amazon Web Services usage at the public On-Demand rate.
   final String? onDemandCost;
 
-  /// The amount of your Amazon Web Services usage that is covered by a Savings
+  /// The amount of your Amazon Web Services usage that's covered by a Savings
   /// Plans.
   final String? spendCoveredBySavingsPlans;
 
@@ -8613,13 +9278,13 @@ class SavingsPlansPurchaseRecommendation {
   /// accounts only.
   final AccountScope? accountScope;
 
-  /// The lookback period in days, used to generate the recommendation.
+  /// The lookback period in days that's used to generate the recommendation.
   final LookbackPeriodInDays? lookbackPeriodInDays;
 
-  /// The payment option used to generate the recommendation.
+  /// The payment option that's used to generate the recommendation.
   final PaymentOption? paymentOption;
 
-  /// Details for the Savings Plans we recommend that you purchase to cover
+  /// Details for the Savings Plans that we recommend that you purchase to cover
   /// existing Savings Plans eligible workloads.
   final List<SavingsPlansPurchaseRecommendationDetail>?
       savingsPlansPurchaseRecommendationDetails;
@@ -8729,9 +9394,9 @@ class SavingsPlansPurchaseRecommendationDetail {
   /// Savings Plans, over the length of the lookback period.
   final String? estimatedOnDemandCost;
 
-  /// The estimated On-Demand costs you would expect with no additional
-  /// commitment, based on your usage of the selected time period and the Savings
-  /// Plans you own.
+  /// The estimated On-Demand costs you expect with no additional commitment,
+  /// based on your usage of the selected time period and the Savings Plans you
+  /// own.
   final String? estimatedOnDemandCostWithCurrentCommitment;
 
   /// The estimated return on investment that's based on the recommended Savings
@@ -8871,7 +9536,7 @@ class SavingsPlansPurchaseRecommendationMetadata {
   /// Additional metadata that might be applicable to the recommendation.
   final String? additionalMetadata;
 
-  /// The timestamp showing when the recommendations were generated.
+  /// The timestamp that shows when the recommendations were generated.
   final String? generationTimestamp;
 
   /// The unique identifier for the recommendation set.
@@ -8922,9 +9587,9 @@ class SavingsPlansPurchaseRecommendationSummary {
   /// Plans purchase.
   final String? estimatedMonthlySavingsAmount;
 
-  /// The estimated On-Demand costs you would expect with no additional
-  /// commitment. It's based on your usage of the selected time period and the
-  /// Savings Plans you own.
+  /// The estimated On-Demand costs you expect with no additional commitment. It's
+  /// based on your usage of the selected time period and the Savings Plans you
+  /// own.
   final String? estimatedOnDemandCostWithCurrentCommitment;
 
   /// The estimated return on investment that's based on the recommended Savings
@@ -9118,8 +9783,8 @@ class SavingsPlansUtilizationAggregates {
   /// the upfront and recurring Savings Plans fees.
   final SavingsPlansAmortizedCommitment? amortizedCommitment;
 
-  /// The amount saved by using existing Savings Plans. Savings returns both net
-  /// savings from Savings Plans, as well as the
+  /// The amount that's saved by using existing Savings Plans. Savings returns
+  /// both net savings from Savings Plans and also the
   /// <code>onDemandCostEquivalent</code> of the Savings Plans when considering
   /// the utilization rate.
   final SavingsPlansSavings? savings;
@@ -9159,7 +9824,7 @@ class SavingsPlansUtilizationAggregates {
   }
 }
 
-/// The amount of Savings Plans utilization, in hours.
+/// The amount of Savings Plans utilization (in hours).
 class SavingsPlansUtilizationByTime {
   final DateInterval timePeriod;
 
@@ -9171,8 +9836,8 @@ class SavingsPlansUtilizationByTime {
   /// the upfront and recurring Savings Plans fees.
   final SavingsPlansAmortizedCommitment? amortizedCommitment;
 
-  /// The amount saved by using existing Savings Plans. Savings returns both net
-  /// savings from Savings Plans as well as the
+  /// The amount that's saved by using existing Savings Plans. Savings returns
+  /// both net savings from Savings Plans and also the
   /// <code>onDemandCostEquivalent</code> of the Savings Plans when considering
   /// the utilization rate.
   final SavingsPlansSavings? savings;
@@ -9216,7 +9881,7 @@ class SavingsPlansUtilizationByTime {
   }
 }
 
-/// A single daily or monthly Savings Plans utilization rate, and details for
+/// A single daily or monthly Savings Plans utilization rate and details for
 /// your account. A management account in an organization have access to member
 /// accounts. You can use <code>GetDimensionValues</code> to determine the
 /// possible dimension values.
@@ -9229,9 +9894,8 @@ class SavingsPlansUtilizationDetail {
   final Map<String, String>? attributes;
 
   /// The amount saved by using existing Savings Plans. Savings returns both net
-  /// savings from savings plans as well as the
-  /// <code>onDemandCostEquivalent</code> of the Savings Plans when considering
-  /// the utilization rate.
+  /// savings from savings plans and also the <code>onDemandCostEquivalent</code>
+  /// of the Savings Plans when considering the utilization rate.
   final SavingsPlansSavings? savings;
 
   /// The unique Amazon Resource Name (ARN) for a particular Savings Plan.
@@ -9313,7 +9977,7 @@ class ServiceSpecification {
   }
 }
 
-/// The details of how to sort the data.
+/// The details for how to sort the data.
 class SortDefinition {
   /// The key that's used to sort the data.
   final String key;
@@ -9498,6 +10162,18 @@ extension on String {
   }
 }
 
+class TagResourceResponse {
+  TagResourceResponse();
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 /// The values that are available for a tag.
 ///
 /// If <code>Values</code> and <code>Key</code> aren't specified, the
@@ -9573,7 +10249,7 @@ class TargetInstance {
   /// The expected utilization metrics for target instance type.
   final ResourceUtilization? expectedResourceUtilization;
 
-  /// Explains the actions you might need to take in order to successfully migrate
+  /// Explains the actions that you might need to take to successfully migrate
   /// your workloads from the current instance type to the recommended instance
   /// type.
   final List<PlatformDifference>? platformDifferences;
@@ -9735,6 +10411,18 @@ class TotalImpactFilter {
   }
 }
 
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 class UpdateAnomalyMonitorResponse {
   /// A cost anomaly monitor ARN.
   final String monitorArn;
@@ -9776,6 +10464,74 @@ class UpdateAnomalySubscriptionResponse {
     final subscriptionArn = this.subscriptionArn;
     return {
       'SubscriptionArn': subscriptionArn,
+    };
+  }
+}
+
+/// Gives a detailed description of the result of an action. It's on each cost
+/// allocation tag entry in the request.
+class UpdateCostAllocationTagsStatusError {
+  /// An error code representing why the action failed on this entry.
+  final String? code;
+
+  /// A message explaining why the action failed on this entry.
+  final String? message;
+
+  /// The key for the cost allocation tag.
+  final String? tagKey;
+
+  UpdateCostAllocationTagsStatusError({
+    this.code,
+    this.message,
+    this.tagKey,
+  });
+
+  factory UpdateCostAllocationTagsStatusError.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateCostAllocationTagsStatusError(
+      code: json['Code'] as String?,
+      message: json['Message'] as String?,
+      tagKey: json['TagKey'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final message = this.message;
+    final tagKey = this.tagKey;
+    return {
+      if (code != null) 'Code': code,
+      if (message != null) 'Message': message,
+      if (tagKey != null) 'TagKey': tagKey,
+    };
+  }
+}
+
+class UpdateCostAllocationTagsStatusResponse {
+  /// A list of <code>UpdateCostAllocationTagsStatusError</code> objects with
+  /// error details about each cost allocation tag that can't be updated. If
+  /// there's no failure, an empty array returns.
+  final List<UpdateCostAllocationTagsStatusError>? errors;
+
+  UpdateCostAllocationTagsStatusResponse({
+    this.errors,
+  });
+
+  factory UpdateCostAllocationTagsStatusResponse.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateCostAllocationTagsStatusResponse(
+      errors: (json['Errors'] as List?)
+          ?.whereNotNull()
+          .map((e) => UpdateCostAllocationTagsStatusError.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errors = this.errors;
+    return {
+      if (errors != null) 'Errors': errors,
     };
   }
 }
@@ -9894,6 +10650,11 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+class TooManyTagsException extends _s.GenericAwsException {
+  TooManyTagsException({String? type, String? message})
+      : super(type: type, code: 'TooManyTagsException', message: message);
+}
+
 class UnknownMonitorException extends _s.GenericAwsException {
   UnknownMonitorException({String? type, String? message})
       : super(type: type, code: 'UnknownMonitorException', message: message);
@@ -9928,6 +10689,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       ResourceNotFoundException(type: type, message: message),
   'ServiceQuotaExceededException': (type, message) =>
       ServiceQuotaExceededException(type: type, message: message),
+  'TooManyTagsException': (type, message) =>
+      TooManyTagsException(type: type, message: message),
   'UnknownMonitorException': (type, message) =>
       UnknownMonitorException(type: type, message: message),
   'UnknownSubscriptionException': (type, message) =>

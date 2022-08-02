@@ -55,7 +55,13 @@ class CustomerProfiles {
   /// The unique name of the domain.
   ///
   /// Parameter [keyName] :
-  /// A searchable identifier of a customer profile.
+  /// A searchable identifier of a customer profile. The predefined keys you can
+  /// use include: _account, _profileId, _assetId, _caseId, _orderId, _fullName,
+  /// _phone, _email, _ctrContactId, _marketoLeadId, _salesforceAccountId,
+  /// _salesforceContactId, _salesforceAssetId, _zendeskUserId,
+  /// _zendeskExternalId, _zendeskTicketId, _serviceNowSystemId,
+  /// _serviceNowIncidentId, _segmentUserId, _shopifyCustomerId,
+  /// _shopifyOrderId.
   ///
   /// Parameter [profileId] :
   /// The unique identifier of a customer profile.
@@ -174,6 +180,66 @@ class CustomerProfiles {
       exceptionFnMap: _exceptionFns,
     );
     return CreateDomainResponse.fromJson(response);
+  }
+
+  /// Creates an integration workflow. An integration workflow is an async
+  /// process which ingests historic data and sets up an integration for ongoing
+  /// updates. The supported Amazon AppFlow sources are Salesforce, ServiceNow,
+  /// and Marketo.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [domainName] :
+  /// The unique name of the domain.
+  ///
+  /// Parameter [integrationConfig] :
+  /// Configuration data for integration workflow.
+  ///
+  /// Parameter [objectTypeName] :
+  /// The name of the profile object type.
+  ///
+  /// Parameter [roleArn] :
+  /// The Amazon Resource Name (ARN) of the IAM role. Customer Profiles assumes
+  /// this role to create resources on your behalf as part of workflow
+  /// execution.
+  ///
+  /// Parameter [workflowType] :
+  /// The type of workflow. The only supported value is APPFLOW_INTEGRATION.
+  ///
+  /// Parameter [tags] :
+  /// The tags used to organize, track, or control access for this resource.
+  Future<CreateIntegrationWorkflowResponse> createIntegrationWorkflow({
+    required String domainName,
+    required IntegrationConfig integrationConfig,
+    required String objectTypeName,
+    required String roleArn,
+    required WorkflowType workflowType,
+    Map<String, String>? tags,
+  }) async {
+    ArgumentError.checkNotNull(domainName, 'domainName');
+    ArgumentError.checkNotNull(integrationConfig, 'integrationConfig');
+    ArgumentError.checkNotNull(objectTypeName, 'objectTypeName');
+    ArgumentError.checkNotNull(roleArn, 'roleArn');
+    ArgumentError.checkNotNull(workflowType, 'workflowType');
+    final $payload = <String, dynamic>{
+      'IntegrationConfig': integrationConfig,
+      'ObjectTypeName': objectTypeName,
+      'RoleArn': roleArn,
+      'WorkflowType': workflowType.toValue(),
+      if (tags != null) 'Tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/domains/${Uri.encodeComponent(domainName)}/workflows/integrations',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateIntegrationWorkflowResponse.fromJson(response);
   }
 
   /// Creates a standard profile.
@@ -525,6 +591,35 @@ class CustomerProfiles {
     return DeleteProfileObjectTypeResponse.fromJson(response);
   }
 
+  /// Deletes the specified workflow and all its corresponding resources. This
+  /// is an async process.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [domainName] :
+  /// The unique name of the domain.
+  ///
+  /// Parameter [workflowId] :
+  /// Unique identifier for the workflow.
+  Future<void> deleteWorkflow({
+    required String domainName,
+    required String workflowId,
+  }) async {
+    ArgumentError.checkNotNull(domainName, 'domainName');
+    ArgumentError.checkNotNull(workflowId, 'workflowId');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/domains/${Uri.encodeComponent(domainName)}/workflows/${Uri.encodeComponent(workflowId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Tests the auto-merging settings of your Identity Resolution Job without
   /// merging your data. It randomly selects a sample of matching groups from
   /// the existing matching results, and applies the automerging settings that
@@ -558,17 +653,31 @@ class CustomerProfiles {
   ///
   /// Parameter [domainName] :
   /// The unique name of the domain.
+  ///
+  /// Parameter [minAllowedConfidenceScoreForMerging] :
+  /// Minimum confidence score required for profiles within a matching group to
+  /// be merged during the auto-merge process.
   Future<GetAutoMergingPreviewResponse> getAutoMergingPreview({
     required ConflictResolution conflictResolution,
     required Consolidation consolidation,
     required String domainName,
+    double? minAllowedConfidenceScoreForMerging,
   }) async {
     ArgumentError.checkNotNull(conflictResolution, 'conflictResolution');
     ArgumentError.checkNotNull(consolidation, 'consolidation');
     ArgumentError.checkNotNull(domainName, 'domainName');
+    _s.validateNumRange(
+      'minAllowedConfidenceScoreForMerging',
+      minAllowedConfidenceScoreForMerging,
+      0,
+      1,
+    );
     final $payload = <String, dynamic>{
       'ConflictResolution': conflictResolution,
       'Consolidation': consolidation,
+      if (minAllowedConfidenceScoreForMerging != null)
+        'MinAllowedConfidenceScoreForMerging':
+            minAllowedConfidenceScoreForMerging,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -716,9 +825,6 @@ class CustomerProfiles {
   /// <li>
   /// FullName
   /// </li>
-  /// <li>
-  /// BusinessName
-  /// </li>
   /// </ul>
   /// For example, two or more profiles—with spelling mistakes such as <b>John
   /// Doe</b> and <b>Jhn Doe</b>, or different casing email addresses such as
@@ -825,6 +931,84 @@ class CustomerProfiles {
     return GetProfileObjectTypeTemplateResponse.fromJson(response);
   }
 
+  /// Get details of specified workflow.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [domainName] :
+  /// The unique name of the domain.
+  ///
+  /// Parameter [workflowId] :
+  /// Unique identifier for the workflow.
+  Future<GetWorkflowResponse> getWorkflow({
+    required String domainName,
+    required String workflowId,
+  }) async {
+    ArgumentError.checkNotNull(domainName, 'domainName');
+    ArgumentError.checkNotNull(workflowId, 'workflowId');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/domains/${Uri.encodeComponent(domainName)}/workflows/${Uri.encodeComponent(workflowId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetWorkflowResponse.fromJson(response);
+  }
+
+  /// Get granular list of steps in workflow.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [domainName] :
+  /// The unique name of the domain.
+  ///
+  /// Parameter [workflowId] :
+  /// Unique identifier for the workflow.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return per page.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of results. Use the value returned in the
+  /// previous response in the next request to retrieve the next set of results.
+  Future<GetWorkflowStepsResponse> getWorkflowSteps({
+    required String domainName,
+    required String workflowId,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    ArgumentError.checkNotNull(domainName, 'domainName');
+    ArgumentError.checkNotNull(workflowId, 'workflowId');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'max-results': [maxResults.toString()],
+      if (nextToken != null) 'next-token': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/domains/${Uri.encodeComponent(domainName)}/workflows/${Uri.encodeComponent(workflowId)}/steps',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetWorkflowStepsResponse.fromJson(response);
+  }
+
   /// Lists all of the integrations associated to a specific URI in the AWS
   /// account.
   ///
@@ -837,6 +1021,10 @@ class CustomerProfiles {
   /// Parameter [uri] :
   /// The URI of the S3 bucket or any other type of data source.
   ///
+  /// Parameter [includeHidden] :
+  /// Boolean to indicate if hidden integration should be returned. Defaults to
+  /// <code>False</code>.
+  ///
   /// Parameter [maxResults] :
   /// The maximum number of objects returned per page.
   ///
@@ -844,6 +1032,7 @@ class CustomerProfiles {
   /// The pagination token from the previous ListAccountIntegrations API call.
   Future<ListAccountIntegrationsResponse> listAccountIntegrations({
     required String uri,
+    bool? includeHidden,
     int? maxResults,
     String? nextToken,
   }) async {
@@ -855,6 +1044,7 @@ class CustomerProfiles {
       100,
     );
     final $query = <String, List<String>>{
+      if (includeHidden != null) 'include-hidden': [includeHidden.toString()],
       if (maxResults != null) 'max-results': [maxResults.toString()],
       if (nextToken != null) 'next-token': [nextToken],
     };
@@ -965,6 +1155,10 @@ class CustomerProfiles {
   /// Parameter [domainName] :
   /// The unique name of the domain.
   ///
+  /// Parameter [includeHidden] :
+  /// Boolean to indicate if hidden integration should be returned. Defaults to
+  /// <code>False</code>.
+  ///
   /// Parameter [maxResults] :
   /// The maximum number of objects returned per page.
   ///
@@ -972,6 +1166,7 @@ class CustomerProfiles {
   /// The pagination token from the previous ListIntegrations API call.
   Future<ListIntegrationsResponse> listIntegrations({
     required String domainName,
+    bool? includeHidden,
     int? maxResults,
     String? nextToken,
   }) async {
@@ -983,6 +1178,7 @@ class CustomerProfiles {
       100,
     );
     final $query = <String, List<String>>{
+      if (includeHidden != null) 'include-hidden': [includeHidden.toString()],
       if (maxResults != null) 'max-results': [maxResults.toString()],
       if (nextToken != null) 'next-token': [nextToken],
     };
@@ -1162,6 +1358,73 @@ class CustomerProfiles {
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourceResponse.fromJson(response);
+  }
+
+  /// Query to list all workflows.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [domainName] :
+  /// The unique name of the domain.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return per page.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of results. Use the value returned in the
+  /// previous response in the next request to retrieve the next set of results.
+  ///
+  /// Parameter [queryEndDate] :
+  /// Retrieve workflows ended after timestamp.
+  ///
+  /// Parameter [queryStartDate] :
+  /// Retrieve workflows started after timestamp.
+  ///
+  /// Parameter [status] :
+  /// Status of workflow execution.
+  ///
+  /// Parameter [workflowType] :
+  /// The type of workflow. The only supported value is APPFLOW_INTEGRATION.
+  Future<ListWorkflowsResponse> listWorkflows({
+    required String domainName,
+    int? maxResults,
+    String? nextToken,
+    DateTime? queryEndDate,
+    DateTime? queryStartDate,
+    Status? status,
+    WorkflowType? workflowType,
+  }) async {
+    ArgumentError.checkNotNull(domainName, 'domainName');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'max-results': [maxResults.toString()],
+      if (nextToken != null) 'next-token': [nextToken],
+    };
+    final $payload = <String, dynamic>{
+      if (queryEndDate != null)
+        'QueryEndDate': unixTimestampToJson(queryEndDate),
+      if (queryStartDate != null)
+        'QueryStartDate': unixTimestampToJson(queryStartDate),
+      if (status != null) 'Status': status.toValue(),
+      if (workflowType != null) 'WorkflowType': workflowType.toValue(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/domains/${Uri.encodeComponent(domainName)}/workflows',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListWorkflowsResponse.fromJson(response);
   }
 
   /// Runs an AWS Lambda job that does the following:
@@ -1407,7 +1670,14 @@ class CustomerProfiles {
   /// The tags used to organize, track, or control access for this resource.
   ///
   /// Parameter [templateId] :
-  /// A unique identifier for the object template.
+  /// A unique identifier for the object template. For some attributes in the
+  /// request, the service will use the default value from the object template
+  /// when TemplateId is present. If these attributes are present in the
+  /// request, the service may return a <code>BadRequestException</code>. These
+  /// attributes include: AllowProfileCreation,
+  /// SourceLastUpdatedTimestampFormat, Fields, and Keys. For example, if
+  /// AllowProfileCreation is set to true when TemplateId is set, the service
+  /// may return a <code>BadRequestException</code>.
   Future<PutProfileObjectTypeResponse> putProfileObjectType({
     required String description,
     required String domainName,
@@ -1947,6 +2217,201 @@ class Address {
   }
 }
 
+/// Details for workflow of type <code>APPFLOW_INTEGRATION</code>.
+class AppflowIntegration {
+  final FlowDefinition flowDefinition;
+
+  /// Batches in workflow of type <code>APPFLOW_INTEGRATION</code>.
+  final List<Batch>? batches;
+
+  AppflowIntegration({
+    required this.flowDefinition,
+    this.batches,
+  });
+
+  factory AppflowIntegration.fromJson(Map<String, dynamic> json) {
+    return AppflowIntegration(
+      flowDefinition: FlowDefinition.fromJson(
+          json['FlowDefinition'] as Map<String, dynamic>),
+      batches: (json['Batches'] as List?)
+          ?.whereNotNull()
+          .map((e) => Batch.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final flowDefinition = this.flowDefinition;
+    final batches = this.batches;
+    return {
+      'FlowDefinition': flowDefinition,
+      if (batches != null) 'Batches': batches,
+    };
+  }
+}
+
+/// Structure holding all <code>APPFLOW_INTEGRATION</code> specific workflow
+/// attributes.
+class AppflowIntegrationWorkflowAttributes {
+  /// The name of the AppFlow connector profile used for ingestion.
+  final String connectorProfileName;
+
+  /// Specifies the source connector type, such as Salesforce, ServiceNow, and
+  /// Marketo. Indicates source of ingestion.
+  final SourceConnectorType sourceConnectorType;
+
+  /// The Amazon Resource Name (ARN) of the IAM role. Customer Profiles assumes
+  /// this role to create resources on your behalf as part of workflow execution.
+  final String? roleArn;
+
+  AppflowIntegrationWorkflowAttributes({
+    required this.connectorProfileName,
+    required this.sourceConnectorType,
+    this.roleArn,
+  });
+
+  factory AppflowIntegrationWorkflowAttributes.fromJson(
+      Map<String, dynamic> json) {
+    return AppflowIntegrationWorkflowAttributes(
+      connectorProfileName: json['ConnectorProfileName'] as String,
+      sourceConnectorType:
+          (json['SourceConnectorType'] as String).toSourceConnectorType(),
+      roleArn: json['RoleArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectorProfileName = this.connectorProfileName;
+    final sourceConnectorType = this.sourceConnectorType;
+    final roleArn = this.roleArn;
+    return {
+      'ConnectorProfileName': connectorProfileName,
+      'SourceConnectorType': sourceConnectorType.toValue(),
+      if (roleArn != null) 'RoleArn': roleArn,
+    };
+  }
+}
+
+/// Workflow specific execution metrics for <code>APPFLOW_INTEGRATION</code>
+/// workflow.
+class AppflowIntegrationWorkflowMetrics {
+  /// Number of records processed in <code>APPFLOW_INTEGRATION</code> workflow.
+  final int recordsProcessed;
+
+  /// Total steps completed in <code>APPFLOW_INTEGRATION</code> workflow.
+  final int stepsCompleted;
+
+  /// Total steps in <code>APPFLOW_INTEGRATION</code> workflow.
+  final int totalSteps;
+
+  AppflowIntegrationWorkflowMetrics({
+    required this.recordsProcessed,
+    required this.stepsCompleted,
+    required this.totalSteps,
+  });
+
+  factory AppflowIntegrationWorkflowMetrics.fromJson(
+      Map<String, dynamic> json) {
+    return AppflowIntegrationWorkflowMetrics(
+      recordsProcessed: json['RecordsProcessed'] as int,
+      stepsCompleted: json['StepsCompleted'] as int,
+      totalSteps: json['TotalSteps'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final recordsProcessed = this.recordsProcessed;
+    final stepsCompleted = this.stepsCompleted;
+    final totalSteps = this.totalSteps;
+    return {
+      'RecordsProcessed': recordsProcessed,
+      'StepsCompleted': stepsCompleted,
+      'TotalSteps': totalSteps,
+    };
+  }
+}
+
+/// Workflow step details for <code>APPFLOW_INTEGRATION</code> workflow.
+class AppflowIntegrationWorkflowStep {
+  /// End datetime of records pulled in batch during execution of workflow step
+  /// for <code>APPFLOW_INTEGRATION</code> workflow.
+  final String batchRecordsEndTime;
+
+  /// Start datetime of records pulled in batch during execution of workflow step
+  /// for <code>APPFLOW_INTEGRATION</code> workflow.
+  final String batchRecordsStartTime;
+
+  /// Creation timestamp of workflow step for <code>APPFLOW_INTEGRATION</code>
+  /// workflow.
+  final DateTime createdAt;
+
+  /// Message indicating execution of workflow step for
+  /// <code>APPFLOW_INTEGRATION</code> workflow.
+  final String executionMessage;
+
+  /// Name of the flow created during execution of workflow step.
+  /// <code>APPFLOW_INTEGRATION</code> workflow type creates an appflow flow
+  /// during workflow step execution on the customers behalf.
+  final String flowName;
+
+  /// Last updated timestamp for workflow step for
+  /// <code>APPFLOW_INTEGRATION</code> workflow.
+  final DateTime lastUpdatedAt;
+
+  /// Total number of records processed during execution of workflow step for
+  /// <code>APPFLOW_INTEGRATION</code> workflow.
+  final int recordsProcessed;
+
+  /// Workflow step status for <code>APPFLOW_INTEGRATION</code> workflow.
+  final Status status;
+
+  AppflowIntegrationWorkflowStep({
+    required this.batchRecordsEndTime,
+    required this.batchRecordsStartTime,
+    required this.createdAt,
+    required this.executionMessage,
+    required this.flowName,
+    required this.lastUpdatedAt,
+    required this.recordsProcessed,
+    required this.status,
+  });
+
+  factory AppflowIntegrationWorkflowStep.fromJson(Map<String, dynamic> json) {
+    return AppflowIntegrationWorkflowStep(
+      batchRecordsEndTime: json['BatchRecordsEndTime'] as String,
+      batchRecordsStartTime: json['BatchRecordsStartTime'] as String,
+      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] as Object),
+      executionMessage: json['ExecutionMessage'] as String,
+      flowName: json['FlowName'] as String,
+      lastUpdatedAt:
+          nonNullableTimeStampFromJson(json['LastUpdatedAt'] as Object),
+      recordsProcessed: json['RecordsProcessed'] as int,
+      status: (json['Status'] as String).toStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final batchRecordsEndTime = this.batchRecordsEndTime;
+    final batchRecordsStartTime = this.batchRecordsStartTime;
+    final createdAt = this.createdAt;
+    final executionMessage = this.executionMessage;
+    final flowName = this.flowName;
+    final lastUpdatedAt = this.lastUpdatedAt;
+    final recordsProcessed = this.recordsProcessed;
+    final status = this.status;
+    return {
+      'BatchRecordsEndTime': batchRecordsEndTime,
+      'BatchRecordsStartTime': batchRecordsStartTime,
+      'CreatedAt': unixTimestampToJson(createdAt),
+      'ExecutionMessage': executionMessage,
+      'FlowName': flowName,
+      'LastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
+      'RecordsProcessed': recordsProcessed,
+      'Status': status.toValue(),
+    };
+  }
+}
+
 /// Configuration settings for how to perform the auto-merging of profiles.
 class AutoMerging {
   /// The flag that enables the auto-merging of duplicate profiles.
@@ -1963,10 +2428,17 @@ class AutoMerging {
   /// list, they will be merged.
   final Consolidation? consolidation;
 
+  /// A number between 0 and 1 that represents the minimum confidence score
+  /// required for profiles within a matching group to be merged during the
+  /// auto-merge process. A higher score means higher similarity required to merge
+  /// profiles.
+  final double? minAllowedConfidenceScoreForMerging;
+
   AutoMerging({
     required this.enabled,
     this.conflictResolution,
     this.consolidation,
+    this.minAllowedConfidenceScoreForMerging,
   });
 
   factory AutoMerging.fromJson(Map<String, dynamic> json) {
@@ -1980,6 +2452,8 @@ class AutoMerging {
           ? Consolidation.fromJson(
               json['Consolidation'] as Map<String, dynamic>)
           : null,
+      minAllowedConfidenceScoreForMerging:
+          json['MinAllowedConfidenceScoreForMerging'] as double?,
     );
   }
 
@@ -1987,10 +2461,47 @@ class AutoMerging {
     final enabled = this.enabled;
     final conflictResolution = this.conflictResolution;
     final consolidation = this.consolidation;
+    final minAllowedConfidenceScoreForMerging =
+        this.minAllowedConfidenceScoreForMerging;
     return {
       'Enabled': enabled,
       if (conflictResolution != null) 'ConflictResolution': conflictResolution,
       if (consolidation != null) 'Consolidation': consolidation,
+      if (minAllowedConfidenceScoreForMerging != null)
+        'MinAllowedConfidenceScoreForMerging':
+            minAllowedConfidenceScoreForMerging,
+    };
+  }
+}
+
+/// Batch defines the boundaries for ingestion for each step in
+/// <code>APPFLOW_INTEGRATION</code> workflow. <code>APPFLOW_INTEGRATION</code>
+/// workflow splits ingestion based on these boundaries.
+class Batch {
+  /// End time of batch to split ingestion.
+  final DateTime endTime;
+
+  /// Start time of batch to split ingestion.
+  final DateTime startTime;
+
+  Batch({
+    required this.endTime,
+    required this.startTime,
+  });
+
+  factory Batch.fromJson(Map<String, dynamic> json) {
+    return Batch(
+      endTime: nonNullableTimeStampFromJson(json['EndTime'] as Object),
+      startTime: nonNullableTimeStampFromJson(json['StartTime'] as Object),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endTime = this.endTime;
+    final startTime = this.startTime;
+    return {
+      'EndTime': unixTimestampToJson(endTime),
+      'StartTime': unixTimestampToJson(startTime),
     };
   }
 }
@@ -2239,6 +2750,36 @@ class CreateDomainResponse {
   }
 }
 
+class CreateIntegrationWorkflowResponse {
+  /// A message indicating create request was received.
+  final String message;
+
+  /// Unique identifier for the workflow.
+  final String workflowId;
+
+  CreateIntegrationWorkflowResponse({
+    required this.message,
+    required this.workflowId,
+  });
+
+  factory CreateIntegrationWorkflowResponse.fromJson(
+      Map<String, dynamic> json) {
+    return CreateIntegrationWorkflowResponse(
+      message: json['Message'] as String,
+      workflowId: json['WorkflowId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final message = this.message;
+    final workflowId = this.workflowId;
+    return {
+      'Message': message,
+      'WorkflowId': workflowId,
+    };
+  }
+}
+
 class CreateProfileResponse {
   /// The unique identifier of a customer profile.
   final String profileId;
@@ -2418,6 +2959,18 @@ class DeleteProfileResponse {
     return {
       if (message != null) 'Message': message,
     };
+  }
+}
+
+class DeleteWorkflowResponse {
+  DeleteWorkflowResponse();
+
+  factory DeleteWorkflowResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteWorkflowResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
@@ -3154,6 +3707,9 @@ class GetIntegrationResponse {
   /// The tags used to organize, track, or control access for this resource.
   final Map<String, String>? tags;
 
+  /// Unique identifier for the workflow.
+  final String? workflowId;
+
   GetIntegrationResponse({
     required this.createdAt,
     required this.domainName,
@@ -3162,6 +3718,7 @@ class GetIntegrationResponse {
     this.objectTypeName,
     this.objectTypeNames,
     this.tags,
+    this.workflowId,
   });
 
   factory GetIntegrationResponse.fromJson(Map<String, dynamic> json) {
@@ -3176,6 +3733,7 @@ class GetIntegrationResponse {
           ?.map((k, e) => MapEntry(k, e as String)),
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
+      workflowId: json['WorkflowId'] as String?,
     );
   }
 
@@ -3187,6 +3745,7 @@ class GetIntegrationResponse {
     final objectTypeName = this.objectTypeName;
     final objectTypeNames = this.objectTypeNames;
     final tags = this.tags;
+    final workflowId = this.workflowId;
     return {
       'CreatedAt': unixTimestampToJson(createdAt),
       'DomainName': domainName,
@@ -3195,6 +3754,7 @@ class GetIntegrationResponse {
       if (objectTypeName != null) 'ObjectTypeName': objectTypeName,
       if (objectTypeNames != null) 'ObjectTypeNames': objectTypeNames,
       if (tags != null) 'Tags': tags,
+      if (workflowId != null) 'WorkflowId': workflowId,
     };
   }
 }
@@ -3446,6 +4006,130 @@ class GetProfileObjectTypeTemplateResponse {
   }
 }
 
+class GetWorkflowResponse {
+  /// Attributes provided for workflow execution.
+  final WorkflowAttributes? attributes;
+
+  /// Workflow error messages during execution (if any).
+  final String? errorDescription;
+
+  /// The timestamp that represents when workflow execution last updated.
+  final DateTime? lastUpdatedAt;
+
+  /// Workflow specific execution metrics.
+  final WorkflowMetrics? metrics;
+
+  /// The timestamp that represents when workflow execution started.
+  final DateTime? startDate;
+
+  /// Status of workflow execution.
+  final Status? status;
+
+  /// Unique identifier for the workflow.
+  final String? workflowId;
+
+  /// The type of workflow. The only supported value is APPFLOW_INTEGRATION.
+  final WorkflowType? workflowType;
+
+  GetWorkflowResponse({
+    this.attributes,
+    this.errorDescription,
+    this.lastUpdatedAt,
+    this.metrics,
+    this.startDate,
+    this.status,
+    this.workflowId,
+    this.workflowType,
+  });
+
+  factory GetWorkflowResponse.fromJson(Map<String, dynamic> json) {
+    return GetWorkflowResponse(
+      attributes: json['Attributes'] != null
+          ? WorkflowAttributes.fromJson(
+              json['Attributes'] as Map<String, dynamic>)
+          : null,
+      errorDescription: json['ErrorDescription'] as String?,
+      lastUpdatedAt: timeStampFromJson(json['LastUpdatedAt']),
+      metrics: json['Metrics'] != null
+          ? WorkflowMetrics.fromJson(json['Metrics'] as Map<String, dynamic>)
+          : null,
+      startDate: timeStampFromJson(json['StartDate']),
+      status: (json['Status'] as String?)?.toStatus(),
+      workflowId: json['WorkflowId'] as String?,
+      workflowType: (json['WorkflowType'] as String?)?.toWorkflowType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributes = this.attributes;
+    final errorDescription = this.errorDescription;
+    final lastUpdatedAt = this.lastUpdatedAt;
+    final metrics = this.metrics;
+    final startDate = this.startDate;
+    final status = this.status;
+    final workflowId = this.workflowId;
+    final workflowType = this.workflowType;
+    return {
+      if (attributes != null) 'Attributes': attributes,
+      if (errorDescription != null) 'ErrorDescription': errorDescription,
+      if (lastUpdatedAt != null)
+        'LastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
+      if (metrics != null) 'Metrics': metrics,
+      if (startDate != null) 'StartDate': unixTimestampToJson(startDate),
+      if (status != null) 'Status': status.toValue(),
+      if (workflowId != null) 'WorkflowId': workflowId,
+      if (workflowType != null) 'WorkflowType': workflowType.toValue(),
+    };
+  }
+}
+
+class GetWorkflowStepsResponse {
+  /// List containing workflow step details.
+  final List<WorkflowStepItem>? items;
+
+  /// If there are additional results, this is the token for the next set of
+  /// results.
+  final String? nextToken;
+
+  /// Unique identifier for the workflow.
+  final String? workflowId;
+
+  /// The type of workflow. The only supported value is APPFLOW_INTEGRATION.
+  final WorkflowType? workflowType;
+
+  GetWorkflowStepsResponse({
+    this.items,
+    this.nextToken,
+    this.workflowId,
+    this.workflowType,
+  });
+
+  factory GetWorkflowStepsResponse.fromJson(Map<String, dynamic> json) {
+    return GetWorkflowStepsResponse(
+      items: (json['Items'] as List?)
+          ?.whereNotNull()
+          .map((e) => WorkflowStepItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+      workflowId: json['WorkflowId'] as String?,
+      workflowType: (json['WorkflowType'] as String?)?.toWorkflowType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final items = this.items;
+    final nextToken = this.nextToken;
+    final workflowId = this.workflowId;
+    final workflowType = this.workflowType;
+    return {
+      if (items != null) 'Items': items,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (workflowId != null) 'WorkflowId': workflowId,
+      if (workflowType != null) 'WorkflowType': workflowType.toValue(),
+    };
+  }
+}
+
 /// Information about the Identity Resolution Job.
 class IdentityResolutionJob {
   /// The unique name of the domain.
@@ -3631,6 +4315,32 @@ class IncrementalPullConfig {
     return {
       if (datetimeTypeFieldName != null)
         'DatetimeTypeFieldName': datetimeTypeFieldName,
+    };
+  }
+}
+
+/// Configuration data for integration workflow.
+class IntegrationConfig {
+  /// Configuration data for <code>APPFLOW_INTEGRATION</code> workflow type.
+  final AppflowIntegration? appflowIntegration;
+
+  IntegrationConfig({
+    this.appflowIntegration,
+  });
+
+  factory IntegrationConfig.fromJson(Map<String, dynamic> json) {
+    return IntegrationConfig(
+      appflowIntegration: json['AppflowIntegration'] != null
+          ? AppflowIntegration.fromJson(
+              json['AppflowIntegration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appflowIntegration = this.appflowIntegration;
+    return {
+      if (appflowIntegration != null) 'AppflowIntegration': appflowIntegration,
     };
   }
 }
@@ -3933,6 +4643,9 @@ class ListIntegrationItem {
   /// The tags used to organize, track, or control access for this resource.
   final Map<String, String>? tags;
 
+  /// Unique identifier for the workflow.
+  final String? workflowId;
+
   ListIntegrationItem({
     required this.createdAt,
     required this.domainName,
@@ -3941,6 +4654,7 @@ class ListIntegrationItem {
     this.objectTypeName,
     this.objectTypeNames,
     this.tags,
+    this.workflowId,
   });
 
   factory ListIntegrationItem.fromJson(Map<String, dynamic> json) {
@@ -3955,6 +4669,7 @@ class ListIntegrationItem {
           ?.map((k, e) => MapEntry(k, e as String)),
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
+      workflowId: json['WorkflowId'] as String?,
     );
   }
 
@@ -3966,6 +4681,7 @@ class ListIntegrationItem {
     final objectTypeName = this.objectTypeName;
     final objectTypeNames = this.objectTypeNames;
     final tags = this.tags;
+    final workflowId = this.workflowId;
     return {
       'CreatedAt': unixTimestampToJson(createdAt),
       'DomainName': domainName,
@@ -3974,6 +4690,7 @@ class ListIntegrationItem {
       if (objectTypeName != null) 'ObjectTypeName': objectTypeName,
       if (objectTypeNames != null) 'ObjectTypeNames': objectTypeNames,
       if (tags != null) 'Tags': tags,
+      if (workflowId != null) 'WorkflowId': workflowId,
     };
   }
 }
@@ -4263,6 +4980,98 @@ class ListTagsForResourceResponse {
   }
 }
 
+/// A workflow in list of workflows.
+class ListWorkflowsItem {
+  /// Creation timestamp for workflow.
+  final DateTime createdAt;
+
+  /// Last updated timestamp for workflow.
+  final DateTime lastUpdatedAt;
+
+  /// Status of workflow execution.
+  final Status status;
+
+  /// Description for workflow execution status.
+  final String statusDescription;
+
+  /// Unique identifier for the workflow.
+  final String workflowId;
+
+  /// The type of workflow. The only supported value is APPFLOW_INTEGRATION.
+  final WorkflowType workflowType;
+
+  ListWorkflowsItem({
+    required this.createdAt,
+    required this.lastUpdatedAt,
+    required this.status,
+    required this.statusDescription,
+    required this.workflowId,
+    required this.workflowType,
+  });
+
+  factory ListWorkflowsItem.fromJson(Map<String, dynamic> json) {
+    return ListWorkflowsItem(
+      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] as Object),
+      lastUpdatedAt:
+          nonNullableTimeStampFromJson(json['LastUpdatedAt'] as Object),
+      status: (json['Status'] as String).toStatus(),
+      statusDescription: json['StatusDescription'] as String,
+      workflowId: json['WorkflowId'] as String,
+      workflowType: (json['WorkflowType'] as String).toWorkflowType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final lastUpdatedAt = this.lastUpdatedAt;
+    final status = this.status;
+    final statusDescription = this.statusDescription;
+    final workflowId = this.workflowId;
+    final workflowType = this.workflowType;
+    return {
+      'CreatedAt': unixTimestampToJson(createdAt),
+      'LastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
+      'Status': status.toValue(),
+      'StatusDescription': statusDescription,
+      'WorkflowId': workflowId,
+      'WorkflowType': workflowType.toValue(),
+    };
+  }
+}
+
+class ListWorkflowsResponse {
+  /// List containing workflow details.
+  final List<ListWorkflowsItem>? items;
+
+  /// If there are additional results, this is the token for the next set of
+  /// results.
+  final String? nextToken;
+
+  ListWorkflowsResponse({
+    this.items,
+    this.nextToken,
+  });
+
+  factory ListWorkflowsResponse.fromJson(Map<String, dynamic> json) {
+    return ListWorkflowsResponse(
+      items: (json['Items'] as List?)
+          ?.whereNotNull()
+          .map((e) => ListWorkflowsItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final items = this.items;
+    final nextToken = this.nextToken;
+    return {
+      if (items != null) 'Items': items,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
 enum MarketoConnectorOperator {
   projection,
   lessThan,
@@ -4386,8 +5195,14 @@ class MarketoSourceProperties {
 
 /// The Match group object.
 class MatchItem {
-  /// A number between 0 and 1 that represents the confidence level of assigning
-  /// profiles to a matching group. A score of 1 likely indicates an exact match.
+  /// A number between 0 and 1, where a higher score means higher similarity.
+  /// Examining match confidence scores lets you distinguish between groups of
+  /// similar records in which the system is highly confident (which you may
+  /// decide to merge), groups of similar records about which the system is
+  /// uncertain (which you may decide to have reviewed by a human), and groups of
+  /// similar records that the system deems to be unlikely (which you may decide
+  /// to reject). Given confidence scores vary as per the data input, it should
+  /// not be used an absolute measure of matching quality.
   final double? confidenceScore;
 
   /// The unique identifiers for this group of profiles that match.
@@ -5015,6 +5830,9 @@ class PutIntegrationResponse {
   /// The tags used to organize, track, or control access for this resource.
   final Map<String, String>? tags;
 
+  /// Unique identifier for the workflow.
+  final String? workflowId;
+
   PutIntegrationResponse({
     required this.createdAt,
     required this.domainName,
@@ -5023,6 +5841,7 @@ class PutIntegrationResponse {
     this.objectTypeName,
     this.objectTypeNames,
     this.tags,
+    this.workflowId,
   });
 
   factory PutIntegrationResponse.fromJson(Map<String, dynamic> json) {
@@ -5037,6 +5856,7 @@ class PutIntegrationResponse {
           ?.map((k, e) => MapEntry(k, e as String)),
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
+      workflowId: json['WorkflowId'] as String?,
     );
   }
 
@@ -5048,6 +5868,7 @@ class PutIntegrationResponse {
     final objectTypeName = this.objectTypeName;
     final objectTypeNames = this.objectTypeNames;
     final tags = this.tags;
+    final workflowId = this.workflowId;
     return {
       'CreatedAt': unixTimestampToJson(createdAt),
       'DomainName': domainName,
@@ -5056,6 +5877,7 @@ class PutIntegrationResponse {
       if (objectTypeName != null) 'ObjectTypeName': objectTypeName,
       if (objectTypeNames != null) 'ObjectTypeNames': objectTypeNames,
       if (tags != null) 'Tags': tags,
+      if (workflowId != null) 'WorkflowId': workflowId,
     };
   }
 }
@@ -6057,6 +6879,59 @@ extension on String {
   }
 }
 
+enum Status {
+  notStarted,
+  inProgress,
+  complete,
+  failed,
+  split,
+  retry,
+  cancelled,
+}
+
+extension on Status {
+  String toValue() {
+    switch (this) {
+      case Status.notStarted:
+        return 'NOT_STARTED';
+      case Status.inProgress:
+        return 'IN_PROGRESS';
+      case Status.complete:
+        return 'COMPLETE';
+      case Status.failed:
+        return 'FAILED';
+      case Status.split:
+        return 'SPLIT';
+      case Status.retry:
+        return 'RETRY';
+      case Status.cancelled:
+        return 'CANCELLED';
+    }
+  }
+}
+
+extension on String {
+  Status toStatus() {
+    switch (this) {
+      case 'NOT_STARTED':
+        return Status.notStarted;
+      case 'IN_PROGRESS':
+        return Status.inProgress;
+      case 'COMPLETE':
+        return Status.complete;
+      case 'FAILED':
+        return Status.failed;
+      case 'SPLIT':
+        return Status.split;
+      case 'RETRY':
+        return Status.retry;
+      case 'CANCELLED':
+        return Status.cancelled;
+    }
+    throw Exception('$this is not known in enum Status');
+  }
+}
+
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -6488,6 +7363,108 @@ class UpdateProfileResponse {
     return {
       'ProfileId': profileId,
     };
+  }
+}
+
+/// Structure to hold workflow attributes.
+class WorkflowAttributes {
+  /// Workflow attributes specific to <code>APPFLOW_INTEGRATION</code> workflow.
+  final AppflowIntegrationWorkflowAttributes? appflowIntegration;
+
+  WorkflowAttributes({
+    this.appflowIntegration,
+  });
+
+  factory WorkflowAttributes.fromJson(Map<String, dynamic> json) {
+    return WorkflowAttributes(
+      appflowIntegration: json['AppflowIntegration'] != null
+          ? AppflowIntegrationWorkflowAttributes.fromJson(
+              json['AppflowIntegration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appflowIntegration = this.appflowIntegration;
+    return {
+      if (appflowIntegration != null) 'AppflowIntegration': appflowIntegration,
+    };
+  }
+}
+
+/// Generic object containing workflow execution metrics.
+class WorkflowMetrics {
+  /// Workflow execution metrics for <code>APPFLOW_INTEGRATION</code> workflow.
+  final AppflowIntegrationWorkflowMetrics? appflowIntegration;
+
+  WorkflowMetrics({
+    this.appflowIntegration,
+  });
+
+  factory WorkflowMetrics.fromJson(Map<String, dynamic> json) {
+    return WorkflowMetrics(
+      appflowIntegration: json['AppflowIntegration'] != null
+          ? AppflowIntegrationWorkflowMetrics.fromJson(
+              json['AppflowIntegration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appflowIntegration = this.appflowIntegration;
+    return {
+      if (appflowIntegration != null) 'AppflowIntegration': appflowIntegration,
+    };
+  }
+}
+
+/// List containing steps in workflow.
+class WorkflowStepItem {
+  /// Workflow step information specific to <code>APPFLOW_INTEGRATION</code>
+  /// workflow.
+  final AppflowIntegrationWorkflowStep? appflowIntegration;
+
+  WorkflowStepItem({
+    this.appflowIntegration,
+  });
+
+  factory WorkflowStepItem.fromJson(Map<String, dynamic> json) {
+    return WorkflowStepItem(
+      appflowIntegration: json['AppflowIntegration'] != null
+          ? AppflowIntegrationWorkflowStep.fromJson(
+              json['AppflowIntegration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appflowIntegration = this.appflowIntegration;
+    return {
+      if (appflowIntegration != null) 'AppflowIntegration': appflowIntegration,
+    };
+  }
+}
+
+enum WorkflowType {
+  appflowIntegration,
+}
+
+extension on WorkflowType {
+  String toValue() {
+    switch (this) {
+      case WorkflowType.appflowIntegration:
+        return 'APPFLOW_INTEGRATION';
+    }
+  }
+}
+
+extension on String {
+  WorkflowType toWorkflowType() {
+    switch (this) {
+      case 'APPFLOW_INTEGRATION':
+        return WorkflowType.appflowIntegration;
+    }
+    throw Exception('$this is not known in enum WorkflowType');
   }
 }
 

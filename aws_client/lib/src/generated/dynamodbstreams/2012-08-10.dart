@@ -320,7 +320,7 @@ class AttributeValue {
 
   /// An attribute of type List. For example:
   ///
-  /// <code>"L": [ {"S": "Cookies"} , {"S": "Coffee"}, {"N", "3.14159"}]</code>
+  /// <code>"L": [ {"S": "Cookies"} , {"S": "Coffee"}, {"N": "3.14159"}]</code>
   final List<AttributeValue>? l;
 
   /// An attribute of type Map. For example:

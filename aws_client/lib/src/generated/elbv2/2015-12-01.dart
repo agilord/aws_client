@@ -359,7 +359,8 @@ class ElasticLoadBalancingV2 {
   ///
   /// Parameter [subnetMappings] :
   /// The IDs of the public subnets. You can specify only one subnet per
-  /// Availability Zone. You must specify either subnets or subnet mappings.
+  /// Availability Zone. You must specify either subnets or subnet mappings, but
+  /// not both.
   ///
   /// [Application Load Balancers] You must specify subnets from at least two
   /// Availability Zones. You cannot specify Elastic IP addresses for your
@@ -384,7 +385,9 @@ class ElasticLoadBalancingV2 {
   ///
   /// Parameter [subnets] :
   /// The IDs of the public subnets. You can specify only one subnet per
-  /// Availability Zone. You must specify either subnets or subnet mappings.
+  /// Availability Zone. You must specify either subnets or subnet mappings, but
+  /// not both. To specify an Elastic IP address, specify subnet mappings
+  /// instead of subnets.
   ///
   /// [Application Load Balancers] You must specify subnets from at least two
   /// Availability Zones.
@@ -568,11 +571,12 @@ class ElasticLoadBalancingV2 {
   ///
   /// Parameter [healthCheckIntervalSeconds] :
   /// The approximate amount of time, in seconds, between health checks of an
-  /// individual target. If the target group protocol is TCP, TLS, UDP, or
-  /// TCP_UDP, the supported values are 10 and 30 seconds. If the target group
-  /// protocol is HTTP or HTTPS, the default is 30 seconds. If the target group
-  /// protocol is GENEVE, the default is 10 seconds. If the target type is
-  /// <code>lambda</code>, the default is 35 seconds.
+  /// individual target. If the target group protocol is HTTP or HTTPS, the
+  /// default is 30 seconds. If the target group protocol is TCP, TLS, UDP, or
+  /// TCP_UDP, the supported values are 10 and 30 seconds and the default is 30
+  /// seconds. If the target group protocol is GENEVE, the default is 10
+  /// seconds. If the target type is <code>lambda</code>, the default is 35
+  /// seconds.
   ///
   /// Parameter [healthCheckPath] :
   /// [HTTP/HTTPS health checks] The destination for health checks on the
@@ -1681,6 +1685,10 @@ class ElasticLoadBalancingV2 {
   /// Modifies the health checks used when evaluating the health state of the
   /// targets in the specified target group.
   ///
+  /// If the protocol of the target group is TCP, TLS, UDP, or TCP_UDP, you
+  /// can't modify the health check protocol, interval, timeout, or success
+  /// codes.
+  ///
   /// May throw [TargetGroupNotFoundException].
   /// May throw [InvalidConfigurationRequestException].
   ///
@@ -1694,8 +1702,6 @@ class ElasticLoadBalancingV2 {
   /// The approximate amount of time, in seconds, between health checks of an
   /// individual target. For TCP health checks, the supported values are 10 or
   /// 30 seconds.
-  ///
-  /// With Network Load Balancers, you can't modify this setting.
   ///
   /// Parameter [healthCheckPath] :
   /// [HTTP/HTTPS health checks] The destination for health checks on the
@@ -1719,13 +1725,9 @@ class ElasticLoadBalancingV2 {
   /// protocol of the target group is TCP, TLS, UDP, or TCP_UDP. The GENEVE,
   /// TLS, UDP, and TCP_UDP protocols are not supported for health checks.
   ///
-  /// With Network Load Balancers, you can't modify this setting.
-  ///
   /// Parameter [healthCheckTimeoutSeconds] :
   /// [HTTP/HTTPS health checks] The amount of time, in seconds, during which no
   /// response means a failed health check.
-  ///
-  /// With Network Load Balancers, you can't modify this setting.
   ///
   /// Parameter [healthyThresholdCount] :
   /// The number of consecutive health checks successes required before
@@ -1734,8 +1736,6 @@ class ElasticLoadBalancingV2 {
   /// Parameter [matcher] :
   /// [HTTP/HTTPS health checks] The HTTP or gRPC codes to use when checking for
   /// a successful response from a target.
-  ///
-  /// With Network Load Balancers, you can't modify this setting.
   ///
   /// Parameter [unhealthyThresholdCount] :
   /// The number of consecutive health check failures required before
@@ -4252,7 +4252,7 @@ class LoadBalancerAttribute {
   /// bucket for the access logs.
   /// </li>
   /// <li>
-  /// <code>ipv6.deny-all-igw-traffic</code> - Blocks internet gateway (IGW)
+  /// <code>ipv6.deny_all_igw_traffic</code> - Blocks internet gateway (IGW)
   /// access to the load balancer. It is set to <code>false</code> for
   /// internet-facing load balancers and <code>true</code> for internal load
   /// balancers, preventing unintended access to your internal load balancer
@@ -4280,6 +4280,13 @@ class LoadBalancerAttribute {
   /// default is <code>false</code>.
   /// </li>
   /// <li>
+  /// <code>routing.http.preserve_host_header.enabled</code> - Indicates whether
+  /// the Application Load Balancer should preserve the <code>Host</code> header
+  /// in the HTTP request and send it to the target without any change. The
+  /// possible values are <code>true</code> and <code>false</code>. The default is
+  /// <code>false</code>.
+  /// </li>
+  /// <li>
   /// <code>routing.http.x_amzn_tls_version_and_cipher_suite.enabled</code> -
   /// Indicates whether the two headers (<code>x-amzn-tls-version</code> and
   /// <code>x-amzn-tls-cipher-suite</code>), which contain information about the
@@ -4297,6 +4304,30 @@ class LoadBalancerAttribute {
   /// client used to connect to the load balancer. The possible values are
   /// <code>true</code> and <code>false</code>. The default is <code>false</code>.
   /// </li>
+  /// <li>
+  /// <code>routing.http.xff_header_processing.mode</code> - Enables you to
+  /// modify, preserve, or remove the <code>X-Forwarded-For</code> header in the
+  /// HTTP request before the Application Load Balancer sends the request to the
+  /// target. The possible values are <code>append</code>, <code>preserve</code>,
+  /// and <code>remove</code>. The default is <code>append</code>.
+  ///
+  /// <ul>
+  /// <li>
+  /// If the value is <code>append</code>, the Application Load Balancer adds the
+  /// client IP address (of the last hop) to the <code>X-Forwarded-For</code>
+  /// header in the HTTP request before it sends it to targets.
+  /// </li>
+  /// <li>
+  /// If the value is <code>preserve</code> the Application Load Balancer
+  /// preserves the <code>X-Forwarded-For</code> header in the HTTP request, and
+  /// sends it to targets without any change.
+  /// </li>
+  /// <li>
+  /// If the value is <code>remove</code>, the Application Load Balancer removes
+  /// the <code>X-Forwarded-For</code> header in the HTTP request before it sends
+  /// it to targets.
+  /// </li>
+  /// </ul> </li>
   /// <li>
   /// <code>routing.http2.enabled</code> - Indicates whether HTTP/2 is enabled.
   /// The possible values are <code>true</code> and <code>false</code>. The
@@ -5161,7 +5192,8 @@ class Rule {
 /// conditions: <code>http-request-method</code>, <code>host-header</code>,
 /// <code>path-pattern</code>, and <code>source-ip</code>. Each rule can also
 /// optionally include one or more of each of the following conditions:
-/// <code>http-header</code> and <code>query-string</code>.
+/// <code>http-header</code> and <code>query-string</code>. Note that the value
+/// for a condition cannot be empty.
 class RuleCondition {
   /// The field in the HTTP request. The following are the possible values:
   ///

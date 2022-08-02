@@ -86,6 +86,40 @@ class Fms {
     );
   }
 
+  /// Sets the Firewall Manager policy administrator as a tenant administrator
+  /// of a third-party firewall service. A tenant is an instance of the
+  /// third-party firewall service that's associated with your Amazon Web
+  /// Services customer account.
+  ///
+  /// May throw [InvalidOperationException].
+  /// May throw [InvalidInputException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalErrorException].
+  ///
+  /// Parameter [thirdPartyFirewall] :
+  /// The name of the third-party firewall vendor.
+  Future<AssociateThirdPartyFirewallResponse> associateThirdPartyFirewall({
+    required ThirdPartyFirewall thirdPartyFirewall,
+  }) async {
+    ArgumentError.checkNotNull(thirdPartyFirewall, 'thirdPartyFirewall');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSFMS_20180101.AssociateThirdPartyFirewall'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ThirdPartyFirewall': thirdPartyFirewall.toValue(),
+      },
+    );
+
+    return AssociateThirdPartyFirewallResponse.fromJson(jsonResponse.body);
+  }
+
   /// Permanently deletes an Firewall Manager applications list.
   ///
   /// May throw [ResourceNotFoundException].
@@ -258,6 +292,41 @@ class Fms {
       // TODO queryParams
       headers: headers,
     );
+  }
+
+  /// Disassociates a Firewall Manager policy administrator from a third-party
+  /// firewall tenant. When you call
+  /// <code>DisassociateThirdPartyFirewall</code>, the third-party firewall
+  /// vendor deletes all of the firewalls that are associated with the account.
+  ///
+  /// May throw [InvalidOperationException].
+  /// May throw [InvalidInputException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalErrorException].
+  ///
+  /// Parameter [thirdPartyFirewall] :
+  /// The name of the third-party firewall vendor.
+  Future<DisassociateThirdPartyFirewallResponse>
+      disassociateThirdPartyFirewall({
+    required ThirdPartyFirewall thirdPartyFirewall,
+  }) async {
+    ArgumentError.checkNotNull(thirdPartyFirewall, 'thirdPartyFirewall');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSFMS_20180101.DisassociateThirdPartyFirewall'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ThirdPartyFirewall': thirdPartyFirewall.toValue(),
+      },
+    );
+
+    return DisassociateThirdPartyFirewallResponse.fromJson(jsonResponse.body);
   }
 
   /// Returns the Organizations account that is associated with Firewall Manager
@@ -557,6 +626,40 @@ class Fms {
     );
 
     return GetProtocolsListResponse.fromJson(jsonResponse.body);
+  }
+
+  /// The onboarding status of a Firewall Manager admin account to third-party
+  /// firewall vendor tenant.
+  ///
+  /// May throw [InvalidOperationException].
+  /// May throw [InvalidInputException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalErrorException].
+  ///
+  /// Parameter [thirdPartyFirewall] :
+  /// The name of the third-party firewall vendor.
+  Future<GetThirdPartyFirewallAssociationStatusResponse>
+      getThirdPartyFirewallAssociationStatus({
+    required ThirdPartyFirewall thirdPartyFirewall,
+  }) async {
+    ArgumentError.checkNotNull(thirdPartyFirewall, 'thirdPartyFirewall');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSFMS_20180101.GetThirdPartyFirewallAssociationStatus'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ThirdPartyFirewall': thirdPartyFirewall.toValue(),
+      },
+    );
+
+    return GetThirdPartyFirewallAssociationStatusResponse.fromJson(
+        jsonResponse.body);
   }
 
   /// Retrieves violations for a resource based on the specified Firewall
@@ -929,6 +1032,72 @@ class Fms {
     return ListTagsForResourceResponse.fromJson(jsonResponse.body);
   }
 
+  /// Retrieves a list of all of the third-party firewall policies that are
+  /// associated with the third-party firewall administrator's account.
+  ///
+  /// May throw [InvalidOperationException].
+  /// May throw [InvalidInputException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalErrorException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of third-party firewall policies that you want Firewall
+  /// Manager to return. If the specified third-party firewall vendor is
+  /// associated with more than <code>MaxResults</code> firewall policies, the
+  /// response includes a <code>NextToken</code> element. <code>NextToken</code>
+  /// contains an encrypted token that identifies the first third-party firewall
+  /// policies that Firewall Manager will return if you submit another request.
+  ///
+  /// Parameter [thirdPartyFirewall] :
+  /// The name of the third-party firewall vendor.
+  ///
+  /// Parameter [nextToken] :
+  /// If the previous response included a <code>NextToken</code> element, the
+  /// specified third-party firewall vendor is associated with more third-party
+  /// firewall policies. To get more third-party firewall policies, submit
+  /// another <code>ListThirdPartyFirewallFirewallPoliciesRequest</code>
+  /// request.
+  ///
+  /// For the value of <code>NextToken</code>, specify the value of
+  /// <code>NextToken</code> from the previous response. If the previous
+  /// response didn't include a <code>NextToken</code> element, there are no
+  /// more third-party firewall policies to get.
+  Future<ListThirdPartyFirewallFirewallPoliciesResponse>
+      listThirdPartyFirewallFirewallPolicies({
+    required int maxResults,
+    required ThirdPartyFirewall thirdPartyFirewall,
+    String? nextToken,
+  }) async {
+    ArgumentError.checkNotNull(maxResults, 'maxResults');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(thirdPartyFirewall, 'thirdPartyFirewall');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSFMS_20180101.ListThirdPartyFirewallFirewallPolicies'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'MaxResults': maxResults,
+        'ThirdPartyFirewall': thirdPartyFirewall.toValue(),
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListThirdPartyFirewallFirewallPoliciesResponse.fromJson(
+        jsonResponse.body);
+  }
+
   /// Creates an Firewall Manager applications list.
   ///
   /// May throw [ResourceNotFoundException].
@@ -1035,7 +1204,7 @@ class Fms {
   /// network traffic in specified Amazon VPCs.
   /// </li>
   /// <li>
-  /// A DNS Firewall policy, which provides Route 53 Resolver DNS Firewall rules
+  /// A DNS Firewall policy, which provides Route 53 Resolver DNS Firewall rules
   /// to filter DNS queries for specified VPCs.
   /// </li>
   /// </ul>
@@ -1436,6 +1605,55 @@ class AppsListDataSummary {
   }
 }
 
+class AssociateThirdPartyFirewallResponse {
+  /// The current status for setting a Firewall Manager policy administrator's
+  /// account as an administrator of the third-party firewall tenant.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ONBOARDING</code> - The Firewall Manager policy administrator is being
+  /// designated as a tenant administrator.
+  /// </li>
+  /// <li>
+  /// <code>ONBOARD_COMPLETE</code> - The Firewall Manager policy administrator is
+  /// designated as a tenant administrator.
+  /// </li>
+  /// <li>
+  /// <code>OFFBOARDING</code> - The Firewall Manager policy administrator is
+  /// being removed as a tenant administrator.
+  /// </li>
+  /// <li>
+  /// <code>OFFBOARD_COMPLETE</code> - The Firewall Manager policy administrator
+  /// has been removed as a tenant administrator.
+  /// </li>
+  /// <li>
+  /// <code>NOT_EXIST</code> - The Firewall Manager policy administrator doesn't
+  /// exist as a tenant administrator.
+  /// </li>
+  /// </ul>
+  final ThirdPartyFirewallAssociationStatus? thirdPartyFirewallStatus;
+
+  AssociateThirdPartyFirewallResponse({
+    this.thirdPartyFirewallStatus,
+  });
+
+  factory AssociateThirdPartyFirewallResponse.fromJson(
+      Map<String, dynamic> json) {
+    return AssociateThirdPartyFirewallResponse(
+      thirdPartyFirewallStatus: (json['ThirdPartyFirewallStatus'] as String?)
+          ?.toThirdPartyFirewallAssociationStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final thirdPartyFirewallStatus = this.thirdPartyFirewallStatus;
+    return {
+      if (thirdPartyFirewallStatus != null)
+        'ThirdPartyFirewallStatus': thirdPartyFirewallStatus.toValue(),
+    };
+  }
+}
+
 /// Violation detail for an EC2 instance resource.
 class AwsEc2InstanceViolation {
   /// Violation detail for network interfaces associated with the EC2 instance.
@@ -1570,6 +1788,9 @@ class AwsVPCSecurityGroupViolation {
 
 /// Details of the resource that is not protected by the policy.
 class ComplianceViolator {
+  /// Metadata about the resource that doesn't comply with the policy scope.
+  final Map<String, String>? metadata;
+
   /// The resource ID.
   final String? resourceId;
 
@@ -1585,6 +1806,7 @@ class ComplianceViolator {
   final ViolationReason? violationReason;
 
   ComplianceViolator({
+    this.metadata,
     this.resourceId,
     this.resourceType,
     this.violationReason,
@@ -1592,6 +1814,8 @@ class ComplianceViolator {
 
   factory ComplianceViolator.fromJson(Map<String, dynamic> json) {
     return ComplianceViolator(
+      metadata: (json['Metadata'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
       resourceId: json['ResourceId'] as String?,
       resourceType: json['ResourceType'] as String?,
       violationReason:
@@ -1600,10 +1824,12 @@ class ComplianceViolator {
   }
 
   Map<String, dynamic> toJson() {
+    final metadata = this.metadata;
     final resourceId = this.resourceId;
     final resourceType = this.resourceType;
     final violationReason = this.violationReason;
     return {
+      if (metadata != null) 'Metadata': metadata,
       if (resourceId != null) 'ResourceId': resourceId,
       if (resourceType != null) 'ResourceType': resourceType,
       if (violationReason != null) 'ViolationReason': violationReason.toValue(),
@@ -1707,6 +1933,32 @@ extension on String {
         return DestinationType.prefixList;
     }
     throw Exception('$this is not known in enum DestinationType');
+  }
+}
+
+class DisassociateThirdPartyFirewallResponse {
+  /// The current status for the disassociation of a Firewall Manager
+  /// administrators account with a third-party firewall.
+  final ThirdPartyFirewallAssociationStatus? thirdPartyFirewallStatus;
+
+  DisassociateThirdPartyFirewallResponse({
+    this.thirdPartyFirewallStatus,
+  });
+
+  factory DisassociateThirdPartyFirewallResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DisassociateThirdPartyFirewallResponse(
+      thirdPartyFirewallStatus: (json['ThirdPartyFirewallStatus'] as String?)
+          ?.toThirdPartyFirewallAssociationStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final thirdPartyFirewallStatus = this.thirdPartyFirewallStatus;
+    return {
+      if (thirdPartyFirewallStatus != null)
+        'ThirdPartyFirewallStatus': thirdPartyFirewallStatus.toValue(),
+    };
   }
 }
 
@@ -2332,6 +2584,176 @@ class ExpectedRoute {
   }
 }
 
+/// Contains information about the actions that you can take to remediate scope
+/// violations caused by your policy's <code>FirewallCreationConfig</code>.
+/// <code>FirewallCreationConfig</code> is an optional configuration that you
+/// can use to choose which Availability Zones Firewall Manager creates Network
+/// Firewall endpoints in.
+class FMSPolicyUpdateFirewallCreationConfigAction {
+  /// Describes the remedial action.
+  final String? description;
+
+  /// A <code>FirewallCreationConfig</code> that you can copy into your current
+  /// policy's <a
+  /// href="https://docs.aws.amazon.com/fms/2018-01-01/APIReference/API_SecurityServicePolicyData.html">SecurityServiceData</a>
+  /// in order to remedy scope violations.
+  final String? firewallCreationConfig;
+
+  FMSPolicyUpdateFirewallCreationConfigAction({
+    this.description,
+    this.firewallCreationConfig,
+  });
+
+  factory FMSPolicyUpdateFirewallCreationConfigAction.fromJson(
+      Map<String, dynamic> json) {
+    return FMSPolicyUpdateFirewallCreationConfigAction(
+      description: json['Description'] as String?,
+      firewallCreationConfig: json['FirewallCreationConfig'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final firewallCreationConfig = this.firewallCreationConfig;
+    return {
+      if (description != null) 'Description': description,
+      if (firewallCreationConfig != null)
+        'FirewallCreationConfig': firewallCreationConfig,
+    };
+  }
+}
+
+enum FirewallDeploymentModel {
+  centralized,
+  distributed,
+}
+
+extension on FirewallDeploymentModel {
+  String toValue() {
+    switch (this) {
+      case FirewallDeploymentModel.centralized:
+        return 'CENTRALIZED';
+      case FirewallDeploymentModel.distributed:
+        return 'DISTRIBUTED';
+    }
+  }
+}
+
+extension on String {
+  FirewallDeploymentModel toFirewallDeploymentModel() {
+    switch (this) {
+      case 'CENTRALIZED':
+        return FirewallDeploymentModel.centralized;
+      case 'DISTRIBUTED':
+        return FirewallDeploymentModel.distributed;
+    }
+    throw Exception('$this is not known in enum FirewallDeploymentModel');
+  }
+}
+
+/// Contains details about the firewall subnet that violates the policy scope.
+class FirewallSubnetIsOutOfScopeViolation {
+  /// The ID of the firewall subnet that violates the policy scope.
+  final String? firewallSubnetId;
+
+  /// The Availability Zone of the firewall subnet that violates the policy scope.
+  final String? subnetAvailabilityZone;
+
+  /// The Availability Zone ID of the firewall subnet that violates the policy
+  /// scope.
+  final String? subnetAvailabilityZoneId;
+
+  /// The VPC endpoint ID of the firewall subnet that violates the policy scope.
+  final String? vpcEndpointId;
+
+  /// The VPC ID of the firewall subnet that violates the policy scope.
+  final String? vpcId;
+
+  FirewallSubnetIsOutOfScopeViolation({
+    this.firewallSubnetId,
+    this.subnetAvailabilityZone,
+    this.subnetAvailabilityZoneId,
+    this.vpcEndpointId,
+    this.vpcId,
+  });
+
+  factory FirewallSubnetIsOutOfScopeViolation.fromJson(
+      Map<String, dynamic> json) {
+    return FirewallSubnetIsOutOfScopeViolation(
+      firewallSubnetId: json['FirewallSubnetId'] as String?,
+      subnetAvailabilityZone: json['SubnetAvailabilityZone'] as String?,
+      subnetAvailabilityZoneId: json['SubnetAvailabilityZoneId'] as String?,
+      vpcEndpointId: json['VpcEndpointId'] as String?,
+      vpcId: json['VpcId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final firewallSubnetId = this.firewallSubnetId;
+    final subnetAvailabilityZone = this.subnetAvailabilityZone;
+    final subnetAvailabilityZoneId = this.subnetAvailabilityZoneId;
+    final vpcEndpointId = this.vpcEndpointId;
+    final vpcId = this.vpcId;
+    return {
+      if (firewallSubnetId != null) 'FirewallSubnetId': firewallSubnetId,
+      if (subnetAvailabilityZone != null)
+        'SubnetAvailabilityZone': subnetAvailabilityZone,
+      if (subnetAvailabilityZoneId != null)
+        'SubnetAvailabilityZoneId': subnetAvailabilityZoneId,
+      if (vpcEndpointId != null) 'VpcEndpointId': vpcEndpointId,
+      if (vpcId != null) 'VpcId': vpcId,
+    };
+  }
+}
+
+/// The violation details for a firewall subnet's VPC endpoint that's deleted or
+/// missing.
+class FirewallSubnetMissingVPCEndpointViolation {
+  /// The ID of the firewall that this VPC endpoint is associated with.
+  final String? firewallSubnetId;
+
+  /// The name of the Availability Zone of the deleted VPC subnet.
+  final String? subnetAvailabilityZone;
+
+  /// The ID of the Availability Zone of the deleted VPC subnet.
+  final String? subnetAvailabilityZoneId;
+
+  /// The resource ID of the VPC associated with the deleted VPC subnet.
+  final String? vpcId;
+
+  FirewallSubnetMissingVPCEndpointViolation({
+    this.firewallSubnetId,
+    this.subnetAvailabilityZone,
+    this.subnetAvailabilityZoneId,
+    this.vpcId,
+  });
+
+  factory FirewallSubnetMissingVPCEndpointViolation.fromJson(
+      Map<String, dynamic> json) {
+    return FirewallSubnetMissingVPCEndpointViolation(
+      firewallSubnetId: json['FirewallSubnetId'] as String?,
+      subnetAvailabilityZone: json['SubnetAvailabilityZone'] as String?,
+      subnetAvailabilityZoneId: json['SubnetAvailabilityZoneId'] as String?,
+      vpcId: json['VpcId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final firewallSubnetId = this.firewallSubnetId;
+    final subnetAvailabilityZone = this.subnetAvailabilityZone;
+    final subnetAvailabilityZoneId = this.subnetAvailabilityZoneId;
+    final vpcId = this.vpcId;
+    return {
+      if (firewallSubnetId != null) 'FirewallSubnetId': firewallSubnetId,
+      if (subnetAvailabilityZone != null)
+        'SubnetAvailabilityZone': subnetAvailabilityZone,
+      if (subnetAvailabilityZoneId != null)
+        'SubnetAvailabilityZoneId': subnetAvailabilityZoneId,
+      if (vpcId != null) 'VpcId': vpcId,
+    };
+  }
+}
+
 class GetAdminAccountResponse {
   /// The Amazon Web Services account that is set as the Firewall Manager
   /// administrator.
@@ -2587,6 +3009,84 @@ class GetProtocolsListResponse {
   }
 }
 
+class GetThirdPartyFirewallAssociationStatusResponse {
+  /// The status for subscribing to the third-party firewall vendor in the Amazon
+  /// Web Services Marketplace.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>NO_SUBSCRIPTION</code> - The Firewall Manager policy administrator
+  /// isn't subscribed to the third-party firewall service in the Amazon Web
+  /// Services Marketplace.
+  /// </li>
+  /// <li>
+  /// <code>NOT_COMPLETE</code> - The Firewall Manager policy administrator is in
+  /// the process of subscribing to the third-party firewall service in the Amazon
+  /// Web Services Marketplace, but doesn't yet have an active subscription.
+  /// </li>
+  /// <li>
+  /// <code>COMPLETE</code> - The Firewall Manager policy administrator has an
+  /// active subscription to the third-party firewall service in the Amazon Web
+  /// Services Marketplace.
+  /// </li>
+  /// </ul>
+  final MarketplaceSubscriptionOnboardingStatus? marketplaceOnboardingStatus;
+
+  /// The current status for setting a Firewall Manager policy administrators
+  /// account as an administrator of the third-party firewall tenant.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ONBOARDING</code> - The Firewall Manager policy administrator is being
+  /// designated as a tenant administrator.
+  /// </li>
+  /// <li>
+  /// <code>ONBOARD_COMPLETE</code> - The Firewall Manager policy administrator is
+  /// designated as a tenant administrator.
+  /// </li>
+  /// <li>
+  /// <code>OFFBOARDING</code> - The Firewall Manager policy administrator is
+  /// being removed as a tenant administrator.
+  /// </li>
+  /// <li>
+  /// <code>OFFBOARD_COMPLETE</code> - The Firewall Manager policy administrator
+  /// has been removed as a tenant administrator.
+  /// </li>
+  /// <li>
+  /// <code>NOT_EXIST</code> - The Firewall Manager policy administrator doesn't
+  /// exist as a tenant administrator.
+  /// </li>
+  /// </ul>
+  final ThirdPartyFirewallAssociationStatus? thirdPartyFirewallStatus;
+
+  GetThirdPartyFirewallAssociationStatusResponse({
+    this.marketplaceOnboardingStatus,
+    this.thirdPartyFirewallStatus,
+  });
+
+  factory GetThirdPartyFirewallAssociationStatusResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetThirdPartyFirewallAssociationStatusResponse(
+      marketplaceOnboardingStatus:
+          (json['MarketplaceOnboardingStatus'] as String?)
+              ?.toMarketplaceSubscriptionOnboardingStatus(),
+      thirdPartyFirewallStatus: (json['ThirdPartyFirewallStatus'] as String?)
+          ?.toThirdPartyFirewallAssociationStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final marketplaceOnboardingStatus = this.marketplaceOnboardingStatus;
+    final thirdPartyFirewallStatus = this.thirdPartyFirewallStatus;
+    return {
+      if (marketplaceOnboardingStatus != null)
+        'MarketplaceOnboardingStatus': marketplaceOnboardingStatus.toValue(),
+      if (thirdPartyFirewallStatus != null)
+        'ThirdPartyFirewallStatus': thirdPartyFirewallStatus.toValue(),
+    };
+  }
+}
+
 class GetViolationDetailsResponse {
   /// Violation detail for a resource.
   final ViolationDetail? violationDetail;
@@ -2819,6 +3319,85 @@ class ListTagsForResourceResponse {
     return {
       if (tagList != null) 'TagList': tagList,
     };
+  }
+}
+
+class ListThirdPartyFirewallFirewallPoliciesResponse {
+  /// The value that you will use for <code>NextToken</code> in the next
+  /// <code>ListThirdPartyFirewallFirewallPolicies</code> request.
+  final String? nextToken;
+
+  /// A list that contains one <code>ThirdPartyFirewallFirewallPolicies</code>
+  /// element for each third-party firewall policies that the specified
+  /// third-party firewall vendor is associated with. Each
+  /// <code>ThirdPartyFirewallFirewallPolicies</code> element contains the
+  /// firewall policy name and ID.
+  final List<ThirdPartyFirewallFirewallPolicy>?
+      thirdPartyFirewallFirewallPolicies;
+
+  ListThirdPartyFirewallFirewallPoliciesResponse({
+    this.nextToken,
+    this.thirdPartyFirewallFirewallPolicies,
+  });
+
+  factory ListThirdPartyFirewallFirewallPoliciesResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListThirdPartyFirewallFirewallPoliciesResponse(
+      nextToken: json['NextToken'] as String?,
+      thirdPartyFirewallFirewallPolicies:
+          (json['ThirdPartyFirewallFirewallPolicies'] as List?)
+              ?.whereNotNull()
+              .map((e) => ThirdPartyFirewallFirewallPolicy.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final thirdPartyFirewallFirewallPolicies =
+        this.thirdPartyFirewallFirewallPolicies;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (thirdPartyFirewallFirewallPolicies != null)
+        'ThirdPartyFirewallFirewallPolicies':
+            thirdPartyFirewallFirewallPolicies,
+    };
+  }
+}
+
+enum MarketplaceSubscriptionOnboardingStatus {
+  noSubscription,
+  notComplete,
+  complete,
+}
+
+extension on MarketplaceSubscriptionOnboardingStatus {
+  String toValue() {
+    switch (this) {
+      case MarketplaceSubscriptionOnboardingStatus.noSubscription:
+        return 'NO_SUBSCRIPTION';
+      case MarketplaceSubscriptionOnboardingStatus.notComplete:
+        return 'NOT_COMPLETE';
+      case MarketplaceSubscriptionOnboardingStatus.complete:
+        return 'COMPLETE';
+    }
+  }
+}
+
+extension on String {
+  MarketplaceSubscriptionOnboardingStatus
+      toMarketplaceSubscriptionOnboardingStatus() {
+    switch (this) {
+      case 'NO_SUBSCRIPTION':
+        return MarketplaceSubscriptionOnboardingStatus.noSubscription;
+      case 'NOT_COMPLETE':
+        return MarketplaceSubscriptionOnboardingStatus.notComplete;
+      case 'COMPLETE':
+        return MarketplaceSubscriptionOnboardingStatus.complete;
+    }
+    throw Exception(
+        '$this is not known in enum MarketplaceSubscriptionOnboardingStatus');
   }
 }
 
@@ -3385,8 +3964,67 @@ class NetworkFirewallMissingSubnetViolation {
   }
 }
 
+/// Configures the firewall policy deployment model of Network Firewall. For
+/// information about Network Firewall deployment models, see <a
+/// href="https://docs.aws.amazon.com/network-firewall/latest/developerguide/architectures.html">Network
+/// Firewall example architectures with routing</a> in the <i>Network Firewall
+/// Developer Guide</i>.
+class NetworkFirewallPolicy {
+  /// Defines the deployment model to use for the firewall policy. To use a
+  /// distributed model, set <a
+  /// href="https://docs.aws.amazon.com/fms/2018-01-01/APIReference/API_PolicyOption.html">PolicyOption</a>
+  /// to <code>NULL</code>.
+  final FirewallDeploymentModel? firewallDeploymentModel;
+
+  NetworkFirewallPolicy({
+    this.firewallDeploymentModel,
+  });
+
+  factory NetworkFirewallPolicy.fromJson(Map<String, dynamic> json) {
+    return NetworkFirewallPolicy(
+      firewallDeploymentModel: (json['FirewallDeploymentModel'] as String?)
+          ?.toFirewallDeploymentModel(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final firewallDeploymentModel = this.firewallDeploymentModel;
+    return {
+      if (firewallDeploymentModel != null)
+        'FirewallDeploymentModel': firewallDeploymentModel.toValue(),
+    };
+  }
+}
+
 /// The definition of the Network Firewall firewall policy.
 class NetworkFirewallPolicyDescription {
+  /// The default actions to take on a packet that doesn't match any stateful
+  /// rules. The stateful default action is optional, and is only valid when using
+  /// the strict rule order.
+  ///
+  /// Valid values of the stateful default action:
+  ///
+  /// <ul>
+  /// <li>
+  /// aws:drop_strict
+  /// </li>
+  /// <li>
+  /// aws:drop_established
+  /// </li>
+  /// <li>
+  /// aws:alert_strict
+  /// </li>
+  /// <li>
+  /// aws:alert_established
+  /// </li>
+  /// </ul>
+  final List<String>? statefulDefaultActions;
+
+  /// Additional options governing how Network Firewall handles stateful rules.
+  /// The stateful rule groups that you use in your policy must have stateful rule
+  /// options settings that are compatible with these settings.
+  final StatefulEngineOptions? statefulEngineOptions;
+
   /// The stateful rule groups that are used in the Network Firewall firewall
   /// policy.
   final List<StatefulRuleGroup>? statefulRuleGroups;
@@ -3408,6 +4046,8 @@ class NetworkFirewallPolicyDescription {
   final List<StatelessRuleGroup>? statelessRuleGroups;
 
   NetworkFirewallPolicyDescription({
+    this.statefulDefaultActions,
+    this.statefulEngineOptions,
     this.statefulRuleGroups,
     this.statelessCustomActions,
     this.statelessDefaultActions,
@@ -3417,6 +4057,14 @@ class NetworkFirewallPolicyDescription {
 
   factory NetworkFirewallPolicyDescription.fromJson(Map<String, dynamic> json) {
     return NetworkFirewallPolicyDescription(
+      statefulDefaultActions: (json['StatefulDefaultActions'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      statefulEngineOptions: json['StatefulEngineOptions'] != null
+          ? StatefulEngineOptions.fromJson(
+              json['StatefulEngineOptions'] as Map<String, dynamic>)
+          : null,
       statefulRuleGroups: (json['StatefulRuleGroups'] as List?)
           ?.whereNotNull()
           .map((e) => StatefulRuleGroup.fromJson(e as Map<String, dynamic>))
@@ -3442,6 +4090,8 @@ class NetworkFirewallPolicyDescription {
   }
 
   Map<String, dynamic> toJson() {
+    final statefulDefaultActions = this.statefulDefaultActions;
+    final statefulEngineOptions = this.statefulEngineOptions;
     final statefulRuleGroups = this.statefulRuleGroups;
     final statelessCustomActions = this.statelessCustomActions;
     final statelessDefaultActions = this.statelessDefaultActions;
@@ -3449,6 +4099,10 @@ class NetworkFirewallPolicyDescription {
         this.statelessFragmentDefaultActions;
     final statelessRuleGroups = this.statelessRuleGroups;
     return {
+      if (statefulDefaultActions != null)
+        'StatefulDefaultActions': statefulDefaultActions,
+      if (statefulEngineOptions != null)
+        'StatefulEngineOptions': statefulEngineOptions,
       if (statefulRuleGroups != null) 'StatefulRuleGroups': statefulRuleGroups,
       if (statelessCustomActions != null)
         'StatelessCustomActions': statelessCustomActions,
@@ -3672,12 +4326,14 @@ class Policy {
   /// resource types, specify a resource type of <code>ResourceTypeList</code> and
   /// then specify the resource types in a <code>ResourceTypeList</code>.
   ///
-  /// For WAF and Shield Advanced, example resource types include
-  /// <code>AWS::ElasticLoadBalancingV2::LoadBalancer</code> and
-  /// <code>AWS::CloudFront::Distribution</code>. For a security group common
-  /// policy, valid values are <code>AWS::EC2::NetworkInterface</code> and
-  /// <code>AWS::EC2::Instance</code>. For a security group content audit policy,
-  /// valid values are <code>AWS::EC2::SecurityGroup</code>,
+  /// For WAF and Shield Advanced, resource types include
+  /// <code>AWS::ElasticLoadBalancingV2::LoadBalancer</code>,
+  /// <code>AWS::ElasticLoadBalancing::LoadBalancer</code>,
+  /// <code>AWS::EC2::EIP</code>, and <code>AWS::CloudFront::Distribution</code>.
+  /// For a security group common policy, valid values are
+  /// <code>AWS::EC2::NetworkInterface</code> and <code>AWS::EC2::Instance</code>.
+  /// For a security group content audit policy, valid values are
+  /// <code>AWS::EC2::SecurityGroup</code>,
   /// <code>AWS::EC2::NetworkInterface</code>, and
   /// <code>AWS::EC2::Instance</code>. For a security group usage audit policy,
   /// the value is <code>AWS::EC2::SecurityGroup</code>. For an Network Firewall
@@ -3688,11 +4344,17 @@ class Policy {
   /// resources.
   final SecurityServicePolicyData securityServicePolicyData;
 
-  /// Indicates whether Firewall Manager should delete Firewall Manager managed
-  /// resources, such as web ACLs and security groups, when they are not in use by
-  /// the Firewall Manager policy. By default, Firewall Manager doesn't delete
-  /// unused Firewall Manager managed resources. This option is not available for
-  /// Shield Advanced or WAF Classic policies.
+  /// Indicates whether Firewall Manager should automatically remove protections
+  /// from resources that leave the policy scope and clean up resources that
+  /// Firewall Manager is managing for accounts when those accounts leave policy
+  /// scope. For example, Firewall Manager will disassociate a Firewall Manager
+  /// managed web ACL from a protected customer resource when the customer
+  /// resource leaves policy scope.
+  ///
+  /// By default, Firewall Manager doesn't remove protections or delete Firewall
+  /// Manager managed resources.
+  ///
+  /// This option is not available for Shield Advanced or WAF Classic policies.
   final bool? deleteUnusedFMManagedResources;
 
   /// Specifies the Amazon Web Services account IDs and Organizations
@@ -4036,13 +4698,58 @@ extension on String {
   }
 }
 
+/// Contains the Network Firewall firewall policy options to configure the
+/// policy's deployment model and third-party firewall policy settings.
+class PolicyOption {
+  /// Defines the deployment model to use for the firewall policy.
+  final NetworkFirewallPolicy? networkFirewallPolicy;
+
+  /// Defines the policy options for a third-party firewall policy.
+  final ThirdPartyFirewallPolicy? thirdPartyFirewallPolicy;
+
+  PolicyOption({
+    this.networkFirewallPolicy,
+    this.thirdPartyFirewallPolicy,
+  });
+
+  factory PolicyOption.fromJson(Map<String, dynamic> json) {
+    return PolicyOption(
+      networkFirewallPolicy: json['NetworkFirewallPolicy'] != null
+          ? NetworkFirewallPolicy.fromJson(
+              json['NetworkFirewallPolicy'] as Map<String, dynamic>)
+          : null,
+      thirdPartyFirewallPolicy: json['ThirdPartyFirewallPolicy'] != null
+          ? ThirdPartyFirewallPolicy.fromJson(
+              json['ThirdPartyFirewallPolicy'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final networkFirewallPolicy = this.networkFirewallPolicy;
+    final thirdPartyFirewallPolicy = this.thirdPartyFirewallPolicy;
+    return {
+      if (networkFirewallPolicy != null)
+        'NetworkFirewallPolicy': networkFirewallPolicy,
+      if (thirdPartyFirewallPolicy != null)
+        'ThirdPartyFirewallPolicy': thirdPartyFirewallPolicy,
+    };
+  }
+}
+
 /// Details of the Firewall Manager policy.
 class PolicySummary {
-  /// Indicates whether Firewall Manager should delete Firewall Manager managed
-  /// resources, such as web ACLs and security groups, when they are not in use by
-  /// the Firewall Manager policy. By default, Firewall Manager doesn't delete
-  /// unused Firewall Manager managed resources. This option is not available for
-  /// Shield Advanced or WAF Classic policies.
+  /// Indicates whether Firewall Manager should automatically remove protections
+  /// from resources that leave the policy scope and clean up resources that
+  /// Firewall Manager is managing for accounts when those accounts leave policy
+  /// scope. For example, Firewall Manager will disassociate a Firewall Manager
+  /// managed web ACL from a protected customer resource when the customer
+  /// resource leaves policy scope.
+  ///
+  /// By default, Firewall Manager doesn't remove protections or delete Firewall
+  /// Manager managed resources.
+  ///
+  /// This option is not available for Shield Advanced or WAF Classic policies.
   final bool? deleteUnusedFMManagedResources;
 
   /// The Amazon Resource Name (ARN) of the specified policy.
@@ -4444,6 +5151,10 @@ class RemediationAction {
   final EC2ReplaceRouteTableAssociationAction?
       eC2ReplaceRouteTableAssociationAction;
 
+  /// The remedial action to take when updating a firewall configuration.
+  final FMSPolicyUpdateFirewallCreationConfigAction?
+      fMSPolicyUpdateFirewallCreationConfigAction;
+
   RemediationAction({
     this.description,
     this.eC2AssociateRouteTableAction,
@@ -4453,6 +5164,7 @@ class RemediationAction {
     this.eC2DeleteRouteAction,
     this.eC2ReplaceRouteAction,
     this.eC2ReplaceRouteTableAssociationAction,
+    this.fMSPolicyUpdateFirewallCreationConfigAction,
   });
 
   factory RemediationAction.fromJson(Map<String, dynamic> json) {
@@ -4488,6 +5200,12 @@ class RemediationAction {
                   json['EC2ReplaceRouteTableAssociationAction']
                       as Map<String, dynamic>)
               : null,
+      fMSPolicyUpdateFirewallCreationConfigAction:
+          json['FMSPolicyUpdateFirewallCreationConfigAction'] != null
+              ? FMSPolicyUpdateFirewallCreationConfigAction.fromJson(
+                  json['FMSPolicyUpdateFirewallCreationConfigAction']
+                      as Map<String, dynamic>)
+              : null,
     );
   }
 
@@ -4501,6 +5219,8 @@ class RemediationAction {
     final eC2ReplaceRouteAction = this.eC2ReplaceRouteAction;
     final eC2ReplaceRouteTableAssociationAction =
         this.eC2ReplaceRouteTableAssociationAction;
+    final fMSPolicyUpdateFirewallCreationConfigAction =
+        this.fMSPolicyUpdateFirewallCreationConfigAction;
     return {
       if (description != null) 'Description': description,
       if (eC2AssociateRouteTableAction != null)
@@ -4518,6 +5238,9 @@ class RemediationAction {
       if (eC2ReplaceRouteTableAssociationAction != null)
         'EC2ReplaceRouteTableAssociationAction':
             eC2ReplaceRouteTableAssociationAction,
+      if (fMSPolicyUpdateFirewallCreationConfigAction != null)
+        'FMSPolicyUpdateFirewallCreationConfigAction':
+            fMSPolicyUpdateFirewallCreationConfigAction,
     };
   }
 }
@@ -4648,6 +5371,15 @@ class ResourceViolation {
   /// a rule group that's already associated.
   final DnsRuleGroupPriorityConflictViolation?
       dnsRuleGroupPriorityConflictViolation;
+
+  /// Contains details about the firewall subnet that violates the policy scope.
+  final FirewallSubnetIsOutOfScopeViolation?
+      firewallSubnetIsOutOfScopeViolation;
+
+  /// The violation details for a third-party firewall's VPC endpoint subnet that
+  /// was deleted.
+  final FirewallSubnetMissingVPCEndpointViolation?
+      firewallSubnetMissingVPCEndpointViolation;
   final NetworkFirewallBlackHoleRouteDetectedViolation?
       networkFirewallBlackHoleRouteDetectedViolation;
 
@@ -4699,6 +5431,25 @@ class ResourceViolation {
   /// remediation action is a list of individual remediation actions.
   final PossibleRemediationActions? possibleRemediationActions;
 
+  /// Contains details about the route endpoint that violates the policy scope.
+  final RouteHasOutOfScopeEndpointViolation?
+      routeHasOutOfScopeEndpointViolation;
+
+  /// The violation details for a third-party firewall that has the Firewall
+  /// Manager managed route table that was associated with the third-party
+  /// firewall has been deleted.
+  final ThirdPartyFirewallMissingExpectedRouteTableViolation?
+      thirdPartyFirewallMissingExpectedRouteTableViolation;
+
+  /// The violation details for a third-party firewall that's been deleted.
+  final ThirdPartyFirewallMissingFirewallViolation?
+      thirdPartyFirewallMissingFirewallViolation;
+
+  /// The violation details for a third-party firewall's subnet that's been
+  /// deleted.
+  final ThirdPartyFirewallMissingSubnetViolation?
+      thirdPartyFirewallMissingSubnetViolation;
+
   ResourceViolation({
     this.awsEc2InstanceViolation,
     this.awsEc2NetworkInterfaceViolation,
@@ -4706,6 +5457,8 @@ class ResourceViolation {
     this.dnsDuplicateRuleGroupViolation,
     this.dnsRuleGroupLimitExceededViolation,
     this.dnsRuleGroupPriorityConflictViolation,
+    this.firewallSubnetIsOutOfScopeViolation,
+    this.firewallSubnetMissingVPCEndpointViolation,
     this.networkFirewallBlackHoleRouteDetectedViolation,
     this.networkFirewallInternetTrafficNotInspectedViolation,
     this.networkFirewallInvalidRouteConfigurationViolation,
@@ -4717,6 +5470,10 @@ class ResourceViolation {
     this.networkFirewallUnexpectedFirewallRoutesViolation,
     this.networkFirewallUnexpectedGatewayRoutesViolation,
     this.possibleRemediationActions,
+    this.routeHasOutOfScopeEndpointViolation,
+    this.thirdPartyFirewallMissingExpectedRouteTableViolation,
+    this.thirdPartyFirewallMissingFirewallViolation,
+    this.thirdPartyFirewallMissingSubnetViolation,
   });
 
   factory ResourceViolation.fromJson(Map<String, dynamic> json) {
@@ -4750,6 +5507,18 @@ class ResourceViolation {
           json['DnsRuleGroupPriorityConflictViolation'] != null
               ? DnsRuleGroupPriorityConflictViolation.fromJson(
                   json['DnsRuleGroupPriorityConflictViolation']
+                      as Map<String, dynamic>)
+              : null,
+      firewallSubnetIsOutOfScopeViolation:
+          json['FirewallSubnetIsOutOfScopeViolation'] != null
+              ? FirewallSubnetIsOutOfScopeViolation.fromJson(
+                  json['FirewallSubnetIsOutOfScopeViolation']
+                      as Map<String, dynamic>)
+              : null,
+      firewallSubnetMissingVPCEndpointViolation:
+          json['FirewallSubnetMissingVPCEndpointViolation'] != null
+              ? FirewallSubnetMissingVPCEndpointViolation.fromJson(
+                  json['FirewallSubnetMissingVPCEndpointViolation']
                       as Map<String, dynamic>)
               : null,
       networkFirewallBlackHoleRouteDetectedViolation:
@@ -4816,6 +5585,30 @@ class ResourceViolation {
           ? PossibleRemediationActions.fromJson(
               json['PossibleRemediationActions'] as Map<String, dynamic>)
           : null,
+      routeHasOutOfScopeEndpointViolation:
+          json['RouteHasOutOfScopeEndpointViolation'] != null
+              ? RouteHasOutOfScopeEndpointViolation.fromJson(
+                  json['RouteHasOutOfScopeEndpointViolation']
+                      as Map<String, dynamic>)
+              : null,
+      thirdPartyFirewallMissingExpectedRouteTableViolation:
+          json['ThirdPartyFirewallMissingExpectedRouteTableViolation'] != null
+              ? ThirdPartyFirewallMissingExpectedRouteTableViolation.fromJson(
+                  json['ThirdPartyFirewallMissingExpectedRouteTableViolation']
+                      as Map<String, dynamic>)
+              : null,
+      thirdPartyFirewallMissingFirewallViolation:
+          json['ThirdPartyFirewallMissingFirewallViolation'] != null
+              ? ThirdPartyFirewallMissingFirewallViolation.fromJson(
+                  json['ThirdPartyFirewallMissingFirewallViolation']
+                      as Map<String, dynamic>)
+              : null,
+      thirdPartyFirewallMissingSubnetViolation:
+          json['ThirdPartyFirewallMissingSubnetViolation'] != null
+              ? ThirdPartyFirewallMissingSubnetViolation.fromJson(
+                  json['ThirdPartyFirewallMissingSubnetViolation']
+                      as Map<String, dynamic>)
+              : null,
     );
   }
 
@@ -4829,6 +5622,10 @@ class ResourceViolation {
         this.dnsRuleGroupLimitExceededViolation;
     final dnsRuleGroupPriorityConflictViolation =
         this.dnsRuleGroupPriorityConflictViolation;
+    final firewallSubnetIsOutOfScopeViolation =
+        this.firewallSubnetIsOutOfScopeViolation;
+    final firewallSubnetMissingVPCEndpointViolation =
+        this.firewallSubnetMissingVPCEndpointViolation;
     final networkFirewallBlackHoleRouteDetectedViolation =
         this.networkFirewallBlackHoleRouteDetectedViolation;
     final networkFirewallInternetTrafficNotInspectedViolation =
@@ -4850,6 +5647,14 @@ class ResourceViolation {
     final networkFirewallUnexpectedGatewayRoutesViolation =
         this.networkFirewallUnexpectedGatewayRoutesViolation;
     final possibleRemediationActions = this.possibleRemediationActions;
+    final routeHasOutOfScopeEndpointViolation =
+        this.routeHasOutOfScopeEndpointViolation;
+    final thirdPartyFirewallMissingExpectedRouteTableViolation =
+        this.thirdPartyFirewallMissingExpectedRouteTableViolation;
+    final thirdPartyFirewallMissingFirewallViolation =
+        this.thirdPartyFirewallMissingFirewallViolation;
+    final thirdPartyFirewallMissingSubnetViolation =
+        this.thirdPartyFirewallMissingSubnetViolation;
     return {
       if (awsEc2InstanceViolation != null)
         'AwsEc2InstanceViolation': awsEc2InstanceViolation,
@@ -4865,6 +5670,12 @@ class ResourceViolation {
       if (dnsRuleGroupPriorityConflictViolation != null)
         'DnsRuleGroupPriorityConflictViolation':
             dnsRuleGroupPriorityConflictViolation,
+      if (firewallSubnetIsOutOfScopeViolation != null)
+        'FirewallSubnetIsOutOfScopeViolation':
+            firewallSubnetIsOutOfScopeViolation,
+      if (firewallSubnetMissingVPCEndpointViolation != null)
+        'FirewallSubnetMissingVPCEndpointViolation':
+            firewallSubnetMissingVPCEndpointViolation,
       if (networkFirewallBlackHoleRouteDetectedViolation != null)
         'NetworkFirewallBlackHoleRouteDetectedViolation':
             networkFirewallBlackHoleRouteDetectedViolation,
@@ -4897,6 +5708,18 @@ class ResourceViolation {
             networkFirewallUnexpectedGatewayRoutesViolation,
       if (possibleRemediationActions != null)
         'PossibleRemediationActions': possibleRemediationActions,
+      if (routeHasOutOfScopeEndpointViolation != null)
+        'RouteHasOutOfScopeEndpointViolation':
+            routeHasOutOfScopeEndpointViolation,
+      if (thirdPartyFirewallMissingExpectedRouteTableViolation != null)
+        'ThirdPartyFirewallMissingExpectedRouteTableViolation':
+            thirdPartyFirewallMissingExpectedRouteTableViolation,
+      if (thirdPartyFirewallMissingFirewallViolation != null)
+        'ThirdPartyFirewallMissingFirewallViolation':
+            thirdPartyFirewallMissingFirewallViolation,
+      if (thirdPartyFirewallMissingSubnetViolation != null)
+        'ThirdPartyFirewallMissingSubnetViolation':
+            thirdPartyFirewallMissingSubnetViolation,
     };
   }
 }
@@ -4943,6 +5766,155 @@ class Route {
       if (target != null) 'Target': target,
       if (targetType != null) 'TargetType': targetType.toValue(),
     };
+  }
+}
+
+/// Contains details about the route endpoint that violates the policy scope.
+class RouteHasOutOfScopeEndpointViolation {
+  /// The route table associated with the current firewall subnet.
+  final String? currentFirewallSubnetRouteTable;
+
+  /// The current route table associated with the Internet Gateway.
+  final String? currentInternetGatewayRouteTable;
+
+  /// The ID of the firewall subnet.
+  final String? firewallSubnetId;
+
+  /// The list of firewall subnet routes.
+  final List<Route>? firewallSubnetRoutes;
+
+  /// The ID of the Internet Gateway.
+  final String? internetGatewayId;
+
+  /// The routes in the route table associated with the Internet Gateway.
+  final List<Route>? internetGatewayRoutes;
+
+  /// The ID of the route table.
+  final String? routeTableId;
+
+  /// The subnet's Availability Zone.
+  final String? subnetAvailabilityZone;
+
+  /// The ID of the subnet's Availability Zone.
+  final String? subnetAvailabilityZoneId;
+
+  /// The ID of the subnet associated with the route that violates the policy
+  /// scope.
+  final String? subnetId;
+
+  /// The list of routes that violate the route table.
+  final List<Route>? violatingRoutes;
+
+  /// The VPC ID of the route that violates the policy scope.
+  final String? vpcId;
+
+  RouteHasOutOfScopeEndpointViolation({
+    this.currentFirewallSubnetRouteTable,
+    this.currentInternetGatewayRouteTable,
+    this.firewallSubnetId,
+    this.firewallSubnetRoutes,
+    this.internetGatewayId,
+    this.internetGatewayRoutes,
+    this.routeTableId,
+    this.subnetAvailabilityZone,
+    this.subnetAvailabilityZoneId,
+    this.subnetId,
+    this.violatingRoutes,
+    this.vpcId,
+  });
+
+  factory RouteHasOutOfScopeEndpointViolation.fromJson(
+      Map<String, dynamic> json) {
+    return RouteHasOutOfScopeEndpointViolation(
+      currentFirewallSubnetRouteTable:
+          json['CurrentFirewallSubnetRouteTable'] as String?,
+      currentInternetGatewayRouteTable:
+          json['CurrentInternetGatewayRouteTable'] as String?,
+      firewallSubnetId: json['FirewallSubnetId'] as String?,
+      firewallSubnetRoutes: (json['FirewallSubnetRoutes'] as List?)
+          ?.whereNotNull()
+          .map((e) => Route.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      internetGatewayId: json['InternetGatewayId'] as String?,
+      internetGatewayRoutes: (json['InternetGatewayRoutes'] as List?)
+          ?.whereNotNull()
+          .map((e) => Route.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      routeTableId: json['RouteTableId'] as String?,
+      subnetAvailabilityZone: json['SubnetAvailabilityZone'] as String?,
+      subnetAvailabilityZoneId: json['SubnetAvailabilityZoneId'] as String?,
+      subnetId: json['SubnetId'] as String?,
+      violatingRoutes: (json['ViolatingRoutes'] as List?)
+          ?.whereNotNull()
+          .map((e) => Route.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      vpcId: json['VpcId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final currentFirewallSubnetRouteTable =
+        this.currentFirewallSubnetRouteTable;
+    final currentInternetGatewayRouteTable =
+        this.currentInternetGatewayRouteTable;
+    final firewallSubnetId = this.firewallSubnetId;
+    final firewallSubnetRoutes = this.firewallSubnetRoutes;
+    final internetGatewayId = this.internetGatewayId;
+    final internetGatewayRoutes = this.internetGatewayRoutes;
+    final routeTableId = this.routeTableId;
+    final subnetAvailabilityZone = this.subnetAvailabilityZone;
+    final subnetAvailabilityZoneId = this.subnetAvailabilityZoneId;
+    final subnetId = this.subnetId;
+    final violatingRoutes = this.violatingRoutes;
+    final vpcId = this.vpcId;
+    return {
+      if (currentFirewallSubnetRouteTable != null)
+        'CurrentFirewallSubnetRouteTable': currentFirewallSubnetRouteTable,
+      if (currentInternetGatewayRouteTable != null)
+        'CurrentInternetGatewayRouteTable': currentInternetGatewayRouteTable,
+      if (firewallSubnetId != null) 'FirewallSubnetId': firewallSubnetId,
+      if (firewallSubnetRoutes != null)
+        'FirewallSubnetRoutes': firewallSubnetRoutes,
+      if (internetGatewayId != null) 'InternetGatewayId': internetGatewayId,
+      if (internetGatewayRoutes != null)
+        'InternetGatewayRoutes': internetGatewayRoutes,
+      if (routeTableId != null) 'RouteTableId': routeTableId,
+      if (subnetAvailabilityZone != null)
+        'SubnetAvailabilityZone': subnetAvailabilityZone,
+      if (subnetAvailabilityZoneId != null)
+        'SubnetAvailabilityZoneId': subnetAvailabilityZoneId,
+      if (subnetId != null) 'SubnetId': subnetId,
+      if (violatingRoutes != null) 'ViolatingRoutes': violatingRoutes,
+      if (vpcId != null) 'VpcId': vpcId,
+    };
+  }
+}
+
+enum RuleOrder {
+  strictOrder,
+  defaultActionOrder,
+}
+
+extension on RuleOrder {
+  String toValue() {
+    switch (this) {
+      case RuleOrder.strictOrder:
+        return 'STRICT_ORDER';
+      case RuleOrder.defaultActionOrder:
+        return 'DEFAULT_ACTION_ORDER';
+    }
+  }
+}
+
+extension on String {
+  RuleOrder toRuleOrder() {
+    switch (this) {
+      case 'STRICT_ORDER':
+        return RuleOrder.strictOrder;
+      case 'DEFAULT_ACTION_ORDER':
+        return RuleOrder.defaultActionOrder;
+    }
+    throw Exception('$this is not known in enum RuleOrder');
   }
 }
 
@@ -5070,8 +6042,7 @@ class SecurityServicePolicyData {
   final SecurityServiceType type;
 
   /// Details about the service that are specific to the service type, in JSON
-  /// format. For service type <code>SHIELD_ADVANCED</code>, this is an empty
-  /// string.
+  /// format.
   ///
   /// <ul>
   /// <li>
@@ -5084,10 +6055,108 @@ class SecurityServicePolicyData {
   /// 10000.
   /// </note> </li>
   /// <li>
-  /// Example: <code>NETWORK_FIREWALL</code>
+  /// Example: <code>NETWORK_FIREWALL</code> - Centralized deployment model
   ///
-  /// <code>"{\"type\":\"NETWORK_FIREWALL\",\"networkFirewallStatelessRuleGroupReferences\":[{\"resourceARN\":\"arn:aws:network-firewall:us-west-1:1234567891011:stateless-rulegroup/rulegroup2\",\"priority\":10}],\"networkFirewallStatelessDefaultActions\":[\"aws:pass\",\"custom1\"],\"networkFirewallStatelessFragmentDefaultActions\":[\"custom2\",\"aws:pass\"],\"networkFirewallStatelessCustomActions\":[{\"actionName\":\"custom1\",\"actionDefinition\":{\"publishMetricAction\":{\"dimensions\":[{\"value\":\"dimension1\"}]}}},{\"actionName\":\"custom2\",\"actionDefinition\":{\"publishMetricAction\":{\"dimensions\":[{\"value\":\"dimension2\"}]}}}],\"networkFirewallStatefulRuleGroupReferences\":[{\"resourceARN\":\"arn:aws:network-firewall:us-west-1:1234567891011:stateful-rulegroup/rulegroup1\"}],\"networkFirewallOrchestrationConfig\":{\"singleFirewallEndpointPerVPC\":true,\"allowedIPV4CidrList\":[\"10.24.34.0/28\"]}
-  /// }"</code>
+  /// <code>"{\"type\":\"NETWORK_FIREWALL\",\"awsNetworkFirewallConfig\":{\"networkFirewallStatelessRuleGroupReferences\":[{\"resourceARN\":\"arn:aws:network-firewall:us-east-1:123456789011:stateless-rulegroup/test\",\"priority\":1}],\"networkFirewallStatelessDefaultActions\":[\"aws:forward_to_sfe\",\"customActionName\"],\"networkFirewallStatelessFragmentDefaultActions\":[\"aws:forward_to_sfe\",\"customActionName\"],\"networkFirewallStatelessCustomActions\":[{\"actionName\":\"customActionName\",\"actionDefinition\":{\"publishMetricAction\":{\"dimensions\":[{\"value\":\"metricdimensionvalue\"}]}}}],\"networkFirewallStatefulRuleGroupReferences\":[{\"resourceARN\":\"arn:aws:network-firewall:us-east-1:123456789011:stateful-rulegroup/test\"}],\"networkFirewallLoggingConfiguration\":{\"logDestinationConfigs\":[{\"logDestinationType\":\"S3\",\"logType\":\"ALERT\",\"logDestination\":{\"bucketName\":\"s3-bucket-name\"}},{\"logDestinationType\":\"S3\",\"logType\":\"FLOW\",\"logDestination\":{\"bucketName\":\"s3-bucket-name\"}}],\"overrideExistingConfig\":true}},\"firewallDeploymentModel\":{\"centralizedFirewallDeploymentModel\":{\"centralizedFirewallOrchestrationConfig\":{\"inspectionVpcIds\":[{\"resourceId\":\"vpc-1234\",\"accountId\":\"123456789011\"}],\"firewallCreationConfig\":{\"endpointLocation\":{\"availabilityZoneConfigList\":[{\"availabilityZoneId\":null,\"availabilityZoneName\":\"us-east-1a\",\"allowedIPV4CidrList\":[\"10.0.0.0/28\"]}]}},\"allowedIPV4CidrList\":[]}}}}"</code>
+  ///
+  /// To use the centralized deployment model, you must set <a
+  /// href="https://docs.aws.amazon.com/fms/2018-01-01/APIReference/API_PolicyOption.html">PolicyOption</a>
+  /// to <code>CENTRALIZED</code>.
+  /// </li>
+  /// <li>
+  /// Example: <code>NETWORK_FIREWALL</code> - Distributed deployment model with
+  /// automatic Availability Zone configuration
+  ///
+  /// <code>
+  /// "{\"type\":\"NETWORK_FIREWALL\",\"networkFirewallStatelessRuleGroupReferences\":[{\"resourceARN\":\"arn:aws:network-firewall:us-east-1:123456789011:stateless-rulegroup/test\",\"priority\":1}],\"networkFirewallStatelessDefaultActions\":[\"aws:forward_to_sfe\",\"customActionName\"],\"networkFirewallStatelessFragmentDefaultActions\":[\"aws:forward_to_sfe\",\"customActionName\"],\"networkFirewallStatelessCustomActions\":[{\"actionName\":\"customActionName\",\"actionDefinition\":{\"publishMetricAction\":{\"dimensions\":[{\"value\":\"metricdimensionvalue\"}]}}}],\"networkFirewallStatefulRuleGroupReferences\":[{\"resourceARN\":\"arn:aws:network-firewall:us-east-1:123456789011:stateful-rulegroup/test\"}],\"networkFirewallOrchestrationConfig\":{\"singleFirewallEndpointPerVPC\":false,\"allowedIPV4CidrList\":[\"10.0.0.0/28\",\"192.168.0.0/28\"],\"routeManagementAction\":\"OFF\"},\"networkFirewallLoggingConfiguration\":{\"logDestinationConfigs\":[{\"logDestinationType\":\"S3\",\"logType\":\"ALERT\",\"logDestination\":{\"bucketName\":\"s3-bucket-name\"}},{\"logDestinationType\":\"S3\",\"logType\":\"FLOW\",\"logDestination\":{\"bucketName\":\"s3-bucket-name\"}}],\"overrideExistingConfig\":true}}"
+  /// </code>
+  ///
+  /// With automatic Availbility Zone configuration, Firewall Manager chooses
+  /// which Availability Zones to create the endpoints in. To use the distributed
+  /// deployment model, you must set <a
+  /// href="https://docs.aws.amazon.com/fms/2018-01-01/APIReference/API_PolicyOption.html">PolicyOption</a>
+  /// to <code>NULL</code>.
+  /// </li>
+  /// <li>
+  /// Example: <code>NETWORK_FIREWALL</code> - Distributed deployment model with
+  /// automatic Availability Zone configuration and route management
+  ///
+  /// <code>
+  /// "{\"type\":\"NETWORK_FIREWALL\",\"networkFirewallStatelessRuleGroupReferences\":[{\"resourceARN\":\"arn:aws:network-firewall:us-east-1:123456789011:stateless-rulegroup/test\",\"priority\":1}],\"networkFirewallStatelessDefaultActions\":[\"aws:forward_to_sfe\",\"customActionName\"],\"networkFirewallStatelessFragmentDefaultActions\":[\"aws:forward_to_sfe\",\"customActionName\"],\"networkFirewallStatelessCustomActions\":[{\"actionName\":\"customActionName\",\"actionDefinition\":{\"publishMetricAction\":{\"dimensions\":[{\"value\":\"metricdimensionvalue\"}]}}}],\"networkFirewallStatefulRuleGroupReferences\":[{\"resourceARN\":\"arn:aws:network-firewall:us-east-1:123456789011:stateful-rulegroup/test\"}],\"networkFirewallOrchestrationConfig\":{\"singleFirewallEndpointPerVPC\":false,\"allowedIPV4CidrList\":[\"10.0.0.0/28\",\"192.168.0.0/28\"],\"routeManagementAction\":\"MONITOR\",\"routeManagementTargetTypes\":[\"InternetGateway\"]},\"networkFirewallLoggingConfiguration\":{\"logDestinationConfigs\":[{\"logDestinationType\":\"S3\",\"logType\":\"ALERT\",\"logDestination\":{\"bucketName\":\"s3-bucket-name\"}},{\"logDestinationType\":\"S3\",\"logType\":
+  /// \"FLOW\",\"logDestination\":{\"bucketName\":\"s3-bucket-name\"}}],\"overrideExistingConfig\":true}}"
+  /// </code>
+  ///
+  /// To use the distributed deployment model, you must set <a
+  /// href="https://docs.aws.amazon.com/fms/2018-01-01/APIReference/API_PolicyOption.html">PolicyOption</a>
+  /// to <code>NULL</code>.
+  /// </li>
+  /// <li>
+  /// Example: <code>NETWORK_FIREWALL</code> - Distributed deployment model with
+  /// custom Availability Zone configuration
+  ///
+  /// <code>"{\"type\":\"NETWORK_FIREWALL\",\"networkFirewallStatelessRuleGroupReferences\":[{\"resourceARN\":\"arn:aws:network-firewall:us-east-1:123456789011:stateless-rulegroup/test\",\"priority\":1}],\"networkFirewallStatelessDefaultActions\":[\"aws:forward_to_sfe\",\"customActionName\"],\"networkFirewallStatelessFragmentDefaultActions\":[\"aws:forward_to_sfe\",\"fragmentcustomactionname\"],\"networkFirewallStatelessCustomActions\":[{\"actionName\":\"customActionName\",
+  /// \"actionDefinition\":{\"publishMetricAction\":{\"dimensions\":[{\"value\":\"metricdimensionvalue\"}]}}},{\"actionName\":\"fragmentcustomactionname\",\"actionDefinition\":{\"publishMetricAction\":{\"dimensions\":[{\"value\":\"fragmentmetricdimensionvalue\"}]}}}],\"networkFirewallStatefulRuleGroupReferences\":[{\"resourceARN\":\"arn:aws:network-firewall:us-east-1:123456789011:stateful-rulegroup/test\"}],\"networkFirewallOrchestrationConfig\":{\"firewallCreationConfig\":{
+  /// \"endpointLocation\":{\"availabilityZoneConfigList\":[{\"availabilityZoneName\":\"us-east-1a\",\"allowedIPV4CidrList\":[\"10.0.0.0/28\"]},{\"availabilityZoneName\":\"us-east-1b\",\"allowedIPV4CidrList\":[
+  /// \"10.0.0.0/28\"]}]}
+  /// },\"singleFirewallEndpointPerVPC\":false,\"allowedIPV4CidrList\":null,\"routeManagementAction\":\"OFF\",\"networkFirewallLoggingConfiguration\":{\"logDestinationConfigs\":[{\"logDestinationType\":\"S3\",\"logType\":\"ALERT\",\"logDestination\":{\"bucketName\":\"s3-bucket-name\"}},{\"logDestinationType\":\"S3\",\"logType\":\"FLOW\",\"logDestination\":{\"bucketName\":\"s3-bucket-name\"}}],\"overrideExistingConfig\":boolean}}"
+  /// </code>
+  ///
+  /// With custom Availability Zone configuration, you define which specific
+  /// Availability Zones to create endpoints in by configuring
+  /// <code>firewallCreationConfig</code>. To configure the Availability Zones in
+  /// <code>firewallCreationConfig</code>, specify either the
+  /// <code>availabilityZoneName</code> or <code>availabilityZoneId</code>
+  /// parameter, not both parameters.
+  ///
+  /// To use the distributed deployment model, you must set <a
+  /// href="https://docs.aws.amazon.com/fms/2018-01-01/APIReference/API_PolicyOption.html">PolicyOption</a>
+  /// to <code>NULL</code>.
+  /// </li>
+  /// <li>
+  /// Example: <code>NETWORK_FIREWALL</code> - Distributed deployment model with
+  /// custom Availability Zone configuration and route management
+  ///
+  /// <code>"{\"type\":\"NETWORK_FIREWALL\",\"networkFirewallStatelessRuleGroupReferences\":[{\"resourceARN\":\"arn:aws:network-firewall:us-east-1:123456789011:stateless-rulegroup/test\",\"priority\":1}],\"networkFirewallStatelessDefaultActions\":[\"aws:forward_to_sfe\",\"customActionName\"],\"networkFirewallStatelessFragmentDefaultActions\":[\"aws:forward_to_sfe\",\"fragmentcustomactionname\"],\"networkFirewallStatelessCustomActions\":[{\"actionName\":\"customActionName\",\"actionDefinition\":{\"publishMetricAction\":{\"dimensions\":[{\"value\":\"metricdimensionvalue\"}]}}},{\"actionName\":\"fragmentcustomactionname\",\"actionDefinition\":{\"publishMetricAction\":{\"dimensions\":[{\"value\":\"fragmentmetricdimensionvalue\"}]}}}],\"networkFirewallStatefulRuleGroupReferences\":[{\"resourceARN\":\"arn:aws:network-firewall:us-east-1:123456789011:stateful-rulegroup/test\"}],\"networkFirewallOrchestrationConfig\":{\"firewallCreationConfig\":{\"endpointLocation\":{\"availabilityZoneConfigList\":[{\"availabilityZoneName\":\"us-east-1a\",\"allowedIPV4CidrList\":[\"10.0.0.0/28\"]},{\"availabilityZoneName\":\"us-east-1b\",\"allowedIPV4CidrList\":[\"10.0.0.0/28\"]}]}},\"singleFirewallEndpointPerVPC\":false,\"allowedIPV4CidrList\":null,\"routeManagementAction\":\"MONITOR\",\"routeManagementTargetTypes\":[\"InternetGateway\"],\"routeManagementConfig\":{\"allowCrossAZTrafficIfNoEndpoint\":true}},\"networkFirewallLoggingConfiguration\":{\"logDestinationConfigs\":[{\"logDestinationType\":\"S3\",\"logType\":\"ALERT\",\"logDestination\":{\"bucketName\":\"s3-bucket-name\"}},{\"logDestinationType\":\"S3\",\"logType\":\"FLOW\",\"logDestination\":{\"bucketName\":\"s3-bucket-name\"}}],\"overrideExistingConfig\":boolean}}"
+  /// </code>
+  ///
+  /// To use the distributed deployment model, you must set <a
+  /// href="https://docs.aws.amazon.com/fms/2018-01-01/APIReference/API_PolicyOption.html">PolicyOption</a>
+  /// to <code>NULL</code>.
+  /// </li>
+  /// <li>
+  /// Example: <code>THIRD_PARTY_FIREWALL</code>
+  ///
+  /// <code>"{ "type":"THIRD_PARTY_FIREWALL",
+  /// "thirdPartyFirewall":"PALO_ALTO_NETWORKS_CLOUD_NGFW",
+  /// "thirdPartyFirewallConfig":{ "thirdPartyFirewallPolicyList":["global-1"] },
+  /// "firewallDeploymentModel":{ "distributedFirewallDeploymentModel":{
+  /// "distributedFirewallOrchestrationConfig":{ "firewallCreationConfig":{
+  /// "endpointLocation":{ "availabilityZoneConfigList":[ {
+  /// "availabilityZoneName":"${AvailabilityZone}" } ] } },
+  /// "allowedIPV4CidrList":[ ] } } } }"</code>
+  /// </li>
+  /// <li>
+  /// Specification for <code>SHIELD_ADVANCED</code> for Amazon CloudFront
+  /// distributions
+  ///
+  /// <code>"{\"type\":\"SHIELD_ADVANCED\",\"automaticResponseConfiguration\":
+  /// {\"automaticResponseStatus\":\"ENABLED|IGNORED|DISABLED\",
+  /// \"automaticResponseAction\":\"BLOCK|COUNT\"},
+  /// \"overrideCustomerWebaclClassic\":true|false}"</code>
+  ///
+  /// For example:
+  /// <code>"{\"type\":\"SHIELD_ADVANCED\",\"automaticResponseConfiguration\":
+  /// {\"automaticResponseStatus\":\"ENABLED\",
+  /// \"automaticResponseAction\":\"COUNT\"}}"</code>
+  ///
+  /// The default value for <code>automaticResponseStatus</code> is
+  /// <code>IGNORED</code>. The value for <code>automaticResponseAction</code> is
+  /// only required when <code>automaticResponseStatus</code> is set to
+  /// <code>ENABLED</code>. The default value for
+  /// <code>overrideCustomerWebaclClassic</code> is <code>false</code>.
+  ///
+  /// For other resource types that you can protect with a Shield Advanced policy,
+  /// this <code>ManagedServiceData</code> configuration is an empty string.
   /// </li>
   /// <li>
   /// Example: <code>WAFV2</code>
@@ -5108,11 +6177,43 @@ class SecurityServicePolicyData {
   /// {\"type\": \"COUNT\"}}], \"defaultAction\": {\"type\": \"BLOCK\"}}"</code>
   /// </li>
   /// <li>
+  /// Example: <code>WAFV2</code> - Firewall Manager support for WAF managed rule
+  /// group versioning
+  ///
+  /// <code>"{\"type\":\"WAFV2\",\"preProcessRuleGroups\":[{\"ruleGroupArn\":null,\"overrideAction\":{\"type\":\"NONE\"},\"managedRuleGroupIdentifier\":{\"versionEnabled\":true,\"version\":\"Version_2.0\",\"vendorName\":\"AWS\",\"managedRuleGroupName\":\"AWSManagedRulesCommonRuleSet\"},\"ruleGroupType\":\"ManagedRuleGroup\",\"excludeRules\":[{\"name\":\"NoUserAgent_HEADER\"}]}],\"postProcessRuleGroups\":[],\"defaultAction\":{\"type\":\"ALLOW\"},\"overrideCustomerWebACLAssociation\":false,\"loggingConfiguration\":{\"logDestinationConfigs\":[\"arn:aws:firehose:us-west-2:12345678912:deliverystream/aws-waf-logs-fms-admin-destination\"],\"redactedFields\":[{\"redactedFieldType\":\"SingleHeader\",\"redactedFieldValue\":\"Cookies\"},{\"redactedFieldType\":\"Method\"}]}}"</code>
+  ///
+  /// To use a specific version of a WAF managed rule group in your Firewall
+  /// Manager policy, you must set <code>versionEnabled</code> to
+  /// <code>true</code>, and set <code>version</code> to the version you'd like to
+  /// use. If you don't set <code>versionEnabled</code> to <code>true</code>, or
+  /// if you omit <code>versionEnabled</code>, then Firewall Manager uses the
+  /// default version of the WAF managed rule group.
+  /// </li>
+  /// <li>
   /// Example: <code>SECURITY_GROUPS_COMMON</code>
   ///
   /// <code>"{\"type\":\"SECURITY_GROUPS_COMMON\",\"revertManualSecurityGroupChanges\":false,\"exclusiveResourceSecurityGroupManagement\":false,
   /// \"applyToAllEC2InstanceENIs\":false,\"securityGroups\":[{\"id\":\"
   /// sg-000e55995d61a06bd\"}]}"</code>
+  /// </li>
+  /// <li>
+  /// Example: <code>SECURITY_GROUPS_COMMON</code> - Security group tag
+  /// distribution
+  ///
+  /// <code>""{\"type\":\"SECURITY_GROUPS_COMMON\",\"securityGroups\":[{\"id\":\"sg-000e55995d61a06bd\"}],\"revertManualSecurityGroupChanges\":true,\"exclusiveResourceSecurityGroupManagement\":false,\"applyToAllEC2InstanceENIs\":false,\"includeSharedVPC\":false,\"enableTagDistribution\":true}""</code>
+  ///
+  /// Firewall Manager automatically distributes tags from the primary group to
+  /// the security groups created by this policy. To use security group tag
+  /// distribution, you must also set
+  /// <code>revertManualSecurityGroupChanges</code> to <code>true</code>,
+  /// otherwise Firewall Manager won't be able to create the policy. When you
+  /// enable <code>revertManualSecurityGroupChanges</code>, Firewall Manager
+  /// identifies and reports when the security groups created by this policy
+  /// become non-compliant.
+  ///
+  /// Firewall Manager won't distrubute system tags added by Amazon Web Services
+  /// services into the replica security groups. System tags begin with the
+  /// <code>aws:</code> prefix.
   /// </li>
   /// <li>
   /// Example: Shared VPCs. Apply the preceding policy to resources in shared VPCs
@@ -5142,24 +6243,34 @@ class SecurityServicePolicyData {
   /// </ul>
   final String? managedServiceData;
 
+  /// Contains the Network Firewall firewall policy options to configure a
+  /// centralized deployment model.
+  final PolicyOption? policyOption;
+
   SecurityServicePolicyData({
     required this.type,
     this.managedServiceData,
+    this.policyOption,
   });
 
   factory SecurityServicePolicyData.fromJson(Map<String, dynamic> json) {
     return SecurityServicePolicyData(
       type: (json['Type'] as String).toSecurityServiceType(),
       managedServiceData: json['ManagedServiceData'] as String?,
+      policyOption: json['PolicyOption'] != null
+          ? PolicyOption.fromJson(json['PolicyOption'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
     final type = this.type;
     final managedServiceData = this.managedServiceData;
+    final policyOption = this.policyOption;
     return {
       'Type': type.toValue(),
       if (managedServiceData != null) 'ManagedServiceData': managedServiceData,
+      if (policyOption != null) 'PolicyOption': policyOption,
     };
   }
 }
@@ -5173,6 +6284,7 @@ enum SecurityServiceType {
   securityGroupsUsageAudit,
   networkFirewall,
   dnsFirewall,
+  thirdPartyFirewall,
 }
 
 extension on SecurityServiceType {
@@ -5194,6 +6306,8 @@ extension on SecurityServiceType {
         return 'NETWORK_FIREWALL';
       case SecurityServiceType.dnsFirewall:
         return 'DNS_FIREWALL';
+      case SecurityServiceType.thirdPartyFirewall:
+        return 'THIRD_PARTY_FIREWALL';
     }
   }
 }
@@ -5217,14 +6331,60 @@ extension on String {
         return SecurityServiceType.networkFirewall;
       case 'DNS_FIREWALL':
         return SecurityServiceType.dnsFirewall;
+      case 'THIRD_PARTY_FIREWALL':
+        return SecurityServiceType.thirdPartyFirewall;
     }
     throw Exception('$this is not known in enum SecurityServiceType');
+  }
+}
+
+/// Configuration settings for the handling of the stateful rule groups in a
+/// Network Firewall firewall policy.
+class StatefulEngineOptions {
+  /// Indicates how to manage the order of stateful rule evaluation for the
+  /// policy. <code>DEFAULT_ACTION_ORDER</code> is the default behavior. Stateful
+  /// rules are provided to the rule engine as Suricata compatible strings, and
+  /// Suricata evaluates them based on certain settings. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/network-firewall/latest/developerguide/suricata-rule-evaluation-order.html">Evaluation
+  /// order for stateful rules</a> in the <i>Network Firewall Developer Guide</i>.
+  final RuleOrder? ruleOrder;
+
+  StatefulEngineOptions({
+    this.ruleOrder,
+  });
+
+  factory StatefulEngineOptions.fromJson(Map<String, dynamic> json) {
+    return StatefulEngineOptions(
+      ruleOrder: (json['RuleOrder'] as String?)?.toRuleOrder(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ruleOrder = this.ruleOrder;
+    return {
+      if (ruleOrder != null) 'RuleOrder': ruleOrder.toValue(),
+    };
   }
 }
 
 /// Network Firewall stateful rule group, used in a
 /// <a>NetworkFirewallPolicyDescription</a>.
 class StatefulRuleGroup {
+  /// An integer setting that indicates the order in which to run the stateful
+  /// rule groups in a single Network Firewall firewall policy. This setting only
+  /// applies to firewall policies that specify the <code>STRICT_ORDER</code> rule
+  /// order in the stateful engine options settings.
+  ///
+  /// Network Firewall evalutes each stateful rule group against a packet starting
+  /// with the group that has the lowest priority setting. You must ensure that
+  /// the priority settings are unique within each policy. For information about
+  ///
+  /// You can change the priority settings of your rule groups at any time. To
+  /// make it easier to insert rule groups later, number them so there's a wide
+  /// range in between, for example use 100, 200, and so on.
+  final int? priority;
+
   /// The resource ID of the rule group.
   final String? resourceId;
 
@@ -5232,21 +6392,25 @@ class StatefulRuleGroup {
   final String? ruleGroupName;
 
   StatefulRuleGroup({
+    this.priority,
     this.resourceId,
     this.ruleGroupName,
   });
 
   factory StatefulRuleGroup.fromJson(Map<String, dynamic> json) {
     return StatefulRuleGroup(
+      priority: json['Priority'] as int?,
       resourceId: json['ResourceId'] as String?,
       ruleGroupName: json['RuleGroupName'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final priority = this.priority;
     final resourceId = this.resourceId;
     final ruleGroupName = this.ruleGroupName;
     return {
+      if (priority != null) 'Priority': priority,
       if (resourceId != null) 'ResourceId': resourceId,
       if (ruleGroupName != null) 'RuleGroupName': ruleGroupName,
     };
@@ -5411,6 +6575,282 @@ extension on String {
   }
 }
 
+enum ThirdPartyFirewall {
+  paloAltoNetworksCloudNgfw,
+}
+
+extension on ThirdPartyFirewall {
+  String toValue() {
+    switch (this) {
+      case ThirdPartyFirewall.paloAltoNetworksCloudNgfw:
+        return 'PALO_ALTO_NETWORKS_CLOUD_NGFW';
+    }
+  }
+}
+
+extension on String {
+  ThirdPartyFirewall toThirdPartyFirewall() {
+    switch (this) {
+      case 'PALO_ALTO_NETWORKS_CLOUD_NGFW':
+        return ThirdPartyFirewall.paloAltoNetworksCloudNgfw;
+    }
+    throw Exception('$this is not known in enum ThirdPartyFirewall');
+  }
+}
+
+enum ThirdPartyFirewallAssociationStatus {
+  onboarding,
+  onboardComplete,
+  offboarding,
+  offboardComplete,
+  notExist,
+}
+
+extension on ThirdPartyFirewallAssociationStatus {
+  String toValue() {
+    switch (this) {
+      case ThirdPartyFirewallAssociationStatus.onboarding:
+        return 'ONBOARDING';
+      case ThirdPartyFirewallAssociationStatus.onboardComplete:
+        return 'ONBOARD_COMPLETE';
+      case ThirdPartyFirewallAssociationStatus.offboarding:
+        return 'OFFBOARDING';
+      case ThirdPartyFirewallAssociationStatus.offboardComplete:
+        return 'OFFBOARD_COMPLETE';
+      case ThirdPartyFirewallAssociationStatus.notExist:
+        return 'NOT_EXIST';
+    }
+  }
+}
+
+extension on String {
+  ThirdPartyFirewallAssociationStatus toThirdPartyFirewallAssociationStatus() {
+    switch (this) {
+      case 'ONBOARDING':
+        return ThirdPartyFirewallAssociationStatus.onboarding;
+      case 'ONBOARD_COMPLETE':
+        return ThirdPartyFirewallAssociationStatus.onboardComplete;
+      case 'OFFBOARDING':
+        return ThirdPartyFirewallAssociationStatus.offboarding;
+      case 'OFFBOARD_COMPLETE':
+        return ThirdPartyFirewallAssociationStatus.offboardComplete;
+      case 'NOT_EXIST':
+        return ThirdPartyFirewallAssociationStatus.notExist;
+    }
+    throw Exception(
+        '$this is not known in enum ThirdPartyFirewallAssociationStatus');
+  }
+}
+
+/// Configures the third-party firewall's firewall policy.
+class ThirdPartyFirewallFirewallPolicy {
+  /// The ID of the specified firewall policy.
+  final String? firewallPolicyId;
+
+  /// The name of the specified firewall policy.
+  final String? firewallPolicyName;
+
+  ThirdPartyFirewallFirewallPolicy({
+    this.firewallPolicyId,
+    this.firewallPolicyName,
+  });
+
+  factory ThirdPartyFirewallFirewallPolicy.fromJson(Map<String, dynamic> json) {
+    return ThirdPartyFirewallFirewallPolicy(
+      firewallPolicyId: json['FirewallPolicyId'] as String?,
+      firewallPolicyName: json['FirewallPolicyName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final firewallPolicyId = this.firewallPolicyId;
+    final firewallPolicyName = this.firewallPolicyName;
+    return {
+      if (firewallPolicyId != null) 'FirewallPolicyId': firewallPolicyId,
+      if (firewallPolicyName != null) 'FirewallPolicyName': firewallPolicyName,
+    };
+  }
+}
+
+/// The violation details for a third-party firewall that's not associated with
+/// an Firewall Manager managed route table.
+class ThirdPartyFirewallMissingExpectedRouteTableViolation {
+  /// The Availability Zone of the firewall subnet that's causing the violation.
+  final String? availabilityZone;
+
+  /// The resource ID of the current route table that's associated with the
+  /// subnet, if one is available.
+  final String? currentRouteTable;
+
+  /// The resource ID of the route table that should be associated with the
+  /// subnet.
+  final String? expectedRouteTable;
+
+  /// The resource ID of the VPC associated with a fireawll subnet that's causing
+  /// the violation.
+  final String? vpc;
+
+  /// The ID of the third-party firewall or VPC resource that's causing the
+  /// violation.
+  final String? violationTarget;
+
+  ThirdPartyFirewallMissingExpectedRouteTableViolation({
+    this.availabilityZone,
+    this.currentRouteTable,
+    this.expectedRouteTable,
+    this.vpc,
+    this.violationTarget,
+  });
+
+  factory ThirdPartyFirewallMissingExpectedRouteTableViolation.fromJson(
+      Map<String, dynamic> json) {
+    return ThirdPartyFirewallMissingExpectedRouteTableViolation(
+      availabilityZone: json['AvailabilityZone'] as String?,
+      currentRouteTable: json['CurrentRouteTable'] as String?,
+      expectedRouteTable: json['ExpectedRouteTable'] as String?,
+      vpc: json['VPC'] as String?,
+      violationTarget: json['ViolationTarget'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final availabilityZone = this.availabilityZone;
+    final currentRouteTable = this.currentRouteTable;
+    final expectedRouteTable = this.expectedRouteTable;
+    final vpc = this.vpc;
+    final violationTarget = this.violationTarget;
+    return {
+      if (availabilityZone != null) 'AvailabilityZone': availabilityZone,
+      if (currentRouteTable != null) 'CurrentRouteTable': currentRouteTable,
+      if (expectedRouteTable != null) 'ExpectedRouteTable': expectedRouteTable,
+      if (vpc != null) 'VPC': vpc,
+      if (violationTarget != null) 'ViolationTarget': violationTarget,
+    };
+  }
+}
+
+/// The violation details about a third-party firewall's subnet that doesn't
+/// have a Firewall Manager managed firewall in its VPC.
+class ThirdPartyFirewallMissingFirewallViolation {
+  /// The Availability Zone of the third-party firewall that's causing the
+  /// violation.
+  final String? availabilityZone;
+
+  /// The reason the resource is causing this violation, if a reason is available.
+  final String? targetViolationReason;
+
+  /// The resource ID of the VPC associated with a third-party firewall.
+  final String? vpc;
+
+  /// The ID of the third-party firewall that's causing the violation.
+  final String? violationTarget;
+
+  ThirdPartyFirewallMissingFirewallViolation({
+    this.availabilityZone,
+    this.targetViolationReason,
+    this.vpc,
+    this.violationTarget,
+  });
+
+  factory ThirdPartyFirewallMissingFirewallViolation.fromJson(
+      Map<String, dynamic> json) {
+    return ThirdPartyFirewallMissingFirewallViolation(
+      availabilityZone: json['AvailabilityZone'] as String?,
+      targetViolationReason: json['TargetViolationReason'] as String?,
+      vpc: json['VPC'] as String?,
+      violationTarget: json['ViolationTarget'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final availabilityZone = this.availabilityZone;
+    final targetViolationReason = this.targetViolationReason;
+    final vpc = this.vpc;
+    final violationTarget = this.violationTarget;
+    return {
+      if (availabilityZone != null) 'AvailabilityZone': availabilityZone,
+      if (targetViolationReason != null)
+        'TargetViolationReason': targetViolationReason,
+      if (vpc != null) 'VPC': vpc,
+      if (violationTarget != null) 'ViolationTarget': violationTarget,
+    };
+  }
+}
+
+/// The violation details for a third-party firewall for an Availability Zone
+/// that's missing the Firewall Manager managed subnet.
+class ThirdPartyFirewallMissingSubnetViolation {
+  /// The Availability Zone of a subnet that's causing the violation.
+  final String? availabilityZone;
+
+  /// The reason the resource is causing the violation, if a reason is available.
+  final String? targetViolationReason;
+
+  /// The resource ID of the VPC associated with a subnet that's causing the
+  /// violation.
+  final String? vpc;
+
+  /// The ID of the third-party firewall or VPC resource that's causing the
+  /// violation.
+  final String? violationTarget;
+
+  ThirdPartyFirewallMissingSubnetViolation({
+    this.availabilityZone,
+    this.targetViolationReason,
+    this.vpc,
+    this.violationTarget,
+  });
+
+  factory ThirdPartyFirewallMissingSubnetViolation.fromJson(
+      Map<String, dynamic> json) {
+    return ThirdPartyFirewallMissingSubnetViolation(
+      availabilityZone: json['AvailabilityZone'] as String?,
+      targetViolationReason: json['TargetViolationReason'] as String?,
+      vpc: json['VPC'] as String?,
+      violationTarget: json['ViolationTarget'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final availabilityZone = this.availabilityZone;
+    final targetViolationReason = this.targetViolationReason;
+    final vpc = this.vpc;
+    final violationTarget = this.violationTarget;
+    return {
+      if (availabilityZone != null) 'AvailabilityZone': availabilityZone,
+      if (targetViolationReason != null)
+        'TargetViolationReason': targetViolationReason,
+      if (vpc != null) 'VPC': vpc,
+      if (violationTarget != null) 'ViolationTarget': violationTarget,
+    };
+  }
+}
+
+/// Configures the deployment model for the third-party firewall.
+class ThirdPartyFirewallPolicy {
+  /// Defines the deployment model to use for the third-party firewall policy.
+  final FirewallDeploymentModel? firewallDeploymentModel;
+
+  ThirdPartyFirewallPolicy({
+    this.firewallDeploymentModel,
+  });
+
+  factory ThirdPartyFirewallPolicy.fromJson(Map<String, dynamic> json) {
+    return ThirdPartyFirewallPolicy(
+      firewallDeploymentModel: (json['FirewallDeploymentModel'] as String?)
+          ?.toFirewallDeploymentModel(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final firewallDeploymentModel = this.firewallDeploymentModel;
+    return {
+      if (firewallDeploymentModel != null)
+        'FirewallDeploymentModel': firewallDeploymentModel.toValue(),
+    };
+  }
+}
+
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -5513,6 +6953,7 @@ enum ViolationReason {
   missingFirewallSubnetInAz,
   missingExpectedRouteTable,
   networkFirewallPolicyModified,
+  firewallSubnetIsOutOfScope,
   internetGatewayMissingExpectedRoute,
   firewallSubnetMissingExpectedRoute,
   unexpectedFirewallRoutes,
@@ -5524,6 +6965,8 @@ enum ViolationReason {
   blackHoleRouteDetected,
   blackHoleRouteDetectedInFirewallSubnet,
   resourceMissingDnsFirewall,
+  routeHasOutOfScopeEndpoint,
+  firewallSubnetMissingVpceEndpoint,
 }
 
 extension on ViolationReason {
@@ -5557,6 +7000,8 @@ extension on ViolationReason {
         return 'MISSING_EXPECTED_ROUTE_TABLE';
       case ViolationReason.networkFirewallPolicyModified:
         return 'NETWORK_FIREWALL_POLICY_MODIFIED';
+      case ViolationReason.firewallSubnetIsOutOfScope:
+        return 'FIREWALL_SUBNET_IS_OUT_OF_SCOPE';
       case ViolationReason.internetGatewayMissingExpectedRoute:
         return 'INTERNET_GATEWAY_MISSING_EXPECTED_ROUTE';
       case ViolationReason.firewallSubnetMissingExpectedRoute:
@@ -5579,6 +7024,10 @@ extension on ViolationReason {
         return 'BLACK_HOLE_ROUTE_DETECTED_IN_FIREWALL_SUBNET';
       case ViolationReason.resourceMissingDnsFirewall:
         return 'RESOURCE_MISSING_DNS_FIREWALL';
+      case ViolationReason.routeHasOutOfScopeEndpoint:
+        return 'ROUTE_HAS_OUT_OF_SCOPE_ENDPOINT';
+      case ViolationReason.firewallSubnetMissingVpceEndpoint:
+        return 'FIREWALL_SUBNET_MISSING_VPCE_ENDPOINT';
     }
   }
 }
@@ -5614,6 +7063,8 @@ extension on String {
         return ViolationReason.missingExpectedRouteTable;
       case 'NETWORK_FIREWALL_POLICY_MODIFIED':
         return ViolationReason.networkFirewallPolicyModified;
+      case 'FIREWALL_SUBNET_IS_OUT_OF_SCOPE':
+        return ViolationReason.firewallSubnetIsOutOfScope;
       case 'INTERNET_GATEWAY_MISSING_EXPECTED_ROUTE':
         return ViolationReason.internetGatewayMissingExpectedRoute;
       case 'FIREWALL_SUBNET_MISSING_EXPECTED_ROUTE':
@@ -5636,6 +7087,10 @@ extension on String {
         return ViolationReason.blackHoleRouteDetectedInFirewallSubnet;
       case 'RESOURCE_MISSING_DNS_FIREWALL':
         return ViolationReason.resourceMissingDnsFirewall;
+      case 'ROUTE_HAS_OUT_OF_SCOPE_ENDPOINT':
+        return ViolationReason.routeHasOutOfScopeEndpoint;
+      case 'FIREWALL_SUBNET_MISSING_VPCE_ENDPOINT':
+        return ViolationReason.firewallSubnetMissingVpceEndpoint;
     }
     throw Exception('$this is not known in enum ViolationReason');
   }

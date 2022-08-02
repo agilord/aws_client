@@ -92,7 +92,7 @@ class AmplifyBackend {
   /// The name of the backend environment.
   ///
   /// Parameter [resourceConfig] :
-  /// The resource configuration for creating backend storage.
+  /// The resource configuration for creating a backend.
   ///
   /// Parameter [resourceName] :
   /// The name of the resource.
@@ -1754,19 +1754,19 @@ class CreateBackendAPIResponse {
   }
 }
 
-/// Describes the forgot password policy for authenticating into the Amplify
-/// app.
+/// <b>(DEPRECATED)</b> Describes the forgot password policy for authenticating
+/// into the Amplify app.
 class CreateBackendAuthForgotPasswordConfig {
-  /// Describes which mode to use (either SMS or email) to deliver messages to app
-  /// users who want to recover their password.
+  /// <b>(DEPRECATED)</b> Describes which mode to use (either SMS or email) to
+  /// deliver messages to app users who want to recover their password.
   final DeliveryMethod deliveryMethod;
 
-  /// The configuration for the email sent when an app user forgets their
-  /// password.
+  /// <b>(DEPRECATED)</b> The configuration for the email sent when an app user
+  /// forgets their password.
   final EmailSettings? emailSettings;
 
-  /// The configuration for the SMS message sent when an app user forgets their
-  /// password.
+  /// <b>(DEPRECATED)</b> The configuration for the SMS message sent when an app
+  /// user forgets their password.
   final SmsSettings? smsSettings;
 
   CreateBackendAuthForgotPasswordConfig({
@@ -2106,8 +2106,8 @@ class CreateBackendAuthUserPoolConfig {
   /// The Amazon Cognito user pool name.
   final String userPoolName;
 
-  /// Describes the forgotten password policy for your Amazon Cognito user pool,
-  /// configured as a part of your Amplify project.
+  /// <b>(DEPRECATED)</b> Describes the forgotten password policy for your Amazon
+  /// Cognito user pool, configured as a part of your Amplify project.
   final CreateBackendAuthForgotPasswordConfig? forgotPassword;
 
   /// Describes whether to apply multi-factor authentication policies for your
@@ -2122,6 +2122,10 @@ class CreateBackendAuthUserPoolConfig {
   /// as a part of your Amplify project.
   final CreateBackendAuthPasswordPolicyConfig? passwordPolicy;
 
+  /// Describes the email or SMS verification message for your Amazon Cognito user
+  /// pool, configured as a part of your Amplify project.
+  final CreateBackendAuthVerificationMessageConfig? verificationMessage;
+
   CreateBackendAuthUserPoolConfig({
     required this.requiredSignUpAttributes,
     required this.signInMethod,
@@ -2130,6 +2134,7 @@ class CreateBackendAuthUserPoolConfig {
     this.mfa,
     this.oAuth,
     this.passwordPolicy,
+    this.verificationMessage,
   });
 
   factory CreateBackendAuthUserPoolConfig.fromJson(Map<String, dynamic> json) {
@@ -2156,6 +2161,10 @@ class CreateBackendAuthUserPoolConfig {
           ? CreateBackendAuthPasswordPolicyConfig.fromJson(
               json['passwordPolicy'] as Map<String, dynamic>)
           : null,
+      verificationMessage: json['verificationMessage'] != null
+          ? CreateBackendAuthVerificationMessageConfig.fromJson(
+              json['verificationMessage'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -2167,6 +2176,7 @@ class CreateBackendAuthUserPoolConfig {
     final mfa = this.mfa;
     final oAuth = this.oAuth;
     final passwordPolicy = this.passwordPolicy;
+    final verificationMessage = this.verificationMessage;
     return {
       'requiredSignUpAttributes':
           requiredSignUpAttributes.map((e) => e.toValue()).toList(),
@@ -2176,6 +2186,52 @@ class CreateBackendAuthUserPoolConfig {
       if (mfa != null) 'mfa': mfa,
       if (oAuth != null) 'oAuth': oAuth,
       if (passwordPolicy != null) 'passwordPolicy': passwordPolicy,
+      if (verificationMessage != null)
+        'verificationMessage': verificationMessage,
+    };
+  }
+}
+
+/// Creates an email or SMS verification message for the auth resource
+/// configured for your Amplify project.
+class CreateBackendAuthVerificationMessageConfig {
+  /// The type of verification message to send.
+  final DeliveryMethod deliveryMethod;
+
+  /// The settings for the email message.
+  final EmailSettings? emailSettings;
+
+  /// The settings for the SMS message.
+  final SmsSettings? smsSettings;
+
+  CreateBackendAuthVerificationMessageConfig({
+    required this.deliveryMethod,
+    this.emailSettings,
+    this.smsSettings,
+  });
+
+  factory CreateBackendAuthVerificationMessageConfig.fromJson(
+      Map<String, dynamic> json) {
+    return CreateBackendAuthVerificationMessageConfig(
+      deliveryMethod: (json['deliveryMethod'] as String).toDeliveryMethod(),
+      emailSettings: json['emailSettings'] != null
+          ? EmailSettings.fromJson(
+              json['emailSettings'] as Map<String, dynamic>)
+          : null,
+      smsSettings: json['smsSettings'] != null
+          ? SmsSettings.fromJson(json['smsSettings'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deliveryMethod = this.deliveryMethod;
+    final emailSettings = this.emailSettings;
+    final smsSettings = this.smsSettings;
+    return {
+      'deliveryMethod': deliveryMethod.toValue(),
+      if (emailSettings != null) 'emailSettings': emailSettings,
+      if (smsSettings != null) 'smsSettings': smsSettings,
     };
   }
 }
@@ -2648,6 +2704,7 @@ class DeleteTokenResponse {
   }
 }
 
+/// The type of verification message to send.
 enum DeliveryMethod {
   email,
   sms,
@@ -2679,10 +2736,10 @@ extension on String {
 /// The configuration for the email sent when an app user forgets their
 /// password.
 class EmailSettings {
-  /// The body of the email.
+  /// The contents of the email message.
   final String? emailMessage;
 
-  /// The subject of the email.
+  /// The contents of the subject line of the email message.
   final String? emailSubject;
 
   EmailSettings({
@@ -3770,7 +3827,7 @@ extension on String {
 
 /// SMS settings for authentication.
 class SmsSettings {
-  /// The body of the SMS message.
+  /// The contents of the SMS message.
   final String? smsMessage;
 
   SmsSettings({
@@ -3927,19 +3984,19 @@ class UpdateBackendAPIResponse {
   }
 }
 
-/// Describes the forgot password policy for authenticating into the Amplify
-/// app.
+/// <b>(DEPRECATED)</b> Describes the forgot password policy for authenticating
+/// into the Amplify app.
 class UpdateBackendAuthForgotPasswordConfig {
-  /// Describes which mode to use (either SMS or email) to deliver messages to app
-  /// users that want to recover their password.
+  /// <b>(DEPRECATED)</b> Describes which mode to use (either SMS or email) to
+  /// deliver messages to app users that want to recover their password.
   final DeliveryMethod? deliveryMethod;
 
-  /// The configuration for the email sent when an app user forgets their
-  /// password.
+  /// <b>(DEPRECATED)</b> The configuration for the email sent when an app user
+  /// forgets their password.
   final EmailSettings? emailSettings;
 
-  /// The configuration for the SMS message sent when an Amplify app user forgets
-  /// their password.
+  /// <b>(DEPRECATED)</b> The configuration for the SMS message sent when an
+  /// Amplify app user forgets their password.
   final SmsSettings? smsSettings;
 
   UpdateBackendAuthForgotPasswordConfig({
@@ -4266,8 +4323,8 @@ class UpdateBackendAuthResponse {
 /// Describes the Amazon Cognito user pool configuration for the authorization
 /// resource to be configured for your Amplify project on an update.
 class UpdateBackendAuthUserPoolConfig {
-  /// Describes the forgot password policy for your Amazon Cognito user pool,
-  /// configured as a part of your Amplify project.
+  /// <b>(DEPRECATED)</b> Describes the forgot password policy for your Amazon
+  /// Cognito user pool, configured as a part of your Amplify project.
   final UpdateBackendAuthForgotPasswordConfig? forgotPassword;
 
   /// Describes whether to apply multi-factor authentication policies for your
@@ -4282,11 +4339,16 @@ class UpdateBackendAuthUserPoolConfig {
   /// as a part of your Amplify project.
   final UpdateBackendAuthPasswordPolicyConfig? passwordPolicy;
 
+  /// Describes the email or SMS verification message for your Amazon Cognito user
+  /// pool, configured as a part of your Amplify project.
+  final UpdateBackendAuthVerificationMessageConfig? verificationMessage;
+
   UpdateBackendAuthUserPoolConfig({
     this.forgotPassword,
     this.mfa,
     this.oAuth,
     this.passwordPolicy,
+    this.verificationMessage,
   });
 
   factory UpdateBackendAuthUserPoolConfig.fromJson(Map<String, dynamic> json) {
@@ -4307,6 +4369,10 @@ class UpdateBackendAuthUserPoolConfig {
           ? UpdateBackendAuthPasswordPolicyConfig.fromJson(
               json['passwordPolicy'] as Map<String, dynamic>)
           : null,
+      verificationMessage: json['verificationMessage'] != null
+          ? UpdateBackendAuthVerificationMessageConfig.fromJson(
+              json['verificationMessage'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -4315,11 +4381,58 @@ class UpdateBackendAuthUserPoolConfig {
     final mfa = this.mfa;
     final oAuth = this.oAuth;
     final passwordPolicy = this.passwordPolicy;
+    final verificationMessage = this.verificationMessage;
     return {
       if (forgotPassword != null) 'forgotPassword': forgotPassword,
       if (mfa != null) 'mfa': mfa,
       if (oAuth != null) 'oAuth': oAuth,
       if (passwordPolicy != null) 'passwordPolicy': passwordPolicy,
+      if (verificationMessage != null)
+        'verificationMessage': verificationMessage,
+    };
+  }
+}
+
+/// Updates the configuration of the email or SMS message for the auth resource
+/// configured for your Amplify project.
+class UpdateBackendAuthVerificationMessageConfig {
+  /// The type of verification message to send.
+  final DeliveryMethod deliveryMethod;
+
+  /// The settings for the email message.
+  final EmailSettings? emailSettings;
+
+  /// The settings for the SMS message.
+  final SmsSettings? smsSettings;
+
+  UpdateBackendAuthVerificationMessageConfig({
+    required this.deliveryMethod,
+    this.emailSettings,
+    this.smsSettings,
+  });
+
+  factory UpdateBackendAuthVerificationMessageConfig.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateBackendAuthVerificationMessageConfig(
+      deliveryMethod: (json['deliveryMethod'] as String).toDeliveryMethod(),
+      emailSettings: json['emailSettings'] != null
+          ? EmailSettings.fromJson(
+              json['emailSettings'] as Map<String, dynamic>)
+          : null,
+      smsSettings: json['smsSettings'] != null
+          ? SmsSettings.fromJson(json['smsSettings'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deliveryMethod = this.deliveryMethod;
+    final emailSettings = this.emailSettings;
+    final smsSettings = this.smsSettings;
+    return {
+      'deliveryMethod': deliveryMethod.toValue(),
+      if (emailSettings != null) 'emailSettings': emailSettings,
+      if (smsSettings != null) 'smsSettings': smsSettings,
     };
   }
 }

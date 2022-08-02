@@ -18,18 +18,17 @@ import '../../shared/shared.dart'
 
 export '../../shared/shared.dart' show AwsClientCredentials;
 
-/// Amazon Web Services Transfer Family is a fully managed service that enables
-/// the transfer of files over the File Transfer Protocol (FTP), File Transfer
-/// Protocol over SSL (FTPS), or Secure Shell (SSH) File Transfer Protocol
-/// (SFTP) directly into and out of Amazon Simple Storage Service (Amazon S3).
-/// Amazon Web Services helps you seamlessly migrate your file transfer
-/// workflows to Amazon Web Services Transfer Family by integrating with
-/// existing authentication systems, and providing DNS routing with Amazon Route
-/// 53 so nothing changes for your customers and partners, or their
-/// applications. With your data in Amazon S3, you can use it with Amazon Web
-/// Services services for processing, analytics, machine learning, and
-/// archiving. Getting started with Amazon Web Services Transfer Family is easy
-/// since there is no infrastructure to buy and set up.
+/// Transfer Family is a fully managed service that enables the transfer of
+/// files over the File Transfer Protocol (FTP), File Transfer Protocol over SSL
+/// (FTPS), or Secure Shell (SSH) File Transfer Protocol (SFTP) directly into
+/// and out of Amazon Simple Storage Service (Amazon S3). Amazon Web Services
+/// helps you seamlessly migrate your file transfer workflows to Transfer Family
+/// by integrating with existing authentication systems, and providing DNS
+/// routing with Amazon Route 53 so nothing changes for your customers and
+/// partners, or their applications. With your data in Amazon S3, you can use it
+/// with Amazon Web Services for processing, analytics, machine learning, and
+/// archiving. Getting started with Transfer Family is easy since there is no
+/// infrastructure to buy and set up.
 class Transfer {
   final _s.JsonProtocol _protocol;
   Transfer({
@@ -50,11 +49,10 @@ class Transfer {
 
   /// Used by administrators to choose which groups in the directory should have
   /// access to upload and download files over the enabled protocols using
-  /// Amazon Web Services Transfer Family. For example, a Microsoft Active
-  /// Directory might contain 50,000 users, but only a small fraction might need
-  /// the ability to transfer files to the server. An administrator can use
-  /// <code>CreateAccess</code> to limit the access to the correct set of users
-  /// who need this ability.
+  /// Transfer Family. For example, a Microsoft Active Directory might contain
+  /// 50,000 users, but only a small fraction might need the ability to transfer
+  /// files to the server. An administrator can use <code>CreateAccess</code> to
+  /// limit the access to the correct set of users who need this ability.
   ///
   /// May throw [ServiceUnavailableException].
   /// May throw [InternalServiceError].
@@ -66,9 +64,8 @@ class Transfer {
   /// A unique identifier that is required to identify specific groups within
   /// your directory. The users of the group that you associate have access to
   /// your Amazon S3 or Amazon EFS resources over the enabled protocols using
-  /// Amazon Web Services Transfer Family. If you know the group name, you can
-  /// view the SID values by running the following command using Windows
-  /// PowerShell.
+  /// Transfer Family. If you know the group name, you can view the SID values
+  /// by running the following command using Windows PowerShell.
   ///
   /// <code>Get-ADGroup -Filter {samAccountName -like "<i>YourGroupName</i>*"}
   /// -Properties * | Select SamAccountName,ObjectSid</code>
@@ -76,19 +73,19 @@ class Transfer {
   /// In that command, replace <i>YourGroupName</i> with the name of your Active
   /// Directory group.
   ///
-  /// The regex used to validate this parameter is a string of characters
-  /// consisting of uppercase and lowercase alphanumeric characters with no
-  /// spaces. You can also include underscores or any of the following
+  /// The regular expression used to validate this parameter is a string of
+  /// characters consisting of uppercase and lowercase alphanumeric characters
+  /// with no spaces. You can also include underscores or any of the following
   /// characters: =,.@:/-
   ///
   /// Parameter [role] :
-  /// Specifies the Amazon Resource Name (ARN) of the IAM role that controls
-  /// your users' access to your Amazon S3 bucket or EFS file system. The
-  /// policies attached to this role determine the level of access that you want
-  /// to provide your users when transferring files into and out of your Amazon
-  /// S3 bucket or EFS file system. The IAM role should also contain a trust
-  /// relationship that allows the server to access your resources when
-  /// servicing your users' transfer requests.
+  /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM)
+  /// role that controls your users' access to your Amazon S3 bucket or Amazon
+  /// EFS file system. The policies attached to this role determine the level of
+  /// access that you want to provide your users when transferring files into
+  /// and out of your Amazon S3 bucket or Amazon EFS file system. The IAM role
+  /// should also contain a trust relationship that allows the server to access
+  /// your resources when servicing your users' transfer requests.
   ///
   /// Parameter [serverId] :
   /// A system-assigned unique identifier for a server instance. This is the
@@ -108,9 +105,9 @@ class Transfer {
   /// pair, where <code>Entry</code> shows how the path is made visible and
   /// <code>Target</code> is the actual Amazon S3 or Amazon EFS path. If you
   /// only specify a target, it is displayed as is. You also must ensure that
-  /// your Amazon Web Services Identity and Access Management (IAM) role
-  /// provides access to paths in <code>Target</code>. This value can only be
-  /// set when <code>HomeDirectoryType</code> is set to <i>LOGICAL</i>.
+  /// your Identity and Access Management (IAM) role provides access to paths in
+  /// <code>Target</code>. This value can be set only when
+  /// <code>HomeDirectoryType</code> is set to <i>LOGICAL</i>.
   ///
   /// The following is an <code>Entry</code> and <code>Target</code> pair
   /// example.
@@ -127,43 +124,32 @@ class Transfer {
   /// The following is an <code>Entry</code> and <code>Target</code> pair
   /// example for <code>chroot</code>.
   ///
-  /// <code>[ { "Entry:": "/", "Target": "/bucket_name/home/mydirectory" }
+  /// <code>[ { "Entry": "/", "Target": "/bucket_name/home/mydirectory" }
   /// ]</code>
-  /// <note>
-  /// If the target of a logical directory entry does not exist in Amazon S3 or
-  /// EFS, the entry is ignored. As a workaround, you can use the Amazon S3 API
-  /// or EFS API to create 0 byte objects as place holders for your directory.
-  /// If using the CLI, use the <code>s3api</code> or <code>efsapi</code> call
-  /// instead of <code>s3</code> or <code>efs</code> so you can use the
-  /// put-object operation. For example, you use the following: <code>aws s3api
-  /// put-object --bucket bucketname --key path/to/folder/</code>. Make sure
-  /// that the end of the key name ends in a <code>/</code> for it to be
-  /// considered a folder.
-  /// </note>
   ///
   /// Parameter [homeDirectoryType] :
-  /// The type of landing directory (folder) you want your users' home directory
-  /// to be when they log into the server. If you set it to <code>PATH</code>,
-  /// the user will see the absolute Amazon S3 bucket or EFS paths as is in
-  /// their file transfer protocol clients. If you set it <code>LOGICAL</code>,
-  /// you need to provide mappings in the <code>HomeDirectoryMappings</code> for
-  /// how you want to make Amazon S3 or EFS paths visible to your users.
+  /// The type of landing directory (folder) that you want your users' home
+  /// directory to be when they log in to the server. If you set it to
+  /// <code>PATH</code>, the user will see the absolute Amazon S3 bucket or EFS
+  /// paths as is in their file transfer protocol clients. If you set it
+  /// <code>LOGICAL</code>, you need to provide mappings in the
+  /// <code>HomeDirectoryMappings</code> for how you want to make Amazon S3 or
+  /// Amazon EFS paths visible to your users.
   ///
   /// Parameter [policy] :
-  /// A session policy for your user so that you can use the same IAM role
-  /// across multiple users. This policy scopes down user access to portions of
-  /// their Amazon S3 bucket. Variables that you can use inside this policy
-  /// include <code>${Transfer:UserName}</code>,
+  /// A session policy for your user so that you can use the same Identity and
+  /// Access Management (IAM) role across multiple users. This policy scopes
+  /// down a user's access to portions of their Amazon S3 bucket. Variables that
+  /// you can use inside this policy include <code>${Transfer:UserName}</code>,
   /// <code>${Transfer:HomeDirectory}</code>, and
   /// <code>${Transfer:HomeBucket}</code>.
   /// <note>
-  /// This only applies when the domain of <code>ServerId</code> is S3. EFS does
-  /// not use session policies.
+  /// This policy applies only when the domain of <code>ServerId</code> is
+  /// Amazon S3. Amazon EFS does not use session policies.
   ///
-  /// For session policies, Amazon Web Services Transfer Family stores the
-  /// policy as a JSON blob, instead of the Amazon Resource Name (ARN) of the
-  /// policy. You save the policy as a JSON blob and pass it in the
-  /// <code>Policy</code> argument.
+  /// For session policies, Transfer Family stores the policy as a JSON blob,
+  /// instead of the Amazon Resource Name (ARN) of the policy. You save the
+  /// policy as a JSON blob and pass it in the <code>Policy</code> argument.
   ///
   /// For an example of a session policy, see <a
   /// href="https://docs.aws.amazon.com/transfer/latest/userguide/session-policy.html">Example
@@ -171,7 +157,7 @@ class Transfer {
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRole.html">AssumeRole</a>
-  /// in the <i>Amazon Web Services Security Token Service API Reference</i>.
+  /// in the <i>Security Token Service API Reference</i>.
   /// </note>
   Future<CreateAccessResponse> createAccess({
     required String externalId,
@@ -213,6 +199,220 @@ class Transfer {
     return CreateAccessResponse.fromJson(jsonResponse.body);
   }
 
+  /// Creates an agreement. An agreement is a bilateral trading partner
+  /// agreement, or partnership, between an Transfer Family server and an AS2
+  /// process. The agreement defines the file and message transfer relationship
+  /// between the server and the AS2 process. To define an agreement, Transfer
+  /// Family combines a server, local profile, partner profile, certificate, and
+  /// other attributes.
+  ///
+  /// The partner is identified with the <code>PartnerProfileId</code>, and the
+  /// AS2 process is identified with the <code>LocalProfileId</code>.
+  ///
+  /// May throw [ServiceUnavailableException].
+  /// May throw [InternalServiceError].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceExistsException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [accessRole] :
+  /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM)
+  /// role that grants access to at least the <code>HomeDirectory</code> of your
+  /// users' Amazon S3 buckets.
+  ///
+  /// Parameter [baseDirectory] :
+  /// The landing directory (folder) for files transferred by using the AS2
+  /// protocol.
+  ///
+  /// A <code>BaseDirectory</code> example is
+  /// <code>/<i>DOC-EXAMPLE-BUCKET</i>/<i>home</i>/<i>mydirectory</i> </code>.
+  ///
+  /// Parameter [localProfileId] :
+  /// A unique identifier for the AS2 local profile.
+  ///
+  /// Parameter [partnerProfileId] :
+  /// A unique identifier for the partner profile used in the agreement.
+  ///
+  /// Parameter [serverId] :
+  /// A system-assigned unique identifier for a server instance. This is the
+  /// specific server that the agreement uses.
+  ///
+  /// Parameter [description] :
+  /// A name or short description to identify the agreement.
+  ///
+  /// Parameter [status] :
+  /// The status of the agreement. The agreement can be either
+  /// <code>ACTIVE</code> or <code>INACTIVE</code>.
+  ///
+  /// Parameter [tags] :
+  /// Key-value pairs that can be used to group and search for agreements.
+  Future<CreateAgreementResponse> createAgreement({
+    required String accessRole,
+    required String baseDirectory,
+    required String localProfileId,
+    required String partnerProfileId,
+    required String serverId,
+    String? description,
+    AgreementStatusType? status,
+    List<Tag>? tags,
+  }) async {
+    ArgumentError.checkNotNull(accessRole, 'accessRole');
+    ArgumentError.checkNotNull(baseDirectory, 'baseDirectory');
+    ArgumentError.checkNotNull(localProfileId, 'localProfileId');
+    ArgumentError.checkNotNull(partnerProfileId, 'partnerProfileId');
+    ArgumentError.checkNotNull(serverId, 'serverId');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'TransferService.CreateAgreement'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AccessRole': accessRole,
+        'BaseDirectory': baseDirectory,
+        'LocalProfileId': localProfileId,
+        'PartnerProfileId': partnerProfileId,
+        'ServerId': serverId,
+        if (description != null) 'Description': description,
+        if (status != null) 'Status': status.toValue(),
+        if (tags != null) 'Tags': tags,
+      },
+    );
+
+    return CreateAgreementResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Creates the connector, which captures the parameters for an outbound
+  /// connection for the AS2 protocol. The connector is required for sending
+  /// files from a customer's non Amazon Web Services server.
+  ///
+  /// May throw [ServiceUnavailableException].
+  /// May throw [InternalServiceError].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceExistsException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [accessRole] :
+  /// With AS2, you can send files by calling <code>StartFileTransfer</code> and
+  /// specifying the file paths in the request parameter,
+  /// <code>SendFilePaths</code>. We use the file’s parent directory (for
+  /// example, for <code>--send-file-paths /bucket/dir/file.txt</code>, parent
+  /// directory is <code>/bucket/dir/</code>) to temporarily store a processed
+  /// AS2 message file, store the MDN when we receive them from the partner, and
+  /// write a final JSON file containing relevant metadata of the transmission.
+  /// So, the <code>AccessRole</code> needs to provide read and write access to
+  /// the parent directory of the file location used in the
+  /// <code>StartFileTransfer</code> request. Additionally, you need to provide
+  /// read and write access to the parent directory of the files that you intend
+  /// to send with <code>StartFileTransfer</code>.
+  ///
+  /// Parameter [as2Config] :
+  /// A structure that contains the parameters for a connector object.
+  ///
+  /// Parameter [url] :
+  /// The URL of the partner's AS2 endpoint.
+  ///
+  /// Parameter [loggingRole] :
+  /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM)
+  /// role that allows a connector to turn on CloudWatch logging for Amazon S3
+  /// events. When set, you can view connector activity in your CloudWatch logs.
+  ///
+  /// Parameter [tags] :
+  /// Key-value pairs that can be used to group and search for connectors. Tags
+  /// are metadata attached to connectors for any purpose.
+  Future<CreateConnectorResponse> createConnector({
+    required String accessRole,
+    required As2ConnectorConfig as2Config,
+    required String url,
+    String? loggingRole,
+    List<Tag>? tags,
+  }) async {
+    ArgumentError.checkNotNull(accessRole, 'accessRole');
+    ArgumentError.checkNotNull(as2Config, 'as2Config');
+    ArgumentError.checkNotNull(url, 'url');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'TransferService.CreateConnector'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AccessRole': accessRole,
+        'As2Config': as2Config,
+        'Url': url,
+        if (loggingRole != null) 'LoggingRole': loggingRole,
+        if (tags != null) 'Tags': tags,
+      },
+    );
+
+    return CreateConnectorResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Creates the profile for the AS2 process. The agreement is between the
+  /// partner and the AS2 process.
+  ///
+  /// May throw [ServiceUnavailableException].
+  /// May throw [InternalServiceError].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [as2Id] :
+  /// The <code>As2Id</code> is the <i>AS2-name</i>, as defined in the defined
+  /// in the <a href="https://datatracker.ietf.org/doc/html/rfc4130">RFC
+  /// 4130</a>. For inbound transfers, this is the <code>AS2-From</code> header
+  /// for the AS2 messages sent from the partner. For outbound connectors, this
+  /// is the <code>AS2-To</code> header for the AS2 messages sent to the partner
+  /// using the <code>StartFileTransfer</code> API operation. This ID cannot
+  /// include spaces.
+  ///
+  /// Parameter [profileType] :
+  /// Indicates whether to list only <code>LOCAL</code> type profiles or only
+  /// <code>PARTNER</code> type profiles. If not supplied in the request, the
+  /// command lists all types of profiles.
+  ///
+  /// Parameter [certificateIds] :
+  /// An array of identifiers for the imported certificates. You use this
+  /// identifier for working with profiles and partner profiles.
+  ///
+  /// Parameter [tags] :
+  /// Key-value pairs that can be used to group and search for AS2 profiles.
+  Future<CreateProfileResponse> createProfile({
+    required String as2Id,
+    required ProfileType profileType,
+    List<String>? certificateIds,
+    List<Tag>? tags,
+  }) async {
+    ArgumentError.checkNotNull(as2Id, 'as2Id');
+    ArgumentError.checkNotNull(profileType, 'profileType');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'TransferService.CreateProfile'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'As2Id': as2Id,
+        'ProfileType': profileType.toValue(),
+        if (certificateIds != null) 'CertificateIds': certificateIds,
+        if (tags != null) 'Tags': tags,
+      },
+    );
+
+    return CreateProfileResponse.fromJson(jsonResponse.body);
+  }
+
   /// Instantiates an auto-scaling virtual server based on the selected file
   /// transfer protocol in Amazon Web Services. When you make updates to your
   /// file transfer protocol-enabled server or when you work with users, use the
@@ -228,25 +428,22 @@ class Transfer {
   /// May throw [ThrottlingException].
   ///
   /// Parameter [certificate] :
-  /// The Amazon Resource Name (ARN) of the Amazon Web Services Certificate
-  /// Manager (ACM) certificate. Required when <code>Protocols</code> is set to
+  /// The Amazon Resource Name (ARN) of the Certificate Manager (ACM)
+  /// certificate. Required when <code>Protocols</code> is set to
   /// <code>FTPS</code>.
   ///
   /// To request a new public certificate, see <a
   /// href="https://docs.aws.amazon.com/acm/latest/userguide/gs-acm-request-public.html">Request
-  /// a public certificate</a> in the <i> Amazon Web Services Certificate
-  /// Manager User Guide</i>.
+  /// a public certificate</a> in the <i>Certificate Manager User Guide</i>.
   ///
   /// To import an existing certificate into ACM, see <a
   /// href="https://docs.aws.amazon.com/acm/latest/userguide/import-certificate.html">Importing
-  /// certificates into ACM</a> in the <i> Amazon Web Services Certificate
-  /// Manager User Guide</i>.
+  /// certificates into ACM</a> in the <i>Certificate Manager User Guide</i>.
   ///
   /// To request a private certificate to use FTPS through private IP addresses,
   /// see <a
   /// href="https://docs.aws.amazon.com/acm/latest/userguide/gs-acm-request-private.html">Request
-  /// a private certificate</a> in the <i> Amazon Web Services Certificate
-  /// Manager User Guide</i>.
+  /// a private certificate</a> in the <i>Certificate Manager User Guide</i>.
   ///
   /// Certificates with the following cryptographic algorithms and key sizes are
   /// supported:
@@ -282,10 +479,11 @@ class Transfer {
   ///
   /// Parameter [endpointDetails] :
   /// The virtual private cloud (VPC) endpoint settings that are configured for
-  /// your server. When you host your endpoint within your VPC, you can make it
-  /// accessible only to resources within your VPC, or you can attach Elastic IP
-  /// addresses and make it accessible to clients over the internet. Your VPC's
-  /// default security groups are automatically assigned to your endpoint.
+  /// your server. When you host your endpoint within your VPC, you can make
+  /// your endpoint accessible only to resources within your VPC, or you can
+  /// attach Elastic IP addresses and make your endpoint accessible to clients
+  /// over the internet. Your VPC's default security groups are automatically
+  /// assigned to your endpoint.
   ///
   /// Parameter [endpointType] :
   /// The type of endpoint that you want your server to use. You can choose to
@@ -314,8 +512,30 @@ class Transfer {
   /// </note>
   ///
   /// Parameter [hostKey] :
-  /// The RSA private key as generated by the <code>ssh-keygen -N "" -m PEM -f
-  /// my-new-server-key</code> command.
+  /// The RSA, ECDSA, or ED25519 private key to use for your server.
+  ///
+  /// Use the following command to generate an RSA 2048 bit key with no
+  /// passphrase:
+  ///
+  /// <code>ssh-keygen -t rsa -b 2048 -N "" -m PEM -f my-new-server-key</code>.
+  ///
+  /// Use a minimum value of 2048 for the <code>-b</code> option. You can create
+  /// a stronger key by using 3072 or 4096.
+  ///
+  /// Use the following command to generate an ECDSA 256 bit key with no
+  /// passphrase:
+  ///
+  /// <code>ssh-keygen -t ecdsa -b 256 -N "" -m PEM -f my-new-server-key</code>.
+  ///
+  /// Valid values for the <code>-b</code> option for ECDSA are 256, 384, and
+  /// 521.
+  ///
+  /// Use the following command to generate an ED25519 key with no passphrase:
+  ///
+  /// <code>ssh-keygen -t ed25519 -N "" -f my-new-server-key</code>.
+  ///
+  /// For all of these commands, you can replace <i>my-new-server-key</i> with a
+  /// string of your choice.
   /// <important>
   /// If you aren't planning to migrate existing users from an existing
   /// SFTP-enabled server to a new server, don't update the host key.
@@ -323,8 +543,8 @@ class Transfer {
   /// </important>
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/transfer/latest/userguide/edit-server-config.html#configuring-servers-change-host-key">Change
-  /// the host key for your SFTP-enabled server</a> in the <i>Amazon Web
-  /// Services Transfer Family User Guide</i>.
+  /// the host key for your SFTP-enabled server</a> in the <i>Transfer Family
+  /// User Guide</i>.
   ///
   /// Parameter [identityProviderDetails] :
   /// Required when <code>IdentityProviderType</code> is set to
@@ -335,42 +555,81 @@ class Transfer {
   /// <code>IdentityProviderType</code> is set to <code>SERVICE_MANAGED</code>.
   ///
   /// Parameter [identityProviderType] :
-  /// Specifies the mode of authentication for a server. The default value is
+  /// The mode of authentication for a server. The default value is
   /// <code>SERVICE_MANAGED</code>, which allows you to store and access user
-  /// credentials within the Amazon Web Services Transfer Family service.
+  /// credentials within the Transfer Family service.
   ///
   /// Use <code>AWS_DIRECTORY_SERVICE</code> to provide access to Active
-  /// Directory groups in Amazon Web Services Managed Active Directory or
+  /// Directory groups in Directory Service for Microsoft Active Directory or
   /// Microsoft Active Directory in your on-premises environment or in Amazon
-  /// Web Services using AD Connectors. This option also requires you to provide
-  /// a Directory ID using the <code>IdentityProviderDetails</code> parameter.
+  /// Web Services using AD Connector. This option also requires you to provide
+  /// a Directory ID by using the <code>IdentityProviderDetails</code>
+  /// parameter.
   ///
   /// Use the <code>API_GATEWAY</code> value to integrate with an identity
   /// provider of your choosing. The <code>API_GATEWAY</code> setting requires
-  /// you to provide an API Gateway endpoint URL to call for authentication
-  /// using the <code>IdentityProviderDetails</code> parameter.
+  /// you to provide an Amazon API Gateway endpoint URL to call for
+  /// authentication by using the <code>IdentityProviderDetails</code>
+  /// parameter.
   ///
-  /// Use the <code>AWS_LAMBDA</code> value to directly use a Lambda function as
-  /// your identity provider. If you choose this value, you must specify the ARN
-  /// for the lambda function in the <code>Function</code> parameter for the
+  /// Use the <code>AWS_LAMBDA</code> value to directly use an Lambda function
+  /// as your identity provider. If you choose this value, you must specify the
+  /// ARN for the Lambda function in the <code>Function</code> parameter or the
   /// <code>IdentityProviderDetails</code> data type.
   ///
   /// Parameter [loggingRole] :
-  /// Specifies the Amazon Resource Name (ARN) of the Amazon Web Services
-  /// Identity and Access Management (IAM) role that allows a server to turn on
-  /// Amazon CloudWatch logging for Amazon S3 or Amazon EFS events. When set,
-  /// user activity can be viewed in your CloudWatch logs.
+  /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM)
+  /// role that allows a server to turn on Amazon CloudWatch logging for Amazon
+  /// S3 or Amazon EFSevents. When set, you can view user activity in your
+  /// CloudWatch logs.
+  ///
+  /// Parameter [postAuthenticationLoginBanner] :
+  /// Specifies a string to display when users connect to a server. This string
+  /// is displayed after the user authenticates.
+  /// <note>
+  /// The SFTP protocol does not support post-authentication display banners.
+  /// </note>
+  ///
+  /// Parameter [preAuthenticationLoginBanner] :
+  /// Specifies a string to display when users connect to a server. This string
+  /// is displayed before the user authenticates. For example, the following
+  /// banner displays details about using the system:
+  ///
+  /// <code>This system is for the use of authorized users only. Individuals
+  /// using this computer system without authority, or in excess of their
+  /// authority, are subject to having all of their activities on this system
+  /// monitored and recorded by system personnel.</code>
   ///
   /// Parameter [protocolDetails] :
   /// The protocol settings that are configured for your server.
   ///
-  /// Use the <code>PassiveIp</code> parameter to indicate passive mode (for FTP
-  /// and FTPS protocols). Enter a single dotted-quad IPv4 address, such as the
-  /// external IP address of a firewall, router, or load balancer.
-  ///
-  /// Use the <code>TlsSessionResumptionMode</code> parameter to determine
-  /// whether or not your Transfer server resumes recent, negotiated sessions
-  /// through a unique session ID.
+  /// <ul>
+  /// <li>
+  /// To indicate passive mode (for FTP and FTPS protocols), use the
+  /// <code>PassiveIp</code> parameter. Enter a single dotted-quad IPv4 address,
+  /// such as the external IP address of a firewall, router, or load balancer.
+  /// </li>
+  /// <li>
+  /// To ignore the error that is generated when the client attempts to use the
+  /// <code>SETSTAT</code> command on a file that you are uploading to an Amazon
+  /// S3 bucket, use the <code>SetStatOption</code> parameter. To have the
+  /// Transfer Family server ignore the <code>SETSTAT</code> command and upload
+  /// files without needing to make any changes to your SFTP client, set the
+  /// value to <code>ENABLE_NO_OP</code>. If you set the
+  /// <code>SetStatOption</code> parameter to <code>ENABLE_NO_OP</code>,
+  /// Transfer Family generates a log entry to Amazon CloudWatch Logs, so that
+  /// you can determine when the client is making a <code>SETSTAT</code> call.
+  /// </li>
+  /// <li>
+  /// To determine whether your Transfer Family server resumes recent,
+  /// negotiated sessions through a unique session ID, use the
+  /// <code>TlsSessionResumptionMode</code> parameter.
+  /// </li>
+  /// <li>
+  /// <code>As2Transports</code> indicates the transport method for the AS2
+  /// messages. Currently, only HTTP is supported.
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [protocols] :
   /// Specifies the file transfer protocol or protocols over which your file
@@ -389,24 +648,39 @@ class Transfer {
   /// <li>
   /// <code>FTP</code> (File Transfer Protocol): Unencrypted file transfer
   /// </li>
+  /// <li>
+  /// <code>AS2</code> (Applicability Statement 2): used for transporting
+  /// structured business-to-business data
+  /// </li>
   /// </ul> <note>
+  /// <ul>
+  /// <li>
   /// If you select <code>FTPS</code>, you must choose a certificate stored in
-  /// Amazon Web Services Certificate Manager (ACM) which is used to identify
-  /// your server when clients connect to it over FTPS.
-  ///
+  /// Certificate Manager (ACM) which is used to identify your server when
+  /// clients connect to it over FTPS.
+  /// </li>
+  /// <li>
   /// If <code>Protocol</code> includes either <code>FTP</code> or
   /// <code>FTPS</code>, then the <code>EndpointType</code> must be
   /// <code>VPC</code> and the <code>IdentityProviderType</code> must be
   /// <code>AWS_DIRECTORY_SERVICE</code> or <code>API_GATEWAY</code>.
-  ///
+  /// </li>
+  /// <li>
   /// If <code>Protocol</code> includes <code>FTP</code>, then
   /// <code>AddressAllocationIds</code> cannot be associated.
-  ///
+  /// </li>
+  /// <li>
   /// If <code>Protocol</code> is set only to <code>SFTP</code>, the
   /// <code>EndpointType</code> can be set to <code>PUBLIC</code> and the
   /// <code>IdentityProviderType</code> can be set to
   /// <code>SERVICE_MANAGED</code>.
-  /// </note>
+  /// </li>
+  /// <li>
+  /// If <code>Protocol</code> includes <code>AS2</code>, then the
+  /// <code>EndpointType</code> must be <code>VPC</code>, and domain must be
+  /// Amazon S3.
+  /// </li>
+  /// </ul> </note>
   ///
   /// Parameter [securityPolicyName] :
   /// Specifies the name of the security policy that is attached to the server.
@@ -416,7 +690,7 @@ class Transfer {
   ///
   /// Parameter [workflowDetails] :
   /// Specifies the workflow ID for the workflow to assign and the execution
-  /// role used for executing the workflow.
+  /// role that's used for executing the workflow.
   Future<CreateServerResponse> createServer({
     String? certificate,
     Domain? domain,
@@ -426,6 +700,8 @@ class Transfer {
     IdentityProviderDetails? identityProviderDetails,
     IdentityProviderType? identityProviderType,
     String? loggingRole,
+    String? postAuthenticationLoginBanner,
+    String? preAuthenticationLoginBanner,
     ProtocolDetails? protocolDetails,
     List<Protocol>? protocols,
     String? securityPolicyName,
@@ -453,6 +729,10 @@ class Transfer {
         if (identityProviderType != null)
           'IdentityProviderType': identityProviderType.toValue(),
         if (loggingRole != null) 'LoggingRole': loggingRole,
+        if (postAuthenticationLoginBanner != null)
+          'PostAuthenticationLoginBanner': postAuthenticationLoginBanner,
+        if (preAuthenticationLoginBanner != null)
+          'PreAuthenticationLoginBanner': preAuthenticationLoginBanner,
         if (protocolDetails != null) 'ProtocolDetails': protocolDetails,
         if (protocols != null)
           'Protocols': protocols.map((e) => e.toValue()).toList(),
@@ -471,10 +751,10 @@ class Transfer {
   /// servers that have the <code>IdentityProviderType</code> set to
   /// <code>SERVICE_MANAGED</code>. Using parameters for
   /// <code>CreateUser</code>, you can specify the user name, set the home
-  /// directory, store the user's public key, and assign the user's Amazon Web
-  /// Services Identity and Access Management (IAM) role. You can also
-  /// optionally add a session policy, and assign metadata with tags that can be
-  /// used to group and search for users.
+  /// directory, store the user's public key, and assign the user's Identity and
+  /// Access Management (IAM) role. You can also optionally add a session
+  /// policy, and assign metadata with tags that can be used to group and search
+  /// for users.
   ///
   /// May throw [ServiceUnavailableException].
   /// May throw [InternalServiceError].
@@ -483,13 +763,13 @@ class Transfer {
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [role] :
-  /// Specifies the Amazon Resource Name (ARN) of the IAM role that controls
-  /// your users' access to your Amazon S3 bucket or EFS file system. The
-  /// policies attached to this role determine the level of access that you want
-  /// to provide your users when transferring files into and out of your Amazon
-  /// S3 bucket or EFS file system. The IAM role should also contain a trust
-  /// relationship that allows the server to access your resources when
-  /// servicing your users' transfer requests.
+  /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM)
+  /// role that controls your users' access to your Amazon S3 bucket or Amazon
+  /// EFS file system. The policies attached to this role determine the level of
+  /// access that you want to provide your users when transferring files into
+  /// and out of your Amazon S3 bucket or Amazon EFS file system. The IAM role
+  /// should also contain a trust relationship that allows the server to access
+  /// your resources when servicing your users' transfer requests.
   ///
   /// Parameter [serverId] :
   /// A system-assigned unique identifier for a server instance. This is the
@@ -516,9 +796,9 @@ class Transfer {
   /// pair, where <code>Entry</code> shows how the path is made visible and
   /// <code>Target</code> is the actual Amazon S3 or Amazon EFS path. If you
   /// only specify a target, it is displayed as is. You also must ensure that
-  /// your Amazon Web Services Identity and Access Management (IAM) role
-  /// provides access to paths in <code>Target</code>. This value can only be
-  /// set when <code>HomeDirectoryType</code> is set to <i>LOGICAL</i>.
+  /// your Identity and Access Management (IAM) role provides access to paths in
+  /// <code>Target</code>. This value can be set only when
+  /// <code>HomeDirectoryType</code> is set to <i>LOGICAL</i>.
   ///
   /// The following is an <code>Entry</code> and <code>Target</code> pair
   /// example.
@@ -535,43 +815,32 @@ class Transfer {
   /// The following is an <code>Entry</code> and <code>Target</code> pair
   /// example for <code>chroot</code>.
   ///
-  /// <code>[ { "Entry:": "/", "Target": "/bucket_name/home/mydirectory" }
+  /// <code>[ { "Entry": "/", "Target": "/bucket_name/home/mydirectory" }
   /// ]</code>
-  /// <note>
-  /// If the target of a logical directory entry does not exist in Amazon S3 or
-  /// EFS, the entry is ignored. As a workaround, you can use the Amazon S3 API
-  /// or EFS API to create 0 byte objects as place holders for your directory.
-  /// If using the CLI, use the <code>s3api</code> or <code>efsapi</code> call
-  /// instead of <code>s3</code> or <code>efs</code> so you can use the
-  /// put-object operation. For example, you use the following: <code>aws s3api
-  /// put-object --bucket bucketname --key path/to/folder/</code>. Make sure
-  /// that the end of the key name ends in a <code>/</code> for it to be
-  /// considered a folder.
-  /// </note>
   ///
   /// Parameter [homeDirectoryType] :
-  /// The type of landing directory (folder) you want your users' home directory
-  /// to be when they log into the server. If you set it to <code>PATH</code>,
-  /// the user will see the absolute Amazon S3 bucket or EFS paths as is in
-  /// their file transfer protocol clients. If you set it <code>LOGICAL</code>,
-  /// you need to provide mappings in the <code>HomeDirectoryMappings</code> for
-  /// how you want to make Amazon S3 or EFS paths visible to your users.
+  /// The type of landing directory (folder) that you want your users' home
+  /// directory to be when they log in to the server. If you set it to
+  /// <code>PATH</code>, the user will see the absolute Amazon S3 bucket or EFS
+  /// paths as is in their file transfer protocol clients. If you set it
+  /// <code>LOGICAL</code>, you need to provide mappings in the
+  /// <code>HomeDirectoryMappings</code> for how you want to make Amazon S3 or
+  /// Amazon EFS paths visible to your users.
   ///
   /// Parameter [policy] :
-  /// A session policy for your user so that you can use the same IAM role
-  /// across multiple users. This policy scopes down user access to portions of
-  /// their Amazon S3 bucket. Variables that you can use inside this policy
-  /// include <code>${Transfer:UserName}</code>,
+  /// A session policy for your user so that you can use the same Identity and
+  /// Access Management (IAM) role across multiple users. This policy scopes
+  /// down a user's access to portions of their Amazon S3 bucket. Variables that
+  /// you can use inside this policy include <code>${Transfer:UserName}</code>,
   /// <code>${Transfer:HomeDirectory}</code>, and
   /// <code>${Transfer:HomeBucket}</code>.
   /// <note>
-  /// This only applies when the domain of <code>ServerId</code> is S3. EFS does
-  /// not use session policies.
+  /// This policy applies only when the domain of <code>ServerId</code> is
+  /// Amazon S3. Amazon EFS does not use session policies.
   ///
-  /// For session policies, Amazon Web Services Transfer Family stores the
-  /// policy as a JSON blob, instead of the Amazon Resource Name (ARN) of the
-  /// policy. You save the policy as a JSON blob and pass it in the
-  /// <code>Policy</code> argument.
+  /// For session policies, Transfer Family stores the policy as a JSON blob,
+  /// instead of the Amazon Resource Name (ARN) of the policy. You save the
+  /// policy as a JSON blob and pass it in the <code>Policy</code> argument.
   ///
   /// For an example of a session policy, see <a
   /// href="https://docs.aws.amazon.com/transfer/latest/userguide/session-policy.html">Example
@@ -593,10 +862,8 @@ class Transfer {
   /// Parameter [sshPublicKeyBody] :
   /// The public portion of the Secure Shell (SSH) key used to authenticate the
   /// user to the server.
-  /// <note>
-  /// Currently, Transfer Family does not accept elliptical curve keys (keys
-  /// beginning with <code>ecdsa</code>).
-  /// </note>
+  ///
+  /// Transfer Family accepts RSA, ECDSA, and ED25519 keys.
   ///
   /// Parameter [tags] :
   /// Key-value pairs that can be used to group and search for users. Tags are
@@ -666,22 +933,22 @@ class Transfer {
   ///
   /// <ul>
   /// <li>
-  /// <i>Copy</i>: copy the file to another location
+  /// <i>COPY</i>: Copy the file to another location.
   /// </li>
   /// <li>
-  /// <i>Custom</i>: custom step with a lambda target
+  /// <i>CUSTOM</i>: Perform a custom step with an Lambda function target.
   /// </li>
   /// <li>
-  /// <i>Delete</i>: delete the file
+  /// <i>DELETE</i>: Delete the file.
   /// </li>
   /// <li>
-  /// <i>Tag</i>: add a tag to the file
+  /// <i>TAG</i>: Add a tag to the file.
   /// </li>
   /// </ul> <note>
   /// Currently, copying and tagging are supported only on S3.
   /// </note>
   /// For file location, you specify either the S3 bucket and key, or the EFS
-  /// filesystem ID and path.
+  /// file system ID and path.
   ///
   /// Parameter [description] :
   /// A textual description for the workflow.
@@ -739,9 +1006,8 @@ class Transfer {
   /// A unique identifier that is required to identify specific groups within
   /// your directory. The users of the group that you associate have access to
   /// your Amazon S3 or Amazon EFS resources over the enabled protocols using
-  /// Amazon Web Services Transfer Family. If you know the group name, you can
-  /// view the SID values by running the following command using Windows
-  /// PowerShell.
+  /// Transfer Family. If you know the group name, you can view the SID values
+  /// by running the following command using Windows PowerShell.
   ///
   /// <code>Get-ADGroup -Filter {samAccountName -like "<i>YourGroupName</i>*"}
   /// -Properties * | Select SamAccountName,ObjectSid</code>
@@ -749,9 +1015,9 @@ class Transfer {
   /// In that command, replace <i>YourGroupName</i> with the name of your Active
   /// Directory group.
   ///
-  /// The regex used to validate this parameter is a string of characters
-  /// consisting of uppercase and lowercase alphanumeric characters with no
-  /// spaces. You can also include underscores or any of the following
+  /// The regular expression used to validate this parameter is a string of
+  /// characters consisting of uppercase and lowercase alphanumeric characters
+  /// with no spaces. You can also include underscores or any of the following
   /// characters: =,.@:/-
   ///
   /// Parameter [serverId] :
@@ -776,6 +1042,133 @@ class Transfer {
       payload: {
         'ExternalId': externalId,
         'ServerId': serverId,
+      },
+    );
+  }
+
+  /// Delete the agreement that's specified in the provided
+  /// <code>AgreementId</code>.
+  ///
+  /// May throw [ServiceUnavailableException].
+  /// May throw [InternalServiceError].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [agreementId] :
+  /// A unique identifier for the agreement. This identifier is returned when
+  /// you create an agreement.
+  ///
+  /// Parameter [serverId] :
+  /// The server ID associated with the agreement that you are deleting.
+  Future<void> deleteAgreement({
+    required String agreementId,
+    required String serverId,
+  }) async {
+    ArgumentError.checkNotNull(agreementId, 'agreementId');
+    ArgumentError.checkNotNull(serverId, 'serverId');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'TransferService.DeleteAgreement'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AgreementId': agreementId,
+        'ServerId': serverId,
+      },
+    );
+  }
+
+  /// Deletes the certificate that's specified in the <code>CertificateId</code>
+  /// parameter.
+  ///
+  /// May throw [ServiceUnavailableException].
+  /// May throw [InternalServiceError].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [certificateId] :
+  /// The ID of the certificate object that you are deleting.
+  Future<void> deleteCertificate({
+    required String certificateId,
+  }) async {
+    ArgumentError.checkNotNull(certificateId, 'certificateId');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'TransferService.DeleteCertificate'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'CertificateId': certificateId,
+      },
+    );
+  }
+
+  /// Deletes the agreement that's specified in the provided
+  /// <code>ConnectorId</code>.
+  ///
+  /// May throw [ServiceUnavailableException].
+  /// May throw [InternalServiceError].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [connectorId] :
+  /// The unique identifier for the connector.
+  Future<void> deleteConnector({
+    required String connectorId,
+  }) async {
+    ArgumentError.checkNotNull(connectorId, 'connectorId');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'TransferService.DeleteConnector'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ConnectorId': connectorId,
+      },
+    );
+  }
+
+  /// Deletes the profile that's specified in the <code>ProfileId</code>
+  /// parameter.
+  ///
+  /// May throw [ServiceUnavailableException].
+  /// May throw [InternalServiceError].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [profileId] :
+  /// The ID of the profile that you are deleting.
+  Future<void> deleteProfile({
+    required String profileId,
+  }) async {
+    ArgumentError.checkNotNull(profileId, 'profileId');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'TransferService.DeleteProfile'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ProfileId': profileId,
       },
     );
   }
@@ -930,7 +1323,7 @@ class Transfer {
 
   /// Describes the access that is assigned to the specific file transfer
   /// protocol-enabled server, as identified by its <code>ServerId</code>
-  /// property and its <code>ExternalID</code>.
+  /// property and its <code>ExternalId</code>.
   ///
   /// The response from this call returns the properties of the access that is
   /// associated with the <code>ServerId</code> value that was specified.
@@ -944,9 +1337,8 @@ class Transfer {
   /// A unique identifier that is required to identify specific groups within
   /// your directory. The users of the group that you associate have access to
   /// your Amazon S3 or Amazon EFS resources over the enabled protocols using
-  /// Amazon Web Services Transfer Family. If you know the group name, you can
-  /// view the SID values by running the following command using Windows
-  /// PowerShell.
+  /// Transfer Family. If you know the group name, you can view the SID values
+  /// by running the following command using Windows PowerShell.
   ///
   /// <code>Get-ADGroup -Filter {samAccountName -like "<i>YourGroupName</i>*"}
   /// -Properties * | Select SamAccountName,ObjectSid</code>
@@ -954,9 +1346,9 @@ class Transfer {
   /// In that command, replace <i>YourGroupName</i> with the name of your Active
   /// Directory group.
   ///
-  /// The regex used to validate this parameter is a string of characters
-  /// consisting of uppercase and lowercase alphanumeric characters with no
-  /// spaces. You can also include underscores or any of the following
+  /// The regular expression used to validate this parameter is a string of
+  /// characters consisting of uppercase and lowercase alphanumeric characters
+  /// with no spaces. You can also include underscores or any of the following
   /// characters: =,.@:/-
   ///
   /// Parameter [serverId] :
@@ -985,6 +1377,108 @@ class Transfer {
     );
 
     return DescribeAccessResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Describes the agreement that's identified by the <code>AgreementId</code>.
+  ///
+  /// May throw [ServiceUnavailableException].
+  /// May throw [InternalServiceError].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [agreementId] :
+  /// A unique identifier for the agreement. This identifier is returned when
+  /// you create an agreement.
+  ///
+  /// Parameter [serverId] :
+  /// The server ID that's associated with the agreement.
+  Future<DescribeAgreementResponse> describeAgreement({
+    required String agreementId,
+    required String serverId,
+  }) async {
+    ArgumentError.checkNotNull(agreementId, 'agreementId');
+    ArgumentError.checkNotNull(serverId, 'serverId');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'TransferService.DescribeAgreement'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AgreementId': agreementId,
+        'ServerId': serverId,
+      },
+    );
+
+    return DescribeAgreementResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Describes the certificate that's identified by the
+  /// <code>CertificateId</code>.
+  ///
+  /// May throw [ServiceUnavailableException].
+  /// May throw [InternalServiceError].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [certificateId] :
+  /// An array of identifiers for the imported certificates. You use this
+  /// identifier for working with profiles and partner profiles.
+  Future<DescribeCertificateResponse> describeCertificate({
+    required String certificateId,
+  }) async {
+    ArgumentError.checkNotNull(certificateId, 'certificateId');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'TransferService.DescribeCertificate'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'CertificateId': certificateId,
+      },
+    );
+
+    return DescribeCertificateResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Describes the connector that's identified by the <code>ConnectorId.</code>
+  ///
+  /// May throw [ServiceUnavailableException].
+  /// May throw [InternalServiceError].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [connectorId] :
+  /// The unique identifier for the connector.
+  Future<DescribeConnectorResponse> describeConnector({
+    required String connectorId,
+  }) async {
+    ArgumentError.checkNotNull(connectorId, 'connectorId');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'TransferService.DescribeConnector'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ConnectorId': connectorId,
+      },
+    );
+
+    return DescribeConnectorResponse.fromJson(jsonResponse.body);
   }
 
   /// You can use <code>DescribeExecution</code> to check the details of the
@@ -1023,6 +1517,38 @@ class Transfer {
     );
 
     return DescribeExecutionResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Returns the details of the profile that's specified by the
+  /// <code>ProfileId</code>.
+  ///
+  /// May throw [ServiceUnavailableException].
+  /// May throw [InternalServiceError].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [profileId] :
+  /// The identifier of the profile that you want described.
+  Future<DescribeProfileResponse> describeProfile({
+    required String profileId,
+  }) async {
+    ArgumentError.checkNotNull(profileId, 'profileId');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'TransferService.DescribeProfile'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ProfileId': profileId,
+      },
+    );
+
+    return DescribeProfileResponse.fromJson(jsonResponse.body);
   }
 
   /// Describes the security policy that is attached to your file transfer
@@ -1114,8 +1640,8 @@ class Transfer {
   ///
   /// Parameter [userName] :
   /// The name of the user assigned to one or more servers. User names are part
-  /// of the sign-in credentials to use the Amazon Web Services Transfer Family
-  /// service and perform file transfer tasks.
+  /// of the sign-in credentials to use the Transfer Family service and perform
+  /// file transfer tasks.
   Future<DescribeUserResponse> describeUser({
     required String serverId,
     required String userName,
@@ -1172,6 +1698,77 @@ class Transfer {
     return DescribeWorkflowResponse.fromJson(jsonResponse.body);
   }
 
+  /// Imports the signing and encryption certificates that you need to create
+  /// local (AS2) profiles and partner profiles.
+  ///
+  /// May throw [ServiceUnavailableException].
+  /// May throw [InternalServiceError].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [certificate] :
+  /// The file that contains the certificate to import.
+  ///
+  /// Parameter [usage] :
+  /// Specifies whether this certificate is used for signing or encryption.
+  ///
+  /// Parameter [activeDate] :
+  /// An optional date that specifies when the certificate becomes active.
+  ///
+  /// Parameter [certificateChain] :
+  /// An optional list of certificates that make up the chain for the
+  /// certificate that's being imported.
+  ///
+  /// Parameter [description] :
+  /// A short description that helps identify the certificate.
+  ///
+  /// Parameter [inactiveDate] :
+  /// An optional date that specifies when the certificate becomes inactive.
+  ///
+  /// Parameter [privateKey] :
+  /// The file that contains the private key for the certificate that's being
+  /// imported.
+  ///
+  /// Parameter [tags] :
+  /// Key-value pairs that can be used to group and search for certificates.
+  Future<ImportCertificateResponse> importCertificate({
+    required String certificate,
+    required CertificateUsageType usage,
+    DateTime? activeDate,
+    String? certificateChain,
+    String? description,
+    DateTime? inactiveDate,
+    String? privateKey,
+    List<Tag>? tags,
+  }) async {
+    ArgumentError.checkNotNull(certificate, 'certificate');
+    ArgumentError.checkNotNull(usage, 'usage');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'TransferService.ImportCertificate'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Certificate': certificate,
+        'Usage': usage.toValue(),
+        if (activeDate != null) 'ActiveDate': unixTimestampToJson(activeDate),
+        if (certificateChain != null) 'CertificateChain': certificateChain,
+        if (description != null) 'Description': description,
+        if (inactiveDate != null)
+          'InactiveDate': unixTimestampToJson(inactiveDate),
+        if (privateKey != null) 'PrivateKey': privateKey,
+        if (tags != null) 'Tags': tags,
+      },
+    );
+
+    return ImportCertificateResponse.fromJson(jsonResponse.body);
+  }
+
   /// Adds a Secure Shell (SSH) public key to a user account identified by a
   /// <code>UserName</code> value assigned to the specific file transfer
   /// protocol-enabled server, identified by <code>ServerId</code>.
@@ -1192,6 +1789,8 @@ class Transfer {
   ///
   /// Parameter [sshPublicKeyBody] :
   /// The public key portion of an SSH key pair.
+  ///
+  /// Transfer Family accepts RSA, ECDSA, and ED25519 keys.
   ///
   /// Parameter [userName] :
   /// The name of the user account that is assigned to one or more servers.
@@ -1275,6 +1874,157 @@ class Transfer {
     return ListAccessesResponse.fromJson(jsonResponse.body);
   }
 
+  /// Returns a list of the agreements for the server that's identified by the
+  /// <code>ServerId</code> that you supply. If you want to limit the results to
+  /// a certain number, supply a value for the <code>MaxResults</code>
+  /// parameter. If you ran the command previously and received a value for
+  /// <code>NextToken</code>, you can supply that value to continue listing
+  /// agreements from where you left off.
+  ///
+  /// May throw [ServiceUnavailableException].
+  /// May throw [InternalServiceError].
+  /// May throw [InvalidNextTokenException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [serverId] :
+  /// The identifier of the server for which you want a list of agreements.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of agreements to return.
+  ///
+  /// Parameter [nextToken] :
+  /// When you can get additional results from the <code>ListAgreements</code>
+  /// call, a <code>NextToken</code> parameter is returned in the output. You
+  /// can then pass in a subsequent command to the <code>NextToken</code>
+  /// parameter to continue listing additional agreements.
+  Future<ListAgreementsResponse> listAgreements({
+    required String serverId,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    ArgumentError.checkNotNull(serverId, 'serverId');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'TransferService.ListAgreements'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ServerId': serverId,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListAgreementsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Returns a list of the current certificates that have been imported into
+  /// Transfer Family. If you want to limit the results to a certain number,
+  /// supply a value for the <code>MaxResults</code> parameter. If you ran the
+  /// command previously and received a value for the <code>NextToken</code>
+  /// parameter, you can supply that value to continue listing certificates from
+  /// where you left off.
+  ///
+  /// May throw [ServiceUnavailableException].
+  /// May throw [InternalServiceError].
+  /// May throw [InvalidNextTokenException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of certificates to return.
+  ///
+  /// Parameter [nextToken] :
+  /// When you can get additional results from the <code>ListCertificates</code>
+  /// call, a <code>NextToken</code> parameter is returned in the output. You
+  /// can then pass in a subsequent command to the <code>NextToken</code>
+  /// parameter to continue listing additional certificates.
+  Future<ListCertificatesResponse> listCertificates({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'TransferService.ListCertificates'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListCertificatesResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Lists the connectors for the specified Region.
+  ///
+  /// May throw [ServiceUnavailableException].
+  /// May throw [InternalServiceError].
+  /// May throw [InvalidNextTokenException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of connectors to return.
+  ///
+  /// Parameter [nextToken] :
+  /// When you can get additional results from the <code>ListConnectors</code>
+  /// call, a <code>NextToken</code> parameter is returned in the output. You
+  /// can then pass in a subsequent command to the <code>NextToken</code>
+  /// parameter to continue listing additional connectors.
+  Future<ListConnectorsResponse> listConnectors({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'TransferService.ListConnectors'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListConnectorsResponse.fromJson(jsonResponse.body);
+  }
+
   /// Lists all executions for the specified workflow.
   ///
   /// May throw [ServiceUnavailableException].
@@ -1287,7 +2037,7 @@ class Transfer {
   /// A unique identifier for the workflow.
   ///
   /// Parameter [maxResults] :
-  /// Specifies the aximum number of executions to return.
+  /// Specifies the maximum number of executions to return.
   ///
   /// Parameter [nextToken] :
   /// <code>ListExecutions</code> returns the <code>NextToken</code> parameter
@@ -1295,14 +2045,14 @@ class Transfer {
   /// subsequent command to continue listing additional executions.
   ///
   /// This is useful for pagination, for instance. If you have 100 executions
-  /// for a workflow, you might only want to list first 10. If so, callthe API
-  /// by specifing the <code>max-results</code>:
+  /// for a workflow, you might only want to list first 10. If so, call the API
+  /// by specifying the <code>max-results</code>:
   ///
   /// <code>aws transfer list-executions --max-results 10</code>
   ///
   /// This returns details for the first 10 executions, as well as the pointer
   /// (<code>NextToken</code>) to the eleventh execution. You can now call the
-  /// API again, suppling the <code>NextToken</code> value you received:
+  /// API again, supplying the <code>NextToken</code> value you received:
   ///
   /// <code>aws transfer list-executions --max-results 10 --next-token
   /// $somePointerReturnedFromPreviousListResult</code>
@@ -1340,6 +2090,61 @@ class Transfer {
     );
 
     return ListExecutionsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Returns a list of the profiles for your system. If you want to limit the
+  /// results to a certain number, supply a value for the
+  /// <code>MaxResults</code> parameter. If you ran the command previously and
+  /// received a value for <code>NextToken</code>, you can supply that value to
+  /// continue listing profiles from where you left off.
+  ///
+  /// May throw [ServiceUnavailableException].
+  /// May throw [InternalServiceError].
+  /// May throw [InvalidNextTokenException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of profiles to return.
+  ///
+  /// Parameter [nextToken] :
+  /// When there are additional results that were not returned, a
+  /// <code>NextToken</code> parameter is returned. You can use that value for a
+  /// subsequent call to <code>ListProfiles</code> to continue listing results.
+  ///
+  /// Parameter [profileType] :
+  /// Indicates whether to list only <code>LOCAL</code> type profiles or only
+  /// <code>PARTNER</code> type profiles. If not supplied in the request, the
+  /// command lists all types of profiles.
+  Future<ListProfilesResponse> listProfiles({
+    int? maxResults,
+    String? nextToken,
+    ProfileType? profileType,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'TransferService.ListProfiles'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (profileType != null) 'ProfileType': profileType.toValue(),
+      },
+    );
+
+    return ListProfilesResponse.fromJson(jsonResponse.body);
   }
 
   /// Lists the security policies that are attached to your file transfer
@@ -1642,6 +2447,47 @@ class Transfer {
     );
   }
 
+  /// Begins an outbound file transfer. You specify the <code>ConnectorId</code>
+  /// and the file paths for where to send the files.
+  ///
+  /// May throw [ServiceUnavailableException].
+  /// May throw [InternalServiceError].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [connectorId] :
+  /// The unique identifier for the connector.
+  ///
+  /// Parameter [sendFilePaths] :
+  /// An array of strings. Each string represents the absolute path for one
+  /// outbound file transfer. For example, <code>
+  /// <i>DOC-EXAMPLE-BUCKET</i>/<i>myfile.txt</i> </code>.
+  Future<StartFileTransferResponse> startFileTransfer({
+    required String connectorId,
+    required List<String> sendFilePaths,
+  }) async {
+    ArgumentError.checkNotNull(connectorId, 'connectorId');
+    ArgumentError.checkNotNull(sendFilePaths, 'sendFilePaths');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'TransferService.StartFileTransfer'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ConnectorId': connectorId,
+        'SendFilePaths': sendFilePaths,
+      },
+    );
+
+    return StartFileTransferResponse.fromJson(jsonResponse.body);
+  }
+
   /// Changes the state of a file transfer protocol-enabled server from
   /// <code>OFFLINE</code> to <code>ONLINE</code>. It has no impact on a server
   /// that is already <code>ONLINE</code>. An <code>ONLINE</code> server can
@@ -1687,7 +2533,7 @@ class Transfer {
   /// your server, such as server and user properties, are not affected by
   /// stopping your server.
   /// <note>
-  /// Stopping the server will not reduce or impact your file transfer protocol
+  /// Stopping the server does not reduce or impact your file transfer protocol
   /// endpoint billing; you must delete the server to stop being billed.
   /// </note>
   /// The state of <code>STOPPING</code> indicates that the server is in an
@@ -1927,9 +2773,8 @@ class Transfer {
   /// A unique identifier that is required to identify specific groups within
   /// your directory. The users of the group that you associate have access to
   /// your Amazon S3 or Amazon EFS resources over the enabled protocols using
-  /// Amazon Web Services Transfer Family. If you know the group name, you can
-  /// view the SID values by running the following command using Windows
-  /// PowerShell.
+  /// Transfer Family. If you know the group name, you can view the SID values
+  /// by running the following command using Windows PowerShell.
   ///
   /// <code>Get-ADGroup -Filter {samAccountName -like "<i>YourGroupName</i>*"}
   /// -Properties * | Select SamAccountName,ObjectSid</code>
@@ -1937,9 +2782,9 @@ class Transfer {
   /// In that command, replace <i>YourGroupName</i> with the name of your Active
   /// Directory group.
   ///
-  /// The regex used to validate this parameter is a string of characters
-  /// consisting of uppercase and lowercase alphanumeric characters with no
-  /// spaces. You can also include underscores or any of the following
+  /// The regular expression used to validate this parameter is a string of
+  /// characters consisting of uppercase and lowercase alphanumeric characters
+  /// with no spaces. You can also include underscores or any of the following
   /// characters: =,.@:/-
   ///
   /// Parameter [serverId] :
@@ -1960,9 +2805,9 @@ class Transfer {
   /// pair, where <code>Entry</code> shows how the path is made visible and
   /// <code>Target</code> is the actual Amazon S3 or Amazon EFS path. If you
   /// only specify a target, it is displayed as is. You also must ensure that
-  /// your Amazon Web Services Identity and Access Management (IAM) role
-  /// provides access to paths in <code>Target</code>. This value can only be
-  /// set when <code>HomeDirectoryType</code> is set to <i>LOGICAL</i>.
+  /// your Identity and Access Management (IAM) role provides access to paths in
+  /// <code>Target</code>. This value can be set only when
+  /// <code>HomeDirectoryType</code> is set to <i>LOGICAL</i>.
   ///
   /// The following is an <code>Entry</code> and <code>Target</code> pair
   /// example.
@@ -1979,43 +2824,32 @@ class Transfer {
   /// The following is an <code>Entry</code> and <code>Target</code> pair
   /// example for <code>chroot</code>.
   ///
-  /// <code>[ { "Entry:": "/", "Target": "/bucket_name/home/mydirectory" }
+  /// <code>[ { "Entry": "/", "Target": "/bucket_name/home/mydirectory" }
   /// ]</code>
-  /// <note>
-  /// If the target of a logical directory entry does not exist in Amazon S3 or
-  /// EFS, the entry is ignored. As a workaround, you can use the Amazon S3 API
-  /// or EFS API to create 0 byte objects as place holders for your directory.
-  /// If using the CLI, use the <code>s3api</code> or <code>efsapi</code> call
-  /// instead of <code>s3</code> or <code>efs</code> so you can use the
-  /// put-object operation. For example, you use the following: <code>aws s3api
-  /// put-object --bucket bucketname --key path/to/folder/</code>. Make sure
-  /// that the end of the key name ends in a <code>/</code> for it to be
-  /// considered a folder.
-  /// </note>
   ///
   /// Parameter [homeDirectoryType] :
-  /// The type of landing directory (folder) you want your users' home directory
-  /// to be when they log into the server. If you set it to <code>PATH</code>,
-  /// the user will see the absolute Amazon S3 bucket or EFS paths as is in
-  /// their file transfer protocol clients. If you set it <code>LOGICAL</code>,
-  /// you need to provide mappings in the <code>HomeDirectoryMappings</code> for
-  /// how you want to make Amazon S3 or EFS paths visible to your users.
+  /// The type of landing directory (folder) that you want your users' home
+  /// directory to be when they log in to the server. If you set it to
+  /// <code>PATH</code>, the user will see the absolute Amazon S3 bucket or EFS
+  /// paths as is in their file transfer protocol clients. If you set it
+  /// <code>LOGICAL</code>, you need to provide mappings in the
+  /// <code>HomeDirectoryMappings</code> for how you want to make Amazon S3 or
+  /// Amazon EFS paths visible to your users.
   ///
   /// Parameter [policy] :
-  /// A session policy for your user so that you can use the same IAM role
-  /// across multiple users. This policy scopes down user access to portions of
-  /// their Amazon S3 bucket. Variables that you can use inside this policy
-  /// include <code>${Transfer:UserName}</code>,
+  /// A session policy for your user so that you can use the same Identity and
+  /// Access Management (IAM) role across multiple users. This policy scopes
+  /// down a user's access to portions of their Amazon S3 bucket. Variables that
+  /// you can use inside this policy include <code>${Transfer:UserName}</code>,
   /// <code>${Transfer:HomeDirectory}</code>, and
   /// <code>${Transfer:HomeBucket}</code>.
   /// <note>
-  /// This only applies when the domain of <code>ServerId</code> is S3. EFS does
-  /// not use session policies.
+  /// This policy applies only when the domain of <code>ServerId</code> is
+  /// Amazon S3. Amazon EFS does not use session policies.
   ///
-  /// For session policies, Amazon Web Services Transfer Family stores the
-  /// policy as a JSON blob, instead of the Amazon Resource Name (ARN) of the
-  /// policy. You save the policy as a JSON blob and pass it in the
-  /// <code>Policy</code> argument.
+  /// For session policies, Transfer Family stores the policy as a JSON blob,
+  /// instead of the Amazon Resource Name (ARN) of the policy. You save the
+  /// policy as a JSON blob and pass it in the <code>Policy</code> argument.
   ///
   /// For an example of a session policy, see <a
   /// href="https://docs.aws.amazon.com/transfer/latest/userguide/session-policy.html">Example
@@ -2027,13 +2861,13 @@ class Transfer {
   /// </note>
   ///
   /// Parameter [role] :
-  /// Specifies the Amazon Resource Name (ARN) of the IAM role that controls
-  /// your users' access to your Amazon S3 bucket or EFS file system. The
-  /// policies attached to this role determine the level of access that you want
-  /// to provide your users when transferring files into and out of your Amazon
-  /// S3 bucket or EFS file system. The IAM role should also contain a trust
-  /// relationship that allows the server to access your resources when
-  /// servicing your users' transfer requests.
+  /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM)
+  /// role that controls your users' access to your Amazon S3 bucket or Amazon
+  /// EFS file system. The policies attached to this role determine the level of
+  /// access that you want to provide your users when transferring files into
+  /// and out of your Amazon S3 bucket or Amazon EFS file system. The IAM role
+  /// should also contain a trust relationship that allows the server to access
+  /// your resources when servicing your users' transfer requests.
   Future<UpdateAccessResponse> updateAccess({
     required String externalId,
     required String serverId,
@@ -2071,6 +2905,238 @@ class Transfer {
     );
 
     return UpdateAccessResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Updates some of the parameters for an existing agreement. Provide the
+  /// <code>AgreementId</code> and the <code>ServerId</code> for the agreement
+  /// that you want to update, along with the new values for the parameters to
+  /// update.
+  ///
+  /// May throw [ServiceUnavailableException].
+  /// May throw [InternalServiceError].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceExistsException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [agreementId] :
+  /// A unique identifier for the agreement. This identifier is returned when
+  /// you create an agreement.
+  ///
+  /// Parameter [serverId] :
+  /// A system-assigned unique identifier for a server instance. This is the
+  /// specific server that the agreement uses.
+  ///
+  /// Parameter [accessRole] :
+  /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM)
+  /// role that grants access to at least the <code>HomeDirectory</code> of your
+  /// users' Amazon S3 buckets.
+  ///
+  /// Parameter [baseDirectory] :
+  /// To change the landing directory (folder) for files that are transferred,
+  /// provide the bucket folder that you want to use; for example,
+  /// <code>/<i>DOC-EXAMPLE-BUCKET</i>/<i>home</i>/<i>mydirectory</i> </code>.
+  ///
+  /// Parameter [description] :
+  /// To replace the existing description, provide a short description for the
+  /// agreement.
+  ///
+  /// Parameter [localProfileId] :
+  /// To change the local profile identifier, provide a new value here.
+  ///
+  /// Parameter [partnerProfileId] :
+  /// To change the partner profile identifier, provide a new value here.
+  ///
+  /// Parameter [status] :
+  /// You can update the status for the agreement, either activating an inactive
+  /// agreement or the reverse.
+  Future<UpdateAgreementResponse> updateAgreement({
+    required String agreementId,
+    required String serverId,
+    String? accessRole,
+    String? baseDirectory,
+    String? description,
+    String? localProfileId,
+    String? partnerProfileId,
+    AgreementStatusType? status,
+  }) async {
+    ArgumentError.checkNotNull(agreementId, 'agreementId');
+    ArgumentError.checkNotNull(serverId, 'serverId');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'TransferService.UpdateAgreement'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AgreementId': agreementId,
+        'ServerId': serverId,
+        if (accessRole != null) 'AccessRole': accessRole,
+        if (baseDirectory != null) 'BaseDirectory': baseDirectory,
+        if (description != null) 'Description': description,
+        if (localProfileId != null) 'LocalProfileId': localProfileId,
+        if (partnerProfileId != null) 'PartnerProfileId': partnerProfileId,
+        if (status != null) 'Status': status.toValue(),
+      },
+    );
+
+    return UpdateAgreementResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Updates the active and inactive dates for a certificate.
+  ///
+  /// May throw [ServiceUnavailableException].
+  /// May throw [InternalServiceError].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [certificateId] :
+  /// The identifier of the certificate object that you are updating.
+  ///
+  /// Parameter [activeDate] :
+  /// An optional date that specifies when the certificate becomes active.
+  ///
+  /// Parameter [description] :
+  /// A short description to help identify the certificate.
+  ///
+  /// Parameter [inactiveDate] :
+  /// An optional date that specifies when the certificate becomes inactive.
+  Future<UpdateCertificateResponse> updateCertificate({
+    required String certificateId,
+    DateTime? activeDate,
+    String? description,
+    DateTime? inactiveDate,
+  }) async {
+    ArgumentError.checkNotNull(certificateId, 'certificateId');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'TransferService.UpdateCertificate'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'CertificateId': certificateId,
+        if (activeDate != null) 'ActiveDate': unixTimestampToJson(activeDate),
+        if (description != null) 'Description': description,
+        if (inactiveDate != null)
+          'InactiveDate': unixTimestampToJson(inactiveDate),
+      },
+    );
+
+    return UpdateCertificateResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Updates some of the parameters for an existing connector. Provide the
+  /// <code>ConnectorId</code> for the connector that you want to update, along
+  /// with the new values for the parameters to update.
+  ///
+  /// May throw [ServiceUnavailableException].
+  /// May throw [InternalServiceError].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceExistsException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [connectorId] :
+  /// The unique identifier for the connector.
+  ///
+  /// Parameter [accessRole] :
+  /// With AS2, you can send files by calling <code>StartFileTransfer</code> and
+  /// specifying the file paths in the request parameter,
+  /// <code>SendFilePaths</code>. We use the file’s parent directory (for
+  /// example, for <code>--send-file-paths /bucket/dir/file.txt</code>, parent
+  /// directory is <code>/bucket/dir/</code>) to temporarily store a processed
+  /// AS2 message file, store the MDN when we receive them from the partner, and
+  /// write a final JSON file containing relevant metadata of the transmission.
+  /// So, the <code>AccessRole</code> needs to provide read and write access to
+  /// the parent directory of the file location used in the
+  /// <code>StartFileTransfer</code> request. Additionally, you need to provide
+  /// read and write access to the parent directory of the files that you intend
+  /// to send with <code>StartFileTransfer</code>.
+  ///
+  /// Parameter [as2Config] :
+  /// A structure that contains the parameters for a connector object.
+  ///
+  /// Parameter [loggingRole] :
+  /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM)
+  /// role that allows a connector to turn on CloudWatch logging for Amazon S3
+  /// events. When set, you can view connector activity in your CloudWatch logs.
+  ///
+  /// Parameter [url] :
+  /// The URL of the partner's AS2 endpoint.
+  Future<UpdateConnectorResponse> updateConnector({
+    required String connectorId,
+    String? accessRole,
+    As2ConnectorConfig? as2Config,
+    String? loggingRole,
+    String? url,
+  }) async {
+    ArgumentError.checkNotNull(connectorId, 'connectorId');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'TransferService.UpdateConnector'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ConnectorId': connectorId,
+        if (accessRole != null) 'AccessRole': accessRole,
+        if (as2Config != null) 'As2Config': as2Config,
+        if (loggingRole != null) 'LoggingRole': loggingRole,
+        if (url != null) 'Url': url,
+      },
+    );
+
+    return UpdateConnectorResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Updates some of the parameters for an existing profile. Provide the
+  /// <code>ProfileId</code> for the profile that you want to update, along with
+  /// the new values for the parameters to update.
+  ///
+  /// May throw [ServiceUnavailableException].
+  /// May throw [InternalServiceError].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [profileId] :
+  /// The identifier of the profile object that you are updating.
+  ///
+  /// Parameter [certificateIds] :
+  /// An array of identifiers for the imported certificates. You use this
+  /// identifier for working with profiles and partner profiles.
+  Future<UpdateProfileResponse> updateProfile({
+    required String profileId,
+    List<String>? certificateIds,
+  }) async {
+    ArgumentError.checkNotNull(profileId, 'profileId');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'TransferService.UpdateProfile'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ProfileId': profileId,
+        if (certificateIds != null) 'CertificateIds': certificateIds,
+      },
+    );
+
+    return UpdateProfileResponse.fromJson(jsonResponse.body);
   }
 
   /// Updates the file transfer protocol-enabled server's properties after that
@@ -2139,10 +3205,11 @@ class Transfer {
   ///
   /// Parameter [endpointDetails] :
   /// The virtual private cloud (VPC) endpoint settings that are configured for
-  /// your server. When you host your endpoint within your VPC, you can make it
-  /// accessible only to resources within your VPC, or you can attach Elastic IP
-  /// addresses and make it accessible to clients over the internet. Your VPC's
-  /// default security groups are automatically assigned to your endpoint.
+  /// your server. When you host your endpoint within your VPC, you can make
+  /// your endpoint accessible only to resources within your VPC, or you can
+  /// attach Elastic IP addresses and make your endpoint accessible to clients
+  /// over the internet. Your VPC's default security groups are automatically
+  /// assigned to your endpoint.
   ///
   /// Parameter [endpointType] :
   /// The type of endpoint that you want your server to use. You can choose to
@@ -2170,38 +3237,97 @@ class Transfer {
   /// </note>
   ///
   /// Parameter [hostKey] :
-  /// The RSA private key as generated by <code>ssh-keygen -N "" -m PEM -f
-  /// my-new-server-key</code>.
+  /// The RSA, ECDSA, or ED25519 private key to use for your server.
+  ///
+  /// Use the following command to generate an RSA 2048 bit key with no
+  /// passphrase:
+  ///
+  /// <code>ssh-keygen -t rsa -b 2048 -N "" -m PEM -f my-new-server-key</code>.
+  ///
+  /// Use a minimum value of 2048 for the <code>-b</code> option. You can create
+  /// a stronger key by using 3072 or 4096.
+  ///
+  /// Use the following command to generate an ECDSA 256 bit key with no
+  /// passphrase:
+  ///
+  /// <code>ssh-keygen -t ecdsa -b 256 -N "" -m PEM -f my-new-server-key</code>.
+  ///
+  /// Valid values for the <code>-b</code> option for ECDSA are 256, 384, and
+  /// 521.
+  ///
+  /// Use the following command to generate an ED25519 key with no passphrase:
+  ///
+  /// <code>ssh-keygen -t ed25519 -N "" -f my-new-server-key</code>.
+  ///
+  /// For all of these commands, you can replace <i>my-new-server-key</i> with a
+  /// string of your choice.
   /// <important>
-  /// If you aren't planning to migrate existing users from an existing server
-  /// to a new server, don't update the host key. Accidentally changing a
-  /// server's host key can be disruptive.
+  /// If you aren't planning to migrate existing users from an existing
+  /// SFTP-enabled server to a new server, don't update the host key.
+  /// Accidentally changing a server's host key can be disruptive.
   /// </important>
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/transfer/latest/userguide/edit-server-config.html#configuring-servers-change-host-key">Change
-  /// the host key for your SFTP-enabled server</a> in the <i>Amazon Web
-  /// ServicesTransfer Family User Guide</i>.
+  /// the host key for your SFTP-enabled server</a> in the <i>Transfer Family
+  /// User Guide</i>.
   ///
   /// Parameter [identityProviderDetails] :
   /// An array containing all of the information required to call a customer's
   /// authentication API method.
   ///
   /// Parameter [loggingRole] :
-  /// Specifies the Amazon Resource Name (ARN) of the Amazon Web Services
-  /// Identity and Access Management (IAM) role that allows a server to turn on
-  /// Amazon CloudWatch logging for Amazon S3 or Amazon EFS events. When set,
-  /// user activity can be viewed in your CloudWatch logs.
+  /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM)
+  /// role that allows a server to turn on Amazon CloudWatch logging for Amazon
+  /// S3 or Amazon EFSevents. When set, you can view user activity in your
+  /// CloudWatch logs.
+  ///
+  /// Parameter [postAuthenticationLoginBanner] :
+  /// Specifies a string to display when users connect to a server. This string
+  /// is displayed after the user authenticates.
+  /// <note>
+  /// The SFTP protocol does not support post-authentication display banners.
+  /// </note>
+  ///
+  /// Parameter [preAuthenticationLoginBanner] :
+  /// Specifies a string to display when users connect to a server. This string
+  /// is displayed before the user authenticates. For example, the following
+  /// banner displays details about using the system:
+  ///
+  /// <code>This system is for the use of authorized users only. Individuals
+  /// using this computer system without authority, or in excess of their
+  /// authority, are subject to having all of their activities on this system
+  /// monitored and recorded by system personnel.</code>
   ///
   /// Parameter [protocolDetails] :
   /// The protocol settings that are configured for your server.
   ///
-  /// Use the <code>PassiveIp</code> parameter to indicate passive mode (for FTP
-  /// and FTPS protocols). Enter a single dotted-quad IPv4 address, such as the
-  /// external IP address of a firewall, router, or load balancer.
-  ///
-  /// Use the <code>TlsSessionResumptionMode</code> parameter to determine
-  /// whether or not your Transfer server resumes recent, negotiated sessions
-  /// through a unique session ID.
+  /// <ul>
+  /// <li>
+  /// To indicate passive mode (for FTP and FTPS protocols), use the
+  /// <code>PassiveIp</code> parameter. Enter a single dotted-quad IPv4 address,
+  /// such as the external IP address of a firewall, router, or load balancer.
+  /// </li>
+  /// <li>
+  /// To ignore the error that is generated when the client attempts to use the
+  /// <code>SETSTAT</code> command on a file that you are uploading to an Amazon
+  /// S3 bucket, use the <code>SetStatOption</code> parameter. To have the
+  /// Transfer Family server ignore the <code>SETSTAT</code> command and upload
+  /// files without needing to make any changes to your SFTP client, set the
+  /// value to <code>ENABLE_NO_OP</code>. If you set the
+  /// <code>SetStatOption</code> parameter to <code>ENABLE_NO_OP</code>,
+  /// Transfer Family generates a log entry to Amazon CloudWatch Logs, so that
+  /// you can determine when the client is making a <code>SETSTAT</code> call.
+  /// </li>
+  /// <li>
+  /// To determine whether your Transfer Family server resumes recent,
+  /// negotiated sessions through a unique session ID, use the
+  /// <code>TlsSessionResumptionMode</code> parameter.
+  /// </li>
+  /// <li>
+  /// <code>As2Transports</code> indicates the transport method for the AS2
+  /// messages. Currently, only HTTP is supported.
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [protocols] :
   /// Specifies the file transfer protocol or protocols over which your file
@@ -2242,7 +3368,13 @@ class Transfer {
   ///
   /// Parameter [workflowDetails] :
   /// Specifies the workflow ID for the workflow to assign and the execution
-  /// role used for executing the workflow.
+  /// role that's used for executing the workflow.
+  ///
+  /// To remove an associated workflow from a server, you can provide an empty
+  /// <code>OnUpload</code> object, as in the following example.
+  ///
+  /// <code>aws transfer update-server --server-id s-01234567890abcdef
+  /// --workflow-details '{"OnUpload":[]}'</code>
   Future<UpdateServerResponse> updateServer({
     required String serverId,
     String? certificate,
@@ -2251,6 +3383,8 @@ class Transfer {
     String? hostKey,
     IdentityProviderDetails? identityProviderDetails,
     String? loggingRole,
+    String? postAuthenticationLoginBanner,
+    String? preAuthenticationLoginBanner,
     ProtocolDetails? protocolDetails,
     List<Protocol>? protocols,
     String? securityPolicyName,
@@ -2276,6 +3410,10 @@ class Transfer {
         if (identityProviderDetails != null)
           'IdentityProviderDetails': identityProviderDetails,
         if (loggingRole != null) 'LoggingRole': loggingRole,
+        if (postAuthenticationLoginBanner != null)
+          'PostAuthenticationLoginBanner': postAuthenticationLoginBanner,
+        if (preAuthenticationLoginBanner != null)
+          'PreAuthenticationLoginBanner': preAuthenticationLoginBanner,
         if (protocolDetails != null) 'ProtocolDetails': protocolDetails,
         if (protocols != null)
           'Protocols': protocols.map((e) => e.toValue()).toList(),
@@ -2326,9 +3464,9 @@ class Transfer {
   /// pair, where <code>Entry</code> shows how the path is made visible and
   /// <code>Target</code> is the actual Amazon S3 or Amazon EFS path. If you
   /// only specify a target, it is displayed as is. You also must ensure that
-  /// your Amazon Web Services Identity and Access Management (IAM) role
-  /// provides access to paths in <code>Target</code>. This value can only be
-  /// set when <code>HomeDirectoryType</code> is set to <i>LOGICAL</i>.
+  /// your Identity and Access Management (IAM) role provides access to paths in
+  /// <code>Target</code>. This value can be set only when
+  /// <code>HomeDirectoryType</code> is set to <i>LOGICAL</i>.
   ///
   /// The following is an <code>Entry</code> and <code>Target</code> pair
   /// example.
@@ -2344,43 +3482,32 @@ class Transfer {
   /// The following is an <code>Entry</code> and <code>Target</code> pair
   /// example for <code>chroot</code>.
   ///
-  /// <code>[ { "Entry:": "/", "Target": "/bucket_name/home/mydirectory" }
+  /// <code>[ { "Entry": "/", "Target": "/bucket_name/home/mydirectory" }
   /// ]</code>
-  /// <note>
-  /// If the target of a logical directory entry does not exist in Amazon S3 or
-  /// EFS, the entry is ignored. As a workaround, you can use the Amazon S3 API
-  /// or EFS API to create 0 byte objects as place holders for your directory.
-  /// If using the CLI, use the <code>s3api</code> or <code>efsapi</code> call
-  /// instead of <code>s3</code> or <code>efs</code> so you can use the
-  /// put-object operation. For example, you use the following: <code>aws s3api
-  /// put-object --bucket bucketname --key path/to/folder/</code>. Make sure
-  /// that the end of the key name ends in a <code>/</code> for it to be
-  /// considered a folder.
-  /// </note>
   ///
   /// Parameter [homeDirectoryType] :
-  /// The type of landing directory (folder) you want your users' home directory
-  /// to be when they log into the server. If you set it to <code>PATH</code>,
-  /// the user will see the absolute Amazon S3 bucket or EFS paths as is in
-  /// their file transfer protocol clients. If you set it <code>LOGICAL</code>,
-  /// you need to provide mappings in the <code>HomeDirectoryMappings</code> for
-  /// how you want to make Amazon S3 or EFS paths visible to your users.
+  /// The type of landing directory (folder) that you want your users' home
+  /// directory to be when they log in to the server. If you set it to
+  /// <code>PATH</code>, the user will see the absolute Amazon S3 bucket or EFS
+  /// paths as is in their file transfer protocol clients. If you set it
+  /// <code>LOGICAL</code>, you need to provide mappings in the
+  /// <code>HomeDirectoryMappings</code> for how you want to make Amazon S3 or
+  /// Amazon EFS paths visible to your users.
   ///
   /// Parameter [policy] :
-  /// A session policy for your user so that you can use the same IAM role
-  /// across multiple users. This policy scopes down user access to portions of
-  /// their Amazon S3 bucket. Variables that you can use inside this policy
-  /// include <code>${Transfer:UserName}</code>,
+  /// A session policy for your user so that you can use the same Identity and
+  /// Access Management (IAM) role across multiple users. This policy scopes
+  /// down a user's access to portions of their Amazon S3 bucket. Variables that
+  /// you can use inside this policy include <code>${Transfer:UserName}</code>,
   /// <code>${Transfer:HomeDirectory}</code>, and
   /// <code>${Transfer:HomeBucket}</code>.
   /// <note>
-  /// This only applies when the domain of <code>ServerId</code> is S3. EFS does
-  /// not use session policies.
+  /// This policy applies only when the domain of <code>ServerId</code> is
+  /// Amazon S3. Amazon EFS does not use session policies.
   ///
-  /// For session policies, Amazon Web Services Transfer Family stores the
-  /// policy as a JSON blob, instead of the Amazon Resource Name (ARN) of the
-  /// policy. You save the policy as a JSON blob and pass it in the
-  /// <code>Policy</code> argument.
+  /// For session policies, Transfer Family stores the policy as a JSON blob,
+  /// instead of the Amazon Resource Name (ARN) of the policy. You save the
+  /// policy as a JSON blob and pass it in the <code>Policy</code> argument.
   ///
   /// For an example of a session policy, see <a
   /// href="https://docs.aws.amazon.com/transfer/latest/userguide/session-policy">Creating
@@ -2401,13 +3528,13 @@ class Transfer {
   /// EFS file systems.
   ///
   /// Parameter [role] :
-  /// Specifies the Amazon Resource Name (ARN) of the IAM role that controls
-  /// your users' access to your Amazon S3 bucket or EFS file system. The
-  /// policies attached to this role determine the level of access that you want
-  /// to provide your users when transferring files into and out of your Amazon
-  /// S3 bucket or EFS file system. The IAM role should also contain a trust
-  /// relationship that allows the server to access your resources when
-  /// servicing your users' transfer requests.
+  /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM)
+  /// role that controls your users' access to your Amazon S3 bucket or Amazon
+  /// EFS file system. The policies attached to this role determine the level of
+  /// access that you want to provide your users when transferring files into
+  /// and out of your Amazon S3 bucket or Amazon EFS file system. The IAM role
+  /// should also contain a trust relationship that allows the server to access
+  /// your resources when servicing your users' transfer requests.
   Future<UpdateUserResponse> updateUser({
     required String serverId,
     required String userName,
@@ -2448,8 +3575,271 @@ class Transfer {
   }
 }
 
+enum AgreementStatusType {
+  active,
+  inactive,
+}
+
+extension on AgreementStatusType {
+  String toValue() {
+    switch (this) {
+      case AgreementStatusType.active:
+        return 'ACTIVE';
+      case AgreementStatusType.inactive:
+        return 'INACTIVE';
+    }
+  }
+}
+
+extension on String {
+  AgreementStatusType toAgreementStatusType() {
+    switch (this) {
+      case 'ACTIVE':
+        return AgreementStatusType.active;
+      case 'INACTIVE':
+        return AgreementStatusType.inactive;
+    }
+    throw Exception('$this is not known in enum AgreementStatusType');
+  }
+}
+
+/// Contains the details for a connector object. The connector object is used
+/// for AS2 outbound processes, to connect the Transfer Family customer with the
+/// trading partner.
+class As2ConnectorConfig {
+  /// Specifies whether the AS2 file is compressed.
+  final CompressionEnum? compression;
+
+  /// The algorithm that is used to encrypt the file.
+  final EncryptionAlg? encryptionAlgorithm;
+
+  /// A unique identifier for the AS2 process.
+  final String? localProfileId;
+
+  /// Used for outbound requests (from an Transfer Family server to a partner AS2
+  /// server) to determine whether the partner response for transfers is
+  /// synchronous or asynchronous. Specify either of the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>SYNC</code>: The system expects a synchronous MDN response, confirming
+  /// that the file was transferred successfully (or not).
+  /// </li>
+  /// <li>
+  /// <code>NONE</code>: Specifies that no MDN response is required.
+  /// </li>
+  /// </ul>
+  final MdnResponse? mdnResponse;
+
+  /// The signing algorithm for the MDN response.
+  final MdnSigningAlg? mdnSigningAlgorithm;
+
+  /// A short description to help identify the connector.
+  final String? messageSubject;
+
+  /// A unique identifier for the partner for the connector.
+  final String? partnerProfileId;
+
+  /// The algorithm that is used to sign the AS2 transfers for this partner
+  /// profile.
+  final SigningAlg? signingAlgorithm;
+
+  As2ConnectorConfig({
+    this.compression,
+    this.encryptionAlgorithm,
+    this.localProfileId,
+    this.mdnResponse,
+    this.mdnSigningAlgorithm,
+    this.messageSubject,
+    this.partnerProfileId,
+    this.signingAlgorithm,
+  });
+
+  factory As2ConnectorConfig.fromJson(Map<String, dynamic> json) {
+    return As2ConnectorConfig(
+      compression: (json['Compression'] as String?)?.toCompressionEnum(),
+      encryptionAlgorithm:
+          (json['EncryptionAlgorithm'] as String?)?.toEncryptionAlg(),
+      localProfileId: json['LocalProfileId'] as String?,
+      mdnResponse: (json['MdnResponse'] as String?)?.toMdnResponse(),
+      mdnSigningAlgorithm:
+          (json['MdnSigningAlgorithm'] as String?)?.toMdnSigningAlg(),
+      messageSubject: json['MessageSubject'] as String?,
+      partnerProfileId: json['PartnerProfileId'] as String?,
+      signingAlgorithm: (json['SigningAlgorithm'] as String?)?.toSigningAlg(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final compression = this.compression;
+    final encryptionAlgorithm = this.encryptionAlgorithm;
+    final localProfileId = this.localProfileId;
+    final mdnResponse = this.mdnResponse;
+    final mdnSigningAlgorithm = this.mdnSigningAlgorithm;
+    final messageSubject = this.messageSubject;
+    final partnerProfileId = this.partnerProfileId;
+    final signingAlgorithm = this.signingAlgorithm;
+    return {
+      if (compression != null) 'Compression': compression.toValue(),
+      if (encryptionAlgorithm != null)
+        'EncryptionAlgorithm': encryptionAlgorithm.toValue(),
+      if (localProfileId != null) 'LocalProfileId': localProfileId,
+      if (mdnResponse != null) 'MdnResponse': mdnResponse.toValue(),
+      if (mdnSigningAlgorithm != null)
+        'MdnSigningAlgorithm': mdnSigningAlgorithm.toValue(),
+      if (messageSubject != null) 'MessageSubject': messageSubject,
+      if (partnerProfileId != null) 'PartnerProfileId': partnerProfileId,
+      if (signingAlgorithm != null)
+        'SigningAlgorithm': signingAlgorithm.toValue(),
+    };
+  }
+}
+
+enum As2Transport {
+  http,
+}
+
+extension on As2Transport {
+  String toValue() {
+    switch (this) {
+      case As2Transport.http:
+        return 'HTTP';
+    }
+  }
+}
+
+extension on String {
+  As2Transport toAs2Transport() {
+    switch (this) {
+      case 'HTTP':
+        return As2Transport.http;
+    }
+    throw Exception('$this is not known in enum As2Transport');
+  }
+}
+
+enum CertificateStatusType {
+  active,
+  pendingRotation,
+  inactive,
+}
+
+extension on CertificateStatusType {
+  String toValue() {
+    switch (this) {
+      case CertificateStatusType.active:
+        return 'ACTIVE';
+      case CertificateStatusType.pendingRotation:
+        return 'PENDING_ROTATION';
+      case CertificateStatusType.inactive:
+        return 'INACTIVE';
+    }
+  }
+}
+
+extension on String {
+  CertificateStatusType toCertificateStatusType() {
+    switch (this) {
+      case 'ACTIVE':
+        return CertificateStatusType.active;
+      case 'PENDING_ROTATION':
+        return CertificateStatusType.pendingRotation;
+      case 'INACTIVE':
+        return CertificateStatusType.inactive;
+    }
+    throw Exception('$this is not known in enum CertificateStatusType');
+  }
+}
+
+enum CertificateType {
+  certificate,
+  certificateWithPrivateKey,
+}
+
+extension on CertificateType {
+  String toValue() {
+    switch (this) {
+      case CertificateType.certificate:
+        return 'CERTIFICATE';
+      case CertificateType.certificateWithPrivateKey:
+        return 'CERTIFICATE_WITH_PRIVATE_KEY';
+    }
+  }
+}
+
+extension on String {
+  CertificateType toCertificateType() {
+    switch (this) {
+      case 'CERTIFICATE':
+        return CertificateType.certificate;
+      case 'CERTIFICATE_WITH_PRIVATE_KEY':
+        return CertificateType.certificateWithPrivateKey;
+    }
+    throw Exception('$this is not known in enum CertificateType');
+  }
+}
+
+enum CertificateUsageType {
+  signing,
+  encryption,
+}
+
+extension on CertificateUsageType {
+  String toValue() {
+    switch (this) {
+      case CertificateUsageType.signing:
+        return 'SIGNING';
+      case CertificateUsageType.encryption:
+        return 'ENCRYPTION';
+    }
+  }
+}
+
+extension on String {
+  CertificateUsageType toCertificateUsageType() {
+    switch (this) {
+      case 'SIGNING':
+        return CertificateUsageType.signing;
+      case 'ENCRYPTION':
+        return CertificateUsageType.encryption;
+    }
+    throw Exception('$this is not known in enum CertificateUsageType');
+  }
+}
+
+enum CompressionEnum {
+  zlib,
+  disabled,
+}
+
+extension on CompressionEnum {
+  String toValue() {
+    switch (this) {
+      case CompressionEnum.zlib:
+        return 'ZLIB';
+      case CompressionEnum.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension on String {
+  CompressionEnum toCompressionEnum() {
+    switch (this) {
+      case 'ZLIB':
+        return CompressionEnum.zlib;
+      case 'DISABLED':
+        return CompressionEnum.disabled;
+    }
+    throw Exception('$this is not known in enum CompressionEnum');
+  }
+}
+
 /// Each step type has its own <code>StepDetails</code> structure.
 class CopyStepDetails {
+  /// Specifies the location for the file being copied. Only applicable for Copy
+  /// type workflow steps. Use <code>${Transfer:username}</code> in this field to
+  /// parametrize the destination prefix by username.
   final InputFileLocation? destinationFileLocation;
 
   /// The name of the step, used as an identifier.
@@ -2459,10 +3849,27 @@ class CopyStepDetails {
   /// same name. The default is <code>FALSE</code>.
   final OverwriteExisting? overwriteExisting;
 
+  /// Specifies which file to use as input to the workflow step: either the output
+  /// from the previous step, or the originally uploaded file for the workflow.
+  ///
+  /// <ul>
+  /// <li>
+  /// Enter <code>${previous.file}</code> to use the previous file as the input.
+  /// In this case, this workflow step uses the output file from the previous
+  /// workflow step as input. This is the default value.
+  /// </li>
+  /// <li>
+  /// Enter <code>${original.file}</code> to use the originally-uploaded file
+  /// location as input for this step.
+  /// </li>
+  /// </ul>
+  final String? sourceFileLocation;
+
   CopyStepDetails({
     this.destinationFileLocation,
     this.name,
     this.overwriteExisting,
+    this.sourceFileLocation,
   });
 
   factory CopyStepDetails.fromJson(Map<String, dynamic> json) {
@@ -2474,6 +3881,7 @@ class CopyStepDetails {
       name: json['Name'] as String?,
       overwriteExisting:
           (json['OverwriteExisting'] as String?)?.toOverwriteExisting(),
+      sourceFileLocation: json['SourceFileLocation'] as String?,
     );
   }
 
@@ -2481,20 +3889,21 @@ class CopyStepDetails {
     final destinationFileLocation = this.destinationFileLocation;
     final name = this.name;
     final overwriteExisting = this.overwriteExisting;
+    final sourceFileLocation = this.sourceFileLocation;
     return {
       if (destinationFileLocation != null)
         'DestinationFileLocation': destinationFileLocation,
       if (name != null) 'Name': name,
       if (overwriteExisting != null)
         'OverwriteExisting': overwriteExisting.toValue(),
+      if (sourceFileLocation != null) 'SourceFileLocation': sourceFileLocation,
     };
   }
 }
 
 class CreateAccessResponse {
   /// The external ID of the group whose users have access to your Amazon S3 or
-  /// Amazon EFS resources over the enabled protocols using Amazon Web Services
-  /// Transfer Family.
+  /// Amazon EFS resources over the enabled protocols using Transfer Family.
   final String externalId;
 
   /// The ID of the server that the user is attached to.
@@ -2518,6 +3927,76 @@ class CreateAccessResponse {
     return {
       'ExternalId': externalId,
       'ServerId': serverId,
+    };
+  }
+}
+
+class CreateAgreementResponse {
+  /// The unique identifier for the agreement. Use this ID for deleting, or
+  /// updating an agreement, as well as in any other API calls that require that
+  /// you specify the agreement ID.
+  final String agreementId;
+
+  CreateAgreementResponse({
+    required this.agreementId,
+  });
+
+  factory CreateAgreementResponse.fromJson(Map<String, dynamic> json) {
+    return CreateAgreementResponse(
+      agreementId: json['AgreementId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final agreementId = this.agreementId;
+    return {
+      'AgreementId': agreementId,
+    };
+  }
+}
+
+class CreateConnectorResponse {
+  /// The unique identifier for the connector, returned after the API call
+  /// succeeds.
+  final String connectorId;
+
+  CreateConnectorResponse({
+    required this.connectorId,
+  });
+
+  factory CreateConnectorResponse.fromJson(Map<String, dynamic> json) {
+    return CreateConnectorResponse(
+      connectorId: json['ConnectorId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectorId = this.connectorId;
+    return {
+      'ConnectorId': connectorId,
+    };
+  }
+}
+
+class CreateProfileResponse {
+  /// The unique identifier for the AS2 profile, returned after the API call
+  /// succeeds.
+  final String profileId;
+
+  CreateProfileResponse({
+    required this.profileId,
+  });
+
+  factory CreateProfileResponse.fromJson(Map<String, dynamic> json) {
+    return CreateProfileResponse(
+      profileId: json['ProfileId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final profileId = this.profileId;
+    return {
+      'ProfileId': profileId,
     };
   }
 }
@@ -2600,6 +4079,22 @@ class CustomStepDetails {
   /// The name of the step, used as an identifier.
   final String? name;
 
+  /// Specifies which file to use as input to the workflow step: either the output
+  /// from the previous step, or the originally uploaded file for the workflow.
+  ///
+  /// <ul>
+  /// <li>
+  /// Enter <code>${previous.file}</code> to use the previous file as the input.
+  /// In this case, this workflow step uses the output file from the previous
+  /// workflow step as input. This is the default value.
+  /// </li>
+  /// <li>
+  /// Enter <code>${original.file}</code> to use the originally-uploaded file
+  /// location as input for this step.
+  /// </li>
+  /// </ul>
+  final String? sourceFileLocation;
+
   /// The ARN for the lambda function that is being called.
   final String? target;
 
@@ -2608,6 +4103,7 @@ class CustomStepDetails {
 
   CustomStepDetails({
     this.name,
+    this.sourceFileLocation,
     this.target,
     this.timeoutSeconds,
   });
@@ -2615,6 +4111,7 @@ class CustomStepDetails {
   factory CustomStepDetails.fromJson(Map<String, dynamic> json) {
     return CustomStepDetails(
       name: json['Name'] as String?,
+      sourceFileLocation: json['SourceFileLocation'] as String?,
       target: json['Target'] as String?,
       timeoutSeconds: json['TimeoutSeconds'] as int?,
     );
@@ -2622,10 +4119,12 @@ class CustomStepDetails {
 
   Map<String, dynamic> toJson() {
     final name = this.name;
+    final sourceFileLocation = this.sourceFileLocation;
     final target = this.target;
     final timeoutSeconds = this.timeoutSeconds;
     return {
       if (name != null) 'Name': name,
+      if (sourceFileLocation != null) 'SourceFileLocation': sourceFileLocation,
       if (target != null) 'Target': target,
       if (timeoutSeconds != null) 'TimeoutSeconds': timeoutSeconds,
     };
@@ -2665,20 +4164,40 @@ class DeleteStepDetails {
   /// The name of the step, used as an identifier.
   final String? name;
 
+  /// Specifies which file to use as input to the workflow step: either the output
+  /// from the previous step, or the originally uploaded file for the workflow.
+  ///
+  /// <ul>
+  /// <li>
+  /// Enter <code>${previous.file}</code> to use the previous file as the input.
+  /// In this case, this workflow step uses the output file from the previous
+  /// workflow step as input. This is the default value.
+  /// </li>
+  /// <li>
+  /// Enter <code>${original.file}</code> to use the originally-uploaded file
+  /// location as input for this step.
+  /// </li>
+  /// </ul>
+  final String? sourceFileLocation;
+
   DeleteStepDetails({
     this.name,
+    this.sourceFileLocation,
   });
 
   factory DeleteStepDetails.fromJson(Map<String, dynamic> json) {
     return DeleteStepDetails(
       name: json['Name'] as String?,
+      sourceFileLocation: json['SourceFileLocation'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final name = this.name;
+    final sourceFileLocation = this.sourceFileLocation;
     return {
       if (name != null) 'Name': name,
+      if (sourceFileLocation != null) 'SourceFileLocation': sourceFileLocation,
     };
   }
 }
@@ -2713,6 +4232,76 @@ class DescribeAccessResponse {
   }
 }
 
+class DescribeAgreementResponse {
+  /// The details for the specified agreement, returned as a
+  /// <code>DescribedAgreement</code> object.
+  final DescribedAgreement agreement;
+
+  DescribeAgreementResponse({
+    required this.agreement,
+  });
+
+  factory DescribeAgreementResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeAgreementResponse(
+      agreement: DescribedAgreement.fromJson(
+          json['Agreement'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final agreement = this.agreement;
+    return {
+      'Agreement': agreement,
+    };
+  }
+}
+
+class DescribeCertificateResponse {
+  /// The details for the specified certificate, returned as an object.
+  final DescribedCertificate certificate;
+
+  DescribeCertificateResponse({
+    required this.certificate,
+  });
+
+  factory DescribeCertificateResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeCertificateResponse(
+      certificate: DescribedCertificate.fromJson(
+          json['Certificate'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificate = this.certificate;
+    return {
+      'Certificate': certificate,
+    };
+  }
+}
+
+class DescribeConnectorResponse {
+  /// The structure that contains the details of the connector.
+  final DescribedConnector connector;
+
+  DescribeConnectorResponse({
+    required this.connector,
+  });
+
+  factory DescribeConnectorResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeConnectorResponse(
+      connector: DescribedConnector.fromJson(
+          json['Connector'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connector = this.connector;
+    return {
+      'Connector': connector,
+    };
+  }
+}
+
 class DescribeExecutionResponse {
   /// The structure that contains the details of the workflow' execution.
   final DescribedExecution execution;
@@ -2739,6 +4328,29 @@ class DescribeExecutionResponse {
     return {
       'Execution': execution,
       'WorkflowId': workflowId,
+    };
+  }
+}
+
+class DescribeProfileResponse {
+  /// The details of the specified profile, returned as an object.
+  final DescribedProfile profile;
+
+  DescribeProfileResponse({
+    required this.profile,
+  });
+
+  factory DescribeProfileResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeProfileResponse(
+      profile:
+          DescribedProfile.fromJson(json['Profile'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final profile = this.profile;
+    return {
+      'Profile': profile,
     };
   }
 }
@@ -2847,9 +4459,9 @@ class DescribeWorkflowResponse {
 class DescribedAccess {
   /// A unique identifier that is required to identify specific groups within your
   /// directory. The users of the group that you associate have access to your
-  /// Amazon S3 or Amazon EFS resources over the enabled protocols using Amazon
-  /// Web Services Transfer Family. If you know the group name, you can view the
-  /// SID values by running the following command using Windows PowerShell.
+  /// Amazon S3 or Amazon EFS resources over the enabled protocols using Transfer
+  /// Family. If you know the group name, you can view the SID values by running
+  /// the following command using Windows PowerShell.
   ///
   /// <code>Get-ADGroup -Filter {samAccountName -like "<i>YourGroupName</i>*"}
   /// -Properties * | Select SamAccountName,ObjectSid</code>
@@ -2857,10 +4469,10 @@ class DescribedAccess {
   /// In that command, replace <i>YourGroupName</i> with the name of your Active
   /// Directory group.
   ///
-  /// The regex used to validate this parameter is a string of characters
-  /// consisting of uppercase and lowercase alphanumeric characters with no
-  /// spaces. You can also include underscores or any of the following characters:
-  /// =,.@:/-
+  /// The regular expression used to validate this parameter is a string of
+  /// characters consisting of uppercase and lowercase alphanumeric characters
+  /// with no spaces. You can also include underscores or any of the following
+  /// characters: =,.@:/-
   final String? externalId;
 
   /// The landing directory (folder) for a user when they log in to the server
@@ -2876,8 +4488,8 @@ class DescribedAccess {
   /// pair, where <code>Entry</code> shows how the path is made visible and
   /// <code>Target</code> is the actual Amazon S3 or Amazon EFS path. If you only
   /// specify a target, it is displayed as is. You also must ensure that your
-  /// Amazon Web Services Identity and Access Management (IAM) role provides
-  /// access to paths in <code>Target</code>. This value can only be set when
+  /// Identity and Access Management (IAM) role provides access to paths in
+  /// <code>Target</code>. This value can be set only when
   /// <code>HomeDirectoryType</code> is set to <i>LOGICAL</i>.
   ///
   /// In most cases, you can use this value instead of the session policy to lock
@@ -2887,29 +4499,31 @@ class DescribedAccess {
   /// value.
   final List<HomeDirectoryMapEntry>? homeDirectoryMappings;
 
-  /// The type of landing directory (folder) you want your users' home directory
-  /// to be when they log into the server. If you set it to <code>PATH</code>, the
-  /// user will see the absolute Amazon S3 bucket or EFS paths as is in their file
-  /// transfer protocol clients. If you set it <code>LOGICAL</code>, you need to
-  /// provide mappings in the <code>HomeDirectoryMappings</code> for how you want
-  /// to make Amazon S3 or EFS paths visible to your users.
+  /// The type of landing directory (folder) that you want your users' home
+  /// directory to be when they log in to the server. If you set it to
+  /// <code>PATH</code>, the user will see the absolute Amazon S3 bucket or EFS
+  /// paths as is in their file transfer protocol clients. If you set it
+  /// <code>LOGICAL</code>, you need to provide mappings in the
+  /// <code>HomeDirectoryMappings</code> for how you want to make Amazon S3 or
+  /// Amazon EFS paths visible to your users.
   final HomeDirectoryType? homeDirectoryType;
 
-  /// A session policy for your user so that you can use the same IAM role across
-  /// multiple users. This policy scopes down user access to portions of their
-  /// Amazon S3 bucket. Variables that you can use inside this policy include
-  /// <code>${Transfer:UserName}</code>, <code>${Transfer:HomeDirectory}</code>,
-  /// and <code>${Transfer:HomeBucket}</code>.
+  /// A session policy for your user so that you can use the same Identity and
+  /// Access Management (IAM) role across multiple users. This policy scopes down
+  /// a user's access to portions of their Amazon S3 bucket. Variables that you
+  /// can use inside this policy include <code>${Transfer:UserName}</code>,
+  /// <code>${Transfer:HomeDirectory}</code>, and
+  /// <code>${Transfer:HomeBucket}</code>.
   final String? policy;
   final PosixProfile? posixProfile;
 
-  /// Specifies the Amazon Resource Name (ARN) of the IAM role that controls your
-  /// users' access to your Amazon S3 bucket or EFS file system. The policies
-  /// attached to this role determine the level of access that you want to provide
-  /// your users when transferring files into and out of your Amazon S3 bucket or
-  /// EFS file system. The IAM role should also contain a trust relationship that
-  /// allows the server to access your resources when servicing your users'
-  /// transfer requests.
+  /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM)
+  /// role that controls your users' access to your Amazon S3 bucket or Amazon EFS
+  /// file system. The policies attached to this role determine the level of
+  /// access that you want to provide your users when transferring files into and
+  /// out of your Amazon S3 bucket or Amazon EFS file system. The IAM role should
+  /// also contain a trust relationship that allows the server to access your
+  /// resources when servicing your users' transfer requests.
   final String? role;
 
   DescribedAccess({
@@ -2962,6 +4576,312 @@ class DescribedAccess {
   }
 }
 
+/// Describes the properties of an agreement.
+class DescribedAgreement {
+  /// The unique Amazon Resource Name (ARN) for the agreement.
+  final String arn;
+
+  /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM)
+  /// role that grants access to at least the <code>HomeDirectory</code> of your
+  /// users' Amazon S3 buckets.
+  final String? accessRole;
+
+  /// A unique identifier for the agreement. This identifier is returned when you
+  /// create an agreement.
+  final String? agreementId;
+
+  /// The landing directory (folder) for files that are transferred by using the
+  /// AS2 protocol.
+  final String? baseDirectory;
+
+  /// The name or short description that's used to identify the agreement.
+  final String? description;
+
+  /// A unique identifier for the AS2 process.
+  final String? localProfileId;
+
+  /// A unique identifier for the partner in the agreement.
+  final String? partnerProfileId;
+
+  /// A system-assigned unique identifier for a server instance. This identifier
+  /// indicates the specific server that the agreement uses.
+  final String? serverId;
+
+  /// The current status of the agreement, either <code>ACTIVE</code> or
+  /// <code>INACTIVE</code>.
+  final AgreementStatusType? status;
+
+  /// Key-value pairs that can be used to group and search for agreements.
+  final List<Tag>? tags;
+
+  DescribedAgreement({
+    required this.arn,
+    this.accessRole,
+    this.agreementId,
+    this.baseDirectory,
+    this.description,
+    this.localProfileId,
+    this.partnerProfileId,
+    this.serverId,
+    this.status,
+    this.tags,
+  });
+
+  factory DescribedAgreement.fromJson(Map<String, dynamic> json) {
+    return DescribedAgreement(
+      arn: json['Arn'] as String,
+      accessRole: json['AccessRole'] as String?,
+      agreementId: json['AgreementId'] as String?,
+      baseDirectory: json['BaseDirectory'] as String?,
+      description: json['Description'] as String?,
+      localProfileId: json['LocalProfileId'] as String?,
+      partnerProfileId: json['PartnerProfileId'] as String?,
+      serverId: json['ServerId'] as String?,
+      status: (json['Status'] as String?)?.toAgreementStatusType(),
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final accessRole = this.accessRole;
+    final agreementId = this.agreementId;
+    final baseDirectory = this.baseDirectory;
+    final description = this.description;
+    final localProfileId = this.localProfileId;
+    final partnerProfileId = this.partnerProfileId;
+    final serverId = this.serverId;
+    final status = this.status;
+    final tags = this.tags;
+    return {
+      'Arn': arn,
+      if (accessRole != null) 'AccessRole': accessRole,
+      if (agreementId != null) 'AgreementId': agreementId,
+      if (baseDirectory != null) 'BaseDirectory': baseDirectory,
+      if (description != null) 'Description': description,
+      if (localProfileId != null) 'LocalProfileId': localProfileId,
+      if (partnerProfileId != null) 'PartnerProfileId': partnerProfileId,
+      if (serverId != null) 'ServerId': serverId,
+      if (status != null) 'Status': status.toValue(),
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+/// Describes the properties of a certificate.
+class DescribedCertificate {
+  /// The unique Amazon Resource Name (ARN) for the certificate.
+  final String arn;
+
+  /// An optional date that specifies when the certificate becomes active.
+  final DateTime? activeDate;
+
+  /// The file name for the certificate.
+  final String? certificate;
+
+  /// The list of certificates that make up the chain for the certificate.
+  final String? certificateChain;
+
+  /// An array of identifiers for the imported certificates. You use this
+  /// identifier for working with profiles and partner profiles.
+  final String? certificateId;
+
+  /// The name or description that's used to identity the certificate.
+  final String? description;
+
+  /// An optional date that specifies when the certificate becomes inactive.
+  final DateTime? inactiveDate;
+
+  /// The final date that the certificate is valid.
+  final DateTime? notAfterDate;
+
+  /// The earliest date that the certificate is valid.
+  final DateTime? notBeforeDate;
+
+  /// The serial number for the certificate.
+  final String? serial;
+
+  /// The certificate can be either <code>ACTIVE</code>,
+  /// <code>PENDING_ROTATION</code>, or <code>INACTIVE</code>.
+  /// <code>PENDING_ROTATION</code> means that this certificate will replace the
+  /// current certificate when it expires.
+  final CertificateStatusType? status;
+
+  /// Key-value pairs that can be used to group and search for certificates.
+  final List<Tag>? tags;
+
+  /// If a private key has been specified for the certificate, its type is
+  /// <code>CERTIFICATE_WITH_PRIVATE_KEY</code>. If there is no private key, the
+  /// type is <code>CERTIFICATE</code>.
+  final CertificateType? type;
+
+  /// Specifies whether this certificate is used for signing or encryption.
+  final CertificateUsageType? usage;
+
+  DescribedCertificate({
+    required this.arn,
+    this.activeDate,
+    this.certificate,
+    this.certificateChain,
+    this.certificateId,
+    this.description,
+    this.inactiveDate,
+    this.notAfterDate,
+    this.notBeforeDate,
+    this.serial,
+    this.status,
+    this.tags,
+    this.type,
+    this.usage,
+  });
+
+  factory DescribedCertificate.fromJson(Map<String, dynamic> json) {
+    return DescribedCertificate(
+      arn: json['Arn'] as String,
+      activeDate: timeStampFromJson(json['ActiveDate']),
+      certificate: json['Certificate'] as String?,
+      certificateChain: json['CertificateChain'] as String?,
+      certificateId: json['CertificateId'] as String?,
+      description: json['Description'] as String?,
+      inactiveDate: timeStampFromJson(json['InactiveDate']),
+      notAfterDate: timeStampFromJson(json['NotAfterDate']),
+      notBeforeDate: timeStampFromJson(json['NotBeforeDate']),
+      serial: json['Serial'] as String?,
+      status: (json['Status'] as String?)?.toCertificateStatusType(),
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      type: (json['Type'] as String?)?.toCertificateType(),
+      usage: (json['Usage'] as String?)?.toCertificateUsageType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final activeDate = this.activeDate;
+    final certificate = this.certificate;
+    final certificateChain = this.certificateChain;
+    final certificateId = this.certificateId;
+    final description = this.description;
+    final inactiveDate = this.inactiveDate;
+    final notAfterDate = this.notAfterDate;
+    final notBeforeDate = this.notBeforeDate;
+    final serial = this.serial;
+    final status = this.status;
+    final tags = this.tags;
+    final type = this.type;
+    final usage = this.usage;
+    return {
+      'Arn': arn,
+      if (activeDate != null) 'ActiveDate': unixTimestampToJson(activeDate),
+      if (certificate != null) 'Certificate': certificate,
+      if (certificateChain != null) 'CertificateChain': certificateChain,
+      if (certificateId != null) 'CertificateId': certificateId,
+      if (description != null) 'Description': description,
+      if (inactiveDate != null)
+        'InactiveDate': unixTimestampToJson(inactiveDate),
+      if (notAfterDate != null)
+        'NotAfterDate': unixTimestampToJson(notAfterDate),
+      if (notBeforeDate != null)
+        'NotBeforeDate': unixTimestampToJson(notBeforeDate),
+      if (serial != null) 'Serial': serial,
+      if (status != null) 'Status': status.toValue(),
+      if (tags != null) 'Tags': tags,
+      if (type != null) 'Type': type.toValue(),
+      if (usage != null) 'Usage': usage.toValue(),
+    };
+  }
+}
+
+/// Describes the parameters for the connector, as identified by the
+/// <code>ConnectorId</code>.
+class DescribedConnector {
+  /// The unique Amazon Resource Name (ARN) for the connector.
+  final String arn;
+
+  /// With AS2, you can send files by calling <code>StartFileTransfer</code> and
+  /// specifying the file paths in the request parameter,
+  /// <code>SendFilePaths</code>. We use the file’s parent directory (for example,
+  /// for <code>--send-file-paths /bucket/dir/file.txt</code>, parent directory is
+  /// <code>/bucket/dir/</code>) to temporarily store a processed AS2 message
+  /// file, store the MDN when we receive them from the partner, and write a final
+  /// JSON file containing relevant metadata of the transmission. So, the
+  /// <code>AccessRole</code> needs to provide read and write access to the parent
+  /// directory of the file location used in the <code>StartFileTransfer</code>
+  /// request. Additionally, you need to provide read and write access to the
+  /// parent directory of the files that you intend to send with
+  /// <code>StartFileTransfer</code>.
+  final String? accessRole;
+
+  /// A structure that contains the parameters for a connector object.
+  final As2ConnectorConfig? as2Config;
+
+  /// The unique identifier for the connector.
+  final String? connectorId;
+
+  /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM)
+  /// role that allows a connector to turn on CloudWatch logging for Amazon S3
+  /// events. When set, you can view connector activity in your CloudWatch logs.
+  final String? loggingRole;
+
+  /// Key-value pairs that can be used to group and search for connectors.
+  final List<Tag>? tags;
+
+  /// The URL of the partner's AS2 endpoint.
+  final String? url;
+
+  DescribedConnector({
+    required this.arn,
+    this.accessRole,
+    this.as2Config,
+    this.connectorId,
+    this.loggingRole,
+    this.tags,
+    this.url,
+  });
+
+  factory DescribedConnector.fromJson(Map<String, dynamic> json) {
+    return DescribedConnector(
+      arn: json['Arn'] as String,
+      accessRole: json['AccessRole'] as String?,
+      as2Config: json['As2Config'] != null
+          ? As2ConnectorConfig.fromJson(
+              json['As2Config'] as Map<String, dynamic>)
+          : null,
+      connectorId: json['ConnectorId'] as String?,
+      loggingRole: json['LoggingRole'] as String?,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      url: json['Url'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final accessRole = this.accessRole;
+    final as2Config = this.as2Config;
+    final connectorId = this.connectorId;
+    final loggingRole = this.loggingRole;
+    final tags = this.tags;
+    final url = this.url;
+    return {
+      'Arn': arn,
+      if (accessRole != null) 'AccessRole': accessRole,
+      if (as2Config != null) 'As2Config': as2Config,
+      if (connectorId != null) 'ConnectorId': connectorId,
+      if (loggingRole != null) 'LoggingRole': loggingRole,
+      if (tags != null) 'Tags': tags,
+      if (url != null) 'Url': url,
+    };
+  }
+}
+
 /// The details for an execution object.
 class DescribedExecution {
   /// A unique identifier for the execution of a workflow.
@@ -2984,7 +4904,8 @@ class DescribedExecution {
   /// any), and the <code>OnExceptionSteps</code> structure.
   final ExecutionResults? results;
 
-  /// A container object for the session details associated with a workflow.
+  /// A container object for the session details that are associated with a
+  /// workflow.
   final ServiceMetadata? serviceMetadata;
 
   /// The status is one of the execution. Can be in progress, completed, exception
@@ -3048,6 +4969,73 @@ class DescribedExecution {
       if (results != null) 'Results': results,
       if (serviceMetadata != null) 'ServiceMetadata': serviceMetadata,
       if (status != null) 'Status': status.toValue(),
+    };
+  }
+}
+
+/// The details for a local or partner AS2 profile. profile.
+class DescribedProfile {
+  /// The unique Amazon Resource Name (ARN) for the profile.
+  final String arn;
+
+  /// The unique identifier for the AS2 process.
+  final String? as2Id;
+
+  /// An array of identifiers for the imported certificates. You use this
+  /// identifier for working with profiles and partner profiles.
+  final List<String>? certificateIds;
+
+  /// A unique identifier for the local or partner AS2 profile.
+  final String? profileId;
+
+  /// Indicates whether to list only <code>LOCAL</code> type profiles or only
+  /// <code>PARTNER</code> type profiles. If not supplied in the request, the
+  /// command lists all types of profiles.
+  final ProfileType? profileType;
+
+  /// Key-value pairs that can be used to group and search for profiles.
+  final List<Tag>? tags;
+
+  DescribedProfile({
+    required this.arn,
+    this.as2Id,
+    this.certificateIds,
+    this.profileId,
+    this.profileType,
+    this.tags,
+  });
+
+  factory DescribedProfile.fromJson(Map<String, dynamic> json) {
+    return DescribedProfile(
+      arn: json['Arn'] as String,
+      as2Id: json['As2Id'] as String?,
+      certificateIds: (json['CertificateIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      profileId: json['ProfileId'] as String?,
+      profileType: (json['ProfileType'] as String?)?.toProfileType(),
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final as2Id = this.as2Id;
+    final certificateIds = this.certificateIds;
+    final profileId = this.profileId;
+    final profileType = this.profileType;
+    final tags = this.tags;
+    return {
+      'Arn': arn,
+      if (as2Id != null) 'As2Id': as2Id,
+      if (certificateIds != null) 'CertificateIds': certificateIds,
+      if (profileId != null) 'ProfileId': profileId,
+      if (profileType != null) 'ProfileType': profileType.toValue(),
+      if (tags != null) 'Tags': tags,
     };
   }
 }
@@ -3145,10 +5133,11 @@ class DescribedServer {
   final Domain? domain;
 
   /// The virtual private cloud (VPC) endpoint settings that are configured for
-  /// your server. When you host your endpoint within your VPC, you can make it
-  /// accessible only to resources within your VPC, or you can attach Elastic IP
-  /// addresses and make it accessible to clients over the internet. Your VPC's
-  /// default security groups are automatically assigned to your endpoint.
+  /// your server. When you host your endpoint within your VPC, you can make your
+  /// endpoint accessible only to resources within your VPC, or you can attach
+  /// Elastic IP addresses and make your endpoint accessible to clients over the
+  /// internet. Your VPC's default security groups are automatically assigned to
+  /// your endpoint.
   final EndpointDetails? endpointDetails;
 
   /// Defines the type of endpoint that your server is connected to. If your
@@ -3167,38 +5156,55 @@ class DescribedServer {
   /// <code>SERVICE_MANAGED</code>.
   final IdentityProviderDetails? identityProviderDetails;
 
-  /// Specifies the mode of authentication for a server. The default value is
+  /// The mode of authentication for a server. The default value is
   /// <code>SERVICE_MANAGED</code>, which allows you to store and access user
-  /// credentials within the Amazon Web Services Transfer Family service.
+  /// credentials within the Transfer Family service.
   ///
   /// Use <code>AWS_DIRECTORY_SERVICE</code> to provide access to Active Directory
-  /// groups in Amazon Web Services Managed Active Directory or Microsoft Active
-  /// Directory in your on-premises environment or in Amazon Web Services using AD
-  /// Connectors. This option also requires you to provide a Directory ID using
-  /// the <code>IdentityProviderDetails</code> parameter.
+  /// groups in Directory Service for Microsoft Active Directory or Microsoft
+  /// Active Directory in your on-premises environment or in Amazon Web Services
+  /// using AD Connector. This option also requires you to provide a Directory ID
+  /// by using the <code>IdentityProviderDetails</code> parameter.
   ///
   /// Use the <code>API_GATEWAY</code> value to integrate with an identity
   /// provider of your choosing. The <code>API_GATEWAY</code> setting requires you
-  /// to provide an API Gateway endpoint URL to call for authentication using the
-  /// <code>IdentityProviderDetails</code> parameter.
+  /// to provide an Amazon API Gateway endpoint URL to call for authentication by
+  /// using the <code>IdentityProviderDetails</code> parameter.
   ///
-  /// Use the <code>AWS_LAMBDA</code> value to directly use a Lambda function as
+  /// Use the <code>AWS_LAMBDA</code> value to directly use an Lambda function as
   /// your identity provider. If you choose this value, you must specify the ARN
-  /// for the lambda function in the <code>Function</code> parameter for the
+  /// for the Lambda function in the <code>Function</code> parameter or the
   /// <code>IdentityProviderDetails</code> data type.
   final IdentityProviderType? identityProviderType;
 
-  /// Specifies the Amazon Resource Name (ARN) of the Amazon Web Services Identity
-  /// and Access Management (IAM) role that allows a server to turn on Amazon
-  /// CloudWatch logging for Amazon S3 or Amazon EFS events. When set, user
-  /// activity can be viewed in your CloudWatch logs.
+  /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM)
+  /// role that allows a server to turn on Amazon CloudWatch logging for Amazon S3
+  /// or Amazon EFSevents. When set, you can view user activity in your CloudWatch
+  /// logs.
   final String? loggingRole;
+
+  /// Specifies a string to display when users connect to a server. This string is
+  /// displayed after the user authenticates.
+  /// <note>
+  /// The SFTP protocol does not support post-authentication display banners.
+  /// </note>
+  final String? postAuthenticationLoginBanner;
+
+  /// Specifies a string to display when users connect to a server. This string is
+  /// displayed before the user authenticates. For example, the following banner
+  /// displays details about using the system:
+  ///
+  /// <code>This system is for the use of authorized users only. Individuals using
+  /// this computer system without authority, or in excess of their authority, are
+  /// subject to having all of their activities on this system monitored and
+  /// recorded by system personnel.</code>
+  final String? preAuthenticationLoginBanner;
 
   /// The protocol settings that are configured for your server.
   ///
   /// Use the <code>PassiveIp</code> parameter to indicate passive mode. Enter a
-  /// single dotted-quad IPv4 address, such as the external IP address of a
-  /// firewall, router, or load balancer.
+  /// single IPv4 address, such as the public IP address of a firewall, router, or
+  /// load balancer.
   final ProtocolDetails? protocolDetails;
 
   /// Specifies the file transfer protocol or protocols over which your file
@@ -3227,10 +5233,10 @@ class DescribedServer {
   /// instantiate.
   final String? serverId;
 
-  /// Specifies the condition of a server for the server that was described. A
-  /// value of <code>ONLINE</code> indicates that the server can accept jobs and
-  /// transfer files. A <code>State</code> value of <code>OFFLINE</code> means
-  /// that the server cannot perform file transfer operations.
+  /// The condition of the server that was described. A value of
+  /// <code>ONLINE</code> indicates that the server can accept jobs and transfer
+  /// files. A <code>State</code> value of <code>OFFLINE</code> means that the
+  /// server cannot perform file transfer operations.
   ///
   /// The states of <code>STARTING</code> and <code>STOPPING</code> indicate that
   /// the server is in an intermediate state, either not fully able to respond, or
@@ -3247,7 +5253,7 @@ class DescribedServer {
   final int? userCount;
 
   /// Specifies the workflow ID for the workflow to assign and the execution role
-  /// used for executing the workflow.
+  /// that's used for executing the workflow.
   final WorkflowDetails? workflowDetails;
 
   DescribedServer({
@@ -3260,6 +5266,8 @@ class DescribedServer {
     this.identityProviderDetails,
     this.identityProviderType,
     this.loggingRole,
+    this.postAuthenticationLoginBanner,
+    this.preAuthenticationLoginBanner,
     this.protocolDetails,
     this.protocols,
     this.securityPolicyName,
@@ -3288,6 +5296,10 @@ class DescribedServer {
       identityProviderType:
           (json['IdentityProviderType'] as String?)?.toIdentityProviderType(),
       loggingRole: json['LoggingRole'] as String?,
+      postAuthenticationLoginBanner:
+          json['PostAuthenticationLoginBanner'] as String?,
+      preAuthenticationLoginBanner:
+          json['PreAuthenticationLoginBanner'] as String?,
       protocolDetails: json['ProtocolDetails'] != null
           ? ProtocolDetails.fromJson(
               json['ProtocolDetails'] as Map<String, dynamic>)
@@ -3321,6 +5333,8 @@ class DescribedServer {
     final identityProviderDetails = this.identityProviderDetails;
     final identityProviderType = this.identityProviderType;
     final loggingRole = this.loggingRole;
+    final postAuthenticationLoginBanner = this.postAuthenticationLoginBanner;
+    final preAuthenticationLoginBanner = this.preAuthenticationLoginBanner;
     final protocolDetails = this.protocolDetails;
     final protocols = this.protocols;
     final securityPolicyName = this.securityPolicyName;
@@ -3341,6 +5355,10 @@ class DescribedServer {
       if (identityProviderType != null)
         'IdentityProviderType': identityProviderType.toValue(),
       if (loggingRole != null) 'LoggingRole': loggingRole,
+      if (postAuthenticationLoginBanner != null)
+        'PostAuthenticationLoginBanner': postAuthenticationLoginBanner,
+      if (preAuthenticationLoginBanner != null)
+        'PreAuthenticationLoginBanner': preAuthenticationLoginBanner,
       if (protocolDetails != null) 'ProtocolDetails': protocolDetails,
       if (protocols != null)
         'Protocols': protocols.map((e) => e.toValue()).toList(),
@@ -3373,8 +5391,8 @@ class DescribedUser {
   /// pair, where <code>Entry</code> shows how the path is made visible and
   /// <code>Target</code> is the actual Amazon S3 or Amazon EFS path. If you only
   /// specify a target, it is displayed as is. You also must ensure that your
-  /// Amazon Web Services Identity and Access Management (IAM) role provides
-  /// access to paths in <code>Target</code>. This value can only be set when
+  /// Identity and Access Management (IAM) role provides access to paths in
+  /// <code>Target</code>. This value can be set only when
   /// <code>HomeDirectoryType</code> is set to <i>LOGICAL</i>.
   ///
   /// In most cases, you can use this value instead of the session policy to lock
@@ -3383,19 +5401,21 @@ class DescribedUser {
   /// to the HomeDirectory parameter value.
   final List<HomeDirectoryMapEntry>? homeDirectoryMappings;
 
-  /// The type of landing directory (folder) you want your users' home directory
-  /// to be when they log into the server. If you set it to <code>PATH</code>, the
-  /// user will see the absolute Amazon S3 bucket or EFS paths as is in their file
-  /// transfer protocol clients. If you set it <code>LOGICAL</code>, you need to
-  /// provide mappings in the <code>HomeDirectoryMappings</code> for how you want
-  /// to make Amazon S3 or EFS paths visible to your users.
+  /// The type of landing directory (folder) that you want your users' home
+  /// directory to be when they log in to the server. If you set it to
+  /// <code>PATH</code>, the user will see the absolute Amazon S3 bucket or EFS
+  /// paths as is in their file transfer protocol clients. If you set it
+  /// <code>LOGICAL</code>, you need to provide mappings in the
+  /// <code>HomeDirectoryMappings</code> for how you want to make Amazon S3 or
+  /// Amazon EFS paths visible to your users.
   final HomeDirectoryType? homeDirectoryType;
 
-  /// A session policy for your user so that you can use the same IAM role across
-  /// multiple users. This policy scopes down user access to portions of their
-  /// Amazon S3 bucket. Variables that you can use inside this policy include
-  /// <code>${Transfer:UserName}</code>, <code>${Transfer:HomeDirectory}</code>,
-  /// and <code>${Transfer:HomeBucket}</code>.
+  /// A session policy for your user so that you can use the same Identity and
+  /// Access Management (IAM) role across multiple users. This policy scopes down
+  /// a user's access to portions of their Amazon S3 bucket. Variables that you
+  /// can use inside this policy include <code>${Transfer:UserName}</code>,
+  /// <code>${Transfer:HomeDirectory}</code>, and
+  /// <code>${Transfer:HomeBucket}</code>.
   final String? policy;
 
   /// Specifies the full POSIX identity, including user ID (<code>Uid</code>),
@@ -3407,13 +5427,13 @@ class DescribedUser {
   /// Amazon EFS file systems.
   final PosixProfile? posixProfile;
 
-  /// Specifies the Amazon Resource Name (ARN) of the IAM role that controls your
-  /// users' access to your Amazon S3 bucket or EFS file system. The policies
-  /// attached to this role determine the level of access that you want to provide
-  /// your users when transferring files into and out of your Amazon S3 bucket or
-  /// EFS file system. The IAM role should also contain a trust relationship that
-  /// allows the server to access your resources when servicing your users'
-  /// transfer requests.
+  /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM)
+  /// role that controls your users' access to your Amazon S3 bucket or Amazon EFS
+  /// file system. The policies attached to this role determine the level of
+  /// access that you want to provide your users when transferring files into and
+  /// out of your Amazon S3 bucket or Amazon EFS file system. The IAM role should
+  /// also contain a trust relationship that allows the server to access your
+  /// resources when servicing your users' transfer requests.
   final String? role;
 
   /// Specifies the public key portion of the Secure Shell (SSH) keys stored for
@@ -3626,6 +5646,39 @@ class EfsFileLocation {
   }
 }
 
+enum EncryptionAlg {
+  aes128Cbc,
+  aes192Cbc,
+  aes256Cbc,
+}
+
+extension on EncryptionAlg {
+  String toValue() {
+    switch (this) {
+      case EncryptionAlg.aes128Cbc:
+        return 'AES128_CBC';
+      case EncryptionAlg.aes192Cbc:
+        return 'AES192_CBC';
+      case EncryptionAlg.aes256Cbc:
+        return 'AES256_CBC';
+    }
+  }
+}
+
+extension on String {
+  EncryptionAlg toEncryptionAlg() {
+    switch (this) {
+      case 'AES128_CBC':
+        return EncryptionAlg.aes128Cbc;
+      case 'AES192_CBC':
+        return EncryptionAlg.aes192Cbc;
+      case 'AES256_CBC':
+        return EncryptionAlg.aes256Cbc;
+    }
+    throw Exception('$this is not known in enum EncryptionAlg');
+  }
+}
+
 /// The virtual private cloud (VPC) endpoint settings that are configured for
 /// your file transfer protocol-enabled server. With a VPC endpoint, you can
 /// restrict access to your server and resources only within your VPC. To
@@ -3777,10 +5830,46 @@ class ExecutionError {
   /// <code>ErrorType</code>.
   final String message;
 
-  /// Specifies the error type: currently, the only valid value is
-  /// <code>PERMISSION_DENIED</code>, which occurs if your policy does not contain
-  /// the correct permissions to complete one or more of the steps in the
-  /// workflow.
+  /// Specifies the error type.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ALREADY_EXISTS</code>: occurs for a copy step, if the overwrite option
+  /// is not selected and a file with the same name already exists in the target
+  /// location.
+  /// </li>
+  /// <li>
+  /// <code>BAD_REQUEST</code>: a general bad request: for example, a step that
+  /// attempts to tag an EFS file returns <code>BAD_REQUEST</code>, as only S3
+  /// files can be tagged.
+  /// </li>
+  /// <li>
+  /// <code>CUSTOM_STEP_FAILED</code>: occurs when the custom step provided a
+  /// callback that indicates failure.
+  /// </li>
+  /// <li>
+  /// <code>INTERNAL_SERVER_ERROR</code>: a catch-all error that can occur for a
+  /// variety of reasons.
+  /// </li>
+  /// <li>
+  /// <code>NOT_FOUND</code>: occurs when a requested entity, for example a source
+  /// file for a copy step, does not exist.
+  /// </li>
+  /// <li>
+  /// <code>PERMISSION_DENIED</code>: occurs if your policy does not contain the
+  /// correct permissions to complete one or more of the steps in the workflow.
+  /// </li>
+  /// <li>
+  /// <code>TIMEOUT</code>: occurs when the execution times out.
+  /// <note>
+  /// You can set the <code>TimeoutSeconds</code> for a custom step, anywhere from
+  /// 1 second to 1800 seconds (30 minutes).
+  /// </note> </li>
+  /// <li>
+  /// <code>THROTTLED</code>: occurs if you exceed the new execution refill rate
+  /// of one workflow per second.
+  /// </li>
+  /// </ul>
   final ExecutionErrorType type;
 
   ExecutionError({
@@ -3807,6 +5896,13 @@ class ExecutionError {
 
 enum ExecutionErrorType {
   permissionDenied,
+  customStepFailed,
+  throttled,
+  alreadyExists,
+  notFound,
+  badRequest,
+  timeout,
+  internalServerError,
 }
 
 extension on ExecutionErrorType {
@@ -3814,6 +5910,20 @@ extension on ExecutionErrorType {
     switch (this) {
       case ExecutionErrorType.permissionDenied:
         return 'PERMISSION_DENIED';
+      case ExecutionErrorType.customStepFailed:
+        return 'CUSTOM_STEP_FAILED';
+      case ExecutionErrorType.throttled:
+        return 'THROTTLED';
+      case ExecutionErrorType.alreadyExists:
+        return 'ALREADY_EXISTS';
+      case ExecutionErrorType.notFound:
+        return 'NOT_FOUND';
+      case ExecutionErrorType.badRequest:
+        return 'BAD_REQUEST';
+      case ExecutionErrorType.timeout:
+        return 'TIMEOUT';
+      case ExecutionErrorType.internalServerError:
+        return 'INTERNAL_SERVER_ERROR';
     }
   }
 }
@@ -3823,6 +5933,20 @@ extension on String {
     switch (this) {
       case 'PERMISSION_DENIED':
         return ExecutionErrorType.permissionDenied;
+      case 'CUSTOM_STEP_FAILED':
+        return ExecutionErrorType.customStepFailed;
+      case 'THROTTLED':
+        return ExecutionErrorType.throttled;
+      case 'ALREADY_EXISTS':
+        return ExecutionErrorType.alreadyExists;
+      case 'NOT_FOUND':
+        return ExecutionErrorType.notFound;
+      case 'BAD_REQUEST':
+        return ExecutionErrorType.badRequest;
+      case 'TIMEOUT':
+        return ExecutionErrorType.timeout;
+      case 'INTERNAL_SERVER_ERROR':
+        return ExecutionErrorType.internalServerError;
     }
     throw Exception('$this is not known in enum ExecutionErrorType');
   }
@@ -3908,7 +6032,7 @@ extension on String {
 /// any), and the step type.
 class ExecutionStepResult {
   /// Specifies the details for an error, if it occurred during execution of the
-  /// specified workfow step.
+  /// specified workflow step.
   final ExecutionError? error;
 
   /// The values for the key/value pair applied as a tag to the file. Only
@@ -3919,16 +6043,16 @@ class ExecutionStepResult {
   ///
   /// <ul>
   /// <li>
-  /// <i>Copy</i>: copy the file to another location
+  /// <i>COPY</i>: Copy the file to another location.
   /// </li>
   /// <li>
-  /// <i>Custom</i>: custom step with a lambda target
+  /// <i>CUSTOM</i>: Perform a custom step with an Lambda function target.
   /// </li>
   /// <li>
-  /// <i>Delete</i>: delete the file
+  /// <i>DELETE</i>: Delete the file.
   /// </li>
   /// <li>
-  /// <i>Tag</i>: add a tag to the file
+  /// <i>TAG</i>: Add a tag to the file.
   /// </li>
   /// </ul>
   final WorkflowStepType? stepType;
@@ -3966,7 +6090,7 @@ class FileLocation {
   /// Specifies the Amazon EFS ID and the path for the file being used.
   final EfsFileLocation? efsFileLocation;
 
-  /// Specifies the S3 details for the file being used, such as bucket, Etag, and
+  /// Specifies the S3 details for the file being used, such as bucket, ETag, and
   /// so forth.
   final S3FileLocation? s3FileLocation;
 
@@ -4004,18 +6128,7 @@ class FileLocation {
 /// The following is an <code>Entry</code> and <code>Target</code> pair example
 /// for <code>chroot</code>.
 ///
-/// <code>[ { "Entry:": "/", "Target": "/bucket_name/home/mydirectory" }
-/// ]</code>
-/// <note>
-/// If the target of a logical directory entry does not exist in Amazon S3 or
-/// EFS, the entry is ignored. As a workaround, you can use the Amazon S3 API or
-/// EFS API to create 0 byte objects as place holders for your directory. If
-/// using the CLI, use the <code>s3api</code> or <code>efsapi</code> call
-/// instead of <code>s3</code> or <code>efs</code> so you can use the put-object
-/// operation. For example, you use the following: <code>aws s3api put-object
-/// --bucket bucketname --key path/to/folder/</code>. Make sure that the end of
-/// the key name ends in a <code>/</code> for it to be considered a folder.
-/// </note>
+/// <code>[ { "Entry": "/", "Target": "/bucket_name/home/mydirectory" } ]</code>
 class HomeDirectoryMapEntry {
   /// Represents an entry for <code>HomeDirectoryMappings</code>.
   final String entry;
@@ -4078,8 +6191,8 @@ extension on String {
 /// use for a file transfer protocol-enabled server's users. A server can have
 /// only one method of authentication.
 class IdentityProviderDetails {
-  /// The identifier of the Amazon Web Services Directory Service directory that
-  /// you want to stop sharing.
+  /// The identifier of the Directory Service directory that you want to stop
+  /// sharing.
   final String? directoryId;
 
   /// The ARN for a lambda function to use for the Identity provider.
@@ -4164,6 +6277,29 @@ extension on String {
         return IdentityProviderType.awsLambda;
     }
     throw Exception('$this is not known in enum IdentityProviderType');
+  }
+}
+
+class ImportCertificateResponse {
+  /// An array of identifiers for the imported certificates. You use this
+  /// identifier for working with profiles and partner profiles.
+  final String certificateId;
+
+  ImportCertificateResponse({
+    required this.certificateId,
+  });
+
+  factory ImportCertificateResponse.fromJson(Map<String, dynamic> json) {
+    return ImportCertificateResponse(
+      certificateId: json['CertificateId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificateId = this.certificateId;
+    return {
+      'CertificateId': certificateId,
+    };
   }
 }
 
@@ -4287,6 +6423,105 @@ class ListAccessesResponse {
   }
 }
 
+class ListAgreementsResponse {
+  /// Returns an array, where each item contains the details of an agreement.
+  final List<ListedAgreement> agreements;
+
+  /// Returns a token that you can use to call <code>ListAgreements</code> again
+  /// and receive additional results, if there are any.
+  final String? nextToken;
+
+  ListAgreementsResponse({
+    required this.agreements,
+    this.nextToken,
+  });
+
+  factory ListAgreementsResponse.fromJson(Map<String, dynamic> json) {
+    return ListAgreementsResponse(
+      agreements: (json['Agreements'] as List)
+          .whereNotNull()
+          .map((e) => ListedAgreement.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final agreements = this.agreements;
+    final nextToken = this.nextToken;
+    return {
+      'Agreements': agreements,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListCertificatesResponse {
+  /// Returns an array of the certificates that are specified in the
+  /// <code>ListCertificates</code> call.
+  final List<ListedCertificate> certificates;
+
+  /// Returns the next token, which you can use to list the next certificate.
+  final String? nextToken;
+
+  ListCertificatesResponse({
+    required this.certificates,
+    this.nextToken,
+  });
+
+  factory ListCertificatesResponse.fromJson(Map<String, dynamic> json) {
+    return ListCertificatesResponse(
+      certificates: (json['Certificates'] as List)
+          .whereNotNull()
+          .map((e) => ListedCertificate.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificates = this.certificates;
+    final nextToken = this.nextToken;
+    return {
+      'Certificates': certificates,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListConnectorsResponse {
+  /// Returns an array, where each item contains the details of a connector.
+  final List<ListedConnector> connectors;
+
+  /// Returns a token that you can use to call <code>ListConnectors</code> again
+  /// and receive additional results, if there are any.
+  final String? nextToken;
+
+  ListConnectorsResponse({
+    required this.connectors,
+    this.nextToken,
+  });
+
+  factory ListConnectorsResponse.fromJson(Map<String, dynamic> json) {
+    return ListConnectorsResponse(
+      connectors: (json['Connectors'] as List)
+          .whereNotNull()
+          .map((e) => ListedConnector.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectors = this.connectors;
+    final nextToken = this.nextToken;
+    return {
+      'Connectors': connectors,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
 class ListExecutionsResponse {
   /// Returns the details for each execution.
   ///
@@ -4342,6 +6577,39 @@ class ListExecutionsResponse {
     return {
       'Executions': executions,
       'WorkflowId': workflowId,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListProfilesResponse {
+  /// Returns an array, where each item contains the details of a profile.
+  final List<ListedProfile> profiles;
+
+  /// Returns a token that you can use to call <code>ListProfiles</code> again and
+  /// receive additional results, if there are any.
+  final String? nextToken;
+
+  ListProfilesResponse({
+    required this.profiles,
+    this.nextToken,
+  });
+
+  factory ListProfilesResponse.fromJson(Map<String, dynamic> json) {
+    return ListProfilesResponse(
+      profiles: (json['Profiles'] as List)
+          .whereNotNull()
+          .map((e) => ListedProfile.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final profiles = this.profiles;
+    final nextToken = this.nextToken;
+    return {
+      'Profiles': profiles,
       if (nextToken != null) 'NextToken': nextToken,
     };
   }
@@ -4543,9 +6811,9 @@ class ListWorkflowsResponse {
 class ListedAccess {
   /// A unique identifier that is required to identify specific groups within your
   /// directory. The users of the group that you associate have access to your
-  /// Amazon S3 or Amazon EFS resources over the enabled protocols using Amazon
-  /// Web Services Transfer Family. If you know the group name, you can view the
-  /// SID values by running the following command using Windows PowerShell.
+  /// Amazon S3 or Amazon EFS resources over the enabled protocols using Transfer
+  /// Family. If you know the group name, you can view the SID values by running
+  /// the following command using Windows PowerShell.
   ///
   /// <code>Get-ADGroup -Filter {samAccountName -like "<i>YourGroupName</i>*"}
   /// -Properties * | Select SamAccountName,ObjectSid</code>
@@ -4553,10 +6821,10 @@ class ListedAccess {
   /// In that command, replace <i>YourGroupName</i> with the name of your Active
   /// Directory group.
   ///
-  /// The regex used to validate this parameter is a string of characters
-  /// consisting of uppercase and lowercase alphanumeric characters with no
-  /// spaces. You can also include underscores or any of the following characters:
-  /// =,.@:/-
+  /// The regular expression used to validate this parameter is a string of
+  /// characters consisting of uppercase and lowercase alphanumeric characters
+  /// with no spaces. You can also include underscores or any of the following
+  /// characters: =,.@:/-
   final String? externalId;
 
   /// The landing directory (folder) for a user when they log in to the server
@@ -4566,21 +6834,22 @@ class ListedAccess {
   /// <code>/bucket_name/home/mydirectory</code>.
   final String? homeDirectory;
 
-  /// The type of landing directory (folder) you want your users' home directory
-  /// to be when they log into the server. If you set it to <code>PATH</code>, the
-  /// user will see the absolute Amazon S3 bucket or EFS paths as is in their file
-  /// transfer protocol clients. If you set it <code>LOGICAL</code>, you need to
-  /// provide mappings in the <code>HomeDirectoryMappings</code> for how you want
-  /// to make Amazon S3 or EFS paths visible to your users.
+  /// The type of landing directory (folder) that you want your users' home
+  /// directory to be when they log in to the server. If you set it to
+  /// <code>PATH</code>, the user will see the absolute Amazon S3 bucket or EFS
+  /// paths as is in their file transfer protocol clients. If you set it
+  /// <code>LOGICAL</code>, you need to provide mappings in the
+  /// <code>HomeDirectoryMappings</code> for how you want to make Amazon S3 or
+  /// Amazon EFS paths visible to your users.
   final HomeDirectoryType? homeDirectoryType;
 
-  /// Specifies the Amazon Resource Name (ARN) of the IAM role that controls your
-  /// users' access to your Amazon S3 bucket or EFS file system. The policies
-  /// attached to this role determine the level of access that you want to provide
-  /// your users when transferring files into and out of your Amazon S3 bucket or
-  /// EFS file system. The IAM role should also contain a trust relationship that
-  /// allows the server to access your resources when servicing your users'
-  /// transfer requests.
+  /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM)
+  /// role that controls your users' access to your Amazon S3 bucket or Amazon EFS
+  /// file system. The policies attached to this role determine the level of
+  /// access that you want to provide your users when transferring files into and
+  /// out of your Amazon S3 bucket or Amazon EFS file system. The IAM role should
+  /// also contain a trust relationship that allows the server to access your
+  /// resources when servicing your users' transfer requests.
   final String? role;
 
   ListedAccess({
@@ -4615,6 +6884,189 @@ class ListedAccess {
   }
 }
 
+/// Describes the properties of an agreement.
+class ListedAgreement {
+  /// A unique identifier for the agreement. This identifier is returned when you
+  /// create an agreement.
+  final String? agreementId;
+
+  /// The Amazon Resource Name (ARN) of the specified agreement.
+  final String? arn;
+
+  /// The current description for the agreement. You can change it by calling the
+  /// <code>UpdateAgreement</code> operation and providing a new description.
+  final String? description;
+
+  /// A unique identifier for the AS2 process.
+  final String? localProfileId;
+
+  /// A unique identifier for the partner process.
+  final String? partnerProfileId;
+
+  /// The unique identifier for the agreement.
+  final String? serverId;
+
+  /// The agreement can be either <code>ACTIVE</code> or <code>INACTIVE</code>.
+  final AgreementStatusType? status;
+
+  ListedAgreement({
+    this.agreementId,
+    this.arn,
+    this.description,
+    this.localProfileId,
+    this.partnerProfileId,
+    this.serverId,
+    this.status,
+  });
+
+  factory ListedAgreement.fromJson(Map<String, dynamic> json) {
+    return ListedAgreement(
+      agreementId: json['AgreementId'] as String?,
+      arn: json['Arn'] as String?,
+      description: json['Description'] as String?,
+      localProfileId: json['LocalProfileId'] as String?,
+      partnerProfileId: json['PartnerProfileId'] as String?,
+      serverId: json['ServerId'] as String?,
+      status: (json['Status'] as String?)?.toAgreementStatusType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final agreementId = this.agreementId;
+    final arn = this.arn;
+    final description = this.description;
+    final localProfileId = this.localProfileId;
+    final partnerProfileId = this.partnerProfileId;
+    final serverId = this.serverId;
+    final status = this.status;
+    return {
+      if (agreementId != null) 'AgreementId': agreementId,
+      if (arn != null) 'Arn': arn,
+      if (description != null) 'Description': description,
+      if (localProfileId != null) 'LocalProfileId': localProfileId,
+      if (partnerProfileId != null) 'PartnerProfileId': partnerProfileId,
+      if (serverId != null) 'ServerId': serverId,
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
+}
+
+/// Describes the properties of a certificate.
+class ListedCertificate {
+  /// An optional date that specifies when the certificate becomes active.
+  final DateTime? activeDate;
+
+  /// The Amazon Resource Name (ARN) of the specified certificate.
+  final String? arn;
+
+  /// An array of identifiers for the imported certificates. You use this
+  /// identifier for working with profiles and partner profiles.
+  final String? certificateId;
+
+  /// The name or short description that's used to identify the certificate.
+  final String? description;
+
+  /// An optional date that specifies when the certificate becomes inactive.
+  final DateTime? inactiveDate;
+
+  /// The certificate can be either <code>ACTIVE</code>,
+  /// <code>PENDING_ROTATION</code>, or <code>INACTIVE</code>.
+  /// <code>PENDING_ROTATION</code> means that this certificate will replace the
+  /// current certificate when it expires.
+  final CertificateStatusType? status;
+
+  /// The type for the certificate. If a private key has been specified for the
+  /// certificate, its type is <code>CERTIFICATE_WITH_PRIVATE_KEY</code>. If there
+  /// is no private key, the type is <code>CERTIFICATE</code>.
+  final CertificateType? type;
+
+  /// Specifies whether this certificate is used for signing or encryption.
+  final CertificateUsageType? usage;
+
+  ListedCertificate({
+    this.activeDate,
+    this.arn,
+    this.certificateId,
+    this.description,
+    this.inactiveDate,
+    this.status,
+    this.type,
+    this.usage,
+  });
+
+  factory ListedCertificate.fromJson(Map<String, dynamic> json) {
+    return ListedCertificate(
+      activeDate: timeStampFromJson(json['ActiveDate']),
+      arn: json['Arn'] as String?,
+      certificateId: json['CertificateId'] as String?,
+      description: json['Description'] as String?,
+      inactiveDate: timeStampFromJson(json['InactiveDate']),
+      status: (json['Status'] as String?)?.toCertificateStatusType(),
+      type: (json['Type'] as String?)?.toCertificateType(),
+      usage: (json['Usage'] as String?)?.toCertificateUsageType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final activeDate = this.activeDate;
+    final arn = this.arn;
+    final certificateId = this.certificateId;
+    final description = this.description;
+    final inactiveDate = this.inactiveDate;
+    final status = this.status;
+    final type = this.type;
+    final usage = this.usage;
+    return {
+      if (activeDate != null) 'ActiveDate': unixTimestampToJson(activeDate),
+      if (arn != null) 'Arn': arn,
+      if (certificateId != null) 'CertificateId': certificateId,
+      if (description != null) 'Description': description,
+      if (inactiveDate != null)
+        'InactiveDate': unixTimestampToJson(inactiveDate),
+      if (status != null) 'Status': status.toValue(),
+      if (type != null) 'Type': type.toValue(),
+      if (usage != null) 'Usage': usage.toValue(),
+    };
+  }
+}
+
+/// Returns details of the connector that is specified.
+class ListedConnector {
+  /// The Amazon Resource Name (ARN) of the specified connector.
+  final String? arn;
+
+  /// The unique identifier for the connector.
+  final String? connectorId;
+
+  /// The URL of the partner's AS2 endpoint.
+  final String? url;
+
+  ListedConnector({
+    this.arn,
+    this.connectorId,
+    this.url,
+  });
+
+  factory ListedConnector.fromJson(Map<String, dynamic> json) {
+    return ListedConnector(
+      arn: json['Arn'] as String?,
+      connectorId: json['ConnectorId'] as String?,
+      url: json['Url'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final connectorId = this.connectorId;
+    final url = this.url;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (connectorId != null) 'ConnectorId': connectorId,
+      if (url != null) 'Url': url,
+    };
+  }
+}
+
 /// Returns properties of the execution that is specified.
 class ListedExecution {
   /// A unique identifier for the execution of a workflow.
@@ -4625,7 +7077,8 @@ class ListedExecution {
   /// is the initial (as opposed to destination) file location.
   final FileLocation? initialFileLocation;
 
-  /// A container object for the session details associated with a workflow.
+  /// A container object for the session details that are associated with a
+  /// workflow.
   final ServiceMetadata? serviceMetadata;
 
   /// The status is one of the execution. Can be in progress, completed, exception
@@ -4669,6 +7122,52 @@ class ListedExecution {
   }
 }
 
+/// Returns the properties of the profile that was specified.
+class ListedProfile {
+  /// The Amazon Resource Name (ARN) of the specified profile.
+  final String? arn;
+
+  /// The unique identifier for the AS2 process.
+  final String? as2Id;
+
+  /// A unique identifier for the local or partner AS2 profile.
+  final String? profileId;
+
+  /// Indicates whether to list only <code>LOCAL</code> type profiles or only
+  /// <code>PARTNER</code> type profiles. If not supplied in the request, the
+  /// command lists all types of profiles.
+  final ProfileType? profileType;
+
+  ListedProfile({
+    this.arn,
+    this.as2Id,
+    this.profileId,
+    this.profileType,
+  });
+
+  factory ListedProfile.fromJson(Map<String, dynamic> json) {
+    return ListedProfile(
+      arn: json['Arn'] as String?,
+      as2Id: json['As2Id'] as String?,
+      profileId: json['ProfileId'] as String?,
+      profileType: (json['ProfileType'] as String?)?.toProfileType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final as2Id = this.as2Id;
+    final profileId = this.profileId;
+    final profileType = this.profileType;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (as2Id != null) 'As2Id': as2Id,
+      if (profileId != null) 'ProfileId': profileId,
+      if (profileType != null) 'ProfileType': profileType.toValue(),
+    };
+  }
+}
+
 /// Returns properties of a file transfer protocol-enabled server that was
 /// specified.
 class ListedServer {
@@ -4683,41 +7182,41 @@ class ListedServer {
   /// public internet.
   final EndpointType? endpointType;
 
-  /// Specifies the mode of authentication for a server. The default value is
+  /// The mode of authentication for a server. The default value is
   /// <code>SERVICE_MANAGED</code>, which allows you to store and access user
-  /// credentials within the Amazon Web Services Transfer Family service.
+  /// credentials within the Transfer Family service.
   ///
   /// Use <code>AWS_DIRECTORY_SERVICE</code> to provide access to Active Directory
-  /// groups in Amazon Web Services Managed Active Directory or Microsoft Active
-  /// Directory in your on-premises environment or in Amazon Web Services using AD
-  /// Connectors. This option also requires you to provide a Directory ID using
-  /// the <code>IdentityProviderDetails</code> parameter.
+  /// groups in Directory Service for Microsoft Active Directory or Microsoft
+  /// Active Directory in your on-premises environment or in Amazon Web Services
+  /// using AD Connector. This option also requires you to provide a Directory ID
+  /// by using the <code>IdentityProviderDetails</code> parameter.
   ///
   /// Use the <code>API_GATEWAY</code> value to integrate with an identity
   /// provider of your choosing. The <code>API_GATEWAY</code> setting requires you
-  /// to provide an API Gateway endpoint URL to call for authentication using the
-  /// <code>IdentityProviderDetails</code> parameter.
+  /// to provide an Amazon API Gateway endpoint URL to call for authentication by
+  /// using the <code>IdentityProviderDetails</code> parameter.
   ///
-  /// Use the <code>AWS_LAMBDA</code> value to directly use a Lambda function as
+  /// Use the <code>AWS_LAMBDA</code> value to directly use an Lambda function as
   /// your identity provider. If you choose this value, you must specify the ARN
-  /// for the lambda function in the <code>Function</code> parameter for the
+  /// for the Lambda function in the <code>Function</code> parameter or the
   /// <code>IdentityProviderDetails</code> data type.
   final IdentityProviderType? identityProviderType;
 
-  /// Specifies the Amazon Resource Name (ARN) of the Amazon Web Services Identity
-  /// and Access Management (IAM) role that allows a server to turn on Amazon
-  /// CloudWatch logging for Amazon S3 or Amazon EFS events. When set, user
-  /// activity can be viewed in your CloudWatch logs.
+  /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM)
+  /// role that allows a server to turn on Amazon CloudWatch logging for Amazon S3
+  /// or Amazon EFSevents. When set, you can view user activity in your CloudWatch
+  /// logs.
   final String? loggingRole;
 
   /// Specifies the unique system assigned identifier for the servers that were
   /// listed.
   final String? serverId;
 
-  /// Specifies the condition of a server for the server that was described. A
-  /// value of <code>ONLINE</code> indicates that the server can accept jobs and
-  /// transfer files. A <code>State</code> value of <code>OFFLINE</code> means
-  /// that the server cannot perform file transfer operations.
+  /// The condition of the server that was described. A value of
+  /// <code>ONLINE</code> indicates that the server can accept jobs and transfer
+  /// files. A <code>State</code> value of <code>OFFLINE</code> means that the
+  /// server cannot perform file transfer operations.
   ///
   /// The states of <code>STARTING</code> and <code>STOPPING</code> indicate that
   /// the server is in an intermediate state, either not fully able to respond, or
@@ -4790,21 +7289,22 @@ class ListedUser {
   /// <code>/bucket_name/home/mydirectory</code>.
   final String? homeDirectory;
 
-  /// The type of landing directory (folder) you want your users' home directory
-  /// to be when they log into the server. If you set it to <code>PATH</code>, the
-  /// user will see the absolute Amazon S3 bucket or EFS paths as is in their file
-  /// transfer protocol clients. If you set it <code>LOGICAL</code>, you need to
-  /// provide mappings in the <code>HomeDirectoryMappings</code> for how you want
-  /// to make Amazon S3 or EFS paths visible to your users.
+  /// The type of landing directory (folder) that you want your users' home
+  /// directory to be when they log in to the server. If you set it to
+  /// <code>PATH</code>, the user will see the absolute Amazon S3 bucket or EFS
+  /// paths as is in their file transfer protocol clients. If you set it
+  /// <code>LOGICAL</code>, you need to provide mappings in the
+  /// <code>HomeDirectoryMappings</code> for how you want to make Amazon S3 or
+  /// Amazon EFS paths visible to your users.
   final HomeDirectoryType? homeDirectoryType;
 
-  /// Specifies the Amazon Resource Name (ARN) of the IAM role that controls your
-  /// users' access to your Amazon S3 bucket or EFS file system. The policies
-  /// attached to this role determine the level of access that you want to provide
-  /// your users when transferring files into and out of your Amazon S3 bucket or
-  /// EFS file system. The IAM role should also contain a trust relationship that
-  /// allows the server to access your resources when servicing your users'
-  /// transfer requests.
+  /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM)
+  /// role that controls your users' access to your Amazon S3 bucket or Amazon EFS
+  /// file system. The policies attached to this role determine the level of
+  /// access that you want to provide your users when transferring files into and
+  /// out of your Amazon S3 bucket or Amazon EFS file system. The IAM role should
+  /// also contain a trust relationship that allows the server to access your
+  /// resources when servicing your users' transfer requests.
   /// <note>
   /// The IAM role that controls your users' access to your Amazon S3 bucket for
   /// servers with <code>Domain=S3</code>, or your EFS file system for servers
@@ -4903,14 +7403,14 @@ class ListedWorkflow {
 
 /// Consists of the logging role and the log group name.
 class LoggingConfiguration {
-  /// The name of the CloudWatch logging group for the Amazon Web Services
-  /// Transfer server to which this workflow belongs.
+  /// The name of the CloudWatch logging group for the Transfer Family server to
+  /// which this workflow belongs.
   final String? logGroupName;
 
-  /// Specifies the Amazon Resource Name (ARN) of the Amazon Web Services Identity
-  /// and Access Management (IAM) role that allows a server to turn on Amazon
-  /// CloudWatch logging for Amazon S3 or Amazon EFS events. When set, user
-  /// activity can be viewed in your CloudWatch logs.
+  /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM)
+  /// role that allows a server to turn on Amazon CloudWatch logging for Amazon S3
+  /// or Amazon EFSevents. When set, you can view user activity in your CloudWatch
+  /// logs.
   final String? loggingRole;
 
   LoggingConfiguration({
@@ -4932,6 +7432,82 @@ class LoggingConfiguration {
       if (logGroupName != null) 'LogGroupName': logGroupName,
       if (loggingRole != null) 'LoggingRole': loggingRole,
     };
+  }
+}
+
+enum MdnResponse {
+  sync,
+  none,
+}
+
+extension on MdnResponse {
+  String toValue() {
+    switch (this) {
+      case MdnResponse.sync:
+        return 'SYNC';
+      case MdnResponse.none:
+        return 'NONE';
+    }
+  }
+}
+
+extension on String {
+  MdnResponse toMdnResponse() {
+    switch (this) {
+      case 'SYNC':
+        return MdnResponse.sync;
+      case 'NONE':
+        return MdnResponse.none;
+    }
+    throw Exception('$this is not known in enum MdnResponse');
+  }
+}
+
+enum MdnSigningAlg {
+  sha256,
+  sha384,
+  sha512,
+  sha1,
+  none,
+  $default,
+}
+
+extension on MdnSigningAlg {
+  String toValue() {
+    switch (this) {
+      case MdnSigningAlg.sha256:
+        return 'SHA256';
+      case MdnSigningAlg.sha384:
+        return 'SHA384';
+      case MdnSigningAlg.sha512:
+        return 'SHA512';
+      case MdnSigningAlg.sha1:
+        return 'SHA1';
+      case MdnSigningAlg.none:
+        return 'NONE';
+      case MdnSigningAlg.$default:
+        return 'DEFAULT';
+    }
+  }
+}
+
+extension on String {
+  MdnSigningAlg toMdnSigningAlg() {
+    switch (this) {
+      case 'SHA256':
+        return MdnSigningAlg.sha256;
+      case 'SHA384':
+        return MdnSigningAlg.sha384;
+      case 'SHA512':
+        return MdnSigningAlg.sha512;
+      case 'SHA1':
+        return MdnSigningAlg.sha1;
+      case 'NONE':
+        return MdnSigningAlg.none;
+      case 'DEFAULT':
+        return MdnSigningAlg.$default;
+    }
+    throw Exception('$this is not known in enum MdnSigningAlg');
   }
 }
 
@@ -5008,10 +7584,39 @@ class PosixProfile {
   }
 }
 
+enum ProfileType {
+  local,
+  partner,
+}
+
+extension on ProfileType {
+  String toValue() {
+    switch (this) {
+      case ProfileType.local:
+        return 'LOCAL';
+      case ProfileType.partner:
+        return 'PARTNER';
+    }
+  }
+}
+
+extension on String {
+  ProfileType toProfileType() {
+    switch (this) {
+      case 'LOCAL':
+        return ProfileType.local;
+      case 'PARTNER':
+        return ProfileType.partner;
+    }
+    throw Exception('$this is not known in enum ProfileType');
+  }
+}
+
 enum Protocol {
   sftp,
   ftp,
   ftps,
+  as2,
 }
 
 extension on Protocol {
@@ -5023,6 +7628,8 @@ extension on Protocol {
         return 'FTP';
       case Protocol.ftps:
         return 'FTPS';
+      case Protocol.as2:
+        return 'AS2';
     }
   }
 }
@@ -5036,6 +7643,8 @@ extension on String {
         return Protocol.ftp;
       case 'FTPS':
         return Protocol.ftps;
+      case 'AS2':
+        return Protocol.as2;
     }
     throw Exception('$this is not known in enum Protocol');
   }
@@ -5043,9 +7652,13 @@ extension on String {
 
 /// The protocol settings that are configured for your server.
 class ProtocolDetails {
-  /// Indicates passive mode, for FTP and FTPS protocols. Enter a single
-  /// dotted-quad IPv4 address, such as the external IP address of a firewall,
-  /// router, or load balancer. For example:
+  /// Indicates the transport method for the AS2 messages. Currently, only HTTP is
+  /// supported.
+  final List<As2Transport>? as2Transports;
+
+  /// Indicates passive mode, for FTP and FTPS protocols. Enter a single IPv4
+  /// address, such as the public IP address of a firewall, router, or load
+  /// balancer. For example:
   ///
   /// <code> aws transfer update-server --protocol-details
   /// PassiveIp=<i>0.0.0.0</i> </code>
@@ -5054,22 +7667,45 @@ class ProtocolDetails {
   /// IP address you want to use.
   /// <note>
   /// If you change the <code>PassiveIp</code> value, you must stop and then
-  /// restart your Transfer server for the change to take effect. For details on
-  /// using Passive IP (PASV) in a NAT environment, see <a
+  /// restart your Transfer Family server for the change to take effect. For
+  /// details on using passive mode (PASV) in a NAT environment, see <a
   /// href="http://aws.amazon.com/blogs/storage/configuring-your-ftps-server-behind-a-firewall-or-nat-with-aws-transfer-family/">Configuring
-  /// your FTPS server behind a firewall or NAT with Amazon Web Services Transfer
-  /// Family</a>.
+  /// your FTPS server behind a firewall or NAT with Transfer Family</a>.
   /// </note>
   final String? passiveIp;
 
-  /// A property used with Transfer servers that use the FTPS protocol. TLS
+  /// Use the <code>SetStatOption</code> to ignore the error that is generated
+  /// when the client attempts to use <code>SETSTAT</code> on a file you are
+  /// uploading to an S3 bucket.
+  ///
+  /// Some SFTP file transfer clients can attempt to change the attributes of
+  /// remote files, including timestamp and permissions, using commands, such as
+  /// <code>SETSTAT</code> when uploading the file. However, these commands are
+  /// not compatible with object storage systems, such as Amazon S3. Due to this
+  /// incompatibility, file uploads from these clients can result in errors even
+  /// when the file is otherwise successfully uploaded.
+  ///
+  /// Set the value to <code>ENABLE_NO_OP</code> to have the Transfer Family
+  /// server ignore the <code>SETSTAT</code> command, and upload files without
+  /// needing to make any changes to your SFTP client. While the
+  /// <code>SetStatOption</code> <code>ENABLE_NO_OP</code> setting ignores the
+  /// error, it does generate a log entry in Amazon CloudWatch Logs, so you can
+  /// determine when the client is making a <code>SETSTAT</code> call.
+  /// <note>
+  /// If you want to preserve the original timestamp for your file, and modify
+  /// other file attributes using <code>SETSTAT</code>, you can use Amazon EFS as
+  /// backend storage with Transfer Family.
+  /// </note>
+  final SetStatOption? setStatOption;
+
+  /// A property used with Transfer Family servers that use the FTPS protocol. TLS
   /// Session Resumption provides a mechanism to resume or share a negotiated
   /// secret key between the control and data connection for an FTPS session.
   /// <code>TlsSessionResumptionMode</code> determines whether or not the server
   /// resumes recent, negotiated sessions through a unique session ID. This
   /// property is available during <code>CreateServer</code> and
   /// <code>UpdateServer</code> calls. If a <code>TlsSessionResumptionMode</code>
-  /// value is not specified during CreateServer, it is set to
+  /// value is not specified during <code>CreateServer</code>, it is set to
   /// <code>ENFORCED</code> by default.
   ///
   /// <ul>
@@ -5100,31 +7736,43 @@ class ProtocolDetails {
   final TlsSessionResumptionMode? tlsSessionResumptionMode;
 
   ProtocolDetails({
+    this.as2Transports,
     this.passiveIp,
+    this.setStatOption,
     this.tlsSessionResumptionMode,
   });
 
   factory ProtocolDetails.fromJson(Map<String, dynamic> json) {
     return ProtocolDetails(
+      as2Transports: (json['As2Transports'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toAs2Transport())
+          .toList(),
       passiveIp: json['PassiveIp'] as String?,
+      setStatOption: (json['SetStatOption'] as String?)?.toSetStatOption(),
       tlsSessionResumptionMode: (json['TlsSessionResumptionMode'] as String?)
           ?.toTlsSessionResumptionMode(),
     );
   }
 
   Map<String, dynamic> toJson() {
+    final as2Transports = this.as2Transports;
     final passiveIp = this.passiveIp;
+    final setStatOption = this.setStatOption;
     final tlsSessionResumptionMode = this.tlsSessionResumptionMode;
     return {
+      if (as2Transports != null)
+        'As2Transports': as2Transports.map((e) => e.toValue()).toList(),
       if (passiveIp != null) 'PassiveIp': passiveIp,
+      if (setStatOption != null) 'SetStatOption': setStatOption.toValue(),
       if (tlsSessionResumptionMode != null)
         'TlsSessionResumptionMode': tlsSessionResumptionMode.toValue(),
     };
   }
 }
 
-/// Specifies the details for the file location for the file being used in the
-/// workflow. Only applicable if you are using S3 storage.
+/// Specifies the details for the file location for the file that's being used
+/// in the workflow. Only applicable if you are using S3 storage.
 class S3FileLocation {
   /// Specifies the S3 bucket that contains the file being used.
   final String? bucket;
@@ -5133,8 +7781,8 @@ class S3FileLocation {
   /// the contents of an object, not its metadata.
   final String? etag;
 
-  /// The name assigned to the file when it was created in S3. You use the object
-  /// key to retrieve the object.
+  /// The name assigned to the file when it was created in Amazon S3. You use the
+  /// object key to retrieve the object.
   final String? key;
 
   /// Specifies the file version.
@@ -5191,8 +7839,8 @@ class S3InputFileLocation {
   /// Specifies the S3 bucket for the customer input file.
   final String? bucket;
 
-  /// The name assigned to the file when it was created in S3. You use the object
-  /// key to retrieve the object.
+  /// The name assigned to the file when it was created in Amazon S3. You use the
+  /// object key to retrieve the object.
   final String? key;
 
   S3InputFileLocation({
@@ -5260,7 +7908,8 @@ class SendWorkflowStepStateResponse {
   }
 }
 
-/// A container object for the session details associated with a workflow.
+/// A container object for the session details that are associated with a
+/// workflow.
 class ServiceMetadata {
   /// The Server ID (<code>ServerId</code>), Session ID (<code>SessionId</code>)
   /// and user (<code>UserName</code>) make up the <code>UserDetails</code>.
@@ -5285,6 +7934,77 @@ class ServiceMetadata {
   }
 }
 
+enum SetStatOption {
+  $default,
+  enableNoOp,
+}
+
+extension on SetStatOption {
+  String toValue() {
+    switch (this) {
+      case SetStatOption.$default:
+        return 'DEFAULT';
+      case SetStatOption.enableNoOp:
+        return 'ENABLE_NO_OP';
+    }
+  }
+}
+
+extension on String {
+  SetStatOption toSetStatOption() {
+    switch (this) {
+      case 'DEFAULT':
+        return SetStatOption.$default;
+      case 'ENABLE_NO_OP':
+        return SetStatOption.enableNoOp;
+    }
+    throw Exception('$this is not known in enum SetStatOption');
+  }
+}
+
+enum SigningAlg {
+  sha256,
+  sha384,
+  sha512,
+  sha1,
+  none,
+}
+
+extension on SigningAlg {
+  String toValue() {
+    switch (this) {
+      case SigningAlg.sha256:
+        return 'SHA256';
+      case SigningAlg.sha384:
+        return 'SHA384';
+      case SigningAlg.sha512:
+        return 'SHA512';
+      case SigningAlg.sha1:
+        return 'SHA1';
+      case SigningAlg.none:
+        return 'NONE';
+    }
+  }
+}
+
+extension on String {
+  SigningAlg toSigningAlg() {
+    switch (this) {
+      case 'SHA256':
+        return SigningAlg.sha256;
+      case 'SHA384':
+        return SigningAlg.sha384;
+      case 'SHA512':
+        return SigningAlg.sha512;
+      case 'SHA1':
+        return SigningAlg.sha1;
+      case 'NONE':
+        return SigningAlg.none;
+    }
+    throw Exception('$this is not known in enum SigningAlg');
+  }
+}
+
 /// Provides information about the public Secure Shell (SSH) key that is
 /// associated with a user account for the specific file transfer
 /// protocol-enabled server (as identified by <code>ServerId</code>). The
@@ -5297,6 +8017,8 @@ class SshPublicKey {
 
   /// Specifies the content of the SSH public key as specified by the
   /// <code>PublicKeyId</code>.
+  ///
+  /// Transfer Family accepts RSA, ECDSA, and ED25519 keys.
   final String sshPublicKeyBody;
 
   /// Specifies the <code>SshPublicKeyId</code> parameter contains the identifier
@@ -5326,6 +8048,28 @@ class SshPublicKey {
       'DateImported': unixTimestampToJson(dateImported),
       'SshPublicKeyBody': sshPublicKeyBody,
       'SshPublicKeyId': sshPublicKeyId,
+    };
+  }
+}
+
+class StartFileTransferResponse {
+  /// Returns the unique identifier for this file transfer.
+  final String transferId;
+
+  StartFileTransferResponse({
+    required this.transferId,
+  });
+
+  factory StartFileTransferResponse.fromJson(Map<String, dynamic> json) {
+    return StartFileTransferResponse(
+      transferId: json['TransferId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final transferId = this.transferId;
+    return {
+      'TransferId': transferId,
     };
   }
 }
@@ -5434,17 +8178,35 @@ class TagStepDetails {
   /// The name of the step, used as an identifier.
   final String? name;
 
+  /// Specifies which file to use as input to the workflow step: either the output
+  /// from the previous step, or the originally uploaded file for the workflow.
+  ///
+  /// <ul>
+  /// <li>
+  /// Enter <code>${previous.file}</code> to use the previous file as the input.
+  /// In this case, this workflow step uses the output file from the previous
+  /// workflow step as input. This is the default value.
+  /// </li>
+  /// <li>
+  /// Enter <code>${original.file}</code> to use the originally-uploaded file
+  /// location as input for this step.
+  /// </li>
+  /// </ul>
+  final String? sourceFileLocation;
+
   /// Array that contains from 1 to 10 key/value pairs.
   final List<S3Tag>? tags;
 
   TagStepDetails({
     this.name,
+    this.sourceFileLocation,
     this.tags,
   });
 
   factory TagStepDetails.fromJson(Map<String, dynamic> json) {
     return TagStepDetails(
       name: json['Name'] as String?,
+      sourceFileLocation: json['SourceFileLocation'] as String?,
       tags: (json['Tags'] as List?)
           ?.whereNotNull()
           .map((e) => S3Tag.fromJson(e as Map<String, dynamic>))
@@ -5454,9 +8216,11 @@ class TagStepDetails {
 
   Map<String, dynamic> toJson() {
     final name = this.name;
+    final sourceFileLocation = this.sourceFileLocation;
     final tags = this.tags;
     return {
       if (name != null) 'Name': name,
+      if (sourceFileLocation != null) 'SourceFileLocation': sourceFileLocation,
       if (tags != null) 'Tags': tags,
     };
   }
@@ -5470,6 +8234,10 @@ class TestIdentityProviderResponse {
   final String url;
 
   /// A message that indicates whether the test was successful or not.
+  /// <note>
+  /// If an empty string is returned, the most likely cause is that the
+  /// authentication failed due to an incorrect username or password.
+  /// </note>
   final String? message;
 
   /// The response that is returned from your API Gateway.
@@ -5569,6 +8337,95 @@ class UpdateAccessResponse {
   }
 }
 
+class UpdateAgreementResponse {
+  /// A unique identifier for the agreement. This identifier is returned when you
+  /// create an agreement.
+  final String agreementId;
+
+  UpdateAgreementResponse({
+    required this.agreementId,
+  });
+
+  factory UpdateAgreementResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateAgreementResponse(
+      agreementId: json['AgreementId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final agreementId = this.agreementId;
+    return {
+      'AgreementId': agreementId,
+    };
+  }
+}
+
+class UpdateCertificateResponse {
+  /// Returns the identifier of the certificate object that you are updating.
+  final String certificateId;
+
+  UpdateCertificateResponse({
+    required this.certificateId,
+  });
+
+  factory UpdateCertificateResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateCertificateResponse(
+      certificateId: json['CertificateId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificateId = this.certificateId;
+    return {
+      'CertificateId': certificateId,
+    };
+  }
+}
+
+class UpdateConnectorResponse {
+  /// Returns the identifier of the connector object that you are updating.
+  final String connectorId;
+
+  UpdateConnectorResponse({
+    required this.connectorId,
+  });
+
+  factory UpdateConnectorResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateConnectorResponse(
+      connectorId: json['ConnectorId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectorId = this.connectorId;
+    return {
+      'ConnectorId': connectorId,
+    };
+  }
+}
+
+class UpdateProfileResponse {
+  /// Returns the identifier for the profile that's being updated.
+  final String profileId;
+
+  UpdateProfileResponse({
+    required this.profileId,
+  });
+
+  factory UpdateProfileResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateProfileResponse(
+      profileId: json['ProfileId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final profileId = this.profileId;
+    return {
+      'ProfileId': profileId,
+    };
+  }
+}
+
 class UpdateServerResponse {
   /// A system-assigned unique identifier for a server that the user account is
   /// assigned to.
@@ -5664,7 +8521,7 @@ class UserDetails {
 }
 
 /// Specifies the workflow ID for the workflow to assign and the execution role
-/// used for executing the workflow.
+/// that's used for executing the workflow.
 class WorkflowDetail {
   /// Includes the necessary permissions for S3, EFS, and Lambda operations that
   /// Transfer can assume, so that all workflow steps can operate on the required
@@ -5701,6 +8558,12 @@ class WorkflowDetail {
 class WorkflowDetails {
   /// A trigger that starts a workflow: the workflow begins to execute after a
   /// file is uploaded.
+  ///
+  /// To remove an associated workflow from a server, you can provide an empty
+  /// <code>OnUpload</code> object, as in the following example.
+  ///
+  /// <code>aws transfer update-server --server-id s-01234567890abcdef
+  /// --workflow-details '{"OnUpload":[]}'</code>
   final List<WorkflowDetail> onUpload;
 
   WorkflowDetails({
@@ -5761,16 +8624,16 @@ class WorkflowStep {
   ///
   /// <ul>
   /// <li>
-  /// <i>Copy</i>: copy the file to another location
+  /// <i>COPY</i>: Copy the file to another location.
   /// </li>
   /// <li>
-  /// <i>Custom</i>: custom step with a lambda target
+  /// <i>CUSTOM</i>: Perform a custom step with an Lambda function target.
   /// </li>
   /// <li>
-  /// <i>Delete</i>: delete the file
+  /// <i>DELETE</i>: Delete the file.
   /// </li>
   /// <li>
-  /// <i>Tag</i>: add a tag to the file
+  /// <i>TAG</i>: Add a tag to the file.
   /// </li>
   /// </ul>
   final WorkflowStepType? type;

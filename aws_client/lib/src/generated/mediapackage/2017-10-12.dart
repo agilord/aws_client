@@ -1455,6 +1455,9 @@ class DashPackage {
   final AdsOnDeliveryRestrictions? adsOnDeliveryRestrictions;
   final DashEncryption? encryption;
 
+  /// When enabled, an I-Frame only stream will be included in the output.
+  final bool? includeIframeOnlyStream;
+
   /// Determines the position of some tags in the Media Presentation Description
   /// (MPD).  When set to FULL, elements like SegmentTemplate and
   /// ContentProtection are included in each Representation.  When set to COMPACT,
@@ -1482,7 +1485,8 @@ class DashPackage {
   final List<PeriodTriggersElement>? periodTriggers;
 
   /// The Dynamic Adaptive Streaming over HTTP (DASH) profile type.  When set to
-  /// "HBBTV_1_5", HbbTV 1.5 compliant output is enabled.
+  /// "HBBTV_1_5", HbbTV 1.5 compliant output is enabled. When set to
+  /// "DVB-DASH_2014", DVB-DASH 2014 compliant output is enabled.
   final Profile? profile;
 
   /// Duration (in seconds) of each segment. Actual segments will be
@@ -1506,13 +1510,14 @@ class DashPackage {
   final UtcTiming? utcTiming;
 
   /// Specifies the value attribute of the UTCTiming field when utcTiming is set
-  /// to HTTP-ISO or HTTP-HEAD
+  /// to HTTP-ISO, HTTP-HEAD or HTTP-XSDATE
   final String? utcTimingUri;
 
   DashPackage({
     this.adTriggers,
     this.adsOnDeliveryRestrictions,
     this.encryption,
+    this.includeIframeOnlyStream,
     this.manifestLayout,
     this.manifestWindowSeconds,
     this.minBufferTimeSeconds,
@@ -1538,6 +1543,7 @@ class DashPackage {
       encryption: json['encryption'] != null
           ? DashEncryption.fromJson(json['encryption'] as Map<String, dynamic>)
           : null,
+      includeIframeOnlyStream: json['includeIframeOnlyStream'] as bool?,
       manifestLayout: (json['manifestLayout'] as String?)?.toManifestLayout(),
       manifestWindowSeconds: json['manifestWindowSeconds'] as int?,
       minBufferTimeSeconds: json['minBufferTimeSeconds'] as int?,
@@ -1565,6 +1571,7 @@ class DashPackage {
     final adTriggers = this.adTriggers;
     final adsOnDeliveryRestrictions = this.adsOnDeliveryRestrictions;
     final encryption = this.encryption;
+    final includeIframeOnlyStream = this.includeIframeOnlyStream;
     final manifestLayout = this.manifestLayout;
     final manifestWindowSeconds = this.manifestWindowSeconds;
     final minBufferTimeSeconds = this.minBufferTimeSeconds;
@@ -1584,6 +1591,8 @@ class DashPackage {
       if (adsOnDeliveryRestrictions != null)
         'adsOnDeliveryRestrictions': adsOnDeliveryRestrictions.toValue(),
       if (encryption != null) 'encryption': encryption,
+      if (includeIframeOnlyStream != null)
+        'includeIframeOnlyStream': includeIframeOnlyStream,
       if (manifestLayout != null) 'manifestLayout': manifestLayout.toValue(),
       if (manifestWindowSeconds != null)
         'manifestWindowSeconds': manifestWindowSeconds,
@@ -3028,6 +3037,10 @@ extension on String {
 
 enum PresetSpeke20Audio {
   presetAudio_1,
+  presetAudio_2,
+  presetAudio_3,
+  shared,
+  unencrypted,
 }
 
 extension on PresetSpeke20Audio {
@@ -3035,6 +3048,14 @@ extension on PresetSpeke20Audio {
     switch (this) {
       case PresetSpeke20Audio.presetAudio_1:
         return 'PRESET-AUDIO-1';
+      case PresetSpeke20Audio.presetAudio_2:
+        return 'PRESET-AUDIO-2';
+      case PresetSpeke20Audio.presetAudio_3:
+        return 'PRESET-AUDIO-3';
+      case PresetSpeke20Audio.shared:
+        return 'SHARED';
+      case PresetSpeke20Audio.unencrypted:
+        return 'UNENCRYPTED';
     }
   }
 }
@@ -3044,6 +3065,14 @@ extension on String {
     switch (this) {
       case 'PRESET-AUDIO-1':
         return PresetSpeke20Audio.presetAudio_1;
+      case 'PRESET-AUDIO-2':
+        return PresetSpeke20Audio.presetAudio_2;
+      case 'PRESET-AUDIO-3':
+        return PresetSpeke20Audio.presetAudio_3;
+      case 'SHARED':
+        return PresetSpeke20Audio.shared;
+      case 'UNENCRYPTED':
+        return PresetSpeke20Audio.unencrypted;
     }
     throw Exception('$this is not known in enum PresetSpeke20Audio');
   }
@@ -3051,6 +3080,15 @@ extension on String {
 
 enum PresetSpeke20Video {
   presetVideo_1,
+  presetVideo_2,
+  presetVideo_3,
+  presetVideo_4,
+  presetVideo_5,
+  presetVideo_6,
+  presetVideo_7,
+  presetVideo_8,
+  shared,
+  unencrypted,
 }
 
 extension on PresetSpeke20Video {
@@ -3058,6 +3096,24 @@ extension on PresetSpeke20Video {
     switch (this) {
       case PresetSpeke20Video.presetVideo_1:
         return 'PRESET-VIDEO-1';
+      case PresetSpeke20Video.presetVideo_2:
+        return 'PRESET-VIDEO-2';
+      case PresetSpeke20Video.presetVideo_3:
+        return 'PRESET-VIDEO-3';
+      case PresetSpeke20Video.presetVideo_4:
+        return 'PRESET-VIDEO-4';
+      case PresetSpeke20Video.presetVideo_5:
+        return 'PRESET-VIDEO-5';
+      case PresetSpeke20Video.presetVideo_6:
+        return 'PRESET-VIDEO-6';
+      case PresetSpeke20Video.presetVideo_7:
+        return 'PRESET-VIDEO-7';
+      case PresetSpeke20Video.presetVideo_8:
+        return 'PRESET-VIDEO-8';
+      case PresetSpeke20Video.shared:
+        return 'SHARED';
+      case PresetSpeke20Video.unencrypted:
+        return 'UNENCRYPTED';
     }
   }
 }
@@ -3067,6 +3123,24 @@ extension on String {
     switch (this) {
       case 'PRESET-VIDEO-1':
         return PresetSpeke20Video.presetVideo_1;
+      case 'PRESET-VIDEO-2':
+        return PresetSpeke20Video.presetVideo_2;
+      case 'PRESET-VIDEO-3':
+        return PresetSpeke20Video.presetVideo_3;
+      case 'PRESET-VIDEO-4':
+        return PresetSpeke20Video.presetVideo_4;
+      case 'PRESET-VIDEO-5':
+        return PresetSpeke20Video.presetVideo_5;
+      case 'PRESET-VIDEO-6':
+        return PresetSpeke20Video.presetVideo_6;
+      case 'PRESET-VIDEO-7':
+        return PresetSpeke20Video.presetVideo_7;
+      case 'PRESET-VIDEO-8':
+        return PresetSpeke20Video.presetVideo_8;
+      case 'SHARED':
+        return PresetSpeke20Video.shared;
+      case 'UNENCRYPTED':
+        return PresetSpeke20Video.unencrypted;
     }
     throw Exception('$this is not known in enum PresetSpeke20Video');
   }
@@ -3075,6 +3149,8 @@ extension on String {
 enum Profile {
   none,
   hbbtv_1_5,
+  hybridcast,
+  dvbDash_2014,
 }
 
 extension on Profile {
@@ -3084,6 +3160,10 @@ extension on Profile {
         return 'NONE';
       case Profile.hbbtv_1_5:
         return 'HBBTV_1_5';
+      case Profile.hybridcast:
+        return 'HYBRIDCAST';
+      case Profile.dvbDash_2014:
+        return 'DVB_DASH_2014';
     }
   }
 }
@@ -3095,6 +3175,10 @@ extension on String {
         return Profile.none;
       case 'HBBTV_1_5':
         return Profile.hbbtv_1_5;
+      case 'HYBRIDCAST':
+        return Profile.hybridcast;
+      case 'DVB_DASH_2014':
+        return Profile.dvbDash_2014;
     }
     throw Exception('$this is not known in enum Profile');
   }
@@ -3689,6 +3773,7 @@ enum UtcTiming {
   none,
   httpHead,
   httpIso,
+  httpXsdate,
 }
 
 extension on UtcTiming {
@@ -3700,6 +3785,8 @@ extension on UtcTiming {
         return 'HTTP-HEAD';
       case UtcTiming.httpIso:
         return 'HTTP-ISO';
+      case UtcTiming.httpXsdate:
+        return 'HTTP-XSDATE';
     }
   }
 }
@@ -3713,6 +3800,8 @@ extension on String {
         return UtcTiming.httpHead;
       case 'HTTP-ISO':
         return UtcTiming.httpIso;
+      case 'HTTP-XSDATE':
+        return UtcTiming.httpXsdate;
     }
     throw Exception('$this is not known in enum UtcTiming');
   }

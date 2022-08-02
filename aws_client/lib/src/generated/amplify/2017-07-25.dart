@@ -56,9 +56,23 @@ class Amplify {
   /// The name for an Amplify app.
   ///
   /// Parameter [accessToken] :
-  /// The personal access token for a third-party source control system for an
-  /// Amplify app. The personal access token is used to create a webhook and a
-  /// read-only deploy key. The token is not stored.
+  /// The personal access token for a GitHub repository for an Amplify app. The
+  /// personal access token is used to authorize access to a GitHub repository
+  /// using the Amplify GitHub App. The token is not stored.
+  ///
+  /// Use <code>accessToken</code> for GitHub repositories only. To authorize
+  /// access to a repository provider such as Bitbucket or CodeCommit, use
+  /// <code>oauthToken</code>.
+  ///
+  /// You must specify either <code>accessToken</code> or
+  /// <code>oauthToken</code> when you create a new app.
+  ///
+  /// Existing Amplify apps deployed from a GitHub repository using OAuth
+  /// continue to work with CI/CD. However, we strongly recommend that you
+  /// migrate these apps to use the GitHub App. For more information, see <a
+  /// href="https://docs.aws.amazon.com/amplify/latest/UserGuide/setting-up-GitHub-access.html#migrating-to-github-app-auth">Migrating
+  /// an existing OAuth app to the Amplify GitHub App</a> in the <i>Amplify User
+  /// Guide</i> .
   ///
   /// Parameter [autoBranchCreationConfig] :
   /// The automated branch creation configuration for an Amplify app.
@@ -67,7 +81,9 @@ class Amplify {
   /// The automated branch creation glob patterns for an Amplify app.
   ///
   /// Parameter [basicAuthCredentials] :
-  /// The credentials for basic authorization for an Amplify app.
+  /// The credentials for basic authorization for an Amplify app. You must
+  /// base64-encode the authorization credentials and provide them in the format
+  /// <code>user:password</code>.
   ///
   /// Parameter [buildSpec] :
   /// The build specification (build spec) for an Amplify app.
@@ -105,7 +121,21 @@ class Amplify {
   /// Parameter [oauthToken] :
   /// The OAuth token for a third-party source control system for an Amplify
   /// app. The OAuth token is used to create a webhook and a read-only deploy
-  /// key. The OAuth token is not stored.
+  /// key using SSH cloning. The OAuth token is not stored.
+  ///
+  /// Use <code>oauthToken</code> for repository providers other than GitHub,
+  /// such as Bitbucket or CodeCommit. To authorize access to GitHub as your
+  /// repository provider, use <code>accessToken</code>.
+  ///
+  /// You must specify either <code>oauthToken</code> or
+  /// <code>accessToken</code> when you create a new app.
+  ///
+  /// Existing Amplify apps deployed from a GitHub repository using OAuth
+  /// continue to work with CI/CD. However, we strongly recommend that you
+  /// migrate these apps to use the GitHub App. For more information, see <a
+  /// href="https://docs.aws.amazon.com/amplify/latest/UserGuide/setting-up-GitHub-access.html#migrating-to-github-app-auth">Migrating
+  /// an existing OAuth app to the Amplify GitHub App</a> in the <i>Amplify User
+  /// Guide</i> .
   ///
   /// Parameter [platform] :
   /// The platform or framework for an Amplify app.
@@ -236,7 +266,9 @@ class Amplify {
   /// an Amplify app.
   ///
   /// Parameter [basicAuthCredentials] :
-  /// The basic authorization credentials for the branch.
+  /// The basic authorization credentials for the branch. You must base64-encode
+  /// the authorization credentials and provide them in the format
+  /// <code>user:password</code>.
   ///
   /// Parameter [buildSpec] :
   /// The build specification (build spec) for the branch.
@@ -1419,9 +1451,23 @@ class Amplify {
   /// The unique ID for an Amplify app.
   ///
   /// Parameter [accessToken] :
-  /// The personal access token for a third-party source control system for an
-  /// Amplify app. The token is used to create webhook and a read-only deploy
-  /// key. The token is not stored.
+  /// The personal access token for a GitHub repository for an Amplify app. The
+  /// personal access token is used to authorize access to a GitHub repository
+  /// using the Amplify GitHub App. The token is not stored.
+  ///
+  /// Use <code>accessToken</code> for GitHub repositories only. To authorize
+  /// access to a repository provider such as Bitbucket or CodeCommit, use
+  /// <code>oauthToken</code>.
+  ///
+  /// You must specify either <code>accessToken</code> or
+  /// <code>oauthToken</code> when you update an app.
+  ///
+  /// Existing Amplify apps deployed from a GitHub repository using OAuth
+  /// continue to work with CI/CD. However, we strongly recommend that you
+  /// migrate these apps to use the GitHub App. For more information, see <a
+  /// href="https://docs.aws.amazon.com/amplify/latest/UserGuide/setting-up-GitHub-access.html#migrating-to-github-app-auth">Migrating
+  /// an existing OAuth app to the Amplify GitHub App</a> in the <i>Amplify User
+  /// Guide</i> .
   ///
   /// Parameter [autoBranchCreationConfig] :
   /// The automated branch creation configuration for an Amplify app.
@@ -1430,7 +1476,9 @@ class Amplify {
   /// Describes the automated branch creation glob patterns for an Amplify app.
   ///
   /// Parameter [basicAuthCredentials] :
-  /// The basic authorization credentials for an Amplify app.
+  /// The basic authorization credentials for an Amplify app. You must
+  /// base64-encode the authorization credentials and provide them in the format
+  /// <code>user:password</code>.
   ///
   /// Parameter [buildSpec] :
   /// The build specification (build spec) for an Amplify app.
@@ -1469,8 +1517,24 @@ class Amplify {
   ///
   /// Parameter [oauthToken] :
   /// The OAuth token for a third-party source control system for an Amplify
-  /// app. The token is used to create a webhook and a read-only deploy key. The
-  /// OAuth token is not stored.
+  /// app. The OAuth token is used to create a webhook and a read-only deploy
+  /// key using SSH cloning. The OAuth token is not stored.
+  ///
+  /// Use <code>oauthToken</code> for repository providers other than GitHub,
+  /// such as Bitbucket or CodeCommit.
+  ///
+  /// To authorize access to GitHub as your repository provider, use
+  /// <code>accessToken</code>.
+  ///
+  /// You must specify either <code>oauthToken</code> or
+  /// <code>accessToken</code> when you update an app.
+  ///
+  /// Existing Amplify apps deployed from a GitHub repository using OAuth
+  /// continue to work with CI/CD. However, we strongly recommend that you
+  /// migrate these apps to use the GitHub App. For more information, see <a
+  /// href="https://docs.aws.amazon.com/amplify/latest/UserGuide/setting-up-GitHub-access.html#migrating-to-github-app-auth">Migrating
+  /// an existing OAuth app to the Amplify GitHub App</a> in the <i>Amplify User
+  /// Guide</i> .
   ///
   /// Parameter [platform] :
   /// The platform for an Amplify app.
@@ -1554,7 +1618,9 @@ class Amplify {
   /// an Amplify app.
   ///
   /// Parameter [basicAuthCredentials] :
-  /// The basic authorization credentials for the branch.
+  /// The basic authorization credentials for the branch. You must base64-encode
+  /// the authorization credentials and provide them in the format
+  /// <code>user:password</code>.
   ///
   /// Parameter [buildSpec] :
   /// The build specification (build spec) for the branch.
@@ -1667,9 +1733,6 @@ class Amplify {
   /// Parameter [domainName] :
   /// The name of the domain.
   ///
-  /// Parameter [subDomainSettings] :
-  /// Describes the settings for the subdomain.
-  ///
   /// Parameter [autoSubDomainCreationPatterns] :
   /// Sets the branch patterns for automatic subdomain creation.
   ///
@@ -1679,25 +1742,27 @@ class Amplify {
   ///
   /// Parameter [enableAutoSubDomain] :
   /// Enables the automated creation of subdomains for branches.
+  ///
+  /// Parameter [subDomainSettings] :
+  /// Describes the settings for the subdomain.
   Future<UpdateDomainAssociationResult> updateDomainAssociation({
     required String appId,
     required String domainName,
-    required List<SubDomainSetting> subDomainSettings,
     List<String>? autoSubDomainCreationPatterns,
     String? autoSubDomainIAMRole,
     bool? enableAutoSubDomain,
+    List<SubDomainSetting>? subDomainSettings,
   }) async {
     ArgumentError.checkNotNull(appId, 'appId');
     ArgumentError.checkNotNull(domainName, 'domainName');
-    ArgumentError.checkNotNull(subDomainSettings, 'subDomainSettings');
     final $payload = <String, dynamic>{
-      'subDomainSettings': subDomainSettings,
       if (autoSubDomainCreationPatterns != null)
         'autoSubDomainCreationPatterns': autoSubDomainCreationPatterns,
       if (autoSubDomainIAMRole != null)
         'autoSubDomainIAMRole': autoSubDomainIAMRole,
       if (enableAutoSubDomain != null)
         'enableAutoSubDomain': enableAutoSubDomain,
+      if (subDomainSettings != null) 'subDomainSettings': subDomainSettings,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1778,7 +1843,7 @@ class App {
   /// The platform for the Amplify app.
   final Platform platform;
 
-  /// The repository for the Amplify app.
+  /// The Git repository for the Amplify app.
   final String repository;
 
   /// Updates the date and time for the Amplify app.
@@ -1790,7 +1855,9 @@ class App {
   /// Describes the automated branch creation glob patterns for the Amplify app.
   final List<String>? autoBranchCreationPatterns;
 
-  /// The basic authorization credentials for branches for the Amplify app.
+  /// The basic authorization credentials for branches for the Amplify app. You
+  /// must base64-encode the authorization credentials and provide them in the
+  /// format <code>user:password</code>.
   final String? basicAuthCredentials;
 
   /// Describes the content of the build specification (build spec) for the
@@ -1816,6 +1883,16 @@ class App {
 
   /// Describes the information about a production branch of the Amplify app.
   final ProductionBranch? productionBranch;
+
+  /// <note>
+  /// This is for internal use.
+  /// </note>
+  /// The Amplify service uses this parameter to specify the authentication
+  /// protocol to use to access the Git repository for an Amplify app. Amplify
+  /// specifies <code>TOKEN</code> for a GitHub repository, <code>SIGV4</code> for
+  /// an Amazon Web Services CodeCommit repository, and <code>SSH</code> for
+  /// GitLab and Bitbucket repositories.
+  final RepositoryCloneMethod? repositoryCloneMethod;
 
   /// The tag for the Amplify app.
   final Map<String, String>? tags;
@@ -1843,6 +1920,7 @@ class App {
     this.enableBranchAutoDeletion,
     this.iamServiceRoleArn,
     this.productionBranch,
+    this.repositoryCloneMethod,
     this.tags,
   });
 
@@ -1884,6 +1962,8 @@ class App {
           ? ProductionBranch.fromJson(
               json['productionBranch'] as Map<String, dynamic>)
           : null,
+      repositoryCloneMethod:
+          (json['repositoryCloneMethod'] as String?)?.toRepositoryCloneMethod(),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
@@ -1912,6 +1992,7 @@ class App {
     final enableBranchAutoDeletion = this.enableBranchAutoDeletion;
     final iamServiceRoleArn = this.iamServiceRoleArn;
     final productionBranch = this.productionBranch;
+    final repositoryCloneMethod = this.repositoryCloneMethod;
     final tags = this.tags;
     return {
       'appArn': appArn,
@@ -1941,6 +2022,8 @@ class App {
         'enableBranchAutoDeletion': enableBranchAutoDeletion,
       if (iamServiceRoleArn != null) 'iamServiceRoleArn': iamServiceRoleArn,
       if (productionBranch != null) 'productionBranch': productionBranch,
+      if (repositoryCloneMethod != null)
+        'repositoryCloneMethod': repositoryCloneMethod.toValue(),
       if (tags != null) 'tags': tags,
     };
   }
@@ -1978,7 +2061,9 @@ class Artifact {
 
 /// Describes the automated branch creation configuration.
 class AutoBranchCreationConfig {
-  /// The basic authorization credentials for the autocreated branch.
+  /// The basic authorization credentials for the autocreated branch. You must
+  /// base64-encode the authorization credentials and provide them in the format
+  /// <code>user:password</code>.
   final String? basicAuthCredentials;
 
   /// The build specification (build spec) for the autocreated branch.
@@ -2196,7 +2281,9 @@ class Branch {
   /// Amplify app.
   final String? backendEnvironmentArn;
 
-  /// The basic authorization credentials for a branch of an Amplify app.
+  /// The basic authorization credentials for a branch of an Amplify app. You must
+  /// base64-encode the authorization credentials and provide them in the format
+  /// <code>user:password</code>.
   final String? basicAuthCredentials;
 
   /// The build specification (build spec) content for the branch of an Amplify
@@ -3523,6 +3610,7 @@ class ListWebhooksResult {
 
 enum Platform {
   web,
+  webDynamic,
 }
 
 extension on Platform {
@@ -3530,6 +3618,8 @@ extension on Platform {
     switch (this) {
       case Platform.web:
         return 'WEB';
+      case Platform.webDynamic:
+        return 'WEB_DYNAMIC';
     }
   }
 }
@@ -3539,6 +3629,8 @@ extension on String {
     switch (this) {
       case 'WEB':
         return Platform.web;
+      case 'WEB_DYNAMIC':
+        return Platform.webDynamic;
     }
     throw Exception('$this is not known in enum Platform');
   }
@@ -3586,6 +3678,39 @@ class ProductionBranch {
       if (status != null) 'status': status,
       if (thumbnailUrl != null) 'thumbnailUrl': thumbnailUrl,
     };
+  }
+}
+
+enum RepositoryCloneMethod {
+  ssh,
+  token,
+  sigv4,
+}
+
+extension on RepositoryCloneMethod {
+  String toValue() {
+    switch (this) {
+      case RepositoryCloneMethod.ssh:
+        return 'SSH';
+      case RepositoryCloneMethod.token:
+        return 'TOKEN';
+      case RepositoryCloneMethod.sigv4:
+        return 'SIGV4';
+    }
+  }
+}
+
+extension on String {
+  RepositoryCloneMethod toRepositoryCloneMethod() {
+    switch (this) {
+      case 'SSH':
+        return RepositoryCloneMethod.ssh;
+      case 'TOKEN':
+        return RepositoryCloneMethod.token;
+      case 'SIGV4':
+        return RepositoryCloneMethod.sigv4;
+    }
+    throw Exception('$this is not known in enum RepositoryCloneMethod');
   }
 }
 
