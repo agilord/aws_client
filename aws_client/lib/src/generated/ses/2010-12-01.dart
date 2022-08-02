@@ -4207,7 +4207,7 @@ class CloudWatchDestination {
       dimensionConfigurations: _s
           .extractXmlChild(elem, 'DimensionConfigurations')!
           .findElements('member')
-          .map((c) => CloudWatchDimensionConfiguration.fromXml(c))
+          .map(CloudWatchDimensionConfiguration.fromXml)
           .toList(),
     );
   }
@@ -4902,11 +4902,9 @@ class DescribeActiveReceiptRuleSetResponse {
     return DescribeActiveReceiptRuleSetResponse(
       metadata: _s
           .extractXmlChild(elem, 'Metadata')
-          ?.let((e) => ReceiptRuleSetMetadata.fromXml(e)),
-      rules: _s.extractXmlChild(elem, 'Rules')?.let((elem) => elem
-          .findElements('member')
-          .map((c) => ReceiptRule.fromXml(c))
-          .toList()),
+          ?.let(ReceiptRuleSetMetadata.fromXml),
+      rules: _s.extractXmlChild(elem, 'Rules')?.let((elem) =>
+          elem.findElements('member').map(ReceiptRule.fromXml).toList()),
     );
   }
 
@@ -4978,21 +4976,21 @@ class DescribeConfigurationSetResponse {
     return DescribeConfigurationSetResponse(
       configurationSet: _s
           .extractXmlChild(elem, 'ConfigurationSet')
-          ?.let((e) => ConfigurationSet.fromXml(e)),
+          ?.let(ConfigurationSet.fromXml),
       deliveryOptions: _s
           .extractXmlChild(elem, 'DeliveryOptions')
-          ?.let((e) => DeliveryOptions.fromXml(e)),
+          ?.let(DeliveryOptions.fromXml),
       eventDestinations: _s.extractXmlChild(elem, 'EventDestinations')?.let(
           (elem) => elem
               .findElements('member')
-              .map((c) => EventDestination.fromXml(c))
+              .map(EventDestination.fromXml)
               .toList()),
       reputationOptions: _s
           .extractXmlChild(elem, 'ReputationOptions')
-          ?.let((e) => ReputationOptions.fromXml(e)),
+          ?.let(ReputationOptions.fromXml),
       trackingOptions: _s
           .extractXmlChild(elem, 'TrackingOptions')
-          ?.let((e) => TrackingOptions.fromXml(e)),
+          ?.let(TrackingOptions.fromXml),
     );
   }
 
@@ -5033,8 +5031,7 @@ class DescribeReceiptRuleResponse {
 
   factory DescribeReceiptRuleResponse.fromXml(_s.XmlElement elem) {
     return DescribeReceiptRuleResponse(
-      rule:
-          _s.extractXmlChild(elem, 'Rule')?.let((e) => ReceiptRule.fromXml(e)),
+      rule: _s.extractXmlChild(elem, 'Rule')?.let(ReceiptRule.fromXml),
     );
   }
 
@@ -5077,11 +5074,9 @@ class DescribeReceiptRuleSetResponse {
     return DescribeReceiptRuleSetResponse(
       metadata: _s
           .extractXmlChild(elem, 'Metadata')
-          ?.let((e) => ReceiptRuleSetMetadata.fromXml(e)),
-      rules: _s.extractXmlChild(elem, 'Rules')?.let((elem) => elem
-          .findElements('member')
-          .map((c) => ReceiptRule.fromXml(c))
-          .toList()),
+          ?.let(ReceiptRuleSetMetadata.fromXml),
+      rules: _s.extractXmlChild(elem, 'Rules')?.let((elem) =>
+          elem.findElements('member').map(ReceiptRule.fromXml).toList()),
     );
   }
 
@@ -5319,14 +5314,14 @@ class EventDestination {
       name: _s.extractXmlStringValue(elem, 'Name')!,
       cloudWatchDestination: _s
           .extractXmlChild(elem, 'CloudWatchDestination')
-          ?.let((e) => CloudWatchDestination.fromXml(e)),
+          ?.let(CloudWatchDestination.fromXml),
       enabled: _s.extractXmlBoolValue(elem, 'Enabled'),
       kinesisFirehoseDestination: _s
           .extractXmlChild(elem, 'KinesisFirehoseDestination')
-          ?.let((e) => KinesisFirehoseDestination.fromXml(e)),
+          ?.let(KinesisFirehoseDestination.fromXml),
       sNSDestination: _s
           .extractXmlChild(elem, 'SNSDestination')
-          ?.let((e) => SNSDestination.fromXml(e)),
+          ?.let(SNSDestination.fromXml),
     );
   }
 
@@ -5846,10 +5841,7 @@ class GetSendStatisticsResponse {
   factory GetSendStatisticsResponse.fromXml(_s.XmlElement elem) {
     return GetSendStatisticsResponse(
       sendDataPoints: _s.extractXmlChild(elem, 'SendDataPoints')?.let((elem) =>
-          elem
-              .findElements('member')
-              .map((c) => SendDataPoint.fromXml(c))
-              .toList()),
+          elem.findElements('member').map(SendDataPoint.fromXml).toList()),
     );
   }
 
@@ -5878,8 +5870,7 @@ class GetTemplateResponse {
 
   factory GetTemplateResponse.fromXml(_s.XmlElement elem) {
     return GetTemplateResponse(
-      template:
-          _s.extractXmlChild(elem, 'Template')?.let((e) => Template.fromXml(e)),
+      template: _s.extractXmlChild(elem, 'Template')?.let(Template.fromXml),
     );
   }
 
@@ -6397,7 +6388,7 @@ class ListConfigurationSetsResponse {
       configurationSets: _s.extractXmlChild(elem, 'ConfigurationSets')?.let(
           (elem) => elem
               .findElements('member')
-              .map((c) => ConfigurationSet.fromXml(c))
+              .map(ConfigurationSet.fromXml)
               .toList()),
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
     );
@@ -6450,7 +6441,7 @@ class ListCustomVerificationEmailTemplatesResponse {
           .extractXmlChild(elem, 'CustomVerificationEmailTemplates')
           ?.let((elem) => elem
               .findElements('member')
-              .map((c) => CustomVerificationEmailTemplate.fromXml(c))
+              .map(CustomVerificationEmailTemplate.fromXml)
               .toList()),
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
     );
@@ -6564,10 +6555,8 @@ class ListReceiptFiltersResponse {
 
   factory ListReceiptFiltersResponse.fromXml(_s.XmlElement elem) {
     return ListReceiptFiltersResponse(
-      filters: _s.extractXmlChild(elem, 'Filters')?.let((elem) => elem
-          .findElements('member')
-          .map((c) => ReceiptFilter.fromXml(c))
-          .toList()),
+      filters: _s.extractXmlChild(elem, 'Filters')?.let((elem) =>
+          elem.findElements('member').map(ReceiptFilter.fromXml).toList()),
     );
   }
 
@@ -6613,7 +6602,7 @@ class ListReceiptRuleSetsResponse {
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
       ruleSets: _s.extractXmlChild(elem, 'RuleSets')?.let((elem) => elem
           .findElements('member')
-          .map((c) => ReceiptRuleSetMetadata.fromXml(c))
+          .map(ReceiptRuleSetMetadata.fromXml)
           .toList()),
     );
   }
@@ -6659,7 +6648,7 @@ class ListTemplatesResponse {
       templatesMetadata: _s.extractXmlChild(elem, 'TemplatesMetadata')?.let(
           (elem) => elem
               .findElements('member')
-              .map((c) => TemplateMetadata.fromXml(c))
+              .map(TemplateMetadata.fromXml)
               .toList()),
     );
   }
@@ -7040,24 +7029,18 @@ class ReceiptAction {
     return ReceiptAction(
       addHeaderAction: _s
           .extractXmlChild(elem, 'AddHeaderAction')
-          ?.let((e) => AddHeaderAction.fromXml(e)),
-      bounceAction: _s
-          .extractXmlChild(elem, 'BounceAction')
-          ?.let((e) => BounceAction.fromXml(e)),
-      lambdaAction: _s
-          .extractXmlChild(elem, 'LambdaAction')
-          ?.let((e) => LambdaAction.fromXml(e)),
-      s3Action:
-          _s.extractXmlChild(elem, 'S3Action')?.let((e) => S3Action.fromXml(e)),
-      sNSAction: _s
-          .extractXmlChild(elem, 'SNSAction')
-          ?.let((e) => SNSAction.fromXml(e)),
-      stopAction: _s
-          .extractXmlChild(elem, 'StopAction')
-          ?.let((e) => StopAction.fromXml(e)),
+          ?.let(AddHeaderAction.fromXml),
+      bounceAction:
+          _s.extractXmlChild(elem, 'BounceAction')?.let(BounceAction.fromXml),
+      lambdaAction:
+          _s.extractXmlChild(elem, 'LambdaAction')?.let(LambdaAction.fromXml),
+      s3Action: _s.extractXmlChild(elem, 'S3Action')?.let(S3Action.fromXml),
+      sNSAction: _s.extractXmlChild(elem, 'SNSAction')?.let(SNSAction.fromXml),
+      stopAction:
+          _s.extractXmlChild(elem, 'StopAction')?.let(StopAction.fromXml),
       workmailAction: _s
           .extractXmlChild(elem, 'WorkmailAction')
-          ?.let((e) => WorkmailAction.fromXml(e)),
+          ?.let(WorkmailAction.fromXml),
     );
   }
 
@@ -7294,10 +7277,8 @@ class ReceiptRule {
   factory ReceiptRule.fromXml(_s.XmlElement elem) {
     return ReceiptRule(
       name: _s.extractXmlStringValue(elem, 'Name')!,
-      actions: _s.extractXmlChild(elem, 'Actions')?.let((elem) => elem
-          .findElements('member')
-          .map((c) => ReceiptAction.fromXml(c))
-          .toList()),
+      actions: _s.extractXmlChild(elem, 'Actions')?.let((elem) =>
+          elem.findElements('member').map(ReceiptAction.fromXml).toList()),
       enabled: _s.extractXmlBoolValue(elem, 'Enabled'),
       recipients: _s
           .extractXmlChild(elem, 'Recipients')
@@ -7871,7 +7852,7 @@ class SendBulkTemplatedEmailResponse {
       status: _s
           .extractXmlChild(elem, 'Status')!
           .findElements('member')
-          .map((c) => BulkEmailDestinationStatus.fromXml(c))
+          .map(BulkEmailDestinationStatus.fromXml)
           .toList(),
     );
   }

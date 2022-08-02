@@ -6032,7 +6032,7 @@ class AuthorizeCacheSecurityGroupIngressResult {
     return AuthorizeCacheSecurityGroupIngressResult(
       cacheSecurityGroup: _s
           .extractXmlChild(elem, 'CacheSecurityGroup')
-          ?.let((e) => CacheSecurityGroup.fromXml(e)),
+          ?.let(CacheSecurityGroup.fromXml),
     );
   }
 
@@ -6541,17 +6541,15 @@ class CacheCluster {
       cacheClusterId: _s.extractXmlStringValue(elem, 'CacheClusterId'),
       cacheClusterStatus: _s.extractXmlStringValue(elem, 'CacheClusterStatus'),
       cacheNodeType: _s.extractXmlStringValue(elem, 'CacheNodeType'),
-      cacheNodes: _s.extractXmlChild(elem, 'CacheNodes')?.let((elem) => elem
-          .findElements('CacheNode')
-          .map((c) => CacheNode.fromXml(c))
-          .toList()),
+      cacheNodes: _s.extractXmlChild(elem, 'CacheNodes')?.let((elem) =>
+          elem.findElements('CacheNode').map(CacheNode.fromXml).toList()),
       cacheParameterGroup: _s
           .extractXmlChild(elem, 'CacheParameterGroup')
-          ?.let((e) => CacheParameterGroupStatus.fromXml(e)),
+          ?.let(CacheParameterGroupStatus.fromXml),
       cacheSecurityGroups: _s.extractXmlChild(elem, 'CacheSecurityGroups')?.let(
           (elem) => elem
               .findElements('CacheSecurityGroup')
-              .map((c) => CacheSecurityGroupMembership.fromXml(c))
+              .map(CacheSecurityGroupMembership.fromXml)
               .toList()),
       cacheSubnetGroupName:
           _s.extractXmlStringValue(elem, 'CacheSubnetGroupName'),
@@ -6559,22 +6557,22 @@ class CacheCluster {
           _s.extractXmlStringValue(elem, 'ClientDownloadLandingPage'),
       configurationEndpoint: _s
           .extractXmlChild(elem, 'ConfigurationEndpoint')
-          ?.let((e) => Endpoint.fromXml(e)),
+          ?.let(Endpoint.fromXml),
       engine: _s.extractXmlStringValue(elem, 'Engine'),
       engineVersion: _s.extractXmlStringValue(elem, 'EngineVersion'),
       logDeliveryConfigurations: _s
           .extractXmlChild(elem, 'LogDeliveryConfigurations')
           ?.let((elem) => elem
               .findElements('LogDeliveryConfiguration')
-              .map((c) => LogDeliveryConfiguration.fromXml(c))
+              .map(LogDeliveryConfiguration.fromXml)
               .toList()),
       notificationConfiguration: _s
           .extractXmlChild(elem, 'NotificationConfiguration')
-          ?.let((e) => NotificationConfiguration.fromXml(e)),
+          ?.let(NotificationConfiguration.fromXml),
       numCacheNodes: _s.extractXmlIntValue(elem, 'NumCacheNodes'),
       pendingModifiedValues: _s
           .extractXmlChild(elem, 'PendingModifiedValues')
-          ?.let((e) => PendingModifiedValues.fromXml(e)),
+          ?.let(PendingModifiedValues.fromXml),
       preferredAvailabilityZone:
           _s.extractXmlStringValue(elem, 'PreferredAvailabilityZone'),
       preferredMaintenanceWindow:
@@ -6587,7 +6585,7 @@ class CacheCluster {
       securityGroups: _s.extractXmlChild(elem, 'SecurityGroups')?.let((elem) =>
           elem
               .findElements('member')
-              .map((c) => SecurityGroupMembership.fromXml(c))
+              .map(SecurityGroupMembership.fromXml)
               .toList()),
       snapshotRetentionLimit:
           _s.extractXmlIntValue(elem, 'SnapshotRetentionLimit'),
@@ -6711,10 +6709,7 @@ class CacheClusterMessage {
   factory CacheClusterMessage.fromXml(_s.XmlElement elem) {
     return CacheClusterMessage(
       cacheClusters: _s.extractXmlChild(elem, 'CacheClusters')?.let((elem) =>
-          elem
-              .findElements('CacheCluster')
-              .map((c) => CacheCluster.fromXml(c))
-              .toList()),
+          elem.findElements('CacheCluster').map(CacheCluster.fromXml).toList()),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
   }
@@ -6832,7 +6827,7 @@ class CacheEngineVersionMessage {
       cacheEngineVersions: _s.extractXmlChild(elem, 'CacheEngineVersions')?.let(
           (elem) => elem
               .findElements('CacheEngineVersion')
-              .map((c) => CacheEngineVersion.fromXml(c))
+              .map(CacheEngineVersion.fromXml)
               .toList()),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
@@ -7059,8 +7054,7 @@ class CacheNode {
       customerAvailabilityZone:
           _s.extractXmlStringValue(elem, 'CustomerAvailabilityZone'),
       customerOutpostArn: _s.extractXmlStringValue(elem, 'CustomerOutpostArn'),
-      endpoint:
-          _s.extractXmlChild(elem, 'Endpoint')?.let((e) => Endpoint.fromXml(e)),
+      endpoint: _s.extractXmlChild(elem, 'Endpoint')?.let(Endpoint.fromXml),
       parameterGroupStatus:
           _s.extractXmlStringValue(elem, 'ParameterGroupStatus'),
       sourceCacheNodeId: _s.extractXmlStringValue(elem, 'SourceCacheNodeId'),
@@ -7170,7 +7164,7 @@ class CacheNodeTypeSpecificParameter {
           .extractXmlChild(elem, 'CacheNodeTypeSpecificValues')
           ?.let((elem) => elem
               .findElements('CacheNodeTypeSpecificValue')
-              .map((c) => CacheNodeTypeSpecificValue.fromXml(c))
+              .map(CacheNodeTypeSpecificValue.fromXml)
               .toList()),
       changeType: _s.extractXmlStringValue(elem, 'ChangeType')?.toChangeType(),
       dataType: _s.extractXmlStringValue(elem, 'DataType'),
@@ -7462,13 +7456,11 @@ class CacheParameterGroupDetails {
           .extractXmlChild(elem, 'CacheNodeTypeSpecificParameters')
           ?.let((elem) => elem
               .findElements('CacheNodeTypeSpecificParameter')
-              .map((c) => CacheNodeTypeSpecificParameter.fromXml(c))
+              .map(CacheNodeTypeSpecificParameter.fromXml)
               .toList()),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
-      parameters: _s.extractXmlChild(elem, 'Parameters')?.let((elem) => elem
-          .findElements('Parameter')
-          .map((c) => Parameter.fromXml(c))
-          .toList()),
+      parameters: _s.extractXmlChild(elem, 'Parameters')?.let((elem) =>
+          elem.findElements('Parameter').map(Parameter.fromXml).toList()),
     );
   }
 
@@ -7613,7 +7605,7 @@ class CacheParameterGroupsMessage {
           .extractXmlChild(elem, 'CacheParameterGroups')
           ?.let((elem) => elem
               .findElements('CacheParameterGroup')
-              .map((c) => CacheParameterGroup.fromXml(c))
+              .map(CacheParameterGroup.fromXml)
               .toList()),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
@@ -7690,7 +7682,7 @@ class CacheSecurityGroup {
       eC2SecurityGroups: _s.extractXmlChild(elem, 'EC2SecurityGroups')?.let(
           (elem) => elem
               .findElements('EC2SecurityGroup')
-              .map((c) => EC2SecurityGroup.fromXml(c))
+              .map(EC2SecurityGroup.fromXml)
               .toList()),
       ownerId: _s.extractXmlStringValue(elem, 'OwnerId'),
     );
@@ -7784,7 +7776,7 @@ class CacheSecurityGroupMessage {
       cacheSecurityGroups: _s.extractXmlChild(elem, 'CacheSecurityGroups')?.let(
           (elem) => elem
               .findElements('CacheSecurityGroup')
-              .map((c) => CacheSecurityGroup.fromXml(c))
+              .map(CacheSecurityGroup.fromXml)
               .toList()),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
@@ -7857,8 +7849,8 @@ class CacheSubnetGroup {
           _s.extractXmlStringValue(elem, 'CacheSubnetGroupDescription'),
       cacheSubnetGroupName:
           _s.extractXmlStringValue(elem, 'CacheSubnetGroupName'),
-      subnets: _s.extractXmlChild(elem, 'Subnets')?.let((elem) =>
-          elem.findElements('Subnet').map((c) => Subnet.fromXml(c)).toList()),
+      subnets: _s.extractXmlChild(elem, 'Subnets')?.let(
+          (elem) => elem.findElements('Subnet').map(Subnet.fromXml).toList()),
       vpcId: _s.extractXmlStringValue(elem, 'VpcId'),
     );
   }
@@ -7910,7 +7902,7 @@ class CacheSubnetGroupMessage {
       cacheSubnetGroups: _s.extractXmlChild(elem, 'CacheSubnetGroups')?.let(
           (elem) => elem
               .findElements('CacheSubnetGroup')
-              .map((c) => CacheSubnetGroup.fromXml(c))
+              .map(CacheSubnetGroup.fromXml)
               .toList()),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
@@ -8003,7 +7995,7 @@ class CompleteMigrationResponse {
     return CompleteMigrationResponse(
       replicationGroup: _s
           .extractXmlChild(elem, 'ReplicationGroup')
-          ?.let((e) => ReplicationGroup.fromXml(e)),
+          ?.let(ReplicationGroup.fromXml),
     );
   }
 
@@ -8118,8 +8110,7 @@ class CopySnapshotResult {
 
   factory CopySnapshotResult.fromXml(_s.XmlElement elem) {
     return CopySnapshotResult(
-      snapshot:
-          _s.extractXmlChild(elem, 'Snapshot')?.let((e) => Snapshot.fromXml(e)),
+      snapshot: _s.extractXmlChild(elem, 'Snapshot')?.let(Snapshot.fromXml),
     );
   }
 
@@ -8148,9 +8139,8 @@ class CreateCacheClusterResult {
 
   factory CreateCacheClusterResult.fromXml(_s.XmlElement elem) {
     return CreateCacheClusterResult(
-      cacheCluster: _s
-          .extractXmlChild(elem, 'CacheCluster')
-          ?.let((e) => CacheCluster.fromXml(e)),
+      cacheCluster:
+          _s.extractXmlChild(elem, 'CacheCluster')?.let(CacheCluster.fromXml),
     );
   }
 
@@ -8182,7 +8172,7 @@ class CreateCacheParameterGroupResult {
     return CreateCacheParameterGroupResult(
       cacheParameterGroup: _s
           .extractXmlChild(elem, 'CacheParameterGroup')
-          ?.let((e) => CacheParameterGroup.fromXml(e)),
+          ?.let(CacheParameterGroup.fromXml),
     );
   }
 
@@ -8215,7 +8205,7 @@ class CreateCacheSecurityGroupResult {
     return CreateCacheSecurityGroupResult(
       cacheSecurityGroup: _s
           .extractXmlChild(elem, 'CacheSecurityGroup')
-          ?.let((e) => CacheSecurityGroup.fromXml(e)),
+          ?.let(CacheSecurityGroup.fromXml),
     );
   }
 
@@ -8247,7 +8237,7 @@ class CreateCacheSubnetGroupResult {
     return CreateCacheSubnetGroupResult(
       cacheSubnetGroup: _s
           .extractXmlChild(elem, 'CacheSubnetGroup')
-          ?.let((e) => CacheSubnetGroup.fromXml(e)),
+          ?.let(CacheSubnetGroup.fromXml),
     );
   }
 
@@ -8280,7 +8270,7 @@ class CreateGlobalReplicationGroupResult {
     return CreateGlobalReplicationGroupResult(
       globalReplicationGroup: _s
           .extractXmlChild(elem, 'GlobalReplicationGroup')
-          ?.let((e) => GlobalReplicationGroup.fromXml(e)),
+          ?.let(GlobalReplicationGroup.fromXml),
     );
   }
 
@@ -8313,7 +8303,7 @@ class CreateReplicationGroupResult {
     return CreateReplicationGroupResult(
       replicationGroup: _s
           .extractXmlChild(elem, 'ReplicationGroup')
-          ?.let((e) => ReplicationGroup.fromXml(e)),
+          ?.let(ReplicationGroup.fromXml),
     );
   }
 
@@ -8342,8 +8332,7 @@ class CreateSnapshotResult {
 
   factory CreateSnapshotResult.fromXml(_s.XmlElement elem) {
     return CreateSnapshotResult(
-      snapshot:
-          _s.extractXmlChild(elem, 'Snapshot')?.let((e) => Snapshot.fromXml(e)),
+      snapshot: _s.extractXmlChild(elem, 'Snapshot')?.let(Snapshot.fromXml),
     );
   }
 
@@ -8435,7 +8424,7 @@ class DecreaseNodeGroupsInGlobalReplicationGroupResult {
     return DecreaseNodeGroupsInGlobalReplicationGroupResult(
       globalReplicationGroup: _s
           .extractXmlChild(elem, 'GlobalReplicationGroup')
-          ?.let((e) => GlobalReplicationGroup.fromXml(e)),
+          ?.let(GlobalReplicationGroup.fromXml),
     );
   }
 
@@ -8468,7 +8457,7 @@ class DecreaseReplicaCountResult {
     return DecreaseReplicaCountResult(
       replicationGroup: _s
           .extractXmlChild(elem, 'ReplicationGroup')
-          ?.let((e) => ReplicationGroup.fromXml(e)),
+          ?.let(ReplicationGroup.fromXml),
     );
   }
 
@@ -8497,9 +8486,8 @@ class DeleteCacheClusterResult {
 
   factory DeleteCacheClusterResult.fromXml(_s.XmlElement elem) {
     return DeleteCacheClusterResult(
-      cacheCluster: _s
-          .extractXmlChild(elem, 'CacheCluster')
-          ?.let((e) => CacheCluster.fromXml(e)),
+      cacheCluster:
+          _s.extractXmlChild(elem, 'CacheCluster')?.let(CacheCluster.fromXml),
     );
   }
 
@@ -8532,7 +8520,7 @@ class DeleteGlobalReplicationGroupResult {
     return DeleteGlobalReplicationGroupResult(
       globalReplicationGroup: _s
           .extractXmlChild(elem, 'GlobalReplicationGroup')
-          ?.let((e) => GlobalReplicationGroup.fromXml(e)),
+          ?.let(GlobalReplicationGroup.fromXml),
     );
   }
 
@@ -8565,7 +8553,7 @@ class DeleteReplicationGroupResult {
     return DeleteReplicationGroupResult(
       replicationGroup: _s
           .extractXmlChild(elem, 'ReplicationGroup')
-          ?.let((e) => ReplicationGroup.fromXml(e)),
+          ?.let(ReplicationGroup.fromXml),
     );
   }
 
@@ -8594,8 +8582,7 @@ class DeleteSnapshotResult {
 
   factory DeleteSnapshotResult.fromXml(_s.XmlElement elem) {
     return DeleteSnapshotResult(
-      snapshot:
-          _s.extractXmlChild(elem, 'Snapshot')?.let((e) => Snapshot.fromXml(e)),
+      snapshot: _s.extractXmlChild(elem, 'Snapshot')?.let(Snapshot.fromXml),
     );
   }
 
@@ -8628,7 +8615,7 @@ class DescribeEngineDefaultParametersResult {
     return DescribeEngineDefaultParametersResult(
       engineDefaults: _s
           .extractXmlChild(elem, 'EngineDefaults')
-          ?.let((e) => EngineDefaults.fromXml(e)),
+          ?.let(EngineDefaults.fromXml),
     );
   }
 
@@ -8673,7 +8660,7 @@ class DescribeGlobalReplicationGroupsResult {
           .extractXmlChild(elem, 'GlobalReplicationGroups')
           ?.let((elem) => elem
               .findElements('GlobalReplicationGroup')
-              .map((c) => GlobalReplicationGroup.fromXml(c))
+              .map(GlobalReplicationGroup.fromXml)
               .toList()),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
@@ -8720,10 +8707,8 @@ class DescribeSnapshotsListMessage {
   factory DescribeSnapshotsListMessage.fromXml(_s.XmlElement elem) {
     return DescribeSnapshotsListMessage(
       marker: _s.extractXmlStringValue(elem, 'Marker'),
-      snapshots: _s.extractXmlChild(elem, 'Snapshots')?.let((elem) => elem
-          .findElements('Snapshot')
-          .map((c) => Snapshot.fromXml(c))
-          .toList()),
+      snapshots: _s.extractXmlChild(elem, 'Snapshots')?.let((elem) =>
+          elem.findElements('Snapshot').map(Snapshot.fromXml).toList()),
     );
   }
 
@@ -8765,10 +8750,8 @@ class DescribeUserGroupsResult {
   factory DescribeUserGroupsResult.fromXml(_s.XmlElement elem) {
     return DescribeUserGroupsResult(
       marker: _s.extractXmlStringValue(elem, 'Marker'),
-      userGroups: _s.extractXmlChild(elem, 'UserGroups')?.let((elem) => elem
-          .findElements('member')
-          .map((c) => UserGroup.fromXml(c))
-          .toList()),
+      userGroups: _s.extractXmlChild(elem, 'UserGroups')?.let((elem) =>
+          elem.findElements('member').map(UserGroup.fromXml).toList()),
     );
   }
 
@@ -8810,8 +8793,8 @@ class DescribeUsersResult {
   factory DescribeUsersResult.fromXml(_s.XmlElement elem) {
     return DescribeUsersResult(
       marker: _s.extractXmlStringValue(elem, 'Marker'),
-      users: _s.extractXmlChild(elem, 'Users')?.let((elem) =>
-          elem.findElements('member').map((c) => User.fromXml(c)).toList()),
+      users: _s.extractXmlChild(elem, 'Users')?.let(
+          (elem) => elem.findElements('member').map(User.fromXml).toList()),
     );
   }
 
@@ -8856,10 +8839,10 @@ class DestinationDetails {
     return DestinationDetails(
       cloudWatchLogsDetails: _s
           .extractXmlChild(elem, 'CloudWatchLogsDetails')
-          ?.let((e) => CloudWatchLogsDestinationDetails.fromXml(e)),
+          ?.let(CloudWatchLogsDestinationDetails.fromXml),
       kinesisFirehoseDetails: _s
           .extractXmlChild(elem, 'KinesisFirehoseDetails')
-          ?.let((e) => KinesisFirehoseDestinationDetails.fromXml(e)),
+          ?.let(KinesisFirehoseDestinationDetails.fromXml),
     );
   }
 
@@ -8924,7 +8907,7 @@ class DisassociateGlobalReplicationGroupResult {
     return DisassociateGlobalReplicationGroupResult(
       globalReplicationGroup: _s
           .extractXmlChild(elem, 'GlobalReplicationGroup')
-          ?.let((e) => GlobalReplicationGroup.fromXml(e)),
+          ?.let(GlobalReplicationGroup.fromXml),
     );
   }
 
@@ -9076,15 +9059,13 @@ class EngineDefaults {
           .extractXmlChild(elem, 'CacheNodeTypeSpecificParameters')
           ?.let((elem) => elem
               .findElements('CacheNodeTypeSpecificParameter')
-              .map((c) => CacheNodeTypeSpecificParameter.fromXml(c))
+              .map(CacheNodeTypeSpecificParameter.fromXml)
               .toList()),
       cacheParameterGroupFamily:
           _s.extractXmlStringValue(elem, 'CacheParameterGroupFamily'),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
-      parameters: _s.extractXmlChild(elem, 'Parameters')?.let((elem) => elem
-          .findElements('Parameter')
-          .map((c) => Parameter.fromXml(c))
-          .toList()),
+      parameters: _s.extractXmlChild(elem, 'Parameters')?.let((elem) =>
+          elem.findElements('Parameter').map(Parameter.fromXml).toList()),
     );
   }
 
@@ -9189,8 +9170,8 @@ class EventsMessage {
 
   factory EventsMessage.fromXml(_s.XmlElement elem) {
     return EventsMessage(
-      events: _s.extractXmlChild(elem, 'Events')?.let((elem) =>
-          elem.findElements('Event').map((c) => Event.fromXml(c)).toList()),
+      events: _s.extractXmlChild(elem, 'Events')?.let(
+          (elem) => elem.findElements('Event').map(Event.fromXml).toList()),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
   }
@@ -9226,7 +9207,7 @@ class FailoverGlobalReplicationGroupResult {
     return FailoverGlobalReplicationGroupResult(
       globalReplicationGroup: _s
           .extractXmlChild(elem, 'GlobalReplicationGroup')
-          ?.let((e) => GlobalReplicationGroup.fromXml(e)),
+          ?.let(GlobalReplicationGroup.fromXml),
     );
   }
 
@@ -9434,7 +9415,7 @@ class GlobalReplicationGroup {
       globalNodeGroups: _s.extractXmlChild(elem, 'GlobalNodeGroups')?.let(
           (elem) => elem
               .findElements('GlobalNodeGroup')
-              .map((c) => GlobalNodeGroup.fromXml(c))
+              .map(GlobalNodeGroup.fromXml)
               .toList()),
       globalReplicationGroupDescription:
           _s.extractXmlStringValue(elem, 'GlobalReplicationGroupDescription'),
@@ -9442,7 +9423,7 @@ class GlobalReplicationGroup {
           _s.extractXmlStringValue(elem, 'GlobalReplicationGroupId'),
       members: _s.extractXmlChild(elem, 'Members')?.let((elem) => elem
           .findElements('GlobalReplicationGroupMember')
-          .map((c) => GlobalReplicationGroupMember.fromXml(c))
+          .map(GlobalReplicationGroupMember.fromXml)
           .toList()),
       status: _s.extractXmlStringValue(elem, 'Status'),
       transitEncryptionEnabled:
@@ -9622,7 +9603,7 @@ class IncreaseNodeGroupsInGlobalReplicationGroupResult {
     return IncreaseNodeGroupsInGlobalReplicationGroupResult(
       globalReplicationGroup: _s
           .extractXmlChild(elem, 'GlobalReplicationGroup')
-          ?.let((e) => GlobalReplicationGroup.fromXml(e)),
+          ?.let(GlobalReplicationGroup.fromXml),
     );
   }
 
@@ -9655,7 +9636,7 @@ class IncreaseReplicaCountResult {
     return IncreaseReplicaCountResult(
       replicationGroup: _s
           .extractXmlChild(elem, 'ReplicationGroup')
-          ?.let((e) => ReplicationGroup.fromXml(e)),
+          ?.let(ReplicationGroup.fromXml),
     );
   }
 
@@ -9749,7 +9730,7 @@ class LogDeliveryConfiguration {
     return LogDeliveryConfiguration(
       destinationDetails: _s
           .extractXmlChild(elem, 'DestinationDetails')
-          ?.let((e) => DestinationDetails.fromXml(e)),
+          ?.let(DestinationDetails.fromXml),
       destinationType: _s
           .extractXmlStringValue(elem, 'DestinationType')
           ?.toDestinationType(),
@@ -9949,9 +9930,8 @@ class ModifyCacheClusterResult {
 
   factory ModifyCacheClusterResult.fromXml(_s.XmlElement elem) {
     return ModifyCacheClusterResult(
-      cacheCluster: _s
-          .extractXmlChild(elem, 'CacheCluster')
-          ?.let((e) => CacheCluster.fromXml(e)),
+      cacheCluster:
+          _s.extractXmlChild(elem, 'CacheCluster')?.let(CacheCluster.fromXml),
     );
   }
 
@@ -9983,7 +9963,7 @@ class ModifyCacheSubnetGroupResult {
     return ModifyCacheSubnetGroupResult(
       cacheSubnetGroup: _s
           .extractXmlChild(elem, 'CacheSubnetGroup')
-          ?.let((e) => CacheSubnetGroup.fromXml(e)),
+          ?.let(CacheSubnetGroup.fromXml),
     );
   }
 
@@ -10016,7 +9996,7 @@ class ModifyGlobalReplicationGroupResult {
     return ModifyGlobalReplicationGroupResult(
       globalReplicationGroup: _s
           .extractXmlChild(elem, 'GlobalReplicationGroup')
-          ?.let((e) => GlobalReplicationGroup.fromXml(e)),
+          ?.let(GlobalReplicationGroup.fromXml),
     );
   }
 
@@ -10049,7 +10029,7 @@ class ModifyReplicationGroupResult {
     return ModifyReplicationGroupResult(
       replicationGroup: _s
           .extractXmlChild(elem, 'ReplicationGroup')
-          ?.let((e) => ReplicationGroup.fromXml(e)),
+          ?.let(ReplicationGroup.fromXml),
     );
   }
 
@@ -10083,7 +10063,7 @@ class ModifyReplicationGroupShardConfigurationResult {
     return ModifyReplicationGroupShardConfigurationResult(
       replicationGroup: _s
           .extractXmlChild(elem, 'ReplicationGroup')
-          ?.let((e) => ReplicationGroup.fromXml(e)),
+          ?.let(ReplicationGroup.fromXml),
     );
   }
 
@@ -10184,14 +10164,12 @@ class NodeGroup {
       nodeGroupMembers: _s.extractXmlChild(elem, 'NodeGroupMembers')?.let(
           (elem) => elem
               .findElements('NodeGroupMember')
-              .map((c) => NodeGroupMember.fromXml(c))
+              .map(NodeGroupMember.fromXml)
               .toList()),
-      primaryEndpoint: _s
-          .extractXmlChild(elem, 'PrimaryEndpoint')
-          ?.let((e) => Endpoint.fromXml(e)),
-      readerEndpoint: _s
-          .extractXmlChild(elem, 'ReaderEndpoint')
-          ?.let((e) => Endpoint.fromXml(e)),
+      primaryEndpoint:
+          _s.extractXmlChild(elem, 'PrimaryEndpoint')?.let(Endpoint.fromXml),
+      readerEndpoint:
+          _s.extractXmlChild(elem, 'ReaderEndpoint')?.let(Endpoint.fromXml),
       slots: _s.extractXmlStringValue(elem, 'Slots'),
       status: _s.extractXmlStringValue(elem, 'Status'),
     );
@@ -10374,9 +10352,8 @@ class NodeGroupMember {
           _s.extractXmlStringValue(elem, 'PreferredAvailabilityZone'),
       preferredOutpostArn:
           _s.extractXmlStringValue(elem, 'PreferredOutpostArn'),
-      readEndpoint: _s
-          .extractXmlChild(elem, 'ReadEndpoint')
-          ?.let((e) => Endpoint.fromXml(e)),
+      readEndpoint:
+          _s.extractXmlChild(elem, 'ReadEndpoint')?.let(Endpoint.fromXml),
     );
   }
 
@@ -10545,7 +10522,7 @@ class NodeGroupUpdateStatus {
           .extractXmlChild(elem, 'NodeGroupMemberUpdateStatus')
           ?.let((elem) => elem
               .findElements('NodeGroupMemberUpdateStatus')
-              .map((c) => NodeGroupMemberUpdateStatus.fromXml(c))
+              .map(NodeGroupMemberUpdateStatus.fromXml)
               .toList()),
     );
   }
@@ -10619,7 +10596,7 @@ class NodeSnapshot {
       cacheSize: _s.extractXmlStringValue(elem, 'CacheSize'),
       nodeGroupConfiguration: _s
           .extractXmlChild(elem, 'NodeGroupConfiguration')
-          ?.let((e) => NodeGroupConfiguration.fromXml(e)),
+          ?.let(NodeGroupConfiguration.fromXml),
       nodeGroupId: _s.extractXmlStringValue(elem, 'NodeGroupId'),
       snapshotCreateTime:
           _s.extractXmlDateTimeValue(elem, 'SnapshotCreateTime'),
@@ -10994,7 +10971,7 @@ class PendingLogDeliveryConfiguration {
     return PendingLogDeliveryConfiguration(
       destinationDetails: _s
           .extractXmlChild(elem, 'DestinationDetails')
-          ?.let((e) => DestinationDetails.fromXml(e)),
+          ?.let(DestinationDetails.fromXml),
       destinationType: _s
           .extractXmlStringValue(elem, 'DestinationType')
           ?.toDestinationType(),
@@ -11084,7 +11061,7 @@ class PendingModifiedValues {
           .extractXmlChild(elem, 'PendingLogDeliveryConfiguration')
           ?.let((elem) => elem
               .findElements('member')
-              .map((c) => PendingLogDeliveryConfiguration.fromXml(c))
+              .map(PendingLogDeliveryConfiguration.fromXml)
               .toList()),
       numCacheNodes: _s.extractXmlIntValue(elem, 'NumCacheNodes'),
     );
@@ -11189,7 +11166,7 @@ class PurchaseReservedCacheNodesOfferingResult {
     return PurchaseReservedCacheNodesOfferingResult(
       reservedCacheNode: _s
           .extractXmlChild(elem, 'ReservedCacheNode')
-          ?.let((e) => ReservedCacheNode.fromXml(e)),
+          ?.let(ReservedCacheNode.fromXml),
     );
   }
 
@@ -11223,7 +11200,7 @@ class RebalanceSlotsInGlobalReplicationGroupResult {
     return RebalanceSlotsInGlobalReplicationGroupResult(
       globalReplicationGroup: _s
           .extractXmlChild(elem, 'GlobalReplicationGroup')
-          ?.let((e) => GlobalReplicationGroup.fromXml(e)),
+          ?.let(GlobalReplicationGroup.fromXml),
     );
   }
 
@@ -11253,9 +11230,8 @@ class RebootCacheClusterResult {
 
   factory RebootCacheClusterResult.fromXml(_s.XmlElement elem) {
     return RebootCacheClusterResult(
-      cacheCluster: _s
-          .extractXmlChild(elem, 'CacheCluster')
-          ?.let((e) => CacheCluster.fromXml(e)),
+      cacheCluster:
+          _s.extractXmlChild(elem, 'CacheCluster')?.let(CacheCluster.fromXml),
     );
   }
 
@@ -11597,19 +11573,19 @@ class ReplicationGroup {
       clusterEnabled: _s.extractXmlBoolValue(elem, 'ClusterEnabled'),
       configurationEndpoint: _s
           .extractXmlChild(elem, 'ConfigurationEndpoint')
-          ?.let((e) => Endpoint.fromXml(e)),
+          ?.let(Endpoint.fromXml),
       dataTiering:
           _s.extractXmlStringValue(elem, 'DataTiering')?.toDataTieringStatus(),
       description: _s.extractXmlStringValue(elem, 'Description'),
       globalReplicationGroupInfo: _s
           .extractXmlChild(elem, 'GlobalReplicationGroupInfo')
-          ?.let((e) => GlobalReplicationGroupInfo.fromXml(e)),
+          ?.let(GlobalReplicationGroupInfo.fromXml),
       kmsKeyId: _s.extractXmlStringValue(elem, 'KmsKeyId'),
       logDeliveryConfigurations: _s
           .extractXmlChild(elem, 'LogDeliveryConfigurations')
           ?.let((elem) => elem
               .findElements('LogDeliveryConfiguration')
-              .map((c) => LogDeliveryConfiguration.fromXml(c))
+              .map(LogDeliveryConfiguration.fromXml)
               .toList()),
       memberClusters: _s
           .extractXmlChild(elem, 'MemberClusters')
@@ -11619,13 +11595,11 @@ class ReplicationGroup {
           ?.let((elem) => _s.extractXmlStringListValues(
               elem, 'ReplicationGroupOutpostArn')),
       multiAZ: _s.extractXmlStringValue(elem, 'MultiAZ')?.toMultiAZStatus(),
-      nodeGroups: _s.extractXmlChild(elem, 'NodeGroups')?.let((elem) => elem
-          .findElements('NodeGroup')
-          .map((c) => NodeGroup.fromXml(c))
-          .toList()),
+      nodeGroups: _s.extractXmlChild(elem, 'NodeGroups')?.let((elem) =>
+          elem.findElements('NodeGroup').map(NodeGroup.fromXml).toList()),
       pendingModifiedValues: _s
           .extractXmlChild(elem, 'PendingModifiedValues')
-          ?.let((e) => ReplicationGroupPendingModifiedValues.fromXml(e)),
+          ?.let(ReplicationGroupPendingModifiedValues.fromXml),
       replicationGroupCreateTime:
           _s.extractXmlDateTimeValue(elem, 'ReplicationGroupCreateTime'),
       replicationGroupId: _s.extractXmlStringValue(elem, 'ReplicationGroupId'),
@@ -11745,7 +11719,7 @@ class ReplicationGroupMessage {
       replicationGroups: _s.extractXmlChild(elem, 'ReplicationGroups')?.let(
           (elem) => elem
               .findElements('ReplicationGroup')
-              .map((c) => ReplicationGroup.fromXml(c))
+              .map(ReplicationGroup.fromXml)
               .toList()),
     );
   }
@@ -11828,15 +11802,14 @@ class ReplicationGroupPendingModifiedValues {
           .extractXmlChild(elem, 'PendingLogDeliveryConfiguration')
           ?.let((elem) => elem
               .findElements('member')
-              .map((c) => PendingLogDeliveryConfiguration.fromXml(c))
+              .map(PendingLogDeliveryConfiguration.fromXml)
               .toList()),
       primaryClusterId: _s.extractXmlStringValue(elem, 'PrimaryClusterId'),
-      resharding: _s
-          .extractXmlChild(elem, 'Resharding')
-          ?.let((e) => ReshardingStatus.fromXml(e)),
+      resharding:
+          _s.extractXmlChild(elem, 'Resharding')?.let(ReshardingStatus.fromXml),
       userGroups: _s
           .extractXmlChild(elem, 'UserGroups')
-          ?.let((e) => UserGroupsUpdateStatus.fromXml(e)),
+          ?.let(UserGroupsUpdateStatus.fromXml),
     );
   }
 
@@ -12095,7 +12068,7 @@ class ReservedCacheNode {
       recurringCharges: _s.extractXmlChild(elem, 'RecurringCharges')?.let(
           (elem) => elem
               .findElements('RecurringCharge')
-              .map((c) => RecurringCharge.fromXml(c))
+              .map(RecurringCharge.fromXml)
               .toList()),
       reservationARN: _s.extractXmlStringValue(elem, 'ReservationARN'),
       reservedCacheNodeId:
@@ -12173,7 +12146,7 @@ class ReservedCacheNodeMessage {
       reservedCacheNodes: _s.extractXmlChild(elem, 'ReservedCacheNodes')?.let(
           (elem) => elem
               .findElements('ReservedCacheNode')
-              .map((c) => ReservedCacheNode.fromXml(c))
+              .map(ReservedCacheNode.fromXml)
               .toList()),
     );
   }
@@ -12393,7 +12366,7 @@ class ReservedCacheNodesOffering {
       recurringCharges: _s.extractXmlChild(elem, 'RecurringCharges')?.let(
           (elem) => elem
               .findElements('RecurringCharge')
-              .map((c) => RecurringCharge.fromXml(c))
+              .map(RecurringCharge.fromXml)
               .toList()),
       reservedCacheNodesOfferingId:
           _s.extractXmlStringValue(elem, 'ReservedCacheNodesOfferingId'),
@@ -12459,7 +12432,7 @@ class ReservedCacheNodesOfferingMessage {
           .extractXmlChild(elem, 'ReservedCacheNodesOfferings')
           ?.let((elem) => elem
               .findElements('ReservedCacheNodesOffering')
-              .map((c) => ReservedCacheNodesOffering.fromXml(c))
+              .map(ReservedCacheNodesOffering.fromXml)
               .toList()),
     );
   }
@@ -12531,9 +12504,8 @@ class ReshardingStatus {
 
   factory ReshardingStatus.fromXml(_s.XmlElement elem) {
     return ReshardingStatus(
-      slotMigration: _s
-          .extractXmlChild(elem, 'SlotMigration')
-          ?.let((e) => SlotMigration.fromXml(e)),
+      slotMigration:
+          _s.extractXmlChild(elem, 'SlotMigration')?.let(SlotMigration.fromXml),
     );
   }
 
@@ -12566,7 +12538,7 @@ class RevokeCacheSecurityGroupIngressResult {
     return RevokeCacheSecurityGroupIngressResult(
       cacheSecurityGroup: _s
           .extractXmlChild(elem, 'CacheSecurityGroup')
-          ?.let((e) => CacheSecurityGroup.fromXml(e)),
+          ?.let(CacheSecurityGroup.fromXml),
     );
   }
 
@@ -12897,7 +12869,7 @@ class ServiceUpdatesMessage {
       serviceUpdates: _s.extractXmlChild(elem, 'ServiceUpdates')?.let((elem) =>
           elem
               .findElements('ServiceUpdate')
-              .map((c) => ServiceUpdate.fromXml(c))
+              .map(ServiceUpdate.fromXml)
               .toList()),
     );
   }
@@ -13360,10 +13332,7 @@ class Snapshot {
       engineVersion: _s.extractXmlStringValue(elem, 'EngineVersion'),
       kmsKeyId: _s.extractXmlStringValue(elem, 'KmsKeyId'),
       nodeSnapshots: _s.extractXmlChild(elem, 'NodeSnapshots')?.let((elem) =>
-          elem
-              .findElements('NodeSnapshot')
-              .map((c) => NodeSnapshot.fromXml(c))
-              .toList()),
+          elem.findElements('NodeSnapshot').map(NodeSnapshot.fromXml).toList()),
       numCacheNodes: _s.extractXmlIntValue(elem, 'NumCacheNodes'),
       numNodeGroups: _s.extractXmlIntValue(elem, 'NumNodeGroups'),
       port: _s.extractXmlIntValue(elem, 'Port'),
@@ -13532,7 +13501,7 @@ class StartMigrationResponse {
     return StartMigrationResponse(
       replicationGroup: _s
           .extractXmlChild(elem, 'ReplicationGroup')
-          ?.let((e) => ReplicationGroup.fromXml(e)),
+          ?.let(ReplicationGroup.fromXml),
     );
   }
 
@@ -13581,11 +13550,10 @@ class Subnet {
     return Subnet(
       subnetAvailabilityZone: _s
           .extractXmlChild(elem, 'SubnetAvailabilityZone')
-          ?.let((e) => AvailabilityZone.fromXml(e)),
+          ?.let(AvailabilityZone.fromXml),
       subnetIdentifier: _s.extractXmlStringValue(elem, 'SubnetIdentifier'),
-      subnetOutpost: _s
-          .extractXmlChild(elem, 'SubnetOutpost')
-          ?.let((e) => SubnetOutpost.fromXml(e)),
+      subnetOutpost:
+          _s.extractXmlChild(elem, 'SubnetOutpost')?.let(SubnetOutpost.fromXml),
     );
   }
 
@@ -13695,8 +13663,9 @@ class TagListMessage {
 
   factory TagListMessage.fromXml(_s.XmlElement elem) {
     return TagListMessage(
-      tagList: _s.extractXmlChild(elem, 'TagList')?.let((elem) =>
-          elem.findElements('Tag').map((c) => Tag.fromXml(c)).toList()),
+      tagList: _s
+          .extractXmlChild(elem, 'TagList')
+          ?.let((elem) => elem.findElements('Tag').map(Tag.fromXml).toList()),
     );
   }
 
@@ -13728,7 +13697,7 @@ class TestFailoverResult {
     return TestFailoverResult(
       replicationGroup: _s
           .extractXmlChild(elem, 'ReplicationGroup')
-          ?.let((e) => ReplicationGroup.fromXml(e)),
+          ?.let(ReplicationGroup.fromXml),
     );
   }
 
@@ -13956,7 +13925,7 @@ class UpdateAction {
           .extractXmlChild(elem, 'CacheNodeUpdateStatus')
           ?.let((elem) => elem
               .findElements('CacheNodeUpdateStatus')
-              .map((c) => CacheNodeUpdateStatus.fromXml(c))
+              .map(CacheNodeUpdateStatus.fromXml)
               .toList()),
       engine: _s.extractXmlStringValue(elem, 'Engine'),
       estimatedUpdateTime:
@@ -13965,7 +13934,7 @@ class UpdateAction {
           .extractXmlChild(elem, 'NodeGroupUpdateStatus')
           ?.let((elem) => elem
               .findElements('NodeGroupUpdateStatus')
-              .map((c) => NodeGroupUpdateStatus.fromXml(c))
+              .map(NodeGroupUpdateStatus.fromXml)
               .toList()),
       nodesUpdated: _s.extractXmlStringValue(elem, 'NodesUpdated'),
       replicationGroupId: _s.extractXmlStringValue(elem, 'ReplicationGroupId'),
@@ -14082,13 +14051,13 @@ class UpdateActionResultsMessage {
           .extractXmlChild(elem, 'ProcessedUpdateActions')
           ?.let((elem) => elem
               .findElements('ProcessedUpdateAction')
-              .map((c) => ProcessedUpdateAction.fromXml(c))
+              .map(ProcessedUpdateAction.fromXml)
               .toList()),
       unprocessedUpdateActions: _s
           .extractXmlChild(elem, 'UnprocessedUpdateActions')
           ?.let((elem) => elem
               .findElements('UnprocessedUpdateAction')
-              .map((c) => UnprocessedUpdateAction.fromXml(c))
+              .map(UnprocessedUpdateAction.fromXml)
               .toList()),
     );
   }
@@ -14197,10 +14166,7 @@ class UpdateActionsMessage {
     return UpdateActionsMessage(
       marker: _s.extractXmlStringValue(elem, 'Marker'),
       updateActions: _s.extractXmlChild(elem, 'UpdateActions')?.let((elem) =>
-          elem
-              .findElements('UpdateAction')
-              .map((c) => UpdateAction.fromXml(c))
-              .toList()),
+          elem.findElements('UpdateAction').map(UpdateAction.fromXml).toList()),
     );
   }
 
@@ -14280,7 +14246,7 @@ class User {
       accessString: _s.extractXmlStringValue(elem, 'AccessString'),
       authentication: _s
           .extractXmlChild(elem, 'Authentication')
-          ?.let((e) => Authentication.fromXml(e)),
+          ?.let(Authentication.fromXml),
       engine: _s.extractXmlStringValue(elem, 'Engine'),
       minimumEngineVersion:
           _s.extractXmlStringValue(elem, 'MinimumEngineVersion'),
@@ -14385,7 +14351,7 @@ class UserGroup {
           _s.extractXmlStringValue(elem, 'MinimumEngineVersion'),
       pendingChanges: _s
           .extractXmlChild(elem, 'PendingChanges')
-          ?.let((e) => UserGroupPendingChanges.fromXml(e)),
+          ?.let(UserGroupPendingChanges.fromXml),
       replicationGroups: _s
           .extractXmlChild(elem, 'ReplicationGroups')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),

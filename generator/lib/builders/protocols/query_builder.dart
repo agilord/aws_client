@@ -86,6 +86,15 @@ String encodeQueryCode(Shape shape, String variable,
       final nullAware = maybeNull ? '?' : '';
       return '$nullAware$variable$nullAware.map((e) => $code)$nullAware.toList()';
     }
+  } else if (shape.type == 'map') {
+    final keyCode = encodeQueryCode(shape.key.shapeClass, 'k',
+        maybeNull: false, descriptor: shape.key);
+    final valueCode = encodeQueryCode(shape.value.shapeClass, 'v',
+        maybeNull: false, descriptor: shape.value);
+    if (keyCode != 'k' || valueCode != 'v') {
+      final nullAware = maybeNull ? '?' : '';
+      return '$variable$nullAware.map((k, v) => MapEntry($keyCode, $valueCode))';
+    }
   } else if (shape.type == 'timestamp') {
     final timestampFormat =
         member?.timestampFormat ?? shape.timestampFormat ?? 'iso8601';

@@ -712,7 +712,8 @@ class Sqs {
     ArgumentError.checkNotNull(queueName, 'queueName');
     final $request = <String, dynamic>{};
     $request['QueueName'] = queueName;
-    attributes?.also((arg) => $request['Attributes'] = arg);
+    attributes?.also((arg) =>
+        $request['Attributes'] = arg.map((k, v) => MapEntry(k.toValue(), v)));
     tags?.also((arg) => $request['tags'] = arg);
     final $result = await _protocol.send(
       $request,
@@ -1879,8 +1880,8 @@ class Sqs {
     messageDeduplicationId
         ?.also((arg) => $request['MessageDeduplicationId'] = arg);
     messageGroupId?.also((arg) => $request['MessageGroupId'] = arg);
-    messageSystemAttributes
-        ?.also((arg) => $request['MessageSystemAttributes'] = arg);
+    messageSystemAttributes?.also((arg) => $request['MessageSystemAttributes'] =
+        arg.map((k, v) => MapEntry(k.toValue(), v)));
     final $result = await _protocol.send(
       $request,
       action: 'SendMessage',
@@ -2203,7 +2204,7 @@ class Sqs {
     ArgumentError.checkNotNull(attributes, 'attributes');
     ArgumentError.checkNotNull(queueUrl, 'queueUrl');
     final $request = <String, dynamic>{};
-    $request['Attributes'] = attributes;
+    $request['Attributes'] = attributes.map((k, v) => MapEntry(k.toValue(), v));
     $request['QueueUrl'] = queueUrl;
     await _protocol.send(
       $request,
@@ -2464,11 +2465,11 @@ class ChangeMessageVisibilityBatchResult {
     return ChangeMessageVisibilityBatchResult(
       failed: elem
           .findElements('BatchResultErrorEntry')
-          .map((c) => BatchResultErrorEntry.fromXml(c))
+          .map(BatchResultErrorEntry.fromXml)
           .toList(),
       successful: elem
           .findElements('ChangeMessageVisibilityBatchResultEntry')
-          .map((c) => ChangeMessageVisibilityBatchResultEntry.fromXml(c))
+          .map(ChangeMessageVisibilityBatchResultEntry.fromXml)
           .toList(),
     );
   }
@@ -2614,11 +2615,11 @@ class DeleteMessageBatchResult {
     return DeleteMessageBatchResult(
       failed: elem
           .findElements('BatchResultErrorEntry')
-          .map((c) => BatchResultErrorEntry.fromXml(c))
+          .map(BatchResultErrorEntry.fromXml)
           .toList(),
       successful: elem
           .findElements('DeleteMessageBatchResultEntry')
-          .map((c) => DeleteMessageBatchResultEntry.fromXml(c))
+          .map(DeleteMessageBatchResultEntry.fromXml)
           .toList(),
     );
   }
@@ -3383,8 +3384,7 @@ class ReceiveMessageResult {
 
   factory ReceiveMessageResult.fromXml(_s.XmlElement elem) {
     return ReceiveMessageResult(
-      messages:
-          elem.findElements('Message').map((c) => Message.fromXml(c)).toList(),
+      messages: elem.findElements('Message').map(Message.fromXml).toList(),
     );
   }
 
@@ -3632,11 +3632,11 @@ class SendMessageBatchResult {
     return SendMessageBatchResult(
       failed: elem
           .findElements('BatchResultErrorEntry')
-          .map((c) => BatchResultErrorEntry.fromXml(c))
+          .map(BatchResultErrorEntry.fromXml)
           .toList(),
       successful: elem
           .findElements('SendMessageBatchResultEntry')
-          .map((c) => SendMessageBatchResultEntry.fromXml(c))
+          .map(SendMessageBatchResultEntry.fromXml)
           .toList(),
     );
   }

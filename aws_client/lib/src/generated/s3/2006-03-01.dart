@@ -2823,11 +2823,9 @@ class S3 {
     );
     final $elem = await _s.xmlFromResponse($result);
     return DeleteObjectsOutput(
-      deleted: $elem
-          .findElements('Deleted')
-          .map((c) => DeletedObject.fromXml(c))
-          .toList(),
-      errors: $elem.findElements('Error').map((c) => Error.fromXml(c)).toList(),
+      deleted:
+          $elem.findElements('Deleted').map(DeletedObject.fromXml).toList(),
+      errors: $elem.findElements('Error').map(Error.fromXml).toList(),
       requestCharged: _s
           .extractHeaderStringValue($result.headers, 'x-amz-request-charged')
           ?.toRequestCharged(),
@@ -4693,9 +4691,9 @@ class S3 {
     );
     final $elem = await _s.xmlFromResponse($result);
     return GetObjectAclOutput(
-      grants: _s.extractXmlChild($elem, 'AccessControlList')?.let(($elem) =>
-          $elem.findElements('Grant').map((c) => Grant.fromXml(c)).toList()),
-      owner: _s.extractXmlChild($elem, 'Owner')?.let((e) => Owner.fromXml(e)),
+      grants: _s.extractXmlChild($elem, 'AccessControlList')?.let(
+          ($elem) => $elem.findElements('Grant').map(Grant.fromXml).toList()),
+      owner: _s.extractXmlChild($elem, 'Owner')?.let(Owner.fromXml),
       requestCharged: _s
           .extractHeaderStringValue($result.headers, 'x-amz-request-charged')
           ?.toRequestCharged(),
@@ -4960,7 +4958,7 @@ class S3 {
       tagSet: _s
           .extractXmlChild($elem, 'TagSet')!
           .findElements('Tag')
-          .map((c) => Tag.fromXml(c))
+          .map(Tag.fromXml)
           .toList(),
       versionId:
           _s.extractHeaderStringValue($result.headers, 'x-amz-version-id'),
@@ -6452,17 +6450,15 @@ class S3 {
     final $elem = await _s.xmlFromResponse($result);
     return ListPartsOutput(
       bucket: _s.extractXmlStringValue($elem, 'Bucket'),
-      initiator: _s
-          .extractXmlChild($elem, 'Initiator')
-          ?.let((e) => Initiator.fromXml(e)),
+      initiator: _s.extractXmlChild($elem, 'Initiator')?.let(Initiator.fromXml),
       isTruncated: _s.extractXmlBoolValue($elem, 'IsTruncated'),
       key: _s.extractXmlStringValue($elem, 'Key'),
       maxParts: _s.extractXmlIntValue($elem, 'MaxParts'),
       nextPartNumberMarker:
           _s.extractXmlIntValue($elem, 'NextPartNumberMarker'),
-      owner: _s.extractXmlChild($elem, 'Owner')?.let((e) => Owner.fromXml(e)),
+      owner: _s.extractXmlChild($elem, 'Owner')?.let(Owner.fromXml),
       partNumberMarker: _s.extractXmlIntValue($elem, 'PartNumberMarker'),
-      parts: $elem.findElements('Part').map((c) => Part.fromXml(c)).toList(),
+      parts: $elem.findElements('Part').map(Part.fromXml).toList(),
       storageClass:
           _s.extractXmlStringValue($elem, 'StorageClass')?.toStorageClass(),
       uploadId: _s.extractXmlStringValue($elem, 'UploadId'),
@@ -11855,7 +11851,7 @@ class AnalyticsAndOperator {
   factory AnalyticsAndOperator.fromXml(_s.XmlElement elem) {
     return AnalyticsAndOperator(
       prefix: _s.extractXmlStringValue(elem, 'Prefix'),
-      tags: elem.findElements('Tag').map((c) => Tag.fromXml(c)).toList(),
+      tags: elem.findElements('Tag').map(Tag.fromXml).toList(),
     );
   }
 
@@ -11923,9 +11919,7 @@ class AnalyticsConfiguration {
       id: _s.extractXmlStringValue(elem, 'Id')!,
       storageClassAnalysis: StorageClassAnalysis.fromXml(
           _s.extractXmlChild(elem, 'StorageClassAnalysis')!),
-      filter: _s
-          .extractXmlChild(elem, 'Filter')
-          ?.let((e) => AnalyticsFilter.fromXml(e)),
+      filter: _s.extractXmlChild(elem, 'Filter')?.let(AnalyticsFilter.fromXml),
     );
   }
 
@@ -12040,11 +12034,9 @@ class AnalyticsFilter {
 
   factory AnalyticsFilter.fromXml(_s.XmlElement elem) {
     return AnalyticsFilter(
-      and: _s
-          .extractXmlChild(elem, 'And')
-          ?.let((e) => AnalyticsAndOperator.fromXml(e)),
+      and: _s.extractXmlChild(elem, 'And')?.let(AnalyticsAndOperator.fromXml),
       prefix: _s.extractXmlStringValue(elem, 'Prefix'),
-      tag: _s.extractXmlChild(elem, 'Tag')?.let((e) => Tag.fromXml(e)),
+      tag: _s.extractXmlChild(elem, 'Tag')?.let(Tag.fromXml),
     );
   }
 
@@ -14017,7 +14009,7 @@ class DeleteMarkerEntry {
       isLatest: _s.extractXmlBoolValue(elem, 'IsLatest'),
       key: _s.extractXmlStringValue(elem, 'Key'),
       lastModified: _s.extractXmlDateTimeValue(elem, 'LastModified'),
-      owner: _s.extractXmlChild(elem, 'Owner')?.let((e) => Owner.fromXml(e)),
+      owner: _s.extractXmlChild(elem, 'Owner')?.let(Owner.fromXml),
       versionId: _s.extractXmlStringValue(elem, 'VersionId'),
     );
   }
@@ -14375,16 +14367,15 @@ class Destination {
       bucket: _s.extractXmlStringValue(elem, 'Bucket')!,
       accessControlTranslation: _s
           .extractXmlChild(elem, 'AccessControlTranslation')
-          ?.let((e) => AccessControlTranslation.fromXml(e)),
+          ?.let(AccessControlTranslation.fromXml),
       account: _s.extractXmlStringValue(elem, 'Account'),
       encryptionConfiguration: _s
           .extractXmlChild(elem, 'EncryptionConfiguration')
-          ?.let((e) => EncryptionConfiguration.fromXml(e)),
-      metrics:
-          _s.extractXmlChild(elem, 'Metrics')?.let((e) => Metrics.fromXml(e)),
+          ?.let(EncryptionConfiguration.fromXml),
+      metrics: _s.extractXmlChild(elem, 'Metrics')?.let(Metrics.fromXml),
       replicationTime: _s
           .extractXmlChild(elem, 'ReplicationTime')
-          ?.let((e) => ReplicationTime.fromXml(e)),
+          ?.let(ReplicationTime.fromXml),
       storageClass:
           _s.extractXmlStringValue(elem, 'StorageClass')?.toStorageClass(),
     );
@@ -16606,9 +16597,9 @@ class GetBucketAclOutput {
 
   factory GetBucketAclOutput.fromXml(_s.XmlElement elem) {
     return GetBucketAclOutput(
-      grants: _s.extractXmlChild(elem, 'AccessControlList')?.let((elem) =>
-          elem.findElements('Grant').map((c) => Grant.fromXml(c)).toList()),
-      owner: _s.extractXmlChild(elem, 'Owner')?.let((e) => Owner.fromXml(e)),
+      grants: _s.extractXmlChild(elem, 'AccessControlList')?.let(
+          (elem) => elem.findElements('Grant').map(Grant.fromXml).toList()),
+      owner: _s.extractXmlChild(elem, 'Owner')?.let(Owner.fromXml),
     );
   }
 
@@ -16669,10 +16660,7 @@ class GetBucketCorsOutput {
 
   factory GetBucketCorsOutput.fromXml(_s.XmlElement elem) {
     return GetBucketCorsOutput(
-      cORSRules: elem
-          .findElements('CORSRule')
-          .map((c) => CORSRule.fromXml(c))
-          .toList(),
+      cORSRules: elem.findElements('CORSRule').map(CORSRule.fromXml).toList(),
     );
   }
 
@@ -16789,10 +16777,7 @@ class GetBucketLifecycleConfigurationOutput {
 
   factory GetBucketLifecycleConfigurationOutput.fromXml(_s.XmlElement elem) {
     return GetBucketLifecycleConfigurationOutput(
-      rules: elem
-          .findElements('Rule')
-          .map((c) => LifecycleRule.fromXml(c))
-          .toList(),
+      rules: elem.findElements('Rule').map(LifecycleRule.fromXml).toList(),
     );
   }
 
@@ -16823,7 +16808,7 @@ class GetBucketLifecycleOutput {
 
   factory GetBucketLifecycleOutput.fromXml(_s.XmlElement elem) {
     return GetBucketLifecycleOutput(
-      rules: elem.findElements('Rule').map((c) => Rule.fromXml(c)).toList(),
+      rules: elem.findElements('Rule').map(Rule.fromXml).toList(),
     );
   }
 
@@ -16891,7 +16876,7 @@ class GetBucketLoggingOutput {
     return GetBucketLoggingOutput(
       loggingEnabled: _s
           .extractXmlChild(elem, 'LoggingEnabled')
-          ?.let((e) => LoggingEnabled.fromXml(e)),
+          ?.let(LoggingEnabled.fromXml),
     );
   }
 
@@ -17078,7 +17063,7 @@ class GetBucketTaggingOutput {
       tagSet: _s
           .extractXmlChild(elem, 'TagSet')!
           .findElements('Tag')
-          .map((c) => Tag.fromXml(c))
+          .map(Tag.fromXml)
           .toList(),
     );
   }
@@ -17178,19 +17163,15 @@ class GetBucketWebsiteOutput {
 
   factory GetBucketWebsiteOutput.fromXml(_s.XmlElement elem) {
     return GetBucketWebsiteOutput(
-      errorDocument: _s
-          .extractXmlChild(elem, 'ErrorDocument')
-          ?.let((e) => ErrorDocument.fromXml(e)),
-      indexDocument: _s
-          .extractXmlChild(elem, 'IndexDocument')
-          ?.let((e) => IndexDocument.fromXml(e)),
+      errorDocument:
+          _s.extractXmlChild(elem, 'ErrorDocument')?.let(ErrorDocument.fromXml),
+      indexDocument:
+          _s.extractXmlChild(elem, 'IndexDocument')?.let(IndexDocument.fromXml),
       redirectAllRequestsTo: _s
           .extractXmlChild(elem, 'RedirectAllRequestsTo')
-          ?.let((e) => RedirectAllRequestsTo.fromXml(e)),
-      routingRules: _s.extractXmlChild(elem, 'RoutingRules')?.let((elem) => elem
-          .findElements('RoutingRule')
-          .map((c) => RoutingRule.fromXml(c))
-          .toList()),
+          ?.let(RedirectAllRequestsTo.fromXml),
+      routingRules: _s.extractXmlChild(elem, 'RoutingRules')?.let((elem) =>
+          elem.findElements('RoutingRule').map(RoutingRule.fromXml).toList()),
     );
   }
 
@@ -17717,8 +17698,7 @@ class Grant {
 
   factory Grant.fromXml(_s.XmlElement elem) {
     return Grant(
-      grantee:
-          _s.extractXmlChild(elem, 'Grantee')?.let((e) => Grantee.fromXml(e)),
+      grantee: _s.extractXmlChild(elem, 'Grantee')?.let(Grantee.fromXml),
       permission: _s.extractXmlStringValue(elem, 'Permission')?.toPermission(),
     );
   }
@@ -18400,7 +18380,7 @@ class IntelligentTieringAndOperator {
   factory IntelligentTieringAndOperator.fromXml(_s.XmlElement elem) {
     return IntelligentTieringAndOperator(
       prefix: _s.extractXmlStringValue(elem, 'Prefix'),
-      tags: elem.findElements('Tag').map((c) => Tag.fromXml(c)).toList(),
+      tags: elem.findElements('Tag').map(Tag.fromXml).toList(),
     );
   }
 
@@ -18480,11 +18460,10 @@ class IntelligentTieringConfiguration {
       status: _s
           .extractXmlStringValue(elem, 'Status')!
           .toIntelligentTieringStatus(),
-      tierings:
-          elem.findElements('Tiering').map((c) => Tiering.fromXml(c)).toList(),
+      tierings: elem.findElements('Tiering').map(Tiering.fromXml).toList(),
       filter: _s
           .extractXmlChild(elem, 'Filter')
-          ?.let((e) => IntelligentTieringFilter.fromXml(e)),
+          ?.let(IntelligentTieringFilter.fromXml),
     );
   }
 
@@ -18565,9 +18544,9 @@ class IntelligentTieringFilter {
     return IntelligentTieringFilter(
       and: _s
           .extractXmlChild(elem, 'And')
-          ?.let((e) => IntelligentTieringAndOperator.fromXml(e)),
+          ?.let(IntelligentTieringAndOperator.fromXml),
       prefix: _s.extractXmlStringValue(elem, 'Prefix'),
-      tag: _s.extractXmlChild(elem, 'Tag')?.let((e) => Tag.fromXml(e)),
+      tag: _s.extractXmlChild(elem, 'Tag')?.let(Tag.fromXml),
     );
   }
 
@@ -18704,9 +18683,7 @@ class InventoryConfiguration {
       isEnabled: _s.extractXmlBoolValue(elem, 'IsEnabled')!,
       schedule:
           InventorySchedule.fromXml(_s.extractXmlChild(elem, 'Schedule')!),
-      filter: _s
-          .extractXmlChild(elem, 'Filter')
-          ?.let((e) => InventoryFilter.fromXml(e)),
+      filter: _s.extractXmlChild(elem, 'Filter')?.let(InventoryFilter.fromXml),
       optionalFields: _s.extractXmlChild(elem, 'OptionalFields')?.let((elem) =>
           _s
               .extractXmlStringListValues(elem, 'Field')
@@ -18843,9 +18820,8 @@ class InventoryEncryption {
 
   factory InventoryEncryption.fromXml(_s.XmlElement elem) {
     return InventoryEncryption(
-      ssekms:
-          _s.extractXmlChild(elem, 'SSE-KMS')?.let((e) => SSEKMS.fromXml(e)),
-      sses3: _s.extractXmlChild(elem, 'SSE-S3')?.let((e) => SSES3.fromXml(e)),
+      ssekms: _s.extractXmlChild(elem, 'SSE-KMS')?.let(SSEKMS.fromXml),
+      sses3: _s.extractXmlChild(elem, 'SSE-S3')?.let(SSES3.fromXml),
     );
   }
 
@@ -19142,7 +19118,7 @@ class InventoryS3BucketDestination {
       accountId: _s.extractXmlStringValue(elem, 'AccountId'),
       encryption: _s
           .extractXmlChild(elem, 'Encryption')
-          ?.let((e) => InventoryEncryption.fromXml(e)),
+          ?.let(InventoryEncryption.fromXml),
       prefix: _s.extractXmlStringValue(elem, 'Prefix'),
     );
   }
@@ -19382,7 +19358,7 @@ class LambdaFunctionConfiguration {
       lambdaFunctionArn: _s.extractXmlStringValue(elem, 'CloudFunction')!,
       filter: _s
           .extractXmlChild(elem, 'Filter')
-          ?.let((e) => NotificationConfigurationFilter.fromXml(e)),
+          ?.let(NotificationConfigurationFilter.fromXml),
       id: _s.extractXmlStringValue(elem, 'Id'),
     );
   }
@@ -19632,26 +19608,23 @@ class LifecycleRule {
       status: _s.extractXmlStringValue(elem, 'Status')!.toExpirationStatus(),
       abortIncompleteMultipartUpload: _s
           .extractXmlChild(elem, 'AbortIncompleteMultipartUpload')
-          ?.let((e) => AbortIncompleteMultipartUpload.fromXml(e)),
+          ?.let(AbortIncompleteMultipartUpload.fromXml),
       expiration: _s
           .extractXmlChild(elem, 'Expiration')
-          ?.let((e) => LifecycleExpiration.fromXml(e)),
-      filter: _s
-          .extractXmlChild(elem, 'Filter')
-          ?.let((e) => LifecycleRuleFilter.fromXml(e)),
+          ?.let(LifecycleExpiration.fromXml),
+      filter:
+          _s.extractXmlChild(elem, 'Filter')?.let(LifecycleRuleFilter.fromXml),
       id: _s.extractXmlStringValue(elem, 'ID'),
       noncurrentVersionExpiration: _s
           .extractXmlChild(elem, 'NoncurrentVersionExpiration')
-          ?.let((e) => NoncurrentVersionExpiration.fromXml(e)),
+          ?.let(NoncurrentVersionExpiration.fromXml),
       noncurrentVersionTransitions: elem
           .findElements('NoncurrentVersionTransition')
-          .map((c) => NoncurrentVersionTransition.fromXml(c))
+          .map(NoncurrentVersionTransition.fromXml)
           .toList(),
       prefix: _s.extractXmlStringValue(elem, 'Prefix'),
-      transitions: elem
-          .findElements('Transition')
-          .map((c) => Transition.fromXml(c))
-          .toList(),
+      transitions:
+          elem.findElements('Transition').map(Transition.fromXml).toList(),
     );
   }
 
@@ -19759,7 +19732,7 @@ class LifecycleRuleAndOperator {
           _s.extractXmlIntValue(elem, 'ObjectSizeGreaterThan'),
       objectSizeLessThan: _s.extractXmlIntValue(elem, 'ObjectSizeLessThan'),
       prefix: _s.extractXmlStringValue(elem, 'Prefix'),
-      tags: elem.findElements('Tag').map((c) => Tag.fromXml(c)).toList(),
+      tags: elem.findElements('Tag').map(Tag.fromXml).toList(),
     );
   }
 
@@ -19852,12 +19825,12 @@ class LifecycleRuleFilter {
     return LifecycleRuleFilter(
       and: _s
           .extractXmlChild(elem, 'And')
-          ?.let((e) => LifecycleRuleAndOperator.fromXml(e)),
+          ?.let(LifecycleRuleAndOperator.fromXml),
       objectSizeGreaterThan:
           _s.extractXmlIntValue(elem, 'ObjectSizeGreaterThan'),
       objectSizeLessThan: _s.extractXmlIntValue(elem, 'ObjectSizeLessThan'),
       prefix: _s.extractXmlStringValue(elem, 'Prefix'),
-      tag: _s.extractXmlChild(elem, 'Tag')?.let((e) => Tag.fromXml(e)),
+      tag: _s.extractXmlChild(elem, 'Tag')?.let(Tag.fromXml),
     );
   }
 
@@ -19947,7 +19920,7 @@ class ListBucketAnalyticsConfigurationsOutput {
     return ListBucketAnalyticsConfigurationsOutput(
       analyticsConfigurationList: elem
           .findElements('AnalyticsConfiguration')
-          .map((c) => AnalyticsConfiguration.fromXml(c))
+          .map(AnalyticsConfiguration.fromXml)
           .toList(),
       continuationToken: _s.extractXmlStringValue(elem, 'ContinuationToken'),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
@@ -20020,7 +19993,7 @@ class ListBucketIntelligentTieringConfigurationsOutput {
       continuationToken: _s.extractXmlStringValue(elem, 'ContinuationToken'),
       intelligentTieringConfigurationList: elem
           .findElements('IntelligentTieringConfiguration')
-          .map((c) => IntelligentTieringConfiguration.fromXml(c))
+          .map(IntelligentTieringConfiguration.fromXml)
           .toList(),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
       nextContinuationToken:
@@ -20090,7 +20063,7 @@ class ListBucketInventoryConfigurationsOutput {
       continuationToken: _s.extractXmlStringValue(elem, 'ContinuationToken'),
       inventoryConfigurationList: elem
           .findElements('InventoryConfiguration')
-          .map((c) => InventoryConfiguration.fromXml(c))
+          .map(InventoryConfiguration.fromXml)
           .toList(),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
       nextContinuationToken:
@@ -20159,7 +20132,7 @@ class ListBucketMetricsConfigurationsOutput {
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
       metricsConfigurationList: elem
           .findElements('MetricsConfiguration')
-          .map((c) => MetricsConfiguration.fromXml(c))
+          .map(MetricsConfiguration.fromXml)
           .toList(),
       nextContinuationToken:
           _s.extractXmlStringValue(elem, 'NextContinuationToken'),
@@ -20208,9 +20181,9 @@ class ListBucketsOutput {
 
   factory ListBucketsOutput.fromXml(_s.XmlElement elem) {
     return ListBucketsOutput(
-      buckets: _s.extractXmlChild(elem, 'Buckets')?.let((elem) =>
-          elem.findElements('Bucket').map((c) => Bucket.fromXml(c)).toList()),
-      owner: _s.extractXmlChild(elem, 'Owner')?.let((e) => Owner.fromXml(e)),
+      buckets: _s.extractXmlChild(elem, 'Buckets')?.let(
+          (elem) => elem.findElements('Bucket').map(Bucket.fromXml).toList()),
+      owner: _s.extractXmlChild(elem, 'Owner')?.let(Owner.fromXml),
     );
   }
 
@@ -20325,7 +20298,7 @@ class ListMultipartUploadsOutput {
       bucket: _s.extractXmlStringValue(elem, 'Bucket'),
       commonPrefixes: elem
           .findElements('CommonPrefixes')
-          .map((c) => CommonPrefix.fromXml(c))
+          .map(CommonPrefix.fromXml)
           .toList(),
       delimiter: _s.extractXmlStringValue(elem, 'Delimiter'),
       encodingType:
@@ -20337,10 +20310,8 @@ class ListMultipartUploadsOutput {
       nextUploadIdMarker: _s.extractXmlStringValue(elem, 'NextUploadIdMarker'),
       prefix: _s.extractXmlStringValue(elem, 'Prefix'),
       uploadIdMarker: _s.extractXmlStringValue(elem, 'UploadIdMarker'),
-      uploads: elem
-          .findElements('Upload')
-          .map((c) => MultipartUpload.fromXml(c))
-          .toList(),
+      uploads:
+          elem.findElements('Upload').map(MultipartUpload.fromXml).toList(),
     );
   }
 
@@ -20485,11 +20456,11 @@ class ListObjectVersionsOutput {
     return ListObjectVersionsOutput(
       commonPrefixes: elem
           .findElements('CommonPrefixes')
-          .map((c) => CommonPrefix.fromXml(c))
+          .map(CommonPrefix.fromXml)
           .toList(),
       deleteMarkers: elem
           .findElements('DeleteMarker')
-          .map((c) => DeleteMarkerEntry.fromXml(c))
+          .map(DeleteMarkerEntry.fromXml)
           .toList(),
       delimiter: _s.extractXmlStringValue(elem, 'Delimiter'),
       encodingType:
@@ -20503,10 +20474,8 @@ class ListObjectVersionsOutput {
           _s.extractXmlStringValue(elem, 'NextVersionIdMarker'),
       prefix: _s.extractXmlStringValue(elem, 'Prefix'),
       versionIdMarker: _s.extractXmlStringValue(elem, 'VersionIdMarker'),
-      versions: elem
-          .findElements('Version')
-          .map((c) => ObjectVersion.fromXml(c))
-          .toList(),
+      versions:
+          elem.findElements('Version').map(ObjectVersion.fromXml).toList(),
     );
   }
 
@@ -20638,10 +20607,9 @@ class ListObjectsOutput {
     return ListObjectsOutput(
       commonPrefixes: elem
           .findElements('CommonPrefixes')
-          .map((c) => CommonPrefix.fromXml(c))
+          .map(CommonPrefix.fromXml)
           .toList(),
-      contents:
-          elem.findElements('Contents').map((c) => Object.fromXml(c)).toList(),
+      contents: elem.findElements('Contents').map(Object.fromXml).toList(),
       delimiter: _s.extractXmlStringValue(elem, 'Delimiter'),
       encodingType:
           _s.extractXmlStringValue(elem, 'EncodingType')?.toEncodingType(),
@@ -20816,10 +20784,9 @@ class ListObjectsV2Output {
     return ListObjectsV2Output(
       commonPrefixes: elem
           .findElements('CommonPrefixes')
-          .map((c) => CommonPrefix.fromXml(c))
+          .map(CommonPrefix.fromXml)
           .toList(),
-      contents:
-          elem.findElements('Contents').map((c) => Object.fromXml(c)).toList(),
+      contents: elem.findElements('Contents').map(Object.fromXml).toList(),
       continuationToken: _s.extractXmlStringValue(elem, 'ContinuationToken'),
       delimiter: _s.extractXmlStringValue(elem, 'Delimiter'),
       encodingType:
@@ -21056,10 +21023,8 @@ class LoggingEnabled {
     return LoggingEnabled(
       targetBucket: _s.extractXmlStringValue(elem, 'TargetBucket')!,
       targetPrefix: _s.extractXmlStringValue(elem, 'TargetPrefix')!,
-      targetGrants: _s.extractXmlChild(elem, 'TargetGrants')?.let((elem) => elem
-          .findElements('Grant')
-          .map((c) => TargetGrant.fromXml(c))
-          .toList()),
+      targetGrants: _s.extractXmlChild(elem, 'TargetGrants')?.let((elem) =>
+          elem.findElements('Grant').map(TargetGrant.fromXml).toList()),
     );
   }
 
@@ -21257,7 +21222,7 @@ class Metrics {
       status: _s.extractXmlStringValue(elem, 'Status')!.toMetricsStatus(),
       eventThreshold: _s
           .extractXmlChild(elem, 'EventThreshold')
-          ?.let((e) => ReplicationTimeValue.fromXml(e)),
+          ?.let(ReplicationTimeValue.fromXml),
     );
   }
 
@@ -21322,7 +21287,7 @@ class MetricsAndOperator {
     return MetricsAndOperator(
       accessPointArn: _s.extractXmlStringValue(elem, 'AccessPointArn'),
       prefix: _s.extractXmlStringValue(elem, 'Prefix'),
-      tags: elem.findElements('Tag').map((c) => Tag.fromXml(c)).toList(),
+      tags: elem.findElements('Tag').map(Tag.fromXml).toList(),
     );
   }
 
@@ -21391,9 +21356,7 @@ class MetricsConfiguration {
   factory MetricsConfiguration.fromXml(_s.XmlElement elem) {
     return MetricsConfiguration(
       id: _s.extractXmlStringValue(elem, 'Id')!,
-      filter: _s
-          .extractXmlChild(elem, 'Filter')
-          ?.let((e) => MetricsFilter.fromXml(e)),
+      filter: _s.extractXmlChild(elem, 'Filter')?.let(MetricsFilter.fromXml),
     );
   }
 
@@ -21467,11 +21430,9 @@ class MetricsFilter {
   factory MetricsFilter.fromXml(_s.XmlElement elem) {
     return MetricsFilter(
       accessPointArn: _s.extractXmlStringValue(elem, 'AccessPointArn'),
-      and: _s
-          .extractXmlChild(elem, 'And')
-          ?.let((e) => MetricsAndOperator.fromXml(e)),
+      and: _s.extractXmlChild(elem, 'And')?.let(MetricsAndOperator.fromXml),
       prefix: _s.extractXmlStringValue(elem, 'Prefix'),
-      tag: _s.extractXmlChild(elem, 'Tag')?.let((e) => Tag.fromXml(e)),
+      tag: _s.extractXmlChild(elem, 'Tag')?.let(Tag.fromXml),
     );
   }
 
@@ -21586,11 +21547,9 @@ class MultipartUpload {
   factory MultipartUpload.fromXml(_s.XmlElement elem) {
     return MultipartUpload(
       initiated: _s.extractXmlDateTimeValue(elem, 'Initiated'),
-      initiator: _s
-          .extractXmlChild(elem, 'Initiator')
-          ?.let((e) => Initiator.fromXml(e)),
+      initiator: _s.extractXmlChild(elem, 'Initiator')?.let(Initiator.fromXml),
       key: _s.extractXmlStringValue(elem, 'Key'),
-      owner: _s.extractXmlChild(elem, 'Owner')?.let((e) => Owner.fromXml(e)),
+      owner: _s.extractXmlChild(elem, 'Owner')?.let(Owner.fromXml),
       storageClass:
           _s.extractXmlStringValue(elem, 'StorageClass')?.toStorageClass(),
       uploadId: _s.extractXmlStringValue(elem, 'UploadId'),
@@ -21830,18 +21789,18 @@ class NotificationConfiguration {
     return NotificationConfiguration(
       eventBridgeConfiguration: _s
           .extractXmlChild(elem, 'EventBridgeConfiguration')
-          ?.let((e) => EventBridgeConfiguration.fromXml(e)),
+          ?.let(EventBridgeConfiguration.fromXml),
       lambdaFunctionConfigurations: elem
           .findElements('CloudFunctionConfiguration')
-          .map((c) => LambdaFunctionConfiguration.fromXml(c))
+          .map(LambdaFunctionConfiguration.fromXml)
           .toList(),
       queueConfigurations: elem
           .findElements('QueueConfiguration')
-          .map((c) => QueueConfiguration.fromXml(c))
+          .map(QueueConfiguration.fromXml)
           .toList(),
       topicConfigurations: elem
           .findElements('TopicConfiguration')
-          .map((c) => TopicConfiguration.fromXml(c))
+          .map(TopicConfiguration.fromXml)
           .toList(),
     );
   }
@@ -21932,13 +21891,13 @@ class NotificationConfigurationDeprecated {
     return NotificationConfigurationDeprecated(
       cloudFunctionConfiguration: _s
           .extractXmlChild(elem, 'CloudFunctionConfiguration')
-          ?.let((e) => CloudFunctionConfiguration.fromXml(e)),
+          ?.let(CloudFunctionConfiguration.fromXml),
       queueConfiguration: _s
           .extractXmlChild(elem, 'QueueConfiguration')
-          ?.let((e) => QueueConfigurationDeprecated.fromXml(e)),
+          ?.let(QueueConfigurationDeprecated.fromXml),
       topicConfiguration: _s
           .extractXmlChild(elem, 'TopicConfiguration')
-          ?.let((e) => TopicConfigurationDeprecated.fromXml(e)),
+          ?.let(TopicConfigurationDeprecated.fromXml),
     );
   }
 
@@ -21998,8 +21957,7 @@ class NotificationConfigurationFilter {
 
   factory NotificationConfigurationFilter.fromXml(_s.XmlElement elem) {
     return NotificationConfigurationFilter(
-      key:
-          _s.extractXmlChild(elem, 'S3Key')?.let((e) => S3KeyFilter.fromXml(e)),
+      key: _s.extractXmlChild(elem, 'S3Key')?.let(S3KeyFilter.fromXml),
     );
   }
 
@@ -22096,7 +22054,7 @@ class Object {
       eTag: _s.extractXmlStringValue(elem, 'ETag'),
       key: _s.extractXmlStringValue(elem, 'Key'),
       lastModified: _s.extractXmlDateTimeValue(elem, 'LastModified'),
-      owner: _s.extractXmlChild(elem, 'Owner')?.let((e) => Owner.fromXml(e)),
+      owner: _s.extractXmlChild(elem, 'Owner')?.let(Owner.fromXml),
       size: _s.extractXmlIntValue(elem, 'Size'),
       storageClass: _s
           .extractXmlStringValue(elem, 'StorageClass')
@@ -22263,9 +22221,7 @@ class ObjectLockConfiguration {
       objectLockEnabled: _s
           .extractXmlStringValue(elem, 'ObjectLockEnabled')
           ?.toObjectLockEnabled(),
-      rule: _s
-          .extractXmlChild(elem, 'Rule')
-          ?.let((e) => ObjectLockRule.fromXml(e)),
+      rule: _s.extractXmlChild(elem, 'Rule')?.let(ObjectLockRule.fromXml),
     );
   }
 
@@ -22536,7 +22492,7 @@ class ObjectLockRule {
     return ObjectLockRule(
       defaultRetention: _s
           .extractXmlChild(elem, 'DefaultRetention')
-          ?.let((e) => DefaultRetention.fromXml(e)),
+          ?.let(DefaultRetention.fromXml),
     );
   }
 
@@ -22735,7 +22691,7 @@ class ObjectVersion {
       isLatest: _s.extractXmlBoolValue(elem, 'IsLatest'),
       key: _s.extractXmlStringValue(elem, 'Key'),
       lastModified: _s.extractXmlDateTimeValue(elem, 'LastModified'),
-      owner: _s.extractXmlChild(elem, 'Owner')?.let((e) => Owner.fromXml(e)),
+      owner: _s.extractXmlChild(elem, 'Owner')?.let(Owner.fromXml),
       size: _s.extractXmlIntValue(elem, 'Size'),
       storageClass: _s
           .extractXmlStringValue(elem, 'StorageClass')
@@ -22980,10 +22936,8 @@ class OwnershipControls {
 
   factory OwnershipControls.fromXml(_s.XmlElement elem) {
     return OwnershipControls(
-      rules: elem
-          .findElements('Rule')
-          .map((c) => OwnershipControlsRule.fromXml(c))
-          .toList(),
+      rules:
+          elem.findElements('Rule').map(OwnershipControlsRule.fromXml).toList(),
     );
   }
 
@@ -23302,8 +23256,7 @@ class ProgressEvent {
 
   factory ProgressEvent.fromXml(_s.XmlElement elem) {
     return ProgressEvent(
-      details:
-          _s.extractXmlChild(elem, 'Details')?.let((e) => Progress.fromXml(e)),
+      details: _s.extractXmlChild(elem, 'Details')?.let(Progress.fromXml),
     );
   }
 
@@ -23700,7 +23653,7 @@ class QueueConfiguration {
       queueArn: _s.extractXmlStringValue(elem, 'Queue')!,
       filter: _s
           .extractXmlChild(elem, 'Filter')
-          ?.let((e) => NotificationConfigurationFilter.fromXml(e)),
+          ?.let(NotificationConfigurationFilter.fromXml),
       id: _s.extractXmlStringValue(elem, 'Id'),
     );
   }
@@ -24166,10 +24119,7 @@ class ReplicationConfiguration {
   factory ReplicationConfiguration.fromXml(_s.XmlElement elem) {
     return ReplicationConfiguration(
       role: _s.extractXmlStringValue(elem, 'Role')!,
-      rules: elem
-          .findElements('Rule')
-          .map((c) => ReplicationRule.fromXml(c))
-          .toList(),
+      rules: elem.findElements('Rule').map(ReplicationRule.fromXml).toList(),
     );
   }
 
@@ -24296,19 +24246,19 @@ class ReplicationRule {
           _s.extractXmlStringValue(elem, 'Status')!.toReplicationRuleStatus(),
       deleteMarkerReplication: _s
           .extractXmlChild(elem, 'DeleteMarkerReplication')
-          ?.let((e) => DeleteMarkerReplication.fromXml(e)),
+          ?.let(DeleteMarkerReplication.fromXml),
       existingObjectReplication: _s
           .extractXmlChild(elem, 'ExistingObjectReplication')
-          ?.let((e) => ExistingObjectReplication.fromXml(e)),
+          ?.let(ExistingObjectReplication.fromXml),
       filter: _s
           .extractXmlChild(elem, 'Filter')
-          ?.let((e) => ReplicationRuleFilter.fromXml(e)),
+          ?.let(ReplicationRuleFilter.fromXml),
       id: _s.extractXmlStringValue(elem, 'ID'),
       prefix: _s.extractXmlStringValue(elem, 'Prefix'),
       priority: _s.extractXmlIntValue(elem, 'Priority'),
       sourceSelectionCriteria: _s
           .extractXmlChild(elem, 'SourceSelectionCriteria')
-          ?.let((e) => SourceSelectionCriteria.fromXml(e)),
+          ?.let(SourceSelectionCriteria.fromXml),
     );
   }
 
@@ -24415,7 +24365,7 @@ class ReplicationRuleAndOperator {
   factory ReplicationRuleAndOperator.fromXml(_s.XmlElement elem) {
     return ReplicationRuleAndOperator(
       prefix: _s.extractXmlStringValue(elem, 'Prefix'),
-      tags: elem.findElements('Tag').map((c) => Tag.fromXml(c)).toList(),
+      tags: elem.findElements('Tag').map(Tag.fromXml).toList(),
     );
   }
 
@@ -24504,9 +24454,9 @@ class ReplicationRuleFilter {
     return ReplicationRuleFilter(
       and: _s
           .extractXmlChild(elem, 'And')
-          ?.let((e) => ReplicationRuleAndOperator.fromXml(e)),
+          ?.let(ReplicationRuleAndOperator.fromXml),
       prefix: _s.extractXmlStringValue(elem, 'Prefix'),
-      tag: _s.extractXmlChild(elem, 'Tag')?.let((e) => Tag.fromXml(e)),
+      tag: _s.extractXmlChild(elem, 'Tag')?.let(Tag.fromXml),
     );
   }
 
@@ -25065,9 +25015,7 @@ class RoutingRule {
   factory RoutingRule.fromXml(_s.XmlElement elem) {
     return RoutingRule(
       redirect: Redirect.fromXml(_s.extractXmlChild(elem, 'Redirect')!),
-      condition: _s
-          .extractXmlChild(elem, 'Condition')
-          ?.let((e) => Condition.fromXml(e)),
+      condition: _s.extractXmlChild(elem, 'Condition')?.let(Condition.fromXml),
     );
   }
 
@@ -25181,20 +25129,19 @@ class Rule {
       status: _s.extractXmlStringValue(elem, 'Status')!.toExpirationStatus(),
       abortIncompleteMultipartUpload: _s
           .extractXmlChild(elem, 'AbortIncompleteMultipartUpload')
-          ?.let((e) => AbortIncompleteMultipartUpload.fromXml(e)),
+          ?.let(AbortIncompleteMultipartUpload.fromXml),
       expiration: _s
           .extractXmlChild(elem, 'Expiration')
-          ?.let((e) => LifecycleExpiration.fromXml(e)),
+          ?.let(LifecycleExpiration.fromXml),
       id: _s.extractXmlStringValue(elem, 'ID'),
       noncurrentVersionExpiration: _s
           .extractXmlChild(elem, 'NoncurrentVersionExpiration')
-          ?.let((e) => NoncurrentVersionExpiration.fromXml(e)),
+          ?.let(NoncurrentVersionExpiration.fromXml),
       noncurrentVersionTransition: _s
           .extractXmlChild(elem, 'NoncurrentVersionTransition')
-          ?.let((e) => NoncurrentVersionTransition.fromXml(e)),
-      transition: _s
-          .extractXmlChild(elem, 'Transition')
-          ?.let((e) => Transition.fromXml(e)),
+          ?.let(NoncurrentVersionTransition.fromXml),
+      transition:
+          _s.extractXmlChild(elem, 'Transition')?.let(Transition.fromXml),
     );
   }
 
@@ -25274,10 +25221,8 @@ class S3KeyFilter {
 
   factory S3KeyFilter.fromXml(_s.XmlElement elem) {
     return S3KeyFilter(
-      filterRules: elem
-          .findElements('FilterRule')
-          .map((c) => FilterRule.fromXml(c))
-          .toList(),
+      filterRules:
+          elem.findElements('FilterRule').map(FilterRule.fromXml).toList(),
     );
   }
 
@@ -25603,18 +25548,12 @@ class SelectObjectContentEventStream {
 
   factory SelectObjectContentEventStream.fromXml(_s.XmlElement elem) {
     return SelectObjectContentEventStream(
-      cont: _s
-          .extractXmlChild(elem, 'Cont')
-          ?.let((e) => ContinuationEvent.fromXml(e)),
-      end: _s.extractXmlChild(elem, 'End')?.let((e) => EndEvent.fromXml(e)),
-      progress: _s
-          .extractXmlChild(elem, 'Progress')
-          ?.let((e) => ProgressEvent.fromXml(e)),
-      records: _s
-          .extractXmlChild(elem, 'Records')
-          ?.let((e) => RecordsEvent.fromXml(e)),
-      stats:
-          _s.extractXmlChild(elem, 'Stats')?.let((e) => StatsEvent.fromXml(e)),
+      cont: _s.extractXmlChild(elem, 'Cont')?.let(ContinuationEvent.fromXml),
+      end: _s.extractXmlChild(elem, 'End')?.let(EndEvent.fromXml),
+      progress:
+          _s.extractXmlChild(elem, 'Progress')?.let(ProgressEvent.fromXml),
+      records: _s.extractXmlChild(elem, 'Records')?.let(RecordsEvent.fromXml),
+      stats: _s.extractXmlChild(elem, 'Stats')?.let(StatsEvent.fromXml),
     );
   }
 
@@ -26045,7 +25984,7 @@ class ServerSideEncryptionConfiguration {
     return ServerSideEncryptionConfiguration(
       rules: elem
           .findElements('Rule')
-          .map((c) => ServerSideEncryptionRule.fromXml(c))
+          .map(ServerSideEncryptionRule.fromXml)
           .toList(),
     );
   }
@@ -26112,7 +26051,7 @@ class ServerSideEncryptionRule {
     return ServerSideEncryptionRule(
       applyServerSideEncryptionByDefault: _s
           .extractXmlChild(elem, 'ApplyServerSideEncryptionByDefault')
-          ?.let((e) => ServerSideEncryptionByDefault.fromXml(e)),
+          ?.let(ServerSideEncryptionByDefault.fromXml),
       bucketKeyEnabled: _s.extractXmlBoolValue(elem, 'BucketKeyEnabled'),
     );
   }
@@ -26198,10 +26137,10 @@ class SourceSelectionCriteria {
     return SourceSelectionCriteria(
       replicaModifications: _s
           .extractXmlChild(elem, 'ReplicaModifications')
-          ?.let((e) => ReplicaModifications.fromXml(e)),
+          ?.let(ReplicaModifications.fromXml),
       sseKmsEncryptedObjects: _s
           .extractXmlChild(elem, 'SseKmsEncryptedObjects')
-          ?.let((e) => SseKmsEncryptedObjects.fromXml(e)),
+          ?.let(SseKmsEncryptedObjects.fromXml),
     );
   }
 
@@ -26377,8 +26316,7 @@ class StatsEvent {
 
   factory StatsEvent.fromXml(_s.XmlElement elem) {
     return StatsEvent(
-      details:
-          _s.extractXmlChild(elem, 'Details')?.let((e) => Stats.fromXml(e)),
+      details: _s.extractXmlChild(elem, 'Details')?.let(Stats.fromXml),
     );
   }
 
@@ -26478,7 +26416,7 @@ class StorageClassAnalysis {
     return StorageClassAnalysis(
       dataExport: _s
           .extractXmlChild(elem, 'DataExport')
-          ?.let((e) => StorageClassAnalysisDataExport.fromXml(e)),
+          ?.let(StorageClassAnalysisDataExport.fromXml),
     );
   }
 
@@ -26744,8 +26682,7 @@ class TargetGrant {
 
   factory TargetGrant.fromXml(_s.XmlElement elem) {
     return TargetGrant(
-      grantee:
-          _s.extractXmlChild(elem, 'Grantee')?.let((e) => Grantee.fromXml(e)),
+      grantee: _s.extractXmlChild(elem, 'Grantee')?.let(Grantee.fromXml),
       permission: _s
           .extractXmlStringValue(elem, 'Permission')
           ?.toBucketLogsPermission(),
@@ -26927,7 +26864,7 @@ class TopicConfiguration {
       topicArn: _s.extractXmlStringValue(elem, 'Topic')!,
       filter: _s
           .extractXmlChild(elem, 'Filter')
-          ?.let((e) => NotificationConfigurationFilter.fromXml(e)),
+          ?.let(NotificationConfigurationFilter.fromXml),
       id: _s.extractXmlStringValue(elem, 'Id'),
     );
   }

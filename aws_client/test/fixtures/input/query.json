@@ -1058,5 +1058,73 @@
         }
       }
     ]
+  },
+  {
+    "description": "Map with enum key",
+    "metadata": {
+      "protocol": "query",
+      "apiVersion": "2014-01-01"
+    },
+    "shapes": {
+      "CreateQueueRequest": {
+        "type": "structure",
+        "required": [
+          "QueueName"
+        ],
+        "members": {
+          "QueueName": {
+            "shape": "String"
+          },
+          "Attributes": {
+            "shape": "QueueAttributeMap",
+            "locationName": "Attribute"
+          }
+        }
+      },
+      "QueueAttributeMap": {
+        "type": "map",
+        "key": {
+          "shape": "QueueAttributeName",
+          "locationName": "Name"
+        },
+        "value": {
+          "shape": "String",
+          "locationName": "Value"
+        },
+        "flattened": true,
+        "locationName": "Attribute"
+      },
+      "QueueAttributeName": {
+        "type": "string",
+        "enum": [
+          "All",
+          "Policy"
+        ]
+      },
+      "String": {
+        "type": "string"
+      }
+    },
+    "cases": [
+      {
+        "given": {
+          "name": "CreateQueue",
+          "input": {
+            "shape": "CreateQueueRequest"
+          },
+          "http": {
+            "method": "POST"
+          }
+        },
+        "params": {
+          "QueueName": "TheQueueName",
+          "Attributes": {"All": "SomeValue"}
+        },
+        "serialized": {
+          "uri": "/",
+          "body": "Action=CreateQueue&Attributes.1.Name=All&Attributes.1.Value=SomeValue&QueueName=TheQueueName&Version=2014-01-01"
+        }
+      }
+    ]
   }
 ]

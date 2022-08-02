@@ -64,8 +64,8 @@ class OutputShape {
 
   factory OutputShape.fromXml(_s.XmlElement elem) {
     return OutputShape(
-      listItems: _s.extractXmlChild(elem, 'ItemsList')?.let((elem) =>
-          elem.findElements('Item').map((c) => ItemShape.fromXml(c)).toList()),
+      listItems: _s.extractXmlChild(elem, 'ItemsList')?.let(
+          (elem) => elem.findElements('Item').map(ItemShape.fromXml).toList()),
     );
   }
 
@@ -94,9 +94,8 @@ class ItemShape {
 
   factory ItemShape.fromXml(_s.XmlElement elem) {
     return ItemShape(
-      itemDetail: _s
-          .extractXmlChild(elem, 'ItemDetail')
-          ?.let((e) => ItemDetailShape.fromXml(e)),
+      itemDetail:
+          _s.extractXmlChild(elem, 'ItemDetail')?.let(ItemDetailShape.fromXml),
     );
   }
 

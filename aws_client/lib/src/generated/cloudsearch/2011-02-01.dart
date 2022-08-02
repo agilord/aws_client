@@ -837,9 +837,8 @@ class CreateDomainResponse {
 
   factory CreateDomainResponse.fromXml(_s.XmlElement elem) {
     return CreateDomainResponse(
-      domainStatus: _s
-          .extractXmlChild(elem, 'DomainStatus')
-          ?.let((e) => DomainStatus.fromXml(e)),
+      domainStatus:
+          _s.extractXmlChild(elem, 'DomainStatus')?.let(DomainStatus.fromXml),
     );
   }
 
@@ -969,9 +968,8 @@ class DeleteDomainResponse {
 
   factory DeleteDomainResponse.fromXml(_s.XmlElement elem) {
     return DeleteDomainResponse(
-      domainStatus: _s
-          .extractXmlChild(elem, 'DomainStatus')
-          ?.let((e) => DomainStatus.fromXml(e)),
+      domainStatus:
+          _s.extractXmlChild(elem, 'DomainStatus')?.let(DomainStatus.fromXml),
     );
   }
 
@@ -1070,7 +1068,7 @@ class DescribeAvailabilityOptionsResponse {
     return DescribeAvailabilityOptionsResponse(
       availabilityOptions: _s
           .extractXmlChild(elem, 'AvailabilityOptions')
-          ?.let((e) => AvailabilityOptionsStatus.fromXml(e)),
+          ?.let(AvailabilityOptionsStatus.fromXml),
     );
   }
 
@@ -1140,7 +1138,7 @@ class DescribeDomainsResponse {
       domainStatusList: _s
           .extractXmlChild(elem, 'DomainStatusList')!
           .findElements('member')
-          .map((c) => DomainStatus.fromXml(c))
+          .map(DomainStatus.fromXml)
           .toList(),
     );
   }
@@ -1176,7 +1174,7 @@ class DescribeIndexFieldsResponse {
       indexFields: _s
           .extractXmlChild(elem, 'IndexFields')!
           .findElements('member')
-          .map((c) => IndexFieldStatus.fromXml(c))
+          .map(IndexFieldStatus.fromXml)
           .toList(),
     );
   }
@@ -1212,7 +1210,7 @@ class DescribeRankExpressionsResponse {
       rankExpressions: _s
           .extractXmlChild(elem, 'RankExpressions')!
           .findElements('member')
-          .map((c) => RankExpressionStatus.fromXml(c))
+          .map(RankExpressionStatus.fromXml)
           .toList(),
     );
   }
@@ -1456,9 +1454,8 @@ class DomainStatus {
           _s.extractXmlBoolValue(elem, 'RequiresIndexDocuments')!,
       created: _s.extractXmlBoolValue(elem, 'Created'),
       deleted: _s.extractXmlBoolValue(elem, 'Deleted'),
-      docService: _s
-          .extractXmlChild(elem, 'DocService')
-          ?.let((e) => ServiceEndpoint.fromXml(e)),
+      docService:
+          _s.extractXmlChild(elem, 'DocService')?.let(ServiceEndpoint.fromXml),
       numSearchableDocs: _s.extractXmlIntValue(elem, 'NumSearchableDocs'),
       processing: _s.extractXmlBoolValue(elem, 'Processing'),
       searchInstanceCount: _s.extractXmlIntValue(elem, 'SearchInstanceCount'),
@@ -1466,7 +1463,7 @@ class DomainStatus {
       searchPartitionCount: _s.extractXmlIntValue(elem, 'SearchPartitionCount'),
       searchService: _s
           .extractXmlChild(elem, 'SearchService')
-          ?.let((e) => ServiceEndpoint.fromXml(e)),
+          ?.let(ServiceEndpoint.fromXml),
     );
   }
 
@@ -1611,18 +1608,16 @@ class IndexField {
           _s.extractXmlStringValue(elem, 'IndexFieldType')!.toIndexFieldType(),
       literalOptions: _s
           .extractXmlChild(elem, 'LiteralOptions')
-          ?.let((e) => LiteralOptions.fromXml(e)),
+          ?.let(LiteralOptions.fromXml),
       sourceAttributes: _s.extractXmlChild(elem, 'SourceAttributes')?.let(
           (elem) => elem
               .findElements('member')
-              .map((c) => SourceAttribute.fromXml(c))
+              .map(SourceAttribute.fromXml)
               .toList()),
-      textOptions: _s
-          .extractXmlChild(elem, 'TextOptions')
-          ?.let((e) => TextOptions.fromXml(e)),
-      uIntOptions: _s
-          .extractXmlChild(elem, 'UIntOptions')
-          ?.let((e) => UIntOptions.fromXml(e)),
+      textOptions:
+          _s.extractXmlChild(elem, 'TextOptions')?.let(TextOptions.fromXml),
+      uIntOptions:
+          _s.extractXmlChild(elem, 'UIntOptions')?.let(UIntOptions.fromXml),
     );
   }
 
@@ -2160,15 +2155,13 @@ class SourceAttribute {
       sourceDataFunction: _s
           .extractXmlStringValue(elem, 'SourceDataFunction')!
           .toSourceDataFunction(),
-      sourceDataCopy: _s
-          .extractXmlChild(elem, 'SourceDataCopy')
-          ?.let((e) => SourceData.fromXml(e)),
-      sourceDataMap: _s
-          .extractXmlChild(elem, 'SourceDataMap')
-          ?.let((e) => SourceDataMap.fromXml(e)),
+      sourceDataCopy:
+          _s.extractXmlChild(elem, 'SourceDataCopy')?.let(SourceData.fromXml),
+      sourceDataMap:
+          _s.extractXmlChild(elem, 'SourceDataMap')?.let(SourceDataMap.fromXml),
       sourceDataTrimTitle: _s
           .extractXmlChild(elem, 'SourceDataTrimTitle')
-          ?.let((e) => SourceDataTrimTitle.fromXml(e)),
+          ?.let(SourceDataTrimTitle.fromXml),
     );
   }
 
@@ -2590,7 +2583,7 @@ class UpdateAvailabilityOptionsResponse {
     return UpdateAvailabilityOptionsResponse(
       availabilityOptions: _s
           .extractXmlChild(elem, 'AvailabilityOptions')
-          ?.let((e) => AvailabilityOptionsStatus.fromXml(e)),
+          ?.let(AvailabilityOptionsStatus.fromXml),
     );
   }
 

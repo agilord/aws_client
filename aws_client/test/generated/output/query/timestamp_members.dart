@@ -80,9 +80,8 @@ class OutputShape {
 
   factory OutputShape.fromXml(_s.XmlElement elem) {
     return OutputShape(
-      structMember: _s
-          .extractXmlChild(elem, 'StructMember')
-          ?.let((e) => TimeContainer.fromXml(e)),
+      structMember:
+          _s.extractXmlChild(elem, 'StructMember')?.let(TimeContainer.fromXml),
       timeArg: _s.extractXmlDateTimeValue(elem, 'TimeArg'),
       timeCustom: _s.extractXmlDateTimeValue(elem, 'TimeCustom',
           parser: _s.timeStampFromJson),

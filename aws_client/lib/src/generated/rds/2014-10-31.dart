@@ -16743,10 +16743,7 @@ class AccountAttributesMessage {
   factory AccountAttributesMessage.fromXml(_s.XmlElement elem) {
     return AccountAttributesMessage(
       accountQuotas: _s.extractXmlChild(elem, 'AccountQuotas')?.let((elem) =>
-          elem
-              .findElements('AccountQuota')
-              .map((c) => AccountQuota.fromXml(c))
-              .toList()),
+          elem.findElements('AccountQuota').map(AccountQuota.fromXml).toList()),
     );
   }
 
@@ -16996,7 +16993,7 @@ class AddSourceIdentifierToSubscriptionResult {
     return AddSourceIdentifierToSubscriptionResult(
       eventSubscription: _s
           .extractXmlChild(elem, 'EventSubscription')
-          ?.let((e) => EventSubscription.fromXml(e)),
+          ?.let(EventSubscription.fromXml),
     );
   }
 
@@ -17059,7 +17056,7 @@ class ApplyPendingMaintenanceActionResult {
     return ApplyPendingMaintenanceActionResult(
       resourcePendingMaintenanceActions: _s
           .extractXmlChild(elem, 'ResourcePendingMaintenanceActions')
-          ?.let((e) => ResourcePendingMaintenanceActions.fromXml(e)),
+          ?.let(ResourcePendingMaintenanceActions.fromXml),
     );
   }
 
@@ -17117,7 +17114,7 @@ class AuthorizeDBSecurityGroupIngressResult {
     return AuthorizeDBSecurityGroupIngressResult(
       dBSecurityGroup: _s
           .extractXmlChild(elem, 'DBSecurityGroup')
-          ?.let((e) => DBSecurityGroup.fromXml(e)),
+          ?.let(DBSecurityGroup.fromXml),
     );
   }
 
@@ -17362,10 +17359,8 @@ class CertificateMessage {
 
   factory CertificateMessage.fromXml(_s.XmlElement elem) {
     return CertificateMessage(
-      certificates: _s.extractXmlChild(elem, 'Certificates')?.let((elem) => elem
-          .findElements('Certificate')
-          .map((c) => Certificate.fromXml(c))
-          .toList()),
+      certificates: _s.extractXmlChild(elem, 'Certificates')?.let((elem) =>
+          elem.findElements('Certificate').map(Certificate.fromXml).toList()),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
   }
@@ -17524,7 +17519,7 @@ class ClusterPendingModifiedValues {
       masterUserPassword: _s.extractXmlStringValue(elem, 'MasterUserPassword'),
       pendingCloudwatchLogsExports: _s
           .extractXmlChild(elem, 'PendingCloudwatchLogsExports')
-          ?.let((e) => PendingCloudwatchLogsExports.fromXml(e)),
+          ?.let(PendingCloudwatchLogsExports.fromXml),
     );
   }
 
@@ -17759,7 +17754,7 @@ class CopyDBClusterParameterGroupResult {
     return CopyDBClusterParameterGroupResult(
       dBClusterParameterGroup: _s
           .extractXmlChild(elem, 'DBClusterParameterGroup')
-          ?.let((e) => DBClusterParameterGroup.fromXml(e)),
+          ?.let(DBClusterParameterGroup.fromXml),
     );
   }
 
@@ -17792,7 +17787,7 @@ class CopyDBClusterSnapshotResult {
     return CopyDBClusterSnapshotResult(
       dBClusterSnapshot: _s
           .extractXmlChild(elem, 'DBClusterSnapshot')
-          ?.let((e) => DBClusterSnapshot.fromXml(e)),
+          ?.let(DBClusterSnapshot.fromXml),
     );
   }
 
@@ -17824,7 +17819,7 @@ class CopyDBParameterGroupResult {
     return CopyDBParameterGroupResult(
       dBParameterGroup: _s
           .extractXmlChild(elem, 'DBParameterGroup')
-          ?.let((e) => DBParameterGroup.fromXml(e)),
+          ?.let(DBParameterGroup.fromXml),
     );
   }
 
@@ -17853,9 +17848,8 @@ class CopyDBSnapshotResult {
 
   factory CopyDBSnapshotResult.fromXml(_s.XmlElement elem) {
     return CopyDBSnapshotResult(
-      dBSnapshot: _s
-          .extractXmlChild(elem, 'DBSnapshot')
-          ?.let((e) => DBSnapshot.fromXml(e)),
+      dBSnapshot:
+          _s.extractXmlChild(elem, 'DBSnapshot')?.let(DBSnapshot.fromXml),
     );
   }
 
@@ -17884,9 +17878,8 @@ class CopyOptionGroupResult {
 
   factory CopyOptionGroupResult.fromXml(_s.XmlElement elem) {
     return CopyOptionGroupResult(
-      optionGroup: _s
-          .extractXmlChild(elem, 'OptionGroup')
-          ?.let((e) => OptionGroup.fromXml(e)),
+      optionGroup:
+          _s.extractXmlChild(elem, 'OptionGroup')?.let(OptionGroup.fromXml),
     );
   }
 
@@ -17919,7 +17912,7 @@ class CreateCustomAvailabilityZoneResult {
     return CreateCustomAvailabilityZoneResult(
       customAvailabilityZone: _s
           .extractXmlChild(elem, 'CustomAvailabilityZone')
-          ?.let((e) => CustomAvailabilityZone.fromXml(e)),
+          ?.let(CustomAvailabilityZone.fromXml),
     );
   }
 
@@ -17953,7 +17946,7 @@ class CreateDBClusterParameterGroupResult {
     return CreateDBClusterParameterGroupResult(
       dBClusterParameterGroup: _s
           .extractXmlChild(elem, 'DBClusterParameterGroup')
-          ?.let((e) => DBClusterParameterGroup.fromXml(e)),
+          ?.let(DBClusterParameterGroup.fromXml),
     );
   }
 
@@ -17983,9 +17976,7 @@ class CreateDBClusterResult {
 
   factory CreateDBClusterResult.fromXml(_s.XmlElement elem) {
     return CreateDBClusterResult(
-      dBCluster: _s
-          .extractXmlChild(elem, 'DBCluster')
-          ?.let((e) => DBCluster.fromXml(e)),
+      dBCluster: _s.extractXmlChild(elem, 'DBCluster')?.let(DBCluster.fromXml),
     );
   }
 
@@ -18017,7 +18008,7 @@ class CreateDBClusterSnapshotResult {
     return CreateDBClusterSnapshotResult(
       dBClusterSnapshot: _s
           .extractXmlChild(elem, 'DBClusterSnapshot')
-          ?.let((e) => DBClusterSnapshot.fromXml(e)),
+          ?.let(DBClusterSnapshot.fromXml),
     );
   }
 
@@ -18047,9 +18038,8 @@ class CreateDBInstanceReadReplicaResult {
 
   factory CreateDBInstanceReadReplicaResult.fromXml(_s.XmlElement elem) {
     return CreateDBInstanceReadReplicaResult(
-      dBInstance: _s
-          .extractXmlChild(elem, 'DBInstance')
-          ?.let((e) => DBInstance.fromXml(e)),
+      dBInstance:
+          _s.extractXmlChild(elem, 'DBInstance')?.let(DBInstance.fromXml),
     );
   }
 
@@ -18078,9 +18068,8 @@ class CreateDBInstanceResult {
 
   factory CreateDBInstanceResult.fromXml(_s.XmlElement elem) {
     return CreateDBInstanceResult(
-      dBInstance: _s
-          .extractXmlChild(elem, 'DBInstance')
-          ?.let((e) => DBInstance.fromXml(e)),
+      dBInstance:
+          _s.extractXmlChild(elem, 'DBInstance')?.let(DBInstance.fromXml),
     );
   }
 
@@ -18112,7 +18101,7 @@ class CreateDBParameterGroupResult {
     return CreateDBParameterGroupResult(
       dBParameterGroup: _s
           .extractXmlChild(elem, 'DBParameterGroup')
-          ?.let((e) => DBParameterGroup.fromXml(e)),
+          ?.let(DBParameterGroup.fromXml),
     );
   }
 
@@ -18148,7 +18137,7 @@ class CreateDBProxyEndpointResponse {
     return CreateDBProxyEndpointResponse(
       dBProxyEndpoint: _s
           .extractXmlChild(elem, 'DBProxyEndpoint')
-          ?.let((e) => DBProxyEndpoint.fromXml(e)),
+          ?.let(DBProxyEndpoint.fromXml),
     );
   }
 
@@ -18178,8 +18167,7 @@ class CreateDBProxyResponse {
 
   factory CreateDBProxyResponse.fromXml(_s.XmlElement elem) {
     return CreateDBProxyResponse(
-      dBProxy:
-          _s.extractXmlChild(elem, 'DBProxy')?.let((e) => DBProxy.fromXml(e)),
+      dBProxy: _s.extractXmlChild(elem, 'DBProxy')?.let(DBProxy.fromXml),
     );
   }
 
@@ -18211,7 +18199,7 @@ class CreateDBSecurityGroupResult {
     return CreateDBSecurityGroupResult(
       dBSecurityGroup: _s
           .extractXmlChild(elem, 'DBSecurityGroup')
-          ?.let((e) => DBSecurityGroup.fromXml(e)),
+          ?.let(DBSecurityGroup.fromXml),
     );
   }
 
@@ -18240,9 +18228,8 @@ class CreateDBSnapshotResult {
 
   factory CreateDBSnapshotResult.fromXml(_s.XmlElement elem) {
     return CreateDBSnapshotResult(
-      dBSnapshot: _s
-          .extractXmlChild(elem, 'DBSnapshot')
-          ?.let((e) => DBSnapshot.fromXml(e)),
+      dBSnapshot:
+          _s.extractXmlChild(elem, 'DBSnapshot')?.let(DBSnapshot.fromXml),
     );
   }
 
@@ -18272,9 +18259,8 @@ class CreateDBSubnetGroupResult {
 
   factory CreateDBSubnetGroupResult.fromXml(_s.XmlElement elem) {
     return CreateDBSubnetGroupResult(
-      dBSubnetGroup: _s
-          .extractXmlChild(elem, 'DBSubnetGroup')
-          ?.let((e) => DBSubnetGroup.fromXml(e)),
+      dBSubnetGroup:
+          _s.extractXmlChild(elem, 'DBSubnetGroup')?.let(DBSubnetGroup.fromXml),
     );
   }
 
@@ -18306,7 +18292,7 @@ class CreateEventSubscriptionResult {
     return CreateEventSubscriptionResult(
       eventSubscription: _s
           .extractXmlChild(elem, 'EventSubscription')
-          ?.let((e) => EventSubscription.fromXml(e)),
+          ?.let(EventSubscription.fromXml),
     );
   }
 
@@ -18336,9 +18322,8 @@ class CreateGlobalClusterResult {
 
   factory CreateGlobalClusterResult.fromXml(_s.XmlElement elem) {
     return CreateGlobalClusterResult(
-      globalCluster: _s
-          .extractXmlChild(elem, 'GlobalCluster')
-          ?.let((e) => GlobalCluster.fromXml(e)),
+      globalCluster:
+          _s.extractXmlChild(elem, 'GlobalCluster')?.let(GlobalCluster.fromXml),
     );
   }
 
@@ -18367,9 +18352,8 @@ class CreateOptionGroupResult {
 
   factory CreateOptionGroupResult.fromXml(_s.XmlElement elem) {
     return CreateOptionGroupResult(
-      optionGroup: _s
-          .extractXmlChild(elem, 'OptionGroup')
-          ?.let((e) => OptionGroup.fromXml(e)),
+      optionGroup:
+          _s.extractXmlChild(elem, 'OptionGroup')?.let(OptionGroup.fromXml),
     );
   }
 
@@ -18430,9 +18414,8 @@ class CustomAvailabilityZone {
           _s.extractXmlStringValue(elem, 'CustomAvailabilityZoneName'),
       customAvailabilityZoneStatus:
           _s.extractXmlStringValue(elem, 'CustomAvailabilityZoneStatus'),
-      vpnDetails: _s
-          .extractXmlChild(elem, 'VpnDetails')
-          ?.let((e) => VpnDetails.fromXml(e)),
+      vpnDetails:
+          _s.extractXmlChild(elem, 'VpnDetails')?.let(VpnDetails.fromXml),
     );
   }
 
@@ -18486,7 +18469,7 @@ class CustomAvailabilityZoneMessage {
           .extractXmlChild(elem, 'CustomAvailabilityZones')
           ?.let((elem) => elem
               .findElements('CustomAvailabilityZone')
-              .map((c) => CustomAvailabilityZone.fromXml(c))
+              .map(CustomAvailabilityZone.fromXml)
               .toList()),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
@@ -19100,7 +19083,7 @@ class DBCluster {
       associatedRoles: _s.extractXmlChild(elem, 'AssociatedRoles')?.let(
           (elem) => elem
               .findElements('DBClusterRole')
-              .map((c) => DBClusterRole.fromXml(c))
+              .map(DBClusterRole.fromXml)
               .toList()),
       autoMinorVersionUpgrade:
           _s.extractXmlBoolValue(elem, 'AutoMinorVersionUpgrade'),
@@ -19130,13 +19113,13 @@ class DBCluster {
       dBClusterMembers: _s.extractXmlChild(elem, 'DBClusterMembers')?.let(
           (elem) => elem
               .findElements('DBClusterMember')
-              .map((c) => DBClusterMember.fromXml(c))
+              .map(DBClusterMember.fromXml)
               .toList()),
       dBClusterOptionGroupMemberships: _s
           .extractXmlChild(elem, 'DBClusterOptionGroupMemberships')
           ?.let((elem) => elem
               .findElements('DBClusterOptionGroup')
-              .map((c) => DBClusterOptionGroupStatus.fromXml(c))
+              .map(DBClusterOptionGroupStatus.fromXml)
               .toList()),
       dBClusterParameterGroup:
           _s.extractXmlStringValue(elem, 'DBClusterParameterGroup'),
@@ -19148,7 +19131,7 @@ class DBCluster {
       domainMemberships: _s.extractXmlChild(elem, 'DomainMemberships')?.let(
           (elem) => elem
               .findElements('DomainMembership')
-              .map((c) => DomainMembership.fromXml(c))
+              .map(DomainMembership.fromXml)
               .toList()),
       earliestBacktrackTime:
           _s.extractXmlDateTimeValue(elem, 'EarliestBacktrackTime'),
@@ -19180,7 +19163,7 @@ class DBCluster {
       multiAZ: _s.extractXmlBoolValue(elem, 'MultiAZ'),
       pendingModifiedValues: _s
           .extractXmlChild(elem, 'PendingModifiedValues')
-          ?.let((e) => ClusterPendingModifiedValues.fromXml(e)),
+          ?.let(ClusterPendingModifiedValues.fromXml),
       percentProgress: _s.extractXmlStringValue(elem, 'PercentProgress'),
       performanceInsightsEnabled:
           _s.extractXmlBoolValue(elem, 'PerformanceInsightsEnabled'),
@@ -19203,16 +19186,17 @@ class DBCluster {
           _s.extractXmlStringValue(elem, 'ReplicationSourceIdentifier'),
       scalingConfigurationInfo: _s
           .extractXmlChild(elem, 'ScalingConfigurationInfo')
-          ?.let((e) => ScalingConfigurationInfo.fromXml(e)),
+          ?.let(ScalingConfigurationInfo.fromXml),
       status: _s.extractXmlStringValue(elem, 'Status'),
       storageEncrypted: _s.extractXmlBoolValue(elem, 'StorageEncrypted'),
       storageType: _s.extractXmlStringValue(elem, 'StorageType'),
-      tagList: _s.extractXmlChild(elem, 'TagList')?.let((elem) =>
-          elem.findElements('Tag').map((c) => Tag.fromXml(c)).toList()),
+      tagList: _s
+          .extractXmlChild(elem, 'TagList')
+          ?.let((elem) => elem.findElements('Tag').map(Tag.fromXml).toList()),
       vpcSecurityGroups: _s.extractXmlChild(elem, 'VpcSecurityGroups')?.let(
           (elem) => elem
               .findElements('VpcSecurityGroupMembership')
-              .map((c) => VpcSecurityGroupMembership.fromXml(c))
+              .map(VpcSecurityGroupMembership.fromXml)
               .toList()),
     );
   }
@@ -19523,7 +19507,7 @@ class DBClusterBacktrackMessage {
       dBClusterBacktracks: _s.extractXmlChild(elem, 'DBClusterBacktracks')?.let(
           (elem) => elem
               .findElements('DBClusterBacktrack')
-              .map((c) => DBClusterBacktrack.fromXml(c))
+              .map(DBClusterBacktrack.fromXml)
               .toList()),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
@@ -19792,7 +19776,7 @@ class DBClusterEndpointMessage {
       dBClusterEndpoints: _s.extractXmlChild(elem, 'DBClusterEndpoints')?.let(
           (elem) => elem
               .findElements('DBClusterEndpointList')
-              .map((c) => DBClusterEndpoint.fromXml(c))
+              .map(DBClusterEndpoint.fromXml)
               .toList()),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
@@ -19899,10 +19883,8 @@ class DBClusterMessage {
 
   factory DBClusterMessage.fromXml(_s.XmlElement elem) {
     return DBClusterMessage(
-      dBClusters: _s.extractXmlChild(elem, 'DBClusters')?.let((elem) => elem
-          .findElements('DBCluster')
-          .map((c) => DBCluster.fromXml(c))
-          .toList()),
+      dBClusters: _s.extractXmlChild(elem, 'DBClusters')?.let((elem) =>
+          elem.findElements('DBCluster').map(DBCluster.fromXml).toList()),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
   }
@@ -20051,10 +20033,8 @@ class DBClusterParameterGroupDetails {
   factory DBClusterParameterGroupDetails.fromXml(_s.XmlElement elem) {
     return DBClusterParameterGroupDetails(
       marker: _s.extractXmlStringValue(elem, 'Marker'),
-      parameters: _s.extractXmlChild(elem, 'Parameters')?.let((elem) => elem
-          .findElements('Parameter')
-          .map((c) => Parameter.fromXml(c))
-          .toList()),
+      parameters: _s.extractXmlChild(elem, 'Parameters')?.let((elem) =>
+          elem.findElements('Parameter').map(Parameter.fromXml).toList()),
     );
   }
 
@@ -20150,7 +20130,7 @@ class DBClusterParameterGroupsMessage {
           .extractXmlChild(elem, 'DBClusterParameterGroups')
           ?.let((elem) => elem
               .findElements('DBClusterParameterGroup')
-              .map((c) => DBClusterParameterGroup.fromXml(c))
+              .map(DBClusterParameterGroup.fromXml)
               .toList()),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
@@ -20417,8 +20397,9 @@ class DBClusterSnapshot {
           _s.extractXmlStringValue(elem, 'SourceDBClusterSnapshotArn'),
       status: _s.extractXmlStringValue(elem, 'Status'),
       storageEncrypted: _s.extractXmlBoolValue(elem, 'StorageEncrypted'),
-      tagList: _s.extractXmlChild(elem, 'TagList')?.let((elem) =>
-          elem.findElements('Tag').map((c) => Tag.fromXml(c)).toList()),
+      tagList: _s
+          .extractXmlChild(elem, 'TagList')
+          ?.let((elem) => elem.findElements('Tag').map(Tag.fromXml).toList()),
       vpcId: _s.extractXmlStringValue(elem, 'VpcId'),
     );
   }
@@ -20578,7 +20559,7 @@ class DBClusterSnapshotAttributesResult {
           .extractXmlChild(elem, 'DBClusterSnapshotAttributes')
           ?.let((elem) => elem
               .findElements('DBClusterSnapshotAttribute')
-              .map((c) => DBClusterSnapshotAttribute.fromXml(c))
+              .map(DBClusterSnapshotAttribute.fromXml)
               .toList()),
       dBClusterSnapshotIdentifier:
           _s.extractXmlStringValue(elem, 'DBClusterSnapshotIdentifier'),
@@ -20629,7 +20610,7 @@ class DBClusterSnapshotMessage {
       dBClusterSnapshots: _s.extractXmlChild(elem, 'DBClusterSnapshots')?.let(
           (elem) => elem
               .findElements('DBClusterSnapshot')
-              .map((c) => DBClusterSnapshot.fromXml(c))
+              .map(DBClusterSnapshot.fromXml)
               .toList()),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
@@ -20859,7 +20840,7 @@ class DBEngineVersion {
           _s.extractXmlStringValue(elem, 'DatabaseInstallationFilesS3Prefix'),
       defaultCharacterSet: _s
           .extractXmlChild(elem, 'DefaultCharacterSet')
-          ?.let((e) => CharacterSet.fromXml(e)),
+          ?.let(CharacterSet.fromXml),
       engine: _s.extractXmlStringValue(elem, 'Engine'),
       engineVersion: _s.extractXmlStringValue(elem, 'EngineVersion'),
       exportableLogTypes: _s
@@ -20872,7 +20853,7 @@ class DBEngineVersion {
           .extractXmlChild(elem, 'SupportedCharacterSets')
           ?.let((elem) => elem
               .findElements('CharacterSet')
-              .map((c) => CharacterSet.fromXml(c))
+              .map(CharacterSet.fromXml)
               .toList()),
       supportedEngineModes: _s
           .extractXmlChild(elem, 'SupportedEngineModes')
@@ -20884,13 +20865,11 @@ class DBEngineVersion {
           .extractXmlChild(elem, 'SupportedNcharCharacterSets')
           ?.let((elem) => elem
               .findElements('CharacterSet')
-              .map((c) => CharacterSet.fromXml(c))
+              .map(CharacterSet.fromXml)
               .toList()),
       supportedTimezones: _s.extractXmlChild(elem, 'SupportedTimezones')?.let(
-          (elem) => elem
-              .findElements('Timezone')
-              .map((c) => Timezone.fromXml(c))
-              .toList()),
+          (elem) =>
+              elem.findElements('Timezone').map(Timezone.fromXml).toList()),
       supportsGlobalDatabases:
           _s.extractXmlBoolValue(elem, 'SupportsGlobalDatabases'),
       supportsLogExportsToCloudwatchLogs:
@@ -20898,12 +20877,13 @@ class DBEngineVersion {
       supportsParallelQuery:
           _s.extractXmlBoolValue(elem, 'SupportsParallelQuery'),
       supportsReadReplica: _s.extractXmlBoolValue(elem, 'SupportsReadReplica'),
-      tagList: _s.extractXmlChild(elem, 'TagList')?.let((elem) =>
-          elem.findElements('Tag').map((c) => Tag.fromXml(c)).toList()),
+      tagList: _s
+          .extractXmlChild(elem, 'TagList')
+          ?.let((elem) => elem.findElements('Tag').map(Tag.fromXml).toList()),
       validUpgradeTarget: _s.extractXmlChild(elem, 'ValidUpgradeTarget')?.let(
           (elem) => elem
               .findElements('UpgradeTarget')
-              .map((c) => UpgradeTarget.fromXml(c))
+              .map(UpgradeTarget.fromXml)
               .toList()),
     );
   }
@@ -21014,7 +20994,7 @@ class DBEngineVersionMessage {
       dBEngineVersions: _s.extractXmlChild(elem, 'DBEngineVersions')?.let(
           (elem) => elem
               .findElements('DBEngineVersion')
-              .map((c) => DBEngineVersion.fromXml(c))
+              .map(DBEngineVersion.fromXml)
               .toList()),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
@@ -21684,7 +21664,7 @@ class DBInstance {
       associatedRoles: _s.extractXmlChild(elem, 'AssociatedRoles')?.let(
           (elem) => elem
               .findElements('DBInstanceRole')
-              .map((c) => DBInstanceRole.fromXml(c))
+              .map(DBInstanceRole.fromXml)
               .toList()),
       autoMinorVersionUpgrade:
           _s.extractXmlBoolValue(elem, 'AutoMinorVersionUpgrade'),
@@ -21713,7 +21693,7 @@ class DBInstance {
           .extractXmlChild(elem, 'DBInstanceAutomatedBackupsReplications')
           ?.let((elem) => elem
               .findElements('DBInstanceAutomatedBackupsReplication')
-              .map((c) => DBInstanceAutomatedBackupsReplication.fromXml(c))
+              .map(DBInstanceAutomatedBackupsReplication.fromXml)
               .toList()),
       dBInstanceClass: _s.extractXmlStringValue(elem, 'DBInstanceClass'),
       dBInstanceIdentifier:
@@ -21723,29 +21703,27 @@ class DBInstance {
       dBParameterGroups: _s.extractXmlChild(elem, 'DBParameterGroups')?.let(
           (elem) => elem
               .findElements('DBParameterGroup')
-              .map((c) => DBParameterGroupStatus.fromXml(c))
+              .map(DBParameterGroupStatus.fromXml)
               .toList()),
       dBSecurityGroups: _s.extractXmlChild(elem, 'DBSecurityGroups')?.let(
           (elem) => elem
               .findElements('DBSecurityGroup')
-              .map((c) => DBSecurityGroupMembership.fromXml(c))
+              .map(DBSecurityGroupMembership.fromXml)
               .toList()),
-      dBSubnetGroup: _s
-          .extractXmlChild(elem, 'DBSubnetGroup')
-          ?.let((e) => DBSubnetGroup.fromXml(e)),
+      dBSubnetGroup:
+          _s.extractXmlChild(elem, 'DBSubnetGroup')?.let(DBSubnetGroup.fromXml),
       dbInstancePort: _s.extractXmlIntValue(elem, 'DbInstancePort'),
       dbiResourceId: _s.extractXmlStringValue(elem, 'DbiResourceId'),
       deletionProtection: _s.extractXmlBoolValue(elem, 'DeletionProtection'),
       domainMemberships: _s.extractXmlChild(elem, 'DomainMemberships')?.let(
           (elem) => elem
               .findElements('DomainMembership')
-              .map((c) => DomainMembership.fromXml(c))
+              .map(DomainMembership.fromXml)
               .toList()),
       enabledCloudwatchLogsExports: _s
           .extractXmlChild(elem, 'EnabledCloudwatchLogsExports')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
-      endpoint:
-          _s.extractXmlChild(elem, 'Endpoint')?.let((e) => Endpoint.fromXml(e)),
+      endpoint: _s.extractXmlChild(elem, 'Endpoint')?.let(Endpoint.fromXml),
       engine: _s.extractXmlStringValue(elem, 'Engine'),
       engineVersion: _s.extractXmlStringValue(elem, 'EngineVersion'),
       enhancedMonitoringResourceArn:
@@ -21759,9 +21737,8 @@ class DBInstance {
       latestRestorableTime:
           _s.extractXmlDateTimeValue(elem, 'LatestRestorableTime'),
       licenseModel: _s.extractXmlStringValue(elem, 'LicenseModel'),
-      listenerEndpoint: _s
-          .extractXmlChild(elem, 'ListenerEndpoint')
-          ?.let((e) => Endpoint.fromXml(e)),
+      listenerEndpoint:
+          _s.extractXmlChild(elem, 'ListenerEndpoint')?.let(Endpoint.fromXml),
       masterUsername: _s.extractXmlStringValue(elem, 'MasterUsername'),
       maxAllocatedStorage: _s.extractXmlIntValue(elem, 'MaxAllocatedStorage'),
       monitoringInterval: _s.extractXmlIntValue(elem, 'MonitoringInterval'),
@@ -21773,11 +21750,11 @@ class DBInstance {
           .extractXmlChild(elem, 'OptionGroupMemberships')
           ?.let((elem) => elem
               .findElements('OptionGroupMembership')
-              .map((c) => OptionGroupMembership.fromXml(c))
+              .map(OptionGroupMembership.fromXml)
               .toList()),
       pendingModifiedValues: _s
           .extractXmlChild(elem, 'PendingModifiedValues')
-          ?.let((e) => PendingModifiedValues.fromXml(e)),
+          ?.let(PendingModifiedValues.fromXml),
       performanceInsightsEnabled:
           _s.extractXmlBoolValue(elem, 'PerformanceInsightsEnabled'),
       performanceInsightsKMSKeyId:
@@ -21791,7 +21768,7 @@ class DBInstance {
       processorFeatures: _s.extractXmlChild(elem, 'ProcessorFeatures')?.let(
           (elem) => elem
               .findElements('ProcessorFeature')
-              .map((c) => ProcessorFeature.fromXml(c))
+              .map(ProcessorFeature.fromXml)
               .toList()),
       promotionTier: _s.extractXmlIntValue(elem, 'PromotionTier'),
       publiclyAccessible: _s.extractXmlBoolValue(elem, 'PubliclyAccessible'),
@@ -21813,18 +21790,19 @@ class DBInstance {
           _s.extractXmlStringValue(elem, 'SecondaryAvailabilityZone'),
       statusInfos: _s.extractXmlChild(elem, 'StatusInfos')?.let((elem) => elem
           .findElements('DBInstanceStatusInfo')
-          .map((c) => DBInstanceStatusInfo.fromXml(c))
+          .map(DBInstanceStatusInfo.fromXml)
           .toList()),
       storageEncrypted: _s.extractXmlBoolValue(elem, 'StorageEncrypted'),
       storageType: _s.extractXmlStringValue(elem, 'StorageType'),
-      tagList: _s.extractXmlChild(elem, 'TagList')?.let((elem) =>
-          elem.findElements('Tag').map((c) => Tag.fromXml(c)).toList()),
+      tagList: _s
+          .extractXmlChild(elem, 'TagList')
+          ?.let((elem) => elem.findElements('Tag').map(Tag.fromXml).toList()),
       tdeCredentialArn: _s.extractXmlStringValue(elem, 'TdeCredentialArn'),
       timezone: _s.extractXmlStringValue(elem, 'Timezone'),
       vpcSecurityGroups: _s.extractXmlChild(elem, 'VpcSecurityGroups')?.let(
           (elem) => elem
               .findElements('VpcSecurityGroupMembership')
-              .map((c) => VpcSecurityGroupMembership.fromXml(c))
+              .map(VpcSecurityGroupMembership.fromXml)
               .toList()),
     );
   }
@@ -22235,7 +22213,7 @@ class DBInstanceAutomatedBackup {
           .extractXmlChild(elem, 'DBInstanceAutomatedBackupsReplications')
           ?.let((elem) => elem
               .findElements('DBInstanceAutomatedBackupsReplication')
-              .map((c) => DBInstanceAutomatedBackupsReplication.fromXml(c))
+              .map(DBInstanceAutomatedBackupsReplication.fromXml)
               .toList()),
       dBInstanceIdentifier:
           _s.extractXmlStringValue(elem, 'DBInstanceIdentifier'),
@@ -22254,9 +22232,8 @@ class DBInstanceAutomatedBackup {
       optionGroupName: _s.extractXmlStringValue(elem, 'OptionGroupName'),
       port: _s.extractXmlIntValue(elem, 'Port'),
       region: _s.extractXmlStringValue(elem, 'Region'),
-      restoreWindow: _s
-          .extractXmlChild(elem, 'RestoreWindow')
-          ?.let((e) => RestoreWindow.fromXml(e)),
+      restoreWindow:
+          _s.extractXmlChild(elem, 'RestoreWindow')?.let(RestoreWindow.fromXml),
       status: _s.extractXmlStringValue(elem, 'Status'),
       storageType: _s.extractXmlStringValue(elem, 'StorageType'),
       tdeCredentialArn: _s.extractXmlStringValue(elem, 'TdeCredentialArn'),
@@ -22367,7 +22344,7 @@ class DBInstanceAutomatedBackupMessage {
           .extractXmlChild(elem, 'DBInstanceAutomatedBackups')
           ?.let((elem) => elem
               .findElements('DBInstanceAutomatedBackup')
-              .map((c) => DBInstanceAutomatedBackup.fromXml(c))
+              .map(DBInstanceAutomatedBackup.fromXml)
               .toList()),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
@@ -22447,10 +22424,8 @@ class DBInstanceMessage {
 
   factory DBInstanceMessage.fromXml(_s.XmlElement elem) {
     return DBInstanceMessage(
-      dBInstances: _s.extractXmlChild(elem, 'DBInstances')?.let((elem) => elem
-          .findElements('DBInstance')
-          .map((c) => DBInstance.fromXml(c))
-          .toList()),
+      dBInstances: _s.extractXmlChild(elem, 'DBInstances')?.let((elem) =>
+          elem.findElements('DBInstance').map(DBInstance.fromXml).toList()),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
   }
@@ -22680,10 +22655,8 @@ class DBParameterGroupDetails {
   factory DBParameterGroupDetails.fromXml(_s.XmlElement elem) {
     return DBParameterGroupDetails(
       marker: _s.extractXmlStringValue(elem, 'Marker'),
-      parameters: _s.extractXmlChild(elem, 'Parameters')?.let((elem) => elem
-          .findElements('Parameter')
-          .map((c) => Parameter.fromXml(c))
-          .toList()),
+      parameters: _s.extractXmlChild(elem, 'Parameters')?.let((elem) =>
+          elem.findElements('Parameter').map(Parameter.fromXml).toList()),
     );
   }
 
@@ -22825,7 +22798,7 @@ class DBParameterGroupsMessage {
       dBParameterGroups: _s.extractXmlChild(elem, 'DBParameterGroups')?.let(
           (elem) => elem
               .findElements('DBParameterGroup')
-              .map((c) => DBParameterGroup.fromXml(c))
+              .map(DBParameterGroup.fromXml)
               .toList()),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
@@ -22961,10 +22934,8 @@ class DBProxy {
 
   factory DBProxy.fromXml(_s.XmlElement elem) {
     return DBProxy(
-      auth: _s.extractXmlChild(elem, 'Auth')?.let((elem) => elem
-          .findElements('member')
-          .map((c) => UserAuthConfigInfo.fromXml(c))
-          .toList()),
+      auth: _s.extractXmlChild(elem, 'Auth')?.let((elem) =>
+          elem.findElements('member').map(UserAuthConfigInfo.fromXml).toList()),
       createdDate: _s.extractXmlDateTimeValue(elem, 'CreatedDate'),
       dBProxyArn: _s.extractXmlStringValue(elem, 'DBProxyArn'),
       dBProxyName: _s.extractXmlStringValue(elem, 'DBProxyName'),
@@ -23376,9 +23347,8 @@ class DBProxyTarget {
       rdsResourceId: _s.extractXmlStringValue(elem, 'RdsResourceId'),
       role: _s.extractXmlStringValue(elem, 'Role')?.toTargetRole(),
       targetArn: _s.extractXmlStringValue(elem, 'TargetArn'),
-      targetHealth: _s
-          .extractXmlChild(elem, 'TargetHealth')
-          ?.let((e) => TargetHealth.fromXml(e)),
+      targetHealth:
+          _s.extractXmlChild(elem, 'TargetHealth')?.let(TargetHealth.fromXml),
       trackedClusterId: _s.extractXmlStringValue(elem, 'TrackedClusterId'),
       type: _s.extractXmlStringValue(elem, 'Type')?.toTargetType(),
     );
@@ -23476,7 +23446,7 @@ class DBProxyTargetGroup {
     return DBProxyTargetGroup(
       connectionPoolConfig: _s
           .extractXmlChild(elem, 'ConnectionPoolConfig')
-          ?.let((e) => ConnectionPoolConfigurationInfo.fromXml(e)),
+          ?.let(ConnectionPoolConfigurationInfo.fromXml),
       createdDate: _s.extractXmlDateTimeValue(elem, 'CreatedDate'),
       dBProxyName: _s.extractXmlStringValue(elem, 'DBProxyName'),
       isDefault: _s.extractXmlBoolValue(elem, 'IsDefault'),
@@ -23575,10 +23545,10 @@ class DBSecurityGroup {
       eC2SecurityGroups: _s.extractXmlChild(elem, 'EC2SecurityGroups')?.let(
           (elem) => elem
               .findElements('EC2SecurityGroup')
-              .map((c) => EC2SecurityGroup.fromXml(c))
+              .map(EC2SecurityGroup.fromXml)
               .toList()),
-      iPRanges: _s.extractXmlChild(elem, 'IPRanges')?.let((elem) =>
-          elem.findElements('IPRange').map((c) => IPRange.fromXml(c)).toList()),
+      iPRanges: _s.extractXmlChild(elem, 'IPRanges')?.let(
+          (elem) => elem.findElements('IPRange').map(IPRange.fromXml).toList()),
       ownerId: _s.extractXmlStringValue(elem, 'OwnerId'),
       vpcId: _s.extractXmlStringValue(elem, 'VpcId'),
     );
@@ -23691,7 +23661,7 @@ class DBSecurityGroupMessage {
       dBSecurityGroups: _s.extractXmlChild(elem, 'DBSecurityGroups')?.let(
           (elem) => elem
               .findElements('DBSecurityGroup')
-              .map((c) => DBSecurityGroup.fromXml(c))
+              .map(DBSecurityGroup.fromXml)
               .toList()),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
@@ -23932,7 +23902,7 @@ class DBSnapshot {
       processorFeatures: _s.extractXmlChild(elem, 'ProcessorFeatures')?.let(
           (elem) => elem
               .findElements('ProcessorFeature')
-              .map((c) => ProcessorFeature.fromXml(c))
+              .map(ProcessorFeature.fromXml)
               .toList()),
       snapshotCreateTime:
           _s.extractXmlDateTimeValue(elem, 'SnapshotCreateTime'),
@@ -23943,8 +23913,9 @@ class DBSnapshot {
       sourceRegion: _s.extractXmlStringValue(elem, 'SourceRegion'),
       status: _s.extractXmlStringValue(elem, 'Status'),
       storageType: _s.extractXmlStringValue(elem, 'StorageType'),
-      tagList: _s.extractXmlChild(elem, 'TagList')?.let((elem) =>
-          elem.findElements('Tag').map((c) => Tag.fromXml(c)).toList()),
+      tagList: _s
+          .extractXmlChild(elem, 'TagList')
+          ?.let((elem) => elem.findElements('Tag').map(Tag.fromXml).toList()),
       tdeCredentialArn: _s.extractXmlStringValue(elem, 'TdeCredentialArn'),
       timezone: _s.extractXmlStringValue(elem, 'Timezone'),
       vpcId: _s.extractXmlStringValue(elem, 'VpcId'),
@@ -24118,7 +24089,7 @@ class DBSnapshotAttributesResult {
           .extractXmlChild(elem, 'DBSnapshotAttributes')
           ?.let((elem) => elem
               .findElements('DBSnapshotAttribute')
-              .map((c) => DBSnapshotAttribute.fromXml(c))
+              .map(DBSnapshotAttribute.fromXml)
               .toList()),
       dBSnapshotIdentifier:
           _s.extractXmlStringValue(elem, 'DBSnapshotIdentifier'),
@@ -24165,10 +24136,8 @@ class DBSnapshotMessage {
 
   factory DBSnapshotMessage.fromXml(_s.XmlElement elem) {
     return DBSnapshotMessage(
-      dBSnapshots: _s.extractXmlChild(elem, 'DBSnapshots')?.let((elem) => elem
-          .findElements('DBSnapshot')
-          .map((c) => DBSnapshot.fromXml(c))
-          .toList()),
+      dBSnapshots: _s.extractXmlChild(elem, 'DBSnapshots')?.let((elem) =>
+          elem.findElements('DBSnapshot').map(DBSnapshot.fromXml).toList()),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
   }
@@ -24236,8 +24205,8 @@ class DBSubnetGroup {
           _s.extractXmlStringValue(elem, 'DBSubnetGroupDescription'),
       dBSubnetGroupName: _s.extractXmlStringValue(elem, 'DBSubnetGroupName'),
       subnetGroupStatus: _s.extractXmlStringValue(elem, 'SubnetGroupStatus'),
-      subnets: _s.extractXmlChild(elem, 'Subnets')?.let((elem) =>
-          elem.findElements('Subnet').map((c) => Subnet.fromXml(c)).toList()),
+      subnets: _s.extractXmlChild(elem, 'Subnets')?.let(
+          (elem) => elem.findElements('Subnet').map(Subnet.fromXml).toList()),
       vpcId: _s.extractXmlStringValue(elem, 'VpcId'),
     );
   }
@@ -24292,7 +24261,7 @@ class DBSubnetGroupMessage {
       dBSubnetGroups: _s.extractXmlChild(elem, 'DBSubnetGroups')?.let((elem) =>
           elem
               .findElements('DBSubnetGroup')
-              .map((c) => DBSubnetGroup.fromXml(c))
+              .map(DBSubnetGroup.fromXml)
               .toList()),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
@@ -24329,7 +24298,7 @@ class DeleteCustomAvailabilityZoneResult {
     return DeleteCustomAvailabilityZoneResult(
       customAvailabilityZone: _s
           .extractXmlChild(elem, 'CustomAvailabilityZone')
-          ?.let((e) => CustomAvailabilityZone.fromXml(e)),
+          ?.let(CustomAvailabilityZone.fromXml),
     );
   }
 
@@ -24359,9 +24328,7 @@ class DeleteDBClusterResult {
 
   factory DeleteDBClusterResult.fromXml(_s.XmlElement elem) {
     return DeleteDBClusterResult(
-      dBCluster: _s
-          .extractXmlChild(elem, 'DBCluster')
-          ?.let((e) => DBCluster.fromXml(e)),
+      dBCluster: _s.extractXmlChild(elem, 'DBCluster')?.let(DBCluster.fromXml),
     );
   }
 
@@ -24393,7 +24360,7 @@ class DeleteDBClusterSnapshotResult {
     return DeleteDBClusterSnapshotResult(
       dBClusterSnapshot: _s
           .extractXmlChild(elem, 'DBClusterSnapshot')
-          ?.let((e) => DBClusterSnapshot.fromXml(e)),
+          ?.let(DBClusterSnapshot.fromXml),
     );
   }
 
@@ -24426,7 +24393,7 @@ class DeleteDBInstanceAutomatedBackupResult {
     return DeleteDBInstanceAutomatedBackupResult(
       dBInstanceAutomatedBackup: _s
           .extractXmlChild(elem, 'DBInstanceAutomatedBackup')
-          ?.let((e) => DBInstanceAutomatedBackup.fromXml(e)),
+          ?.let(DBInstanceAutomatedBackup.fromXml),
     );
   }
 
@@ -24456,9 +24423,8 @@ class DeleteDBInstanceResult {
 
   factory DeleteDBInstanceResult.fromXml(_s.XmlElement elem) {
     return DeleteDBInstanceResult(
-      dBInstance: _s
-          .extractXmlChild(elem, 'DBInstance')
-          ?.let((e) => DBInstance.fromXml(e)),
+      dBInstance:
+          _s.extractXmlChild(elem, 'DBInstance')?.let(DBInstance.fromXml),
     );
   }
 
@@ -24492,7 +24458,7 @@ class DeleteDBProxyEndpointResponse {
     return DeleteDBProxyEndpointResponse(
       dBProxyEndpoint: _s
           .extractXmlChild(elem, 'DBProxyEndpoint')
-          ?.let((e) => DBProxyEndpoint.fromXml(e)),
+          ?.let(DBProxyEndpoint.fromXml),
     );
   }
 
@@ -24522,8 +24488,7 @@ class DeleteDBProxyResponse {
 
   factory DeleteDBProxyResponse.fromXml(_s.XmlElement elem) {
     return DeleteDBProxyResponse(
-      dBProxy:
-          _s.extractXmlChild(elem, 'DBProxy')?.let((e) => DBProxy.fromXml(e)),
+      dBProxy: _s.extractXmlChild(elem, 'DBProxy')?.let(DBProxy.fromXml),
     );
   }
 
@@ -24552,9 +24517,8 @@ class DeleteDBSnapshotResult {
 
   factory DeleteDBSnapshotResult.fromXml(_s.XmlElement elem) {
     return DeleteDBSnapshotResult(
-      dBSnapshot: _s
-          .extractXmlChild(elem, 'DBSnapshot')
-          ?.let((e) => DBSnapshot.fromXml(e)),
+      dBSnapshot:
+          _s.extractXmlChild(elem, 'DBSnapshot')?.let(DBSnapshot.fromXml),
     );
   }
 
@@ -24586,7 +24550,7 @@ class DeleteEventSubscriptionResult {
     return DeleteEventSubscriptionResult(
       eventSubscription: _s
           .extractXmlChild(elem, 'EventSubscription')
-          ?.let((e) => EventSubscription.fromXml(e)),
+          ?.let(EventSubscription.fromXml),
     );
   }
 
@@ -24616,9 +24580,8 @@ class DeleteGlobalClusterResult {
 
   factory DeleteGlobalClusterResult.fromXml(_s.XmlElement elem) {
     return DeleteGlobalClusterResult(
-      globalCluster: _s
-          .extractXmlChild(elem, 'GlobalCluster')
-          ?.let((e) => GlobalCluster.fromXml(e)),
+      globalCluster:
+          _s.extractXmlChild(elem, 'GlobalCluster')?.let(GlobalCluster.fromXml),
     );
   }
 
@@ -24672,7 +24635,7 @@ class DescribeDBClusterSnapshotAttributesResult {
     return DescribeDBClusterSnapshotAttributesResult(
       dBClusterSnapshotAttributesResult: _s
           .extractXmlChild(elem, 'DBClusterSnapshotAttributesResult')
-          ?.let((e) => DBClusterSnapshotAttributesResult.fromXml(e)),
+          ?.let(DBClusterSnapshotAttributesResult.fromXml),
     );
   }
 
@@ -24761,7 +24724,7 @@ class DescribeDBLogFilesResponse {
       describeDBLogFiles: _s.extractXmlChild(elem, 'DescribeDBLogFiles')?.let(
           (elem) => elem
               .findElements('DescribeDBLogFilesDetails')
-              .map((c) => DescribeDBLogFilesDetails.fromXml(c))
+              .map(DescribeDBLogFilesDetails.fromXml)
               .toList()),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
@@ -24804,8 +24767,8 @@ class DescribeDBProxiesResponse {
 
   factory DescribeDBProxiesResponse.fromXml(_s.XmlElement elem) {
     return DescribeDBProxiesResponse(
-      dBProxies: _s.extractXmlChild(elem, 'DBProxies')?.let((elem) =>
-          elem.findElements('member').map((c) => DBProxy.fromXml(c)).toList()),
+      dBProxies: _s.extractXmlChild(elem, 'DBProxies')?.let(
+          (elem) => elem.findElements('member').map(DBProxy.fromXml).toList()),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
   }
@@ -24850,7 +24813,7 @@ class DescribeDBProxyEndpointsResponse {
       dBProxyEndpoints: _s.extractXmlChild(elem, 'DBProxyEndpoints')?.let(
           (elem) => elem
               .findElements('member')
-              .map((c) => DBProxyEndpoint.fromXml(c))
+              .map(DBProxyEndpoint.fromXml)
               .toList()),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
@@ -24895,10 +24858,8 @@ class DescribeDBProxyTargetGroupsResponse {
   factory DescribeDBProxyTargetGroupsResponse.fromXml(_s.XmlElement elem) {
     return DescribeDBProxyTargetGroupsResponse(
       marker: _s.extractXmlStringValue(elem, 'Marker'),
-      targetGroups: _s.extractXmlChild(elem, 'TargetGroups')?.let((elem) => elem
-          .findElements('member')
-          .map((c) => DBProxyTargetGroup.fromXml(c))
-          .toList()),
+      targetGroups: _s.extractXmlChild(elem, 'TargetGroups')?.let((elem) =>
+          elem.findElements('member').map(DBProxyTargetGroup.fromXml).toList()),
     );
   }
 
@@ -24940,10 +24901,8 @@ class DescribeDBProxyTargetsResponse {
   factory DescribeDBProxyTargetsResponse.fromXml(_s.XmlElement elem) {
     return DescribeDBProxyTargetsResponse(
       marker: _s.extractXmlStringValue(elem, 'Marker'),
-      targets: _s.extractXmlChild(elem, 'Targets')?.let((elem) => elem
-          .findElements('member')
-          .map((c) => DBProxyTarget.fromXml(c))
-          .toList()),
+      targets: _s.extractXmlChild(elem, 'Targets')?.let((elem) =>
+          elem.findElements('member').map(DBProxyTarget.fromXml).toList()),
     );
   }
 
@@ -24978,7 +24937,7 @@ class DescribeDBSnapshotAttributesResult {
     return DescribeDBSnapshotAttributesResult(
       dBSnapshotAttributesResult: _s
           .extractXmlChild(elem, 'DBSnapshotAttributesResult')
-          ?.let((e) => DBSnapshotAttributesResult.fromXml(e)),
+          ?.let(DBSnapshotAttributesResult.fromXml),
     );
   }
 
@@ -25013,7 +24972,7 @@ class DescribeEngineDefaultClusterParametersResult {
     return DescribeEngineDefaultClusterParametersResult(
       engineDefaults: _s
           .extractXmlChild(elem, 'EngineDefaults')
-          ?.let((e) => EngineDefaults.fromXml(e)),
+          ?.let(EngineDefaults.fromXml),
     );
   }
 
@@ -25046,7 +25005,7 @@ class DescribeEngineDefaultParametersResult {
     return DescribeEngineDefaultParametersResult(
       engineDefaults: _s
           .extractXmlChild(elem, 'EngineDefaults')
-          ?.let((e) => EngineDefaults.fromXml(e)),
+          ?.let(EngineDefaults.fromXml),
     );
   }
 
@@ -25083,7 +25042,7 @@ class DescribeValidDBInstanceModificationsResult {
     return DescribeValidDBInstanceModificationsResult(
       validDBInstanceModificationsMessage: _s
           .extractXmlChild(elem, 'ValidDBInstanceModificationsMessage')
-          ?.let((e) => ValidDBInstanceModificationsMessage.fromXml(e)),
+          ?.let(ValidDBInstanceModificationsMessage.fromXml),
     );
   }
 
@@ -25409,10 +25368,8 @@ class EngineDefaults {
       dBParameterGroupFamily:
           _s.extractXmlStringValue(elem, 'DBParameterGroupFamily'),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
-      parameters: _s.extractXmlChild(elem, 'Parameters')?.let((elem) => elem
-          .findElements('Parameter')
-          .map((c) => Parameter.fromXml(c))
-          .toList()),
+      parameters: _s.extractXmlChild(elem, 'Parameters')?.let((elem) =>
+          elem.findElements('Parameter').map(Parameter.fromXml).toList()),
     );
   }
 
@@ -25599,7 +25556,7 @@ class EventCategoriesMessage {
           .extractXmlChild(elem, 'EventCategoriesMapList')
           ?.let((elem) => elem
               .findElements('EventCategoriesMap')
-              .map((c) => EventCategoriesMap.fromXml(c))
+              .map(EventCategoriesMap.fromXml)
               .toList()),
     );
   }
@@ -25773,7 +25730,7 @@ class EventSubscriptionsMessage {
           .extractXmlChild(elem, 'EventSubscriptionsList')
           ?.let((elem) => elem
               .findElements('EventSubscription')
-              .map((c) => EventSubscription.fromXml(c))
+              .map(EventSubscription.fromXml)
               .toList()),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
@@ -25818,8 +25775,8 @@ class EventsMessage {
 
   factory EventsMessage.fromXml(_s.XmlElement elem) {
     return EventsMessage(
-      events: _s.extractXmlChild(elem, 'Events')?.let((elem) =>
-          elem.findElements('Event').map((c) => Event.fromXml(c)).toList()),
+      events: _s.extractXmlChild(elem, 'Events')?.let(
+          (elem) => elem.findElements('Event').map(Event.fromXml).toList()),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
   }
@@ -26044,10 +26001,8 @@ class ExportTasksMessage {
 
   factory ExportTasksMessage.fromXml(_s.XmlElement elem) {
     return ExportTasksMessage(
-      exportTasks: _s.extractXmlChild(elem, 'ExportTasks')?.let((elem) => elem
-          .findElements('ExportTask')
-          .map((c) => ExportTask.fromXml(c))
-          .toList()),
+      exportTasks: _s.extractXmlChild(elem, 'ExportTasks')?.let((elem) =>
+          elem.findElements('ExportTask').map(ExportTask.fromXml).toList()),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
   }
@@ -26079,9 +26034,7 @@ class FailoverDBClusterResult {
 
   factory FailoverDBClusterResult.fromXml(_s.XmlElement elem) {
     return FailoverDBClusterResult(
-      dBCluster: _s
-          .extractXmlChild(elem, 'DBCluster')
-          ?.let((e) => DBCluster.fromXml(e)),
+      dBCluster: _s.extractXmlChild(elem, 'DBCluster')?.let(DBCluster.fromXml),
     );
   }
 
@@ -26111,9 +26064,8 @@ class FailoverGlobalClusterResult {
 
   factory FailoverGlobalClusterResult.fromXml(_s.XmlElement elem) {
     return FailoverGlobalClusterResult(
-      globalCluster: _s
-          .extractXmlChild(elem, 'GlobalCluster')
-          ?.let((e) => GlobalCluster.fromXml(e)),
+      globalCluster:
+          _s.extractXmlChild(elem, 'GlobalCluster')?.let(GlobalCluster.fromXml),
     );
   }
 
@@ -26373,9 +26325,8 @@ class GlobalCluster {
       deletionProtection: _s.extractXmlBoolValue(elem, 'DeletionProtection'),
       engine: _s.extractXmlStringValue(elem, 'Engine'),
       engineVersion: _s.extractXmlStringValue(elem, 'EngineVersion'),
-      failoverState: _s
-          .extractXmlChild(elem, 'FailoverState')
-          ?.let((e) => FailoverState.fromXml(e)),
+      failoverState:
+          _s.extractXmlChild(elem, 'FailoverState')?.let(FailoverState.fromXml),
       globalClusterArn: _s.extractXmlStringValue(elem, 'GlobalClusterArn'),
       globalClusterIdentifier:
           _s.extractXmlStringValue(elem, 'GlobalClusterIdentifier'),
@@ -26383,7 +26334,7 @@ class GlobalCluster {
           .extractXmlChild(elem, 'GlobalClusterMembers')
           ?.let((elem) => elem
               .findElements('GlobalClusterMember')
-              .map((c) => GlobalClusterMember.fromXml(c))
+              .map(GlobalClusterMember.fromXml)
               .toList()),
       globalClusterResourceId:
           _s.extractXmlStringValue(elem, 'GlobalClusterResourceId'),
@@ -26521,7 +26472,7 @@ class GlobalClustersMessage {
       globalClusters: _s.extractXmlChild(elem, 'GlobalClusters')?.let((elem) =>
           elem
               .findElements('GlobalClusterMember')
-              .map((c) => GlobalCluster.fromXml(c))
+              .map(GlobalCluster.fromXml)
               .toList()),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
@@ -26670,7 +26621,7 @@ class InstallationMedia {
       engineVersion: _s.extractXmlStringValue(elem, 'EngineVersion'),
       failureCause: _s
           .extractXmlChild(elem, 'FailureCause')
-          ?.let((e) => InstallationMediaFailureCause.fromXml(e)),
+          ?.let(InstallationMediaFailureCause.fromXml),
       installationMediaId:
           _s.extractXmlStringValue(elem, 'InstallationMediaId'),
       oSInstallationMediaPath:
@@ -26767,7 +26718,7 @@ class InstallationMediaMessage {
       installationMedia: _s.extractXmlChild(elem, 'InstallationMedia')?.let(
           (elem) => elem
               .findElements('InstallationMedia')
-              .map((c) => InstallationMedia.fromXml(c))
+              .map(InstallationMedia.fromXml)
               .toList()),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
@@ -26841,9 +26792,8 @@ class ModifyCertificatesResult {
 
   factory ModifyCertificatesResult.fromXml(_s.XmlElement elem) {
     return ModifyCertificatesResult(
-      certificate: _s
-          .extractXmlChild(elem, 'Certificate')
-          ?.let((e) => Certificate.fromXml(e)),
+      certificate:
+          _s.extractXmlChild(elem, 'Certificate')?.let(Certificate.fromXml),
     );
   }
 
@@ -26872,9 +26822,7 @@ class ModifyDBClusterResult {
 
   factory ModifyDBClusterResult.fromXml(_s.XmlElement elem) {
     return ModifyDBClusterResult(
-      dBCluster: _s
-          .extractXmlChild(elem, 'DBCluster')
-          ?.let((e) => DBCluster.fromXml(e)),
+      dBCluster: _s.extractXmlChild(elem, 'DBCluster')?.let(DBCluster.fromXml),
     );
   }
 
@@ -26909,7 +26857,7 @@ class ModifyDBClusterSnapshotAttributeResult {
     return ModifyDBClusterSnapshotAttributeResult(
       dBClusterSnapshotAttributesResult: _s
           .extractXmlChild(elem, 'DBClusterSnapshotAttributesResult')
-          ?.let((e) => DBClusterSnapshotAttributesResult.fromXml(e)),
+          ?.let(DBClusterSnapshotAttributesResult.fromXml),
     );
   }
 
@@ -26940,9 +26888,8 @@ class ModifyDBInstanceResult {
 
   factory ModifyDBInstanceResult.fromXml(_s.XmlElement elem) {
     return ModifyDBInstanceResult(
-      dBInstance: _s
-          .extractXmlChild(elem, 'DBInstance')
-          ?.let((e) => DBInstance.fromXml(e)),
+      dBInstance:
+          _s.extractXmlChild(elem, 'DBInstance')?.let(DBInstance.fromXml),
     );
   }
 
@@ -26976,7 +26923,7 @@ class ModifyDBProxyEndpointResponse {
     return ModifyDBProxyEndpointResponse(
       dBProxyEndpoint: _s
           .extractXmlChild(elem, 'DBProxyEndpoint')
-          ?.let((e) => DBProxyEndpoint.fromXml(e)),
+          ?.let(DBProxyEndpoint.fromXml),
     );
   }
 
@@ -27006,8 +26953,7 @@ class ModifyDBProxyResponse {
 
   factory ModifyDBProxyResponse.fromXml(_s.XmlElement elem) {
     return ModifyDBProxyResponse(
-      dBProxy:
-          _s.extractXmlChild(elem, 'DBProxy')?.let((e) => DBProxy.fromXml(e)),
+      dBProxy: _s.extractXmlChild(elem, 'DBProxy')?.let(DBProxy.fromXml),
     );
   }
 
@@ -27040,7 +26986,7 @@ class ModifyDBProxyTargetGroupResponse {
     return ModifyDBProxyTargetGroupResponse(
       dBProxyTargetGroup: _s
           .extractXmlChild(elem, 'DBProxyTargetGroup')
-          ?.let((e) => DBProxyTargetGroup.fromXml(e)),
+          ?.let(DBProxyTargetGroup.fromXml),
     );
   }
 
@@ -27072,7 +27018,7 @@ class ModifyDBSnapshotAttributeResult {
     return ModifyDBSnapshotAttributeResult(
       dBSnapshotAttributesResult: _s
           .extractXmlChild(elem, 'DBSnapshotAttributesResult')
-          ?.let((e) => DBSnapshotAttributesResult.fromXml(e)),
+          ?.let(DBSnapshotAttributesResult.fromXml),
     );
   }
 
@@ -27102,9 +27048,8 @@ class ModifyDBSnapshotResult {
 
   factory ModifyDBSnapshotResult.fromXml(_s.XmlElement elem) {
     return ModifyDBSnapshotResult(
-      dBSnapshot: _s
-          .extractXmlChild(elem, 'DBSnapshot')
-          ?.let((e) => DBSnapshot.fromXml(e)),
+      dBSnapshot:
+          _s.extractXmlChild(elem, 'DBSnapshot')?.let(DBSnapshot.fromXml),
     );
   }
 
@@ -27134,9 +27079,8 @@ class ModifyDBSubnetGroupResult {
 
   factory ModifyDBSubnetGroupResult.fromXml(_s.XmlElement elem) {
     return ModifyDBSubnetGroupResult(
-      dBSubnetGroup: _s
-          .extractXmlChild(elem, 'DBSubnetGroup')
-          ?.let((e) => DBSubnetGroup.fromXml(e)),
+      dBSubnetGroup:
+          _s.extractXmlChild(elem, 'DBSubnetGroup')?.let(DBSubnetGroup.fromXml),
     );
   }
 
@@ -27168,7 +27112,7 @@ class ModifyEventSubscriptionResult {
     return ModifyEventSubscriptionResult(
       eventSubscription: _s
           .extractXmlChild(elem, 'EventSubscription')
-          ?.let((e) => EventSubscription.fromXml(e)),
+          ?.let(EventSubscription.fromXml),
     );
   }
 
@@ -27198,9 +27142,8 @@ class ModifyGlobalClusterResult {
 
   factory ModifyGlobalClusterResult.fromXml(_s.XmlElement elem) {
     return ModifyGlobalClusterResult(
-      globalCluster: _s
-          .extractXmlChild(elem, 'GlobalCluster')
-          ?.let((e) => GlobalCluster.fromXml(e)),
+      globalCluster:
+          _s.extractXmlChild(elem, 'GlobalCluster')?.let(GlobalCluster.fromXml),
     );
   }
 
@@ -27229,9 +27172,8 @@ class ModifyOptionGroupResult {
 
   factory ModifyOptionGroupResult.fromXml(_s.XmlElement elem) {
     return ModifyOptionGroupResult(
-      optionGroup: _s
-          .extractXmlChild(elem, 'OptionGroup')
-          ?.let((e) => OptionGroup.fromXml(e)),
+      optionGroup:
+          _s.extractXmlChild(elem, 'OptionGroup')?.let(OptionGroup.fromXml),
     );
   }
 
@@ -27318,14 +27260,14 @@ class Option {
           .extractXmlChild(elem, 'DBSecurityGroupMemberships')
           ?.let((elem) => elem
               .findElements('DBSecurityGroup')
-              .map((c) => DBSecurityGroupMembership.fromXml(c))
+              .map(DBSecurityGroupMembership.fromXml)
               .toList()),
       optionDescription: _s.extractXmlStringValue(elem, 'OptionDescription'),
       optionName: _s.extractXmlStringValue(elem, 'OptionName'),
       optionSettings: _s.extractXmlChild(elem, 'OptionSettings')?.let((elem) =>
           elem
               .findElements('OptionSetting')
-              .map((c) => OptionSetting.fromXml(c))
+              .map(OptionSetting.fromXml)
               .toList()),
       optionVersion: _s.extractXmlStringValue(elem, 'OptionVersion'),
       permanent: _s.extractXmlBoolValue(elem, 'Permanent'),
@@ -27335,7 +27277,7 @@ class Option {
           .extractXmlChild(elem, 'VpcSecurityGroupMemberships')
           ?.let((elem) => elem
               .findElements('VpcSecurityGroupMembership')
-              .map((c) => VpcSecurityGroupMembership.fromXml(c))
+              .map(VpcSecurityGroupMembership.fromXml)
               .toList()),
     );
   }
@@ -27507,8 +27449,8 @@ class OptionGroup {
       optionGroupDescription:
           _s.extractXmlStringValue(elem, 'OptionGroupDescription'),
       optionGroupName: _s.extractXmlStringValue(elem, 'OptionGroupName'),
-      options: _s.extractXmlChild(elem, 'Options')?.let((elem) =>
-          elem.findElements('Option').map((c) => Option.fromXml(c)).toList()),
+      options: _s.extractXmlChild(elem, 'Options')?.let(
+          (elem) => elem.findElements('Option').map(Option.fromXml).toList()),
       vpcId: _s.extractXmlStringValue(elem, 'VpcId'),
     );
   }
@@ -27708,13 +27650,13 @@ class OptionGroupOption {
           .extractXmlChild(elem, 'OptionGroupOptionSettings')
           ?.let((elem) => elem
               .findElements('OptionGroupOptionSetting')
-              .map((c) => OptionGroupOptionSetting.fromXml(c))
+              .map(OptionGroupOptionSetting.fromXml)
               .toList()),
       optionGroupOptionVersions: _s
           .extractXmlChild(elem, 'OptionGroupOptionVersions')
           ?.let((elem) => elem
               .findElements('OptionVersion')
-              .map((c) => OptionVersion.fromXml(c))
+              .map(OptionVersion.fromXml)
               .toList()),
       optionsConflictsWith: _s
           .extractXmlChild(elem, 'OptionsConflictsWith')
@@ -27853,7 +27795,7 @@ class OptionGroupOptionSetting {
           .extractXmlChild(elem, 'MinimumEngineVersionPerAllowedValue')
           ?.let((elem) => elem
               .findElements('MinimumEngineVersionPerAllowedValue')
-              .map((c) => MinimumEngineVersionPerAllowedValue.fromXml(c))
+              .map(MinimumEngineVersionPerAllowedValue.fromXml)
               .toList()),
       settingDescription: _s.extractXmlStringValue(elem, 'SettingDescription'),
       settingName: _s.extractXmlStringValue(elem, 'SettingName'),
@@ -27914,7 +27856,7 @@ class OptionGroupOptionsMessage {
       optionGroupOptions: _s.extractXmlChild(elem, 'OptionGroupOptions')?.let(
           (elem) => elem
               .findElements('OptionGroupOption')
-              .map((c) => OptionGroupOption.fromXml(c))
+              .map(OptionGroupOption.fromXml)
               .toList()),
     );
   }
@@ -27960,7 +27902,7 @@ class OptionGroups {
       optionGroupsList: _s.extractXmlChild(elem, 'OptionGroupsList')?.let(
           (elem) => elem
               .findElements('OptionGroup')
-              .map((c) => OptionGroup.fromXml(c))
+              .map(OptionGroup.fromXml)
               .toList()),
     );
   }
@@ -28310,13 +28252,13 @@ class OrderableDBInstanceOption {
       availabilityZones: _s.extractXmlChild(elem, 'AvailabilityZones')?.let(
           (elem) => elem
               .findElements('AvailabilityZone')
-              .map((c) => AvailabilityZone.fromXml(c))
+              .map(AvailabilityZone.fromXml)
               .toList()),
       availableProcessorFeatures: _s
           .extractXmlChild(elem, 'AvailableProcessorFeatures')
           ?.let((elem) => elem
               .findElements('AvailableProcessorFeature')
-              .map((c) => AvailableProcessorFeature.fromXml(c))
+              .map(AvailableProcessorFeature.fromXml)
               .toList()),
       dBInstanceClass: _s.extractXmlStringValue(elem, 'DBInstanceClass'),
       engine: _s.extractXmlStringValue(elem, 'Engine'),
@@ -28473,7 +28415,7 @@ class OrderableDBInstanceOptionsMessage {
           .extractXmlChild(elem, 'OrderableDBInstanceOptions')
           ?.let((elem) => elem
               .findElements('OrderableDBInstanceOption')
-              .map((c) => OrderableDBInstanceOption.fromXml(c))
+              .map(OrderableDBInstanceOption.fromXml)
               .toList()),
     );
   }
@@ -28821,7 +28763,7 @@ class PendingMaintenanceActionsMessage {
           .extractXmlChild(elem, 'PendingMaintenanceActions')
           ?.let((elem) => elem
               .findElements('ResourcePendingMaintenanceActions')
-              .map((c) => ResourcePendingMaintenanceActions.fromXml(c))
+              .map(ResourcePendingMaintenanceActions.fromXml)
               .toList()),
     );
   }
@@ -28979,12 +28921,12 @@ class PendingModifiedValues {
       multiAZ: _s.extractXmlBoolValue(elem, 'MultiAZ'),
       pendingCloudwatchLogsExports: _s
           .extractXmlChild(elem, 'PendingCloudwatchLogsExports')
-          ?.let((e) => PendingCloudwatchLogsExports.fromXml(e)),
+          ?.let(PendingCloudwatchLogsExports.fromXml),
       port: _s.extractXmlIntValue(elem, 'Port'),
       processorFeatures: _s.extractXmlChild(elem, 'ProcessorFeatures')?.let(
           (elem) => elem
               .findElements('ProcessorFeature')
-              .map((c) => ProcessorFeature.fromXml(c))
+              .map(ProcessorFeature.fromXml)
               .toList()),
       resumeFullAutomationModeTime:
           _s.extractXmlDateTimeValue(elem, 'ResumeFullAutomationModeTime'),
@@ -29162,9 +29104,7 @@ class PromoteReadReplicaDBClusterResult {
 
   factory PromoteReadReplicaDBClusterResult.fromXml(_s.XmlElement elem) {
     return PromoteReadReplicaDBClusterResult(
-      dBCluster: _s
-          .extractXmlChild(elem, 'DBCluster')
-          ?.let((e) => DBCluster.fromXml(e)),
+      dBCluster: _s.extractXmlChild(elem, 'DBCluster')?.let(DBCluster.fromXml),
     );
   }
 
@@ -29193,9 +29133,8 @@ class PromoteReadReplicaResult {
 
   factory PromoteReadReplicaResult.fromXml(_s.XmlElement elem) {
     return PromoteReadReplicaResult(
-      dBInstance: _s
-          .extractXmlChild(elem, 'DBInstance')
-          ?.let((e) => DBInstance.fromXml(e)),
+      dBInstance:
+          _s.extractXmlChild(elem, 'DBInstance')?.let(DBInstance.fromXml),
     );
   }
 
@@ -29229,7 +29168,7 @@ class PurchaseReservedDBInstancesOfferingResult {
     return PurchaseReservedDBInstancesOfferingResult(
       reservedDBInstance: _s
           .extractXmlChild(elem, 'ReservedDBInstance')
-          ?.let((e) => ReservedDBInstance.fromXml(e)),
+          ?.let(ReservedDBInstance.fromXml),
     );
   }
 
@@ -29306,9 +29245,7 @@ class RebootDBClusterResult {
 
   factory RebootDBClusterResult.fromXml(_s.XmlElement elem) {
     return RebootDBClusterResult(
-      dBCluster: _s
-          .extractXmlChild(elem, 'DBCluster')
-          ?.let((e) => DBCluster.fromXml(e)),
+      dBCluster: _s.extractXmlChild(elem, 'DBCluster')?.let(DBCluster.fromXml),
     );
   }
 
@@ -29337,9 +29274,8 @@ class RebootDBInstanceResult {
 
   factory RebootDBInstanceResult.fromXml(_s.XmlElement elem) {
     return RebootDBInstanceResult(
-      dBInstance: _s
-          .extractXmlChild(elem, 'DBInstance')
-          ?.let((e) => DBInstance.fromXml(e)),
+      dBInstance:
+          _s.extractXmlChild(elem, 'DBInstance')?.let(DBInstance.fromXml),
     );
   }
 
@@ -29415,10 +29351,7 @@ class RegisterDBProxyTargetsResponse {
   factory RegisterDBProxyTargetsResponse.fromXml(_s.XmlElement elem) {
     return RegisterDBProxyTargetsResponse(
       dBProxyTargets: _s.extractXmlChild(elem, 'DBProxyTargets')?.let((elem) =>
-          elem
-              .findElements('member')
-              .map((c) => DBProxyTarget.fromXml(c))
-              .toList()),
+          elem.findElements('member').map(DBProxyTarget.fromXml).toList()),
     );
   }
 
@@ -29448,9 +29381,8 @@ class RemoveFromGlobalClusterResult {
 
   factory RemoveFromGlobalClusterResult.fromXml(_s.XmlElement elem) {
     return RemoveFromGlobalClusterResult(
-      globalCluster: _s
-          .extractXmlChild(elem, 'GlobalCluster')
-          ?.let((e) => GlobalCluster.fromXml(e)),
+      globalCluster:
+          _s.extractXmlChild(elem, 'GlobalCluster')?.let(GlobalCluster.fromXml),
     );
   }
 
@@ -29484,7 +29416,7 @@ class RemoveSourceIdentifierFromSubscriptionResult {
     return RemoveSourceIdentifierFromSubscriptionResult(
       eventSubscription: _s
           .extractXmlChild(elem, 'EventSubscription')
-          ?.let((e) => EventSubscription.fromXml(e)),
+          ?.let(EventSubscription.fromXml),
     );
   }
 
@@ -29639,7 +29571,7 @@ class ReservedDBInstance {
       recurringCharges: _s.extractXmlChild(elem, 'RecurringCharges')?.let(
           (elem) => elem
               .findElements('RecurringCharge')
-              .map((c) => RecurringCharge.fromXml(c))
+              .map(RecurringCharge.fromXml)
               .toList()),
       reservedDBInstanceArn:
           _s.extractXmlStringValue(elem, 'ReservedDBInstanceArn'),
@@ -29726,7 +29658,7 @@ class ReservedDBInstanceMessage {
       reservedDBInstances: _s.extractXmlChild(elem, 'ReservedDBInstances')?.let(
           (elem) => elem
               .findElements('ReservedDBInstance')
-              .map((c) => ReservedDBInstance.fromXml(c))
+              .map(ReservedDBInstance.fromXml)
               .toList()),
     );
   }
@@ -29819,7 +29751,7 @@ class ReservedDBInstancesOffering {
       recurringCharges: _s.extractXmlChild(elem, 'RecurringCharges')?.let(
           (elem) => elem
               .findElements('RecurringCharge')
-              .map((c) => RecurringCharge.fromXml(c))
+              .map(RecurringCharge.fromXml)
               .toList()),
       reservedDBInstancesOfferingId:
           _s.extractXmlStringValue(elem, 'ReservedDBInstancesOfferingId'),
@@ -29890,7 +29822,7 @@ class ReservedDBInstancesOfferingMessage {
           .extractXmlChild(elem, 'ReservedDBInstancesOfferings')
           ?.let((elem) => elem
               .findElements('ReservedDBInstancesOffering')
-              .map((c) => ReservedDBInstancesOffering.fromXml(c))
+              .map(ReservedDBInstancesOffering.fromXml)
               .toList()),
     );
   }
@@ -29939,7 +29871,7 @@ class ResourcePendingMaintenanceActions {
           .extractXmlChild(elem, 'PendingMaintenanceActionDetails')
           ?.let((elem) => elem
               .findElements('PendingMaintenanceAction')
-              .map((c) => PendingMaintenanceAction.fromXml(c))
+              .map(PendingMaintenanceAction.fromXml)
               .toList()),
       resourceIdentifier: _s.extractXmlStringValue(elem, 'ResourceIdentifier'),
     );
@@ -29974,9 +29906,7 @@ class RestoreDBClusterFromS3Result {
 
   factory RestoreDBClusterFromS3Result.fromXml(_s.XmlElement elem) {
     return RestoreDBClusterFromS3Result(
-      dBCluster: _s
-          .extractXmlChild(elem, 'DBCluster')
-          ?.let((e) => DBCluster.fromXml(e)),
+      dBCluster: _s.extractXmlChild(elem, 'DBCluster')?.let(DBCluster.fromXml),
     );
   }
 
@@ -30006,9 +29936,7 @@ class RestoreDBClusterFromSnapshotResult {
 
   factory RestoreDBClusterFromSnapshotResult.fromXml(_s.XmlElement elem) {
     return RestoreDBClusterFromSnapshotResult(
-      dBCluster: _s
-          .extractXmlChild(elem, 'DBCluster')
-          ?.let((e) => DBCluster.fromXml(e)),
+      dBCluster: _s.extractXmlChild(elem, 'DBCluster')?.let(DBCluster.fromXml),
     );
   }
 
@@ -30038,9 +29966,7 @@ class RestoreDBClusterToPointInTimeResult {
 
   factory RestoreDBClusterToPointInTimeResult.fromXml(_s.XmlElement elem) {
     return RestoreDBClusterToPointInTimeResult(
-      dBCluster: _s
-          .extractXmlChild(elem, 'DBCluster')
-          ?.let((e) => DBCluster.fromXml(e)),
+      dBCluster: _s.extractXmlChild(elem, 'DBCluster')?.let(DBCluster.fromXml),
     );
   }
 
@@ -30070,9 +29996,8 @@ class RestoreDBInstanceFromDBSnapshotResult {
 
   factory RestoreDBInstanceFromDBSnapshotResult.fromXml(_s.XmlElement elem) {
     return RestoreDBInstanceFromDBSnapshotResult(
-      dBInstance: _s
-          .extractXmlChild(elem, 'DBInstance')
-          ?.let((e) => DBInstance.fromXml(e)),
+      dBInstance:
+          _s.extractXmlChild(elem, 'DBInstance')?.let(DBInstance.fromXml),
     );
   }
 
@@ -30101,9 +30026,8 @@ class RestoreDBInstanceFromS3Result {
 
   factory RestoreDBInstanceFromS3Result.fromXml(_s.XmlElement elem) {
     return RestoreDBInstanceFromS3Result(
-      dBInstance: _s
-          .extractXmlChild(elem, 'DBInstance')
-          ?.let((e) => DBInstance.fromXml(e)),
+      dBInstance:
+          _s.extractXmlChild(elem, 'DBInstance')?.let(DBInstance.fromXml),
     );
   }
 
@@ -30133,9 +30057,8 @@ class RestoreDBInstanceToPointInTimeResult {
 
   factory RestoreDBInstanceToPointInTimeResult.fromXml(_s.XmlElement elem) {
     return RestoreDBInstanceToPointInTimeResult(
-      dBInstance: _s
-          .extractXmlChild(elem, 'DBInstance')
-          ?.let((e) => DBInstance.fromXml(e)),
+      dBInstance:
+          _s.extractXmlChild(elem, 'DBInstance')?.let(DBInstance.fromXml),
     );
   }
 
@@ -30206,7 +30129,7 @@ class RevokeDBSecurityGroupIngressResult {
     return RevokeDBSecurityGroupIngressResult(
       dBSecurityGroup: _s
           .extractXmlChild(elem, 'DBSecurityGroup')
-          ?.let((e) => DBSecurityGroup.fromXml(e)),
+          ?.let(DBSecurityGroup.fromXml),
     );
   }
 
@@ -30522,10 +30445,7 @@ class SourceRegionMessage {
     return SourceRegionMessage(
       marker: _s.extractXmlStringValue(elem, 'Marker'),
       sourceRegions: _s.extractXmlChild(elem, 'SourceRegions')?.let((elem) =>
-          elem
-              .findElements('SourceRegion')
-              .map((c) => SourceRegion.fromXml(c))
-              .toList()),
+          elem.findElements('SourceRegion').map(SourceRegion.fromXml).toList()),
     );
   }
 
@@ -30686,9 +30606,7 @@ class StartDBClusterResult {
 
   factory StartDBClusterResult.fromXml(_s.XmlElement elem) {
     return StartDBClusterResult(
-      dBCluster: _s
-          .extractXmlChild(elem, 'DBCluster')
-          ?.let((e) => DBCluster.fromXml(e)),
+      dBCluster: _s.extractXmlChild(elem, 'DBCluster')?.let(DBCluster.fromXml),
     );
   }
 
@@ -30722,7 +30640,7 @@ class StartDBInstanceAutomatedBackupsReplicationResult {
     return StartDBInstanceAutomatedBackupsReplicationResult(
       dBInstanceAutomatedBackup: _s
           .extractXmlChild(elem, 'DBInstanceAutomatedBackup')
-          ?.let((e) => DBInstanceAutomatedBackup.fromXml(e)),
+          ?.let(DBInstanceAutomatedBackup.fromXml),
     );
   }
 
@@ -30752,9 +30670,8 @@ class StartDBInstanceResult {
 
   factory StartDBInstanceResult.fromXml(_s.XmlElement elem) {
     return StartDBInstanceResult(
-      dBInstance: _s
-          .extractXmlChild(elem, 'DBInstance')
-          ?.let((e) => DBInstance.fromXml(e)),
+      dBInstance:
+          _s.extractXmlChild(elem, 'DBInstance')?.let(DBInstance.fromXml),
     );
   }
 
@@ -30833,9 +30750,7 @@ class StopDBClusterResult {
 
   factory StopDBClusterResult.fromXml(_s.XmlElement elem) {
     return StopDBClusterResult(
-      dBCluster: _s
-          .extractXmlChild(elem, 'DBCluster')
-          ?.let((e) => DBCluster.fromXml(e)),
+      dBCluster: _s.extractXmlChild(elem, 'DBCluster')?.let(DBCluster.fromXml),
     );
   }
 
@@ -30869,7 +30784,7 @@ class StopDBInstanceAutomatedBackupsReplicationResult {
     return StopDBInstanceAutomatedBackupsReplicationResult(
       dBInstanceAutomatedBackup: _s
           .extractXmlChild(elem, 'DBInstanceAutomatedBackup')
-          ?.let((e) => DBInstanceAutomatedBackup.fromXml(e)),
+          ?.let(DBInstanceAutomatedBackup.fromXml),
     );
   }
 
@@ -30899,9 +30814,8 @@ class StopDBInstanceResult {
 
   factory StopDBInstanceResult.fromXml(_s.XmlElement elem) {
     return StopDBInstanceResult(
-      dBInstance: _s
-          .extractXmlChild(elem, 'DBInstance')
-          ?.let((e) => DBInstance.fromXml(e)),
+      dBInstance:
+          _s.extractXmlChild(elem, 'DBInstance')?.let(DBInstance.fromXml),
     );
   }
 
@@ -30957,11 +30871,10 @@ class Subnet {
     return Subnet(
       subnetAvailabilityZone: _s
           .extractXmlChild(elem, 'SubnetAvailabilityZone')
-          ?.let((e) => AvailabilityZone.fromXml(e)),
+          ?.let(AvailabilityZone.fromXml),
       subnetIdentifier: _s.extractXmlStringValue(elem, 'SubnetIdentifier'),
-      subnetOutpost: _s
-          .extractXmlChild(elem, 'SubnetOutpost')
-          ?.let((e) => Outpost.fromXml(e)),
+      subnetOutpost:
+          _s.extractXmlChild(elem, 'SubnetOutpost')?.let(Outpost.fromXml),
       subnetStatus: _s.extractXmlStringValue(elem, 'SubnetStatus'),
     );
   }
@@ -31046,8 +30959,9 @@ class TagListMessage {
 
   factory TagListMessage.fromXml(_s.XmlElement elem) {
     return TagListMessage(
-      tagList: _s.extractXmlChild(elem, 'TagList')?.let((elem) =>
-          elem.findElements('Tag').map((c) => Tag.fromXml(c)).toList()),
+      tagList: _s
+          .extractXmlChild(elem, 'TagList')
+          ?.let((elem) => elem.findElements('Tag').map(Tag.fromXml).toList()),
     );
   }
 
@@ -31546,13 +31460,13 @@ class ValidDBInstanceModificationsMessage {
     return ValidDBInstanceModificationsMessage(
       storage: _s.extractXmlChild(elem, 'Storage')?.let((elem) => elem
           .findElements('ValidStorageOptions')
-          .map((c) => ValidStorageOptions.fromXml(c))
+          .map(ValidStorageOptions.fromXml)
           .toList()),
       validProcessorFeatures: _s
           .extractXmlChild(elem, 'ValidProcessorFeatures')
           ?.let((elem) => elem
               .findElements('AvailableProcessorFeature')
-              .map((c) => AvailableProcessorFeature.fromXml(c))
+              .map(AvailableProcessorFeature.fromXml)
               .toList()),
     );
   }
@@ -31622,13 +31536,12 @@ class ValidStorageOptions {
       iopsToStorageRatio: _s.extractXmlChild(elem, 'IopsToStorageRatio')?.let(
           (elem) => elem
               .findElements('DoubleRange')
-              .map((c) => DoubleRange.fromXml(c))
+              .map(DoubleRange.fromXml)
               .toList()),
       provisionedIops: _s.extractXmlChild(elem, 'ProvisionedIops')?.let(
-          (elem) =>
-              elem.findElements('Range').map((c) => Range.fromXml(c)).toList()),
-      storageSize: _s.extractXmlChild(elem, 'StorageSize')?.let((elem) =>
-          elem.findElements('Range').map((c) => Range.fromXml(c)).toList()),
+          (elem) => elem.findElements('Range').map(Range.fromXml).toList()),
+      storageSize: _s.extractXmlChild(elem, 'StorageSize')?.let(
+          (elem) => elem.findElements('Range').map(Range.fromXml).toList()),
       storageType: _s.extractXmlStringValue(elem, 'StorageType'),
       supportsStorageAutoscaling:
           _s.extractXmlBoolValue(elem, 'SupportsStorageAutoscaling'),

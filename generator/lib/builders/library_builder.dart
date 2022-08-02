@@ -451,7 +451,7 @@ String extractXmlCode(Shape shapeRef,
       }
     } else {
       fn = '$elemVar.findElements(\'$memberElemName\')'
-          '.map((c) => ${shapeRef.member.dartType}.fromXml(c)).toList()';
+          '.map(${shapeRef.member.dartType}.fromXml).toList()';
     }
     if (!flattened) {
       if (nullability.outputNullable) {
@@ -487,7 +487,7 @@ String extractXmlCode(Shape shapeRef,
         '.map((c) => MapEntry($keyExtractor, $valueExtractor,),)$mapFallback,)';
   } else {
     if (nullability.outputNullable) {
-      final fromXmlCode = '?.let((e)=>${shapeRef.className}.fromXml(e))';
+      final fromXmlCode = '?.let(${shapeRef.className}.fromXml)';
       if (container?.payload == elemName) {
         return '$elemVar$fromXmlCode';
       } else {
