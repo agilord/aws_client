@@ -39,7 +39,7 @@ void main() {
               'NS': ['1', '2', '3']
             },
             'buzz5': {
-              'SS': ['foo','bar','baz']
+              'SS': {'foo','bar','baz'}
             }
           }
         },

@@ -53,7 +53,7 @@ dynamic toDartType(AttributeValue value) {
   } else if (value.bs != null) {
     return value.bs;
   } else if (value.ss != null) {
-    return value.ss;
+    return value.ss!.toSet();
   }
 }
 
