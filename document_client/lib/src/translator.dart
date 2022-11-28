@@ -19,6 +19,8 @@ AttributeValue toAttributeValue(dynamic value) {
     return AttributeValue(b: value);
   } else if (value is List<num>) {
     return AttributeValue(ns: value.map((e) => e.toString()).toList());
+  } else if (value is Set<String>) {
+    return AttributeValue(ss: value.toList());
   } else if (value is List) {
     return AttributeValue(
       l: value.map(toAttributeValue).toList().cast(),
@@ -50,6 +52,8 @@ dynamic toDartType(AttributeValue value) {
     return value.ns!.map(double.parse).toList();
   } else if (value.bs != null) {
     return value.bs;
+  } else if (value.ss != null) {
+    return value.ss!.toSet();
   }
 }
 

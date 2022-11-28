@@ -14,7 +14,8 @@ void main() {
           'buzz1': Uint8List(1),
           'buzz2': ['stringyDingy'],
           'buzz3': [Uint8List(1)],
-          'buzz4': [1, 2, 3]
+          'buzz4': [1, 2, 3],
+          'buzz5': {'foo', 'bar', 'baz'},
         },
         'noCreativity': null
       };
@@ -36,6 +37,9 @@ void main() {
             },
             'buzz4': {
               'NS': ['1', '2', '3']
+            },
+            'buzz5': {
+              'SS': {'foo', 'bar', 'baz'}
             }
           }
         },
