@@ -4,7 +4,8 @@ import 'package:test/test.dart';
 void main() {
   group('QueryProtocol.flatQueryParams', () {
     test('handles a value of type double', () {
-      expect(() => flatQueryParams(0.0, null, {}, 'version', 'action'), returnsNormally);
+      expect(() => flatQueryParams(0.0, null, {}, 'version', 'action'),
+          returnsNormally);
     });
 
     test('correct output for a value of type double', () {
