@@ -1,5 +1,6 @@
 import 'package:http/http.dart';
 import 'package:http/testing.dart';
+import 'package:shared_aws_api/src/credentials.dart';
 import 'package:shared_aws_api/src/protocol/endpoint.dart';
 import 'package:shared_aws_api/src/protocol/query.dart';
 import 'package:test/test.dart';
@@ -17,6 +18,7 @@ void main() {
         endpointUrl: 'endpointUrl',
         service: ServiceMetadata(endpointPrefix: 'endpointPrefix'),
         region: 'us-west-2',
+        credentials: AwsClientCredentials(accessKey: '', secretKey: ''),
       );
       Object? theError;
       try {
