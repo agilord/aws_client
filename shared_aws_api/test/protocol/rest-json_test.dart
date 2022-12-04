@@ -26,8 +26,8 @@ void main() {
         theError = error as GenericAwsException;
       }
       expect(theError!.code, '500');
-      expect(theError!.type, 'UnknownError');
-      expect(theError!.message, '500');
+      expect(theError.type, 'UnknownError');
+      expect(theError.message, '500');
     });
   });
 }

@@ -2,7 +2,6 @@ import 'package:http/http.dart';
 import 'package:http/testing.dart';
 import 'package:shared_aws_api/src/protocol/endpoint.dart';
 import 'package:shared_aws_api/src/protocol/query.dart';
-import 'package:shared_aws_api/src/protocol/shared.dart';
 import 'package:test/test.dart';
 import 'package:xml/xml.dart';
 
