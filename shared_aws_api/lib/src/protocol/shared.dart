@@ -76,20 +76,6 @@ class GenericAwsException implements AwsException {
       };
 }
 
-class AmazonServiceException implements AwsException {
-  // refer to https://github.com/aws/aws-sdk-java/blob/master/aws-java-sdk-core/src/main/java/com/amazonaws/AmazonServiceException.java
-  final Request? request;
-  final BaseResponse? response;
-  final String? body;
-
-  AmazonServiceException({this.request, this.response, this.body});
-
-  int? get statusCode => response?.statusCode;
-
-  @override
-  String toString() => 'AWS request failed with status $statusCode';
-}
-
 typedef AwsExceptionFn = AwsException Function(String type, String message);
 
 XmlElement? extractXmlChild(XmlElement elem, String name) {
