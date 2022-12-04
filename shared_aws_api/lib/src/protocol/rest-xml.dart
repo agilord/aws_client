@@ -99,7 +99,7 @@ class RestXmlProtocol {
         final message = elem.findElements('Message').first.text;
         throw GenericAwsException(code: code, message: message);
       } else {
-        throw Exception('$body');
+        throwException(rs, body, exceptionFnMap);
       }
     }
     return rs;
