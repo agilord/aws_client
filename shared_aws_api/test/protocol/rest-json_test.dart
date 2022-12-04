@@ -23,6 +23,7 @@ void main() {
         await protocol.sendRaw(
             method: 'POST', requestUri: 'requestUri', exceptionFnMap: {});
       } catch (error) {
+        expect(error.toString(), '500 UnknownError: 500');
         theError = error as GenericAwsException;
       }
       expect(theError!.code, '500');
