@@ -189,7 +189,7 @@ Iterable<MapEntry<String, String>> _flatten(
     }
     return;
   }
-  if (data is int) {
+  if (data is int || data is double) {
     final key = prefixes.join('.');
     yield MapEntry(key, data.toString());
     return;
