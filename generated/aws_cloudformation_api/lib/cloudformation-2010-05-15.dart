@@ -5424,7 +5424,7 @@ enum AccountGateStatus {
   skipped,
 }
 
-extension on AccountGateStatus {
+extension AccountGateStatusValueExtension on AccountGateStatus {
   String toValue() {
     switch (this) {
       case AccountGateStatus.succeeded:
@@ -5437,7 +5437,7 @@ extension on AccountGateStatus {
   }
 }
 
-extension on String {
+extension AccountGateStatusFromString on String {
   AccountGateStatus toAccountGateStatus() {
     switch (this) {
       case 'SUCCEEDED':
@@ -5538,7 +5538,7 @@ enum Capability {
   capabilityAutoExpand,
 }
 
-extension on Capability {
+extension CapabilityValueExtension on Capability {
   String toValue() {
     switch (this) {
       case Capability.capabilityIam:
@@ -5551,7 +5551,7 @@ extension on Capability {
   }
 }
 
-extension on String {
+extension CapabilityFromString on String {
   Capability toCapability() {
     switch (this) {
       case 'CAPABILITY_IAM':
@@ -5598,7 +5598,7 @@ enum ChangeAction {
   dynamic,
 }
 
-extension on ChangeAction {
+extension ChangeActionValueExtension on ChangeAction {
   String toValue() {
     switch (this) {
       case ChangeAction.add:
@@ -5615,7 +5615,7 @@ extension on ChangeAction {
   }
 }
 
-extension on String {
+extension ChangeActionFromString on String {
   ChangeAction toChangeAction() {
     switch (this) {
       case 'Add':
@@ -5644,7 +5644,7 @@ enum ChangeSetStatus {
   failed,
 }
 
-extension on ChangeSetStatus {
+extension ChangeSetStatusValueExtension on ChangeSetStatus {
   String toValue() {
     switch (this) {
       case ChangeSetStatus.createPending:
@@ -5667,7 +5667,7 @@ extension on ChangeSetStatus {
   }
 }
 
-extension on String {
+extension ChangeSetStatusFromString on String {
   ChangeSetStatus toChangeSetStatus() {
     switch (this) {
       case 'CREATE_PENDING':
@@ -5779,7 +5779,7 @@ enum ChangeSetType {
   import,
 }
 
-extension on ChangeSetType {
+extension ChangeSetTypeValueExtension on ChangeSetType {
   String toValue() {
     switch (this) {
       case ChangeSetType.create:
@@ -5792,7 +5792,7 @@ extension on ChangeSetType {
   }
 }
 
-extension on String {
+extension ChangeSetTypeFromString on String {
   ChangeSetType toChangeSetType() {
     switch (this) {
       case 'CREATE':
@@ -5814,7 +5814,7 @@ enum ChangeSource {
   automatic,
 }
 
-extension on ChangeSource {
+extension ChangeSourceValueExtension on ChangeSource {
   String toValue() {
     switch (this) {
       case ChangeSource.resourceReference:
@@ -5831,7 +5831,7 @@ extension on ChangeSource {
   }
 }
 
-extension on String {
+extension ChangeSourceFromString on String {
   ChangeSource toChangeSource() {
     switch (this) {
       case 'ResourceReference':
@@ -5853,7 +5853,7 @@ enum ChangeType {
   resource,
 }
 
-extension on ChangeType {
+extension ChangeTypeValueExtension on ChangeType {
   String toValue() {
     switch (this) {
       case ChangeType.resource:
@@ -5862,7 +5862,7 @@ extension on ChangeType {
   }
 }
 
-extension on String {
+extension ChangeTypeFromString on String {
   ChangeType toChangeType() {
     switch (this) {
       case 'Resource':
@@ -6026,7 +6026,7 @@ enum DeprecatedStatus {
   deprecated,
 }
 
-extension on DeprecatedStatus {
+extension DeprecatedStatusValueExtension on DeprecatedStatus {
   String toValue() {
     switch (this) {
       case DeprecatedStatus.live:
@@ -6037,7 +6037,7 @@ extension on DeprecatedStatus {
   }
 }
 
-extension on String {
+extension DeprecatedStatusFromString on String {
   DeprecatedStatus toDeprecatedStatus() {
     switch (this) {
       case 'LIVE':
@@ -6761,7 +6761,7 @@ enum DifferenceType {
   notEqual,
 }
 
-extension on DifferenceType {
+extension DifferenceTypeValueExtension on DifferenceType {
   String toValue() {
     switch (this) {
       case DifferenceType.add:
@@ -6774,7 +6774,7 @@ extension on DifferenceType {
   }
 }
 
-extension on String {
+extension DifferenceTypeFromString on String {
   DifferenceType toDifferenceType() {
     switch (this) {
       case 'ADD':
@@ -6809,7 +6809,7 @@ enum EvaluationType {
   dynamic,
 }
 
-extension on EvaluationType {
+extension EvaluationTypeValueExtension on EvaluationType {
   String toValue() {
     switch (this) {
       case EvaluationType.static:
@@ -6820,7 +6820,7 @@ extension on EvaluationType {
   }
 }
 
-extension on String {
+extension EvaluationTypeFromString on String {
   EvaluationType toEvaluationType() {
     switch (this) {
       case 'Static':
@@ -6851,7 +6851,7 @@ enum ExecutionStatus {
   obsolete,
 }
 
-extension on ExecutionStatus {
+extension ExecutionStatusValueExtension on ExecutionStatus {
   String toValue() {
     switch (this) {
       case ExecutionStatus.unavailable:
@@ -6870,7 +6870,7 @@ extension on ExecutionStatus {
   }
 }
 
-extension on String {
+extension ExecutionStatusFromString on String {
   ExecutionStatus toExecutionStatus() {
     switch (this) {
       case 'UNAVAILABLE':
@@ -7077,7 +7077,7 @@ enum HandlerErrorCode {
   internalFailure,
 }
 
-extension on HandlerErrorCode {
+extension HandlerErrorCodeValueExtension on HandlerErrorCode {
   String toValue() {
     switch (this) {
       case HandlerErrorCode.notUpdatable:
@@ -7112,7 +7112,7 @@ extension on HandlerErrorCode {
   }
 }
 
-extension on String {
+extension HandlerErrorCodeFromString on String {
   HandlerErrorCode toHandlerErrorCode() {
     switch (this) {
       case 'NotUpdatable':
@@ -7547,7 +7547,7 @@ enum OnFailure {
   delete,
 }
 
-extension on OnFailure {
+extension OnFailureValueExtension on OnFailure {
   String toValue() {
     switch (this) {
       case OnFailure.doNothing:
@@ -7560,7 +7560,7 @@ extension on OnFailure {
   }
 }
 
-extension on String {
+extension OnFailureFromString on String {
   OnFailure toOnFailure() {
     switch (this) {
       case 'DO_NOTHING':
@@ -7581,7 +7581,7 @@ enum OperationStatus {
   failed,
 }
 
-extension on OperationStatus {
+extension OperationStatusValueExtension on OperationStatus {
   String toValue() {
     switch (this) {
       case OperationStatus.pending:
@@ -7596,7 +7596,7 @@ extension on OperationStatus {
   }
 }
 
-extension on String {
+extension OperationStatusFromString on String {
   OperationStatus toOperationStatus() {
     switch (this) {
       case 'PENDING':
@@ -7759,7 +7759,7 @@ enum PermissionModels {
   selfManaged,
 }
 
-extension on PermissionModels {
+extension PermissionModelsValueExtension on PermissionModels {
   String toValue() {
     switch (this) {
       case PermissionModels.serviceManaged:
@@ -7770,7 +7770,7 @@ extension on PermissionModels {
   }
 }
 
-extension on String {
+extension PermissionModelsFromString on String {
   PermissionModels toPermissionModels() {
     switch (this) {
       case 'SERVICE_MANAGED':
@@ -7866,7 +7866,7 @@ enum ProvisioningType {
   fullyMutable,
 }
 
-extension on ProvisioningType {
+extension ProvisioningTypeValueExtension on ProvisioningType {
   String toValue() {
     switch (this) {
       case ProvisioningType.nonProvisionable:
@@ -7879,7 +7879,7 @@ extension on ProvisioningType {
   }
 }
 
-extension on String {
+extension ProvisioningTypeFromString on String {
   ProvisioningType toProvisioningType() {
     switch (this) {
       case 'NON_PROVISIONABLE':
@@ -7926,7 +7926,7 @@ enum RegistrationStatus {
   failed,
 }
 
-extension on RegistrationStatus {
+extension RegistrationStatusValueExtension on RegistrationStatus {
   String toValue() {
     switch (this) {
       case RegistrationStatus.complete:
@@ -7939,7 +7939,7 @@ extension on RegistrationStatus {
   }
 }
 
-extension on String {
+extension RegistrationStatusFromString on String {
   RegistrationStatus toRegistrationStatus() {
     switch (this) {
       case 'COMPLETE':
@@ -7958,7 +7958,7 @@ enum RegistryType {
   module,
 }
 
-extension on RegistryType {
+extension RegistryTypeValueExtension on RegistryType {
   String toValue() {
     switch (this) {
       case RegistryType.resource:
@@ -7969,7 +7969,7 @@ extension on RegistryType {
   }
 }
 
-extension on String {
+extension RegistryTypeFromString on String {
   RegistryType toRegistryType() {
     switch (this) {
       case 'RESOURCE':
@@ -7987,7 +7987,7 @@ enum Replacement {
   conditional,
 }
 
-extension on Replacement {
+extension ReplacementValueExtension on Replacement {
   String toValue() {
     switch (this) {
       case Replacement.$true:
@@ -8000,7 +8000,7 @@ extension on Replacement {
   }
 }
 
-extension on String {
+extension ReplacementFromString on String {
   Replacement toReplacement() {
     switch (this) {
       case 'True':
@@ -8020,7 +8020,7 @@ enum RequiresRecreation {
   always,
 }
 
-extension on RequiresRecreation {
+extension RequiresRecreationValueExtension on RequiresRecreation {
   String toValue() {
     switch (this) {
       case RequiresRecreation.never:
@@ -8033,7 +8033,7 @@ extension on RequiresRecreation {
   }
 }
 
-extension on String {
+extension RequiresRecreationFromString on String {
   RequiresRecreation toRequiresRecreation() {
     switch (this) {
       case 'Never':
@@ -8056,7 +8056,7 @@ enum ResourceAttribute {
   tags,
 }
 
-extension on ResourceAttribute {
+extension ResourceAttributeValueExtension on ResourceAttribute {
   String toValue() {
     switch (this) {
       case ResourceAttribute.properties:
@@ -8075,7 +8075,7 @@ extension on ResourceAttribute {
   }
 }
 
-extension on String {
+extension ResourceAttributeFromString on String {
   ResourceAttribute toResourceAttribute() {
     switch (this) {
       case 'Properties':
@@ -8320,7 +8320,7 @@ enum ResourceSignalStatus {
   failure,
 }
 
-extension on ResourceSignalStatus {
+extension ResourceSignalStatusValueExtension on ResourceSignalStatus {
   String toValue() {
     switch (this) {
       case ResourceSignalStatus.success:
@@ -8331,7 +8331,7 @@ extension on ResourceSignalStatus {
   }
 }
 
-extension on String {
+extension ResourceSignalStatusFromString on String {
   ResourceSignalStatus toResourceSignalStatus() {
     switch (this) {
       case 'SUCCESS':
@@ -8362,7 +8362,7 @@ enum ResourceStatus {
   importRollbackComplete,
 }
 
-extension on ResourceStatus {
+extension ResourceStatusValueExtension on ResourceStatus {
   String toValue() {
     switch (this) {
       case ResourceStatus.createInProgress:
@@ -8401,7 +8401,7 @@ extension on ResourceStatus {
   }
 }
 
-extension on String {
+extension ResourceStatusFromString on String {
   ResourceStatus toResourceStatus() {
     switch (this) {
       case 'CREATE_IN_PROGRESS':
@@ -8825,7 +8825,7 @@ enum StackDriftDetectionStatus {
   detectionComplete,
 }
 
-extension on StackDriftDetectionStatus {
+extension StackDriftDetectionStatusValueExtension on StackDriftDetectionStatus {
   String toValue() {
     switch (this) {
       case StackDriftDetectionStatus.detectionInProgress:
@@ -8838,7 +8838,7 @@ extension on StackDriftDetectionStatus {
   }
 }
 
-extension on String {
+extension StackDriftDetectionStatusFromString on String {
   StackDriftDetectionStatus toStackDriftDetectionStatus() {
     switch (this) {
       case 'DETECTION_IN_PROGRESS':
@@ -8953,7 +8953,7 @@ enum StackDriftStatus {
   notChecked,
 }
 
-extension on StackDriftStatus {
+extension StackDriftStatusValueExtension on StackDriftStatus {
   String toValue() {
     switch (this) {
       case StackDriftStatus.drifted:
@@ -8968,7 +8968,7 @@ extension on StackDriftStatus {
   }
 }
 
-extension on String {
+extension StackDriftStatusFromString on String {
   StackDriftStatus toStackDriftStatus() {
     switch (this) {
       case 'DRIFTED':
@@ -9267,7 +9267,8 @@ enum StackInstanceDetailedStatus {
   inoperable,
 }
 
-extension on StackInstanceDetailedStatus {
+extension StackInstanceDetailedStatusValueExtension
+    on StackInstanceDetailedStatus {
   String toValue() {
     switch (this) {
       case StackInstanceDetailedStatus.pending:
@@ -9286,7 +9287,7 @@ extension on StackInstanceDetailedStatus {
   }
 }
 
-extension on String {
+extension StackInstanceDetailedStatusFromString on String {
   StackInstanceDetailedStatus toStackInstanceDetailedStatus() {
     switch (this) {
       case 'PENDING':
@@ -9332,7 +9333,7 @@ enum StackInstanceFilterName {
   detailedStatus,
 }
 
-extension on StackInstanceFilterName {
+extension StackInstanceFilterNameValueExtension on StackInstanceFilterName {
   String toValue() {
     switch (this) {
       case StackInstanceFilterName.detailedStatus:
@@ -9341,7 +9342,7 @@ extension on StackInstanceFilterName {
   }
 }
 
-extension on String {
+extension StackInstanceFilterNameFromString on String {
   StackInstanceFilterName toStackInstanceFilterName() {
     switch (this) {
       case 'DETAILED_STATUS':
@@ -9357,7 +9358,7 @@ enum StackInstanceStatus {
   inoperable,
 }
 
-extension on StackInstanceStatus {
+extension StackInstanceStatusValueExtension on StackInstanceStatus {
   String toValue() {
     switch (this) {
       case StackInstanceStatus.current:
@@ -9370,7 +9371,7 @@ extension on StackInstanceStatus {
   }
 }
 
-extension on String {
+extension StackInstanceStatusFromString on String {
   StackInstanceStatus toStackInstanceStatus() {
     switch (this) {
       case 'CURRENT':
@@ -9919,7 +9920,7 @@ enum StackResourceDriftStatus {
   notChecked,
 }
 
-extension on StackResourceDriftStatus {
+extension StackResourceDriftStatusValueExtension on StackResourceDriftStatus {
   String toValue() {
     switch (this) {
       case StackResourceDriftStatus.inSync:
@@ -9934,7 +9935,7 @@ extension on StackResourceDriftStatus {
   }
 }
 
-extension on String {
+extension StackResourceDriftStatusFromString on String {
   StackResourceDriftStatus toStackResourceDriftStatus() {
     switch (this) {
       case 'IN_SYNC':
@@ -10311,7 +10312,8 @@ enum StackSetDriftDetectionStatus {
   stopped,
 }
 
-extension on StackSetDriftDetectionStatus {
+extension StackSetDriftDetectionStatusValueExtension
+    on StackSetDriftDetectionStatus {
   String toValue() {
     switch (this) {
       case StackSetDriftDetectionStatus.completed:
@@ -10328,7 +10330,7 @@ extension on StackSetDriftDetectionStatus {
   }
 }
 
-extension on String {
+extension StackSetDriftDetectionStatusFromString on String {
   StackSetDriftDetectionStatus toStackSetDriftDetectionStatus() {
     switch (this) {
       case 'COMPLETED':
@@ -10352,7 +10354,7 @@ enum StackSetDriftStatus {
   notChecked,
 }
 
-extension on StackSetDriftStatus {
+extension StackSetDriftStatusValueExtension on StackSetDriftStatus {
   String toValue() {
     switch (this) {
       case StackSetDriftStatus.drifted:
@@ -10365,7 +10367,7 @@ extension on StackSetDriftStatus {
   }
 }
 
-extension on String {
+extension StackSetDriftStatusFromString on String {
   StackSetDriftStatus toStackSetDriftStatus() {
     switch (this) {
       case 'DRIFTED':
@@ -10533,7 +10535,7 @@ enum StackSetOperationAction {
   detectDrift,
 }
 
-extension on StackSetOperationAction {
+extension StackSetOperationActionValueExtension on StackSetOperationAction {
   String toValue() {
     switch (this) {
       case StackSetOperationAction.create:
@@ -10548,7 +10550,7 @@ extension on StackSetOperationAction {
   }
 }
 
-extension on String {
+extension StackSetOperationActionFromString on String {
   StackSetOperationAction toStackSetOperationAction() {
     switch (this) {
       case 'CREATE':
@@ -10674,7 +10676,8 @@ enum StackSetOperationResultStatus {
   cancelled,
 }
 
-extension on StackSetOperationResultStatus {
+extension StackSetOperationResultStatusValueExtension
+    on StackSetOperationResultStatus {
   String toValue() {
     switch (this) {
       case StackSetOperationResultStatus.pending:
@@ -10691,7 +10694,7 @@ extension on StackSetOperationResultStatus {
   }
 }
 
-extension on String {
+extension StackSetOperationResultStatusFromString on String {
   StackSetOperationResultStatus toStackSetOperationResultStatus() {
     switch (this) {
       case 'PENDING':
@@ -10797,7 +10800,7 @@ enum StackSetOperationStatus {
   queued,
 }
 
-extension on StackSetOperationStatus {
+extension StackSetOperationStatusValueExtension on StackSetOperationStatus {
   String toValue() {
     switch (this) {
       case StackSetOperationStatus.running:
@@ -10816,7 +10819,7 @@ extension on StackSetOperationStatus {
   }
 }
 
-extension on String {
+extension StackSetOperationStatusFromString on String {
   StackSetOperationStatus toStackSetOperationStatus() {
     switch (this) {
       case 'RUNNING':
@@ -10922,7 +10925,7 @@ enum StackSetStatus {
   deleted,
 }
 
-extension on StackSetStatus {
+extension StackSetStatusValueExtension on StackSetStatus {
   String toValue() {
     switch (this) {
       case StackSetStatus.active:
@@ -10933,7 +10936,7 @@ extension on StackSetStatus {
   }
 }
 
-extension on String {
+extension StackSetStatusFromString on String {
   StackSetStatus toStackSetStatus() {
     switch (this) {
       case 'ACTIVE':
@@ -11072,7 +11075,7 @@ enum StackStatus {
   importRollbackComplete,
 }
 
-extension on StackStatus {
+extension StackStatusValueExtension on StackStatus {
   String toValue() {
     switch (this) {
       case StackStatus.createInProgress:
@@ -11123,7 +11126,7 @@ extension on StackStatus {
   }
 }
 
-extension on String {
+extension StackStatusFromString on String {
   StackStatus toStackStatus() {
     switch (this) {
       case 'CREATE_IN_PROGRESS':
@@ -11339,7 +11342,7 @@ enum TemplateStage {
   processed,
 }
 
-extension on TemplateStage {
+extension TemplateStageValueExtension on TemplateStage {
   String toValue() {
     switch (this) {
       case TemplateStage.original:
@@ -11350,7 +11353,7 @@ extension on TemplateStage {
   }
 }
 
-extension on String {
+extension TemplateStageFromString on String {
   TemplateStage toTemplateStage() {
     switch (this) {
       case 'Original':
@@ -11568,7 +11571,7 @@ enum Visibility {
   private,
 }
 
-extension on Visibility {
+extension VisibilityValueExtension on Visibility {
   String toValue() {
     switch (this) {
       case Visibility.public:
@@ -11579,7 +11582,7 @@ extension on Visibility {
   }
 }
 
-extension on String {
+extension VisibilityFromString on String {
   Visibility toVisibility() {
     switch (this) {
       case 'PUBLIC':

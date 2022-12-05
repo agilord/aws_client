@@ -1912,7 +1912,7 @@ enum AgentHealth {
   unknown,
 }
 
-extension on AgentHealth {
+extension AgentHealthValueExtension on AgentHealth {
   String toValue() {
     switch (this) {
       case AgentHealth.healthy:
@@ -1925,7 +1925,7 @@ extension on AgentHealth {
   }
 }
 
-extension on String {
+extension AgentHealthFromString on String {
   AgentHealth toAgentHealth() {
     switch (this) {
       case 'HEALTHY':
@@ -1948,7 +1948,7 @@ enum AgentHealthCode {
   unknown,
 }
 
-extension on AgentHealthCode {
+extension AgentHealthCodeValueExtension on AgentHealthCode {
   String toValue() {
     switch (this) {
       case AgentHealthCode.idle:
@@ -1967,7 +1967,7 @@ extension on AgentHealthCode {
   }
 }
 
-extension on String {
+extension AgentHealthCodeFromString on String {
   AgentHealthCode toAgentHealthCode() {
     switch (this) {
       case 'IDLE':
@@ -2321,7 +2321,8 @@ enum AssessmentRunNotificationSnsStatusCode {
   internalError,
 }
 
-extension on AssessmentRunNotificationSnsStatusCode {
+extension AssessmentRunNotificationSnsStatusCodeValueExtension
+    on AssessmentRunNotificationSnsStatusCode {
   String toValue() {
     switch (this) {
       case AssessmentRunNotificationSnsStatusCode.success:
@@ -2336,7 +2337,7 @@ extension on AssessmentRunNotificationSnsStatusCode {
   }
 }
 
-extension on String {
+extension AssessmentRunNotificationSnsStatusCodeFromString on String {
   AssessmentRunNotificationSnsStatusCode
       toAssessmentRunNotificationSnsStatusCode() {
     switch (this) {
@@ -2370,7 +2371,7 @@ enum AssessmentRunState {
   canceled,
 }
 
-extension on AssessmentRunState {
+extension AssessmentRunStateValueExtension on AssessmentRunState {
   String toValue() {
     switch (this) {
       case AssessmentRunState.created:
@@ -2403,7 +2404,7 @@ extension on AssessmentRunState {
   }
 }
 
-extension on String {
+extension AssessmentRunStateFromString on String {
   AssessmentRunState toAssessmentRunState() {
     switch (this) {
       case 'CREATED':
@@ -2689,7 +2690,7 @@ enum AssetType {
   ec2Instance,
 }
 
-extension on AssetType {
+extension AssetTypeValueExtension on AssetType {
   String toValue() {
     switch (this) {
       case AssetType.ec2Instance:
@@ -2698,7 +2699,7 @@ extension on AssetType {
   }
 }
 
-extension on String {
+extension AssetTypeFromString on String {
   AssetType toAssetType() {
     switch (this) {
       case 'ec2-instance':
@@ -3155,7 +3156,7 @@ enum FailedItemErrorCode {
   internalError,
 }
 
-extension on FailedItemErrorCode {
+extension FailedItemErrorCodeValueExtension on FailedItemErrorCode {
   String toValue() {
     switch (this) {
       case FailedItemErrorCode.invalidArn:
@@ -3174,7 +3175,7 @@ extension on FailedItemErrorCode {
   }
 }
 
-extension on String {
+extension FailedItemErrorCodeFromString on String {
   FailedItemErrorCode toFailedItemErrorCode() {
     switch (this) {
       case 'INVALID_ARN':
@@ -3457,7 +3458,7 @@ enum InspectorEvent {
   other,
 }
 
-extension on InspectorEvent {
+extension InspectorEventValueExtension on InspectorEvent {
   String toValue() {
     switch (this) {
       case InspectorEvent.assessmentRunStarted:
@@ -3474,7 +3475,7 @@ extension on InspectorEvent {
   }
 }
 
-extension on String {
+extension InspectorEventFromString on String {
   InspectorEvent toInspectorEvent() {
     switch (this) {
       case 'ASSESSMENT_RUN_STARTED':
@@ -3741,7 +3742,7 @@ enum Locale {
   enUs,
 }
 
-extension on Locale {
+extension LocaleValueExtension on Locale {
   String toValue() {
     switch (this) {
       case Locale.enUs:
@@ -3750,7 +3751,7 @@ extension on Locale {
   }
 }
 
-extension on String {
+extension LocaleFromString on String {
   Locale toLocale() {
     switch (this) {
       case 'EN_US':
@@ -3863,7 +3864,7 @@ enum PreviewStatus {
   completed,
 }
 
-extension on PreviewStatus {
+extension PreviewStatusValueExtension on PreviewStatus {
   String toValue() {
     switch (this) {
       case PreviewStatus.workInProgress:
@@ -3874,7 +3875,7 @@ extension on PreviewStatus {
   }
 }
 
-extension on String {
+extension PreviewStatusFromString on String {
   PreviewStatus toPreviewStatus() {
     switch (this) {
       case 'WORK_IN_PROGRESS':
@@ -3930,7 +3931,7 @@ enum ReportFileFormat {
   pdf,
 }
 
-extension on ReportFileFormat {
+extension ReportFileFormatValueExtension on ReportFileFormat {
   String toValue() {
     switch (this) {
       case ReportFileFormat.html:
@@ -3941,7 +3942,7 @@ extension on ReportFileFormat {
   }
 }
 
-extension on String {
+extension ReportFileFormatFromString on String {
   ReportFileFormat toReportFileFormat() {
     switch (this) {
       case 'HTML':
@@ -3959,7 +3960,7 @@ enum ReportStatus {
   completed,
 }
 
-extension on ReportStatus {
+extension ReportStatusValueExtension on ReportStatus {
   String toValue() {
     switch (this) {
       case ReportStatus.workInProgress:
@@ -3972,7 +3973,7 @@ extension on ReportStatus {
   }
 }
 
-extension on String {
+extension ReportStatusFromString on String {
   ReportStatus toReportStatus() {
     switch (this) {
       case 'WORK_IN_PROGRESS':
@@ -3991,7 +3992,7 @@ enum ReportType {
   full,
 }
 
-extension on ReportType {
+extension ReportTypeValueExtension on ReportType {
   String toValue() {
     switch (this) {
       case ReportType.finding:
@@ -4002,7 +4003,7 @@ extension on ReportType {
   }
 }
 
-extension on String {
+extension ReportTypeFromString on String {
   ReportType toReportType() {
     switch (this) {
       case 'FINDING':
@@ -4138,7 +4139,7 @@ enum ScopeType {
   rulesPackageArn,
 }
 
-extension on ScopeType {
+extension ScopeTypeValueExtension on ScopeType {
   String toValue() {
     switch (this) {
       case ScopeType.instanceId:
@@ -4149,7 +4150,7 @@ extension on ScopeType {
   }
 }
 
-extension on String {
+extension ScopeTypeFromString on String {
   ScopeType toScopeType() {
     switch (this) {
       case 'INSTANCE_ID':
@@ -4191,7 +4192,7 @@ enum Severity {
   undefined,
 }
 
-extension on Severity {
+extension SeverityValueExtension on Severity {
   String toValue() {
     switch (this) {
       case Severity.low:
@@ -4208,7 +4209,7 @@ extension on Severity {
   }
 }
 
-extension on String {
+extension SeverityFromString on String {
   Severity toSeverity() {
     switch (this) {
       case 'Low':
@@ -4245,7 +4246,7 @@ enum StopAction {
   skipEvaluation,
 }
 
-extension on StopAction {
+extension StopActionValueExtension on StopAction {
   String toValue() {
     switch (this) {
       case StopAction.startEvaluation:
@@ -4256,7 +4257,7 @@ extension on StopAction {
   }
 }
 
-extension on String {
+extension StopActionFromString on String {
   StopAction toStopAction() {
     switch (this) {
       case 'START_EVALUATION':

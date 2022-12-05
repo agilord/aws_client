@@ -1292,7 +1292,7 @@ enum AttributeName {
   negation,
 }
 
-extension on AttributeName {
+extension AttributeNameValueExtension on AttributeName {
   String toValue() {
     switch (this) {
       case AttributeName.sign:
@@ -1307,7 +1307,7 @@ extension on AttributeName {
   }
 }
 
-extension on String {
+extension AttributeNameFromString on String {
   AttributeName toAttributeName() {
     switch (this) {
       case 'SIGN':
@@ -1769,7 +1769,7 @@ enum EntitySubType {
   timeToTreatmentName,
 }
 
-extension on EntitySubType {
+extension EntitySubTypeValueExtension on EntitySubType {
   String toValue() {
     switch (this) {
       case EntitySubType.name:
@@ -1844,7 +1844,7 @@ extension on EntitySubType {
   }
 }
 
-extension on String {
+extension EntitySubTypeFromString on String {
   EntitySubType toEntitySubType() {
     switch (this) {
       case 'NAME':
@@ -1929,7 +1929,7 @@ enum EntityType {
   timeExpression,
 }
 
-extension on EntityType {
+extension EntityTypeValueExtension on EntityType {
   String toValue() {
     switch (this) {
       case EntityType.medication:
@@ -1948,7 +1948,7 @@ extension on EntityType {
   }
 }
 
-extension on String {
+extension EntityTypeFromString on String {
   EntityType toEntityType() {
     switch (this) {
       case 'MEDICATION':
@@ -2042,7 +2042,7 @@ enum ICD10CMAttributeType {
   quantity,
 }
 
-extension on ICD10CMAttributeType {
+extension ICD10CMAttributeTypeValueExtension on ICD10CMAttributeType {
   String toValue() {
     switch (this) {
       case ICD10CMAttributeType.acuity:
@@ -2059,7 +2059,7 @@ extension on ICD10CMAttributeType {
   }
 }
 
-extension on String {
+extension ICD10CMAttributeTypeFromString on String {
   ICD10CMAttributeType toICD10CMAttributeType() {
     switch (this) {
       case 'ACUITY':
@@ -2193,7 +2193,7 @@ enum ICD10CMEntityCategory {
   medicalCondition,
 }
 
-extension on ICD10CMEntityCategory {
+extension ICD10CMEntityCategoryValueExtension on ICD10CMEntityCategory {
   String toValue() {
     switch (this) {
       case ICD10CMEntityCategory.medicalCondition:
@@ -2202,7 +2202,7 @@ extension on ICD10CMEntityCategory {
   }
 }
 
-extension on String {
+extension ICD10CMEntityCategoryFromString on String {
   ICD10CMEntityCategory toICD10CMEntityCategory() {
     switch (this) {
       case 'MEDICAL_CONDITION':
@@ -2216,7 +2216,7 @@ enum ICD10CMEntityType {
   dxName,
 }
 
-extension on ICD10CMEntityType {
+extension ICD10CMEntityTypeValueExtension on ICD10CMEntityType {
   String toValue() {
     switch (this) {
       case ICD10CMEntityType.dxName:
@@ -2225,7 +2225,7 @@ extension on ICD10CMEntityType {
   }
 }
 
-extension on String {
+extension ICD10CMEntityTypeFromString on String {
   ICD10CMEntityType toICD10CMEntityType() {
     switch (this) {
       case 'DX_NAME':
@@ -2265,7 +2265,7 @@ enum ICD10CMTraitName {
   symptom,
 }
 
-extension on ICD10CMTraitName {
+extension ICD10CMTraitNameValueExtension on ICD10CMTraitName {
   String toValue() {
     switch (this) {
       case ICD10CMTraitName.negation:
@@ -2280,7 +2280,7 @@ extension on ICD10CMTraitName {
   }
 }
 
-extension on String {
+extension ICD10CMTraitNameFromString on String {
   ICD10CMTraitName toICD10CMTraitName() {
     switch (this) {
       case 'NEGATION':
@@ -2407,7 +2407,7 @@ enum JobStatus {
   stopped,
 }
 
-extension on JobStatus {
+extension JobStatusValueExtension on JobStatus {
   String toValue() {
     switch (this) {
       case JobStatus.submitted:
@@ -2428,7 +2428,7 @@ extension on JobStatus {
   }
 }
 
-extension on String {
+extension JobStatusFromString on String {
   JobStatus toJobStatus() {
     switch (this) {
       case 'SUBMITTED':
@@ -2454,7 +2454,7 @@ enum LanguageCode {
   en,
 }
 
-extension on LanguageCode {
+extension LanguageCodeValueExtension on LanguageCode {
   String toValue() {
     switch (this) {
       case LanguageCode.en:
@@ -2463,7 +2463,7 @@ extension on LanguageCode {
   }
 }
 
-extension on String {
+extension LanguageCodeFromString on String {
   LanguageCode toLanguageCode() {
     switch (this) {
       case 'en':
@@ -2630,7 +2630,7 @@ enum RelationshipType {
   systemOrganSite,
 }
 
-extension on RelationshipType {
+extension RelationshipTypeValueExtension on RelationshipType {
   String toValue() {
     switch (this) {
       case RelationshipType.every:
@@ -2673,7 +2673,7 @@ extension on RelationshipType {
   }
 }
 
-extension on String {
+extension RelationshipTypeFromString on String {
   RelationshipType toRelationshipType() {
     switch (this) {
       case 'EVERY':
@@ -2792,7 +2792,7 @@ enum RxNormAttributeType {
   strength,
 }
 
-extension on RxNormAttributeType {
+extension RxNormAttributeTypeValueExtension on RxNormAttributeType {
   String toValue() {
     switch (this) {
       case RxNormAttributeType.dosage:
@@ -2813,7 +2813,7 @@ extension on RxNormAttributeType {
   }
 }
 
-extension on String {
+extension RxNormAttributeTypeFromString on String {
   RxNormAttributeType toRxNormAttributeType() {
     switch (this) {
       case 'DOSAGE':
@@ -2949,7 +2949,7 @@ enum RxNormEntityCategory {
   medication,
 }
 
-extension on RxNormEntityCategory {
+extension RxNormEntityCategoryValueExtension on RxNormEntityCategory {
   String toValue() {
     switch (this) {
       case RxNormEntityCategory.medication:
@@ -2958,7 +2958,7 @@ extension on RxNormEntityCategory {
   }
 }
 
-extension on String {
+extension RxNormEntityCategoryFromString on String {
   RxNormEntityCategory toRxNormEntityCategory() {
     switch (this) {
       case 'MEDICATION':
@@ -2973,7 +2973,7 @@ enum RxNormEntityType {
   genericName,
 }
 
-extension on RxNormEntityType {
+extension RxNormEntityTypeValueExtension on RxNormEntityType {
   String toValue() {
     switch (this) {
       case RxNormEntityType.brandName:
@@ -2984,7 +2984,7 @@ extension on RxNormEntityType {
   }
 }
 
-extension on String {
+extension RxNormEntityTypeFromString on String {
   RxNormEntityType toRxNormEntityType() {
     switch (this) {
       case 'BRAND_NAME':
@@ -3023,7 +3023,7 @@ enum RxNormTraitName {
   negation,
 }
 
-extension on RxNormTraitName {
+extension RxNormTraitNameValueExtension on RxNormTraitName {
   String toValue() {
     switch (this) {
       case RxNormTraitName.negation:
@@ -3032,7 +3032,7 @@ extension on RxNormTraitName {
   }
 }
 
-extension on String {
+extension RxNormTraitNameFromString on String {
   RxNormTraitName toRxNormTraitName() {
     switch (this) {
       case 'NEGATION':

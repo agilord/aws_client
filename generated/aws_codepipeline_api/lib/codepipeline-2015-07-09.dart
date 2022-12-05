@@ -2135,7 +2135,7 @@ enum ActionCategory {
   approval,
 }
 
-extension on ActionCategory {
+extension ActionCategoryValueExtension on ActionCategory {
   String toValue() {
     switch (this) {
       case ActionCategory.source:
@@ -2154,7 +2154,7 @@ extension on ActionCategory {
   }
 }
 
-extension on String {
+extension ActionCategoryFromString on String {
   ActionCategory toActionCategory() {
     switch (this) {
       case 'Source':
@@ -2275,7 +2275,8 @@ enum ActionConfigurationPropertyType {
   boolean,
 }
 
-extension on ActionConfigurationPropertyType {
+extension ActionConfigurationPropertyTypeValueExtension
+    on ActionConfigurationPropertyType {
   String toValue() {
     switch (this) {
       case ActionConfigurationPropertyType.string:
@@ -2288,7 +2289,7 @@ extension on ActionConfigurationPropertyType {
   }
 }
 
-extension on String {
+extension ActionConfigurationPropertyTypeFromString on String {
   ActionConfigurationPropertyType toActionConfigurationPropertyType() {
     switch (this) {
       case 'String':
@@ -2715,7 +2716,7 @@ enum ActionExecutionStatus {
   failed,
 }
 
-extension on ActionExecutionStatus {
+extension ActionExecutionStatusValueExtension on ActionExecutionStatus {
   String toValue() {
     switch (this) {
       case ActionExecutionStatus.inProgress:
@@ -2730,7 +2731,7 @@ extension on ActionExecutionStatus {
   }
 }
 
-extension on String {
+extension ActionExecutionStatusFromString on String {
   ActionExecutionStatus toActionExecutionStatus() {
     switch (this) {
       case 'InProgress':
@@ -2752,7 +2753,7 @@ enum ActionOwner {
   custom,
 }
 
-extension on ActionOwner {
+extension ActionOwnerValueExtension on ActionOwner {
   String toValue() {
     switch (this) {
       case ActionOwner.aws:
@@ -2765,7 +2766,7 @@ extension on ActionOwner {
   }
 }
 
-extension on String {
+extension ActionOwnerFromString on String {
   ActionOwner toActionOwner() {
     switch (this) {
       case 'AWS':
@@ -3065,7 +3066,7 @@ enum ApprovalStatus {
   rejected,
 }
 
-extension on ApprovalStatus {
+extension ApprovalStatusValueExtension on ApprovalStatus {
   String toValue() {
     switch (this) {
       case ApprovalStatus.approved:
@@ -3076,7 +3077,7 @@ extension on ApprovalStatus {
   }
 }
 
-extension on String {
+extension ApprovalStatusFromString on String {
   ApprovalStatus toApprovalStatus() {
     switch (this) {
       case 'Approved':
@@ -3195,7 +3196,7 @@ enum ArtifactLocationType {
   s3,
 }
 
-extension on ArtifactLocationType {
+extension ArtifactLocationTypeValueExtension on ArtifactLocationType {
   String toValue() {
     switch (this) {
       case ArtifactLocationType.s3:
@@ -3204,7 +3205,7 @@ extension on ArtifactLocationType {
   }
 }
 
-extension on String {
+extension ArtifactLocationTypeFromString on String {
   ArtifactLocationType toArtifactLocationType() {
     switch (this) {
       case 'S3':
@@ -3318,7 +3319,7 @@ enum ArtifactStoreType {
   s3,
 }
 
-extension on ArtifactStoreType {
+extension ArtifactStoreTypeValueExtension on ArtifactStoreType {
   String toValue() {
     switch (this) {
       case ArtifactStoreType.s3:
@@ -3327,7 +3328,7 @@ extension on ArtifactStoreType {
   }
 }
 
-extension on String {
+extension ArtifactStoreTypeFromString on String {
   ArtifactStoreType toArtifactStoreType() {
     switch (this) {
       case 'S3':
@@ -3370,7 +3371,7 @@ enum BlockerType {
   schedule,
 }
 
-extension on BlockerType {
+extension BlockerTypeValueExtension on BlockerType {
   String toValue() {
     switch (this) {
       case BlockerType.schedule:
@@ -3379,7 +3380,7 @@ extension on BlockerType {
   }
 }
 
-extension on String {
+extension BlockerTypeFromString on String {
   BlockerType toBlockerType() {
     switch (this) {
       case 'Schedule':
@@ -3531,7 +3532,7 @@ enum EncryptionKeyType {
   kms,
 }
 
-extension on EncryptionKeyType {
+extension EncryptionKeyTypeValueExtension on EncryptionKeyType {
   String toValue() {
     switch (this) {
       case EncryptionKeyType.kms:
@@ -3540,7 +3541,7 @@ extension on EncryptionKeyType {
   }
 }
 
-extension on String {
+extension EncryptionKeyTypeFromString on String {
   EncryptionKeyType toEncryptionKeyType() {
     switch (this) {
       case 'KMS':
@@ -3663,7 +3664,7 @@ enum FailureType {
   systemUnavailable,
 }
 
-extension on FailureType {
+extension FailureTypeValueExtension on FailureType {
   String toValue() {
     switch (this) {
       case FailureType.jobFailed:
@@ -3682,7 +3683,7 @@ extension on FailureType {
   }
 }
 
-extension on String {
+extension FailureTypeFromString on String {
   FailureType toFailureType() {
     switch (this) {
       case 'JobFailed':
@@ -4011,7 +4012,7 @@ enum JobStatus {
   failed,
 }
 
-extension on JobStatus {
+extension JobStatusValueExtension on JobStatus {
   String toValue() {
     switch (this) {
       case JobStatus.created:
@@ -4032,7 +4033,7 @@ extension on JobStatus {
   }
 }
 
-extension on String {
+extension JobStatusFromString on String {
   JobStatus toJobStatus() {
     switch (this) {
       case 'Created':
@@ -4501,7 +4502,7 @@ enum PipelineExecutionStatus {
   failed,
 }
 
-extension on PipelineExecutionStatus {
+extension PipelineExecutionStatusValueExtension on PipelineExecutionStatus {
   String toValue() {
     switch (this) {
       case PipelineExecutionStatus.inProgress:
@@ -4520,7 +4521,7 @@ extension on PipelineExecutionStatus {
   }
 }
 
-extension on String {
+extension PipelineExecutionStatusFromString on String {
   PipelineExecutionStatus toPipelineExecutionStatus() {
     switch (this) {
       case 'InProgress':
@@ -4959,7 +4960,7 @@ enum StageExecutionStatus {
   succeeded,
 }
 
-extension on StageExecutionStatus {
+extension StageExecutionStatusValueExtension on StageExecutionStatus {
   String toValue() {
     switch (this) {
       case StageExecutionStatus.inProgress:
@@ -4976,7 +4977,7 @@ extension on StageExecutionStatus {
   }
 }
 
-extension on String {
+extension StageExecutionStatusFromString on String {
   StageExecutionStatus toStageExecutionStatus() {
     switch (this) {
       case 'InProgress':
@@ -4998,7 +4999,7 @@ enum StageRetryMode {
   failedActions,
 }
 
-extension on StageRetryMode {
+extension StageRetryModeValueExtension on StageRetryMode {
   String toValue() {
     switch (this) {
       case StageRetryMode.failedActions:
@@ -5007,7 +5008,7 @@ extension on StageRetryMode {
   }
 }
 
-extension on String {
+extension StageRetryModeFromString on String {
   StageRetryMode toStageRetryMode() {
     switch (this) {
       case 'FAILED_ACTIONS':
@@ -5068,7 +5069,7 @@ enum StageTransitionType {
   outbound,
 }
 
-extension on StageTransitionType {
+extension StageTransitionTypeValueExtension on StageTransitionType {
   String toValue() {
     switch (this) {
       case StageTransitionType.inbound:
@@ -5079,7 +5080,7 @@ extension on StageTransitionType {
   }
 }
 
-extension on String {
+extension StageTransitionTypeFromString on String {
   StageTransitionType toStageTransitionType() {
     switch (this) {
       case 'Inbound':
@@ -5351,7 +5352,7 @@ enum TriggerType {
   putActionRevision,
 }
 
-extension on TriggerType {
+extension TriggerTypeValueExtension on TriggerType {
   String toValue() {
     switch (this) {
       case TriggerType.createPipeline:
@@ -5370,7 +5371,7 @@ extension on TriggerType {
   }
 }
 
-extension on String {
+extension TriggerTypeFromString on String {
   TriggerType toTriggerType() {
     switch (this) {
       case 'CreatePipeline':
@@ -5453,7 +5454,7 @@ enum WebhookAuthenticationType {
   unauthenticated,
 }
 
-extension on WebhookAuthenticationType {
+extension WebhookAuthenticationTypeValueExtension on WebhookAuthenticationType {
   String toValue() {
     switch (this) {
       case WebhookAuthenticationType.githubHmac:
@@ -5466,7 +5467,7 @@ extension on WebhookAuthenticationType {
   }
 }
 
-extension on String {
+extension WebhookAuthenticationTypeFromString on String {
   WebhookAuthenticationType toWebhookAuthenticationType() {
     switch (this) {
       case 'GITHUB_HMAC':

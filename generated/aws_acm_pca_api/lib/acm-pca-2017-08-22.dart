@@ -2321,7 +2321,7 @@ enum AccessMethodType {
   resourcePkiNotify,
 }
 
-extension on AccessMethodType {
+extension AccessMethodTypeValueExtension on AccessMethodType {
   String toValue() {
     switch (this) {
       case AccessMethodType.caRepository:
@@ -2334,7 +2334,7 @@ extension on AccessMethodType {
   }
 }
 
-extension on String {
+extension AccessMethodTypeFromString on String {
   AccessMethodType toAccessMethodType() {
     switch (this) {
       case 'CA_REPOSITORY':
@@ -2354,7 +2354,7 @@ enum ActionType {
   listPermissions,
 }
 
-extension on ActionType {
+extension ActionTypeValueExtension on ActionType {
   String toValue() {
     switch (this) {
       case ActionType.issueCertificate:
@@ -2367,7 +2367,7 @@ extension on ActionType {
   }
 }
 
-extension on String {
+extension ActionTypeFromString on String {
   ActionType toActionType() {
     switch (this) {
       case 'IssueCertificate':
@@ -2386,7 +2386,7 @@ enum AuditReportResponseFormat {
   csv,
 }
 
-extension on AuditReportResponseFormat {
+extension AuditReportResponseFormatValueExtension on AuditReportResponseFormat {
   String toValue() {
     switch (this) {
       case AuditReportResponseFormat.json:
@@ -2397,7 +2397,7 @@ extension on AuditReportResponseFormat {
   }
 }
 
-extension on String {
+extension AuditReportResponseFormatFromString on String {
   AuditReportResponseFormat toAuditReportResponseFormat() {
     switch (this) {
       case 'JSON':
@@ -2415,7 +2415,7 @@ enum AuditReportStatus {
   failed,
 }
 
-extension on AuditReportStatus {
+extension AuditReportStatusValueExtension on AuditReportStatus {
   String toValue() {
     switch (this) {
       case AuditReportStatus.creating:
@@ -2428,7 +2428,7 @@ extension on AuditReportStatus {
   }
 }
 
-extension on String {
+extension AuditReportStatusFromString on String {
   AuditReportStatus toAuditReportStatus() {
     switch (this) {
       case 'CREATING':
@@ -2614,7 +2614,8 @@ enum CertificateAuthorityStatus {
   failed,
 }
 
-extension on CertificateAuthorityStatus {
+extension CertificateAuthorityStatusValueExtension
+    on CertificateAuthorityStatus {
   String toValue() {
     switch (this) {
       case CertificateAuthorityStatus.creating:
@@ -2635,7 +2636,7 @@ extension on CertificateAuthorityStatus {
   }
 }
 
-extension on String {
+extension CertificateAuthorityStatusFromString on String {
   CertificateAuthorityStatus toCertificateAuthorityStatus() {
     switch (this) {
       case 'CREATING':
@@ -2662,7 +2663,7 @@ enum CertificateAuthorityType {
   subordinate,
 }
 
-extension on CertificateAuthorityType {
+extension CertificateAuthorityTypeValueExtension on CertificateAuthorityType {
   String toValue() {
     switch (this) {
       case CertificateAuthorityType.root:
@@ -2673,7 +2674,7 @@ extension on CertificateAuthorityType {
   }
 }
 
-extension on String {
+extension CertificateAuthorityTypeFromString on String {
   CertificateAuthorityType toCertificateAuthorityType() {
     switch (this) {
       case 'ROOT':
@@ -2997,7 +2998,7 @@ enum FailureReason {
   other,
 }
 
-extension on FailureReason {
+extension FailureReasonValueExtension on FailureReason {
   String toValue() {
     switch (this) {
       case FailureReason.requestTimedOut:
@@ -3010,7 +3011,7 @@ extension on FailureReason {
   }
 }
 
-extension on String {
+extension FailureReasonFromString on String {
   FailureReason toFailureReason() {
     switch (this) {
       case 'REQUEST_TIMED_OUT':
@@ -3204,7 +3205,7 @@ enum KeyAlgorithm {
   ecSecp384r1,
 }
 
-extension on KeyAlgorithm {
+extension KeyAlgorithmValueExtension on KeyAlgorithm {
   String toValue() {
     switch (this) {
       case KeyAlgorithm.rsa_2048:
@@ -3219,7 +3220,7 @@ extension on KeyAlgorithm {
   }
 }
 
-extension on String {
+extension KeyAlgorithmFromString on String {
   KeyAlgorithm toKeyAlgorithm() {
     switch (this) {
       case 'RSA_2048':
@@ -3479,7 +3480,7 @@ enum ResourceOwner {
   otherAccounts,
 }
 
-extension on ResourceOwner {
+extension ResourceOwnerValueExtension on ResourceOwner {
   String toValue() {
     switch (this) {
       case ResourceOwner.self:
@@ -3490,7 +3491,7 @@ extension on ResourceOwner {
   }
 }
 
-extension on String {
+extension ResourceOwnerFromString on String {
   ResourceOwner toResourceOwner() {
     switch (this) {
       case 'SELF':
@@ -3546,7 +3547,7 @@ enum RevocationReason {
   aACompromise,
 }
 
-extension on RevocationReason {
+extension RevocationReasonValueExtension on RevocationReason {
   String toValue() {
     switch (this) {
       case RevocationReason.unspecified:
@@ -3569,7 +3570,7 @@ extension on RevocationReason {
   }
 }
 
-extension on String {
+extension RevocationReasonFromString on String {
   RevocationReason toRevocationReason() {
     switch (this) {
       case 'UNSPECIFIED':
@@ -3602,7 +3603,7 @@ enum SigningAlgorithm {
   sha512withrsa,
 }
 
-extension on SigningAlgorithm {
+extension SigningAlgorithmValueExtension on SigningAlgorithm {
   String toValue() {
     switch (this) {
       case SigningAlgorithm.sha256withecdsa:
@@ -3621,7 +3622,7 @@ extension on SigningAlgorithm {
   }
 }
 
-extension on String {
+extension SigningAlgorithmFromString on String {
   SigningAlgorithm toSigningAlgorithm() {
     switch (this) {
       case 'SHA256WITHECDSA':
@@ -3763,7 +3764,7 @@ enum ValidityPeriodType {
   years,
 }
 
-extension on ValidityPeriodType {
+extension ValidityPeriodTypeValueExtension on ValidityPeriodType {
   String toValue() {
     switch (this) {
       case ValidityPeriodType.endDate:
@@ -3780,7 +3781,7 @@ extension on ValidityPeriodType {
   }
 }
 
-extension on String {
+extension ValidityPeriodTypeFromString on String {
   ValidityPeriodType toValidityPeriodType() {
     switch (this) {
       case 'END_DATE':

@@ -952,7 +952,7 @@ enum AnalyzerStatus {
   failed,
 }
 
-extension on AnalyzerStatus {
+extension AnalyzerStatusValueExtension on AnalyzerStatus {
   String toValue() {
     switch (this) {
       case AnalyzerStatus.active:
@@ -967,7 +967,7 @@ extension on AnalyzerStatus {
   }
 }
 
-extension on String {
+extension AnalyzerStatusFromString on String {
   AnalyzerStatus toAnalyzerStatus() {
     switch (this) {
       case 'ACTIVE':
@@ -1288,7 +1288,7 @@ enum FindingSourceType {
   s3AccessPoint,
 }
 
-extension on FindingSourceType {
+extension FindingSourceTypeValueExtension on FindingSourceType {
   String toValue() {
     switch (this) {
       case FindingSourceType.policy:
@@ -1301,7 +1301,7 @@ extension on FindingSourceType {
   }
 }
 
-extension on String {
+extension FindingSourceTypeFromString on String {
   FindingSourceType toFindingSourceType() {
     switch (this) {
       case 'POLICY':
@@ -1321,7 +1321,7 @@ enum FindingStatus {
   resolved,
 }
 
-extension on FindingStatus {
+extension FindingStatusValueExtension on FindingStatus {
   String toValue() {
     switch (this) {
       case FindingStatus.active:
@@ -1334,7 +1334,7 @@ extension on FindingStatus {
   }
 }
 
-extension on String {
+extension FindingStatusFromString on String {
   FindingStatus toFindingStatus() {
     switch (this) {
       case 'ACTIVE':
@@ -1353,7 +1353,7 @@ enum FindingStatusUpdate {
   archived,
 }
 
-extension on FindingStatusUpdate {
+extension FindingStatusUpdateValueExtension on FindingStatusUpdate {
   String toValue() {
     switch (this) {
       case FindingStatusUpdate.active:
@@ -1364,7 +1364,7 @@ extension on FindingStatusUpdate {
   }
 }
 
-extension on String {
+extension FindingStatusUpdateFromString on String {
   FindingStatusUpdate toFindingStatusUpdate() {
     switch (this) {
       case 'ACTIVE':
@@ -1674,7 +1674,7 @@ enum OrderBy {
   desc,
 }
 
-extension on OrderBy {
+extension OrderByValueExtension on OrderBy {
   String toValue() {
     switch (this) {
       case OrderBy.asc:
@@ -1685,7 +1685,7 @@ extension on OrderBy {
   }
 }
 
-extension on String {
+extension OrderByFromString on String {
   OrderBy toOrderBy() {
     switch (this) {
       case 'ASC':
@@ -1704,7 +1704,7 @@ enum ReasonCode {
   serviceLinkedRoleCreationFailed,
 }
 
-extension on ReasonCode {
+extension ReasonCodeValueExtension on ReasonCode {
   String toValue() {
     switch (this) {
       case ReasonCode.awsServiceAccessDisabled:
@@ -1719,7 +1719,7 @@ extension on ReasonCode {
   }
 }
 
-extension on String {
+extension ReasonCodeFromString on String {
   ReasonCode toReasonCode() {
     switch (this) {
       case 'AWS_SERVICE_ACCESS_DISABLED':
@@ -1744,7 +1744,7 @@ enum ResourceType {
   awsKmsKey,
 }
 
-extension on ResourceType {
+extension ResourceTypeValueExtension on ResourceType {
   String toValue() {
     switch (this) {
       case ResourceType.awsS3Bucket:
@@ -1763,7 +1763,7 @@ extension on ResourceType {
   }
 }
 
-extension on String {
+extension ResourceTypeFromString on String {
   ResourceType toResourceType() {
     switch (this) {
       case 'AWS::S3::Bucket':
@@ -1837,7 +1837,7 @@ enum Type {
   organization,
 }
 
-extension on Type {
+extension TypeValueExtension on Type {
   String toValue() {
     switch (this) {
       case Type.account:
@@ -1848,7 +1848,7 @@ extension on Type {
   }
 }
 
-extension on String {
+extension TypeFromString on String {
   Type toType() {
     switch (this) {
       case 'ACCOUNT':

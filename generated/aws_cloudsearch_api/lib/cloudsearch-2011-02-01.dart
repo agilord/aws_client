@@ -1433,7 +1433,7 @@ enum IndexFieldType {
   text,
 }
 
-extension on IndexFieldType {
+extension IndexFieldTypeValueExtension on IndexFieldType {
   String toValue() {
     switch (this) {
       case IndexFieldType.uint:
@@ -1446,7 +1446,7 @@ extension on IndexFieldType {
   }
 }
 
-extension on String {
+extension IndexFieldTypeFromString on String {
   IndexFieldType toIndexFieldType() {
     switch (this) {
       case 'uint':
@@ -1616,7 +1616,7 @@ enum OptionState {
   active,
 }
 
-extension on OptionState {
+extension OptionStateValueExtension on OptionState {
   String toValue() {
     switch (this) {
       case OptionState.requiresIndexDocuments:
@@ -1629,7 +1629,7 @@ extension on OptionState {
   }
 }
 
-extension on String {
+extension OptionStateFromString on String {
   OptionState toOptionState() {
     switch (this) {
       case 'RequiresIndexDocuments':
@@ -1838,7 +1838,7 @@ enum SourceDataFunction {
   map,
 }
 
-extension on SourceDataFunction {
+extension SourceDataFunctionValueExtension on SourceDataFunction {
   String toValue() {
     switch (this) {
       case SourceDataFunction.copy:
@@ -1851,7 +1851,7 @@ extension on SourceDataFunction {
   }
 }
 
-extension on String {
+extension SourceDataFunctionFromString on String {
   SourceDataFunction toSourceDataFunction() {
     switch (this) {
       case 'Copy':

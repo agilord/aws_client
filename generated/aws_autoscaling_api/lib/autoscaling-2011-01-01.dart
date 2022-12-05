@@ -5540,7 +5540,8 @@ enum InstanceMetadataEndpointState {
   enabled,
 }
 
-extension on InstanceMetadataEndpointState {
+extension InstanceMetadataEndpointStateValueExtension
+    on InstanceMetadataEndpointState {
   String toValue() {
     switch (this) {
       case InstanceMetadataEndpointState.disabled:
@@ -5551,7 +5552,7 @@ extension on InstanceMetadataEndpointState {
   }
 }
 
-extension on String {
+extension InstanceMetadataEndpointStateFromString on String {
   InstanceMetadataEndpointState toInstanceMetadataEndpointState() {
     switch (this) {
       case 'disabled':
@@ -5568,7 +5569,8 @@ enum InstanceMetadataHttpTokensState {
   required,
 }
 
-extension on InstanceMetadataHttpTokensState {
+extension InstanceMetadataHttpTokensStateValueExtension
+    on InstanceMetadataHttpTokensState {
   String toValue() {
     switch (this) {
       case InstanceMetadataHttpTokensState.optional:
@@ -5579,7 +5581,7 @@ extension on InstanceMetadataHttpTokensState {
   }
 }
 
-extension on String {
+extension InstanceMetadataHttpTokensStateFromString on String {
   InstanceMetadataHttpTokensState toInstanceMetadataHttpTokensState() {
     switch (this) {
       case 'optional':
@@ -5776,7 +5778,7 @@ enum InstanceRefreshStatus {
   cancelled,
 }
 
-extension on InstanceRefreshStatus {
+extension InstanceRefreshStatusValueExtension on InstanceRefreshStatus {
   String toValue() {
     switch (this) {
       case InstanceRefreshStatus.pending:
@@ -5795,7 +5797,7 @@ extension on InstanceRefreshStatus {
   }
 }
 
-extension on String {
+extension InstanceRefreshStatusFromString on String {
   InstanceRefreshStatus toInstanceRefreshStatus() {
     switch (this) {
       case 'Pending':
@@ -6538,7 +6540,7 @@ enum LifecycleState {
   standby,
 }
 
-extension on LifecycleState {
+extension LifecycleStateValueExtension on LifecycleState {
   String toValue() {
     switch (this) {
       case LifecycleState.pending:
@@ -6571,7 +6573,7 @@ extension on LifecycleState {
   }
 }
 
-extension on String {
+extension LifecycleStateFromString on String {
   LifecycleState toLifecycleState() {
     switch (this) {
       case 'Pending':
@@ -6824,7 +6826,7 @@ enum MetricStatistic {
   sum,
 }
 
-extension on MetricStatistic {
+extension MetricStatisticValueExtension on MetricStatistic {
   String toValue() {
     switch (this) {
       case MetricStatistic.average:
@@ -6841,7 +6843,7 @@ extension on MetricStatistic {
   }
 }
 
-extension on String {
+extension MetricStatisticFromString on String {
   MetricStatistic toMetricStatistic() {
     switch (this) {
       case 'Average':
@@ -6866,7 +6868,7 @@ enum MetricType {
   aLBRequestCountPerTarget,
 }
 
-extension on MetricType {
+extension MetricTypeValueExtension on MetricType {
   String toValue() {
     switch (this) {
       case MetricType.aSGAverageCPUUtilization:
@@ -6881,7 +6883,7 @@ extension on MetricType {
   }
 }
 
-extension on String {
+extension MetricTypeFromString on String {
   MetricType toMetricType() {
     switch (this) {
       case 'ASGAverageCPUUtilization':
@@ -7233,7 +7235,7 @@ enum RefreshStrategy {
   rolling,
 }
 
-extension on RefreshStrategy {
+extension RefreshStrategyValueExtension on RefreshStrategy {
   String toValue() {
     switch (this) {
       case RefreshStrategy.rolling:
@@ -7242,7 +7244,7 @@ extension on RefreshStrategy {
   }
 }
 
-extension on String {
+extension RefreshStrategyFromString on String {
   RefreshStrategy toRefreshStrategy() {
     switch (this) {
       case 'Rolling':
@@ -7267,7 +7269,7 @@ enum ScalingActivityStatusCode {
   cancelled,
 }
 
-extension on ScalingActivityStatusCode {
+extension ScalingActivityStatusCodeValueExtension on ScalingActivityStatusCode {
   String toValue() {
     switch (this) {
       case ScalingActivityStatusCode.pendingSpotBidPlacement:
@@ -7298,7 +7300,7 @@ extension on ScalingActivityStatusCode {
   }
 }
 
-extension on String {
+extension ScalingActivityStatusCodeFromString on String {
   ScalingActivityStatusCode toScalingActivityStatusCode() {
     switch (this) {
       case 'PendingSpotBidPlacement':

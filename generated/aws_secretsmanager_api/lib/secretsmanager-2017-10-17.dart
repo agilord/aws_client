@@ -3029,7 +3029,7 @@ enum FilterNameStringType {
   all,
 }
 
-extension on FilterNameStringType {
+extension FilterNameStringTypeValueExtension on FilterNameStringType {
   String toValue() {
     switch (this) {
       case FilterNameStringType.description:
@@ -3046,7 +3046,7 @@ extension on FilterNameStringType {
   }
 }
 
-extension on String {
+extension FilterNameStringTypeFromString on String {
   FilterNameStringType toFilterNameStringType() {
     switch (this) {
       case 'description':
@@ -3555,7 +3555,7 @@ enum SortOrderType {
   desc,
 }
 
-extension on SortOrderType {
+extension SortOrderTypeValueExtension on SortOrderType {
   String toValue() {
     switch (this) {
       case SortOrderType.asc:
@@ -3566,7 +3566,7 @@ extension on SortOrderType {
   }
 }
 
-extension on String {
+extension SortOrderTypeFromString on String {
   SortOrderType toSortOrderType() {
     switch (this) {
       case 'asc':

@@ -3142,7 +3142,7 @@ enum AcceleratorStatus {
   inProgress,
 }
 
-extension on AcceleratorStatus {
+extension AcceleratorStatusValueExtension on AcceleratorStatus {
   String toValue() {
     switch (this) {
       case AcceleratorStatus.deployed:
@@ -3153,7 +3153,7 @@ extension on AcceleratorStatus {
   }
 }
 
-extension on String {
+extension AcceleratorStatusFromString on String {
   AcceleratorStatus toAcceleratorStatus() {
     switch (this) {
       case 'DEPLOYED':
@@ -3336,7 +3336,7 @@ enum ByoipCidrState {
   failedDeprovision,
 }
 
-extension on ByoipCidrState {
+extension ByoipCidrStateValueExtension on ByoipCidrState {
   String toValue() {
     switch (this) {
       case ByoipCidrState.pendingProvisioning:
@@ -3365,7 +3365,7 @@ extension on ByoipCidrState {
   }
 }
 
-extension on String {
+extension ByoipCidrStateFromString on String {
   ByoipCidrState toByoipCidrState() {
     switch (this) {
       case 'PENDING_PROVISIONING':
@@ -3428,7 +3428,7 @@ enum ClientAffinity {
   sourceIp,
 }
 
-extension on ClientAffinity {
+extension ClientAffinityValueExtension on ClientAffinity {
   String toValue() {
     switch (this) {
       case ClientAffinity.none:
@@ -3439,7 +3439,7 @@ extension on ClientAffinity {
   }
 }
 
-extension on String {
+extension ClientAffinityFromString on String {
   ClientAffinity toClientAffinity() {
     switch (this) {
       case 'NONE':
@@ -3679,7 +3679,8 @@ enum CustomRoutingAcceleratorStatus {
   inProgress,
 }
 
-extension on CustomRoutingAcceleratorStatus {
+extension CustomRoutingAcceleratorStatusValueExtension
+    on CustomRoutingAcceleratorStatus {
   String toValue() {
     switch (this) {
       case CustomRoutingAcceleratorStatus.deployed:
@@ -3690,7 +3691,7 @@ extension on CustomRoutingAcceleratorStatus {
   }
 }
 
-extension on String {
+extension CustomRoutingAcceleratorStatusFromString on String {
   CustomRoutingAcceleratorStatus toCustomRoutingAcceleratorStatus() {
     switch (this) {
       case 'DEPLOYED':
@@ -3775,7 +3776,8 @@ enum CustomRoutingDestinationTrafficState {
   deny,
 }
 
-extension on CustomRoutingDestinationTrafficState {
+extension CustomRoutingDestinationTrafficStateValueExtension
+    on CustomRoutingDestinationTrafficState {
   String toValue() {
     switch (this) {
       case CustomRoutingDestinationTrafficState.allow:
@@ -3786,7 +3788,7 @@ extension on CustomRoutingDestinationTrafficState {
   }
 }
 
-extension on String {
+extension CustomRoutingDestinationTrafficStateFromString on String {
   CustomRoutingDestinationTrafficState
       toCustomRoutingDestinationTrafficState() {
     switch (this) {
@@ -3910,7 +3912,7 @@ enum CustomRoutingProtocol {
   udp,
 }
 
-extension on CustomRoutingProtocol {
+extension CustomRoutingProtocolValueExtension on CustomRoutingProtocol {
   String toValue() {
     switch (this) {
       case CustomRoutingProtocol.tcp:
@@ -3921,7 +3923,7 @@ extension on CustomRoutingProtocol {
   }
 }
 
-extension on String {
+extension CustomRoutingProtocolFromString on String {
   CustomRoutingProtocol toCustomRoutingProtocol() {
     switch (this) {
       case 'TCP':
@@ -4364,7 +4366,7 @@ enum HealthCheckProtocol {
   https,
 }
 
-extension on HealthCheckProtocol {
+extension HealthCheckProtocolValueExtension on HealthCheckProtocol {
   String toValue() {
     switch (this) {
       case HealthCheckProtocol.tcp:
@@ -4377,7 +4379,7 @@ extension on HealthCheckProtocol {
   }
 }
 
-extension on String {
+extension HealthCheckProtocolFromString on String {
   HealthCheckProtocol toHealthCheckProtocol() {
     switch (this) {
       case 'TCP':
@@ -4397,7 +4399,7 @@ enum HealthState {
   unhealthy,
 }
 
-extension on HealthState {
+extension HealthStateValueExtension on HealthState {
   String toValue() {
     switch (this) {
       case HealthState.initial:
@@ -4410,7 +4412,7 @@ extension on HealthState {
   }
 }
 
-extension on String {
+extension HealthStateFromString on String {
   HealthState toHealthState() {
     switch (this) {
       case 'INITIAL':
@@ -4428,7 +4430,7 @@ enum IpAddressType {
   ipv4,
 }
 
-extension on IpAddressType {
+extension IpAddressTypeValueExtension on IpAddressType {
   String toValue() {
     switch (this) {
       case IpAddressType.ipv4:
@@ -4437,7 +4439,7 @@ extension on IpAddressType {
   }
 }
 
-extension on String {
+extension IpAddressTypeFromString on String {
   IpAddressType toIpAddressType() {
     switch (this) {
       case 'IPV4':
@@ -4885,7 +4887,7 @@ enum Protocol {
   udp,
 }
 
-extension on Protocol {
+extension ProtocolValueExtension on Protocol {
   String toValue() {
     switch (this) {
       case Protocol.tcp:
@@ -4896,7 +4898,7 @@ extension on Protocol {
   }
 }
 
-extension on String {
+extension ProtocolFromString on String {
   Protocol toProtocol() {
     switch (this) {
       case 'TCP':

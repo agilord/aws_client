@@ -2095,7 +2095,7 @@ enum DeploymentEventType {
   deploymentCompleted,
 }
 
-extension on DeploymentEventType {
+extension DeploymentEventTypeValueExtension on DeploymentEventType {
   String toValue() {
     switch (this) {
       case DeploymentEventType.percentageUpdated:
@@ -2114,7 +2114,7 @@ extension on DeploymentEventType {
   }
 }
 
-extension on String {
+extension DeploymentEventTypeFromString on String {
   DeploymentEventType toDeploymentEventType() {
     switch (this) {
       case 'PERCENTAGE_UPDATED':
@@ -2143,7 +2143,7 @@ enum DeploymentState {
   rolledBack,
 }
 
-extension on DeploymentState {
+extension DeploymentStateValueExtension on DeploymentState {
   String toValue() {
     switch (this) {
       case DeploymentState.baking:
@@ -2162,7 +2162,7 @@ extension on DeploymentState {
   }
 }
 
-extension on String {
+extension DeploymentStateFromString on String {
   DeploymentState toDeploymentState() {
     switch (this) {
       case 'BAKING':
@@ -2397,7 +2397,7 @@ enum EnvironmentState {
   rolledBack,
 }
 
-extension on EnvironmentState {
+extension EnvironmentStateValueExtension on EnvironmentState {
   String toValue() {
     switch (this) {
       case EnvironmentState.readyForDeployment:
@@ -2412,7 +2412,7 @@ extension on EnvironmentState {
   }
 }
 
-extension on String {
+extension EnvironmentStateFromString on String {
   EnvironmentState toEnvironmentState() {
     switch (this) {
       case 'READY_FOR_DEPLOYMENT':
@@ -2456,7 +2456,7 @@ enum GrowthType {
   exponential,
 }
 
-extension on GrowthType {
+extension GrowthTypeValueExtension on GrowthType {
   String toValue() {
     switch (this) {
       case GrowthType.linear:
@@ -2467,7 +2467,7 @@ extension on GrowthType {
   }
 }
 
-extension on String {
+extension GrowthTypeFromString on String {
   GrowthType toGrowthType() {
     switch (this) {
       case 'LINEAR':
@@ -2606,7 +2606,7 @@ enum ReplicateTo {
   ssmDocument,
 }
 
-extension on ReplicateTo {
+extension ReplicateToValueExtension on ReplicateTo {
   String toValue() {
     switch (this) {
       case ReplicateTo.none:
@@ -2617,7 +2617,7 @@ extension on ReplicateTo {
   }
 }
 
-extension on String {
+extension ReplicateToFromString on String {
   ReplicateTo toReplicateTo() {
     switch (this) {
       case 'NONE':
@@ -2653,7 +2653,7 @@ enum TriggeredBy {
   internalError,
 }
 
-extension on TriggeredBy {
+extension TriggeredByValueExtension on TriggeredBy {
   String toValue() {
     switch (this) {
       case TriggeredBy.user:
@@ -2668,7 +2668,7 @@ extension on TriggeredBy {
   }
 }
 
-extension on String {
+extension TriggeredByFromString on String {
   TriggeredBy toTriggeredBy() {
     switch (this) {
       case 'USER':
@@ -2724,7 +2724,7 @@ enum ValidatorType {
   lambda,
 }
 
-extension on ValidatorType {
+extension ValidatorTypeValueExtension on ValidatorType {
   String toValue() {
     switch (this) {
       case ValidatorType.jsonSchema:
@@ -2735,7 +2735,7 @@ extension on ValidatorType {
   }
 }
 
-extension on String {
+extension ValidatorTypeFromString on String {
   ValidatorType toValidatorType() {
     switch (this) {
       case 'JSON_SCHEMA':

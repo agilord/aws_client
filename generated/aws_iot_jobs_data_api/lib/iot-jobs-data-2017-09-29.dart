@@ -463,7 +463,7 @@ enum JobExecutionStatus {
   canceled,
 }
 
-extension on JobExecutionStatus {
+extension JobExecutionStatusValueExtension on JobExecutionStatus {
   String toValue() {
     switch (this) {
       case JobExecutionStatus.queued:
@@ -486,7 +486,7 @@ extension on JobExecutionStatus {
   }
 }
 
-extension on String {
+extension JobExecutionStatusFromString on String {
   JobExecutionStatus toJobExecutionStatus() {
     switch (this) {
       case 'QUEUED':

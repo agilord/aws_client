@@ -2987,7 +2987,7 @@ enum ComponentFormat {
   shell,
 }
 
-extension on ComponentFormat {
+extension ComponentFormatValueExtension on ComponentFormat {
   String toValue() {
     switch (this) {
       case ComponentFormat.shell:
@@ -2996,7 +2996,7 @@ extension on ComponentFormat {
   }
 }
 
-extension on String {
+extension ComponentFormatFromString on String {
   ComponentFormat toComponentFormat() {
     switch (this) {
       case 'SHELL':
@@ -3083,7 +3083,7 @@ enum ComponentType {
   test,
 }
 
-extension on ComponentType {
+extension ComponentTypeValueExtension on ComponentType {
   String toValue() {
     switch (this) {
       case ComponentType.build:
@@ -3094,7 +3094,7 @@ extension on ComponentType {
   }
 }
 
-extension on String {
+extension ComponentTypeFromString on String {
   ComponentType toComponentType() {
     switch (this) {
       case 'BUILD':
@@ -3392,7 +3392,8 @@ enum ContainerRepositoryService {
   ecr,
 }
 
-extension on ContainerRepositoryService {
+extension ContainerRepositoryServiceValueExtension
+    on ContainerRepositoryService {
   String toValue() {
     switch (this) {
       case ContainerRepositoryService.ecr:
@@ -3401,7 +3402,7 @@ extension on ContainerRepositoryService {
   }
 }
 
-extension on String {
+extension ContainerRepositoryServiceFromString on String {
   ContainerRepositoryService toContainerRepositoryService() {
     switch (this) {
       case 'ECR':
@@ -3415,7 +3416,7 @@ enum ContainerType {
   docker,
 }
 
-extension on ContainerType {
+extension ContainerTypeValueExtension on ContainerType {
   String toValue() {
     switch (this) {
       case ContainerType.docker:
@@ -3424,7 +3425,7 @@ extension on ContainerType {
   }
 }
 
-extension on String {
+extension ContainerTypeFromString on String {
   ContainerType toContainerType() {
     switch (this) {
       case 'DOCKER':
@@ -3992,7 +3993,7 @@ enum EbsVolumeType {
   st1,
 }
 
-extension on EbsVolumeType {
+extension EbsVolumeTypeValueExtension on EbsVolumeType {
   String toValue() {
     switch (this) {
       case EbsVolumeType.standard:
@@ -4011,7 +4012,7 @@ extension on EbsVolumeType {
   }
 }
 
-extension on String {
+extension EbsVolumeTypeFromString on String {
   EbsVolumeType toEbsVolumeType() {
     switch (this) {
       case 'standard':
@@ -4687,7 +4688,7 @@ enum ImageStatus {
   deleted,
 }
 
-extension on ImageStatus {
+extension ImageStatusValueExtension on ImageStatus {
   String toValue() {
     switch (this) {
       case ImageStatus.pending:
@@ -4716,7 +4717,7 @@ extension on ImageStatus {
   }
 }
 
-extension on String {
+extension ImageStatusFromString on String {
   ImageStatus toImageStatus() {
     switch (this) {
       case 'PENDING':
@@ -4852,7 +4853,7 @@ enum ImageType {
   docker,
 }
 
-extension on ImageType {
+extension ImageTypeValueExtension on ImageType {
   String toValue() {
     switch (this) {
       case ImageType.ami:
@@ -4863,7 +4864,7 @@ extension on ImageType {
   }
 }
 
-extension on String {
+extension ImageTypeFromString on String {
   ImageType toImageType() {
     switch (this) {
       case 'AMI':
@@ -5557,7 +5558,7 @@ enum Ownership {
   amazon,
 }
 
-extension on Ownership {
+extension OwnershipValueExtension on Ownership {
   String toValue() {
     switch (this) {
       case Ownership.self:
@@ -5570,7 +5571,7 @@ extension on Ownership {
   }
 }
 
-extension on String {
+extension OwnershipFromString on String {
   Ownership toOwnership() {
     switch (this) {
       case 'Self':
@@ -5589,7 +5590,8 @@ enum PipelineExecutionStartCondition {
   expressionMatchAndDependencyUpdatesAvailable,
 }
 
-extension on PipelineExecutionStartCondition {
+extension PipelineExecutionStartConditionValueExtension
+    on PipelineExecutionStartCondition {
   String toValue() {
     switch (this) {
       case PipelineExecutionStartCondition.expressionMatchOnly:
@@ -5601,7 +5603,7 @@ extension on PipelineExecutionStartCondition {
   }
 }
 
-extension on String {
+extension PipelineExecutionStartConditionFromString on String {
   PipelineExecutionStartCondition toPipelineExecutionStartCondition() {
     switch (this) {
       case 'EXPRESSION_MATCH_ONLY':
@@ -5620,7 +5622,7 @@ enum PipelineStatus {
   enabled,
 }
 
-extension on PipelineStatus {
+extension PipelineStatusValueExtension on PipelineStatus {
   String toValue() {
     switch (this) {
       case PipelineStatus.disabled:
@@ -5631,7 +5633,7 @@ extension on PipelineStatus {
   }
 }
 
-extension on String {
+extension PipelineStatusFromString on String {
   PipelineStatus toPipelineStatus() {
     switch (this) {
       case 'DISABLED':
@@ -5648,7 +5650,7 @@ enum Platform {
   linux,
 }
 
-extension on Platform {
+extension PlatformValueExtension on Platform {
   String toValue() {
     switch (this) {
       case Platform.windows:
@@ -5659,7 +5661,7 @@ extension on Platform {
   }
 }
 
-extension on String {
+extension PlatformFromString on String {
   Platform toPlatform() {
     switch (this) {
       case 'Windows':

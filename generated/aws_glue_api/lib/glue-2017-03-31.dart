@@ -9936,7 +9936,7 @@ enum BackfillErrorCode {
   unsupportedPartitionCharacterError,
 }
 
-extension on BackfillErrorCode {
+extension BackfillErrorCodeValueExtension on BackfillErrorCode {
   String toValue() {
     switch (this) {
       case BackfillErrorCode.encryptedPartitionError:
@@ -9953,7 +9953,7 @@ extension on BackfillErrorCode {
   }
 }
 
-extension on String {
+extension BackfillErrorCodeFromString on String {
   BackfillErrorCode toBackfillErrorCode() {
     switch (this) {
       case 'ENCRYPTED_PARTITION_ERROR':
@@ -10460,7 +10460,7 @@ enum CatalogEncryptionMode {
   sseKms,
 }
 
-extension on CatalogEncryptionMode {
+extension CatalogEncryptionModeValueExtension on CatalogEncryptionMode {
   String toValue() {
     switch (this) {
       case CatalogEncryptionMode.disabled:
@@ -10471,7 +10471,7 @@ extension on CatalogEncryptionMode {
   }
 }
 
-extension on String {
+extension CatalogEncryptionModeFromString on String {
   CatalogEncryptionMode toCatalogEncryptionMode() {
     switch (this) {
       case 'DISABLED':
@@ -10672,7 +10672,7 @@ enum CloudWatchEncryptionMode {
   sseKms,
 }
 
-extension on CloudWatchEncryptionMode {
+extension CloudWatchEncryptionModeValueExtension on CloudWatchEncryptionMode {
   String toValue() {
     switch (this) {
       case CloudWatchEncryptionMode.disabled:
@@ -10683,7 +10683,7 @@ extension on CloudWatchEncryptionMode {
   }
 }
 
-extension on String {
+extension CloudWatchEncryptionModeFromString on String {
   CloudWatchEncryptionMode toCloudWatchEncryptionMode() {
     switch (this) {
       case 'DISABLED':
@@ -11085,7 +11085,7 @@ enum ColumnStatisticsType {
   binary,
 }
 
-extension on ColumnStatisticsType {
+extension ColumnStatisticsTypeValueExtension on ColumnStatisticsType {
   String toValue() {
     switch (this) {
       case ColumnStatisticsType.boolean:
@@ -11106,7 +11106,7 @@ extension on ColumnStatisticsType {
   }
 }
 
-extension on String {
+extension ColumnStatisticsTypeFromString on String {
   ColumnStatisticsType toColumnStatisticsType() {
     switch (this) {
       case 'BOOLEAN':
@@ -11136,7 +11136,7 @@ enum Comparator {
   lessThanEquals,
 }
 
-extension on Comparator {
+extension ComparatorValueExtension on Comparator {
   String toValue() {
     switch (this) {
       case Comparator.equals:
@@ -11153,7 +11153,7 @@ extension on Comparator {
   }
 }
 
-extension on String {
+extension ComparatorFromString on String {
   Comparator toComparator() {
     switch (this) {
       case 'EQUALS':
@@ -11182,7 +11182,7 @@ enum Compatibility {
   fullAll,
 }
 
-extension on Compatibility {
+extension CompatibilityValueExtension on Compatibility {
   String toValue() {
     switch (this) {
       case Compatibility.none:
@@ -11205,7 +11205,7 @@ extension on Compatibility {
   }
 }
 
-extension on String {
+extension CompatibilityFromString on String {
   Compatibility toCompatibility() {
     switch (this) {
       case 'NONE':
@@ -11667,7 +11667,7 @@ enum ConnectionPropertyKey {
   connectorClassName,
 }
 
-extension on ConnectionPropertyKey {
+extension ConnectionPropertyKeyValueExtension on ConnectionPropertyKey {
   String toValue() {
     switch (this) {
       case ConnectionPropertyKey.host:
@@ -11724,7 +11724,7 @@ extension on ConnectionPropertyKey {
   }
 }
 
-extension on String {
+extension ConnectionPropertyKeyFromString on String {
   ConnectionPropertyKey toConnectionPropertyKey() {
     switch (this) {
       case 'HOST':
@@ -11792,7 +11792,7 @@ enum ConnectionType {
   custom,
 }
 
-extension on ConnectionType {
+extension ConnectionTypeValueExtension on ConnectionType {
   String toValue() {
     switch (this) {
       case ConnectionType.jdbc:
@@ -11813,7 +11813,7 @@ extension on ConnectionType {
   }
 }
 
-extension on String {
+extension ConnectionTypeFromString on String {
   ConnectionType toConnectionType() {
     switch (this) {
       case 'JDBC':
@@ -11908,7 +11908,7 @@ enum CrawlState {
   failed,
 }
 
-extension on CrawlState {
+extension CrawlStateValueExtension on CrawlState {
   String toValue() {
     switch (this) {
       case CrawlState.running:
@@ -11925,7 +11925,7 @@ extension on CrawlState {
   }
 }
 
-extension on String {
+extension CrawlStateFromString on String {
   CrawlState toCrawlState() {
     switch (this) {
       case 'RUNNING':
@@ -12084,7 +12084,7 @@ enum CrawlerLineageSettings {
   disable,
 }
 
-extension on CrawlerLineageSettings {
+extension CrawlerLineageSettingsValueExtension on CrawlerLineageSettings {
   String toValue() {
     switch (this) {
       case CrawlerLineageSettings.enable:
@@ -12095,7 +12095,7 @@ extension on CrawlerLineageSettings {
   }
 }
 
-extension on String {
+extension CrawlerLineageSettingsFromString on String {
   CrawlerLineageSettings toCrawlerLineageSettings() {
     switch (this) {
       case 'ENABLE':
@@ -12182,7 +12182,7 @@ enum CrawlerState {
   stopping,
 }
 
-extension on CrawlerState {
+extension CrawlerStateValueExtension on CrawlerState {
   String toValue() {
     switch (this) {
       case CrawlerState.ready:
@@ -12195,7 +12195,7 @@ extension on CrawlerState {
   }
 }
 
-extension on String {
+extension CrawlerStateFromString on String {
   CrawlerState toCrawlerState() {
     switch (this) {
       case 'READY':
@@ -12898,7 +12898,7 @@ enum CsvHeaderOption {
   absent,
 }
 
-extension on CsvHeaderOption {
+extension CsvHeaderOptionValueExtension on CsvHeaderOption {
   String toValue() {
     switch (this) {
       case CsvHeaderOption.unknown:
@@ -12911,7 +12911,7 @@ extension on CsvHeaderOption {
   }
 }
 
-extension on String {
+extension CsvHeaderOptionFromString on String {
   CsvHeaderOption toCsvHeaderOption() {
     switch (this) {
       case 'UNKNOWN':
@@ -12969,7 +12969,7 @@ enum DataFormat {
   avro,
 }
 
-extension on DataFormat {
+extension DataFormatValueExtension on DataFormat {
   String toValue() {
     switch (this) {
       case DataFormat.avro:
@@ -12978,7 +12978,7 @@ extension on DataFormat {
   }
 }
 
-extension on String {
+extension DataFormatFromString on String {
   DataFormat toDataFormat() {
     switch (this) {
       case 'AVRO':
@@ -13281,7 +13281,7 @@ enum DeleteBehavior {
   deprecateInDatabase,
 }
 
-extension on DeleteBehavior {
+extension DeleteBehaviorValueExtension on DeleteBehavior {
   String toValue() {
     switch (this) {
       case DeleteBehavior.log:
@@ -13294,7 +13294,7 @@ extension on DeleteBehavior {
   }
 }
 
-extension on String {
+extension DeleteBehaviorFromString on String {
   DeleteBehavior toDeleteBehavior() {
     switch (this) {
       case 'LOG':
@@ -13923,7 +13923,7 @@ enum EnableHybridValues {
   $false,
 }
 
-extension on EnableHybridValues {
+extension EnableHybridValuesValueExtension on EnableHybridValues {
   String toValue() {
     switch (this) {
       case EnableHybridValues.$true:
@@ -13934,7 +13934,7 @@ extension on EnableHybridValues {
   }
 }
 
-extension on String {
+extension EnableHybridValuesFromString on String {
   EnableHybridValues toEnableHybridValues() {
     switch (this) {
       case 'TRUE':
@@ -14118,7 +14118,7 @@ enum ExistCondition {
   none,
 }
 
-extension on ExistCondition {
+extension ExistConditionValueExtension on ExistCondition {
   String toValue() {
     switch (this) {
       case ExistCondition.mustExist:
@@ -14131,7 +14131,7 @@ extension on ExistCondition {
   }
 }
 
-extension on String {
+extension ExistConditionFromString on String {
   ExistCondition toExistCondition() {
     switch (this) {
       case 'MUST_EXIST':
@@ -16186,7 +16186,8 @@ enum JobBookmarksEncryptionMode {
   cseKms,
 }
 
-extension on JobBookmarksEncryptionMode {
+extension JobBookmarksEncryptionModeValueExtension
+    on JobBookmarksEncryptionMode {
   String toValue() {
     switch (this) {
       case JobBookmarksEncryptionMode.disabled:
@@ -16197,7 +16198,7 @@ extension on JobBookmarksEncryptionMode {
   }
 }
 
-extension on String {
+extension JobBookmarksEncryptionModeFromString on String {
   JobBookmarksEncryptionMode toJobBookmarksEncryptionMode() {
     switch (this) {
       case 'DISABLED':
@@ -16493,7 +16494,7 @@ enum JobRunState {
   timeout,
 }
 
-extension on JobRunState {
+extension JobRunStateValueExtension on JobRunState {
   String toValue() {
     switch (this) {
       case JobRunState.starting:
@@ -16514,7 +16515,7 @@ extension on JobRunState {
   }
 }
 
-extension on String {
+extension JobRunStateFromString on String {
   JobRunState toJobRunState() {
     switch (this) {
       case 'STARTING':
@@ -16810,7 +16811,7 @@ enum Language {
   scala,
 }
 
-extension on Language {
+extension LanguageValueExtension on Language {
   String toValue() {
     switch (this) {
       case Language.python:
@@ -16821,7 +16822,7 @@ extension on Language {
   }
 }
 
-extension on String {
+extension LanguageFromString on String {
   Language toLanguage() {
     switch (this) {
       case 'PYTHON':
@@ -16879,7 +16880,7 @@ enum LastCrawlStatus {
   failed,
 }
 
-extension on LastCrawlStatus {
+extension LastCrawlStatusValueExtension on LastCrawlStatus {
   String toValue() {
     switch (this) {
       case LastCrawlStatus.succeeded:
@@ -16892,7 +16893,7 @@ extension on LastCrawlStatus {
   }
 }
 
-extension on String {
+extension LastCrawlStatusFromString on String {
   LastCrawlStatus toLastCrawlStatus() {
     switch (this) {
       case 'SUCCEEDED':
@@ -17185,7 +17186,7 @@ enum Logical {
   any,
 }
 
-extension on Logical {
+extension LogicalValueExtension on Logical {
   String toValue() {
     switch (this) {
       case Logical.and:
@@ -17196,7 +17197,7 @@ extension on Logical {
   }
 }
 
-extension on String {
+extension LogicalFromString on String {
   Logical toLogical() {
     switch (this) {
       case 'AND':
@@ -17212,7 +17213,7 @@ enum LogicalOperator {
   equals,
 }
 
-extension on LogicalOperator {
+extension LogicalOperatorValueExtension on LogicalOperator {
   String toValue() {
     switch (this) {
       case LogicalOperator.equals:
@@ -17221,7 +17222,7 @@ extension on LogicalOperator {
   }
 }
 
-extension on String {
+extension LogicalOperatorFromString on String {
   LogicalOperator toLogicalOperator() {
     switch (this) {
       case 'EQUALS':
@@ -17549,7 +17550,8 @@ enum MLUserDataEncryptionModeString {
   sseKms,
 }
 
-extension on MLUserDataEncryptionModeString {
+extension MLUserDataEncryptionModeStringValueExtension
+    on MLUserDataEncryptionModeString {
   String toValue() {
     switch (this) {
       case MLUserDataEncryptionModeString.disabled:
@@ -17560,7 +17562,7 @@ extension on MLUserDataEncryptionModeString {
   }
 }
 
-extension on String {
+extension MLUserDataEncryptionModeStringFromString on String {
   MLUserDataEncryptionModeString toMLUserDataEncryptionModeString() {
     switch (this) {
       case 'DISABLED':
@@ -17770,7 +17772,7 @@ enum NodeType {
   trigger,
 }
 
-extension on NodeType {
+extension NodeTypeValueExtension on NodeType {
   String toValue() {
     switch (this) {
       case NodeType.crawler:
@@ -17783,7 +17785,7 @@ extension on NodeType {
   }
 }
 
-extension on String {
+extension NodeTypeFromString on String {
   NodeType toNodeType() {
     switch (this) {
       case 'CRAWLER':
@@ -18023,7 +18025,7 @@ enum PartitionIndexStatus {
   failed,
 }
 
-extension on PartitionIndexStatus {
+extension PartitionIndexStatusValueExtension on PartitionIndexStatus {
   String toValue() {
     switch (this) {
       case PartitionIndexStatus.creating:
@@ -18038,7 +18040,7 @@ extension on PartitionIndexStatus {
   }
 }
 
-extension on String {
+extension PartitionIndexStatusFromString on String {
   PartitionIndexStatus toPartitionIndexStatus() {
     switch (this) {
       case 'CREATING':
@@ -18140,7 +18142,7 @@ enum Permission {
   dataLocationAccess,
 }
 
-extension on Permission {
+extension PermissionValueExtension on Permission {
   String toValue() {
     switch (this) {
       case Permission.all:
@@ -18165,7 +18167,7 @@ extension on Permission {
   }
 }
 
-extension on String {
+extension PermissionFromString on String {
   Permission toPermission() {
     switch (this) {
       case 'ALL':
@@ -18329,7 +18331,7 @@ enum PrincipalType {
   group,
 }
 
-extension on PrincipalType {
+extension PrincipalTypeValueExtension on PrincipalType {
   String toValue() {
     switch (this) {
       case PrincipalType.user:
@@ -18342,7 +18344,7 @@ extension on PrincipalType {
   }
 }
 
-extension on String {
+extension PrincipalTypeFromString on String {
   PrincipalType toPrincipalType() {
     switch (this) {
       case 'USER':
@@ -18496,7 +18498,7 @@ enum RecrawlBehavior {
   crawlNewFoldersOnly,
 }
 
-extension on RecrawlBehavior {
+extension RecrawlBehaviorValueExtension on RecrawlBehavior {
   String toValue() {
     switch (this) {
       case RecrawlBehavior.crawlEverything:
@@ -18507,7 +18509,7 @@ extension on RecrawlBehavior {
   }
 }
 
-extension on String {
+extension RecrawlBehaviorFromString on String {
   RecrawlBehavior toRecrawlBehavior() {
     switch (this) {
       case 'CRAWL_EVERYTHING':
@@ -18648,7 +18650,7 @@ enum RegistryStatus {
   deleting,
 }
 
-extension on RegistryStatus {
+extension RegistryStatusValueExtension on RegistryStatus {
   String toValue() {
     switch (this) {
       case RegistryStatus.available:
@@ -18659,7 +18661,7 @@ extension on RegistryStatus {
   }
 }
 
-extension on String {
+extension RegistryStatusFromString on String {
   RegistryStatus toRegistryStatus() {
     switch (this) {
       case 'AVAILABLE':
@@ -18743,7 +18745,7 @@ enum ResourceShareType {
   all,
 }
 
-extension on ResourceShareType {
+extension ResourceShareTypeValueExtension on ResourceShareType {
   String toValue() {
     switch (this) {
       case ResourceShareType.foreign:
@@ -18754,7 +18756,7 @@ extension on ResourceShareType {
   }
 }
 
-extension on String {
+extension ResourceShareTypeFromString on String {
   ResourceShareType toResourceShareType() {
     switch (this) {
       case 'FOREIGN':
@@ -18772,7 +18774,7 @@ enum ResourceType {
   archive,
 }
 
-extension on ResourceType {
+extension ResourceTypeValueExtension on ResourceType {
   String toValue() {
     switch (this) {
       case ResourceType.jar:
@@ -18785,7 +18787,7 @@ extension on ResourceType {
   }
 }
 
-extension on String {
+extension ResourceTypeFromString on String {
   ResourceType toResourceType() {
     switch (this) {
       case 'JAR':
@@ -18890,7 +18892,7 @@ enum S3EncryptionMode {
   sseS3,
 }
 
-extension on S3EncryptionMode {
+extension S3EncryptionModeValueExtension on S3EncryptionMode {
   String toValue() {
     switch (this) {
       case S3EncryptionMode.disabled:
@@ -18903,7 +18905,7 @@ extension on S3EncryptionMode {
   }
 }
 
-extension on String {
+extension S3EncryptionModeFromString on String {
   S3EncryptionMode toS3EncryptionMode() {
     switch (this) {
       case 'DISABLED':
@@ -18990,7 +18992,7 @@ enum ScheduleState {
   transitioning,
 }
 
-extension on ScheduleState {
+extension ScheduleStateValueExtension on ScheduleState {
   String toValue() {
     switch (this) {
       case ScheduleState.scheduled:
@@ -19003,7 +19005,7 @@ extension on ScheduleState {
   }
 }
 
-extension on String {
+extension ScheduleStateFromString on String {
   ScheduleState toScheduleState() {
     switch (this) {
       case 'SCHEDULED':
@@ -19081,7 +19083,7 @@ enum SchemaDiffType {
   syntaxDiff,
 }
 
-extension on SchemaDiffType {
+extension SchemaDiffTypeValueExtension on SchemaDiffType {
   String toValue() {
     switch (this) {
       case SchemaDiffType.syntaxDiff:
@@ -19090,7 +19092,7 @@ extension on SchemaDiffType {
   }
 }
 
-extension on String {
+extension SchemaDiffTypeFromString on String {
   SchemaDiffType toSchemaDiffType() {
     switch (this) {
       case 'SYNTAX_DIFF':
@@ -19230,7 +19232,7 @@ enum SchemaStatus {
   deleting,
 }
 
-extension on SchemaStatus {
+extension SchemaStatusValueExtension on SchemaStatus {
   String toValue() {
     switch (this) {
       case SchemaStatus.available:
@@ -19243,7 +19245,7 @@ extension on SchemaStatus {
   }
 }
 
-extension on String {
+extension SchemaStatusFromString on String {
   SchemaStatus toSchemaStatus() {
     switch (this) {
       case 'AVAILABLE':
@@ -19344,7 +19346,7 @@ enum SchemaVersionStatus {
   deleting,
 }
 
-extension on SchemaVersionStatus {
+extension SchemaVersionStatusValueExtension on SchemaVersionStatus {
   String toValue() {
     switch (this) {
       case SchemaVersionStatus.available:
@@ -19359,7 +19361,7 @@ extension on SchemaVersionStatus {
   }
 }
 
-extension on String {
+extension SchemaVersionStatusFromString on String {
   SchemaVersionStatus toSchemaVersionStatus() {
     switch (this) {
       case 'AVAILABLE':
@@ -19542,7 +19544,7 @@ enum Sort {
   desc,
 }
 
-extension on Sort {
+extension SortValueExtension on Sort {
   String toValue() {
     switch (this) {
       case Sort.asc:
@@ -19553,7 +19555,7 @@ extension on Sort {
   }
 }
 
-extension on String {
+extension SortFromString on String {
   Sort toSort() {
     switch (this) {
       case 'ASC':
@@ -19592,7 +19594,7 @@ enum SortDirectionType {
   ascending,
 }
 
-extension on SortDirectionType {
+extension SortDirectionTypeValueExtension on SortDirectionType {
   String toValue() {
     switch (this) {
       case SortDirectionType.descending:
@@ -19603,7 +19605,7 @@ extension on SortDirectionType {
   }
 }
 
-extension on String {
+extension SortDirectionTypeFromString on String {
   SortDirectionType toSortDirectionType() {
     switch (this) {
       case 'DESCENDING':
@@ -20451,7 +20453,7 @@ enum TaskRunSortColumnType {
   started,
 }
 
-extension on TaskRunSortColumnType {
+extension TaskRunSortColumnTypeValueExtension on TaskRunSortColumnType {
   String toValue() {
     switch (this) {
       case TaskRunSortColumnType.taskRunType:
@@ -20464,7 +20466,7 @@ extension on TaskRunSortColumnType {
   }
 }
 
-extension on String {
+extension TaskRunSortColumnTypeFromString on String {
   TaskRunSortColumnType toTaskRunSortColumnType() {
     switch (this) {
       case 'TASK_RUN_TYPE':
@@ -20513,7 +20515,7 @@ enum TaskStatusType {
   timeout,
 }
 
-extension on TaskStatusType {
+extension TaskStatusTypeValueExtension on TaskStatusType {
   String toValue() {
     switch (this) {
       case TaskStatusType.starting:
@@ -20534,7 +20536,7 @@ extension on TaskStatusType {
   }
 }
 
-extension on String {
+extension TaskStatusTypeFromString on String {
   TaskStatusType toTaskStatusType() {
     switch (this) {
       case 'STARTING':
@@ -20564,7 +20566,7 @@ enum TaskType {
   findMatches,
 }
 
-extension on TaskType {
+extension TaskTypeValueExtension on TaskType {
   String toValue() {
     switch (this) {
       case TaskType.evaluation:
@@ -20581,7 +20583,7 @@ extension on TaskType {
   }
 }
 
-extension on String {
+extension TaskTypeFromString on String {
   TaskType toTaskType() {
     switch (this) {
       case 'EVALUATION':
@@ -20768,7 +20770,7 @@ enum TransformSortColumnType {
   lastModified,
 }
 
-extension on TransformSortColumnType {
+extension TransformSortColumnTypeValueExtension on TransformSortColumnType {
   String toValue() {
     switch (this) {
       case TransformSortColumnType.name:
@@ -20785,7 +20787,7 @@ extension on TransformSortColumnType {
   }
 }
 
-extension on String {
+extension TransformSortColumnTypeFromString on String {
   TransformSortColumnType toTransformSortColumnType() {
     switch (this) {
       case 'NAME':
@@ -20834,7 +20836,7 @@ enum TransformStatusType {
   deleting,
 }
 
-extension on TransformStatusType {
+extension TransformStatusTypeValueExtension on TransformStatusType {
   String toValue() {
     switch (this) {
       case TransformStatusType.notReady:
@@ -20847,7 +20849,7 @@ extension on TransformStatusType {
   }
 }
 
-extension on String {
+extension TransformStatusTypeFromString on String {
   TransformStatusType toTransformStatusType() {
     switch (this) {
       case 'NOT_READY':
@@ -20865,7 +20867,7 @@ enum TransformType {
   findMatches,
 }
 
-extension on TransformType {
+extension TransformTypeValueExtension on TransformType {
   String toValue() {
     switch (this) {
       case TransformType.findMatches:
@@ -20874,7 +20876,7 @@ extension on TransformType {
   }
 }
 
-extension on String {
+extension TransformTypeFromString on String {
   TransformType toTransformType() {
     switch (this) {
       case 'FIND_MATCHES':
@@ -20975,7 +20977,7 @@ enum TriggerState {
   updating,
 }
 
-extension on TriggerState {
+extension TriggerStateValueExtension on TriggerState {
   String toValue() {
     switch (this) {
       case TriggerState.creating:
@@ -20998,7 +21000,7 @@ extension on TriggerState {
   }
 }
 
-extension on String {
+extension TriggerStateFromString on String {
   TriggerState toTriggerState() {
     switch (this) {
       case 'CREATING':
@@ -21028,7 +21030,7 @@ enum TriggerType {
   onDemand,
 }
 
-extension on TriggerType {
+extension TriggerTypeValueExtension on TriggerType {
   String toValue() {
     switch (this) {
       case TriggerType.scheduled:
@@ -21041,7 +21043,7 @@ extension on TriggerType {
   }
 }
 
-extension on String {
+extension TriggerTypeFromString on String {
   TriggerType toTriggerType() {
     switch (this) {
       case 'SCHEDULED':
@@ -21111,7 +21113,7 @@ enum UpdateBehavior {
   updateInDatabase,
 }
 
-extension on UpdateBehavior {
+extension UpdateBehaviorValueExtension on UpdateBehavior {
   String toValue() {
     switch (this) {
       case UpdateBehavior.log:
@@ -21122,7 +21124,7 @@ extension on UpdateBehavior {
   }
 }
 
-extension on String {
+extension UpdateBehaviorFromString on String {
   UpdateBehavior toUpdateBehavior() {
     switch (this) {
       case 'LOG':
@@ -21583,7 +21585,7 @@ enum WorkerType {
   g_2x,
 }
 
-extension on WorkerType {
+extension WorkerTypeValueExtension on WorkerType {
   String toValue() {
     switch (this) {
       case WorkerType.standard:
@@ -21596,7 +21598,7 @@ extension on WorkerType {
   }
 }
 
-extension on String {
+extension WorkerTypeFromString on String {
   WorkerType toWorkerType() {
     switch (this) {
       case 'Standard':
@@ -21821,7 +21823,7 @@ enum WorkflowRunStatus {
   error,
 }
 
-extension on WorkflowRunStatus {
+extension WorkflowRunStatusValueExtension on WorkflowRunStatus {
   String toValue() {
     switch (this) {
       case WorkflowRunStatus.running:
@@ -21838,7 +21840,7 @@ extension on WorkflowRunStatus {
   }
 }
 
-extension on String {
+extension WorkflowRunStatusFromString on String {
   WorkflowRunStatus toWorkflowRunStatus() {
     switch (this) {
       case 'RUNNING':

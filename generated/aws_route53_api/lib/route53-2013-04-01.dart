@@ -4835,7 +4835,7 @@ enum AccountLimitType {
   maxTrafficPoliciesByOwner,
 }
 
-extension on AccountLimitType {
+extension AccountLimitTypeValueExtension on AccountLimitType {
   String toValue() {
     switch (this) {
       case AccountLimitType.maxHealthChecksByOwner:
@@ -4852,7 +4852,7 @@ extension on AccountLimitType {
   }
 }
 
-extension on String {
+extension AccountLimitTypeFromString on String {
   AccountLimitType toAccountLimitType() {
     switch (this) {
       case 'MAX_HEALTH_CHECKS_BY_OWNER':
@@ -5460,7 +5460,7 @@ enum ChangeAction {
   upsert,
 }
 
-extension on ChangeAction {
+extension ChangeActionValueExtension on ChangeAction {
   String toValue() {
     switch (this) {
       case ChangeAction.create:
@@ -5473,7 +5473,7 @@ extension on ChangeAction {
   }
 }
 
-extension on String {
+extension ChangeActionFromString on String {
   ChangeAction toChangeAction() {
     switch (this) {
       case 'CREATE':
@@ -5616,7 +5616,7 @@ enum ChangeStatus {
   insync,
 }
 
-extension on ChangeStatus {
+extension ChangeStatusValueExtension on ChangeStatus {
   String toValue() {
     switch (this) {
       case ChangeStatus.pending:
@@ -5627,7 +5627,7 @@ extension on ChangeStatus {
   }
 }
 
-extension on String {
+extension ChangeStatusFromString on String {
   ChangeStatus toChangeStatus() {
     switch (this) {
       case 'PENDING':
@@ -5808,7 +5808,7 @@ enum CloudWatchRegion {
   usIsobEast_1,
 }
 
-extension on CloudWatchRegion {
+extension CloudWatchRegionValueExtension on CloudWatchRegion {
   String toValue() {
     switch (this) {
       case CloudWatchRegion.usEast_1:
@@ -5869,7 +5869,7 @@ extension on CloudWatchRegion {
   }
 }
 
-extension on String {
+extension CloudWatchRegionFromString on String {
   CloudWatchRegion toCloudWatchRegion() {
     switch (this) {
       case 'us-east-1':
@@ -5938,7 +5938,7 @@ enum ComparisonOperator {
   lessThanOrEqualToThreshold,
 }
 
-extension on ComparisonOperator {
+extension ComparisonOperatorValueExtension on ComparisonOperator {
   String toValue() {
     switch (this) {
       case ComparisonOperator.greaterThanOrEqualToThreshold:
@@ -5953,7 +5953,7 @@ extension on ComparisonOperator {
   }
 }
 
-extension on String {
+extension ComparisonOperatorFromString on String {
   ComparisonOperator toComparisonOperator() {
     switch (this) {
       case 'GreaterThanOrEqualToThreshold':
@@ -7974,7 +7974,7 @@ enum HealthCheckRegion {
   saEast_1,
 }
 
-extension on HealthCheckRegion {
+extension HealthCheckRegionValueExtension on HealthCheckRegion {
   String toValue() {
     switch (this) {
       case HealthCheckRegion.usEast_1:
@@ -7997,7 +7997,7 @@ extension on HealthCheckRegion {
   }
 }
 
-extension on String {
+extension HealthCheckRegionFromString on String {
   HealthCheckRegion toHealthCheckRegion() {
     switch (this) {
       case 'us-east-1':
@@ -8031,7 +8031,7 @@ enum HealthCheckType {
   cloudwatchMetric,
 }
 
-extension on HealthCheckType {
+extension HealthCheckTypeValueExtension on HealthCheckType {
   String toValue() {
     switch (this) {
       case HealthCheckType.http:
@@ -8052,7 +8052,7 @@ extension on HealthCheckType {
   }
 }
 
-extension on String {
+extension HealthCheckTypeFromString on String {
   HealthCheckType toHealthCheckType() {
     switch (this) {
       case 'HTTP':
@@ -8209,7 +8209,7 @@ enum HostedZoneLimitType {
   maxVpcsAssociatedByZone,
 }
 
-extension on HostedZoneLimitType {
+extension HostedZoneLimitTypeValueExtension on HostedZoneLimitType {
   String toValue() {
     switch (this) {
       case HostedZoneLimitType.maxRrsetsByZone:
@@ -8220,7 +8220,7 @@ extension on HostedZoneLimitType {
   }
 }
 
-extension on String {
+extension HostedZoneLimitTypeFromString on String {
   HostedZoneLimitType toHostedZoneLimitType() {
     switch (this) {
       case 'MAX_RRSETS_BY_ZONE':
@@ -8302,7 +8302,8 @@ enum InsufficientDataHealthStatus {
   lastKnownStatus,
 }
 
-extension on InsufficientDataHealthStatus {
+extension InsufficientDataHealthStatusValueExtension
+    on InsufficientDataHealthStatus {
   String toValue() {
     switch (this) {
       case InsufficientDataHealthStatus.healthy:
@@ -8315,7 +8316,7 @@ extension on InsufficientDataHealthStatus {
   }
 }
 
-extension on String {
+extension InsufficientDataHealthStatusFromString on String {
   InsufficientDataHealthStatus toInsufficientDataHealthStatus() {
     switch (this) {
       case 'Healthy':
@@ -9382,7 +9383,7 @@ enum RRType {
   ds,
 }
 
-extension on RRType {
+extension RRTypeValueExtension on RRType {
   String toValue() {
     switch (this) {
       case RRType.soa:
@@ -9415,7 +9416,7 @@ extension on RRType {
   }
 }
 
-extension on String {
+extension RRTypeFromString on String {
   RRType toRRType() {
     switch (this) {
       case 'SOA':
@@ -9456,7 +9457,7 @@ enum ResettableElementName {
   childHealthChecks,
 }
 
-extension on ResettableElementName {
+extension ResettableElementNameValueExtension on ResettableElementName {
   String toValue() {
     switch (this) {
       case ResettableElementName.fullyQualifiedDomainName:
@@ -9471,7 +9472,7 @@ extension on ResettableElementName {
   }
 }
 
-extension on String {
+extension ResettableElementNameFromString on String {
   ResettableElementName toResettableElementName() {
     switch (this) {
       case 'FullyQualifiedDomainName':
@@ -10215,7 +10216,7 @@ enum ResourceRecordSetFailover {
   secondary,
 }
 
-extension on ResourceRecordSetFailover {
+extension ResourceRecordSetFailoverValueExtension on ResourceRecordSetFailover {
   String toValue() {
     switch (this) {
       case ResourceRecordSetFailover.primary:
@@ -10226,7 +10227,7 @@ extension on ResourceRecordSetFailover {
   }
 }
 
-extension on String {
+extension ResourceRecordSetFailoverFromString on String {
   ResourceRecordSetFailover toResourceRecordSetFailover() {
     switch (this) {
       case 'PRIMARY':
@@ -10264,7 +10265,7 @@ enum ResourceRecordSetRegion {
   euSouth_1,
 }
 
-extension on ResourceRecordSetRegion {
+extension ResourceRecordSetRegionValueExtension on ResourceRecordSetRegion {
   String toValue() {
     switch (this) {
       case ResourceRecordSetRegion.usEast_1:
@@ -10317,7 +10318,7 @@ extension on ResourceRecordSetRegion {
   }
 }
 
-extension on String {
+extension ResourceRecordSetRegionFromString on String {
   ResourceRecordSetRegion toResourceRecordSetRegion() {
     switch (this) {
       case 'us-east-1':
@@ -10438,7 +10439,8 @@ enum ReusableDelegationSetLimitType {
   maxZonesByReusableDelegationSet,
 }
 
-extension on ReusableDelegationSetLimitType {
+extension ReusableDelegationSetLimitTypeValueExtension
+    on ReusableDelegationSetLimitType {
   String toValue() {
     switch (this) {
       case ReusableDelegationSetLimitType.maxZonesByReusableDelegationSet:
@@ -10447,7 +10449,7 @@ extension on ReusableDelegationSetLimitType {
   }
 }
 
-extension on String {
+extension ReusableDelegationSetLimitTypeFromString on String {
   ReusableDelegationSetLimitType toReusableDelegationSetLimitType() {
     switch (this) {
       case 'MAX_ZONES_BY_REUSABLE_DELEGATION_SET':
@@ -10466,7 +10468,7 @@ enum Statistic {
   minimum,
 }
 
-extension on Statistic {
+extension StatisticValueExtension on Statistic {
   String toValue() {
     switch (this) {
       case Statistic.average:
@@ -10483,7 +10485,7 @@ extension on Statistic {
   }
 }
 
-extension on String {
+extension StatisticFromString on String {
   Statistic toStatistic() {
     switch (this) {
       case 'Average':
@@ -10604,7 +10606,7 @@ enum TagResourceType {
   hostedzone,
 }
 
-extension on TagResourceType {
+extension TagResourceTypeValueExtension on TagResourceType {
   String toValue() {
     switch (this) {
       case TagResourceType.healthcheck:
@@ -10615,7 +10617,7 @@ extension on TagResourceType {
   }
 }
 
-extension on String {
+extension TagResourceTypeFromString on String {
   TagResourceType toTagResourceType() {
     switch (this) {
       case 'healthcheck':
@@ -11541,7 +11543,7 @@ enum VPCRegion {
   euSouth_1,
 }
 
-extension on VPCRegion {
+extension VPCRegionValueExtension on VPCRegion {
   String toValue() {
     switch (this) {
       case VPCRegion.usEast_1:
@@ -11600,7 +11602,7 @@ extension on VPCRegion {
   }
 }
 
-extension on String {
+extension VPCRegionFromString on String {
   VPCRegion toVPCRegion() {
     switch (this) {
       case 'us-east-1':

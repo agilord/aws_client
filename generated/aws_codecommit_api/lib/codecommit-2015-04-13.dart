@@ -5728,7 +5728,7 @@ enum ApprovalState {
   revoke,
 }
 
-extension on ApprovalState {
+extension ApprovalStateValueExtension on ApprovalState {
   String toValue() {
     switch (this) {
       case ApprovalState.approve:
@@ -5739,7 +5739,7 @@ extension on ApprovalState {
   }
 }
 
-extension on String {
+extension ApprovalStateFromString on String {
   ApprovalState toApprovalState() {
     switch (this) {
       case 'APPROVE':
@@ -6116,7 +6116,7 @@ enum ChangeTypeEnum {
   d,
 }
 
-extension on ChangeTypeEnum {
+extension ChangeTypeEnumValueExtension on ChangeTypeEnum {
   String toValue() {
     switch (this) {
       case ChangeTypeEnum.a:
@@ -6129,7 +6129,7 @@ extension on ChangeTypeEnum {
   }
 }
 
-extension on String {
+extension ChangeTypeEnumFromString on String {
   ChangeTypeEnum toChangeTypeEnum() {
     switch (this) {
       case 'A':
@@ -6428,7 +6428,8 @@ enum ConflictDetailLevelTypeEnum {
   lineLevel,
 }
 
-extension on ConflictDetailLevelTypeEnum {
+extension ConflictDetailLevelTypeEnumValueExtension
+    on ConflictDetailLevelTypeEnum {
   String toValue() {
     switch (this) {
       case ConflictDetailLevelTypeEnum.fileLevel:
@@ -6439,7 +6440,7 @@ extension on ConflictDetailLevelTypeEnum {
   }
 }
 
-extension on String {
+extension ConflictDetailLevelTypeEnumFromString on String {
   ConflictDetailLevelTypeEnum toConflictDetailLevelTypeEnum() {
     switch (this) {
       case 'FILE_LEVEL':
@@ -6566,7 +6567,8 @@ enum ConflictResolutionStrategyTypeEnum {
   automerge,
 }
 
-extension on ConflictResolutionStrategyTypeEnum {
+extension ConflictResolutionStrategyTypeEnumValueExtension
+    on ConflictResolutionStrategyTypeEnum {
   String toValue() {
     switch (this) {
       case ConflictResolutionStrategyTypeEnum.none:
@@ -6581,7 +6583,7 @@ extension on ConflictResolutionStrategyTypeEnum {
   }
 }
 
-extension on String {
+extension ConflictResolutionStrategyTypeEnumFromString on String {
   ConflictResolutionStrategyTypeEnum toConflictResolutionStrategyTypeEnum() {
     switch (this) {
       case 'NONE':
@@ -7081,7 +7083,7 @@ enum FileModeTypeEnum {
   symlink,
 }
 
-extension on FileModeTypeEnum {
+extension FileModeTypeEnumValueExtension on FileModeTypeEnum {
   String toValue() {
     switch (this) {
       case FileModeTypeEnum.executable:
@@ -7094,7 +7096,7 @@ extension on FileModeTypeEnum {
   }
 }
 
-extension on String {
+extension FileModeTypeEnumFromString on String {
   FileModeTypeEnum toFileModeTypeEnum() {
     switch (this) {
       case 'EXECUTABLE':
@@ -8099,7 +8101,7 @@ enum MergeOptionTypeEnum {
   threeWayMerge,
 }
 
-extension on MergeOptionTypeEnum {
+extension MergeOptionTypeEnumValueExtension on MergeOptionTypeEnum {
   String toValue() {
     switch (this) {
       case MergeOptionTypeEnum.fastForwardMerge:
@@ -8112,7 +8114,7 @@ extension on MergeOptionTypeEnum {
   }
 }
 
-extension on String {
+extension MergeOptionTypeEnumFromString on String {
   MergeOptionTypeEnum toMergeOptionTypeEnum() {
     switch (this) {
       case 'FAST_FORWARD_MERGE':
@@ -8180,7 +8182,7 @@ enum ObjectTypeEnum {
   symbolicLink,
 }
 
-extension on ObjectTypeEnum {
+extension ObjectTypeEnumValueExtension on ObjectTypeEnum {
   String toValue() {
     switch (this) {
       case ObjectTypeEnum.file:
@@ -8195,7 +8197,7 @@ extension on ObjectTypeEnum {
   }
 }
 
-extension on String {
+extension ObjectTypeEnumFromString on String {
   ObjectTypeEnum toObjectTypeEnum() {
     switch (this) {
       case 'FILE':
@@ -8241,7 +8243,7 @@ enum OrderEnum {
   descending,
 }
 
-extension on OrderEnum {
+extension OrderEnumValueExtension on OrderEnum {
   String toValue() {
     switch (this) {
       case OrderEnum.ascending:
@@ -8252,7 +8254,7 @@ extension on OrderEnum {
   }
 }
 
-extension on String {
+extension OrderEnumFromString on String {
   OrderEnum toOrderEnum() {
     switch (this) {
       case 'ascending':
@@ -8290,7 +8292,7 @@ enum OverrideStatus {
   revoke,
 }
 
-extension on OverrideStatus {
+extension OverrideStatusValueExtension on OverrideStatus {
   String toValue() {
     switch (this) {
       case OverrideStatus.override:
@@ -8301,7 +8303,7 @@ extension on OverrideStatus {
   }
 }
 
-extension on String {
+extension OverrideStatusFromString on String {
   OverrideStatus toOverrideStatus() {
     switch (this) {
       case 'OVERRIDE':
@@ -8671,7 +8673,7 @@ enum PullRequestEventType {
   pullRequestApprovalStateChanged,
 }
 
-extension on PullRequestEventType {
+extension PullRequestEventTypeValueExtension on PullRequestEventType {
   String toValue() {
     switch (this) {
       case PullRequestEventType.pullRequestCreated:
@@ -8696,7 +8698,7 @@ extension on PullRequestEventType {
   }
 }
 
-extension on String {
+extension PullRequestEventTypeFromString on String {
   PullRequestEventType toPullRequestEventType() {
     switch (this) {
       case 'PULL_REQUEST_CREATED':
@@ -8808,7 +8810,7 @@ enum PullRequestStatusEnum {
   closed,
 }
 
-extension on PullRequestStatusEnum {
+extension PullRequestStatusEnumValueExtension on PullRequestStatusEnum {
   String toValue() {
     switch (this) {
       case PullRequestStatusEnum.open:
@@ -8819,7 +8821,7 @@ extension on PullRequestStatusEnum {
   }
 }
 
-extension on String {
+extension PullRequestStatusEnumFromString on String {
   PullRequestStatusEnum toPullRequestStatusEnum() {
     switch (this) {
       case 'OPEN':
@@ -9033,7 +9035,7 @@ enum RelativeFileVersionEnum {
   after,
 }
 
-extension on RelativeFileVersionEnum {
+extension RelativeFileVersionEnumValueExtension on RelativeFileVersionEnum {
   String toValue() {
     switch (this) {
       case RelativeFileVersionEnum.before:
@@ -9044,7 +9046,7 @@ extension on RelativeFileVersionEnum {
   }
 }
 
-extension on String {
+extension RelativeFileVersionEnumFromString on String {
   RelativeFileVersionEnum toRelativeFileVersionEnum() {
     switch (this) {
       case 'BEFORE':
@@ -9099,7 +9101,7 @@ enum ReplacementTypeEnum {
   useNewContent,
 }
 
-extension on ReplacementTypeEnum {
+extension ReplacementTypeEnumValueExtension on ReplacementTypeEnum {
   String toValue() {
     switch (this) {
       case ReplacementTypeEnum.keepBase:
@@ -9114,7 +9116,7 @@ extension on ReplacementTypeEnum {
   }
 }
 
-extension on String {
+extension ReplacementTypeEnumFromString on String {
   ReplacementTypeEnum toReplacementTypeEnum() {
     switch (this) {
       case 'KEEP_BASE':
@@ -9284,7 +9286,8 @@ enum RepositoryTriggerEventEnum {
   deleteReference,
 }
 
-extension on RepositoryTriggerEventEnum {
+extension RepositoryTriggerEventEnumValueExtension
+    on RepositoryTriggerEventEnum {
   String toValue() {
     switch (this) {
       case RepositoryTriggerEventEnum.all:
@@ -9299,7 +9302,7 @@ extension on RepositoryTriggerEventEnum {
   }
 }
 
-extension on String {
+extension RepositoryTriggerEventEnumFromString on String {
   RepositoryTriggerEventEnum toRepositoryTriggerEventEnum() {
     switch (this) {
       case 'all':
@@ -9363,7 +9366,7 @@ enum SortByEnum {
   lastModifiedDate,
 }
 
-extension on SortByEnum {
+extension SortByEnumValueExtension on SortByEnum {
   String toValue() {
     switch (this) {
       case SortByEnum.repositoryName:
@@ -9374,7 +9377,7 @@ extension on SortByEnum {
   }
 }
 
-extension on String {
+extension SortByEnumFromString on String {
   SortByEnum toSortByEnum() {
     switch (this) {
       case 'repositoryName':

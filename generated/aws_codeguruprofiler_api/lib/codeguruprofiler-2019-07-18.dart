@@ -1519,7 +1519,7 @@ enum ActionGroup {
   agentPermissions,
 }
 
-extension on ActionGroup {
+extension ActionGroupValueExtension on ActionGroup {
   String toValue() {
     switch (this) {
       case ActionGroup.agentPermissions:
@@ -1528,7 +1528,7 @@ extension on ActionGroup {
   }
 }
 
-extension on String {
+extension ActionGroupFromString on String {
   ActionGroup toActionGroup() {
     switch (this) {
       case 'agentPermissions':
@@ -1654,7 +1654,7 @@ enum AgentParameterField {
   samplingIntervalInMilliseconds,
 }
 
-extension on AgentParameterField {
+extension AgentParameterFieldValueExtension on AgentParameterField {
   String toValue() {
     switch (this) {
       case AgentParameterField.maxStackDepth:
@@ -1671,7 +1671,7 @@ extension on AgentParameterField {
   }
 }
 
-extension on String {
+extension AgentParameterFieldFromString on String {
   AgentParameterField toAgentParameterField() {
     switch (this) {
       case 'MaxStackDepth':
@@ -1741,7 +1741,7 @@ enum AggregationPeriod {
   pt5m,
 }
 
-extension on AggregationPeriod {
+extension AggregationPeriodValueExtension on AggregationPeriod {
   String toValue() {
     switch (this) {
       case AggregationPeriod.p1d:
@@ -1754,7 +1754,7 @@ extension on AggregationPeriod {
   }
 }
 
-extension on String {
+extension AggregationPeriodFromString on String {
   AggregationPeriod toAggregationPeriod() {
     switch (this) {
       case 'P1D':
@@ -1969,7 +1969,7 @@ enum ComputePlatform {
   $default,
 }
 
-extension on ComputePlatform {
+extension ComputePlatformValueExtension on ComputePlatform {
   String toValue() {
     switch (this) {
       case ComputePlatform.awsLambda:
@@ -1980,7 +1980,7 @@ extension on ComputePlatform {
   }
 }
 
-extension on String {
+extension ComputePlatformFromString on String {
   ComputePlatform toComputePlatform() {
     switch (this) {
       case 'AWSLambda':
@@ -2043,7 +2043,7 @@ enum EventPublisher {
   anomalyDetection,
 }
 
-extension on EventPublisher {
+extension EventPublisherValueExtension on EventPublisher {
   String toValue() {
     switch (this) {
       case EventPublisher.anomalyDetection:
@@ -2052,7 +2052,7 @@ extension on EventPublisher {
   }
 }
 
-extension on String {
+extension EventPublisherFromString on String {
   EventPublisher toEventPublisher() {
     switch (this) {
       case 'AnomalyDetection':
@@ -2067,7 +2067,7 @@ enum FeedbackType {
   positive,
 }
 
-extension on FeedbackType {
+extension FeedbackTypeValueExtension on FeedbackType {
   String toValue() {
     switch (this) {
       case FeedbackType.negative:
@@ -2078,7 +2078,7 @@ extension on FeedbackType {
   }
 }
 
-extension on String {
+extension FeedbackTypeFromString on String {
   FeedbackType toFeedbackType() {
     switch (this) {
       case 'Negative':
@@ -2492,7 +2492,7 @@ enum MetadataField {
   lambdaTimeGapBetweenInvokesInMilliseconds,
 }
 
-extension on MetadataField {
+extension MetadataFieldValueExtension on MetadataField {
   String toValue() {
     switch (this) {
       case MetadataField.agentId:
@@ -2517,7 +2517,7 @@ extension on MetadataField {
   }
 }
 
-extension on String {
+extension MetadataFieldFromString on String {
   MetadataField toMetadataField() {
     switch (this) {
       case 'AgentId':
@@ -2582,7 +2582,7 @@ enum MetricType {
   aggregatedRelativeTotalTime,
 }
 
-extension on MetricType {
+extension MetricTypeValueExtension on MetricType {
   String toValue() {
     switch (this) {
       case MetricType.aggregatedRelativeTotalTime:
@@ -2591,7 +2591,7 @@ extension on MetricType {
   }
 }
 
-extension on String {
+extension MetricTypeFromString on String {
   MetricType toMetricType() {
     switch (this) {
       case 'AggregatedRelativeTotalTime':
@@ -2627,7 +2627,7 @@ enum OrderBy {
   timestampDescending,
 }
 
-extension on OrderBy {
+extension OrderByValueExtension on OrderBy {
   String toValue() {
     switch (this) {
       case OrderBy.timestampAscending:
@@ -2638,7 +2638,7 @@ extension on OrderBy {
   }
 }
 
-extension on String {
+extension OrderByFromString on String {
   OrderBy toOrderBy() {
     switch (this) {
       case 'TimestampAscending':

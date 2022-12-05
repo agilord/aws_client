@@ -3264,7 +3264,7 @@ enum DomainStatus {
   updating,
 }
 
-extension on DomainStatus {
+extension DomainStatusValueExtension on DomainStatus {
   String toValue() {
     switch (this) {
       case DomainStatus.pendingVerification:
@@ -3287,7 +3287,7 @@ extension on DomainStatus {
   }
 }
 
-extension on String {
+extension DomainStatusFromString on String {
   DomainStatus toDomainStatus() {
     switch (this) {
       case 'PENDING_VERIFICATION':
@@ -3466,7 +3466,7 @@ enum JobStatus {
   cancelled,
 }
 
-extension on JobStatus {
+extension JobStatusValueExtension on JobStatus {
   String toValue() {
     switch (this) {
       case JobStatus.pending:
@@ -3487,7 +3487,7 @@ extension on JobStatus {
   }
 }
 
-extension on String {
+extension JobStatusFromString on String {
   JobStatus toJobStatus() {
     switch (this) {
       case 'PENDING':
@@ -3575,7 +3575,7 @@ enum JobType {
   webHook,
 }
 
-extension on JobType {
+extension JobTypeValueExtension on JobType {
   String toValue() {
     switch (this) {
       case JobType.release:
@@ -3590,7 +3590,7 @@ extension on JobType {
   }
 }
 
-extension on String {
+extension JobTypeFromString on String {
   JobType toJobType() {
     switch (this) {
       case 'RELEASE':
@@ -3795,7 +3795,7 @@ enum Platform {
   web,
 }
 
-extension on Platform {
+extension PlatformValueExtension on Platform {
   String toValue() {
     switch (this) {
       case Platform.web:
@@ -3804,7 +3804,7 @@ extension on Platform {
   }
 }
 
-extension on String {
+extension PlatformFromString on String {
   Platform toPlatform() {
     switch (this) {
       case 'WEB':
@@ -3852,7 +3852,7 @@ enum Stage {
   pullRequest,
 }
 
-extension on Stage {
+extension StageValueExtension on Stage {
   String toValue() {
     switch (this) {
       case Stage.production:
@@ -3869,7 +3869,7 @@ extension on Stage {
   }
 }
 
-extension on String {
+extension StageFromString on String {
   Stage toStage() {
     switch (this) {
       case 'PRODUCTION':

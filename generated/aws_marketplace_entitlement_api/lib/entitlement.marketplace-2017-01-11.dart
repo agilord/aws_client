@@ -202,7 +202,7 @@ enum GetEntitlementFilterName {
   dimension,
 }
 
-extension on GetEntitlementFilterName {
+extension GetEntitlementFilterNameValueExtension on GetEntitlementFilterName {
   String toValue() {
     switch (this) {
       case GetEntitlementFilterName.customerIdentifier:
@@ -213,7 +213,7 @@ extension on GetEntitlementFilterName {
   }
 }
 
-extension on String {
+extension GetEntitlementFilterNameFromString on String {
   GetEntitlementFilterName toGetEntitlementFilterName() {
     switch (this) {
       case 'CUSTOMER_IDENTIFIER':

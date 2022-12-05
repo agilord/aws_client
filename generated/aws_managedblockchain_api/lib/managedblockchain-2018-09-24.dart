@@ -1469,7 +1469,7 @@ enum Edition {
   standard,
 }
 
-extension on Edition {
+extension EditionValueExtension on Edition {
   String toValue() {
     switch (this) {
       case Edition.starter:
@@ -1480,7 +1480,7 @@ extension on Edition {
   }
 }
 
-extension on String {
+extension EditionFromString on String {
   Edition toEdition() {
     switch (this) {
       case 'STARTER':
@@ -1497,7 +1497,7 @@ enum Framework {
   ethereum,
 }
 
-extension on Framework {
+extension FrameworkValueExtension on Framework {
   String toValue() {
     switch (this) {
       case Framework.hyperledgerFabric:
@@ -1508,7 +1508,7 @@ extension on Framework {
   }
 }
 
-extension on String {
+extension FrameworkFromString on String {
   Framework toFramework() {
     switch (this) {
       case 'HYPERLEDGER_FABRIC':
@@ -1656,7 +1656,7 @@ enum InvitationStatus {
   expired,
 }
 
-extension on InvitationStatus {
+extension InvitationStatusValueExtension on InvitationStatus {
   String toValue() {
     switch (this) {
       case InvitationStatus.pending:
@@ -1673,7 +1673,7 @@ extension on InvitationStatus {
   }
 }
 
-extension on String {
+extension InvitationStatusFromString on String {
   InvitationStatus toInvitationStatus() {
     switch (this) {
       case 'PENDING':
@@ -2174,7 +2174,7 @@ enum MemberStatus {
   deleted,
 }
 
-extension on MemberStatus {
+extension MemberStatusValueExtension on MemberStatus {
   String toValue() {
     switch (this) {
       case MemberStatus.creating:
@@ -2193,7 +2193,7 @@ extension on MemberStatus {
   }
 }
 
-extension on String {
+extension MemberStatusFromString on String {
   MemberStatus toMemberStatus() {
     switch (this) {
       case 'CREATING':
@@ -2475,7 +2475,7 @@ enum NetworkStatus {
   deleted,
 }
 
-extension on NetworkStatus {
+extension NetworkStatusValueExtension on NetworkStatus {
   String toValue() {
     switch (this) {
       case NetworkStatus.creating:
@@ -2492,7 +2492,7 @@ extension on NetworkStatus {
   }
 }
 
-extension on String {
+extension NetworkStatusFromString on String {
   NetworkStatus toNetworkStatus() {
     switch (this) {
       case 'CREATING':
@@ -2832,7 +2832,7 @@ enum NodeStatus {
   failed,
 }
 
-extension on NodeStatus {
+extension NodeStatusValueExtension on NodeStatus {
   String toValue() {
     switch (this) {
       case NodeStatus.creating:
@@ -2855,7 +2855,7 @@ extension on NodeStatus {
   }
 }
 
-extension on String {
+extension NodeStatusFromString on String {
   NodeStatus toNodeStatus() {
     switch (this) {
       case 'CREATING':
@@ -3074,7 +3074,7 @@ enum ProposalStatus {
   actionFailed,
 }
 
-extension on ProposalStatus {
+extension ProposalStatusValueExtension on ProposalStatus {
   String toValue() {
     switch (this) {
       case ProposalStatus.inProgress:
@@ -3091,7 +3091,7 @@ extension on ProposalStatus {
   }
 }
 
-extension on String {
+extension ProposalStatusFromString on String {
   ProposalStatus toProposalStatus() {
     switch (this) {
       case 'IN_PROGRESS':
@@ -3228,7 +3228,7 @@ enum StateDBType {
   couchDB,
 }
 
-extension on StateDBType {
+extension StateDBTypeValueExtension on StateDBType {
   String toValue() {
     switch (this) {
       case StateDBType.levelDB:
@@ -3239,7 +3239,7 @@ extension on StateDBType {
   }
 }
 
-extension on String {
+extension StateDBTypeFromString on String {
   StateDBType toStateDBType() {
     switch (this) {
       case 'LevelDB':
@@ -3256,7 +3256,7 @@ enum ThresholdComparator {
   greaterThanOrEqualTo,
 }
 
-extension on ThresholdComparator {
+extension ThresholdComparatorValueExtension on ThresholdComparator {
   String toValue() {
     switch (this) {
       case ThresholdComparator.greaterThan:
@@ -3267,7 +3267,7 @@ extension on ThresholdComparator {
   }
 }
 
-extension on String {
+extension ThresholdComparatorFromString on String {
   ThresholdComparator toThresholdComparator() {
     switch (this) {
       case 'GREATER_THAN':
@@ -3332,7 +3332,7 @@ enum VoteValue {
   no,
 }
 
-extension on VoteValue {
+extension VoteValueValueExtension on VoteValue {
   String toValue() {
     switch (this) {
       case VoteValue.yes:
@@ -3343,7 +3343,7 @@ extension on VoteValue {
   }
 }
 
-extension on String {
+extension VoteValueFromString on String {
   VoteValue toVoteValue() {
     switch (this) {
       case 'YES':

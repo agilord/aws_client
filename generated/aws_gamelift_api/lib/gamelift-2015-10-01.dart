@@ -10464,7 +10464,7 @@ enum AcceptanceType {
   reject,
 }
 
-extension on AcceptanceType {
+extension AcceptanceTypeValueExtension on AcceptanceType {
   String toValue() {
     switch (this) {
       case AcceptanceType.accept:
@@ -10475,7 +10475,7 @@ extension on AcceptanceType {
   }
 }
 
-extension on String {
+extension AcceptanceTypeFromString on String {
   AcceptanceType toAcceptanceType() {
     switch (this) {
       case 'ACCEPT':
@@ -10652,7 +10652,7 @@ enum BackfillMode {
   manual,
 }
 
-extension on BackfillMode {
+extension BackfillModeValueExtension on BackfillMode {
   String toValue() {
     switch (this) {
       case BackfillMode.automatic:
@@ -10663,7 +10663,7 @@ extension on BackfillMode {
   }
 }
 
-extension on String {
+extension BackfillModeFromString on String {
   BackfillMode toBackfillMode() {
     switch (this) {
       case 'AUTOMATIC':
@@ -10681,7 +10681,7 @@ enum BalancingStrategy {
   onDemandOnly,
 }
 
-extension on BalancingStrategy {
+extension BalancingStrategyValueExtension on BalancingStrategy {
   String toValue() {
     switch (this) {
       case BalancingStrategy.spotOnly:
@@ -10694,7 +10694,7 @@ extension on BalancingStrategy {
   }
 }
 
-extension on String {
+extension BalancingStrategyFromString on String {
   BalancingStrategy toBalancingStrategy() {
     switch (this) {
       case 'SPOT_ONLY':
@@ -10814,7 +10814,7 @@ enum BuildStatus {
   failed,
 }
 
-extension on BuildStatus {
+extension BuildStatusValueExtension on BuildStatus {
   String toValue() {
     switch (this) {
       case BuildStatus.initialized:
@@ -10827,7 +10827,7 @@ extension on BuildStatus {
   }
 }
 
-extension on String {
+extension BuildStatusFromString on String {
   BuildStatus toBuildStatus() {
     switch (this) {
       case 'INITIALIZED':
@@ -10878,7 +10878,7 @@ enum CertificateType {
   generated,
 }
 
-extension on CertificateType {
+extension CertificateTypeValueExtension on CertificateType {
   String toValue() {
     switch (this) {
       case CertificateType.disabled:
@@ -10889,7 +10889,7 @@ extension on CertificateType {
   }
 }
 
-extension on String {
+extension CertificateTypeFromString on String {
   CertificateType toCertificateType() {
     switch (this) {
       case 'DISABLED':
@@ -10924,7 +10924,7 @@ enum ComparisonOperatorType {
   lessThanOrEqualToThreshold,
 }
 
-extension on ComparisonOperatorType {
+extension ComparisonOperatorTypeValueExtension on ComparisonOperatorType {
   String toValue() {
     switch (this) {
       case ComparisonOperatorType.greaterThanOrEqualToThreshold:
@@ -10939,7 +10939,7 @@ extension on ComparisonOperatorType {
   }
 }
 
-extension on String {
+extension ComparisonOperatorTypeFromString on String {
   ComparisonOperatorType toComparisonOperatorType() {
     switch (this) {
       case 'GreaterThanOrEqualToThreshold':
@@ -12025,7 +12025,7 @@ enum EC2InstanceType {
   m5a_24xlarge,
 }
 
-extension on EC2InstanceType {
+extension EC2InstanceTypeValueExtension on EC2InstanceType {
   String toValue() {
     switch (this) {
       case EC2InstanceType.t2Micro:
@@ -12196,7 +12196,7 @@ extension on EC2InstanceType {
   }
 }
 
-extension on String {
+extension EC2InstanceTypeFromString on String {
   EC2InstanceType toEC2InstanceType() {
     switch (this) {
       case 't2.micro':
@@ -12578,7 +12578,7 @@ enum EventCode {
   instanceInterrupted,
 }
 
-extension on EventCode {
+extension EventCodeValueExtension on EventCode {
   String toValue() {
     switch (this) {
       case EventCode.genericEvent:
@@ -12651,7 +12651,7 @@ extension on EventCode {
   }
 }
 
-extension on String {
+extension EventCodeFromString on String {
   EventCode toEventCode() {
     switch (this) {
       case 'GENERIC_EVENT':
@@ -12729,7 +12729,7 @@ enum FleetAction {
   autoScaling,
 }
 
-extension on FleetAction {
+extension FleetActionValueExtension on FleetAction {
   String toValue() {
     switch (this) {
       case FleetAction.autoScaling:
@@ -12738,7 +12738,7 @@ extension on FleetAction {
   }
 }
 
-extension on String {
+extension FleetActionFromString on String {
   FleetAction toFleetAction() {
     switch (this) {
       case 'AUTO_SCALING':
@@ -13061,7 +13061,7 @@ enum FleetStatus {
   terminated,
 }
 
-extension on FleetStatus {
+extension FleetStatusValueExtension on FleetStatus {
   String toValue() {
     switch (this) {
       case FleetStatus.$new:
@@ -13086,7 +13086,7 @@ extension on FleetStatus {
   }
 }
 
-extension on String {
+extension FleetStatusFromString on String {
   FleetStatus toFleetStatus() {
     switch (this) {
       case 'NEW':
@@ -13117,7 +13117,7 @@ enum FleetType {
   spot,
 }
 
-extension on FleetType {
+extension FleetTypeValueExtension on FleetType {
   String toValue() {
     switch (this) {
       case FleetType.onDemand:
@@ -13128,7 +13128,7 @@ extension on FleetType {
   }
 }
 
-extension on String {
+extension FleetTypeFromString on String {
   FleetType toFleetType() {
     switch (this) {
       case 'ON_DEMAND':
@@ -13206,7 +13206,7 @@ enum FlexMatchMode {
   withQueue,
 }
 
-extension on FlexMatchMode {
+extension FlexMatchModeValueExtension on FlexMatchMode {
   String toValue() {
     switch (this) {
       case FlexMatchMode.standalone:
@@ -13217,7 +13217,7 @@ extension on FlexMatchMode {
   }
 }
 
-extension on String {
+extension FlexMatchModeFromString on String {
   FlexMatchMode toFlexMatchMode() {
     switch (this) {
       case 'STANDALONE':
@@ -13403,7 +13403,7 @@ enum GameServerClaimStatus {
   claimed,
 }
 
-extension on GameServerClaimStatus {
+extension GameServerClaimStatusValueExtension on GameServerClaimStatus {
   String toValue() {
     switch (this) {
       case GameServerClaimStatus.claimed:
@@ -13412,7 +13412,7 @@ extension on GameServerClaimStatus {
   }
 }
 
-extension on String {
+extension GameServerClaimStatusFromString on String {
   GameServerClaimStatus toGameServerClaimStatus() {
     switch (this) {
       case 'CLAIMED':
@@ -13619,7 +13619,7 @@ enum GameServerGroupAction {
   replaceInstanceTypes,
 }
 
-extension on GameServerGroupAction {
+extension GameServerGroupActionValueExtension on GameServerGroupAction {
   String toValue() {
     switch (this) {
       case GameServerGroupAction.replaceInstanceTypes:
@@ -13628,7 +13628,7 @@ extension on GameServerGroupAction {
   }
 }
 
-extension on String {
+extension GameServerGroupActionFromString on String {
   GameServerGroupAction toGameServerGroupAction() {
     switch (this) {
       case 'REPLACE_INSTANCE_TYPES':
@@ -13683,7 +13683,8 @@ enum GameServerGroupDeleteOption {
   retain,
 }
 
-extension on GameServerGroupDeleteOption {
+extension GameServerGroupDeleteOptionValueExtension
+    on GameServerGroupDeleteOption {
   String toValue() {
     switch (this) {
       case GameServerGroupDeleteOption.safeDelete:
@@ -13696,7 +13697,7 @@ extension on GameServerGroupDeleteOption {
   }
 }
 
-extension on String {
+extension GameServerGroupDeleteOptionFromString on String {
   GameServerGroupDeleteOption toGameServerGroupDeleteOption() {
     switch (this) {
       case 'SAFE_DELETE':
@@ -13753,7 +13754,8 @@ enum GameServerGroupInstanceType {
   m5_24xlarge,
 }
 
-extension on GameServerGroupInstanceType {
+extension GameServerGroupInstanceTypeValueExtension
+    on GameServerGroupInstanceType {
   String toValue() {
     switch (this) {
       case GameServerGroupInstanceType.c4Large:
@@ -13840,7 +13842,7 @@ extension on GameServerGroupInstanceType {
   }
 }
 
-extension on String {
+extension GameServerGroupInstanceTypeFromString on String {
   GameServerGroupInstanceType toGameServerGroupInstanceType() {
     switch (this) {
       case 'c4.large':
@@ -13938,7 +13940,7 @@ enum GameServerGroupStatus {
   error,
 }
 
-extension on GameServerGroupStatus {
+extension GameServerGroupStatusValueExtension on GameServerGroupStatus {
   String toValue() {
     switch (this) {
       case GameServerGroupStatus.$new:
@@ -13959,7 +13961,7 @@ extension on GameServerGroupStatus {
   }
 }
 
-extension on String {
+extension GameServerGroupStatusFromString on String {
   GameServerGroupStatus toGameServerGroupStatus() {
     switch (this) {
       case 'NEW':
@@ -13985,7 +13987,7 @@ enum GameServerHealthCheck {
   healthy,
 }
 
-extension on GameServerHealthCheck {
+extension GameServerHealthCheckValueExtension on GameServerHealthCheck {
   String toValue() {
     switch (this) {
       case GameServerHealthCheck.healthy:
@@ -13994,7 +13996,7 @@ extension on GameServerHealthCheck {
   }
 }
 
-extension on String {
+extension GameServerHealthCheckFromString on String {
   GameServerHealthCheck toGameServerHealthCheck() {
     switch (this) {
       case 'HEALTHY':
@@ -14101,7 +14103,7 @@ enum GameServerInstanceStatus {
   spotTerminating,
 }
 
-extension on GameServerInstanceStatus {
+extension GameServerInstanceStatusValueExtension on GameServerInstanceStatus {
   String toValue() {
     switch (this) {
       case GameServerInstanceStatus.active:
@@ -14114,7 +14116,7 @@ extension on GameServerInstanceStatus {
   }
 }
 
-extension on String {
+extension GameServerInstanceStatusFromString on String {
   GameServerInstanceStatus toGameServerInstanceStatus() {
     switch (this) {
       case 'ACTIVE':
@@ -14133,7 +14135,8 @@ enum GameServerProtectionPolicy {
   fullProtection,
 }
 
-extension on GameServerProtectionPolicy {
+extension GameServerProtectionPolicyValueExtension
+    on GameServerProtectionPolicy {
   String toValue() {
     switch (this) {
       case GameServerProtectionPolicy.noProtection:
@@ -14144,7 +14147,7 @@ extension on GameServerProtectionPolicy {
   }
 }
 
-extension on String {
+extension GameServerProtectionPolicyFromString on String {
   GameServerProtectionPolicy toGameServerProtectionPolicy() {
     switch (this) {
       case 'NO_PROTECTION':
@@ -14161,7 +14164,8 @@ enum GameServerUtilizationStatus {
   utilized,
 }
 
-extension on GameServerUtilizationStatus {
+extension GameServerUtilizationStatusValueExtension
+    on GameServerUtilizationStatus {
   String toValue() {
     switch (this) {
       case GameServerUtilizationStatus.available:
@@ -14172,7 +14176,7 @@ extension on GameServerUtilizationStatus {
   }
 }
 
-extension on String {
+extension GameServerUtilizationStatusFromString on String {
   GameServerUtilizationStatus toGameServerUtilizationStatus() {
     switch (this) {
       case 'AVAILABLE':
@@ -14696,7 +14700,7 @@ enum GameSessionPlacementState {
   failed,
 }
 
-extension on GameSessionPlacementState {
+extension GameSessionPlacementStateValueExtension on GameSessionPlacementState {
   String toValue() {
     switch (this) {
       case GameSessionPlacementState.pending:
@@ -14713,7 +14717,7 @@ extension on GameSessionPlacementState {
   }
 }
 
-extension on String {
+extension GameSessionPlacementStateFromString on String {
   GameSessionPlacementState toGameSessionPlacementState() {
     switch (this) {
       case 'PENDING':
@@ -14872,7 +14876,7 @@ enum GameSessionStatus {
   error,
 }
 
-extension on GameSessionStatus {
+extension GameSessionStatusValueExtension on GameSessionStatus {
   String toValue() {
     switch (this) {
       case GameSessionStatus.active:
@@ -14889,7 +14893,7 @@ extension on GameSessionStatus {
   }
 }
 
-extension on String {
+extension GameSessionStatusFromString on String {
   GameSessionStatus toGameSessionStatus() {
     switch (this) {
       case 'ACTIVE':
@@ -14911,7 +14915,7 @@ enum GameSessionStatusReason {
   interrupted,
 }
 
-extension on GameSessionStatusReason {
+extension GameSessionStatusReasonValueExtension on GameSessionStatusReason {
   String toValue() {
     switch (this) {
       case GameSessionStatusReason.interrupted:
@@ -14920,7 +14924,7 @@ extension on GameSessionStatusReason {
   }
 }
 
-extension on String {
+extension GameSessionStatusReasonFromString on String {
   GameSessionStatusReason toGameSessionStatusReason() {
     switch (this) {
       case 'INTERRUPTED':
@@ -15167,7 +15171,7 @@ enum InstanceStatus {
   terminating,
 }
 
-extension on InstanceStatus {
+extension InstanceStatusValueExtension on InstanceStatus {
   String toValue() {
     switch (this) {
       case InstanceStatus.pending:
@@ -15180,7 +15184,7 @@ extension on InstanceStatus {
   }
 }
 
-extension on String {
+extension InstanceStatusFromString on String {
   InstanceStatus toInstanceStatus() {
     switch (this) {
       case 'PENDING':
@@ -15252,7 +15256,7 @@ enum IpProtocol {
   udp,
 }
 
-extension on IpProtocol {
+extension IpProtocolValueExtension on IpProtocol {
   String toValue() {
     switch (this) {
       case IpProtocol.tcp:
@@ -15263,7 +15267,7 @@ extension on IpProtocol {
   }
 }
 
-extension on String {
+extension IpProtocolFromString on String {
   IpProtocol toIpProtocol() {
     switch (this) {
       case 'TCP':
@@ -15684,7 +15688,8 @@ enum MatchmakingConfigurationStatus {
   timedOut,
 }
 
-extension on MatchmakingConfigurationStatus {
+extension MatchmakingConfigurationStatusValueExtension
+    on MatchmakingConfigurationStatus {
   String toValue() {
     switch (this) {
       case MatchmakingConfigurationStatus.cancelled:
@@ -15707,7 +15712,7 @@ extension on MatchmakingConfigurationStatus {
   }
 }
 
-extension on String {
+extension MatchmakingConfigurationStatusFromString on String {
   MatchmakingConfigurationStatus toMatchmakingConfigurationStatus() {
     switch (this) {
       case 'CANCELLED':
@@ -15957,7 +15962,7 @@ enum MetricName {
   waitTime,
 }
 
-extension on MetricName {
+extension MetricNameValueExtension on MetricName {
   String toValue() {
     switch (this) {
       case MetricName.activatingGameSessions:
@@ -15986,7 +15991,7 @@ extension on MetricName {
   }
 }
 
-extension on String {
+extension MetricNameFromString on String {
   MetricName toMetricName() {
     switch (this) {
       case 'ActivatingGameSessions':
@@ -16022,7 +16027,7 @@ enum OperatingSystem {
   amazonLinux_2,
 }
 
-extension on OperatingSystem {
+extension OperatingSystemValueExtension on OperatingSystem {
   String toValue() {
     switch (this) {
       case OperatingSystem.windows_2012:
@@ -16035,7 +16040,7 @@ extension on OperatingSystem {
   }
 }
 
-extension on String {
+extension OperatingSystemFromString on String {
   OperatingSystem toOperatingSystem() {
     switch (this) {
       case 'WINDOWS_2012':
@@ -16418,7 +16423,8 @@ enum PlayerSessionCreationPolicy {
   denyAll,
 }
 
-extension on PlayerSessionCreationPolicy {
+extension PlayerSessionCreationPolicyValueExtension
+    on PlayerSessionCreationPolicy {
   String toValue() {
     switch (this) {
       case PlayerSessionCreationPolicy.acceptAll:
@@ -16429,7 +16435,7 @@ extension on PlayerSessionCreationPolicy {
   }
 }
 
-extension on String {
+extension PlayerSessionCreationPolicyFromString on String {
   PlayerSessionCreationPolicy toPlayerSessionCreationPolicy() {
     switch (this) {
       case 'ACCEPT_ALL':
@@ -16448,7 +16454,7 @@ enum PlayerSessionStatus {
   timedout,
 }
 
-extension on PlayerSessionStatus {
+extension PlayerSessionStatusValueExtension on PlayerSessionStatus {
   String toValue() {
     switch (this) {
       case PlayerSessionStatus.reserved:
@@ -16463,7 +16469,7 @@ extension on PlayerSessionStatus {
   }
 }
 
-extension on String {
+extension PlayerSessionStatusFromString on String {
   PlayerSessionStatus toPlayerSessionStatus() {
     switch (this) {
       case 'RESERVED':
@@ -16484,7 +16490,7 @@ enum PolicyType {
   targetBased,
 }
 
-extension on PolicyType {
+extension PolicyTypeValueExtension on PolicyType {
   String toValue() {
     switch (this) {
       case PolicyType.ruleBased:
@@ -16495,7 +16501,7 @@ extension on PolicyType {
   }
 }
 
-extension on String {
+extension PolicyTypeFromString on String {
   PolicyType toPolicyType() {
     switch (this) {
       case 'RuleBased':
@@ -16512,7 +16518,7 @@ enum ProtectionPolicy {
   fullProtection,
 }
 
-extension on ProtectionPolicy {
+extension ProtectionPolicyValueExtension on ProtectionPolicy {
   String toValue() {
     switch (this) {
       case ProtectionPolicy.noProtection:
@@ -16523,7 +16529,7 @@ extension on ProtectionPolicy {
   }
 }
 
-extension on String {
+extension ProtectionPolicyFromString on String {
   ProtectionPolicy toProtectionPolicy() {
     switch (this) {
       case 'NoProtection':
@@ -16756,7 +16762,7 @@ enum RoutingStrategyType {
   terminal,
 }
 
-extension on RoutingStrategyType {
+extension RoutingStrategyTypeValueExtension on RoutingStrategyType {
   String toValue() {
     switch (this) {
       case RoutingStrategyType.simple:
@@ -16767,7 +16773,7 @@ extension on RoutingStrategyType {
   }
 }
 
-extension on String {
+extension RoutingStrategyTypeFromString on String {
   RoutingStrategyType toRoutingStrategyType() {
     switch (this) {
       case 'SIMPLE':
@@ -16929,7 +16935,7 @@ enum ScalingAdjustmentType {
   percentChangeInCapacity,
 }
 
-extension on ScalingAdjustmentType {
+extension ScalingAdjustmentTypeValueExtension on ScalingAdjustmentType {
   String toValue() {
     switch (this) {
       case ScalingAdjustmentType.changeInCapacity:
@@ -16942,7 +16948,7 @@ extension on ScalingAdjustmentType {
   }
 }
 
-extension on String {
+extension ScalingAdjustmentTypeFromString on String {
   ScalingAdjustmentType toScalingAdjustmentType() {
     switch (this) {
       case 'ChangeInCapacity':
@@ -17183,7 +17189,7 @@ enum ScalingStatusType {
   error,
 }
 
-extension on ScalingStatusType {
+extension ScalingStatusTypeValueExtension on ScalingStatusType {
   String toValue() {
     switch (this) {
       case ScalingStatusType.active:
@@ -17204,7 +17210,7 @@ extension on ScalingStatusType {
   }
 }
 
-extension on String {
+extension ScalingStatusTypeFromString on String {
   ScalingStatusType toScalingStatusType() {
     switch (this) {
       case 'ACTIVE':
@@ -17389,7 +17395,7 @@ enum SortOrder {
   descending,
 }
 
-extension on SortOrder {
+extension SortOrderValueExtension on SortOrder {
   String toValue() {
     switch (this) {
       case SortOrder.ascending:
@@ -17400,7 +17406,7 @@ extension on SortOrder {
   }
 }
 
-extension on String {
+extension SortOrderFromString on String {
   SortOrder toSortOrder() {
     switch (this) {
       case 'ASCENDING':

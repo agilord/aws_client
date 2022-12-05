@@ -1701,7 +1701,7 @@ enum ActionStatus {
   resetFailure,
 }
 
-extension on ActionStatus {
+extension ActionStatusValueExtension on ActionStatus {
   String toValue() {
     switch (this) {
       case ActionStatus.standby:
@@ -1728,7 +1728,7 @@ extension on ActionStatus {
   }
 }
 
-extension on String {
+extension ActionStatusFromString on String {
   ActionStatus toActionStatus() {
     switch (this) {
       case 'STANDBY':
@@ -1761,7 +1761,7 @@ enum ActionSubType {
   stopRdsInstances,
 }
 
-extension on ActionSubType {
+extension ActionSubTypeValueExtension on ActionSubType {
   String toValue() {
     switch (this) {
       case ActionSubType.stopEc2Instances:
@@ -1772,7 +1772,7 @@ extension on ActionSubType {
   }
 }
 
-extension on String {
+extension ActionSubTypeFromString on String {
   ActionSubType toActionSubType() {
     switch (this) {
       case 'STOP_EC2_INSTANCES':
@@ -1817,7 +1817,7 @@ enum ActionType {
   runSsmDocuments,
 }
 
-extension on ActionType {
+extension ActionTypeValueExtension on ActionType {
   String toValue() {
     switch (this) {
       case ActionType.applyIamPolicy:
@@ -1830,7 +1830,7 @@ extension on ActionType {
   }
 }
 
-extension on String {
+extension ActionTypeFromString on String {
   ActionType toActionType() {
     switch (this) {
       case 'APPLY_IAM_POLICY':
@@ -1849,7 +1849,7 @@ enum ApprovalModel {
   manual,
 }
 
-extension on ApprovalModel {
+extension ApprovalModelValueExtension on ApprovalModel {
   String toValue() {
     switch (this) {
       case ApprovalModel.automatic:
@@ -1860,7 +1860,7 @@ extension on ApprovalModel {
   }
 }
 
-extension on String {
+extension ApprovalModelFromString on String {
   ApprovalModel toApprovalModel() {
     switch (this) {
       case 'AUTOMATIC':
@@ -2129,7 +2129,7 @@ enum BudgetType {
   savingsPlansCoverage,
 }
 
-extension on BudgetType {
+extension BudgetTypeValueExtension on BudgetType {
   String toValue() {
     switch (this) {
       case BudgetType.usage:
@@ -2148,7 +2148,7 @@ extension on BudgetType {
   }
 }
 
-extension on String {
+extension BudgetTypeFromString on String {
   BudgetType toBudgetType() {
     switch (this) {
       case 'USAGE':
@@ -2251,7 +2251,7 @@ enum ComparisonOperator {
   equalTo,
 }
 
-extension on ComparisonOperator {
+extension ComparisonOperatorValueExtension on ComparisonOperator {
   String toValue() {
     switch (this) {
       case ComparisonOperator.greaterThan:
@@ -2264,7 +2264,7 @@ extension on ComparisonOperator {
   }
 }
 
-extension on String {
+extension ComparisonOperatorFromString on String {
   ComparisonOperator toComparisonOperator() {
     switch (this) {
       case 'GREATER_THAN':
@@ -2747,7 +2747,7 @@ enum EventType {
   executeAction,
 }
 
-extension on EventType {
+extension EventTypeValueExtension on EventType {
   String toValue() {
     switch (this) {
       case EventType.system:
@@ -2764,7 +2764,7 @@ extension on EventType {
   }
 }
 
-extension on String {
+extension EventTypeFromString on String {
   EventType toEventType() {
     switch (this) {
       case 'SYSTEM':
@@ -2815,7 +2815,7 @@ enum ExecutionType {
   resetBudgetAction,
 }
 
-extension on ExecutionType {
+extension ExecutionTypeValueExtension on ExecutionType {
   String toValue() {
     switch (this) {
       case ExecutionType.approveBudgetAction:
@@ -2830,7 +2830,7 @@ extension on ExecutionType {
   }
 }
 
-extension on String {
+extension ExecutionTypeFromString on String {
   ExecutionType toExecutionType() {
     switch (this) {
       case 'APPROVE_BUDGET_ACTION':
@@ -2993,7 +2993,7 @@ enum NotificationState {
   alarm,
 }
 
-extension on NotificationState {
+extension NotificationStateValueExtension on NotificationState {
   String toValue() {
     switch (this) {
       case NotificationState.ok:
@@ -3004,7 +3004,7 @@ extension on NotificationState {
   }
 }
 
-extension on String {
+extension NotificationStateFromString on String {
   NotificationState toNotificationState() {
     switch (this) {
       case 'OK':
@@ -3022,7 +3022,7 @@ enum NotificationType {
   forecasted,
 }
 
-extension on NotificationType {
+extension NotificationTypeValueExtension on NotificationType {
   String toValue() {
     switch (this) {
       case NotificationType.actual:
@@ -3033,7 +3033,7 @@ extension on NotificationType {
   }
 }
 
-extension on String {
+extension NotificationTypeFromString on String {
   NotificationType toNotificationType() {
     switch (this) {
       case 'ACTUAL':
@@ -3234,7 +3234,7 @@ enum SubscriptionType {
   email,
 }
 
-extension on SubscriptionType {
+extension SubscriptionTypeValueExtension on SubscriptionType {
   String toValue() {
     switch (this) {
       case SubscriptionType.sns:
@@ -3245,7 +3245,7 @@ extension on SubscriptionType {
   }
 }
 
-extension on String {
+extension SubscriptionTypeFromString on String {
   SubscriptionType toSubscriptionType() {
     switch (this) {
       case 'SNS':
@@ -3263,7 +3263,7 @@ enum ThresholdType {
   absoluteValue,
 }
 
-extension on ThresholdType {
+extension ThresholdTypeValueExtension on ThresholdType {
   String toValue() {
     switch (this) {
       case ThresholdType.percentage:
@@ -3274,7 +3274,7 @@ extension on ThresholdType {
   }
 }
 
-extension on String {
+extension ThresholdTypeFromString on String {
   ThresholdType toThresholdType() {
     switch (this) {
       case 'PERCENTAGE':
@@ -3340,7 +3340,7 @@ enum TimeUnit {
   annually,
 }
 
-extension on TimeUnit {
+extension TimeUnitValueExtension on TimeUnit {
   String toValue() {
     switch (this) {
       case TimeUnit.daily:
@@ -3355,7 +3355,7 @@ extension on TimeUnit {
   }
 }
 
-extension on String {
+extension TimeUnitFromString on String {
   TimeUnit toTimeUnit() {
     switch (this) {
       case 'DAILY':

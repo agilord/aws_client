@@ -3447,7 +3447,7 @@ enum CertificateState {
   deregisterFailed,
 }
 
-extension on CertificateState {
+extension CertificateStateValueExtension on CertificateState {
   String toValue() {
     switch (this) {
       case CertificateState.registering:
@@ -3466,7 +3466,7 @@ extension on CertificateState {
   }
 }
 
-extension on String {
+extension CertificateStateFromString on String {
   CertificateState toCertificateState() {
     switch (this) {
       case 'Registering':
@@ -3491,7 +3491,7 @@ enum CertificateType {
   clientLDAPS,
 }
 
-extension on CertificateType {
+extension CertificateTypeValueExtension on CertificateType {
   String toValue() {
     switch (this) {
       case CertificateType.clientCertAuth:
@@ -3502,7 +3502,7 @@ extension on CertificateType {
   }
 }
 
-extension on String {
+extension CertificateTypeFromString on String {
   CertificateType toCertificateType() {
     switch (this) {
       case 'ClientCertAuth':
@@ -3518,7 +3518,7 @@ enum ClientAuthenticationType {
   smartCard,
 }
 
-extension on ClientAuthenticationType {
+extension ClientAuthenticationTypeValueExtension on ClientAuthenticationType {
   String toValue() {
     switch (this) {
       case ClientAuthenticationType.smartCard:
@@ -3527,7 +3527,7 @@ extension on ClientAuthenticationType {
   }
 }
 
-extension on String {
+extension ClientAuthenticationTypeFromString on String {
   ClientAuthenticationType toClientAuthenticationType() {
     switch (this) {
       case 'SmartCard':
@@ -4354,7 +4354,7 @@ enum DirectoryEdition {
   standard,
 }
 
-extension on DirectoryEdition {
+extension DirectoryEditionValueExtension on DirectoryEdition {
   String toValue() {
     switch (this) {
       case DirectoryEdition.enterprise:
@@ -4365,7 +4365,7 @@ extension on DirectoryEdition {
   }
 }
 
-extension on String {
+extension DirectoryEditionFromString on String {
   DirectoryEdition toDirectoryEdition() {
     switch (this) {
       case 'Enterprise':
@@ -4444,7 +4444,7 @@ enum DirectorySize {
   large,
 }
 
-extension on DirectorySize {
+extension DirectorySizeValueExtension on DirectorySize {
   String toValue() {
     switch (this) {
       case DirectorySize.small:
@@ -4455,7 +4455,7 @@ extension on DirectorySize {
   }
 }
 
-extension on String {
+extension DirectorySizeFromString on String {
   DirectorySize toDirectorySize() {
     switch (this) {
       case 'Small':
@@ -4481,7 +4481,7 @@ enum DirectoryStage {
   failed,
 }
 
-extension on DirectoryStage {
+extension DirectoryStageValueExtension on DirectoryStage {
   String toValue() {
     switch (this) {
       case DirectoryStage.requested:
@@ -4510,7 +4510,7 @@ extension on DirectoryStage {
   }
 }
 
-extension on String {
+extension DirectoryStageFromString on String {
   DirectoryStage toDirectoryStage() {
     switch (this) {
       case 'Requested':
@@ -4547,7 +4547,7 @@ enum DirectoryType {
   sharedMicrosoftAD,
 }
 
-extension on DirectoryType {
+extension DirectoryTypeValueExtension on DirectoryType {
   String toValue() {
     switch (this) {
       case DirectoryType.simpleAD:
@@ -4562,7 +4562,7 @@ extension on DirectoryType {
   }
 }
 
-extension on String {
+extension DirectoryTypeFromString on String {
   DirectoryType toDirectoryType() {
     switch (this) {
       case 'SimpleAD':
@@ -4750,7 +4750,7 @@ enum DomainControllerStatus {
   failed,
 }
 
-extension on DomainControllerStatus {
+extension DomainControllerStatusValueExtension on DomainControllerStatus {
   String toValue() {
     switch (this) {
       case DomainControllerStatus.creating:
@@ -4771,7 +4771,7 @@ extension on DomainControllerStatus {
   }
 }
 
-extension on String {
+extension DomainControllerStatusFromString on String {
   DomainControllerStatus toDomainControllerStatus() {
     switch (this) {
       case 'Creating':
@@ -4975,7 +4975,7 @@ enum IpRouteStatusMsg {
   removeFailed,
 }
 
-extension on IpRouteStatusMsg {
+extension IpRouteStatusMsgValueExtension on IpRouteStatusMsg {
   String toValue() {
     switch (this) {
       case IpRouteStatusMsg.adding:
@@ -4994,7 +4994,7 @@ extension on IpRouteStatusMsg {
   }
 }
 
-extension on String {
+extension IpRouteStatusMsgFromString on String {
   IpRouteStatusMsg toIpRouteStatusMsg() {
     switch (this) {
       case 'Adding':
@@ -5046,7 +5046,7 @@ enum LDAPSStatus {
   disabled,
 }
 
-extension on LDAPSStatus {
+extension LDAPSStatusValueExtension on LDAPSStatus {
   String toValue() {
     switch (this) {
       case LDAPSStatus.enabling:
@@ -5061,7 +5061,7 @@ extension on LDAPSStatus {
   }
 }
 
-extension on String {
+extension LDAPSStatusFromString on String {
   LDAPSStatus toLDAPSStatus() {
     switch (this) {
       case 'Enabling':
@@ -5081,7 +5081,7 @@ enum LDAPSType {
   client,
 }
 
-extension on LDAPSType {
+extension LDAPSTypeValueExtension on LDAPSType {
   String toValue() {
     switch (this) {
       case LDAPSType.client:
@@ -5090,7 +5090,7 @@ extension on LDAPSType {
   }
 }
 
-extension on String {
+extension LDAPSTypeFromString on String {
   LDAPSType toLDAPSType() {
     switch (this) {
       case 'Client':
@@ -5303,7 +5303,8 @@ enum RadiusAuthenticationProtocol {
   msCHAPv2,
 }
 
-extension on RadiusAuthenticationProtocol {
+extension RadiusAuthenticationProtocolValueExtension
+    on RadiusAuthenticationProtocol {
   String toValue() {
     switch (this) {
       case RadiusAuthenticationProtocol.pap:
@@ -5318,7 +5319,7 @@ extension on RadiusAuthenticationProtocol {
   }
 }
 
-extension on String {
+extension RadiusAuthenticationProtocolFromString on String {
   RadiusAuthenticationProtocol toRadiusAuthenticationProtocol() {
     switch (this) {
       case 'PAP':
@@ -5422,7 +5423,7 @@ enum RadiusStatus {
   failed,
 }
 
-extension on RadiusStatus {
+extension RadiusStatusValueExtension on RadiusStatus {
   String toValue() {
     switch (this) {
       case RadiusStatus.creating:
@@ -5435,7 +5436,7 @@ extension on RadiusStatus {
   }
 }
 
-extension on String {
+extension RadiusStatusFromString on String {
   RadiusStatus toRadiusStatus() {
     switch (this) {
       case 'Creating':
@@ -5513,7 +5514,7 @@ enum RegionType {
   additional,
 }
 
-extension on RegionType {
+extension RegionTypeValueExtension on RegionType {
   String toValue() {
     switch (this) {
       case RegionType.primary:
@@ -5524,7 +5525,7 @@ extension on RegionType {
   }
 }
 
-extension on String {
+extension RegionTypeFromString on String {
   RegionType toRegionType() {
     switch (this) {
       case 'Primary':
@@ -5623,7 +5624,7 @@ enum ReplicationScope {
   domain,
 }
 
-extension on ReplicationScope {
+extension ReplicationScopeValueExtension on ReplicationScope {
   String toValue() {
     switch (this) {
       case ReplicationScope.domain:
@@ -5632,7 +5633,7 @@ extension on ReplicationScope {
   }
 }
 
-extension on String {
+extension ReplicationScopeFromString on String {
   ReplicationScope toReplicationScope() {
     switch (this) {
       case 'Domain':
@@ -5717,7 +5718,7 @@ enum SchemaExtensionStatus {
   completed,
 }
 
-extension on SchemaExtensionStatus {
+extension SchemaExtensionStatusValueExtension on SchemaExtensionStatus {
   String toValue() {
     switch (this) {
       case SchemaExtensionStatus.initializing:
@@ -5742,7 +5743,7 @@ extension on SchemaExtensionStatus {
   }
 }
 
-extension on String {
+extension SchemaExtensionStatusFromString on String {
   SchemaExtensionStatus toSchemaExtensionStatus() {
     switch (this) {
       case 'Initializing':
@@ -5773,7 +5774,7 @@ enum SelectiveAuth {
   disabled,
 }
 
-extension on SelectiveAuth {
+extension SelectiveAuthValueExtension on SelectiveAuth {
   String toValue() {
     switch (this) {
       case SelectiveAuth.enabled:
@@ -5784,7 +5785,7 @@ extension on SelectiveAuth {
   }
 }
 
-extension on String {
+extension SelectiveAuthFromString on String {
   SelectiveAuth toSelectiveAuth() {
     switch (this) {
       case 'Enabled':
@@ -5816,7 +5817,7 @@ enum ShareMethod {
   handshake,
 }
 
-extension on ShareMethod {
+extension ShareMethodValueExtension on ShareMethod {
   String toValue() {
     switch (this) {
       case ShareMethod.organizations:
@@ -5827,7 +5828,7 @@ extension on ShareMethod {
   }
 }
 
-extension on String {
+extension ShareMethodFromString on String {
   ShareMethod toShareMethod() {
     switch (this) {
       case 'ORGANIZATIONS':
@@ -5851,7 +5852,7 @@ enum ShareStatus {
   deleting,
 }
 
-extension on ShareStatus {
+extension ShareStatusValueExtension on ShareStatus {
   String toValue() {
     switch (this) {
       case ShareStatus.shared:
@@ -5876,7 +5877,7 @@ extension on ShareStatus {
   }
 }
 
-extension on String {
+extension ShareStatusFromString on String {
   ShareStatus toShareStatus() {
     switch (this) {
       case 'Shared':
@@ -6060,7 +6061,7 @@ enum SnapshotStatus {
   failed,
 }
 
-extension on SnapshotStatus {
+extension SnapshotStatusValueExtension on SnapshotStatus {
   String toValue() {
     switch (this) {
       case SnapshotStatus.creating:
@@ -6073,7 +6074,7 @@ extension on SnapshotStatus {
   }
 }
 
-extension on String {
+extension SnapshotStatusFromString on String {
   SnapshotStatus toSnapshotStatus() {
     switch (this) {
       case 'Creating':
@@ -6092,7 +6093,7 @@ enum SnapshotType {
   manual,
 }
 
-extension on SnapshotType {
+extension SnapshotTypeValueExtension on SnapshotType {
   String toValue() {
     switch (this) {
       case SnapshotType.auto:
@@ -6103,7 +6104,7 @@ extension on SnapshotType {
   }
 }
 
-extension on String {
+extension SnapshotTypeFromString on String {
   SnapshotType toSnapshotType() {
     switch (this) {
       case 'Auto':
@@ -6168,7 +6169,7 @@ enum TargetType {
   account,
 }
 
-extension on TargetType {
+extension TargetTypeValueExtension on TargetType {
   String toValue() {
     switch (this) {
       case TargetType.account:
@@ -6177,7 +6178,7 @@ extension on TargetType {
   }
 }
 
-extension on String {
+extension TargetTypeFromString on String {
   TargetType toTargetType() {
     switch (this) {
       case 'ACCOUNT':
@@ -6194,7 +6195,7 @@ enum TopicStatus {
   deleted,
 }
 
-extension on TopicStatus {
+extension TopicStatusValueExtension on TopicStatus {
   String toValue() {
     switch (this) {
       case TopicStatus.registered:
@@ -6209,7 +6210,7 @@ extension on TopicStatus {
   }
 }
 
-extension on String {
+extension TopicStatusFromString on String {
   TopicStatus toTopicStatus() {
     switch (this) {
       case 'Registered':
@@ -6299,7 +6300,7 @@ enum TrustDirection {
   twoWay,
 }
 
-extension on TrustDirection {
+extension TrustDirectionValueExtension on TrustDirection {
   String toValue() {
     switch (this) {
       case TrustDirection.oneWayOutgoing:
@@ -6312,7 +6313,7 @@ extension on TrustDirection {
   }
 }
 
-extension on String {
+extension TrustDirectionFromString on String {
   TrustDirection toTrustDirection() {
     switch (this) {
       case 'One-Way: Outgoing':
@@ -6340,7 +6341,7 @@ enum TrustState {
   failed,
 }
 
-extension on TrustState {
+extension TrustStateValueExtension on TrustState {
   String toValue() {
     switch (this) {
       case TrustState.creating:
@@ -6369,7 +6370,7 @@ extension on TrustState {
   }
 }
 
-extension on String {
+extension TrustStateFromString on String {
   TrustState toTrustState() {
     switch (this) {
       case 'Creating':
@@ -6404,7 +6405,7 @@ enum TrustType {
   external,
 }
 
-extension on TrustType {
+extension TrustTypeValueExtension on TrustType {
   String toValue() {
     switch (this) {
       case TrustType.forest:
@@ -6415,7 +6416,7 @@ extension on TrustType {
   }
 }
 
-extension on String {
+extension TrustTypeFromString on String {
   TrustType toTrustType() {
     switch (this) {
       case 'Forest':

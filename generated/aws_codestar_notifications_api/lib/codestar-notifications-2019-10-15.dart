@@ -787,7 +787,7 @@ enum DetailType {
   full,
 }
 
-extension on DetailType {
+extension DetailTypeValueExtension on DetailType {
   String toValue() {
     switch (this) {
       case DetailType.basic:
@@ -798,7 +798,7 @@ extension on DetailType {
   }
 }
 
-extension on String {
+extension DetailTypeFromString on String {
   DetailType toDetailType() {
     switch (this) {
       case 'BASIC':
@@ -869,7 +869,7 @@ enum ListEventTypesFilterName {
   serviceName,
 }
 
-extension on ListEventTypesFilterName {
+extension ListEventTypesFilterNameValueExtension on ListEventTypesFilterName {
   String toValue() {
     switch (this) {
       case ListEventTypesFilterName.resourceType:
@@ -880,7 +880,7 @@ extension on ListEventTypesFilterName {
   }
 }
 
-extension on String {
+extension ListEventTypesFilterNameFromString on String {
   ListEventTypesFilterName toListEventTypesFilterName() {
     switch (this) {
       case 'RESOURCE_TYPE':
@@ -950,7 +950,8 @@ enum ListNotificationRulesFilterName {
   targetAddress,
 }
 
-extension on ListNotificationRulesFilterName {
+extension ListNotificationRulesFilterNameValueExtension
+    on ListNotificationRulesFilterName {
   String toValue() {
     switch (this) {
       case ListNotificationRulesFilterName.eventTypeId:
@@ -965,7 +966,7 @@ extension on ListNotificationRulesFilterName {
   }
 }
 
-extension on String {
+extension ListNotificationRulesFilterNameFromString on String {
   ListNotificationRulesFilterName toListNotificationRulesFilterName() {
     switch (this) {
       case 'EVENT_TYPE_ID':
@@ -1056,7 +1057,7 @@ enum ListTargetsFilterName {
   targetStatus,
 }
 
-extension on ListTargetsFilterName {
+extension ListTargetsFilterNameValueExtension on ListTargetsFilterName {
   String toValue() {
     switch (this) {
       case ListTargetsFilterName.targetType:
@@ -1069,7 +1070,7 @@ extension on ListTargetsFilterName {
   }
 }
 
-extension on String {
+extension ListTargetsFilterNameFromString on String {
   ListTargetsFilterName toListTargetsFilterName() {
     switch (this) {
       case 'TARGET_TYPE':
@@ -1111,7 +1112,7 @@ enum NotificationRuleStatus {
   disabled,
 }
 
-extension on NotificationRuleStatus {
+extension NotificationRuleStatusValueExtension on NotificationRuleStatus {
   String toValue() {
     switch (this) {
       case NotificationRuleStatus.enabled:
@@ -1122,7 +1123,7 @@ extension on NotificationRuleStatus {
   }
 }
 
-extension on String {
+extension NotificationRuleStatusFromString on String {
   NotificationRuleStatus toNotificationRuleStatus() {
     switch (this) {
       case 'ENABLED':
@@ -1214,7 +1215,7 @@ enum TargetStatus {
   deactivated,
 }
 
-extension on TargetStatus {
+extension TargetStatusValueExtension on TargetStatus {
   String toValue() {
     switch (this) {
       case TargetStatus.pending:
@@ -1231,7 +1232,7 @@ extension on TargetStatus {
   }
 }
 
-extension on String {
+extension TargetStatusFromString on String {
   TargetStatus toTargetStatus() {
     switch (this) {
       case 'PENDING':

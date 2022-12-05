@@ -1798,7 +1798,7 @@ enum AMITypes {
   al2Arm_64,
 }
 
-extension on AMITypes {
+extension AMITypesValueExtension on AMITypes {
   String toValue() {
     switch (this) {
       case AMITypes.al2X86_64:
@@ -1811,7 +1811,7 @@ extension on AMITypes {
   }
 }
 
-extension on String {
+extension AMITypesFromString on String {
   AMITypes toAMITypes() {
     switch (this) {
       case 'AL2_x86_64':
@@ -1975,7 +1975,7 @@ enum AddonIssueCode {
   configurationConflict,
 }
 
-extension on AddonIssueCode {
+extension AddonIssueCodeValueExtension on AddonIssueCode {
   String toValue() {
     switch (this) {
       case AddonIssueCode.accessDenied:
@@ -1992,7 +1992,7 @@ extension on AddonIssueCode {
   }
 }
 
-extension on String {
+extension AddonIssueCodeFromString on String {
   AddonIssueCode toAddonIssueCode() {
     switch (this) {
       case 'AccessDenied':
@@ -2020,7 +2020,7 @@ enum AddonStatus {
   degraded,
 }
 
-extension on AddonStatus {
+extension AddonStatusValueExtension on AddonStatus {
   String toValue() {
     switch (this) {
       case AddonStatus.creating:
@@ -2041,7 +2041,7 @@ extension on AddonStatus {
   }
 }
 
-extension on String {
+extension AddonStatusFromString on String {
   AddonStatus toAddonStatus() {
     switch (this) {
       case 'CREATING':
@@ -2116,7 +2116,7 @@ enum CapacityTypes {
   spot,
 }
 
-extension on CapacityTypes {
+extension CapacityTypesValueExtension on CapacityTypes {
   String toValue() {
     switch (this) {
       case CapacityTypes.onDemand:
@@ -2127,7 +2127,7 @@ extension on CapacityTypes {
   }
 }
 
-extension on String {
+extension CapacityTypesFromString on String {
   CapacityTypes toCapacityTypes() {
     switch (this) {
       case 'ON_DEMAND':
@@ -2287,7 +2287,7 @@ enum ClusterStatus {
   updating,
 }
 
-extension on ClusterStatus {
+extension ClusterStatusValueExtension on ClusterStatus {
   String toValue() {
     switch (this) {
       case ClusterStatus.creating:
@@ -2304,7 +2304,7 @@ extension on ClusterStatus {
   }
 }
 
-extension on String {
+extension ClusterStatusFromString on String {
   ClusterStatus toClusterStatus() {
     switch (this) {
       case 'CREATING':
@@ -2641,7 +2641,7 @@ enum ErrorCode {
   configurationConflict,
 }
 
-extension on ErrorCode {
+extension ErrorCodeValueExtension on ErrorCode {
   String toValue() {
     switch (this) {
       case ErrorCode.subnetNotFound:
@@ -2676,7 +2676,7 @@ extension on ErrorCode {
   }
 }
 
-extension on String {
+extension ErrorCodeFromString on String {
   ErrorCode toErrorCode() {
     switch (this) {
       case 'SubnetNotFound':
@@ -2882,7 +2882,7 @@ enum FargateProfileStatus {
   deleteFailed,
 }
 
-extension on FargateProfileStatus {
+extension FargateProfileStatusValueExtension on FargateProfileStatus {
   String toValue() {
     switch (this) {
       case FargateProfileStatus.creating:
@@ -2899,7 +2899,7 @@ extension on FargateProfileStatus {
   }
 }
 
-extension on String {
+extension FargateProfileStatusFromString on String {
   FargateProfileStatus toFargateProfileStatus() {
     switch (this) {
       case 'CREATING':
@@ -3353,7 +3353,7 @@ enum LogType {
   scheduler,
 }
 
-extension on LogType {
+extension LogTypeValueExtension on LogType {
   String toValue() {
     switch (this) {
       case LogType.api:
@@ -3370,7 +3370,7 @@ extension on LogType {
   }
 }
 
-extension on String {
+extension LogTypeFromString on String {
   LogType toLogType() {
     switch (this) {
       case 'api':
@@ -3620,7 +3620,7 @@ enum NodegroupIssueCode {
   clusterUnreachable,
 }
 
-extension on NodegroupIssueCode {
+extension NodegroupIssueCodeValueExtension on NodegroupIssueCode {
   String toValue() {
     switch (this) {
       case NodegroupIssueCode.autoScalingGroupNotFound:
@@ -3663,7 +3663,7 @@ extension on NodegroupIssueCode {
   }
 }
 
-extension on String {
+extension NodegroupIssueCodeFromString on String {
   NodegroupIssueCode toNodegroupIssueCode() {
     switch (this) {
       case 'AutoScalingGroupNotFound':
@@ -3784,7 +3784,7 @@ enum NodegroupStatus {
   degraded,
 }
 
-extension on NodegroupStatus {
+extension NodegroupStatusValueExtension on NodegroupStatus {
   String toValue() {
     switch (this) {
       case NodegroupStatus.creating:
@@ -3805,7 +3805,7 @@ extension on NodegroupStatus {
   }
 }
 
-extension on String {
+extension NodegroupStatusFromString on String {
   NodegroupStatus toNodegroupStatus() {
     switch (this) {
       case 'CREATING':
@@ -3922,7 +3922,7 @@ enum ResolveConflicts {
   none,
 }
 
-extension on ResolveConflicts {
+extension ResolveConflictsValueExtension on ResolveConflicts {
   String toValue() {
     switch (this) {
       case ResolveConflicts.overwrite:
@@ -3933,7 +3933,7 @@ extension on ResolveConflicts {
   }
 }
 
-extension on String {
+extension ResolveConflictsFromString on String {
   ResolveConflicts toResolveConflicts() {
     switch (this) {
       case 'OVERWRITE':
@@ -4141,7 +4141,7 @@ enum UpdateParamType {
   resolveConflicts,
 }
 
-extension on UpdateParamType {
+extension UpdateParamTypeValueExtension on UpdateParamType {
   String toValue() {
     switch (this) {
       case UpdateParamType.version:
@@ -4178,7 +4178,7 @@ extension on UpdateParamType {
   }
 }
 
-extension on String {
+extension UpdateParamTypeFromString on String {
   UpdateParamType toUpdateParamType() {
     switch (this) {
       case 'Version':
@@ -4223,7 +4223,7 @@ enum UpdateStatus {
   successful,
 }
 
-extension on UpdateStatus {
+extension UpdateStatusValueExtension on UpdateStatus {
   String toValue() {
     switch (this) {
       case UpdateStatus.inProgress:
@@ -4238,7 +4238,7 @@ extension on UpdateStatus {
   }
 }
 
-extension on String {
+extension UpdateStatusFromString on String {
   UpdateStatus toUpdateStatus() {
     switch (this) {
       case 'InProgress':
@@ -4262,7 +4262,7 @@ enum UpdateType {
   addonUpdate,
 }
 
-extension on UpdateType {
+extension UpdateTypeValueExtension on UpdateType {
   String toValue() {
     switch (this) {
       case UpdateType.versionUpdate:
@@ -4279,7 +4279,7 @@ extension on UpdateType {
   }
 }
 
-extension on String {
+extension UpdateTypeFromString on String {
   UpdateType toUpdateType() {
     switch (this) {
       case 'VersionUpdate':

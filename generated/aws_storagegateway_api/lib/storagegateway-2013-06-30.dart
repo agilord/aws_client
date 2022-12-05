@@ -6025,7 +6025,7 @@ enum ActiveDirectoryStatus {
   unknownError,
 }
 
-extension on ActiveDirectoryStatus {
+extension ActiveDirectoryStatusValueExtension on ActiveDirectoryStatus {
   String toValue() {
     switch (this) {
       case ActiveDirectoryStatus.accessDenied:
@@ -6046,7 +6046,7 @@ extension on ActiveDirectoryStatus {
   }
 }
 
-extension on String {
+extension ActiveDirectoryStatusFromString on String {
   ActiveDirectoryStatus toActiveDirectoryStatus() {
     switch (this) {
       case 'ACCESS_DENIED':
@@ -6266,7 +6266,8 @@ enum AvailabilityMonitorTestStatus {
   pending,
 }
 
-extension on AvailabilityMonitorTestStatus {
+extension AvailabilityMonitorTestStatusValueExtension
+    on AvailabilityMonitorTestStatus {
   String toValue() {
     switch (this) {
       case AvailabilityMonitorTestStatus.complete:
@@ -6279,7 +6280,7 @@ extension on AvailabilityMonitorTestStatus {
   }
 }
 
-extension on String {
+extension AvailabilityMonitorTestStatusFromString on String {
   AvailabilityMonitorTestStatus toAvailabilityMonitorTestStatus() {
     switch (this) {
       case 'COMPLETE':
@@ -6553,7 +6554,7 @@ enum CaseSensitivity {
   caseSensitive,
 }
 
-extension on CaseSensitivity {
+extension CaseSensitivityValueExtension on CaseSensitivity {
   String toValue() {
     switch (this) {
       case CaseSensitivity.clientSpecified:
@@ -6564,7 +6565,7 @@ extension on CaseSensitivity {
   }
 }
 
-extension on String {
+extension CaseSensitivityFromString on String {
   CaseSensitivity toCaseSensitivity() {
     switch (this) {
       case 'ClientSpecified':
@@ -7925,7 +7926,7 @@ enum FileShareType {
   smb,
 }
 
-extension on FileShareType {
+extension FileShareTypeValueExtension on FileShareType {
   String toValue() {
     switch (this) {
       case FileShareType.nfs:
@@ -7936,7 +7937,7 @@ extension on FileShareType {
   }
 }
 
-extension on String {
+extension FileShareTypeFromString on String {
   FileShareType toFileShareType() {
     switch (this) {
       case 'NFS':
@@ -8006,7 +8007,7 @@ enum HostEnvironment {
   other,
 }
 
-extension on HostEnvironment {
+extension HostEnvironmentValueExtension on HostEnvironment {
   String toValue() {
     switch (this) {
       case HostEnvironment.vmware:
@@ -8023,7 +8024,7 @@ extension on HostEnvironment {
   }
 }
 
-extension on String {
+extension HostEnvironmentFromString on String {
   HostEnvironment toHostEnvironment() {
     switch (this) {
       case 'VMWARE':
@@ -8619,7 +8620,7 @@ enum ObjectACL {
   awsExecRead,
 }
 
-extension on ObjectACL {
+extension ObjectACLValueExtension on ObjectACL {
   String toValue() {
     switch (this) {
       case ObjectACL.private:
@@ -8640,7 +8641,7 @@ extension on ObjectACL {
   }
 }
 
-extension on String {
+extension ObjectACLFromString on String {
   ObjectACL toObjectACL() {
     switch (this) {
       case 'private':
@@ -8720,7 +8721,7 @@ enum PoolStatus {
   deleted,
 }
 
-extension on PoolStatus {
+extension PoolStatusValueExtension on PoolStatus {
   String toValue() {
     switch (this) {
       case PoolStatus.active:
@@ -8731,7 +8732,7 @@ extension on PoolStatus {
   }
 }
 
-extension on String {
+extension PoolStatusFromString on String {
   PoolStatus toPoolStatus() {
     switch (this) {
       case 'ACTIVE':
@@ -8795,7 +8796,7 @@ enum RetentionLockType {
   none,
 }
 
-extension on RetentionLockType {
+extension RetentionLockTypeValueExtension on RetentionLockType {
   String toValue() {
     switch (this) {
       case RetentionLockType.compliance:
@@ -8808,7 +8809,7 @@ extension on RetentionLockType {
   }
 }
 
-extension on String {
+extension RetentionLockTypeFromString on String {
   RetentionLockType toRetentionLockType() {
     switch (this) {
       case 'COMPLIANCE':
@@ -9057,7 +9058,7 @@ enum SMBSecurityStrategy {
   mandatoryEncryption,
 }
 
-extension on SMBSecurityStrategy {
+extension SMBSecurityStrategyValueExtension on SMBSecurityStrategy {
   String toValue() {
     switch (this) {
       case SMBSecurityStrategy.clientSpecified:
@@ -9070,7 +9071,7 @@ extension on SMBSecurityStrategy {
   }
 }
 
-extension on String {
+extension SMBSecurityStrategyFromString on String {
   SMBSecurityStrategy toSMBSecurityStrategy() {
     switch (this) {
       case 'ClientSpecified':
@@ -9577,7 +9578,7 @@ enum TapeStorageClass {
   glacier,
 }
 
-extension on TapeStorageClass {
+extension TapeStorageClassValueExtension on TapeStorageClass {
   String toValue() {
     switch (this) {
       case TapeStorageClass.deepArchive:
@@ -9588,7 +9589,7 @@ extension on TapeStorageClass {
   }
 }
 
-extension on String {
+extension TapeStorageClassFromString on String {
   TapeStorageClass toTapeStorageClass() {
     switch (this) {
       case 'DEEP_ARCHIVE':

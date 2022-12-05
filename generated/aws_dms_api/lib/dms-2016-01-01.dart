@@ -3771,7 +3771,7 @@ enum AuthMechanismValue {
   scramSha_1,
 }
 
-extension on AuthMechanismValue {
+extension AuthMechanismValueValueExtension on AuthMechanismValue {
   String toValue() {
     switch (this) {
       case AuthMechanismValue.$default:
@@ -3784,7 +3784,7 @@ extension on AuthMechanismValue {
   }
 }
 
-extension on String {
+extension AuthMechanismValueFromString on String {
   AuthMechanismValue toAuthMechanismValue() {
     switch (this) {
       case 'default':
@@ -3803,7 +3803,7 @@ enum AuthTypeValue {
   password,
 }
 
-extension on AuthTypeValue {
+extension AuthTypeValueValueExtension on AuthTypeValue {
   String toValue() {
     switch (this) {
       case AuthTypeValue.no:
@@ -3814,7 +3814,7 @@ extension on AuthTypeValue {
   }
 }
 
-extension on String {
+extension AuthTypeValueFromString on String {
   AuthTypeValue toAuthTypeValue() {
     switch (this) {
       case 'no':
@@ -3939,7 +3939,7 @@ enum CharLengthSemantics {
   byte,
 }
 
-extension on CharLengthSemantics {
+extension CharLengthSemanticsValueExtension on CharLengthSemantics {
   String toValue() {
     switch (this) {
       case CharLengthSemantics.$default:
@@ -3952,7 +3952,7 @@ extension on CharLengthSemantics {
   }
 }
 
-extension on String {
+extension CharLengthSemanticsFromString on String {
   CharLengthSemantics toCharLengthSemantics() {
     switch (this) {
       case 'default':
@@ -3971,7 +3971,7 @@ enum CompressionTypeValue {
   gzip,
 }
 
-extension on CompressionTypeValue {
+extension CompressionTypeValueValueExtension on CompressionTypeValue {
   String toValue() {
     switch (this) {
       case CompressionTypeValue.none:
@@ -3982,7 +3982,7 @@ extension on CompressionTypeValue {
   }
 }
 
-extension on String {
+extension CompressionTypeValueFromString on String {
   CompressionTypeValue toCompressionTypeValue() {
     switch (this) {
       case 'none':
@@ -4151,7 +4151,7 @@ enum DataFormatValue {
   parquet,
 }
 
-extension on DataFormatValue {
+extension DataFormatValueValueExtension on DataFormatValue {
   String toValue() {
     switch (this) {
       case DataFormatValue.csv:
@@ -4162,7 +4162,7 @@ extension on DataFormatValue {
   }
 }
 
-extension on String {
+extension DataFormatValueFromString on String {
   DataFormatValue toDataFormatValue() {
     switch (this) {
       case 'csv':
@@ -4181,7 +4181,8 @@ enum DatePartitionDelimiterValue {
   none,
 }
 
-extension on DatePartitionDelimiterValue {
+extension DatePartitionDelimiterValueValueExtension
+    on DatePartitionDelimiterValue {
   String toValue() {
     switch (this) {
       case DatePartitionDelimiterValue.slash:
@@ -4196,7 +4197,7 @@ extension on DatePartitionDelimiterValue {
   }
 }
 
-extension on String {
+extension DatePartitionDelimiterValueFromString on String {
   DatePartitionDelimiterValue toDatePartitionDelimiterValue() {
     switch (this) {
       case 'SLASH':
@@ -4220,7 +4221,8 @@ enum DatePartitionSequenceValue {
   ddmmyyyy,
 }
 
-extension on DatePartitionSequenceValue {
+extension DatePartitionSequenceValueValueExtension
+    on DatePartitionSequenceValue {
   String toValue() {
     switch (this) {
       case DatePartitionSequenceValue.yyyymmdd:
@@ -4237,7 +4239,7 @@ extension on DatePartitionSequenceValue {
   }
 }
 
-extension on String {
+extension DatePartitionSequenceValueFromString on String {
   DatePartitionSequenceValue toDatePartitionSequenceValue() {
     switch (this) {
       case 'YYYYMMDD':
@@ -4965,7 +4967,7 @@ enum DmsSslModeValue {
   verifyFull,
 }
 
-extension on DmsSslModeValue {
+extension DmsSslModeValueValueExtension on DmsSslModeValue {
   String toValue() {
     switch (this) {
       case DmsSslModeValue.none:
@@ -4980,7 +4982,7 @@ extension on DmsSslModeValue {
   }
 }
 
-extension on String {
+extension DmsSslModeValueFromString on String {
   DmsSslModeValue toDmsSslModeValue() {
     switch (this) {
       case 'none':
@@ -5237,7 +5239,7 @@ enum EncodingTypeValue {
   rleDictionary,
 }
 
-extension on EncodingTypeValue {
+extension EncodingTypeValueValueExtension on EncodingTypeValue {
   String toValue() {
     switch (this) {
       case EncodingTypeValue.plain:
@@ -5250,7 +5252,7 @@ extension on EncodingTypeValue {
   }
 }
 
-extension on String {
+extension EncodingTypeValueFromString on String {
   EncodingTypeValue toEncodingTypeValue() {
     switch (this) {
       case 'plain':
@@ -5269,7 +5271,7 @@ enum EncryptionModeValue {
   sseKms,
 }
 
-extension on EncryptionModeValue {
+extension EncryptionModeValueValueExtension on EncryptionModeValue {
   String toValue() {
     switch (this) {
       case EncryptionModeValue.sseS3:
@@ -5280,7 +5282,7 @@ extension on EncryptionModeValue {
   }
 }
 
-extension on String {
+extension EncryptionModeValueFromString on String {
   EncryptionModeValue toEncryptionModeValue() {
     switch (this) {
       case 'sse-s3':
@@ -6133,7 +6135,7 @@ enum MessageFormatValue {
   jsonUnformatted,
 }
 
-extension on MessageFormatValue {
+extension MessageFormatValueValueExtension on MessageFormatValue {
   String toValue() {
     switch (this) {
       case MessageFormatValue.json:
@@ -6144,7 +6146,7 @@ extension on MessageFormatValue {
   }
 }
 
-extension on String {
+extension MessageFormatValueFromString on String {
   MessageFormatValue toMessageFormatValue() {
     switch (this) {
       case 'json':
@@ -6311,7 +6313,7 @@ enum MigrationTypeValue {
   fullLoadAndCdc,
 }
 
-extension on MigrationTypeValue {
+extension MigrationTypeValueValueExtension on MigrationTypeValue {
   String toValue() {
     switch (this) {
       case MigrationTypeValue.fullLoad:
@@ -6324,7 +6326,7 @@ extension on MigrationTypeValue {
   }
 }
 
-extension on String {
+extension MigrationTypeValueFromString on String {
   MigrationTypeValue toMigrationTypeValue() {
     switch (this) {
       case 'full-load':
@@ -6849,7 +6851,7 @@ enum NestingLevelValue {
   one,
 }
 
-extension on NestingLevelValue {
+extension NestingLevelValueValueExtension on NestingLevelValue {
   String toValue() {
     switch (this) {
       case NestingLevelValue.none:
@@ -6860,7 +6862,7 @@ extension on NestingLevelValue {
   }
 }
 
-extension on String {
+extension NestingLevelValueFromString on String {
   NestingLevelValue toNestingLevelValue() {
     switch (this) {
       case 'none':
@@ -7371,7 +7373,7 @@ enum ParquetVersionValue {
   parquet_2_0,
 }
 
-extension on ParquetVersionValue {
+extension ParquetVersionValueValueExtension on ParquetVersionValue {
   String toValue() {
     switch (this) {
       case ParquetVersionValue.parquet_1_0:
@@ -7382,7 +7384,7 @@ extension on ParquetVersionValue {
   }
 }
 
-extension on String {
+extension ParquetVersionValueFromString on String {
   ParquetVersionValue toParquetVersionValue() {
     switch (this) {
       case 'parquet-1-0':
@@ -8035,7 +8037,8 @@ enum RefreshSchemasStatusTypeValue {
   refreshing,
 }
 
-extension on RefreshSchemasStatusTypeValue {
+extension RefreshSchemasStatusTypeValueValueExtension
+    on RefreshSchemasStatusTypeValue {
   String toValue() {
     switch (this) {
       case RefreshSchemasStatusTypeValue.successful:
@@ -8048,7 +8051,7 @@ extension on RefreshSchemasStatusTypeValue {
   }
 }
 
-extension on String {
+extension RefreshSchemasStatusTypeValueFromString on String {
   RefreshSchemasStatusTypeValue toRefreshSchemasStatusTypeValue() {
     switch (this) {
       case 'successful':
@@ -8066,7 +8069,7 @@ enum ReleaseStatusValues {
   beta,
 }
 
-extension on ReleaseStatusValues {
+extension ReleaseStatusValuesValueExtension on ReleaseStatusValues {
   String toValue() {
     switch (this) {
       case ReleaseStatusValues.beta:
@@ -8075,7 +8078,7 @@ extension on ReleaseStatusValues {
   }
 }
 
-extension on String {
+extension ReleaseStatusValuesFromString on String {
   ReleaseStatusValues toReleaseStatusValues() {
     switch (this) {
       case 'beta':
@@ -8090,7 +8093,7 @@ enum ReloadOptionValue {
   validateOnly,
 }
 
-extension on ReloadOptionValue {
+extension ReloadOptionValueValueExtension on ReloadOptionValue {
   String toValue() {
     switch (this) {
       case ReloadOptionValue.dataReload:
@@ -8101,7 +8104,7 @@ extension on ReloadOptionValue {
   }
 }
 
-extension on String {
+extension ReloadOptionValueFromString on String {
   ReloadOptionValue toReloadOptionValue() {
     switch (this) {
       case 'data-reload':
@@ -8140,7 +8143,8 @@ enum ReplicationEndpointTypeValue {
   target,
 }
 
-extension on ReplicationEndpointTypeValue {
+extension ReplicationEndpointTypeValueValueExtension
+    on ReplicationEndpointTypeValue {
   String toValue() {
     switch (this) {
       case ReplicationEndpointTypeValue.source:
@@ -8151,7 +8155,7 @@ extension on ReplicationEndpointTypeValue {
   }
 }
 
-extension on String {
+extension ReplicationEndpointTypeValueFromString on String {
   ReplicationEndpointTypeValue toReplicationEndpointTypeValue() {
     switch (this) {
       case 'source':
@@ -9679,7 +9683,7 @@ enum SafeguardPolicy {
   sharedAutomaticTruncation,
 }
 
-extension on SafeguardPolicy {
+extension SafeguardPolicyValueExtension on SafeguardPolicy {
   String toValue() {
     switch (this) {
       case SafeguardPolicy.relyOnSqlServerReplicationAgent:
@@ -9692,7 +9696,7 @@ extension on SafeguardPolicy {
   }
 }
 
-extension on String {
+extension SafeguardPolicyFromString on String {
   SafeguardPolicy toSafeguardPolicy() {
     switch (this) {
       case 'rely-on-sql-server-replication-agent':
@@ -9710,7 +9714,7 @@ enum SourceType {
   replicationInstance,
 }
 
-extension on SourceType {
+extension SourceTypeValueExtension on SourceType {
   String toValue() {
     switch (this) {
       case SourceType.replicationInstance:
@@ -9719,7 +9723,7 @@ extension on SourceType {
   }
 }
 
-extension on String {
+extension SourceTypeFromString on String {
   SourceType toSourceType() {
     switch (this) {
       case 'replication-instance':
@@ -9791,7 +9795,8 @@ enum StartReplicationTaskTypeValue {
   reloadTarget,
 }
 
-extension on StartReplicationTaskTypeValue {
+extension StartReplicationTaskTypeValueValueExtension
+    on StartReplicationTaskTypeValue {
   String toValue() {
     switch (this) {
       case StartReplicationTaskTypeValue.startReplication:
@@ -9804,7 +9809,7 @@ extension on StartReplicationTaskTypeValue {
   }
 }
 
-extension on String {
+extension StartReplicationTaskTypeValueFromString on String {
   StartReplicationTaskTypeValue toStartReplicationTaskTypeValue() {
     switch (this) {
       case 'start-replication':
@@ -10241,7 +10246,7 @@ enum TargetDbType {
   multipleDatabases,
 }
 
-extension on TargetDbType {
+extension TargetDbTypeValueExtension on TargetDbType {
   String toValue() {
     switch (this) {
       case TargetDbType.specificDatabase:
@@ -10252,7 +10257,7 @@ extension on TargetDbType {
   }
 }
 
-extension on String {
+extension TargetDbTypeFromString on String {
   TargetDbType toTargetDbType() {
     switch (this) {
       case 'specific-database':

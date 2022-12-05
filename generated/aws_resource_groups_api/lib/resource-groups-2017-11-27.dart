@@ -1452,7 +1452,7 @@ enum GroupConfigurationStatus {
   updateFailed,
 }
 
-extension on GroupConfigurationStatus {
+extension GroupConfigurationStatusValueExtension on GroupConfigurationStatus {
   String toValue() {
     switch (this) {
       case GroupConfigurationStatus.updating:
@@ -1465,7 +1465,7 @@ extension on GroupConfigurationStatus {
   }
 }
 
-extension on String {
+extension GroupConfigurationStatusFromString on String {
   GroupConfigurationStatus toGroupConfigurationStatus() {
     switch (this) {
       case 'UPDATING':
@@ -1508,7 +1508,7 @@ enum GroupFilterName {
   configurationType,
 }
 
-extension on GroupFilterName {
+extension GroupFilterNameValueExtension on GroupFilterName {
   String toValue() {
     switch (this) {
       case GroupFilterName.resourceType:
@@ -1519,7 +1519,7 @@ extension on GroupFilterName {
   }
 }
 
-extension on String {
+extension GroupFilterNameFromString on String {
   GroupFilterName toGroupFilterName() {
     switch (this) {
       case 'resource-type':
@@ -1795,7 +1795,7 @@ enum QueryErrorCode {
   cloudformationStackNotExisting,
 }
 
-extension on QueryErrorCode {
+extension QueryErrorCodeValueExtension on QueryErrorCode {
   String toValue() {
     switch (this) {
       case QueryErrorCode.cloudformationStackInactive:
@@ -1806,7 +1806,7 @@ extension on QueryErrorCode {
   }
 }
 
-extension on String {
+extension QueryErrorCodeFromString on String {
   QueryErrorCode toQueryErrorCode() {
     switch (this) {
       case 'CLOUDFORMATION_STACK_INACTIVE':
@@ -1823,7 +1823,7 @@ enum QueryType {
   cloudformationStack_1_0,
 }
 
-extension on QueryType {
+extension QueryTypeValueExtension on QueryType {
   String toValue() {
     switch (this) {
       case QueryType.tagFilters_1_0:
@@ -1834,7 +1834,7 @@ extension on QueryType {
   }
 }
 
-extension on String {
+extension QueryTypeFromString on String {
   QueryType toQueryType() {
     switch (this) {
       case 'TAG_FILTERS_1_0':
@@ -1874,7 +1874,7 @@ enum ResourceFilterName {
   resourceType,
 }
 
-extension on ResourceFilterName {
+extension ResourceFilterNameValueExtension on ResourceFilterName {
   String toValue() {
     switch (this) {
       case ResourceFilterName.resourceType:
@@ -1883,7 +1883,7 @@ extension on ResourceFilterName {
   }
 }
 
-extension on String {
+extension ResourceFilterNameFromString on String {
   ResourceFilterName toResourceFilterName() {
     switch (this) {
       case 'resource-type':
@@ -2091,7 +2091,7 @@ enum ResourceStatusValue {
   pending,
 }
 
-extension on ResourceStatusValue {
+extension ResourceStatusValueValueExtension on ResourceStatusValue {
   String toValue() {
     switch (this) {
       case ResourceStatusValue.pending:
@@ -2100,7 +2100,7 @@ extension on ResourceStatusValue {
   }
 }
 
-extension on String {
+extension ResourceStatusValueFromString on String {
   ResourceStatusValue toResourceStatusValue() {
     switch (this) {
       case 'PENDING':

@@ -3709,7 +3709,7 @@ enum BehaviorOnMXFailure {
   rejectMessage,
 }
 
-extension on BehaviorOnMXFailure {
+extension BehaviorOnMXFailureValueExtension on BehaviorOnMXFailure {
   String toValue() {
     switch (this) {
       case BehaviorOnMXFailure.useDefaultValue:
@@ -3720,7 +3720,7 @@ extension on BehaviorOnMXFailure {
   }
 }
 
-extension on String {
+extension BehaviorOnMXFailureFromString on String {
   BehaviorOnMXFailure toBehaviorOnMXFailure() {
     switch (this) {
       case 'UseDefaultValue':
@@ -3833,7 +3833,7 @@ enum BounceType {
   temporaryFailure,
 }
 
-extension on BounceType {
+extension BounceTypeValueExtension on BounceType {
   String toValue() {
     switch (this) {
       case BounceType.doesNotExist:
@@ -3852,7 +3852,7 @@ extension on BounceType {
   }
 }
 
-extension on String {
+extension BounceTypeFromString on String {
   BounceType toBounceType() {
     switch (this) {
       case 'DoesNotExist':
@@ -4062,7 +4062,7 @@ enum BulkEmailStatus {
   failed,
 }
 
-extension on BulkEmailStatus {
+extension BulkEmailStatusValueExtension on BulkEmailStatus {
   String toValue() {
     switch (this) {
       case BulkEmailStatus.success:
@@ -4097,7 +4097,7 @@ extension on BulkEmailStatus {
   }
 }
 
-extension on String {
+extension BulkEmailStatusFromString on String {
   BulkEmailStatus toBulkEmailStatus() {
     switch (this) {
       case 'Success':
@@ -4298,7 +4298,7 @@ enum ConfigurationSetAttribute {
   reputationOptions,
 }
 
-extension on ConfigurationSetAttribute {
+extension ConfigurationSetAttributeValueExtension on ConfigurationSetAttribute {
   String toValue() {
     switch (this) {
       case ConfigurationSetAttribute.eventDestinations:
@@ -4313,7 +4313,7 @@ extension on ConfigurationSetAttribute {
   }
 }
 
-extension on String {
+extension ConfigurationSetAttributeFromString on String {
   ConfigurationSetAttribute toConfigurationSetAttribute() {
     switch (this) {
       case 'eventDestinations':
@@ -4431,7 +4431,7 @@ enum CustomMailFromStatus {
   temporaryFailure,
 }
 
-extension on CustomMailFromStatus {
+extension CustomMailFromStatusValueExtension on CustomMailFromStatus {
   String toValue() {
     switch (this) {
       case CustomMailFromStatus.pending:
@@ -4446,7 +4446,7 @@ extension on CustomMailFromStatus {
   }
 }
 
-extension on String {
+extension CustomMailFromStatusFromString on String {
   CustomMailFromStatus toCustomMailFromStatus() {
     switch (this) {
       case 'Pending':
@@ -4786,7 +4786,7 @@ enum DimensionValueSource {
   linkTag,
 }
 
-extension on DimensionValueSource {
+extension DimensionValueSourceValueExtension on DimensionValueSource {
   String toValue() {
     switch (this) {
       case DimensionValueSource.messageTag:
@@ -4799,7 +4799,7 @@ extension on DimensionValueSource {
   }
 }
 
-extension on String {
+extension DimensionValueSourceFromString on String {
   DimensionValueSource toDimensionValueSource() {
     switch (this) {
       case 'messageTag':
@@ -4821,7 +4821,7 @@ enum DsnAction {
   expanded,
 }
 
-extension on DsnAction {
+extension DsnActionValueExtension on DsnAction {
   String toValue() {
     switch (this) {
       case DsnAction.failed:
@@ -4838,7 +4838,7 @@ extension on DsnAction {
   }
 }
 
-extension on String {
+extension DsnActionFromString on String {
   DsnAction toDsnAction() {
     switch (this) {
       case 'failed':
@@ -4964,7 +4964,7 @@ enum EventType {
   renderingFailure,
 }
 
-extension on EventType {
+extension EventTypeValueExtension on EventType {
   String toValue() {
     switch (this) {
       case EventType.send:
@@ -4987,7 +4987,7 @@ extension on EventType {
   }
 }
 
-extension on String {
+extension EventTypeFromString on String {
   EventType toEventType() {
     switch (this) {
       case 'send':
@@ -5457,7 +5457,7 @@ enum IdentityType {
   domain,
 }
 
-extension on IdentityType {
+extension IdentityTypeValueExtension on IdentityType {
   String toValue() {
     switch (this) {
       case IdentityType.emailAddress:
@@ -5468,7 +5468,7 @@ extension on IdentityType {
   }
 }
 
-extension on String {
+extension IdentityTypeFromString on String {
   IdentityType toIdentityType() {
     switch (this) {
       case 'EmailAddress':
@@ -5509,7 +5509,7 @@ enum InvocationType {
   requestResponse,
 }
 
-extension on InvocationType {
+extension InvocationTypeValueExtension on InvocationType {
   String toValue() {
     switch (this) {
       case InvocationType.event:
@@ -5520,7 +5520,7 @@ extension on InvocationType {
   }
 }
 
-extension on String {
+extension InvocationTypeFromString on String {
   InvocationType toInvocationType() {
     switch (this) {
       case 'Event':
@@ -5946,7 +5946,7 @@ enum NotificationType {
   delivery,
 }
 
-extension on NotificationType {
+extension NotificationTypeValueExtension on NotificationType {
   String toValue() {
     switch (this) {
       case NotificationType.bounce:
@@ -5959,7 +5959,7 @@ extension on NotificationType {
   }
 }
 
-extension on String {
+extension NotificationTypeFromString on String {
   NotificationType toNotificationType() {
     switch (this) {
       case 'Bounce':
@@ -6171,7 +6171,7 @@ enum ReceiptFilterPolicy {
   allow,
 }
 
-extension on ReceiptFilterPolicy {
+extension ReceiptFilterPolicyValueExtension on ReceiptFilterPolicy {
   String toValue() {
     switch (this) {
       case ReceiptFilterPolicy.block:
@@ -6182,7 +6182,7 @@ extension on ReceiptFilterPolicy {
   }
 }
 
-extension on String {
+extension ReceiptFilterPolicyFromString on String {
   ReceiptFilterPolicy toReceiptFilterPolicy() {
     switch (this) {
       case 'Block':
@@ -6673,7 +6673,7 @@ enum SNSActionEncoding {
   base64,
 }
 
-extension on SNSActionEncoding {
+extension SNSActionEncodingValueExtension on SNSActionEncoding {
   String toValue() {
     switch (this) {
       case SNSActionEncoding.utf_8:
@@ -6684,7 +6684,7 @@ extension on SNSActionEncoding {
   }
 }
 
-extension on String {
+extension SNSActionEncodingFromString on String {
   SNSActionEncoding toSNSActionEncoding() {
     switch (this) {
       case 'UTF-8':
@@ -6978,7 +6978,7 @@ enum StopScope {
   ruleSet,
 }
 
-extension on StopScope {
+extension StopScopeValueExtension on StopScope {
   String toValue() {
     switch (this) {
       case StopScope.ruleSet:
@@ -6987,7 +6987,7 @@ extension on StopScope {
   }
 }
 
-extension on String {
+extension StopScopeFromString on String {
   StopScope toStopScope() {
     switch (this) {
       case 'RuleSet':
@@ -7084,7 +7084,7 @@ enum TlsPolicy {
   optional,
 }
 
-extension on TlsPolicy {
+extension TlsPolicyValueExtension on TlsPolicy {
   String toValue() {
     switch (this) {
       case TlsPolicy.require:
@@ -7095,7 +7095,7 @@ extension on TlsPolicy {
   }
 }
 
-extension on String {
+extension TlsPolicyFromString on String {
   TlsPolicy toTlsPolicy() {
     switch (this) {
       case 'Require':
@@ -7186,7 +7186,7 @@ enum VerificationStatus {
   notStarted,
 }
 
-extension on VerificationStatus {
+extension VerificationStatusValueExtension on VerificationStatus {
   String toValue() {
     switch (this) {
       case VerificationStatus.pending:
@@ -7203,7 +7203,7 @@ extension on VerificationStatus {
   }
 }
 
-extension on String {
+extension VerificationStatusFromString on String {
   VerificationStatus toVerificationStatus() {
     switch (this) {
       case 'Pending':

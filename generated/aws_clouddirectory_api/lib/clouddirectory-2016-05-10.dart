@@ -4920,7 +4920,7 @@ enum BatchReadExceptionType {
   internalServiceException,
 }
 
-extension on BatchReadExceptionType {
+extension BatchReadExceptionTypeValueExtension on BatchReadExceptionType {
   String toValue() {
     switch (this) {
       case BatchReadExceptionType.validationException:
@@ -4953,7 +4953,7 @@ extension on BatchReadExceptionType {
   }
 }
 
-extension on String {
+extension BatchReadExceptionTypeFromString on String {
   BatchReadExceptionType toBatchReadExceptionType() {
     switch (this) {
       case 'ValidationException':
@@ -5426,7 +5426,7 @@ enum BatchWriteExceptionType {
   unsupportedIndexTypeException,
 }
 
-extension on BatchWriteExceptionType {
+extension BatchWriteExceptionTypeValueExtension on BatchWriteExceptionType {
   String toValue() {
     switch (this) {
       case BatchWriteExceptionType.internalServiceException:
@@ -5469,7 +5469,7 @@ extension on BatchWriteExceptionType {
   }
 }
 
-extension on String {
+extension BatchWriteExceptionTypeFromString on String {
   BatchWriteExceptionType toBatchWriteExceptionType() {
     switch (this) {
       case 'InternalServiceException':
@@ -5801,7 +5801,7 @@ enum ConsistencyLevel {
   eventual,
 }
 
-extension on ConsistencyLevel {
+extension ConsistencyLevelValueExtension on ConsistencyLevel {
   String toValue() {
     switch (this) {
       case ConsistencyLevel.serializable:
@@ -5812,7 +5812,7 @@ extension on ConsistencyLevel {
   }
 }
 
-extension on String {
+extension ConsistencyLevelFromString on String {
   ConsistencyLevel toConsistencyLevel() {
     switch (this) {
       case 'SERIALIZABLE':
@@ -6095,7 +6095,7 @@ enum DirectoryState {
   deleted,
 }
 
-extension on DirectoryState {
+extension DirectoryStateValueExtension on DirectoryState {
   String toValue() {
     switch (this) {
       case DirectoryState.enabled:
@@ -6108,7 +6108,7 @@ extension on DirectoryState {
   }
 }
 
-extension on String {
+extension DirectoryStateFromString on String {
   DirectoryState toDirectoryState() {
     switch (this) {
       case 'ENABLED':
@@ -6338,7 +6338,7 @@ enum FacetAttributeType {
   datetime,
 }
 
-extension on FacetAttributeType {
+extension FacetAttributeTypeValueExtension on FacetAttributeType {
   String toValue() {
     switch (this) {
       case FacetAttributeType.string:
@@ -6355,7 +6355,7 @@ extension on FacetAttributeType {
   }
 }
 
-extension on String {
+extension FacetAttributeTypeFromString on String {
   FacetAttributeType toFacetAttributeType() {
     switch (this) {
       case 'STRING':
@@ -7488,7 +7488,7 @@ enum ObjectType {
   $index,
 }
 
-extension on ObjectType {
+extension ObjectTypeValueExtension on ObjectType {
   String toValue() {
     switch (this) {
       case ObjectType.node:
@@ -7503,7 +7503,7 @@ extension on ObjectType {
   }
 }
 
-extension on String {
+extension ObjectTypeFromString on String {
   ObjectType toObjectType() {
     switch (this) {
       case 'NODE':
@@ -7636,7 +7636,7 @@ enum RangeMode {
   exclusive,
 }
 
-extension on RangeMode {
+extension RangeModeValueExtension on RangeMode {
   String toValue() {
     switch (this) {
       case RangeMode.first:
@@ -7653,7 +7653,7 @@ extension on RangeMode {
   }
 }
 
-extension on String {
+extension RangeModeFromString on String {
   RangeMode toRangeMode() {
     switch (this) {
       case 'FIRST':
@@ -7683,7 +7683,7 @@ enum RequiredAttributeBehavior {
   notRequired,
 }
 
-extension on RequiredAttributeBehavior {
+extension RequiredAttributeBehaviorValueExtension on RequiredAttributeBehavior {
   String toValue() {
     switch (this) {
       case RequiredAttributeBehavior.requiredAlways:
@@ -7694,7 +7694,7 @@ extension on RequiredAttributeBehavior {
   }
 }
 
-extension on String {
+extension RequiredAttributeBehaviorFromString on String {
   RequiredAttributeBehavior toRequiredAttributeBehavior() {
     switch (this) {
       case 'REQUIRED_ALWAYS':
@@ -7777,7 +7777,7 @@ enum RuleType {
   stringLength,
 }
 
-extension on RuleType {
+extension RuleTypeValueExtension on RuleType {
   String toValue() {
     switch (this) {
       case RuleType.binaryLength:
@@ -7792,7 +7792,7 @@ extension on RuleType {
   }
 }
 
-extension on String {
+extension RuleTypeFromString on String {
   RuleType toRuleType() {
     switch (this) {
       case 'BINARY_LENGTH':
@@ -8263,7 +8263,7 @@ enum UpdateActionType {
   delete,
 }
 
-extension on UpdateActionType {
+extension UpdateActionTypeValueExtension on UpdateActionType {
   String toValue() {
     switch (this) {
       case UpdateActionType.createOrUpdate:
@@ -8274,7 +8274,7 @@ extension on UpdateActionType {
   }
 }
 
-extension on String {
+extension UpdateActionTypeFromString on String {
   UpdateActionType toUpdateActionType() {
     switch (this) {
       case 'CREATE_OR_UPDATE':

@@ -326,7 +326,7 @@ enum ContentClassifier {
   freeOfAdultContent,
 }
 
-extension on ContentClassifier {
+extension ContentClassifierValueExtension on ContentClassifier {
   String toValue() {
     switch (this) {
       case ContentClassifier.freeOfPersonallyIdentifiableInformation:
@@ -337,7 +337,7 @@ extension on ContentClassifier {
   }
 }
 
-extension on String {
+extension ContentClassifierFromString on String {
   ContentClassifier toContentClassifier() {
     switch (this) {
       case 'FreeOfPersonallyIdentifiableInformation':
@@ -474,7 +474,7 @@ enum HumanLoopStatus {
   stopping,
 }
 
-extension on HumanLoopStatus {
+extension HumanLoopStatusValueExtension on HumanLoopStatus {
   String toValue() {
     switch (this) {
       case HumanLoopStatus.inProgress:
@@ -491,7 +491,7 @@ extension on HumanLoopStatus {
   }
 }
 
-extension on String {
+extension HumanLoopStatusFromString on String {
   HumanLoopStatus toHumanLoopStatus() {
     switch (this) {
       case 'InProgress':
@@ -574,7 +574,7 @@ enum SortOrder {
   descending,
 }
 
-extension on SortOrder {
+extension SortOrderValueExtension on SortOrder {
   String toValue() {
     switch (this) {
       case SortOrder.ascending:
@@ -585,7 +585,7 @@ extension on SortOrder {
   }
 }
 
-extension on String {
+extension SortOrderFromString on String {
   SortOrder toSortOrder() {
     switch (this) {
       case 'Ascending':

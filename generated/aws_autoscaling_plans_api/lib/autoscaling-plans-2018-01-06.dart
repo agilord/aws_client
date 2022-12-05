@@ -759,7 +759,7 @@ enum ForecastDataType {
   scheduledActionMaxCapacity,
 }
 
-extension on ForecastDataType {
+extension ForecastDataTypeValueExtension on ForecastDataType {
   String toValue() {
     switch (this) {
       case ForecastDataType.capacityForecast:
@@ -774,7 +774,7 @@ extension on ForecastDataType {
   }
 }
 
-extension on String {
+extension ForecastDataTypeFromString on String {
   ForecastDataType toForecastDataType() {
     switch (this) {
       case 'CapacityForecast':
@@ -815,7 +815,7 @@ enum LoadMetricType {
   aLBTargetGroupRequestCount,
 }
 
-extension on LoadMetricType {
+extension LoadMetricTypeValueExtension on LoadMetricType {
   String toValue() {
     switch (this) {
       case LoadMetricType.aSGTotalCPUUtilization:
@@ -830,7 +830,7 @@ extension on LoadMetricType {
   }
 }
 
-extension on String {
+extension LoadMetricTypeFromString on String {
   LoadMetricType toLoadMetricType() {
     switch (this) {
       case 'ASGTotalCPUUtilization':
@@ -883,7 +883,7 @@ enum MetricStatistic {
   sum,
 }
 
-extension on MetricStatistic {
+extension MetricStatisticValueExtension on MetricStatistic {
   String toValue() {
     switch (this) {
       case MetricStatistic.average:
@@ -900,7 +900,7 @@ extension on MetricStatistic {
   }
 }
 
-extension on String {
+extension MetricStatisticFromString on String {
   MetricStatistic toMetricStatistic() {
     switch (this) {
       case 'Average':
@@ -922,7 +922,7 @@ enum PolicyType {
   targetTrackingScaling,
 }
 
-extension on PolicyType {
+extension PolicyTypeValueExtension on PolicyType {
   String toValue() {
     switch (this) {
       case PolicyType.targetTrackingScaling:
@@ -931,7 +931,7 @@ extension on PolicyType {
   }
 }
 
-extension on String {
+extension PolicyTypeFromString on String {
   PolicyType toPolicyType() {
     switch (this) {
       case 'TargetTrackingScaling':
@@ -1048,7 +1048,8 @@ enum PredictiveScalingMaxCapacityBehavior {
   setMaxCapacityAboveForecastCapacity,
 }
 
-extension on PredictiveScalingMaxCapacityBehavior {
+extension PredictiveScalingMaxCapacityBehaviorValueExtension
+    on PredictiveScalingMaxCapacityBehavior {
   String toValue() {
     switch (this) {
       case PredictiveScalingMaxCapacityBehavior
@@ -1064,7 +1065,7 @@ extension on PredictiveScalingMaxCapacityBehavior {
   }
 }
 
-extension on String {
+extension PredictiveScalingMaxCapacityBehaviorFromString on String {
   PredictiveScalingMaxCapacityBehavior
       toPredictiveScalingMaxCapacityBehavior() {
     switch (this) {
@@ -1088,7 +1089,7 @@ enum PredictiveScalingMode {
   forecastOnly,
 }
 
-extension on PredictiveScalingMode {
+extension PredictiveScalingModeValueExtension on PredictiveScalingMode {
   String toValue() {
     switch (this) {
       case PredictiveScalingMode.forecastAndScale:
@@ -1099,7 +1100,7 @@ extension on PredictiveScalingMode {
   }
 }
 
-extension on String {
+extension PredictiveScalingModeFromString on String {
   PredictiveScalingMode toPredictiveScalingMode() {
     switch (this) {
       case 'ForecastAndScale':
@@ -1122,7 +1123,7 @@ enum ScalableDimension {
   dynamodbIndexWriteCapacityUnits,
 }
 
-extension on ScalableDimension {
+extension ScalableDimensionValueExtension on ScalableDimension {
   String toValue() {
     switch (this) {
       case ScalableDimension.autoscalingAutoScalingGroupDesiredCapacity:
@@ -1145,7 +1146,7 @@ extension on ScalableDimension {
   }
 }
 
-extension on String {
+extension ScalableDimensionFromString on String {
   ScalableDimension toScalableDimension() {
     switch (this) {
       case 'autoscaling:autoScalingGroup:DesiredCapacity':
@@ -1513,7 +1514,7 @@ enum ScalingMetricType {
   eC2SpotFleetRequestAverageNetworkOut,
 }
 
-extension on ScalingMetricType {
+extension ScalingMetricTypeValueExtension on ScalingMetricType {
   String toValue() {
     switch (this) {
       case ScalingMetricType.aSGAverageCPUUtilization:
@@ -1546,7 +1547,7 @@ extension on ScalingMetricType {
   }
 }
 
-extension on String {
+extension ScalingMetricTypeFromString on String {
   ScalingMetricType toScalingMetricType() {
     switch (this) {
       case 'ASGAverageCPUUtilization':
@@ -1814,7 +1815,7 @@ enum ScalingPlanStatusCode {
   updateFailed,
 }
 
-extension on ScalingPlanStatusCode {
+extension ScalingPlanStatusCodeValueExtension on ScalingPlanStatusCode {
   String toValue() {
     switch (this) {
       case ScalingPlanStatusCode.active:
@@ -1837,7 +1838,7 @@ extension on ScalingPlanStatusCode {
   }
 }
 
-extension on String {
+extension ScalingPlanStatusCodeFromString on String {
   ScalingPlanStatusCode toScalingPlanStatusCode() {
     switch (this) {
       case 'Active':
@@ -1895,7 +1896,8 @@ enum ScalingPolicyUpdateBehavior {
   replaceExternalPolicies,
 }
 
-extension on ScalingPolicyUpdateBehavior {
+extension ScalingPolicyUpdateBehaviorValueExtension
+    on ScalingPolicyUpdateBehavior {
   String toValue() {
     switch (this) {
       case ScalingPolicyUpdateBehavior.keepExternalPolicies:
@@ -1906,7 +1908,7 @@ extension on ScalingPolicyUpdateBehavior {
   }
 }
 
-extension on String {
+extension ScalingPolicyUpdateBehaviorFromString on String {
   ScalingPolicyUpdateBehavior toScalingPolicyUpdateBehavior() {
     switch (this) {
       case 'KeepExternalPolicies':
@@ -1924,7 +1926,7 @@ enum ScalingStatusCode {
   active,
 }
 
-extension on ScalingStatusCode {
+extension ScalingStatusCodeValueExtension on ScalingStatusCode {
   String toValue() {
     switch (this) {
       case ScalingStatusCode.inactive:
@@ -1937,7 +1939,7 @@ extension on ScalingStatusCode {
   }
 }
 
-extension on String {
+extension ScalingStatusCodeFromString on String {
   ScalingStatusCode toScalingStatusCode() {
     switch (this) {
       case 'Inactive':
@@ -1959,7 +1961,7 @@ enum ServiceNamespace {
   dynamodb,
 }
 
-extension on ServiceNamespace {
+extension ServiceNamespaceValueExtension on ServiceNamespace {
   String toValue() {
     switch (this) {
       case ServiceNamespace.autoscaling:
@@ -1976,7 +1978,7 @@ extension on ServiceNamespace {
   }
 }
 
-extension on String {
+extension ServiceNamespaceFromString on String {
   ServiceNamespace toServiceNamespace() {
     switch (this) {
       case 'autoscaling':

@@ -2707,7 +2707,7 @@ enum AttributeType {
   geolocation,
 }
 
-extension on AttributeType {
+extension AttributeTypeValueExtension on AttributeType {
   String toValue() {
     switch (this) {
       case AttributeType.string:
@@ -2724,7 +2724,7 @@ extension on AttributeType {
   }
 }
 
-extension on String {
+extension AttributeTypeFromString on String {
   AttributeType toAttributeType() {
     switch (this) {
       case 'string':
@@ -3168,7 +3168,7 @@ enum DatasetType {
   itemMetadata,
 }
 
-extension on DatasetType {
+extension DatasetTypeValueExtension on DatasetType {
   String toValue() {
     switch (this) {
       case DatasetType.targetTimeSeries:
@@ -3181,7 +3181,7 @@ extension on DatasetType {
   }
 }
 
-extension on String {
+extension DatasetTypeFromString on String {
   DatasetType toDatasetType() {
     switch (this) {
       case 'TARGET_TIME_SERIES':
@@ -3925,7 +3925,7 @@ enum Domain {
   metrics,
 }
 
-extension on Domain {
+extension DomainValueExtension on Domain {
   String toValue() {
     switch (this) {
       case Domain.retail:
@@ -3946,7 +3946,7 @@ extension on Domain {
   }
 }
 
-extension on String {
+extension DomainFromString on String {
   Domain toDomain() {
     switch (this) {
       case 'RETAIL':
@@ -4105,7 +4105,7 @@ enum EvaluationType {
   computed,
 }
 
-extension on EvaluationType {
+extension EvaluationTypeValueExtension on EvaluationType {
   String toValue() {
     switch (this) {
       case EvaluationType.summary:
@@ -4116,7 +4116,7 @@ extension on EvaluationType {
   }
 }
 
-extension on String {
+extension EvaluationTypeFromString on String {
   EvaluationType toEvaluationType() {
     switch (this) {
       case 'SUMMARY':
@@ -4364,7 +4364,7 @@ enum FeaturizationMethodName {
   filling,
 }
 
-extension on FeaturizationMethodName {
+extension FeaturizationMethodNameValueExtension on FeaturizationMethodName {
   String toValue() {
     switch (this) {
       case FeaturizationMethodName.filling:
@@ -4373,7 +4373,7 @@ extension on FeaturizationMethodName {
   }
 }
 
-extension on String {
+extension FeaturizationMethodNameFromString on String {
   FeaturizationMethodName toFeaturizationMethodName() {
     switch (this) {
       case 'filling':
@@ -4422,7 +4422,7 @@ enum FilterConditionString {
   isNot,
 }
 
-extension on FilterConditionString {
+extension FilterConditionStringValueExtension on FilterConditionString {
   String toValue() {
     switch (this) {
       case FilterConditionString.$is:
@@ -4433,7 +4433,7 @@ extension on FilterConditionString {
   }
 }
 
-extension on String {
+extension FilterConditionStringFromString on String {
   FilterConditionString toFilterConditionString() {
     switch (this) {
       case 'IS':
@@ -5272,7 +5272,7 @@ enum ScalingType {
   reverseLogarithmic,
 }
 
-extension on ScalingType {
+extension ScalingTypeValueExtension on ScalingType {
   String toValue() {
     switch (this) {
       case ScalingType.auto:
@@ -5287,7 +5287,7 @@ extension on ScalingType {
   }
 }
 
-extension on String {
+extension ScalingTypeFromString on String {
   ScalingType toScalingType() {
     switch (this) {
       case 'Auto':

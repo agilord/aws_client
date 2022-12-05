@@ -5629,7 +5629,7 @@ enum AZMode {
   crossAz,
 }
 
-extension on AZMode {
+extension AZModeValueExtension on AZMode {
   String toValue() {
     switch (this) {
       case AZMode.singleAz:
@@ -5640,7 +5640,7 @@ extension on AZMode {
   }
 }
 
-extension on String {
+extension AZModeFromString on String {
   AZMode toAZMode() {
     switch (this) {
       case 'single-az':
@@ -5691,7 +5691,7 @@ enum AuthTokenUpdateStatus {
   rotating,
 }
 
-extension on AuthTokenUpdateStatus {
+extension AuthTokenUpdateStatusValueExtension on AuthTokenUpdateStatus {
   String toValue() {
     switch (this) {
       case AuthTokenUpdateStatus.setting:
@@ -5702,7 +5702,7 @@ extension on AuthTokenUpdateStatus {
   }
 }
 
-extension on String {
+extension AuthTokenUpdateStatusFromString on String {
   AuthTokenUpdateStatus toAuthTokenUpdateStatus() {
     switch (this) {
       case 'SETTING':
@@ -5720,7 +5720,8 @@ enum AuthTokenUpdateStrategyType {
   delete,
 }
 
-extension on AuthTokenUpdateStrategyType {
+extension AuthTokenUpdateStrategyTypeValueExtension
+    on AuthTokenUpdateStrategyType {
   String toValue() {
     switch (this) {
       case AuthTokenUpdateStrategyType.set:
@@ -5733,7 +5734,7 @@ extension on AuthTokenUpdateStrategyType {
   }
 }
 
-extension on String {
+extension AuthTokenUpdateStrategyTypeFromString on String {
   AuthTokenUpdateStrategyType toAuthTokenUpdateStrategyType() {
     switch (this) {
       case 'SET':
@@ -5772,7 +5773,7 @@ enum AuthenticationType {
   noPassword,
 }
 
-extension on AuthenticationType {
+extension AuthenticationTypeValueExtension on AuthenticationType {
   String toValue() {
     switch (this) {
       case AuthenticationType.password:
@@ -5783,7 +5784,7 @@ extension on AuthenticationType {
   }
 }
 
-extension on String {
+extension AuthenticationTypeFromString on String {
   AuthenticationType toAuthenticationType() {
     switch (this) {
       case 'password':
@@ -5817,7 +5818,7 @@ enum AutomaticFailoverStatus {
   disabling,
 }
 
-extension on AutomaticFailoverStatus {
+extension AutomaticFailoverStatusValueExtension on AutomaticFailoverStatus {
   String toValue() {
     switch (this) {
       case AutomaticFailoverStatus.enabled:
@@ -5832,7 +5833,7 @@ extension on AutomaticFailoverStatus {
   }
 }
 
-extension on String {
+extension AutomaticFailoverStatusFromString on String {
   AutomaticFailoverStatus toAutomaticFailoverStatus() {
     switch (this) {
       case 'enabled':
@@ -7013,7 +7014,7 @@ enum ChangeType {
   requiresReboot,
 }
 
-extension on ChangeType {
+extension ChangeTypeValueExtension on ChangeType {
   String toValue() {
     switch (this) {
       case ChangeType.immediate:
@@ -7024,7 +7025,7 @@ extension on ChangeType {
   }
 }
 
-extension on String {
+extension ChangeTypeFromString on String {
   ChangeType toChangeType() {
     switch (this) {
       case 'immediate':
@@ -7978,7 +7979,7 @@ enum MultiAZStatus {
   disabled,
 }
 
-extension on MultiAZStatus {
+extension MultiAZStatusValueExtension on MultiAZStatus {
   String toValue() {
     switch (this) {
       case MultiAZStatus.enabled:
@@ -7989,7 +7990,7 @@ extension on MultiAZStatus {
   }
 }
 
-extension on String {
+extension MultiAZStatusFromString on String {
   MultiAZStatus toMultiAZStatus() {
     switch (this) {
       case 'enabled':
@@ -8333,7 +8334,7 @@ enum NodeUpdateInitiatedBy {
   customer,
 }
 
-extension on NodeUpdateInitiatedBy {
+extension NodeUpdateInitiatedByValueExtension on NodeUpdateInitiatedBy {
   String toValue() {
     switch (this) {
       case NodeUpdateInitiatedBy.system:
@@ -8344,7 +8345,7 @@ extension on NodeUpdateInitiatedBy {
   }
 }
 
-extension on String {
+extension NodeUpdateInitiatedByFromString on String {
   NodeUpdateInitiatedBy toNodeUpdateInitiatedBy() {
     switch (this) {
       case 'system':
@@ -8365,7 +8366,7 @@ enum NodeUpdateStatus {
   complete,
 }
 
-extension on NodeUpdateStatus {
+extension NodeUpdateStatusValueExtension on NodeUpdateStatus {
   String toValue() {
     switch (this) {
       case NodeUpdateStatus.notApplied:
@@ -8384,7 +8385,7 @@ extension on NodeUpdateStatus {
   }
 }
 
-extension on String {
+extension NodeUpdateStatusFromString on String {
   NodeUpdateStatus toNodeUpdateStatus() {
     switch (this) {
       case 'not-applied':
@@ -8431,7 +8432,7 @@ enum OutpostMode {
   crossOutpost,
 }
 
-extension on OutpostMode {
+extension OutpostModeValueExtension on OutpostMode {
   String toValue() {
     switch (this) {
       case OutpostMode.singleOutpost:
@@ -8442,7 +8443,7 @@ extension on OutpostMode {
   }
 }
 
-extension on String {
+extension OutpostModeFromString on String {
   OutpostMode toOutpostMode() {
     switch (this) {
       case 'single-outpost':
@@ -8545,7 +8546,8 @@ enum PendingAutomaticFailoverStatus {
   disabled,
 }
 
-extension on PendingAutomaticFailoverStatus {
+extension PendingAutomaticFailoverStatusValueExtension
+    on PendingAutomaticFailoverStatus {
   String toValue() {
     switch (this) {
       case PendingAutomaticFailoverStatus.enabled:
@@ -8556,7 +8558,7 @@ extension on PendingAutomaticFailoverStatus {
   }
 }
 
-extension on String {
+extension PendingAutomaticFailoverStatusFromString on String {
   PendingAutomaticFailoverStatus toPendingAutomaticFailoverStatus() {
     switch (this) {
       case 'enabled':
@@ -9633,7 +9635,7 @@ enum ServiceUpdateSeverity {
   low,
 }
 
-extension on ServiceUpdateSeverity {
+extension ServiceUpdateSeverityValueExtension on ServiceUpdateSeverity {
   String toValue() {
     switch (this) {
       case ServiceUpdateSeverity.critical:
@@ -9648,7 +9650,7 @@ extension on ServiceUpdateSeverity {
   }
 }
 
-extension on String {
+extension ServiceUpdateSeverityFromString on String {
   ServiceUpdateSeverity toServiceUpdateSeverity() {
     switch (this) {
       case 'critical':
@@ -9670,7 +9672,7 @@ enum ServiceUpdateStatus {
   expired,
 }
 
-extension on ServiceUpdateStatus {
+extension ServiceUpdateStatusValueExtension on ServiceUpdateStatus {
   String toValue() {
     switch (this) {
       case ServiceUpdateStatus.available:
@@ -9683,7 +9685,7 @@ extension on ServiceUpdateStatus {
   }
 }
 
-extension on String {
+extension ServiceUpdateStatusFromString on String {
   ServiceUpdateStatus toServiceUpdateStatus() {
     switch (this) {
       case 'available':
@@ -9701,7 +9703,7 @@ enum ServiceUpdateType {
   securityUpdate,
 }
 
-extension on ServiceUpdateType {
+extension ServiceUpdateTypeValueExtension on ServiceUpdateType {
   String toValue() {
     switch (this) {
       case ServiceUpdateType.securityUpdate:
@@ -9710,7 +9712,7 @@ extension on ServiceUpdateType {
   }
 }
 
-extension on String {
+extension ServiceUpdateTypeFromString on String {
   ServiceUpdateType toServiceUpdateType() {
     switch (this) {
       case 'security-update':
@@ -9752,7 +9754,7 @@ enum SlaMet {
   na,
 }
 
-extension on SlaMet {
+extension SlaMetValueExtension on SlaMet {
   String toValue() {
     switch (this) {
       case SlaMet.yes:
@@ -9765,7 +9767,7 @@ extension on SlaMet {
   }
 }
 
-extension on String {
+extension SlaMetFromString on String {
   SlaMet toSlaMet() {
     switch (this) {
       case 'yes':
@@ -10141,7 +10143,7 @@ enum SourceType {
   userGroup,
 }
 
-extension on SourceType {
+extension SourceTypeValueExtension on SourceType {
   String toValue() {
     switch (this) {
       case SourceType.cacheCluster:
@@ -10162,7 +10164,7 @@ extension on SourceType {
   }
 }
 
-extension on String {
+extension SourceTypeFromString on String {
   SourceType toSourceType() {
     switch (this) {
       case 'cache-cluster':
@@ -10534,7 +10536,7 @@ enum UpdateActionStatus {
   notApplicable,
 }
 
-extension on UpdateActionStatus {
+extension UpdateActionStatusValueExtension on UpdateActionStatus {
   String toValue() {
     switch (this) {
       case UpdateActionStatus.notApplied:
@@ -10559,7 +10561,7 @@ extension on UpdateActionStatus {
   }
 }
 
-extension on String {
+extension UpdateActionStatusFromString on String {
   UpdateActionStatus toUpdateActionStatus() {
     switch (this) {
       case 'not-applied':

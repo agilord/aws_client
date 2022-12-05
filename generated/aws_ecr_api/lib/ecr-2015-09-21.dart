@@ -2535,7 +2535,7 @@ enum EncryptionType {
   kms,
 }
 
-extension on EncryptionType {
+extension EncryptionTypeValueExtension on EncryptionType {
   String toValue() {
     switch (this) {
       case EncryptionType.aes256:
@@ -2546,7 +2546,7 @@ extension on EncryptionType {
   }
 }
 
-extension on String {
+extension EncryptionTypeFromString on String {
   EncryptionType toEncryptionType() {
     switch (this) {
       case 'AES256':
@@ -2567,7 +2567,7 @@ enum FindingSeverity {
   undefined,
 }
 
-extension on FindingSeverity {
+extension FindingSeverityValueExtension on FindingSeverity {
   String toValue() {
     switch (this) {
       case FindingSeverity.informational:
@@ -2586,7 +2586,7 @@ extension on FindingSeverity {
   }
 }
 
-extension on String {
+extension FindingSeverityFromString on String {
   FindingSeverity toFindingSeverity() {
     switch (this) {
       case 'INFORMATIONAL':
@@ -2814,7 +2814,7 @@ enum ImageActionType {
   expire,
 }
 
-extension on ImageActionType {
+extension ImageActionTypeValueExtension on ImageActionType {
   String toValue() {
     switch (this) {
       case ImageActionType.expire:
@@ -2823,7 +2823,7 @@ extension on ImageActionType {
   }
 }
 
-extension on String {
+extension ImageActionTypeFromString on String {
   ImageActionType toImageActionType() {
     switch (this) {
       case 'EXPIRE':
@@ -2950,7 +2950,7 @@ enum ImageFailureCode {
   kmsError,
 }
 
-extension on ImageFailureCode {
+extension ImageFailureCodeValueExtension on ImageFailureCode {
   String toValue() {
     switch (this) {
       case ImageFailureCode.invalidImageDigest:
@@ -2971,7 +2971,7 @@ extension on ImageFailureCode {
   }
 }
 
-extension on String {
+extension ImageFailureCodeFromString on String {
   ImageFailureCode toImageFailureCode() {
     switch (this) {
       case 'InvalidImageDigest':
@@ -3175,7 +3175,7 @@ enum ImageTagMutability {
   immutable,
 }
 
-extension on ImageTagMutability {
+extension ImageTagMutabilityValueExtension on ImageTagMutability {
   String toValue() {
     switch (this) {
       case ImageTagMutability.mutable:
@@ -3186,7 +3186,7 @@ extension on ImageTagMutability {
   }
 }
 
-extension on String {
+extension ImageTagMutabilityFromString on String {
   ImageTagMutability toImageTagMutability() {
     switch (this) {
       case 'MUTABLE':
@@ -3256,7 +3256,7 @@ enum LayerAvailability {
   unavailable,
 }
 
-extension on LayerAvailability {
+extension LayerAvailabilityValueExtension on LayerAvailability {
   String toValue() {
     switch (this) {
       case LayerAvailability.available:
@@ -3267,7 +3267,7 @@ extension on LayerAvailability {
   }
 }
 
-extension on String {
+extension LayerAvailabilityFromString on String {
   LayerAvailability toLayerAvailability() {
     switch (this) {
       case 'AVAILABLE':
@@ -3309,7 +3309,7 @@ enum LayerFailureCode {
   missingLayerDigest,
 }
 
-extension on LayerFailureCode {
+extension LayerFailureCodeValueExtension on LayerFailureCode {
   String toValue() {
     switch (this) {
       case LayerFailureCode.invalidLayerDigest:
@@ -3320,7 +3320,7 @@ extension on LayerFailureCode {
   }
 }
 
-extension on String {
+extension LayerFailureCodeFromString on String {
   LayerFailureCode toLayerFailureCode() {
     switch (this) {
       case 'InvalidLayerDigest':
@@ -3397,7 +3397,8 @@ enum LifecyclePolicyPreviewStatus {
   failed,
 }
 
-extension on LifecyclePolicyPreviewStatus {
+extension LifecyclePolicyPreviewStatusValueExtension
+    on LifecyclePolicyPreviewStatus {
   String toValue() {
     switch (this) {
       case LifecyclePolicyPreviewStatus.inProgress:
@@ -3412,7 +3413,7 @@ extension on LifecyclePolicyPreviewStatus {
   }
 }
 
-extension on String {
+extension LifecyclePolicyPreviewStatusFromString on String {
   LifecyclePolicyPreviewStatus toLifecyclePolicyPreviewStatus() {
     switch (this) {
       case 'IN_PROGRESS':
@@ -3803,7 +3804,7 @@ enum ScanStatus {
   failed,
 }
 
-extension on ScanStatus {
+extension ScanStatusValueExtension on ScanStatus {
   String toValue() {
     switch (this) {
       case ScanStatus.inProgress:
@@ -3816,7 +3817,7 @@ extension on ScanStatus {
   }
 }
 
-extension on String {
+extension ScanStatusFromString on String {
   ScanStatus toScanStatus() {
     switch (this) {
       case 'IN_PROGRESS':
@@ -3964,7 +3965,7 @@ enum TagStatus {
   any,
 }
 
-extension on TagStatus {
+extension TagStatusValueExtension on TagStatus {
   String toValue() {
     switch (this) {
       case TagStatus.tagged:
@@ -3977,7 +3978,7 @@ extension on TagStatus {
   }
 }
 
-extension on String {
+extension TagStatusFromString on String {
   TagStatus toTagStatus() {
     switch (this) {
       case 'TAGGED':

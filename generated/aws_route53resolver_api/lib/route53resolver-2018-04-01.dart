@@ -3207,7 +3207,7 @@ enum IpAddressStatus {
   deleteFailedFasExpired,
 }
 
-extension on IpAddressStatus {
+extension IpAddressStatusValueExtension on IpAddressStatus {
   String toValue() {
     switch (this) {
       case IpAddressStatus.creating:
@@ -3234,7 +3234,7 @@ extension on IpAddressStatus {
   }
 }
 
-extension on String {
+extension IpAddressStatusFromString on String {
   IpAddressStatus toIpAddressStatus() {
     switch (this) {
       case 'CREATING':
@@ -3621,7 +3621,8 @@ enum ResolverDNSSECValidationStatus {
   disabled,
 }
 
-extension on ResolverDNSSECValidationStatus {
+extension ResolverDNSSECValidationStatusValueExtension
+    on ResolverDNSSECValidationStatus {
   String toValue() {
     switch (this) {
       case ResolverDNSSECValidationStatus.enabling:
@@ -3636,7 +3637,7 @@ extension on ResolverDNSSECValidationStatus {
   }
 }
 
-extension on String {
+extension ResolverDNSSECValidationStatusFromString on String {
   ResolverDNSSECValidationStatus toResolverDNSSECValidationStatus() {
     switch (this) {
       case 'ENABLING':
@@ -3863,7 +3864,7 @@ enum ResolverEndpointDirection {
   outbound,
 }
 
-extension on ResolverEndpointDirection {
+extension ResolverEndpointDirectionValueExtension on ResolverEndpointDirection {
   String toValue() {
     switch (this) {
       case ResolverEndpointDirection.inbound:
@@ -3874,7 +3875,7 @@ extension on ResolverEndpointDirection {
   }
 }
 
-extension on String {
+extension ResolverEndpointDirectionFromString on String {
   ResolverEndpointDirection toResolverEndpointDirection() {
     switch (this) {
       case 'INBOUND':
@@ -3895,7 +3896,7 @@ enum ResolverEndpointStatus {
   deleting,
 }
 
-extension on ResolverEndpointStatus {
+extension ResolverEndpointStatusValueExtension on ResolverEndpointStatus {
   String toValue() {
     switch (this) {
       case ResolverEndpointStatus.creating:
@@ -3914,7 +3915,7 @@ extension on ResolverEndpointStatus {
   }
 }
 
-extension on String {
+extension ResolverEndpointStatusFromString on String {
   ResolverEndpointStatus toResolverEndpointStatus() {
     switch (this) {
       case 'CREATING':
@@ -4141,7 +4142,8 @@ enum ResolverQueryLogConfigAssociationError {
   internalServiceError,
 }
 
-extension on ResolverQueryLogConfigAssociationError {
+extension ResolverQueryLogConfigAssociationErrorValueExtension
+    on ResolverQueryLogConfigAssociationError {
   String toValue() {
     switch (this) {
       case ResolverQueryLogConfigAssociationError.none:
@@ -4156,7 +4158,7 @@ extension on ResolverQueryLogConfigAssociationError {
   }
 }
 
-extension on String {
+extension ResolverQueryLogConfigAssociationErrorFromString on String {
   ResolverQueryLogConfigAssociationError
       toResolverQueryLogConfigAssociationError() {
     switch (this) {
@@ -4182,7 +4184,8 @@ enum ResolverQueryLogConfigAssociationStatus {
   failed,
 }
 
-extension on ResolverQueryLogConfigAssociationStatus {
+extension ResolverQueryLogConfigAssociationStatusValueExtension
+    on ResolverQueryLogConfigAssociationStatus {
   String toValue() {
     switch (this) {
       case ResolverQueryLogConfigAssociationStatus.creating:
@@ -4199,7 +4202,7 @@ extension on ResolverQueryLogConfigAssociationStatus {
   }
 }
 
-extension on String {
+extension ResolverQueryLogConfigAssociationStatusFromString on String {
   ResolverQueryLogConfigAssociationStatus
       toResolverQueryLogConfigAssociationStatus() {
     switch (this) {
@@ -4226,7 +4229,8 @@ enum ResolverQueryLogConfigStatus {
   failed,
 }
 
-extension on ResolverQueryLogConfigStatus {
+extension ResolverQueryLogConfigStatusValueExtension
+    on ResolverQueryLogConfigStatus {
   String toValue() {
     switch (this) {
       case ResolverQueryLogConfigStatus.creating:
@@ -4241,7 +4245,7 @@ extension on ResolverQueryLogConfigStatus {
   }
 }
 
-extension on String {
+extension ResolverQueryLogConfigStatusFromString on String {
   ResolverQueryLogConfigStatus toResolverQueryLogConfigStatus() {
     switch (this) {
       case 'CREATING':
@@ -4442,7 +4446,8 @@ enum ResolverRuleAssociationStatus {
   overridden,
 }
 
-extension on ResolverRuleAssociationStatus {
+extension ResolverRuleAssociationStatusValueExtension
+    on ResolverRuleAssociationStatus {
   String toValue() {
     switch (this) {
       case ResolverRuleAssociationStatus.creating:
@@ -4459,7 +4464,7 @@ extension on ResolverRuleAssociationStatus {
   }
 }
 
-extension on String {
+extension ResolverRuleAssociationStatusFromString on String {
   ResolverRuleAssociationStatus toResolverRuleAssociationStatus() {
     switch (this) {
       case 'CREATING':
@@ -4517,7 +4522,7 @@ enum ResolverRuleStatus {
   failed,
 }
 
-extension on ResolverRuleStatus {
+extension ResolverRuleStatusValueExtension on ResolverRuleStatus {
   String toValue() {
     switch (this) {
       case ResolverRuleStatus.complete:
@@ -4532,7 +4537,7 @@ extension on ResolverRuleStatus {
   }
 }
 
-extension on String {
+extension ResolverRuleStatusFromString on String {
   ResolverRuleStatus toResolverRuleStatus() {
     switch (this) {
       case 'COMPLETE':
@@ -4554,7 +4559,7 @@ enum RuleTypeOption {
   recursive,
 }
 
-extension on RuleTypeOption {
+extension RuleTypeOptionValueExtension on RuleTypeOption {
   String toValue() {
     switch (this) {
       case RuleTypeOption.forward:
@@ -4567,7 +4572,7 @@ extension on RuleTypeOption {
   }
 }
 
-extension on String {
+extension RuleTypeOptionFromString on String {
   RuleTypeOption toRuleTypeOption() {
     switch (this) {
       case 'FORWARD':
@@ -4587,7 +4592,7 @@ enum ShareStatus {
   sharedByMe,
 }
 
-extension on ShareStatus {
+extension ShareStatusValueExtension on ShareStatus {
   String toValue() {
     switch (this) {
       case ShareStatus.notShared:
@@ -4600,7 +4605,7 @@ extension on ShareStatus {
   }
 }
 
-extension on String {
+extension ShareStatusFromString on String {
   ShareStatus toShareStatus() {
     switch (this) {
       case 'NOT_SHARED':
@@ -4619,7 +4624,7 @@ enum SortOrder {
   descending,
 }
 
-extension on SortOrder {
+extension SortOrderValueExtension on SortOrder {
   String toValue() {
     switch (this) {
       case SortOrder.ascending:
@@ -4630,7 +4635,7 @@ extension on SortOrder {
   }
 }
 
-extension on String {
+extension SortOrderFromString on String {
   SortOrder toSortOrder() {
     switch (this) {
       case 'ASCENDING':
@@ -4779,7 +4784,7 @@ enum Validation {
   disable,
 }
 
-extension on Validation {
+extension ValidationValueExtension on Validation {
   String toValue() {
     switch (this) {
       case Validation.enable:
@@ -4790,7 +4795,7 @@ extension on Validation {
   }
 }
 
-extension on String {
+extension ValidationFromString on String {
   Validation toValidation() {
     switch (this) {
       case 'ENABLE':

@@ -231,7 +231,7 @@ enum AWSRegion {
   cnNorthwest_1,
 }
 
-extension on AWSRegion {
+extension AWSRegionValueExtension on AWSRegion {
   String toValue() {
     switch (this) {
       case AWSRegion.afSouth_1:
@@ -284,7 +284,7 @@ extension on AWSRegion {
   }
 }
 
-extension on String {
+extension AWSRegionFromString on String {
   AWSRegion toAWSRegion() {
     switch (this) {
       case 'af-south-1':
@@ -345,7 +345,7 @@ enum AdditionalArtifact {
   athena,
 }
 
-extension on AdditionalArtifact {
+extension AdditionalArtifactValueExtension on AdditionalArtifact {
   String toValue() {
     switch (this) {
       case AdditionalArtifact.redshift:
@@ -358,7 +358,7 @@ extension on AdditionalArtifact {
   }
 }
 
-extension on String {
+extension AdditionalArtifactFromString on String {
   AdditionalArtifact toAdditionalArtifact() {
     switch (this) {
       case 'REDSHIFT':
@@ -379,7 +379,7 @@ enum CompressionFormat {
   parquet,
 }
 
-extension on CompressionFormat {
+extension CompressionFormatValueExtension on CompressionFormat {
   String toValue() {
     switch (this) {
       case CompressionFormat.zip:
@@ -392,7 +392,7 @@ extension on CompressionFormat {
   }
 }
 
-extension on String {
+extension CompressionFormatFromString on String {
   CompressionFormat toCompressionFormat() {
     switch (this) {
       case 'ZIP':
@@ -562,7 +562,7 @@ enum ReportFormat {
   parquet,
 }
 
-extension on ReportFormat {
+extension ReportFormatValueExtension on ReportFormat {
   String toValue() {
     switch (this) {
       case ReportFormat.textORcsv:
@@ -573,7 +573,7 @@ extension on ReportFormat {
   }
 }
 
-extension on String {
+extension ReportFormatFromString on String {
   ReportFormat toReportFormat() {
     switch (this) {
       case 'textORcsv':
@@ -590,7 +590,7 @@ enum ReportVersioning {
   overwriteReport,
 }
 
-extension on ReportVersioning {
+extension ReportVersioningValueExtension on ReportVersioning {
   String toValue() {
     switch (this) {
       case ReportVersioning.createNewReport:
@@ -601,7 +601,7 @@ extension on ReportVersioning {
   }
 }
 
-extension on String {
+extension ReportVersioningFromString on String {
   ReportVersioning toReportVersioning() {
     switch (this) {
       case 'CREATE_NEW_REPORT':
@@ -618,7 +618,7 @@ enum SchemaElement {
   resources,
 }
 
-extension on SchemaElement {
+extension SchemaElementValueExtension on SchemaElement {
   String toValue() {
     switch (this) {
       case SchemaElement.resources:
@@ -627,7 +627,7 @@ extension on SchemaElement {
   }
 }
 
-extension on String {
+extension SchemaElementFromString on String {
   SchemaElement toSchemaElement() {
     switch (this) {
       case 'RESOURCES':
@@ -644,7 +644,7 @@ enum TimeUnit {
   monthly,
 }
 
-extension on TimeUnit {
+extension TimeUnitValueExtension on TimeUnit {
   String toValue() {
     switch (this) {
       case TimeUnit.hourly:
@@ -657,7 +657,7 @@ extension on TimeUnit {
   }
 }
 
-extension on String {
+extension TimeUnitFromString on String {
   TimeUnit toTimeUnit() {
     switch (this) {
       case 'HOURLY':

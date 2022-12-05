@@ -1674,7 +1674,7 @@ enum EncryptionStatus {
   active,
 }
 
-extension on EncryptionStatus {
+extension EncryptionStatusValueExtension on EncryptionStatus {
   String toValue() {
     switch (this) {
       case EncryptionStatus.updating:
@@ -1685,7 +1685,7 @@ extension on EncryptionStatus {
   }
 }
 
-extension on String {
+extension EncryptionStatusFromString on String {
   EncryptionStatus toEncryptionStatus() {
     switch (this) {
       case 'UPDATING':
@@ -1702,7 +1702,7 @@ enum EncryptionType {
   kms,
 }
 
-extension on EncryptionType {
+extension EncryptionTypeValueExtension on EncryptionType {
   String toValue() {
     switch (this) {
       case EncryptionType.none:
@@ -1713,7 +1713,7 @@ extension on EncryptionType {
   }
 }
 
-extension on String {
+extension EncryptionTypeFromString on String {
   EncryptionType toEncryptionType() {
     switch (this) {
       case 'NONE':
@@ -2615,7 +2615,7 @@ enum InsightCategory {
   fault,
 }
 
-extension on InsightCategory {
+extension InsightCategoryValueExtension on InsightCategory {
   String toValue() {
     switch (this) {
       case InsightCategory.fault:
@@ -2624,7 +2624,7 @@ extension on InsightCategory {
   }
 }
 
-extension on String {
+extension InsightCategoryFromString on String {
   InsightCategory toInsightCategory() {
     switch (this) {
       case 'FAULT':
@@ -2774,7 +2774,7 @@ enum InsightState {
   closed,
 }
 
-extension on InsightState {
+extension InsightStateValueExtension on InsightState {
   String toValue() {
     switch (this) {
       case InsightState.active:
@@ -2785,7 +2785,7 @@ extension on InsightState {
   }
 }
 
-extension on String {
+extension InsightStateFromString on String {
   InsightState toInsightState() {
     switch (this) {
       case 'ACTIVE':
@@ -3507,7 +3507,7 @@ enum SamplingStrategyName {
   fixedRate,
 }
 
-extension on SamplingStrategyName {
+extension SamplingStrategyNameValueExtension on SamplingStrategyName {
   String toValue() {
     switch (this) {
       case SamplingStrategyName.partialScan:
@@ -3518,7 +3518,7 @@ extension on SamplingStrategyName {
   }
 }
 
-extension on String {
+extension SamplingStrategyNameFromString on String {
   SamplingStrategyName toSamplingStrategyName() {
     switch (this) {
       case 'PartialScan':
@@ -3900,7 +3900,7 @@ enum TimeRangeType {
   event,
 }
 
-extension on TimeRangeType {
+extension TimeRangeTypeValueExtension on TimeRangeType {
   String toValue() {
     switch (this) {
       case TimeRangeType.traceId:
@@ -3911,7 +3911,7 @@ extension on TimeRangeType {
   }
 }
 
-extension on String {
+extension TimeRangeTypeFromString on String {
   TimeRangeType toTimeRangeType() {
     switch (this) {
       case 'TraceId':

@@ -7927,7 +7927,7 @@ enum AccountType {
   enterpriseOIDC,
 }
 
-extension on AccountType {
+extension AccountTypeValueExtension on AccountType {
   String toValue() {
     switch (this) {
       case AccountType.team:
@@ -7942,7 +7942,7 @@ extension on AccountType {
   }
 }
 
-extension on String {
+extension AccountTypeFromString on String {
   AccountType toAccountType() {
     switch (this) {
       case 'Team':
@@ -8075,7 +8075,7 @@ enum AppInstanceDataType {
   channelMessage,
 }
 
-extension on AppInstanceDataType {
+extension AppInstanceDataTypeValueExtension on AppInstanceDataType {
   String toValue() {
     switch (this) {
       case AppInstanceDataType.channel:
@@ -8086,7 +8086,7 @@ extension on AppInstanceDataType {
   }
 }
 
-extension on String {
+extension AppInstanceDataTypeFromString on String {
   AppInstanceDataType toAppInstanceDataType() {
     switch (this) {
       case 'Channel':
@@ -8554,7 +8554,7 @@ enum BotType {
   chatBot,
 }
 
-extension on BotType {
+extension BotTypeValueExtension on BotType {
   String toValue() {
     switch (this) {
       case BotType.chatBot:
@@ -8563,7 +8563,7 @@ extension on BotType {
   }
 }
 
-extension on String {
+extension BotTypeFromString on String {
   BotType toBotType() {
     switch (this) {
       case 'ChatBot':
@@ -8604,7 +8604,7 @@ enum CallingNameStatus {
   updateFailed,
 }
 
-extension on CallingNameStatus {
+extension CallingNameStatusValueExtension on CallingNameStatus {
   String toValue() {
     switch (this) {
       case CallingNameStatus.unassigned:
@@ -8619,7 +8619,7 @@ extension on CallingNameStatus {
   }
 }
 
-extension on String {
+extension CallingNameStatusFromString on String {
   CallingNameStatus toCallingNameStatus() {
     switch (this) {
       case 'Unassigned':
@@ -8640,7 +8640,7 @@ enum Capability {
   sms,
 }
 
-extension on Capability {
+extension CapabilityValueExtension on Capability {
   String toValue() {
     switch (this) {
       case Capability.voice:
@@ -8651,7 +8651,7 @@ extension on Capability {
   }
 }
 
-extension on String {
+extension CapabilityFromString on String {
   Capability toCapability() {
     switch (this) {
       case 'Voice':
@@ -8865,7 +8865,7 @@ enum ChannelMembershipType {
   hidden,
 }
 
-extension on ChannelMembershipType {
+extension ChannelMembershipTypeValueExtension on ChannelMembershipType {
   String toValue() {
     switch (this) {
       case ChannelMembershipType.$default:
@@ -8876,7 +8876,7 @@ extension on ChannelMembershipType {
   }
 }
 
-extension on String {
+extension ChannelMembershipTypeFromString on String {
   ChannelMembershipType toChannelMembershipType() {
     switch (this) {
       case 'DEFAULT':
@@ -8960,7 +8960,8 @@ enum ChannelMessagePersistenceType {
   nonPersistent,
 }
 
-extension on ChannelMessagePersistenceType {
+extension ChannelMessagePersistenceTypeValueExtension
+    on ChannelMessagePersistenceType {
   String toValue() {
     switch (this) {
       case ChannelMessagePersistenceType.persistent:
@@ -8971,7 +8972,7 @@ extension on ChannelMessagePersistenceType {
   }
 }
 
-extension on String {
+extension ChannelMessagePersistenceTypeFromString on String {
   ChannelMessagePersistenceType toChannelMessagePersistenceType() {
     switch (this) {
       case 'PERSISTENT':
@@ -9041,7 +9042,7 @@ enum ChannelMessageType {
   control,
 }
 
-extension on ChannelMessageType {
+extension ChannelMessageTypeValueExtension on ChannelMessageType {
   String toValue() {
     switch (this) {
       case ChannelMessageType.standard:
@@ -9052,7 +9053,7 @@ extension on ChannelMessageType {
   }
 }
 
-extension on String {
+extension ChannelMessageTypeFromString on String {
   ChannelMessageType toChannelMessageType() {
     switch (this) {
       case 'STANDARD':
@@ -9069,7 +9070,7 @@ enum ChannelMode {
   restricted,
 }
 
-extension on ChannelMode {
+extension ChannelModeValueExtension on ChannelMode {
   String toValue() {
     switch (this) {
       case ChannelMode.unrestricted:
@@ -9080,7 +9081,7 @@ extension on ChannelMode {
   }
 }
 
-extension on String {
+extension ChannelModeFromString on String {
   ChannelMode toChannelMode() {
     switch (this) {
       case 'UNRESTRICTED':
@@ -9166,7 +9167,7 @@ enum ChannelPrivacy {
   private,
 }
 
-extension on ChannelPrivacy {
+extension ChannelPrivacyValueExtension on ChannelPrivacy {
   String toValue() {
     switch (this) {
       case ChannelPrivacy.public:
@@ -9177,7 +9178,7 @@ extension on ChannelPrivacy {
   }
 }
 
-extension on String {
+extension ChannelPrivacyFromString on String {
   ChannelPrivacy toChannelPrivacy() {
     switch (this) {
       case 'PUBLIC':
@@ -10030,7 +10031,7 @@ enum EmailStatus {
   failed,
 }
 
-extension on EmailStatus {
+extension EmailStatusValueExtension on EmailStatus {
   String toValue() {
     switch (this) {
       case EmailStatus.notSent:
@@ -10043,7 +10044,7 @@ extension on EmailStatus {
   }
 }
 
-extension on String {
+extension EmailStatusFromString on String {
   EmailStatus toEmailStatus() {
     switch (this) {
       case 'NotSent':
@@ -10103,7 +10104,7 @@ enum ErrorCode {
   phoneNumberAssociationsExist,
 }
 
-extension on ErrorCode {
+extension ErrorCodeValueExtension on ErrorCode {
   String toValue() {
     switch (this) {
       case ErrorCode.badRequest:
@@ -10140,7 +10141,7 @@ extension on ErrorCode {
   }
 }
 
-extension on String {
+extension ErrorCodeFromString on String {
   ErrorCode toErrorCode() {
     switch (this) {
       case 'BadRequest':
@@ -10210,7 +10211,7 @@ enum GeoMatchLevel {
   areaCode,
 }
 
-extension on GeoMatchLevel {
+extension GeoMatchLevelValueExtension on GeoMatchLevel {
   String toValue() {
     switch (this) {
       case GeoMatchLevel.country:
@@ -10221,7 +10222,7 @@ extension on GeoMatchLevel {
   }
 }
 
-extension on String {
+extension GeoMatchLevelFromString on String {
   GeoMatchLevel toGeoMatchLevel() {
     switch (this) {
       case 'Country':
@@ -10874,7 +10875,7 @@ enum InviteStatus {
   failed,
 }
 
-extension on InviteStatus {
+extension InviteStatusValueExtension on InviteStatus {
   String toValue() {
     switch (this) {
       case InviteStatus.pending:
@@ -10887,7 +10888,7 @@ extension on InviteStatus {
   }
 }
 
-extension on String {
+extension InviteStatusFromString on String {
   InviteStatus toInviteStatus() {
     switch (this) {
       case 'Pending':
@@ -10925,7 +10926,7 @@ enum License {
   proTrial,
 }
 
-extension on License {
+extension LicenseValueExtension on License {
   String toValue() {
     switch (this) {
       case License.basic:
@@ -10940,7 +10941,7 @@ extension on License {
   }
 }
 
-extension on String {
+extension LicenseFromString on String {
   License toLicense() {
     switch (this) {
       case 'Basic':
@@ -11811,7 +11812,7 @@ enum MemberType {
   webhook,
 }
 
-extension on MemberType {
+extension MemberTypeValueExtension on MemberType {
   String toValue() {
     switch (this) {
       case MemberType.user:
@@ -11824,7 +11825,7 @@ extension on MemberType {
   }
 }
 
-extension on String {
+extension MemberTypeFromString on String {
   MemberType toMemberType() {
     switch (this) {
       case 'User':
@@ -11881,7 +11882,7 @@ enum NotificationTarget {
   sqs,
 }
 
-extension on NotificationTarget {
+extension NotificationTargetValueExtension on NotificationTarget {
   String toValue() {
     switch (this) {
       case NotificationTarget.eventBridge:
@@ -11894,7 +11895,7 @@ extension on NotificationTarget {
   }
 }
 
-extension on String {
+extension NotificationTargetFromString on String {
   NotificationTarget toNotificationTarget() {
     switch (this) {
       case 'EventBridge':
@@ -11913,7 +11914,7 @@ enum NumberSelectionBehavior {
   avoidSticky,
 }
 
-extension on NumberSelectionBehavior {
+extension NumberSelectionBehaviorValueExtension on NumberSelectionBehavior {
   String toValue() {
     switch (this) {
       case NumberSelectionBehavior.preferSticky:
@@ -11924,7 +11925,7 @@ extension on NumberSelectionBehavior {
   }
 }
 
-extension on String {
+extension NumberSelectionBehaviorFromString on String {
   NumberSelectionBehavior toNumberSelectionBehavior() {
     switch (this) {
       case 'PreferSticky':
@@ -11962,7 +11963,7 @@ enum OrderedPhoneNumberStatus {
   failed,
 }
 
-extension on OrderedPhoneNumberStatus {
+extension OrderedPhoneNumberStatusValueExtension on OrderedPhoneNumberStatus {
   String toValue() {
     switch (this) {
       case OrderedPhoneNumberStatus.processing:
@@ -11975,7 +11976,7 @@ extension on OrderedPhoneNumberStatus {
   }
 }
 
-extension on String {
+extension OrderedPhoneNumberStatusFromString on String {
   OrderedPhoneNumberStatus toOrderedPhoneNumberStatus() {
     switch (this) {
       case 'Processing':
@@ -12084,7 +12085,7 @@ enum OriginationRouteProtocol {
   udp,
 }
 
-extension on OriginationRouteProtocol {
+extension OriginationRouteProtocolValueExtension on OriginationRouteProtocol {
   String toValue() {
     switch (this) {
       case OriginationRouteProtocol.tcp:
@@ -12095,7 +12096,7 @@ extension on OriginationRouteProtocol {
   }
 }
 
-extension on String {
+extension OriginationRouteProtocolFromString on String {
   OriginationRouteProtocol toOriginationRouteProtocol() {
     switch (this) {
       case 'TCP':
@@ -12243,7 +12244,8 @@ enum PhoneNumberAssociationName {
   sipRuleId,
 }
 
-extension on PhoneNumberAssociationName {
+extension PhoneNumberAssociationNameValueExtension
+    on PhoneNumberAssociationName {
   String toValue() {
     switch (this) {
       case PhoneNumberAssociationName.accountId:
@@ -12260,7 +12262,7 @@ extension on PhoneNumberAssociationName {
   }
 }
 
-extension on String {
+extension PhoneNumberAssociationNameFromString on String {
   PhoneNumberAssociationName toPhoneNumberAssociationName() {
     switch (this) {
       case 'AccountId':
@@ -12397,7 +12399,7 @@ enum PhoneNumberOrderStatus {
   partial,
 }
 
-extension on PhoneNumberOrderStatus {
+extension PhoneNumberOrderStatusValueExtension on PhoneNumberOrderStatus {
   String toValue() {
     switch (this) {
       case PhoneNumberOrderStatus.processing:
@@ -12412,7 +12414,7 @@ extension on PhoneNumberOrderStatus {
   }
 }
 
-extension on String {
+extension PhoneNumberOrderStatusFromString on String {
   PhoneNumberOrderStatus toPhoneNumberOrderStatus() {
     switch (this) {
       case 'Processing':
@@ -12433,7 +12435,7 @@ enum PhoneNumberProductType {
   voiceConnector,
 }
 
-extension on PhoneNumberProductType {
+extension PhoneNumberProductTypeValueExtension on PhoneNumberProductType {
   String toValue() {
     switch (this) {
       case PhoneNumberProductType.businessCalling:
@@ -12444,7 +12446,7 @@ extension on PhoneNumberProductType {
   }
 }
 
-extension on String {
+extension PhoneNumberProductTypeFromString on String {
   PhoneNumberProductType toPhoneNumberProductType() {
     switch (this) {
       case 'BusinessCalling':
@@ -12467,7 +12469,7 @@ enum PhoneNumberStatus {
   deleteFailed,
 }
 
-extension on PhoneNumberStatus {
+extension PhoneNumberStatusValueExtension on PhoneNumberStatus {
   String toValue() {
     switch (this) {
       case PhoneNumberStatus.acquireInProgress:
@@ -12490,7 +12492,7 @@ extension on PhoneNumberStatus {
   }
 }
 
-extension on String {
+extension PhoneNumberStatusFromString on String {
   PhoneNumberStatus toPhoneNumberStatus() {
     switch (this) {
       case 'AcquireInProgress':
@@ -12519,7 +12521,7 @@ enum PhoneNumberType {
   tollFree,
 }
 
-extension on PhoneNumberType {
+extension PhoneNumberTypeValueExtension on PhoneNumberType {
   String toValue() {
     switch (this) {
       case PhoneNumberType.local:
@@ -12530,7 +12532,7 @@ extension on PhoneNumberType {
   }
 }
 
-extension on String {
+extension PhoneNumberTypeFromString on String {
   PhoneNumberType toPhoneNumberType() {
     switch (this) {
       case 'Local':
@@ -12669,7 +12671,7 @@ enum ProxySessionStatus {
   closed,
 }
 
-extension on ProxySessionStatus {
+extension ProxySessionStatusValueExtension on ProxySessionStatus {
   String toValue() {
     switch (this) {
       case ProxySessionStatus.open:
@@ -12682,7 +12684,7 @@ extension on ProxySessionStatus {
   }
 }
 
-extension on String {
+extension ProxySessionStatusFromString on String {
   ProxySessionStatus toProxySessionStatus() {
     switch (this) {
       case 'Open':
@@ -12961,7 +12963,7 @@ enum RegistrationStatus {
   suspended,
 }
 
-extension on RegistrationStatus {
+extension RegistrationStatusValueExtension on RegistrationStatus {
   String toValue() {
     switch (this) {
       case RegistrationStatus.unregistered:
@@ -12974,7 +12976,7 @@ extension on RegistrationStatus {
   }
 }
 
-extension on String {
+extension RegistrationStatusFromString on String {
   RegistrationStatus toRegistrationStatus() {
     switch (this) {
       case 'Unregistered':
@@ -13140,7 +13142,7 @@ enum RoomMembershipRole {
   member,
 }
 
-extension on RoomMembershipRole {
+extension RoomMembershipRoleValueExtension on RoomMembershipRole {
   String toValue() {
     switch (this) {
       case RoomMembershipRole.administrator:
@@ -13151,7 +13153,7 @@ extension on RoomMembershipRole {
   }
 }
 
-extension on String {
+extension RoomMembershipRoleFromString on String {
   RoomMembershipRole toRoomMembershipRole() {
     switch (this) {
       case 'Administrator':
@@ -13464,7 +13466,7 @@ enum SipRuleTriggerType {
   requestUriHostname,
 }
 
-extension on SipRuleTriggerType {
+extension SipRuleTriggerTypeValueExtension on SipRuleTriggerType {
   String toValue() {
     switch (this) {
       case SipRuleTriggerType.toPhoneNumber:
@@ -13475,7 +13477,7 @@ extension on SipRuleTriggerType {
   }
 }
 
-extension on String {
+extension SipRuleTriggerTypeFromString on String {
   SipRuleTriggerType toSipRuleTriggerType() {
     switch (this) {
       case 'ToPhoneNumber':
@@ -13492,7 +13494,7 @@ enum SortOrder {
   descending,
 }
 
-extension on SortOrder {
+extension SortOrderValueExtension on SortOrder {
   String toValue() {
     switch (this) {
       case SortOrder.ascending:
@@ -13503,7 +13505,7 @@ extension on SortOrder {
   }
 }
 
-extension on String {
+extension SortOrderFromString on String {
   SortOrder toSortOrder() {
     switch (this) {
       case 'ASCENDING':
@@ -14195,7 +14197,7 @@ enum UserType {
   sharedDevice,
 }
 
-extension on UserType {
+extension UserTypeValueExtension on UserType {
   String toValue() {
     switch (this) {
       case UserType.privateUser:
@@ -14206,7 +14208,7 @@ extension on UserType {
   }
 }
 
-extension on String {
+extension UserTypeFromString on String {
   UserType toUserType() {
     switch (this) {
       case 'PrivateUser':
@@ -14271,7 +14273,7 @@ enum VoiceConnectorAwsRegion {
   usWest_2,
 }
 
-extension on VoiceConnectorAwsRegion {
+extension VoiceConnectorAwsRegionValueExtension on VoiceConnectorAwsRegion {
   String toValue() {
     switch (this) {
       case VoiceConnectorAwsRegion.usEast_1:
@@ -14282,7 +14284,7 @@ extension on VoiceConnectorAwsRegion {
   }
 }
 
-extension on String {
+extension VoiceConnectorAwsRegionFromString on String {
   VoiceConnectorAwsRegion toVoiceConnectorAwsRegion() {
     switch (this) {
       case 'us-east-1':

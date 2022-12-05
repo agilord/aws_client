@@ -3444,7 +3444,7 @@ enum DurationUnit {
   ms,
 }
 
-extension on DurationUnit {
+extension DurationUnitValueExtension on DurationUnit {
   String toValue() {
     switch (this) {
       case DurationUnit.s:
@@ -3455,7 +3455,7 @@ extension on DurationUnit {
   }
 }
 
-extension on String {
+extension DurationUnitFromString on String {
   DurationUnit toDurationUnit() {
     switch (this) {
       case 's':
@@ -3498,7 +3498,7 @@ enum EgressFilterType {
   dropAll,
 }
 
-extension on EgressFilterType {
+extension EgressFilterTypeValueExtension on EgressFilterType {
   String toValue() {
     switch (this) {
       case EgressFilterType.allowAll:
@@ -3509,7 +3509,7 @@ extension on EgressFilterType {
   }
 }
 
-extension on String {
+extension EgressFilterTypeFromString on String {
   EgressFilterType toEgressFilterType() {
     switch (this) {
       case 'ALLOW_ALL':
@@ -3721,7 +3721,7 @@ enum GatewayRouteStatusCode {
   deleted,
 }
 
-extension on GatewayRouteStatusCode {
+extension GatewayRouteStatusCodeValueExtension on GatewayRouteStatusCode {
   String toValue() {
     switch (this) {
       case GatewayRouteStatusCode.active:
@@ -3734,7 +3734,7 @@ extension on GatewayRouteStatusCode {
   }
 }
 
-extension on String {
+extension GatewayRouteStatusCodeFromString on String {
   GatewayRouteStatusCode toGatewayRouteStatusCode() {
     switch (this) {
       case 'ACTIVE':
@@ -3960,7 +3960,7 @@ enum GrpcRetryPolicyEvent {
   unavailable,
 }
 
-extension on GrpcRetryPolicyEvent {
+extension GrpcRetryPolicyEventValueExtension on GrpcRetryPolicyEvent {
   String toValue() {
     switch (this) {
       case GrpcRetryPolicyEvent.cancelled:
@@ -3977,7 +3977,7 @@ extension on GrpcRetryPolicyEvent {
   }
 }
 
-extension on String {
+extension GrpcRetryPolicyEventFromString on String {
   GrpcRetryPolicyEvent toGrpcRetryPolicyEvent() {
     switch (this) {
       case 'cancelled':
@@ -4462,7 +4462,7 @@ enum HttpMethod {
   patch,
 }
 
-extension on HttpMethod {
+extension HttpMethodValueExtension on HttpMethod {
   String toValue() {
     switch (this) {
       case HttpMethod.get:
@@ -4487,7 +4487,7 @@ extension on HttpMethod {
   }
 }
 
-extension on String {
+extension HttpMethodFromString on String {
   HttpMethod toHttpMethod() {
     switch (this) {
       case 'GET':
@@ -4755,7 +4755,7 @@ enum HttpScheme {
   https,
 }
 
-extension on HttpScheme {
+extension HttpSchemeValueExtension on HttpScheme {
   String toValue() {
     switch (this) {
       case HttpScheme.http:
@@ -4766,7 +4766,7 @@ extension on HttpScheme {
   }
 }
 
-extension on String {
+extension HttpSchemeFromString on String {
   HttpScheme toHttpScheme() {
     switch (this) {
       case 'http':
@@ -5301,7 +5301,7 @@ enum ListenerTlsMode {
   disabled,
 }
 
-extension on ListenerTlsMode {
+extension ListenerTlsModeValueExtension on ListenerTlsMode {
   String toValue() {
     switch (this) {
       case ListenerTlsMode.strict:
@@ -5314,7 +5314,7 @@ extension on ListenerTlsMode {
   }
 }
 
-extension on String {
+extension ListenerTlsModeFromString on String {
   ListenerTlsMode toListenerTlsMode() {
     switch (this) {
       case 'STRICT':
@@ -5515,7 +5515,7 @@ enum MeshStatusCode {
   deleted,
 }
 
-extension on MeshStatusCode {
+extension MeshStatusCodeValueExtension on MeshStatusCode {
   String toValue() {
     switch (this) {
       case MeshStatusCode.active:
@@ -5528,7 +5528,7 @@ extension on MeshStatusCode {
   }
 }
 
-extension on String {
+extension MeshStatusCodeFromString on String {
   MeshStatusCode toMeshStatusCode() {
     switch (this) {
       case 'ACTIVE':
@@ -5624,7 +5624,7 @@ enum PortProtocol {
   grpc,
 }
 
-extension on PortProtocol {
+extension PortProtocolValueExtension on PortProtocol {
   String toValue() {
     switch (this) {
       case PortProtocol.http:
@@ -5639,7 +5639,7 @@ extension on PortProtocol {
   }
 }
 
-extension on String {
+extension PortProtocolFromString on String {
   PortProtocol toPortProtocol() {
     switch (this) {
       case 'http':
@@ -5896,7 +5896,7 @@ enum RouteStatusCode {
   deleted,
 }
 
-extension on RouteStatusCode {
+extension RouteStatusCodeValueExtension on RouteStatusCode {
   String toValue() {
     switch (this) {
       case RouteStatusCode.active:
@@ -5909,7 +5909,7 @@ extension on RouteStatusCode {
   }
 }
 
-extension on String {
+extension RouteStatusCodeFromString on String {
   RouteStatusCode toRouteStatusCode() {
     switch (this) {
       case 'ACTIVE':
@@ -6004,7 +6004,7 @@ enum TcpRetryPolicyEvent {
   connectionError,
 }
 
-extension on TcpRetryPolicyEvent {
+extension TcpRetryPolicyEventValueExtension on TcpRetryPolicyEvent {
   String toValue() {
     switch (this) {
       case TcpRetryPolicyEvent.connectionError:
@@ -6013,7 +6013,7 @@ extension on TcpRetryPolicyEvent {
   }
 }
 
-extension on String {
+extension TcpRetryPolicyEventFromString on String {
   TcpRetryPolicyEvent toTcpRetryPolicyEvent() {
     switch (this) {
       case 'connection-error':
@@ -6876,7 +6876,8 @@ enum VirtualGatewayListenerTlsMode {
   disabled,
 }
 
-extension on VirtualGatewayListenerTlsMode {
+extension VirtualGatewayListenerTlsModeValueExtension
+    on VirtualGatewayListenerTlsMode {
   String toValue() {
     switch (this) {
       case VirtualGatewayListenerTlsMode.strict:
@@ -6889,7 +6890,7 @@ extension on VirtualGatewayListenerTlsMode {
   }
 }
 
-extension on String {
+extension VirtualGatewayListenerTlsModeFromString on String {
   VirtualGatewayListenerTlsMode toVirtualGatewayListenerTlsMode() {
     switch (this) {
       case 'STRICT':
@@ -6963,7 +6964,8 @@ enum VirtualGatewayPortProtocol {
   grpc,
 }
 
-extension on VirtualGatewayPortProtocol {
+extension VirtualGatewayPortProtocolValueExtension
+    on VirtualGatewayPortProtocol {
   String toValue() {
     switch (this) {
       case VirtualGatewayPortProtocol.http:
@@ -6976,7 +6978,7 @@ extension on VirtualGatewayPortProtocol {
   }
 }
 
-extension on String {
+extension VirtualGatewayPortProtocolFromString on String {
   VirtualGatewayPortProtocol toVirtualGatewayPortProtocol() {
     switch (this) {
       case 'http':
@@ -7116,7 +7118,7 @@ enum VirtualGatewayStatusCode {
   deleted,
 }
 
-extension on VirtualGatewayStatusCode {
+extension VirtualGatewayStatusCodeValueExtension on VirtualGatewayStatusCode {
   String toValue() {
     switch (this) {
       case VirtualGatewayStatusCode.active:
@@ -7129,7 +7131,7 @@ extension on VirtualGatewayStatusCode {
   }
 }
 
-extension on String {
+extension VirtualGatewayStatusCodeFromString on String {
   VirtualGatewayStatusCode toVirtualGatewayStatusCode() {
     switch (this) {
       case 'ACTIVE':
@@ -7605,7 +7607,7 @@ enum VirtualNodeStatusCode {
   deleted,
 }
 
-extension on VirtualNodeStatusCode {
+extension VirtualNodeStatusCodeValueExtension on VirtualNodeStatusCode {
   String toValue() {
     switch (this) {
       case VirtualNodeStatusCode.active:
@@ -7618,7 +7620,7 @@ extension on VirtualNodeStatusCode {
   }
 }
 
-extension on String {
+extension VirtualNodeStatusCodeFromString on String {
   VirtualNodeStatusCode toVirtualNodeStatusCode() {
     switch (this) {
       case 'ACTIVE':
@@ -7843,7 +7845,7 @@ enum VirtualRouterStatusCode {
   deleted,
 }
 
-extension on VirtualRouterStatusCode {
+extension VirtualRouterStatusCodeValueExtension on VirtualRouterStatusCode {
   String toValue() {
     switch (this) {
       case VirtualRouterStatusCode.active:
@@ -7856,7 +7858,7 @@ extension on VirtualRouterStatusCode {
   }
 }
 
-extension on String {
+extension VirtualRouterStatusCodeFromString on String {
   VirtualRouterStatusCode toVirtualRouterStatusCode() {
     switch (this) {
       case 'ACTIVE':
@@ -8079,7 +8081,7 @@ enum VirtualServiceStatusCode {
   deleted,
 }
 
-extension on VirtualServiceStatusCode {
+extension VirtualServiceStatusCodeValueExtension on VirtualServiceStatusCode {
   String toValue() {
     switch (this) {
       case VirtualServiceStatusCode.active:
@@ -8092,7 +8094,7 @@ extension on VirtualServiceStatusCode {
   }
 }
 
-extension on String {
+extension VirtualServiceStatusCodeFromString on String {
   VirtualServiceStatusCode toVirtualServiceStatusCode() {
     switch (this) {
       case 'ACTIVE':

@@ -2210,7 +2210,7 @@ enum ActionCode {
   select,
 }
 
-extension on ActionCode {
+extension ActionCodeValueExtension on ActionCode {
   String toValue() {
     switch (this) {
       case ActionCode.archiveRetrieval:
@@ -2223,7 +2223,7 @@ extension on ActionCode {
   }
 }
 
-extension on String {
+extension ActionCodeFromString on String {
   ActionCode toActionCode() {
     switch (this) {
       case 'ArchiveRetrieval':
@@ -2389,7 +2389,7 @@ enum CannedACL {
   bucketOwnerFullControl,
 }
 
-extension on CannedACL {
+extension CannedACLValueExtension on CannedACL {
   String toValue() {
     switch (this) {
       case CannedACL.private:
@@ -2410,7 +2410,7 @@ extension on CannedACL {
   }
 }
 
-extension on String {
+extension CannedACLFromString on String {
   CannedACL toCannedACL() {
     switch (this) {
       case 'private':
@@ -2599,7 +2599,7 @@ enum EncryptionType {
   aes256,
 }
 
-extension on EncryptionType {
+extension EncryptionTypeValueExtension on EncryptionType {
   String toValue() {
     switch (this) {
       case EncryptionType.awsKms:
@@ -2610,7 +2610,7 @@ extension on EncryptionType {
   }
 }
 
-extension on String {
+extension EncryptionTypeFromString on String {
   EncryptionType toEncryptionType() {
     switch (this) {
       case 'aws:kms':
@@ -2626,7 +2626,7 @@ enum ExpressionType {
   sql,
 }
 
-extension on ExpressionType {
+extension ExpressionTypeValueExtension on ExpressionType {
   String toValue() {
     switch (this) {
       case ExpressionType.sql:
@@ -2635,7 +2635,7 @@ extension on ExpressionType {
   }
 }
 
-extension on String {
+extension ExpressionTypeFromString on String {
   ExpressionType toExpressionType() {
     switch (this) {
       case 'SQL':
@@ -2651,7 +2651,7 @@ enum FileHeaderInfo {
   none,
 }
 
-extension on FileHeaderInfo {
+extension FileHeaderInfoValueExtension on FileHeaderInfo {
   String toValue() {
     switch (this) {
       case FileHeaderInfo.use:
@@ -2664,7 +2664,7 @@ extension on FileHeaderInfo {
   }
 }
 
-extension on String {
+extension FileHeaderInfoFromString on String {
   FileHeaderInfo toFileHeaderInfo() {
     switch (this) {
       case 'USE':
@@ -3569,7 +3569,7 @@ enum Permission {
   readAcp,
 }
 
-extension on Permission {
+extension PermissionValueExtension on Permission {
   String toValue() {
     switch (this) {
       case Permission.fullControl:
@@ -3586,7 +3586,7 @@ extension on Permission {
   }
 }
 
-extension on String {
+extension PermissionFromString on String {
   Permission toPermission() {
     switch (this) {
       case 'FULL_CONTROL':
@@ -3645,7 +3645,7 @@ enum QuoteFields {
   asneeded,
 }
 
-extension on QuoteFields {
+extension QuoteFieldsValueExtension on QuoteFields {
   String toValue() {
     switch (this) {
       case QuoteFields.always:
@@ -3656,7 +3656,7 @@ extension on QuoteFields {
   }
 }
 
-extension on String {
+extension QuoteFieldsFromString on String {
   QuoteFields toQuoteFields() {
     switch (this) {
       case 'ALWAYS':
@@ -3804,7 +3804,7 @@ enum StatusCode {
   failed,
 }
 
-extension on StatusCode {
+extension StatusCodeValueExtension on StatusCode {
   String toValue() {
     switch (this) {
       case StatusCode.inProgress:
@@ -3817,7 +3817,7 @@ extension on StatusCode {
   }
 }
 
-extension on String {
+extension StatusCodeFromString on String {
   StatusCode toStatusCode() {
     switch (this) {
       case 'InProgress':
@@ -3837,7 +3837,7 @@ enum StorageClass {
   standardIa,
 }
 
-extension on StorageClass {
+extension StorageClassValueExtension on StorageClass {
   String toValue() {
     switch (this) {
       case StorageClass.standard:
@@ -3850,7 +3850,7 @@ extension on StorageClass {
   }
 }
 
-extension on String {
+extension StorageClassFromString on String {
   StorageClass toStorageClass() {
     switch (this) {
       case 'STANDARD':
@@ -3870,7 +3870,7 @@ enum Type {
   group,
 }
 
-extension on Type {
+extension TypeValueExtension on Type {
   String toValue() {
     switch (this) {
       case Type.amazonCustomerByEmail:
@@ -3883,7 +3883,7 @@ extension on Type {
   }
 }
 
-extension on String {
+extension TypeFromString on String {
   Type toType() {
     switch (this) {
       case 'AmazonCustomerByEmail':

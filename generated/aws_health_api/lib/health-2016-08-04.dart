@@ -2103,7 +2103,7 @@ enum EntityStatusCode {
   unknown,
 }
 
-extension on EntityStatusCode {
+extension EntityStatusCodeValueExtension on EntityStatusCode {
   String toValue() {
     switch (this) {
       case EntityStatusCode.impaired:
@@ -2116,7 +2116,7 @@ extension on EntityStatusCode {
   }
 }
 
-extension on String {
+extension EntityStatusCodeFromString on String {
   EntityStatusCode toEntityStatusCode() {
     switch (this) {
       case 'IMPAIRED':
@@ -2134,7 +2134,7 @@ enum EventAggregateField {
   eventTypeCategory,
 }
 
-extension on EventAggregateField {
+extension EventAggregateFieldValueExtension on EventAggregateField {
   String toValue() {
     switch (this) {
       case EventAggregateField.eventTypeCategory:
@@ -2143,7 +2143,7 @@ extension on EventAggregateField {
   }
 }
 
-extension on String {
+extension EventAggregateFieldFromString on String {
   EventAggregateField toEventAggregateField() {
     switch (this) {
       case 'eventTypeCategory':
@@ -2159,7 +2159,7 @@ enum EventScopeCode {
   none,
 }
 
-extension on EventScopeCode {
+extension EventScopeCodeValueExtension on EventScopeCode {
   String toValue() {
     switch (this) {
       case EventScopeCode.public:
@@ -2172,7 +2172,7 @@ extension on EventScopeCode {
   }
 }
 
-extension on String {
+extension EventScopeCodeFromString on String {
   EventScopeCode toEventScopeCode() {
     switch (this) {
       case 'PUBLIC':
@@ -2192,7 +2192,7 @@ enum EventStatusCode {
   upcoming,
 }
 
-extension on EventStatusCode {
+extension EventStatusCodeValueExtension on EventStatusCode {
   String toValue() {
     switch (this) {
       case EventStatusCode.open:
@@ -2205,7 +2205,7 @@ extension on EventStatusCode {
   }
 }
 
-extension on String {
+extension EventStatusCodeFromString on String {
   EventStatusCode toEventStatusCode() {
     switch (this) {
       case 'open':
@@ -2226,7 +2226,7 @@ enum EventTypeCategory {
   investigation,
 }
 
-extension on EventTypeCategory {
+extension EventTypeCategoryValueExtension on EventTypeCategory {
   String toValue() {
     switch (this) {
       case EventTypeCategory.issue:
@@ -2241,7 +2241,7 @@ extension on EventTypeCategory {
   }
 }
 
-extension on String {
+extension EventTypeCategoryFromString on String {
   EventTypeCategory toEventTypeCategory() {
     switch (this) {
       case 'issue':

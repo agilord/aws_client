@@ -1254,7 +1254,7 @@ enum APIName {
   getClip,
 }
 
-extension on APIName {
+extension APINameValueExtension on APIName {
   String toValue() {
     switch (this) {
       case APIName.putMedia:
@@ -1275,7 +1275,7 @@ extension on APIName {
   }
 }
 
-extension on String {
+extension APINameFromString on String {
   APIName toAPIName() {
     switch (this) {
       case 'PUT_MEDIA':
@@ -1379,7 +1379,7 @@ enum ChannelProtocol {
   https,
 }
 
-extension on ChannelProtocol {
+extension ChannelProtocolValueExtension on ChannelProtocol {
   String toValue() {
     switch (this) {
       case ChannelProtocol.wss:
@@ -1390,7 +1390,7 @@ extension on ChannelProtocol {
   }
 }
 
-extension on String {
+extension ChannelProtocolFromString on String {
   ChannelProtocol toChannelProtocol() {
     switch (this) {
       case 'WSS':
@@ -1407,7 +1407,7 @@ enum ChannelRole {
   viewer,
 }
 
-extension on ChannelRole {
+extension ChannelRoleValueExtension on ChannelRole {
   String toValue() {
     switch (this) {
       case ChannelRole.master:
@@ -1418,7 +1418,7 @@ extension on ChannelRole {
   }
 }
 
-extension on String {
+extension ChannelRoleFromString on String {
   ChannelRole toChannelRole() {
     switch (this) {
       case 'MASTER':
@@ -1434,7 +1434,7 @@ enum ChannelType {
   singleMaster,
 }
 
-extension on ChannelType {
+extension ChannelTypeValueExtension on ChannelType {
   String toValue() {
     switch (this) {
       case ChannelType.singleMaster:
@@ -1443,7 +1443,7 @@ extension on ChannelType {
   }
 }
 
-extension on String {
+extension ChannelTypeFromString on String {
   ChannelType toChannelType() {
     switch (this) {
       case 'SINGLE_MASTER':
@@ -1457,7 +1457,7 @@ enum ComparisonOperator {
   beginsWith,
 }
 
-extension on ComparisonOperator {
+extension ComparisonOperatorValueExtension on ComparisonOperator {
   String toValue() {
     switch (this) {
       case ComparisonOperator.beginsWith:
@@ -1466,7 +1466,7 @@ extension on ComparisonOperator {
   }
 }
 
-extension on String {
+extension ComparisonOperatorFromString on String {
   ComparisonOperator toComparisonOperator() {
     switch (this) {
       case 'BEGINS_WITH':
@@ -1763,7 +1763,7 @@ enum Status {
   deleting,
 }
 
-extension on Status {
+extension StatusValueExtension on Status {
   String toValue() {
     switch (this) {
       case Status.creating:
@@ -1778,7 +1778,7 @@ extension on Status {
   }
 }
 
-extension on String {
+extension StatusFromString on String {
   Status toStatus() {
     switch (this) {
       case 'CREATING':
@@ -1936,7 +1936,8 @@ enum UpdateDataRetentionOperation {
   decreaseDataRetention,
 }
 
-extension on UpdateDataRetentionOperation {
+extension UpdateDataRetentionOperationValueExtension
+    on UpdateDataRetentionOperation {
   String toValue() {
     switch (this) {
       case UpdateDataRetentionOperation.increaseDataRetention:
@@ -1947,7 +1948,7 @@ extension on UpdateDataRetentionOperation {
   }
 }
 
-extension on String {
+extension UpdateDataRetentionOperationFromString on String {
   UpdateDataRetentionOperation toUpdateDataRetentionOperation() {
     switch (this) {
       case 'INCREASE_DATA_RETENTION':

@@ -3177,7 +3177,7 @@ enum ArtifactNamespace {
   buildId,
 }
 
-extension on ArtifactNamespace {
+extension ArtifactNamespaceValueExtension on ArtifactNamespace {
   String toValue() {
     switch (this) {
       case ArtifactNamespace.none:
@@ -3188,7 +3188,7 @@ extension on ArtifactNamespace {
   }
 }
 
-extension on String {
+extension ArtifactNamespaceFromString on String {
   ArtifactNamespace toArtifactNamespace() {
     switch (this) {
       case 'NONE':
@@ -3205,7 +3205,7 @@ enum ArtifactPackaging {
   zip,
 }
 
-extension on ArtifactPackaging {
+extension ArtifactPackagingValueExtension on ArtifactPackaging {
   String toValue() {
     switch (this) {
       case ArtifactPackaging.none:
@@ -3216,7 +3216,7 @@ extension on ArtifactPackaging {
   }
 }
 
-extension on String {
+extension ArtifactPackagingFromString on String {
   ArtifactPackaging toArtifactPackaging() {
     switch (this) {
       case 'NONE':
@@ -3234,7 +3234,7 @@ enum ArtifactsType {
   noArtifacts,
 }
 
-extension on ArtifactsType {
+extension ArtifactsTypeValueExtension on ArtifactsType {
   String toValue() {
     switch (this) {
       case ArtifactsType.codepipeline:
@@ -3247,7 +3247,7 @@ extension on ArtifactsType {
   }
 }
 
-extension on String {
+extension ArtifactsTypeFromString on String {
   ArtifactsType toArtifactsType() {
     switch (this) {
       case 'CODEPIPELINE':
@@ -3267,7 +3267,7 @@ enum AuthType {
   personalAccessToken,
 }
 
-extension on AuthType {
+extension AuthTypeValueExtension on AuthType {
   String toValue() {
     switch (this) {
       case AuthType.oauth:
@@ -3280,7 +3280,7 @@ extension on AuthType {
   }
 }
 
-extension on String {
+extension AuthTypeFromString on String {
   AuthType toAuthType() {
     switch (this) {
       case 'OAUTH':
@@ -4211,7 +4211,7 @@ enum BuildBatchPhaseType {
   stopped,
 }
 
-extension on BuildBatchPhaseType {
+extension BuildBatchPhaseTypeValueExtension on BuildBatchPhaseType {
   String toValue() {
     switch (this) {
       case BuildBatchPhaseType.submitted:
@@ -4232,7 +4232,7 @@ extension on BuildBatchPhaseType {
   }
 }
 
-extension on String {
+extension BuildBatchPhaseTypeFromString on String {
   BuildBatchPhaseType toBuildBatchPhaseType() {
     switch (this) {
       case 'SUBMITTED':
@@ -4442,7 +4442,7 @@ enum BuildPhaseType {
   completed,
 }
 
-extension on BuildPhaseType {
+extension BuildPhaseTypeValueExtension on BuildPhaseType {
   String toValue() {
     switch (this) {
       case BuildPhaseType.submitted:
@@ -4471,7 +4471,7 @@ extension on BuildPhaseType {
   }
 }
 
-extension on String {
+extension BuildPhaseTypeFromString on String {
   BuildPhaseType toBuildPhaseType() {
     switch (this) {
       case 'SUBMITTED':
@@ -4617,7 +4617,7 @@ enum CacheMode {
   localCustomCache,
 }
 
-extension on CacheMode {
+extension CacheModeValueExtension on CacheMode {
   String toValue() {
     switch (this) {
       case CacheMode.localDockerLayerCache:
@@ -4630,7 +4630,7 @@ extension on CacheMode {
   }
 }
 
-extension on String {
+extension CacheModeFromString on String {
   CacheMode toCacheMode() {
     switch (this) {
       case 'LOCAL_DOCKER_LAYER_CACHE':
@@ -4650,7 +4650,7 @@ enum CacheType {
   local,
 }
 
-extension on CacheType {
+extension CacheTypeValueExtension on CacheType {
   String toValue() {
     switch (this) {
       case CacheType.noCache:
@@ -4663,7 +4663,7 @@ extension on CacheType {
   }
 }
 
-extension on String {
+extension CacheTypeFromString on String {
   CacheType toCacheType() {
     switch (this) {
       case 'NO_CACHE':
@@ -4852,7 +4852,7 @@ enum ComputeType {
   buildGeneral1_2xlarge,
 }
 
-extension on ComputeType {
+extension ComputeTypeValueExtension on ComputeType {
   String toValue() {
     switch (this) {
       case ComputeType.buildGeneral1Small:
@@ -4867,7 +4867,7 @@ extension on ComputeType {
   }
 }
 
-extension on String {
+extension ComputeTypeFromString on String {
   ComputeType toComputeType() {
     switch (this) {
       case 'BUILD_GENERAL1_SMALL':
@@ -4936,7 +4936,7 @@ enum CredentialProviderType {
   secretsManager,
 }
 
-extension on CredentialProviderType {
+extension CredentialProviderTypeValueExtension on CredentialProviderType {
   String toValue() {
     switch (this) {
       case CredentialProviderType.secretsManager:
@@ -4945,7 +4945,7 @@ extension on CredentialProviderType {
   }
 }
 
-extension on String {
+extension CredentialProviderTypeFromString on String {
   CredentialProviderType toCredentialProviderType() {
     switch (this) {
       case 'SECRETS_MANAGER':
@@ -5199,7 +5199,7 @@ enum EnvironmentType {
   windowsServer_2019Container,
 }
 
-extension on EnvironmentType {
+extension EnvironmentTypeValueExtension on EnvironmentType {
   String toValue() {
     switch (this) {
       case EnvironmentType.windowsContainer:
@@ -5216,7 +5216,7 @@ extension on EnvironmentType {
   }
 }
 
-extension on String {
+extension EnvironmentTypeFromString on String {
   EnvironmentType toEnvironmentType() {
     switch (this) {
       case 'WINDOWS_CONTAINER':
@@ -5306,7 +5306,7 @@ enum EnvironmentVariableType {
   secretsManager,
 }
 
-extension on EnvironmentVariableType {
+extension EnvironmentVariableTypeValueExtension on EnvironmentVariableType {
   String toValue() {
     switch (this) {
       case EnvironmentVariableType.plaintext:
@@ -5319,7 +5319,7 @@ extension on EnvironmentVariableType {
   }
 }
 
-extension on String {
+extension EnvironmentVariableTypeFromString on String {
   EnvironmentVariableType toEnvironmentVariableType() {
     switch (this) {
       case 'PLAINTEXT':
@@ -5364,7 +5364,7 @@ enum FileSystemType {
   efs,
 }
 
-extension on FileSystemType {
+extension FileSystemTypeValueExtension on FileSystemType {
   String toValue() {
     switch (this) {
       case FileSystemType.efs:
@@ -5373,7 +5373,7 @@ extension on FileSystemType {
   }
 }
 
-extension on String {
+extension FileSystemTypeFromString on String {
   FileSystemType toFileSystemType() {
     switch (this) {
       case 'EFS':
@@ -5447,7 +5447,7 @@ enum ImagePullCredentialsType {
   serviceRole,
 }
 
-extension on ImagePullCredentialsType {
+extension ImagePullCredentialsTypeValueExtension on ImagePullCredentialsType {
   String toValue() {
     switch (this) {
       case ImagePullCredentialsType.codebuild:
@@ -5458,7 +5458,7 @@ extension on ImagePullCredentialsType {
   }
 }
 
-extension on String {
+extension ImagePullCredentialsTypeFromString on String {
   ImagePullCredentialsType toImagePullCredentialsType() {
     switch (this) {
       case 'CODEBUILD':
@@ -5504,7 +5504,7 @@ enum LanguageType {
   php,
 }
 
-extension on LanguageType {
+extension LanguageTypeValueExtension on LanguageType {
   String toValue() {
     switch (this) {
       case LanguageType.java:
@@ -5531,7 +5531,7 @@ extension on LanguageType {
   }
 }
 
-extension on String {
+extension LanguageTypeFromString on String {
   LanguageType toLanguageType() {
     switch (this) {
       case 'JAVA':
@@ -5906,7 +5906,7 @@ enum LogsConfigStatusType {
   disabled,
 }
 
-extension on LogsConfigStatusType {
+extension LogsConfigStatusTypeValueExtension on LogsConfigStatusType {
   String toValue() {
     switch (this) {
       case LogsConfigStatusType.enabled:
@@ -5917,7 +5917,7 @@ extension on LogsConfigStatusType {
   }
 }
 
-extension on String {
+extension LogsConfigStatusTypeFromString on String {
   LogsConfigStatusType toLogsConfigStatusType() {
     switch (this) {
       case 'ENABLED':
@@ -6041,7 +6041,7 @@ enum PlatformType {
   windowsServer,
 }
 
-extension on PlatformType {
+extension PlatformTypeValueExtension on PlatformType {
   String toValue() {
     switch (this) {
       case PlatformType.debian:
@@ -6056,7 +6056,7 @@ extension on PlatformType {
   }
 }
 
-extension on String {
+extension PlatformTypeFromString on String {
   PlatformType toPlatformType() {
     switch (this) {
       case 'DEBIAN':
@@ -7006,7 +7006,7 @@ enum ProjectSortByType {
   lastModifiedTime,
 }
 
-extension on ProjectSortByType {
+extension ProjectSortByTypeValueExtension on ProjectSortByType {
   String toValue() {
     switch (this) {
       case ProjectSortByType.name:
@@ -7019,7 +7019,7 @@ extension on ProjectSortByType {
   }
 }
 
-extension on String {
+extension ProjectSortByTypeFromString on String {
   ProjectSortByType toProjectSortByType() {
     switch (this) {
       case 'NAME':
@@ -7459,7 +7459,8 @@ enum ReportCodeCoverageSortByType {
   filePath,
 }
 
-extension on ReportCodeCoverageSortByType {
+extension ReportCodeCoverageSortByTypeValueExtension
+    on ReportCodeCoverageSortByType {
   String toValue() {
     switch (this) {
       case ReportCodeCoverageSortByType.lineCoveragePercentage:
@@ -7470,7 +7471,7 @@ extension on ReportCodeCoverageSortByType {
   }
 }
 
-extension on String {
+extension ReportCodeCoverageSortByTypeFromString on String {
   ReportCodeCoverageSortByType toReportCodeCoverageSortByType() {
     switch (this) {
       case 'LINE_COVERAGE_PERCENTAGE':
@@ -7531,7 +7532,7 @@ enum ReportExportConfigType {
   noExport,
 }
 
-extension on ReportExportConfigType {
+extension ReportExportConfigTypeValueExtension on ReportExportConfigType {
   String toValue() {
     switch (this) {
       case ReportExportConfigType.s3:
@@ -7542,7 +7543,7 @@ extension on ReportExportConfigType {
   }
 }
 
-extension on String {
+extension ReportExportConfigTypeFromString on String {
   ReportExportConfigType toReportExportConfigType() {
     switch (this) {
       case 'S3':
@@ -7639,7 +7640,7 @@ enum ReportGroupSortByType {
   lastModifiedTime,
 }
 
-extension on ReportGroupSortByType {
+extension ReportGroupSortByTypeValueExtension on ReportGroupSortByType {
   String toValue() {
     switch (this) {
       case ReportGroupSortByType.name:
@@ -7652,7 +7653,7 @@ extension on ReportGroupSortByType {
   }
 }
 
-extension on String {
+extension ReportGroupSortByTypeFromString on String {
   ReportGroupSortByType toReportGroupSortByType() {
     switch (this) {
       case 'NAME':
@@ -7671,7 +7672,7 @@ enum ReportGroupStatusType {
   deleting,
 }
 
-extension on ReportGroupStatusType {
+extension ReportGroupStatusTypeValueExtension on ReportGroupStatusType {
   String toValue() {
     switch (this) {
       case ReportGroupStatusType.active:
@@ -7682,7 +7683,7 @@ extension on ReportGroupStatusType {
   }
 }
 
-extension on String {
+extension ReportGroupStatusTypeFromString on String {
   ReportGroupStatusType toReportGroupStatusType() {
     switch (this) {
       case 'ACTIVE':
@@ -7706,7 +7707,7 @@ enum ReportGroupTrendFieldType {
   branchesMissed,
 }
 
-extension on ReportGroupTrendFieldType {
+extension ReportGroupTrendFieldTypeValueExtension on ReportGroupTrendFieldType {
   String toValue() {
     switch (this) {
       case ReportGroupTrendFieldType.passRate:
@@ -7731,7 +7732,7 @@ extension on ReportGroupTrendFieldType {
   }
 }
 
-extension on String {
+extension ReportGroupTrendFieldTypeFromString on String {
   ReportGroupTrendFieldType toReportGroupTrendFieldType() {
     switch (this) {
       case 'PASS_RATE':
@@ -7781,7 +7782,7 @@ enum ReportPackagingType {
   none,
 }
 
-extension on ReportPackagingType {
+extension ReportPackagingTypeValueExtension on ReportPackagingType {
   String toValue() {
     switch (this) {
       case ReportPackagingType.zip:
@@ -7792,7 +7793,7 @@ extension on ReportPackagingType {
   }
 }
 
-extension on String {
+extension ReportPackagingTypeFromString on String {
   ReportPackagingType toReportPackagingType() {
     switch (this) {
       case 'ZIP':
@@ -7812,7 +7813,7 @@ enum ReportStatusType {
   deleting,
 }
 
-extension on ReportStatusType {
+extension ReportStatusTypeValueExtension on ReportStatusType {
   String toValue() {
     switch (this) {
       case ReportStatusType.generating:
@@ -7829,7 +7830,7 @@ extension on ReportStatusType {
   }
 }
 
-extension on String {
+extension ReportStatusTypeFromString on String {
   ReportStatusType toReportStatusType() {
     switch (this) {
       case 'GENERATING':
@@ -7852,7 +7853,7 @@ enum ReportType {
   codeCoverage,
 }
 
-extension on ReportType {
+extension ReportTypeValueExtension on ReportType {
   String toValue() {
     switch (this) {
       case ReportType.test:
@@ -7863,7 +7864,7 @@ extension on ReportType {
   }
 }
 
-extension on String {
+extension ReportTypeFromString on String {
   ReportType toReportType() {
     switch (this) {
       case 'TEST':
@@ -7938,7 +7939,7 @@ enum RetryBuildBatchType {
   retryFailedBuilds,
 }
 
-extension on RetryBuildBatchType {
+extension RetryBuildBatchTypeValueExtension on RetryBuildBatchType {
   String toValue() {
     switch (this) {
       case RetryBuildBatchType.retryAllBuilds:
@@ -7949,7 +7950,7 @@ extension on RetryBuildBatchType {
   }
 }
 
-extension on String {
+extension RetryBuildBatchTypeFromString on String {
   RetryBuildBatchType toRetryBuildBatchType() {
     switch (this) {
       case 'RETRY_ALL_BUILDS':
@@ -8093,7 +8094,7 @@ enum ServerType {
   githubEnterprise,
 }
 
-extension on ServerType {
+extension ServerTypeValueExtension on ServerType {
   String toValue() {
     switch (this) {
       case ServerType.github:
@@ -8106,7 +8107,7 @@ extension on ServerType {
   }
 }
 
-extension on String {
+extension ServerTypeFromString on String {
   ServerType toServerType() {
     switch (this) {
       case 'GITHUB':
@@ -8125,7 +8126,7 @@ enum SharedResourceSortByType {
   modifiedTime,
 }
 
-extension on SharedResourceSortByType {
+extension SharedResourceSortByTypeValueExtension on SharedResourceSortByType {
   String toValue() {
     switch (this) {
       case SharedResourceSortByType.arn:
@@ -8136,7 +8137,7 @@ extension on SharedResourceSortByType {
   }
 }
 
-extension on String {
+extension SharedResourceSortByTypeFromString on String {
   SharedResourceSortByType toSharedResourceSortByType() {
     switch (this) {
       case 'ARN':
@@ -8153,7 +8154,7 @@ enum SortOrderType {
   descending,
 }
 
-extension on SortOrderType {
+extension SortOrderTypeValueExtension on SortOrderType {
   String toValue() {
     switch (this) {
       case SortOrderType.ascending:
@@ -8164,7 +8165,7 @@ extension on SortOrderType {
   }
 }
 
-extension on String {
+extension SortOrderTypeFromString on String {
   SortOrderType toSortOrderType() {
     switch (this) {
       case 'ASCENDING':
@@ -8217,7 +8218,7 @@ enum SourceAuthType {
   oauth,
 }
 
-extension on SourceAuthType {
+extension SourceAuthTypeValueExtension on SourceAuthType {
   String toValue() {
     switch (this) {
       case SourceAuthType.oauth:
@@ -8226,7 +8227,7 @@ extension on SourceAuthType {
   }
 }
 
-extension on String {
+extension SourceAuthTypeFromString on String {
   SourceAuthType toSourceAuthType() {
     switch (this) {
       case 'OAUTH':
@@ -8274,7 +8275,7 @@ enum SourceType {
   noSource,
 }
 
-extension on SourceType {
+extension SourceTypeValueExtension on SourceType {
   String toValue() {
     switch (this) {
       case SourceType.codecommit:
@@ -8295,7 +8296,7 @@ extension on SourceType {
   }
 }
 
-extension on String {
+extension SourceTypeFromString on String {
   SourceType toSourceType() {
     switch (this) {
       case 'CODECOMMIT':
@@ -8359,7 +8360,7 @@ enum StatusType {
   stopped,
 }
 
-extension on StatusType {
+extension StatusTypeValueExtension on StatusType {
   String toValue() {
     switch (this) {
       case StatusType.succeeded:
@@ -8378,7 +8379,7 @@ extension on StatusType {
   }
 }
 
-extension on String {
+extension StatusTypeFromString on String {
   StatusType toStatusType() {
     switch (this) {
       case 'SUCCEEDED':
@@ -8757,7 +8758,7 @@ enum WebhookBuildType {
   buildBatch,
 }
 
-extension on WebhookBuildType {
+extension WebhookBuildTypeValueExtension on WebhookBuildType {
   String toValue() {
     switch (this) {
       case WebhookBuildType.build:
@@ -8768,7 +8769,7 @@ extension on WebhookBuildType {
   }
 }
 
-extension on String {
+extension WebhookBuildTypeFromString on String {
   WebhookBuildType toWebhookBuildType() {
     switch (this) {
       case 'BUILD':
@@ -8884,7 +8885,7 @@ enum WebhookFilterType {
   commitMessage,
 }
 
-extension on WebhookFilterType {
+extension WebhookFilterTypeValueExtension on WebhookFilterType {
   String toValue() {
     switch (this) {
       case WebhookFilterType.event:
@@ -8903,7 +8904,7 @@ extension on WebhookFilterType {
   }
 }
 
-extension on String {
+extension WebhookFilterTypeFromString on String {
   WebhookFilterType toWebhookFilterType() {
     switch (this) {
       case 'EVENT':

@@ -2223,7 +2223,7 @@ enum ContactType {
   reseller,
 }
 
-extension on ContactType {
+extension ContactTypeValueExtension on ContactType {
   String toValue() {
     switch (this) {
       case ContactType.person:
@@ -2240,7 +2240,7 @@ extension on ContactType {
   }
 }
 
-extension on String {
+extension ContactTypeFromString on String {
   ContactType toContactType() {
     switch (this) {
       case 'PERSON':
@@ -2490,7 +2490,7 @@ enum CountryCode {
   zw,
 }
 
-extension on CountryCode {
+extension CountryCodeValueExtension on CountryCode {
   String toValue() {
     switch (this) {
       case CountryCode.ad:
@@ -2955,7 +2955,7 @@ extension on CountryCode {
   }
 }
 
-extension on String {
+extension CountryCodeFromString on String {
   CountryCode toCountryCode() {
     switch (this) {
       case 'AD':
@@ -3464,7 +3464,7 @@ enum DomainAvailability {
   dontKnow,
 }
 
-extension on DomainAvailability {
+extension DomainAvailabilityValueExtension on DomainAvailability {
   String toValue() {
     switch (this) {
       case DomainAvailability.available:
@@ -3487,7 +3487,7 @@ extension on DomainAvailability {
   }
 }
 
-extension on String {
+extension DomainAvailabilityFromString on String {
   DomainAvailability toDomainAvailability() {
     switch (this) {
       case 'AVAILABLE':
@@ -4214,7 +4214,7 @@ enum ExtraParamName {
   ukCompanyNumber,
 }
 
-extension on ExtraParamName {
+extension ExtraParamNameValueExtension on ExtraParamName {
   String toValue() {
     switch (this) {
       case ExtraParamName.dunsNumber:
@@ -4279,7 +4279,7 @@ extension on ExtraParamName {
   }
 }
 
-extension on String {
+extension ExtraParamNameFromString on String {
   ExtraParamName toExtraParamName() {
     switch (this) {
       case 'DUNS_NUMBER':
@@ -4712,7 +4712,7 @@ enum OperationStatus {
   failed,
 }
 
-extension on OperationStatus {
+extension OperationStatusValueExtension on OperationStatus {
   String toValue() {
     switch (this) {
       case OperationStatus.submitted:
@@ -4729,7 +4729,7 @@ extension on OperationStatus {
   }
 }
 
-extension on String {
+extension OperationStatusFromString on String {
   OperationStatus toOperationStatus() {
     switch (this) {
       case 'SUBMITTED':
@@ -4799,7 +4799,7 @@ enum OperationType {
   internalTransferInDomain,
 }
 
-extension on OperationType {
+extension OperationTypeValueExtension on OperationType {
   String toValue() {
     switch (this) {
       case OperationType.registerDomain:
@@ -4842,7 +4842,7 @@ extension on OperationType {
   }
 }
 
-extension on String {
+extension OperationTypeFromString on String {
   OperationType toOperationType() {
     switch (this) {
       case 'REGISTER_DOMAIN':
@@ -4892,7 +4892,7 @@ enum ReachabilityStatus {
   expired,
 }
 
-extension on ReachabilityStatus {
+extension ReachabilityStatusValueExtension on ReachabilityStatus {
   String toValue() {
     switch (this) {
       case ReachabilityStatus.pending:
@@ -4905,7 +4905,7 @@ extension on ReachabilityStatus {
   }
 }
 
-extension on String {
+extension ReachabilityStatusFromString on String {
   ReachabilityStatus toReachabilityStatus() {
     switch (this) {
       case 'PENDING':
@@ -5117,7 +5117,7 @@ enum Transferable {
   dontKnow,
 }
 
-extension on Transferable {
+extension TransferableValueExtension on Transferable {
   String toValue() {
     switch (this) {
       case Transferable.transferable:
@@ -5130,7 +5130,7 @@ extension on Transferable {
   }
 }
 
-extension on String {
+extension TransferableFromString on String {
   Transferable toTransferable() {
     switch (this) {
       case 'TRANSFERABLE':

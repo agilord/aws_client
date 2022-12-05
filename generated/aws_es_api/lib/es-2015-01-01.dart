@@ -2222,7 +2222,7 @@ enum DeploymentStatus {
   eligible,
 }
 
-extension on DeploymentStatus {
+extension DeploymentStatusValueExtension on DeploymentStatus {
   String toValue() {
     switch (this) {
       case DeploymentStatus.pendingUpdate:
@@ -2239,7 +2239,7 @@ extension on DeploymentStatus {
   }
 }
 
-extension on String {
+extension DeploymentStatusFromString on String {
   DeploymentStatus toDeploymentStatus() {
     switch (this) {
       case 'PENDING_UPDATE':
@@ -2425,7 +2425,8 @@ enum DescribePackagesFilterName {
   packageStatus,
 }
 
-extension on DescribePackagesFilterName {
+extension DescribePackagesFilterNameValueExtension
+    on DescribePackagesFilterName {
   String toValue() {
     switch (this) {
       case DescribePackagesFilterName.packageID:
@@ -2438,7 +2439,7 @@ extension on DescribePackagesFilterName {
   }
 }
 
-extension on String {
+extension DescribePackagesFilterNameFromString on String {
   DescribePackagesFilterName toDescribePackagesFilterName() {
     switch (this) {
       case 'PackageID':
@@ -2745,7 +2746,7 @@ enum DomainPackageStatus {
   dissociationFailed,
 }
 
-extension on DomainPackageStatus {
+extension DomainPackageStatusValueExtension on DomainPackageStatus {
   String toValue() {
     switch (this) {
       case DomainPackageStatus.associating:
@@ -2762,7 +2763,7 @@ extension on DomainPackageStatus {
   }
 }
 
-extension on String {
+extension DomainPackageStatusFromString on String {
   DomainPackageStatus toDomainPackageStatus() {
     switch (this) {
       case 'ASSOCIATING':
@@ -2908,7 +2909,7 @@ enum ESPartitionInstanceType {
   i3_16xlargeElasticsearch,
 }
 
-extension on ESPartitionInstanceType {
+extension ESPartitionInstanceTypeValueExtension on ESPartitionInstanceType {
   String toValue() {
     switch (this) {
       case ESPartitionInstanceType.m3MediumElasticsearch:
@@ -3031,7 +3032,7 @@ extension on ESPartitionInstanceType {
   }
 }
 
-extension on String {
+extension ESPartitionInstanceTypeFromString on String {
   ESPartitionInstanceType toESPartitionInstanceType() {
     switch (this) {
       case 'm3.medium.elasticsearch':
@@ -3160,7 +3161,8 @@ enum ESWarmPartitionInstanceType {
   ultrawarm1LargeElasticsearch,
 }
 
-extension on ESWarmPartitionInstanceType {
+extension ESWarmPartitionInstanceTypeValueExtension
+    on ESWarmPartitionInstanceType {
   String toValue() {
     switch (this) {
       case ESWarmPartitionInstanceType.ultrawarm1MediumElasticsearch:
@@ -3171,7 +3173,7 @@ extension on ESWarmPartitionInstanceType {
   }
 }
 
-extension on String {
+extension ESWarmPartitionInstanceTypeFromString on String {
   ESWarmPartitionInstanceType toESWarmPartitionInstanceType() {
     switch (this) {
       case 'ultrawarm1.medium.elasticsearch':
@@ -3933,7 +3935,8 @@ enum InboundCrossClusterSearchConnectionStatusCode {
   deleted,
 }
 
-extension on InboundCrossClusterSearchConnectionStatusCode {
+extension InboundCrossClusterSearchConnectionStatusCodeValueExtension
+    on InboundCrossClusterSearchConnectionStatusCode {
   String toValue() {
     switch (this) {
       case InboundCrossClusterSearchConnectionStatusCode.pendingAcceptance:
@@ -3952,7 +3955,7 @@ extension on InboundCrossClusterSearchConnectionStatusCode {
   }
 }
 
-extension on String {
+extension InboundCrossClusterSearchConnectionStatusCodeFromString on String {
   InboundCrossClusterSearchConnectionStatusCode
       toInboundCrossClusterSearchConnectionStatusCode() {
     switch (this) {
@@ -4262,7 +4265,7 @@ enum LogType {
   auditLogs,
 }
 
-extension on LogType {
+extension LogTypeValueExtension on LogType {
   String toValue() {
     switch (this) {
       case LogType.indexSlowLogs:
@@ -4277,7 +4280,7 @@ extension on LogType {
   }
 }
 
-extension on String {
+extension LogTypeFromString on String {
   LogType toLogType() {
     switch (this) {
       case 'INDEX_SLOW_LOGS':
@@ -4383,7 +4386,7 @@ enum OptionState {
   active,
 }
 
-extension on OptionState {
+extension OptionStateValueExtension on OptionState {
   String toValue() {
     switch (this) {
       case OptionState.requiresIndexDocuments:
@@ -4396,7 +4399,7 @@ extension on OptionState {
   }
 }
 
-extension on String {
+extension OptionStateFromString on String {
   OptionState toOptionState() {
     switch (this) {
       case 'RequiresIndexDocuments':
@@ -4544,7 +4547,8 @@ enum OutboundCrossClusterSearchConnectionStatusCode {
   deleted,
 }
 
-extension on OutboundCrossClusterSearchConnectionStatusCode {
+extension OutboundCrossClusterSearchConnectionStatusCodeValueExtension
+    on OutboundCrossClusterSearchConnectionStatusCode {
   String toValue() {
     switch (this) {
       case OutboundCrossClusterSearchConnectionStatusCode.pendingAcceptance:
@@ -4567,7 +4571,7 @@ extension on OutboundCrossClusterSearchConnectionStatusCode {
   }
 }
 
-extension on String {
+extension OutboundCrossClusterSearchConnectionStatusCodeFromString on String {
   OutboundCrossClusterSearchConnectionStatusCode
       toOutboundCrossClusterSearchConnectionStatusCode() {
     switch (this) {
@@ -4682,7 +4686,7 @@ enum PackageStatus {
   deleteFailed,
 }
 
-extension on PackageStatus {
+extension PackageStatusValueExtension on PackageStatus {
   String toValue() {
     switch (this) {
       case PackageStatus.copying:
@@ -4705,7 +4709,7 @@ extension on PackageStatus {
   }
 }
 
-extension on String {
+extension PackageStatusFromString on String {
   PackageStatus toPackageStatus() {
     switch (this) {
       case 'COPYING':
@@ -4733,7 +4737,7 @@ enum PackageType {
   txtDictionary,
 }
 
-extension on PackageType {
+extension PackageTypeValueExtension on PackageType {
   String toValue() {
     switch (this) {
       case PackageType.txtDictionary:
@@ -4742,7 +4746,7 @@ extension on PackageType {
   }
 }
 
-extension on String {
+extension PackageTypeFromString on String {
   PackageType toPackageType() {
     switch (this) {
       case 'TXT-DICTIONARY':
@@ -4997,7 +5001,8 @@ enum ReservedElasticsearchInstancePaymentOption {
   noUpfront,
 }
 
-extension on ReservedElasticsearchInstancePaymentOption {
+extension ReservedElasticsearchInstancePaymentOptionValueExtension
+    on ReservedElasticsearchInstancePaymentOption {
   String toValue() {
     switch (this) {
       case ReservedElasticsearchInstancePaymentOption.allUpfront:
@@ -5010,7 +5015,7 @@ extension on ReservedElasticsearchInstancePaymentOption {
   }
 }
 
-extension on String {
+extension ReservedElasticsearchInstancePaymentOptionFromString on String {
   ReservedElasticsearchInstancePaymentOption
       toReservedElasticsearchInstancePaymentOption() {
     switch (this) {
@@ -5340,7 +5345,7 @@ enum TLSSecurityPolicy {
   policyMinTls_1_2_2019_07,
 }
 
-extension on TLSSecurityPolicy {
+extension TLSSecurityPolicyValueExtension on TLSSecurityPolicy {
   String toValue() {
     switch (this) {
       case TLSSecurityPolicy.policyMinTls_1_0_2019_07:
@@ -5351,7 +5356,7 @@ extension on TLSSecurityPolicy {
   }
 }
 
-extension on String {
+extension TLSSecurityPolicyFromString on String {
   TLSSecurityPolicy toTLSSecurityPolicy() {
     switch (this) {
       case 'Policy-Min-TLS-1-0-2019-07':
@@ -5510,7 +5515,7 @@ enum UpgradeStatus {
   failed,
 }
 
-extension on UpgradeStatus {
+extension UpgradeStatusValueExtension on UpgradeStatus {
   String toValue() {
     switch (this) {
       case UpgradeStatus.inProgress:
@@ -5525,7 +5530,7 @@ extension on UpgradeStatus {
   }
 }
 
-extension on String {
+extension UpgradeStatusFromString on String {
   UpgradeStatus toUpgradeStatus() {
     switch (this) {
       case 'IN_PROGRESS':
@@ -5547,7 +5552,7 @@ enum UpgradeStep {
   upgrade,
 }
 
-extension on UpgradeStep {
+extension UpgradeStepValueExtension on UpgradeStep {
   String toValue() {
     switch (this) {
       case UpgradeStep.preUpgradeCheck:
@@ -5560,7 +5565,7 @@ extension on UpgradeStep {
   }
 }
 
-extension on String {
+extension UpgradeStepFromString on String {
   UpgradeStep toUpgradeStep() {
     switch (this) {
       case 'PRE_UPGRADE_CHECK':
@@ -5723,7 +5728,7 @@ enum VolumeType {
   io1,
 }
 
-extension on VolumeType {
+extension VolumeTypeValueExtension on VolumeType {
   String toValue() {
     switch (this) {
       case VolumeType.standard:
@@ -5736,7 +5741,7 @@ extension on VolumeType {
   }
 }
 
-extension on String {
+extension VolumeTypeFromString on String {
   VolumeType toVolumeType() {
     switch (this) {
       case 'standard':

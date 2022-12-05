@@ -1172,7 +1172,7 @@ enum ErrorCode {
   serviceQuotaNotAvailableError,
 }
 
-extension on ErrorCode {
+extension ErrorCodeValueExtension on ErrorCode {
   String toValue() {
     switch (this) {
       case ErrorCode.dependencyAccessDeniedError:
@@ -1187,7 +1187,7 @@ extension on ErrorCode {
   }
 }
 
-extension on String {
+extension ErrorCodeFromString on String {
   ErrorCode toErrorCode() {
     switch (this) {
       case 'DEPENDENCY_ACCESS_DENIED_ERROR':
@@ -1541,7 +1541,7 @@ enum PeriodUnit {
   week,
 }
 
-extension on PeriodUnit {
+extension PeriodUnitValueExtension on PeriodUnit {
   String toValue() {
     switch (this) {
       case PeriodUnit.microsecond:
@@ -1562,7 +1562,7 @@ extension on PeriodUnit {
   }
 }
 
-extension on String {
+extension PeriodUnitFromString on String {
   PeriodUnit toPeriodUnit() {
     switch (this) {
       case 'MICROSECOND':
@@ -1651,7 +1651,7 @@ enum RequestStatus {
   caseClosed,
 }
 
-extension on RequestStatus {
+extension RequestStatusValueExtension on RequestStatus {
   String toValue() {
     switch (this) {
       case RequestStatus.pending:
@@ -1668,7 +1668,7 @@ extension on RequestStatus {
   }
 }
 
-extension on String {
+extension RequestStatusFromString on String {
   RequestStatus toRequestStatus() {
     switch (this) {
       case 'PENDING':
@@ -1919,7 +1919,8 @@ enum ServiceQuotaTemplateAssociationStatus {
   disassociated,
 }
 
-extension on ServiceQuotaTemplateAssociationStatus {
+extension ServiceQuotaTemplateAssociationStatusValueExtension
+    on ServiceQuotaTemplateAssociationStatus {
   String toValue() {
     switch (this) {
       case ServiceQuotaTemplateAssociationStatus.associated:
@@ -1930,7 +1931,7 @@ extension on ServiceQuotaTemplateAssociationStatus {
   }
 }
 
-extension on String {
+extension ServiceQuotaTemplateAssociationStatusFromString on String {
   ServiceQuotaTemplateAssociationStatus
       toServiceQuotaTemplateAssociationStatus() {
     switch (this) {

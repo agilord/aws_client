@@ -1285,7 +1285,7 @@ enum MeshStatusCode {
   inactive,
 }
 
-extension on MeshStatusCode {
+extension MeshStatusCodeValueExtension on MeshStatusCode {
   String toValue() {
     switch (this) {
       case MeshStatusCode.active:
@@ -1298,7 +1298,7 @@ extension on MeshStatusCode {
   }
 }
 
-extension on String {
+extension MeshStatusCodeFromString on String {
   MeshStatusCode toMeshStatusCode() {
     switch (this) {
       case 'ACTIVE':
@@ -1852,7 +1852,7 @@ enum VirtualRouterStatusCode {
   inactive,
 }
 
-extension on VirtualRouterStatusCode {
+extension VirtualRouterStatusCodeValueExtension on VirtualRouterStatusCode {
   String toValue() {
     switch (this) {
       case VirtualRouterStatusCode.active:
@@ -1865,7 +1865,7 @@ extension on VirtualRouterStatusCode {
   }
 }
 
-extension on String {
+extension VirtualRouterStatusCodeFromString on String {
   VirtualRouterStatusCode toVirtualRouterStatusCode() {
     switch (this) {
       case 'ACTIVE':
@@ -1966,7 +1966,7 @@ enum PortProtocol {
   tcp,
 }
 
-extension on PortProtocol {
+extension PortProtocolValueExtension on PortProtocol {
   String toValue() {
     switch (this) {
       case PortProtocol.http:
@@ -1977,7 +1977,7 @@ extension on PortProtocol {
   }
 }
 
-extension on String {
+extension PortProtocolFromString on String {
   PortProtocol toPortProtocol() {
     switch (this) {
       case 'http':
@@ -2081,7 +2081,7 @@ enum VirtualNodeStatusCode {
   inactive,
 }
 
-extension on VirtualNodeStatusCode {
+extension VirtualNodeStatusCodeValueExtension on VirtualNodeStatusCode {
   String toValue() {
     switch (this) {
       case VirtualNodeStatusCode.active:
@@ -2094,7 +2094,7 @@ extension on VirtualNodeStatusCode {
   }
 }
 
-extension on String {
+extension VirtualNodeStatusCodeFromString on String {
   VirtualNodeStatusCode toVirtualNodeStatusCode() {
     switch (this) {
       case 'ACTIVE':
@@ -2414,7 +2414,7 @@ enum RouteStatusCode {
   inactive,
 }
 
-extension on RouteStatusCode {
+extension RouteStatusCodeValueExtension on RouteStatusCode {
   String toValue() {
     switch (this) {
       case RouteStatusCode.active:
@@ -2427,7 +2427,7 @@ extension on RouteStatusCode {
   }
 }
 
-extension on String {
+extension RouteStatusCodeFromString on String {
   RouteStatusCode toRouteStatusCode() {
     switch (this) {
       case 'ACTIVE':

@@ -8310,7 +8310,7 @@ enum ActionType {
   resizeCluster,
 }
 
-extension on ActionType {
+extension ActionTypeValueExtension on ActionType {
   String toValue() {
     switch (this) {
       case ActionType.restoreCluster:
@@ -8323,7 +8323,7 @@ extension on ActionType {
   }
 }
 
-extension on String {
+extension ActionTypeFromString on String {
   ActionType toActionType() {
     switch (this) {
       case 'restore-cluster':
@@ -10671,7 +10671,7 @@ enum Mode {
   highPerformance,
 }
 
-extension on Mode {
+extension ModeValueExtension on Mode {
   String toValue() {
     switch (this) {
       case Mode.standard:
@@ -10682,7 +10682,7 @@ extension on Mode {
   }
 }
 
-extension on String {
+extension ModeFromString on String {
   Mode toMode() {
     switch (this) {
       case 'standard':
@@ -10880,7 +10880,8 @@ enum NodeConfigurationOptionsFilterName {
   mode,
 }
 
-extension on NodeConfigurationOptionsFilterName {
+extension NodeConfigurationOptionsFilterNameValueExtension
+    on NodeConfigurationOptionsFilterName {
   String toValue() {
     switch (this) {
       case NodeConfigurationOptionsFilterName.nodeType:
@@ -10895,7 +10896,7 @@ extension on NodeConfigurationOptionsFilterName {
   }
 }
 
-extension on String {
+extension NodeConfigurationOptionsFilterNameFromString on String {
   NodeConfigurationOptionsFilterName toNodeConfigurationOptionsFilterName() {
     switch (this) {
       case 'NodeType':
@@ -10952,7 +10953,7 @@ enum OperatorType {
   between,
 }
 
-extension on OperatorType {
+extension OperatorTypeValueExtension on OperatorType {
   String toValue() {
     switch (this) {
       case OperatorType.eq:
@@ -10973,7 +10974,7 @@ extension on OperatorType {
   }
 }
 
-extension on String {
+extension OperatorTypeFromString on String {
   OperatorType toOperatorType() {
     switch (this) {
       case 'eq':
@@ -11153,7 +11154,7 @@ enum ParameterApplyType {
   dynamic,
 }
 
-extension on ParameterApplyType {
+extension ParameterApplyTypeValueExtension on ParameterApplyType {
   String toValue() {
     switch (this) {
       case ParameterApplyType.static:
@@ -11164,7 +11165,7 @@ extension on ParameterApplyType {
   }
 }
 
-extension on String {
+extension ParameterApplyTypeFromString on String {
   ParameterApplyType toParameterApplyType() {
     switch (this) {
       case 'static':
@@ -11525,7 +11526,7 @@ enum ReservedNodeOfferingType {
   upgradable,
 }
 
-extension on ReservedNodeOfferingType {
+extension ReservedNodeOfferingTypeValueExtension on ReservedNodeOfferingType {
   String toValue() {
     switch (this) {
       case ReservedNodeOfferingType.regular:
@@ -11536,7 +11537,7 @@ extension on ReservedNodeOfferingType {
   }
 }
 
-extension on String {
+extension ReservedNodeOfferingTypeFromString on String {
   ReservedNodeOfferingType toReservedNodeOfferingType() {
     switch (this) {
       case 'Regular':
@@ -12023,7 +12024,7 @@ enum ScheduleState {
   failed,
 }
 
-extension on ScheduleState {
+extension ScheduleStateValueExtension on ScheduleState {
   String toValue() {
     switch (this) {
       case ScheduleState.modifying:
@@ -12036,7 +12037,7 @@ extension on ScheduleState {
   }
 }
 
-extension on String {
+extension ScheduleStateFromString on String {
   ScheduleState toScheduleState() {
     switch (this) {
       case 'MODIFYING':
@@ -12164,7 +12165,7 @@ enum ScheduledActionFilterName {
   iamRole,
 }
 
-extension on ScheduledActionFilterName {
+extension ScheduledActionFilterNameValueExtension on ScheduledActionFilterName {
   String toValue() {
     switch (this) {
       case ScheduledActionFilterName.clusterIdentifier:
@@ -12175,7 +12176,7 @@ extension on ScheduledActionFilterName {
   }
 }
 
-extension on String {
+extension ScheduledActionFilterNameFromString on String {
   ScheduledActionFilterName toScheduledActionFilterName() {
     switch (this) {
       case 'cluster-identifier':
@@ -12192,7 +12193,7 @@ enum ScheduledActionState {
   disabled,
 }
 
-extension on ScheduledActionState {
+extension ScheduledActionStateValueExtension on ScheduledActionState {
   String toValue() {
     switch (this) {
       case ScheduledActionState.active:
@@ -12203,7 +12204,7 @@ extension on ScheduledActionState {
   }
 }
 
-extension on String {
+extension ScheduledActionStateFromString on String {
   ScheduledActionState toScheduledActionState() {
     switch (this) {
       case 'ACTIVE':
@@ -12264,7 +12265,7 @@ enum ScheduledActionTypeValues {
   resumeCluster,
 }
 
-extension on ScheduledActionTypeValues {
+extension ScheduledActionTypeValuesValueExtension on ScheduledActionTypeValues {
   String toValue() {
     switch (this) {
       case ScheduledActionTypeValues.resizeCluster:
@@ -12277,7 +12278,7 @@ extension on ScheduledActionTypeValues {
   }
 }
 
-extension on String {
+extension ScheduledActionTypeValuesFromString on String {
   ScheduledActionTypeValues toScheduledActionTypeValues() {
     switch (this) {
       case 'ResizeCluster':
@@ -12564,7 +12565,7 @@ enum SnapshotAttributeToSortBy {
   createTime,
 }
 
-extension on SnapshotAttributeToSortBy {
+extension SnapshotAttributeToSortByValueExtension on SnapshotAttributeToSortBy {
   String toValue() {
     switch (this) {
       case SnapshotAttributeToSortBy.sourceType:
@@ -12577,7 +12578,7 @@ extension on SnapshotAttributeToSortBy {
   }
 }
 
-extension on String {
+extension SnapshotAttributeToSortByFromString on String {
   SnapshotAttributeToSortBy toSnapshotAttributeToSortBy() {
     switch (this) {
       case 'SOURCE_TYPE':
@@ -12801,7 +12802,7 @@ enum SortByOrder {
   desc,
 }
 
-extension on SortByOrder {
+extension SortByOrderValueExtension on SortByOrder {
   String toValue() {
     switch (this) {
       case SortByOrder.asc:
@@ -12812,7 +12813,7 @@ extension on SortByOrder {
   }
 }
 
-extension on String {
+extension SortByOrderFromString on String {
   SortByOrder toSortByOrder() {
     switch (this) {
       case 'ASC':
@@ -12832,7 +12833,7 @@ enum SourceType {
   scheduledAction,
 }
 
-extension on SourceType {
+extension SourceTypeValueExtension on SourceType {
   String toValue() {
     switch (this) {
       case SourceType.cluster:
@@ -12849,7 +12850,7 @@ extension on SourceType {
   }
 }
 
-extension on String {
+extension SourceTypeFromString on String {
   SourceType toSourceType() {
     switch (this) {
       case 'cluster':
@@ -13064,7 +13065,7 @@ enum TableRestoreStatusType {
   canceled,
 }
 
-extension on TableRestoreStatusType {
+extension TableRestoreStatusTypeValueExtension on TableRestoreStatusType {
   String toValue() {
     switch (this) {
       case TableRestoreStatusType.pending:
@@ -13081,7 +13082,7 @@ extension on TableRestoreStatusType {
   }
 }
 
-extension on String {
+extension TableRestoreStatusTypeFromString on String {
   TableRestoreStatusType toTableRestoreStatusType() {
     switch (this) {
       case 'PENDING':
@@ -13353,7 +13354,7 @@ enum UsageLimitBreachAction {
   disable,
 }
 
-extension on UsageLimitBreachAction {
+extension UsageLimitBreachActionValueExtension on UsageLimitBreachAction {
   String toValue() {
     switch (this) {
       case UsageLimitBreachAction.log:
@@ -13366,7 +13367,7 @@ extension on UsageLimitBreachAction {
   }
 }
 
-extension on String {
+extension UsageLimitBreachActionFromString on String {
   UsageLimitBreachAction toUsageLimitBreachAction() {
     switch (this) {
       case 'log':
@@ -13385,7 +13386,7 @@ enum UsageLimitFeatureType {
   concurrencyScaling,
 }
 
-extension on UsageLimitFeatureType {
+extension UsageLimitFeatureTypeValueExtension on UsageLimitFeatureType {
   String toValue() {
     switch (this) {
       case UsageLimitFeatureType.spectrum:
@@ -13396,7 +13397,7 @@ extension on UsageLimitFeatureType {
   }
 }
 
-extension on String {
+extension UsageLimitFeatureTypeFromString on String {
   UsageLimitFeatureType toUsageLimitFeatureType() {
     switch (this) {
       case 'spectrum':
@@ -13413,7 +13414,7 @@ enum UsageLimitLimitType {
   dataScanned,
 }
 
-extension on UsageLimitLimitType {
+extension UsageLimitLimitTypeValueExtension on UsageLimitLimitType {
   String toValue() {
     switch (this) {
       case UsageLimitLimitType.time:
@@ -13424,7 +13425,7 @@ extension on UsageLimitLimitType {
   }
 }
 
-extension on String {
+extension UsageLimitLimitTypeFromString on String {
   UsageLimitLimitType toUsageLimitLimitType() {
     switch (this) {
       case 'time':
@@ -13469,7 +13470,7 @@ enum UsageLimitPeriod {
   monthly,
 }
 
-extension on UsageLimitPeriod {
+extension UsageLimitPeriodValueExtension on UsageLimitPeriod {
   String toValue() {
     switch (this) {
       case UsageLimitPeriod.daily:
@@ -13482,7 +13483,7 @@ extension on UsageLimitPeriod {
   }
 }
 
-extension on String {
+extension UsageLimitPeriodFromString on String {
   UsageLimitPeriod toUsageLimitPeriod() {
     switch (this) {
       case 'daily':

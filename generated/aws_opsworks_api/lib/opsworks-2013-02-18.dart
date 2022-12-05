@@ -5184,7 +5184,7 @@ enum AppAttributesKeys {
   awsFlowRubySettings,
 }
 
-extension on AppAttributesKeys {
+extension AppAttributesKeysValueExtension on AppAttributesKeys {
   String toValue() {
     switch (this) {
       case AppAttributesKeys.documentRoot:
@@ -5199,7 +5199,7 @@ extension on AppAttributesKeys {
   }
 }
 
-extension on String {
+extension AppAttributesKeysFromString on String {
   AppAttributesKeys toAppAttributesKeys() {
     switch (this) {
       case 'DocumentRoot':
@@ -5225,7 +5225,7 @@ enum AppType {
   other,
 }
 
-extension on AppType {
+extension AppTypeValueExtension on AppType {
   String toValue() {
     switch (this) {
       case AppType.awsFlowRuby:
@@ -5246,7 +5246,7 @@ extension on AppType {
   }
 }
 
-extension on String {
+extension AppTypeFromString on String {
   AppType toAppType() {
     switch (this) {
       case 'aws-flow-ruby':
@@ -5273,7 +5273,7 @@ enum Architecture {
   i386,
 }
 
-extension on Architecture {
+extension ArchitectureValueExtension on Architecture {
   String toValue() {
     switch (this) {
       case Architecture.x86_64:
@@ -5284,7 +5284,7 @@ extension on Architecture {
   }
 }
 
-extension on String {
+extension ArchitectureFromString on String {
   Architecture toArchitecture() {
     switch (this) {
       case 'x86_64':
@@ -5393,7 +5393,7 @@ enum AutoScalingType {
   timer,
 }
 
-extension on AutoScalingType {
+extension AutoScalingTypeValueExtension on AutoScalingType {
   String toValue() {
     switch (this) {
       case AutoScalingType.load:
@@ -5404,7 +5404,7 @@ extension on AutoScalingType {
   }
 }
 
-extension on String {
+extension AutoScalingTypeFromString on String {
   AutoScalingType toAutoScalingType() {
     switch (this) {
       case 'load':
@@ -5644,7 +5644,7 @@ enum CloudWatchLogsEncoding {
   utf_8Sig,
 }
 
-extension on CloudWatchLogsEncoding {
+extension CloudWatchLogsEncodingValueExtension on CloudWatchLogsEncoding {
   String toValue() {
     switch (this) {
       case CloudWatchLogsEncoding.ascii:
@@ -5835,7 +5835,7 @@ extension on CloudWatchLogsEncoding {
   }
 }
 
-extension on String {
+extension CloudWatchLogsEncodingFromString on String {
   CloudWatchLogsEncoding toCloudWatchLogsEncoding() {
     switch (this) {
       case 'ascii':
@@ -6035,7 +6035,8 @@ enum CloudWatchLogsInitialPosition {
   endOfFile,
 }
 
-extension on CloudWatchLogsInitialPosition {
+extension CloudWatchLogsInitialPositionValueExtension
+    on CloudWatchLogsInitialPosition {
   String toValue() {
     switch (this) {
       case CloudWatchLogsInitialPosition.startOfFile:
@@ -6046,7 +6047,7 @@ extension on CloudWatchLogsInitialPosition {
   }
 }
 
-extension on String {
+extension CloudWatchLogsInitialPositionFromString on String {
   CloudWatchLogsInitialPosition toCloudWatchLogsInitialPosition() {
     switch (this) {
       case 'start_of_file':
@@ -6195,7 +6196,7 @@ enum CloudWatchLogsTimeZone {
   utc,
 }
 
-extension on CloudWatchLogsTimeZone {
+extension CloudWatchLogsTimeZoneValueExtension on CloudWatchLogsTimeZone {
   String toValue() {
     switch (this) {
       case CloudWatchLogsTimeZone.local:
@@ -6206,7 +6207,7 @@ extension on CloudWatchLogsTimeZone {
   }
 }
 
-extension on String {
+extension CloudWatchLogsTimeZoneFromString on String {
   CloudWatchLogsTimeZone toCloudWatchLogsTimeZone() {
     switch (this) {
       case 'LOCAL':
@@ -6681,7 +6682,7 @@ enum DeploymentCommandName {
   undeploy,
 }
 
-extension on DeploymentCommandName {
+extension DeploymentCommandNameValueExtension on DeploymentCommandName {
   String toValue() {
     switch (this) {
       case DeploymentCommandName.installDependencies:
@@ -6712,7 +6713,7 @@ extension on DeploymentCommandName {
   }
 }
 
-extension on String {
+extension DeploymentCommandNameFromString on String {
   DeploymentCommandName toDeploymentCommandName() {
     switch (this) {
       case 'install_dependencies':
@@ -8135,7 +8136,7 @@ enum LayerAttributesKeys {
   javaAppServerVersion,
 }
 
-extension on LayerAttributesKeys {
+extension LayerAttributesKeysValueExtension on LayerAttributesKeys {
   String toValue() {
     switch (this) {
       case LayerAttributesKeys.ecsClusterArn:
@@ -8192,7 +8193,7 @@ extension on LayerAttributesKeys {
   }
 }
 
-extension on String {
+extension LayerAttributesKeysFromString on String {
   LayerAttributesKeys toLayerAttributesKeys() {
     switch (this) {
       case 'EcsClusterArn':
@@ -8265,7 +8266,7 @@ enum LayerType {
   custom,
 }
 
-extension on LayerType {
+extension LayerTypeValueExtension on LayerType {
   String toValue() {
     switch (this) {
       case LayerType.awsFlowRuby:
@@ -8296,7 +8297,7 @@ extension on LayerType {
   }
 }
 
-extension on String {
+extension LayerTypeFromString on String {
   LayerType toLayerType() {
     switch (this) {
       case 'aws-flow-ruby':
@@ -8865,7 +8866,7 @@ enum RootDeviceType {
   instanceStore,
 }
 
-extension on RootDeviceType {
+extension RootDeviceTypeValueExtension on RootDeviceType {
   String toValue() {
     switch (this) {
       case RootDeviceType.ebs:
@@ -8876,7 +8877,7 @@ extension on RootDeviceType {
   }
 }
 
-extension on String {
+extension RootDeviceTypeFromString on String {
   RootDeviceType toRootDeviceType() {
     switch (this) {
       case 'ebs':
@@ -9097,7 +9098,7 @@ enum SourceType {
   s3,
 }
 
-extension on SourceType {
+extension SourceTypeValueExtension on SourceType {
   String toValue() {
     switch (this) {
       case SourceType.git:
@@ -9112,7 +9113,7 @@ extension on SourceType {
   }
 }
 
-extension on String {
+extension SourceTypeFromString on String {
   SourceType toSourceType() {
     switch (this) {
       case 'git':
@@ -9332,7 +9333,7 @@ enum StackAttributesKeys {
   color,
 }
 
-extension on StackAttributesKeys {
+extension StackAttributesKeysValueExtension on StackAttributesKeys {
   String toValue() {
     switch (this) {
       case StackAttributesKeys.color:
@@ -9341,7 +9342,7 @@ extension on StackAttributesKeys {
   }
 }
 
-extension on String {
+extension StackAttributesKeysFromString on String {
   StackAttributesKeys toStackAttributesKeys() {
     switch (this) {
       case 'Color':
@@ -9527,7 +9528,7 @@ enum VirtualizationType {
   hvm,
 }
 
-extension on VirtualizationType {
+extension VirtualizationTypeValueExtension on VirtualizationType {
   String toValue() {
     switch (this) {
       case VirtualizationType.paravirtual:
@@ -9538,7 +9539,7 @@ extension on VirtualizationType {
   }
 }
 
-extension on String {
+extension VirtualizationTypeFromString on String {
   VirtualizationType toVirtualizationType() {
     switch (this) {
       case 'paravirtual':
@@ -9764,7 +9765,7 @@ enum VolumeType {
   standard,
 }
 
-extension on VolumeType {
+extension VolumeTypeValueExtension on VolumeType {
   String toValue() {
     switch (this) {
       case VolumeType.gp2:
@@ -9777,7 +9778,7 @@ extension on VolumeType {
   }
 }
 
-extension on String {
+extension VolumeTypeFromString on String {
   VolumeType toVolumeType() {
     switch (this) {
       case 'gp2':

@@ -1228,7 +1228,7 @@ enum CompressionFormat {
   hadoopSnappy,
 }
 
-extension on CompressionFormat {
+extension CompressionFormatValueExtension on CompressionFormat {
   String toValue() {
     switch (this) {
       case CompressionFormat.uncompressed:
@@ -1245,7 +1245,7 @@ extension on CompressionFormat {
   }
 }
 
-extension on String {
+extension CompressionFormatFromString on String {
   CompressionFormat toCompressionFormat() {
     switch (this) {
       case 'UNCOMPRESSED':
@@ -1268,7 +1268,7 @@ enum ContentEncoding {
   gzip,
 }
 
-extension on ContentEncoding {
+extension ContentEncodingValueExtension on ContentEncoding {
   String toValue() {
     switch (this) {
       case ContentEncoding.none:
@@ -1279,7 +1279,7 @@ extension on ContentEncoding {
   }
 }
 
-extension on String {
+extension ContentEncodingFromString on String {
   ContentEncoding toContentEncoding() {
     switch (this) {
       case 'NONE':
@@ -1671,7 +1671,8 @@ enum DeliveryStreamEncryptionStatus {
   disablingFailed,
 }
 
-extension on DeliveryStreamEncryptionStatus {
+extension DeliveryStreamEncryptionStatusValueExtension
+    on DeliveryStreamEncryptionStatus {
   String toValue() {
     switch (this) {
       case DeliveryStreamEncryptionStatus.enabled:
@@ -1690,7 +1691,7 @@ extension on DeliveryStreamEncryptionStatus {
   }
 }
 
-extension on String {
+extension DeliveryStreamEncryptionStatusFromString on String {
   DeliveryStreamEncryptionStatus toDeliveryStreamEncryptionStatus() {
     switch (this) {
       case 'ENABLED':
@@ -1729,7 +1730,7 @@ enum DeliveryStreamFailureType {
   unknownError,
 }
 
-extension on DeliveryStreamFailureType {
+extension DeliveryStreamFailureTypeValueExtension on DeliveryStreamFailureType {
   String toValue() {
     switch (this) {
       case DeliveryStreamFailureType.retireKmsGrantFailed:
@@ -1766,7 +1767,7 @@ extension on DeliveryStreamFailureType {
   }
 }
 
-extension on String {
+extension DeliveryStreamFailureTypeFromString on String {
   DeliveryStreamFailureType toDeliveryStreamFailureType() {
     switch (this) {
       case 'RETIRE_KMS_GRANT_FAILED':
@@ -1812,7 +1813,7 @@ enum DeliveryStreamStatus {
   active,
 }
 
-extension on DeliveryStreamStatus {
+extension DeliveryStreamStatusValueExtension on DeliveryStreamStatus {
   String toValue() {
     switch (this) {
       case DeliveryStreamStatus.creating:
@@ -1829,7 +1830,7 @@ extension on DeliveryStreamStatus {
   }
 }
 
-extension on String {
+extension DeliveryStreamStatusFromString on String {
   DeliveryStreamStatus toDeliveryStreamStatus() {
     switch (this) {
       case 'CREATING':
@@ -1852,7 +1853,7 @@ enum DeliveryStreamType {
   kinesisStreamAsSource,
 }
 
-extension on DeliveryStreamType {
+extension DeliveryStreamTypeValueExtension on DeliveryStreamType {
   String toValue() {
     switch (this) {
       case DeliveryStreamType.directPut:
@@ -1863,7 +1864,7 @@ extension on DeliveryStreamType {
   }
 }
 
-extension on String {
+extension DeliveryStreamTypeFromString on String {
   DeliveryStreamType toDeliveryStreamType() {
     switch (this) {
       case 'DirectPut':
@@ -2401,7 +2402,8 @@ enum ElasticsearchIndexRotationPeriod {
   oneMonth,
 }
 
-extension on ElasticsearchIndexRotationPeriod {
+extension ElasticsearchIndexRotationPeriodValueExtension
+    on ElasticsearchIndexRotationPeriod {
   String toValue() {
     switch (this) {
       case ElasticsearchIndexRotationPeriod.noRotation:
@@ -2418,7 +2420,7 @@ extension on ElasticsearchIndexRotationPeriod {
   }
 }
 
-extension on String {
+extension ElasticsearchIndexRotationPeriodFromString on String {
   ElasticsearchIndexRotationPeriod toElasticsearchIndexRotationPeriod() {
     switch (this) {
       case 'NoRotation':
@@ -2469,7 +2471,7 @@ enum ElasticsearchS3BackupMode {
   allDocuments,
 }
 
-extension on ElasticsearchS3BackupMode {
+extension ElasticsearchS3BackupModeValueExtension on ElasticsearchS3BackupMode {
   String toValue() {
     switch (this) {
       case ElasticsearchS3BackupMode.failedDocumentsOnly:
@@ -2480,7 +2482,7 @@ extension on ElasticsearchS3BackupMode {
   }
 }
 
-extension on String {
+extension ElasticsearchS3BackupModeFromString on String {
   ElasticsearchS3BackupMode toElasticsearchS3BackupMode() {
     switch (this) {
       case 'FailedDocumentsOnly':
@@ -2869,7 +2871,7 @@ enum HECEndpointType {
   event,
 }
 
-extension on HECEndpointType {
+extension HECEndpointTypeValueExtension on HECEndpointType {
   String toValue() {
     switch (this) {
       case HECEndpointType.raw:
@@ -2880,7 +2882,7 @@ extension on HECEndpointType {
   }
 }
 
-extension on String {
+extension HECEndpointTypeFromString on String {
   HECEndpointType toHECEndpointType() {
     switch (this) {
       case 'Raw':
@@ -3359,7 +3361,7 @@ enum HttpEndpointS3BackupMode {
   allData,
 }
 
-extension on HttpEndpointS3BackupMode {
+extension HttpEndpointS3BackupModeValueExtension on HttpEndpointS3BackupMode {
   String toValue() {
     switch (this) {
       case HttpEndpointS3BackupMode.failedDataOnly:
@@ -3370,7 +3372,7 @@ extension on HttpEndpointS3BackupMode {
   }
 }
 
-extension on String {
+extension HttpEndpointS3BackupModeFromString on String {
   HttpEndpointS3BackupMode toHttpEndpointS3BackupMode() {
     switch (this) {
       case 'FailedDataOnly':
@@ -3441,7 +3443,7 @@ enum KeyType {
   customerManagedCmk,
 }
 
-extension on KeyType {
+extension KeyTypeValueExtension on KeyType {
   String toValue() {
     switch (this) {
       case KeyType.awsOwnedCmk:
@@ -3452,7 +3454,7 @@ extension on KeyType {
   }
 }
 
-extension on String {
+extension KeyTypeFromString on String {
   KeyType toKeyType() {
     switch (this) {
       case 'AWS_OWNED_CMK':
@@ -3577,7 +3579,7 @@ enum NoEncryptionConfig {
   noEncryption,
 }
 
-extension on NoEncryptionConfig {
+extension NoEncryptionConfigValueExtension on NoEncryptionConfig {
   String toValue() {
     switch (this) {
       case NoEncryptionConfig.noEncryption:
@@ -3586,7 +3588,7 @@ extension on NoEncryptionConfig {
   }
 }
 
-extension on String {
+extension NoEncryptionConfigFromString on String {
   NoEncryptionConfig toNoEncryptionConfig() {
     switch (this) {
       case 'NoEncryption':
@@ -3660,7 +3662,7 @@ enum OrcCompression {
   snappy,
 }
 
-extension on OrcCompression {
+extension OrcCompressionValueExtension on OrcCompression {
   String toValue() {
     switch (this) {
       case OrcCompression.none:
@@ -3673,7 +3675,7 @@ extension on OrcCompression {
   }
 }
 
-extension on String {
+extension OrcCompressionFromString on String {
   OrcCompression toOrcCompression() {
     switch (this) {
       case 'NONE':
@@ -3692,7 +3694,7 @@ enum OrcFormatVersion {
   v0_12,
 }
 
-extension on OrcFormatVersion {
+extension OrcFormatVersionValueExtension on OrcFormatVersion {
   String toValue() {
     switch (this) {
       case OrcFormatVersion.v0_11:
@@ -3703,7 +3705,7 @@ extension on OrcFormatVersion {
   }
 }
 
-extension on String {
+extension OrcFormatVersionFromString on String {
   OrcFormatVersion toOrcFormatVersion() {
     switch (this) {
       case 'V0_11':
@@ -3870,7 +3872,7 @@ enum ParquetCompression {
   snappy,
 }
 
-extension on ParquetCompression {
+extension ParquetCompressionValueExtension on ParquetCompression {
   String toValue() {
     switch (this) {
       case ParquetCompression.uncompressed:
@@ -3883,7 +3885,7 @@ extension on ParquetCompression {
   }
 }
 
-extension on String {
+extension ParquetCompressionFromString on String {
   ParquetCompression toParquetCompression() {
     switch (this) {
       case 'UNCOMPRESSED':
@@ -3974,7 +3976,7 @@ enum ParquetWriterVersion {
   v2,
 }
 
-extension on ParquetWriterVersion {
+extension ParquetWriterVersionValueExtension on ParquetWriterVersion {
   String toValue() {
     switch (this) {
       case ParquetWriterVersion.v1:
@@ -3985,7 +3987,7 @@ extension on ParquetWriterVersion {
   }
 }
 
-extension on String {
+extension ParquetWriterVersionFromString on String {
   ParquetWriterVersion toParquetWriterVersion() {
     switch (this) {
       case 'V1':
@@ -4099,7 +4101,7 @@ enum ProcessorParameterName {
   bufferIntervalInSeconds,
 }
 
-extension on ProcessorParameterName {
+extension ProcessorParameterNameValueExtension on ProcessorParameterName {
   String toValue() {
     switch (this) {
       case ProcessorParameterName.lambdaArn:
@@ -4116,7 +4118,7 @@ extension on ProcessorParameterName {
   }
 }
 
-extension on String {
+extension ProcessorParameterNameFromString on String {
   ProcessorParameterName toProcessorParameterName() {
     switch (this) {
       case 'LambdaArn':
@@ -4138,7 +4140,7 @@ enum ProcessorType {
   lambda,
 }
 
-extension on ProcessorType {
+extension ProcessorTypeValueExtension on ProcessorType {
   String toValue() {
     switch (this) {
       case ProcessorType.lambda:
@@ -4147,7 +4149,7 @@ extension on ProcessorType {
   }
 }
 
-extension on String {
+extension ProcessorTypeFromString on String {
   ProcessorType toProcessorType() {
     switch (this) {
       case 'Lambda':
@@ -4546,7 +4548,7 @@ enum RedshiftS3BackupMode {
   enabled,
 }
 
-extension on RedshiftS3BackupMode {
+extension RedshiftS3BackupModeValueExtension on RedshiftS3BackupMode {
   String toValue() {
     switch (this) {
       case RedshiftS3BackupMode.disabled:
@@ -4557,7 +4559,7 @@ extension on RedshiftS3BackupMode {
   }
 }
 
-extension on String {
+extension RedshiftS3BackupModeFromString on String {
   RedshiftS3BackupMode toRedshiftS3BackupMode() {
     switch (this) {
       case 'Disabled':
@@ -4574,7 +4576,7 @@ enum S3BackupMode {
   enabled,
 }
 
-extension on S3BackupMode {
+extension S3BackupModeValueExtension on S3BackupMode {
   String toValue() {
     switch (this) {
       case S3BackupMode.disabled:
@@ -4585,7 +4587,7 @@ extension on S3BackupMode {
   }
 }
 
-extension on String {
+extension S3BackupModeFromString on String {
   S3BackupMode toS3BackupMode() {
     switch (this) {
       case 'Disabled':
@@ -5239,7 +5241,7 @@ enum SplunkS3BackupMode {
   allEvents,
 }
 
-extension on SplunkS3BackupMode {
+extension SplunkS3BackupModeValueExtension on SplunkS3BackupMode {
   String toValue() {
     switch (this) {
       case SplunkS3BackupMode.failedEventsOnly:
@@ -5250,7 +5252,7 @@ extension on SplunkS3BackupMode {
   }
 }
 
-extension on String {
+extension SplunkS3BackupModeFromString on String {
   SplunkS3BackupMode toSplunkS3BackupMode() {
     switch (this) {
       case 'FailedEventsOnly':

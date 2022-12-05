@@ -2529,7 +2529,7 @@ enum AccessPropertyValue {
   deny,
 }
 
-extension on AccessPropertyValue {
+extension AccessPropertyValueValueExtension on AccessPropertyValue {
   String toValue() {
     switch (this) {
       case AccessPropertyValue.allow:
@@ -2540,7 +2540,7 @@ extension on AccessPropertyValue {
   }
 }
 
-extension on String {
+extension AccessPropertyValueFromString on String {
   AccessPropertyValue toAccessPropertyValue() {
     switch (this) {
       case 'ALLOW':
@@ -2604,7 +2604,7 @@ enum Application {
   microsoftOffice_2019,
 }
 
-extension on Application {
+extension ApplicationValueExtension on Application {
   String toValue() {
     switch (this) {
       case Application.microsoftOffice_2016:
@@ -2615,7 +2615,7 @@ extension on Application {
   }
 }
 
-extension on String {
+extension ApplicationFromString on String {
   Application toApplication() {
     switch (this) {
       case 'Microsoft_Office_2016':
@@ -2658,7 +2658,7 @@ enum AssociationStatus {
   pendingDisassociation,
 }
 
-extension on AssociationStatus {
+extension AssociationStatusValueExtension on AssociationStatus {
   String toValue() {
     switch (this) {
       case AssociationStatus.notAssociated:
@@ -2675,7 +2675,7 @@ extension on AssociationStatus {
   }
 }
 
-extension on String {
+extension AssociationStatusFromString on String {
   AssociationStatus toAssociationStatus() {
     switch (this) {
       case 'NOT_ASSOCIATED':
@@ -2759,7 +2759,7 @@ enum Compute {
   graphicspro,
 }
 
-extension on Compute {
+extension ComputeValueExtension on Compute {
   String toValue() {
     switch (this) {
       case Compute.value:
@@ -2780,7 +2780,7 @@ extension on Compute {
   }
 }
 
-extension on String {
+extension ComputeFromString on String {
   Compute toCompute() {
     switch (this) {
       case 'VALUE':
@@ -2937,7 +2937,7 @@ enum ConnectionAliasState {
   deleting,
 }
 
-extension on ConnectionAliasState {
+extension ConnectionAliasStateValueExtension on ConnectionAliasState {
   String toValue() {
     switch (this) {
       case ConnectionAliasState.creating:
@@ -2950,7 +2950,7 @@ extension on ConnectionAliasState {
   }
 }
 
-extension on String {
+extension ConnectionAliasStateFromString on String {
   ConnectionAliasState toConnectionAliasState() {
     switch (this) {
       case 'CREATING':
@@ -2970,7 +2970,7 @@ enum ConnectionState {
   unknown,
 }
 
-extension on ConnectionState {
+extension ConnectionStateValueExtension on ConnectionState {
   String toValue() {
     switch (this) {
       case ConnectionState.connected:
@@ -2983,7 +2983,7 @@ extension on ConnectionState {
   }
 }
 
-extension on String {
+extension ConnectionStateFromString on String {
   ConnectionState toConnectionState() {
     switch (this) {
       case 'CONNECTED':
@@ -3083,7 +3083,8 @@ enum DedicatedTenancyModificationStateEnum {
   failed,
 }
 
-extension on DedicatedTenancyModificationStateEnum {
+extension DedicatedTenancyModificationStateEnumValueExtension
+    on DedicatedTenancyModificationStateEnum {
   String toValue() {
     switch (this) {
       case DedicatedTenancyModificationStateEnum.pending:
@@ -3096,7 +3097,7 @@ extension on DedicatedTenancyModificationStateEnum {
   }
 }
 
-extension on String {
+extension DedicatedTenancyModificationStateEnumFromString on String {
   DedicatedTenancyModificationStateEnum
       toDedicatedTenancyModificationStateEnum() {
     switch (this) {
@@ -3116,7 +3117,8 @@ enum DedicatedTenancySupportEnum {
   enabled,
 }
 
-extension on DedicatedTenancySupportEnum {
+extension DedicatedTenancySupportEnumValueExtension
+    on DedicatedTenancySupportEnum {
   String toValue() {
     switch (this) {
       case DedicatedTenancySupportEnum.enabled:
@@ -3125,7 +3127,7 @@ extension on DedicatedTenancySupportEnum {
   }
 }
 
-extension on String {
+extension DedicatedTenancySupportEnumFromString on String {
   DedicatedTenancySupportEnum toDedicatedTenancySupportEnum() {
     switch (this) {
       case 'ENABLED':
@@ -3140,7 +3142,8 @@ enum DedicatedTenancySupportResultEnum {
   disabled,
 }
 
-extension on DedicatedTenancySupportResultEnum {
+extension DedicatedTenancySupportResultEnumValueExtension
+    on DedicatedTenancySupportResultEnum {
   String toValue() {
     switch (this) {
       case DedicatedTenancySupportResultEnum.enabled:
@@ -3151,7 +3154,7 @@ extension on DedicatedTenancySupportResultEnum {
   }
 }
 
-extension on String {
+extension DedicatedTenancySupportResultEnumFromString on String {
   DedicatedTenancySupportResultEnum toDedicatedTenancySupportResultEnum() {
     switch (this) {
       case 'ENABLED':
@@ -3697,7 +3700,7 @@ enum ImageType {
   shared,
 }
 
-extension on ImageType {
+extension ImageTypeValueExtension on ImageType {
   String toValue() {
     switch (this) {
       case ImageType.owned:
@@ -3708,7 +3711,7 @@ extension on ImageType {
   }
 }
 
-extension on String {
+extension ImageTypeFromString on String {
   ImageType toImageType() {
     switch (this) {
       case 'OWNED':
@@ -3814,7 +3817,7 @@ enum ModificationResourceEnum {
   computeType,
 }
 
-extension on ModificationResourceEnum {
+extension ModificationResourceEnumValueExtension on ModificationResourceEnum {
   String toValue() {
     switch (this) {
       case ModificationResourceEnum.rootVolume:
@@ -3827,7 +3830,7 @@ extension on ModificationResourceEnum {
   }
 }
 
-extension on String {
+extension ModificationResourceEnumFromString on String {
   ModificationResourceEnum toModificationResourceEnum() {
     switch (this) {
       case 'ROOT_VOLUME':
@@ -3866,7 +3869,7 @@ enum ModificationStateEnum {
   updateInProgress,
 }
 
-extension on ModificationStateEnum {
+extension ModificationStateEnumValueExtension on ModificationStateEnum {
   String toValue() {
     switch (this) {
       case ModificationStateEnum.updateInitiated:
@@ -3877,7 +3880,7 @@ extension on ModificationStateEnum {
   }
 }
 
-extension on String {
+extension ModificationStateEnumFromString on String {
   ModificationStateEnum toModificationStateEnum() {
     switch (this) {
       case 'UPDATE_INITIATED':
@@ -3960,7 +3963,7 @@ enum OperatingSystemType {
   linux,
 }
 
-extension on OperatingSystemType {
+extension OperatingSystemTypeValueExtension on OperatingSystemType {
   String toValue() {
     switch (this) {
       case OperatingSystemType.windows:
@@ -3971,7 +3974,7 @@ extension on OperatingSystemType {
   }
 }
 
-extension on String {
+extension OperatingSystemTypeFromString on String {
   OperatingSystemType toOperatingSystemType() {
     switch (this) {
       case 'WINDOWS':
@@ -4056,7 +4059,7 @@ enum ReconnectEnum {
   disabled,
 }
 
-extension on ReconnectEnum {
+extension ReconnectEnumValueExtension on ReconnectEnum {
   String toValue() {
     switch (this) {
       case ReconnectEnum.enabled:
@@ -4067,7 +4070,7 @@ extension on ReconnectEnum {
   }
 }
 
-extension on String {
+extension ReconnectEnumFromString on String {
   ReconnectEnum toReconnectEnum() {
     switch (this) {
       case 'ENABLED':
@@ -4120,7 +4123,7 @@ enum RunningMode {
   alwaysOn,
 }
 
-extension on RunningMode {
+extension RunningModeValueExtension on RunningMode {
   String toValue() {
     switch (this) {
       case RunningMode.autoStop:
@@ -4131,7 +4134,7 @@ extension on RunningMode {
   }
 }
 
-extension on String {
+extension RunningModeFromString on String {
   RunningMode toRunningMode() {
     switch (this) {
       case 'AUTO_STOP':
@@ -4326,7 +4329,7 @@ enum TargetWorkspaceState {
   adminMaintenance,
 }
 
-extension on TargetWorkspaceState {
+extension TargetWorkspaceStateValueExtension on TargetWorkspaceState {
   String toValue() {
     switch (this) {
       case TargetWorkspaceState.available:
@@ -4337,7 +4340,7 @@ extension on TargetWorkspaceState {
   }
 }
 
-extension on String {
+extension TargetWorkspaceStateFromString on String {
   TargetWorkspaceState toTargetWorkspaceState() {
     switch (this) {
       case 'AVAILABLE':
@@ -4354,7 +4357,7 @@ enum Tenancy {
   shared,
 }
 
-extension on Tenancy {
+extension TenancyValueExtension on Tenancy {
   String toValue() {
     switch (this) {
       case Tenancy.dedicated:
@@ -4365,7 +4368,7 @@ extension on Tenancy {
   }
 }
 
-extension on String {
+extension TenancyFromString on String {
   Tenancy toTenancy() {
     switch (this) {
       case 'DEDICATED':
@@ -4964,7 +4967,7 @@ enum WorkspaceDirectoryState {
   error,
 }
 
-extension on WorkspaceDirectoryState {
+extension WorkspaceDirectoryStateValueExtension on WorkspaceDirectoryState {
   String toValue() {
     switch (this) {
       case WorkspaceDirectoryState.registering:
@@ -4981,7 +4984,7 @@ extension on WorkspaceDirectoryState {
   }
 }
 
-extension on String {
+extension WorkspaceDirectoryStateFromString on String {
   WorkspaceDirectoryState toWorkspaceDirectoryState() {
     switch (this) {
       case 'REGISTERING':
@@ -5004,7 +5007,7 @@ enum WorkspaceDirectoryType {
   adConnector,
 }
 
-extension on WorkspaceDirectoryType {
+extension WorkspaceDirectoryTypeValueExtension on WorkspaceDirectoryType {
   String toValue() {
     switch (this) {
       case WorkspaceDirectoryType.simpleAd:
@@ -5015,7 +5018,7 @@ extension on WorkspaceDirectoryType {
   }
 }
 
-extension on String {
+extension WorkspaceDirectoryTypeFromString on String {
   WorkspaceDirectoryType toWorkspaceDirectoryType() {
     switch (this) {
       case 'SIMPLE_AD':
@@ -5104,7 +5107,8 @@ enum WorkspaceImageIngestionProcess {
   byolRegularWsp,
 }
 
-extension on WorkspaceImageIngestionProcess {
+extension WorkspaceImageIngestionProcessValueExtension
+    on WorkspaceImageIngestionProcess {
   String toValue() {
     switch (this) {
       case WorkspaceImageIngestionProcess.byolRegular:
@@ -5119,7 +5123,7 @@ extension on WorkspaceImageIngestionProcess {
   }
 }
 
-extension on String {
+extension WorkspaceImageIngestionProcessFromString on String {
   WorkspaceImageIngestionProcess toWorkspaceImageIngestionProcess() {
     switch (this) {
       case 'BYOL_REGULAR':
@@ -5141,7 +5145,8 @@ enum WorkspaceImageRequiredTenancy {
   dedicated,
 }
 
-extension on WorkspaceImageRequiredTenancy {
+extension WorkspaceImageRequiredTenancyValueExtension
+    on WorkspaceImageRequiredTenancy {
   String toValue() {
     switch (this) {
       case WorkspaceImageRequiredTenancy.$default:
@@ -5152,7 +5157,7 @@ extension on WorkspaceImageRequiredTenancy {
   }
 }
 
-extension on String {
+extension WorkspaceImageRequiredTenancyFromString on String {
   WorkspaceImageRequiredTenancy toWorkspaceImageRequiredTenancy() {
     switch (this) {
       case 'DEFAULT':
@@ -5170,7 +5175,7 @@ enum WorkspaceImageState {
   error,
 }
 
-extension on WorkspaceImageState {
+extension WorkspaceImageStateValueExtension on WorkspaceImageState {
   String toValue() {
     switch (this) {
       case WorkspaceImageState.available:
@@ -5183,7 +5188,7 @@ extension on WorkspaceImageState {
   }
 }
 
-extension on String {
+extension WorkspaceImageStateFromString on String {
   WorkspaceImageState toWorkspaceImageState() {
     switch (this) {
       case 'AVAILABLE':
@@ -5368,7 +5373,7 @@ enum WorkspaceState {
   error,
 }
 
-extension on WorkspaceState {
+extension WorkspaceStateValueExtension on WorkspaceState {
   String toValue() {
     switch (this) {
       case WorkspaceState.pending:
@@ -5409,7 +5414,7 @@ extension on WorkspaceState {
   }
 }
 
-extension on String {
+extension WorkspaceStateFromString on String {
   WorkspaceState toWorkspaceState() {
     switch (this) {
       case 'PENDING':

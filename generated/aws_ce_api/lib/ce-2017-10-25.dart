@@ -2468,7 +2468,7 @@ enum AccountScope {
   linked,
 }
 
-extension on AccountScope {
+extension AccountScopeValueExtension on AccountScope {
   String toValue() {
     switch (this) {
       case AccountScope.payer:
@@ -2479,7 +2479,7 @@ extension on AccountScope {
   }
 }
 
-extension on String {
+extension AccountScopeFromString on String {
   AccountScope toAccountScope() {
     switch (this) {
       case 'PAYER':
@@ -2581,7 +2581,7 @@ enum AnomalyFeedbackType {
   plannedActivity,
 }
 
-extension on AnomalyFeedbackType {
+extension AnomalyFeedbackTypeValueExtension on AnomalyFeedbackType {
   String toValue() {
     switch (this) {
       case AnomalyFeedbackType.yes:
@@ -2594,7 +2594,7 @@ extension on AnomalyFeedbackType {
   }
 }
 
-extension on String {
+extension AnomalyFeedbackTypeFromString on String {
   AnomalyFeedbackType toAnomalyFeedbackType() {
     switch (this) {
       case 'YES':
@@ -2793,7 +2793,8 @@ enum AnomalySubscriptionFrequency {
   weekly,
 }
 
-extension on AnomalySubscriptionFrequency {
+extension AnomalySubscriptionFrequencyValueExtension
+    on AnomalySubscriptionFrequency {
   String toValue() {
     switch (this) {
       case AnomalySubscriptionFrequency.daily:
@@ -2806,7 +2807,7 @@ extension on AnomalySubscriptionFrequency {
   }
 }
 
-extension on String {
+extension AnomalySubscriptionFrequencyFromString on String {
   AnomalySubscriptionFrequency toAnomalySubscriptionFrequency() {
     switch (this) {
       case 'DAILY':
@@ -2826,7 +2827,7 @@ enum Context {
   savingsPlans,
 }
 
-extension on Context {
+extension ContextValueExtension on Context {
   String toValue() {
     switch (this) {
       case Context.costAndUsage:
@@ -2839,7 +2840,7 @@ extension on Context {
   }
 }
 
-extension on String {
+extension ContextFromString on String {
   Context toContext() {
     switch (this) {
       case 'COST_AND_USAGE':
@@ -3031,7 +3032,7 @@ enum CostCategoryRuleVersion {
   costCategoryExpressionV1,
 }
 
-extension on CostCategoryRuleVersion {
+extension CostCategoryRuleVersionValueExtension on CostCategoryRuleVersion {
   String toValue() {
     switch (this) {
       case CostCategoryRuleVersion.costCategoryExpressionV1:
@@ -3040,7 +3041,7 @@ extension on CostCategoryRuleVersion {
   }
 }
 
-extension on String {
+extension CostCategoryRuleVersionFromString on String {
   CostCategoryRuleVersion toCostCategoryRuleVersion() {
     switch (this) {
       case 'CostCategoryExpression.v1':
@@ -3055,7 +3056,7 @@ enum CostCategoryStatus {
   applied,
 }
 
-extension on CostCategoryStatus {
+extension CostCategoryStatusValueExtension on CostCategoryStatus {
   String toValue() {
     switch (this) {
       case CostCategoryStatus.processing:
@@ -3066,7 +3067,7 @@ extension on CostCategoryStatus {
   }
 }
 
-extension on String {
+extension CostCategoryStatusFromString on String {
   CostCategoryStatus toCostCategoryStatus() {
     switch (this) {
       case 'PROCESSING':
@@ -3082,7 +3083,8 @@ enum CostCategoryStatusComponent {
   costExplorer,
 }
 
-extension on CostCategoryStatusComponent {
+extension CostCategoryStatusComponentValueExtension
+    on CostCategoryStatusComponent {
   String toValue() {
     switch (this) {
       case CostCategoryStatusComponent.costExplorer:
@@ -3091,7 +3093,7 @@ extension on CostCategoryStatusComponent {
   }
 }
 
-extension on String {
+extension CostCategoryStatusComponentFromString on String {
   CostCategoryStatusComponent toCostCategoryStatusComponent() {
     switch (this) {
       case 'COST_EXPLORER':
@@ -3550,7 +3552,7 @@ enum Dimension {
   paymentOption,
 }
 
-extension on Dimension {
+extension DimensionValueExtension on Dimension {
   String toValue() {
     switch (this) {
       case Dimension.az:
@@ -3615,7 +3617,7 @@ extension on Dimension {
   }
 }
 
-extension on String {
+extension DimensionFromString on String {
   Dimension toDimension() {
     switch (this) {
       case 'AZ':
@@ -4861,7 +4863,7 @@ enum Granularity {
   hourly,
 }
 
-extension on Granularity {
+extension GranularityValueExtension on Granularity {
   String toValue() {
     switch (this) {
       case Granularity.daily:
@@ -4874,7 +4876,7 @@ extension on Granularity {
   }
 }
 
-extension on String {
+extension GranularityFromString on String {
   Granularity toGranularity() {
     switch (this) {
       case 'DAILY':
@@ -4948,7 +4950,7 @@ enum GroupDefinitionType {
   costCategory,
 }
 
-extension on GroupDefinitionType {
+extension GroupDefinitionTypeValueExtension on GroupDefinitionType {
   String toValue() {
     switch (this) {
       case GroupDefinitionType.dimension:
@@ -4961,7 +4963,7 @@ extension on GroupDefinitionType {
   }
 }
 
-extension on String {
+extension GroupDefinitionTypeFromString on String {
   GroupDefinitionType toGroupDefinitionType() {
     switch (this) {
       case 'DIMENSION':
@@ -5077,7 +5079,7 @@ enum LookbackPeriodInDays {
   sixtyDays,
 }
 
-extension on LookbackPeriodInDays {
+extension LookbackPeriodInDaysValueExtension on LookbackPeriodInDays {
   String toValue() {
     switch (this) {
       case LookbackPeriodInDays.sevenDays:
@@ -5090,7 +5092,7 @@ extension on LookbackPeriodInDays {
   }
 }
 
-extension on String {
+extension LookbackPeriodInDaysFromString on String {
   LookbackPeriodInDays toLookbackPeriodInDays() {
     switch (this) {
       case 'SEVEN_DAYS':
@@ -5113,7 +5115,7 @@ enum MatchOption {
   caseInsensitive,
 }
 
-extension on MatchOption {
+extension MatchOptionValueExtension on MatchOption {
   String toValue() {
     switch (this) {
       case MatchOption.equals:
@@ -5132,7 +5134,7 @@ extension on MatchOption {
   }
 }
 
-extension on String {
+extension MatchOptionFromString on String {
   MatchOption toMatchOption() {
     switch (this) {
       case 'EQUALS':
@@ -5162,7 +5164,7 @@ enum Metric {
   normalizedUsageAmount,
 }
 
-extension on Metric {
+extension MetricValueExtension on Metric {
   String toValue() {
     switch (this) {
       case Metric.blendedCost:
@@ -5183,7 +5185,7 @@ extension on Metric {
   }
 }
 
-extension on String {
+extension MetricFromString on String {
   Metric toMetric() {
     switch (this) {
       case 'BLENDED_COST':
@@ -5247,7 +5249,7 @@ enum MonitorDimension {
   service,
 }
 
-extension on MonitorDimension {
+extension MonitorDimensionValueExtension on MonitorDimension {
   String toValue() {
     switch (this) {
       case MonitorDimension.service:
@@ -5256,7 +5258,7 @@ extension on MonitorDimension {
   }
 }
 
-extension on String {
+extension MonitorDimensionFromString on String {
   MonitorDimension toMonitorDimension() {
     switch (this) {
       case 'SERVICE':
@@ -5271,7 +5273,7 @@ enum MonitorType {
   custom,
 }
 
-extension on MonitorType {
+extension MonitorTypeValueExtension on MonitorType {
   String toValue() {
     switch (this) {
       case MonitorType.dimensional:
@@ -5282,7 +5284,7 @@ extension on MonitorType {
   }
 }
 
-extension on String {
+extension MonitorTypeFromString on String {
   MonitorType toMonitorType() {
     switch (this) {
       case 'DIMENSIONAL':
@@ -5303,7 +5305,7 @@ enum NumericOperator {
   between,
 }
 
-extension on NumericOperator {
+extension NumericOperatorValueExtension on NumericOperator {
   String toValue() {
     switch (this) {
       case NumericOperator.equal:
@@ -5322,7 +5324,7 @@ extension on NumericOperator {
   }
 }
 
-extension on String {
+extension NumericOperatorFromString on String {
   NumericOperator toNumericOperator() {
     switch (this) {
       case 'EQUAL':
@@ -5347,7 +5349,7 @@ enum OfferingClass {
   convertible,
 }
 
-extension on OfferingClass {
+extension OfferingClassValueExtension on OfferingClass {
   String toValue() {
     switch (this) {
       case OfferingClass.standard:
@@ -5358,7 +5360,7 @@ extension on OfferingClass {
   }
 }
 
-extension on String {
+extension OfferingClassFromString on String {
   OfferingClass toOfferingClass() {
     switch (this) {
       case 'STANDARD':
@@ -5379,7 +5381,7 @@ enum PaymentOption {
   heavyUtilization,
 }
 
-extension on PaymentOption {
+extension PaymentOptionValueExtension on PaymentOption {
   String toValue() {
     switch (this) {
       case PaymentOption.noUpfront:
@@ -5398,7 +5400,7 @@ extension on PaymentOption {
   }
 }
 
-extension on String {
+extension PaymentOptionFromString on String {
   PaymentOption toPaymentOption() {
     switch (this) {
       case 'NO_UPFRONT':
@@ -5494,7 +5496,7 @@ enum RecommendationTarget {
   crossInstanceFamily,
 }
 
-extension on RecommendationTarget {
+extension RecommendationTargetValueExtension on RecommendationTarget {
   String toValue() {
     switch (this) {
       case RecommendationTarget.sameInstanceFamily:
@@ -5505,7 +5507,7 @@ extension on RecommendationTarget {
   }
 }
 
-extension on String {
+extension RecommendationTargetFromString on String {
   RecommendationTarget toRecommendationTarget() {
     switch (this) {
       case 'SAME_INSTANCE_FAMILY':
@@ -6181,7 +6183,7 @@ enum RightsizingType {
   modify,
 }
 
-extension on RightsizingType {
+extension RightsizingTypeValueExtension on RightsizingType {
   String toValue() {
     switch (this) {
       case RightsizingType.terminate:
@@ -6192,7 +6194,7 @@ extension on RightsizingType {
   }
 }
 
-extension on String {
+extension RightsizingTypeFromString on String {
   RightsizingType toRightsizingType() {
     switch (this) {
       case 'TERMINATE':
@@ -6901,7 +6903,7 @@ enum SubscriberStatus {
   declined,
 }
 
-extension on SubscriberStatus {
+extension SubscriberStatusValueExtension on SubscriberStatus {
   String toValue() {
     switch (this) {
       case SubscriberStatus.confirmed:
@@ -6912,7 +6914,7 @@ extension on SubscriberStatus {
   }
 }
 
-extension on String {
+extension SubscriberStatusFromString on String {
   SubscriberStatus toSubscriberStatus() {
     switch (this) {
       case 'CONFIRMED':
@@ -6929,7 +6931,7 @@ enum SubscriberType {
   sns,
 }
 
-extension on SubscriberType {
+extension SubscriberTypeValueExtension on SubscriberType {
   String toValue() {
     switch (this) {
       case SubscriberType.email:
@@ -6940,7 +6942,7 @@ extension on SubscriberType {
   }
 }
 
-extension on String {
+extension SubscriberTypeFromString on String {
   SubscriberType toSubscriberType() {
     switch (this) {
       case 'EMAIL':
@@ -6957,7 +6959,7 @@ enum SupportedSavingsPlansType {
   ec2InstanceSp,
 }
 
-extension on SupportedSavingsPlansType {
+extension SupportedSavingsPlansTypeValueExtension on SupportedSavingsPlansType {
   String toValue() {
     switch (this) {
       case SupportedSavingsPlansType.computeSp:
@@ -6968,7 +6970,7 @@ extension on SupportedSavingsPlansType {
   }
 }
 
-extension on String {
+extension SupportedSavingsPlansTypeFromString on String {
   SupportedSavingsPlansType toSupportedSavingsPlansType() {
     switch (this) {
       case 'COMPUTE_SP':
@@ -7077,7 +7079,7 @@ enum TermInYears {
   threeYears,
 }
 
-extension on TermInYears {
+extension TermInYearsValueExtension on TermInYears {
   String toValue() {
     switch (this) {
       case TermInYears.oneYear:
@@ -7088,7 +7090,7 @@ extension on TermInYears {
   }
 }
 
-extension on String {
+extension TermInYearsFromString on String {
   TermInYears toTermInYears() {
     switch (this) {
       case 'ONE_YEAR':

@@ -373,7 +373,7 @@ enum TargetType {
   account,
 }
 
-extension on TargetType {
+extension TargetTypeValueExtension on TargetType {
   String toValue() {
     switch (this) {
       case TargetType.account:
@@ -382,7 +382,7 @@ extension on TargetType {
   }
 }
 
-extension on String {
+extension TargetTypeFromString on String {
   TargetType toTargetType() {
     switch (this) {
       case 'ACCOUNT':

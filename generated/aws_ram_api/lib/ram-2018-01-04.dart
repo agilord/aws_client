@@ -1766,7 +1766,7 @@ enum ResourceOwner {
   otherAccounts,
 }
 
-extension on ResourceOwner {
+extension ResourceOwnerValueExtension on ResourceOwner {
   String toValue() {
     switch (this) {
       case ResourceOwner.self:
@@ -1777,7 +1777,7 @@ extension on ResourceOwner {
   }
 }
 
-extension on String {
+extension ResourceOwnerFromString on String {
   ResourceOwner toResourceOwner() {
     switch (this) {
       case 'SELF':
@@ -1939,7 +1939,8 @@ enum ResourceShareAssociationStatus {
   disassociated,
 }
 
-extension on ResourceShareAssociationStatus {
+extension ResourceShareAssociationStatusValueExtension
+    on ResourceShareAssociationStatus {
   String toValue() {
     switch (this) {
       case ResourceShareAssociationStatus.associating:
@@ -1956,7 +1957,7 @@ extension on ResourceShareAssociationStatus {
   }
 }
 
-extension on String {
+extension ResourceShareAssociationStatusFromString on String {
   ResourceShareAssociationStatus toResourceShareAssociationStatus() {
     switch (this) {
       case 'ASSOCIATING':
@@ -1980,7 +1981,8 @@ enum ResourceShareAssociationType {
   resource,
 }
 
-extension on ResourceShareAssociationType {
+extension ResourceShareAssociationTypeValueExtension
+    on ResourceShareAssociationType {
   String toValue() {
     switch (this) {
       case ResourceShareAssociationType.principal:
@@ -1991,7 +1993,7 @@ extension on ResourceShareAssociationType {
   }
 }
 
-extension on String {
+extension ResourceShareAssociationTypeFromString on String {
   ResourceShareAssociationType toResourceShareAssociationType() {
     switch (this) {
       case 'PRINCIPAL':
@@ -2009,7 +2011,7 @@ enum ResourceShareFeatureSet {
   standard,
 }
 
-extension on ResourceShareFeatureSet {
+extension ResourceShareFeatureSetValueExtension on ResourceShareFeatureSet {
   String toValue() {
     switch (this) {
       case ResourceShareFeatureSet.createdFromPolicy:
@@ -2022,7 +2024,7 @@ extension on ResourceShareFeatureSet {
   }
 }
 
-extension on String {
+extension ResourceShareFeatureSetFromString on String {
   ResourceShareFeatureSet toResourceShareFeatureSet() {
     switch (this) {
       case 'CREATED_FROM_POLICY':
@@ -2100,7 +2102,8 @@ enum ResourceShareInvitationStatus {
   expired,
 }
 
-extension on ResourceShareInvitationStatus {
+extension ResourceShareInvitationStatusValueExtension
+    on ResourceShareInvitationStatus {
   String toValue() {
     switch (this) {
       case ResourceShareInvitationStatus.pending:
@@ -2115,7 +2118,7 @@ extension on ResourceShareInvitationStatus {
   }
 }
 
-extension on String {
+extension ResourceShareInvitationStatusFromString on String {
   ResourceShareInvitationStatus toResourceShareInvitationStatus() {
     switch (this) {
       case 'PENDING':
@@ -2244,7 +2247,7 @@ enum ResourceShareStatus {
   deleted,
 }
 
-extension on ResourceShareStatus {
+extension ResourceShareStatusValueExtension on ResourceShareStatus {
   String toValue() {
     switch (this) {
       case ResourceShareStatus.pending:
@@ -2261,7 +2264,7 @@ extension on ResourceShareStatus {
   }
 }
 
-extension on String {
+extension ResourceShareStatusFromString on String {
   ResourceShareStatus toResourceShareStatus() {
     switch (this) {
       case 'PENDING':
@@ -2287,7 +2290,7 @@ enum ResourceStatus {
   pending,
 }
 
-extension on ResourceStatus {
+extension ResourceStatusValueExtension on ResourceStatus {
   String toValue() {
     switch (this) {
       case ResourceStatus.available:
@@ -2304,7 +2307,7 @@ extension on ResourceStatus {
   }
 }
 
-extension on String {
+extension ResourceStatusFromString on String {
   ResourceStatus toResourceStatus() {
     switch (this) {
       case 'AVAILABLE':

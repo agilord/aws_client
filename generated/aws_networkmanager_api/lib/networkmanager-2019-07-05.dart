@@ -1882,7 +1882,7 @@ enum ConnectionState {
   updating,
 }
 
-extension on ConnectionState {
+extension ConnectionStateValueExtension on ConnectionState {
   String toValue() {
     switch (this) {
       case ConnectionState.pending:
@@ -1897,7 +1897,7 @@ extension on ConnectionState {
   }
 }
 
-extension on String {
+extension ConnectionStateFromString on String {
   ConnectionState toConnectionState() {
     switch (this) {
       case 'PENDING':
@@ -2036,7 +2036,8 @@ enum CustomerGatewayAssociationState {
   deleted,
 }
 
-extension on CustomerGatewayAssociationState {
+extension CustomerGatewayAssociationStateValueExtension
+    on CustomerGatewayAssociationState {
   String toValue() {
     switch (this) {
       case CustomerGatewayAssociationState.pending:
@@ -2051,7 +2052,7 @@ extension on CustomerGatewayAssociationState {
   }
 }
 
-extension on String {
+extension CustomerGatewayAssociationStateFromString on String {
   CustomerGatewayAssociationState toCustomerGatewayAssociationState() {
     switch (this) {
       case 'PENDING':
@@ -2282,7 +2283,7 @@ enum DeviceState {
   updating,
 }
 
-extension on DeviceState {
+extension DeviceStateValueExtension on DeviceState {
   String toValue() {
     switch (this) {
       case DeviceState.pending:
@@ -2297,7 +2298,7 @@ extension on DeviceState {
   }
 }
 
-extension on String {
+extension DeviceStateFromString on String {
   DeviceState toDeviceState() {
     switch (this) {
       case 'PENDING':
@@ -2605,7 +2606,7 @@ enum GlobalNetworkState {
   updating,
 }
 
-extension on GlobalNetworkState {
+extension GlobalNetworkStateValueExtension on GlobalNetworkState {
   String toValue() {
     switch (this) {
       case GlobalNetworkState.pending:
@@ -2620,7 +2621,7 @@ extension on GlobalNetworkState {
   }
 }
 
-extension on String {
+extension GlobalNetworkStateFromString on String {
   GlobalNetworkState toGlobalNetworkState() {
     switch (this) {
       case 'PENDING':
@@ -2744,7 +2745,7 @@ enum LinkAssociationState {
   deleted,
 }
 
-extension on LinkAssociationState {
+extension LinkAssociationStateValueExtension on LinkAssociationState {
   String toValue() {
     switch (this) {
       case LinkAssociationState.pending:
@@ -2759,7 +2760,7 @@ extension on LinkAssociationState {
   }
 }
 
-extension on String {
+extension LinkAssociationStateFromString on String {
   LinkAssociationState toLinkAssociationState() {
     switch (this) {
       case 'PENDING':
@@ -2782,7 +2783,7 @@ enum LinkState {
   updating,
 }
 
-extension on LinkState {
+extension LinkStateValueExtension on LinkState {
   String toValue() {
     switch (this) {
       case LinkState.pending:
@@ -2797,7 +2798,7 @@ extension on LinkState {
   }
 }
 
-extension on String {
+extension LinkStateFromString on String {
   LinkState toLinkState() {
     switch (this) {
       case 'PENDING':
@@ -2945,7 +2946,7 @@ enum SiteState {
   updating,
 }
 
-extension on SiteState {
+extension SiteStateValueExtension on SiteState {
   String toValue() {
     switch (this) {
       case SiteState.pending:
@@ -2960,7 +2961,7 @@ extension on SiteState {
   }
 }
 
-extension on String {
+extension SiteStateFromString on String {
   SiteState toSiteState() {
     switch (this) {
       case 'PENDING':
@@ -3061,7 +3062,8 @@ enum TransitGatewayConnectPeerAssociationState {
   deleted,
 }
 
-extension on TransitGatewayConnectPeerAssociationState {
+extension TransitGatewayConnectPeerAssociationStateValueExtension
+    on TransitGatewayConnectPeerAssociationState {
   String toValue() {
     switch (this) {
       case TransitGatewayConnectPeerAssociationState.pending:
@@ -3076,7 +3078,7 @@ extension on TransitGatewayConnectPeerAssociationState {
   }
 }
 
-extension on String {
+extension TransitGatewayConnectPeerAssociationStateFromString on String {
   TransitGatewayConnectPeerAssociationState
       toTransitGatewayConnectPeerAssociationState() {
     switch (this) {
@@ -3130,7 +3132,8 @@ enum TransitGatewayRegistrationState {
   failed,
 }
 
-extension on TransitGatewayRegistrationState {
+extension TransitGatewayRegistrationStateValueExtension
+    on TransitGatewayRegistrationState {
   String toValue() {
     switch (this) {
       case TransitGatewayRegistrationState.pending:
@@ -3147,7 +3150,7 @@ extension on TransitGatewayRegistrationState {
   }
 }
 
-extension on String {
+extension TransitGatewayRegistrationStateFromString on String {
   TransitGatewayRegistrationState toTransitGatewayRegistrationState() {
     switch (this) {
       case 'PENDING':

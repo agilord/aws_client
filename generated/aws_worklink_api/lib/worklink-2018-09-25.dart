@@ -1613,7 +1613,7 @@ enum AuthorizationProviderType {
   saml,
 }
 
-extension on AuthorizationProviderType {
+extension AuthorizationProviderTypeValueExtension on AuthorizationProviderType {
   String toValue() {
     switch (this) {
       case AuthorizationProviderType.saml:
@@ -1622,7 +1622,7 @@ extension on AuthorizationProviderType {
   }
 }
 
-extension on String {
+extension AuthorizationProviderTypeFromString on String {
   AuthorizationProviderType toAuthorizationProviderType() {
     switch (this) {
       case 'SAML':
@@ -1915,7 +1915,7 @@ enum DeviceStatus {
   signedOut,
 }
 
-extension on DeviceStatus {
+extension DeviceStatusValueExtension on DeviceStatus {
   String toValue() {
     switch (this) {
       case DeviceStatus.active:
@@ -1926,7 +1926,7 @@ extension on DeviceStatus {
   }
 }
 
-extension on String {
+extension DeviceStatusFromString on String {
   DeviceStatus toDeviceStatus() {
     switch (this) {
       case 'ACTIVE':
@@ -1992,7 +1992,7 @@ enum DomainStatus {
   failedToDisassociate,
 }
 
-extension on DomainStatus {
+extension DomainStatusValueExtension on DomainStatus {
   String toValue() {
     switch (this) {
       case DomainStatus.pendingValidation:
@@ -2015,7 +2015,7 @@ extension on DomainStatus {
   }
 }
 
-extension on String {
+extension DomainStatusFromString on String {
   DomainStatus toDomainStatus() {
     switch (this) {
       case 'PENDING_VALIDATION':
@@ -2078,7 +2078,7 @@ enum FleetStatus {
   failedToDelete,
 }
 
-extension on FleetStatus {
+extension FleetStatusValueExtension on FleetStatus {
   String toValue() {
     switch (this) {
       case FleetStatus.creating:
@@ -2097,7 +2097,7 @@ extension on FleetStatus {
   }
 }
 
-extension on String {
+extension FleetStatusFromString on String {
   FleetStatus toFleetStatus() {
     switch (this) {
       case 'CREATING':
@@ -2172,7 +2172,7 @@ enum IdentityProviderType {
   saml,
 }
 
-extension on IdentityProviderType {
+extension IdentityProviderTypeValueExtension on IdentityProviderType {
   String toValue() {
     switch (this) {
       case IdentityProviderType.saml:
@@ -2181,7 +2181,7 @@ extension on IdentityProviderType {
   }
 }
 
-extension on String {
+extension IdentityProviderTypeFromString on String {
   IdentityProviderType toIdentityProviderType() {
     switch (this) {
       case 'SAML':

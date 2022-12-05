@@ -918,7 +918,7 @@ enum BackupPolicy {
   $default,
 }
 
-extension on BackupPolicy {
+extension BackupPolicyValueExtension on BackupPolicy {
   String toValue() {
     switch (this) {
       case BackupPolicy.$default:
@@ -927,7 +927,7 @@ extension on BackupPolicy {
   }
 }
 
-extension on String {
+extension BackupPolicyFromString on String {
   BackupPolicy toBackupPolicy() {
     switch (this) {
       case 'DEFAULT':
@@ -971,7 +971,7 @@ enum BackupRetentionType {
   days,
 }
 
-extension on BackupRetentionType {
+extension BackupRetentionTypeValueExtension on BackupRetentionType {
   String toValue() {
     switch (this) {
       case BackupRetentionType.days:
@@ -980,7 +980,7 @@ extension on BackupRetentionType {
   }
 }
 
-extension on String {
+extension BackupRetentionTypeFromString on String {
   BackupRetentionType toBackupRetentionType() {
     switch (this) {
       case 'DAYS':
@@ -997,7 +997,7 @@ enum BackupState {
   pendingDeletion,
 }
 
-extension on BackupState {
+extension BackupStateValueExtension on BackupState {
   String toValue() {
     switch (this) {
       case BackupState.createInProgress:
@@ -1012,7 +1012,7 @@ extension on BackupState {
   }
 }
 
-extension on String {
+extension BackupStateFromString on String {
   BackupState toBackupState() {
     switch (this) {
       case 'CREATE_IN_PROGRESS':
@@ -1178,7 +1178,7 @@ enum ClusterState {
   degraded,
 }
 
-extension on ClusterState {
+extension ClusterStateValueExtension on ClusterState {
   String toValue() {
     switch (this) {
       case ClusterState.createInProgress:
@@ -1203,7 +1203,7 @@ extension on ClusterState {
   }
 }
 
-extension on String {
+extension ClusterStateFromString on String {
   ClusterState toClusterState() {
     switch (this) {
       case 'CREATE_IN_PROGRESS':
@@ -1472,7 +1472,7 @@ enum HsmState {
   deleted,
 }
 
-extension on HsmState {
+extension HsmStateValueExtension on HsmState {
   String toValue() {
     switch (this) {
       case HsmState.createInProgress:
@@ -1489,7 +1489,7 @@ extension on HsmState {
   }
 }
 
-extension on String {
+extension HsmStateFromString on String {
   HsmState toHsmState() {
     switch (this) {
       case 'CREATE_IN_PROGRESS':

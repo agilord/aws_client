@@ -3226,7 +3226,7 @@ enum Distribution {
   byLogStream,
 }
 
-extension on Distribution {
+extension DistributionValueExtension on Distribution {
   String toValue() {
     switch (this) {
       case Distribution.random:
@@ -3237,7 +3237,7 @@ extension on Distribution {
   }
 }
 
-extension on String {
+extension DistributionFromString on String {
   Distribution toDistribution() {
     switch (this) {
       case 'Random':
@@ -3363,7 +3363,7 @@ enum ExportTaskStatusCode {
   running,
 }
 
-extension on ExportTaskStatusCode {
+extension ExportTaskStatusCodeValueExtension on ExportTaskStatusCode {
   String toValue() {
     switch (this) {
       case ExportTaskStatusCode.cancelled:
@@ -3382,7 +3382,7 @@ extension on ExportTaskStatusCode {
   }
 }
 
-extension on String {
+extension ExportTaskStatusCodeFromString on String {
   ExportTaskStatusCode toExportTaskStatusCode() {
     switch (this) {
       case 'CANCELLED':
@@ -3873,7 +3873,7 @@ enum OrderBy {
   lastEventTime,
 }
 
-extension on OrderBy {
+extension OrderByValueExtension on OrderBy {
   String toValue() {
     switch (this) {
       case OrderBy.logStreamName:
@@ -3884,7 +3884,7 @@ extension on OrderBy {
   }
 }
 
-extension on String {
+extension OrderByFromString on String {
   OrderBy toOrderBy() {
     switch (this) {
       case 'LogStreamName':
@@ -4107,7 +4107,7 @@ enum QueryStatus {
   cancelled,
 }
 
-extension on QueryStatus {
+extension QueryStatusValueExtension on QueryStatus {
   String toValue() {
     switch (this) {
       case QueryStatus.scheduled:
@@ -4124,7 +4124,7 @@ extension on QueryStatus {
   }
 }
 
-extension on String {
+extension QueryStatusFromString on String {
   QueryStatus toQueryStatus() {
     switch (this) {
       case 'Scheduled':

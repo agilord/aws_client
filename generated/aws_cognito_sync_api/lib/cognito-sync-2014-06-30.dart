@@ -1070,7 +1070,7 @@ enum BulkPublishStatus {
   succeeded,
 }
 
-extension on BulkPublishStatus {
+extension BulkPublishStatusValueExtension on BulkPublishStatus {
   String toValue() {
     switch (this) {
       case BulkPublishStatus.notStarted:
@@ -1085,7 +1085,7 @@ extension on BulkPublishStatus {
   }
 }
 
-extension on String {
+extension BulkPublishStatusFromString on String {
   BulkPublishStatus toBulkPublishStatus() {
     switch (this) {
       case 'NOT_STARTED':
@@ -1711,7 +1711,7 @@ enum Operation {
   remove,
 }
 
-extension on Operation {
+extension OperationValueExtension on Operation {
   String toValue() {
     switch (this) {
       case Operation.replace:
@@ -1722,7 +1722,7 @@ extension on Operation {
   }
 }
 
-extension on String {
+extension OperationFromString on String {
   Operation toOperation() {
     switch (this) {
       case 'replace':
@@ -1741,7 +1741,7 @@ enum Platform {
   adm,
 }
 
-extension on Platform {
+extension PlatformValueExtension on Platform {
   String toValue() {
     switch (this) {
       case Platform.apns:
@@ -1756,7 +1756,7 @@ extension on Platform {
   }
 }
 
-extension on String {
+extension PlatformFromString on String {
   Platform toPlatform() {
     switch (this) {
       case 'APNS':
@@ -1968,7 +1968,7 @@ enum StreamingStatus {
   disabled,
 }
 
-extension on StreamingStatus {
+extension StreamingStatusValueExtension on StreamingStatus {
   String toValue() {
     switch (this) {
       case StreamingStatus.enabled:
@@ -1979,7 +1979,7 @@ extension on StreamingStatus {
   }
 }
 
-extension on String {
+extension StreamingStatusFromString on String {
   StreamingStatus toStreamingStatus() {
     switch (this) {
       case 'ENABLED':

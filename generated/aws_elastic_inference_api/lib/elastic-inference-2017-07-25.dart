@@ -499,7 +499,7 @@ enum LocationType {
   availabilityZoneId,
 }
 
-extension on LocationType {
+extension LocationTypeValueExtension on LocationType {
   String toValue() {
     switch (this) {
       case LocationType.region:
@@ -512,7 +512,7 @@ extension on LocationType {
   }
 }
 
-extension on String {
+extension LocationTypeFromString on String {
   LocationType toLocationType() {
     switch (this) {
       case 'region':

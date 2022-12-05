@@ -2761,7 +2761,7 @@ enum AssignmentStatus {
   rejected,
 }
 
-extension on AssignmentStatus {
+extension AssignmentStatusValueExtension on AssignmentStatus {
   String toValue() {
     switch (this) {
       case AssignmentStatus.submitted:
@@ -2774,7 +2774,7 @@ extension on AssignmentStatus {
   }
 }
 
-extension on String {
+extension AssignmentStatusFromString on String {
   AssignmentStatus toAssignmentStatus() {
     switch (this) {
       case 'Submitted':
@@ -2842,7 +2842,7 @@ enum Comparator {
   notIn,
 }
 
-extension on Comparator {
+extension ComparatorValueExtension on Comparator {
   String toValue() {
     switch (this) {
       case Comparator.lessThan:
@@ -2869,7 +2869,7 @@ extension on Comparator {
   }
 }
 
-extension on String {
+extension ComparatorFromString on String {
   Comparator toComparator() {
     switch (this) {
       case 'LessThan':
@@ -3024,7 +3024,7 @@ enum EventType {
   ping,
 }
 
-extension on EventType {
+extension EventTypeValueExtension on EventType {
   String toValue() {
     switch (this) {
       case EventType.assignmentAccepted:
@@ -3055,7 +3055,7 @@ extension on EventType {
   }
 }
 
-extension on String {
+extension EventTypeFromString on String {
   EventType toEventType() {
     switch (this) {
       case 'AssignmentAccepted':
@@ -3340,7 +3340,7 @@ enum HITAccessActions {
   discoverPreviewAndAccept,
 }
 
-extension on HITAccessActions {
+extension HITAccessActionsValueExtension on HITAccessActions {
   String toValue() {
     switch (this) {
       case HITAccessActions.accept:
@@ -3353,7 +3353,7 @@ extension on HITAccessActions {
   }
 }
 
-extension on String {
+extension HITAccessActionsFromString on String {
   HITAccessActions toHITAccessActions() {
     switch (this) {
       case 'Accept':
@@ -3398,7 +3398,7 @@ enum HITReviewStatus {
   reviewedInappropriate,
 }
 
-extension on HITReviewStatus {
+extension HITReviewStatusValueExtension on HITReviewStatus {
   String toValue() {
     switch (this) {
       case HITReviewStatus.notReviewed:
@@ -3413,7 +3413,7 @@ extension on HITReviewStatus {
   }
 }
 
-extension on String {
+extension HITReviewStatusFromString on String {
   HITReviewStatus toHITReviewStatus() {
     switch (this) {
       case 'NotReviewed':
@@ -3437,7 +3437,7 @@ enum HITStatus {
   disposed,
 }
 
-extension on HITStatus {
+extension HITStatusValueExtension on HITStatus {
   String toValue() {
     switch (this) {
       case HITStatus.assignable:
@@ -3454,7 +3454,7 @@ extension on HITStatus {
   }
 }
 
-extension on String {
+extension HITStatusFromString on String {
   HITStatus toHITStatus() {
     switch (this) {
       case 'Assignable':
@@ -3859,7 +3859,7 @@ enum NotificationTransport {
   sns,
 }
 
-extension on NotificationTransport {
+extension NotificationTransportValueExtension on NotificationTransport {
   String toValue() {
     switch (this) {
       case NotificationTransport.email:
@@ -3872,7 +3872,7 @@ extension on NotificationTransport {
   }
 }
 
-extension on String {
+extension NotificationTransportFromString on String {
   NotificationTransport toNotificationTransport() {
     switch (this) {
       case 'Email':
@@ -3891,7 +3891,7 @@ enum NotifyWorkersFailureCode {
   hardFailure,
 }
 
-extension on NotifyWorkersFailureCode {
+extension NotifyWorkersFailureCodeValueExtension on NotifyWorkersFailureCode {
   String toValue() {
     switch (this) {
       case NotifyWorkersFailureCode.softFailure:
@@ -3902,7 +3902,7 @@ extension on NotifyWorkersFailureCode {
   }
 }
 
-extension on String {
+extension NotifyWorkersFailureCodeFromString on String {
   NotifyWorkersFailureCode toNotifyWorkersFailureCode() {
     switch (this) {
       case 'SoftFailure':
@@ -4255,7 +4255,7 @@ enum QualificationStatus {
   revoked,
 }
 
-extension on QualificationStatus {
+extension QualificationStatusValueExtension on QualificationStatus {
   String toValue() {
     switch (this) {
       case QualificationStatus.granted:
@@ -4266,7 +4266,7 @@ extension on QualificationStatus {
   }
 }
 
-extension on String {
+extension QualificationStatusFromString on String {
   QualificationStatus toQualificationStatus() {
     switch (this) {
       case 'Granted':
@@ -4387,7 +4387,7 @@ enum QualificationTypeStatus {
   inactive,
 }
 
-extension on QualificationTypeStatus {
+extension QualificationTypeStatusValueExtension on QualificationTypeStatus {
   String toValue() {
     switch (this) {
       case QualificationTypeStatus.active:
@@ -4398,7 +4398,7 @@ extension on QualificationTypeStatus {
   }
 }
 
-extension on String {
+extension QualificationTypeStatusFromString on String {
   QualificationTypeStatus toQualificationTypeStatus() {
     switch (this) {
       case 'Active':
@@ -4503,7 +4503,7 @@ enum ReviewActionStatus {
   cancelled,
 }
 
-extension on ReviewActionStatus {
+extension ReviewActionStatusValueExtension on ReviewActionStatus {
   String toValue() {
     switch (this) {
       case ReviewActionStatus.intended:
@@ -4518,7 +4518,7 @@ extension on ReviewActionStatus {
   }
 }
 
-extension on String {
+extension ReviewActionStatusFromString on String {
   ReviewActionStatus toReviewActionStatus() {
     switch (this) {
       case 'Intended':
@@ -4573,7 +4573,7 @@ enum ReviewPolicyLevel {
   hit,
 }
 
-extension on ReviewPolicyLevel {
+extension ReviewPolicyLevelValueExtension on ReviewPolicyLevel {
   String toValue() {
     switch (this) {
       case ReviewPolicyLevel.assignment:
@@ -4584,7 +4584,7 @@ extension on ReviewPolicyLevel {
   }
 }
 
-extension on String {
+extension ReviewPolicyLevelFromString on String {
   ReviewPolicyLevel toReviewPolicyLevel() {
     switch (this) {
       case 'Assignment':
@@ -4678,7 +4678,7 @@ enum ReviewableHITStatus {
   reviewing,
 }
 
-extension on ReviewableHITStatus {
+extension ReviewableHITStatusValueExtension on ReviewableHITStatus {
   String toValue() {
     switch (this) {
       case ReviewableHITStatus.reviewable:
@@ -4689,7 +4689,7 @@ extension on ReviewableHITStatus {
   }
 }
 
-extension on String {
+extension ReviewableHITStatusFromString on String {
   ReviewableHITStatus toReviewableHITStatus() {
     switch (this) {
       case 'Reviewable':

@@ -2230,7 +2230,7 @@ enum EndpointType {
   vpcEndpoint,
 }
 
-extension on EndpointType {
+extension EndpointTypeValueExtension on EndpointType {
   String toValue() {
     switch (this) {
       case EndpointType.public:
@@ -2243,7 +2243,7 @@ extension on EndpointType {
   }
 }
 
-extension on String {
+extension EndpointTypeFromString on String {
   EndpointType toEndpointType() {
     switch (this) {
       case 'PUBLIC':
@@ -2293,7 +2293,7 @@ enum HomeDirectoryType {
   logical,
 }
 
-extension on HomeDirectoryType {
+extension HomeDirectoryTypeValueExtension on HomeDirectoryType {
   String toValue() {
     switch (this) {
       case HomeDirectoryType.path:
@@ -2304,7 +2304,7 @@ extension on HomeDirectoryType {
   }
 }
 
-extension on String {
+extension HomeDirectoryTypeFromString on String {
   HomeDirectoryType toHomeDirectoryType() {
     switch (this) {
       case 'PATH':
@@ -2360,7 +2360,7 @@ enum IdentityProviderType {
   apiGateway,
 }
 
-extension on IdentityProviderType {
+extension IdentityProviderTypeValueExtension on IdentityProviderType {
   String toValue() {
     switch (this) {
       case IdentityProviderType.serviceManaged:
@@ -2371,7 +2371,7 @@ extension on IdentityProviderType {
   }
 }
 
-extension on String {
+extension IdentityProviderTypeFromString on String {
   IdentityProviderType toIdentityProviderType() {
     switch (this) {
       case 'SERVICE_MANAGED':
@@ -2645,7 +2645,7 @@ enum Protocol {
   ftps,
 }
 
-extension on Protocol {
+extension ProtocolValueExtension on Protocol {
   String toValue() {
     switch (this) {
       case Protocol.sftp:
@@ -2658,7 +2658,7 @@ extension on Protocol {
   }
 }
 
-extension on String {
+extension ProtocolFromString on String {
   Protocol toProtocol() {
     switch (this) {
       case 'SFTP':
@@ -2727,7 +2727,7 @@ enum State {
   stopFailed,
 }
 
-extension on State {
+extension StateValueExtension on State {
   String toValue() {
     switch (this) {
       case State.offline:
@@ -2746,7 +2746,7 @@ extension on State {
   }
 }
 
-extension on String {
+extension StateFromString on String {
   State toState() {
     switch (this) {
       case 'OFFLINE':

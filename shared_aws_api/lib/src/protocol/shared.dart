@@ -79,6 +79,9 @@ class GenericAwsException implements AwsException {
 typedef AwsExceptionFn = AwsException Function(String type, String message);
 
 XmlElement? extractXmlChild(XmlElement elem, String name) {
+  if (name == elem.localName) {
+    return elem;
+  }
   return elem.findElements(name).firstOrNull;
 }
 

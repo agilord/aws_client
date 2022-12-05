@@ -2464,7 +2464,7 @@ enum ApplicationRestoreType {
   restoreFromCustomSnapshot,
 }
 
-extension on ApplicationRestoreType {
+extension ApplicationRestoreTypeValueExtension on ApplicationRestoreType {
   String toValue() {
     switch (this) {
       case ApplicationRestoreType.skipRestoreFromSnapshot:
@@ -2477,7 +2477,7 @@ extension on ApplicationRestoreType {
   }
 }
 
-extension on String {
+extension ApplicationRestoreTypeFromString on String {
   ApplicationRestoreType toApplicationRestoreType() {
     switch (this) {
       case 'SKIP_RESTORE_FROM_SNAPSHOT':
@@ -2556,7 +2556,7 @@ enum ApplicationStatus {
   forceStopping,
 }
 
-extension on ApplicationStatus {
+extension ApplicationStatusValueExtension on ApplicationStatus {
   String toValue() {
     switch (this) {
       case ApplicationStatus.deleting:
@@ -2579,7 +2579,7 @@ extension on ApplicationStatus {
   }
 }
 
-extension on String {
+extension ApplicationStatusFromString on String {
   ApplicationStatus toApplicationStatus() {
     switch (this) {
       case 'DELETING':
@@ -3066,7 +3066,7 @@ enum CodeContentType {
   zipfile,
 }
 
-extension on CodeContentType {
+extension CodeContentTypeValueExtension on CodeContentType {
   String toValue() {
     switch (this) {
       case CodeContentType.plaintext:
@@ -3077,7 +3077,7 @@ extension on CodeContentType {
   }
 }
 
-extension on String {
+extension CodeContentTypeFromString on String {
   CodeContentType toCodeContentType() {
     switch (this) {
       case 'PLAINTEXT':
@@ -3125,7 +3125,7 @@ enum ConfigurationType {
   custom,
 }
 
-extension on ConfigurationType {
+extension ConfigurationTypeValueExtension on ConfigurationType {
   String toValue() {
     switch (this) {
       case ConfigurationType.$default:
@@ -3136,7 +3136,7 @@ extension on ConfigurationType {
   }
 }
 
-extension on String {
+extension ConfigurationTypeFromString on String {
   ConfigurationType toConfigurationType() {
     switch (this) {
       case 'DEFAULT':
@@ -4027,7 +4027,7 @@ enum InputStartingPosition {
   lastStoppedPoint,
 }
 
-extension on InputStartingPosition {
+extension InputStartingPositionValueExtension on InputStartingPosition {
   String toValue() {
     switch (this) {
       case InputStartingPosition.now:
@@ -4040,7 +4040,7 @@ extension on InputStartingPosition {
   }
 }
 
-extension on String {
+extension InputStartingPositionFromString on String {
   InputStartingPosition toInputStartingPosition() {
     switch (this) {
       case 'NOW':
@@ -4595,7 +4595,7 @@ enum LogLevel {
   debug,
 }
 
-extension on LogLevel {
+extension LogLevelValueExtension on LogLevel {
   String toValue() {
     switch (this) {
       case LogLevel.info:
@@ -4610,7 +4610,7 @@ extension on LogLevel {
   }
 }
 
-extension on String {
+extension LogLevelFromString on String {
   LogLevel toLogLevel() {
     switch (this) {
       case 'INFO':
@@ -4675,7 +4675,7 @@ enum MetricsLevel {
   parallelism,
 }
 
-extension on MetricsLevel {
+extension MetricsLevelValueExtension on MetricsLevel {
   String toValue() {
     switch (this) {
       case MetricsLevel.application:
@@ -4690,7 +4690,7 @@ extension on MetricsLevel {
   }
 }
 
-extension on String {
+extension MetricsLevelFromString on String {
   MetricsLevel toMetricsLevel() {
     switch (this) {
       case 'APPLICATION':
@@ -5256,7 +5256,7 @@ enum RecordFormatType {
   csv,
 }
 
-extension on RecordFormatType {
+extension RecordFormatTypeValueExtension on RecordFormatType {
   String toValue() {
     switch (this) {
       case RecordFormatType.json:
@@ -5267,7 +5267,7 @@ extension on RecordFormatType {
   }
 }
 
-extension on String {
+extension RecordFormatTypeFromString on String {
   RecordFormatType toRecordFormatType() {
     switch (this) {
       case 'JSON':
@@ -5499,7 +5499,7 @@ enum RuntimeEnvironment {
   flink_1_11,
 }
 
-extension on RuntimeEnvironment {
+extension RuntimeEnvironmentValueExtension on RuntimeEnvironment {
   String toValue() {
     switch (this) {
       case RuntimeEnvironment.sql_1_0:
@@ -5514,7 +5514,7 @@ extension on RuntimeEnvironment {
   }
 }
 
-extension on String {
+extension RuntimeEnvironmentFromString on String {
   RuntimeEnvironment toRuntimeEnvironment() {
     switch (this) {
       case 'SQL-1_0':
@@ -5766,7 +5766,7 @@ enum SnapshotStatus {
   failed,
 }
 
-extension on SnapshotStatus {
+extension SnapshotStatusValueExtension on SnapshotStatus {
   String toValue() {
     switch (this) {
       case SnapshotStatus.creating:
@@ -5781,7 +5781,7 @@ extension on SnapshotStatus {
   }
 }
 
-extension on String {
+extension SnapshotStatusFromString on String {
   SnapshotStatus toSnapshotStatus() {
     switch (this) {
       case 'CREATING':
@@ -6055,7 +6055,7 @@ enum UrlType {
   flinkDashboardUrl,
 }
 
-extension on UrlType {
+extension UrlTypeValueExtension on UrlType {
   String toValue() {
     switch (this) {
       case UrlType.flinkDashboardUrl:
@@ -6064,7 +6064,7 @@ extension on UrlType {
   }
 }
 
-extension on String {
+extension UrlTypeFromString on String {
   UrlType toUrlType() {
     switch (this) {
       case 'FLINK_DASHBOARD_URL':

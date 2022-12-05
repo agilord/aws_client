@@ -914,7 +914,7 @@ enum ComparisonOperator {
   between,
 }
 
-extension on ComparisonOperator {
+extension ComparisonOperatorValueExtension on ComparisonOperator {
   String toValue() {
     switch (this) {
       case ComparisonOperator.eq:
@@ -943,7 +943,7 @@ extension on ComparisonOperator {
   }
 }
 
-extension on String {
+extension ComparisonOperatorFromString on String {
   ComparisonOperator toComparisonOperator() {
     switch (this) {
       case 'EQ':
@@ -1005,7 +1005,7 @@ enum DataLakeResourceType {
   dataLocation,
 }
 
-extension on DataLakeResourceType {
+extension DataLakeResourceTypeValueExtension on DataLakeResourceType {
   String toValue() {
     switch (this) {
       case DataLakeResourceType.catalog:
@@ -1020,7 +1020,7 @@ extension on DataLakeResourceType {
   }
 }
 
-extension on String {
+extension DataLakeResourceTypeFromString on String {
   DataLakeResourceType toDataLakeResourceType() {
     switch (this) {
       case 'CATALOG':
@@ -1242,7 +1242,7 @@ enum FieldNameString {
   lastModified,
 }
 
-extension on FieldNameString {
+extension FieldNameStringValueExtension on FieldNameString {
   String toValue() {
     switch (this) {
       case FieldNameString.resourceArn:
@@ -1255,7 +1255,7 @@ extension on FieldNameString {
   }
 }
 
-extension on String {
+extension FieldNameStringFromString on String {
   FieldNameString toFieldNameString() {
     switch (this) {
       case 'RESOURCE_ARN':
@@ -1410,7 +1410,7 @@ enum Permission {
   dataLocationAccess,
 }
 
-extension on Permission {
+extension PermissionValueExtension on Permission {
   String toValue() {
     switch (this) {
       case Permission.all:
@@ -1437,7 +1437,7 @@ extension on Permission {
   }
 }
 
-extension on String {
+extension PermissionFromString on String {
   Permission toPermission() {
     switch (this) {
       case 'ALL':

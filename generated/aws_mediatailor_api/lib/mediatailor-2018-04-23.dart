@@ -740,7 +740,7 @@ enum OriginManifestType {
   multiPeriod,
 }
 
-extension on OriginManifestType {
+extension OriginManifestTypeValueExtension on OriginManifestType {
   String toValue() {
     switch (this) {
       case OriginManifestType.singlePeriod:
@@ -751,7 +751,7 @@ extension on OriginManifestType {
   }
 }
 
-extension on String {
+extension OriginManifestTypeFromString on String {
   OriginManifestType toOriginManifestType() {
     switch (this) {
       case 'SINGLE_PERIOD':
@@ -794,7 +794,7 @@ enum Mode {
   behindLiveEdge,
 }
 
-extension on Mode {
+extension ModeValueExtension on Mode {
   String toValue() {
     switch (this) {
       case Mode.off:
@@ -805,7 +805,7 @@ extension on Mode {
   }
 }
 
-extension on String {
+extension ModeFromString on String {
   Mode toMode() {
     switch (this) {
       case 'OFF':

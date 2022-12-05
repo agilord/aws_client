@@ -2730,7 +2730,7 @@ enum AddressFamily {
   ipv6,
 }
 
-extension on AddressFamily {
+extension AddressFamilyValueExtension on AddressFamily {
   String toValue() {
     switch (this) {
       case AddressFamily.ipv4:
@@ -2741,7 +2741,7 @@ extension on AddressFamily {
   }
 }
 
-extension on String {
+extension AddressFamilyFromString on String {
   AddressFamily toAddressFamily() {
     switch (this) {
       case 'ipv4':
@@ -2901,7 +2901,7 @@ enum BGPPeerState {
   deleted,
 }
 
-extension on BGPPeerState {
+extension BGPPeerStateValueExtension on BGPPeerState {
   String toValue() {
     switch (this) {
       case BGPPeerState.verifying:
@@ -2918,7 +2918,7 @@ extension on BGPPeerState {
   }
 }
 
-extension on String {
+extension BGPPeerStateFromString on String {
   BGPPeerState toBGPPeerState() {
     switch (this) {
       case 'verifying':
@@ -2942,7 +2942,7 @@ enum BGPStatus {
   unknown,
 }
 
-extension on BGPStatus {
+extension BGPStatusValueExtension on BGPStatus {
   String toValue() {
     switch (this) {
       case BGPStatus.up:
@@ -2955,7 +2955,7 @@ extension on BGPStatus {
   }
 }
 
-extension on String {
+extension BGPStatusFromString on String {
   BGPStatus toBGPStatus() {
     switch (this) {
       case 'up':
@@ -3348,7 +3348,7 @@ enum ConnectionState {
   unknown,
 }
 
-extension on ConnectionState {
+extension ConnectionStateValueExtension on ConnectionState {
   String toValue() {
     switch (this) {
       case ConnectionState.ordering:
@@ -3373,7 +3373,7 @@ extension on ConnectionState {
   }
 }
 
-extension on String {
+extension ConnectionStateFromString on String {
   ConnectionState toConnectionState() {
     switch (this) {
       case 'ordering':
@@ -4068,7 +4068,8 @@ enum DirectConnectGatewayAssociationProposalState {
   deleted,
 }
 
-extension on DirectConnectGatewayAssociationProposalState {
+extension DirectConnectGatewayAssociationProposalStateValueExtension
+    on DirectConnectGatewayAssociationProposalState {
   String toValue() {
     switch (this) {
       case DirectConnectGatewayAssociationProposalState.requested:
@@ -4081,7 +4082,7 @@ extension on DirectConnectGatewayAssociationProposalState {
   }
 }
 
-extension on String {
+extension DirectConnectGatewayAssociationProposalStateFromString on String {
   DirectConnectGatewayAssociationProposalState
       toDirectConnectGatewayAssociationProposalState() {
     switch (this) {
@@ -4105,7 +4106,8 @@ enum DirectConnectGatewayAssociationState {
   updating,
 }
 
-extension on DirectConnectGatewayAssociationState {
+extension DirectConnectGatewayAssociationStateValueExtension
+    on DirectConnectGatewayAssociationState {
   String toValue() {
     switch (this) {
       case DirectConnectGatewayAssociationState.associating:
@@ -4122,7 +4124,7 @@ extension on DirectConnectGatewayAssociationState {
   }
 }
 
-extension on String {
+extension DirectConnectGatewayAssociationStateFromString on String {
   DirectConnectGatewayAssociationState
       toDirectConnectGatewayAssociationState() {
     switch (this) {
@@ -4218,7 +4220,8 @@ enum DirectConnectGatewayAttachmentState {
   detached,
 }
 
-extension on DirectConnectGatewayAttachmentState {
+extension DirectConnectGatewayAttachmentStateValueExtension
+    on DirectConnectGatewayAttachmentState {
   String toValue() {
     switch (this) {
       case DirectConnectGatewayAttachmentState.attaching:
@@ -4233,7 +4236,7 @@ extension on DirectConnectGatewayAttachmentState {
   }
 }
 
-extension on String {
+extension DirectConnectGatewayAttachmentStateFromString on String {
   DirectConnectGatewayAttachmentState toDirectConnectGatewayAttachmentState() {
     switch (this) {
       case 'attaching':
@@ -4255,7 +4258,8 @@ enum DirectConnectGatewayAttachmentType {
   privateVirtualInterface,
 }
 
-extension on DirectConnectGatewayAttachmentType {
+extension DirectConnectGatewayAttachmentTypeValueExtension
+    on DirectConnectGatewayAttachmentType {
   String toValue() {
     switch (this) {
       case DirectConnectGatewayAttachmentType.transitVirtualInterface:
@@ -4266,7 +4270,7 @@ extension on DirectConnectGatewayAttachmentType {
   }
 }
 
-extension on String {
+extension DirectConnectGatewayAttachmentTypeFromString on String {
   DirectConnectGatewayAttachmentType toDirectConnectGatewayAttachmentType() {
     switch (this) {
       case 'TransitVirtualInterface':
@@ -4286,7 +4290,7 @@ enum DirectConnectGatewayState {
   deleted,
 }
 
-extension on DirectConnectGatewayState {
+extension DirectConnectGatewayStateValueExtension on DirectConnectGatewayState {
   String toValue() {
     switch (this) {
       case DirectConnectGatewayState.pending:
@@ -4301,7 +4305,7 @@ extension on DirectConnectGatewayState {
   }
 }
 
-extension on String {
+extension DirectConnectGatewayStateFromString on String {
   DirectConnectGatewayState toDirectConnectGatewayState() {
     switch (this) {
       case 'pending':
@@ -4322,7 +4326,7 @@ enum GatewayType {
   transitGateway,
 }
 
-extension on GatewayType {
+extension GatewayTypeValueExtension on GatewayType {
   String toValue() {
     switch (this) {
       case GatewayType.virtualPrivateGateway:
@@ -4333,7 +4337,7 @@ extension on GatewayType {
   }
 }
 
-extension on String {
+extension GatewayTypeFromString on String {
   GatewayType toGatewayType() {
     switch (this) {
       case 'virtualPrivateGateway':
@@ -4351,7 +4355,7 @@ enum HasLogicalRedundancy {
   no,
 }
 
-extension on HasLogicalRedundancy {
+extension HasLogicalRedundancyValueExtension on HasLogicalRedundancy {
   String toValue() {
     switch (this) {
       case HasLogicalRedundancy.unknown:
@@ -4364,7 +4368,7 @@ extension on HasLogicalRedundancy {
   }
 }
 
-extension on String {
+extension HasLogicalRedundancyFromString on String {
   HasLogicalRedundancy toHasLogicalRedundancy() {
     switch (this) {
       case 'unknown':
@@ -4502,7 +4506,7 @@ enum InterconnectState {
   unknown,
 }
 
-extension on InterconnectState {
+extension InterconnectStateValueExtension on InterconnectState {
   String toValue() {
     switch (this) {
       case InterconnectState.requested:
@@ -4523,7 +4527,7 @@ extension on InterconnectState {
   }
 }
 
-extension on String {
+extension InterconnectStateFromString on String {
   InterconnectState toInterconnectState() {
     switch (this) {
       case 'requested':
@@ -4704,7 +4708,7 @@ enum LagState {
   unknown,
 }
 
-extension on LagState {
+extension LagStateValueExtension on LagState {
   String toValue() {
     switch (this) {
       case LagState.requested:
@@ -4725,7 +4729,7 @@ extension on LagState {
   }
 }
 
-extension on String {
+extension LagStateFromString on String {
   LagState toLagState() {
     switch (this) {
       case 'requested':
@@ -4816,7 +4820,7 @@ enum LoaContentType {
   applicationPdf,
 }
 
-extension on LoaContentType {
+extension LoaContentTypeValueExtension on LoaContentType {
   String toValue() {
     switch (this) {
       case LoaContentType.applicationPdf:
@@ -4825,7 +4829,7 @@ extension on LoaContentType {
   }
 }
 
-extension on String {
+extension LoaContentTypeFromString on String {
   LoaContentType toLoaContentType() {
     switch (this) {
       case 'application/pdf':
@@ -5792,7 +5796,7 @@ enum VirtualInterfaceState {
   unknown,
 }
 
-extension on VirtualInterfaceState {
+extension VirtualInterfaceStateValueExtension on VirtualInterfaceState {
   String toValue() {
     switch (this) {
       case VirtualInterfaceState.confirming:
@@ -5817,7 +5821,7 @@ extension on VirtualInterfaceState {
   }
 }
 
-extension on String {
+extension VirtualInterfaceStateFromString on String {
   VirtualInterfaceState toVirtualInterfaceState() {
     switch (this) {
       case 'confirming':

@@ -3099,7 +3099,7 @@ enum ActionHistoryStatus {
   unknown,
 }
 
-extension on ActionHistoryStatus {
+extension ActionHistoryStatusValueExtension on ActionHistoryStatus {
   String toValue() {
     switch (this) {
       case ActionHistoryStatus.completed:
@@ -3112,7 +3112,7 @@ extension on ActionHistoryStatus {
   }
 }
 
-extension on String {
+extension ActionHistoryStatusFromString on String {
   ActionHistoryStatus toActionHistoryStatus() {
     switch (this) {
       case 'Completed':
@@ -3133,7 +3133,7 @@ enum ActionStatus {
   unknown,
 }
 
-extension on ActionStatus {
+extension ActionStatusValueExtension on ActionStatus {
   String toValue() {
     switch (this) {
       case ActionStatus.scheduled:
@@ -3148,7 +3148,7 @@ extension on ActionStatus {
   }
 }
 
-extension on String {
+extension ActionStatusFromString on String {
   ActionStatus toActionStatus() {
     switch (this) {
       case 'Scheduled':
@@ -3170,7 +3170,7 @@ enum ActionType {
   unknown,
 }
 
-extension on ActionType {
+extension ActionTypeValueExtension on ActionType {
   String toValue() {
     switch (this) {
       case ActionType.instanceRefresh:
@@ -3183,7 +3183,7 @@ extension on ActionType {
   }
 }
 
-extension on String {
+extension ActionTypeFromString on String {
   ActionType toActionType() {
     switch (this) {
       case 'InstanceRefresh':
@@ -3584,7 +3584,7 @@ enum ApplicationVersionStatus {
   building,
 }
 
-extension on ApplicationVersionStatus {
+extension ApplicationVersionStatusValueExtension on ApplicationVersionStatus {
   String toValue() {
     switch (this) {
       case ApplicationVersionStatus.processed:
@@ -3601,7 +3601,7 @@ extension on ApplicationVersionStatus {
   }
 }
 
-extension on String {
+extension ApplicationVersionStatusFromString on String {
   ApplicationVersionStatus toApplicationVersionStatus() {
     switch (this) {
       case 'Processed':
@@ -3850,7 +3850,7 @@ enum ComputeType {
   buildGeneral1Large,
 }
 
-extension on ComputeType {
+extension ComputeTypeValueExtension on ComputeType {
   String toValue() {
     switch (this) {
       case ComputeType.buildGeneral1Small:
@@ -3863,7 +3863,7 @@ extension on ComputeType {
   }
 }
 
-extension on String {
+extension ComputeTypeFromString on String {
   ComputeType toComputeType() {
     switch (this) {
       case 'BUILD_GENERAL1_SMALL':
@@ -3883,7 +3883,8 @@ enum ConfigurationDeploymentStatus {
   failed,
 }
 
-extension on ConfigurationDeploymentStatus {
+extension ConfigurationDeploymentStatusValueExtension
+    on ConfigurationDeploymentStatus {
   String toValue() {
     switch (this) {
       case ConfigurationDeploymentStatus.deployed:
@@ -3896,7 +3897,7 @@ extension on ConfigurationDeploymentStatus {
   }
 }
 
-extension on String {
+extension ConfigurationDeploymentStatusFromString on String {
   ConfigurationDeploymentStatus toConfigurationDeploymentStatus() {
     switch (this) {
       case 'deployed':
@@ -4093,7 +4094,8 @@ enum ConfigurationOptionValueType {
   list,
 }
 
-extension on ConfigurationOptionValueType {
+extension ConfigurationOptionValueTypeValueExtension
+    on ConfigurationOptionValueType {
   String toValue() {
     switch (this) {
       case ConfigurationOptionValueType.scalar:
@@ -4104,7 +4106,7 @@ extension on ConfigurationOptionValueType {
   }
 }
 
-extension on String {
+extension ConfigurationOptionValueTypeFromString on String {
   ConfigurationOptionValueType toConfigurationOptionValueType() {
     switch (this) {
       case 'Scalar':
@@ -4782,7 +4784,7 @@ enum EnvironmentHealth {
   grey,
 }
 
-extension on EnvironmentHealth {
+extension EnvironmentHealthValueExtension on EnvironmentHealth {
   String toValue() {
     switch (this) {
       case EnvironmentHealth.green:
@@ -4797,7 +4799,7 @@ extension on EnvironmentHealth {
   }
 }
 
-extension on String {
+extension EnvironmentHealthFromString on String {
   EnvironmentHealth toEnvironmentHealth() {
     switch (this) {
       case 'Green':
@@ -4824,7 +4826,8 @@ enum EnvironmentHealthAttribute {
   refreshedAt,
 }
 
-extension on EnvironmentHealthAttribute {
+extension EnvironmentHealthAttributeValueExtension
+    on EnvironmentHealthAttribute {
   String toValue() {
     switch (this) {
       case EnvironmentHealthAttribute.status:
@@ -4847,7 +4850,7 @@ extension on EnvironmentHealthAttribute {
   }
 }
 
-extension on String {
+extension EnvironmentHealthAttributeFromString on String {
   EnvironmentHealthAttribute toEnvironmentHealthAttribute() {
     switch (this) {
       case 'Status':
@@ -4883,7 +4886,7 @@ enum EnvironmentHealthStatus {
   suspended,
 }
 
-extension on EnvironmentHealthStatus {
+extension EnvironmentHealthStatusValueExtension on EnvironmentHealthStatus {
   String toValue() {
     switch (this) {
       case EnvironmentHealthStatus.noData:
@@ -4908,7 +4911,7 @@ extension on EnvironmentHealthStatus {
   }
 }
 
-extension on String {
+extension EnvironmentHealthStatusFromString on String {
   EnvironmentHealthStatus toEnvironmentHealthStatus() {
     switch (this) {
       case 'NoData':
@@ -4974,7 +4977,7 @@ enum EnvironmentInfoType {
   bundle,
 }
 
-extension on EnvironmentInfoType {
+extension EnvironmentInfoTypeValueExtension on EnvironmentInfoType {
   String toValue() {
     switch (this) {
       case EnvironmentInfoType.tail:
@@ -4985,7 +4988,7 @@ extension on EnvironmentInfoType {
   }
 }
 
-extension on String {
+extension EnvironmentInfoTypeFromString on String {
   EnvironmentInfoType toEnvironmentInfoType() {
     switch (this) {
       case 'tail':
@@ -5137,7 +5140,7 @@ enum EnvironmentStatus {
   terminated,
 }
 
-extension on EnvironmentStatus {
+extension EnvironmentStatusValueExtension on EnvironmentStatus {
   String toValue() {
     switch (this) {
       case EnvironmentStatus.aborting:
@@ -5160,7 +5163,7 @@ extension on EnvironmentStatus {
   }
 }
 
-extension on String {
+extension EnvironmentStatusFromString on String {
   EnvironmentStatus toEnvironmentStatus() {
     switch (this) {
       case 'Aborting':
@@ -5336,7 +5339,7 @@ enum EventSeverity {
   fatal,
 }
 
-extension on EventSeverity {
+extension EventSeverityValueExtension on EventSeverity {
   String toValue() {
     switch (this) {
       case EventSeverity.trace:
@@ -5355,7 +5358,7 @@ extension on EventSeverity {
   }
 }
 
-extension on String {
+extension EventSeverityFromString on String {
   EventSeverity toEventSeverity() {
     switch (this) {
       case 'TRACE':
@@ -5385,7 +5388,7 @@ enum FailureType {
   permissionsError,
 }
 
-extension on FailureType {
+extension FailureTypeValueExtension on FailureType {
   String toValue() {
     switch (this) {
       case FailureType.updateCancelled:
@@ -5406,7 +5409,7 @@ extension on FailureType {
   }
 }
 
-extension on String {
+extension FailureTypeFromString on String {
   FailureType toFailureType() {
     switch (this) {
       case 'UpdateCancelled':
@@ -5517,7 +5520,7 @@ enum InstancesHealthAttribute {
   all,
 }
 
-extension on InstancesHealthAttribute {
+extension InstancesHealthAttributeValueExtension on InstancesHealthAttribute {
   String toValue() {
     switch (this) {
       case InstancesHealthAttribute.healthStatus:
@@ -5546,7 +5549,7 @@ extension on InstancesHealthAttribute {
   }
 }
 
-extension on String {
+extension InstancesHealthAttributeFromString on String {
   InstancesHealthAttribute toInstancesHealthAttribute() {
     switch (this) {
       case 'HealthStatus':
@@ -6325,7 +6328,7 @@ enum PlatformStatus {
   deleted,
 }
 
-extension on PlatformStatus {
+extension PlatformStatusValueExtension on PlatformStatus {
   String toValue() {
     switch (this) {
       case PlatformStatus.creating:
@@ -6342,7 +6345,7 @@ extension on PlatformStatus {
   }
 }
 
-extension on String {
+extension PlatformStatusFromString on String {
   PlatformStatus toPlatformStatus() {
     switch (this) {
       case 'Creating':
@@ -6839,7 +6842,7 @@ enum SourceRepository {
   s3,
 }
 
-extension on SourceRepository {
+extension SourceRepositoryValueExtension on SourceRepository {
   String toValue() {
     switch (this) {
       case SourceRepository.codeCommit:
@@ -6850,7 +6853,7 @@ extension on SourceRepository {
   }
 }
 
-extension on String {
+extension SourceRepositoryFromString on String {
   SourceRepository toSourceRepository() {
     switch (this) {
       case 'CodeCommit':
@@ -6867,7 +6870,7 @@ enum SourceType {
   zip,
 }
 
-extension on SourceType {
+extension SourceTypeValueExtension on SourceType {
   String toValue() {
     switch (this) {
       case SourceType.git:
@@ -6878,7 +6881,7 @@ extension on SourceType {
   }
 }
 
-extension on String {
+extension SourceTypeFromString on String {
   SourceType toSourceType() {
     switch (this) {
       case 'Git':
@@ -7045,7 +7048,7 @@ enum ValidationSeverity {
   warning,
 }
 
-extension on ValidationSeverity {
+extension ValidationSeverityValueExtension on ValidationSeverity {
   String toValue() {
     switch (this) {
       case ValidationSeverity.error:
@@ -7056,7 +7059,7 @@ extension on ValidationSeverity {
   }
 }
 
-extension on String {
+extension ValidationSeverityFromString on String {
   ValidationSeverity toValidationSeverity() {
     switch (this) {
       case 'error':

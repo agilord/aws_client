@@ -2757,7 +2757,7 @@ enum ActionOnFailure {
   $continue,
 }
 
-extension on ActionOnFailure {
+extension ActionOnFailureValueExtension on ActionOnFailure {
   String toValue() {
     switch (this) {
       case ActionOnFailure.terminateJobFlow:
@@ -2772,7 +2772,7 @@ extension on ActionOnFailure {
   }
 }
 
-extension on String {
+extension ActionOnFailureFromString on String {
   ActionOnFailure toActionOnFailure() {
     switch (this) {
       case 'TERMINATE_JOB_FLOW':
@@ -2872,7 +2872,7 @@ enum AdjustmentType {
   exactCapacity,
 }
 
-extension on AdjustmentType {
+extension AdjustmentTypeValueExtension on AdjustmentType {
   String toValue() {
     switch (this) {
       case AdjustmentType.changeInCapacity:
@@ -2885,7 +2885,7 @@ extension on AdjustmentType {
   }
 }
 
-extension on String {
+extension AdjustmentTypeFromString on String {
   AdjustmentType toAdjustmentType() {
     switch (this) {
       case 'CHANGE_IN_CAPACITY':
@@ -2964,7 +2964,7 @@ enum AuthMode {
   iam,
 }
 
-extension on AuthMode {
+extension AuthModeValueExtension on AuthMode {
   String toValue() {
     switch (this) {
       case AuthMode.sso:
@@ -2975,7 +2975,7 @@ extension on AuthMode {
   }
 }
 
-extension on String {
+extension AuthModeFromString on String {
   AuthMode toAuthMode() {
     switch (this) {
       case 'SSO':
@@ -3062,7 +3062,7 @@ enum AutoScalingPolicyState {
   failed,
 }
 
-extension on AutoScalingPolicyState {
+extension AutoScalingPolicyStateValueExtension on AutoScalingPolicyState {
   String toValue() {
     switch (this) {
       case AutoScalingPolicyState.pending:
@@ -3081,7 +3081,7 @@ extension on AutoScalingPolicyState {
   }
 }
 
-extension on String {
+extension AutoScalingPolicyStateFromString on String {
   AutoScalingPolicyState toAutoScalingPolicyState() {
     switch (this) {
       case 'PENDING':
@@ -3134,7 +3134,8 @@ enum AutoScalingPolicyStateChangeReasonCode {
   cleanupFailure,
 }
 
-extension on AutoScalingPolicyStateChangeReasonCode {
+extension AutoScalingPolicyStateChangeReasonCodeValueExtension
+    on AutoScalingPolicyStateChangeReasonCode {
   String toValue() {
     switch (this) {
       case AutoScalingPolicyStateChangeReasonCode.userRequest:
@@ -3147,7 +3148,7 @@ extension on AutoScalingPolicyStateChangeReasonCode {
   }
 }
 
-extension on String {
+extension AutoScalingPolicyStateChangeReasonCodeFromString on String {
   AutoScalingPolicyStateChangeReasonCode
       toAutoScalingPolicyStateChangeReasonCode() {
     switch (this) {
@@ -3366,7 +3367,7 @@ enum CancelStepsRequestStatus {
   failed,
 }
 
-extension on CancelStepsRequestStatus {
+extension CancelStepsRequestStatusValueExtension on CancelStepsRequestStatus {
   String toValue() {
     switch (this) {
       case CancelStepsRequestStatus.submitted:
@@ -3377,7 +3378,7 @@ extension on CancelStepsRequestStatus {
   }
 }
 
-extension on String {
+extension CancelStepsRequestStatusFromString on String {
   CancelStepsRequestStatus toCancelStepsRequestStatus() {
     switch (this) {
       case 'SUBMITTED':
@@ -3735,7 +3736,7 @@ enum ClusterState {
   terminatedWithErrors,
 }
 
-extension on ClusterState {
+extension ClusterStateValueExtension on ClusterState {
   String toValue() {
     switch (this) {
       case ClusterState.starting:
@@ -3756,7 +3757,7 @@ extension on ClusterState {
   }
 }
 
-extension on String {
+extension ClusterStateFromString on String {
   ClusterState toClusterState() {
     switch (this) {
       case 'STARTING':
@@ -3809,7 +3810,8 @@ enum ClusterStateChangeReasonCode {
   allStepsCompleted,
 }
 
-extension on ClusterStateChangeReasonCode {
+extension ClusterStateChangeReasonCodeValueExtension
+    on ClusterStateChangeReasonCode {
   String toValue() {
     switch (this) {
       case ClusterStateChangeReasonCode.internalError:
@@ -3832,7 +3834,7 @@ extension on ClusterStateChangeReasonCode {
   }
 }
 
-extension on String {
+extension ClusterStateChangeReasonCodeFromString on String {
   ClusterStateChangeReasonCode toClusterStateChangeReasonCode() {
     switch (this) {
       case 'INTERNAL_ERROR':
@@ -3994,7 +3996,7 @@ enum ComparisonOperator {
   lessThanOrEqual,
 }
 
-extension on ComparisonOperator {
+extension ComparisonOperatorValueExtension on ComparisonOperator {
   String toValue() {
     switch (this) {
       case ComparisonOperator.greaterThanOrEqual:
@@ -4009,7 +4011,7 @@ extension on ComparisonOperator {
   }
 }
 
-extension on String {
+extension ComparisonOperatorFromString on String {
   ComparisonOperator toComparisonOperator() {
     switch (this) {
       case 'GREATER_THAN_OR_EQUAL':
@@ -4103,7 +4105,7 @@ enum ComputeLimitsUnitType {
   vcpu,
 }
 
-extension on ComputeLimitsUnitType {
+extension ComputeLimitsUnitTypeValueExtension on ComputeLimitsUnitType {
   String toValue() {
     switch (this) {
       case ComputeLimitsUnitType.instanceFleetUnits:
@@ -4116,7 +4118,7 @@ extension on ComputeLimitsUnitType {
   }
 }
 
-extension on String {
+extension ComputeLimitsUnitTypeFromString on String {
   ComputeLimitsUnitType toComputeLimitsUnitType() {
     switch (this) {
       case 'InstanceFleetUnits':
@@ -4590,7 +4592,7 @@ enum ExecutionEngineType {
   emr,
 }
 
-extension on ExecutionEngineType {
+extension ExecutionEngineTypeValueExtension on ExecutionEngineType {
   String toValue() {
     switch (this) {
       case ExecutionEngineType.emr:
@@ -4599,7 +4601,7 @@ extension on ExecutionEngineType {
   }
 }
 
-extension on String {
+extension ExecutionEngineTypeFromString on String {
   ExecutionEngineType toExecutionEngineType() {
     switch (this) {
       case 'EMR':
@@ -4819,7 +4821,7 @@ enum IdentityType {
   group,
 }
 
-extension on IdentityType {
+extension IdentityTypeValueExtension on IdentityType {
   String toValue() {
     switch (this) {
       case IdentityType.user:
@@ -4830,7 +4832,7 @@ extension on IdentityType {
   }
 }
 
-extension on String {
+extension IdentityTypeFromString on String {
   IdentityType toIdentityType() {
     switch (this) {
       case 'USER':
@@ -4924,7 +4926,7 @@ enum InstanceCollectionType {
   instanceGroup,
 }
 
-extension on InstanceCollectionType {
+extension InstanceCollectionTypeValueExtension on InstanceCollectionType {
   String toValue() {
     switch (this) {
       case InstanceCollectionType.instanceFleet:
@@ -4935,7 +4937,7 @@ extension on InstanceCollectionType {
   }
 }
 
-extension on String {
+extension InstanceCollectionTypeFromString on String {
   InstanceCollectionType toInstanceCollectionType() {
     switch (this) {
       case 'INSTANCE_FLEET':
@@ -5260,7 +5262,7 @@ enum InstanceFleetState {
   terminated,
 }
 
-extension on InstanceFleetState {
+extension InstanceFleetStateValueExtension on InstanceFleetState {
   String toValue() {
     switch (this) {
       case InstanceFleetState.provisioning:
@@ -5281,7 +5283,7 @@ extension on InstanceFleetState {
   }
 }
 
-extension on String {
+extension InstanceFleetStateFromString on String {
   InstanceFleetState toInstanceFleetState() {
     switch (this) {
       case 'PROVISIONING':
@@ -5334,7 +5336,8 @@ enum InstanceFleetStateChangeReasonCode {
   clusterTerminated,
 }
 
-extension on InstanceFleetStateChangeReasonCode {
+extension InstanceFleetStateChangeReasonCodeValueExtension
+    on InstanceFleetStateChangeReasonCode {
   String toValue() {
     switch (this) {
       case InstanceFleetStateChangeReasonCode.internalError:
@@ -5349,7 +5352,7 @@ extension on InstanceFleetStateChangeReasonCode {
   }
 }
 
-extension on String {
+extension InstanceFleetStateChangeReasonCodeFromString on String {
   InstanceFleetStateChangeReasonCode toInstanceFleetStateChangeReasonCode() {
     switch (this) {
       case 'INTERNAL_ERROR':
@@ -5469,7 +5472,7 @@ enum InstanceFleetType {
   task,
 }
 
-extension on InstanceFleetType {
+extension InstanceFleetTypeValueExtension on InstanceFleetType {
   String toValue() {
     switch (this) {
       case InstanceFleetType.master:
@@ -5482,7 +5485,7 @@ extension on InstanceFleetType {
   }
 }
 
-extension on String {
+extension InstanceFleetTypeFromString on String {
   InstanceFleetType toInstanceFleetType() {
     switch (this) {
       case 'MASTER':
@@ -5848,7 +5851,7 @@ enum InstanceGroupState {
   ended,
 }
 
-extension on InstanceGroupState {
+extension InstanceGroupStateValueExtension on InstanceGroupState {
   String toValue() {
     switch (this) {
       case InstanceGroupState.provisioning:
@@ -5877,7 +5880,7 @@ extension on InstanceGroupState {
   }
 }
 
-extension on String {
+extension InstanceGroupStateFromString on String {
   InstanceGroupState toInstanceGroupState() {
     switch (this) {
       case 'PROVISIONING':
@@ -5934,7 +5937,8 @@ enum InstanceGroupStateChangeReasonCode {
   clusterTerminated,
 }
 
-extension on InstanceGroupStateChangeReasonCode {
+extension InstanceGroupStateChangeReasonCodeValueExtension
+    on InstanceGroupStateChangeReasonCode {
   String toValue() {
     switch (this) {
       case InstanceGroupStateChangeReasonCode.internalError:
@@ -5949,7 +5953,7 @@ extension on InstanceGroupStateChangeReasonCode {
   }
 }
 
-extension on String {
+extension InstanceGroupStateChangeReasonCodeFromString on String {
   InstanceGroupStateChangeReasonCode toInstanceGroupStateChangeReasonCode() {
     switch (this) {
       case 'INTERNAL_ERROR':
@@ -6028,7 +6032,7 @@ enum InstanceGroupType {
   task,
 }
 
-extension on InstanceGroupType {
+extension InstanceGroupTypeValueExtension on InstanceGroupType {
   String toValue() {
     switch (this) {
       case InstanceGroupType.master:
@@ -6041,7 +6045,7 @@ extension on InstanceGroupType {
   }
 }
 
-extension on String {
+extension InstanceGroupTypeFromString on String {
   InstanceGroupType toInstanceGroupType() {
     switch (this) {
       case 'MASTER':
@@ -6108,7 +6112,7 @@ enum InstanceRoleType {
   task,
 }
 
-extension on InstanceRoleType {
+extension InstanceRoleTypeValueExtension on InstanceRoleType {
   String toValue() {
     switch (this) {
       case InstanceRoleType.master:
@@ -6121,7 +6125,7 @@ extension on InstanceRoleType {
   }
 }
 
-extension on String {
+extension InstanceRoleTypeFromString on String {
   InstanceRoleType toInstanceRoleType() {
     switch (this) {
       case 'MASTER':
@@ -6143,7 +6147,7 @@ enum InstanceState {
   terminated,
 }
 
-extension on InstanceState {
+extension InstanceStateValueExtension on InstanceState {
   String toValue() {
     switch (this) {
       case InstanceState.awaitingFulfillment:
@@ -6160,7 +6164,7 @@ extension on InstanceState {
   }
 }
 
-extension on String {
+extension InstanceStateFromString on String {
   InstanceState toInstanceState() {
     switch (this) {
       case 'AWAITING_FULFILLMENT':
@@ -6206,7 +6210,8 @@ enum InstanceStateChangeReasonCode {
   clusterTerminated,
 }
 
-extension on InstanceStateChangeReasonCode {
+extension InstanceStateChangeReasonCodeValueExtension
+    on InstanceStateChangeReasonCode {
   String toValue() {
     switch (this) {
       case InstanceStateChangeReasonCode.internalError:
@@ -6223,7 +6228,7 @@ extension on InstanceStateChangeReasonCode {
   }
 }
 
-extension on String {
+extension InstanceStateChangeReasonCodeFromString on String {
   InstanceStateChangeReasonCode toInstanceStateChangeReasonCode() {
     switch (this) {
       case 'INTERNAL_ERROR':
@@ -6573,7 +6578,7 @@ enum JobFlowExecutionState {
   failed,
 }
 
-extension on JobFlowExecutionState {
+extension JobFlowExecutionStateValueExtension on JobFlowExecutionState {
   String toValue() {
     switch (this) {
       case JobFlowExecutionState.starting:
@@ -6596,7 +6601,7 @@ extension on JobFlowExecutionState {
   }
 }
 
-extension on String {
+extension JobFlowExecutionStateFromString on String {
   JobFlowExecutionState toJobFlowExecutionState() {
     switch (this) {
       case 'STARTING':
@@ -7269,7 +7274,7 @@ enum MarketType {
   spot,
 }
 
-extension on MarketType {
+extension MarketTypeValueExtension on MarketType {
   String toValue() {
     switch (this) {
       case MarketType.onDemand:
@@ -7280,7 +7285,7 @@ extension on MarketType {
   }
 }
 
-extension on String {
+extension MarketTypeFromString on String {
   MarketType toMarketType() {
     switch (this) {
       case 'ON_DEMAND':
@@ -7488,7 +7493,7 @@ enum NotebookExecutionStatus {
   stopped,
 }
 
-extension on NotebookExecutionStatus {
+extension NotebookExecutionStatusValueExtension on NotebookExecutionStatus {
   String toValue() {
     switch (this) {
       case NotebookExecutionStatus.startPending:
@@ -7515,7 +7520,7 @@ extension on NotebookExecutionStatus {
   }
 }
 
-extension on String {
+extension NotebookExecutionStatusFromString on String {
   NotebookExecutionStatus toNotebookExecutionStatus() {
     switch (this) {
       case 'START_PENDING':
@@ -7630,7 +7635,8 @@ enum OnDemandProvisioningAllocationStrategy {
   lowestPrice,
 }
 
-extension on OnDemandProvisioningAllocationStrategy {
+extension OnDemandProvisioningAllocationStrategyValueExtension
+    on OnDemandProvisioningAllocationStrategy {
   String toValue() {
     switch (this) {
       case OnDemandProvisioningAllocationStrategy.lowestPrice:
@@ -7639,7 +7645,7 @@ extension on OnDemandProvisioningAllocationStrategy {
   }
 }
 
-extension on String {
+extension OnDemandProvisioningAllocationStrategyFromString on String {
   OnDemandProvisioningAllocationStrategy
       toOnDemandProvisioningAllocationStrategy() {
     switch (this) {
@@ -7732,7 +7738,7 @@ enum PlacementGroupStrategy {
   none,
 }
 
-extension on PlacementGroupStrategy {
+extension PlacementGroupStrategyValueExtension on PlacementGroupStrategy {
   String toValue() {
     switch (this) {
       case PlacementGroupStrategy.spread:
@@ -7747,7 +7753,7 @@ extension on PlacementGroupStrategy {
   }
 }
 
-extension on String {
+extension PlacementGroupStrategyFromString on String {
   PlacementGroupStrategy toPlacementGroupStrategy() {
     switch (this) {
       case 'SPREAD':
@@ -7912,7 +7918,7 @@ enum RepoUpgradeOnBoot {
   none,
 }
 
-extension on RepoUpgradeOnBoot {
+extension RepoUpgradeOnBootValueExtension on RepoUpgradeOnBoot {
   String toValue() {
     switch (this) {
       case RepoUpgradeOnBoot.security:
@@ -7923,7 +7929,7 @@ extension on RepoUpgradeOnBoot {
   }
 }
 
-extension on String {
+extension RepoUpgradeOnBootFromString on String {
   RepoUpgradeOnBoot toRepoUpgradeOnBoot() {
     switch (this) {
       case 'SECURITY':
@@ -7960,7 +7966,7 @@ enum ScaleDownBehavior {
   terminateAtTaskCompletion,
 }
 
-extension on ScaleDownBehavior {
+extension ScaleDownBehaviorValueExtension on ScaleDownBehavior {
   String toValue() {
     switch (this) {
       case ScaleDownBehavior.terminateAtInstanceHour:
@@ -7971,7 +7977,7 @@ extension on ScaleDownBehavior {
   }
 }
 
-extension on String {
+extension ScaleDownBehaviorFromString on String {
   ScaleDownBehavior toScaleDownBehavior() {
     switch (this) {
       case 'TERMINATE_AT_INSTANCE_HOUR':
@@ -8378,7 +8384,8 @@ enum SpotProvisioningAllocationStrategy {
   capacityOptimized,
 }
 
-extension on SpotProvisioningAllocationStrategy {
+extension SpotProvisioningAllocationStrategyValueExtension
+    on SpotProvisioningAllocationStrategy {
   String toValue() {
     switch (this) {
       case SpotProvisioningAllocationStrategy.capacityOptimized:
@@ -8387,7 +8394,7 @@ extension on SpotProvisioningAllocationStrategy {
   }
 }
 
-extension on String {
+extension SpotProvisioningAllocationStrategyFromString on String {
   SpotProvisioningAllocationStrategy toSpotProvisioningAllocationStrategy() {
     switch (this) {
       case 'capacity-optimized':
@@ -8476,7 +8483,8 @@ enum SpotProvisioningTimeoutAction {
   terminateCluster,
 }
 
-extension on SpotProvisioningTimeoutAction {
+extension SpotProvisioningTimeoutActionValueExtension
+    on SpotProvisioningTimeoutAction {
   String toValue() {
     switch (this) {
       case SpotProvisioningTimeoutAction.switchToOnDemand:
@@ -8487,7 +8495,7 @@ extension on SpotProvisioningTimeoutAction {
   }
 }
 
-extension on String {
+extension SpotProvisioningTimeoutActionFromString on String {
   SpotProvisioningTimeoutAction toSpotProvisioningTimeoutAction() {
     switch (this) {
       case 'SWITCH_TO_ON_DEMAND':
@@ -8521,7 +8529,7 @@ enum Statistic {
   maximum,
 }
 
-extension on Statistic {
+extension StatisticValueExtension on Statistic {
   String toValue() {
     switch (this) {
       case Statistic.sampleCount:
@@ -8538,7 +8546,7 @@ extension on Statistic {
   }
 }
 
-extension on String {
+extension StatisticFromString on String {
   Statistic toStatistic() {
     switch (this) {
       case 'SAMPLE_COUNT':
@@ -8604,7 +8612,7 @@ enum StepCancellationOption {
   terminateProcess,
 }
 
-extension on StepCancellationOption {
+extension StepCancellationOptionValueExtension on StepCancellationOption {
   String toValue() {
     switch (this) {
       case StepCancellationOption.sendInterrupt:
@@ -8615,7 +8623,7 @@ extension on StepCancellationOption {
   }
 }
 
-extension on String {
+extension StepCancellationOptionFromString on String {
   StepCancellationOption toStepCancellationOption() {
     switch (this) {
       case 'SEND_INTERRUPT':
@@ -8700,7 +8708,7 @@ enum StepExecutionState {
   interrupted,
 }
 
-extension on StepExecutionState {
+extension StepExecutionStateValueExtension on StepExecutionState {
   String toValue() {
     switch (this) {
       case StepExecutionState.pending:
@@ -8721,7 +8729,7 @@ extension on StepExecutionState {
   }
 }
 
-extension on String {
+extension StepExecutionStateFromString on String {
   StepExecutionState toStepExecutionState() {
     switch (this) {
       case 'PENDING':
@@ -8789,7 +8797,7 @@ enum StepState {
   interrupted,
 }
 
-extension on StepState {
+extension StepStateValueExtension on StepState {
   String toValue() {
     switch (this) {
       case StepState.pending:
@@ -8810,7 +8818,7 @@ extension on StepState {
   }
 }
 
-extension on String {
+extension StepStateFromString on String {
   StepState toStepState() {
     switch (this) {
       case 'PENDING':
@@ -8857,7 +8865,7 @@ enum StepStateChangeReasonCode {
   none,
 }
 
-extension on StepStateChangeReasonCode {
+extension StepStateChangeReasonCodeValueExtension on StepStateChangeReasonCode {
   String toValue() {
     switch (this) {
       case StepStateChangeReasonCode.none:
@@ -8866,7 +8874,7 @@ extension on StepStateChangeReasonCode {
   }
 }
 
-extension on String {
+extension StepStateChangeReasonCodeFromString on String {
   StepStateChangeReasonCode toStepStateChangeReasonCode() {
     switch (this) {
       case 'NONE':
@@ -9219,7 +9227,7 @@ enum Unit {
   countPerSecond,
 }
 
-extension on Unit {
+extension UnitValueExtension on Unit {
   String toValue() {
     switch (this) {
       case Unit.none:
@@ -9280,7 +9288,7 @@ extension on Unit {
   }
 }
 
-extension on String {
+extension UnitFromString on String {
   Unit toUnit() {
     switch (this) {
       case 'NONE':

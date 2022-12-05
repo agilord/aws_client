@@ -734,7 +734,7 @@ enum ConnectionType {
   connectSsm,
 }
 
-extension on ConnectionType {
+extension ConnectionTypeValueExtension on ConnectionType {
   String toValue() {
     switch (this) {
       case ConnectionType.connectSsh:
@@ -745,7 +745,7 @@ extension on ConnectionType {
   }
 }
 
-extension on String {
+extension ConnectionTypeFromString on String {
   ConnectionType toConnectionType() {
     switch (this) {
       case 'CONNECT_SSH':
@@ -1005,7 +1005,8 @@ enum EnvironmentLifecycleStatus {
   deleteFailed,
 }
 
-extension on EnvironmentLifecycleStatus {
+extension EnvironmentLifecycleStatusValueExtension
+    on EnvironmentLifecycleStatus {
   String toValue() {
     switch (this) {
       case EnvironmentLifecycleStatus.creating:
@@ -1022,7 +1023,7 @@ extension on EnvironmentLifecycleStatus {
   }
 }
 
-extension on String {
+extension EnvironmentLifecycleStatusFromString on String {
   EnvironmentLifecycleStatus toEnvironmentLifecycleStatus() {
     switch (this) {
       case 'CREATING':
@@ -1101,7 +1102,7 @@ enum EnvironmentStatus {
   deleting,
 }
 
-extension on EnvironmentStatus {
+extension EnvironmentStatusValueExtension on EnvironmentStatus {
   String toValue() {
     switch (this) {
       case EnvironmentStatus.error:
@@ -1122,7 +1123,7 @@ extension on EnvironmentStatus {
   }
 }
 
-extension on String {
+extension EnvironmentStatusFromString on String {
   EnvironmentStatus toEnvironmentStatus() {
     switch (this) {
       case 'error':
@@ -1149,7 +1150,7 @@ enum EnvironmentType {
   ec2,
 }
 
-extension on EnvironmentType {
+extension EnvironmentTypeValueExtension on EnvironmentType {
   String toValue() {
     switch (this) {
       case EnvironmentType.ssh:
@@ -1160,7 +1161,7 @@ extension on EnvironmentType {
   }
 }
 
-extension on String {
+extension EnvironmentTypeFromString on String {
   EnvironmentType toEnvironmentType() {
     switch (this) {
       case 'ssh':
@@ -1219,7 +1220,7 @@ enum MemberPermissions {
   readOnly,
 }
 
-extension on MemberPermissions {
+extension MemberPermissionsValueExtension on MemberPermissions {
   String toValue() {
     switch (this) {
       case MemberPermissions.readWrite:
@@ -1230,7 +1231,7 @@ extension on MemberPermissions {
   }
 }
 
-extension on String {
+extension MemberPermissionsFromString on String {
   MemberPermissions toMemberPermissions() {
     switch (this) {
       case 'read-write':
@@ -1248,7 +1249,7 @@ enum Permissions {
   readOnly,
 }
 
-extension on Permissions {
+extension PermissionsValueExtension on Permissions {
   String toValue() {
     switch (this) {
       case Permissions.owner:
@@ -1261,7 +1262,7 @@ extension on Permissions {
   }
 }
 
-extension on String {
+extension PermissionsFromString on String {
   Permissions toPermissions() {
     switch (this) {
       case 'owner':

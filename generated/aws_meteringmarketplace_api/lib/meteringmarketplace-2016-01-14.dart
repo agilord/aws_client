@@ -643,7 +643,7 @@ enum UsageRecordResultStatus {
   duplicateRecord,
 }
 
-extension on UsageRecordResultStatus {
+extension UsageRecordResultStatusValueExtension on UsageRecordResultStatus {
   String toValue() {
     switch (this) {
       case UsageRecordResultStatus.success:
@@ -656,7 +656,7 @@ extension on UsageRecordResultStatus {
   }
 }
 
-extension on String {
+extension UsageRecordResultStatusFromString on String {
   UsageRecordResultStatus toUsageRecordResultStatus() {
     switch (this) {
       case 'Success':

@@ -11553,7 +11553,8 @@ enum AnalyticsS3ExportFileFormat {
   csv,
 }
 
-extension on AnalyticsS3ExportFileFormat {
+extension AnalyticsS3ExportFileFormatValueExtension
+    on AnalyticsS3ExportFileFormat {
   String toValue() {
     switch (this) {
       case AnalyticsS3ExportFileFormat.csv:
@@ -11562,7 +11563,7 @@ extension on AnalyticsS3ExportFileFormat {
   }
 }
 
-extension on String {
+extension AnalyticsS3ExportFileFormatFromString on String {
   AnalyticsS3ExportFileFormat toAnalyticsS3ExportFileFormat() {
     switch (this) {
       case 'CSV':
@@ -11577,7 +11578,7 @@ enum ArchiveStatus {
   deepArchiveAccess,
 }
 
-extension on ArchiveStatus {
+extension ArchiveStatusValueExtension on ArchiveStatus {
   String toValue() {
     switch (this) {
       case ArchiveStatus.archiveAccess:
@@ -11588,7 +11589,7 @@ extension on ArchiveStatus {
   }
 }
 
-extension on String {
+extension ArchiveStatusFromString on String {
   ArchiveStatus toArchiveStatus() {
     switch (this) {
       case 'ARCHIVE_ACCESS':
@@ -11627,7 +11628,7 @@ enum BucketAccelerateStatus {
   suspended,
 }
 
-extension on BucketAccelerateStatus {
+extension BucketAccelerateStatusValueExtension on BucketAccelerateStatus {
   String toValue() {
     switch (this) {
       case BucketAccelerateStatus.enabled:
@@ -11638,7 +11639,7 @@ extension on BucketAccelerateStatus {
   }
 }
 
-extension on String {
+extension BucketAccelerateStatusFromString on String {
   BucketAccelerateStatus toBucketAccelerateStatus() {
     switch (this) {
       case 'Enabled':
@@ -11657,7 +11658,7 @@ enum BucketCannedACL {
   authenticatedRead,
 }
 
-extension on BucketCannedACL {
+extension BucketCannedACLValueExtension on BucketCannedACL {
   String toValue() {
     switch (this) {
       case BucketCannedACL.private:
@@ -11672,7 +11673,7 @@ extension on BucketCannedACL {
   }
 }
 
-extension on String {
+extension BucketCannedACLFromString on String {
   BucketCannedACL toBucketCannedACL() {
     switch (this) {
       case 'private':
@@ -11744,7 +11745,7 @@ enum BucketLocationConstraint {
   usWest_2,
 }
 
-extension on BucketLocationConstraint {
+extension BucketLocationConstraintValueExtension on BucketLocationConstraint {
   String toValue() {
     switch (this) {
       case BucketLocationConstraint.afSouth_1:
@@ -11801,7 +11802,7 @@ extension on BucketLocationConstraint {
   }
 }
 
-extension on String {
+extension BucketLocationConstraintFromString on String {
   BucketLocationConstraint toBucketLocationConstraint() {
     switch (this) {
       case 'af-south-1':
@@ -11888,7 +11889,7 @@ enum BucketLogsPermission {
   write,
 }
 
-extension on BucketLogsPermission {
+extension BucketLogsPermissionValueExtension on BucketLogsPermission {
   String toValue() {
     switch (this) {
       case BucketLogsPermission.fullControl:
@@ -11901,7 +11902,7 @@ extension on BucketLogsPermission {
   }
 }
 
-extension on String {
+extension BucketLogsPermissionFromString on String {
   BucketLogsPermission toBucketLogsPermission() {
     switch (this) {
       case 'FULL_CONTROL':
@@ -11920,7 +11921,7 @@ enum BucketVersioningStatus {
   suspended,
 }
 
-extension on BucketVersioningStatus {
+extension BucketVersioningStatusValueExtension on BucketVersioningStatus {
   String toValue() {
     switch (this) {
       case BucketVersioningStatus.enabled:
@@ -11931,7 +11932,7 @@ extension on BucketVersioningStatus {
   }
 }
 
-extension on String {
+extension BucketVersioningStatusFromString on String {
   BucketVersioningStatus toBucketVersioningStatus() {
     switch (this) {
       case 'Enabled':
@@ -12429,7 +12430,7 @@ enum CompressionType {
   bzip2,
 }
 
-extension on CompressionType {
+extension CompressionTypeValueExtension on CompressionType {
   String toValue() {
     switch (this) {
       case CompressionType.none:
@@ -12442,7 +12443,7 @@ extension on CompressionType {
   }
 }
 
-extension on String {
+extension CompressionTypeFromString on String {
   CompressionType toCompressionType() {
     switch (this) {
       case 'NONE':
@@ -12927,7 +12928,8 @@ enum DeleteMarkerReplicationStatus {
   disabled,
 }
 
-extension on DeleteMarkerReplicationStatus {
+extension DeleteMarkerReplicationStatusValueExtension
+    on DeleteMarkerReplicationStatus {
   String toValue() {
     switch (this) {
       case DeleteMarkerReplicationStatus.enabled:
@@ -12938,7 +12940,7 @@ extension on DeleteMarkerReplicationStatus {
   }
 }
 
-extension on String {
+extension DeleteMarkerReplicationStatusFromString on String {
   DeleteMarkerReplicationStatus toDeleteMarkerReplicationStatus() {
     switch (this) {
       case 'Enabled':
@@ -13147,7 +13149,7 @@ enum EncodingType {
   url,
 }
 
-extension on EncodingType {
+extension EncodingTypeValueExtension on EncodingType {
   String toValue() {
     switch (this) {
       case EncodingType.url:
@@ -13156,7 +13158,7 @@ extension on EncodingType {
   }
 }
 
-extension on String {
+extension EncodingTypeFromString on String {
   EncodingType toEncodingType() {
     switch (this) {
       case 'url':
@@ -14743,7 +14745,7 @@ enum Event {
   s3ReplicationOperationReplicatedAfterThreshold,
 }
 
-extension on Event {
+extension EventValueExtension on Event {
   String toValue() {
     switch (this) {
       case Event.s3ReducedRedundancyLostObject:
@@ -14784,7 +14786,7 @@ extension on Event {
   }
 }
 
-extension on String {
+extension EventFromString on String {
   Event toEvent() {
     switch (this) {
       case 's3:ReducedRedundancyLostObject':
@@ -14866,7 +14868,8 @@ enum ExistingObjectReplicationStatus {
   disabled,
 }
 
-extension on ExistingObjectReplicationStatus {
+extension ExistingObjectReplicationStatusValueExtension
+    on ExistingObjectReplicationStatus {
   String toValue() {
     switch (this) {
       case ExistingObjectReplicationStatus.enabled:
@@ -14877,7 +14880,7 @@ extension on ExistingObjectReplicationStatus {
   }
 }
 
-extension on String {
+extension ExistingObjectReplicationStatusFromString on String {
   ExistingObjectReplicationStatus toExistingObjectReplicationStatus() {
     switch (this) {
       case 'Enabled':
@@ -14895,7 +14898,7 @@ enum ExpirationStatus {
   disabled,
 }
 
-extension on ExpirationStatus {
+extension ExpirationStatusValueExtension on ExpirationStatus {
   String toValue() {
     switch (this) {
       case ExpirationStatus.enabled:
@@ -14906,7 +14909,7 @@ extension on ExpirationStatus {
   }
 }
 
-extension on String {
+extension ExpirationStatusFromString on String {
   ExpirationStatus toExpirationStatus() {
     switch (this) {
       case 'Enabled':
@@ -14922,7 +14925,7 @@ enum ExpressionType {
   sql,
 }
 
-extension on ExpressionType {
+extension ExpressionTypeValueExtension on ExpressionType {
   String toValue() {
     switch (this) {
       case ExpressionType.sql:
@@ -14931,7 +14934,7 @@ extension on ExpressionType {
   }
 }
 
-extension on String {
+extension ExpressionTypeFromString on String {
   ExpressionType toExpressionType() {
     switch (this) {
       case 'SQL':
@@ -14947,7 +14950,7 @@ enum FileHeaderInfo {
   none,
 }
 
-extension on FileHeaderInfo {
+extension FileHeaderInfoValueExtension on FileHeaderInfo {
   String toValue() {
     switch (this) {
       case FileHeaderInfo.use:
@@ -14960,7 +14963,7 @@ extension on FileHeaderInfo {
   }
 }
 
-extension on String {
+extension FileHeaderInfoFromString on String {
   FileHeaderInfo toFileHeaderInfo() {
     switch (this) {
       case 'USE':
@@ -15023,7 +15026,7 @@ enum FilterRuleName {
   suffix,
 }
 
-extension on FilterRuleName {
+extension FilterRuleNameValueExtension on FilterRuleName {
   String toValue() {
     switch (this) {
       case FilterRuleName.prefix:
@@ -15034,7 +15037,7 @@ extension on FilterRuleName {
   }
 }
 
-extension on String {
+extension FilterRuleNameFromString on String {
   FilterRuleName toFilterRuleName() {
     switch (this) {
       case 'prefix':
@@ -16059,7 +16062,8 @@ enum IntelligentTieringAccessTier {
   deepArchiveAccess,
 }
 
-extension on IntelligentTieringAccessTier {
+extension IntelligentTieringAccessTierValueExtension
+    on IntelligentTieringAccessTier {
   String toValue() {
     switch (this) {
       case IntelligentTieringAccessTier.archiveAccess:
@@ -16070,7 +16074,7 @@ extension on IntelligentTieringAccessTier {
   }
 }
 
-extension on String {
+extension IntelligentTieringAccessTierFromString on String {
   IntelligentTieringAccessTier toIntelligentTieringAccessTier() {
     switch (this) {
       case 'ARCHIVE_ACCESS':
@@ -16238,7 +16242,7 @@ enum IntelligentTieringStatus {
   disabled,
 }
 
-extension on IntelligentTieringStatus {
+extension IntelligentTieringStatusValueExtension on IntelligentTieringStatus {
   String toValue() {
     switch (this) {
       case IntelligentTieringStatus.enabled:
@@ -16249,7 +16253,7 @@ extension on IntelligentTieringStatus {
   }
 }
 
-extension on String {
+extension IntelligentTieringStatusFromString on String {
   IntelligentTieringStatus toIntelligentTieringStatus() {
     switch (this) {
       case 'Enabled':
@@ -16468,7 +16472,7 @@ enum InventoryFormat {
   parquet,
 }
 
-extension on InventoryFormat {
+extension InventoryFormatValueExtension on InventoryFormat {
   String toValue() {
     switch (this) {
       case InventoryFormat.csv:
@@ -16481,7 +16485,7 @@ extension on InventoryFormat {
   }
 }
 
-extension on String {
+extension InventoryFormatFromString on String {
   InventoryFormat toInventoryFormat() {
     switch (this) {
       case 'CSV':
@@ -16500,7 +16504,7 @@ enum InventoryFrequency {
   weekly,
 }
 
-extension on InventoryFrequency {
+extension InventoryFrequencyValueExtension on InventoryFrequency {
   String toValue() {
     switch (this) {
       case InventoryFrequency.daily:
@@ -16511,7 +16515,7 @@ extension on InventoryFrequency {
   }
 }
 
-extension on String {
+extension InventoryFrequencyFromString on String {
   InventoryFrequency toInventoryFrequency() {
     switch (this) {
       case 'Daily':
@@ -16528,7 +16532,8 @@ enum InventoryIncludedObjectVersions {
   current,
 }
 
-extension on InventoryIncludedObjectVersions {
+extension InventoryIncludedObjectVersionsValueExtension
+    on InventoryIncludedObjectVersions {
   String toValue() {
     switch (this) {
       case InventoryIncludedObjectVersions.all:
@@ -16539,7 +16544,7 @@ extension on InventoryIncludedObjectVersions {
   }
 }
 
-extension on String {
+extension InventoryIncludedObjectVersionsFromString on String {
   InventoryIncludedObjectVersions toInventoryIncludedObjectVersions() {
     switch (this) {
       case 'All':
@@ -16566,7 +16571,7 @@ enum InventoryOptionalField {
   intelligentTieringAccessTier,
 }
 
-extension on InventoryOptionalField {
+extension InventoryOptionalFieldValueExtension on InventoryOptionalField {
   String toValue() {
     switch (this) {
       case InventoryOptionalField.size:
@@ -16595,7 +16600,7 @@ extension on InventoryOptionalField {
   }
 }
 
-extension on String {
+extension InventoryOptionalFieldFromString on String {
   InventoryOptionalField toInventoryOptionalField() {
     switch (this) {
       case 'Size':
@@ -16779,7 +16784,7 @@ enum JSONType {
   lines,
 }
 
-extension on JSONType {
+extension JSONTypeValueExtension on JSONType {
   String toValue() {
     switch (this) {
       case JSONType.document:
@@ -16790,7 +16795,7 @@ extension on JSONType {
   }
 }
 
-extension on String {
+extension JSONTypeFromString on String {
   JSONType toJSONType() {
     switch (this) {
       case 'DOCUMENT':
@@ -17885,7 +17890,7 @@ enum MFADelete {
   disabled,
 }
 
-extension on MFADelete {
+extension MFADeleteValueExtension on MFADelete {
   String toValue() {
     switch (this) {
       case MFADelete.enabled:
@@ -17896,7 +17901,7 @@ extension on MFADelete {
   }
 }
 
-extension on String {
+extension MFADeleteFromString on String {
   MFADelete toMFADelete() {
     switch (this) {
       case 'Enabled':
@@ -17913,7 +17918,7 @@ enum MFADeleteStatus {
   disabled,
 }
 
-extension on MFADeleteStatus {
+extension MFADeleteStatusValueExtension on MFADeleteStatus {
   String toValue() {
     switch (this) {
       case MFADeleteStatus.enabled:
@@ -17924,7 +17929,7 @@ extension on MFADeleteStatus {
   }
 }
 
-extension on String {
+extension MFADeleteStatusFromString on String {
   MFADeleteStatus toMFADeleteStatus() {
     switch (this) {
       case 'Enabled':
@@ -17941,7 +17946,7 @@ enum MetadataDirective {
   replace,
 }
 
-extension on MetadataDirective {
+extension MetadataDirectiveValueExtension on MetadataDirective {
   String toValue() {
     switch (this) {
       case MetadataDirective.copy:
@@ -17952,7 +17957,7 @@ extension on MetadataDirective {
   }
 }
 
-extension on String {
+extension MetadataDirectiveFromString on String {
   MetadataDirective toMetadataDirective() {
     switch (this) {
       case 'COPY':
@@ -18177,7 +18182,7 @@ enum MetricsStatus {
   disabled,
 }
 
-extension on MetricsStatus {
+extension MetricsStatusValueExtension on MetricsStatus {
   String toValue() {
     switch (this) {
       case MetricsStatus.enabled:
@@ -18188,7 +18193,7 @@ extension on MetricsStatus {
   }
 }
 
-extension on String {
+extension MetricsStatusFromString on String {
   MetricsStatus toMetricsStatus() {
     switch (this) {
       case 'Enabled':
@@ -18563,7 +18568,7 @@ enum ObjectCannedACL {
   bucketOwnerFullControl,
 }
 
-extension on ObjectCannedACL {
+extension ObjectCannedACLValueExtension on ObjectCannedACL {
   String toValue() {
     switch (this) {
       case ObjectCannedACL.private:
@@ -18584,7 +18589,7 @@ extension on ObjectCannedACL {
   }
 }
 
-extension on String {
+extension ObjectCannedACLFromString on String {
   ObjectCannedACL toObjectCannedACL() {
     switch (this) {
       case 'private':
@@ -18683,7 +18688,7 @@ enum ObjectLockEnabled {
   enabled,
 }
 
-extension on ObjectLockEnabled {
+extension ObjectLockEnabledValueExtension on ObjectLockEnabled {
   String toValue() {
     switch (this) {
       case ObjectLockEnabled.enabled:
@@ -18692,7 +18697,7 @@ extension on ObjectLockEnabled {
   }
 }
 
-extension on String {
+extension ObjectLockEnabledFromString on String {
   ObjectLockEnabled toObjectLockEnabled() {
     switch (this) {
       case 'Enabled':
@@ -18739,7 +18744,7 @@ enum ObjectLockLegalHoldStatus {
   off,
 }
 
-extension on ObjectLockLegalHoldStatus {
+extension ObjectLockLegalHoldStatusValueExtension on ObjectLockLegalHoldStatus {
   String toValue() {
     switch (this) {
       case ObjectLockLegalHoldStatus.on:
@@ -18750,7 +18755,7 @@ extension on ObjectLockLegalHoldStatus {
   }
 }
 
-extension on String {
+extension ObjectLockLegalHoldStatusFromString on String {
   ObjectLockLegalHoldStatus toObjectLockLegalHoldStatus() {
     switch (this) {
       case 'ON':
@@ -18767,7 +18772,7 @@ enum ObjectLockMode {
   compliance,
 }
 
-extension on ObjectLockMode {
+extension ObjectLockModeValueExtension on ObjectLockMode {
   String toValue() {
     switch (this) {
       case ObjectLockMode.governance:
@@ -18778,7 +18783,7 @@ extension on ObjectLockMode {
   }
 }
 
-extension on String {
+extension ObjectLockModeFromString on String {
   ObjectLockMode toObjectLockMode() {
     switch (this) {
       case 'GOVERNANCE':
@@ -18835,7 +18840,7 @@ enum ObjectLockRetentionMode {
   compliance,
 }
 
-extension on ObjectLockRetentionMode {
+extension ObjectLockRetentionModeValueExtension on ObjectLockRetentionMode {
   String toValue() {
     switch (this) {
       case ObjectLockRetentionMode.governance:
@@ -18846,7 +18851,7 @@ extension on ObjectLockRetentionMode {
   }
 }
 
-extension on String {
+extension ObjectLockRetentionModeFromString on String {
   ObjectLockRetentionMode toObjectLockRetentionMode() {
     switch (this) {
       case 'GOVERNANCE':
@@ -18905,7 +18910,7 @@ enum ObjectOwnership {
   objectWriter,
 }
 
-extension on ObjectOwnership {
+extension ObjectOwnershipValueExtension on ObjectOwnership {
   String toValue() {
     switch (this) {
       case ObjectOwnership.bucketOwnerPreferred:
@@ -18916,7 +18921,7 @@ extension on ObjectOwnership {
   }
 }
 
-extension on String {
+extension ObjectOwnershipFromString on String {
   ObjectOwnership toObjectOwnership() {
     switch (this) {
       case 'BucketOwnerPreferred':
@@ -18939,7 +18944,7 @@ enum ObjectStorageClass {
   outposts,
 }
 
-extension on ObjectStorageClass {
+extension ObjectStorageClassValueExtension on ObjectStorageClass {
   String toValue() {
     switch (this) {
       case ObjectStorageClass.standard:
@@ -18962,7 +18967,7 @@ extension on ObjectStorageClass {
   }
 }
 
-extension on String {
+extension ObjectStorageClassFromString on String {
   ObjectStorageClass toObjectStorageClass() {
     switch (this) {
       case 'STANDARD':
@@ -19043,7 +19048,7 @@ enum ObjectVersionStorageClass {
   standard,
 }
 
-extension on ObjectVersionStorageClass {
+extension ObjectVersionStorageClassValueExtension on ObjectVersionStorageClass {
   String toValue() {
     switch (this) {
       case ObjectVersionStorageClass.standard:
@@ -19052,7 +19057,7 @@ extension on ObjectVersionStorageClass {
   }
 }
 
-extension on String {
+extension ObjectVersionStorageClassFromString on String {
   ObjectVersionStorageClass toObjectVersionStorageClass() {
     switch (this) {
       case 'STANDARD':
@@ -19159,7 +19164,7 @@ enum OwnerOverride {
   destination,
 }
 
-extension on OwnerOverride {
+extension OwnerOverrideValueExtension on OwnerOverride {
   String toValue() {
     switch (this) {
       case OwnerOverride.destination:
@@ -19168,7 +19173,7 @@ extension on OwnerOverride {
   }
 }
 
-extension on String {
+extension OwnerOverrideFromString on String {
   OwnerOverride toOwnerOverride() {
     switch (this) {
       case 'Destination':
@@ -19294,7 +19299,7 @@ enum Payer {
   bucketOwner,
 }
 
-extension on Payer {
+extension PayerValueExtension on Payer {
   String toValue() {
     switch (this) {
       case Payer.requester:
@@ -19305,7 +19310,7 @@ extension on Payer {
   }
 }
 
-extension on String {
+extension PayerFromString on String {
   Payer toPayer() {
     switch (this) {
       case 'Requester':
@@ -19325,7 +19330,7 @@ enum Permission {
   readAcp,
 }
 
-extension on Permission {
+extension PermissionValueExtension on Permission {
   String toValue() {
     switch (this) {
       case Permission.fullControl:
@@ -19342,7 +19347,7 @@ extension on Permission {
   }
 }
 
-extension on String {
+extension PermissionFromString on String {
   Permission toPermission() {
     switch (this) {
       case 'FULL_CONTROL':
@@ -19424,7 +19429,7 @@ enum Protocol {
   https,
 }
 
-extension on Protocol {
+extension ProtocolValueExtension on Protocol {
   String toValue() {
     switch (this) {
       case Protocol.http:
@@ -19435,7 +19440,7 @@ extension on Protocol {
   }
 }
 
-extension on String {
+extension ProtocolFromString on String {
   Protocol toProtocol() {
     switch (this) {
       case 'http':
@@ -19759,7 +19764,7 @@ enum QuoteFields {
   asneeded,
 }
 
-extension on QuoteFields {
+extension QuoteFieldsValueExtension on QuoteFields {
   String toValue() {
     switch (this) {
       case QuoteFields.always:
@@ -19770,7 +19775,7 @@ extension on QuoteFields {
   }
 }
 
-extension on String {
+extension QuoteFieldsFromString on String {
   QuoteFields toQuoteFields() {
     switch (this) {
       case 'ALWAYS':
@@ -19958,7 +19963,8 @@ enum ReplicaModificationsStatus {
   disabled,
 }
 
-extension on ReplicaModificationsStatus {
+extension ReplicaModificationsStatusValueExtension
+    on ReplicaModificationsStatus {
   String toValue() {
     switch (this) {
       case ReplicaModificationsStatus.enabled:
@@ -19969,7 +19975,7 @@ extension on ReplicaModificationsStatus {
   }
 }
 
-extension on String {
+extension ReplicaModificationsStatusFromString on String {
   ReplicaModificationsStatus toReplicaModificationsStatus() {
     switch (this) {
       case 'Enabled':
@@ -20262,7 +20268,7 @@ enum ReplicationRuleStatus {
   disabled,
 }
 
-extension on ReplicationRuleStatus {
+extension ReplicationRuleStatusValueExtension on ReplicationRuleStatus {
   String toValue() {
     switch (this) {
       case ReplicationRuleStatus.enabled:
@@ -20273,7 +20279,7 @@ extension on ReplicationRuleStatus {
   }
 }
 
-extension on String {
+extension ReplicationRuleStatusFromString on String {
   ReplicationRuleStatus toReplicationRuleStatus() {
     switch (this) {
       case 'Enabled':
@@ -20292,7 +20298,7 @@ enum ReplicationStatus {
   replica,
 }
 
-extension on ReplicationStatus {
+extension ReplicationStatusValueExtension on ReplicationStatus {
   String toValue() {
     switch (this) {
       case ReplicationStatus.complete:
@@ -20307,7 +20313,7 @@ extension on ReplicationStatus {
   }
 }
 
-extension on String {
+extension ReplicationStatusFromString on String {
   ReplicationStatus toReplicationStatus() {
     switch (this) {
       case 'COMPLETE':
@@ -20370,7 +20376,7 @@ enum ReplicationTimeStatus {
   disabled,
 }
 
-extension on ReplicationTimeStatus {
+extension ReplicationTimeStatusValueExtension on ReplicationTimeStatus {
   String toValue() {
     switch (this) {
       case ReplicationTimeStatus.enabled:
@@ -20381,7 +20387,7 @@ extension on ReplicationTimeStatus {
   }
 }
 
-extension on String {
+extension ReplicationTimeStatusFromString on String {
   ReplicationTimeStatus toReplicationTimeStatus() {
     switch (this) {
       case 'Enabled':
@@ -20432,7 +20438,7 @@ enum RequestCharged {
   requester,
 }
 
-extension on RequestCharged {
+extension RequestChargedValueExtension on RequestCharged {
   String toValue() {
     switch (this) {
       case RequestCharged.requester:
@@ -20441,7 +20447,7 @@ extension on RequestCharged {
   }
 }
 
-extension on String {
+extension RequestChargedFromString on String {
   RequestCharged toRequestCharged() {
     switch (this) {
       case 'requester':
@@ -20461,7 +20467,7 @@ enum RequestPayer {
   requester,
 }
 
-extension on RequestPayer {
+extension RequestPayerValueExtension on RequestPayer {
   String toValue() {
     switch (this) {
       case RequestPayer.requester:
@@ -20470,7 +20476,7 @@ extension on RequestPayer {
   }
 }
 
-extension on String {
+extension RequestPayerFromString on String {
   RequestPayer toRequestPayer() {
     switch (this) {
       case 'requester':
@@ -20614,7 +20620,7 @@ enum RestoreRequestType {
   select,
 }
 
-extension on RestoreRequestType {
+extension RestoreRequestTypeValueExtension on RestoreRequestType {
   String toValue() {
     switch (this) {
       case RestoreRequestType.select:
@@ -20623,7 +20629,7 @@ extension on RestoreRequestType {
   }
 }
 
-extension on String {
+extension RestoreRequestTypeFromString on String {
   RestoreRequestType toRestoreRequestType() {
     switch (this) {
       case 'SELECT':
@@ -21200,7 +21206,7 @@ enum ServerSideEncryption {
   awsKms,
 }
 
-extension on ServerSideEncryption {
+extension ServerSideEncryptionValueExtension on ServerSideEncryption {
   String toValue() {
     switch (this) {
       case ServerSideEncryption.aes256:
@@ -21211,7 +21217,7 @@ extension on ServerSideEncryption {
   }
 }
 
-extension on String {
+extension ServerSideEncryptionFromString on String {
   ServerSideEncryption toServerSideEncryption() {
     switch (this) {
       case 'AES256':
@@ -21480,7 +21486,8 @@ enum SseKmsEncryptedObjectsStatus {
   disabled,
 }
 
-extension on SseKmsEncryptedObjectsStatus {
+extension SseKmsEncryptedObjectsStatusValueExtension
+    on SseKmsEncryptedObjectsStatus {
   String toValue() {
     switch (this) {
       case SseKmsEncryptedObjectsStatus.enabled:
@@ -21491,7 +21498,7 @@ extension on SseKmsEncryptedObjectsStatus {
   }
 }
 
-extension on String {
+extension SseKmsEncryptedObjectsStatusFromString on String {
   SseKmsEncryptedObjectsStatus toSseKmsEncryptedObjectsStatus() {
     switch (this) {
       case 'Enabled':
@@ -21555,7 +21562,7 @@ enum StorageClass {
   outposts,
 }
 
-extension on StorageClass {
+extension StorageClassValueExtension on StorageClass {
   String toValue() {
     switch (this) {
       case StorageClass.standard:
@@ -21578,7 +21585,7 @@ extension on StorageClass {
   }
 }
 
-extension on String {
+extension StorageClassFromString on String {
   StorageClass toStorageClass() {
     switch (this) {
       case 'STANDARD':
@@ -21684,7 +21691,8 @@ enum StorageClassAnalysisSchemaVersion {
   v_1,
 }
 
-extension on StorageClassAnalysisSchemaVersion {
+extension StorageClassAnalysisSchemaVersionValueExtension
+    on StorageClassAnalysisSchemaVersion {
   String toValue() {
     switch (this) {
       case StorageClassAnalysisSchemaVersion.v_1:
@@ -21693,7 +21701,7 @@ extension on StorageClassAnalysisSchemaVersion {
   }
 }
 
-extension on String {
+extension StorageClassAnalysisSchemaVersionFromString on String {
   StorageClassAnalysisSchemaVersion toStorageClassAnalysisSchemaVersion() {
     switch (this) {
       case 'V_1':
@@ -21771,7 +21779,7 @@ enum TaggingDirective {
   replace,
 }
 
-extension on TaggingDirective {
+extension TaggingDirectiveValueExtension on TaggingDirective {
   String toValue() {
     switch (this) {
       case TaggingDirective.copy:
@@ -21782,7 +21790,7 @@ extension on TaggingDirective {
   }
 }
 
-extension on String {
+extension TaggingDirectiveFromString on String {
   TaggingDirective toTaggingDirective() {
     switch (this) {
       case 'COPY':
@@ -21841,7 +21849,7 @@ enum Tier {
   expedited,
 }
 
-extension on Tier {
+extension TierValueExtension on Tier {
   String toValue() {
     switch (this) {
       case Tier.standard:
@@ -21854,7 +21862,7 @@ extension on Tier {
   }
 }
 
-extension on String {
+extension TierFromString on String {
   Tier toTier() {
     switch (this) {
       case 'Standard':
@@ -22096,7 +22104,7 @@ enum TransitionStorageClass {
   deepArchive,
 }
 
-extension on TransitionStorageClass {
+extension TransitionStorageClassValueExtension on TransitionStorageClass {
   String toValue() {
     switch (this) {
       case TransitionStorageClass.glacier:
@@ -22113,7 +22121,7 @@ extension on TransitionStorageClass {
   }
 }
 
-extension on String {
+extension TransitionStorageClassFromString on String {
   TransitionStorageClass toTransitionStorageClass() {
     switch (this) {
       case 'GLACIER':
@@ -22137,7 +22145,7 @@ enum Type {
   group,
 }
 
-extension on Type {
+extension TypeValueExtension on Type {
   String toValue() {
     switch (this) {
       case Type.canonicalUser:
@@ -22150,7 +22158,7 @@ extension on Type {
   }
 }
 
-extension on String {
+extension TypeFromString on String {
   Type toType() {
     switch (this) {
       case 'CanonicalUser':

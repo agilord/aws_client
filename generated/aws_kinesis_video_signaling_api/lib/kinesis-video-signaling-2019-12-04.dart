@@ -269,7 +269,7 @@ enum Service {
   turn,
 }
 
-extension on Service {
+extension ServiceValueExtension on Service {
   String toValue() {
     switch (this) {
       case Service.turn:
@@ -278,7 +278,7 @@ extension on Service {
   }
 }
 
-extension on String {
+extension ServiceFromString on String {
   Service toService() {
     switch (this) {
       case 'TURN':

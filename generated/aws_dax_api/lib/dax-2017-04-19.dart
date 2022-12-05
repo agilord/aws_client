@@ -1187,7 +1187,7 @@ enum ChangeType {
   requiresReboot,
 }
 
-extension on ChangeType {
+extension ChangeTypeValueExtension on ChangeType {
   String toValue() {
     switch (this) {
       case ChangeType.immediate:
@@ -1198,7 +1198,7 @@ extension on ChangeType {
   }
 }
 
-extension on String {
+extension ChangeTypeFromString on String {
   ChangeType toChangeType() {
     switch (this) {
       case 'IMMEDIATE':
@@ -1670,7 +1670,7 @@ enum IsModifiable {
   conditional,
 }
 
-extension on IsModifiable {
+extension IsModifiableValueExtension on IsModifiable {
   String toValue() {
     switch (this) {
       case IsModifiable.$true:
@@ -1683,7 +1683,7 @@ extension on IsModifiable {
   }
 }
 
-extension on String {
+extension IsModifiableFromString on String {
   IsModifiable toIsModifiable() {
     switch (this) {
       case 'TRUE':
@@ -1952,7 +1952,7 @@ enum ParameterType {
   nodeTypeSpecific,
 }
 
-extension on ParameterType {
+extension ParameterTypeValueExtension on ParameterType {
   String toValue() {
     switch (this) {
       case ParameterType.$default:
@@ -1963,7 +1963,7 @@ extension on ParameterType {
   }
 }
 
-extension on String {
+extension ParameterTypeFromString on String {
   ParameterType toParameterType() {
     switch (this) {
       case 'DEFAULT':
@@ -2046,7 +2046,7 @@ enum SSEStatus {
   disabled,
 }
 
-extension on SSEStatus {
+extension SSEStatusValueExtension on SSEStatus {
   String toValue() {
     switch (this) {
       case SSEStatus.enabling:
@@ -2061,7 +2061,7 @@ extension on SSEStatus {
   }
 }
 
-extension on String {
+extension SSEStatusFromString on String {
   SSEStatus toSSEStatus() {
     switch (this) {
       case 'ENABLING':
@@ -2103,7 +2103,7 @@ enum SourceType {
   subnetGroup,
 }
 
-extension on SourceType {
+extension SourceTypeValueExtension on SourceType {
   String toValue() {
     switch (this) {
       case SourceType.cluster:
@@ -2116,7 +2116,7 @@ extension on SourceType {
   }
 }
 
-extension on String {
+extension SourceTypeFromString on String {
   SourceType toSourceType() {
     switch (this) {
       case 'CLUSTER':

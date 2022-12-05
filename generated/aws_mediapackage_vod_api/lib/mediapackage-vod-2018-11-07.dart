@@ -549,7 +549,7 @@ enum AdMarkers {
   passthrough,
 }
 
-extension on AdMarkers {
+extension AdMarkersValueExtension on AdMarkers {
   String toValue() {
     switch (this) {
       case AdMarkers.none:
@@ -562,7 +562,7 @@ extension on AdMarkers {
   }
 }
 
-extension on String {
+extension AdMarkersFromString on String {
   AdMarkers toAdMarkers() {
     switch (this) {
       case 'NONE':
@@ -1195,7 +1195,7 @@ enum EncryptionMethod {
   sampleAes,
 }
 
-extension on EncryptionMethod {
+extension EncryptionMethodValueExtension on EncryptionMethod {
   String toValue() {
     switch (this) {
       case EncryptionMethod.aes_128:
@@ -1206,7 +1206,7 @@ extension on EncryptionMethod {
   }
 }
 
-extension on String {
+extension EncryptionMethodFromString on String {
   EncryptionMethod toEncryptionMethod() {
     switch (this) {
       case 'AES_128':
@@ -1477,7 +1477,7 @@ enum ManifestLayout {
   compact,
 }
 
-extension on ManifestLayout {
+extension ManifestLayoutValueExtension on ManifestLayout {
   String toValue() {
     switch (this) {
       case ManifestLayout.full:
@@ -1488,7 +1488,7 @@ extension on ManifestLayout {
   }
 }
 
-extension on String {
+extension ManifestLayoutFromString on String {
   ManifestLayout toManifestLayout() {
     switch (this) {
       case 'FULL':
@@ -1681,7 +1681,7 @@ enum Profile {
   hbbtv_1_5,
 }
 
-extension on Profile {
+extension ProfileValueExtension on Profile {
   String toValue() {
     switch (this) {
       case Profile.none:
@@ -1692,7 +1692,7 @@ extension on Profile {
   }
 }
 
-extension on String {
+extension ProfileFromString on String {
   Profile toProfile() {
     switch (this) {
       case 'NONE':
@@ -1710,7 +1710,7 @@ enum SegmentTemplateFormat {
   numberWithDuration,
 }
 
-extension on SegmentTemplateFormat {
+extension SegmentTemplateFormatValueExtension on SegmentTemplateFormat {
   String toValue() {
     switch (this) {
       case SegmentTemplateFormat.numberWithTimeline:
@@ -1723,7 +1723,7 @@ extension on SegmentTemplateFormat {
   }
 }
 
-extension on String {
+extension SegmentTemplateFormatFromString on String {
   SegmentTemplateFormat toSegmentTemplateFormat() {
     switch (this) {
       case 'NUMBER_WITH_TIMELINE':
@@ -1784,7 +1784,7 @@ enum StreamOrder {
   videoBitrateDescending,
 }
 
-extension on StreamOrder {
+extension StreamOrderValueExtension on StreamOrder {
   String toValue() {
     switch (this) {
       case StreamOrder.original:
@@ -1797,7 +1797,7 @@ extension on StreamOrder {
   }
 }
 
-extension on String {
+extension StreamOrderFromString on String {
   StreamOrder toStreamOrder() {
     switch (this) {
       case 'ORIGINAL':
@@ -1887,7 +1887,7 @@ enum PeriodTriggersElement {
   ads,
 }
 
-extension on PeriodTriggersElement {
+extension PeriodTriggersElementValueExtension on PeriodTriggersElement {
   String toValue() {
     switch (this) {
       case PeriodTriggersElement.ads:
@@ -1896,7 +1896,7 @@ extension on PeriodTriggersElement {
   }
 }
 
-extension on String {
+extension PeriodTriggersElementFromString on String {
   PeriodTriggersElement toPeriodTriggersElement() {
     switch (this) {
       case 'ADS':

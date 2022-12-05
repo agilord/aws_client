@@ -5184,7 +5184,7 @@ enum RecipeProvider {
   service,
 }
 
-extension on RecipeProvider {
+extension RecipeProviderValueExtension on RecipeProvider {
   String toValue() {
     switch (this) {
       case RecipeProvider.service:
@@ -5193,7 +5193,7 @@ extension on RecipeProvider {
   }
 }
 
-extension on String {
+extension RecipeProviderFromString on String {
   RecipeProvider toRecipeProvider() {
     switch (this) {
       case 'SERVICE':
@@ -5661,7 +5661,7 @@ enum TrainingMode {
   update,
 }
 
-extension on TrainingMode {
+extension TrainingModeValueExtension on TrainingMode {
   String toValue() {
     switch (this) {
       case TrainingMode.full:
@@ -5672,7 +5672,7 @@ extension on TrainingMode {
   }
 }
 
-extension on String {
+extension TrainingModeFromString on String {
   TrainingMode toTrainingMode() {
     switch (this) {
       case 'FULL':

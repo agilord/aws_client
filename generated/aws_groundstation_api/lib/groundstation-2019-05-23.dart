@@ -968,7 +968,7 @@ enum AngleUnits {
   radian,
 }
 
-extension on AngleUnits {
+extension AngleUnitsValueExtension on AngleUnits {
   String toValue() {
     switch (this) {
       case AngleUnits.degreeAngle:
@@ -979,7 +979,7 @@ extension on AngleUnits {
   }
 }
 
-extension on String {
+extension AngleUnitsFromString on String {
   AngleUnits toAngleUnits() {
     switch (this) {
       case 'DEGREE_ANGLE':
@@ -1113,7 +1113,7 @@ enum BandwidthUnits {
   kHz,
 }
 
-extension on BandwidthUnits {
+extension BandwidthUnitsValueExtension on BandwidthUnits {
   String toValue() {
     switch (this) {
       case BandwidthUnits.gHz:
@@ -1126,7 +1126,7 @@ extension on BandwidthUnits {
   }
 }
 
-extension on String {
+extension BandwidthUnitsFromString on String {
   BandwidthUnits toBandwidthUnits() {
     switch (this) {
       case 'GHz':
@@ -1149,7 +1149,7 @@ enum ConfigCapabilityType {
   uplinkEcho,
 }
 
-extension on ConfigCapabilityType {
+extension ConfigCapabilityTypeValueExtension on ConfigCapabilityType {
   String toValue() {
     switch (this) {
       case ConfigCapabilityType.antennaDownlink:
@@ -1168,7 +1168,7 @@ extension on ConfigCapabilityType {
   }
 }
 
-extension on String {
+extension ConfigCapabilityTypeFromString on String {
   ConfigCapabilityType toConfigCapabilityType() {
     switch (this) {
       case 'antenna-downlink':
@@ -1471,7 +1471,7 @@ enum ContactStatus {
   scheduling,
 }
 
-extension on ContactStatus {
+extension ContactStatusValueExtension on ContactStatus {
   String toValue() {
     switch (this) {
       case ContactStatus.available:
@@ -1504,7 +1504,7 @@ extension on ContactStatus {
   }
 }
 
-extension on String {
+extension ContactStatusFromString on String {
   ContactStatus toContactStatus() {
     switch (this) {
       case 'AVAILABLE':
@@ -1544,7 +1544,7 @@ enum Criticality {
   required,
 }
 
-extension on Criticality {
+extension CriticalityValueExtension on Criticality {
   String toValue() {
     switch (this) {
       case Criticality.preferred:
@@ -1557,7 +1557,7 @@ extension on Criticality {
   }
 }
 
-extension on String {
+extension CriticalityFromString on String {
   Criticality toCriticality() {
     switch (this) {
       case 'PREFERRED':
@@ -1906,7 +1906,7 @@ enum EirpUnits {
   dbw,
 }
 
-extension on EirpUnits {
+extension EirpUnitsValueExtension on EirpUnits {
   String toValue() {
     switch (this) {
       case EirpUnits.dbw:
@@ -1915,7 +1915,7 @@ extension on EirpUnits {
   }
 }
 
-extension on String {
+extension EirpUnitsFromString on String {
   EirpUnits toEirpUnits() {
     switch (this) {
       case 'dBW':
@@ -1987,7 +1987,7 @@ enum EndpointStatus {
   failed,
 }
 
-extension on EndpointStatus {
+extension EndpointStatusValueExtension on EndpointStatus {
   String toValue() {
     switch (this) {
       case EndpointStatus.created:
@@ -2004,7 +2004,7 @@ extension on EndpointStatus {
   }
 }
 
-extension on String {
+extension EndpointStatusFromString on String {
   EndpointStatus toEndpointStatus() {
     switch (this) {
       case 'created':
@@ -2103,7 +2103,7 @@ enum FrequencyUnits {
   kHz,
 }
 
-extension on FrequencyUnits {
+extension FrequencyUnitsValueExtension on FrequencyUnits {
   String toValue() {
     switch (this) {
       case FrequencyUnits.gHz:
@@ -2116,7 +2116,7 @@ extension on FrequencyUnits {
   }
 }
 
-extension on String {
+extension FrequencyUnitsFromString on String {
   FrequencyUnits toFrequencyUnits() {
     switch (this) {
       case 'GHz':
@@ -2593,7 +2593,7 @@ enum Polarization {
   rightHand,
 }
 
-extension on Polarization {
+extension PolarizationValueExtension on Polarization {
   String toValue() {
     switch (this) {
       case Polarization.leftHand:
@@ -2606,7 +2606,7 @@ extension on Polarization {
   }
 }
 
-extension on String {
+extension PolarizationFromString on String {
   Polarization toPolarization() {
     switch (this) {
       case 'LEFT_HAND':

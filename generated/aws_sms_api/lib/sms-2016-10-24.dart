@@ -1475,7 +1475,8 @@ enum AppLaunchConfigurationStatus {
   configured,
 }
 
-extension on AppLaunchConfigurationStatus {
+extension AppLaunchConfigurationStatusValueExtension
+    on AppLaunchConfigurationStatus {
   String toValue() {
     switch (this) {
       case AppLaunchConfigurationStatus.notConfigured:
@@ -1486,7 +1487,7 @@ extension on AppLaunchConfigurationStatus {
   }
 }
 
-extension on String {
+extension AppLaunchConfigurationStatusFromString on String {
   AppLaunchConfigurationStatus toAppLaunchConfigurationStatus() {
     switch (this) {
       case 'NOT_CONFIGURED':
@@ -1516,7 +1517,7 @@ enum AppLaunchStatus {
   terminated,
 }
 
-extension on AppLaunchStatus {
+extension AppLaunchStatusValueExtension on AppLaunchStatus {
   String toValue() {
     switch (this) {
       case AppLaunchStatus.readyForConfiguration:
@@ -1553,7 +1554,7 @@ extension on AppLaunchStatus {
   }
 }
 
-extension on String {
+extension AppLaunchStatusFromString on String {
   AppLaunchStatus toAppLaunchStatus() {
     switch (this) {
       case 'READY_FOR_CONFIGURATION':
@@ -1596,7 +1597,8 @@ enum AppReplicationConfigurationStatus {
   configured,
 }
 
-extension on AppReplicationConfigurationStatus {
+extension AppReplicationConfigurationStatusValueExtension
+    on AppReplicationConfigurationStatus {
   String toValue() {
     switch (this) {
       case AppReplicationConfigurationStatus.notConfigured:
@@ -1607,7 +1609,7 @@ extension on AppReplicationConfigurationStatus {
   }
 }
 
-extension on String {
+extension AppReplicationConfigurationStatusFromString on String {
   AppReplicationConfigurationStatus toAppReplicationConfigurationStatus() {
     switch (this) {
       case 'NOT_CONFIGURED':
@@ -1639,7 +1641,7 @@ enum AppReplicationStatus {
   replicationStopped,
 }
 
-extension on AppReplicationStatus {
+extension AppReplicationStatusValueExtension on AppReplicationStatus {
   String toValue() {
     switch (this) {
       case AppReplicationStatus.readyForConfiguration:
@@ -1678,7 +1680,7 @@ extension on AppReplicationStatus {
   }
 }
 
-extension on String {
+extension AppReplicationStatusFromString on String {
   AppReplicationStatus toAppReplicationStatus() {
     switch (this) {
       case 'READY_FOR_CONFIGURATION':
@@ -1727,7 +1729,7 @@ enum AppStatus {
   deleteFailed,
 }
 
-extension on AppStatus {
+extension AppStatusValueExtension on AppStatus {
   String toValue() {
     switch (this) {
       case AppStatus.creating:
@@ -1746,7 +1748,7 @@ extension on AppStatus {
   }
 }
 
-extension on String {
+extension AppStatusFromString on String {
   AppStatus toAppStatus() {
     switch (this) {
       case 'CREATING':
@@ -1948,7 +1950,7 @@ enum AppValidationStrategy {
   ssm,
 }
 
-extension on AppValidationStrategy {
+extension AppValidationStrategyValueExtension on AppValidationStrategy {
   String toValue() {
     switch (this) {
       case AppValidationStrategy.ssm:
@@ -1957,7 +1959,7 @@ extension on AppValidationStrategy {
   }
 }
 
-extension on String {
+extension AppValidationStrategyFromString on String {
   AppValidationStrategy toAppValidationStrategy() {
     switch (this) {
       case 'SSM':
@@ -2038,7 +2040,7 @@ enum ConnectorCapability {
   smsOptimized,
 }
 
-extension on ConnectorCapability {
+extension ConnectorCapabilityValueExtension on ConnectorCapability {
   String toValue() {
     switch (this) {
       case ConnectorCapability.vsphere:
@@ -2055,7 +2057,7 @@ extension on ConnectorCapability {
   }
 }
 
-extension on String {
+extension ConnectorCapabilityFromString on String {
   ConnectorCapability toConnectorCapability() {
     switch (this) {
       case 'VSPHERE':
@@ -2078,7 +2080,7 @@ enum ConnectorStatus {
   unhealthy,
 }
 
-extension on ConnectorStatus {
+extension ConnectorStatusValueExtension on ConnectorStatus {
   String toValue() {
     switch (this) {
       case ConnectorStatus.healthy:
@@ -2089,7 +2091,7 @@ extension on ConnectorStatus {
   }
 }
 
-extension on String {
+extension ConnectorStatusFromString on String {
   ConnectorStatus toConnectorStatus() {
     switch (this) {
       case 'HEALTHY':
@@ -2532,7 +2534,7 @@ enum LicenseType {
   byol,
 }
 
-extension on LicenseType {
+extension LicenseTypeValueExtension on LicenseType {
   String toValue() {
     switch (this) {
       case LicenseType.aws:
@@ -2543,7 +2545,7 @@ extension on LicenseType {
   }
 }
 
-extension on String {
+extension LicenseTypeFromString on String {
   LicenseType toLicenseType() {
     switch (this) {
       case 'AWS':
@@ -2618,7 +2620,7 @@ enum OutputFormat {
   yaml,
 }
 
-extension on OutputFormat {
+extension OutputFormatValueExtension on OutputFormat {
   String toValue() {
     switch (this) {
       case OutputFormat.json:
@@ -2629,7 +2631,7 @@ extension on OutputFormat {
   }
 }
 
-extension on String {
+extension OutputFormatFromString on String {
   OutputFormat toOutputFormat() {
     switch (this) {
       case 'JSON':
@@ -2802,7 +2804,7 @@ enum ReplicationJobState {
   failing,
 }
 
-extension on ReplicationJobState {
+extension ReplicationJobStateValueExtension on ReplicationJobState {
   String toValue() {
     switch (this) {
       case ReplicationJobState.pending:
@@ -2825,7 +2827,7 @@ extension on ReplicationJobState {
   }
 }
 
-extension on String {
+extension ReplicationJobStateFromString on String {
   ReplicationJobState toReplicationJobState() {
     switch (this) {
       case 'PENDING':
@@ -2965,7 +2967,7 @@ enum ReplicationRunState {
   deleted,
 }
 
-extension on ReplicationRunState {
+extension ReplicationRunStateValueExtension on ReplicationRunState {
   String toValue() {
     switch (this) {
       case ReplicationRunState.pending:
@@ -2986,7 +2988,7 @@ extension on ReplicationRunState {
   }
 }
 
-extension on String {
+extension ReplicationRunStateFromString on String {
   ReplicationRunState toReplicationRunState() {
     switch (this) {
       case 'PENDING':
@@ -3013,7 +3015,7 @@ enum ReplicationRunType {
   automatic,
 }
 
-extension on ReplicationRunType {
+extension ReplicationRunTypeValueExtension on ReplicationRunType {
   String toValue() {
     switch (this) {
       case ReplicationRunType.onDemand:
@@ -3024,7 +3026,7 @@ extension on ReplicationRunType {
   }
 }
 
-extension on String {
+extension ReplicationRunTypeFromString on String {
   ReplicationRunType toReplicationRunType() {
     switch (this) {
       case 'ON_DEMAND':
@@ -3147,7 +3149,7 @@ enum ScriptType {
   powershellScript,
 }
 
-extension on ScriptType {
+extension ScriptTypeValueExtension on ScriptType {
   String toValue() {
     switch (this) {
       case ScriptType.shellScript:
@@ -3158,7 +3160,7 @@ extension on ScriptType {
   }
 }
 
-extension on String {
+extension ScriptTypeFromString on String {
   ScriptType toScriptType() {
     switch (this) {
       case 'SHELL_SCRIPT':
@@ -3231,7 +3233,7 @@ enum ServerCatalogStatus {
   expired,
 }
 
-extension on ServerCatalogStatus {
+extension ServerCatalogStatusValueExtension on ServerCatalogStatus {
   String toValue() {
     switch (this) {
       case ServerCatalogStatus.notImported:
@@ -3248,7 +3250,7 @@ extension on ServerCatalogStatus {
   }
 }
 
-extension on String {
+extension ServerCatalogStatusFromString on String {
   ServerCatalogStatus toServerCatalogStatus() {
     switch (this) {
       case 'NOT_IMPORTED':
@@ -3654,7 +3656,7 @@ enum ServerType {
   virtualMachine,
 }
 
-extension on ServerType {
+extension ServerTypeValueExtension on ServerType {
   String toValue() {
     switch (this) {
       case ServerType.virtualMachine:
@@ -3663,7 +3665,7 @@ extension on ServerType {
   }
 }
 
-extension on String {
+extension ServerTypeFromString on String {
   ServerType toServerType() {
     switch (this) {
       case 'VIRTUAL_MACHINE':
@@ -3749,7 +3751,7 @@ enum ServerValidationStrategy {
   userdata,
 }
 
-extension on ServerValidationStrategy {
+extension ServerValidationStrategyValueExtension on ServerValidationStrategy {
   String toValue() {
     switch (this) {
       case ServerValidationStrategy.userdata:
@@ -3758,7 +3760,7 @@ extension on ServerValidationStrategy {
   }
 }
 
-extension on String {
+extension ServerValidationStrategyFromString on String {
   ServerValidationStrategy toServerValidationStrategy() {
     switch (this) {
       case 'USERDATA':
@@ -4017,7 +4019,7 @@ enum ValidationStatus {
   failed,
 }
 
-extension on ValidationStatus {
+extension ValidationStatusValueExtension on ValidationStatus {
   String toValue() {
     switch (this) {
       case ValidationStatus.readyForValidation:
@@ -4034,7 +4036,7 @@ extension on ValidationStatus {
   }
 }
 
-extension on String {
+extension ValidationStatusFromString on String {
   ValidationStatus toValidationStatus() {
     switch (this) {
       case 'READY_FOR_VALIDATION':
@@ -4058,7 +4060,7 @@ enum VmManagerType {
   hypervManager,
 }
 
-extension on VmManagerType {
+extension VmManagerTypeValueExtension on VmManagerType {
   String toValue() {
     switch (this) {
       case VmManagerType.vsphere:
@@ -4071,7 +4073,7 @@ extension on VmManagerType {
   }
 }
 
-extension on String {
+extension VmManagerTypeFromString on String {
   VmManagerType toVmManagerType() {
     switch (this) {
       case 'VSPHERE':

@@ -2950,7 +2950,7 @@ enum ApplicationRevisionSortBy {
   lastUsedTime,
 }
 
-extension on ApplicationRevisionSortBy {
+extension ApplicationRevisionSortByValueExtension on ApplicationRevisionSortBy {
   String toValue() {
     switch (this) {
       case ApplicationRevisionSortBy.registerTime:
@@ -2963,7 +2963,7 @@ extension on ApplicationRevisionSortBy {
   }
 }
 
-extension on String {
+extension ApplicationRevisionSortByFromString on String {
   ApplicationRevisionSortBy toApplicationRevisionSortBy() {
     switch (this) {
       case 'registerTime':
@@ -3018,7 +3018,7 @@ enum AutoRollbackEvent {
   deploymentStopOnRequest,
 }
 
-extension on AutoRollbackEvent {
+extension AutoRollbackEventValueExtension on AutoRollbackEvent {
   String toValue() {
     switch (this) {
       case AutoRollbackEvent.deploymentFailure:
@@ -3031,7 +3031,7 @@ extension on AutoRollbackEvent {
   }
 }
 
-extension on String {
+extension AutoRollbackEventFromString on String {
   AutoRollbackEvent toAutoRollbackEvent() {
     switch (this) {
       case 'DEPLOYMENT_FAILURE':
@@ -3354,7 +3354,7 @@ enum BundleType {
   json,
 }
 
-extension on BundleType {
+extension BundleTypeValueExtension on BundleType {
   String toValue() {
     switch (this) {
       case BundleType.tar:
@@ -3371,7 +3371,7 @@ extension on BundleType {
   }
 }
 
-extension on String {
+extension BundleTypeFromString on String {
   BundleType toBundleType() {
     switch (this) {
       case 'tar':
@@ -3450,7 +3450,7 @@ enum ComputePlatform {
   ecs,
 }
 
-extension on ComputePlatform {
+extension ComputePlatformValueExtension on ComputePlatform {
   String toValue() {
     switch (this) {
       case ComputePlatform.server:
@@ -3463,7 +3463,7 @@ extension on ComputePlatform {
   }
 }
 
-extension on String {
+extension ComputePlatformFromString on String {
   ComputePlatform toComputePlatform() {
     switch (this) {
       case 'Server':
@@ -3640,7 +3640,7 @@ enum DeploymentCreator {
   cloudFormationRollback,
 }
 
-extension on DeploymentCreator {
+extension DeploymentCreatorValueExtension on DeploymentCreator {
   String toValue() {
     switch (this) {
       case DeploymentCreator.user:
@@ -3659,7 +3659,7 @@ extension on DeploymentCreator {
   }
 }
 
-extension on String {
+extension DeploymentCreatorFromString on String {
   DeploymentCreator toDeploymentCreator() {
     switch (this) {
       case 'user':
@@ -4128,7 +4128,7 @@ enum DeploymentOption {
   withoutTrafficControl,
 }
 
-extension on DeploymentOption {
+extension DeploymentOptionValueExtension on DeploymentOption {
   String toValue() {
     switch (this) {
       case DeploymentOption.withTrafficControl:
@@ -4139,7 +4139,7 @@ extension on DeploymentOption {
   }
 }
 
-extension on String {
+extension DeploymentOptionFromString on String {
   DeploymentOption toDeploymentOption() {
     switch (this) {
       case 'WITH_TRAFFIC_CONTROL':
@@ -4198,7 +4198,7 @@ enum DeploymentReadyAction {
   stopDeployment,
 }
 
-extension on DeploymentReadyAction {
+extension DeploymentReadyActionValueExtension on DeploymentReadyAction {
   String toValue() {
     switch (this) {
       case DeploymentReadyAction.continueDeployment:
@@ -4209,7 +4209,7 @@ extension on DeploymentReadyAction {
   }
 }
 
-extension on String {
+extension DeploymentReadyActionFromString on String {
   DeploymentReadyAction toDeploymentReadyAction() {
     switch (this) {
       case 'CONTINUE_DEPLOYMENT':
@@ -4280,7 +4280,7 @@ enum DeploymentStatus {
   ready,
 }
 
-extension on DeploymentStatus {
+extension DeploymentStatusValueExtension on DeploymentStatus {
   String toValue() {
     switch (this) {
       case DeploymentStatus.created:
@@ -4303,7 +4303,7 @@ extension on DeploymentStatus {
   }
 }
 
-extension on String {
+extension DeploymentStatusFromString on String {
   DeploymentStatus toDeploymentStatus() {
     switch (this) {
       case 'Created':
@@ -4415,7 +4415,7 @@ enum DeploymentTargetType {
   cloudFormationTarget,
 }
 
-extension on DeploymentTargetType {
+extension DeploymentTargetTypeValueExtension on DeploymentTargetType {
   String toValue() {
     switch (this) {
       case DeploymentTargetType.instanceTarget:
@@ -4430,7 +4430,7 @@ extension on DeploymentTargetType {
   }
 }
 
-extension on String {
+extension DeploymentTargetTypeFromString on String {
   DeploymentTargetType toDeploymentTargetType() {
     switch (this) {
       case 'InstanceTarget':
@@ -4451,7 +4451,7 @@ enum DeploymentType {
   blueGreen,
 }
 
-extension on DeploymentType {
+extension DeploymentTypeValueExtension on DeploymentType {
   String toValue() {
     switch (this) {
       case DeploymentType.inPlace:
@@ -4462,7 +4462,7 @@ extension on DeploymentType {
   }
 }
 
-extension on String {
+extension DeploymentTypeFromString on String {
   DeploymentType toDeploymentType() {
     switch (this) {
       case 'IN_PLACE':
@@ -4479,7 +4479,7 @@ enum DeploymentWaitType {
   terminationWait,
 }
 
-extension on DeploymentWaitType {
+extension DeploymentWaitTypeValueExtension on DeploymentWaitType {
   String toValue() {
     switch (this) {
       case DeploymentWaitType.readyWait:
@@ -4490,7 +4490,7 @@ extension on DeploymentWaitType {
   }
 }
 
-extension on String {
+extension DeploymentWaitTypeFromString on String {
   DeploymentWaitType toDeploymentWaitType() {
     switch (this) {
       case 'READY_WAIT':
@@ -4613,7 +4613,7 @@ enum EC2TagFilterType {
   keyAndValue,
 }
 
-extension on EC2TagFilterType {
+extension EC2TagFilterTypeValueExtension on EC2TagFilterType {
   String toValue() {
     switch (this) {
       case EC2TagFilterType.keyOnly:
@@ -4626,7 +4626,7 @@ extension on EC2TagFilterType {
   }
 }
 
-extension on String {
+extension EC2TagFilterTypeFromString on String {
   EC2TagFilterType toEC2TagFilterType() {
     switch (this) {
       case 'KEY_ONLY':
@@ -4904,7 +4904,7 @@ enum ErrorCode {
   cloudformationStackFailure,
 }
 
-extension on ErrorCode {
+extension ErrorCodeValueExtension on ErrorCode {
   String toValue() {
     switch (this) {
       case ErrorCode.agentIssue:
@@ -4979,7 +4979,7 @@ extension on ErrorCode {
   }
 }
 
-extension on String {
+extension ErrorCodeFromString on String {
   ErrorCode toErrorCode() {
     switch (this) {
       case 'AGENT_ISSUE':
@@ -5139,7 +5139,7 @@ enum FileExistsBehavior {
   retain,
 }
 
-extension on FileExistsBehavior {
+extension FileExistsBehaviorValueExtension on FileExistsBehavior {
   String toValue() {
     switch (this) {
       case FileExistsBehavior.disallow:
@@ -5152,7 +5152,7 @@ extension on FileExistsBehavior {
   }
 }
 
-extension on String {
+extension FileExistsBehaviorFromString on String {
   FileExistsBehavior toFileExistsBehavior() {
     switch (this) {
       case 'DISALLOW':
@@ -5400,7 +5400,8 @@ enum GreenFleetProvisioningAction {
   copyAutoScalingGroup,
 }
 
-extension on GreenFleetProvisioningAction {
+extension GreenFleetProvisioningActionValueExtension
+    on GreenFleetProvisioningAction {
   String toValue() {
     switch (this) {
       case GreenFleetProvisioningAction.discoverExisting:
@@ -5411,7 +5412,7 @@ extension on GreenFleetProvisioningAction {
   }
 }
 
-extension on String {
+extension GreenFleetProvisioningActionFromString on String {
   GreenFleetProvisioningAction toGreenFleetProvisioningAction() {
     switch (this) {
       case 'DISCOVER_EXISTING':
@@ -5462,7 +5463,7 @@ enum InstanceAction {
   keepAlive,
 }
 
-extension on InstanceAction {
+extension InstanceActionValueExtension on InstanceAction {
   String toValue() {
     switch (this) {
       case InstanceAction.terminate:
@@ -5473,7 +5474,7 @@ extension on InstanceAction {
   }
 }
 
-extension on String {
+extension InstanceActionFromString on String {
   InstanceAction toInstanceAction() {
     switch (this) {
       case 'TERMINATE':
@@ -5545,7 +5546,7 @@ enum InstanceStatus {
   ready,
 }
 
-extension on InstanceStatus {
+extension InstanceStatusValueExtension on InstanceStatus {
   String toValue() {
     switch (this) {
       case InstanceStatus.pending:
@@ -5566,7 +5567,7 @@ extension on InstanceStatus {
   }
 }
 
-extension on String {
+extension InstanceStatusFromString on String {
   InstanceStatus toInstanceStatus() {
     switch (this) {
       case 'Pending':
@@ -5719,7 +5720,7 @@ enum InstanceType {
   green,
 }
 
-extension on InstanceType {
+extension InstanceTypeValueExtension on InstanceType {
   String toValue() {
     switch (this) {
       case InstanceType.blue:
@@ -5730,7 +5731,7 @@ extension on InstanceType {
   }
 }
 
-extension on String {
+extension InstanceTypeFromString on String {
   InstanceType toInstanceType() {
     switch (this) {
       case 'Blue':
@@ -5878,7 +5879,7 @@ enum LifecycleErrorCode {
   unknownError,
 }
 
-extension on LifecycleErrorCode {
+extension LifecycleErrorCodeValueExtension on LifecycleErrorCode {
   String toValue() {
     switch (this) {
       case LifecycleErrorCode.success:
@@ -5897,7 +5898,7 @@ extension on LifecycleErrorCode {
   }
 }
 
-extension on String {
+extension LifecycleErrorCodeFromString on String {
   LifecycleErrorCode toLifecycleErrorCode() {
     switch (this) {
       case 'Success':
@@ -5986,7 +5987,7 @@ enum LifecycleEventStatus {
   unknown,
 }
 
-extension on LifecycleEventStatus {
+extension LifecycleEventStatusValueExtension on LifecycleEventStatus {
   String toValue() {
     switch (this) {
       case LifecycleEventStatus.pending:
@@ -6005,7 +6006,7 @@ extension on LifecycleEventStatus {
   }
 }
 
-extension on String {
+extension LifecycleEventStatusFromString on String {
   LifecycleEventStatus toLifecycleEventStatus() {
     switch (this) {
       case 'Pending':
@@ -6264,7 +6265,7 @@ enum ListStateFilterAction {
   ignore,
 }
 
-extension on ListStateFilterAction {
+extension ListStateFilterActionValueExtension on ListStateFilterAction {
   String toValue() {
     switch (this) {
       case ListStateFilterAction.include:
@@ -6277,7 +6278,7 @@ extension on ListStateFilterAction {
   }
 }
 
-extension on String {
+extension ListStateFilterActionFromString on String {
   ListStateFilterAction toListStateFilterAction() {
     switch (this) {
       case 'include':
@@ -6442,7 +6443,7 @@ enum MinimumHealthyHostsType {
   fleetPercent,
 }
 
-extension on MinimumHealthyHostsType {
+extension MinimumHealthyHostsTypeValueExtension on MinimumHealthyHostsType {
   String toValue() {
     switch (this) {
       case MinimumHealthyHostsType.hostCount:
@@ -6453,7 +6454,7 @@ extension on MinimumHealthyHostsType {
   }
 }
 
-extension on String {
+extension MinimumHealthyHostsTypeFromString on String {
   MinimumHealthyHostsType toMinimumHealthyHostsType() {
     switch (this) {
       case 'HOST_COUNT':
@@ -6552,7 +6553,7 @@ enum RegistrationStatus {
   deregistered,
 }
 
-extension on RegistrationStatus {
+extension RegistrationStatusValueExtension on RegistrationStatus {
   String toValue() {
     switch (this) {
       case RegistrationStatus.registered:
@@ -6563,7 +6564,7 @@ extension on RegistrationStatus {
   }
 }
 
-extension on String {
+extension RegistrationStatusFromString on String {
   RegistrationStatus toRegistrationStatus() {
     switch (this) {
       case 'Registered':
@@ -6690,7 +6691,7 @@ enum RevisionLocationType {
   appSpecContent,
 }
 
-extension on RevisionLocationType {
+extension RevisionLocationTypeValueExtension on RevisionLocationType {
   String toValue() {
     switch (this) {
       case RevisionLocationType.s3:
@@ -6705,7 +6706,7 @@ extension on RevisionLocationType {
   }
 }
 
-extension on String {
+extension RevisionLocationTypeFromString on String {
   RevisionLocationType toRevisionLocationType() {
     switch (this) {
       case 'S3':
@@ -6826,7 +6827,7 @@ enum SortOrder {
   descending,
 }
 
-extension on SortOrder {
+extension SortOrderValueExtension on SortOrder {
   String toValue() {
     switch (this) {
       case SortOrder.ascending:
@@ -6837,7 +6838,7 @@ extension on SortOrder {
   }
 }
 
-extension on String {
+extension SortOrderFromString on String {
   SortOrder toSortOrder() {
     switch (this) {
       case 'ascending':
@@ -6883,7 +6884,7 @@ enum StopStatus {
   succeeded,
 }
 
-extension on StopStatus {
+extension StopStatusValueExtension on StopStatus {
   String toValue() {
     switch (this) {
       case StopStatus.pending:
@@ -6894,7 +6895,7 @@ extension on StopStatus {
   }
 }
 
-extension on String {
+extension StopStatusFromString on String {
   StopStatus toStopStatus() {
     switch (this) {
       case 'Pending':
@@ -6989,7 +6990,7 @@ enum TagFilterType {
   keyAndValue,
 }
 
-extension on TagFilterType {
+extension TagFilterTypeValueExtension on TagFilterType {
   String toValue() {
     switch (this) {
       case TagFilterType.keyOnly:
@@ -7002,7 +7003,7 @@ extension on TagFilterType {
   }
 }
 
-extension on String {
+extension TagFilterTypeFromString on String {
   TagFilterType toTagFilterType() {
     switch (this) {
       case 'KEY_ONLY':
@@ -7028,7 +7029,7 @@ enum TargetFilterName {
   serverInstanceLabel,
 }
 
-extension on TargetFilterName {
+extension TargetFilterNameValueExtension on TargetFilterName {
   String toValue() {
     switch (this) {
       case TargetFilterName.targetStatus:
@@ -7039,7 +7040,7 @@ extension on TargetFilterName {
   }
 }
 
-extension on String {
+extension TargetFilterNameFromString on String {
   TargetFilterName toTargetFilterName() {
     switch (this) {
       case 'TargetStatus':
@@ -7187,7 +7188,7 @@ enum TargetLabel {
   green,
 }
 
-extension on TargetLabel {
+extension TargetLabelValueExtension on TargetLabel {
   String toValue() {
     switch (this) {
       case TargetLabel.blue:
@@ -7198,7 +7199,7 @@ extension on TargetLabel {
   }
 }
 
-extension on String {
+extension TargetLabelFromString on String {
   TargetLabel toTargetLabel() {
     switch (this) {
       case 'Blue':
@@ -7220,7 +7221,7 @@ enum TargetStatus {
   ready,
 }
 
-extension on TargetStatus {
+extension TargetStatusValueExtension on TargetStatus {
   String toValue() {
     switch (this) {
       case TargetStatus.pending:
@@ -7241,7 +7242,7 @@ extension on TargetStatus {
   }
 }
 
-extension on String {
+extension TargetStatusFromString on String {
   TargetStatus toTargetStatus() {
     switch (this) {
       case 'Pending':
@@ -7444,7 +7445,7 @@ enum TrafficRoutingType {
   allAtOnce,
 }
 
-extension on TrafficRoutingType {
+extension TrafficRoutingTypeValueExtension on TrafficRoutingType {
   String toValue() {
     switch (this) {
       case TrafficRoutingType.timeBasedCanary:
@@ -7457,7 +7458,7 @@ extension on TrafficRoutingType {
   }
 }
 
-extension on String {
+extension TrafficRoutingTypeFromString on String {
   TrafficRoutingType toTrafficRoutingType() {
     switch (this) {
       case 'TimeBasedCanary':
@@ -7526,7 +7527,7 @@ enum TriggerEventType {
   instanceReady,
 }
 
-extension on TriggerEventType {
+extension TriggerEventTypeValueExtension on TriggerEventType {
   String toValue() {
     switch (this) {
       case TriggerEventType.deploymentStart:
@@ -7553,7 +7554,7 @@ extension on TriggerEventType {
   }
 }
 
-extension on String {
+extension TriggerEventTypeFromString on String {
   TriggerEventType toTriggerEventType() {
     switch (this) {
       case 'DeploymentStart':

@@ -108,7 +108,7 @@ enum ItemType {
   type3,
 }
 
-extension on ItemType {
+extension ItemTypeValueExtension on ItemType {
   String toValue() {
     switch (this) {
       case ItemType.type1:
@@ -121,7 +121,7 @@ extension on ItemType {
   }
 }
 
-extension on String {
+extension ItemTypeFromString on String {
   ItemType toItemType() {
     switch (this) {
       case 'Type1':
