@@ -3100,7 +3100,7 @@ enum ChannelStatus {
   failed,
 }
 
-extension ChannelStatusValue on ChannelStatus {
+extension ChannelStatusValueExtension on ChannelStatus {
   String toValue() {
     switch (this) {
       case ChannelStatus.inProgress:
@@ -3134,7 +3134,7 @@ enum ChannelType {
   kik,
 }
 
-extension ChannelTypeValue on ChannelType {
+extension ChannelTypeValueExtension on ChannelType {
   String toValue() {
     switch (this) {
       case ChannelType.facebook:
@@ -3202,7 +3202,7 @@ enum ContentType {
   customPayload,
 }
 
-extension ContentTypeValue on ContentType {
+extension ContentTypeValueExtension on ContentType {
   String toValue() {
     switch (this) {
       case ContentType.plainText:
@@ -3635,7 +3635,7 @@ enum Destination {
   s3,
 }
 
-extension DestinationValue on Destination {
+extension DestinationValueExtension on Destination {
   String toValue() {
     switch (this) {
       case Destination.cloudwatchLogs:
@@ -3713,7 +3713,7 @@ enum ExportStatus {
   failed,
 }
 
-extension ExportStatusValue on ExportStatus {
+extension ExportStatusValueExtension on ExportStatus {
   String toValue() {
     switch (this) {
       case ExportStatus.inProgress:
@@ -3745,7 +3745,7 @@ enum ExportType {
   lex,
 }
 
-extension ExportTypeValue on ExportType {
+extension ExportTypeValueExtension on ExportType {
   String toValue() {
     switch (this) {
       case ExportType.alexaSkillsKit:
@@ -3861,7 +3861,7 @@ enum FulfillmentActivityType {
   codeHook,
 }
 
-extension FulfillmentActivityTypeValue on FulfillmentActivityType {
+extension FulfillmentActivityTypeValueExtension on FulfillmentActivityType {
   String toValue() {
     switch (this) {
       case FulfillmentActivityType.returnIntent:
@@ -4813,7 +4813,7 @@ enum ImportStatus {
   failed,
 }
 
-extension ImportStatusValue on ImportStatus {
+extension ImportStatusValueExtension on ImportStatus {
   String toValue() {
     switch (this) {
       case ImportStatus.inProgress:
@@ -5012,7 +5012,7 @@ enum Locale {
   itIt,
 }
 
-extension LocaleValue on Locale {
+extension LocaleValueExtension on Locale {
   String toValue() {
     switch (this) {
       case Locale.deDe:
@@ -5151,7 +5151,7 @@ enum LogType {
   text,
 }
 
-extension LogTypeValue on LogType {
+extension LogTypeValueExtension on LogType {
   String toValue() {
     switch (this) {
       case LogType.audio:
@@ -5179,7 +5179,7 @@ enum MergeStrategy {
   failOnConflict,
 }
 
-extension MergeStrategyValue on MergeStrategy {
+extension MergeStrategyValueExtension on MergeStrategy {
   String toValue() {
     switch (this) {
       case MergeStrategy.overwriteLatest:
@@ -5245,7 +5245,7 @@ enum ObfuscationSetting {
   defaultObfuscation,
 }
 
-extension ObfuscationSettingValue on ObfuscationSetting {
+extension ObfuscationSettingValueExtension on ObfuscationSetting {
   String toValue() {
     switch (this) {
       case ObfuscationSetting.none:
@@ -5314,7 +5314,7 @@ enum ProcessBehavior {
   build,
 }
 
-extension ProcessBehaviorValue on ProcessBehavior {
+extension ProcessBehaviorValueExtension on ProcessBehavior {
   String toValue() {
     switch (this) {
       case ProcessBehavior.save:
@@ -5868,7 +5868,7 @@ enum ResourceType {
   slotType,
 }
 
-extension ResourceTypeValue on ResourceType {
+extension ResourceTypeValueExtension on ResourceType {
   String toValue() {
     switch (this) {
       case ResourceType.bot:
@@ -6022,7 +6022,7 @@ enum SlotConstraint {
   optional,
 }
 
-extension SlotConstraintValue on SlotConstraint {
+extension SlotConstraintValueExtension on SlotConstraint {
   String toValue() {
     switch (this) {
       case SlotConstraint.required:
@@ -6230,7 +6230,8 @@ enum SlotValueSelectionStrategy {
   topResolution,
 }
 
-extension SlotValueSelectionStrategyValue on SlotValueSelectionStrategy {
+extension SlotValueSelectionStrategyValueExtension
+    on SlotValueSelectionStrategy {
   String toValue() {
     switch (this) {
       case SlotValueSelectionStrategy.originalValue:
@@ -6346,7 +6347,7 @@ enum Status {
   notBuilt,
 }
 
-extension StatusValue on Status {
+extension StatusValueExtension on Status {
   String toValue() {
     switch (this) {
       case Status.building:
@@ -6386,7 +6387,7 @@ enum StatusType {
   missed,
 }
 
-extension StatusTypeValue on StatusType {
+extension StatusTypeValueExtension on StatusType {
   String toValue() {
     switch (this) {
       case StatusType.detected:

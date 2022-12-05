@@ -1187,7 +1187,7 @@ enum ChangeType {
   requiresReboot,
 }
 
-extension ChangeTypeValue on ChangeType {
+extension ChangeTypeValueExtension on ChangeType {
   String toValue() {
     switch (this) {
       case ChangeType.immediate:
@@ -1670,7 +1670,7 @@ enum IsModifiable {
   conditional,
 }
 
-extension IsModifiableValue on IsModifiable {
+extension IsModifiableValueExtension on IsModifiable {
   String toValue() {
     switch (this) {
       case IsModifiable.$true:
@@ -1952,7 +1952,7 @@ enum ParameterType {
   nodeTypeSpecific,
 }
 
-extension ParameterTypeValue on ParameterType {
+extension ParameterTypeValueExtension on ParameterType {
   String toValue() {
     switch (this) {
       case ParameterType.$default:
@@ -2046,7 +2046,7 @@ enum SSEStatus {
   disabled,
 }
 
-extension SSEStatusValue on SSEStatus {
+extension SSEStatusValueExtension on SSEStatus {
   String toValue() {
     switch (this) {
       case SSEStatus.enabling:
@@ -2103,7 +2103,7 @@ enum SourceType {
   subnetGroup,
 }
 
-extension SourceTypeValue on SourceType {
+extension SourceTypeValueExtension on SourceType {
   String toValue() {
     switch (this) {
       case SourceType.cluster:

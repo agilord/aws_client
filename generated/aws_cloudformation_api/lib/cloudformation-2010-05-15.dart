@@ -5424,7 +5424,7 @@ enum AccountGateStatus {
   skipped,
 }
 
-extension AccountGateStatusValue on AccountGateStatus {
+extension AccountGateStatusValueExtension on AccountGateStatus {
   String toValue() {
     switch (this) {
       case AccountGateStatus.succeeded:
@@ -5538,7 +5538,7 @@ enum Capability {
   capabilityAutoExpand,
 }
 
-extension CapabilityValue on Capability {
+extension CapabilityValueExtension on Capability {
   String toValue() {
     switch (this) {
       case Capability.capabilityIam:
@@ -5598,7 +5598,7 @@ enum ChangeAction {
   dynamic,
 }
 
-extension ChangeActionValue on ChangeAction {
+extension ChangeActionValueExtension on ChangeAction {
   String toValue() {
     switch (this) {
       case ChangeAction.add:
@@ -5644,7 +5644,7 @@ enum ChangeSetStatus {
   failed,
 }
 
-extension ChangeSetStatusValue on ChangeSetStatus {
+extension ChangeSetStatusValueExtension on ChangeSetStatus {
   String toValue() {
     switch (this) {
       case ChangeSetStatus.createPending:
@@ -5779,7 +5779,7 @@ enum ChangeSetType {
   import,
 }
 
-extension ChangeSetTypeValue on ChangeSetType {
+extension ChangeSetTypeValueExtension on ChangeSetType {
   String toValue() {
     switch (this) {
       case ChangeSetType.create:
@@ -5814,7 +5814,7 @@ enum ChangeSource {
   automatic,
 }
 
-extension ChangeSourceValue on ChangeSource {
+extension ChangeSourceValueExtension on ChangeSource {
   String toValue() {
     switch (this) {
       case ChangeSource.resourceReference:
@@ -5853,7 +5853,7 @@ enum ChangeType {
   resource,
 }
 
-extension ChangeTypeValue on ChangeType {
+extension ChangeTypeValueExtension on ChangeType {
   String toValue() {
     switch (this) {
       case ChangeType.resource:
@@ -6026,7 +6026,7 @@ enum DeprecatedStatus {
   deprecated,
 }
 
-extension DeprecatedStatusValue on DeprecatedStatus {
+extension DeprecatedStatusValueExtension on DeprecatedStatus {
   String toValue() {
     switch (this) {
       case DeprecatedStatus.live:
@@ -6761,7 +6761,7 @@ enum DifferenceType {
   notEqual,
 }
 
-extension DifferenceTypeValue on DifferenceType {
+extension DifferenceTypeValueExtension on DifferenceType {
   String toValue() {
     switch (this) {
       case DifferenceType.add:
@@ -6809,7 +6809,7 @@ enum EvaluationType {
   dynamic,
 }
 
-extension EvaluationTypeValue on EvaluationType {
+extension EvaluationTypeValueExtension on EvaluationType {
   String toValue() {
     switch (this) {
       case EvaluationType.static:
@@ -6851,7 +6851,7 @@ enum ExecutionStatus {
   obsolete,
 }
 
-extension ExecutionStatusValue on ExecutionStatus {
+extension ExecutionStatusValueExtension on ExecutionStatus {
   String toValue() {
     switch (this) {
       case ExecutionStatus.unavailable:
@@ -7077,7 +7077,7 @@ enum HandlerErrorCode {
   internalFailure,
 }
 
-extension HandlerErrorCodeValue on HandlerErrorCode {
+extension HandlerErrorCodeValueExtension on HandlerErrorCode {
   String toValue() {
     switch (this) {
       case HandlerErrorCode.notUpdatable:
@@ -7547,7 +7547,7 @@ enum OnFailure {
   delete,
 }
 
-extension OnFailureValue on OnFailure {
+extension OnFailureValueExtension on OnFailure {
   String toValue() {
     switch (this) {
       case OnFailure.doNothing:
@@ -7581,7 +7581,7 @@ enum OperationStatus {
   failed,
 }
 
-extension OperationStatusValue on OperationStatus {
+extension OperationStatusValueExtension on OperationStatus {
   String toValue() {
     switch (this) {
       case OperationStatus.pending:
@@ -7759,7 +7759,7 @@ enum PermissionModels {
   selfManaged,
 }
 
-extension PermissionModelsValue on PermissionModels {
+extension PermissionModelsValueExtension on PermissionModels {
   String toValue() {
     switch (this) {
       case PermissionModels.serviceManaged:
@@ -7866,7 +7866,7 @@ enum ProvisioningType {
   fullyMutable,
 }
 
-extension ProvisioningTypeValue on ProvisioningType {
+extension ProvisioningTypeValueExtension on ProvisioningType {
   String toValue() {
     switch (this) {
       case ProvisioningType.nonProvisionable:
@@ -7926,7 +7926,7 @@ enum RegistrationStatus {
   failed,
 }
 
-extension RegistrationStatusValue on RegistrationStatus {
+extension RegistrationStatusValueExtension on RegistrationStatus {
   String toValue() {
     switch (this) {
       case RegistrationStatus.complete:
@@ -7958,7 +7958,7 @@ enum RegistryType {
   module,
 }
 
-extension RegistryTypeValue on RegistryType {
+extension RegistryTypeValueExtension on RegistryType {
   String toValue() {
     switch (this) {
       case RegistryType.resource:
@@ -7987,7 +7987,7 @@ enum Replacement {
   conditional,
 }
 
-extension ReplacementValue on Replacement {
+extension ReplacementValueExtension on Replacement {
   String toValue() {
     switch (this) {
       case Replacement.$true:
@@ -8020,7 +8020,7 @@ enum RequiresRecreation {
   always,
 }
 
-extension RequiresRecreationValue on RequiresRecreation {
+extension RequiresRecreationValueExtension on RequiresRecreation {
   String toValue() {
     switch (this) {
       case RequiresRecreation.never:
@@ -8056,7 +8056,7 @@ enum ResourceAttribute {
   tags,
 }
 
-extension ResourceAttributeValue on ResourceAttribute {
+extension ResourceAttributeValueExtension on ResourceAttribute {
   String toValue() {
     switch (this) {
       case ResourceAttribute.properties:
@@ -8320,7 +8320,7 @@ enum ResourceSignalStatus {
   failure,
 }
 
-extension ResourceSignalStatusValue on ResourceSignalStatus {
+extension ResourceSignalStatusValueExtension on ResourceSignalStatus {
   String toValue() {
     switch (this) {
       case ResourceSignalStatus.success:
@@ -8362,7 +8362,7 @@ enum ResourceStatus {
   importRollbackComplete,
 }
 
-extension ResourceStatusValue on ResourceStatus {
+extension ResourceStatusValueExtension on ResourceStatus {
   String toValue() {
     switch (this) {
       case ResourceStatus.createInProgress:
@@ -8825,7 +8825,7 @@ enum StackDriftDetectionStatus {
   detectionComplete,
 }
 
-extension StackDriftDetectionStatusValue on StackDriftDetectionStatus {
+extension StackDriftDetectionStatusValueExtension on StackDriftDetectionStatus {
   String toValue() {
     switch (this) {
       case StackDriftDetectionStatus.detectionInProgress:
@@ -8953,7 +8953,7 @@ enum StackDriftStatus {
   notChecked,
 }
 
-extension StackDriftStatusValue on StackDriftStatus {
+extension StackDriftStatusValueExtension on StackDriftStatus {
   String toValue() {
     switch (this) {
       case StackDriftStatus.drifted:
@@ -9267,7 +9267,8 @@ enum StackInstanceDetailedStatus {
   inoperable,
 }
 
-extension StackInstanceDetailedStatusValue on StackInstanceDetailedStatus {
+extension StackInstanceDetailedStatusValueExtension
+    on StackInstanceDetailedStatus {
   String toValue() {
     switch (this) {
       case StackInstanceDetailedStatus.pending:
@@ -9332,7 +9333,7 @@ enum StackInstanceFilterName {
   detailedStatus,
 }
 
-extension StackInstanceFilterNameValue on StackInstanceFilterName {
+extension StackInstanceFilterNameValueExtension on StackInstanceFilterName {
   String toValue() {
     switch (this) {
       case StackInstanceFilterName.detailedStatus:
@@ -9357,7 +9358,7 @@ enum StackInstanceStatus {
   inoperable,
 }
 
-extension StackInstanceStatusValue on StackInstanceStatus {
+extension StackInstanceStatusValueExtension on StackInstanceStatus {
   String toValue() {
     switch (this) {
       case StackInstanceStatus.current:
@@ -9919,7 +9920,7 @@ enum StackResourceDriftStatus {
   notChecked,
 }
 
-extension StackResourceDriftStatusValue on StackResourceDriftStatus {
+extension StackResourceDriftStatusValueExtension on StackResourceDriftStatus {
   String toValue() {
     switch (this) {
       case StackResourceDriftStatus.inSync:
@@ -10311,7 +10312,8 @@ enum StackSetDriftDetectionStatus {
   stopped,
 }
 
-extension StackSetDriftDetectionStatusValue on StackSetDriftDetectionStatus {
+extension StackSetDriftDetectionStatusValueExtension
+    on StackSetDriftDetectionStatus {
   String toValue() {
     switch (this) {
       case StackSetDriftDetectionStatus.completed:
@@ -10352,7 +10354,7 @@ enum StackSetDriftStatus {
   notChecked,
 }
 
-extension StackSetDriftStatusValue on StackSetDriftStatus {
+extension StackSetDriftStatusValueExtension on StackSetDriftStatus {
   String toValue() {
     switch (this) {
       case StackSetDriftStatus.drifted:
@@ -10533,7 +10535,7 @@ enum StackSetOperationAction {
   detectDrift,
 }
 
-extension StackSetOperationActionValue on StackSetOperationAction {
+extension StackSetOperationActionValueExtension on StackSetOperationAction {
   String toValue() {
     switch (this) {
       case StackSetOperationAction.create:
@@ -10674,7 +10676,8 @@ enum StackSetOperationResultStatus {
   cancelled,
 }
 
-extension StackSetOperationResultStatusValue on StackSetOperationResultStatus {
+extension StackSetOperationResultStatusValueExtension
+    on StackSetOperationResultStatus {
   String toValue() {
     switch (this) {
       case StackSetOperationResultStatus.pending:
@@ -10797,7 +10800,7 @@ enum StackSetOperationStatus {
   queued,
 }
 
-extension StackSetOperationStatusValue on StackSetOperationStatus {
+extension StackSetOperationStatusValueExtension on StackSetOperationStatus {
   String toValue() {
     switch (this) {
       case StackSetOperationStatus.running:
@@ -10922,7 +10925,7 @@ enum StackSetStatus {
   deleted,
 }
 
-extension StackSetStatusValue on StackSetStatus {
+extension StackSetStatusValueExtension on StackSetStatus {
   String toValue() {
     switch (this) {
       case StackSetStatus.active:
@@ -11072,7 +11075,7 @@ enum StackStatus {
   importRollbackComplete,
 }
 
-extension StackStatusValue on StackStatus {
+extension StackStatusValueExtension on StackStatus {
   String toValue() {
     switch (this) {
       case StackStatus.createInProgress:
@@ -11339,7 +11342,7 @@ enum TemplateStage {
   processed,
 }
 
-extension TemplateStageValue on TemplateStage {
+extension TemplateStageValueExtension on TemplateStage {
   String toValue() {
     switch (this) {
       case TemplateStage.original:
@@ -11568,7 +11571,7 @@ enum Visibility {
   private,
 }
 
-extension VisibilityValue on Visibility {
+extension VisibilityValueExtension on Visibility {
   String toValue() {
     switch (this) {
       case Visibility.public:

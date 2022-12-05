@@ -1613,7 +1613,7 @@ enum AuthorizationProviderType {
   saml,
 }
 
-extension AuthorizationProviderTypeValue on AuthorizationProviderType {
+extension AuthorizationProviderTypeValueExtension on AuthorizationProviderType {
   String toValue() {
     switch (this) {
       case AuthorizationProviderType.saml:
@@ -1915,7 +1915,7 @@ enum DeviceStatus {
   signedOut,
 }
 
-extension DeviceStatusValue on DeviceStatus {
+extension DeviceStatusValueExtension on DeviceStatus {
   String toValue() {
     switch (this) {
       case DeviceStatus.active:
@@ -1992,7 +1992,7 @@ enum DomainStatus {
   failedToDisassociate,
 }
 
-extension DomainStatusValue on DomainStatus {
+extension DomainStatusValueExtension on DomainStatus {
   String toValue() {
     switch (this) {
       case DomainStatus.pendingValidation:
@@ -2078,7 +2078,7 @@ enum FleetStatus {
   failedToDelete,
 }
 
-extension FleetStatusValue on FleetStatus {
+extension FleetStatusValueExtension on FleetStatus {
   String toValue() {
     switch (this) {
       case FleetStatus.creating:
@@ -2172,7 +2172,7 @@ enum IdentityProviderType {
   saml,
 }
 
-extension IdentityProviderTypeValue on IdentityProviderType {
+extension IdentityProviderTypeValueExtension on IdentityProviderType {
   String toValue() {
     switch (this) {
       case IdentityProviderType.saml:

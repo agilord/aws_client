@@ -118,7 +118,7 @@ enum EnumType {
   bar,
 }
 
-extension EnumTypeValue on EnumType {
+extension EnumTypeValueExtension on EnumType {
   String toValue() {
     switch (this) {
       case EnumType.foo:

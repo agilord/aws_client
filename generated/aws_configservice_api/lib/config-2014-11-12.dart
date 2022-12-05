@@ -5194,7 +5194,8 @@ enum AggregatedSourceStatusType {
   outdated,
 }
 
-extension AggregatedSourceStatusTypeValue on AggregatedSourceStatusType {
+extension AggregatedSourceStatusTypeValueExtension
+    on AggregatedSourceStatusType {
   String toValue() {
     switch (this) {
       case AggregatedSourceStatusType.failed:
@@ -5226,7 +5227,7 @@ enum AggregatedSourceType {
   organization,
 }
 
-extension AggregatedSourceTypeValue on AggregatedSourceType {
+extension AggregatedSourceTypeValueExtension on AggregatedSourceType {
   String toValue() {
     switch (this) {
       case AggregatedSourceType.account:
@@ -5454,7 +5455,7 @@ enum ChronologicalOrder {
   forward,
 }
 
-extension ChronologicalOrderValue on ChronologicalOrder {
+extension ChronologicalOrderValueExtension on ChronologicalOrder {
   String toValue() {
     switch (this) {
       case ChronologicalOrder.reverse:
@@ -5661,7 +5662,7 @@ enum ComplianceType {
   insufficientData,
 }
 
-extension ComplianceTypeValue on ComplianceType {
+extension ComplianceTypeValueExtension on ComplianceType {
   String toValue() {
     switch (this) {
       case ComplianceType.compliant:
@@ -5951,7 +5952,7 @@ enum ConfigRuleComplianceSummaryGroupKey {
   awsRegion,
 }
 
-extension ConfigRuleComplianceSummaryGroupKeyValue
+extension ConfigRuleComplianceSummaryGroupKeyValueExtension
     on ConfigRuleComplianceSummaryGroupKey {
   String toValue() {
     switch (this) {
@@ -6078,7 +6079,7 @@ enum ConfigRuleState {
   evaluating,
 }
 
-extension ConfigRuleStateValue on ConfigRuleState {
+extension ConfigRuleStateValueExtension on ConfigRuleState {
   String toValue() {
     switch (this) {
       case ConfigRuleState.active:
@@ -6434,7 +6435,7 @@ enum ConfigurationItemStatus {
   resourceDeletedNotRecorded,
 }
 
-extension ConfigurationItemStatusValue on ConfigurationItemStatus {
+extension ConfigurationItemStatusValueExtension on ConfigurationItemStatus {
   String toValue() {
     switch (this) {
       case ConfigurationItemStatus.ok:
@@ -6616,7 +6617,8 @@ enum ConformancePackComplianceType {
   nonCompliant,
 }
 
-extension ConformancePackComplianceTypeValue on ConformancePackComplianceType {
+extension ConformancePackComplianceTypeValueExtension
+    on ConformancePackComplianceType {
   String toValue() {
     switch (this) {
       case ConformancePackComplianceType.compliant:
@@ -6847,7 +6849,7 @@ enum ConformancePackState {
   deleteFailed,
 }
 
-extension ConformancePackStateValue on ConformancePackState {
+extension ConformancePackStateValueExtension on ConformancePackState {
   String toValue() {
     switch (this) {
       case ConformancePackState.createInProgress:
@@ -7143,7 +7145,7 @@ enum DeliveryStatus {
   notApplicable,
 }
 
-extension DeliveryStatusValue on DeliveryStatus {
+extension DeliveryStatusValueExtension on DeliveryStatus {
   String toValue() {
     switch (this) {
       case DeliveryStatus.success:
@@ -7937,7 +7939,7 @@ enum EventSource {
   awsConfig,
 }
 
-extension EventSourceValue on EventSource {
+extension EventSourceValueExtension on EventSource {
   String toValue() {
     switch (this) {
       case EventSource.awsConfig:
@@ -8633,7 +8635,7 @@ enum MaximumExecutionFrequency {
   twentyFourHours,
 }
 
-extension MaximumExecutionFrequencyValue on MaximumExecutionFrequency {
+extension MaximumExecutionFrequencyValueExtension on MaximumExecutionFrequency {
   String toValue() {
     switch (this) {
       case MaximumExecutionFrequency.oneHour:
@@ -8680,7 +8682,7 @@ enum MemberAccountRuleStatus {
   updateFailed,
 }
 
-extension MemberAccountRuleStatusValue on MemberAccountRuleStatus {
+extension MemberAccountRuleStatusValueExtension on MemberAccountRuleStatus {
   String toValue() {
     switch (this) {
       case MemberAccountRuleStatus.createSuccessful:
@@ -8831,7 +8833,7 @@ enum MessageType {
   oversizedConfigurationItemChangeNotification,
 }
 
-extension MessageTypeValue on MessageType {
+extension MessageTypeValueExtension on MessageType {
   String toValue() {
     switch (this) {
       case MessageType.configurationItemChangeNotification:
@@ -9049,7 +9051,7 @@ enum OrganizationConfigRuleTriggerType {
   scheduledNotification,
 }
 
-extension OrganizationConfigRuleTriggerTypeValue
+extension OrganizationConfigRuleTriggerTypeValueExtension
     on OrganizationConfigRuleTriggerType {
   String toValue() {
     switch (this) {
@@ -9550,7 +9552,7 @@ enum OrganizationResourceDetailedStatus {
   updateFailed,
 }
 
-extension OrganizationResourceDetailedStatusValue
+extension OrganizationResourceDetailedStatusValueExtension
     on OrganizationResourceDetailedStatus {
   String toValue() {
     switch (this) {
@@ -9686,7 +9688,8 @@ enum OrganizationResourceStatus {
   updateFailed,
 }
 
-extension OrganizationResourceStatusValue on OrganizationResourceStatus {
+extension OrganizationResourceStatusValueExtension
+    on OrganizationResourceStatus {
   String toValue() {
     switch (this) {
       case OrganizationResourceStatus.createSuccessful:
@@ -9749,7 +9752,7 @@ enum OrganizationRuleStatus {
   updateFailed,
 }
 
-extension OrganizationRuleStatusValue on OrganizationRuleStatus {
+extension OrganizationRuleStatusValueExtension on OrganizationRuleStatus {
   String toValue() {
     switch (this) {
       case OrganizationRuleStatus.createSuccessful:
@@ -9805,7 +9808,7 @@ enum Owner {
   aws,
 }
 
-extension OwnerValue on Owner {
+extension OwnerValueExtension on Owner {
   String toValue() {
     switch (this) {
       case Owner.customLambda:
@@ -10050,7 +10053,7 @@ enum RecorderStatus {
   failure,
 }
 
-extension RecorderStatusValue on RecorderStatus {
+extension RecorderStatusValueExtension on RecorderStatus {
   String toValue() {
     switch (this) {
       case RecorderStatus.pending:
@@ -10415,7 +10418,7 @@ enum RemediationExecutionState {
   failed,
 }
 
-extension RemediationExecutionStateValue on RemediationExecutionState {
+extension RemediationExecutionStateValueExtension on RemediationExecutionState {
   String toValue() {
     switch (this) {
       case RemediationExecutionState.queued:
@@ -10527,7 +10530,8 @@ enum RemediationExecutionStepState {
   failed,
 }
 
-extension RemediationExecutionStepStateValue on RemediationExecutionStepState {
+extension RemediationExecutionStepStateValueExtension
+    on RemediationExecutionStepState {
   String toValue() {
     switch (this) {
       case RemediationExecutionStepState.succeeded:
@@ -10593,7 +10597,7 @@ enum RemediationTargetType {
   ssmDocument,
 }
 
-extension RemediationTargetTypeValue on RemediationTargetType {
+extension RemediationTargetTypeValueExtension on RemediationTargetType {
   String toValue() {
     switch (this) {
       case RemediationTargetType.ssmDocument:
@@ -10666,7 +10670,7 @@ enum ResourceCountGroupKey {
   awsRegion,
 }
 
-extension ResourceCountGroupKeyValue on ResourceCountGroupKey {
+extension ResourceCountGroupKeyValueExtension on ResourceCountGroupKey {
   String toValue() {
     switch (this) {
       case ResourceCountGroupKey.resourceType:
@@ -10889,7 +10893,7 @@ enum ResourceType {
   awsSsmFileData,
 }
 
-extension ResourceTypeValue on ResourceType {
+extension ResourceTypeValueExtension on ResourceType {
   String toValue() {
     switch (this) {
       case ResourceType.awsEc2CustomerGateway:
@@ -11314,7 +11318,7 @@ enum ResourceValueType {
   resourceId,
 }
 
-extension ResourceValueTypeValue on ResourceValueType {
+extension ResourceValueTypeValueExtension on ResourceValueType {
   String toValue() {
     switch (this) {
       case ResourceValueType.resourceId:

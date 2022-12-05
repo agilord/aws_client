@@ -606,7 +606,7 @@ enum KeyType {
   range,
 }
 
-extension KeyTypeValue on KeyType {
+extension KeyTypeValueExtension on KeyType {
   String toValue() {
     switch (this) {
       case KeyType.hash:
@@ -669,7 +669,7 @@ enum OperationType {
   remove,
 }
 
-extension OperationTypeValue on OperationType {
+extension OperationTypeValueExtension on OperationType {
   String toValue() {
     switch (this) {
       case OperationType.insert:
@@ -839,7 +839,7 @@ enum ShardIteratorType {
   afterSequenceNumber,
 }
 
-extension ShardIteratorTypeValue on ShardIteratorType {
+extension ShardIteratorTypeValueExtension on ShardIteratorType {
   String toValue() {
     switch (this) {
       case ShardIteratorType.trimHorizon:
@@ -1115,7 +1115,7 @@ enum StreamStatus {
   disabled,
 }
 
-extension StreamStatusValue on StreamStatus {
+extension StreamStatusValueExtension on StreamStatus {
   String toValue() {
     switch (this) {
       case StreamStatus.enabling:
@@ -1153,7 +1153,7 @@ enum StreamViewType {
   keysOnly,
 }
 
-extension StreamViewTypeValue on StreamViewType {
+extension StreamViewTypeValueExtension on StreamViewType {
   String toValue() {
     switch (this) {
       case StreamViewType.newImage:

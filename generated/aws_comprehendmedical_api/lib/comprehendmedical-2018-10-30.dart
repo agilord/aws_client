@@ -1292,7 +1292,7 @@ enum AttributeName {
   negation,
 }
 
-extension AttributeNameValue on AttributeName {
+extension AttributeNameValueExtension on AttributeName {
   String toValue() {
     switch (this) {
       case AttributeName.sign:
@@ -1769,7 +1769,7 @@ enum EntitySubType {
   timeToTreatmentName,
 }
 
-extension EntitySubTypeValue on EntitySubType {
+extension EntitySubTypeValueExtension on EntitySubType {
   String toValue() {
     switch (this) {
       case EntitySubType.name:
@@ -1929,7 +1929,7 @@ enum EntityType {
   timeExpression,
 }
 
-extension EntityTypeValue on EntityType {
+extension EntityTypeValueExtension on EntityType {
   String toValue() {
     switch (this) {
       case EntityType.medication:
@@ -2042,7 +2042,7 @@ enum ICD10CMAttributeType {
   quantity,
 }
 
-extension ICD10CMAttributeTypeValue on ICD10CMAttributeType {
+extension ICD10CMAttributeTypeValueExtension on ICD10CMAttributeType {
   String toValue() {
     switch (this) {
       case ICD10CMAttributeType.acuity:
@@ -2193,7 +2193,7 @@ enum ICD10CMEntityCategory {
   medicalCondition,
 }
 
-extension ICD10CMEntityCategoryValue on ICD10CMEntityCategory {
+extension ICD10CMEntityCategoryValueExtension on ICD10CMEntityCategory {
   String toValue() {
     switch (this) {
       case ICD10CMEntityCategory.medicalCondition:
@@ -2216,7 +2216,7 @@ enum ICD10CMEntityType {
   dxName,
 }
 
-extension ICD10CMEntityTypeValue on ICD10CMEntityType {
+extension ICD10CMEntityTypeValueExtension on ICD10CMEntityType {
   String toValue() {
     switch (this) {
       case ICD10CMEntityType.dxName:
@@ -2265,7 +2265,7 @@ enum ICD10CMTraitName {
   symptom,
 }
 
-extension ICD10CMTraitNameValue on ICD10CMTraitName {
+extension ICD10CMTraitNameValueExtension on ICD10CMTraitName {
   String toValue() {
     switch (this) {
       case ICD10CMTraitName.negation:
@@ -2407,7 +2407,7 @@ enum JobStatus {
   stopped,
 }
 
-extension JobStatusValue on JobStatus {
+extension JobStatusValueExtension on JobStatus {
   String toValue() {
     switch (this) {
       case JobStatus.submitted:
@@ -2454,7 +2454,7 @@ enum LanguageCode {
   en,
 }
 
-extension LanguageCodeValue on LanguageCode {
+extension LanguageCodeValueExtension on LanguageCode {
   String toValue() {
     switch (this) {
       case LanguageCode.en:
@@ -2630,7 +2630,7 @@ enum RelationshipType {
   systemOrganSite,
 }
 
-extension RelationshipTypeValue on RelationshipType {
+extension RelationshipTypeValueExtension on RelationshipType {
   String toValue() {
     switch (this) {
       case RelationshipType.every:
@@ -2792,7 +2792,7 @@ enum RxNormAttributeType {
   strength,
 }
 
-extension RxNormAttributeTypeValue on RxNormAttributeType {
+extension RxNormAttributeTypeValueExtension on RxNormAttributeType {
   String toValue() {
     switch (this) {
       case RxNormAttributeType.dosage:
@@ -2949,7 +2949,7 @@ enum RxNormEntityCategory {
   medication,
 }
 
-extension RxNormEntityCategoryValue on RxNormEntityCategory {
+extension RxNormEntityCategoryValueExtension on RxNormEntityCategory {
   String toValue() {
     switch (this) {
       case RxNormEntityCategory.medication:
@@ -2973,7 +2973,7 @@ enum RxNormEntityType {
   genericName,
 }
 
-extension RxNormEntityTypeValue on RxNormEntityType {
+extension RxNormEntityTypeValueExtension on RxNormEntityType {
   String toValue() {
     switch (this) {
       case RxNormEntityType.brandName:
@@ -3023,7 +3023,7 @@ enum RxNormTraitName {
   negation,
 }
 
-extension RxNormTraitNameValue on RxNormTraitName {
+extension RxNormTraitNameValueExtension on RxNormTraitName {
   String toValue() {
     switch (this) {
       case RxNormTraitName.negation:

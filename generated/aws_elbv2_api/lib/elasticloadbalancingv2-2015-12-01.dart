@@ -2278,7 +2278,7 @@ enum ActionTypeEnum {
   fixedResponse,
 }
 
-extension ActionTypeEnumValue on ActionTypeEnum {
+extension ActionTypeEnumValueExtension on ActionTypeEnum {
   String toValue() {
     switch (this) {
       case ActionTypeEnum.forward:
@@ -2345,7 +2345,7 @@ enum AuthenticateCognitoActionConditionalBehaviorEnum {
   authenticate,
 }
 
-extension AuthenticateCognitoActionConditionalBehaviorEnumValue
+extension AuthenticateCognitoActionConditionalBehaviorEnumValueExtension
     on AuthenticateCognitoActionConditionalBehaviorEnum {
   String toValue() {
     switch (this) {
@@ -2492,7 +2492,7 @@ enum AuthenticateOidcActionConditionalBehaviorEnum {
   authenticate,
 }
 
-extension AuthenticateOidcActionConditionalBehaviorEnumValue
+extension AuthenticateOidcActionConditionalBehaviorEnumValueExtension
     on AuthenticateOidcActionConditionalBehaviorEnum {
   String toValue() {
     switch (this) {
@@ -3292,7 +3292,7 @@ enum IpAddressType {
   dualstack,
 }
 
-extension IpAddressTypeValue on IpAddressType {
+extension IpAddressTypeValueExtension on IpAddressType {
   String toValue() {
     switch (this) {
       case IpAddressType.ipv4:
@@ -3689,7 +3689,7 @@ enum LoadBalancerSchemeEnum {
   internal,
 }
 
-extension LoadBalancerSchemeEnumValue on LoadBalancerSchemeEnum {
+extension LoadBalancerSchemeEnumValueExtension on LoadBalancerSchemeEnum {
   String toValue() {
     switch (this) {
       case LoadBalancerSchemeEnum.internetFacing:
@@ -3742,7 +3742,7 @@ enum LoadBalancerStateEnum {
   failed,
 }
 
-extension LoadBalancerStateEnumValue on LoadBalancerStateEnum {
+extension LoadBalancerStateEnumValueExtension on LoadBalancerStateEnum {
   String toValue() {
     switch (this) {
       case LoadBalancerStateEnum.active:
@@ -3779,7 +3779,7 @@ enum LoadBalancerTypeEnum {
   gateway,
 }
 
-extension LoadBalancerTypeEnumValue on LoadBalancerTypeEnum {
+extension LoadBalancerTypeEnumValueExtension on LoadBalancerTypeEnum {
   String toValue() {
     switch (this) {
       case LoadBalancerTypeEnum.application:
@@ -3967,7 +3967,7 @@ enum ProtocolEnum {
   geneve,
 }
 
-extension ProtocolEnumValue on ProtocolEnum {
+extension ProtocolEnumValueExtension on ProtocolEnum {
   String toValue() {
     switch (this) {
       case ProtocolEnum.http:
@@ -4176,7 +4176,8 @@ enum RedirectActionStatusCodeEnum {
   http_302,
 }
 
-extension RedirectActionStatusCodeEnumValue on RedirectActionStatusCodeEnum {
+extension RedirectActionStatusCodeEnumValueExtension
+    on RedirectActionStatusCodeEnum {
   String toValue() {
     switch (this) {
       case RedirectActionStatusCodeEnum.http_301:
@@ -5179,7 +5180,7 @@ enum TargetHealthReasonEnum {
   elbInternalError,
 }
 
-extension TargetHealthReasonEnumValue on TargetHealthReasonEnum {
+extension TargetHealthReasonEnumValueExtension on TargetHealthReasonEnum {
   String toValue() {
     switch (this) {
       case TargetHealthReasonEnum.elbRegistrationInProgress:
@@ -5251,7 +5252,7 @@ enum TargetHealthStateEnum {
   unavailable,
 }
 
-extension TargetHealthStateEnumValue on TargetHealthStateEnum {
+extension TargetHealthStateEnumValueExtension on TargetHealthStateEnum {
   String toValue() {
     switch (this) {
       case TargetHealthStateEnum.initial:
@@ -5296,7 +5297,7 @@ enum TargetTypeEnum {
   lambda,
 }
 
-extension TargetTypeEnumValue on TargetTypeEnum {
+extension TargetTypeEnumValueExtension on TargetTypeEnum {
   String toValue() {
     switch (this) {
       case TargetTypeEnum.instance:

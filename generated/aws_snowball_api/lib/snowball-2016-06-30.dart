@@ -1738,7 +1738,7 @@ enum ClusterState {
   cancelled,
 }
 
-extension ClusterStateValue on ClusterState {
+extension ClusterStateValueExtension on ClusterState {
   String toValue() {
     switch (this) {
       case ClusterState.awaitingQuorum:
@@ -2479,7 +2479,7 @@ enum JobState {
   pending,
 }
 
-extension JobStateValue on JobState {
+extension JobStateValueExtension on JobState {
   String toValue() {
     switch (this) {
       case JobState.$new:
@@ -2552,7 +2552,7 @@ enum JobType {
   localUse,
 }
 
-extension JobTypeValue on JobType {
+extension JobTypeValueExtension on JobType {
   String toValue() {
     switch (this) {
       case JobType.import:
@@ -2879,7 +2879,7 @@ enum ShipmentState {
   returned,
 }
 
-extension ShipmentStateValue on ShipmentState {
+extension ShipmentStateValueExtension on ShipmentState {
   String toValue() {
     switch (this) {
       case ShipmentState.received:
@@ -2965,7 +2965,7 @@ enum ShippingLabelStatus {
   failed,
 }
 
-extension ShippingLabelStatusValue on ShippingLabelStatus {
+extension ShippingLabelStatusValueExtension on ShippingLabelStatus {
   String toValue() {
     switch (this) {
       case ShippingLabelStatus.inProgress:
@@ -3003,7 +3003,7 @@ enum ShippingOption {
   standard,
 }
 
-extension ShippingOptionValue on ShippingOption {
+extension ShippingOptionValueExtension on ShippingOption {
   String toValue() {
     switch (this) {
       case ShippingOption.secondDay:
@@ -3044,7 +3044,7 @@ enum SnowballCapacity {
   noPreference,
 }
 
-extension SnowballCapacityValue on SnowballCapacity {
+extension SnowballCapacityValueExtension on SnowballCapacity {
   String toValue() {
     switch (this) {
       case SnowballCapacity.t50:
@@ -3096,7 +3096,7 @@ enum SnowballType {
   snc1Hdd,
 }
 
-extension SnowballTypeValue on SnowballType {
+extension SnowballTypeValueExtension on SnowballType {
   String toValue() {
     switch (this) {
       case SnowballType.standard:

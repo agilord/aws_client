@@ -1400,7 +1400,7 @@ enum AgentStatus {
   shutdown,
 }
 
-extension AgentStatusValue on AgentStatus {
+extension AgentStatusValueExtension on AgentStatus {
   String toValue() {
     switch (this) {
       case AgentStatus.healthy:
@@ -1480,7 +1480,7 @@ enum BatchDeleteImportDataErrorCode {
   overLimit,
 }
 
-extension BatchDeleteImportDataErrorCodeValue
+extension BatchDeleteImportDataErrorCodeValueExtension
     on BatchDeleteImportDataErrorCode {
   String toValue() {
     switch (this) {
@@ -1535,7 +1535,7 @@ enum ConfigurationItemType {
   application,
 }
 
-extension ConfigurationItemTypeValue on ConfigurationItemType {
+extension ConfigurationItemTypeValueExtension on ConfigurationItemType {
   String toValue() {
     switch (this) {
       case ConfigurationItemType.server:
@@ -1756,7 +1756,7 @@ enum ContinuousExportStatus {
   inactive,
 }
 
-extension ContinuousExportStatusValue on ContinuousExportStatus {
+extension ContinuousExportStatusValueExtension on ContinuousExportStatus {
   String toValue() {
     switch (this) {
       case ContinuousExportStatus.startInProgress:
@@ -1914,7 +1914,7 @@ enum DataSource {
   agent,
 }
 
-extension DataSourceValue on DataSource {
+extension DataSourceValueExtension on DataSource {
   String toValue() {
     switch (this) {
       case DataSource.agent:
@@ -2143,7 +2143,7 @@ enum ExportDataFormat {
   graphml,
 }
 
-extension ExportDataFormatValue on ExportDataFormat {
+extension ExportDataFormatValueExtension on ExportDataFormat {
   String toValue() {
     switch (this) {
       case ExportDataFormat.csv:
@@ -2268,7 +2268,7 @@ enum ExportStatus {
   inProgress,
 }
 
-extension ExportStatusValue on ExportStatus {
+extension ExportStatusValueExtension on ExportStatus {
   String toValue() {
     switch (this) {
       case ExportStatus.failed:
@@ -2395,7 +2395,7 @@ enum ImportStatus {
   internalError,
 }
 
-extension ImportStatusValue on ImportStatus {
+extension ImportStatusValueExtension on ImportStatus {
   String toValue() {
     switch (this) {
       case ImportStatus.importInProgress:
@@ -2595,7 +2595,7 @@ enum ImportTaskFilterName {
   name,
 }
 
-extension ImportTaskFilterNameValue on ImportTaskFilterName {
+extension ImportTaskFilterNameValueExtension on ImportTaskFilterName {
   String toValue() {
     switch (this) {
       case ImportTaskFilterName.importTaskId:
@@ -2936,7 +2936,7 @@ enum OrderString {
   desc,
 }
 
-extension OrderStringValue on OrderString {
+extension OrderStringValueExtension on OrderString {
   String toValue() {
     switch (this) {
       case OrderString.asc:

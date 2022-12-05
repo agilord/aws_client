@@ -2872,7 +2872,7 @@ enum AlarmType {
   metricAlarm,
 }
 
-extension AlarmTypeValue on AlarmType {
+extension AlarmTypeValueExtension on AlarmType {
   String toValue() {
     switch (this) {
       case AlarmType.compositeAlarm:
@@ -2997,7 +2997,7 @@ enum AnomalyDetectorStateValue {
   trained,
 }
 
-extension AnomalyDetectorStateValueValue on AnomalyDetectorStateValue {
+extension AnomalyDetectorStateValueValueExtension on AnomalyDetectorStateValue {
   String toValue() {
     switch (this) {
       case AnomalyDetectorStateValue.pendingTraining:
@@ -3034,7 +3034,7 @@ enum ComparisonOperator {
   greaterThanUpperThreshold,
 }
 
-extension ComparisonOperatorValue on ComparisonOperator {
+extension ComparisonOperatorValueExtension on ComparisonOperator {
   String toValue() {
     switch (this) {
       case ComparisonOperator.greaterThanOrEqualToThreshold:
@@ -3691,7 +3691,7 @@ enum HistoryItemType {
   action,
 }
 
-extension HistoryItemTypeValue on HistoryItemType {
+extension HistoryItemTypeValueExtension on HistoryItemType {
   String toValue() {
     switch (this) {
       case HistoryItemType.configurationUpdate:
@@ -4688,7 +4688,7 @@ enum RecentlyActive {
   pt3h,
 }
 
-extension RecentlyActiveValue on RecentlyActive {
+extension RecentlyActiveValueExtension on RecentlyActive {
   String toValue() {
     switch (this) {
       case RecentlyActive.pt3h:
@@ -4712,7 +4712,7 @@ enum ScanBy {
   timestampAscending,
 }
 
-extension ScanByValue on ScanBy {
+extension ScanByValueExtension on ScanBy {
   String toValue() {
     switch (this) {
       case ScanBy.timestampDescending:
@@ -4765,7 +4765,7 @@ enum StandardUnit {
   none,
 }
 
-extension StandardUnitValue on StandardUnit {
+extension StandardUnitValueExtension on StandardUnit {
   String toValue() {
     switch (this) {
       case StandardUnit.seconds:
@@ -4894,7 +4894,7 @@ enum StateValue {
   insufficientData,
 }
 
-extension StateValueValue on StateValue {
+extension StateValueValueExtension on StateValue {
   String toValue() {
     switch (this) {
       case StateValue.ok:
@@ -4929,7 +4929,7 @@ enum Statistic {
   maximum,
 }
 
-extension StatisticValue on Statistic {
+extension StatisticValueExtension on Statistic {
   String toValue() {
     switch (this) {
       case Statistic.sampleCount:
@@ -5004,7 +5004,7 @@ enum StatusCode {
   partialData,
 }
 
-extension StatusCodeValue on StatusCode {
+extension StatusCodeValueExtension on StatusCode {
   String toValue() {
     switch (this) {
       case StatusCode.complete:

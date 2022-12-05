@@ -1451,7 +1451,8 @@ enum DetectorModelVersionStatus {
   failed,
 }
 
-extension DetectorModelVersionStatusValue on DetectorModelVersionStatus {
+extension DetectorModelVersionStatusValueExtension
+    on DetectorModelVersionStatus {
   String toValue() {
     switch (this) {
       case DetectorModelVersionStatus.active:
@@ -1755,7 +1756,7 @@ enum EvaluationMethod {
   serial,
 }
 
-extension EvaluationMethodValue on EvaluationMethod {
+extension EvaluationMethodValueExtension on EvaluationMethod {
   String toValue() {
     switch (this) {
       case EvaluationMethod.batch:
@@ -1969,7 +1970,7 @@ enum InputStatus {
   deleting,
 }
 
-extension InputStatusValue on InputStatus {
+extension InputStatusValueExtension on InputStatus {
   String toValue() {
     switch (this) {
       case InputStatus.creating:
@@ -2315,7 +2316,7 @@ enum LoggingLevel {
   debug,
 }
 
-extension LoggingLevelValue on LoggingLevel {
+extension LoggingLevelValueExtension on LoggingLevel {
   String toValue() {
     switch (this) {
       case LoggingLevel.error:
@@ -2529,7 +2530,7 @@ enum PayloadType {
   json,
 }
 
-extension PayloadTypeValue on PayloadType {
+extension PayloadTypeValueExtension on PayloadType {
   String toValue() {
     switch (this) {
       case PayloadType.string:

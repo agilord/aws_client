@@ -759,7 +759,7 @@ enum ForecastDataType {
   scheduledActionMaxCapacity,
 }
 
-extension ForecastDataTypeValue on ForecastDataType {
+extension ForecastDataTypeValueExtension on ForecastDataType {
   String toValue() {
     switch (this) {
       case ForecastDataType.capacityForecast:
@@ -815,7 +815,7 @@ enum LoadMetricType {
   aLBTargetGroupRequestCount,
 }
 
-extension LoadMetricTypeValue on LoadMetricType {
+extension LoadMetricTypeValueExtension on LoadMetricType {
   String toValue() {
     switch (this) {
       case LoadMetricType.aSGTotalCPUUtilization:
@@ -883,7 +883,7 @@ enum MetricStatistic {
   sum,
 }
 
-extension MetricStatisticValue on MetricStatistic {
+extension MetricStatisticValueExtension on MetricStatistic {
   String toValue() {
     switch (this) {
       case MetricStatistic.average:
@@ -922,7 +922,7 @@ enum PolicyType {
   targetTrackingScaling,
 }
 
-extension PolicyTypeValue on PolicyType {
+extension PolicyTypeValueExtension on PolicyType {
   String toValue() {
     switch (this) {
       case PolicyType.targetTrackingScaling:
@@ -1048,7 +1048,7 @@ enum PredictiveScalingMaxCapacityBehavior {
   setMaxCapacityAboveForecastCapacity,
 }
 
-extension PredictiveScalingMaxCapacityBehaviorValue
+extension PredictiveScalingMaxCapacityBehaviorValueExtension
     on PredictiveScalingMaxCapacityBehavior {
   String toValue() {
     switch (this) {
@@ -1089,7 +1089,7 @@ enum PredictiveScalingMode {
   forecastOnly,
 }
 
-extension PredictiveScalingModeValue on PredictiveScalingMode {
+extension PredictiveScalingModeValueExtension on PredictiveScalingMode {
   String toValue() {
     switch (this) {
       case PredictiveScalingMode.forecastAndScale:
@@ -1123,7 +1123,7 @@ enum ScalableDimension {
   dynamodbIndexWriteCapacityUnits,
 }
 
-extension ScalableDimensionValue on ScalableDimension {
+extension ScalableDimensionValueExtension on ScalableDimension {
   String toValue() {
     switch (this) {
       case ScalableDimension.autoscalingAutoScalingGroupDesiredCapacity:
@@ -1514,7 +1514,7 @@ enum ScalingMetricType {
   eC2SpotFleetRequestAverageNetworkOut,
 }
 
-extension ScalingMetricTypeValue on ScalingMetricType {
+extension ScalingMetricTypeValueExtension on ScalingMetricType {
   String toValue() {
     switch (this) {
       case ScalingMetricType.aSGAverageCPUUtilization:
@@ -1815,7 +1815,7 @@ enum ScalingPlanStatusCode {
   updateFailed,
 }
 
-extension ScalingPlanStatusCodeValue on ScalingPlanStatusCode {
+extension ScalingPlanStatusCodeValueExtension on ScalingPlanStatusCode {
   String toValue() {
     switch (this) {
       case ScalingPlanStatusCode.active:
@@ -1896,7 +1896,8 @@ enum ScalingPolicyUpdateBehavior {
   replaceExternalPolicies,
 }
 
-extension ScalingPolicyUpdateBehaviorValue on ScalingPolicyUpdateBehavior {
+extension ScalingPolicyUpdateBehaviorValueExtension
+    on ScalingPolicyUpdateBehavior {
   String toValue() {
     switch (this) {
       case ScalingPolicyUpdateBehavior.keepExternalPolicies:
@@ -1925,7 +1926,7 @@ enum ScalingStatusCode {
   active,
 }
 
-extension ScalingStatusCodeValue on ScalingStatusCode {
+extension ScalingStatusCodeValueExtension on ScalingStatusCode {
   String toValue() {
     switch (this) {
       case ScalingStatusCode.inactive:
@@ -1960,7 +1961,7 @@ enum ServiceNamespace {
   dynamodb,
 }
 
-extension ServiceNamespaceValue on ServiceNamespace {
+extension ServiceNamespaceValueExtension on ServiceNamespace {
   String toValue() {
     switch (this) {
       case ServiceNamespace.autoscaling:

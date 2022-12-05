@@ -3226,7 +3226,7 @@ enum Distribution {
   byLogStream,
 }
 
-extension DistributionValue on Distribution {
+extension DistributionValueExtension on Distribution {
   String toValue() {
     switch (this) {
       case Distribution.random:
@@ -3363,7 +3363,7 @@ enum ExportTaskStatusCode {
   running,
 }
 
-extension ExportTaskStatusCodeValue on ExportTaskStatusCode {
+extension ExportTaskStatusCodeValueExtension on ExportTaskStatusCode {
   String toValue() {
     switch (this) {
       case ExportTaskStatusCode.cancelled:
@@ -3873,7 +3873,7 @@ enum OrderBy {
   lastEventTime,
 }
 
-extension OrderByValue on OrderBy {
+extension OrderByValueExtension on OrderBy {
   String toValue() {
     switch (this) {
       case OrderBy.logStreamName:
@@ -4107,7 +4107,7 @@ enum QueryStatus {
   cancelled,
 }
 
-extension QueryStatusValue on QueryStatus {
+extension QueryStatusValueExtension on QueryStatus {
   String toValue() {
     switch (this) {
       case QueryStatus.scheduled:

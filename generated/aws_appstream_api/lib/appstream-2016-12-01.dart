@@ -3230,7 +3230,7 @@ enum AccessEndpointType {
   streaming,
 }
 
-extension AccessEndpointTypeValue on AccessEndpointType {
+extension AccessEndpointTypeValueExtension on AccessEndpointType {
   String toValue() {
     switch (this) {
       case AccessEndpointType.streaming:
@@ -3257,7 +3257,7 @@ enum Action {
   printingToLocalDevice,
 }
 
-extension ActionValue on Action {
+extension ActionValueExtension on Action {
   String toValue() {
     switch (this) {
       case Action.clipboardCopyFromLocalDevice:
@@ -3407,7 +3407,7 @@ enum AuthenticationType {
   userpool,
 }
 
-extension AuthenticationTypeValue on AuthenticationType {
+extension AuthenticationTypeValueExtension on AuthenticationType {
   String toValue() {
     switch (this) {
       case AuthenticationType.api:
@@ -4375,7 +4375,7 @@ enum FleetAttribute {
   iamRoleArn,
 }
 
-extension FleetAttributeValue on FleetAttribute {
+extension FleetAttributeValueExtension on FleetAttribute {
   String toValue() {
     switch (this) {
       case FleetAttribute.vpcConfiguration:
@@ -4457,7 +4457,7 @@ enum FleetErrorCode {
   domainJoinInternalServiceError,
 }
 
-extension FleetErrorCodeValue on FleetErrorCode {
+extension FleetErrorCodeValueExtension on FleetErrorCode {
   String toValue() {
     switch (this) {
       case FleetErrorCode.iamServiceRoleMissingEniDescribeAction:
@@ -4591,7 +4591,7 @@ enum FleetState {
   stopped,
 }
 
-extension FleetStateValue on FleetState {
+extension FleetStateValueExtension on FleetState {
   String toValue() {
     switch (this) {
       case FleetState.starting:
@@ -4627,7 +4627,7 @@ enum FleetType {
   onDemand,
 }
 
-extension FleetTypeValue on FleetType {
+extension FleetTypeValueExtension on FleetType {
   String toValue() {
     switch (this) {
       case FleetType.alwaysOn:
@@ -4998,7 +4998,7 @@ enum ImageBuilderState {
   failed,
 }
 
-extension ImageBuilderStateValue on ImageBuilderState {
+extension ImageBuilderStateValueExtension on ImageBuilderState {
   String toValue() {
     switch (this) {
       case ImageBuilderState.pending:
@@ -5074,7 +5074,7 @@ enum ImageBuilderStateChangeReasonCode {
   imageUnavailable,
 }
 
-extension ImageBuilderStateChangeReasonCodeValue
+extension ImageBuilderStateChangeReasonCodeValueExtension
     on ImageBuilderStateChangeReasonCode {
   String toValue() {
     switch (this) {
@@ -5136,7 +5136,7 @@ enum ImageState {
   deleting,
 }
 
-extension ImageStateValue on ImageState {
+extension ImageStateValueExtension on ImageState {
   String toValue() {
     switch (this) {
       case ImageState.pending:
@@ -5197,7 +5197,8 @@ enum ImageStateChangeReasonCode {
   imageCopyFailure,
 }
 
-extension ImageStateChangeReasonCodeValue on ImageStateChangeReasonCode {
+extension ImageStateChangeReasonCodeValueExtension
+    on ImageStateChangeReasonCode {
   String toValue() {
     switch (this) {
       case ImageStateChangeReasonCode.internalError:
@@ -5314,7 +5315,7 @@ enum MessageAction {
   resend,
 }
 
-extension MessageActionValue on MessageAction {
+extension MessageActionValueExtension on MessageAction {
   String toValue() {
     switch (this) {
       case MessageAction.suppress:
@@ -5365,7 +5366,7 @@ enum Permission {
   disabled,
 }
 
-extension PermissionValue on Permission {
+extension PermissionValueExtension on Permission {
   String toValue() {
     switch (this) {
       case Permission.enabled:
@@ -5394,7 +5395,7 @@ enum PlatformType {
   windowsServer_2019,
 }
 
-extension PlatformTypeValue on PlatformType {
+extension PlatformTypeValueExtension on PlatformType {
   String toValue() {
     switch (this) {
       case PlatformType.windows:
@@ -5558,7 +5559,7 @@ enum SessionConnectionState {
   notConnected,
 }
 
-extension SessionConnectionStateValue on SessionConnectionState {
+extension SessionConnectionStateValueExtension on SessionConnectionState {
   String toValue() {
     switch (this) {
       case SessionConnectionState.connected:
@@ -5588,7 +5589,7 @@ enum SessionState {
   expired,
 }
 
-extension SessionStateValue on SessionState {
+extension SessionStateValueExtension on SessionState {
   String toValue() {
     switch (this) {
       case SessionState.active:
@@ -5749,7 +5750,7 @@ enum StackAttribute {
   accessEndpoints,
 }
 
-extension StackAttributeValue on StackAttribute {
+extension StackAttributeValueExtension on StackAttribute {
   String toValue() {
     switch (this) {
       case StackAttribute.storageConnectors:
@@ -5833,7 +5834,7 @@ enum StackErrorCode {
   internalServiceError,
 }
 
-extension StackErrorCodeValue on StackErrorCode {
+extension StackErrorCodeValueExtension on StackErrorCode {
   String toValue() {
     switch (this) {
       case StackErrorCode.storageConnectorError:
@@ -5948,7 +5949,7 @@ enum StorageConnectorType {
   oneDrive,
 }
 
-extension StorageConnectorTypeValue on StorageConnectorType {
+extension StorageConnectorTypeValueExtension on StorageConnectorType {
   String toValue() {
     switch (this) {
       case StorageConnectorType.homefolders:
@@ -5980,7 +5981,7 @@ enum StreamView {
   desktop,
 }
 
-extension StreamViewValue on StreamView {
+extension StreamViewValueExtension on StreamView {
   String toValue() {
     switch (this) {
       case StreamView.app:
@@ -6079,7 +6080,8 @@ enum UsageReportExecutionErrorCode {
   internalServiceError,
 }
 
-extension UsageReportExecutionErrorCodeValue on UsageReportExecutionErrorCode {
+extension UsageReportExecutionErrorCodeValueExtension
+    on UsageReportExecutionErrorCode {
   String toValue() {
     switch (this) {
       case UsageReportExecutionErrorCode.resourceNotFound:
@@ -6110,7 +6112,7 @@ enum UsageReportSchedule {
   daily,
 }
 
-extension UsageReportScheduleValue on UsageReportSchedule {
+extension UsageReportScheduleValueExtension on UsageReportSchedule {
   String toValue() {
     switch (this) {
       case UsageReportSchedule.daily:
@@ -6363,7 +6365,8 @@ enum UserStackAssociationErrorCode {
   internalError,
 }
 
-extension UserStackAssociationErrorCodeValue on UserStackAssociationErrorCode {
+extension UserStackAssociationErrorCodeValueExtension
+    on UserStackAssociationErrorCode {
   String toValue() {
     switch (this) {
       case UserStackAssociationErrorCode.stackNotFound:
@@ -6400,7 +6403,7 @@ enum VisibilityType {
   shared,
 }
 
-extension VisibilityTypeValue on VisibilityType {
+extension VisibilityTypeValueExtension on VisibilityType {
   String toValue() {
     switch (this) {
       case VisibilityType.public:

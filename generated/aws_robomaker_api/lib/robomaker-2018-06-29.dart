@@ -2709,7 +2709,7 @@ enum Architecture {
   armhf,
 }
 
-extension ArchitectureValue on Architecture {
+extension ArchitectureValueExtension on Architecture {
   String toValue() {
     switch (this) {
       case Architecture.x86_64:
@@ -3970,7 +3970,7 @@ enum DeploymentJobErrorCode {
   internalServerError,
 }
 
-extension DeploymentJobErrorCodeValue on DeploymentJobErrorCode {
+extension DeploymentJobErrorCodeValueExtension on DeploymentJobErrorCode {
   String toValue() {
     switch (this) {
       case DeploymentJobErrorCode.resourceNotFound:
@@ -4130,7 +4130,7 @@ enum DeploymentStatus {
   canceled,
 }
 
-extension DeploymentStatusValue on DeploymentStatus {
+extension DeploymentStatusValueExtension on DeploymentStatus {
   String toValue() {
     switch (this) {
       case DeploymentStatus.pending:
@@ -5126,7 +5126,7 @@ enum FailureBehavior {
   $continue,
 }
 
-extension FailureBehaviorValue on FailureBehavior {
+extension FailureBehaviorValueExtension on FailureBehavior {
   String toValue() {
     switch (this) {
       case FailureBehavior.fail:
@@ -5902,7 +5902,7 @@ enum RenderingEngineType {
   ogre,
 }
 
-extension RenderingEngineTypeValue on RenderingEngineType {
+extension RenderingEngineTypeValueExtension on RenderingEngineType {
   String toValue() {
     switch (this) {
       case RenderingEngineType.ogre:
@@ -6117,7 +6117,7 @@ enum RobotDeploymentStep {
   finished,
 }
 
-extension RobotDeploymentStepValue on RobotDeploymentStep {
+extension RobotDeploymentStepValueExtension on RobotDeploymentStep {
   String toValue() {
     switch (this) {
       case RobotDeploymentStep.validating:
@@ -6194,7 +6194,7 @@ enum RobotSoftwareSuiteType {
   ros2,
 }
 
-extension RobotSoftwareSuiteTypeValue on RobotSoftwareSuiteType {
+extension RobotSoftwareSuiteTypeValueExtension on RobotSoftwareSuiteType {
   String toValue() {
     switch (this) {
       case RobotSoftwareSuiteType.ros:
@@ -6223,7 +6223,8 @@ enum RobotSoftwareSuiteVersionType {
   dashing,
 }
 
-extension RobotSoftwareSuiteVersionTypeValue on RobotSoftwareSuiteVersionType {
+extension RobotSoftwareSuiteVersionTypeValueExtension
+    on RobotSoftwareSuiteVersionType {
   String toValue() {
     switch (this) {
       case RobotSoftwareSuiteVersionType.kinetic:
@@ -6260,7 +6261,7 @@ enum RobotStatus {
   noResponse,
 }
 
-extension RobotStatusValue on RobotStatus {
+extension RobotStatusValueExtension on RobotStatus {
   String toValue() {
     switch (this) {
       case RobotStatus.available:
@@ -6610,7 +6611,8 @@ enum SimulationJobBatchErrorCode {
   internalServiceError,
 }
 
-extension SimulationJobBatchErrorCodeValue on SimulationJobBatchErrorCode {
+extension SimulationJobBatchErrorCodeValueExtension
+    on SimulationJobBatchErrorCode {
   String toValue() {
     switch (this) {
       case SimulationJobBatchErrorCode.internalServiceError:
@@ -6641,7 +6643,7 @@ enum SimulationJobBatchStatus {
   timedOut,
 }
 
-extension SimulationJobBatchStatusValue on SimulationJobBatchStatus {
+extension SimulationJobBatchStatusValueExtension on SimulationJobBatchStatus {
   String toValue() {
     switch (this) {
       case SimulationJobBatchStatus.pending:
@@ -6800,7 +6802,7 @@ enum SimulationJobErrorCode {
   wrongRegionSimulationApplication,
 }
 
-extension SimulationJobErrorCodeValue on SimulationJobErrorCode {
+extension SimulationJobErrorCodeValueExtension on SimulationJobErrorCode {
   String toValue() {
     switch (this) {
       case SimulationJobErrorCode.internalServiceError:
@@ -7070,7 +7072,7 @@ enum SimulationJobStatus {
   canceled,
 }
 
-extension SimulationJobStatusValue on SimulationJobStatus {
+extension SimulationJobStatusValueExtension on SimulationJobStatus {
   String toValue() {
     switch (this) {
       case SimulationJobStatus.pending:
@@ -7214,7 +7216,8 @@ enum SimulationSoftwareSuiteType {
   rosbagPlay,
 }
 
-extension SimulationSoftwareSuiteTypeValue on SimulationSoftwareSuiteType {
+extension SimulationSoftwareSuiteTypeValueExtension
+    on SimulationSoftwareSuiteType {
   String toValue() {
     switch (this) {
       case SimulationSoftwareSuiteType.gazebo:
@@ -7866,7 +7869,7 @@ enum WorldExportJobErrorCode {
   accessDenied,
 }
 
-extension WorldExportJobErrorCodeValue on WorldExportJobErrorCode {
+extension WorldExportJobErrorCodeValueExtension on WorldExportJobErrorCode {
   String toValue() {
     switch (this) {
       case WorldExportJobErrorCode.internalServiceError:
@@ -7914,7 +7917,7 @@ enum WorldExportJobStatus {
   canceled,
 }
 
-extension WorldExportJobStatusValue on WorldExportJobStatus {
+extension WorldExportJobStatusValueExtension on WorldExportJobStatus {
   String toValue() {
     switch (this) {
       case WorldExportJobStatus.pending:
@@ -8049,7 +8052,8 @@ enum WorldGenerationJobErrorCode {
   allWorldGenerationFailed,
 }
 
-extension WorldGenerationJobErrorCodeValue on WorldGenerationJobErrorCode {
+extension WorldGenerationJobErrorCodeValueExtension
+    on WorldGenerationJobErrorCode {
   String toValue() {
     switch (this) {
       case WorldGenerationJobErrorCode.internalServiceError:
@@ -8098,7 +8102,7 @@ enum WorldGenerationJobStatus {
   canceled,
 }
 
-extension WorldGenerationJobStatusValue on WorldGenerationJobStatus {
+extension WorldGenerationJobStatusValueExtension on WorldGenerationJobStatus {
   String toValue() {
     switch (this) {
       case WorldGenerationJobStatus.pending:

@@ -2881,7 +2881,8 @@ enum MessageSystemAttributeName {
   awsTraceHeader,
 }
 
-extension MessageSystemAttributeNameValue on MessageSystemAttributeName {
+extension MessageSystemAttributeNameValueExtension
+    on MessageSystemAttributeName {
   String toValue() {
     switch (this) {
       case MessageSystemAttributeName.senderId:
@@ -2932,7 +2933,7 @@ enum MessageSystemAttributeNameForSends {
   awsTraceHeader,
 }
 
-extension MessageSystemAttributeNameForSendsValue
+extension MessageSystemAttributeNameForSendsValueExtension
     on MessageSystemAttributeNameForSends {
   String toValue() {
     switch (this) {
@@ -3034,7 +3035,7 @@ enum QueueAttributeName {
   fifoThroughputLimit,
 }
 
-extension QueueAttributeNameValue on QueueAttributeName {
+extension QueueAttributeNameValueExtension on QueueAttributeName {
   String toValue() {
     switch (this) {
       case QueueAttributeName.all:

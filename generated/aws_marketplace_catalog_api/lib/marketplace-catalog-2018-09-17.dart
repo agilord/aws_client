@@ -565,7 +565,7 @@ enum ChangeStatus {
   failed,
 }
 
-extension ChangeStatusValue on ChangeStatus {
+extension ChangeStatusValueExtension on ChangeStatus {
   String toValue() {
     switch (this) {
       case ChangeStatus.preparing:
@@ -846,7 +846,7 @@ enum FailureCode {
   serverFault,
 }
 
-extension FailureCodeValue on FailureCode {
+extension FailureCodeValueExtension on FailureCode {
   String toValue() {
     switch (this) {
       case FailureCode.clientError:
@@ -1010,7 +1010,7 @@ enum SortOrder {
   descending,
 }
 
-extension SortOrderValue on SortOrder {
+extension SortOrderValueExtension on SortOrder {
   String toValue() {
     switch (this) {
       case SortOrder.ascending:

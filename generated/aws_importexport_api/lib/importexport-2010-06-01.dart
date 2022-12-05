@@ -654,7 +654,7 @@ enum JobType {
   export,
 }
 
-extension JobTypeValue on JobType {
+extension JobTypeValueExtension on JobType {
   String toValue() {
     switch (this) {
       case JobType.import:

@@ -3263,7 +3263,7 @@ enum DataSource {
   externalModelScore,
 }
 
-extension DataSourceValue on DataSource {
+extension DataSourceValueExtension on DataSource {
   String toValue() {
     switch (this) {
       case DataSource.event:
@@ -3297,7 +3297,7 @@ enum DataType {
   boolean,
 }
 
-extension DataTypeValue on DataType {
+extension DataTypeValueExtension on DataType {
   String toValue() {
     switch (this) {
       case DataType.string:
@@ -3540,7 +3540,7 @@ enum DetectorVersionStatus {
   inactive,
 }
 
-extension DetectorVersionStatusValue on DetectorVersionStatus {
+extension DetectorVersionStatusValueExtension on DetectorVersionStatus {
   String toValue() {
     switch (this) {
       case DetectorVersionStatus.draft:
@@ -4367,7 +4367,7 @@ enum Language {
   detectorpl,
 }
 
-extension LanguageValue on Language {
+extension LanguageValueExtension on Language {
   String toValue() {
     switch (this) {
       case Language.detectorpl:
@@ -4517,7 +4517,7 @@ enum ModelEndpointStatus {
   dissociated,
 }
 
-extension ModelEndpointStatusValue on ModelEndpointStatus {
+extension ModelEndpointStatusValueExtension on ModelEndpointStatus {
   String toValue() {
     switch (this) {
       case ModelEndpointStatus.associated:
@@ -4601,7 +4601,7 @@ enum ModelInputDataFormat {
   applicationJson,
 }
 
-extension ModelInputDataFormatValue on ModelInputDataFormat {
+extension ModelInputDataFormatValueExtension on ModelInputDataFormat {
   String toValue() {
     switch (this) {
       case ModelInputDataFormat.textCsv:
@@ -4673,7 +4673,7 @@ enum ModelOutputDataFormat {
   applicationJsonlines,
 }
 
-extension ModelOutputDataFormatValue on ModelOutputDataFormat {
+extension ModelOutputDataFormatValueExtension on ModelOutputDataFormat {
   String toValue() {
     switch (this) {
       case ModelOutputDataFormat.textCsv:
@@ -4723,7 +4723,7 @@ enum ModelSource {
   sagemaker,
 }
 
-extension ModelSourceValue on ModelSource {
+extension ModelSourceValueExtension on ModelSource {
   String toValue() {
     switch (this) {
       case ModelSource.sagemaker:
@@ -4746,7 +4746,7 @@ enum ModelTypeEnum {
   onlineFraudInsights,
 }
 
-extension ModelTypeEnumValue on ModelTypeEnum {
+extension ModelTypeEnumValueExtension on ModelTypeEnum {
   String toValue() {
     switch (this) {
       case ModelTypeEnum.onlineFraudInsights:
@@ -4888,7 +4888,7 @@ enum ModelVersionStatus {
   inactive,
 }
 
-extension ModelVersionStatusValue on ModelVersionStatus {
+extension ModelVersionStatusValueExtension on ModelVersionStatus {
   String toValue() {
     switch (this) {
       case ModelVersionStatus.active:
@@ -5099,7 +5099,7 @@ enum RuleExecutionMode {
   firstMatched,
 }
 
-extension RuleExecutionModeValue on RuleExecutionMode {
+extension RuleExecutionModeValueExtension on RuleExecutionMode {
   String toValue() {
     switch (this) {
       case RuleExecutionMode.allMatched:
@@ -5217,7 +5217,7 @@ enum TrainingDataSourceEnum {
   externalEvents,
 }
 
-extension TrainingDataSourceEnumValue on TrainingDataSourceEnum {
+extension TrainingDataSourceEnumValueExtension on TrainingDataSourceEnum {
   String toValue() {
     switch (this) {
       case TrainingDataSourceEnum.externalEvents:

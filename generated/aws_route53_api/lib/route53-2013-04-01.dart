@@ -4835,7 +4835,7 @@ enum AccountLimitType {
   maxTrafficPoliciesByOwner,
 }
 
-extension AccountLimitTypeValue on AccountLimitType {
+extension AccountLimitTypeValueExtension on AccountLimitType {
   String toValue() {
     switch (this) {
       case AccountLimitType.maxHealthChecksByOwner:
@@ -5460,7 +5460,7 @@ enum ChangeAction {
   upsert,
 }
 
-extension ChangeActionValue on ChangeAction {
+extension ChangeActionValueExtension on ChangeAction {
   String toValue() {
     switch (this) {
       case ChangeAction.create:
@@ -5616,7 +5616,7 @@ enum ChangeStatus {
   insync,
 }
 
-extension ChangeStatusValue on ChangeStatus {
+extension ChangeStatusValueExtension on ChangeStatus {
   String toValue() {
     switch (this) {
       case ChangeStatus.pending:
@@ -5808,7 +5808,7 @@ enum CloudWatchRegion {
   usIsobEast_1,
 }
 
-extension CloudWatchRegionValue on CloudWatchRegion {
+extension CloudWatchRegionValueExtension on CloudWatchRegion {
   String toValue() {
     switch (this) {
       case CloudWatchRegion.usEast_1:
@@ -5938,7 +5938,7 @@ enum ComparisonOperator {
   lessThanOrEqualToThreshold,
 }
 
-extension ComparisonOperatorValue on ComparisonOperator {
+extension ComparisonOperatorValueExtension on ComparisonOperator {
   String toValue() {
     switch (this) {
       case ComparisonOperator.greaterThanOrEqualToThreshold:
@@ -7974,7 +7974,7 @@ enum HealthCheckRegion {
   saEast_1,
 }
 
-extension HealthCheckRegionValue on HealthCheckRegion {
+extension HealthCheckRegionValueExtension on HealthCheckRegion {
   String toValue() {
     switch (this) {
       case HealthCheckRegion.usEast_1:
@@ -8031,7 +8031,7 @@ enum HealthCheckType {
   cloudwatchMetric,
 }
 
-extension HealthCheckTypeValue on HealthCheckType {
+extension HealthCheckTypeValueExtension on HealthCheckType {
   String toValue() {
     switch (this) {
       case HealthCheckType.http:
@@ -8209,7 +8209,7 @@ enum HostedZoneLimitType {
   maxVpcsAssociatedByZone,
 }
 
-extension HostedZoneLimitTypeValue on HostedZoneLimitType {
+extension HostedZoneLimitTypeValueExtension on HostedZoneLimitType {
   String toValue() {
     switch (this) {
       case HostedZoneLimitType.maxRrsetsByZone:
@@ -8302,7 +8302,8 @@ enum InsufficientDataHealthStatus {
   lastKnownStatus,
 }
 
-extension InsufficientDataHealthStatusValue on InsufficientDataHealthStatus {
+extension InsufficientDataHealthStatusValueExtension
+    on InsufficientDataHealthStatus {
   String toValue() {
     switch (this) {
       case InsufficientDataHealthStatus.healthy:
@@ -9382,7 +9383,7 @@ enum RRType {
   ds,
 }
 
-extension RRTypeValue on RRType {
+extension RRTypeValueExtension on RRType {
   String toValue() {
     switch (this) {
       case RRType.soa:
@@ -9456,7 +9457,7 @@ enum ResettableElementName {
   childHealthChecks,
 }
 
-extension ResettableElementNameValue on ResettableElementName {
+extension ResettableElementNameValueExtension on ResettableElementName {
   String toValue() {
     switch (this) {
       case ResettableElementName.fullyQualifiedDomainName:
@@ -10215,7 +10216,7 @@ enum ResourceRecordSetFailover {
   secondary,
 }
 
-extension ResourceRecordSetFailoverValue on ResourceRecordSetFailover {
+extension ResourceRecordSetFailoverValueExtension on ResourceRecordSetFailover {
   String toValue() {
     switch (this) {
       case ResourceRecordSetFailover.primary:
@@ -10264,7 +10265,7 @@ enum ResourceRecordSetRegion {
   euSouth_1,
 }
 
-extension ResourceRecordSetRegionValue on ResourceRecordSetRegion {
+extension ResourceRecordSetRegionValueExtension on ResourceRecordSetRegion {
   String toValue() {
     switch (this) {
       case ResourceRecordSetRegion.usEast_1:
@@ -10438,7 +10439,7 @@ enum ReusableDelegationSetLimitType {
   maxZonesByReusableDelegationSet,
 }
 
-extension ReusableDelegationSetLimitTypeValue
+extension ReusableDelegationSetLimitTypeValueExtension
     on ReusableDelegationSetLimitType {
   String toValue() {
     switch (this) {
@@ -10467,7 +10468,7 @@ enum Statistic {
   minimum,
 }
 
-extension StatisticValue on Statistic {
+extension StatisticValueExtension on Statistic {
   String toValue() {
     switch (this) {
       case Statistic.average:
@@ -10605,7 +10606,7 @@ enum TagResourceType {
   hostedzone,
 }
 
-extension TagResourceTypeValue on TagResourceType {
+extension TagResourceTypeValueExtension on TagResourceType {
   String toValue() {
     switch (this) {
       case TagResourceType.healthcheck:
@@ -11542,7 +11543,7 @@ enum VPCRegion {
   euSouth_1,
 }
 
-extension VPCRegionValue on VPCRegion {
+extension VPCRegionValueExtension on VPCRegion {
   String toValue() {
     switch (this) {
       case VPCRegion.usEast_1:

@@ -5540,7 +5540,8 @@ enum InstanceMetadataEndpointState {
   enabled,
 }
 
-extension InstanceMetadataEndpointStateValue on InstanceMetadataEndpointState {
+extension InstanceMetadataEndpointStateValueExtension
+    on InstanceMetadataEndpointState {
   String toValue() {
     switch (this) {
       case InstanceMetadataEndpointState.disabled:
@@ -5568,7 +5569,7 @@ enum InstanceMetadataHttpTokensState {
   required,
 }
 
-extension InstanceMetadataHttpTokensStateValue
+extension InstanceMetadataHttpTokensStateValueExtension
     on InstanceMetadataHttpTokensState {
   String toValue() {
     switch (this) {
@@ -5777,7 +5778,7 @@ enum InstanceRefreshStatus {
   cancelled,
 }
 
-extension InstanceRefreshStatusValue on InstanceRefreshStatus {
+extension InstanceRefreshStatusValueExtension on InstanceRefreshStatus {
   String toValue() {
     switch (this) {
       case InstanceRefreshStatus.pending:
@@ -6539,7 +6540,7 @@ enum LifecycleState {
   standby,
 }
 
-extension LifecycleStateValue on LifecycleState {
+extension LifecycleStateValueExtension on LifecycleState {
   String toValue() {
     switch (this) {
       case LifecycleState.pending:
@@ -6825,7 +6826,7 @@ enum MetricStatistic {
   sum,
 }
 
-extension MetricStatisticValue on MetricStatistic {
+extension MetricStatisticValueExtension on MetricStatistic {
   String toValue() {
     switch (this) {
       case MetricStatistic.average:
@@ -6867,7 +6868,7 @@ enum MetricType {
   aLBRequestCountPerTarget,
 }
 
-extension MetricTypeValue on MetricType {
+extension MetricTypeValueExtension on MetricType {
   String toValue() {
     switch (this) {
       case MetricType.aSGAverageCPUUtilization:
@@ -7234,7 +7235,7 @@ enum RefreshStrategy {
   rolling,
 }
 
-extension RefreshStrategyValue on RefreshStrategy {
+extension RefreshStrategyValueExtension on RefreshStrategy {
   String toValue() {
     switch (this) {
       case RefreshStrategy.rolling:
@@ -7268,7 +7269,7 @@ enum ScalingActivityStatusCode {
   cancelled,
 }
 
-extension ScalingActivityStatusCodeValue on ScalingActivityStatusCode {
+extension ScalingActivityStatusCodeValueExtension on ScalingActivityStatusCode {
   String toValue() {
     switch (this) {
       case ScalingActivityStatusCode.pendingSpotBidPlacement:

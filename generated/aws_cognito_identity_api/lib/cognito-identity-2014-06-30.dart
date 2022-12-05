@@ -1521,7 +1521,8 @@ enum AmbiguousRoleResolutionType {
   deny,
 }
 
-extension AmbiguousRoleResolutionTypeValue on AmbiguousRoleResolutionType {
+extension AmbiguousRoleResolutionTypeValueExtension
+    on AmbiguousRoleResolutionType {
   String toValue() {
     switch (this) {
       case AmbiguousRoleResolutionType.authenticatedRole:
@@ -1646,7 +1647,7 @@ enum ErrorCode {
   internalServerError,
 }
 
-extension ErrorCodeValue on ErrorCode {
+extension ErrorCodeValueExtension on ErrorCode {
   String toValue() {
     switch (this) {
       case ErrorCode.accessDenied:
@@ -2076,7 +2077,7 @@ enum MappingRuleMatchType {
   notEqual,
 }
 
-extension MappingRuleMatchTypeValue on MappingRuleMatchType {
+extension MappingRuleMatchTypeValueExtension on MappingRuleMatchType {
   String toValue() {
     switch (this) {
       case MappingRuleMatchType.equals:
@@ -2181,7 +2182,7 @@ enum RoleMappingType {
   rules,
 }
 
-extension RoleMappingTypeValue on RoleMappingType {
+extension RoleMappingTypeValueExtension on RoleMappingType {
   String toValue() {
     switch (this) {
       case RoleMappingType.token:

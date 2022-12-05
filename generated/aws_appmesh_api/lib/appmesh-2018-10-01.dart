@@ -1285,7 +1285,7 @@ enum MeshStatusCode {
   inactive,
 }
 
-extension MeshStatusCodeValue on MeshStatusCode {
+extension MeshStatusCodeValueExtension on MeshStatusCode {
   String toValue() {
     switch (this) {
       case MeshStatusCode.active:
@@ -1852,7 +1852,7 @@ enum VirtualRouterStatusCode {
   inactive,
 }
 
-extension VirtualRouterStatusCodeValue on VirtualRouterStatusCode {
+extension VirtualRouterStatusCodeValueExtension on VirtualRouterStatusCode {
   String toValue() {
     switch (this) {
       case VirtualRouterStatusCode.active:
@@ -1966,7 +1966,7 @@ enum PortProtocol {
   tcp,
 }
 
-extension PortProtocolValue on PortProtocol {
+extension PortProtocolValueExtension on PortProtocol {
   String toValue() {
     switch (this) {
       case PortProtocol.http:
@@ -2081,7 +2081,7 @@ enum VirtualNodeStatusCode {
   inactive,
 }
 
-extension VirtualNodeStatusCodeValue on VirtualNodeStatusCode {
+extension VirtualNodeStatusCodeValueExtension on VirtualNodeStatusCode {
   String toValue() {
     switch (this) {
       case VirtualNodeStatusCode.active:
@@ -2414,7 +2414,7 @@ enum RouteStatusCode {
   inactive,
 }
 
-extension RouteStatusCodeValue on RouteStatusCode {
+extension RouteStatusCodeValueExtension on RouteStatusCode {
   String toValue() {
     switch (this) {
       case RouteStatusCode.active:

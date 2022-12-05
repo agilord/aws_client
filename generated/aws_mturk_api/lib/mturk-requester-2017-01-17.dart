@@ -2761,7 +2761,7 @@ enum AssignmentStatus {
   rejected,
 }
 
-extension AssignmentStatusValue on AssignmentStatus {
+extension AssignmentStatusValueExtension on AssignmentStatus {
   String toValue() {
     switch (this) {
       case AssignmentStatus.submitted:
@@ -2842,7 +2842,7 @@ enum Comparator {
   notIn,
 }
 
-extension ComparatorValue on Comparator {
+extension ComparatorValueExtension on Comparator {
   String toValue() {
     switch (this) {
       case Comparator.lessThan:
@@ -3024,7 +3024,7 @@ enum EventType {
   ping,
 }
 
-extension EventTypeValue on EventType {
+extension EventTypeValueExtension on EventType {
   String toValue() {
     switch (this) {
       case EventType.assignmentAccepted:
@@ -3340,7 +3340,7 @@ enum HITAccessActions {
   discoverPreviewAndAccept,
 }
 
-extension HITAccessActionsValue on HITAccessActions {
+extension HITAccessActionsValueExtension on HITAccessActions {
   String toValue() {
     switch (this) {
       case HITAccessActions.accept:
@@ -3398,7 +3398,7 @@ enum HITReviewStatus {
   reviewedInappropriate,
 }
 
-extension HITReviewStatusValue on HITReviewStatus {
+extension HITReviewStatusValueExtension on HITReviewStatus {
   String toValue() {
     switch (this) {
       case HITReviewStatus.notReviewed:
@@ -3437,7 +3437,7 @@ enum HITStatus {
   disposed,
 }
 
-extension HITStatusValue on HITStatus {
+extension HITStatusValueExtension on HITStatus {
   String toValue() {
     switch (this) {
       case HITStatus.assignable:
@@ -3859,7 +3859,7 @@ enum NotificationTransport {
   sns,
 }
 
-extension NotificationTransportValue on NotificationTransport {
+extension NotificationTransportValueExtension on NotificationTransport {
   String toValue() {
     switch (this) {
       case NotificationTransport.email:
@@ -3891,7 +3891,7 @@ enum NotifyWorkersFailureCode {
   hardFailure,
 }
 
-extension NotifyWorkersFailureCodeValue on NotifyWorkersFailureCode {
+extension NotifyWorkersFailureCodeValueExtension on NotifyWorkersFailureCode {
   String toValue() {
     switch (this) {
       case NotifyWorkersFailureCode.softFailure:
@@ -4255,7 +4255,7 @@ enum QualificationStatus {
   revoked,
 }
 
-extension QualificationStatusValue on QualificationStatus {
+extension QualificationStatusValueExtension on QualificationStatus {
   String toValue() {
     switch (this) {
       case QualificationStatus.granted:
@@ -4387,7 +4387,7 @@ enum QualificationTypeStatus {
   inactive,
 }
 
-extension QualificationTypeStatusValue on QualificationTypeStatus {
+extension QualificationTypeStatusValueExtension on QualificationTypeStatus {
   String toValue() {
     switch (this) {
       case QualificationTypeStatus.active:
@@ -4503,7 +4503,7 @@ enum ReviewActionStatus {
   cancelled,
 }
 
-extension ReviewActionStatusValue on ReviewActionStatus {
+extension ReviewActionStatusValueExtension on ReviewActionStatus {
   String toValue() {
     switch (this) {
       case ReviewActionStatus.intended:
@@ -4573,7 +4573,7 @@ enum ReviewPolicyLevel {
   hit,
 }
 
-extension ReviewPolicyLevelValue on ReviewPolicyLevel {
+extension ReviewPolicyLevelValueExtension on ReviewPolicyLevel {
   String toValue() {
     switch (this) {
       case ReviewPolicyLevel.assignment:
@@ -4678,7 +4678,7 @@ enum ReviewableHITStatus {
   reviewing,
 }
 
-extension ReviewableHITStatusValue on ReviewableHITStatus {
+extension ReviewableHITStatusValueExtension on ReviewableHITStatus {
   String toValue() {
     switch (this) {
       case ReviewableHITStatus.reviewable:

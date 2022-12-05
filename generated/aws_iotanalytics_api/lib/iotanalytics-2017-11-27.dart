@@ -1863,7 +1863,7 @@ enum ChannelStatus {
   deleting,
 }
 
-extension ChannelStatusValue on ChannelStatus {
+extension ChannelStatusValueExtension on ChannelStatus {
   String toValue() {
     switch (this) {
       case ChannelStatus.creating:
@@ -2046,7 +2046,7 @@ enum ComputeType {
   acu_2,
 }
 
-extension ComputeTypeValue on ComputeType {
+extension ComputeTypeValueExtension on ComputeType {
   String toValue() {
     switch (this) {
       case ComputeType.acu_1:
@@ -2559,7 +2559,7 @@ enum DatasetActionType {
   container,
 }
 
-extension DatasetActionTypeValue on DatasetActionType {
+extension DatasetActionTypeValueExtension on DatasetActionType {
   String toValue() {
     switch (this) {
       case DatasetActionType.query:
@@ -2661,7 +2661,7 @@ enum DatasetContentState {
   failed,
 }
 
-extension DatasetContentStateValue on DatasetContentState {
+extension DatasetContentStateValueExtension on DatasetContentState {
   String toValue() {
     switch (this) {
       case DatasetContentState.creating:
@@ -2797,7 +2797,7 @@ enum DatasetStatus {
   deleting,
 }
 
-extension DatasetStatusValue on DatasetStatus {
+extension DatasetStatusValueExtension on DatasetStatus {
   String toValue() {
     switch (this) {
       case DatasetStatus.creating:
@@ -3048,7 +3048,7 @@ enum DatastoreStatus {
   deleting,
 }
 
-extension DatastoreStatusValue on DatastoreStatus {
+extension DatastoreStatusValueExtension on DatastoreStatus {
   String toValue() {
     switch (this) {
       case DatastoreStatus.creating:
@@ -3548,7 +3548,7 @@ enum FileFormatType {
   parquet,
 }
 
-extension FileFormatTypeValue on FileFormatType {
+extension FileFormatTypeValueExtension on FileFormatType {
   String toValue() {
     switch (this) {
       case FileFormatType.json:
@@ -3960,7 +3960,7 @@ enum LoggingLevel {
   error,
 }
 
-extension LoggingLevelValue on LoggingLevel {
+extension LoggingLevelValueExtension on LoggingLevel {
   String toValue() {
     switch (this) {
       case LoggingLevel.error:
@@ -4399,7 +4399,7 @@ enum ReprocessingStatus {
   failed,
 }
 
-extension ReprocessingStatusValue on ReprocessingStatus {
+extension ReprocessingStatusValueExtension on ReprocessingStatus {
   String toValue() {
     switch (this) {
       case ReprocessingStatus.running:

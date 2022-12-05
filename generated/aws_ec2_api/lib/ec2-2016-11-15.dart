@@ -23383,7 +23383,7 @@ enum AccountAttributeName {
   defaultVpc,
 }
 
-extension AccountAttributeNameValue on AccountAttributeName {
+extension AccountAttributeNameValueExtension on AccountAttributeName {
   String toValue() {
     switch (this) {
       case AccountAttributeName.supportedPlatforms:
@@ -23448,7 +23448,7 @@ enum ActivityStatus {
   fulfilled,
 }
 
-extension ActivityStatusValue on ActivityStatus {
+extension ActivityStatusValueExtension on ActivityStatus {
   String toValue() {
     switch (this) {
       case ActivityStatus.error:
@@ -23577,7 +23577,7 @@ enum Affinity {
   host,
 }
 
-extension AffinityValue on Affinity {
+extension AffinityValueExtension on Affinity {
   String toValue() {
     switch (this) {
       case Affinity.$default:
@@ -23661,7 +23661,7 @@ enum AllocationState {
   pending,
 }
 
-extension AllocationStateValue on AllocationState {
+extension AllocationStateValueExtension on AllocationState {
   String toValue() {
     switch (this) {
       case AllocationState.available:
@@ -23706,7 +23706,7 @@ enum AllocationStrategy {
   capacityOptimized,
 }
 
-extension AllocationStrategyValue on AllocationStrategy {
+extension AllocationStrategyValueExtension on AllocationStrategy {
   String toValue() {
     switch (this) {
       case AllocationStrategy.lowestPrice:
@@ -23752,7 +23752,8 @@ enum AllowsMultipleInstanceTypes {
   off,
 }
 
-extension AllowsMultipleInstanceTypesValue on AllowsMultipleInstanceTypes {
+extension AllowsMultipleInstanceTypesValueExtension
+    on AllowsMultipleInstanceTypes {
   String toValue() {
     switch (this) {
       case AllowsMultipleInstanceTypes.on:
@@ -24003,7 +24004,7 @@ enum AnalysisStatus {
   failed,
 }
 
-extension AnalysisStatusValue on AnalysisStatus {
+extension AnalysisStatusValueExtension on AnalysisStatus {
   String toValue() {
     switch (this) {
       case AnalysisStatus.running:
@@ -24035,7 +24036,7 @@ enum ApplianceModeSupportValue {
   disable,
 }
 
-extension ApplianceModeSupportValueValue on ApplianceModeSupportValue {
+extension ApplianceModeSupportValueValueExtension on ApplianceModeSupportValue {
   String toValue() {
     switch (this) {
       case ApplianceModeSupportValue.enable:
@@ -24073,7 +24074,7 @@ enum ArchitectureType {
   arm64,
 }
 
-extension ArchitectureTypeValue on ArchitectureType {
+extension ArchitectureTypeValueExtension on ArchitectureType {
   String toValue() {
     switch (this) {
       case ArchitectureType.i386:
@@ -24106,7 +24107,7 @@ enum ArchitectureValues {
   arm64,
 }
 
-extension ArchitectureValuesValue on ArchitectureValues {
+extension ArchitectureValuesValueExtension on ArchitectureValues {
   String toValue() {
     switch (this) {
       case ArchitectureValues.i386:
@@ -24287,7 +24288,7 @@ enum AssociatedNetworkType {
   vpc,
 }
 
-extension AssociatedNetworkTypeValue on AssociatedNetworkType {
+extension AssociatedNetworkTypeValueExtension on AssociatedNetworkType {
   String toValue() {
     switch (this) {
       case AssociatedNetworkType.vpc:
@@ -24367,7 +24368,7 @@ enum AssociationStatusCode {
   disassociated,
 }
 
-extension AssociationStatusCodeValue on AssociationStatusCode {
+extension AssociationStatusCodeValueExtension on AssociationStatusCode {
   String toValue() {
     switch (this) {
       case AssociationStatusCode.associating:
@@ -24443,7 +24444,7 @@ enum AttachmentStatus {
   detached,
 }
 
-extension AttachmentStatusValue on AttachmentStatus {
+extension AttachmentStatusValueExtension on AttachmentStatus {
   String toValue() {
     switch (this) {
       case AttachmentStatus.attaching:
@@ -24542,7 +24543,7 @@ enum AutoAcceptSharedAssociationsValue {
   disable,
 }
 
-extension AutoAcceptSharedAssociationsValueValue
+extension AutoAcceptSharedAssociationsValueValueExtension
     on AutoAcceptSharedAssociationsValue {
   String toValue() {
     switch (this) {
@@ -24572,7 +24573,7 @@ enum AutoAcceptSharedAttachmentsValue {
   disable,
 }
 
-extension AutoAcceptSharedAttachmentsValueValue
+extension AutoAcceptSharedAttachmentsValueValueExtension
     on AutoAcceptSharedAttachmentsValue {
   String toValue() {
     switch (this) {
@@ -24602,7 +24603,7 @@ enum AutoPlacement {
   off,
 }
 
-extension AutoPlacementValue on AutoPlacement {
+extension AutoPlacementValueExtension on AutoPlacement {
   String toValue() {
     switch (this) {
       case AutoPlacement.on:
@@ -24707,7 +24708,8 @@ enum AvailabilityZoneOptInStatus {
   notOptedIn,
 }
 
-extension AvailabilityZoneOptInStatusValue on AvailabilityZoneOptInStatus {
+extension AvailabilityZoneOptInStatusValueExtension
+    on AvailabilityZoneOptInStatus {
   String toValue() {
     switch (this) {
       case AvailabilityZoneOptInStatus.optInNotRequired:
@@ -24741,7 +24743,7 @@ enum AvailabilityZoneState {
   unavailable,
 }
 
-extension AvailabilityZoneStateValue on AvailabilityZoneState {
+extension AvailabilityZoneStateValueExtension on AvailabilityZoneState {
   String toValue() {
     switch (this) {
       case AvailabilityZoneState.available:
@@ -24801,7 +24803,7 @@ enum BatchState {
   modifying,
 }
 
-extension BatchStateValue on BatchState {
+extension BatchStateValueExtension on BatchState {
   String toValue() {
     switch (this) {
       case BatchState.submitted:
@@ -24849,7 +24851,7 @@ enum BgpStatus {
   down,
 }
 
-extension BgpStatusValue on BgpStatus {
+extension BgpStatusValueExtension on BgpStatus {
   String toValue() {
     switch (this) {
       case BgpStatus.up:
@@ -24989,7 +24991,7 @@ enum BundleTaskState {
   failed,
 }
 
-extension BundleTaskStateValue on BundleTaskState {
+extension BundleTaskStateValueExtension on BundleTaskState {
   String toValue() {
     switch (this) {
       case BundleTaskState.pending:
@@ -25067,7 +25069,7 @@ enum ByoipCidrState {
   provisionedNotPubliclyAdvertisable,
 }
 
-extension ByoipCidrStateValue on ByoipCidrState {
+extension ByoipCidrStateValueExtension on ByoipCidrState {
   String toValue() {
     switch (this) {
       case ByoipCidrState.advertised:
@@ -25121,7 +25123,7 @@ enum CancelBatchErrorCode {
   unexpectedError,
 }
 
-extension CancelBatchErrorCodeValue on CancelBatchErrorCode {
+extension CancelBatchErrorCodeValueExtension on CancelBatchErrorCode {
   String toValue() {
     switch (this) {
       case CancelBatchErrorCode.fleetRequestIdDoesNotExist:
@@ -25268,7 +25270,7 @@ enum CancelSpotInstanceRequestState {
   completed,
 }
 
-extension CancelSpotInstanceRequestStateValue
+extension CancelSpotInstanceRequestStateValueExtension
     on CancelSpotInstanceRequestState {
   String toValue() {
     switch (this) {
@@ -25512,7 +25514,7 @@ enum CapacityReservationInstancePlatform {
   linuxWithSqlServerEnterprise,
 }
 
-extension CapacityReservationInstancePlatformValue
+extension CapacityReservationInstancePlatformValueExtension
     on CapacityReservationInstancePlatform {
   String toValue() {
     switch (this) {
@@ -25651,7 +25653,8 @@ enum CapacityReservationPreference {
   none,
 }
 
-extension CapacityReservationPreferenceValue on CapacityReservationPreference {
+extension CapacityReservationPreferenceValueExtension
+    on CapacityReservationPreference {
   String toValue() {
     switch (this) {
       case CapacityReservationPreference.open:
@@ -25755,7 +25758,7 @@ enum CapacityReservationState {
   failed,
 }
 
-extension CapacityReservationStateValue on CapacityReservationState {
+extension CapacityReservationStateValueExtension on CapacityReservationState {
   String toValue() {
     switch (this) {
       case CapacityReservationState.active:
@@ -25824,7 +25827,8 @@ enum CapacityReservationTenancy {
   dedicated,
 }
 
-extension CapacityReservationTenancyValue on CapacityReservationTenancy {
+extension CapacityReservationTenancyValueExtension
+    on CapacityReservationTenancy {
   String toValue() {
     switch (this) {
       case CapacityReservationTenancy.$default:
@@ -25880,7 +25884,7 @@ enum CarrierGatewayState {
   deleted,
 }
 
-extension CarrierGatewayStateValue on CarrierGatewayState {
+extension CarrierGatewayStateValueExtension on CarrierGatewayState {
   String toValue() {
     switch (this) {
       case CarrierGatewayState.pending:
@@ -26039,7 +26043,7 @@ enum ClientCertificateRevocationListStatusCode {
   active,
 }
 
-extension ClientCertificateRevocationListStatusCodeValue
+extension ClientCertificateRevocationListStatusCodeValueExtension
     on ClientCertificateRevocationListStatusCode {
   String toValue() {
     switch (this) {
@@ -26186,7 +26190,8 @@ enum ClientVpnAuthenticationType {
   federatedAuthentication,
 }
 
-extension ClientVpnAuthenticationTypeValue on ClientVpnAuthenticationType {
+extension ClientVpnAuthenticationTypeValueExtension
+    on ClientVpnAuthenticationType {
   String toValue() {
     switch (this) {
       case ClientVpnAuthenticationType.certificateAuthentication:
@@ -26234,7 +26239,7 @@ enum ClientVpnAuthorizationRuleStatusCode {
   revoking,
 }
 
-extension ClientVpnAuthorizationRuleStatusCodeValue
+extension ClientVpnAuthorizationRuleStatusCodeValueExtension
     on ClientVpnAuthorizationRuleStatusCode {
   String toValue() {
     switch (this) {
@@ -26355,7 +26360,8 @@ enum ClientVpnConnectionStatusCode {
   terminated,
 }
 
-extension ClientVpnConnectionStatusCodeValue on ClientVpnConnectionStatusCode {
+extension ClientVpnConnectionStatusCodeValueExtension
+    on ClientVpnConnectionStatusCode {
   String toValue() {
     switch (this) {
       case ClientVpnConnectionStatusCode.active:
@@ -26505,7 +26511,7 @@ enum ClientVpnEndpointAttributeStatusCode {
   applied,
 }
 
-extension ClientVpnEndpointAttributeStatusCodeValue
+extension ClientVpnEndpointAttributeStatusCodeValueExtension
     on ClientVpnEndpointAttributeStatusCode {
   String toValue() {
     switch (this) {
@@ -26573,7 +26579,8 @@ enum ClientVpnEndpointStatusCode {
   deleted,
 }
 
-extension ClientVpnEndpointStatusCodeValue on ClientVpnEndpointStatusCode {
+extension ClientVpnEndpointStatusCodeValueExtension
+    on ClientVpnEndpointStatusCode {
   String toValue() {
     switch (this) {
       case ClientVpnEndpointStatusCode.pendingAssociate:
@@ -26663,7 +26670,7 @@ enum ClientVpnRouteStatusCode {
   deleting,
 }
 
-extension ClientVpnRouteStatusCodeValue on ClientVpnRouteStatusCode {
+extension ClientVpnRouteStatusCodeValueExtension on ClientVpnRouteStatusCode {
   String toValue() {
     switch (this) {
       case ClientVpnRouteStatusCode.creating:
@@ -26841,7 +26848,8 @@ enum ConnectionNotificationState {
   disabled,
 }
 
-extension ConnectionNotificationStateValue on ConnectionNotificationState {
+extension ConnectionNotificationStateValueExtension
+    on ConnectionNotificationState {
   String toValue() {
     switch (this) {
       case ConnectionNotificationState.enabled:
@@ -26868,7 +26876,8 @@ enum ConnectionNotificationType {
   topic,
 }
 
-extension ConnectionNotificationTypeValue on ConnectionNotificationType {
+extension ConnectionNotificationTypeValueExtension
+    on ConnectionNotificationType {
   String toValue() {
     switch (this) {
       case ConnectionNotificationType.topic:
@@ -26891,7 +26900,7 @@ enum ContainerFormat {
   ova,
 }
 
-extension ContainerFormatValue on ContainerFormat {
+extension ContainerFormatValueExtension on ContainerFormat {
   String toValue() {
     switch (this) {
       case ContainerFormat.ova:
@@ -26954,7 +26963,7 @@ enum ConversionTaskState {
   completed,
 }
 
-extension ConversionTaskStateValue on ConversionTaskState {
+extension ConversionTaskStateValueExtension on ConversionTaskState {
   String toValue() {
     switch (this) {
       case ConversionTaskState.active:
@@ -27021,7 +27030,7 @@ enum CopyTagsFromSource {
   volume,
 }
 
-extension CopyTagsFromSourceValue on CopyTagsFromSource {
+extension CopyTagsFromSourceValueExtension on CopyTagsFromSource {
   String toValue() {
     switch (this) {
       case CopyTagsFromSource.volume:
@@ -27826,7 +27835,7 @@ enum CurrencyCodeValues {
   usd,
 }
 
-extension CurrencyCodeValuesValue on CurrencyCodeValues {
+extension CurrencyCodeValuesValueExtension on CurrencyCodeValues {
   String toValue() {
     switch (this) {
       case CurrencyCodeValues.usd:
@@ -27892,7 +27901,7 @@ enum DatafeedSubscriptionState {
   inactive,
 }
 
-extension DatafeedSubscriptionStateValue on DatafeedSubscriptionState {
+extension DatafeedSubscriptionStateValueExtension on DatafeedSubscriptionState {
   String toValue() {
     switch (this) {
       case DatafeedSubscriptionState.active:
@@ -27920,7 +27929,7 @@ enum DefaultRouteTableAssociationValue {
   disable,
 }
 
-extension DefaultRouteTableAssociationValueValue
+extension DefaultRouteTableAssociationValueValueExtension
     on DefaultRouteTableAssociationValue {
   String toValue() {
     switch (this) {
@@ -27950,7 +27959,7 @@ enum DefaultRouteTablePropagationValue {
   disable,
 }
 
-extension DefaultRouteTablePropagationValueValue
+extension DefaultRouteTablePropagationValueValueExtension
     on DefaultRouteTablePropagationValue {
   String toValue() {
     switch (this) {
@@ -27980,7 +27989,7 @@ enum DefaultTargetCapacityType {
   onDemand,
 }
 
-extension DefaultTargetCapacityTypeValue on DefaultTargetCapacityType {
+extension DefaultTargetCapacityTypeValueExtension on DefaultTargetCapacityType {
   String toValue() {
     switch (this) {
       case DefaultTargetCapacityType.spot:
@@ -28061,7 +28070,7 @@ enum DeleteFleetErrorCode {
   unexpectedError,
 }
 
-extension DeleteFleetErrorCodeValue on DeleteFleetErrorCode {
+extension DeleteFleetErrorCodeValueExtension on DeleteFleetErrorCode {
   String toValue() {
     switch (this) {
       case DeleteFleetErrorCode.fleetIdDoesNotExist:
@@ -28307,7 +28316,7 @@ enum DeleteQueuedReservedInstancesErrorCode {
   unexpectedError,
 }
 
-extension DeleteQueuedReservedInstancesErrorCodeValue
+extension DeleteQueuedReservedInstancesErrorCodeValueExtension
     on DeleteQueuedReservedInstancesErrorCode {
   String toValue() {
     switch (this) {
@@ -30351,7 +30360,7 @@ enum DeviceType {
   instanceStore,
 }
 
-extension DeviceTypeValue on DeviceType {
+extension DeviceTypeValueExtension on DeviceType {
   String toValue() {
     switch (this) {
       case DeviceType.ebs:
@@ -30762,7 +30771,7 @@ enum DiskImageFormat {
   vhd,
 }
 
-extension DiskImageFormatValue on DiskImageFormat {
+extension DiskImageFormatValueExtension on DiskImageFormat {
   String toValue() {
     switch (this) {
       case DiskImageFormat.vmdk:
@@ -30826,7 +30835,7 @@ enum DiskType {
   ssd,
 }
 
-extension DiskTypeValue on DiskType {
+extension DiskTypeValueExtension on DiskType {
   String toValue() {
     switch (this) {
       case DiskType.hdd:
@@ -30869,7 +30878,7 @@ enum DnsNameState {
   failed,
 }
 
-extension DnsNameStateValue on DnsNameState {
+extension DnsNameStateValueExtension on DnsNameState {
   String toValue() {
     switch (this) {
       case DnsNameState.pendingVerification:
@@ -30918,7 +30927,7 @@ enum DnsSupportValue {
   disable,
 }
 
-extension DnsSupportValueValue on DnsSupportValue {
+extension DnsSupportValueValueExtension on DnsSupportValue {
   String toValue() {
     switch (this) {
       case DnsSupportValue.enable:
@@ -30946,7 +30955,7 @@ enum DomainType {
   standard,
 }
 
-extension DomainTypeValue on DomainType {
+extension DomainTypeValueExtension on DomainType {
   String toValue() {
     switch (this) {
       case DomainType.vpc:
@@ -31099,7 +31108,7 @@ enum EbsEncryptionSupport {
   supported,
 }
 
-extension EbsEncryptionSupportValue on EbsEncryptionSupport {
+extension EbsEncryptionSupportValueExtension on EbsEncryptionSupport {
   String toValue() {
     switch (this) {
       case EbsEncryptionSupport.unsupported:
@@ -31192,7 +31201,7 @@ enum EbsNvmeSupport {
   required,
 }
 
-extension EbsNvmeSupportValue on EbsNvmeSupport {
+extension EbsNvmeSupportValueExtension on EbsNvmeSupport {
   String toValue() {
     switch (this) {
       case EbsNvmeSupport.unsupported:
@@ -31261,7 +31270,7 @@ enum EbsOptimizedSupport {
   $default,
 }
 
-extension EbsOptimizedSupportValue on EbsOptimizedSupport {
+extension EbsOptimizedSupportValueExtension on EbsOptimizedSupport {
   String toValue() {
     switch (this) {
       case EbsOptimizedSupport.unsupported:
@@ -31368,7 +31377,7 @@ enum ElasticGpuState {
   attached,
 }
 
-extension ElasticGpuStateValue on ElasticGpuState {
+extension ElasticGpuStateValueExtension on ElasticGpuState {
   String toValue() {
     switch (this) {
       case ElasticGpuState.attached:
@@ -31392,7 +31401,7 @@ enum ElasticGpuStatus {
   impaired,
 }
 
-extension ElasticGpuStatusValue on ElasticGpuStatus {
+extension ElasticGpuStatusValueExtension on ElasticGpuStatus {
   String toValue() {
     switch (this) {
       case ElasticGpuStatus.ok:
@@ -31499,7 +31508,7 @@ enum EnaSupport {
   required,
 }
 
-extension EnaSupportValue on EnaSupport {
+extension EnaSupportValueExtension on EnaSupport {
   String toValue() {
     switch (this) {
       case EnaSupport.unsupported:
@@ -31723,7 +31732,7 @@ enum EndDateType {
   limited,
 }
 
-extension EndDateTypeValue on EndDateType {
+extension EndDateTypeValueExtension on EndDateType {
   String toValue() {
     switch (this) {
       case EndDateType.unlimited:
@@ -31752,7 +31761,7 @@ enum EphemeralNvmeSupport {
   required,
 }
 
-extension EphemeralNvmeSupportValue on EphemeralNvmeSupport {
+extension EphemeralNvmeSupportValueExtension on EphemeralNvmeSupport {
   String toValue() {
     switch (this) {
       case EphemeralNvmeSupport.unsupported:
@@ -31787,7 +31796,7 @@ enum EventCode {
   instanceStop,
 }
 
-extension EventCodeValue on EventCode {
+extension EventCodeValueExtension on EventCode {
   String toValue() {
     switch (this) {
       case EventCode.instanceReboot:
@@ -31940,7 +31949,7 @@ enum EventType {
   information,
 }
 
-extension EventTypeValue on EventType {
+extension EventTypeValueExtension on EventType {
   String toValue() {
     switch (this) {
       case EventType.instanceChange:
@@ -31976,7 +31985,7 @@ enum ExcessCapacityTerminationPolicy {
   $default,
 }
 
-extension ExcessCapacityTerminationPolicyValue
+extension ExcessCapacityTerminationPolicyValueExtension
     on ExcessCapacityTerminationPolicy {
   String toValue() {
     switch (this) {
@@ -32227,7 +32236,7 @@ enum ExportEnvironment {
   microsoft,
 }
 
-extension ExportEnvironmentValue on ExportEnvironment {
+extension ExportEnvironmentValueExtension on ExportEnvironment {
   String toValue() {
     switch (this) {
       case ExportEnvironment.citrix:
@@ -32411,7 +32420,7 @@ enum ExportTaskState {
   completed,
 }
 
-extension ExportTaskStateValue on ExportTaskState {
+extension ExportTaskStateValueExtension on ExportTaskState {
   String toValue() {
     switch (this) {
       case ExportTaskState.active:
@@ -32525,7 +32534,8 @@ enum FastSnapshotRestoreStateCode {
   disabled,
 }
 
-extension FastSnapshotRestoreStateCodeValue on FastSnapshotRestoreStateCode {
+extension FastSnapshotRestoreStateCodeValueExtension
+    on FastSnapshotRestoreStateCode {
   String toValue() {
     switch (this) {
       case FastSnapshotRestoreStateCode.enabling:
@@ -32648,7 +32658,7 @@ enum FleetActivityStatus {
   fulfilled,
 }
 
-extension FleetActivityStatusValue on FleetActivityStatus {
+extension FleetActivityStatusValueExtension on FleetActivityStatus {
   String toValue() {
     switch (this) {
       case FleetActivityStatus.error:
@@ -32683,7 +32693,7 @@ enum FleetCapacityReservationUsageStrategy {
   useCapacityReservationsFirst,
 }
 
-extension FleetCapacityReservationUsageStrategyValue
+extension FleetCapacityReservationUsageStrategyValueExtension
     on FleetCapacityReservationUsageStrategy {
   String toValue() {
     switch (this) {
@@ -32832,7 +32842,7 @@ enum FleetEventType {
   serviceError,
 }
 
-extension FleetEventTypeValue on FleetEventType {
+extension FleetEventTypeValueExtension on FleetEventType {
   String toValue() {
     switch (this) {
       case FleetEventType.instanceChange:
@@ -32864,7 +32874,7 @@ enum FleetExcessCapacityTerminationPolicy {
   termination,
 }
 
-extension FleetExcessCapacityTerminationPolicyValue
+extension FleetExcessCapacityTerminationPolicyValueExtension
     on FleetExcessCapacityTerminationPolicy {
   String toValue() {
     switch (this) {
@@ -33076,7 +33086,7 @@ enum FleetOnDemandAllocationStrategy {
   prioritized,
 }
 
-extension FleetOnDemandAllocationStrategyValue
+extension FleetOnDemandAllocationStrategyValueExtension
     on FleetOnDemandAllocationStrategy {
   String toValue() {
     switch (this) {
@@ -33105,7 +33115,7 @@ enum FleetReplacementStrategy {
   launch,
 }
 
-extension FleetReplacementStrategyValue on FleetReplacementStrategy {
+extension FleetReplacementStrategyValueExtension on FleetReplacementStrategy {
   String toValue() {
     switch (this) {
       case FleetReplacementStrategy.launch:
@@ -33202,7 +33212,7 @@ enum FleetStateCode {
   modifying,
 }
 
-extension FleetStateCodeValue on FleetStateCode {
+extension FleetStateCodeValueExtension on FleetStateCode {
   String toValue() {
     switch (this) {
       case FleetStateCode.submitted:
@@ -33251,7 +33261,7 @@ enum FleetType {
   instant,
 }
 
-extension FleetTypeValue on FleetType {
+extension FleetTypeValueExtension on FleetType {
   String toValue() {
     switch (this) {
       case FleetType.request:
@@ -33367,7 +33377,7 @@ enum FlowLogsResourceType {
   networkInterface,
 }
 
-extension FlowLogsResourceTypeValue on FlowLogsResourceType {
+extension FlowLogsResourceTypeValueExtension on FlowLogsResourceType {
   String toValue() {
     switch (this) {
       case FlowLogsResourceType.vpc:
@@ -33526,7 +33536,7 @@ enum FpgaImageAttributeName {
   productCodes,
 }
 
-extension FpgaImageAttributeNameValue on FpgaImageAttributeName {
+extension FpgaImageAttributeNameValueExtension on FpgaImageAttributeName {
   String toValue() {
     switch (this) {
       case FpgaImageAttributeName.description:
@@ -33594,7 +33604,7 @@ enum FpgaImageStateCode {
   unavailable,
 }
 
-extension FpgaImageStateCodeValue on FpgaImageStateCode {
+extension FpgaImageStateCodeValueExtension on FpgaImageStateCode {
   String toValue() {
     switch (this) {
       case FpgaImageStateCode.pending:
@@ -33643,7 +33653,7 @@ enum GatewayType {
   ipsec_1,
 }
 
-extension GatewayTypeValue on GatewayType {
+extension GatewayTypeValueExtension on GatewayType {
   String toValue() {
     switch (this) {
       case GatewayType.ipsec_1:
@@ -34354,7 +34364,7 @@ enum HostRecovery {
   off,
 }
 
-extension HostRecoveryValue on HostRecovery {
+extension HostRecoveryValueExtension on HostRecovery {
   String toValue() {
     switch (this) {
       case HostRecovery.on:
@@ -34450,7 +34460,7 @@ enum HostTenancy {
   host,
 }
 
-extension HostTenancyValue on HostTenancy {
+extension HostTenancyValueExtension on HostTenancy {
   String toValue() {
     switch (this) {
       case HostTenancy.dedicated:
@@ -34478,7 +34488,7 @@ enum HttpTokensState {
   required,
 }
 
-extension HttpTokensStateValue on HttpTokensState {
+extension HttpTokensStateValueExtension on HttpTokensState {
   String toValue() {
     switch (this) {
       case HttpTokensState.optional:
@@ -34506,7 +34516,7 @@ enum HypervisorType {
   xen,
 }
 
-extension HypervisorTypeValue on HypervisorType {
+extension HypervisorTypeValueExtension on HypervisorType {
   String toValue() {
     switch (this) {
       case HypervisorType.ovm:
@@ -34596,7 +34606,7 @@ enum IamInstanceProfileAssociationState {
   disassociated,
 }
 
-extension IamInstanceProfileAssociationStateValue
+extension IamInstanceProfileAssociationStateValueExtension
     on IamInstanceProfileAssociationState {
   String toValue() {
     switch (this) {
@@ -34683,7 +34693,7 @@ enum Igmpv2SupportValue {
   disable,
 }
 
-extension Igmpv2SupportValueValue on Igmpv2SupportValue {
+extension Igmpv2SupportValueValueExtension on Igmpv2SupportValue {
   String toValue() {
     switch (this) {
       case Igmpv2SupportValue.enable:
@@ -34888,7 +34898,7 @@ enum ImageAttributeName {
   sriovNetSupport,
 }
 
-extension ImageAttributeNameValue on ImageAttributeName {
+extension ImageAttributeNameValueExtension on ImageAttributeName {
   String toValue() {
     switch (this) {
       case ImageAttributeName.description:
@@ -34975,7 +34985,7 @@ enum ImageState {
   error,
 }
 
-extension ImageStateValue on ImageState {
+extension ImageStateValueExtension on ImageState {
   String toValue() {
     switch (this) {
       case ImageState.pending:
@@ -35024,7 +35034,7 @@ enum ImageTypeValues {
   ramdisk,
 }
 
-extension ImageTypeValuesValue on ImageTypeValues {
+extension ImageTypeValuesValueExtension on ImageTypeValues {
   String toValue() {
     switch (this) {
       case ImageTypeValues.machine:
@@ -35794,7 +35804,7 @@ enum InstanceAttributeName {
   enclaveOptions,
 }
 
-extension InstanceAttributeNameValue on InstanceAttributeName {
+extension InstanceAttributeNameValueExtension on InstanceAttributeName {
   String toValue() {
     switch (this) {
       case InstanceAttributeName.instanceType:
@@ -36010,7 +36020,7 @@ enum InstanceHealthStatus {
   unhealthy,
 }
 
-extension InstanceHealthStatusValue on InstanceHealthStatus {
+extension InstanceHealthStatusValueExtension on InstanceHealthStatus {
   String toValue() {
     switch (this) {
       case InstanceHealthStatus.healthy:
@@ -36039,7 +36049,8 @@ enum InstanceInterruptionBehavior {
   terminate,
 }
 
-extension InstanceInterruptionBehaviorValue on InstanceInterruptionBehavior {
+extension InstanceInterruptionBehaviorValueExtension
+    on InstanceInterruptionBehavior {
   String toValue() {
     switch (this) {
       case InstanceInterruptionBehavior.hibernate:
@@ -36091,7 +36102,7 @@ enum InstanceLifecycle {
   onDemand,
 }
 
-extension InstanceLifecycleValue on InstanceLifecycle {
+extension InstanceLifecycleValueExtension on InstanceLifecycle {
   String toValue() {
     switch (this) {
       case InstanceLifecycle.spot:
@@ -36119,7 +36130,7 @@ enum InstanceLifecycleType {
   scheduled,
 }
 
-extension InstanceLifecycleTypeValue on InstanceLifecycleType {
+extension InstanceLifecycleTypeValueExtension on InstanceLifecycleType {
   String toValue() {
     switch (this) {
       case InstanceLifecycleType.spot:
@@ -36161,7 +36172,7 @@ enum InstanceMatchCriteria {
   targeted,
 }
 
-extension InstanceMatchCriteriaValue on InstanceMatchCriteria {
+extension InstanceMatchCriteriaValueExtension on InstanceMatchCriteria {
   String toValue() {
     switch (this) {
       case InstanceMatchCriteria.open:
@@ -36189,7 +36200,8 @@ enum InstanceMetadataEndpointState {
   enabled,
 }
 
-extension InstanceMetadataEndpointStateValue on InstanceMetadataEndpointState {
+extension InstanceMetadataEndpointStateValueExtension
+    on InstanceMetadataEndpointState {
   String toValue() {
     switch (this) {
       case InstanceMetadataEndpointState.disabled:
@@ -36311,7 +36323,8 @@ enum InstanceMetadataOptionsState {
   applied,
 }
 
-extension InstanceMetadataOptionsStateValue on InstanceMetadataOptionsState {
+extension InstanceMetadataOptionsStateValueExtension
+    on InstanceMetadataOptionsState {
   String toValue() {
     switch (this) {
       case InstanceMetadataOptionsState.pending:
@@ -36707,7 +36720,7 @@ enum InstanceStateName {
   stopped,
 }
 
-extension InstanceStateNameValue on InstanceStateName {
+extension InstanceStateNameValueExtension on InstanceStateName {
   String toValue() {
     switch (this) {
       case InstanceStateName.pending:
@@ -37278,7 +37291,7 @@ enum InstanceType {
   mac1Metal,
 }
 
-extension InstanceTypeValue on InstanceType {
+extension InstanceTypeValueExtension on InstanceType {
   String toValue() {
     switch (this) {
       case InstanceType.t1Micro:
@@ -38854,7 +38867,7 @@ enum InstanceTypeHypervisor {
   xen,
 }
 
-extension InstanceTypeHypervisorValue on InstanceTypeHypervisor {
+extension InstanceTypeHypervisorValueExtension on InstanceTypeHypervisor {
   String toValue() {
     switch (this) {
       case InstanceTypeHypervisor.nitro:
@@ -39020,7 +39033,7 @@ enum InterfacePermissionType {
   eipAssociate,
 }
 
-extension InterfacePermissionTypeValue on InterfacePermissionType {
+extension InterfacePermissionTypeValueExtension on InterfacePermissionType {
   String toValue() {
     switch (this) {
       case InterfacePermissionType.instanceAttach:
@@ -39223,7 +39236,7 @@ enum Ipv6SupportValue {
   disable,
 }
 
-extension Ipv6SupportValueValue on Ipv6SupportValue {
+extension Ipv6SupportValueValueExtension on Ipv6SupportValue {
   String toValue() {
     switch (this) {
       case Ipv6SupportValue.enable:
@@ -39822,7 +39835,7 @@ enum LaunchTemplateErrorCode {
   unexpectedError,
 }
 
-extension LaunchTemplateErrorCodeValue on LaunchTemplateErrorCode {
+extension LaunchTemplateErrorCodeValueExtension on LaunchTemplateErrorCode {
   String toValue() {
     switch (this) {
       case LaunchTemplateErrorCode.launchTemplateIdDoesNotExist:
@@ -39893,7 +39906,8 @@ enum LaunchTemplateHttpTokensState {
   required,
 }
 
-extension LaunchTemplateHttpTokensStateValue on LaunchTemplateHttpTokensState {
+extension LaunchTemplateHttpTokensStateValueExtension
+    on LaunchTemplateHttpTokensState {
   String toValue() {
     switch (this) {
       case LaunchTemplateHttpTokensState.optional:
@@ -39977,7 +39991,7 @@ enum LaunchTemplateInstanceMetadataEndpointState {
   enabled,
 }
 
-extension LaunchTemplateInstanceMetadataEndpointStateValue
+extension LaunchTemplateInstanceMetadataEndpointStateValueExtension
     on LaunchTemplateInstanceMetadataEndpointState {
   String toValue() {
     switch (this) {
@@ -40108,7 +40122,7 @@ enum LaunchTemplateInstanceMetadataOptionsState {
   applied,
 }
 
-extension LaunchTemplateInstanceMetadataOptionsStateValue
+extension LaunchTemplateInstanceMetadataOptionsStateValueExtension
     on LaunchTemplateInstanceMetadataOptionsState {
   String toValue() {
     switch (this) {
@@ -40640,7 +40654,7 @@ enum ListingState {
   pending,
 }
 
-extension ListingStateValue on ListingState {
+extension ListingStateValueExtension on ListingState {
   String toValue() {
     switch (this) {
       case ListingState.available:
@@ -40678,7 +40692,7 @@ enum ListingStatus {
   closed,
 }
 
-extension ListingStatusValue on ListingStatus {
+extension ListingStatusValueExtension on ListingStatus {
   String toValue() {
     switch (this) {
       case ListingStatus.active:
@@ -40835,7 +40849,7 @@ enum LocalGatewayRouteState {
   deleted,
 }
 
-extension LocalGatewayRouteStateValue on LocalGatewayRouteState {
+extension LocalGatewayRouteStateValueExtension on LocalGatewayRouteState {
   String toValue() {
     switch (this) {
       case LocalGatewayRouteState.pending:
@@ -40990,7 +41004,7 @@ enum LocalGatewayRouteType {
   propagated,
 }
 
-extension LocalGatewayRouteTypeValue on LocalGatewayRouteType {
+extension LocalGatewayRouteTypeValueExtension on LocalGatewayRouteType {
   String toValue() {
     switch (this) {
       case LocalGatewayRouteType.static:
@@ -41088,7 +41102,7 @@ enum LocationType {
   availabilityZoneId,
 }
 
-extension LocationTypeValue on LocationType {
+extension LocationTypeValueExtension on LocationType {
   String toValue() {
     switch (this) {
       case LocationType.region:
@@ -41120,7 +41134,7 @@ enum LogDestinationType {
   s3,
 }
 
-extension LogDestinationTypeValue on LogDestinationType {
+extension LogDestinationTypeValueExtension on LogDestinationType {
   String toValue() {
     switch (this) {
       case LogDestinationType.cloudWatchLogs:
@@ -41193,7 +41207,7 @@ enum MarketType {
   spot,
 }
 
-extension MarketTypeValue on MarketType {
+extension MarketTypeValueExtension on MarketType {
   String toValue() {
     switch (this) {
       case MarketType.spot:
@@ -41217,7 +41231,7 @@ enum MembershipType {
   igmp,
 }
 
-extension MembershipTypeValue on MembershipType {
+extension MembershipTypeValueExtension on MembershipType {
   String toValue() {
     switch (this) {
       case MembershipType.static:
@@ -41264,7 +41278,7 @@ enum ModifyAvailabilityZoneOptInStatus {
   notOptedIn,
 }
 
-extension ModifyAvailabilityZoneOptInStatusValue
+extension ModifyAvailabilityZoneOptInStatusValueExtension
     on ModifyAvailabilityZoneOptInStatus {
   String toValue() {
     switch (this) {
@@ -41898,7 +41912,7 @@ enum MonitoringState {
   pending,
 }
 
-extension MonitoringStateValue on MonitoringState {
+extension MonitoringStateValueExtension on MonitoringState {
   String toValue() {
     switch (this) {
       case MonitoringState.disabled:
@@ -41947,7 +41961,7 @@ enum MoveStatus {
   restoringToClassic,
 }
 
-extension MoveStatusValue on MoveStatus {
+extension MoveStatusValueExtension on MoveStatus {
   String toValue() {
     switch (this) {
       case MoveStatus.movingToVpc:
@@ -41990,7 +42004,7 @@ enum MulticastSupportValue {
   disable,
 }
 
-extension MulticastSupportValueValue on MulticastSupportValue {
+extension MulticastSupportValueValueExtension on MulticastSupportValue {
   String toValue() {
     switch (this) {
       case MulticastSupportValue.enable:
@@ -42156,7 +42170,7 @@ enum NatGatewayState {
   deleted,
 }
 
-extension NatGatewayStateValue on NatGatewayState {
+extension NatGatewayStateValueExtension on NatGatewayState {
   String toValue() {
     switch (this) {
       case NatGatewayState.pending:
@@ -42647,7 +42661,7 @@ enum NetworkInterfaceAttribute {
   attachment,
 }
 
-extension NetworkInterfaceAttributeValue on NetworkInterfaceAttribute {
+extension NetworkInterfaceAttributeValueExtension on NetworkInterfaceAttribute {
   String toValue() {
     switch (this) {
       case NetworkInterfaceAttribute.description:
@@ -42682,7 +42696,8 @@ enum NetworkInterfaceCreationType {
   efa,
 }
 
-extension NetworkInterfaceCreationTypeValue on NetworkInterfaceCreationType {
+extension NetworkInterfaceCreationTypeValueExtension
+    on NetworkInterfaceCreationType {
   String toValue() {
     switch (this) {
       case NetworkInterfaceCreationType.efa:
@@ -42762,7 +42777,7 @@ enum NetworkInterfacePermissionStateCode {
   revoked,
 }
 
-extension NetworkInterfacePermissionStateCodeValue
+extension NetworkInterfacePermissionStateCodeValueExtension
     on NetworkInterfacePermissionStateCode {
   String toValue() {
     switch (this) {
@@ -42827,7 +42842,7 @@ enum NetworkInterfaceStatus {
   detaching,
 }
 
-extension NetworkInterfaceStatusValue on NetworkInterfaceStatus {
+extension NetworkInterfaceStatusValueExtension on NetworkInterfaceStatus {
   String toValue() {
     switch (this) {
       case NetworkInterfaceStatus.available:
@@ -42868,7 +42883,7 @@ enum NetworkInterfaceType {
   efa,
 }
 
-extension NetworkInterfaceTypeValue on NetworkInterfaceType {
+extension NetworkInterfaceTypeValueExtension on NetworkInterfaceType {
   String toValue() {
     switch (this) {
       case NetworkInterfaceType.interface:
@@ -42910,7 +42925,7 @@ enum OfferingClassType {
   convertible,
 }
 
-extension OfferingClassTypeValue on OfferingClassType {
+extension OfferingClassTypeValueExtension on OfferingClassType {
   String toValue() {
     switch (this) {
       case OfferingClassType.standard:
@@ -42942,7 +42957,7 @@ enum OfferingTypeValues {
   allUpfront,
 }
 
-extension OfferingTypeValuesValue on OfferingTypeValues {
+extension OfferingTypeValuesValueExtension on OfferingTypeValues {
   String toValue() {
     switch (this) {
       case OfferingTypeValues.heavyUtilization:
@@ -42986,7 +43001,8 @@ enum OnDemandAllocationStrategy {
   prioritized,
 }
 
-extension OnDemandAllocationStrategyValue on OnDemandAllocationStrategy {
+extension OnDemandAllocationStrategyValueExtension
+    on OnDemandAllocationStrategy {
   String toValue() {
     switch (this) {
       case OnDemandAllocationStrategy.lowestPrice:
@@ -43096,7 +43112,7 @@ enum OperationType {
   remove,
 }
 
-extension OperationTypeValue on OperationType {
+extension OperationTypeValueExtension on OperationType {
   String toValue() {
     switch (this) {
       case OperationType.add:
@@ -43175,7 +43191,7 @@ enum PaymentOption {
   noUpfront,
 }
 
-extension PaymentOptionValue on PaymentOption {
+extension PaymentOptionValueExtension on PaymentOption {
   String toValue() {
     switch (this) {
       case PaymentOption.allUpfront:
@@ -43303,7 +43319,7 @@ enum PermissionGroup {
   all,
 }
 
-extension PermissionGroupValue on PermissionGroup {
+extension PermissionGroupValueExtension on PermissionGroup {
   String toValue() {
     switch (this) {
       case PermissionGroup.all:
@@ -43571,7 +43587,7 @@ enum PlacementGroupState {
   deleted,
 }
 
-extension PlacementGroupStateValue on PlacementGroupState {
+extension PlacementGroupStateValueExtension on PlacementGroupState {
   String toValue() {
     switch (this) {
       case PlacementGroupState.pending:
@@ -43608,7 +43624,7 @@ enum PlacementGroupStrategy {
   spread,
 }
 
-extension PlacementGroupStrategyValue on PlacementGroupStrategy {
+extension PlacementGroupStrategyValueExtension on PlacementGroupStrategy {
   String toValue() {
     switch (this) {
       case PlacementGroupStrategy.cluster:
@@ -43651,7 +43667,7 @@ enum PlacementStrategy {
   partition,
 }
 
-extension PlacementStrategyValue on PlacementStrategy {
+extension PlacementStrategyValueExtension on PlacementStrategy {
   String toValue() {
     switch (this) {
       case PlacementStrategy.cluster:
@@ -43682,7 +43698,7 @@ enum PlatformValues {
   windows,
 }
 
-extension PlatformValuesValue on PlatformValues {
+extension PlatformValuesValueExtension on PlatformValues {
   String toValue() {
     switch (this) {
       case PlatformValues.windows:
@@ -43804,7 +43820,7 @@ enum PrefixListState {
   deleteFailed,
 }
 
-extension PrefixListStateValue on PrefixListState {
+extension PrefixListStateValueExtension on PrefixListState {
   String toValue() {
     switch (this) {
       case PrefixListState.createInProgress:
@@ -43957,7 +43973,7 @@ enum PrincipalType {
   role,
 }
 
-extension PrincipalTypeValue on PrincipalType {
+extension PrincipalTypeValueExtension on PrincipalType {
   String toValue() {
     switch (this) {
       case PrincipalType.all:
@@ -44085,7 +44101,7 @@ enum ProductCodeValues {
   marketplace,
 }
 
-extension ProductCodeValuesValue on ProductCodeValues {
+extension ProductCodeValuesValueExtension on ProductCodeValues {
   String toValue() {
     switch (this) {
       case ProductCodeValues.devpay:
@@ -44123,7 +44139,7 @@ enum Protocol {
   udp,
 }
 
-extension ProtocolValue on Protocol {
+extension ProtocolValueExtension on Protocol {
   String toValue() {
     switch (this) {
       case Protocol.tcp:
@@ -44150,7 +44166,7 @@ enum ProtocolValue {
   gre,
 }
 
-extension ProtocolValueValue on ProtocolValue {
+extension ProtocolValueValueExtension on ProtocolValue {
   String toValue() {
     switch (this) {
       case ProtocolValue.gre:
@@ -44392,7 +44408,7 @@ enum RIProductDescription {
   windowsAmazonVpc,
 }
 
-extension RIProductDescriptionValue on RIProductDescription {
+extension RIProductDescriptionValueExtension on RIProductDescription {
   String toValue() {
     switch (this) {
       case RIProductDescription.linuxUnix:
@@ -44441,7 +44457,7 @@ enum RecurringChargeFrequency {
   hourly,
 }
 
-extension RecurringChargeFrequencyValue on RecurringChargeFrequency {
+extension RecurringChargeFrequencyValueExtension on RecurringChargeFrequency {
   String toValue() {
     switch (this) {
       case RecurringChargeFrequency.hourly:
@@ -44650,7 +44666,7 @@ enum ReplacementStrategy {
   launch,
 }
 
-extension ReplacementStrategyValue on ReplacementStrategy {
+extension ReplacementStrategyValueExtension on ReplacementStrategy {
   String toValue() {
     switch (this) {
       case ReplacementStrategy.launch:
@@ -44681,7 +44697,7 @@ enum ReportInstanceReasonCodes {
   other,
 }
 
-extension ReportInstanceReasonCodesValue on ReportInstanceReasonCodes {
+extension ReportInstanceReasonCodesValueExtension on ReportInstanceReasonCodes {
   String toValue() {
     switch (this) {
       case ReportInstanceReasonCodes.instanceStuckInState:
@@ -44737,7 +44753,7 @@ enum ReportStatusType {
   impaired,
 }
 
-extension ReportStatusTypeValue on ReportStatusType {
+extension ReportStatusTypeValueExtension on ReportStatusType {
   String toValue() {
     switch (this) {
       case ReportStatusType.ok:
@@ -45089,7 +45105,7 @@ enum ReservationState {
   retired,
 }
 
-extension ReservationStateValue on ReservationState {
+extension ReservationStateValueExtension on ReservationState {
   String toValue() {
     switch (this) {
       case ReservationState.paymentPending:
@@ -45179,7 +45195,7 @@ enum ReservedInstanceState {
   queuedDeleted,
 }
 
-extension ReservedInstanceStateValue on ReservedInstanceState {
+extension ReservedInstanceStateValueExtension on ReservedInstanceState {
   String toValue() {
     switch (this) {
       case ReservedInstanceState.paymentPending:
@@ -45541,7 +45557,8 @@ enum ResetFpgaImageAttributeName {
   loadPermission,
 }
 
-extension ResetFpgaImageAttributeNameValue on ResetFpgaImageAttributeName {
+extension ResetFpgaImageAttributeNameValueExtension
+    on ResetFpgaImageAttributeName {
   String toValue() {
     switch (this) {
       case ResetFpgaImageAttributeName.loadPermission:
@@ -45573,7 +45590,7 @@ enum ResetImageAttributeName {
   launchPermission,
 }
 
-extension ResetImageAttributeNameValue on ResetImageAttributeName {
+extension ResetImageAttributeNameValueExtension on ResetImageAttributeName {
   String toValue() {
     switch (this) {
       case ResetImageAttributeName.launchPermission:
@@ -45642,7 +45659,7 @@ enum ResourceType {
   vpcFlowLog,
 }
 
-extension ResourceTypeValue on ResourceType {
+extension ResourceTypeValueExtension on ResourceType {
   String toValue() {
     switch (this) {
       case ResourceType.clientVpnEndpoint:
@@ -46055,7 +46072,7 @@ enum RootDeviceType {
   instanceStore,
 }
 
-extension RootDeviceTypeValue on RootDeviceType {
+extension RootDeviceTypeValueExtension on RootDeviceType {
   String toValue() {
     switch (this) {
       case RootDeviceType.ebs:
@@ -46166,7 +46183,7 @@ enum RouteOrigin {
   enableVgwRoutePropagation,
 }
 
-extension RouteOriginValue on RouteOrigin {
+extension RouteOriginValueExtension on RouteOrigin {
   String toValue() {
     switch (this) {
       case RouteOrigin.createRouteTable:
@@ -46198,7 +46215,7 @@ enum RouteState {
   blackhole,
 }
 
-extension RouteStateValue on RouteState {
+extension RouteStateValueExtension on RouteState {
   String toValue() {
     switch (this) {
       case RouteState.active:
@@ -46310,7 +46327,7 @@ enum RouteTableAssociationStateCode {
   failed,
 }
 
-extension RouteTableAssociationStateCodeValue
+extension RouteTableAssociationStateCodeValueExtension
     on RouteTableAssociationStateCode {
   String toValue() {
     switch (this) {
@@ -46352,7 +46369,7 @@ enum RuleAction {
   deny,
 }
 
-extension RuleActionValue on RuleAction {
+extension RuleActionValueExtension on RuleAction {
   String toValue() {
     switch (this) {
       case RuleAction.allow:
@@ -47017,7 +47034,7 @@ enum SelfServicePortal {
   disabled,
 }
 
-extension SelfServicePortalValue on SelfServicePortal {
+extension SelfServicePortalValueExtension on SelfServicePortal {
   String toValue() {
     switch (this) {
       case SelfServicePortal.enabled:
@@ -47173,7 +47190,7 @@ enum ServiceState {
   failed,
 }
 
-extension ServiceStateValue on ServiceState {
+extension ServiceStateValueExtension on ServiceState {
   String toValue() {
     switch (this) {
       case ServiceState.pending:
@@ -47214,7 +47231,7 @@ enum ServiceType {
   gatewayLoadBalancer,
 }
 
-extension ServiceTypeValue on ServiceType {
+extension ServiceTypeValueExtension on ServiceType {
   String toValue() {
     switch (this) {
       case ServiceType.interface:
@@ -47256,7 +47273,7 @@ enum ShutdownBehavior {
   terminate,
 }
 
-extension ShutdownBehaviorValue on ShutdownBehavior {
+extension ShutdownBehaviorValueExtension on ShutdownBehavior {
   String toValue() {
     switch (this) {
       case ShutdownBehavior.stop:
@@ -47394,7 +47411,7 @@ enum SnapshotAttributeName {
   createVolumePermission,
 }
 
-extension SnapshotAttributeNameValue on SnapshotAttributeName {
+extension SnapshotAttributeNameValueExtension on SnapshotAttributeName {
   String toValue() {
     switch (this) {
       case SnapshotAttributeName.productCodes:
@@ -47542,7 +47559,7 @@ enum SnapshotState {
   error,
 }
 
-extension SnapshotStateValue on SnapshotState {
+extension SnapshotStateValueExtension on SnapshotState {
   String toValue() {
     switch (this) {
       case SnapshotState.pending:
@@ -47626,7 +47643,7 @@ enum SpotAllocationStrategy {
   capacityOptimized,
 }
 
-extension SpotAllocationStrategyValue on SpotAllocationStrategy {
+extension SpotAllocationStrategyValueExtension on SpotAllocationStrategy {
   String toValue() {
     switch (this) {
       case SpotAllocationStrategy.lowestPrice:
@@ -48097,7 +48114,7 @@ enum SpotInstanceInterruptionBehavior {
   terminate,
 }
 
-extension SpotInstanceInterruptionBehaviorValue
+extension SpotInstanceInterruptionBehaviorValueExtension
     on SpotInstanceInterruptionBehavior {
   String toValue() {
     switch (this) {
@@ -48244,7 +48261,7 @@ enum SpotInstanceState {
   failed,
 }
 
-extension SpotInstanceStateValue on SpotInstanceState {
+extension SpotInstanceStateValueExtension on SpotInstanceState {
   String toValue() {
     switch (this) {
       case SpotInstanceState.open:
@@ -48319,7 +48336,7 @@ enum SpotInstanceType {
   persistent,
 }
 
-extension SpotInstanceTypeValue on SpotInstanceType {
+extension SpotInstanceTypeValueExtension on SpotInstanceType {
   String toValue() {
     switch (this) {
       case SpotInstanceType.oneTime:
@@ -48691,7 +48708,7 @@ enum State {
   expired,
 }
 
-extension StateValue on State {
+extension StateValueExtension on State {
   String toValue() {
     switch (this) {
       case State.pendingAcceptance:
@@ -48813,7 +48830,7 @@ enum StaticSourcesSupportValue {
   disable,
 }
 
-extension StaticSourcesSupportValueValue on StaticSourcesSupportValue {
+extension StaticSourcesSupportValueValueExtension on StaticSourcesSupportValue {
   String toValue() {
     switch (this) {
       case StaticSourcesSupportValue.enable:
@@ -48842,7 +48859,7 @@ enum Status {
   inClassic,
 }
 
-extension StatusValue on Status {
+extension StatusValueExtension on Status {
   String toValue() {
     switch (this) {
       case Status.moveInProgress:
@@ -48873,7 +48890,7 @@ enum StatusName {
   reachability,
 }
 
-extension StatusNameValue on StatusName {
+extension StatusNameValueExtension on StatusName {
   String toValue() {
     switch (this) {
       case StatusName.reachability:
@@ -48899,7 +48916,7 @@ enum StatusType {
   initializing,
 }
 
-extension StatusTypeValue on StatusType {
+extension StatusTypeValueExtension on StatusType {
   String toValue() {
     switch (this) {
       case StatusType.passed:
@@ -49079,7 +49096,7 @@ enum SubnetCidrBlockStateCode {
   failed,
 }
 
-extension SubnetCidrBlockStateCodeValue on SubnetCidrBlockStateCode {
+extension SubnetCidrBlockStateCodeValueExtension on SubnetCidrBlockStateCode {
   String toValue() {
     switch (this) {
       case SubnetCidrBlockStateCode.associating:
@@ -49141,7 +49158,7 @@ enum SubnetState {
   available,
 }
 
-extension SubnetStateValue on SubnetState {
+extension SubnetStateValueExtension on SubnetState {
   String toValue() {
     switch (this) {
       case SubnetState.pending:
@@ -49194,7 +49211,7 @@ enum SummaryStatus {
   initializing,
 }
 
-extension SummaryStatusValue on SummaryStatus {
+extension SummaryStatusValueExtension on SummaryStatus {
   String toValue() {
     switch (this) {
       case SummaryStatus.ok:
@@ -49504,7 +49521,7 @@ enum TelemetryStatus {
   down,
 }
 
-extension TelemetryStatusValue on TelemetryStatus {
+extension TelemetryStatusValueExtension on TelemetryStatus {
   String toValue() {
     switch (this) {
       case TelemetryStatus.up:
@@ -49533,7 +49550,7 @@ enum Tenancy {
   host,
 }
 
-extension TenancyValue on Tenancy {
+extension TenancyValueExtension on Tenancy {
   String toValue() {
     switch (this) {
       case Tenancy.$default:
@@ -49609,7 +49626,7 @@ enum TrafficDirection {
   egress,
 }
 
-extension TrafficDirectionValue on TrafficDirection {
+extension TrafficDirectionValueExtension on TrafficDirection {
   String toValue() {
     switch (this) {
       case TrafficDirection.ingress:
@@ -49722,7 +49739,8 @@ enum TrafficMirrorFilterRuleField {
   description,
 }
 
-extension TrafficMirrorFilterRuleFieldValue on TrafficMirrorFilterRuleField {
+extension TrafficMirrorFilterRuleFieldValueExtension
+    on TrafficMirrorFilterRuleField {
   String toValue() {
     switch (this) {
       case TrafficMirrorFilterRuleField.destinationPortRange:
@@ -49757,7 +49775,8 @@ enum TrafficMirrorNetworkService {
   amazonDns,
 }
 
-extension TrafficMirrorNetworkServiceValue on TrafficMirrorNetworkService {
+extension TrafficMirrorNetworkServiceValueExtension
+    on TrafficMirrorNetworkService {
   String toValue() {
     switch (this) {
       case TrafficMirrorNetworkService.amazonDns:
@@ -49813,7 +49832,7 @@ enum TrafficMirrorRuleAction {
   reject,
 }
 
-extension TrafficMirrorRuleActionValue on TrafficMirrorRuleAction {
+extension TrafficMirrorRuleActionValueExtension on TrafficMirrorRuleAction {
   String toValue() {
     switch (this) {
       case TrafficMirrorRuleAction.accept:
@@ -49896,7 +49915,7 @@ enum TrafficMirrorSessionField {
   virtualNetworkId,
 }
 
-extension TrafficMirrorSessionFieldValue on TrafficMirrorSessionField {
+extension TrafficMirrorSessionFieldValueExtension on TrafficMirrorSessionField {
   String toValue() {
     switch (this) {
       case TrafficMirrorSessionField.packetLength:
@@ -49962,7 +49981,7 @@ enum TrafficMirrorTargetType {
   networkLoadBalancer,
 }
 
-extension TrafficMirrorTargetTypeValue on TrafficMirrorTargetType {
+extension TrafficMirrorTargetTypeValueExtension on TrafficMirrorTargetType {
   String toValue() {
     switch (this) {
       case TrafficMirrorTargetType.networkInterface:
@@ -49991,7 +50010,7 @@ enum TrafficType {
   all,
 }
 
-extension TrafficTypeValue on TrafficType {
+extension TrafficTypeValueExtension on TrafficType {
   String toValue() {
     switch (this) {
       case TrafficType.accept:
@@ -50091,7 +50110,7 @@ enum TransitGatewayAssociationState {
   disassociated,
 }
 
-extension TransitGatewayAssociationStateValue
+extension TransitGatewayAssociationStateValueExtension
     on TransitGatewayAssociationState {
   String toValue() {
     switch (this) {
@@ -50235,7 +50254,7 @@ enum TransitGatewayAttachmentResourceType {
   tgwPeering,
 }
 
-extension TransitGatewayAttachmentResourceTypeValue
+extension TransitGatewayAttachmentResourceTypeValueExtension
     on TransitGatewayAttachmentResourceType {
   String toValue() {
     switch (this) {
@@ -50293,7 +50312,8 @@ enum TransitGatewayAttachmentState {
   failing,
 }
 
-extension TransitGatewayAttachmentStateValue on TransitGatewayAttachmentState {
+extension TransitGatewayAttachmentStateValueExtension
+    on TransitGatewayAttachmentState {
   String toValue() {
     switch (this) {
       case TransitGatewayAttachmentState.initiating:
@@ -50467,7 +50487,7 @@ enum TransitGatewayConnectPeerState {
   deleted,
 }
 
-extension TransitGatewayConnectPeerStateValue
+extension TransitGatewayConnectPeerStateValueExtension
     on TransitGatewayConnectPeerState {
   String toValue() {
     switch (this) {
@@ -50520,7 +50540,7 @@ enum TransitGatewayMulitcastDomainAssociationState {
   failed,
 }
 
-extension TransitGatewayMulitcastDomainAssociationStateValue
+extension TransitGatewayMulitcastDomainAssociationStateValueExtension
     on TransitGatewayMulitcastDomainAssociationState {
   String toValue() {
     switch (this) {
@@ -50726,7 +50746,7 @@ enum TransitGatewayMulticastDomainState {
   deleted,
 }
 
-extension TransitGatewayMulticastDomainStateValue
+extension TransitGatewayMulticastDomainStateValueExtension
     on TransitGatewayMulticastDomainState {
   String toValue() {
     switch (this) {
@@ -50988,7 +51008,7 @@ enum TransitGatewayPrefixListReferenceState {
   deleting,
 }
 
-extension TransitGatewayPrefixListReferenceStateValue
+extension TransitGatewayPrefixListReferenceStateValueExtension
     on TransitGatewayPrefixListReferenceState {
   String toValue() {
     switch (this) {
@@ -51056,7 +51076,7 @@ enum TransitGatewayPropagationState {
   disabled,
 }
 
-extension TransitGatewayPropagationStateValue
+extension TransitGatewayPropagationStateValueExtension
     on TransitGatewayPropagationState {
   String toValue() {
     switch (this) {
@@ -51187,7 +51207,7 @@ enum TransitGatewayRouteState {
   deleted,
 }
 
-extension TransitGatewayRouteStateValue on TransitGatewayRouteState {
+extension TransitGatewayRouteStateValueExtension on TransitGatewayRouteState {
   String toValue() {
     switch (this) {
       case TransitGatewayRouteState.pending:
@@ -51311,7 +51331,8 @@ enum TransitGatewayRouteTableState {
   deleted,
 }
 
-extension TransitGatewayRouteTableStateValue on TransitGatewayRouteTableState {
+extension TransitGatewayRouteTableStateValueExtension
+    on TransitGatewayRouteTableState {
   String toValue() {
     switch (this) {
       case TransitGatewayRouteTableState.pending:
@@ -51347,7 +51368,7 @@ enum TransitGatewayRouteType {
   propagated,
 }
 
-extension TransitGatewayRouteTypeValue on TransitGatewayRouteType {
+extension TransitGatewayRouteTypeValueExtension on TransitGatewayRouteType {
   String toValue() {
     switch (this) {
       case TransitGatewayRouteType.static:
@@ -51378,7 +51399,7 @@ enum TransitGatewayState {
   deleted,
 }
 
-extension TransitGatewayStateValue on TransitGatewayState {
+extension TransitGatewayStateValueExtension on TransitGatewayState {
   String toValue() {
     switch (this) {
       case TransitGatewayState.pending:
@@ -51479,7 +51500,7 @@ enum TransportProtocol {
   udp,
 }
 
-extension TransportProtocolValue on TransportProtocol {
+extension TransportProtocolValueExtension on TransportProtocol {
   String toValue() {
     switch (this) {
       case TransportProtocol.tcp:
@@ -51507,7 +51528,7 @@ enum TunnelInsideIpVersion {
   ipv6,
 }
 
-extension TunnelInsideIpVersionValue on TunnelInsideIpVersion {
+extension TunnelInsideIpVersionValueExtension on TunnelInsideIpVersion {
   String toValue() {
     switch (this) {
       case TunnelInsideIpVersion.ipv4:
@@ -51643,7 +51664,7 @@ enum UnlimitedSupportedInstanceFamily {
   t4g,
 }
 
-extension UnlimitedSupportedInstanceFamilyValue
+extension UnlimitedSupportedInstanceFamilyValueExtension
     on UnlimitedSupportedInstanceFamily {
   String toValue() {
     switch (this) {
@@ -51692,7 +51713,7 @@ enum UnsuccessfulInstanceCreditSpecificationErrorCode {
   instanceCreditSpecificationNotSupported,
 }
 
-extension UnsuccessfulInstanceCreditSpecificationErrorCodeValue
+extension UnsuccessfulInstanceCreditSpecificationErrorCodeValueExtension
     on UnsuccessfulInstanceCreditSpecificationErrorCode {
   String toValue() {
     switch (this) {
@@ -51822,7 +51843,7 @@ enum UsageClassType {
   onDemand,
 }
 
-extension UsageClassTypeValue on UsageClassType {
+extension UsageClassTypeValueExtension on UsageClassType {
   String toValue() {
     switch (this) {
       case UsageClassType.spot:
@@ -52032,7 +52053,7 @@ enum VirtualizationType {
   paravirtual,
 }
 
-extension VirtualizationTypeValue on VirtualizationType {
+extension VirtualizationTypeValueExtension on VirtualizationType {
   String toValue() {
     switch (this) {
       case VirtualizationType.hvm:
@@ -52169,7 +52190,7 @@ enum VolumeAttachmentState {
   busy,
 }
 
-extension VolumeAttachmentStateValue on VolumeAttachmentState {
+extension VolumeAttachmentStateValueExtension on VolumeAttachmentState {
   String toValue() {
     switch (this) {
       case VolumeAttachmentState.attaching:
@@ -52209,7 +52230,7 @@ enum VolumeAttributeName {
   productCodes,
 }
 
-extension VolumeAttributeNameValue on VolumeAttributeName {
+extension VolumeAttributeNameValueExtension on VolumeAttributeName {
   String toValue() {
     switch (this) {
       case VolumeAttributeName.autoEnableIO:
@@ -52322,7 +52343,7 @@ enum VolumeModificationState {
   failed,
 }
 
-extension VolumeModificationStateValue on VolumeModificationState {
+extension VolumeModificationStateValueExtension on VolumeModificationState {
   String toValue() {
     switch (this) {
       case VolumeModificationState.modifying:
@@ -52362,7 +52383,7 @@ enum VolumeState {
   error,
 }
 
-extension VolumeStateValue on VolumeState {
+extension VolumeStateValueExtension on VolumeState {
   String toValue() {
     switch (this) {
       case VolumeState.creating:
@@ -52502,7 +52523,7 @@ enum VolumeStatusInfoStatus {
   insufficientData,
 }
 
-extension VolumeStatusInfoStatusValue on VolumeStatusInfoStatus {
+extension VolumeStatusInfoStatusValueExtension on VolumeStatusInfoStatus {
   String toValue() {
     switch (this) {
       case VolumeStatusInfoStatus.ok:
@@ -52568,7 +52589,7 @@ enum VolumeStatusName {
   ioPerformance,
 }
 
-extension VolumeStatusNameValue on VolumeStatusName {
+extension VolumeStatusNameValueExtension on VolumeStatusName {
   String toValue() {
     switch (this) {
       case VolumeStatusName.ioEnabled:
@@ -52601,7 +52622,7 @@ enum VolumeType {
   gp3,
 }
 
-extension VolumeTypeValue on VolumeType {
+extension VolumeTypeValueExtension on VolumeType {
   String toValue() {
     switch (this) {
       case VolumeType.standard:
@@ -52709,7 +52730,7 @@ enum VpcAttributeName {
   enableDnsHostnames,
 }
 
-extension VpcAttributeNameValue on VpcAttributeName {
+extension VpcAttributeNameValueExtension on VpcAttributeName {
   String toValue() {
     switch (this) {
       case VpcAttributeName.enableDnsSupport:
@@ -52773,7 +52794,7 @@ enum VpcCidrBlockStateCode {
   failed,
 }
 
-extension VpcCidrBlockStateCodeValue on VpcCidrBlockStateCode {
+extension VpcCidrBlockStateCodeValueExtension on VpcCidrBlockStateCode {
   String toValue() {
     switch (this) {
       case VpcCidrBlockStateCode.associating:
@@ -52952,7 +52973,7 @@ enum VpcEndpointType {
   gatewayLoadBalancer,
 }
 
-extension VpcEndpointTypeValue on VpcEndpointType {
+extension VpcEndpointTypeValueExtension on VpcEndpointType {
   String toValue() {
     switch (this) {
       case VpcEndpointType.interface:
@@ -53086,7 +53107,7 @@ enum VpcPeeringConnectionStateReasonCode {
   deleting,
 }
 
-extension VpcPeeringConnectionStateReasonCodeValue
+extension VpcPeeringConnectionStateReasonCodeValueExtension
     on VpcPeeringConnectionStateReasonCode {
   String toValue() {
     switch (this) {
@@ -53179,7 +53200,7 @@ enum VpcState {
   available,
 }
 
-extension VpcStateValue on VpcState {
+extension VpcStateValueExtension on VpcState {
   String toValue() {
     switch (this) {
       case VpcState.pending:
@@ -53206,7 +53227,7 @@ enum VpcTenancy {
   $default,
 }
 
-extension VpcTenancyValue on VpcTenancy {
+extension VpcTenancyValueExtension on VpcTenancy {
   String toValue() {
     switch (this) {
       case VpcTenancy.$default:
@@ -53388,7 +53409,7 @@ enum VpnEcmpSupportValue {
   disable,
 }
 
-extension VpnEcmpSupportValueValue on VpnEcmpSupportValue {
+extension VpnEcmpSupportValueValueExtension on VpnEcmpSupportValue {
   String toValue() {
     switch (this) {
       case VpnEcmpSupportValue.enable:
@@ -53451,7 +53472,7 @@ enum VpnProtocol {
   openvpn,
 }
 
-extension VpnProtocolValue on VpnProtocol {
+extension VpnProtocolValueExtension on VpnProtocol {
   String toValue() {
     switch (this) {
       case VpnProtocol.openvpn:
@@ -53477,7 +53498,7 @@ enum VpnState {
   deleted,
 }
 
-extension VpnStateValue on VpnState {
+extension VpnStateValueExtension on VpnState {
   String toValue() {
     switch (this) {
       case VpnState.pending:
@@ -53530,7 +53551,7 @@ enum VpnStaticRouteSource {
   static,
 }
 
-extension VpnStaticRouteSourceValue on VpnStaticRouteSource {
+extension VpnStaticRouteSourceValueExtension on VpnStaticRouteSource {
   String toValue() {
     switch (this) {
       case VpnStaticRouteSource.static:
@@ -53757,7 +53778,7 @@ enum Scope {
   region,
 }
 
-extension ScopeValue on Scope {
+extension ScopeValueExtension on Scope {
   String toValue() {
     switch (this) {
       case Scope.availabilityZone:

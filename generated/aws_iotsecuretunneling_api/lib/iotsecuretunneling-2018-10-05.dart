@@ -350,7 +350,7 @@ enum ConnectionStatus {
   disconnected,
 }
 
-extension ConnectionStatusValue on ConnectionStatus {
+extension ConnectionStatusValueExtension on ConnectionStatus {
   String toValue() {
     switch (this) {
       case ConnectionStatus.connected:
@@ -646,7 +646,7 @@ enum TunnelStatus {
   closed,
 }
 
-extension TunnelStatusValue on TunnelStatus {
+extension TunnelStatusValueExtension on TunnelStatus {
   String toValue() {
     switch (this) {
       case TunnelStatus.open:

@@ -5793,7 +5793,7 @@ enum Action {
   url,
 }
 
-extension ActionValue on Action {
+extension ActionValueExtension on Action {
   String toValue() {
     switch (this) {
       case Action.openApp:
@@ -6437,7 +6437,7 @@ enum AttributeType {
   exclusive,
 }
 
-extension AttributeTypeValue on AttributeType {
+extension AttributeTypeValueExtension on AttributeType {
   String toValue() {
     switch (this) {
       case AttributeType.inclusive:
@@ -7262,7 +7262,7 @@ enum CampaignStatus {
   invalid,
 }
 
-extension CampaignStatusValue on CampaignStatus {
+extension CampaignStatusValueExtension on CampaignStatus {
   String toValue() {
     switch (this) {
       case CampaignStatus.scheduled:
@@ -7403,7 +7403,7 @@ enum ChannelType {
   custom,
 }
 
-extension ChannelTypeValue on ChannelType {
+extension ChannelTypeValueExtension on ChannelType {
   String toValue() {
     switch (this) {
       case ChannelType.push:
@@ -8378,7 +8378,7 @@ enum DeliveryStatus {
   duplicate,
 }
 
-extension DeliveryStatusValue on DeliveryStatus {
+extension DeliveryStatusValueExtension on DeliveryStatus {
   String toValue() {
     switch (this) {
       case DeliveryStatus.successful:
@@ -8426,7 +8426,7 @@ enum DimensionType {
   exclusive,
 }
 
-extension DimensionTypeValue on DimensionType {
+extension DimensionTypeValueExtension on DimensionType {
   String toValue() {
     switch (this) {
       case DimensionType.inclusive:
@@ -8534,7 +8534,7 @@ enum Duration {
   day_30,
 }
 
-extension DurationValue on Duration {
+extension DurationValueExtension on Duration {
   String toValue() {
     switch (this) {
       case Duration.hr_24:
@@ -10276,7 +10276,7 @@ enum FilterType {
   endpoint,
 }
 
-extension FilterTypeValue on FilterType {
+extension FilterTypeValueExtension on FilterType {
   String toValue() {
     switch (this) {
       case FilterType.system:
@@ -10304,7 +10304,7 @@ enum Format {
   json,
 }
 
-extension FormatValue on Format {
+extension FormatValueExtension on Format {
   String toValue() {
     switch (this) {
       case Format.csv:
@@ -10336,7 +10336,7 @@ enum Frequency {
   event,
 }
 
-extension FrequencyValue on Frequency {
+extension FrequencyValueExtension on Frequency {
   String toValue() {
     switch (this) {
       case Frequency.once:
@@ -11382,7 +11382,7 @@ enum Include {
   none,
 }
 
-extension IncludeValue on Include {
+extension IncludeValueExtension on Include {
   String toValue() {
     switch (this) {
       case Include.all:
@@ -11449,7 +11449,7 @@ enum JobStatus {
   failed,
 }
 
-extension JobStatusValue on JobStatus {
+extension JobStatusValueExtension on JobStatus {
   String toValue() {
     switch (this) {
       case JobStatus.created:
@@ -12575,7 +12575,7 @@ enum MessageType {
   promotional,
 }
 
-extension MessageTypeValue on MessageType {
+extension MessageTypeValueExtension on MessageType {
   String toValue() {
     switch (this) {
       case MessageType.transactional:
@@ -12636,7 +12636,7 @@ enum Mode {
   filter,
 }
 
-extension ModeValue on Mode {
+extension ModeValueExtension on Mode {
   String toValue() {
     switch (this) {
       case Mode.delivery:
@@ -12873,7 +12873,7 @@ enum Operator {
   any,
 }
 
-extension OperatorValue on Operator {
+extension OperatorValueExtension on Operator {
   String toValue() {
     switch (this) {
       case Operator.all:
@@ -13440,7 +13440,7 @@ enum RecencyType {
   inactive,
 }
 
-extension RecencyTypeValue on RecencyType {
+extension RecencyTypeValueExtension on RecencyType {
   String toValue() {
     switch (this) {
       case RecencyType.active:
@@ -14634,7 +14634,7 @@ enum SegmentType {
   import,
 }
 
-extension SegmentTypeValue on SegmentType {
+extension SegmentTypeValueExtension on SegmentType {
   String toValue() {
     switch (this) {
       case SegmentType.dimensional:
@@ -14960,7 +14960,7 @@ enum SourceType {
   none,
 }
 
-extension SourceTypeValue on SourceType {
+extension SourceTypeValueExtension on SourceType {
   String toValue() {
     switch (this) {
       case SourceType.all:
@@ -15039,7 +15039,7 @@ enum State {
   closed,
 }
 
-extension StateValue on State {
+extension StateValueExtension on State {
   String toValue() {
     switch (this) {
       case State.draft:
@@ -15306,7 +15306,7 @@ enum TemplateType {
   push,
 }
 
-extension TemplateTypeValue on TemplateType {
+extension TemplateTypeValueExtension on TemplateType {
   String toValue() {
     switch (this) {
       case TemplateType.email:
@@ -15532,7 +15532,7 @@ enum Type {
   none,
 }
 
-extension TypeValue on Type {
+extension TypeValueExtension on Type {
   String toValue() {
     switch (this) {
       case Type.all:
@@ -16741,7 +16741,7 @@ enum EndpointTypesElement {
   custom,
 }
 
-extension EndpointTypesElementValue on EndpointTypesElement {
+extension EndpointTypesElementValueExtension on EndpointTypesElement {
   String toValue() {
     switch (this) {
       case EndpointTypesElement.push:

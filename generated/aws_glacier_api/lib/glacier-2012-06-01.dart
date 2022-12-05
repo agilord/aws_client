@@ -2210,7 +2210,7 @@ enum ActionCode {
   select,
 }
 
-extension ActionCodeValue on ActionCode {
+extension ActionCodeValueExtension on ActionCode {
   String toValue() {
     switch (this) {
       case ActionCode.archiveRetrieval:
@@ -2389,7 +2389,7 @@ enum CannedACL {
   bucketOwnerFullControl,
 }
 
-extension CannedACLValue on CannedACL {
+extension CannedACLValueExtension on CannedACL {
   String toValue() {
     switch (this) {
       case CannedACL.private:
@@ -2599,7 +2599,7 @@ enum EncryptionType {
   aes256,
 }
 
-extension EncryptionTypeValue on EncryptionType {
+extension EncryptionTypeValueExtension on EncryptionType {
   String toValue() {
     switch (this) {
       case EncryptionType.awsKms:
@@ -2626,7 +2626,7 @@ enum ExpressionType {
   sql,
 }
 
-extension ExpressionTypeValue on ExpressionType {
+extension ExpressionTypeValueExtension on ExpressionType {
   String toValue() {
     switch (this) {
       case ExpressionType.sql:
@@ -2651,7 +2651,7 @@ enum FileHeaderInfo {
   none,
 }
 
-extension FileHeaderInfoValue on FileHeaderInfo {
+extension FileHeaderInfoValueExtension on FileHeaderInfo {
   String toValue() {
     switch (this) {
       case FileHeaderInfo.use:
@@ -3569,7 +3569,7 @@ enum Permission {
   readAcp,
 }
 
-extension PermissionValue on Permission {
+extension PermissionValueExtension on Permission {
   String toValue() {
     switch (this) {
       case Permission.fullControl:
@@ -3645,7 +3645,7 @@ enum QuoteFields {
   asneeded,
 }
 
-extension QuoteFieldsValue on QuoteFields {
+extension QuoteFieldsValueExtension on QuoteFields {
   String toValue() {
     switch (this) {
       case QuoteFields.always:
@@ -3804,7 +3804,7 @@ enum StatusCode {
   failed,
 }
 
-extension StatusCodeValue on StatusCode {
+extension StatusCodeValueExtension on StatusCode {
   String toValue() {
     switch (this) {
       case StatusCode.inProgress:
@@ -3837,7 +3837,7 @@ enum StorageClass {
   standardIa,
 }
 
-extension StorageClassValue on StorageClass {
+extension StorageClassValueExtension on StorageClass {
   String toValue() {
     switch (this) {
       case StorageClass.standard:
@@ -3870,7 +3870,7 @@ enum Type {
   group,
 }
 
-extension TypeValue on Type {
+extension TypeValueExtension on Type {
   String toValue() {
     switch (this) {
       case Type.amazonCustomerByEmail:

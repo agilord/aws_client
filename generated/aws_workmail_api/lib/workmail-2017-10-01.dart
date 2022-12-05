@@ -3295,7 +3295,7 @@ enum AccessControlRuleEffect {
   deny,
 }
 
-extension AccessControlRuleEffectValue on AccessControlRuleEffect {
+extension AccessControlRuleEffectValueExtension on AccessControlRuleEffect {
   String toValue() {
     switch (this) {
       case AccessControlRuleEffect.allow:
@@ -3873,7 +3873,7 @@ enum EntityState {
   deleted,
 }
 
-extension EntityStateValue on EntityState {
+extension EntityStateValueExtension on EntityState {
   String toValue() {
     switch (this) {
       case EntityState.enabled:
@@ -3946,7 +3946,7 @@ enum FolderName {
   junkEmail,
 }
 
-extension FolderNameValue on FolderName {
+extension FolderNameValueExtension on FolderName {
   String toValue() {
     switch (this) {
       case FolderName.inbox:
@@ -4402,7 +4402,7 @@ enum MailboxExportJobState {
   cancelled,
 }
 
-extension MailboxExportJobStateValue on MailboxExportJobState {
+extension MailboxExportJobStateValueExtension on MailboxExportJobState {
   String toValue() {
     switch (this) {
       case MailboxExportJobState.running:
@@ -4478,7 +4478,7 @@ enum MemberType {
   user,
 }
 
-extension MemberTypeValue on MemberType {
+extension MemberTypeValueExtension on MemberType {
   String toValue() {
     switch (this) {
       case MemberType.group:
@@ -4579,7 +4579,7 @@ enum PermissionType {
   sendOnBehalf,
 }
 
-extension PermissionTypeValue on PermissionType {
+extension PermissionTypeValueExtension on PermissionType {
   String toValue() {
     switch (this) {
       case PermissionType.fullAccess:
@@ -4691,7 +4691,7 @@ enum ResourceType {
   equipment,
 }
 
-extension ResourceTypeValue on ResourceType {
+extension ResourceTypeValueExtension on ResourceType {
   String toValue() {
     switch (this) {
       case ResourceType.room:
@@ -4720,7 +4720,7 @@ enum RetentionAction {
   permanentlyDelete,
 }
 
-extension RetentionActionValue on RetentionAction {
+extension RetentionActionValueExtension on RetentionAction {
   String toValue() {
     switch (this) {
       case RetentionAction.none:
@@ -4881,7 +4881,7 @@ enum UserRole {
   systemUser,
 }
 
-extension UserRoleValue on UserRole {
+extension UserRoleValueExtension on UserRole {
   String toValue() {
     switch (this) {
       case UserRole.user:

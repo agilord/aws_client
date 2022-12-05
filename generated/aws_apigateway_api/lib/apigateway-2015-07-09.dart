@@ -5379,7 +5379,7 @@ enum ApiKeySourceType {
   authorizer,
 }
 
-extension ApiKeySourceTypeValue on ApiKeySourceType {
+extension ApiKeySourceTypeValueExtension on ApiKeySourceType {
   String toValue() {
     switch (this) {
       case ApiKeySourceType.header:
@@ -5440,7 +5440,7 @@ enum ApiKeysFormat {
   csv,
 }
 
-extension ApiKeysFormatValue on ApiKeysFormat {
+extension ApiKeysFormatValueExtension on ApiKeysFormat {
   String toValue() {
     switch (this) {
       case ApiKeysFormat.csv:
@@ -5633,7 +5633,7 @@ enum AuthorizerType {
   cognitoUserPools,
 }
 
-extension AuthorizerTypeValue on AuthorizerType {
+extension AuthorizerTypeValueExtension on AuthorizerType {
   String toValue() {
     switch (this) {
       case AuthorizerType.token:
@@ -5755,7 +5755,7 @@ enum CacheClusterSize {
   $237,
 }
 
-extension CacheClusterSizeValue on CacheClusterSize {
+extension CacheClusterSizeValueExtension on CacheClusterSize {
   String toValue() {
     switch (this) {
       case CacheClusterSize.$0_5:
@@ -5811,7 +5811,7 @@ enum CacheClusterStatus {
   flushInProgress,
 }
 
-extension CacheClusterStatusValue on CacheClusterStatus {
+extension CacheClusterStatusValueExtension on CacheClusterStatus {
   String toValue() {
     switch (this) {
       case CacheClusterStatus.createInProgress:
@@ -5975,7 +5975,7 @@ enum ConnectionType {
   vpcLink,
 }
 
-extension ConnectionTypeValue on ConnectionType {
+extension ConnectionTypeValueExtension on ConnectionType {
   String toValue() {
     switch (this) {
       case ConnectionType.internet:
@@ -6003,7 +6003,7 @@ enum ContentHandlingStrategy {
   convertToText,
 }
 
-extension ContentHandlingStrategyValue on ContentHandlingStrategy {
+extension ContentHandlingStrategyValueExtension on ContentHandlingStrategy {
   String toValue() {
     switch (this) {
       case ContentHandlingStrategy.convertToBinary:
@@ -6331,7 +6331,7 @@ enum DocumentationPartType {
   responseBody,
 }
 
-extension DocumentationPartTypeValue on DocumentationPartType {
+extension DocumentationPartTypeValueExtension on DocumentationPartType {
   String toValue() {
     switch (this) {
       case DocumentationPartType.api:
@@ -6636,7 +6636,7 @@ enum DomainNameStatus {
   pending,
 }
 
-extension DomainNameStatusValue on DomainNameStatus {
+extension DomainNameStatusValueExtension on DomainNameStatus {
   String toValue() {
     switch (this) {
       case DomainNameStatus.available:
@@ -6739,7 +6739,7 @@ enum EndpointType {
   private,
 }
 
-extension EndpointTypeValue on EndpointType {
+extension EndpointTypeValueExtension on EndpointType {
   String toValue() {
     switch (this) {
       case EndpointType.regional:
@@ -6919,7 +6919,7 @@ enum GatewayResponseType {
   quotaExceeded,
 }
 
-extension GatewayResponseTypeValue on GatewayResponseType {
+extension GatewayResponseTypeValueExtension on GatewayResponseType {
   String toValue() {
     switch (this) {
       case GatewayResponseType.default_4xx:
@@ -7604,7 +7604,7 @@ enum IntegrationType {
   awsProxy,
 }
 
-extension IntegrationTypeValue on IntegrationType {
+extension IntegrationTypeValueExtension on IntegrationType {
   String toValue() {
     switch (this) {
       case IntegrationType.http:
@@ -7644,7 +7644,7 @@ enum LocationStatusType {
   undocumented,
 }
 
-extension LocationStatusTypeValue on LocationStatusType {
+extension LocationStatusTypeValueExtension on LocationStatusType {
   String toValue() {
     switch (this) {
       case LocationStatusType.documented:
@@ -8292,7 +8292,7 @@ enum Op {
   test,
 }
 
-extension OpValue on Op {
+extension OpValueExtension on Op {
   String toValue() {
     switch (this) {
       case Op.add:
@@ -8399,7 +8399,7 @@ enum PutMode {
   overwrite,
 }
 
-extension PutModeValue on PutMode {
+extension PutModeValueExtension on PutMode {
   String toValue() {
     switch (this) {
       case PutMode.merge:
@@ -8428,7 +8428,7 @@ enum QuotaPeriodType {
   month,
 }
 
-extension QuotaPeriodTypeValue on QuotaPeriodType {
+extension QuotaPeriodTypeValueExtension on QuotaPeriodType {
   String toValue() {
     switch (this) {
       case QuotaPeriodType.day:
@@ -8954,7 +8954,7 @@ enum SecurityPolicy {
   tls_1_2,
 }
 
-extension SecurityPolicyValue on SecurityPolicy {
+extension SecurityPolicyValueExtension on SecurityPolicy {
   String toValue() {
     switch (this) {
       case SecurityPolicy.tls_1_0:
@@ -9348,7 +9348,7 @@ enum UnauthorizedCacheControlHeaderStrategy {
   succeedWithoutResponseHeader,
 }
 
-extension UnauthorizedCacheControlHeaderStrategyValue
+extension UnauthorizedCacheControlHeaderStrategyValueExtension
     on UnauthorizedCacheControlHeaderStrategy {
   String toValue() {
     switch (this) {
@@ -9658,7 +9658,7 @@ enum VpcLinkStatus {
   failed,
 }
 
-extension VpcLinkStatusValue on VpcLinkStatus {
+extension VpcLinkStatusValueExtension on VpcLinkStatus {
   String toValue() {
     switch (this) {
       case VpcLinkStatus.available:

@@ -2311,7 +2311,7 @@ enum BackupJobState {
   expired,
 }
 
-extension BackupJobStateValue on BackupJobState {
+extension BackupJobStateValueExtension on BackupJobState {
   String toValue() {
     switch (this) {
       case BackupJobState.created:
@@ -2793,7 +2793,7 @@ enum BackupVaultEvent {
   backupPlanModified,
 }
 
-extension BackupVaultEventValue on BackupVaultEvent {
+extension BackupVaultEventValueExtension on BackupVaultEvent {
   String toValue() {
     switch (this) {
       case BackupVaultEvent.backupJobStarted:
@@ -2998,7 +2998,7 @@ enum ConditionType {
   stringequals,
 }
 
-extension ConditionTypeValue on ConditionType {
+extension ConditionTypeValueExtension on ConditionType {
   String toValue() {
     switch (this) {
       case ConditionType.stringequals:
@@ -3159,7 +3159,7 @@ enum CopyJobState {
   failed,
 }
 
-extension CopyJobStateValue on CopyJobState {
+extension CopyJobStateValueExtension on CopyJobState {
   String toValue() {
     switch (this) {
       case CopyJobState.created:
@@ -4781,7 +4781,7 @@ enum RecoveryPointStatus {
   expired,
 }
 
-extension RecoveryPointStatusValue on RecoveryPointStatus {
+extension RecoveryPointStatusValueExtension on RecoveryPointStatus {
   String toValue() {
     switch (this) {
       case RecoveryPointStatus.completed:
@@ -4820,7 +4820,7 @@ enum RestoreJobStatus {
   failed,
 }
 
-extension RestoreJobStatusValue on RestoreJobStatus {
+extension RestoreJobStatusValueExtension on RestoreJobStatus {
   String toValue() {
     switch (this) {
       case RestoreJobStatus.pending:
@@ -5017,7 +5017,7 @@ enum StorageClass {
   deleted,
 }
 
-extension StorageClassValue on StorageClass {
+extension StorageClassValueExtension on StorageClass {
   String toValue() {
     switch (this) {
       case StorageClass.warm:

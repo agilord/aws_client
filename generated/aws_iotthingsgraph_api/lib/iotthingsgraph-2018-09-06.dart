@@ -1943,7 +1943,7 @@ enum DefinitionLanguage {
   graphql,
 }
 
-extension DefinitionLanguageValue on DefinitionLanguage {
+extension DefinitionLanguageValueExtension on DefinitionLanguage {
   String toValue() {
     switch (this) {
       case DefinitionLanguage.graphql:
@@ -2049,7 +2049,7 @@ enum DeploymentTarget {
   cloud,
 }
 
-extension DeploymentTargetValue on DeploymentTarget {
+extension DeploymentTargetValueExtension on DeploymentTarget {
   String toValue() {
     switch (this) {
       case DeploymentTarget.greengrass:
@@ -2203,7 +2203,7 @@ enum EntityFilterName {
   referencedEntityId,
 }
 
-extension EntityFilterNameValue on EntityFilterName {
+extension EntityFilterNameValueExtension on EntityFilterName {
   String toValue() {
     switch (this) {
       case EntityFilterName.name:
@@ -2247,7 +2247,7 @@ enum EntityType {
   $enum,
 }
 
-extension EntityTypeValue on EntityType {
+extension EntityTypeValueExtension on EntityType {
   String toValue() {
     switch (this) {
       case EntityType.device:
@@ -2322,7 +2322,7 @@ enum FlowExecutionEventType {
   acknowledgeTaskMessage,
 }
 
-extension FlowExecutionEventTypeValue on FlowExecutionEventType {
+extension FlowExecutionEventTypeValueExtension on FlowExecutionEventType {
   String toValue() {
     switch (this) {
       case FlowExecutionEventType.executionStarted:
@@ -2442,7 +2442,7 @@ enum FlowExecutionStatus {
   failed,
 }
 
-extension FlowExecutionStatusValue on FlowExecutionStatus {
+extension FlowExecutionStatusValueExtension on FlowExecutionStatus {
   String toValue() {
     switch (this) {
       case FlowExecutionStatus.running:
@@ -2572,7 +2572,7 @@ enum FlowTemplateFilterName {
   deviceModelId,
 }
 
-extension FlowTemplateFilterNameValue on FlowTemplateFilterName {
+extension FlowTemplateFilterNameValueExtension on FlowTemplateFilterName {
   String toValue() {
     switch (this) {
       case FlowTemplateFilterName.deviceModelId:
@@ -2905,7 +2905,7 @@ enum NamespaceDeletionStatus {
   failed,
 }
 
-extension NamespaceDeletionStatusValue on NamespaceDeletionStatus {
+extension NamespaceDeletionStatusValueExtension on NamespaceDeletionStatus {
   String toValue() {
     switch (this) {
       case NamespaceDeletionStatus.inProgress:
@@ -2936,7 +2936,7 @@ enum NamespaceDeletionStatusErrorCodes {
   validationFailed,
 }
 
-extension NamespaceDeletionStatusErrorCodesValue
+extension NamespaceDeletionStatusErrorCodesValueExtension
     on NamespaceDeletionStatusErrorCodes {
   String toValue() {
     switch (this) {
@@ -3110,7 +3110,7 @@ enum SystemInstanceDeploymentStatus {
   deletedInTarget,
 }
 
-extension SystemInstanceDeploymentStatusValue
+extension SystemInstanceDeploymentStatusValueExtension
     on SystemInstanceDeploymentStatus {
   String toValue() {
     switch (this) {
@@ -3253,7 +3253,7 @@ enum SystemInstanceFilterName {
   greengrassGroupName,
 }
 
-extension SystemInstanceFilterNameValue on SystemInstanceFilterName {
+extension SystemInstanceFilterNameValueExtension on SystemInstanceFilterName {
   String toValue() {
     switch (this) {
       case SystemInstanceFilterName.systemTemplateId:
@@ -3395,7 +3395,7 @@ enum SystemTemplateFilterName {
   flowTemplateId,
 }
 
-extension SystemTemplateFilterNameValue on SystemTemplateFilterName {
+extension SystemTemplateFilterNameValueExtension on SystemTemplateFilterName {
   String toValue() {
     switch (this) {
       case SystemTemplateFilterName.flowTemplateId:
@@ -3583,7 +3583,7 @@ enum UploadStatus {
   failed,
 }
 
-extension UploadStatusValue on UploadStatus {
+extension UploadStatusValueExtension on UploadStatus {
   String toValue() {
     switch (this) {
       case UploadStatus.inProgress:

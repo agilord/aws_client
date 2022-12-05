@@ -3709,7 +3709,7 @@ enum BehaviorOnMXFailure {
   rejectMessage,
 }
 
-extension BehaviorOnMXFailureValue on BehaviorOnMXFailure {
+extension BehaviorOnMXFailureValueExtension on BehaviorOnMXFailure {
   String toValue() {
     switch (this) {
       case BehaviorOnMXFailure.useDefaultValue:
@@ -3833,7 +3833,7 @@ enum BounceType {
   temporaryFailure,
 }
 
-extension BounceTypeValue on BounceType {
+extension BounceTypeValueExtension on BounceType {
   String toValue() {
     switch (this) {
       case BounceType.doesNotExist:
@@ -4062,7 +4062,7 @@ enum BulkEmailStatus {
   failed,
 }
 
-extension BulkEmailStatusValue on BulkEmailStatus {
+extension BulkEmailStatusValueExtension on BulkEmailStatus {
   String toValue() {
     switch (this) {
       case BulkEmailStatus.success:
@@ -4298,7 +4298,7 @@ enum ConfigurationSetAttribute {
   reputationOptions,
 }
 
-extension ConfigurationSetAttributeValue on ConfigurationSetAttribute {
+extension ConfigurationSetAttributeValueExtension on ConfigurationSetAttribute {
   String toValue() {
     switch (this) {
       case ConfigurationSetAttribute.eventDestinations:
@@ -4431,7 +4431,7 @@ enum CustomMailFromStatus {
   temporaryFailure,
 }
 
-extension CustomMailFromStatusValue on CustomMailFromStatus {
+extension CustomMailFromStatusValueExtension on CustomMailFromStatus {
   String toValue() {
     switch (this) {
       case CustomMailFromStatus.pending:
@@ -4786,7 +4786,7 @@ enum DimensionValueSource {
   linkTag,
 }
 
-extension DimensionValueSourceValue on DimensionValueSource {
+extension DimensionValueSourceValueExtension on DimensionValueSource {
   String toValue() {
     switch (this) {
       case DimensionValueSource.messageTag:
@@ -4821,7 +4821,7 @@ enum DsnAction {
   expanded,
 }
 
-extension DsnActionValue on DsnAction {
+extension DsnActionValueExtension on DsnAction {
   String toValue() {
     switch (this) {
       case DsnAction.failed:
@@ -4964,7 +4964,7 @@ enum EventType {
   renderingFailure,
 }
 
-extension EventTypeValue on EventType {
+extension EventTypeValueExtension on EventType {
   String toValue() {
     switch (this) {
       case EventType.send:
@@ -5457,7 +5457,7 @@ enum IdentityType {
   domain,
 }
 
-extension IdentityTypeValue on IdentityType {
+extension IdentityTypeValueExtension on IdentityType {
   String toValue() {
     switch (this) {
       case IdentityType.emailAddress:
@@ -5509,7 +5509,7 @@ enum InvocationType {
   requestResponse,
 }
 
-extension InvocationTypeValue on InvocationType {
+extension InvocationTypeValueExtension on InvocationType {
   String toValue() {
     switch (this) {
       case InvocationType.event:
@@ -5946,7 +5946,7 @@ enum NotificationType {
   delivery,
 }
 
-extension NotificationTypeValue on NotificationType {
+extension NotificationTypeValueExtension on NotificationType {
   String toValue() {
     switch (this) {
       case NotificationType.bounce:
@@ -6171,7 +6171,7 @@ enum ReceiptFilterPolicy {
   allow,
 }
 
-extension ReceiptFilterPolicyValue on ReceiptFilterPolicy {
+extension ReceiptFilterPolicyValueExtension on ReceiptFilterPolicy {
   String toValue() {
     switch (this) {
       case ReceiptFilterPolicy.block:
@@ -6673,7 +6673,7 @@ enum SNSActionEncoding {
   base64,
 }
 
-extension SNSActionEncodingValue on SNSActionEncoding {
+extension SNSActionEncodingValueExtension on SNSActionEncoding {
   String toValue() {
     switch (this) {
       case SNSActionEncoding.utf_8:
@@ -6978,7 +6978,7 @@ enum StopScope {
   ruleSet,
 }
 
-extension StopScopeValue on StopScope {
+extension StopScopeValueExtension on StopScope {
   String toValue() {
     switch (this) {
       case StopScope.ruleSet:
@@ -7084,7 +7084,7 @@ enum TlsPolicy {
   optional,
 }
 
-extension TlsPolicyValue on TlsPolicy {
+extension TlsPolicyValueExtension on TlsPolicy {
   String toValue() {
     switch (this) {
       case TlsPolicy.require:
@@ -7186,7 +7186,7 @@ enum VerificationStatus {
   notStarted,
 }
 
-extension VerificationStatusValue on VerificationStatus {
+extension VerificationStatusValueExtension on VerificationStatus {
   String toValue() {
     switch (this) {
       case VerificationStatus.pending:

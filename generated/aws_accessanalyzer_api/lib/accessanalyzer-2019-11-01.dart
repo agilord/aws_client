@@ -952,7 +952,7 @@ enum AnalyzerStatus {
   failed,
 }
 
-extension AnalyzerStatusValue on AnalyzerStatus {
+extension AnalyzerStatusValueExtension on AnalyzerStatus {
   String toValue() {
     switch (this) {
       case AnalyzerStatus.active:
@@ -1288,7 +1288,7 @@ enum FindingSourceType {
   s3AccessPoint,
 }
 
-extension FindingSourceTypeValue on FindingSourceType {
+extension FindingSourceTypeValueExtension on FindingSourceType {
   String toValue() {
     switch (this) {
       case FindingSourceType.policy:
@@ -1321,7 +1321,7 @@ enum FindingStatus {
   resolved,
 }
 
-extension FindingStatusValue on FindingStatus {
+extension FindingStatusValueExtension on FindingStatus {
   String toValue() {
     switch (this) {
       case FindingStatus.active:
@@ -1353,7 +1353,7 @@ enum FindingStatusUpdate {
   archived,
 }
 
-extension FindingStatusUpdateValue on FindingStatusUpdate {
+extension FindingStatusUpdateValueExtension on FindingStatusUpdate {
   String toValue() {
     switch (this) {
       case FindingStatusUpdate.active:
@@ -1674,7 +1674,7 @@ enum OrderBy {
   desc,
 }
 
-extension OrderByValue on OrderBy {
+extension OrderByValueExtension on OrderBy {
   String toValue() {
     switch (this) {
       case OrderBy.asc:
@@ -1704,7 +1704,7 @@ enum ReasonCode {
   serviceLinkedRoleCreationFailed,
 }
 
-extension ReasonCodeValue on ReasonCode {
+extension ReasonCodeValueExtension on ReasonCode {
   String toValue() {
     switch (this) {
       case ReasonCode.awsServiceAccessDisabled:
@@ -1744,7 +1744,7 @@ enum ResourceType {
   awsKmsKey,
 }
 
-extension ResourceTypeValue on ResourceType {
+extension ResourceTypeValueExtension on ResourceType {
   String toValue() {
     switch (this) {
       case ResourceType.awsS3Bucket:
@@ -1837,7 +1837,7 @@ enum Type {
   organization,
 }
 
-extension TypeValue on Type {
+extension TypeValueExtension on Type {
   String toValue() {
     switch (this) {
       case Type.account:

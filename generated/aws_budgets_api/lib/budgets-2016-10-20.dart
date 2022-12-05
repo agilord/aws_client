@@ -1701,7 +1701,7 @@ enum ActionStatus {
   resetFailure,
 }
 
-extension ActionStatusValue on ActionStatus {
+extension ActionStatusValueExtension on ActionStatus {
   String toValue() {
     switch (this) {
       case ActionStatus.standby:
@@ -1761,7 +1761,7 @@ enum ActionSubType {
   stopRdsInstances,
 }
 
-extension ActionSubTypeValue on ActionSubType {
+extension ActionSubTypeValueExtension on ActionSubType {
   String toValue() {
     switch (this) {
       case ActionSubType.stopEc2Instances:
@@ -1817,7 +1817,7 @@ enum ActionType {
   runSsmDocuments,
 }
 
-extension ActionTypeValue on ActionType {
+extension ActionTypeValueExtension on ActionType {
   String toValue() {
     switch (this) {
       case ActionType.applyIamPolicy:
@@ -1849,7 +1849,7 @@ enum ApprovalModel {
   manual,
 }
 
-extension ApprovalModelValue on ApprovalModel {
+extension ApprovalModelValueExtension on ApprovalModel {
   String toValue() {
     switch (this) {
       case ApprovalModel.automatic:
@@ -2129,7 +2129,7 @@ enum BudgetType {
   savingsPlansCoverage,
 }
 
-extension BudgetTypeValue on BudgetType {
+extension BudgetTypeValueExtension on BudgetType {
   String toValue() {
     switch (this) {
       case BudgetType.usage:
@@ -2251,7 +2251,7 @@ enum ComparisonOperator {
   equalTo,
 }
 
-extension ComparisonOperatorValue on ComparisonOperator {
+extension ComparisonOperatorValueExtension on ComparisonOperator {
   String toValue() {
     switch (this) {
       case ComparisonOperator.greaterThan:
@@ -2747,7 +2747,7 @@ enum EventType {
   executeAction,
 }
 
-extension EventTypeValue on EventType {
+extension EventTypeValueExtension on EventType {
   String toValue() {
     switch (this) {
       case EventType.system:
@@ -2815,7 +2815,7 @@ enum ExecutionType {
   resetBudgetAction,
 }
 
-extension ExecutionTypeValue on ExecutionType {
+extension ExecutionTypeValueExtension on ExecutionType {
   String toValue() {
     switch (this) {
       case ExecutionType.approveBudgetAction:
@@ -2993,7 +2993,7 @@ enum NotificationState {
   alarm,
 }
 
-extension NotificationStateValue on NotificationState {
+extension NotificationStateValueExtension on NotificationState {
   String toValue() {
     switch (this) {
       case NotificationState.ok:
@@ -3022,7 +3022,7 @@ enum NotificationType {
   forecasted,
 }
 
-extension NotificationTypeValue on NotificationType {
+extension NotificationTypeValueExtension on NotificationType {
   String toValue() {
     switch (this) {
       case NotificationType.actual:
@@ -3234,7 +3234,7 @@ enum SubscriptionType {
   email,
 }
 
-extension SubscriptionTypeValue on SubscriptionType {
+extension SubscriptionTypeValueExtension on SubscriptionType {
   String toValue() {
     switch (this) {
       case SubscriptionType.sns:
@@ -3263,7 +3263,7 @@ enum ThresholdType {
   absoluteValue,
 }
 
-extension ThresholdTypeValue on ThresholdType {
+extension ThresholdTypeValueExtension on ThresholdType {
   String toValue() {
     switch (this) {
       case ThresholdType.percentage:
@@ -3340,7 +3340,7 @@ enum TimeUnit {
   annually,
 }
 
-extension TimeUnitValue on TimeUnit {
+extension TimeUnitValueExtension on TimeUnit {
   String toValue() {
     switch (this) {
       case TimeUnit.daily:

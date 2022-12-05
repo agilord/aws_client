@@ -79,7 +79,7 @@ enum QueueAttributeName {
   policy,
 }
 
-extension on QueueAttributeName {
+extension QueueAttributeNameValueExtension on QueueAttributeName {
   String toValue() {
     switch (this) {
       case QueueAttributeName.all:
@@ -90,7 +90,7 @@ extension on QueueAttributeName {
   }
 }
 
-extension on String {
+extension QueueAttributeNameFromString on String {
   QueueAttributeName toQueueAttributeName() {
     switch (this) {
       case 'All':

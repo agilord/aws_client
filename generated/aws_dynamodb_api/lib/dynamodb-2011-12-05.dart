@@ -792,7 +792,7 @@ enum AttributeAction {
   delete,
 }
 
-extension AttributeActionValue on AttributeAction {
+extension AttributeActionValueExtension on AttributeAction {
   String toValue() {
     switch (this) {
       case AttributeAction.add:
@@ -1039,7 +1039,7 @@ enum ComparisonOperator {
   beginsWith,
 }
 
-extension ComparisonOperatorValue on ComparisonOperator {
+extension ComparisonOperatorValueExtension on ComparisonOperator {
   String toValue() {
     switch (this) {
       case ComparisonOperator.eq:
@@ -1597,7 +1597,7 @@ enum ReturnValue {
   updatedNew,
 }
 
-extension ReturnValueValue on ReturnValue {
+extension ReturnValueValueExtension on ReturnValue {
   String toValue() {
     switch (this) {
       case ReturnValue.none:
@@ -1638,7 +1638,7 @@ enum ScalarAttributeType {
   b,
 }
 
-extension ScalarAttributeTypeValue on ScalarAttributeType {
+extension ScalarAttributeTypeValueExtension on ScalarAttributeType {
   String toValue() {
     switch (this) {
       case ScalarAttributeType.s:
@@ -1752,7 +1752,7 @@ enum TableStatus {
   active,
 }
 
-extension TableStatusValue on TableStatus {
+extension TableStatusValueExtension on TableStatus {
   String toValue() {
     switch (this) {
       case TableStatus.creating:

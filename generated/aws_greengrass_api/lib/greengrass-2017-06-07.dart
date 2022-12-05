@@ -2985,7 +2985,7 @@ enum BulkDeploymentStatus {
   failed,
 }
 
-extension BulkDeploymentStatusValue on BulkDeploymentStatus {
+extension BulkDeploymentStatusValueExtension on BulkDeploymentStatus {
   String toValue() {
     switch (this) {
       case BulkDeploymentStatus.initializing:
@@ -3029,7 +3029,7 @@ enum ConfigurationSyncStatus {
   outOfSync,
 }
 
-extension ConfigurationSyncStatusValue on ConfigurationSyncStatus {
+extension ConfigurationSyncStatusValueExtension on ConfigurationSyncStatus {
   String toValue() {
     switch (this) {
       case ConfigurationSyncStatus.inSync:
@@ -4046,7 +4046,7 @@ enum DeploymentType {
   forceResetDeployment,
 }
 
-extension DeploymentTypeValue on DeploymentType {
+extension DeploymentTypeValueExtension on DeploymentType {
   String toValue() {
     switch (this) {
       case DeploymentType.newDeployment:
@@ -4184,7 +4184,7 @@ enum EncodingType {
   json,
 }
 
-extension EncodingTypeValue on EncodingType {
+extension EncodingTypeValueExtension on EncodingType {
   String toValue() {
     switch (this) {
       case EncodingType.binary:
@@ -4529,7 +4529,7 @@ enum FunctionIsolationMode {
   noContainer,
 }
 
-extension FunctionIsolationModeValue on FunctionIsolationMode {
+extension FunctionIsolationModeValueExtension on FunctionIsolationMode {
   String toValue() {
     switch (this) {
       case FunctionIsolationMode.greengrassContainer:
@@ -6344,7 +6344,7 @@ enum LoggerComponent {
   lambda,
 }
 
-extension LoggerComponentValue on LoggerComponent {
+extension LoggerComponentValueExtension on LoggerComponent {
   String toValue() {
     switch (this) {
       case LoggerComponent.greengrassSystem:
@@ -6400,7 +6400,7 @@ enum LoggerLevel {
   fatal,
 }
 
-extension LoggerLevelValue on LoggerLevel {
+extension LoggerLevelValueExtension on LoggerLevel {
   String toValue() {
     switch (this) {
       case LoggerLevel.debug:
@@ -6440,7 +6440,7 @@ enum LoggerType {
   awsCloudWatch,
 }
 
-extension LoggerTypeValue on LoggerType {
+extension LoggerTypeValueExtension on LoggerType {
   String toValue() {
     switch (this) {
       case LoggerType.fileSystem:
@@ -6469,7 +6469,7 @@ enum Permission {
   rw,
 }
 
-extension PermissionValue on Permission {
+extension PermissionValueExtension on Permission {
   String toValue() {
     switch (this) {
       case Permission.ro:
@@ -6870,7 +6870,7 @@ enum SoftwareToUpdate {
   otaAgent,
 }
 
-extension SoftwareToUpdateValue on SoftwareToUpdate {
+extension SoftwareToUpdateValueExtension on SoftwareToUpdate {
   String toValue() {
     switch (this) {
       case SoftwareToUpdate.core:
@@ -6998,7 +6998,7 @@ enum Telemetry {
   off,
 }
 
-extension TelemetryValue on Telemetry {
+extension TelemetryValueExtension on Telemetry {
   String toValue() {
     switch (this) {
       case Telemetry.on:
@@ -7072,7 +7072,7 @@ enum UpdateAgentLogLevel {
   fatal,
 }
 
-extension UpdateAgentLogLevelValue on UpdateAgentLogLevel {
+extension UpdateAgentLogLevelValueExtension on UpdateAgentLogLevel {
   String toValue() {
     switch (this) {
       case UpdateAgentLogLevel.none:
@@ -7232,7 +7232,7 @@ enum UpdateTargetsArchitecture {
   aarch64,
 }
 
-extension UpdateTargetsArchitectureValue on UpdateTargetsArchitecture {
+extension UpdateTargetsArchitectureValueExtension on UpdateTargetsArchitecture {
   String toValue() {
     switch (this) {
       case UpdateTargetsArchitecture.armv6l:
@@ -7271,7 +7271,8 @@ enum UpdateTargetsOperatingSystem {
   openwrt,
 }
 
-extension UpdateTargetsOperatingSystemValue on UpdateTargetsOperatingSystem {
+extension UpdateTargetsOperatingSystemValueExtension
+    on UpdateTargetsOperatingSystem {
   String toValue() {
     switch (this) {
       case UpdateTargetsOperatingSystem.ubuntu:

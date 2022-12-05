@@ -3444,7 +3444,7 @@ enum DurationUnit {
   ms,
 }
 
-extension DurationUnitValue on DurationUnit {
+extension DurationUnitValueExtension on DurationUnit {
   String toValue() {
     switch (this) {
       case DurationUnit.s:
@@ -3498,7 +3498,7 @@ enum EgressFilterType {
   dropAll,
 }
 
-extension EgressFilterTypeValue on EgressFilterType {
+extension EgressFilterTypeValueExtension on EgressFilterType {
   String toValue() {
     switch (this) {
       case EgressFilterType.allowAll:
@@ -3721,7 +3721,7 @@ enum GatewayRouteStatusCode {
   deleted,
 }
 
-extension GatewayRouteStatusCodeValue on GatewayRouteStatusCode {
+extension GatewayRouteStatusCodeValueExtension on GatewayRouteStatusCode {
   String toValue() {
     switch (this) {
       case GatewayRouteStatusCode.active:
@@ -3960,7 +3960,7 @@ enum GrpcRetryPolicyEvent {
   unavailable,
 }
 
-extension GrpcRetryPolicyEventValue on GrpcRetryPolicyEvent {
+extension GrpcRetryPolicyEventValueExtension on GrpcRetryPolicyEvent {
   String toValue() {
     switch (this) {
       case GrpcRetryPolicyEvent.cancelled:
@@ -4462,7 +4462,7 @@ enum HttpMethod {
   patch,
 }
 
-extension HttpMethodValue on HttpMethod {
+extension HttpMethodValueExtension on HttpMethod {
   String toValue() {
     switch (this) {
       case HttpMethod.get:
@@ -4755,7 +4755,7 @@ enum HttpScheme {
   https,
 }
 
-extension HttpSchemeValue on HttpScheme {
+extension HttpSchemeValueExtension on HttpScheme {
   String toValue() {
     switch (this) {
       case HttpScheme.http:
@@ -5301,7 +5301,7 @@ enum ListenerTlsMode {
   disabled,
 }
 
-extension ListenerTlsModeValue on ListenerTlsMode {
+extension ListenerTlsModeValueExtension on ListenerTlsMode {
   String toValue() {
     switch (this) {
       case ListenerTlsMode.strict:
@@ -5515,7 +5515,7 @@ enum MeshStatusCode {
   deleted,
 }
 
-extension MeshStatusCodeValue on MeshStatusCode {
+extension MeshStatusCodeValueExtension on MeshStatusCode {
   String toValue() {
     switch (this) {
       case MeshStatusCode.active:
@@ -5624,7 +5624,7 @@ enum PortProtocol {
   grpc,
 }
 
-extension PortProtocolValue on PortProtocol {
+extension PortProtocolValueExtension on PortProtocol {
   String toValue() {
     switch (this) {
       case PortProtocol.http:
@@ -5896,7 +5896,7 @@ enum RouteStatusCode {
   deleted,
 }
 
-extension RouteStatusCodeValue on RouteStatusCode {
+extension RouteStatusCodeValueExtension on RouteStatusCode {
   String toValue() {
     switch (this) {
       case RouteStatusCode.active:
@@ -6004,7 +6004,7 @@ enum TcpRetryPolicyEvent {
   connectionError,
 }
 
-extension TcpRetryPolicyEventValue on TcpRetryPolicyEvent {
+extension TcpRetryPolicyEventValueExtension on TcpRetryPolicyEvent {
   String toValue() {
     switch (this) {
       case TcpRetryPolicyEvent.connectionError:
@@ -6876,7 +6876,8 @@ enum VirtualGatewayListenerTlsMode {
   disabled,
 }
 
-extension VirtualGatewayListenerTlsModeValue on VirtualGatewayListenerTlsMode {
+extension VirtualGatewayListenerTlsModeValueExtension
+    on VirtualGatewayListenerTlsMode {
   String toValue() {
     switch (this) {
       case VirtualGatewayListenerTlsMode.strict:
@@ -6963,7 +6964,8 @@ enum VirtualGatewayPortProtocol {
   grpc,
 }
 
-extension VirtualGatewayPortProtocolValue on VirtualGatewayPortProtocol {
+extension VirtualGatewayPortProtocolValueExtension
+    on VirtualGatewayPortProtocol {
   String toValue() {
     switch (this) {
       case VirtualGatewayPortProtocol.http:
@@ -7116,7 +7118,7 @@ enum VirtualGatewayStatusCode {
   deleted,
 }
 
-extension VirtualGatewayStatusCodeValue on VirtualGatewayStatusCode {
+extension VirtualGatewayStatusCodeValueExtension on VirtualGatewayStatusCode {
   String toValue() {
     switch (this) {
       case VirtualGatewayStatusCode.active:
@@ -7605,7 +7607,7 @@ enum VirtualNodeStatusCode {
   deleted,
 }
 
-extension VirtualNodeStatusCodeValue on VirtualNodeStatusCode {
+extension VirtualNodeStatusCodeValueExtension on VirtualNodeStatusCode {
   String toValue() {
     switch (this) {
       case VirtualNodeStatusCode.active:
@@ -7843,7 +7845,7 @@ enum VirtualRouterStatusCode {
   deleted,
 }
 
-extension VirtualRouterStatusCodeValue on VirtualRouterStatusCode {
+extension VirtualRouterStatusCodeValueExtension on VirtualRouterStatusCode {
   String toValue() {
     switch (this) {
       case VirtualRouterStatusCode.active:
@@ -8079,7 +8081,7 @@ enum VirtualServiceStatusCode {
   deleted,
 }
 
-extension VirtualServiceStatusCodeValue on VirtualServiceStatusCode {
+extension VirtualServiceStatusCodeValueExtension on VirtualServiceStatusCode {
   String toValue() {
     switch (this) {
       case VirtualServiceStatusCode.active:

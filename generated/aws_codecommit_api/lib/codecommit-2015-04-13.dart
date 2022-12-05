@@ -5728,7 +5728,7 @@ enum ApprovalState {
   revoke,
 }
 
-extension ApprovalStateValue on ApprovalState {
+extension ApprovalStateValueExtension on ApprovalState {
   String toValue() {
     switch (this) {
       case ApprovalState.approve:
@@ -6116,7 +6116,7 @@ enum ChangeTypeEnum {
   d,
 }
 
-extension ChangeTypeEnumValue on ChangeTypeEnum {
+extension ChangeTypeEnumValueExtension on ChangeTypeEnum {
   String toValue() {
     switch (this) {
       case ChangeTypeEnum.a:
@@ -6428,7 +6428,8 @@ enum ConflictDetailLevelTypeEnum {
   lineLevel,
 }
 
-extension ConflictDetailLevelTypeEnumValue on ConflictDetailLevelTypeEnum {
+extension ConflictDetailLevelTypeEnumValueExtension
+    on ConflictDetailLevelTypeEnum {
   String toValue() {
     switch (this) {
       case ConflictDetailLevelTypeEnum.fileLevel:
@@ -6566,7 +6567,7 @@ enum ConflictResolutionStrategyTypeEnum {
   automerge,
 }
 
-extension ConflictResolutionStrategyTypeEnumValue
+extension ConflictResolutionStrategyTypeEnumValueExtension
     on ConflictResolutionStrategyTypeEnum {
   String toValue() {
     switch (this) {
@@ -7082,7 +7083,7 @@ enum FileModeTypeEnum {
   symlink,
 }
 
-extension FileModeTypeEnumValue on FileModeTypeEnum {
+extension FileModeTypeEnumValueExtension on FileModeTypeEnum {
   String toValue() {
     switch (this) {
       case FileModeTypeEnum.executable:
@@ -8100,7 +8101,7 @@ enum MergeOptionTypeEnum {
   threeWayMerge,
 }
 
-extension MergeOptionTypeEnumValue on MergeOptionTypeEnum {
+extension MergeOptionTypeEnumValueExtension on MergeOptionTypeEnum {
   String toValue() {
     switch (this) {
       case MergeOptionTypeEnum.fastForwardMerge:
@@ -8181,7 +8182,7 @@ enum ObjectTypeEnum {
   symbolicLink,
 }
 
-extension ObjectTypeEnumValue on ObjectTypeEnum {
+extension ObjectTypeEnumValueExtension on ObjectTypeEnum {
   String toValue() {
     switch (this) {
       case ObjectTypeEnum.file:
@@ -8242,7 +8243,7 @@ enum OrderEnum {
   descending,
 }
 
-extension OrderEnumValue on OrderEnum {
+extension OrderEnumValueExtension on OrderEnum {
   String toValue() {
     switch (this) {
       case OrderEnum.ascending:
@@ -8291,7 +8292,7 @@ enum OverrideStatus {
   revoke,
 }
 
-extension OverrideStatusValue on OverrideStatus {
+extension OverrideStatusValueExtension on OverrideStatus {
   String toValue() {
     switch (this) {
       case OverrideStatus.override:
@@ -8672,7 +8673,7 @@ enum PullRequestEventType {
   pullRequestApprovalStateChanged,
 }
 
-extension PullRequestEventTypeValue on PullRequestEventType {
+extension PullRequestEventTypeValueExtension on PullRequestEventType {
   String toValue() {
     switch (this) {
       case PullRequestEventType.pullRequestCreated:
@@ -8809,7 +8810,7 @@ enum PullRequestStatusEnum {
   closed,
 }
 
-extension PullRequestStatusEnumValue on PullRequestStatusEnum {
+extension PullRequestStatusEnumValueExtension on PullRequestStatusEnum {
   String toValue() {
     switch (this) {
       case PullRequestStatusEnum.open:
@@ -9034,7 +9035,7 @@ enum RelativeFileVersionEnum {
   after,
 }
 
-extension RelativeFileVersionEnumValue on RelativeFileVersionEnum {
+extension RelativeFileVersionEnumValueExtension on RelativeFileVersionEnum {
   String toValue() {
     switch (this) {
       case RelativeFileVersionEnum.before:
@@ -9100,7 +9101,7 @@ enum ReplacementTypeEnum {
   useNewContent,
 }
 
-extension ReplacementTypeEnumValue on ReplacementTypeEnum {
+extension ReplacementTypeEnumValueExtension on ReplacementTypeEnum {
   String toValue() {
     switch (this) {
       case ReplacementTypeEnum.keepBase:
@@ -9285,7 +9286,8 @@ enum RepositoryTriggerEventEnum {
   deleteReference,
 }
 
-extension RepositoryTriggerEventEnumValue on RepositoryTriggerEventEnum {
+extension RepositoryTriggerEventEnumValueExtension
+    on RepositoryTriggerEventEnum {
   String toValue() {
     switch (this) {
       case RepositoryTriggerEventEnum.all:
@@ -9364,7 +9366,7 @@ enum SortByEnum {
   lastModifiedDate,
 }
 
-extension SortByEnumValue on SortByEnum {
+extension SortByEnumValueExtension on SortByEnum {
   String toValue() {
     switch (this) {
       case SortByEnum.repositoryName:

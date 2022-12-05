@@ -499,7 +499,7 @@ enum ErrorCode {
   throttlingException,
 }
 
-extension ErrorCodeValue on ErrorCode {
+extension ErrorCodeValueExtension on ErrorCode {
   String toValue() {
     switch (this) {
       case ErrorCode.resourceNotFoundException:

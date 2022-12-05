@@ -1254,7 +1254,7 @@ enum APIName {
   getClip,
 }
 
-extension APINameValue on APIName {
+extension APINameValueExtension on APIName {
   String toValue() {
     switch (this) {
       case APIName.putMedia:
@@ -1379,7 +1379,7 @@ enum ChannelProtocol {
   https,
 }
 
-extension ChannelProtocolValue on ChannelProtocol {
+extension ChannelProtocolValueExtension on ChannelProtocol {
   String toValue() {
     switch (this) {
       case ChannelProtocol.wss:
@@ -1407,7 +1407,7 @@ enum ChannelRole {
   viewer,
 }
 
-extension ChannelRoleValue on ChannelRole {
+extension ChannelRoleValueExtension on ChannelRole {
   String toValue() {
     switch (this) {
       case ChannelRole.master:
@@ -1434,7 +1434,7 @@ enum ChannelType {
   singleMaster,
 }
 
-extension ChannelTypeValue on ChannelType {
+extension ChannelTypeValueExtension on ChannelType {
   String toValue() {
     switch (this) {
       case ChannelType.singleMaster:
@@ -1457,7 +1457,7 @@ enum ComparisonOperator {
   beginsWith,
 }
 
-extension ComparisonOperatorValue on ComparisonOperator {
+extension ComparisonOperatorValueExtension on ComparisonOperator {
   String toValue() {
     switch (this) {
       case ComparisonOperator.beginsWith:
@@ -1763,7 +1763,7 @@ enum Status {
   deleting,
 }
 
-extension StatusValue on Status {
+extension StatusValueExtension on Status {
   String toValue() {
     switch (this) {
       case Status.creating:
@@ -1936,7 +1936,8 @@ enum UpdateDataRetentionOperation {
   decreaseDataRetention,
 }
 
-extension UpdateDataRetentionOperationValue on UpdateDataRetentionOperation {
+extension UpdateDataRetentionOperationValueExtension
+    on UpdateDataRetentionOperation {
   String toValue() {
     switch (this) {
       case UpdateDataRetentionOperation.increaseDataRetention:

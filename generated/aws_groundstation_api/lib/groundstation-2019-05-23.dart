@@ -968,7 +968,7 @@ enum AngleUnits {
   radian,
 }
 
-extension AngleUnitsValue on AngleUnits {
+extension AngleUnitsValueExtension on AngleUnits {
   String toValue() {
     switch (this) {
       case AngleUnits.degreeAngle:
@@ -1113,7 +1113,7 @@ enum BandwidthUnits {
   kHz,
 }
 
-extension BandwidthUnitsValue on BandwidthUnits {
+extension BandwidthUnitsValueExtension on BandwidthUnits {
   String toValue() {
     switch (this) {
       case BandwidthUnits.gHz:
@@ -1149,7 +1149,7 @@ enum ConfigCapabilityType {
   uplinkEcho,
 }
 
-extension ConfigCapabilityTypeValue on ConfigCapabilityType {
+extension ConfigCapabilityTypeValueExtension on ConfigCapabilityType {
   String toValue() {
     switch (this) {
       case ConfigCapabilityType.antennaDownlink:
@@ -1471,7 +1471,7 @@ enum ContactStatus {
   scheduling,
 }
 
-extension ContactStatusValue on ContactStatus {
+extension ContactStatusValueExtension on ContactStatus {
   String toValue() {
     switch (this) {
       case ContactStatus.available:
@@ -1544,7 +1544,7 @@ enum Criticality {
   required,
 }
 
-extension CriticalityValue on Criticality {
+extension CriticalityValueExtension on Criticality {
   String toValue() {
     switch (this) {
       case Criticality.preferred:
@@ -1906,7 +1906,7 @@ enum EirpUnits {
   dbw,
 }
 
-extension EirpUnitsValue on EirpUnits {
+extension EirpUnitsValueExtension on EirpUnits {
   String toValue() {
     switch (this) {
       case EirpUnits.dbw:
@@ -1987,7 +1987,7 @@ enum EndpointStatus {
   failed,
 }
 
-extension EndpointStatusValue on EndpointStatus {
+extension EndpointStatusValueExtension on EndpointStatus {
   String toValue() {
     switch (this) {
       case EndpointStatus.created:
@@ -2103,7 +2103,7 @@ enum FrequencyUnits {
   kHz,
 }
 
-extension FrequencyUnitsValue on FrequencyUnits {
+extension FrequencyUnitsValueExtension on FrequencyUnits {
   String toValue() {
     switch (this) {
       case FrequencyUnits.gHz:
@@ -2593,7 +2593,7 @@ enum Polarization {
   rightHand,
 }
 
-extension PolarizationValue on Polarization {
+extension PolarizationValueExtension on Polarization {
   String toValue() {
     switch (this) {
       case Polarization.leftHand:

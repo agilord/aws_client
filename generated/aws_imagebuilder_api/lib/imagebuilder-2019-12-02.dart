@@ -2987,7 +2987,7 @@ enum ComponentFormat {
   shell,
 }
 
-extension ComponentFormatValue on ComponentFormat {
+extension ComponentFormatValueExtension on ComponentFormat {
   String toValue() {
     switch (this) {
       case ComponentFormat.shell:
@@ -3083,7 +3083,7 @@ enum ComponentType {
   test,
 }
 
-extension ComponentTypeValue on ComponentType {
+extension ComponentTypeValueExtension on ComponentType {
   String toValue() {
     switch (this) {
       case ComponentType.build:
@@ -3392,7 +3392,8 @@ enum ContainerRepositoryService {
   ecr,
 }
 
-extension ContainerRepositoryServiceValue on ContainerRepositoryService {
+extension ContainerRepositoryServiceValueExtension
+    on ContainerRepositoryService {
   String toValue() {
     switch (this) {
       case ContainerRepositoryService.ecr:
@@ -3415,7 +3416,7 @@ enum ContainerType {
   docker,
 }
 
-extension ContainerTypeValue on ContainerType {
+extension ContainerTypeValueExtension on ContainerType {
   String toValue() {
     switch (this) {
       case ContainerType.docker:
@@ -3992,7 +3993,7 @@ enum EbsVolumeType {
   st1,
 }
 
-extension EbsVolumeTypeValue on EbsVolumeType {
+extension EbsVolumeTypeValueExtension on EbsVolumeType {
   String toValue() {
     switch (this) {
       case EbsVolumeType.standard:
@@ -4687,7 +4688,7 @@ enum ImageStatus {
   deleted,
 }
 
-extension ImageStatusValue on ImageStatus {
+extension ImageStatusValueExtension on ImageStatus {
   String toValue() {
     switch (this) {
       case ImageStatus.pending:
@@ -4852,7 +4853,7 @@ enum ImageType {
   docker,
 }
 
-extension ImageTypeValue on ImageType {
+extension ImageTypeValueExtension on ImageType {
   String toValue() {
     switch (this) {
       case ImageType.ami:
@@ -5557,7 +5558,7 @@ enum Ownership {
   amazon,
 }
 
-extension OwnershipValue on Ownership {
+extension OwnershipValueExtension on Ownership {
   String toValue() {
     switch (this) {
       case Ownership.self:
@@ -5589,7 +5590,7 @@ enum PipelineExecutionStartCondition {
   expressionMatchAndDependencyUpdatesAvailable,
 }
 
-extension PipelineExecutionStartConditionValue
+extension PipelineExecutionStartConditionValueExtension
     on PipelineExecutionStartCondition {
   String toValue() {
     switch (this) {
@@ -5621,7 +5622,7 @@ enum PipelineStatus {
   enabled,
 }
 
-extension PipelineStatusValue on PipelineStatus {
+extension PipelineStatusValueExtension on PipelineStatus {
   String toValue() {
     switch (this) {
       case PipelineStatus.disabled:
@@ -5649,7 +5650,7 @@ enum Platform {
   linux,
 }
 
-extension PlatformValue on Platform {
+extension PlatformValueExtension on Platform {
   String toValue() {
     switch (this) {
       case Platform.windows:

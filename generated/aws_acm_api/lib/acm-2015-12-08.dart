@@ -1263,7 +1263,7 @@ enum CertificateStatus {
   failed,
 }
 
-extension CertificateStatusValue on CertificateStatus {
+extension CertificateStatusValueExtension on CertificateStatus {
   String toValue() {
     switch (this) {
       case CertificateStatus.pendingValidation:
@@ -1339,7 +1339,7 @@ enum CertificateTransparencyLoggingPreference {
   disabled,
 }
 
-extension CertificateTransparencyLoggingPreferenceValue
+extension CertificateTransparencyLoggingPreferenceValueExtension
     on CertificateTransparencyLoggingPreference {
   String toValue() {
     switch (this) {
@@ -1371,7 +1371,7 @@ enum CertificateType {
   private,
 }
 
-extension CertificateTypeValue on CertificateType {
+extension CertificateTypeValueExtension on CertificateType {
   String toValue() {
     switch (this) {
       case CertificateType.imported:
@@ -1421,7 +1421,7 @@ enum DomainStatus {
   failed,
 }
 
-extension DomainStatusValue on DomainStatus {
+extension DomainStatusValueExtension on DomainStatus {
   String toValue() {
     switch (this) {
       case DomainStatus.pendingValidation:
@@ -1661,7 +1661,7 @@ enum ExtendedKeyUsageName {
   custom,
 }
 
-extension ExtendedKeyUsageNameValue on ExtendedKeyUsageName {
+extension ExtendedKeyUsageNameValueExtension on ExtendedKeyUsageName {
   String toValue() {
     switch (this) {
       case ExtendedKeyUsageName.tlsWebServerAuthentication:
@@ -1744,7 +1744,7 @@ enum FailureReason {
   other,
 }
 
-extension FailureReasonValue on FailureReason {
+extension FailureReasonValueExtension on FailureReason {
   String toValue() {
     switch (this) {
       case FailureReason.noAvailableContacts:
@@ -1911,7 +1911,7 @@ enum KeyAlgorithm {
   ecSecp521r1,
 }
 
-extension KeyAlgorithmValue on KeyAlgorithm {
+extension KeyAlgorithmValueExtension on KeyAlgorithm {
   String toValue() {
     switch (this) {
       case KeyAlgorithm.rsa_2048:
@@ -1980,7 +1980,7 @@ enum KeyUsageName {
   custom,
 }
 
-extension KeyUsageNameValue on KeyUsageName {
+extension KeyUsageNameValueExtension on KeyUsageName {
   String toValue() {
     switch (this) {
       case KeyUsageName.digitalSignature:
@@ -2084,7 +2084,7 @@ enum RecordType {
   cname,
 }
 
-extension RecordTypeValue on RecordType {
+extension RecordTypeValueExtension on RecordType {
   String toValue() {
     switch (this) {
       case RecordType.cname:
@@ -2108,7 +2108,7 @@ enum RenewalEligibility {
   ineligible,
 }
 
-extension RenewalEligibilityValue on RenewalEligibility {
+extension RenewalEligibilityValueExtension on RenewalEligibility {
   String toValue() {
     switch (this) {
       case RenewalEligibility.eligible:
@@ -2138,7 +2138,7 @@ enum RenewalStatus {
   failed,
 }
 
-extension RenewalStatusValue on RenewalStatus {
+extension RenewalStatusValueExtension on RenewalStatus {
   String toValue() {
     switch (this) {
       case RenewalStatus.pendingAutoRenewal:
@@ -2272,7 +2272,7 @@ enum RevocationReason {
   aACompromise,
 }
 
-extension RevocationReasonValue on RevocationReason {
+extension RevocationReasonValueExtension on RevocationReason {
   String toValue() {
     switch (this) {
       case RevocationReason.unspecified:
@@ -2362,7 +2362,7 @@ enum ValidationMethod {
   dns,
 }
 
-extension ValidationMethodValue on ValidationMethod {
+extension ValidationMethodValueExtension on ValidationMethod {
   String toValue() {
     switch (this) {
       case ValidationMethod.email:

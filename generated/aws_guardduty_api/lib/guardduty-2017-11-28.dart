@@ -3049,7 +3049,7 @@ enum AdminStatus {
   disableInProgress,
 }
 
-extension AdminStatusValue on AdminStatus {
+extension AdminStatusValueExtension on AdminStatus {
   String toValue() {
     switch (this) {
       case AdminStatus.enabled:
@@ -3511,7 +3511,7 @@ enum DataSource {
   s3Logs,
 }
 
-extension DataSourceValue on DataSource {
+extension DataSourceValueExtension on DataSource {
   String toValue() {
     switch (this) {
       case DataSource.flowLogs:
@@ -3601,7 +3601,7 @@ enum DataSourceStatus {
   disabled,
 }
 
-extension DataSourceStatusValue on DataSourceStatus {
+extension DataSourceStatusValueExtension on DataSourceStatus {
   String toValue() {
     switch (this) {
       case DataSourceStatus.enabled:
@@ -3869,7 +3869,7 @@ enum DestinationType {
   s3,
 }
 
-extension DestinationTypeValue on DestinationType {
+extension DestinationTypeValueExtension on DestinationType {
   String toValue() {
     switch (this) {
       case DestinationType.s3:
@@ -3893,7 +3893,7 @@ enum DetectorStatus {
   disabled,
 }
 
-extension DetectorStatusValue on DetectorStatus {
+extension DetectorStatusValueExtension on DetectorStatus {
   String toValue() {
     switch (this) {
       case DetectorStatus.enabled:
@@ -4012,7 +4012,7 @@ enum Feedback {
   notUseful,
 }
 
-extension FeedbackValue on Feedback {
+extension FeedbackValueExtension on Feedback {
   String toValue() {
     switch (this) {
       case Feedback.useful:
@@ -4040,7 +4040,7 @@ enum FilterAction {
   archive,
 }
 
-extension FilterActionValue on FilterAction {
+extension FilterActionValueExtension on FilterAction {
   String toValue() {
     switch (this) {
       case FilterAction.noop:
@@ -4177,7 +4177,8 @@ enum FindingPublishingFrequency {
   sixHours,
 }
 
-extension FindingPublishingFrequencyValue on FindingPublishingFrequency {
+extension FindingPublishingFrequencyValueExtension
+    on FindingPublishingFrequency {
   String toValue() {
     switch (this) {
       case FindingPublishingFrequency.fifteenMinutes:
@@ -4208,7 +4209,7 @@ enum FindingStatisticType {
   countBySeverity,
 }
 
-extension FindingStatisticTypeValue on FindingStatisticType {
+extension FindingStatisticTypeValueExtension on FindingStatisticType {
   String toValue() {
     switch (this) {
       case FindingStatisticType.countBySeverity:
@@ -4749,7 +4750,7 @@ enum IpSetFormat {
   fireEye,
 }
 
-extension IpSetFormatValue on IpSetFormat {
+extension IpSetFormatValueExtension on IpSetFormat {
   String toValue() {
     switch (this) {
       case IpSetFormat.txt:
@@ -4798,7 +4799,7 @@ enum IpSetStatus {
   deleted,
 }
 
-extension IpSetStatusValue on IpSetStatus {
+extension IpSetStatusValueExtension on IpSetStatus {
   String toValue() {
     switch (this) {
       case IpSetStatus.inactive:
@@ -5334,7 +5335,7 @@ enum OrderBy {
   desc,
 }
 
-extension OrderByValue on OrderBy {
+extension OrderByValueExtension on OrderBy {
   String toValue() {
     switch (this) {
       case OrderBy.asc:
@@ -5633,7 +5634,7 @@ enum PublishingStatus {
   stopped,
 }
 
-extension PublishingStatusValue on PublishingStatus {
+extension PublishingStatusValueExtension on PublishingStatus {
   String toValue() {
     switch (this) {
       case PublishingStatus.pendingVerification:
@@ -6044,7 +6045,7 @@ enum ThreatIntelSetFormat {
   fireEye,
 }
 
-extension ThreatIntelSetFormatValue on ThreatIntelSetFormat {
+extension ThreatIntelSetFormatValueExtension on ThreatIntelSetFormat {
   String toValue() {
     switch (this) {
       case ThreatIntelSetFormat.txt:
@@ -6093,7 +6094,7 @@ enum ThreatIntelSetStatus {
   deleted,
 }
 
-extension ThreatIntelSetStatusValue on ThreatIntelSetStatus {
+extension ThreatIntelSetStatusValueExtension on ThreatIntelSetStatus {
   String toValue() {
     switch (this) {
       case ThreatIntelSetStatus.inactive:
@@ -6393,7 +6394,7 @@ enum UsageStatisticType {
   topResources,
 }
 
-extension UsageStatisticTypeValue on UsageStatisticType {
+extension UsageStatisticTypeValueExtension on UsageStatisticType {
   String toValue() {
     switch (this) {
       case UsageStatisticType.sumByAccount:

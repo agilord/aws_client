@@ -544,7 +544,7 @@ enum S3ContinuousClassificationType {
   full,
 }
 
-extension S3ContinuousClassificationTypeValue
+extension S3ContinuousClassificationTypeValueExtension
     on S3ContinuousClassificationType {
   String toValue() {
     switch (this) {
@@ -570,7 +570,8 @@ enum S3OneTimeClassificationType {
   none,
 }
 
-extension S3OneTimeClassificationTypeValue on S3OneTimeClassificationType {
+extension S3OneTimeClassificationTypeValueExtension
+    on S3OneTimeClassificationType {
   String toValue() {
     switch (this) {
       case S3OneTimeClassificationType.full:

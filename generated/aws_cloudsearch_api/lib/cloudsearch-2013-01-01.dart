@@ -1256,7 +1256,7 @@ enum AlgorithmicStemming {
   full,
 }
 
-extension AlgorithmicStemmingValue on AlgorithmicStemming {
+extension AlgorithmicStemmingValueExtension on AlgorithmicStemming {
   String toValue() {
     switch (this) {
       case AlgorithmicStemming.none:
@@ -1449,7 +1449,7 @@ enum AnalysisSchemeLanguage {
   zhHant,
 }
 
-extension AnalysisSchemeLanguageValue on AnalysisSchemeLanguage {
+extension AnalysisSchemeLanguageValueExtension on AnalysisSchemeLanguage {
   String toValue() {
     switch (this) {
       case AnalysisSchemeLanguage.ar:
@@ -2621,7 +2621,7 @@ enum IndexFieldType {
   dateArray,
 }
 
-extension IndexFieldTypeValue on IndexFieldType {
+extension IndexFieldTypeValueExtension on IndexFieldType {
   String toValue() {
     switch (this) {
       case IndexFieldType.int:
@@ -3021,7 +3021,7 @@ enum OptionState {
   failedToValidate,
 }
 
-extension OptionStateValue on OptionState {
+extension OptionStateValueExtension on OptionState {
   String toValue() {
     switch (this) {
       case OptionState.requiresIndexDocuments:
@@ -3118,7 +3118,7 @@ enum PartitionInstanceType {
   search_2xlarge,
 }
 
-extension PartitionInstanceTypeValue on PartitionInstanceType {
+extension PartitionInstanceTypeValueExtension on PartitionInstanceType {
   String toValue() {
     switch (this) {
       case PartitionInstanceType.searchM1Small:
@@ -3298,7 +3298,7 @@ enum SuggesterFuzzyMatching {
   high,
 }
 
-extension SuggesterFuzzyMatchingValue on SuggesterFuzzyMatching {
+extension SuggesterFuzzyMatchingValueExtension on SuggesterFuzzyMatching {
   String toValue() {
     switch (this) {
       case SuggesterFuzzyMatching.none:
@@ -3348,7 +3348,7 @@ enum TLSSecurityPolicy {
   policyMinTls_1_2_2019_07,
 }
 
-extension TLSSecurityPolicyValue on TLSSecurityPolicy {
+extension TLSSecurityPolicyValueExtension on TLSSecurityPolicy {
   String toValue() {
     switch (this) {
       case TLSSecurityPolicy.policyMinTls_1_0_2019_07:

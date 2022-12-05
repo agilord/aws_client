@@ -945,7 +945,7 @@ enum MemberDisabledReason {
   volumeUnknown,
 }
 
-extension MemberDisabledReasonValue on MemberDisabledReason {
+extension MemberDisabledReasonValueExtension on MemberDisabledReason {
   String toValue() {
     switch (this) {
       case MemberDisabledReason.volumeTooHigh:
@@ -976,7 +976,7 @@ enum MemberStatus {
   acceptedButDisabled,
 }
 
-extension MemberStatusValue on MemberStatus {
+extension MemberStatusValueExtension on MemberStatus {
   String toValue() {
     switch (this) {
       case MemberStatus.invited:

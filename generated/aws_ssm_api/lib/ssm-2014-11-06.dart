@@ -10084,7 +10084,8 @@ enum AssociationComplianceSeverity {
   unspecified,
 }
 
-extension AssociationComplianceSeverityValue on AssociationComplianceSeverity {
+extension AssociationComplianceSeverityValueExtension
+    on AssociationComplianceSeverity {
   String toValue() {
     switch (this) {
       case AssociationComplianceSeverity.critical:
@@ -10390,7 +10391,8 @@ enum AssociationExecutionFilterKey {
   createdTime,
 }
 
-extension AssociationExecutionFilterKeyValue on AssociationExecutionFilterKey {
+extension AssociationExecutionFilterKeyValueExtension
+    on AssociationExecutionFilterKey {
   String toValue() {
     switch (this) {
       case AssociationExecutionFilterKey.executionId:
@@ -10502,7 +10504,7 @@ enum AssociationExecutionTargetsFilterKey {
   resourceType,
 }
 
-extension AssociationExecutionTargetsFilterKeyValue
+extension AssociationExecutionTargetsFilterKeyValueExtension
     on AssociationExecutionTargetsFilterKey {
   String toValue() {
     switch (this) {
@@ -10568,7 +10570,7 @@ enum AssociationFilterKey {
   resourceGroupName,
 }
 
-extension AssociationFilterKeyValue on AssociationFilterKey {
+extension AssociationFilterKeyValueExtension on AssociationFilterKey {
   String toValue() {
     switch (this) {
       case AssociationFilterKey.instanceId:
@@ -10621,7 +10623,8 @@ enum AssociationFilterOperatorType {
   greaterThan,
 }
 
-extension AssociationFilterOperatorTypeValue on AssociationFilterOperatorType {
+extension AssociationFilterOperatorTypeValueExtension
+    on AssociationFilterOperatorType {
   String toValue() {
     switch (this) {
       case AssociationFilterOperatorType.equal:
@@ -10726,7 +10729,7 @@ enum AssociationStatusName {
   failed,
 }
 
-extension AssociationStatusNameValue on AssociationStatusName {
+extension AssociationStatusNameValueExtension on AssociationStatusName {
   String toValue() {
     switch (this) {
       case AssociationStatusName.pending:
@@ -10758,7 +10761,7 @@ enum AssociationSyncCompliance {
   manual,
 }
 
-extension AssociationSyncComplianceValue on AssociationSyncCompliance {
+extension AssociationSyncComplianceValueExtension on AssociationSyncCompliance {
   String toValue() {
     switch (this) {
       case AssociationSyncCompliance.auto:
@@ -10966,7 +10969,7 @@ enum AttachmentHashType {
   sha256,
 }
 
-extension AttachmentHashTypeValue on AttachmentHashType {
+extension AttachmentHashTypeValueExtension on AttachmentHashType {
   String toValue() {
     switch (this) {
       case AttachmentHashType.sha256:
@@ -11070,7 +11073,7 @@ enum AttachmentsSourceKey {
   attachmentReference,
 }
 
-extension AttachmentsSourceKeyValue on AttachmentsSourceKey {
+extension AttachmentsSourceKeyValueExtension on AttachmentsSourceKey {
   String toValue() {
     switch (this) {
       case AttachmentsSourceKey.sourceUrl:
@@ -11350,7 +11353,8 @@ enum AutomationExecutionFilterKey {
   opsItemId,
 }
 
-extension AutomationExecutionFilterKeyValue on AutomationExecutionFilterKey {
+extension AutomationExecutionFilterKeyValueExtension
+    on AutomationExecutionFilterKey {
   String toValue() {
     switch (this) {
       case AutomationExecutionFilterKey.documentNamePrefix:
@@ -11615,7 +11619,7 @@ enum AutomationExecutionStatus {
   completedWithFailure,
 }
 
-extension AutomationExecutionStatusValue on AutomationExecutionStatus {
+extension AutomationExecutionStatusValueExtension on AutomationExecutionStatus {
   String toValue() {
     switch (this) {
       case AutomationExecutionStatus.pending:
@@ -11706,7 +11710,7 @@ enum AutomationSubtype {
   changeRequest,
 }
 
-extension AutomationSubtypeValue on AutomationSubtype {
+extension AutomationSubtypeValueExtension on AutomationSubtype {
   String toValue() {
     switch (this) {
       case AutomationSubtype.changeRequest:
@@ -11730,7 +11734,7 @@ enum AutomationType {
   local,
 }
 
-extension AutomationTypeValue on AutomationType {
+extension AutomationTypeValueExtension on AutomationType {
   String toValue() {
     switch (this) {
       case AutomationType.crossAccount:
@@ -11758,7 +11762,7 @@ enum CalendarState {
   closed,
 }
 
-extension CalendarStateValue on CalendarState {
+extension CalendarStateValueExtension on CalendarState {
   String toValue() {
     switch (this) {
       case CalendarState.open:
@@ -12148,7 +12152,7 @@ enum CommandFilterKey {
   documentName,
 }
 
-extension CommandFilterKeyValue on CommandFilterKey {
+extension CommandFilterKeyValueExtension on CommandFilterKey {
   String toValue() {
     switch (this) {
       case CommandFilterKey.invokedAfter:
@@ -12363,7 +12367,7 @@ enum CommandInvocationStatus {
   cancelling,
 }
 
-extension CommandInvocationStatusValue on CommandInvocationStatus {
+extension CommandInvocationStatusValueExtension on CommandInvocationStatus {
   String toValue() {
     switch (this) {
       case CommandInvocationStatus.pending:
@@ -12574,7 +12578,7 @@ enum CommandPluginStatus {
   failed,
 }
 
-extension CommandPluginStatusValue on CommandPluginStatus {
+extension CommandPluginStatusValueExtension on CommandPluginStatus {
   String toValue() {
     switch (this) {
       case CommandPluginStatus.pending:
@@ -12623,7 +12627,7 @@ enum CommandStatus {
   cancelling,
 }
 
-extension CommandStatusValue on CommandStatus {
+extension CommandStatusValueExtension on CommandStatus {
   String toValue() {
     switch (this) {
       case CommandStatus.pending:
@@ -12835,7 +12839,8 @@ enum ComplianceQueryOperatorType {
   greaterThan,
 }
 
-extension ComplianceQueryOperatorTypeValue on ComplianceQueryOperatorType {
+extension ComplianceQueryOperatorTypeValueExtension
+    on ComplianceQueryOperatorType {
   String toValue() {
     switch (this) {
       case ComplianceQueryOperatorType.equal:
@@ -12879,7 +12884,7 @@ enum ComplianceSeverity {
   unspecified,
 }
 
-extension ComplianceSeverityValue on ComplianceSeverity {
+extension ComplianceSeverityValueExtension on ComplianceSeverity {
   String toValue() {
     switch (this) {
       case ComplianceSeverity.critical:
@@ -12923,7 +12928,7 @@ enum ComplianceStatus {
   nonCompliant,
 }
 
-extension ComplianceStatusValue on ComplianceStatus {
+extension ComplianceStatusValueExtension on ComplianceStatus {
   String toValue() {
     switch (this) {
       case ComplianceStatus.compliant:
@@ -13012,7 +13017,7 @@ enum ComplianceUploadType {
   partial,
 }
 
-extension ComplianceUploadTypeValue on ComplianceUploadType {
+extension ComplianceUploadTypeValueExtension on ComplianceUploadType {
   String toValue() {
     switch (this) {
       case ComplianceUploadType.complete:
@@ -13064,7 +13069,7 @@ enum ConnectionStatus {
   notConnected,
 }
 
-extension ConnectionStatusValue on ConnectionStatus {
+extension ConnectionStatusValueExtension on ConnectionStatus {
   String toValue() {
     switch (this) {
       case ConnectionStatus.connected:
@@ -13653,7 +13658,8 @@ enum DescribeActivationsFilterKeys {
   iamRole,
 }
 
-extension DescribeActivationsFilterKeysValue on DescribeActivationsFilterKeys {
+extension DescribeActivationsFilterKeysValueExtension
+    on DescribeActivationsFilterKeys {
   String toValue() {
     switch (this) {
       case DescribeActivationsFilterKeys.activationIds:
@@ -14754,7 +14760,7 @@ enum DocumentFilterKey {
   documentType,
 }
 
-extension DocumentFilterKeyValue on DocumentFilterKey {
+extension DocumentFilterKeyValueExtension on DocumentFilterKey {
   String toValue() {
     switch (this) {
       case DocumentFilterKey.name:
@@ -14791,7 +14797,7 @@ enum DocumentFormat {
   text,
 }
 
-extension DocumentFormatValue on DocumentFormat {
+extension DocumentFormatValueExtension on DocumentFormat {
   String toValue() {
     switch (this) {
       case DocumentFormat.yaml:
@@ -14823,7 +14829,7 @@ enum DocumentHashType {
   sha1,
 }
 
-extension DocumentHashTypeValue on DocumentHashType {
+extension DocumentHashTypeValueExtension on DocumentHashType {
   String toValue() {
     switch (this) {
       case DocumentHashType.sha256:
@@ -15056,7 +15062,7 @@ enum DocumentMetadataEnum {
   documentReviews,
 }
 
-extension DocumentMetadataEnumValue on DocumentMetadataEnum {
+extension DocumentMetadataEnumValueExtension on DocumentMetadataEnum {
   String toValue() {
     switch (this) {
       case DocumentMetadataEnum.documentReviews:
@@ -15132,7 +15138,7 @@ enum DocumentParameterType {
   stringList,
 }
 
-extension DocumentParameterTypeValue on DocumentParameterType {
+extension DocumentParameterTypeValueExtension on DocumentParameterType {
   String toValue() {
     switch (this) {
       case DocumentParameterType.string:
@@ -15159,7 +15165,7 @@ enum DocumentPermissionType {
   share,
 }
 
-extension DocumentPermissionTypeValue on DocumentPermissionType {
+extension DocumentPermissionTypeValueExtension on DocumentPermissionType {
   String toValue() {
     switch (this) {
       case DocumentPermissionType.share:
@@ -15215,7 +15221,7 @@ enum DocumentReviewAction {
   reject,
 }
 
-extension DocumentReviewActionValue on DocumentReviewAction {
+extension DocumentReviewActionValueExtension on DocumentReviewAction {
   String toValue() {
     switch (this) {
       case DocumentReviewAction.sendForReview:
@@ -15281,7 +15287,7 @@ enum DocumentReviewCommentType {
   comment,
 }
 
-extension DocumentReviewCommentTypeValue on DocumentReviewCommentType {
+extension DocumentReviewCommentTypeValueExtension on DocumentReviewCommentType {
   String toValue() {
     switch (this) {
       case DocumentReviewCommentType.comment:
@@ -15380,7 +15386,7 @@ enum DocumentStatus {
   failed,
 }
 
-extension DocumentStatusValue on DocumentStatus {
+extension DocumentStatusValueExtension on DocumentStatus {
   String toValue() {
     switch (this) {
       case DocumentStatus.creating:
@@ -15428,7 +15434,7 @@ enum DocumentType {
   automationChangeTemplate,
 }
 
-extension DocumentTypeValue on DocumentType {
+extension DocumentTypeValueExtension on DocumentType {
   String toValue() {
     switch (this) {
       case DocumentType.command:
@@ -15583,7 +15589,7 @@ enum ExecutionMode {
   interactive,
 }
 
-extension ExecutionModeValue on ExecutionMode {
+extension ExecutionModeValueExtension on ExecutionMode {
   String toValue() {
     switch (this) {
       case ExecutionMode.auto:
@@ -15670,7 +15676,7 @@ enum Fault {
   unknown,
 }
 
-extension FaultValue on Fault {
+extension FaultValueExtension on Fault {
   String toValue() {
     switch (this) {
       case Fault.client:
@@ -17234,7 +17240,8 @@ enum InstanceInformationFilterKey {
   associationStatus,
 }
 
-extension InstanceInformationFilterKeyValue on InstanceInformationFilterKey {
+extension InstanceInformationFilterKeyValueExtension
+    on InstanceInformationFilterKey {
   String toValue() {
     switch (this) {
       case InstanceInformationFilterKey.instanceIds:
@@ -17506,7 +17513,7 @@ enum InstancePatchStateOperatorType {
   greaterThan,
 }
 
-extension InstancePatchStateOperatorTypeValue
+extension InstancePatchStateOperatorTypeValueExtension
     on InstancePatchStateOperatorType {
   String toValue() {
     switch (this) {
@@ -17574,7 +17581,8 @@ enum InventoryAttributeDataType {
   number,
 }
 
-extension InventoryAttributeDataTypeValue on InventoryAttributeDataType {
+extension InventoryAttributeDataTypeValueExtension
+    on InventoryAttributeDataType {
   String toValue() {
     switch (this) {
       case InventoryAttributeDataType.string:
@@ -17602,7 +17610,7 @@ enum InventoryDeletionStatus {
   complete,
 }
 
-extension InventoryDeletionStatusValue on InventoryDeletionStatus {
+extension InventoryDeletionStatusValueExtension on InventoryDeletionStatus {
   String toValue() {
     switch (this) {
       case InventoryDeletionStatus.inProgress:
@@ -17922,7 +17930,8 @@ enum InventoryQueryOperatorType {
   exists,
 }
 
-extension InventoryQueryOperatorTypeValue on InventoryQueryOperatorType {
+extension InventoryQueryOperatorTypeValueExtension
+    on InventoryQueryOperatorType {
   String toValue() {
     switch (this) {
       case InventoryQueryOperatorType.equal:
@@ -18032,7 +18041,8 @@ enum InventorySchemaDeleteOption {
   deleteSchema,
 }
 
-extension InventorySchemaDeleteOptionValue on InventorySchemaDeleteOption {
+extension InventorySchemaDeleteOptionValueExtension
+    on InventorySchemaDeleteOption {
   String toValue() {
     switch (this) {
       case InventorySchemaDeleteOption.disableSchema:
@@ -18086,7 +18096,8 @@ enum LastResourceDataSyncStatus {
   inProgress,
 }
 
-extension LastResourceDataSyncStatusValue on LastResourceDataSyncStatus {
+extension LastResourceDataSyncStatusValueExtension
+    on LastResourceDataSyncStatus {
   String toValue() {
     switch (this) {
       case LastResourceDataSyncStatus.successful:
@@ -18651,7 +18662,7 @@ enum MaintenanceWindowExecutionStatus {
   skippedOverlapping,
 }
 
-extension MaintenanceWindowExecutionStatusValue
+extension MaintenanceWindowExecutionStatusValueExtension
     on MaintenanceWindowExecutionStatus {
   String toValue() {
     switch (this) {
@@ -19020,7 +19031,8 @@ enum MaintenanceWindowResourceType {
   resourceGroup,
 }
 
-extension MaintenanceWindowResourceTypeValue on MaintenanceWindowResourceType {
+extension MaintenanceWindowResourceTypeValueExtension
+    on MaintenanceWindowResourceType {
   String toValue() {
     switch (this) {
       case MaintenanceWindowResourceType.instance:
@@ -19493,7 +19505,7 @@ enum MaintenanceWindowTaskType {
   lambda,
 }
 
-extension MaintenanceWindowTaskTypeValue on MaintenanceWindowTaskType {
+extension MaintenanceWindowTaskTypeValueExtension on MaintenanceWindowTaskType {
   String toValue() {
     switch (this) {
       case MaintenanceWindowTaskType.runCommand:
@@ -19638,7 +19650,7 @@ enum NotificationEvent {
   failed,
 }
 
-extension NotificationEventValue on NotificationEvent {
+extension NotificationEventValueExtension on NotificationEvent {
   String toValue() {
     switch (this) {
       case NotificationEvent.all:
@@ -19682,7 +19694,7 @@ enum NotificationType {
   invocation,
 }
 
-extension NotificationTypeValue on NotificationType {
+extension NotificationTypeValueExtension on NotificationType {
   String toValue() {
     switch (this) {
       case NotificationType.command:
@@ -19718,7 +19730,7 @@ enum OperatingSystem {
   macos,
 }
 
-extension OperatingSystemValue on OperatingSystem {
+extension OperatingSystemValueExtension on OperatingSystem {
   String toValue() {
     switch (this) {
       case OperatingSystem.windows:
@@ -19903,7 +19915,7 @@ enum OpsFilterOperatorType {
   exists,
 }
 
-extension OpsFilterOperatorTypeValue on OpsFilterOperatorType {
+extension OpsFilterOperatorTypeValueExtension on OpsFilterOperatorType {
   String toValue() {
     switch (this) {
       case OpsFilterOperatorType.equal:
@@ -20113,7 +20125,7 @@ enum OpsItemDataType {
   string,
 }
 
-extension OpsItemDataTypeValue on OpsItemDataType {
+extension OpsItemDataTypeValueExtension on OpsItemDataType {
   String toValue() {
     switch (this) {
       case OpsItemDataType.searchableString:
@@ -20203,7 +20215,7 @@ enum OpsItemEventFilterKey {
   opsItemId,
 }
 
-extension OpsItemEventFilterKeyValue on OpsItemEventFilterKey {
+extension OpsItemEventFilterKeyValueExtension on OpsItemEventFilterKey {
   String toValue() {
     switch (this) {
       case OpsItemEventFilterKey.opsItemId:
@@ -20226,7 +20238,8 @@ enum OpsItemEventFilterOperator {
   equal,
 }
 
-extension OpsItemEventFilterOperatorValue on OpsItemEventFilterOperator {
+extension OpsItemEventFilterOperatorValueExtension
+    on OpsItemEventFilterOperator {
   String toValue() {
     switch (this) {
       case OpsItemEventFilterOperator.equal:
@@ -20349,7 +20362,7 @@ enum OpsItemFilterKey {
   changeRequestByTargetsResourceGroup,
 }
 
-extension OpsItemFilterKeyValue on OpsItemFilterKey {
+extension OpsItemFilterKeyValueExtension on OpsItemFilterKey {
   String toValue() {
     switch (this) {
       case OpsItemFilterKey.status:
@@ -20475,7 +20488,7 @@ enum OpsItemFilterOperator {
   lessThan,
 }
 
-extension OpsItemFilterOperatorValue on OpsItemFilterOperator {
+extension OpsItemFilterOperatorValueExtension on OpsItemFilterOperator {
   String toValue() {
     switch (this) {
       case OpsItemFilterOperator.equal:
@@ -20566,7 +20579,7 @@ enum OpsItemStatus {
   rejected,
 }
 
-extension OpsItemStatusValue on OpsItemStatus {
+extension OpsItemStatusValueExtension on OpsItemStatus {
   String toValue() {
     switch (this) {
       case OpsItemStatus.open:
@@ -21172,7 +21185,7 @@ enum ParameterTier {
   intelligentTiering,
 }
 
-extension ParameterTierValue on ParameterTier {
+extension ParameterTierValueExtension on ParameterTier {
   String toValue() {
     switch (this) {
       case ParameterTier.standard:
@@ -21205,7 +21218,7 @@ enum ParameterType {
   secureString,
 }
 
-extension ParameterTypeValue on ParameterType {
+extension ParameterTypeValueExtension on ParameterType {
   String toValue() {
     switch (this) {
       case ParameterType.string:
@@ -21260,7 +21273,7 @@ enum ParametersFilterKey {
   keyId,
 }
 
-extension ParametersFilterKeyValue on ParametersFilterKey {
+extension ParametersFilterKeyValueExtension on ParametersFilterKey {
   String toValue() {
     switch (this) {
       case ParametersFilterKey.name:
@@ -21452,7 +21465,7 @@ enum PatchAction {
   block,
 }
 
-extension PatchActionValue on PatchAction {
+extension PatchActionValueExtension on PatchAction {
   String toValue() {
     switch (this) {
       case PatchAction.allowAsDependency:
@@ -21578,7 +21591,7 @@ enum PatchComplianceDataState {
   failed,
 }
 
-extension PatchComplianceDataStateValue on PatchComplianceDataState {
+extension PatchComplianceDataStateValueExtension on PatchComplianceDataState {
   String toValue() {
     switch (this) {
       case PatchComplianceDataState.installed:
@@ -21630,7 +21643,7 @@ enum PatchComplianceLevel {
   unspecified,
 }
 
-extension PatchComplianceLevelValue on PatchComplianceLevel {
+extension PatchComplianceLevelValueExtension on PatchComplianceLevel {
   String toValue() {
     switch (this) {
       case PatchComplianceLevel.critical:
@@ -21676,7 +21689,7 @@ enum PatchDeploymentStatus {
   explicitRejected,
 }
 
-extension PatchDeploymentStatusValue on PatchDeploymentStatus {
+extension PatchDeploymentStatusValueExtension on PatchDeploymentStatus {
   String toValue() {
     switch (this) {
       case PatchDeploymentStatus.approved:
@@ -21807,7 +21820,7 @@ enum PatchFilterKey {
   version,
 }
 
-extension PatchFilterKeyValue on PatchFilterKey {
+extension PatchFilterKeyValueExtension on PatchFilterKey {
   String toValue() {
     switch (this) {
       case PatchFilterKey.arch:
@@ -21927,7 +21940,7 @@ enum PatchOperationType {
   install,
 }
 
-extension PatchOperationTypeValue on PatchOperationType {
+extension PatchOperationTypeValueExtension on PatchOperationType {
   String toValue() {
     switch (this) {
       case PatchOperationType.scan:
@@ -21981,7 +21994,7 @@ enum PatchProperty {
   severity,
 }
 
-extension PatchPropertyValue on PatchProperty {
+extension PatchPropertyValueExtension on PatchProperty {
   String toValue() {
     switch (this) {
       case PatchProperty.product:
@@ -22112,7 +22125,7 @@ enum PatchSet {
   application,
 }
 
-extension PatchSetValue on PatchSet {
+extension PatchSetValueExtension on PatchSet {
   String toValue() {
     switch (this) {
       case PatchSet.os:
@@ -22221,7 +22234,7 @@ enum PingStatus {
   inactive,
 }
 
-extension PingStatusValue on PingStatus {
+extension PingStatusValueExtension on PingStatus {
   String toValue() {
     switch (this) {
       case PingStatus.online:
@@ -22253,7 +22266,7 @@ enum PlatformType {
   linux,
 }
 
-extension PlatformTypeValue on PlatformType {
+extension PlatformTypeValueExtension on PlatformType {
   String toValue() {
     switch (this) {
       case PlatformType.windows:
@@ -22367,7 +22380,7 @@ enum RebootOption {
   noReboot,
 }
 
-extension RebootOptionValue on RebootOption {
+extension RebootOptionValueExtension on RebootOption {
   String toValue() {
     switch (this) {
       case RebootOption.rebootIfNeeded:
@@ -22823,7 +22836,7 @@ enum ResourceDataSyncS3Format {
   jsonSerDe,
 }
 
-extension ResourceDataSyncS3FormatValue on ResourceDataSyncS3Format {
+extension ResourceDataSyncS3FormatValueExtension on ResourceDataSyncS3Format {
   String toValue() {
     switch (this) {
       case ResourceDataSyncS3Format.jsonSerDe:
@@ -22959,7 +22972,7 @@ enum ResourceType {
   eC2Instance,
 }
 
-extension ResourceTypeValue on ResourceType {
+extension ResourceTypeValueExtension on ResourceType {
   String toValue() {
     switch (this) {
       case ResourceType.managedInstance:
@@ -22995,7 +23008,7 @@ enum ResourceTypeForTagging {
   opsItem,
 }
 
-extension ResourceTypeForTaggingValue on ResourceTypeForTagging {
+extension ResourceTypeForTaggingValueExtension on ResourceTypeForTagging {
   String toValue() {
     switch (this) {
       case ResourceTypeForTagging.document:
@@ -23120,7 +23133,7 @@ enum ReviewStatus {
   rejected,
 }
 
-extension ReviewStatusValue on ReviewStatus {
+extension ReviewStatusValueExtension on ReviewStatus {
   String toValue() {
     switch (this) {
       case ReviewStatus.approved:
@@ -23562,7 +23575,7 @@ enum SessionFilterKey {
   sessionId,
 }
 
-extension SessionFilterKeyValue on SessionFilterKey {
+extension SessionFilterKeyValueExtension on SessionFilterKey {
   String toValue() {
     switch (this) {
       case SessionFilterKey.invokedAfter:
@@ -23626,7 +23639,7 @@ enum SessionState {
   history,
 }
 
-extension SessionStateValue on SessionState {
+extension SessionStateValueExtension on SessionState {
   String toValue() {
     switch (this) {
       case SessionState.active:
@@ -23658,7 +23671,7 @@ enum SessionStatus {
   failed,
 }
 
-extension SessionStatusValue on SessionStatus {
+extension SessionStatusValueExtension on SessionStatus {
   String toValue() {
     switch (this) {
       case SessionStatus.connected:
@@ -23758,7 +23771,7 @@ enum SignalType {
   resume,
 }
 
-extension SignalTypeValue on SignalType {
+extension SignalTypeValueExtension on SignalType {
   String toValue() {
     switch (this) {
       case SignalType.approve:
@@ -24051,7 +24064,7 @@ enum StepExecutionFilterKey {
   action,
 }
 
-extension StepExecutionFilterKeyValue on StepExecutionFilterKey {
+extension StepExecutionFilterKeyValueExtension on StepExecutionFilterKey {
   String toValue() {
     switch (this) {
       case StepExecutionFilterKey.startTimeBefore:
@@ -24102,7 +24115,7 @@ enum StopType {
   cancel,
 }
 
-extension StopTypeValue on StopType {
+extension StopTypeValueExtension on StopType {
   String toValue() {
     switch (this) {
       case StopType.complete:

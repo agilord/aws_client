@@ -1358,7 +1358,7 @@ enum ApplicationStatus {
   completed,
 }
 
-extension ApplicationStatusValue on ApplicationStatus {
+extension ApplicationStatusValueExtension on ApplicationStatus {
   String toValue() {
     switch (this) {
       case ApplicationStatus.notStarted:
@@ -1840,7 +1840,7 @@ enum ResourceAttributeType {
   motherboardSerialNumber,
 }
 
-extension ResourceAttributeTypeValue on ResourceAttributeType {
+extension ResourceAttributeTypeValueExtension on ResourceAttributeType {
   String toValue() {
     switch (this) {
       case ResourceAttributeType.ipv4Address:
@@ -1902,7 +1902,7 @@ enum Status {
   completed,
 }
 
-extension StatusValue on Status {
+extension StatusValueExtension on Status {
   String toValue() {
     switch (this) {
       case Status.notStarted:

@@ -1009,7 +1009,7 @@ enum EncryptionKeyType {
   kms,
 }
 
-extension EncryptionKeyTypeValue on EncryptionKeyType {
+extension EncryptionKeyTypeValueExtension on EncryptionKeyType {
   String toValue() {
     switch (this) {
       case EncryptionKeyType.kms:
@@ -1224,7 +1224,7 @@ enum JobStatus {
   stopped,
 }
 
-extension JobStatusValue on JobStatus {
+extension JobStatusValueExtension on JobStatus {
   String toValue() {
     switch (this) {
       case JobStatus.submitted:
@@ -1344,7 +1344,7 @@ enum MergeStrategy {
   overwrite,
 }
 
-extension MergeStrategyValue on MergeStrategy {
+extension MergeStrategyValueExtension on MergeStrategy {
   String toValue() {
     switch (this) {
       case MergeStrategy.overwrite:
@@ -1444,7 +1444,7 @@ enum ParallelDataFormat {
   tmx,
 }
 
-extension ParallelDataFormatValue on ParallelDataFormat {
+extension ParallelDataFormatValueExtension on ParallelDataFormat {
   String toValue() {
     switch (this) {
       case ParallelDataFormat.tsv:
@@ -1593,7 +1593,7 @@ enum ParallelDataStatus {
   failed,
 }
 
-extension ParallelDataStatusValue on ParallelDataStatus {
+extension ParallelDataStatusValueExtension on ParallelDataStatus {
   String toValue() {
     switch (this) {
       case ParallelDataStatus.creating:
@@ -1746,7 +1746,7 @@ enum TerminologyDataFormat {
   tmx,
 }
 
-extension TerminologyDataFormatValue on TerminologyDataFormat {
+extension TerminologyDataFormatValueExtension on TerminologyDataFormat {
   String toValue() {
     switch (this) {
       case TerminologyDataFormat.csv:

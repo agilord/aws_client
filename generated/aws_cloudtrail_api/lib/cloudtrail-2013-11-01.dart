@@ -1920,7 +1920,7 @@ enum EventCategory {
   insight,
 }
 
-extension EventCategoryValue on EventCategory {
+extension EventCategoryValueExtension on EventCategory {
   String toValue() {
     switch (this) {
       case EventCategory.insight:
@@ -2263,7 +2263,7 @@ enum InsightType {
   apiCallRateInsight,
 }
 
-extension InsightTypeValue on InsightType {
+extension InsightTypeValueExtension on InsightType {
   String toValue() {
     switch (this) {
       case InsightType.apiCallRateInsight:
@@ -2393,7 +2393,7 @@ enum LookupAttributeKey {
   accessKeyId,
 }
 
-extension LookupAttributeKeyValue on LookupAttributeKey {
+extension LookupAttributeKeyValueExtension on LookupAttributeKey {
   String toValue() {
     switch (this) {
       case LookupAttributeKey.eventId:
@@ -2564,7 +2564,7 @@ enum ReadWriteType {
   all,
 }
 
-extension ReadWriteTypeValue on ReadWriteType {
+extension ReadWriteTypeValueExtension on ReadWriteType {
   String toValue() {
     switch (this) {
       case ReadWriteType.readOnly:

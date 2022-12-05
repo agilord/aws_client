@@ -1895,7 +1895,7 @@ enum BaseModelName {
   wideBand,
 }
 
-extension BaseModelNameValue on BaseModelName {
+extension BaseModelNameValueExtension on BaseModelName {
   String toValue() {
     switch (this) {
       case BaseModelName.narrowBand:
@@ -1922,7 +1922,7 @@ enum CLMLanguageCode {
   enUs,
 }
 
-extension CLMLanguageCodeValue on CLMLanguageCode {
+extension CLMLanguageCodeValueExtension on CLMLanguageCode {
   String toValue() {
     switch (this) {
       case CLMLanguageCode.enUs:
@@ -2416,7 +2416,7 @@ enum LanguageCode {
   zhCn,
 }
 
-extension LanguageCodeValue on LanguageCode {
+extension LanguageCodeValueExtension on LanguageCode {
   String toValue() {
     switch (this) {
       case LanguageCode.afZa:
@@ -2871,7 +2871,7 @@ enum MediaFormat {
   webm,
 }
 
-extension MediaFormatValue on MediaFormat {
+extension MediaFormatValueExtension on MediaFormat {
   String toValue() {
     switch (this) {
       case MediaFormat.mp3:
@@ -3273,7 +3273,7 @@ enum ModelStatus {
   completed,
 }
 
-extension ModelStatusValue on ModelStatus {
+extension ModelStatusValueExtension on ModelStatus {
   String toValue() {
     switch (this) {
       case ModelStatus.inProgress:
@@ -3305,7 +3305,7 @@ enum OutputLocationType {
   serviceBucket,
 }
 
-extension OutputLocationTypeValue on OutputLocationType {
+extension OutputLocationTypeValueExtension on OutputLocationType {
   String toValue() {
     switch (this) {
       case OutputLocationType.customerBucket:
@@ -3333,7 +3333,7 @@ enum RedactionOutput {
   redactedAndUnredacted,
 }
 
-extension RedactionOutputValue on RedactionOutput {
+extension RedactionOutputValueExtension on RedactionOutput {
   String toValue() {
     switch (this) {
       case RedactionOutput.redacted:
@@ -3360,7 +3360,7 @@ enum RedactionType {
   pii,
 }
 
-extension RedactionTypeValue on RedactionType {
+extension RedactionTypeValueExtension on RedactionType {
   String toValue() {
     switch (this) {
       case RedactionType.pii:
@@ -3492,7 +3492,7 @@ enum Specialty {
   primarycare,
 }
 
-extension SpecialtyValue on Specialty {
+extension SpecialtyValueExtension on Specialty {
   String toValue() {
     switch (this) {
       case Specialty.primarycare:
@@ -3758,7 +3758,7 @@ enum TranscriptionJobStatus {
   completed,
 }
 
-extension TranscriptionJobStatusValue on TranscriptionJobStatus {
+extension TranscriptionJobStatusValueExtension on TranscriptionJobStatus {
   String toValue() {
     switch (this) {
       case TranscriptionJobStatus.queued:
@@ -3886,7 +3886,7 @@ enum Type {
   dictation,
 }
 
-extension TypeValue on Type {
+extension TypeValueExtension on Type {
   String toValue() {
     switch (this) {
       case Type.conversation:
@@ -4031,7 +4031,7 @@ enum VocabularyFilterMethod {
   mask,
 }
 
-extension VocabularyFilterMethodValue on VocabularyFilterMethod {
+extension VocabularyFilterMethodValueExtension on VocabularyFilterMethod {
   String toValue() {
     switch (this) {
       case VocabularyFilterMethod.remove:
@@ -4092,7 +4092,7 @@ enum VocabularyState {
   failed,
 }
 
-extension VocabularyStateValue on VocabularyState {
+extension VocabularyStateValueExtension on VocabularyState {
   String toValue() {
     switch (this) {
       case VocabularyState.pending:

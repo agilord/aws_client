@@ -2222,7 +2222,7 @@ enum DeploymentStatus {
   eligible,
 }
 
-extension DeploymentStatusValue on DeploymentStatus {
+extension DeploymentStatusValueExtension on DeploymentStatus {
   String toValue() {
     switch (this) {
       case DeploymentStatus.pendingUpdate:
@@ -2425,7 +2425,8 @@ enum DescribePackagesFilterName {
   packageStatus,
 }
 
-extension DescribePackagesFilterNameValue on DescribePackagesFilterName {
+extension DescribePackagesFilterNameValueExtension
+    on DescribePackagesFilterName {
   String toValue() {
     switch (this) {
       case DescribePackagesFilterName.packageID:
@@ -2745,7 +2746,7 @@ enum DomainPackageStatus {
   dissociationFailed,
 }
 
-extension DomainPackageStatusValue on DomainPackageStatus {
+extension DomainPackageStatusValueExtension on DomainPackageStatus {
   String toValue() {
     switch (this) {
       case DomainPackageStatus.associating:
@@ -2908,7 +2909,7 @@ enum ESPartitionInstanceType {
   i3_16xlargeElasticsearch,
 }
 
-extension ESPartitionInstanceTypeValue on ESPartitionInstanceType {
+extension ESPartitionInstanceTypeValueExtension on ESPartitionInstanceType {
   String toValue() {
     switch (this) {
       case ESPartitionInstanceType.m3MediumElasticsearch:
@@ -3160,7 +3161,8 @@ enum ESWarmPartitionInstanceType {
   ultrawarm1LargeElasticsearch,
 }
 
-extension ESWarmPartitionInstanceTypeValue on ESWarmPartitionInstanceType {
+extension ESWarmPartitionInstanceTypeValueExtension
+    on ESWarmPartitionInstanceType {
   String toValue() {
     switch (this) {
       case ESWarmPartitionInstanceType.ultrawarm1MediumElasticsearch:
@@ -3933,7 +3935,7 @@ enum InboundCrossClusterSearchConnectionStatusCode {
   deleted,
 }
 
-extension InboundCrossClusterSearchConnectionStatusCodeValue
+extension InboundCrossClusterSearchConnectionStatusCodeValueExtension
     on InboundCrossClusterSearchConnectionStatusCode {
   String toValue() {
     switch (this) {
@@ -4263,7 +4265,7 @@ enum LogType {
   auditLogs,
 }
 
-extension LogTypeValue on LogType {
+extension LogTypeValueExtension on LogType {
   String toValue() {
     switch (this) {
       case LogType.indexSlowLogs:
@@ -4384,7 +4386,7 @@ enum OptionState {
   active,
 }
 
-extension OptionStateValue on OptionState {
+extension OptionStateValueExtension on OptionState {
   String toValue() {
     switch (this) {
       case OptionState.requiresIndexDocuments:
@@ -4545,7 +4547,7 @@ enum OutboundCrossClusterSearchConnectionStatusCode {
   deleted,
 }
 
-extension OutboundCrossClusterSearchConnectionStatusCodeValue
+extension OutboundCrossClusterSearchConnectionStatusCodeValueExtension
     on OutboundCrossClusterSearchConnectionStatusCode {
   String toValue() {
     switch (this) {
@@ -4684,7 +4686,7 @@ enum PackageStatus {
   deleteFailed,
 }
 
-extension PackageStatusValue on PackageStatus {
+extension PackageStatusValueExtension on PackageStatus {
   String toValue() {
     switch (this) {
       case PackageStatus.copying:
@@ -4735,7 +4737,7 @@ enum PackageType {
   txtDictionary,
 }
 
-extension PackageTypeValue on PackageType {
+extension PackageTypeValueExtension on PackageType {
   String toValue() {
     switch (this) {
       case PackageType.txtDictionary:
@@ -4999,7 +5001,7 @@ enum ReservedElasticsearchInstancePaymentOption {
   noUpfront,
 }
 
-extension ReservedElasticsearchInstancePaymentOptionValue
+extension ReservedElasticsearchInstancePaymentOptionValueExtension
     on ReservedElasticsearchInstancePaymentOption {
   String toValue() {
     switch (this) {
@@ -5343,7 +5345,7 @@ enum TLSSecurityPolicy {
   policyMinTls_1_2_2019_07,
 }
 
-extension TLSSecurityPolicyValue on TLSSecurityPolicy {
+extension TLSSecurityPolicyValueExtension on TLSSecurityPolicy {
   String toValue() {
     switch (this) {
       case TLSSecurityPolicy.policyMinTls_1_0_2019_07:
@@ -5513,7 +5515,7 @@ enum UpgradeStatus {
   failed,
 }
 
-extension UpgradeStatusValue on UpgradeStatus {
+extension UpgradeStatusValueExtension on UpgradeStatus {
   String toValue() {
     switch (this) {
       case UpgradeStatus.inProgress:
@@ -5550,7 +5552,7 @@ enum UpgradeStep {
   upgrade,
 }
 
-extension UpgradeStepValue on UpgradeStep {
+extension UpgradeStepValueExtension on UpgradeStep {
   String toValue() {
     switch (this) {
       case UpgradeStep.preUpgradeCheck:
@@ -5726,7 +5728,7 @@ enum VolumeType {
   io1,
 }
 
-extension VolumeTypeValue on VolumeType {
+extension VolumeTypeValueExtension on VolumeType {
   String toValue() {
     switch (this) {
       case VolumeType.standard:

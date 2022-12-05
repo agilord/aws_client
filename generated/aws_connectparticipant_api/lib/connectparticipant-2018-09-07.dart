@@ -631,7 +631,7 @@ enum ArtifactStatus {
   inProgress,
 }
 
-extension ArtifactStatusValue on ArtifactStatus {
+extension ArtifactStatusValueExtension on ArtifactStatus {
   String toValue() {
     switch (this) {
       case ArtifactStatus.approved:
@@ -705,7 +705,7 @@ enum ChatItemType {
   connectionAck,
 }
 
-extension ChatItemTypeValue on ChatItemType {
+extension ChatItemTypeValueExtension on ChatItemType {
   String toValue() {
     switch (this) {
       case ChatItemType.typing:
@@ -795,7 +795,7 @@ enum ConnectionType {
   connectionCredentials,
 }
 
-extension ConnectionTypeValue on ConnectionType {
+extension ConnectionTypeValueExtension on ConnectionType {
   String toValue() {
     switch (this) {
       case ConnectionType.websocket:
@@ -968,7 +968,7 @@ enum ParticipantRole {
   system,
 }
 
-extension ParticipantRoleValue on ParticipantRole {
+extension ParticipantRoleValueExtension on ParticipantRole {
   String toValue() {
     switch (this) {
       case ParticipantRole.agent:
@@ -1000,7 +1000,7 @@ enum ScanDirection {
   backward,
 }
 
-extension ScanDirectionValue on ScanDirection {
+extension ScanDirectionValueExtension on ScanDirection {
   String toValue() {
     switch (this) {
       case ScanDirection.forward:
@@ -1072,7 +1072,7 @@ enum SortKey {
   ascending,
 }
 
-extension SortKeyValue on SortKey {
+extension SortKeyValueExtension on SortKey {
   String toValue() {
     switch (this) {
       case SortKey.descending:

@@ -734,7 +734,7 @@ enum ConnectionType {
   connectSsm,
 }
 
-extension ConnectionTypeValue on ConnectionType {
+extension ConnectionTypeValueExtension on ConnectionType {
   String toValue() {
     switch (this) {
       case ConnectionType.connectSsh:
@@ -1005,7 +1005,8 @@ enum EnvironmentLifecycleStatus {
   deleteFailed,
 }
 
-extension EnvironmentLifecycleStatusValue on EnvironmentLifecycleStatus {
+extension EnvironmentLifecycleStatusValueExtension
+    on EnvironmentLifecycleStatus {
   String toValue() {
     switch (this) {
       case EnvironmentLifecycleStatus.creating:
@@ -1101,7 +1102,7 @@ enum EnvironmentStatus {
   deleting,
 }
 
-extension EnvironmentStatusValue on EnvironmentStatus {
+extension EnvironmentStatusValueExtension on EnvironmentStatus {
   String toValue() {
     switch (this) {
       case EnvironmentStatus.error:
@@ -1149,7 +1150,7 @@ enum EnvironmentType {
   ec2,
 }
 
-extension EnvironmentTypeValue on EnvironmentType {
+extension EnvironmentTypeValueExtension on EnvironmentType {
   String toValue() {
     switch (this) {
       case EnvironmentType.ssh:
@@ -1219,7 +1220,7 @@ enum MemberPermissions {
   readOnly,
 }
 
-extension MemberPermissionsValue on MemberPermissions {
+extension MemberPermissionsValueExtension on MemberPermissions {
   String toValue() {
     switch (this) {
       case MemberPermissions.readWrite:
@@ -1248,7 +1249,7 @@ enum Permissions {
   readOnly,
 }
 
-extension PermissionsValue on Permissions {
+extension PermissionsValueExtension on Permissions {
   String toValue() {
     switch (this) {
       case Permissions.owner:

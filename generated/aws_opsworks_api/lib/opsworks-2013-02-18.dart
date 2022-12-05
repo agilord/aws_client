@@ -5184,7 +5184,7 @@ enum AppAttributesKeys {
   awsFlowRubySettings,
 }
 
-extension AppAttributesKeysValue on AppAttributesKeys {
+extension AppAttributesKeysValueExtension on AppAttributesKeys {
   String toValue() {
     switch (this) {
       case AppAttributesKeys.documentRoot:
@@ -5225,7 +5225,7 @@ enum AppType {
   other,
 }
 
-extension AppTypeValue on AppType {
+extension AppTypeValueExtension on AppType {
   String toValue() {
     switch (this) {
       case AppType.awsFlowRuby:
@@ -5273,7 +5273,7 @@ enum Architecture {
   i386,
 }
 
-extension ArchitectureValue on Architecture {
+extension ArchitectureValueExtension on Architecture {
   String toValue() {
     switch (this) {
       case Architecture.x86_64:
@@ -5393,7 +5393,7 @@ enum AutoScalingType {
   timer,
 }
 
-extension AutoScalingTypeValue on AutoScalingType {
+extension AutoScalingTypeValueExtension on AutoScalingType {
   String toValue() {
     switch (this) {
       case AutoScalingType.load:
@@ -5644,7 +5644,7 @@ enum CloudWatchLogsEncoding {
   utf_8Sig,
 }
 
-extension CloudWatchLogsEncodingValue on CloudWatchLogsEncoding {
+extension CloudWatchLogsEncodingValueExtension on CloudWatchLogsEncoding {
   String toValue() {
     switch (this) {
       case CloudWatchLogsEncoding.ascii:
@@ -6035,7 +6035,8 @@ enum CloudWatchLogsInitialPosition {
   endOfFile,
 }
 
-extension CloudWatchLogsInitialPositionValue on CloudWatchLogsInitialPosition {
+extension CloudWatchLogsInitialPositionValueExtension
+    on CloudWatchLogsInitialPosition {
   String toValue() {
     switch (this) {
       case CloudWatchLogsInitialPosition.startOfFile:
@@ -6195,7 +6196,7 @@ enum CloudWatchLogsTimeZone {
   utc,
 }
 
-extension CloudWatchLogsTimeZoneValue on CloudWatchLogsTimeZone {
+extension CloudWatchLogsTimeZoneValueExtension on CloudWatchLogsTimeZone {
   String toValue() {
     switch (this) {
       case CloudWatchLogsTimeZone.local:
@@ -6681,7 +6682,7 @@ enum DeploymentCommandName {
   undeploy,
 }
 
-extension DeploymentCommandNameValue on DeploymentCommandName {
+extension DeploymentCommandNameValueExtension on DeploymentCommandName {
   String toValue() {
     switch (this) {
       case DeploymentCommandName.installDependencies:
@@ -8135,7 +8136,7 @@ enum LayerAttributesKeys {
   javaAppServerVersion,
 }
 
-extension LayerAttributesKeysValue on LayerAttributesKeys {
+extension LayerAttributesKeysValueExtension on LayerAttributesKeys {
   String toValue() {
     switch (this) {
       case LayerAttributesKeys.ecsClusterArn:
@@ -8265,7 +8266,7 @@ enum LayerType {
   custom,
 }
 
-extension LayerTypeValue on LayerType {
+extension LayerTypeValueExtension on LayerType {
   String toValue() {
     switch (this) {
       case LayerType.awsFlowRuby:
@@ -8865,7 +8866,7 @@ enum RootDeviceType {
   instanceStore,
 }
 
-extension RootDeviceTypeValue on RootDeviceType {
+extension RootDeviceTypeValueExtension on RootDeviceType {
   String toValue() {
     switch (this) {
       case RootDeviceType.ebs:
@@ -9097,7 +9098,7 @@ enum SourceType {
   s3,
 }
 
-extension SourceTypeValue on SourceType {
+extension SourceTypeValueExtension on SourceType {
   String toValue() {
     switch (this) {
       case SourceType.git:
@@ -9332,7 +9333,7 @@ enum StackAttributesKeys {
   color,
 }
 
-extension StackAttributesKeysValue on StackAttributesKeys {
+extension StackAttributesKeysValueExtension on StackAttributesKeys {
   String toValue() {
     switch (this) {
       case StackAttributesKeys.color:
@@ -9527,7 +9528,7 @@ enum VirtualizationType {
   hvm,
 }
 
-extension VirtualizationTypeValue on VirtualizationType {
+extension VirtualizationTypeValueExtension on VirtualizationType {
   String toValue() {
     switch (this) {
       case VirtualizationType.paravirtual:
@@ -9764,7 +9765,7 @@ enum VolumeType {
   standard,
 }
 
-extension VolumeTypeValue on VolumeType {
+extension VolumeTypeValueExtension on VolumeType {
   String toValue() {
     switch (this) {
       case VolumeType.gp2:

@@ -2707,7 +2707,7 @@ enum AttributeType {
   geolocation,
 }
 
-extension AttributeTypeValue on AttributeType {
+extension AttributeTypeValueExtension on AttributeType {
   String toValue() {
     switch (this) {
       case AttributeType.string:
@@ -3168,7 +3168,7 @@ enum DatasetType {
   itemMetadata,
 }
 
-extension DatasetTypeValue on DatasetType {
+extension DatasetTypeValueExtension on DatasetType {
   String toValue() {
     switch (this) {
       case DatasetType.targetTimeSeries:
@@ -3925,7 +3925,7 @@ enum Domain {
   metrics,
 }
 
-extension DomainValue on Domain {
+extension DomainValueExtension on Domain {
   String toValue() {
     switch (this) {
       case Domain.retail:
@@ -4105,7 +4105,7 @@ enum EvaluationType {
   computed,
 }
 
-extension EvaluationTypeValue on EvaluationType {
+extension EvaluationTypeValueExtension on EvaluationType {
   String toValue() {
     switch (this) {
       case EvaluationType.summary:
@@ -4364,7 +4364,7 @@ enum FeaturizationMethodName {
   filling,
 }
 
-extension FeaturizationMethodNameValue on FeaturizationMethodName {
+extension FeaturizationMethodNameValueExtension on FeaturizationMethodName {
   String toValue() {
     switch (this) {
       case FeaturizationMethodName.filling:
@@ -4422,7 +4422,7 @@ enum FilterConditionString {
   isNot,
 }
 
-extension FilterConditionStringValue on FilterConditionString {
+extension FilterConditionStringValueExtension on FilterConditionString {
   String toValue() {
     switch (this) {
       case FilterConditionString.$is:
@@ -5272,7 +5272,7 @@ enum ScalingType {
   reverseLogarithmic,
 }
 
-extension ScalingTypeValue on ScalingType {
+extension ScalingTypeValueExtension on ScalingType {
   String toValue() {
     switch (this) {
       case ScalingType.auto:

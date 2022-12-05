@@ -2464,7 +2464,7 @@ enum ApplicationRestoreType {
   restoreFromCustomSnapshot,
 }
 
-extension ApplicationRestoreTypeValue on ApplicationRestoreType {
+extension ApplicationRestoreTypeValueExtension on ApplicationRestoreType {
   String toValue() {
     switch (this) {
       case ApplicationRestoreType.skipRestoreFromSnapshot:
@@ -2556,7 +2556,7 @@ enum ApplicationStatus {
   forceStopping,
 }
 
-extension ApplicationStatusValue on ApplicationStatus {
+extension ApplicationStatusValueExtension on ApplicationStatus {
   String toValue() {
     switch (this) {
       case ApplicationStatus.deleting:
@@ -3066,7 +3066,7 @@ enum CodeContentType {
   zipfile,
 }
 
-extension CodeContentTypeValue on CodeContentType {
+extension CodeContentTypeValueExtension on CodeContentType {
   String toValue() {
     switch (this) {
       case CodeContentType.plaintext:
@@ -3125,7 +3125,7 @@ enum ConfigurationType {
   custom,
 }
 
-extension ConfigurationTypeValue on ConfigurationType {
+extension ConfigurationTypeValueExtension on ConfigurationType {
   String toValue() {
     switch (this) {
       case ConfigurationType.$default:
@@ -4027,7 +4027,7 @@ enum InputStartingPosition {
   lastStoppedPoint,
 }
 
-extension InputStartingPositionValue on InputStartingPosition {
+extension InputStartingPositionValueExtension on InputStartingPosition {
   String toValue() {
     switch (this) {
       case InputStartingPosition.now:
@@ -4595,7 +4595,7 @@ enum LogLevel {
   debug,
 }
 
-extension LogLevelValue on LogLevel {
+extension LogLevelValueExtension on LogLevel {
   String toValue() {
     switch (this) {
       case LogLevel.info:
@@ -4675,7 +4675,7 @@ enum MetricsLevel {
   parallelism,
 }
 
-extension MetricsLevelValue on MetricsLevel {
+extension MetricsLevelValueExtension on MetricsLevel {
   String toValue() {
     switch (this) {
       case MetricsLevel.application:
@@ -5256,7 +5256,7 @@ enum RecordFormatType {
   csv,
 }
 
-extension RecordFormatTypeValue on RecordFormatType {
+extension RecordFormatTypeValueExtension on RecordFormatType {
   String toValue() {
     switch (this) {
       case RecordFormatType.json:
@@ -5499,7 +5499,7 @@ enum RuntimeEnvironment {
   flink_1_11,
 }
 
-extension RuntimeEnvironmentValue on RuntimeEnvironment {
+extension RuntimeEnvironmentValueExtension on RuntimeEnvironment {
   String toValue() {
     switch (this) {
       case RuntimeEnvironment.sql_1_0:
@@ -5766,7 +5766,7 @@ enum SnapshotStatus {
   failed,
 }
 
-extension SnapshotStatusValue on SnapshotStatus {
+extension SnapshotStatusValueExtension on SnapshotStatus {
   String toValue() {
     switch (this) {
       case SnapshotStatus.creating:
@@ -6055,7 +6055,7 @@ enum UrlType {
   flinkDashboardUrl,
 }
 
-extension UrlTypeValue on UrlType {
+extension UrlTypeValueExtension on UrlType {
   String toValue() {
     switch (this) {
       case UrlType.flinkDashboardUrl:

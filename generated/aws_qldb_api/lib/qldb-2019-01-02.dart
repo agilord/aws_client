@@ -1217,7 +1217,7 @@ enum ErrorCause {
   iamPermissionRevoked,
 }
 
-extension ErrorCauseValue on ErrorCause {
+extension ErrorCauseValueExtension on ErrorCause {
   String toValue() {
     switch (this) {
       case ErrorCause.kinesisStreamNotFound:
@@ -1263,7 +1263,7 @@ enum ExportStatus {
   cancelled,
 }
 
-extension ExportStatusValue on ExportStatus {
+extension ExportStatusValueExtension on ExportStatus {
   String toValue() {
     switch (this) {
       case ExportStatus.inProgress:
@@ -1546,7 +1546,7 @@ enum LedgerState {
   deleted,
 }
 
-extension LedgerStateValue on LedgerState {
+extension LedgerStateValueExtension on LedgerState {
   String toValue() {
     switch (this) {
       case LedgerState.creating:
@@ -1767,7 +1767,7 @@ enum PermissionsMode {
   allowAll,
 }
 
-extension PermissionsModeValue on PermissionsMode {
+extension PermissionsModeValueExtension on PermissionsMode {
   String toValue() {
     switch (this) {
       case PermissionsMode.allowAll:
@@ -1901,7 +1901,7 @@ enum S3ObjectEncryptionType {
   noEncryption,
 }
 
-extension S3ObjectEncryptionTypeValue on S3ObjectEncryptionType {
+extension S3ObjectEncryptionTypeValueExtension on S3ObjectEncryptionType {
   String toValue() {
     switch (this) {
       case S3ObjectEncryptionType.sseKms:
@@ -1950,7 +1950,7 @@ enum StreamStatus {
   impaired,
 }
 
-extension StreamStatusValue on StreamStatus {
+extension StreamStatusValueExtension on StreamStatus {
   String toValue() {
     switch (this) {
       case StreamStatus.active:

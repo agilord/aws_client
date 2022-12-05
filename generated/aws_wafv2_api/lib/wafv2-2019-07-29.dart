@@ -3951,7 +3951,7 @@ enum ComparisonOperator {
   gt,
 }
 
-extension ComparisonOperatorValue on ComparisonOperator {
+extension ComparisonOperatorValueExtension on ComparisonOperator {
   String toValue() {
     switch (this) {
       case ComparisonOperator.eq:
@@ -4264,7 +4264,7 @@ enum CountryCode {
   zw,
 }
 
-extension CountryCodeValue on CountryCode {
+extension CountryCodeValueExtension on CountryCode {
   String toValue() {
     switch (this) {
       case CountryCode.af:
@@ -5532,7 +5532,7 @@ enum FallbackBehavior {
   noMatch,
 }
 
-extension FallbackBehaviorValue on FallbackBehavior {
+extension FallbackBehaviorValueExtension on FallbackBehavior {
   String toValue() {
     switch (this) {
       case FallbackBehavior.match:
@@ -5806,7 +5806,7 @@ enum ForwardedIPPosition {
   any,
 }
 
-extension ForwardedIPPositionValue on ForwardedIPPosition {
+extension ForwardedIPPositionValueExtension on ForwardedIPPosition {
   String toValue() {
     switch (this) {
       case ForwardedIPPosition.first:
@@ -6217,7 +6217,7 @@ enum IPAddressVersion {
   ipv6,
 }
 
-extension IPAddressVersionValue on IPAddressVersion {
+extension IPAddressVersionValueExtension on IPAddressVersion {
   String toValue() {
     switch (this) {
       case IPAddressVersion.ipv4:
@@ -7080,7 +7080,7 @@ enum PositionalConstraint {
   containsWord,
 }
 
-extension PositionalConstraintValue on PositionalConstraint {
+extension PositionalConstraintValueExtension on PositionalConstraint {
   String toValue() {
     switch (this) {
       case PositionalConstraint.exactly:
@@ -7282,7 +7282,7 @@ enum RateBasedStatementAggregateKeyType {
   forwardedIp,
 }
 
-extension RateBasedStatementAggregateKeyTypeValue
+extension RateBasedStatementAggregateKeyTypeValueExtension
     on RateBasedStatementAggregateKeyType {
   String toValue() {
     switch (this) {
@@ -7547,7 +7547,7 @@ enum ResourceType {
   appsync,
 }
 
-extension ResourceTypeValue on ResourceType {
+extension ResourceTypeValueExtension on ResourceType {
   String toValue() {
     switch (this) {
       case ResourceType.applicationLoadBalancer:
@@ -8022,7 +8022,7 @@ enum Scope {
   regional,
 }
 
-extension ScopeValue on Scope {
+extension ScopeValueExtension on Scope {
   String toValue() {
     switch (this) {
       case Scope.cloudfront:
@@ -8734,7 +8734,7 @@ enum TextTransformationType {
   urlDecode,
 }
 
-extension TextTransformationTypeValue on TextTransformationType {
+extension TextTransformationTypeValueExtension on TextTransformationType {
   String toValue() {
     switch (this) {
       case TextTransformationType.none:

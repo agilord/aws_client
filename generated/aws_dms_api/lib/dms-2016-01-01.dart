@@ -3771,7 +3771,7 @@ enum AuthMechanismValue {
   scramSha_1,
 }
 
-extension AuthMechanismValueValue on AuthMechanismValue {
+extension AuthMechanismValueValueExtension on AuthMechanismValue {
   String toValue() {
     switch (this) {
       case AuthMechanismValue.$default:
@@ -3803,7 +3803,7 @@ enum AuthTypeValue {
   password,
 }
 
-extension AuthTypeValueValue on AuthTypeValue {
+extension AuthTypeValueValueExtension on AuthTypeValue {
   String toValue() {
     switch (this) {
       case AuthTypeValue.no:
@@ -3939,7 +3939,7 @@ enum CharLengthSemantics {
   byte,
 }
 
-extension CharLengthSemanticsValue on CharLengthSemantics {
+extension CharLengthSemanticsValueExtension on CharLengthSemantics {
   String toValue() {
     switch (this) {
       case CharLengthSemantics.$default:
@@ -3971,7 +3971,7 @@ enum CompressionTypeValue {
   gzip,
 }
 
-extension CompressionTypeValueValue on CompressionTypeValue {
+extension CompressionTypeValueValueExtension on CompressionTypeValue {
   String toValue() {
     switch (this) {
       case CompressionTypeValue.none:
@@ -4151,7 +4151,7 @@ enum DataFormatValue {
   parquet,
 }
 
-extension DataFormatValueValue on DataFormatValue {
+extension DataFormatValueValueExtension on DataFormatValue {
   String toValue() {
     switch (this) {
       case DataFormatValue.csv:
@@ -4181,7 +4181,8 @@ enum DatePartitionDelimiterValue {
   none,
 }
 
-extension DatePartitionDelimiterValueValue on DatePartitionDelimiterValue {
+extension DatePartitionDelimiterValueValueExtension
+    on DatePartitionDelimiterValue {
   String toValue() {
     switch (this) {
       case DatePartitionDelimiterValue.slash:
@@ -4220,7 +4221,8 @@ enum DatePartitionSequenceValue {
   ddmmyyyy,
 }
 
-extension DatePartitionSequenceValueValue on DatePartitionSequenceValue {
+extension DatePartitionSequenceValueValueExtension
+    on DatePartitionSequenceValue {
   String toValue() {
     switch (this) {
       case DatePartitionSequenceValue.yyyymmdd:
@@ -4965,7 +4967,7 @@ enum DmsSslModeValue {
   verifyFull,
 }
 
-extension DmsSslModeValueValue on DmsSslModeValue {
+extension DmsSslModeValueValueExtension on DmsSslModeValue {
   String toValue() {
     switch (this) {
       case DmsSslModeValue.none:
@@ -5237,7 +5239,7 @@ enum EncodingTypeValue {
   rleDictionary,
 }
 
-extension EncodingTypeValueValue on EncodingTypeValue {
+extension EncodingTypeValueValueExtension on EncodingTypeValue {
   String toValue() {
     switch (this) {
       case EncodingTypeValue.plain:
@@ -5269,7 +5271,7 @@ enum EncryptionModeValue {
   sseKms,
 }
 
-extension EncryptionModeValueValue on EncryptionModeValue {
+extension EncryptionModeValueValueExtension on EncryptionModeValue {
   String toValue() {
     switch (this) {
       case EncryptionModeValue.sseS3:
@@ -6133,7 +6135,7 @@ enum MessageFormatValue {
   jsonUnformatted,
 }
 
-extension MessageFormatValueValue on MessageFormatValue {
+extension MessageFormatValueValueExtension on MessageFormatValue {
   String toValue() {
     switch (this) {
       case MessageFormatValue.json:
@@ -6311,7 +6313,7 @@ enum MigrationTypeValue {
   fullLoadAndCdc,
 }
 
-extension MigrationTypeValueValue on MigrationTypeValue {
+extension MigrationTypeValueValueExtension on MigrationTypeValue {
   String toValue() {
     switch (this) {
       case MigrationTypeValue.fullLoad:
@@ -6849,7 +6851,7 @@ enum NestingLevelValue {
   one,
 }
 
-extension NestingLevelValueValue on NestingLevelValue {
+extension NestingLevelValueValueExtension on NestingLevelValue {
   String toValue() {
     switch (this) {
       case NestingLevelValue.none:
@@ -7371,7 +7373,7 @@ enum ParquetVersionValue {
   parquet_2_0,
 }
 
-extension ParquetVersionValueValue on ParquetVersionValue {
+extension ParquetVersionValueValueExtension on ParquetVersionValue {
   String toValue() {
     switch (this) {
       case ParquetVersionValue.parquet_1_0:
@@ -8035,7 +8037,8 @@ enum RefreshSchemasStatusTypeValue {
   refreshing,
 }
 
-extension RefreshSchemasStatusTypeValueValue on RefreshSchemasStatusTypeValue {
+extension RefreshSchemasStatusTypeValueValueExtension
+    on RefreshSchemasStatusTypeValue {
   String toValue() {
     switch (this) {
       case RefreshSchemasStatusTypeValue.successful:
@@ -8066,7 +8069,7 @@ enum ReleaseStatusValues {
   beta,
 }
 
-extension ReleaseStatusValuesValue on ReleaseStatusValues {
+extension ReleaseStatusValuesValueExtension on ReleaseStatusValues {
   String toValue() {
     switch (this) {
       case ReleaseStatusValues.beta:
@@ -8090,7 +8093,7 @@ enum ReloadOptionValue {
   validateOnly,
 }
 
-extension ReloadOptionValueValue on ReloadOptionValue {
+extension ReloadOptionValueValueExtension on ReloadOptionValue {
   String toValue() {
     switch (this) {
       case ReloadOptionValue.dataReload:
@@ -8140,7 +8143,8 @@ enum ReplicationEndpointTypeValue {
   target,
 }
 
-extension ReplicationEndpointTypeValueValue on ReplicationEndpointTypeValue {
+extension ReplicationEndpointTypeValueValueExtension
+    on ReplicationEndpointTypeValue {
   String toValue() {
     switch (this) {
       case ReplicationEndpointTypeValue.source:
@@ -9679,7 +9683,7 @@ enum SafeguardPolicy {
   sharedAutomaticTruncation,
 }
 
-extension SafeguardPolicyValue on SafeguardPolicy {
+extension SafeguardPolicyValueExtension on SafeguardPolicy {
   String toValue() {
     switch (this) {
       case SafeguardPolicy.relyOnSqlServerReplicationAgent:
@@ -9710,7 +9714,7 @@ enum SourceType {
   replicationInstance,
 }
 
-extension SourceTypeValue on SourceType {
+extension SourceTypeValueExtension on SourceType {
   String toValue() {
     switch (this) {
       case SourceType.replicationInstance:
@@ -9791,7 +9795,8 @@ enum StartReplicationTaskTypeValue {
   reloadTarget,
 }
 
-extension StartReplicationTaskTypeValueValue on StartReplicationTaskTypeValue {
+extension StartReplicationTaskTypeValueValueExtension
+    on StartReplicationTaskTypeValue {
   String toValue() {
     switch (this) {
       case StartReplicationTaskTypeValue.startReplication:
@@ -10241,7 +10246,7 @@ enum TargetDbType {
   multipleDatabases,
 }
 
-extension TargetDbTypeValue on TargetDbType {
+extension TargetDbTypeValueExtension on TargetDbType {
   String toValue() {
     switch (this) {
       case TargetDbType.specificDatabase:

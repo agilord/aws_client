@@ -2059,7 +2059,7 @@ enum AgentStatus {
   offline,
 }
 
-extension AgentStatusValue on AgentStatus {
+extension AgentStatusValueExtension on AgentStatus {
   String toValue() {
     switch (this) {
       case AgentStatus.online:
@@ -2087,7 +2087,7 @@ enum Atime {
   bestEffort,
 }
 
-extension AtimeValue on Atime {
+extension AtimeValueExtension on Atime {
   String toValue() {
     switch (this) {
       case Atime.none:
@@ -2875,7 +2875,7 @@ enum EndpointType {
   fips,
 }
 
-extension EndpointTypeValue on EndpointType {
+extension EndpointTypeValueExtension on EndpointType {
   String toValue() {
     switch (this) {
       case EndpointType.public:
@@ -2941,7 +2941,7 @@ enum FilterType {
   simplePattern,
 }
 
-extension FilterTypeValue on FilterType {
+extension FilterTypeValueExtension on FilterType {
   String toValue() {
     switch (this) {
       case FilterType.simplePattern:
@@ -2967,7 +2967,7 @@ enum Gid {
   both,
 }
 
-extension GidValue on Gid {
+extension GidValueExtension on Gid {
   String toValue() {
     switch (this) {
       case Gid.none:
@@ -3161,7 +3161,7 @@ enum LocationFilterName {
   creationTime,
 }
 
-extension LocationFilterNameValue on LocationFilterName {
+extension LocationFilterNameValueExtension on LocationFilterName {
   String toValue() {
     switch (this) {
       case LocationFilterName.locationUri:
@@ -3237,7 +3237,7 @@ enum LogLevel {
   transfer,
 }
 
-extension LogLevelValue on LogLevel {
+extension LogLevelValueExtension on LogLevel {
   String toValue() {
     switch (this) {
       case LogLevel.off:
@@ -3269,7 +3269,7 @@ enum Mtime {
   preserve,
 }
 
-extension MtimeValue on Mtime {
+extension MtimeValueExtension on Mtime {
   String toValue() {
     switch (this) {
       case Mtime.none:
@@ -3346,7 +3346,7 @@ enum NfsVersion {
   nfs4_1,
 }
 
-extension NfsVersionValue on NfsVersion {
+extension NfsVersionValueExtension on NfsVersion {
   String toValue() {
     switch (this) {
       case NfsVersion.automatic:
@@ -3382,7 +3382,8 @@ enum ObjectStorageServerProtocol {
   http,
 }
 
-extension ObjectStorageServerProtocolValue on ObjectStorageServerProtocol {
+extension ObjectStorageServerProtocolValueExtension
+    on ObjectStorageServerProtocol {
   String toValue() {
     switch (this) {
       case ObjectStorageServerProtocol.https:
@@ -3444,7 +3445,7 @@ enum Operator {
   beginsWith,
 }
 
-extension OperatorValue on Operator {
+extension OperatorValueExtension on Operator {
   String toValue() {
     switch (this) {
       case Operator.equals:
@@ -3750,7 +3751,7 @@ enum OverwriteMode {
   never,
 }
 
-extension OverwriteModeValue on OverwriteMode {
+extension OverwriteModeValueExtension on OverwriteMode {
   String toValue() {
     switch (this) {
       case OverwriteMode.always:
@@ -3779,7 +3780,7 @@ enum PhaseStatus {
   error,
 }
 
-extension PhaseStatusValue on PhaseStatus {
+extension PhaseStatusValueExtension on PhaseStatus {
   String toValue() {
     switch (this) {
       case PhaseStatus.pending:
@@ -3811,7 +3812,7 @@ enum PosixPermissions {
   preserve,
 }
 
-extension PosixPermissionsValue on PosixPermissions {
+extension PosixPermissionsValueExtension on PosixPermissions {
   String toValue() {
     switch (this) {
       case PosixPermissions.none:
@@ -3839,7 +3840,7 @@ enum PreserveDeletedFiles {
   remove,
 }
 
-extension PreserveDeletedFilesValue on PreserveDeletedFiles {
+extension PreserveDeletedFilesValueExtension on PreserveDeletedFiles {
   String toValue() {
     switch (this) {
       case PreserveDeletedFiles.preserve:
@@ -3867,7 +3868,7 @@ enum PreserveDevices {
   preserve,
 }
 
-extension PreserveDevicesValue on PreserveDevices {
+extension PreserveDevicesValueExtension on PreserveDevices {
   String toValue() {
     switch (this) {
       case PreserveDevices.none:
@@ -3973,7 +3974,7 @@ enum S3StorageClass {
   outposts,
 }
 
-extension S3StorageClassValue on S3StorageClass {
+extension S3StorageClassValueExtension on S3StorageClass {
   String toValue() {
     switch (this) {
       case S3StorageClass.standard:
@@ -4048,7 +4049,7 @@ enum SmbVersion {
   smb3,
 }
 
-extension SmbVersionValue on SmbVersion {
+extension SmbVersionValueExtension on SmbVersion {
   String toValue() {
     switch (this) {
       case SmbVersion.automatic:
@@ -4225,7 +4226,7 @@ enum TaskExecutionStatus {
   error,
 }
 
-extension TaskExecutionStatusValue on TaskExecutionStatus {
+extension TaskExecutionStatusValueExtension on TaskExecutionStatus {
   String toValue() {
     switch (this) {
       case TaskExecutionStatus.queued:
@@ -4310,7 +4311,7 @@ enum TaskFilterName {
   creationTime,
 }
 
-extension TaskFilterNameValue on TaskFilterName {
+extension TaskFilterNameValueExtension on TaskFilterName {
   String toValue() {
     switch (this) {
       case TaskFilterName.locationId:
@@ -4366,7 +4367,7 @@ enum TaskQueueing {
   disabled,
 }
 
-extension TaskQueueingValue on TaskQueueing {
+extension TaskQueueingValueExtension on TaskQueueing {
   String toValue() {
     switch (this) {
       case TaskQueueing.enabled:
@@ -4423,7 +4424,7 @@ enum TaskStatus {
   unavailable,
 }
 
-extension TaskStatusValue on TaskStatus {
+extension TaskStatusValueExtension on TaskStatus {
   String toValue() {
     switch (this) {
       case TaskStatus.available:
@@ -4463,7 +4464,7 @@ enum TransferMode {
   all,
 }
 
-extension TransferModeValue on TransferMode {
+extension TransferModeValueExtension on TransferMode {
   String toValue() {
     switch (this) {
       case TransferMode.changed:
@@ -4493,7 +4494,7 @@ enum Uid {
   both,
 }
 
-extension UidValue on Uid {
+extension UidValueExtension on Uid {
   String toValue() {
     switch (this) {
       case Uid.none:
@@ -4558,7 +4559,7 @@ enum VerifyMode {
   none,
 }
 
-extension VerifyModeValue on VerifyMode {
+extension VerifyModeValueExtension on VerifyMode {
   String toValue() {
     switch (this) {
       case VerifyMode.pointInTimeConsistent:

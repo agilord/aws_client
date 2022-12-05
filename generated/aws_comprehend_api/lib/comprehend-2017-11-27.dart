@@ -4739,7 +4739,8 @@ enum DocumentClassifierDataFormat {
   augmentedManifest,
 }
 
-extension DocumentClassifierDataFormatValue on DocumentClassifierDataFormat {
+extension DocumentClassifierDataFormatValueExtension
+    on DocumentClassifierDataFormat {
   String toValue() {
     switch (this) {
       case DocumentClassifierDataFormat.comprehendCsv:
@@ -4899,7 +4900,7 @@ enum DocumentClassifierMode {
   multiLabel,
 }
 
-extension DocumentClassifierModeValue on DocumentClassifierMode {
+extension DocumentClassifierModeValueExtension on DocumentClassifierMode {
   String toValue() {
     switch (this) {
       case DocumentClassifierMode.multiClass:
@@ -5400,7 +5401,7 @@ enum EndpointStatus {
   updating,
 }
 
-extension EndpointStatusValue on EndpointStatus {
+extension EndpointStatusValueExtension on EndpointStatus {
   String toValue() {
     switch (this) {
       case EndpointStatus.creating:
@@ -5657,7 +5658,8 @@ enum EntityRecognizerDataFormat {
   augmentedManifest,
 }
 
-extension EntityRecognizerDataFormatValue on EntityRecognizerDataFormat {
+extension EntityRecognizerDataFormatValueExtension
+    on EntityRecognizerDataFormat {
   String toValue() {
     switch (this) {
       case EntityRecognizerDataFormat.comprehendCsv:
@@ -6098,7 +6100,7 @@ enum EntityType {
   other,
 }
 
-extension EntityTypeValue on EntityType {
+extension EntityTypeValueExtension on EntityType {
   String toValue() {
     switch (this) {
       case EntityType.person:
@@ -6382,7 +6384,7 @@ enum InputFormat {
   oneDocPerLine,
 }
 
-extension InputFormatValue on InputFormat {
+extension InputFormatValueExtension on InputFormat {
   String toValue() {
     switch (this) {
       case InputFormat.oneDocPerFile:
@@ -6414,7 +6416,7 @@ enum JobStatus {
   stopped,
 }
 
-extension JobStatusValue on JobStatus {
+extension JobStatusValueExtension on JobStatus {
   String toValue() {
     switch (this) {
       case JobStatus.submitted:
@@ -6649,7 +6651,7 @@ enum LanguageCode {
   zhTw,
 }
 
-extension LanguageCodeValue on LanguageCode {
+extension LanguageCodeValueExtension on LanguageCode {
   String toValue() {
     switch (this) {
       case LanguageCode.en:
@@ -7023,7 +7025,7 @@ enum ModelStatus {
   trained,
 }
 
-extension ModelStatusValue on ModelStatus {
+extension ModelStatusValueExtension on ModelStatus {
   String toValue() {
     switch (this) {
       case ModelStatus.submitted:
@@ -7169,7 +7171,7 @@ enum PartOfSpeechTagType {
   verb,
 }
 
-extension PartOfSpeechTagTypeValue on PartOfSpeechTagType {
+extension PartOfSpeechTagTypeValueExtension on PartOfSpeechTagType {
   String toValue() {
     switch (this) {
       case PartOfSpeechTagType.adj:
@@ -7392,7 +7394,8 @@ enum PiiEntitiesDetectionMaskMode {
   replaceWithPiiEntityType,
 }
 
-extension PiiEntitiesDetectionMaskModeValue on PiiEntitiesDetectionMaskMode {
+extension PiiEntitiesDetectionMaskModeValueExtension
+    on PiiEntitiesDetectionMaskMode {
   String toValue() {
     switch (this) {
       case PiiEntitiesDetectionMaskMode.mask:
@@ -7420,7 +7423,7 @@ enum PiiEntitiesDetectionMode {
   onlyOffsets,
 }
 
-extension PiiEntitiesDetectionModeValue on PiiEntitiesDetectionMode {
+extension PiiEntitiesDetectionModeValueExtension on PiiEntitiesDetectionMode {
   String toValue() {
     switch (this) {
       case PiiEntitiesDetectionMode.onlyRedaction:
@@ -7508,7 +7511,7 @@ enum PiiEntityType {
   all,
 }
 
-extension PiiEntityTypeValue on PiiEntityType {
+extension PiiEntityTypeValueExtension on PiiEntityType {
   String toValue() {
     switch (this) {
       case PiiEntityType.bankAccountNumber:
@@ -7865,7 +7868,7 @@ enum SentimentType {
   mixed,
 }
 
-extension SentimentTypeValue on SentimentType {
+extension SentimentTypeValueExtension on SentimentType {
   String toValue() {
     switch (this) {
       case SentimentType.positive:
@@ -8317,7 +8320,7 @@ enum SyntaxLanguageCode {
   pt,
 }
 
-extension SyntaxLanguageCodeValue on SyntaxLanguageCode {
+extension SyntaxLanguageCodeValueExtension on SyntaxLanguageCode {
   String toValue() {
     switch (this) {
       case SyntaxLanguageCode.en:

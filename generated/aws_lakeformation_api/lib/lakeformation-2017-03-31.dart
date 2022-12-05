@@ -914,7 +914,7 @@ enum ComparisonOperator {
   between,
 }
 
-extension ComparisonOperatorValue on ComparisonOperator {
+extension ComparisonOperatorValueExtension on ComparisonOperator {
   String toValue() {
     switch (this) {
       case ComparisonOperator.eq:
@@ -1005,7 +1005,7 @@ enum DataLakeResourceType {
   dataLocation,
 }
 
-extension DataLakeResourceTypeValue on DataLakeResourceType {
+extension DataLakeResourceTypeValueExtension on DataLakeResourceType {
   String toValue() {
     switch (this) {
       case DataLakeResourceType.catalog:
@@ -1242,7 +1242,7 @@ enum FieldNameString {
   lastModified,
 }
 
-extension FieldNameStringValue on FieldNameString {
+extension FieldNameStringValueExtension on FieldNameString {
   String toValue() {
     switch (this) {
       case FieldNameString.resourceArn:
@@ -1410,7 +1410,7 @@ enum Permission {
   dataLocationAccess,
 }
 
-extension PermissionValue on Permission {
+extension PermissionValueExtension on Permission {
   String toValue() {
     switch (this) {
       case Permission.all:

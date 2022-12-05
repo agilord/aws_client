@@ -2418,7 +2418,7 @@ enum CertificateSource {
   acm,
 }
 
-extension CertificateSourceValue on CertificateSource {
+extension CertificateSourceValueExtension on CertificateSource {
   String toValue() {
     switch (this) {
       case CertificateSource.cloudfront:
@@ -4306,7 +4306,7 @@ enum EventType {
   originResponse,
 }
 
-extension EventTypeValue on EventType {
+extension EventTypeValueExtension on EventType {
   String toValue() {
     switch (this) {
       case EventType.viewerRequest:
@@ -4778,7 +4778,7 @@ enum Format {
   uRLEncoded,
 }
 
-extension FormatValue on Format {
+extension FormatValueExtension on Format {
   String toValue() {
     switch (this) {
       case Format.uRLEncoded:
@@ -4976,7 +4976,7 @@ enum GeoRestrictionType {
   none,
 }
 
-extension GeoRestrictionTypeValue on GeoRestrictionType {
+extension GeoRestrictionTypeValueExtension on GeoRestrictionType {
   String toValue() {
     switch (this) {
       case GeoRestrictionType.blacklist:
@@ -5291,7 +5291,7 @@ enum HttpVersion {
   http2,
 }
 
-extension HttpVersionValue on HttpVersion {
+extension HttpVersionValueExtension on HttpVersion {
   String toValue() {
     switch (this) {
       case HttpVersion.http1_1:
@@ -5854,7 +5854,7 @@ enum ItemSelection {
   all,
 }
 
-extension ItemSelectionValue on ItemSelection {
+extension ItemSelectionValueExtension on ItemSelection {
   String toValue() {
     switch (this) {
       case ItemSelection.none:
@@ -6207,7 +6207,7 @@ enum Method {
   delete,
 }
 
-extension MethodValue on Method {
+extension MethodValueExtension on Method {
   String toValue() {
     switch (this) {
       case Method.get:
@@ -6258,7 +6258,7 @@ enum MinimumProtocolVersion {
   tLSv1_2_2018,
 }
 
-extension MinimumProtocolVersionValue on MinimumProtocolVersion {
+extension MinimumProtocolVersionValueExtension on MinimumProtocolVersion {
   String toValue() {
     switch (this) {
       case MinimumProtocolVersion.sSLv3:
@@ -6639,7 +6639,7 @@ enum OriginProtocolPolicy {
   httpsOnly,
 }
 
-extension OriginProtocolPolicyValue on OriginProtocolPolicy {
+extension OriginProtocolPolicyValueExtension on OriginProtocolPolicy {
   String toValue() {
     switch (this) {
       case OriginProtocolPolicy.httpOnly:
@@ -6821,7 +6821,7 @@ enum PriceClass {
   priceClassAll,
 }
 
-extension PriceClassValue on PriceClass {
+extension PriceClassValueExtension on PriceClass {
   String toValue() {
     switch (this) {
       case PriceClass.priceClass_100:
@@ -7367,7 +7367,7 @@ enum SSLSupportMethod {
   vip,
 }
 
-extension SSLSupportMethodValue on SSLSupportMethod {
+extension SSLSupportMethodValueExtension on SSLSupportMethod {
   String toValue() {
     switch (this) {
       case SSLSupportMethod.sniOnly:
@@ -7432,7 +7432,7 @@ enum SslProtocol {
   tLSv1_2,
 }
 
-extension SslProtocolValue on SslProtocol {
+extension SslProtocolValueExtension on SslProtocol {
   String toValue() {
     switch (this) {
       case SslProtocol.sSLv3:
@@ -8852,7 +8852,7 @@ enum ViewerProtocolPolicy {
   redirectToHttps,
 }
 
-extension ViewerProtocolPolicyValue on ViewerProtocolPolicy {
+extension ViewerProtocolPolicyValueExtension on ViewerProtocolPolicy {
   String toValue() {
     switch (this) {
       case ViewerProtocolPolicy.allowAll:

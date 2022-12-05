@@ -947,7 +947,7 @@ enum BlockType {
   selectionElement,
 }
 
-extension BlockTypeValue on BlockType {
+extension BlockTypeValueExtension on BlockType {
   String toValue() {
     switch (this) {
       case BlockType.keyValueSet:
@@ -1043,7 +1043,7 @@ enum ContentClassifier {
   freeOfAdultContent,
 }
 
-extension ContentClassifierValue on ContentClassifier {
+extension ContentClassifierValueExtension on ContentClassifier {
   String toValue() {
     switch (this) {
       case ContentClassifier.freeOfPersonallyIdentifiableInformation:
@@ -1189,7 +1189,7 @@ enum EntityType {
   value,
 }
 
-extension EntityTypeValue on EntityType {
+extension EntityTypeValueExtension on EntityType {
   String toValue() {
     switch (this) {
       case EntityType.key:
@@ -1217,7 +1217,7 @@ enum FeatureType {
   forms,
 }
 
-extension FeatureTypeValue on FeatureType {
+extension FeatureTypeValueExtension on FeatureType {
   String toValue() {
     switch (this) {
       case FeatureType.tables:
@@ -1480,7 +1480,7 @@ enum JobStatus {
   partialSuccess,
 }
 
-extension JobStatusValue on JobStatus {
+extension JobStatusValueExtension on JobStatus {
   String toValue() {
     switch (this) {
       case JobStatus.inProgress:
@@ -1630,7 +1630,7 @@ enum RelationshipType {
   complexFeatures,
 }
 
-extension RelationshipTypeValue on RelationshipType {
+extension RelationshipTypeValueExtension on RelationshipType {
   String toValue() {
     switch (this) {
       case RelationshipType.value:
@@ -1698,7 +1698,7 @@ enum SelectionStatus {
   notSelected,
 }
 
-extension SelectionStatusValue on SelectionStatus {
+extension SelectionStatusValueExtension on SelectionStatus {
   String toValue() {
     switch (this) {
       case SelectionStatus.selected:
@@ -1761,7 +1761,7 @@ enum TextType {
   printed,
 }
 
-extension TextTypeValue on TextType {
+extension TextTypeValueExtension on TextType {
   String toValue() {
     switch (this) {
       case TextType.handwriting:

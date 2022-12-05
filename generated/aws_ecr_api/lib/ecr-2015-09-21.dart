@@ -2535,7 +2535,7 @@ enum EncryptionType {
   kms,
 }
 
-extension EncryptionTypeValue on EncryptionType {
+extension EncryptionTypeValueExtension on EncryptionType {
   String toValue() {
     switch (this) {
       case EncryptionType.aes256:
@@ -2567,7 +2567,7 @@ enum FindingSeverity {
   undefined,
 }
 
-extension FindingSeverityValue on FindingSeverity {
+extension FindingSeverityValueExtension on FindingSeverity {
   String toValue() {
     switch (this) {
       case FindingSeverity.informational:
@@ -2814,7 +2814,7 @@ enum ImageActionType {
   expire,
 }
 
-extension ImageActionTypeValue on ImageActionType {
+extension ImageActionTypeValueExtension on ImageActionType {
   String toValue() {
     switch (this) {
       case ImageActionType.expire:
@@ -2950,7 +2950,7 @@ enum ImageFailureCode {
   kmsError,
 }
 
-extension ImageFailureCodeValue on ImageFailureCode {
+extension ImageFailureCodeValueExtension on ImageFailureCode {
   String toValue() {
     switch (this) {
       case ImageFailureCode.invalidImageDigest:
@@ -3175,7 +3175,7 @@ enum ImageTagMutability {
   immutable,
 }
 
-extension ImageTagMutabilityValue on ImageTagMutability {
+extension ImageTagMutabilityValueExtension on ImageTagMutability {
   String toValue() {
     switch (this) {
       case ImageTagMutability.mutable:
@@ -3256,7 +3256,7 @@ enum LayerAvailability {
   unavailable,
 }
 
-extension LayerAvailabilityValue on LayerAvailability {
+extension LayerAvailabilityValueExtension on LayerAvailability {
   String toValue() {
     switch (this) {
       case LayerAvailability.available:
@@ -3309,7 +3309,7 @@ enum LayerFailureCode {
   missingLayerDigest,
 }
 
-extension LayerFailureCodeValue on LayerFailureCode {
+extension LayerFailureCodeValueExtension on LayerFailureCode {
   String toValue() {
     switch (this) {
       case LayerFailureCode.invalidLayerDigest:
@@ -3397,7 +3397,8 @@ enum LifecyclePolicyPreviewStatus {
   failed,
 }
 
-extension LifecyclePolicyPreviewStatusValue on LifecyclePolicyPreviewStatus {
+extension LifecyclePolicyPreviewStatusValueExtension
+    on LifecyclePolicyPreviewStatus {
   String toValue() {
     switch (this) {
       case LifecyclePolicyPreviewStatus.inProgress:
@@ -3803,7 +3804,7 @@ enum ScanStatus {
   failed,
 }
 
-extension ScanStatusValue on ScanStatus {
+extension ScanStatusValueExtension on ScanStatus {
   String toValue() {
     switch (this) {
       case ScanStatus.inProgress:
@@ -3964,7 +3965,7 @@ enum TagStatus {
   any,
 }
 
-extension TagStatusValue on TagStatus {
+extension TagStatusValueExtension on TagStatus {
   String toValue() {
     switch (this) {
       case TagStatus.tagged:

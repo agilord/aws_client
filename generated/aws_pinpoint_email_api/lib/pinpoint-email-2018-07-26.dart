@@ -1638,7 +1638,7 @@ enum BehaviorOnMxFailure {
   rejectMessage,
 }
 
-extension BehaviorOnMxFailureValue on BehaviorOnMxFailure {
+extension BehaviorOnMxFailureValueExtension on BehaviorOnMxFailure {
   String toValue() {
     switch (this) {
       case BehaviorOnMxFailure.useDefaultValue:
@@ -2056,7 +2056,7 @@ enum DeliverabilityDashboardAccountStatus {
   disabled,
 }
 
-extension DeliverabilityDashboardAccountStatusValue
+extension DeliverabilityDashboardAccountStatusValueExtension
     on DeliverabilityDashboardAccountStatus {
   String toValue() {
     switch (this) {
@@ -2148,7 +2148,7 @@ enum DeliverabilityTestStatus {
   completed,
 }
 
-extension DeliverabilityTestStatusValue on DeliverabilityTestStatus {
+extension DeliverabilityTestStatusValueExtension on DeliverabilityTestStatus {
   String toValue() {
     switch (this) {
       case DeliverabilityTestStatus.inProgress:
@@ -2249,7 +2249,7 @@ enum DimensionValueSource {
   linkTag,
 }
 
-extension DimensionValueSourceValue on DimensionValueSource {
+extension DimensionValueSourceValueExtension on DimensionValueSource {
   String toValue() {
     switch (this) {
       case DimensionValueSource.messageTag:
@@ -2375,7 +2375,7 @@ enum DkimStatus {
   notStarted,
 }
 
-extension DkimStatusValue on DkimStatus {
+extension DkimStatusValueExtension on DkimStatus {
   String toValue() {
     switch (this) {
       case DkimStatus.pending:
@@ -2831,7 +2831,7 @@ enum EventType {
   renderingFailure,
 }
 
-extension EventTypeValue on EventType {
+extension EventTypeValueExtension on EventType {
   String toValue() {
     switch (this) {
       case EventType.send:
@@ -3386,7 +3386,7 @@ enum IdentityType {
   managedDomain,
 }
 
-extension IdentityTypeValue on IdentityType {
+extension IdentityTypeValueExtension on IdentityType {
   String toValue() {
     switch (this) {
       case IdentityType.emailAddress:
@@ -3758,7 +3758,7 @@ enum MailFromDomainStatus {
   temporaryFailure,
 }
 
-extension MailFromDomainStatusValue on MailFromDomainStatus {
+extension MailFromDomainStatusValueExtension on MailFromDomainStatus {
   String toValue() {
     switch (this) {
       case MailFromDomainStatus.pending:
@@ -4373,7 +4373,7 @@ enum TlsPolicy {
   optional,
 }
 
-extension TlsPolicyValue on TlsPolicy {
+extension TlsPolicyValueExtension on TlsPolicy {
   String toValue() {
     switch (this) {
       case TlsPolicy.require:
@@ -4483,7 +4483,7 @@ enum WarmupStatus {
   done,
 }
 
-extension WarmupStatusValue on WarmupStatus {
+extension WarmupStatusValueExtension on WarmupStatus {
   String toValue() {
     switch (this) {
       case WarmupStatus.inProgress:

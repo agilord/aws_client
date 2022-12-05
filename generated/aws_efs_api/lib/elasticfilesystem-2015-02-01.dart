@@ -2199,7 +2199,7 @@ enum LifeCycleState {
   deleted,
 }
 
-extension LifeCycleStateValue on LifeCycleState {
+extension LifeCycleStateValueExtension on LifeCycleState {
   String toValue() {
     switch (this) {
       case LifeCycleState.creating:
@@ -2374,7 +2374,7 @@ enum PerformanceMode {
   maxIO,
 }
 
-extension PerformanceModeValue on PerformanceMode {
+extension PerformanceModeValueExtension on PerformanceMode {
   String toValue() {
     switch (this) {
       case PerformanceMode.generalPurpose:
@@ -2496,7 +2496,7 @@ enum Status {
   disabling,
 }
 
-extension StatusValue on Status {
+extension StatusValueExtension on Status {
   String toValue() {
     switch (this) {
       case Status.enabled:
@@ -2563,7 +2563,7 @@ enum ThroughputMode {
   provisioned,
 }
 
-extension ThroughputModeValue on ThroughputMode {
+extension ThroughputModeValueExtension on ThroughputMode {
   String toValue() {
     switch (this) {
       case ThroughputMode.bursting:
@@ -2594,7 +2594,7 @@ enum TransitionToIARules {
   after_90Days,
 }
 
-extension TransitionToIARulesValue on TransitionToIARules {
+extension TransitionToIARulesValueExtension on TransitionToIARules {
   String toValue() {
     switch (this) {
       case TransitionToIARules.after_7Days:

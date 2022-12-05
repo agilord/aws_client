@@ -1228,7 +1228,7 @@ enum CompressionFormat {
   hadoopSnappy,
 }
 
-extension CompressionFormatValue on CompressionFormat {
+extension CompressionFormatValueExtension on CompressionFormat {
   String toValue() {
     switch (this) {
       case CompressionFormat.uncompressed:
@@ -1268,7 +1268,7 @@ enum ContentEncoding {
   gzip,
 }
 
-extension ContentEncodingValue on ContentEncoding {
+extension ContentEncodingValueExtension on ContentEncoding {
   String toValue() {
     switch (this) {
       case ContentEncoding.none:
@@ -1671,7 +1671,7 @@ enum DeliveryStreamEncryptionStatus {
   disablingFailed,
 }
 
-extension DeliveryStreamEncryptionStatusValue
+extension DeliveryStreamEncryptionStatusValueExtension
     on DeliveryStreamEncryptionStatus {
   String toValue() {
     switch (this) {
@@ -1730,7 +1730,7 @@ enum DeliveryStreamFailureType {
   unknownError,
 }
 
-extension DeliveryStreamFailureTypeValue on DeliveryStreamFailureType {
+extension DeliveryStreamFailureTypeValueExtension on DeliveryStreamFailureType {
   String toValue() {
     switch (this) {
       case DeliveryStreamFailureType.retireKmsGrantFailed:
@@ -1813,7 +1813,7 @@ enum DeliveryStreamStatus {
   active,
 }
 
-extension DeliveryStreamStatusValue on DeliveryStreamStatus {
+extension DeliveryStreamStatusValueExtension on DeliveryStreamStatus {
   String toValue() {
     switch (this) {
       case DeliveryStreamStatus.creating:
@@ -1853,7 +1853,7 @@ enum DeliveryStreamType {
   kinesisStreamAsSource,
 }
 
-extension DeliveryStreamTypeValue on DeliveryStreamType {
+extension DeliveryStreamTypeValueExtension on DeliveryStreamType {
   String toValue() {
     switch (this) {
       case DeliveryStreamType.directPut:
@@ -2402,7 +2402,7 @@ enum ElasticsearchIndexRotationPeriod {
   oneMonth,
 }
 
-extension ElasticsearchIndexRotationPeriodValue
+extension ElasticsearchIndexRotationPeriodValueExtension
     on ElasticsearchIndexRotationPeriod {
   String toValue() {
     switch (this) {
@@ -2471,7 +2471,7 @@ enum ElasticsearchS3BackupMode {
   allDocuments,
 }
 
-extension ElasticsearchS3BackupModeValue on ElasticsearchS3BackupMode {
+extension ElasticsearchS3BackupModeValueExtension on ElasticsearchS3BackupMode {
   String toValue() {
     switch (this) {
       case ElasticsearchS3BackupMode.failedDocumentsOnly:
@@ -2871,7 +2871,7 @@ enum HECEndpointType {
   event,
 }
 
-extension HECEndpointTypeValue on HECEndpointType {
+extension HECEndpointTypeValueExtension on HECEndpointType {
   String toValue() {
     switch (this) {
       case HECEndpointType.raw:
@@ -3361,7 +3361,7 @@ enum HttpEndpointS3BackupMode {
   allData,
 }
 
-extension HttpEndpointS3BackupModeValue on HttpEndpointS3BackupMode {
+extension HttpEndpointS3BackupModeValueExtension on HttpEndpointS3BackupMode {
   String toValue() {
     switch (this) {
       case HttpEndpointS3BackupMode.failedDataOnly:
@@ -3443,7 +3443,7 @@ enum KeyType {
   customerManagedCmk,
 }
 
-extension KeyTypeValue on KeyType {
+extension KeyTypeValueExtension on KeyType {
   String toValue() {
     switch (this) {
       case KeyType.awsOwnedCmk:
@@ -3579,7 +3579,7 @@ enum NoEncryptionConfig {
   noEncryption,
 }
 
-extension NoEncryptionConfigValue on NoEncryptionConfig {
+extension NoEncryptionConfigValueExtension on NoEncryptionConfig {
   String toValue() {
     switch (this) {
       case NoEncryptionConfig.noEncryption:
@@ -3662,7 +3662,7 @@ enum OrcCompression {
   snappy,
 }
 
-extension OrcCompressionValue on OrcCompression {
+extension OrcCompressionValueExtension on OrcCompression {
   String toValue() {
     switch (this) {
       case OrcCompression.none:
@@ -3694,7 +3694,7 @@ enum OrcFormatVersion {
   v0_12,
 }
 
-extension OrcFormatVersionValue on OrcFormatVersion {
+extension OrcFormatVersionValueExtension on OrcFormatVersion {
   String toValue() {
     switch (this) {
       case OrcFormatVersion.v0_11:
@@ -3872,7 +3872,7 @@ enum ParquetCompression {
   snappy,
 }
 
-extension ParquetCompressionValue on ParquetCompression {
+extension ParquetCompressionValueExtension on ParquetCompression {
   String toValue() {
     switch (this) {
       case ParquetCompression.uncompressed:
@@ -3976,7 +3976,7 @@ enum ParquetWriterVersion {
   v2,
 }
 
-extension ParquetWriterVersionValue on ParquetWriterVersion {
+extension ParquetWriterVersionValueExtension on ParquetWriterVersion {
   String toValue() {
     switch (this) {
       case ParquetWriterVersion.v1:
@@ -4101,7 +4101,7 @@ enum ProcessorParameterName {
   bufferIntervalInSeconds,
 }
 
-extension ProcessorParameterNameValue on ProcessorParameterName {
+extension ProcessorParameterNameValueExtension on ProcessorParameterName {
   String toValue() {
     switch (this) {
       case ProcessorParameterName.lambdaArn:
@@ -4140,7 +4140,7 @@ enum ProcessorType {
   lambda,
 }
 
-extension ProcessorTypeValue on ProcessorType {
+extension ProcessorTypeValueExtension on ProcessorType {
   String toValue() {
     switch (this) {
       case ProcessorType.lambda:
@@ -4548,7 +4548,7 @@ enum RedshiftS3BackupMode {
   enabled,
 }
 
-extension RedshiftS3BackupModeValue on RedshiftS3BackupMode {
+extension RedshiftS3BackupModeValueExtension on RedshiftS3BackupMode {
   String toValue() {
     switch (this) {
       case RedshiftS3BackupMode.disabled:
@@ -4576,7 +4576,7 @@ enum S3BackupMode {
   enabled,
 }
 
-extension S3BackupModeValue on S3BackupMode {
+extension S3BackupModeValueExtension on S3BackupMode {
   String toValue() {
     switch (this) {
       case S3BackupMode.disabled:
@@ -5241,7 +5241,7 @@ enum SplunkS3BackupMode {
   allEvents,
 }
 
-extension SplunkS3BackupModeValue on SplunkS3BackupMode {
+extension SplunkS3BackupModeValueExtension on SplunkS3BackupMode {
   String toValue() {
     switch (this) {
       case SplunkS3BackupMode.failedEventsOnly:

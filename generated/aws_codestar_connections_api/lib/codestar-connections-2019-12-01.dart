@@ -690,7 +690,7 @@ enum ConnectionStatus {
   error,
 }
 
-extension ConnectionStatusValue on ConnectionStatus {
+extension ConnectionStatusValueExtension on ConnectionStatus {
   String toValue() {
     switch (this) {
       case ConnectionStatus.pending:
@@ -956,7 +956,7 @@ enum ProviderType {
   gitHubEnterpriseServer,
 }
 
-extension ProviderTypeValue on ProviderType {
+extension ProviderTypeValueExtension on ProviderType {
   String toValue() {
     switch (this) {
       case ProviderType.bitbucket:

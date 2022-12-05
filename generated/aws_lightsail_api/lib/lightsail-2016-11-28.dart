@@ -8872,7 +8872,7 @@ enum AccessDirection {
   outbound,
 }
 
-extension AccessDirectionValue on AccessDirection {
+extension AccessDirectionValueExtension on AccessDirection {
   String toValue() {
     switch (this) {
       case AccessDirection.inbound:
@@ -8971,7 +8971,7 @@ enum AddOnType {
   autoSnapshot,
 }
 
-extension AddOnTypeValue on AddOnType {
+extension AddOnTypeValueExtension on AddOnType {
   String toValue() {
     switch (this) {
       case AddOnType.autoSnapshot:
@@ -9199,7 +9199,7 @@ enum AlarmState {
   insufficientData,
 }
 
-extension AlarmStateValue on AlarmState {
+extension AlarmStateValueExtension on AlarmState {
   String toValue() {
     switch (this) {
       case AlarmState.ok:
@@ -9475,7 +9475,7 @@ enum AutoSnapshotStatus {
   notFound,
 }
 
-extension AutoSnapshotStatusValue on AutoSnapshotStatus {
+extension AutoSnapshotStatusValueExtension on AutoSnapshotStatus {
   String toValue() {
     switch (this) {
       case AutoSnapshotStatus.success:
@@ -9532,7 +9532,7 @@ enum BehaviorEnum {
   cache,
 }
 
-extension BehaviorEnumValue on BehaviorEnum {
+extension BehaviorEnumValueExtension on BehaviorEnum {
   String toValue() {
     switch (this) {
       case BehaviorEnum.dontCache:
@@ -9640,7 +9640,7 @@ enum BlueprintType {
   app,
 }
 
-extension BlueprintTypeValue on BlueprintType {
+extension BlueprintTypeValueExtension on BlueprintType {
   String toValue() {
     switch (this) {
       case BlueprintType.os:
@@ -10233,7 +10233,7 @@ enum CertificateStatus {
   failed,
 }
 
-extension CertificateStatusValue on CertificateStatus {
+extension CertificateStatusValueExtension on CertificateStatus {
   String toValue() {
     switch (this) {
       case CertificateStatus.pendingValidation:
@@ -10438,7 +10438,7 @@ enum CloudFormationStackRecordSourceType {
   exportSnapshotRecord,
 }
 
-extension CloudFormationStackRecordSourceTypeValue
+extension CloudFormationStackRecordSourceTypeValueExtension
     on CloudFormationStackRecordSourceType {
   String toValue() {
     switch (this) {
@@ -10466,7 +10466,7 @@ enum ComparisonOperator {
   lessThanOrEqualToThreshold,
 }
 
-extension ComparisonOperatorValue on ComparisonOperator {
+extension ComparisonOperatorValueExtension on ComparisonOperator {
   String toValue() {
     switch (this) {
       case ComparisonOperator.greaterThanOrEqualToThreshold:
@@ -10582,7 +10582,7 @@ enum ContactMethodStatus {
   invalid,
 }
 
-extension ContactMethodStatusValue on ContactMethodStatus {
+extension ContactMethodStatusValueExtension on ContactMethodStatus {
   String toValue() {
     switch (this) {
       case ContactMethodStatus.pendingVerification:
@@ -10613,7 +10613,7 @@ enum ContactMethodVerificationProtocol {
   email,
 }
 
-extension ContactMethodVerificationProtocolValue
+extension ContactMethodVerificationProtocolValueExtension
     on ContactMethodVerificationProtocol {
   String toValue() {
     switch (this) {
@@ -10639,7 +10639,7 @@ enum ContactProtocol {
   sms,
 }
 
-extension ContactProtocolValue on ContactProtocol {
+extension ContactProtocolValueExtension on ContactProtocol {
   String toValue() {
     switch (this) {
       case ContactProtocol.email:
@@ -11020,7 +11020,7 @@ enum ContainerServiceDeploymentState {
   failed,
 }
 
-extension ContainerServiceDeploymentStateValue
+extension ContainerServiceDeploymentStateValueExtension
     on ContainerServiceDeploymentState {
   String toValue() {
     switch (this) {
@@ -11173,7 +11173,8 @@ enum ContainerServiceMetricName {
   memoryUtilization,
 }
 
-extension ContainerServiceMetricNameValue on ContainerServiceMetricName {
+extension ContainerServiceMetricNameValueExtension
+    on ContainerServiceMetricName {
   String toValue() {
     switch (this) {
       case ContainerServiceMetricName.cPUUtilization:
@@ -11250,7 +11251,7 @@ enum ContainerServicePowerName {
   xlarge,
 }
 
-extension ContainerServicePowerNameValue on ContainerServicePowerName {
+extension ContainerServicePowerNameValueExtension on ContainerServicePowerName {
   String toValue() {
     switch (this) {
       case ContainerServicePowerName.nano:
@@ -11296,7 +11297,7 @@ enum ContainerServiceProtocol {
   udp,
 }
 
-extension ContainerServiceProtocolValue on ContainerServiceProtocol {
+extension ContainerServiceProtocolValueExtension on ContainerServiceProtocol {
   String toValue() {
     switch (this) {
       case ContainerServiceProtocol.http:
@@ -11375,7 +11376,7 @@ enum ContainerServiceState {
   disabled,
 }
 
-extension ContainerServiceStateValue on ContainerServiceState {
+extension ContainerServiceStateValueExtension on ContainerServiceState {
   String toValue() {
     switch (this) {
       case ContainerServiceState.pending:
@@ -12664,7 +12665,7 @@ enum DiskSnapshotState {
   unknown,
 }
 
-extension DiskSnapshotStateValue on DiskSnapshotState {
+extension DiskSnapshotStateValueExtension on DiskSnapshotState {
   String toValue() {
     switch (this) {
       case DiskSnapshotState.pending:
@@ -12703,7 +12704,7 @@ enum DiskState {
   unknown,
 }
 
-extension DiskStateValue on DiskState {
+extension DiskStateValueExtension on DiskState {
   String toValue() {
     switch (this) {
       case DiskState.pending:
@@ -12783,7 +12784,7 @@ enum DistributionMetricName {
   http5xxErrorRate,
 }
 
-extension DistributionMetricNameValue on DistributionMetricName {
+extension DistributionMetricNameValueExtension on DistributionMetricName {
   String toValue() {
     switch (this) {
       case DistributionMetricName.requests:
@@ -13200,7 +13201,7 @@ enum ExportSnapshotRecordSourceType {
   diskSnapshot,
 }
 
-extension ExportSnapshotRecordSourceTypeValue
+extension ExportSnapshotRecordSourceTypeValueExtension
     on ExportSnapshotRecordSourceType {
   String toValue() {
     switch (this) {
@@ -13250,7 +13251,7 @@ enum ForwardValues {
   all,
 }
 
-extension ForwardValuesValue on ForwardValues {
+extension ForwardValuesValueExtension on ForwardValues {
   String toValue() {
     switch (this) {
       case ForwardValues.none:
@@ -14641,7 +14642,7 @@ enum HeaderEnum {
   referer,
 }
 
-extension HeaderEnumValue on HeaderEnum {
+extension HeaderEnumValueExtension on HeaderEnum {
   String toValue() {
     switch (this) {
       case HeaderEnum.accept:
@@ -15133,7 +15134,7 @@ enum InstanceAccessProtocol {
   rdp,
 }
 
-extension InstanceAccessProtocolValue on InstanceAccessProtocol {
+extension InstanceAccessProtocolValueExtension on InstanceAccessProtocol {
   String toValue() {
     switch (this) {
       case InstanceAccessProtocol.ssh:
@@ -15275,7 +15276,7 @@ enum InstanceHealthReason {
   instanceIpUnusable,
 }
 
-extension InstanceHealthReasonValue on InstanceHealthReason {
+extension InstanceHealthReasonValueExtension on InstanceHealthReason {
   String toValue() {
     switch (this) {
       case InstanceHealthReason.lbRegistrationInProgress:
@@ -15343,7 +15344,7 @@ enum InstanceHealthState {
   unavailable,
 }
 
-extension InstanceHealthStateValue on InstanceHealthState {
+extension InstanceHealthStateValueExtension on InstanceHealthState {
   String toValue() {
     switch (this) {
       case InstanceHealthState.initial:
@@ -15493,7 +15494,7 @@ enum InstanceMetricName {
   burstCapacityPercentage,
 }
 
-extension InstanceMetricNameValue on InstanceMetricName {
+extension InstanceMetricNameValueExtension on InstanceMetricName {
   String toValue() {
     switch (this) {
       case InstanceMetricName.cPUUtilization:
@@ -15572,7 +15573,7 @@ enum InstancePlatform {
   windows,
 }
 
-extension InstancePlatformValue on InstancePlatform {
+extension InstancePlatformValueExtension on InstancePlatform {
   String toValue() {
     switch (this) {
       case InstancePlatform.linuxUnix:
@@ -16016,7 +16017,7 @@ enum InstanceSnapshotState {
   available,
 }
 
-extension InstanceSnapshotStateValue on InstanceSnapshotState {
+extension InstanceSnapshotStateValueExtension on InstanceSnapshotState {
   String toValue() {
     switch (this) {
       case InstanceSnapshotState.pending:
@@ -16417,7 +16418,7 @@ enum LoadBalancerAttributeName {
   sessionStickinessLbCookieDurationSeconds,
 }
 
-extension LoadBalancerAttributeNameValue on LoadBalancerAttributeName {
+extension LoadBalancerAttributeNameValueExtension on LoadBalancerAttributeName {
   String toValue() {
     switch (this) {
       case LoadBalancerAttributeName.healthCheckPath:
@@ -16460,7 +16461,7 @@ enum LoadBalancerMetricName {
   requestCount,
 }
 
-extension LoadBalancerMetricNameValue on LoadBalancerMetricName {
+extension LoadBalancerMetricNameValueExtension on LoadBalancerMetricName {
   String toValue() {
     switch (this) {
       case LoadBalancerMetricName.clientTLSNegotiationErrorCount:
@@ -16528,7 +16529,7 @@ enum LoadBalancerProtocol {
   http,
 }
 
-extension LoadBalancerProtocolValue on LoadBalancerProtocol {
+extension LoadBalancerProtocolValueExtension on LoadBalancerProtocol {
   String toValue() {
     switch (this) {
       case LoadBalancerProtocol.httpHttps:
@@ -16559,7 +16560,7 @@ enum LoadBalancerState {
   unknown,
 }
 
-extension LoadBalancerStateValue on LoadBalancerState {
+extension LoadBalancerStateValueExtension on LoadBalancerState {
   String toValue() {
     switch (this) {
       case LoadBalancerState.active:
@@ -16861,7 +16862,7 @@ enum LoadBalancerTlsCertificateDomainStatus {
   success,
 }
 
-extension LoadBalancerTlsCertificateDomainStatusValue
+extension LoadBalancerTlsCertificateDomainStatusValueExtension
     on LoadBalancerTlsCertificateDomainStatus {
   String toValue() {
     switch (this) {
@@ -16962,7 +16963,7 @@ enum LoadBalancerTlsCertificateFailureReason {
   other,
 }
 
-extension LoadBalancerTlsCertificateFailureReasonValue
+extension LoadBalancerTlsCertificateFailureReasonValueExtension
     on LoadBalancerTlsCertificateFailureReason {
   String toValue() {
     switch (this) {
@@ -17009,7 +17010,7 @@ enum LoadBalancerTlsCertificateRenewalStatus {
   failed,
 }
 
-extension LoadBalancerTlsCertificateRenewalStatusValue
+extension LoadBalancerTlsCertificateRenewalStatusValueExtension
     on LoadBalancerTlsCertificateRenewalStatus {
   String toValue() {
     switch (this) {
@@ -17146,7 +17147,7 @@ enum LoadBalancerTlsCertificateRevocationReason {
   aACompromise,
 }
 
-extension LoadBalancerTlsCertificateRevocationReasonValue
+extension LoadBalancerTlsCertificateRevocationReasonValueExtension
     on LoadBalancerTlsCertificateRevocationReason {
   String toValue() {
     switch (this) {
@@ -17215,7 +17216,7 @@ enum LoadBalancerTlsCertificateStatus {
   unknown,
 }
 
-extension LoadBalancerTlsCertificateStatusValue
+extension LoadBalancerTlsCertificateStatusValueExtension
     on LoadBalancerTlsCertificateStatus {
   String toValue() {
     switch (this) {
@@ -17379,7 +17380,7 @@ enum MetricName {
   burstCapacityPercentage,
 }
 
-extension MetricNameValue on MetricName {
+extension MetricNameValueExtension on MetricName {
   String toValue() {
     switch (this) {
       case MetricName.cPUUtilization:
@@ -17502,7 +17503,7 @@ enum MetricStatistic {
   sampleCount,
 }
 
-extension MetricStatisticValue on MetricStatistic {
+extension MetricStatisticValueExtension on MetricStatistic {
   String toValue() {
     switch (this) {
       case MetricStatistic.minimum:
@@ -17567,7 +17568,7 @@ enum MetricUnit {
   none,
 }
 
-extension MetricUnitValue on MetricUnit {
+extension MetricUnitValueExtension on MetricUnit {
   String toValue() {
     switch (this) {
       case MetricUnit.seconds:
@@ -17746,7 +17747,7 @@ enum NetworkProtocol {
   icmp,
 }
 
-extension NetworkProtocolValue on NetworkProtocol {
+extension NetworkProtocolValueExtension on NetworkProtocol {
   String toValue() {
     switch (this) {
       case NetworkProtocol.tcp:
@@ -17877,7 +17878,7 @@ enum OperationStatus {
   succeeded,
 }
 
-extension OperationStatusValue on OperationStatus {
+extension OperationStatusValueExtension on OperationStatus {
   String toValue() {
     switch (this) {
       case OperationStatus.notStarted:
@@ -17986,7 +17987,7 @@ enum OperationType {
   deleteContainerImage,
 }
 
-extension OperationTypeValue on OperationType {
+extension OperationTypeValueExtension on OperationType {
   String toValue() {
     switch (this) {
       case OperationType.deleteKnownHostKeys:
@@ -18327,7 +18328,7 @@ enum OriginProtocolPolicyEnum {
   httpsOnly,
 }
 
-extension OriginProtocolPolicyEnumValue on OriginProtocolPolicyEnum {
+extension OriginProtocolPolicyEnumValueExtension on OriginProtocolPolicyEnum {
   String toValue() {
     switch (this) {
       case OriginProtocolPolicyEnum.httpOnly:
@@ -18466,7 +18467,7 @@ enum PortAccessType {
   private,
 }
 
-extension PortAccessTypeValue on PortAccessType {
+extension PortAccessTypeValueExtension on PortAccessType {
   String toValue() {
     switch (this) {
       case PortAccessType.public:
@@ -18626,7 +18627,7 @@ enum PortInfoSourceType {
   closed,
 }
 
-extension PortInfoSourceTypeValue on PortInfoSourceType {
+extension PortInfoSourceTypeValueExtension on PortInfoSourceType {
   String toValue() {
     switch (this) {
       case PortInfoSourceType.$default:
@@ -18662,7 +18663,7 @@ enum PortState {
   closed,
 }
 
-extension PortStateValue on PortState {
+extension PortStateValueExtension on PortState {
   String toValue() {
     switch (this) {
       case PortState.open:
@@ -18811,7 +18812,7 @@ enum RecordState {
   failed,
 }
 
-extension RecordStateValue on RecordState {
+extension RecordStateValueExtension on RecordState {
   String toValue() {
     switch (this) {
       case RecordState.started:
@@ -18905,7 +18906,7 @@ enum RegionName {
   apNortheast_2,
 }
 
-extension RegionNameValue on RegionName {
+extension RegionNameValueExtension on RegionName {
   String toValue() {
     switch (this) {
       case RegionName.usEast_1:
@@ -19295,7 +19296,7 @@ enum RelationalDatabaseEngine {
   mysql,
 }
 
-extension RelationalDatabaseEngineValue on RelationalDatabaseEngine {
+extension RelationalDatabaseEngineValueExtension on RelationalDatabaseEngine {
   String toValue() {
     switch (this) {
       case RelationalDatabaseEngine.mysql:
@@ -19381,7 +19382,8 @@ enum RelationalDatabaseMetricName {
   networkTransmitThroughput,
 }
 
-extension RelationalDatabaseMetricNameValue on RelationalDatabaseMetricName {
+extension RelationalDatabaseMetricNameValueExtension
+    on RelationalDatabaseMetricName {
   String toValue() {
     switch (this) {
       case RelationalDatabaseMetricName.cPUUtilization:
@@ -19499,7 +19501,7 @@ enum RelationalDatabasePasswordVersion {
   pending,
 }
 
-extension RelationalDatabasePasswordVersionValue
+extension RelationalDatabasePasswordVersionValueExtension
     on RelationalDatabasePasswordVersion {
   String toValue() {
     switch (this) {
@@ -19658,7 +19660,7 @@ enum RenewalStatus {
   failed,
 }
 
-extension RenewalStatusValue on RenewalStatus {
+extension RenewalStatusValueExtension on RenewalStatus {
   String toValue() {
     switch (this) {
       case RenewalStatus.pendingAutoRenewal:
@@ -19851,7 +19853,7 @@ enum ResourceType {
   certificate,
 }
 
-extension ResourceTypeValue on ResourceType {
+extension ResourceTypeValueExtension on ResourceType {
   String toValue() {
     switch (this) {
       case ResourceType.containerService:
@@ -20185,7 +20187,7 @@ enum TreatMissingData {
   missing,
 }
 
-extension TreatMissingDataValue on TreatMissingData {
+extension TreatMissingDataValueExtension on TreatMissingData {
   String toValue() {
     switch (this) {
       case TreatMissingData.breaching:

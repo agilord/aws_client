@@ -3259,7 +3259,7 @@ enum ActivityType {
   folderMoved,
 }
 
-extension ActivityTypeValue on ActivityType {
+extension ActivityTypeValueExtension on ActivityType {
   String toValue() {
     switch (this) {
       case ActivityType.documentCheckedIn:
@@ -3428,7 +3428,7 @@ enum BooleanEnumType {
   $false,
 }
 
-extension BooleanEnumTypeValue on BooleanEnumType {
+extension BooleanEnumTypeValueExtension on BooleanEnumType {
   String toValue() {
     switch (this) {
       case BooleanEnumType.$true:
@@ -3555,7 +3555,7 @@ enum CommentStatusType {
   deleted,
 }
 
-extension CommentStatusTypeValue on CommentStatusType {
+extension CommentStatusTypeValueExtension on CommentStatusType {
   String toValue() {
     switch (this) {
       case CommentStatusType.draft:
@@ -3587,7 +3587,7 @@ enum CommentVisibilityType {
   private,
 }
 
-extension CommentVisibilityTypeValue on CommentVisibilityType {
+extension CommentVisibilityTypeValueExtension on CommentVisibilityType {
   String toValue() {
     switch (this) {
       case CommentVisibilityType.public:
@@ -3985,7 +3985,7 @@ enum DocumentSourceType {
   withComments,
 }
 
-extension DocumentSourceTypeValue on DocumentSourceType {
+extension DocumentSourceTypeValueExtension on DocumentSourceType {
   String toValue() {
     switch (this) {
       case DocumentSourceType.original:
@@ -4013,7 +4013,7 @@ enum DocumentStatusType {
   active,
 }
 
-extension DocumentStatusTypeValue on DocumentStatusType {
+extension DocumentStatusTypeValueExtension on DocumentStatusType {
   String toValue() {
     switch (this) {
       case DocumentStatusType.initialized:
@@ -4042,7 +4042,7 @@ enum DocumentThumbnailType {
   large,
 }
 
-extension DocumentThumbnailTypeValue on DocumentThumbnailType {
+extension DocumentThumbnailTypeValueExtension on DocumentThumbnailType {
   String toValue() {
     switch (this) {
       case DocumentThumbnailType.small:
@@ -4152,7 +4152,7 @@ enum DocumentVersionStatus {
   active,
 }
 
-extension DocumentVersionStatusValue on DocumentVersionStatus {
+extension DocumentVersionStatusValueExtension on DocumentVersionStatus {
   String toValue() {
     switch (this) {
       case DocumentVersionStatus.active:
@@ -4177,7 +4177,7 @@ enum FolderContentType {
   folder,
 }
 
-extension FolderContentTypeValue on FolderContentType {
+extension FolderContentTypeValueExtension on FolderContentType {
   String toValue() {
     switch (this) {
       case FolderContentType.all:
@@ -4478,7 +4478,7 @@ enum LocaleType {
   $default,
 }
 
-extension LocaleTypeValue on LocaleType {
+extension LocaleTypeValueExtension on LocaleType {
   String toValue() {
     switch (this) {
       case LocaleType.en:
@@ -4565,7 +4565,7 @@ enum OrderType {
   descending,
 }
 
-extension OrderTypeValue on OrderType {
+extension OrderTypeValueExtension on OrderType {
   String toValue() {
     switch (this) {
       case OrderType.ascending:
@@ -4670,7 +4670,7 @@ enum PrincipalType {
   organization,
 }
 
-extension PrincipalTypeValue on PrincipalType {
+extension PrincipalTypeValueExtension on PrincipalType {
   String toValue() {
     switch (this) {
       case PrincipalType.user:
@@ -4709,7 +4709,7 @@ enum ResourceCollectionType {
   sharedWithMe,
 }
 
-extension ResourceCollectionTypeValue on ResourceCollectionType {
+extension ResourceCollectionTypeValueExtension on ResourceCollectionType {
   String toValue() {
     switch (this) {
       case ResourceCollectionType.sharedWithMe:
@@ -4819,7 +4819,7 @@ enum ResourceSortType {
   name,
 }
 
-extension ResourceSortTypeValue on ResourceSortType {
+extension ResourceSortTypeValueExtension on ResourceSortType {
   String toValue() {
     switch (this) {
       case ResourceSortType.date:
@@ -4849,7 +4849,7 @@ enum ResourceStateType {
   recycled,
 }
 
-extension ResourceStateTypeValue on ResourceStateType {
+extension ResourceStateTypeValueExtension on ResourceStateType {
   String toValue() {
     switch (this) {
       case ResourceStateType.active:
@@ -4885,7 +4885,7 @@ enum ResourceType {
   document,
 }
 
-extension ResourceTypeValue on ResourceType {
+extension ResourceTypeValueExtension on ResourceType {
   String toValue() {
     switch (this) {
       case ResourceType.folder:
@@ -4913,7 +4913,7 @@ enum RolePermissionType {
   inherited,
 }
 
-extension RolePermissionTypeValue on RolePermissionType {
+extension RolePermissionTypeValueExtension on RolePermissionType {
   String toValue() {
     switch (this) {
       case RolePermissionType.direct:
@@ -4943,7 +4943,7 @@ enum RoleType {
   coowner,
 }
 
-extension RoleTypeValue on RoleType {
+extension RoleTypeValueExtension on RoleType {
   String toValue() {
     switch (this) {
       case RoleType.viewer:
@@ -5047,7 +5047,7 @@ enum ShareStatusType {
   failure,
 }
 
-extension ShareStatusTypeValue on ShareStatusType {
+extension ShareStatusTypeValueExtension on ShareStatusType {
   String toValue() {
     switch (this) {
       case ShareStatusType.success:
@@ -5105,7 +5105,7 @@ enum StorageType {
   quota,
 }
 
-extension StorageTypeValue on StorageType {
+extension StorageTypeValueExtension on StorageType {
   String toValue() {
     switch (this) {
       case StorageType.unlimited:
@@ -5157,7 +5157,7 @@ enum SubscriptionProtocolType {
   https,
 }
 
-extension SubscriptionProtocolTypeValue on SubscriptionProtocolType {
+extension SubscriptionProtocolTypeValueExtension on SubscriptionProtocolType {
   String toValue() {
     switch (this) {
       case SubscriptionProtocolType.https:
@@ -5180,7 +5180,7 @@ enum SubscriptionType {
   all,
 }
 
-extension SubscriptionTypeValue on SubscriptionType {
+extension SubscriptionTypeValueExtension on SubscriptionType {
   String toValue() {
     switch (this) {
       case SubscriptionType.all:
@@ -5329,7 +5329,7 @@ enum UserFilterType {
   activePending,
 }
 
-extension UserFilterTypeValue on UserFilterType {
+extension UserFilterTypeValueExtension on UserFilterType {
   String toValue() {
     switch (this) {
       case UserFilterType.all:
@@ -5395,7 +5395,7 @@ enum UserSortType {
   storageUsed,
 }
 
-extension UserSortTypeValue on UserSortType {
+extension UserSortTypeValueExtension on UserSortType {
   String toValue() {
     switch (this) {
       case UserSortType.userName:
@@ -5436,7 +5436,7 @@ enum UserStatusType {
   pending,
 }
 
-extension UserStatusTypeValue on UserStatusType {
+extension UserStatusTypeValueExtension on UserStatusType {
   String toValue() {
     switch (this) {
       case UserStatusType.active:
@@ -5494,7 +5494,7 @@ enum UserType {
   workspacesuser,
 }
 
-extension UserTypeValue on UserType {
+extension UserTypeValueExtension on UserType {
   String toValue() {
     switch (this) {
       case UserType.user:

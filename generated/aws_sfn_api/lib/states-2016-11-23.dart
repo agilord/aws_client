@@ -2321,7 +2321,7 @@ enum ExecutionStatus {
   aborted,
 }
 
-extension ExecutionStatusValue on ExecutionStatus {
+extension ExecutionStatusValueExtension on ExecutionStatus {
   String toValue() {
     switch (this) {
       case ExecutionStatus.running:
@@ -2812,7 +2812,7 @@ enum HistoryEventType {
   waitStateExited,
 }
 
-extension HistoryEventTypeValue on HistoryEventType {
+extension HistoryEventTypeValueExtension on HistoryEventType {
   String toValue() {
     switch (this) {
       case HistoryEventType.activityFailed:
@@ -3326,7 +3326,7 @@ enum LogLevel {
   off,
 }
 
-extension LogLevelValue on LogLevel {
+extension LogLevelValueExtension on LogLevel {
   String toValue() {
     switch (this) {
       case LogLevel.all:
@@ -3707,7 +3707,7 @@ enum StateMachineStatus {
   deleting,
 }
 
-extension StateMachineStatusValue on StateMachineStatus {
+extension StateMachineStatusValueExtension on StateMachineStatus {
   String toValue() {
     switch (this) {
       case StateMachineStatus.active:
@@ -3735,7 +3735,7 @@ enum StateMachineType {
   express,
 }
 
-extension StateMachineTypeValue on StateMachineType {
+extension StateMachineTypeValueExtension on StateMachineType {
   String toValue() {
     switch (this) {
       case StateMachineType.standard:
@@ -3778,7 +3778,7 @@ enum SyncExecutionStatus {
   timedOut,
 }
 
-extension SyncExecutionStatusValue on SyncExecutionStatus {
+extension SyncExecutionStatusValueExtension on SyncExecutionStatus {
   String toValue() {
     switch (this) {
       case SyncExecutionStatus.succeeded:

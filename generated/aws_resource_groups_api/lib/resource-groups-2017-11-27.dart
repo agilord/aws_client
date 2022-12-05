@@ -1452,7 +1452,7 @@ enum GroupConfigurationStatus {
   updateFailed,
 }
 
-extension GroupConfigurationStatusValue on GroupConfigurationStatus {
+extension GroupConfigurationStatusValueExtension on GroupConfigurationStatus {
   String toValue() {
     switch (this) {
       case GroupConfigurationStatus.updating:
@@ -1508,7 +1508,7 @@ enum GroupFilterName {
   configurationType,
 }
 
-extension GroupFilterNameValue on GroupFilterName {
+extension GroupFilterNameValueExtension on GroupFilterName {
   String toValue() {
     switch (this) {
       case GroupFilterName.resourceType:
@@ -1795,7 +1795,7 @@ enum QueryErrorCode {
   cloudformationStackNotExisting,
 }
 
-extension QueryErrorCodeValue on QueryErrorCode {
+extension QueryErrorCodeValueExtension on QueryErrorCode {
   String toValue() {
     switch (this) {
       case QueryErrorCode.cloudformationStackInactive:
@@ -1823,7 +1823,7 @@ enum QueryType {
   cloudformationStack_1_0,
 }
 
-extension QueryTypeValue on QueryType {
+extension QueryTypeValueExtension on QueryType {
   String toValue() {
     switch (this) {
       case QueryType.tagFilters_1_0:
@@ -1874,7 +1874,7 @@ enum ResourceFilterName {
   resourceType,
 }
 
-extension ResourceFilterNameValue on ResourceFilterName {
+extension ResourceFilterNameValueExtension on ResourceFilterName {
   String toValue() {
     switch (this) {
       case ResourceFilterName.resourceType:
@@ -2091,7 +2091,7 @@ enum ResourceStatusValue {
   pending,
 }
 
-extension ResourceStatusValueValue on ResourceStatusValue {
+extension ResourceStatusValueValueExtension on ResourceStatusValue {
   String toValue() {
     switch (this) {
       case ResourceStatusValue.pending:

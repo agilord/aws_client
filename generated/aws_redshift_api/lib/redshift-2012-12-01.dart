@@ -8310,7 +8310,7 @@ enum ActionType {
   resizeCluster,
 }
 
-extension ActionTypeValue on ActionType {
+extension ActionTypeValueExtension on ActionType {
   String toValue() {
     switch (this) {
       case ActionType.restoreCluster:
@@ -10671,7 +10671,7 @@ enum Mode {
   highPerformance,
 }
 
-extension ModeValue on Mode {
+extension ModeValueExtension on Mode {
   String toValue() {
     switch (this) {
       case Mode.standard:
@@ -10880,7 +10880,7 @@ enum NodeConfigurationOptionsFilterName {
   mode,
 }
 
-extension NodeConfigurationOptionsFilterNameValue
+extension NodeConfigurationOptionsFilterNameValueExtension
     on NodeConfigurationOptionsFilterName {
   String toValue() {
     switch (this) {
@@ -10953,7 +10953,7 @@ enum OperatorType {
   between,
 }
 
-extension OperatorTypeValue on OperatorType {
+extension OperatorTypeValueExtension on OperatorType {
   String toValue() {
     switch (this) {
       case OperatorType.eq:
@@ -11154,7 +11154,7 @@ enum ParameterApplyType {
   dynamic,
 }
 
-extension ParameterApplyTypeValue on ParameterApplyType {
+extension ParameterApplyTypeValueExtension on ParameterApplyType {
   String toValue() {
     switch (this) {
       case ParameterApplyType.static:
@@ -11526,7 +11526,7 @@ enum ReservedNodeOfferingType {
   upgradable,
 }
 
-extension ReservedNodeOfferingTypeValue on ReservedNodeOfferingType {
+extension ReservedNodeOfferingTypeValueExtension on ReservedNodeOfferingType {
   String toValue() {
     switch (this) {
       case ReservedNodeOfferingType.regular:
@@ -12024,7 +12024,7 @@ enum ScheduleState {
   failed,
 }
 
-extension ScheduleStateValue on ScheduleState {
+extension ScheduleStateValueExtension on ScheduleState {
   String toValue() {
     switch (this) {
       case ScheduleState.modifying:
@@ -12165,7 +12165,7 @@ enum ScheduledActionFilterName {
   iamRole,
 }
 
-extension ScheduledActionFilterNameValue on ScheduledActionFilterName {
+extension ScheduledActionFilterNameValueExtension on ScheduledActionFilterName {
   String toValue() {
     switch (this) {
       case ScheduledActionFilterName.clusterIdentifier:
@@ -12193,7 +12193,7 @@ enum ScheduledActionState {
   disabled,
 }
 
-extension ScheduledActionStateValue on ScheduledActionState {
+extension ScheduledActionStateValueExtension on ScheduledActionState {
   String toValue() {
     switch (this) {
       case ScheduledActionState.active:
@@ -12265,7 +12265,7 @@ enum ScheduledActionTypeValues {
   resumeCluster,
 }
 
-extension ScheduledActionTypeValuesValue on ScheduledActionTypeValues {
+extension ScheduledActionTypeValuesValueExtension on ScheduledActionTypeValues {
   String toValue() {
     switch (this) {
       case ScheduledActionTypeValues.resizeCluster:
@@ -12565,7 +12565,7 @@ enum SnapshotAttributeToSortBy {
   createTime,
 }
 
-extension SnapshotAttributeToSortByValue on SnapshotAttributeToSortBy {
+extension SnapshotAttributeToSortByValueExtension on SnapshotAttributeToSortBy {
   String toValue() {
     switch (this) {
       case SnapshotAttributeToSortBy.sourceType:
@@ -12802,7 +12802,7 @@ enum SortByOrder {
   desc,
 }
 
-extension SortByOrderValue on SortByOrder {
+extension SortByOrderValueExtension on SortByOrder {
   String toValue() {
     switch (this) {
       case SortByOrder.asc:
@@ -12833,7 +12833,7 @@ enum SourceType {
   scheduledAction,
 }
 
-extension SourceTypeValue on SourceType {
+extension SourceTypeValueExtension on SourceType {
   String toValue() {
     switch (this) {
       case SourceType.cluster:
@@ -13065,7 +13065,7 @@ enum TableRestoreStatusType {
   canceled,
 }
 
-extension TableRestoreStatusTypeValue on TableRestoreStatusType {
+extension TableRestoreStatusTypeValueExtension on TableRestoreStatusType {
   String toValue() {
     switch (this) {
       case TableRestoreStatusType.pending:
@@ -13354,7 +13354,7 @@ enum UsageLimitBreachAction {
   disable,
 }
 
-extension UsageLimitBreachActionValue on UsageLimitBreachAction {
+extension UsageLimitBreachActionValueExtension on UsageLimitBreachAction {
   String toValue() {
     switch (this) {
       case UsageLimitBreachAction.log:
@@ -13386,7 +13386,7 @@ enum UsageLimitFeatureType {
   concurrencyScaling,
 }
 
-extension UsageLimitFeatureTypeValue on UsageLimitFeatureType {
+extension UsageLimitFeatureTypeValueExtension on UsageLimitFeatureType {
   String toValue() {
     switch (this) {
       case UsageLimitFeatureType.spectrum:
@@ -13414,7 +13414,7 @@ enum UsageLimitLimitType {
   dataScanned,
 }
 
-extension UsageLimitLimitTypeValue on UsageLimitLimitType {
+extension UsageLimitLimitTypeValueExtension on UsageLimitLimitType {
   String toValue() {
     switch (this) {
       case UsageLimitLimitType.time:
@@ -13470,7 +13470,7 @@ enum UsageLimitPeriod {
   monthly,
 }
 
-extension UsageLimitPeriodValue on UsageLimitPeriod {
+extension UsageLimitPeriodValueExtension on UsageLimitPeriod {
   String toValue() {
     switch (this) {
       case UsageLimitPeriod.daily:

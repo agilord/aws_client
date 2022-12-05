@@ -15739,7 +15739,7 @@ enum ActionStatus {
   stopped,
 }
 
-extension ActionStatusValue on ActionStatus {
+extension ActionStatusValueExtension on ActionStatus {
   String toValue() {
     switch (this) {
       case ActionStatus.unknown:
@@ -15911,7 +15911,7 @@ enum AlgorithmSortBy {
   creationTime,
 }
 
-extension AlgorithmSortByValue on AlgorithmSortBy {
+extension AlgorithmSortByValueExtension on AlgorithmSortBy {
   String toValue() {
     switch (this) {
       case AlgorithmSortBy.name:
@@ -16067,7 +16067,7 @@ enum AlgorithmStatus {
   deleting,
 }
 
-extension AlgorithmStatusValue on AlgorithmStatus {
+extension AlgorithmStatusValueExtension on AlgorithmStatus {
   String toValue() {
     switch (this) {
       case AlgorithmStatus.pending:
@@ -17118,7 +17118,7 @@ enum AppImageConfigSortKey {
   name,
 }
 
-extension AppImageConfigSortKeyValue on AppImageConfigSortKey {
+extension AppImageConfigSortKeyValueExtension on AppImageConfigSortKey {
   String toValue() {
     switch (this) {
       case AppImageConfigSortKey.creationTime:
@@ -17180,7 +17180,7 @@ enum AppInstanceType {
   mlG4dn_16xlarge,
 }
 
-extension AppInstanceTypeValue on AppInstanceType {
+extension AppInstanceTypeValueExtension on AppInstanceType {
   String toValue() {
     switch (this) {
       case AppInstanceType.system:
@@ -17328,7 +17328,7 @@ enum AppNetworkAccessType {
   vpcOnly,
 }
 
-extension AppNetworkAccessTypeValue on AppNetworkAccessType {
+extension AppNetworkAccessTypeValueExtension on AppNetworkAccessType {
   String toValue() {
     switch (this) {
       case AppNetworkAccessType.publicInternetOnly:
@@ -17355,7 +17355,7 @@ enum AppSortKey {
   creationTime,
 }
 
-extension AppSortKeyValue on AppSortKey {
+extension AppSortKeyValueExtension on AppSortKey {
   String toValue() {
     switch (this) {
       case AppSortKey.creationTime:
@@ -17425,7 +17425,7 @@ enum AppStatus {
   pending,
 }
 
-extension AppStatusValue on AppStatus {
+extension AppStatusValueExtension on AppStatus {
   String toValue() {
     switch (this) {
       case AppStatus.deleted:
@@ -17466,7 +17466,7 @@ enum AppType {
   tensorBoard,
 }
 
-extension AppTypeValue on AppType {
+extension AppTypeValueExtension on AppType {
   String toValue() {
     switch (this) {
       case AppType.jupyterServer:
@@ -17532,7 +17532,7 @@ enum ArtifactSourceIdType {
   custom,
 }
 
-extension ArtifactSourceIdTypeValue on ArtifactSourceIdType {
+extension ArtifactSourceIdTypeValueExtension on ArtifactSourceIdType {
   String toValue() {
     switch (this) {
       case ArtifactSourceIdType.mD5Hash:
@@ -17640,7 +17640,7 @@ enum AssemblyType {
   line,
 }
 
-extension AssemblyTypeValue on AssemblyType {
+extension AssemblyTypeValueExtension on AssemblyType {
   String toValue() {
     switch (this) {
       case AssemblyType.none:
@@ -17689,7 +17689,7 @@ enum AssociationEdgeType {
   produced,
 }
 
-extension AssociationEdgeTypeValue on AssociationEdgeType {
+extension AssociationEdgeTypeValueExtension on AssociationEdgeType {
   String toValue() {
     switch (this) {
       case AssociationEdgeType.contributedTo:
@@ -17848,7 +17848,8 @@ enum AthenaResultCompressionType {
   zlib,
 }
 
-extension AthenaResultCompressionTypeValue on AthenaResultCompressionType {
+extension AthenaResultCompressionTypeValueExtension
+    on AthenaResultCompressionType {
   String toValue() {
     switch (this) {
       case AthenaResultCompressionType.gzip:
@@ -17884,7 +17885,7 @@ enum AthenaResultFormat {
   textfile,
 }
 
-extension AthenaResultFormatValue on AthenaResultFormat {
+extension AthenaResultFormatValueExtension on AthenaResultFormat {
   String toValue() {
     switch (this) {
       case AthenaResultFormat.parquet:
@@ -17924,7 +17925,7 @@ enum AuthMode {
   iam,
 }
 
-extension AuthModeValue on AuthMode {
+extension AuthModeValueExtension on AuthMode {
   String toValue() {
     switch (this) {
       case AuthMode.sso:
@@ -18348,7 +18349,7 @@ enum AutoMLJobObjectiveType {
   minimize,
 }
 
-extension AutoMLJobObjectiveTypeValue on AutoMLJobObjectiveType {
+extension AutoMLJobObjectiveTypeValueExtension on AutoMLJobObjectiveType {
   String toValue() {
     switch (this) {
       case AutoMLJobObjectiveType.maximize:
@@ -18384,7 +18385,7 @@ enum AutoMLJobSecondaryStatus {
   candidateDefinitionsGenerated,
 }
 
-extension AutoMLJobSecondaryStatusValue on AutoMLJobSecondaryStatus {
+extension AutoMLJobSecondaryStatusValueExtension on AutoMLJobSecondaryStatus {
   String toValue() {
     switch (this) {
       case AutoMLJobSecondaryStatus.starting:
@@ -18447,7 +18448,7 @@ enum AutoMLJobStatus {
   stopping,
 }
 
-extension AutoMLJobStatusValue on AutoMLJobStatus {
+extension AutoMLJobStatusValueExtension on AutoMLJobStatus {
   String toValue() {
     switch (this) {
       case AutoMLJobStatus.completed:
@@ -18543,7 +18544,7 @@ enum AutoMLMetricEnum {
   auc,
 }
 
-extension AutoMLMetricEnumValue on AutoMLMetricEnum {
+extension AutoMLMetricEnumValueExtension on AutoMLMetricEnum {
   String toValue() {
     switch (this) {
       case AutoMLMetricEnum.accuracy:
@@ -18641,7 +18642,7 @@ enum AutoMLS3DataType {
   s3Prefix,
 }
 
-extension AutoMLS3DataTypeValue on AutoMLS3DataType {
+extension AutoMLS3DataTypeValueExtension on AutoMLS3DataType {
   String toValue() {
     switch (this) {
       case AutoMLS3DataType.manifestFile:
@@ -18712,7 +18713,7 @@ enum AutoMLSortBy {
   status,
 }
 
-extension AutoMLSortByValue on AutoMLSortBy {
+extension AutoMLSortByValueExtension on AutoMLSortBy {
   String toValue() {
     switch (this) {
       case AutoMLSortBy.name:
@@ -18744,7 +18745,7 @@ enum AutoMLSortOrder {
   descending,
 }
 
-extension AutoMLSortOrderValue on AutoMLSortOrder {
+extension AutoMLSortOrderValueExtension on AutoMLSortOrder {
   String toValue() {
     switch (this) {
       case AutoMLSortOrder.ascending:
@@ -18797,7 +18798,7 @@ enum AwsManagedHumanLoopRequestSource {
   awsTextractAnalyzeDocumentFormsV1,
 }
 
-extension AwsManagedHumanLoopRequestSourceValue
+extension AwsManagedHumanLoopRequestSourceValueExtension
     on AwsManagedHumanLoopRequestSource {
   String toValue() {
     switch (this) {
@@ -18830,7 +18831,7 @@ enum BatchStrategy {
   singleRecord,
 }
 
-extension BatchStrategyValue on BatchStrategy {
+extension BatchStrategyValueExtension on BatchStrategy {
   String toValue() {
     switch (this) {
       case BatchStrategy.multiRecord:
@@ -18923,7 +18924,7 @@ enum BooleanOperator {
   or,
 }
 
-extension BooleanOperatorValue on BooleanOperator {
+extension BooleanOperatorValueExtension on BooleanOperator {
   String toValue() {
     switch (this) {
       case BooleanOperator.and:
@@ -18967,7 +18968,7 @@ enum CandidateSortBy {
   finalObjectiveMetricValue,
 }
 
-extension CandidateSortByValue on CandidateSortBy {
+extension CandidateSortByValueExtension on CandidateSortBy {
   String toValue() {
     switch (this) {
       case CandidateSortBy.creationTime:
@@ -19002,7 +19003,7 @@ enum CandidateStatus {
   stopping,
 }
 
-extension CandidateStatusValue on CandidateStatus {
+extension CandidateStatusValueExtension on CandidateStatus {
   String toValue() {
     switch (this) {
       case CandidateStatus.completed:
@@ -19043,7 +19044,7 @@ enum CandidateStepType {
   awsSageMakerProcessingJob,
 }
 
-extension CandidateStepTypeValue on CandidateStepType {
+extension CandidateStepTypeValueExtension on CandidateStepType {
   String toValue() {
     switch (this) {
       case CandidateStepType.awsSageMakerTrainingJob:
@@ -19104,7 +19105,7 @@ enum CapacitySizeType {
   capacityPercent,
 }
 
-extension CapacitySizeTypeValue on CapacitySizeType {
+extension CapacitySizeTypeValueExtension on CapacitySizeType {
   String toValue() {
     switch (this) {
       case CapacitySizeType.instanceCount:
@@ -19167,7 +19168,7 @@ enum CaptureMode {
   output,
 }
 
-extension CaptureModeValue on CaptureMode {
+extension CaptureModeValueExtension on CaptureMode {
   String toValue() {
     switch (this) {
       case CaptureMode.input:
@@ -19217,7 +19218,7 @@ enum CaptureStatus {
   stopped,
 }
 
-extension CaptureStatusValue on CaptureStatus {
+extension CaptureStatusValueExtension on CaptureStatus {
   String toValue() {
     switch (this) {
       case CaptureStatus.started:
@@ -19520,7 +19521,7 @@ enum CodeRepositorySortBy {
   lastModifiedTime,
 }
 
-extension CodeRepositorySortByValue on CodeRepositorySortBy {
+extension CodeRepositorySortByValueExtension on CodeRepositorySortBy {
   String toValue() {
     switch (this) {
       case CodeRepositorySortBy.name:
@@ -19552,7 +19553,7 @@ enum CodeRepositorySortOrder {
   descending,
 }
 
-extension CodeRepositorySortOrderValue on CodeRepositorySortOrder {
+extension CodeRepositorySortOrderValueExtension on CodeRepositorySortOrder {
   String toValue() {
     switch (this) {
       case CodeRepositorySortOrder.ascending:
@@ -19737,7 +19738,7 @@ enum CompilationJobStatus {
   stopped,
 }
 
-extension CompilationJobStatusValue on CompilationJobStatus {
+extension CompilationJobStatusValueExtension on CompilationJobStatus {
   String toValue() {
     switch (this) {
       case CompilationJobStatus.inprogress:
@@ -19859,7 +19860,7 @@ enum CompressionType {
   gzip,
 }
 
-extension CompressionTypeValue on CompressionType {
+extension CompressionTypeValueExtension on CompressionType {
   String toValue() {
     switch (this) {
       case CompressionType.none:
@@ -19887,7 +19888,7 @@ enum ConditionOutcome {
   $false,
 }
 
-extension ConditionOutcomeValue on ConditionOutcome {
+extension ConditionOutcomeValueExtension on ConditionOutcome {
   String toValue() {
     switch (this) {
       case ConditionOutcome.$true:
@@ -20050,7 +20051,7 @@ enum ContainerMode {
   multiModel,
 }
 
-extension ContainerModeValue on ContainerMode {
+extension ContainerModeValueExtension on ContainerMode {
   String toValue() {
     switch (this) {
       case ContainerMode.singleModel:
@@ -20078,7 +20079,7 @@ enum ContentClassifier {
   freeOfAdultContent,
 }
 
-extension ContentClassifierValue on ContentClassifier {
+extension ContentClassifierValueExtension on ContentClassifier {
   String toValue() {
     switch (this) {
       case ContentClassifier.freeOfPersonallyIdentifiableInformation:
@@ -21076,7 +21077,7 @@ enum DataDistributionType {
   shardedByS3Key,
 }
 
-extension DataDistributionTypeValue on DataDistributionType {
+extension DataDistributionTypeValueExtension on DataDistributionType {
   String toValue() {
     switch (this) {
       case DataDistributionType.fullyReplicated:
@@ -25746,7 +25747,7 @@ enum DetailedAlgorithmStatus {
   failed,
 }
 
-extension DetailedAlgorithmStatusValue on DetailedAlgorithmStatus {
+extension DetailedAlgorithmStatusValueExtension on DetailedAlgorithmStatus {
   String toValue() {
     switch (this) {
       case DetailedAlgorithmStatus.notStarted:
@@ -25784,7 +25785,8 @@ enum DetailedModelPackageStatus {
   failed,
 }
 
-extension DetailedModelPackageStatusValue on DetailedModelPackageStatus {
+extension DetailedModelPackageStatusValueExtension
+    on DetailedModelPackageStatus {
   String toValue() {
     switch (this) {
       case DetailedModelPackageStatus.notStarted:
@@ -25952,7 +25954,7 @@ enum DirectInternetAccess {
   disabled,
 }
 
-extension DirectInternetAccessValue on DirectInternetAccess {
+extension DirectInternetAccessValueExtension on DirectInternetAccess {
   String toValue() {
     switch (this) {
       case DirectInternetAccess.enabled:
@@ -26058,7 +26060,7 @@ enum DomainStatus {
   deleteFailed,
 }
 
-extension DomainStatusValue on DomainStatus {
+extension DomainStatusValueExtension on DomainStatus {
   String toValue() {
     switch (this) {
       case DomainStatus.deleting:
@@ -26234,7 +26236,7 @@ enum EdgePackagingJobStatus {
   stopped,
 }
 
-extension EdgePackagingJobStatusValue on EdgePackagingJobStatus {
+extension EdgePackagingJobStatusValueExtension on EdgePackagingJobStatus {
   String toValue() {
     switch (this) {
       case EdgePackagingJobStatus.starting:
@@ -26422,7 +26424,7 @@ enum EndpointConfigSortKey {
   creationTime,
 }
 
-extension EndpointConfigSortKeyValue on EndpointConfigSortKey {
+extension EndpointConfigSortKeyValueExtension on EndpointConfigSortKey {
   String toValue() {
     switch (this) {
       case EndpointConfigSortKey.name:
@@ -26581,7 +26583,7 @@ enum EndpointSortKey {
   status,
 }
 
-extension EndpointSortKeyValue on EndpointSortKey {
+extension EndpointSortKeyValueExtension on EndpointSortKey {
   String toValue() {
     switch (this) {
       case EndpointSortKey.name:
@@ -26619,7 +26621,7 @@ enum EndpointStatus {
   failed,
 }
 
-extension EndpointStatusValue on EndpointStatus {
+extension EndpointStatusValueExtension on EndpointStatus {
   String toValue() {
     switch (this) {
       case EndpointStatus.outOfService:
@@ -26757,7 +26759,7 @@ enum ExecutionStatus {
   stopped,
 }
 
-extension ExecutionStatusValue on ExecutionStatus {
+extension ExecutionStatusValueExtension on ExecutionStatus {
   String toValue() {
     switch (this) {
       case ExecutionStatus.pending:
@@ -27165,7 +27167,7 @@ enum FeatureGroupSortBy {
   creationTime,
 }
 
-extension FeatureGroupSortByValue on FeatureGroupSortBy {
+extension FeatureGroupSortByValueExtension on FeatureGroupSortBy {
   String toValue() {
     switch (this) {
       case FeatureGroupSortBy.name:
@@ -27201,7 +27203,7 @@ enum FeatureGroupSortOrder {
   descending,
 }
 
-extension FeatureGroupSortOrderValue on FeatureGroupSortOrder {
+extension FeatureGroupSortOrderValueExtension on FeatureGroupSortOrder {
   String toValue() {
     switch (this) {
       case FeatureGroupSortOrder.ascending:
@@ -27232,7 +27234,7 @@ enum FeatureGroupStatus {
   deleteFailed,
 }
 
-extension FeatureGroupStatusValue on FeatureGroupStatus {
+extension FeatureGroupStatusValueExtension on FeatureGroupStatus {
   String toValue() {
     switch (this) {
       case FeatureGroupStatus.creating:
@@ -27319,7 +27321,7 @@ enum FeatureType {
   string,
 }
 
-extension FeatureTypeValue on FeatureType {
+extension FeatureTypeValueExtension on FeatureType {
   String toValue() {
     switch (this) {
       case FeatureType.integral:
@@ -27351,7 +27353,7 @@ enum FileSystemAccessMode {
   ro,
 }
 
-extension FileSystemAccessModeValue on FileSystemAccessMode {
+extension FileSystemAccessModeValueExtension on FileSystemAccessMode {
   String toValue() {
     switch (this) {
       case FileSystemAccessMode.rw:
@@ -27466,7 +27468,7 @@ enum FileSystemType {
   fSxLustre,
 }
 
-extension FileSystemTypeValue on FileSystemType {
+extension FileSystemTypeValueExtension on FileSystemType {
   String toValue() {
     switch (this) {
       case FileSystemType.efs:
@@ -27734,7 +27736,7 @@ enum FlowDefinitionStatus {
   deleting,
 }
 
-extension FlowDefinitionStatusValue on FlowDefinitionStatus {
+extension FlowDefinitionStatusValueExtension on FlowDefinitionStatus {
   String toValue() {
     switch (this) {
       case FlowDefinitionStatus.initializing:
@@ -27815,7 +27817,7 @@ enum Framework {
   sklearn,
 }
 
-extension FrameworkValue on Framework {
+extension FrameworkValueExtension on Framework {
   String toValue() {
     switch (this) {
       case Framework.tensorflow:
@@ -29298,7 +29300,7 @@ enum HumanTaskUiStatus {
   deleting,
 }
 
-extension HumanTaskUiStatusValue on HumanTaskUiStatus {
+extension HumanTaskUiStatusValueExtension on HumanTaskUiStatus {
   String toValue() {
     switch (this) {
       case HumanTaskUiStatus.active:
@@ -29427,7 +29429,7 @@ enum HyperParameterScalingType {
   reverseLogarithmic,
 }
 
-extension HyperParameterScalingTypeValue on HyperParameterScalingType {
+extension HyperParameterScalingTypeValueExtension on HyperParameterScalingType {
   String toValue() {
     switch (this) {
       case HyperParameterScalingType.auto:
@@ -29945,7 +29947,7 @@ enum HyperParameterTuningJobObjectiveType {
   minimize,
 }
 
-extension HyperParameterTuningJobObjectiveTypeValue
+extension HyperParameterTuningJobObjectiveTypeValueExtension
     on HyperParameterTuningJobObjectiveType {
   String toValue() {
     switch (this) {
@@ -29977,7 +29979,7 @@ enum HyperParameterTuningJobSortByOptions {
   creationTime,
 }
 
-extension HyperParameterTuningJobSortByOptionsValue
+extension HyperParameterTuningJobSortByOptionsValueExtension
     on HyperParameterTuningJobSortByOptions {
   String toValue() {
     switch (this) {
@@ -30015,7 +30017,8 @@ enum HyperParameterTuningJobStatus {
   stopping,
 }
 
-extension HyperParameterTuningJobStatusValue on HyperParameterTuningJobStatus {
+extension HyperParameterTuningJobStatusValueExtension
+    on HyperParameterTuningJobStatus {
   String toValue() {
     switch (this) {
       case HyperParameterTuningJobStatus.completed:
@@ -30058,7 +30061,7 @@ enum HyperParameterTuningJobStrategyType {
   random,
 }
 
-extension HyperParameterTuningJobStrategyTypeValue
+extension HyperParameterTuningJobStrategyTypeValueExtension
     on HyperParameterTuningJobStrategyType {
   String toValue() {
     switch (this) {
@@ -30245,7 +30248,7 @@ enum HyperParameterTuningJobWarmStartType {
   transferLearning,
 }
 
-extension HyperParameterTuningJobWarmStartTypeValue
+extension HyperParameterTuningJobWarmStartTypeValueExtension
     on HyperParameterTuningJobWarmStartType {
   String toValue() {
     switch (this) {
@@ -30366,7 +30369,7 @@ enum ImageSortBy {
   imageName,
 }
 
-extension ImageSortByValue on ImageSortBy {
+extension ImageSortByValueExtension on ImageSortBy {
   String toValue() {
     switch (this) {
       case ImageSortBy.creationTime:
@@ -30398,7 +30401,7 @@ enum ImageSortOrder {
   descending,
 }
 
-extension ImageSortOrderValue on ImageSortOrder {
+extension ImageSortOrderValueExtension on ImageSortOrder {
   String toValue() {
     switch (this) {
       case ImageSortOrder.ascending:
@@ -30431,7 +30434,7 @@ enum ImageStatus {
   deleteFailed,
 }
 
-extension ImageStatusValue on ImageStatus {
+extension ImageStatusValueExtension on ImageStatus {
   String toValue() {
     switch (this) {
       case ImageStatus.creating:
@@ -30529,7 +30532,7 @@ enum ImageVersionSortBy {
   version,
 }
 
-extension ImageVersionSortByValue on ImageVersionSortBy {
+extension ImageVersionSortByValueExtension on ImageVersionSortBy {
   String toValue() {
     switch (this) {
       case ImageVersionSortBy.creationTime:
@@ -30561,7 +30564,7 @@ enum ImageVersionSortOrder {
   descending,
 }
 
-extension ImageVersionSortOrderValue on ImageVersionSortOrder {
+extension ImageVersionSortOrderValueExtension on ImageVersionSortOrder {
   String toValue() {
     switch (this) {
       case ImageVersionSortOrder.ascending:
@@ -30592,7 +30595,7 @@ enum ImageVersionStatus {
   deleteFailed,
 }
 
-extension ImageVersionStatusValue on ImageVersionStatus {
+extension ImageVersionStatusValueExtension on ImageVersionStatus {
   String toValue() {
     switch (this) {
       case ImageVersionStatus.creating:
@@ -30998,7 +31001,7 @@ enum InputMode {
   file,
 }
 
-extension InputModeValue on InputMode {
+extension InputModeValueExtension on InputMode {
   String toValue() {
     switch (this) {
       case InputMode.pipe:
@@ -31062,7 +31065,7 @@ enum InstanceType {
   mlP3_16xlarge,
 }
 
-extension InstanceTypeValue on InstanceType {
+extension InstanceTypeValueExtension on InstanceType {
   String toValue() {
     switch (this) {
       case InstanceType.mlT2Medium:
@@ -31325,7 +31328,7 @@ enum JoinSource {
   none,
 }
 
-extension JoinSourceValue on JoinSource {
+extension JoinSourceValueExtension on JoinSource {
   String toValue() {
     switch (this) {
       case JoinSource.input:
@@ -31951,7 +31954,7 @@ enum LabelingJobStatus {
   stopped,
 }
 
-extension LabelingJobStatusValue on LabelingJobStatus {
+extension LabelingJobStatusValueExtension on LabelingJobStatus {
   String toValue() {
     switch (this) {
       case LabelingJobStatus.initializing:
@@ -32375,7 +32378,7 @@ enum ListCompilationJobsSortBy {
   status,
 }
 
-extension ListCompilationJobsSortByValue on ListCompilationJobsSortBy {
+extension ListCompilationJobsSortByValueExtension on ListCompilationJobsSortBy {
   String toValue() {
     switch (this) {
       case ListCompilationJobsSortBy.name:
@@ -32480,7 +32483,7 @@ enum ListDeviceFleetsSortBy {
   lastModifiedTime,
 }
 
-extension ListDeviceFleetsSortByValue on ListDeviceFleetsSortBy {
+extension ListDeviceFleetsSortByValueExtension on ListDeviceFleetsSortBy {
   String toValue() {
     switch (this) {
       case ListDeviceFleetsSortBy.name:
@@ -32584,7 +32587,8 @@ enum ListEdgePackagingJobsSortBy {
   status,
 }
 
-extension ListEdgePackagingJobsSortByValue on ListEdgePackagingJobsSortBy {
+extension ListEdgePackagingJobsSortByValueExtension
+    on ListEdgePackagingJobsSortBy {
   String toValue() {
     switch (this) {
       case ListEdgePackagingJobsSortBy.name:
@@ -32857,7 +32861,7 @@ enum ListLabelingJobsForWorkteamSortByOptions {
   creationTime,
 }
 
-extension ListLabelingJobsForWorkteamSortByOptionsValue
+extension ListLabelingJobsForWorkteamSortByOptionsValueExtension
     on ListLabelingJobsForWorkteamSortByOptions {
   String toValue() {
     switch (this) {
@@ -33531,7 +33535,8 @@ enum ListWorkforcesSortByOptions {
   createDate,
 }
 
-extension ListWorkforcesSortByOptionsValue on ListWorkforcesSortByOptions {
+extension ListWorkforcesSortByOptionsValueExtension
+    on ListWorkforcesSortByOptions {
   String toValue() {
     switch (this) {
       case ListWorkforcesSortByOptions.name:
@@ -33582,7 +33587,8 @@ enum ListWorkteamsSortByOptions {
   createDate,
 }
 
-extension ListWorkteamsSortByOptionsValue on ListWorkteamsSortByOptions {
+extension ListWorkteamsSortByOptionsValueExtension
+    on ListWorkteamsSortByOptions {
   String toValue() {
     switch (this) {
       case ListWorkteamsSortByOptions.name:
@@ -33794,7 +33800,7 @@ enum ModelApprovalStatus {
   pendingManualApproval,
 }
 
-extension ModelApprovalStatusValue on ModelApprovalStatus {
+extension ModelApprovalStatusValueExtension on ModelApprovalStatus {
   String toValue() {
     switch (this) {
       case ModelApprovalStatus.approved:
@@ -34482,7 +34488,7 @@ enum ModelPackageGroupSortBy {
   creationTime,
 }
 
-extension ModelPackageGroupSortByValue on ModelPackageGroupSortBy {
+extension ModelPackageGroupSortByValueExtension on ModelPackageGroupSortBy {
   String toValue() {
     switch (this) {
       case ModelPackageGroupSortBy.name:
@@ -34514,7 +34520,7 @@ enum ModelPackageGroupStatus {
   deleteFailed,
 }
 
-extension ModelPackageGroupStatusValue on ModelPackageGroupStatus {
+extension ModelPackageGroupStatusValueExtension on ModelPackageGroupStatus {
   String toValue() {
     switch (this) {
       case ModelPackageGroupStatus.pending:
@@ -34596,7 +34602,7 @@ enum ModelPackageSortBy {
   creationTime,
 }
 
-extension ModelPackageSortByValue on ModelPackageSortBy {
+extension ModelPackageSortByValueExtension on ModelPackageSortBy {
   String toValue() {
     switch (this) {
       case ModelPackageSortBy.name:
@@ -34627,7 +34633,7 @@ enum ModelPackageStatus {
   deleting,
 }
 
-extension ModelPackageStatusValue on ModelPackageStatus {
+extension ModelPackageStatusValueExtension on ModelPackageStatus {
   String toValue() {
     switch (this) {
       case ModelPackageStatus.pending:
@@ -34789,7 +34795,7 @@ enum ModelPackageType {
   both,
 }
 
-extension ModelPackageTypeValue on ModelPackageType {
+extension ModelPackageTypeValueExtension on ModelPackageType {
   String toValue() {
     switch (this) {
       case ModelPackageType.versioned:
@@ -35073,7 +35079,7 @@ enum ModelSortKey {
   creationTime,
 }
 
-extension ModelSortKeyValue on ModelSortKey {
+extension ModelSortKeyValueExtension on ModelSortKey {
   String toValue() {
     switch (this) {
       case ModelSortKey.name:
@@ -35326,7 +35332,8 @@ enum MonitoringExecutionSortKey {
   status,
 }
 
-extension MonitoringExecutionSortKeyValue on MonitoringExecutionSortKey {
+extension MonitoringExecutionSortKeyValueExtension
+    on MonitoringExecutionSortKey {
   String toValue() {
     switch (this) {
       case MonitoringExecutionSortKey.creationTime:
@@ -35568,7 +35575,7 @@ enum MonitoringJobDefinitionSortKey {
   creationTime,
 }
 
-extension MonitoringJobDefinitionSortKeyValue
+extension MonitoringJobDefinitionSortKeyValueExtension
     on MonitoringJobDefinitionSortKey {
   String toValue() {
     switch (this) {
@@ -35734,7 +35741,7 @@ enum MonitoringProblemType {
   regression,
 }
 
-extension MonitoringProblemTypeValue on MonitoringProblemType {
+extension MonitoringProblemTypeValueExtension on MonitoringProblemType {
   String toValue() {
     switch (this) {
       case MonitoringProblemType.binaryClassification:
@@ -35978,7 +35985,7 @@ enum MonitoringScheduleSortKey {
   status,
 }
 
-extension MonitoringScheduleSortKeyValue on MonitoringScheduleSortKey {
+extension MonitoringScheduleSortKeyValueExtension on MonitoringScheduleSortKey {
   String toValue() {
     switch (this) {
       case MonitoringScheduleSortKey.name:
@@ -36111,7 +36118,7 @@ enum MonitoringType {
   modelExplainability,
 }
 
-extension MonitoringTypeValue on MonitoringType {
+extension MonitoringTypeValueExtension on MonitoringType {
   String toValue() {
     switch (this) {
       case MonitoringType.dataQuality:
@@ -36243,7 +36250,7 @@ enum NotebookInstanceAcceleratorType {
   mlEia2Xlarge,
 }
 
-extension NotebookInstanceAcceleratorTypeValue
+extension NotebookInstanceAcceleratorTypeValueExtension
     on NotebookInstanceAcceleratorType {
   String toValue() {
     switch (this) {
@@ -36290,7 +36297,7 @@ enum NotebookInstanceLifecycleConfigSortKey {
   lastModifiedTime,
 }
 
-extension NotebookInstanceLifecycleConfigSortKeyValue
+extension NotebookInstanceLifecycleConfigSortKeyValueExtension
     on NotebookInstanceLifecycleConfigSortKey {
   String toValue() {
     switch (this) {
@@ -36325,7 +36332,7 @@ enum NotebookInstanceLifecycleConfigSortOrder {
   descending,
 }
 
-extension NotebookInstanceLifecycleConfigSortOrderValue
+extension NotebookInstanceLifecycleConfigSortOrderValueExtension
     on NotebookInstanceLifecycleConfigSortOrder {
   String toValue() {
     switch (this) {
@@ -36430,7 +36437,7 @@ enum NotebookInstanceSortKey {
   status,
 }
 
-extension NotebookInstanceSortKeyValue on NotebookInstanceSortKey {
+extension NotebookInstanceSortKeyValueExtension on NotebookInstanceSortKey {
   String toValue() {
     switch (this) {
       case NotebookInstanceSortKey.name:
@@ -36462,7 +36469,7 @@ enum NotebookInstanceSortOrder {
   descending,
 }
 
-extension NotebookInstanceSortOrderValue on NotebookInstanceSortOrder {
+extension NotebookInstanceSortOrderValueExtension on NotebookInstanceSortOrder {
   String toValue() {
     switch (this) {
       case NotebookInstanceSortOrder.ascending:
@@ -36495,7 +36502,7 @@ enum NotebookInstanceStatus {
   updating,
 }
 
-extension NotebookInstanceStatusValue on NotebookInstanceStatus {
+extension NotebookInstanceStatusValueExtension on NotebookInstanceStatus {
   String toValue() {
     switch (this) {
       case NotebookInstanceStatus.pending:
@@ -36630,7 +36637,7 @@ enum NotebookOutputOption {
   disabled,
 }
 
-extension NotebookOutputOptionValue on NotebookOutputOption {
+extension NotebookOutputOptionValueExtension on NotebookOutputOption {
   String toValue() {
     switch (this) {
       case NotebookOutputOption.allowed:
@@ -36683,7 +36690,7 @@ enum ObjectiveStatus {
   failed,
 }
 
-extension ObjectiveStatusValue on ObjectiveStatus {
+extension ObjectiveStatusValueExtension on ObjectiveStatus {
   String toValue() {
     switch (this) {
       case ObjectiveStatus.succeeded:
@@ -36819,7 +36826,7 @@ enum OfflineStoreStatusValue {
   disabled,
 }
 
-extension OfflineStoreStatusValueValue on OfflineStoreStatusValue {
+extension OfflineStoreStatusValueValueExtension on OfflineStoreStatusValue {
   String toValue() {
     switch (this) {
       case OfflineStoreStatusValue.active:
@@ -37112,7 +37119,7 @@ enum Operator {
   $in,
 }
 
-extension OperatorValue on Operator {
+extension OperatorValueExtension on Operator {
   String toValue() {
     switch (this) {
       case Operator.equals:
@@ -37172,7 +37179,7 @@ enum OrderKey {
   descending,
 }
 
-extension OrderKeyValue on OrderKey {
+extension OrderKeyValueExtension on OrderKey {
   String toValue() {
     switch (this) {
       case OrderKey.ascending:
@@ -37662,7 +37669,7 @@ enum ParameterType {
   freeText,
 }
 
-extension ParameterTypeValue on ParameterType {
+extension ParameterTypeValueExtension on ParameterType {
   String toValue() {
     switch (this) {
       case ParameterType.integer:
@@ -37890,7 +37897,7 @@ enum PipelineExecutionStatus {
   succeeded,
 }
 
-extension PipelineExecutionStatusValue on PipelineExecutionStatus {
+extension PipelineExecutionStatusValueExtension on PipelineExecutionStatus {
   String toValue() {
     switch (this) {
       case PipelineExecutionStatus.executing:
@@ -38079,7 +38086,7 @@ enum PipelineStatus {
   active,
 }
 
-extension PipelineStatusValue on PipelineStatus {
+extension PipelineStatusValueExtension on PipelineStatus {
   String toValue() {
     switch (this) {
       case PipelineStatus.active:
@@ -38154,7 +38161,7 @@ enum ProblemType {
   regression,
 }
 
-extension ProblemTypeValue on ProblemType {
+extension ProblemTypeValueExtension on ProblemType {
   String toValue() {
     switch (this) {
       case ProblemType.binaryClassification:
@@ -38344,7 +38351,7 @@ enum ProcessingInstanceType {
   mlR5_24xlarge,
 }
 
-extension ProcessingInstanceTypeValue on ProcessingInstanceType {
+extension ProcessingInstanceTypeValueExtension on ProcessingInstanceType {
   String toValue() {
     switch (this) {
       case ProcessingInstanceType.mlT3Medium:
@@ -38664,7 +38671,7 @@ enum ProcessingJobStatus {
   stopped,
 }
 
-extension ProcessingJobStatusValue on ProcessingJobStatus {
+extension ProcessingJobStatusValueExtension on ProcessingJobStatus {
   String toValue() {
     switch (this) {
       case ProcessingJobStatus.inProgress:
@@ -38889,7 +38896,8 @@ enum ProcessingS3CompressionType {
   gzip,
 }
 
-extension ProcessingS3CompressionTypeValue on ProcessingS3CompressionType {
+extension ProcessingS3CompressionTypeValueExtension
+    on ProcessingS3CompressionType {
   String toValue() {
     switch (this) {
       case ProcessingS3CompressionType.none:
@@ -38917,7 +38925,7 @@ enum ProcessingS3DataDistributionType {
   shardedByS3Key,
 }
 
-extension ProcessingS3DataDistributionTypeValue
+extension ProcessingS3DataDistributionTypeValueExtension
     on ProcessingS3DataDistributionType {
   String toValue() {
     switch (this) {
@@ -38947,7 +38955,7 @@ enum ProcessingS3DataType {
   s3Prefix,
 }
 
-extension ProcessingS3DataTypeValue on ProcessingS3DataType {
+extension ProcessingS3DataTypeValueExtension on ProcessingS3DataType {
   String toValue() {
     switch (this) {
       case ProcessingS3DataType.manifestFile:
@@ -39054,7 +39062,7 @@ enum ProcessingS3InputMode {
   file,
 }
 
-extension ProcessingS3InputModeValue on ProcessingS3InputMode {
+extension ProcessingS3InputModeValueExtension on ProcessingS3InputMode {
   String toValue() {
     switch (this) {
       case ProcessingS3InputMode.pipe:
@@ -39122,7 +39130,7 @@ enum ProcessingS3UploadMode {
   endOfJob,
 }
 
-extension ProcessingS3UploadModeValue on ProcessingS3UploadMode {
+extension ProcessingS3UploadModeValueExtension on ProcessingS3UploadMode {
   String toValue() {
     switch (this) {
       case ProcessingS3UploadMode.continuous:
@@ -39247,7 +39255,7 @@ enum ProductionVariantAcceleratorType {
   mlEia2Xlarge,
 }
 
-extension ProductionVariantAcceleratorTypeValue
+extension ProductionVariantAcceleratorTypeValueExtension
     on ProductionVariantAcceleratorType {
   String toValue() {
     switch (this) {
@@ -39357,7 +39365,8 @@ enum ProductionVariantInstanceType {
   mlInf1_24xlarge,
 }
 
-extension ProductionVariantInstanceTypeValue on ProductionVariantInstanceType {
+extension ProductionVariantInstanceTypeValueExtension
+    on ProductionVariantInstanceType {
   String toValue() {
     switch (this) {
       case ProductionVariantInstanceType.mlT2Medium:
@@ -39900,7 +39909,7 @@ enum ProfilingStatus {
   disabled,
 }
 
-extension ProfilingStatusValue on ProfilingStatus {
+extension ProfilingStatusValueExtension on ProfilingStatus {
   String toValue() {
     switch (this) {
       case ProfilingStatus.enabled:
@@ -39928,7 +39937,7 @@ enum ProjectSortBy {
   creationTime,
 }
 
-extension ProjectSortByValue on ProjectSortBy {
+extension ProjectSortByValueExtension on ProjectSortBy {
   String toValue() {
     switch (this) {
       case ProjectSortBy.name:
@@ -39956,7 +39965,7 @@ enum ProjectSortOrder {
   descending,
 }
 
-extension ProjectSortOrderValue on ProjectSortOrder {
+extension ProjectSortOrderValueExtension on ProjectSortOrder {
   String toValue() {
     switch (this) {
       case ProjectSortOrder.ascending:
@@ -39989,7 +39998,7 @@ enum ProjectStatus {
   deleteCompleted,
 }
 
-extension ProjectStatusValue on ProjectStatus {
+extension ProjectStatusValueExtension on ProjectStatus {
   String toValue() {
     switch (this) {
       case ProjectStatus.pending:
@@ -40492,7 +40501,7 @@ enum RecordWrapper {
   recordIO,
 }
 
-extension RecordWrapperValue on RecordWrapper {
+extension RecordWrapperValueExtension on RecordWrapper {
   String toValue() {
     switch (this) {
       case RecordWrapper.none:
@@ -40595,7 +40604,8 @@ enum RedshiftResultCompressionType {
   snappy,
 }
 
-extension RedshiftResultCompressionTypeValue on RedshiftResultCompressionType {
+extension RedshiftResultCompressionTypeValueExtension
+    on RedshiftResultCompressionType {
   String toValue() {
     switch (this) {
       case RedshiftResultCompressionType.none:
@@ -40636,7 +40646,7 @@ enum RedshiftResultFormat {
   csv,
 }
 
-extension RedshiftResultFormatValue on RedshiftResultFormat {
+extension RedshiftResultFormatValueExtension on RedshiftResultFormat {
   String toValue() {
     switch (this) {
       case RedshiftResultFormat.parquet:
@@ -40743,7 +40753,7 @@ enum RepositoryAccessMode {
   vpc,
 }
 
-extension RepositoryAccessModeValue on RepositoryAccessMode {
+extension RepositoryAccessModeValueExtension on RepositoryAccessMode {
   String toValue() {
     switch (this) {
       case RepositoryAccessMode.platform:
@@ -40974,7 +40984,7 @@ enum ResourceType {
   featureGroup,
 }
 
-extension ResourceTypeValue on ResourceType {
+extension ResourceTypeValueExtension on ResourceType {
   String toValue() {
     switch (this) {
       case ResourceType.trainingJob:
@@ -41055,7 +41065,7 @@ enum RetentionType {
   delete,
 }
 
-extension RetentionTypeValue on RetentionType {
+extension RetentionTypeValueExtension on RetentionType {
   String toValue() {
     switch (this) {
       case RetentionType.retain:
@@ -41083,7 +41093,7 @@ enum RootAccess {
   disabled,
 }
 
-extension RootAccessValue on RootAccess {
+extension RootAccessValueExtension on RootAccess {
   String toValue() {
     switch (this) {
       case RootAccess.enabled:
@@ -41115,7 +41125,7 @@ enum RuleEvaluationStatus {
   stopped,
 }
 
-extension RuleEvaluationStatusValue on RuleEvaluationStatus {
+extension RuleEvaluationStatusValueExtension on RuleEvaluationStatus {
   String toValue() {
     switch (this) {
       case RuleEvaluationStatus.inProgress:
@@ -41159,7 +41169,7 @@ enum S3DataDistribution {
   shardedByS3Key,
 }
 
-extension S3DataDistributionValue on S3DataDistribution {
+extension S3DataDistributionValueExtension on S3DataDistribution {
   String toValue() {
     switch (this) {
       case S3DataDistribution.fullyReplicated:
@@ -41317,7 +41327,7 @@ enum S3DataType {
   augmentedManifestFile,
 }
 
-extension S3DataTypeValue on S3DataType {
+extension S3DataTypeValueExtension on S3DataType {
   String toValue() {
     switch (this) {
       case S3DataType.manifestFile:
@@ -41393,7 +41403,8 @@ enum SagemakerServicecatalogStatus {
   disabled,
 }
 
-extension SagemakerServicecatalogStatusValue on SagemakerServicecatalogStatus {
+extension SagemakerServicecatalogStatusValueExtension
+    on SagemakerServicecatalogStatus {
   String toValue() {
     switch (this) {
       case SagemakerServicecatalogStatus.enabled:
@@ -41495,7 +41506,7 @@ enum ScheduleStatus {
   stopped,
 }
 
-extension ScheduleStatusValue on ScheduleStatus {
+extension ScheduleStatusValueExtension on ScheduleStatus {
   String toValue() {
     switch (this) {
       case ScheduleStatus.pending:
@@ -41692,7 +41703,7 @@ enum SearchSortOrder {
   descending,
 }
 
-extension SearchSortOrderValue on SearchSortOrder {
+extension SearchSortOrderValueExtension on SearchSortOrder {
   String toValue() {
     switch (this) {
       case SearchSortOrder.ascending:
@@ -41733,7 +41744,7 @@ enum SecondaryStatus {
   updating,
 }
 
-extension SecondaryStatusValue on SecondaryStatus {
+extension SecondaryStatusValueExtension on SecondaryStatus {
   String toValue() {
     switch (this) {
       case SecondaryStatus.starting:
@@ -42151,7 +42162,7 @@ enum SortActionsBy {
   creationTime,
 }
 
-extension SortActionsByValue on SortActionsBy {
+extension SortActionsByValueExtension on SortActionsBy {
   String toValue() {
     switch (this) {
       case SortActionsBy.name:
@@ -42178,7 +42189,7 @@ enum SortArtifactsBy {
   creationTime,
 }
 
-extension SortArtifactsByValue on SortArtifactsBy {
+extension SortArtifactsByValueExtension on SortArtifactsBy {
   String toValue() {
     switch (this) {
       case SortArtifactsBy.creationTime:
@@ -42205,7 +42216,7 @@ enum SortAssociationsBy {
   creationTime,
 }
 
-extension SortAssociationsByValue on SortAssociationsBy {
+extension SortAssociationsByValueExtension on SortAssociationsBy {
   String toValue() {
     switch (this) {
       case SortAssociationsBy.sourceArn:
@@ -42246,7 +42257,7 @@ enum SortBy {
   status,
 }
 
-extension SortByValue on SortBy {
+extension SortByValueExtension on SortBy {
   String toValue() {
     switch (this) {
       case SortBy.name:
@@ -42278,7 +42289,7 @@ enum SortContextsBy {
   creationTime,
 }
 
-extension SortContextsByValue on SortContextsBy {
+extension SortContextsByValueExtension on SortContextsBy {
   String toValue() {
     switch (this) {
       case SortContextsBy.name:
@@ -42306,7 +42317,7 @@ enum SortExperimentsBy {
   creationTime,
 }
 
-extension SortExperimentsByValue on SortExperimentsBy {
+extension SortExperimentsByValueExtension on SortExperimentsBy {
   String toValue() {
     switch (this) {
       case SortExperimentsBy.name:
@@ -42334,7 +42345,7 @@ enum SortOrder {
   descending,
 }
 
-extension SortOrderValue on SortOrder {
+extension SortOrderValueExtension on SortOrder {
   String toValue() {
     switch (this) {
       case SortOrder.ascending:
@@ -42362,7 +42373,7 @@ enum SortPipelineExecutionsBy {
   pipelineExecutionArn,
 }
 
-extension SortPipelineExecutionsByValue on SortPipelineExecutionsBy {
+extension SortPipelineExecutionsByValueExtension on SortPipelineExecutionsBy {
   String toValue() {
     switch (this) {
       case SortPipelineExecutionsBy.creationTime:
@@ -42390,7 +42401,7 @@ enum SortPipelinesBy {
   creationTime,
 }
 
-extension SortPipelinesByValue on SortPipelinesBy {
+extension SortPipelinesByValueExtension on SortPipelinesBy {
   String toValue() {
     switch (this) {
       case SortPipelinesBy.name:
@@ -42418,7 +42429,7 @@ enum SortTrialComponentsBy {
   creationTime,
 }
 
-extension SortTrialComponentsByValue on SortTrialComponentsBy {
+extension SortTrialComponentsByValueExtension on SortTrialComponentsBy {
   String toValue() {
     switch (this) {
       case SortTrialComponentsBy.name:
@@ -42446,7 +42457,7 @@ enum SortTrialsBy {
   creationTime,
 }
 
-extension SortTrialsByValue on SortTrialsBy {
+extension SortTrialsByValueExtension on SortTrialsBy {
   String toValue() {
     switch (this) {
       case SortTrialsBy.name:
@@ -42578,7 +42589,7 @@ enum SplitType {
   tFRecord,
 }
 
-extension SplitTypeValue on SplitType {
+extension SplitTypeValueExtension on SplitType {
   String toValue() {
     switch (this) {
       case SplitType.none:
@@ -42632,7 +42643,7 @@ enum StepStatus {
   succeeded,
 }
 
-extension StepStatusValue on StepStatus {
+extension StepStatusValueExtension on StepStatus {
   String toValue() {
     switch (this) {
       case StepStatus.starting:
@@ -42857,7 +42868,7 @@ enum TargetDevice {
   jacintoTda4vm,
 }
 
-extension TargetDeviceValue on TargetDevice {
+extension TargetDeviceValueExtension on TargetDevice {
   String toValue() {
     switch (this) {
       case TargetDevice.lambda:
@@ -43073,7 +43084,7 @@ enum TargetPlatformAccelerator {
   nvidia,
 }
 
-extension TargetPlatformAcceleratorValue on TargetPlatformAccelerator {
+extension TargetPlatformAcceleratorValueExtension on TargetPlatformAccelerator {
   String toValue() {
     switch (this) {
       case TargetPlatformAccelerator.intelGraphics:
@@ -43108,7 +43119,7 @@ enum TargetPlatformArch {
   armEabihf,
 }
 
-extension TargetPlatformArchValue on TargetPlatformArch {
+extension TargetPlatformArchValueExtension on TargetPlatformArch {
   String toValue() {
     switch (this) {
       case TargetPlatformArch.x86_64:
@@ -43148,7 +43159,7 @@ enum TargetPlatformOs {
   linux,
 }
 
-extension TargetPlatformOsValue on TargetPlatformOs {
+extension TargetPlatformOsValueExtension on TargetPlatformOs {
   String toValue() {
     switch (this) {
       case TargetPlatformOs.android:
@@ -43271,7 +43282,7 @@ enum TrafficRoutingConfigType {
   canary,
 }
 
-extension TrafficRoutingConfigTypeValue on TrafficRoutingConfigType {
+extension TrafficRoutingConfigTypeValueExtension on TrafficRoutingConfigType {
   String toValue() {
     switch (this) {
       case TrafficRoutingConfigType.allAtOnce:
@@ -43299,7 +43310,7 @@ enum TrainingInputMode {
   file,
 }
 
-extension TrainingInputModeValue on TrainingInputMode {
+extension TrainingInputModeValueExtension on TrainingInputMode {
   String toValue() {
     switch (this) {
       case TrainingInputMode.pipe:
@@ -43364,7 +43375,7 @@ enum TrainingInstanceType {
   mlC5n_18xlarge,
 }
 
-extension TrainingInstanceTypeValue on TrainingInstanceType {
+extension TrainingInstanceTypeValueExtension on TrainingInstanceType {
   String toValue() {
     switch (this) {
       case TrainingInstanceType.mlM4Xlarge:
@@ -43982,7 +43993,8 @@ enum TrainingJobEarlyStoppingType {
   auto,
 }
 
-extension TrainingJobEarlyStoppingTypeValue on TrainingJobEarlyStoppingType {
+extension TrainingJobEarlyStoppingTypeValueExtension
+    on TrainingJobEarlyStoppingType {
   String toValue() {
     switch (this) {
       case TrainingJobEarlyStoppingType.off:
@@ -44012,7 +44024,7 @@ enum TrainingJobSortByOptions {
   finalObjectiveMetricValue,
 }
 
-extension TrainingJobSortByOptionsValue on TrainingJobSortByOptions {
+extension TrainingJobSortByOptionsValueExtension on TrainingJobSortByOptions {
   String toValue() {
     switch (this) {
       case TrainingJobSortByOptions.name:
@@ -44051,7 +44063,7 @@ enum TrainingJobStatus {
   stopped,
 }
 
-extension TrainingJobStatusValue on TrainingJobStatus {
+extension TrainingJobStatusValueExtension on TrainingJobStatus {
   String toValue() {
     switch (this) {
       case TrainingJobStatus.inProgress:
@@ -44436,7 +44448,7 @@ enum TransformInstanceType {
   mlM5_24xlarge,
 }
 
-extension TransformInstanceTypeValue on TransformInstanceType {
+extension TransformInstanceTypeValueExtension on TransformInstanceType {
   String toValue() {
     switch (this) {
       case TransformInstanceType.mlM4Xlarge:
@@ -44816,7 +44828,7 @@ enum TransformJobStatus {
   stopped,
 }
 
-extension TransformJobStatusValue on TransformJobStatus {
+extension TransformJobStatusValueExtension on TransformJobStatus {
   String toValue() {
     switch (this) {
       case TransformJobStatus.inProgress:
@@ -45510,7 +45522,8 @@ enum TrialComponentPrimaryStatus {
   stopped,
 }
 
-extension TrialComponentPrimaryStatusValue on TrialComponentPrimaryStatus {
+extension TrialComponentPrimaryStatusValueExtension
+    on TrialComponentPrimaryStatus {
   String toValue() {
     switch (this) {
       case TrialComponentPrimaryStatus.inProgress:
@@ -46370,7 +46383,7 @@ enum UserProfileSortKey {
   lastModifiedTime,
 }
 
-extension UserProfileSortKeyValue on UserProfileSortKey {
+extension UserProfileSortKeyValueExtension on UserProfileSortKey {
   String toValue() {
     switch (this) {
       case UserProfileSortKey.creationTime:
@@ -46403,7 +46416,7 @@ enum UserProfileStatus {
   deleteFailed,
 }
 
-extension UserProfileStatusValue on UserProfileStatus {
+extension UserProfileStatusValueExtension on UserProfileStatus {
   String toValue() {
     switch (this) {
       case UserProfileStatus.deleting:
@@ -46572,7 +46585,7 @@ enum VariantPropertyType {
   dataCaptureConfig,
 }
 
-extension VariantPropertyTypeValue on VariantPropertyType {
+extension VariantPropertyTypeValueExtension on VariantPropertyType {
   String toValue() {
     switch (this) {
       case VariantPropertyType.desiredInstanceCount:

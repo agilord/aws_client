@@ -3686,7 +3686,7 @@ enum AuthorizationType {
   jwt,
 }
 
-extension AuthorizationTypeValue on AuthorizationType {
+extension AuthorizationTypeValueExtension on AuthorizationType {
   String toValue() {
     switch (this) {
       case AuthorizationType.none:
@@ -3850,7 +3850,7 @@ enum AuthorizerType {
   jwt,
 }
 
-extension AuthorizerTypeValue on AuthorizerType {
+extension AuthorizerTypeValueExtension on AuthorizerType {
   String toValue() {
     switch (this) {
       case AuthorizerType.request:
@@ -3879,7 +3879,7 @@ enum ConnectionType {
   vpcLink,
 }
 
-extension ConnectionTypeValue on ConnectionType {
+extension ConnectionTypeValueExtension on ConnectionType {
   String toValue() {
     switch (this) {
       case ConnectionType.internet:
@@ -3909,7 +3909,7 @@ enum ContentHandlingStrategy {
   convertToText,
 }
 
-extension ContentHandlingStrategyValue on ContentHandlingStrategy {
+extension ContentHandlingStrategyValueExtension on ContentHandlingStrategy {
   String toValue() {
     switch (this) {
       case ContentHandlingStrategy.convertToBinary:
@@ -5063,7 +5063,7 @@ enum DeploymentStatus {
   deployed,
 }
 
-extension DeploymentStatusValue on DeploymentStatus {
+extension DeploymentStatusValueExtension on DeploymentStatus {
   String toValue() {
     switch (this) {
       case DeploymentStatus.pending:
@@ -5234,7 +5234,7 @@ enum DomainNameStatus {
   updating,
 }
 
-extension DomainNameStatusValue on DomainNameStatus {
+extension DomainNameStatusValueExtension on DomainNameStatus {
   String toValue() {
     switch (this) {
       case DomainNameStatus.available:
@@ -5263,7 +5263,7 @@ enum EndpointType {
   edge,
 }
 
-extension EndpointTypeValue on EndpointType {
+extension EndpointTypeValueExtension on EndpointType {
   String toValue() {
     switch (this) {
       case EndpointType.regional:
@@ -7038,7 +7038,7 @@ enum IntegrationType {
   awsProxy,
 }
 
-extension IntegrationTypeValue on IntegrationType {
+extension IntegrationTypeValueExtension on IntegrationType {
   String toValue() {
     switch (this) {
       case IntegrationType.aws:
@@ -7119,7 +7119,7 @@ enum LoggingLevel {
   off,
 }
 
-extension LoggingLevelValue on LoggingLevel {
+extension LoggingLevelValueExtension on LoggingLevel {
   String toValue() {
     switch (this) {
       case LoggingLevel.error:
@@ -7282,7 +7282,7 @@ enum PassthroughBehavior {
   whenNoTemplates,
 }
 
-extension PassthroughBehaviorValue on PassthroughBehavior {
+extension PassthroughBehaviorValueExtension on PassthroughBehavior {
   String toValue() {
     switch (this) {
       case PassthroughBehavior.whenNoMatch:
@@ -7315,7 +7315,7 @@ enum ProtocolType {
   http,
 }
 
-extension ProtocolTypeValue on ProtocolType {
+extension ProtocolTypeValueExtension on ProtocolType {
   String toValue() {
     switch (this) {
       case ProtocolType.websocket:
@@ -7657,7 +7657,7 @@ enum SecurityPolicy {
   tls_1_2,
 }
 
-extension SecurityPolicyValue on SecurityPolicy {
+extension SecurityPolicyValueExtension on SecurityPolicy {
   String toValue() {
     switch (this) {
       case SecurityPolicy.tls_1_0:
@@ -8897,7 +8897,7 @@ enum VpcLinkStatus {
   inactive,
 }
 
-extension VpcLinkStatusValue on VpcLinkStatus {
+extension VpcLinkStatusValueExtension on VpcLinkStatus {
   String toValue() {
     switch (this) {
       case VpcLinkStatus.pending:
@@ -8937,7 +8937,7 @@ enum VpcLinkVersion {
   v2,
 }
 
-extension VpcLinkVersionValue on VpcLinkVersion {
+extension VpcLinkVersionValueExtension on VpcLinkVersion {
   String toValue() {
     switch (this) {
       case VpcLinkVersion.v2:

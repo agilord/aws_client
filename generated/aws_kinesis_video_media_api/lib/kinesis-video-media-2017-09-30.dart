@@ -340,7 +340,7 @@ enum StartSelectorType {
   continuationToken,
 }
 
-extension StartSelectorTypeValue on StartSelectorType {
+extension StartSelectorTypeValueExtension on StartSelectorType {
   String toValue() {
     switch (this) {
       case StartSelectorType.fragmentNumber:

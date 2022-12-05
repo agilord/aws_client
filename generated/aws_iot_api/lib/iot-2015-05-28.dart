@@ -10941,7 +10941,7 @@ enum AbortAction {
   cancel,
 }
 
-extension AbortActionValue on AbortAction {
+extension AbortActionValueExtension on AbortAction {
   String toValue() {
     switch (this) {
       case AbortAction.cancel:
@@ -11261,7 +11261,7 @@ enum ActionType {
   connect,
 }
 
-extension ActionTypeValue on ActionType {
+extension ActionTypeValueExtension on ActionType {
   String toValue() {
     switch (this) {
       case ActionType.publish:
@@ -11439,7 +11439,7 @@ enum AlertTargetType {
   sns,
 }
 
-extension AlertTargetTypeValue on AlertTargetType {
+extension AlertTargetTypeValueExtension on AlertTargetType {
   String toValue() {
     switch (this) {
       case AlertTargetType.sns:
@@ -11758,7 +11758,7 @@ enum AuditCheckRunStatus {
   failed,
 }
 
-extension AuditCheckRunStatusValue on AuditCheckRunStatus {
+extension AuditCheckRunStatusValueExtension on AuditCheckRunStatus {
   String toValue() {
     switch (this) {
       case AuditCheckRunStatus.inProgress:
@@ -11876,7 +11876,7 @@ enum AuditFindingSeverity {
   low,
 }
 
-extension AuditFindingSeverityValue on AuditFindingSeverity {
+extension AuditFindingSeverityValueExtension on AuditFindingSeverity {
   String toValue() {
     switch (this) {
       case AuditFindingSeverity.critical:
@@ -11914,7 +11914,7 @@ enum AuditFrequency {
   monthly,
 }
 
-extension AuditFrequencyValue on AuditFrequency {
+extension AuditFrequencyValueExtension on AuditFrequency {
   String toValue() {
     switch (this) {
       case AuditFrequency.daily:
@@ -12014,7 +12014,7 @@ enum AuditMitigationActionsExecutionStatus {
   pending,
 }
 
-extension AuditMitigationActionsExecutionStatusValue
+extension AuditMitigationActionsExecutionStatusValueExtension
     on AuditMitigationActionsExecutionStatus {
   String toValue() {
     switch (this) {
@@ -12091,7 +12091,7 @@ enum AuditMitigationActionsTaskStatus {
   canceled,
 }
 
-extension AuditMitigationActionsTaskStatusValue
+extension AuditMitigationActionsTaskStatusValueExtension
     on AuditMitigationActionsTaskStatus {
   String toValue() {
     switch (this) {
@@ -12214,7 +12214,7 @@ enum AuditNotificationType {
   sns,
 }
 
-extension AuditNotificationTypeValue on AuditNotificationType {
+extension AuditNotificationTypeValueExtension on AuditNotificationType {
   String toValue() {
     switch (this) {
       case AuditNotificationType.sns:
@@ -12301,7 +12301,7 @@ enum AuditTaskStatus {
   canceled,
 }
 
-extension AuditTaskStatusValue on AuditTaskStatus {
+extension AuditTaskStatusValueExtension on AuditTaskStatus {
   String toValue() {
     switch (this) {
       case AuditTaskStatus.inProgress:
@@ -12337,7 +12337,7 @@ enum AuditTaskType {
   scheduledAuditTask,
 }
 
-extension AuditTaskTypeValue on AuditTaskType {
+extension AuditTaskTypeValueExtension on AuditTaskType {
   String toValue() {
     switch (this) {
       case AuditTaskType.onDemandAuditTask:
@@ -12366,7 +12366,7 @@ enum AuthDecision {
   implicitDeny,
 }
 
-extension AuthDecisionValue on AuthDecision {
+extension AuthDecisionValueExtension on AuthDecision {
   String toValue() {
     switch (this) {
       case AuthDecision.allowed:
@@ -12568,7 +12568,7 @@ enum AuthorizerStatus {
   inactive,
 }
 
-extension AuthorizerStatusValue on AuthorizerStatus {
+extension AuthorizerStatusValueExtension on AuthorizerStatus {
   String toValue() {
     switch (this) {
       case AuthorizerStatus.active:
@@ -12616,7 +12616,7 @@ enum AutoRegistrationStatus {
   disable,
 }
 
-extension AutoRegistrationStatusValue on AutoRegistrationStatus {
+extension AutoRegistrationStatusValueExtension on AutoRegistrationStatus {
   String toValue() {
     switch (this) {
       case AutoRegistrationStatus.enable:
@@ -12698,7 +12698,7 @@ enum AwsJobAbortCriteriaAbortAction {
   cancel,
 }
 
-extension AwsJobAbortCriteriaAbortActionValue
+extension AwsJobAbortCriteriaAbortActionValueExtension
     on AwsJobAbortCriteriaAbortAction {
   String toValue() {
     switch (this) {
@@ -12726,7 +12726,7 @@ enum AwsJobAbortCriteriaFailureType {
   all,
 }
 
-extension AwsJobAbortCriteriaFailureTypeValue
+extension AwsJobAbortCriteriaFailureTypeValueExtension
     on AwsJobAbortCriteriaFailureType {
   String toValue() {
     switch (this) {
@@ -13096,7 +13096,7 @@ enum BehaviorCriteriaType {
   machineLearning,
 }
 
-extension BehaviorCriteriaTypeValue on BehaviorCriteriaType {
+extension BehaviorCriteriaTypeValueExtension on BehaviorCriteriaType {
   String toValue() {
     switch (this) {
       case BehaviorCriteriaType.static:
@@ -13310,7 +13310,7 @@ enum CACertificateStatus {
   inactive,
 }
 
-extension CACertificateStatusValue on CACertificateStatus {
+extension CACertificateStatusValueExtension on CACertificateStatus {
   String toValue() {
     switch (this) {
       case CACertificateStatus.active:
@@ -13337,7 +13337,7 @@ enum CACertificateUpdateAction {
   deactivate,
 }
 
-extension CACertificateUpdateActionValue on CACertificateUpdateAction {
+extension CACertificateUpdateActionValueExtension on CACertificateUpdateAction {
   String toValue() {
     switch (this) {
       case CACertificateUpdateAction.deactivate:
@@ -13414,7 +13414,7 @@ enum CannedAccessControlList {
   logDeliveryWrite,
 }
 
-extension CannedAccessControlListValue on CannedAccessControlList {
+extension CannedAccessControlListValueExtension on CannedAccessControlList {
   String toValue() {
     switch (this) {
       case CannedAccessControlList.private:
@@ -13591,7 +13591,7 @@ enum CertificateMode {
   sniOnly,
 }
 
-extension CertificateModeValue on CertificateMode {
+extension CertificateModeValueExtension on CertificateMode {
   String toValue() {
     switch (this) {
       case CertificateMode.$default:
@@ -13623,7 +13623,7 @@ enum CertificateStatus {
   pendingActivation,
 }
 
-extension CertificateStatusValue on CertificateStatus {
+extension CertificateStatusValueExtension on CertificateStatus {
   String toValue() {
     switch (this) {
       case CertificateStatus.active:
@@ -13933,7 +13933,7 @@ enum ComparisonOperator {
   notInSet,
 }
 
-extension ComparisonOperatorValue on ComparisonOperator {
+extension ComparisonOperatorValueExtension on ComparisonOperator {
   String toValue() {
     switch (this) {
       case ComparisonOperator.lessThan:
@@ -13994,7 +13994,7 @@ enum ConfidenceLevel {
   high,
 }
 
-extension ConfidenceLevelValue on ConfidenceLevel {
+extension ConfidenceLevelValueExtension on ConfidenceLevel {
   String toValue() {
     switch (this) {
       case ConfidenceLevel.low:
@@ -14713,7 +14713,7 @@ enum CustomMetricType {
   number,
 }
 
-extension CustomMetricTypeValue on CustomMetricType {
+extension CustomMetricTypeValueExtension on CustomMetricType {
   String toValue() {
     switch (this) {
       case CustomMetricType.stringList:
@@ -14754,7 +14754,7 @@ enum DayOfWeek {
   sat,
 }
 
-extension DayOfWeekValue on DayOfWeek {
+extension DayOfWeekValueExtension on DayOfWeek {
   String toValue() {
     switch (this) {
       case DayOfWeek.sun:
@@ -16264,7 +16264,7 @@ enum DetectMitigationActionExecutionStatus {
   skipped,
 }
 
-extension DetectMitigationActionExecutionStatusValue
+extension DetectMitigationActionExecutionStatusValueExtension
     on DetectMitigationActionExecutionStatus {
   String toValue() {
     switch (this) {
@@ -16331,7 +16331,7 @@ enum DetectMitigationActionsTaskStatus {
   canceled,
 }
 
-extension DetectMitigationActionsTaskStatusValue
+extension DetectMitigationActionsTaskStatusValueExtension
     on DetectMitigationActionsTaskStatus {
   String toValue() {
     switch (this) {
@@ -16486,7 +16486,8 @@ enum DeviceCertificateUpdateAction {
   deactivate,
 }
 
-extension DeviceCertificateUpdateActionValue on DeviceCertificateUpdateAction {
+extension DeviceCertificateUpdateActionValueExtension
+    on DeviceCertificateUpdateAction {
   String toValue() {
     switch (this) {
       case DeviceCertificateUpdateAction.deactivate:
@@ -16509,7 +16510,7 @@ enum DimensionType {
   topicFilter,
 }
 
-extension DimensionTypeValue on DimensionType {
+extension DimensionTypeValueExtension on DimensionType {
   String toValue() {
     switch (this) {
       case DimensionType.topicFilter:
@@ -16533,7 +16534,7 @@ enum DimensionValueOperator {
   notIn,
 }
 
-extension DimensionValueOperatorValue on DimensionValueOperator {
+extension DimensionValueOperatorValueExtension on DimensionValueOperator {
   String toValue() {
     switch (this) {
       case DimensionValueOperator.$in:
@@ -16561,7 +16562,7 @@ enum DomainConfigurationStatus {
   disabled,
 }
 
-extension DomainConfigurationStatusValue on DomainConfigurationStatus {
+extension DomainConfigurationStatusValueExtension on DomainConfigurationStatus {
   String toValue() {
     switch (this) {
       case DomainConfigurationStatus.enabled:
@@ -16634,7 +16635,7 @@ enum DomainType {
   customerManaged,
 }
 
-extension DomainTypeValue on DomainType {
+extension DomainTypeValueExtension on DomainType {
   String toValue() {
     switch (this) {
       case DomainType.endpoint:
@@ -16667,7 +16668,7 @@ enum DynamicGroupStatus {
   rebuilding,
 }
 
-extension DynamicGroupStatusValue on DynamicGroupStatus {
+extension DynamicGroupStatusValueExtension on DynamicGroupStatus {
   String toValue() {
     switch (this) {
       case DynamicGroupStatus.active:
@@ -16844,7 +16845,7 @@ enum DynamoKeyType {
   number,
 }
 
-extension DynamoKeyTypeValue on DynamoKeyType {
+extension DynamoKeyTypeValueExtension on DynamoKeyType {
   String toValue() {
     switch (this) {
       case DynamoKeyType.string:
@@ -17007,7 +17008,7 @@ enum EventType {
   caCertificate,
 }
 
-extension EventTypeValue on EventType {
+extension EventTypeValueExtension on EventType {
   String toValue() {
     switch (this) {
       case EventType.thing:
@@ -17161,7 +17162,7 @@ enum FieldType {
   boolean,
 }
 
-extension FieldTypeValue on FieldType {
+extension FieldTypeValueExtension on FieldType {
   String toValue() {
     switch (this) {
       case FieldType.number:
@@ -17844,7 +17845,7 @@ enum IndexStatus {
   rebuilding,
 }
 
-extension IndexStatusValue on IndexStatus {
+extension IndexStatusValueExtension on IndexStatus {
   String toValue() {
     switch (this) {
       case IndexStatus.active:
@@ -18253,7 +18254,7 @@ enum JobExecutionFailureType {
   all,
 }
 
-extension JobExecutionFailureTypeValue on JobExecutionFailureType {
+extension JobExecutionFailureTypeValueExtension on JobExecutionFailureType {
   String toValue() {
     switch (this) {
       case JobExecutionFailureType.failed:
@@ -18295,7 +18296,7 @@ enum JobExecutionStatus {
   canceled,
 }
 
-extension JobExecutionStatusValue on JobExecutionStatus {
+extension JobExecutionStatusValueExtension on JobExecutionStatus {
   String toValue() {
     switch (this) {
       case JobExecutionStatus.queued:
@@ -18545,7 +18546,7 @@ enum JobStatus {
   deletionInProgress,
 }
 
-extension JobStatusValue on JobStatus {
+extension JobStatusValueExtension on JobStatus {
   String toValue() {
     switch (this) {
       case JobStatus.inProgress:
@@ -19999,7 +20000,7 @@ enum LogLevel {
   disabled,
 }
 
-extension LogLevelValue on LogLevel {
+extension LogLevelValueExtension on LogLevel {
   String toValue() {
     switch (this) {
       case LogLevel.debug:
@@ -20090,7 +20091,7 @@ enum LogTargetType {
   thingGroup,
 }
 
-extension LogTargetTypeValue on LogTargetType {
+extension LogTargetTypeValueExtension on LogTargetType {
   String toValue() {
     switch (this) {
       case LogTargetType.$default:
@@ -20163,7 +20164,7 @@ enum MessageFormat {
   json,
 }
 
-extension MessageFormatValue on MessageFormat {
+extension MessageFormatValueExtension on MessageFormat {
   String toValue() {
     switch (this) {
       case MessageFormat.raw:
@@ -20489,7 +20490,7 @@ enum MitigationActionType {
   publishFindingToSns,
 }
 
-extension MitigationActionTypeValue on MitigationActionType {
+extension MitigationActionTypeValueExtension on MitigationActionType {
   String toValue() {
     switch (this) {
       case MitigationActionType.updateDeviceCertificate:
@@ -20534,7 +20535,7 @@ enum ModelStatus {
   expired,
 }
 
-extension ModelStatusValue on ModelStatus {
+extension ModelStatusValueExtension on ModelStatus {
   String toValue() {
     switch (this) {
       case ModelStatus.pendingBuild:
@@ -20808,7 +20809,7 @@ enum OTAUpdateStatus {
   createFailed,
 }
 
-extension OTAUpdateStatusValue on OTAUpdateStatus {
+extension OTAUpdateStatusValueExtension on OTAUpdateStatus {
   String toValue() {
     switch (this) {
       case OTAUpdateStatus.createPending:
@@ -20948,7 +20949,7 @@ enum PolicyTemplateName {
   blankPolicy,
 }
 
-extension PolicyTemplateNameValue on PolicyTemplateName {
+extension PolicyTemplateNameValueExtension on PolicyTemplateName {
   String toValue() {
     switch (this) {
       case PolicyTemplateName.blankPolicy:
@@ -21059,7 +21060,7 @@ enum Protocol {
   http,
 }
 
-extension ProtocolValue on Protocol {
+extension ProtocolValueExtension on Protocol {
   String toValue() {
     switch (this) {
       case Protocol.mqtt:
@@ -21509,7 +21510,7 @@ enum ReportType {
   results,
 }
 
-extension ReportTypeValue on ReportType {
+extension ReportTypeValueExtension on ReportType {
   String toValue() {
     switch (this) {
       case ReportType.errors:
@@ -21657,7 +21658,7 @@ enum ResourceType {
   iamRole,
 }
 
-extension ResourceTypeValue on ResourceType {
+extension ResourceTypeValueExtension on ResourceType {
   String toValue() {
     switch (this) {
       case ResourceType.deviceCertificate:
@@ -22034,7 +22035,7 @@ enum ServerCertificateStatus {
   valid,
 }
 
-extension ServerCertificateStatusValue on ServerCertificateStatus {
+extension ServerCertificateStatusValueExtension on ServerCertificateStatus {
   String toValue() {
     switch (this) {
       case ServerCertificateStatus.invalid:
@@ -22090,7 +22091,7 @@ enum ServiceType {
   jobs,
 }
 
-extension ServiceTypeValue on ServiceType {
+extension ServiceTypeValueExtension on ServiceType {
   String toValue() {
     switch (this) {
       case ServiceType.data:
@@ -22481,7 +22482,7 @@ enum Status {
   cancelling,
 }
 
-extension StatusValue on Status {
+extension StatusValueExtension on Status {
   String toValue() {
     switch (this) {
       case Status.inProgress:
@@ -22748,7 +22749,7 @@ enum TargetSelection {
   snapshot,
 }
 
-extension TargetSelectionValue on TargetSelection {
+extension TargetSelectionValueExtension on TargetSelection {
   String toValue() {
     switch (this) {
       case TargetSelection.continuous:
@@ -22977,7 +22978,8 @@ enum ThingConnectivityIndexingMode {
   status,
 }
 
-extension ThingConnectivityIndexingModeValue on ThingConnectivityIndexingMode {
+extension ThingConnectivityIndexingModeValueExtension
+    on ThingConnectivityIndexingMode {
   String toValue() {
     switch (this) {
       case ThingConnectivityIndexingMode.off:
@@ -23144,7 +23146,7 @@ enum ThingGroupIndexingMode {
   on,
 }
 
-extension ThingGroupIndexingModeValue on ThingGroupIndexingMode {
+extension ThingGroupIndexingModeValueExtension on ThingGroupIndexingMode {
   String toValue() {
     switch (this) {
       case ThingGroupIndexingMode.off:
@@ -23313,7 +23315,7 @@ enum ThingIndexingMode {
   registryAndShadow,
 }
 
-extension ThingIndexingModeValue on ThingIndexingMode {
+extension ThingIndexingModeValueExtension on ThingIndexingMode {
   String toValue() {
     switch (this) {
       case ThingIndexingMode.off:
@@ -23792,7 +23794,8 @@ enum TopicRuleDestinationStatus {
   deleting,
 }
 
-extension TopicRuleDestinationStatusValue on TopicRuleDestinationStatus {
+extension TopicRuleDestinationStatusValueExtension
+    on TopicRuleDestinationStatus {
   String toValue() {
     switch (this) {
       case TopicRuleDestinationStatus.enabled:
@@ -24624,7 +24627,7 @@ enum ViolationEventType {
   alarmInvalidated,
 }
 
-extension ViolationEventTypeValue on ViolationEventType {
+extension ViolationEventTypeValueExtension on ViolationEventType {
   String toValue() {
     switch (this) {
       case ViolationEventType.inAlarm:

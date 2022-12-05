@@ -1519,7 +1519,7 @@ enum ActionGroup {
   agentPermissions,
 }
 
-extension ActionGroupValue on ActionGroup {
+extension ActionGroupValueExtension on ActionGroup {
   String toValue() {
     switch (this) {
       case ActionGroup.agentPermissions:
@@ -1654,7 +1654,7 @@ enum AgentParameterField {
   samplingIntervalInMilliseconds,
 }
 
-extension AgentParameterFieldValue on AgentParameterField {
+extension AgentParameterFieldValueExtension on AgentParameterField {
   String toValue() {
     switch (this) {
       case AgentParameterField.maxStackDepth:
@@ -1741,7 +1741,7 @@ enum AggregationPeriod {
   pt5m,
 }
 
-extension AggregationPeriodValue on AggregationPeriod {
+extension AggregationPeriodValueExtension on AggregationPeriod {
   String toValue() {
     switch (this) {
       case AggregationPeriod.p1d:
@@ -1969,7 +1969,7 @@ enum ComputePlatform {
   $default,
 }
 
-extension ComputePlatformValue on ComputePlatform {
+extension ComputePlatformValueExtension on ComputePlatform {
   String toValue() {
     switch (this) {
       case ComputePlatform.awsLambda:
@@ -2043,7 +2043,7 @@ enum EventPublisher {
   anomalyDetection,
 }
 
-extension EventPublisherValue on EventPublisher {
+extension EventPublisherValueExtension on EventPublisher {
   String toValue() {
     switch (this) {
       case EventPublisher.anomalyDetection:
@@ -2067,7 +2067,7 @@ enum FeedbackType {
   positive,
 }
 
-extension FeedbackTypeValue on FeedbackType {
+extension FeedbackTypeValueExtension on FeedbackType {
   String toValue() {
     switch (this) {
       case FeedbackType.negative:
@@ -2492,7 +2492,7 @@ enum MetadataField {
   lambdaTimeGapBetweenInvokesInMilliseconds,
 }
 
-extension MetadataFieldValue on MetadataField {
+extension MetadataFieldValueExtension on MetadataField {
   String toValue() {
     switch (this) {
       case MetadataField.agentId:
@@ -2582,7 +2582,7 @@ enum MetricType {
   aggregatedRelativeTotalTime,
 }
 
-extension MetricTypeValue on MetricType {
+extension MetricTypeValueExtension on MetricType {
   String toValue() {
     switch (this) {
       case MetricType.aggregatedRelativeTotalTime:
@@ -2627,7 +2627,7 @@ enum OrderBy {
   timestampDescending,
 }
 
-extension OrderByValue on OrderBy {
+extension OrderByValueExtension on OrderBy {
   String toValue() {
     switch (this) {
       case OrderBy.timestampAscending:

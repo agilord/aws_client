@@ -1882,7 +1882,7 @@ enum ConnectionState {
   updating,
 }
 
-extension ConnectionStateValue on ConnectionState {
+extension ConnectionStateValueExtension on ConnectionState {
   String toValue() {
     switch (this) {
       case ConnectionState.pending:
@@ -2036,7 +2036,7 @@ enum CustomerGatewayAssociationState {
   deleted,
 }
 
-extension CustomerGatewayAssociationStateValue
+extension CustomerGatewayAssociationStateValueExtension
     on CustomerGatewayAssociationState {
   String toValue() {
     switch (this) {
@@ -2283,7 +2283,7 @@ enum DeviceState {
   updating,
 }
 
-extension DeviceStateValue on DeviceState {
+extension DeviceStateValueExtension on DeviceState {
   String toValue() {
     switch (this) {
       case DeviceState.pending:
@@ -2606,7 +2606,7 @@ enum GlobalNetworkState {
   updating,
 }
 
-extension GlobalNetworkStateValue on GlobalNetworkState {
+extension GlobalNetworkStateValueExtension on GlobalNetworkState {
   String toValue() {
     switch (this) {
       case GlobalNetworkState.pending:
@@ -2745,7 +2745,7 @@ enum LinkAssociationState {
   deleted,
 }
 
-extension LinkAssociationStateValue on LinkAssociationState {
+extension LinkAssociationStateValueExtension on LinkAssociationState {
   String toValue() {
     switch (this) {
       case LinkAssociationState.pending:
@@ -2783,7 +2783,7 @@ enum LinkState {
   updating,
 }
 
-extension LinkStateValue on LinkState {
+extension LinkStateValueExtension on LinkState {
   String toValue() {
     switch (this) {
       case LinkState.pending:
@@ -2946,7 +2946,7 @@ enum SiteState {
   updating,
 }
 
-extension SiteStateValue on SiteState {
+extension SiteStateValueExtension on SiteState {
   String toValue() {
     switch (this) {
       case SiteState.pending:
@@ -3062,7 +3062,7 @@ enum TransitGatewayConnectPeerAssociationState {
   deleted,
 }
 
-extension TransitGatewayConnectPeerAssociationStateValue
+extension TransitGatewayConnectPeerAssociationStateValueExtension
     on TransitGatewayConnectPeerAssociationState {
   String toValue() {
     switch (this) {
@@ -3132,7 +3132,7 @@ enum TransitGatewayRegistrationState {
   failed,
 }
 
-extension TransitGatewayRegistrationStateValue
+extension TransitGatewayRegistrationStateValueExtension
     on TransitGatewayRegistrationState {
   String toValue() {
     switch (this) {

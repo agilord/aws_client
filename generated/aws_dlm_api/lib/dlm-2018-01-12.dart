@@ -747,7 +747,7 @@ enum EventSourceValues {
   managedCwe,
 }
 
-extension EventSourceValuesValue on EventSourceValues {
+extension EventSourceValuesValueExtension on EventSourceValues {
   String toValue() {
     switch (this) {
       case EventSourceValues.managedCwe:
@@ -770,7 +770,7 @@ enum EventTypeValues {
   shareSnapshot,
 }
 
-extension EventTypeValuesValue on EventTypeValues {
+extension EventTypeValuesValueExtension on EventTypeValues {
   String toValue() {
     switch (this) {
       case EventTypeValues.shareSnapshot:
@@ -878,7 +878,7 @@ enum GettablePolicyStateValues {
   error,
 }
 
-extension GettablePolicyStateValuesValue on GettablePolicyStateValues {
+extension GettablePolicyStateValuesValueExtension on GettablePolicyStateValues {
   String toValue() {
     switch (this) {
       case GettablePolicyStateValues.enabled:
@@ -909,7 +909,7 @@ enum IntervalUnitValues {
   hours,
 }
 
-extension IntervalUnitValuesValue on IntervalUnitValues {
+extension IntervalUnitValuesValueExtension on IntervalUnitValues {
   String toValue() {
     switch (this) {
       case IntervalUnitValues.hours:
@@ -1203,7 +1203,7 @@ enum PolicyTypeValues {
   eventBasedPolicy,
 }
 
-extension PolicyTypeValuesValue on PolicyTypeValues {
+extension PolicyTypeValuesValueExtension on PolicyTypeValues {
   String toValue() {
     switch (this) {
       case PolicyTypeValues.ebsSnapshotManagement:
@@ -1235,7 +1235,7 @@ enum ResourceTypeValues {
   instance,
 }
 
-extension ResourceTypeValuesValue on ResourceTypeValues {
+extension ResourceTypeValuesValueExtension on ResourceTypeValues {
   String toValue() {
     switch (this) {
       case ResourceTypeValues.volume:
@@ -1304,7 +1304,8 @@ enum RetentionIntervalUnitValues {
   years,
 }
 
-extension RetentionIntervalUnitValuesValue on RetentionIntervalUnitValues {
+extension RetentionIntervalUnitValuesValueExtension
+    on RetentionIntervalUnitValues {
   String toValue() {
     switch (this) {
       case RetentionIntervalUnitValues.days:
@@ -1444,7 +1445,7 @@ enum SettablePolicyStateValues {
   disabled,
 }
 
-extension SettablePolicyStateValuesValue on SettablePolicyStateValues {
+extension SettablePolicyStateValuesValueExtension on SettablePolicyStateValues {
   String toValue() {
     switch (this) {
       case SettablePolicyStateValues.enabled:

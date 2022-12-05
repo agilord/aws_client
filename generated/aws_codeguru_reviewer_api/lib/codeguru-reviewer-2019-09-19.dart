@@ -1431,7 +1431,7 @@ enum JobState {
   deleting,
 }
 
-extension JobStateValue on JobState {
+extension JobStateValueExtension on JobState {
   String toValue() {
     switch (this) {
       case JobState.completed:
@@ -1660,7 +1660,7 @@ enum ProviderType {
   gitHubEnterpriseServer,
 }
 
-extension ProviderTypeValue on ProviderType {
+extension ProviderTypeValueExtension on ProviderType {
   String toValue() {
     switch (this) {
       case ProviderType.codeCommit:
@@ -1703,7 +1703,7 @@ enum Reaction {
   thumbsDown,
 }
 
-extension ReactionValue on Reaction {
+extension ReactionValueExtension on Reaction {
   String toValue() {
     switch (this) {
       case Reaction.thumbsUp:
@@ -2035,7 +2035,8 @@ enum RepositoryAssociationState {
   disassociated,
 }
 
-extension RepositoryAssociationStateValue on RepositoryAssociationState {
+extension RepositoryAssociationStateValueExtension
+    on RepositoryAssociationState {
   String toValue() {
     switch (this) {
       case RepositoryAssociationState.associated:
@@ -2285,7 +2286,7 @@ enum Type {
   repositoryAnalysis,
 }
 
-extension TypeValue on Type {
+extension TypeValueExtension on Type {
   String toValue() {
     switch (this) {
       case Type.pullRequest:

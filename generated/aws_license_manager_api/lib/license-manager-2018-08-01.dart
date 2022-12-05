@@ -2366,7 +2366,7 @@ enum AllowedOperation {
   createToken,
 }
 
-extension AllowedOperationValue on AllowedOperation {
+extension AllowedOperationValueExtension on AllowedOperation {
   String toValue() {
     switch (this) {
       case AllowedOperation.createGrant:
@@ -2566,7 +2566,7 @@ enum CheckoutType {
   provisional,
 }
 
-extension CheckoutTypeValue on CheckoutType {
+extension CheckoutTypeValueExtension on CheckoutType {
   String toValue() {
     switch (this) {
       case CheckoutType.provisional:
@@ -2874,7 +2874,7 @@ enum DigitalSignatureMethod {
   jwtPs384,
 }
 
-extension DigitalSignatureMethodValue on DigitalSignatureMethod {
+extension DigitalSignatureMethodValueExtension on DigitalSignatureMethod {
   String toValue() {
     switch (this) {
       case DigitalSignatureMethod.jwtPs384:
@@ -3016,7 +3016,7 @@ enum EntitlementDataUnit {
   countSecond,
 }
 
-extension EntitlementDataUnitValue on EntitlementDataUnit {
+extension EntitlementDataUnitValueExtension on EntitlementDataUnit {
   String toValue() {
     switch (this) {
       case EntitlementDataUnit.count:
@@ -3169,7 +3169,7 @@ enum EntitlementUnit {
   countSecond,
 }
 
-extension EntitlementUnitValue on EntitlementUnit {
+extension EntitlementUnitValueExtension on EntitlementUnit {
   String toValue() {
     switch (this) {
       case EntitlementUnit.count:
@@ -3659,7 +3659,7 @@ enum GrantStatus {
   disabled,
 }
 
-extension GrantStatusValue on GrantStatus {
+extension GrantStatusValueExtension on GrantStatus {
   String toValue() {
     switch (this) {
       case GrantStatus.pendingWorkflow:
@@ -3843,7 +3843,7 @@ enum InventoryFilterCondition {
   contains,
 }
 
-extension InventoryFilterConditionValue on InventoryFilterCondition {
+extension InventoryFilterConditionValueExtension on InventoryFilterCondition {
   String toValue() {
     switch (this) {
       case InventoryFilterCondition.equals:
@@ -4173,7 +4173,8 @@ enum LicenseConfigurationStatus {
   disabled,
 }
 
-extension LicenseConfigurationStatusValue on LicenseConfigurationStatus {
+extension LicenseConfigurationStatusValueExtension
+    on LicenseConfigurationStatus {
   String toValue() {
     switch (this) {
       case LicenseConfigurationStatus.available:
@@ -4245,7 +4246,7 @@ enum LicenseCountingType {
   socket,
 }
 
-extension LicenseCountingTypeValue on LicenseCountingType {
+extension LicenseCountingTypeValueExtension on LicenseCountingType {
   String toValue() {
     switch (this) {
       case LicenseCountingType.vcpu:
@@ -4281,7 +4282,7 @@ enum LicenseDeletionStatus {
   deleted,
 }
 
-extension LicenseDeletionStatusValue on LicenseDeletionStatus {
+extension LicenseDeletionStatusValueExtension on LicenseDeletionStatus {
   String toValue() {
     switch (this) {
       case LicenseDeletionStatus.pendingDelete:
@@ -4397,7 +4398,7 @@ enum LicenseStatus {
   deleted,
 }
 
-extension LicenseStatusValue on LicenseStatus {
+extension LicenseStatusValueExtension on LicenseStatus {
   String toValue() {
     switch (this) {
       case LicenseStatus.available:
@@ -5004,7 +5005,7 @@ enum ReceivedStatus {
   disabled,
 }
 
-extension ReceivedStatusValue on ReceivedStatus {
+extension ReceivedStatusValueExtension on ReceivedStatus {
   String toValue() {
     switch (this) {
       case ReceivedStatus.pendingWorkflow:
@@ -5077,7 +5078,7 @@ enum RenewType {
   monthly,
 }
 
-extension RenewTypeValue on RenewType {
+extension RenewTypeValueExtension on RenewType {
   String toValue() {
     switch (this) {
       case RenewType.none:
@@ -5152,7 +5153,7 @@ enum ResourceType {
   systemsManagerManagedInstance,
 }
 
-extension ResourceTypeValue on ResourceType {
+extension ResourceTypeValueExtension on ResourceType {
   String toValue() {
     switch (this) {
       case ResourceType.ec2Instance:
@@ -5279,7 +5280,7 @@ enum TokenType {
   refreshToken,
 }
 
-extension TokenTypeValue on TokenType {
+extension TokenTypeValueExtension on TokenType {
   String toValue() {
     switch (this) {
       case TokenType.refreshToken:

@@ -2081,7 +2081,7 @@ enum AdminStatus {
   disableInProgress,
 }
 
-extension AdminStatusValue on AdminStatus {
+extension AdminStatusValueExtension on AdminStatus {
   String toValue() {
     switch (this) {
       case AdminStatus.enabled:
@@ -7570,7 +7570,7 @@ enum AwsIamAccessKeyStatus {
   inactive,
 }
 
-extension AwsIamAccessKeyStatusValue on AwsIamAccessKeyStatus {
+extension AwsIamAccessKeyStatusValueExtension on AwsIamAccessKeyStatus {
   String toValue() {
     switch (this) {
       case AwsIamAccessKeyStatus.active:
@@ -14111,7 +14111,7 @@ enum ComplianceStatus {
   notAvailable,
 }
 
-extension ComplianceStatusValue on ComplianceStatus {
+extension ComplianceStatusValueExtension on ComplianceStatus {
   String toValue() {
     switch (this) {
       case ComplianceStatus.passed:
@@ -14195,7 +14195,7 @@ enum ControlStatus {
   disabled,
 }
 
-extension ControlStatusValue on ControlStatus {
+extension ControlStatusValueExtension on ControlStatus {
   String toValue() {
     switch (this) {
       case ControlStatus.enabled:
@@ -14371,7 +14371,7 @@ enum DateRangeUnit {
   days,
 }
 
-extension DateRangeUnitValue on DateRangeUnit {
+extension DateRangeUnitValueExtension on DateRangeUnit {
   String toValue() {
     switch (this) {
       case DateRangeUnit.days:
@@ -14948,7 +14948,7 @@ enum IntegrationType {
   receiveFindingsFromSecurityHub,
 }
 
-extension IntegrationTypeValue on IntegrationType {
+extension IntegrationTypeValueExtension on IntegrationType {
   String toValue() {
     switch (this) {
       case IntegrationType.sendFindingsToSecurityHub:
@@ -15290,7 +15290,7 @@ enum MalwareState {
   removed,
 }
 
-extension MalwareStateValue on MalwareState {
+extension MalwareStateValueExtension on MalwareState {
   String toValue() {
     switch (this) {
       case MalwareState.observed:
@@ -15335,7 +15335,7 @@ enum MalwareType {
   worm,
 }
 
-extension MalwareTypeValue on MalwareType {
+extension MalwareTypeValueExtension on MalwareType {
   String toValue() {
     switch (this) {
       case MalwareType.adware:
@@ -15478,7 +15478,7 @@ enum MapFilterComparison {
   notEquals,
 }
 
-extension MapFilterComparisonValue on MapFilterComparison {
+extension MapFilterComparisonValueExtension on MapFilterComparison {
   String toValue() {
     switch (this) {
       case MapFilterComparison.equals:
@@ -15681,7 +15681,7 @@ enum NetworkDirection {
   out,
 }
 
-extension NetworkDirectionValue on NetworkDirection {
+extension NetworkDirectionValueExtension on NetworkDirection {
   String toValue() {
     switch (this) {
       case NetworkDirection.$in:
@@ -15939,7 +15939,7 @@ enum Partition {
   awsUsGov,
 }
 
-extension PartitionValue on Partition {
+extension PartitionValueExtension on Partition {
   String toValue() {
     switch (this) {
       case Partition.aws:
@@ -16285,7 +16285,7 @@ enum RecordState {
   archived,
 }
 
-extension RecordStateValue on RecordState {
+extension RecordStateValueExtension on RecordState {
   String toValue() {
     switch (this) {
       case RecordState.active:
@@ -17036,7 +17036,7 @@ enum SeverityLabel {
   critical,
 }
 
-extension SeverityLabelValue on SeverityLabel {
+extension SeverityLabelValueExtension on SeverityLabel {
   String toValue() {
     switch (this) {
       case SeverityLabel.informational:
@@ -17078,7 +17078,7 @@ enum SeverityRating {
   critical,
 }
 
-extension SeverityRatingValue on SeverityRating {
+extension SeverityRatingValueExtension on SeverityRating {
   String toValue() {
     switch (this) {
       case SeverityRating.low:
@@ -17256,7 +17256,7 @@ enum SortOrder {
   desc,
 }
 
-extension SortOrderValue on SortOrder {
+extension SortOrderValueExtension on SortOrder {
   String toValue() {
     switch (this) {
       case SortOrder.asc:
@@ -17394,7 +17394,7 @@ enum StandardsStatus {
   incomplete,
 }
 
-extension StandardsStatusValue on StandardsStatus {
+extension StandardsStatusValueExtension on StandardsStatus {
   String toValue() {
     switch (this) {
       case StandardsStatus.pending:
@@ -17640,7 +17640,7 @@ enum StringFilterComparison {
   prefixNotEquals,
 }
 
-extension StringFilterComparisonValue on StringFilterComparison {
+extension StringFilterComparisonValueExtension on StringFilterComparison {
   String toValue() {
     switch (this) {
       case StringFilterComparison.equals:
@@ -17751,7 +17751,8 @@ enum ThreatIntelIndicatorCategory {
   keylogger,
 }
 
-extension ThreatIntelIndicatorCategoryValue on ThreatIntelIndicatorCategory {
+extension ThreatIntelIndicatorCategoryValueExtension
+    on ThreatIntelIndicatorCategory {
   String toValue() {
     switch (this) {
       case ThreatIntelIndicatorCategory.backdoor:
@@ -17804,7 +17805,7 @@ enum ThreatIntelIndicatorType {
   url,
 }
 
-extension ThreatIntelIndicatorTypeValue on ThreatIntelIndicatorType {
+extension ThreatIntelIndicatorTypeValueExtension on ThreatIntelIndicatorType {
   String toValue() {
     switch (this) {
       case ThreatIntelIndicatorType.domain:
@@ -17921,7 +17922,7 @@ enum VerificationState {
   benignPositive,
 }
 
-extension VerificationStateValue on VerificationState {
+extension VerificationStateValueExtension on VerificationState {
   String toValue() {
     switch (this) {
       case VerificationState.unknown:
@@ -18223,7 +18224,7 @@ enum WorkflowState {
   resolved,
 }
 
-extension WorkflowStateValue on WorkflowState {
+extension WorkflowStateValueExtension on WorkflowState {
   String toValue() {
     switch (this) {
       case WorkflowState.$new:
@@ -18265,7 +18266,7 @@ enum WorkflowStatus {
   suppressed,
 }
 
-extension WorkflowStatusValue on WorkflowStatus {
+extension WorkflowStatusValueExtension on WorkflowStatus {
   String toValue() {
     switch (this) {
       case WorkflowStatus.$new:

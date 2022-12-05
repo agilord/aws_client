@@ -1271,7 +1271,7 @@ enum Algorithm {
   aes256,
 }
 
-extension AlgorithmValue on Algorithm {
+extension AlgorithmValueExtension on Algorithm {
   String toValue() {
     switch (this) {
       case Algorithm.aes128:
@@ -1386,7 +1386,7 @@ enum DurationUnits {
   months,
 }
 
-extension DurationUnitsValue on DurationUnits {
+extension DurationUnitsValueExtension on DurationUnits {
   String toValue() {
     switch (this) {
       case DurationUnits.months:
@@ -1562,7 +1562,7 @@ enum EntitlementStatus {
   disabled,
 }
 
-extension EntitlementStatusValue on EntitlementStatus {
+extension EntitlementStatusValueExtension on EntitlementStatus {
   String toValue() {
     switch (this) {
       case EntitlementStatus.enabled:
@@ -1779,7 +1779,7 @@ enum KeyType {
   staticKey,
 }
 
-extension KeyTypeValue on KeyType {
+extension KeyTypeValueExtension on KeyType {
   String toValue() {
     switch (this) {
       case KeyType.speke:
@@ -2152,7 +2152,7 @@ enum PriceUnits {
   hourly,
 }
 
-extension PriceUnitsValue on PriceUnits {
+extension PriceUnitsValueExtension on PriceUnits {
   String toValue() {
     switch (this) {
       case PriceUnits.hourly:
@@ -2179,7 +2179,7 @@ enum Protocol {
   rist,
 }
 
-extension ProtocolValue on Protocol {
+extension ProtocolValueExtension on Protocol {
   String toValue() {
     switch (this) {
       case Protocol.zixiPush:
@@ -2399,7 +2399,7 @@ enum ReservationState {
   canceled,
 }
 
-extension ReservationStateValue on ReservationState {
+extension ReservationStateValueExtension on ReservationState {
   String toValue() {
     switch (this) {
       case ReservationState.active:
@@ -2454,7 +2454,7 @@ enum ResourceType {
   mbpsOutboundBandwidth,
 }
 
-extension ResourceTypeValue on ResourceType {
+extension ResourceTypeValueExtension on ResourceType {
   String toValue() {
     switch (this) {
       case ResourceType.mbpsOutboundBandwidth:
@@ -2658,7 +2658,7 @@ enum SourceType {
   entitled,
 }
 
-extension SourceTypeValue on SourceType {
+extension SourceTypeValueExtension on SourceType {
   String toValue() {
     switch (this) {
       case SourceType.owned:
@@ -2705,7 +2705,7 @@ enum State {
   disabled,
 }
 
-extension StateValue on State {
+extension StateValueExtension on State {
   String toValue() {
     switch (this) {
       case State.enabled:
@@ -2738,7 +2738,7 @@ enum Status {
   error,
 }
 
-extension StatusValue on Status {
+extension StatusValueExtension on Status {
   String toValue() {
     switch (this) {
       case Status.standby:

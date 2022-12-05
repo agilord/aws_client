@@ -7641,7 +7641,7 @@ enum ChangeAction {
   delete,
 }
 
-extension ChangeActionValue on ChangeAction {
+extension ChangeActionValueExtension on ChangeAction {
   String toValue() {
     switch (this) {
       case ChangeAction.insert:
@@ -7670,7 +7670,7 @@ enum ChangeTokenStatus {
   insync,
 }
 
-extension ChangeTokenStatusValue on ChangeTokenStatus {
+extension ChangeTokenStatusValueExtension on ChangeTokenStatus {
   String toValue() {
     switch (this) {
       case ChangeTokenStatus.provisioned:
@@ -7706,7 +7706,7 @@ enum ComparisonOperator {
   gt,
 }
 
-extension ComparisonOperatorValue on ComparisonOperator {
+extension ComparisonOperatorValueExtension on ComparisonOperator {
   String toValue() {
     switch (this) {
       case ComparisonOperator.eq:
@@ -8467,7 +8467,7 @@ enum GeoMatchConstraintType {
   country,
 }
 
-extension GeoMatchConstraintTypeValue on GeoMatchConstraintType {
+extension GeoMatchConstraintTypeValueExtension on GeoMatchConstraintType {
   String toValue() {
     switch (this) {
       case GeoMatchConstraintType.country:
@@ -8738,7 +8738,7 @@ enum GeoMatchConstraintValue {
   zw,
 }
 
-extension GeoMatchConstraintValueValue on GeoMatchConstraintValue {
+extension GeoMatchConstraintValueValueExtension on GeoMatchConstraintValue {
   String toValue() {
     switch (this) {
       case GeoMatchConstraintValue.af:
@@ -10595,7 +10595,7 @@ enum IPSetDescriptorType {
   ipv6,
 }
 
-extension IPSetDescriptorTypeValue on IPSetDescriptorType {
+extension IPSetDescriptorTypeValueExtension on IPSetDescriptorType {
   String toValue() {
     switch (this) {
       case IPSetDescriptorType.ipv4:
@@ -11208,7 +11208,7 @@ enum MatchFieldType {
   allQueryArgs,
 }
 
-extension MatchFieldTypeValue on MatchFieldType {
+extension MatchFieldTypeValueExtension on MatchFieldType {
   String toValue() {
     switch (this) {
       case MatchFieldType.uri:
@@ -11259,7 +11259,7 @@ enum PositionalConstraint {
   containsWord,
 }
 
-extension PositionalConstraintValue on PositionalConstraint {
+extension PositionalConstraintValueExtension on PositionalConstraint {
   String toValue() {
     switch (this) {
       case PositionalConstraint.exactly:
@@ -11373,7 +11373,7 @@ enum PredicateType {
   regexMatch,
 }
 
-extension PredicateTypeValue on PredicateType {
+extension PredicateTypeValueExtension on PredicateType {
   String toValue() {
     switch (this) {
       case PredicateType.iPMatch:
@@ -11540,7 +11540,7 @@ enum RateKey {
   ip,
 }
 
-extension RateKeyValue on RateKey {
+extension RateKeyValueExtension on RateKey {
   String toValue() {
     switch (this) {
       case RateKey.ip:
@@ -12024,7 +12024,7 @@ enum ResourceType {
   apiGateway,
 }
 
-extension ResourceTypeValue on ResourceType {
+extension ResourceTypeValueExtension on ResourceType {
   String toValue() {
     switch (this) {
       case ResourceType.applicationLoadBalancer:
@@ -13184,7 +13184,7 @@ enum TextTransformation {
   urlDecode,
 }
 
-extension TextTransformationValue on TextTransformation {
+extension TextTransformationValueExtension on TextTransformation {
   String toValue() {
     switch (this) {
       case TextTransformation.none:
@@ -13562,7 +13562,7 @@ enum WafActionType {
   count,
 }
 
-extension WafActionTypeValue on WafActionType {
+extension WafActionTypeValueExtension on WafActionType {
   String toValue() {
     switch (this) {
       case WafActionType.block:
@@ -13630,7 +13630,7 @@ enum WafOverrideActionType {
   count,
 }
 
-extension WafOverrideActionTypeValue on WafOverrideActionType {
+extension WafOverrideActionTypeValueExtension on WafOverrideActionType {
   String toValue() {
     switch (this) {
       case WafOverrideActionType.none:
@@ -13659,7 +13659,7 @@ enum WafRuleType {
   group,
 }
 
-extension WafRuleTypeValue on WafRuleType {
+extension WafRuleTypeValueExtension on WafRuleType {
   String toValue() {
     switch (this) {
       case WafRuleType.regular:

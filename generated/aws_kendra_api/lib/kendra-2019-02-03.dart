@@ -2279,7 +2279,7 @@ enum AdditionalResultAttributeValueType {
   textWithHighlightsValue,
 }
 
-extension AdditionalResultAttributeValueTypeValue
+extension AdditionalResultAttributeValueTypeValueExtension
     on AdditionalResultAttributeValueType {
   String toValue() {
     switch (this) {
@@ -2669,7 +2669,8 @@ enum ConfluenceAttachmentFieldName {
   version,
 }
 
-extension ConfluenceAttachmentFieldNameValue on ConfluenceAttachmentFieldName {
+extension ConfluenceAttachmentFieldNameValueExtension
+    on ConfluenceAttachmentFieldName {
   String toValue() {
     switch (this) {
       case ConfluenceAttachmentFieldName.author:
@@ -2820,7 +2821,7 @@ enum ConfluenceBlogFieldName {
   version,
 }
 
-extension ConfluenceBlogFieldNameValue on ConfluenceBlogFieldName {
+extension ConfluenceBlogFieldNameValueExtension on ConfluenceBlogFieldName {
   String toValue() {
     switch (this) {
       case ConfluenceBlogFieldName.author:
@@ -3097,7 +3098,7 @@ enum ConfluencePageFieldName {
   version,
 }
 
-extension ConfluencePageFieldNameValue on ConfluencePageFieldName {
+extension ConfluencePageFieldNameValueExtension on ConfluencePageFieldName {
   String toValue() {
     switch (this) {
       case ConfluencePageFieldName.author:
@@ -3292,7 +3293,7 @@ enum ConfluenceSpaceFieldName {
   url,
 }
 
-extension ConfluenceSpaceFieldNameValue on ConfluenceSpaceFieldName {
+extension ConfluenceSpaceFieldNameValueExtension on ConfluenceSpaceFieldName {
   String toValue() {
     switch (this) {
       case ConfluenceSpaceFieldName.displayUrl:
@@ -3373,7 +3374,7 @@ enum ConfluenceVersion {
   server,
 }
 
-extension ConfluenceVersionValue on ConfluenceVersion {
+extension ConfluenceVersionValueExtension on ConfluenceVersion {
   String toValue() {
     switch (this) {
       case ConfluenceVersion.cloud:
@@ -3462,7 +3463,7 @@ enum ContentType {
   ppt,
 }
 
-extension ContentTypeValue on ContentType {
+extension ContentTypeValueExtension on ContentType {
   String toValue() {
     switch (this) {
       case ContentType.pdf:
@@ -3670,7 +3671,7 @@ enum DataSourceStatus {
   active,
 }
 
-extension DataSourceStatusValue on DataSourceStatus {
+extension DataSourceStatusValueExtension on DataSourceStatus {
   String toValue() {
     switch (this) {
       case DataSourceStatus.creating:
@@ -3885,7 +3886,7 @@ enum DataSourceSyncJobStatus {
   syncingIndexing,
 }
 
-extension DataSourceSyncJobStatusValue on DataSourceSyncJobStatus {
+extension DataSourceSyncJobStatusValueExtension on DataSourceSyncJobStatus {
   String toValue() {
     switch (this) {
       case DataSourceSyncJobStatus.failed:
@@ -3977,7 +3978,7 @@ enum DataSourceType {
   googledrive,
 }
 
-extension DataSourceTypeValue on DataSourceType {
+extension DataSourceTypeValueExtension on DataSourceType {
   String toValue() {
     switch (this) {
       case DataSourceType.s3:
@@ -4143,7 +4144,7 @@ enum DatabaseEngineType {
   rdsPostgresql,
 }
 
-extension DatabaseEngineTypeValue on DatabaseEngineType {
+extension DatabaseEngineTypeValueExtension on DatabaseEngineType {
   String toValue() {
     switch (this) {
       case DatabaseEngineType.rdsAuroraMysql:
@@ -4689,7 +4690,8 @@ enum DocumentAttributeValueType {
   dateValue,
 }
 
-extension DocumentAttributeValueTypeValue on DocumentAttributeValueType {
+extension DocumentAttributeValueTypeValueExtension
+    on DocumentAttributeValueType {
   String toValue() {
     switch (this) {
       case DocumentAttributeValueType.stringValue:
@@ -4799,7 +4801,7 @@ enum ErrorCode {
   invalidRequest,
 }
 
-extension ErrorCodeValue on ErrorCode {
+extension ErrorCodeValueExtension on ErrorCode {
   String toValue() {
     switch (this) {
       case ErrorCode.internalError:
@@ -4880,7 +4882,7 @@ enum FaqFileFormat {
   json,
 }
 
-extension FaqFileFormatValue on FaqFileFormat {
+extension FaqFileFormatValueExtension on FaqFileFormat {
   String toValue() {
     switch (this) {
       case FaqFileFormat.csv:
@@ -4931,7 +4933,7 @@ enum FaqStatus {
   failed,
 }
 
-extension FaqStatusValue on FaqStatus {
+extension FaqStatusValueExtension on FaqStatus {
   String toValue() {
     switch (this) {
       case FaqStatus.creating:
@@ -5156,7 +5158,7 @@ enum HighlightType {
   thesaurusSynonym,
 }
 
-extension HighlightTypeValue on HighlightType {
+extension HighlightTypeValueExtension on HighlightType {
   String toValue() {
     switch (this) {
       case HighlightType.standard:
@@ -5229,7 +5231,7 @@ enum IndexEdition {
   enterpriseEdition,
 }
 
-extension IndexEditionValue on IndexEdition {
+extension IndexEditionValueExtension on IndexEdition {
   String toValue() {
     switch (this) {
       case IndexEdition.developerEdition:
@@ -5284,7 +5286,7 @@ enum IndexStatus {
   systemUpdating,
 }
 
-extension IndexStatusValue on IndexStatus {
+extension IndexStatusValueExtension on IndexStatus {
   String toValue() {
     switch (this) {
       case IndexStatus.creating:
@@ -5423,7 +5425,7 @@ enum KeyLocation {
   secretManager,
 }
 
-extension KeyLocationValue on KeyLocation {
+extension KeyLocationValueExtension on KeyLocation {
   String toValue() {
     switch (this) {
       case KeyLocation.url:
@@ -5723,7 +5725,7 @@ enum Order {
   descending,
 }
 
-extension OrderValue on Order {
+extension OrderValueExtension on Order {
   String toValue() {
     switch (this) {
       case Order.ascending:
@@ -5779,7 +5781,7 @@ enum PrincipalType {
   group,
 }
 
-extension PrincipalTypeValue on PrincipalType {
+extension PrincipalTypeValueExtension on PrincipalType {
   String toValue() {
     switch (this) {
       case PrincipalType.user:
@@ -5807,7 +5809,7 @@ enum QueryIdentifiersEnclosingOption {
   none,
 }
 
-extension QueryIdentifiersEnclosingOptionValue
+extension QueryIdentifiersEnclosingOptionValueExtension
     on QueryIdentifiersEnclosingOption {
   String toValue() {
     switch (this) {
@@ -5975,7 +5977,7 @@ enum QueryResultType {
   answer,
 }
 
-extension QueryResultTypeValue on QueryResultType {
+extension QueryResultTypeValueExtension on QueryResultType {
   String toValue() {
     switch (this) {
       case QueryResultType.document:
@@ -6007,7 +6009,7 @@ enum ReadAccessType {
   deny,
 }
 
-extension ReadAccessTypeValue on ReadAccessType {
+extension ReadAccessTypeValueExtension on ReadAccessType {
   String toValue() {
     switch (this) {
       case ReadAccessType.allow:
@@ -6146,7 +6148,7 @@ enum RelevanceType {
   notRelevant,
 }
 
-extension RelevanceTypeValue on RelevanceType {
+extension RelevanceTypeValueExtension on RelevanceType {
   String toValue() {
     switch (this) {
       case RelevanceType.relevant:
@@ -6355,7 +6357,7 @@ enum SalesforceChatterFeedIncludeFilterType {
   standardUser,
 }
 
-extension SalesforceChatterFeedIncludeFilterTypeValue
+extension SalesforceChatterFeedIncludeFilterTypeValueExtension
     on SalesforceChatterFeedIncludeFilterType {
   String toValue() {
     switch (this) {
@@ -6660,7 +6662,7 @@ enum SalesforceKnowledgeArticleState {
   archived,
 }
 
-extension SalesforceKnowledgeArticleStateValue
+extension SalesforceKnowledgeArticleStateValueExtension
     on SalesforceKnowledgeArticleState {
   String toValue() {
     switch (this) {
@@ -6844,7 +6846,8 @@ enum SalesforceStandardObjectName {
   user,
 }
 
-extension SalesforceStandardObjectNameValue on SalesforceStandardObjectName {
+extension SalesforceStandardObjectNameValueExtension
+    on SalesforceStandardObjectName {
   String toValue() {
     switch (this) {
       case SalesforceStandardObjectName.account:
@@ -6952,7 +6955,7 @@ enum ScoreConfidence {
   low,
 }
 
-extension ScoreConfidenceValue on ScoreConfidence {
+extension ScoreConfidenceValueExtension on ScoreConfidence {
   String toValue() {
     switch (this) {
       case ScoreConfidence.veryHigh:
@@ -7066,7 +7069,8 @@ enum ServiceNowBuildVersionType {
   others,
 }
 
-extension ServiceNowBuildVersionTypeValue on ServiceNowBuildVersionType {
+extension ServiceNowBuildVersionTypeValueExtension
+    on ServiceNowBuildVersionType {
   String toValue() {
     switch (this) {
       case ServiceNowBuildVersionType.london:
@@ -7460,7 +7464,7 @@ enum SharePointVersion {
   sharepointOnline,
 }
 
-extension SharePointVersionValue on SharePointVersion {
+extension SharePointVersionValueExtension on SharePointVersion {
   String toValue() {
     switch (this) {
       case SharePointVersion.sharepointOnline:
@@ -7484,7 +7488,7 @@ enum SortOrder {
   asc,
 }
 
-extension SortOrderValue on SortOrder {
+extension SortOrderValueExtension on SortOrder {
   String toValue() {
     switch (this) {
       case SortOrder.desc:
@@ -7722,7 +7726,7 @@ enum ThesaurusStatus {
   failed,
 }
 
-extension ThesaurusStatusValue on ThesaurusStatus {
+extension ThesaurusStatusValueExtension on ThesaurusStatus {
   String toValue() {
     switch (this) {
       case ThesaurusStatus.creating:
@@ -7846,7 +7850,7 @@ enum UserContextPolicy {
   userToken,
 }
 
-extension UserContextPolicyValue on UserContextPolicy {
+extension UserContextPolicyValueExtension on UserContextPolicy {
   String toValue() {
     switch (this) {
       case UserContextPolicy.attributeFilter:

@@ -373,7 +373,7 @@ enum TargetType {
   account,
 }
 
-extension TargetTypeValue on TargetType {
+extension TargetTypeValueExtension on TargetType {
   String toValue() {
     switch (this) {
       case TargetType.account:

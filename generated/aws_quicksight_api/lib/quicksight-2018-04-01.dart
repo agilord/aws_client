@@ -7196,7 +7196,7 @@ enum AnalysisErrorType {
   columnReplacementMissing,
 }
 
-extension AnalysisErrorTypeValue on AnalysisErrorType {
+extension AnalysisErrorTypeValueExtension on AnalysisErrorType {
   String toValue() {
     switch (this) {
       case AnalysisErrorType.accessDenied:
@@ -7255,7 +7255,7 @@ enum AnalysisFilterAttribute {
   quicksightUser,
 }
 
-extension AnalysisFilterAttributeValue on AnalysisFilterAttribute {
+extension AnalysisFilterAttributeValueExtension on AnalysisFilterAttribute {
   String toValue() {
     switch (this) {
       case AnalysisFilterAttribute.quicksightUser:
@@ -7390,7 +7390,7 @@ enum AssignmentStatus {
   disabled,
 }
 
-extension AssignmentStatusValue on AssignmentStatus {
+extension AssignmentStatusValueExtension on AssignmentStatus {
   String toValue() {
     switch (this) {
       case AssignmentStatus.enabled:
@@ -7665,7 +7665,7 @@ enum ColumnDataType {
   datetime,
 }
 
-extension ColumnDataTypeValue on ColumnDataType {
+extension ColumnDataTypeValueExtension on ColumnDataType {
   String toValue() {
     switch (this) {
       case ColumnDataType.string:
@@ -8564,7 +8564,7 @@ enum DashboardBehavior {
   disabled,
 }
 
-extension DashboardBehaviorValue on DashboardBehavior {
+extension DashboardBehaviorValueExtension on DashboardBehavior {
   String toValue() {
     switch (this) {
       case DashboardBehavior.enabled:
@@ -8620,7 +8620,7 @@ enum DashboardErrorType {
   columnReplacementMissing,
 }
 
-extension DashboardErrorTypeValue on DashboardErrorType {
+extension DashboardErrorTypeValueExtension on DashboardErrorType {
   String toValue() {
     switch (this) {
       case DashboardErrorType.accessDenied:
@@ -8679,7 +8679,7 @@ enum DashboardFilterAttribute {
   quicksightUser,
 }
 
-extension DashboardFilterAttributeValue on DashboardFilterAttribute {
+extension DashboardFilterAttributeValueExtension on DashboardFilterAttribute {
   String toValue() {
     switch (this) {
       case DashboardFilterAttribute.quicksightUser:
@@ -8848,7 +8848,7 @@ enum DashboardUIState {
   collapsed,
 }
 
-extension DashboardUIStateValue on DashboardUIState {
+extension DashboardUIStateValueExtension on DashboardUIState {
   String toValue() {
     switch (this) {
       case DashboardUIState.expanded:
@@ -9162,7 +9162,7 @@ enum DataSetImportMode {
   directQuery,
 }
 
-extension DataSetImportModeValue on DataSetImportMode {
+extension DataSetImportModeValueExtension on DataSetImportMode {
   String toValue() {
     switch (this) {
       case DataSetImportMode.spice:
@@ -9440,7 +9440,7 @@ enum DataSourceErrorInfoType {
   unknown,
 }
 
-extension DataSourceErrorInfoTypeValue on DataSourceErrorInfoType {
+extension DataSourceErrorInfoTypeValueExtension on DataSourceErrorInfoType {
   String toValue() {
     switch (this) {
       case DataSourceErrorInfoType.accessDenied:
@@ -9737,7 +9737,7 @@ enum DataSourceType {
   timestream,
 }
 
-extension DataSourceTypeValue on DataSourceType {
+extension DataSourceTypeValueExtension on DataSourceType {
   String toValue() {
     switch (this) {
       case DataSourceType.adobeAnalytics:
@@ -10903,7 +10903,7 @@ enum Edition {
   enterprise,
 }
 
-extension EditionValue on Edition {
+extension EditionValueExtension on Edition {
   String toValue() {
     switch (this) {
       case Edition.standard:
@@ -10932,7 +10932,7 @@ enum EmbeddingIdentityType {
   anonymous,
 }
 
-extension EmbeddingIdentityTypeValue on EmbeddingIdentityType {
+extension EmbeddingIdentityTypeValueExtension on EmbeddingIdentityType {
   String toValue() {
     switch (this) {
       case EmbeddingIdentityType.iam:
@@ -11005,7 +11005,7 @@ enum FileFormat {
   json,
 }
 
-extension FileFormatValue on FileFormat {
+extension FileFormatValueExtension on FileFormat {
   String toValue() {
     switch (this) {
       case FileFormat.csv:
@@ -11071,7 +11071,7 @@ enum FilterOperator {
   stringEquals,
 }
 
-extension FilterOperatorValue on FilterOperator {
+extension FilterOperatorValueExtension on FilterOperator {
   String toValue() {
     switch (this) {
       case FilterOperator.stringEquals:
@@ -11133,7 +11133,7 @@ enum GeoSpatialCountryCode {
   us,
 }
 
-extension GeoSpatialCountryCodeValue on GeoSpatialCountryCode {
+extension GeoSpatialCountryCodeValueExtension on GeoSpatialCountryCode {
   String toValue() {
     switch (this) {
       case GeoSpatialCountryCode.us:
@@ -11162,7 +11162,7 @@ enum GeoSpatialDataRole {
   latitude,
 }
 
-extension GeoSpatialDataRoleValue on GeoSpatialDataRole {
+extension GeoSpatialDataRoleValueExtension on GeoSpatialDataRole {
   String toValue() {
     switch (this) {
       case GeoSpatialDataRole.country:
@@ -11401,7 +11401,7 @@ enum IdentityStore {
   quicksight,
 }
 
-extension IdentityStoreValue on IdentityStore {
+extension IdentityStoreValueExtension on IdentityStore {
   String toValue() {
     switch (this) {
       case IdentityStore.quicksight:
@@ -11425,7 +11425,7 @@ enum IdentityType {
   quicksight,
 }
 
-extension IdentityTypeValue on IdentityType {
+extension IdentityTypeValueExtension on IdentityType {
   String toValue() {
     switch (this) {
       case IdentityType.iam:
@@ -11559,7 +11559,7 @@ enum IngestionErrorType {
   internalServiceError,
 }
 
-extension IngestionErrorTypeValue on IngestionErrorType {
+extension IngestionErrorTypeValueExtension on IngestionErrorType {
   String toValue() {
     switch (this) {
       case IngestionErrorType.failureToAssumeRole:
@@ -11739,7 +11739,7 @@ enum IngestionRequestSource {
   scheduled,
 }
 
-extension IngestionRequestSourceValue on IngestionRequestSource {
+extension IngestionRequestSourceValueExtension on IngestionRequestSource {
   String toValue() {
     switch (this) {
       case IngestionRequestSource.manual:
@@ -11769,7 +11769,7 @@ enum IngestionRequestType {
   fullRefresh,
 }
 
-extension IngestionRequestTypeValue on IngestionRequestType {
+extension IngestionRequestTypeValueExtension on IngestionRequestType {
   String toValue() {
     switch (this) {
       case IngestionRequestType.initialIngestion:
@@ -11809,7 +11809,7 @@ enum IngestionStatus {
   cancelled,
 }
 
-extension IngestionStatusValue on IngestionStatus {
+extension IngestionStatusValueExtension on IngestionStatus {
   String toValue() {
     switch (this) {
       case IngestionStatus.initialized:
@@ -11887,7 +11887,7 @@ enum InputColumnDataType {
   json,
 }
 
-extension InputColumnDataTypeValue on InputColumnDataType {
+extension InputColumnDataTypeValueExtension on InputColumnDataType {
   String toValue() {
     switch (this) {
       case InputColumnDataType.string:
@@ -12070,7 +12070,7 @@ enum JoinType {
   right,
 }
 
-extension JoinTypeValue on JoinType {
+extension JoinTypeValueExtension on JoinType {
   String toValue() {
     switch (this) {
       case JoinType.inner:
@@ -12952,7 +12952,7 @@ enum NamespaceErrorType {
   internalServiceError,
 }
 
-extension NamespaceErrorTypeValue on NamespaceErrorType {
+extension NamespaceErrorTypeValueExtension on NamespaceErrorType {
   String toValue() {
     switch (this) {
       case NamespaceErrorType.permissionDenied:
@@ -13026,7 +13026,7 @@ enum NamespaceStatus {
   nonRetryableFailure,
 }
 
-extension NamespaceStatusValue on NamespaceStatus {
+extension NamespaceStatusValueExtension on NamespaceStatus {
   String toValue() {
     switch (this) {
       case NamespaceStatus.created:
@@ -13569,7 +13569,7 @@ enum ResourceStatus {
   deleted,
 }
 
-extension ResourceStatusValue on ResourceStatus {
+extension ResourceStatusValueExtension on ResourceStatus {
   String toValue() {
     switch (this) {
       case ResourceStatus.creationInProgress:
@@ -13702,7 +13702,7 @@ enum RowLevelPermissionPolicy {
   denyAccess,
 }
 
-extension RowLevelPermissionPolicyValue on RowLevelPermissionPolicy {
+extension RowLevelPermissionPolicyValueExtension on RowLevelPermissionPolicy {
   String toValue() {
     switch (this) {
       case RowLevelPermissionPolicy.grantAccess:
@@ -14283,7 +14283,7 @@ enum TemplateErrorType {
   accessDenied,
 }
 
-extension TemplateErrorTypeValue on TemplateErrorType {
+extension TemplateErrorTypeValueExtension on TemplateErrorType {
   String toValue() {
     switch (this) {
       case TemplateErrorType.sourceNotFound:
@@ -14560,7 +14560,7 @@ enum TextQualifier {
   singleQuote,
 }
 
-extension TextQualifierValue on TextQualifier {
+extension TextQualifierValueExtension on TextQualifier {
   String toValue() {
     switch (this) {
       case TextQualifier.doubleQuote:
@@ -14724,7 +14724,7 @@ enum ThemeErrorType {
   internalFailure,
 }
 
-extension ThemeErrorTypeValue on ThemeErrorType {
+extension ThemeErrorTypeValueExtension on ThemeErrorType {
   String toValue() {
     switch (this) {
       case ThemeErrorType.internalFailure:
@@ -14789,7 +14789,7 @@ enum ThemeType {
   all,
 }
 
-extension ThemeTypeValue on ThemeType {
+extension ThemeTypeValueExtension on ThemeType {
   String toValue() {
     switch (this) {
       case ThemeType.quicksight:
@@ -16058,7 +16058,7 @@ enum UserRole {
   restrictedReader,
 }
 
-extension UserRoleValue on UserRole {
+extension UserRoleValueExtension on UserRole {
   String toValue() {
     switch (this) {
       case UserRole.admin:

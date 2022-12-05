@@ -1940,7 +1940,7 @@ enum BackupStatus {
   deleting,
 }
 
-extension BackupStatusValue on BackupStatus {
+extension BackupStatusValueExtension on BackupStatus {
   String toValue() {
     switch (this) {
       case BackupStatus.inProgress:
@@ -1976,7 +1976,7 @@ enum BackupType {
   manual,
 }
 
-extension BackupTypeValue on BackupType {
+extension BackupTypeValueExtension on BackupType {
   String toValue() {
     switch (this) {
       case BackupType.automated:
@@ -2285,7 +2285,7 @@ enum MaintenanceStatus {
   failed,
 }
 
-extension MaintenanceStatusValue on MaintenanceStatus {
+extension MaintenanceStatusValueExtension on MaintenanceStatus {
   String toValue() {
     switch (this) {
       case MaintenanceStatus.success:
@@ -2329,7 +2329,7 @@ enum NodeAssociationStatus {
   inProgress,
 }
 
-extension NodeAssociationStatusValue on NodeAssociationStatus {
+extension NodeAssociationStatusValueExtension on NodeAssociationStatus {
   String toValue() {
     switch (this) {
       case NodeAssociationStatus.success:
@@ -2603,7 +2603,7 @@ enum ServerStatus {
   terminated,
 }
 
-extension ServerStatusValue on ServerStatus {
+extension ServerStatusValueExtension on ServerStatus {
   String toValue() {
     switch (this) {
       case ServerStatus.backingUp:

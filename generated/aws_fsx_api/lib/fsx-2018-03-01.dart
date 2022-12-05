@@ -1807,7 +1807,7 @@ enum AdministrativeActionType {
   fileSystemAliasDisassociation,
 }
 
-extension AdministrativeActionTypeValue on AdministrativeActionType {
+extension AdministrativeActionTypeValueExtension on AdministrativeActionType {
   String toValue() {
     switch (this) {
       case AdministrativeActionType.fileSystemUpdate:
@@ -1914,7 +1914,7 @@ enum AliasLifecycle {
   deleteFailed,
 }
 
-extension AliasLifecycleValue on AliasLifecycle {
+extension AliasLifecycleValueExtension on AliasLifecycle {
   String toValue() {
     switch (this) {
       case AliasLifecycle.available:
@@ -1979,7 +1979,7 @@ enum AutoImportPolicyType {
   newChanged,
 }
 
-extension AutoImportPolicyTypeValue on AutoImportPolicyType {
+extension AutoImportPolicyTypeValueExtension on AutoImportPolicyType {
   String toValue() {
     switch (this) {
       case AutoImportPolicyType.none:
@@ -2170,7 +2170,7 @@ enum BackupLifecycle {
   pending,
 }
 
-extension BackupLifecycleValue on BackupLifecycle {
+extension BackupLifecycleValueExtension on BackupLifecycle {
   String toValue() {
     switch (this) {
       case BackupLifecycle.available:
@@ -2216,7 +2216,7 @@ enum BackupType {
   awsBackup,
 }
 
-extension BackupTypeValue on BackupType {
+extension BackupTypeValueExtension on BackupType {
   String toValue() {
     switch (this) {
       case BackupType.automatic:
@@ -2894,7 +2894,7 @@ enum DataRepositoryLifecycle {
   deleting,
 }
 
-extension DataRepositoryLifecycleValue on DataRepositoryLifecycle {
+extension DataRepositoryLifecycleValueExtension on DataRepositoryLifecycle {
   String toValue() {
     switch (this) {
       case DataRepositoryLifecycle.creating:
@@ -3115,7 +3115,8 @@ enum DataRepositoryTaskFilterName {
   taskLifecycle,
 }
 
-extension DataRepositoryTaskFilterNameValue on DataRepositoryTaskFilterName {
+extension DataRepositoryTaskFilterNameValueExtension
+    on DataRepositoryTaskFilterName {
   String toValue() {
     switch (this) {
       case DataRepositoryTaskFilterName.fileSystemId:
@@ -3147,7 +3148,8 @@ enum DataRepositoryTaskLifecycle {
   canceling,
 }
 
-extension DataRepositoryTaskLifecycleValue on DataRepositoryTaskLifecycle {
+extension DataRepositoryTaskLifecycleValueExtension
+    on DataRepositoryTaskLifecycle {
   String toValue() {
     switch (this) {
       case DataRepositoryTaskLifecycle.pending:
@@ -3227,7 +3229,7 @@ enum DataRepositoryTaskType {
   exportToRepository,
 }
 
-extension DataRepositoryTaskTypeValue on DataRepositoryTaskType {
+extension DataRepositoryTaskTypeValueExtension on DataRepositoryTaskType {
   String toValue() {
     switch (this) {
       case DataRepositoryTaskType.exportToRepository:
@@ -3529,7 +3531,7 @@ enum DriveCacheType {
   read,
 }
 
-extension DriveCacheTypeValue on DriveCacheType {
+extension DriveCacheTypeValueExtension on DriveCacheType {
   String toValue() {
     switch (this) {
       case DriveCacheType.none:
@@ -3760,7 +3762,7 @@ enum FileSystemLifecycle {
   updating,
 }
 
-extension FileSystemLifecycleValue on FileSystemLifecycle {
+extension FileSystemLifecycleValueExtension on FileSystemLifecycle {
   String toValue() {
     switch (this) {
       case FileSystemLifecycle.available:
@@ -3805,7 +3807,7 @@ enum FileSystemMaintenanceOperation {
   backingUp,
 }
 
-extension FileSystemMaintenanceOperationValue
+extension FileSystemMaintenanceOperationValueExtension
     on FileSystemMaintenanceOperation {
   String toValue() {
     switch (this) {
@@ -3836,7 +3838,7 @@ enum FileSystemType {
   lustre,
 }
 
-extension FileSystemTypeValue on FileSystemType {
+extension FileSystemTypeValueExtension on FileSystemType {
   String toValue() {
     switch (this) {
       case FileSystemType.windows:
@@ -3891,7 +3893,7 @@ enum FilterName {
   fileSystemType,
 }
 
-extension FilterNameValue on FilterName {
+extension FilterNameValueExtension on FilterName {
   String toValue() {
     switch (this) {
       case FilterName.fileSystemId:
@@ -3949,7 +3951,7 @@ enum LustreDeploymentType {
   persistent_1,
 }
 
-extension LustreDeploymentTypeValue on LustreDeploymentType {
+extension LustreDeploymentTypeValueExtension on LustreDeploymentType {
   String toValue() {
     switch (this) {
       case LustreDeploymentType.scratch_1:
@@ -4076,7 +4078,7 @@ enum ReportFormat {
   reportCsv_20191124,
 }
 
-extension ReportFormatValue on ReportFormat {
+extension ReportFormatValueExtension on ReportFormat {
   String toValue() {
     switch (this) {
       case ReportFormat.reportCsv_20191124:
@@ -4099,7 +4101,7 @@ enum ReportScope {
   failedFilesOnly,
 }
 
-extension ReportScopeValue on ReportScope {
+extension ReportScopeValueExtension on ReportScope {
   String toValue() {
     switch (this) {
       case ReportScope.failedFilesOnly:
@@ -4297,7 +4299,7 @@ enum Status {
   updatedOptimizing,
 }
 
-extension StatusValue on Status {
+extension StatusValueExtension on Status {
   String toValue() {
     switch (this) {
       case Status.failed:
@@ -4338,7 +4340,7 @@ enum StorageType {
   hdd,
 }
 
-extension StorageTypeValue on StorageType {
+extension StorageTypeValueExtension on StorageType {
   String toValue() {
     switch (this) {
       case StorageType.ssd:
@@ -4562,7 +4564,7 @@ enum WindowsDeploymentType {
   singleAz_2,
 }
 
-extension WindowsDeploymentTypeValue on WindowsDeploymentType {
+extension WindowsDeploymentTypeValueExtension on WindowsDeploymentType {
   String toValue() {
     switch (this) {
       case WindowsDeploymentType.multiAz_1:

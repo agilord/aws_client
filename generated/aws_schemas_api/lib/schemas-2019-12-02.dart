@@ -1201,7 +1201,7 @@ enum CodeGenerationStatus {
   createFailed,
 }
 
-extension CodeGenerationStatusValue on CodeGenerationStatus {
+extension CodeGenerationStatusValueExtension on CodeGenerationStatus {
   String toValue() {
     switch (this) {
       case CodeGenerationStatus.createInProgress:
@@ -1505,7 +1505,7 @@ enum DiscovererState {
   stopped,
 }
 
-extension DiscovererStateValue on DiscovererState {
+extension DiscovererStateValueExtension on DiscovererState {
   String toValue() {
     switch (this) {
       case DiscovererState.started:
@@ -2003,7 +2003,7 @@ enum Type {
   jSONSchemaDraft4,
 }
 
-extension TypeValue on Type {
+extension TypeValueExtension on Type {
   String toValue() {
     switch (this) {
       case Type.openApi3:

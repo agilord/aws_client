@@ -14378,7 +14378,7 @@ enum ActivityStreamMode {
   async,
 }
 
-extension ActivityStreamModeValue on ActivityStreamMode {
+extension ActivityStreamModeValueExtension on ActivityStreamMode {
   String toValue() {
     switch (this) {
       case ActivityStreamMode.sync:
@@ -14408,7 +14408,7 @@ enum ActivityStreamStatus {
   stopping,
 }
 
-extension ActivityStreamStatusValue on ActivityStreamStatus {
+extension ActivityStreamStatusValueExtension on ActivityStreamStatus {
   String toValue() {
     switch (this) {
       case ActivityStreamStatus.stopped:
@@ -14459,7 +14459,7 @@ enum ApplyMethod {
   pendingReboot,
 }
 
-extension ApplyMethodValue on ApplyMethod {
+extension ApplyMethodValueExtension on ApplyMethod {
   String toValue() {
     switch (this) {
       case ApplyMethod.immediate:
@@ -14501,7 +14501,7 @@ enum AuthScheme {
   secrets,
 }
 
-extension AuthSchemeValue on AuthScheme {
+extension AuthSchemeValueExtension on AuthScheme {
   String toValue() {
     switch (this) {
       case AuthScheme.secrets:
@@ -17770,7 +17770,7 @@ enum DBProxyStatus {
   reactivating,
 }
 
-extension DBProxyStatusValue on DBProxyStatus {
+extension DBProxyStatusValueExtension on DBProxyStatus {
   String toValue() {
     switch (this) {
       case DBProxyStatus.available:
@@ -18959,7 +18959,7 @@ enum EngineFamily {
   postgresql,
 }
 
-extension EngineFamilyValue on EngineFamily {
+extension EngineFamilyValueExtension on EngineFamily {
   String toValue() {
     switch (this) {
       case EngineFamily.mysql:
@@ -19546,7 +19546,7 @@ enum IAMAuthMode {
   required,
 }
 
-extension IAMAuthModeValue on IAMAuthMode {
+extension IAMAuthModeValueExtension on IAMAuthMode {
   String toValue() {
     switch (this) {
       case IAMAuthMode.disabled:
@@ -21240,7 +21240,7 @@ enum ReplicaMode {
   mounted,
 }
 
-extension ReplicaModeValue on ReplicaMode {
+extension ReplicaModeValueExtension on ReplicaMode {
   String toValue() {
     switch (this) {
       case ReplicaMode.openReadOnly:
@@ -21851,7 +21851,7 @@ enum SourceType {
   dbClusterSnapshot,
 }
 
-extension SourceTypeValue on SourceType {
+extension SourceTypeValueExtension on SourceType {
   String toValue() {
     switch (this) {
       case SourceType.dbInstance:
@@ -22182,7 +22182,7 @@ enum TargetHealthReason {
   pendingProxyCapacity,
 }
 
-extension TargetHealthReasonValue on TargetHealthReason {
+extension TargetHealthReasonValueExtension on TargetHealthReason {
   String toValue() {
     switch (this) {
       case TargetHealthReason.unreachable:
@@ -22219,7 +22219,7 @@ enum TargetState {
   unavailable,
 }
 
-extension TargetStateValue on TargetState {
+extension TargetStateValueExtension on TargetState {
   String toValue() {
     switch (this) {
       case TargetState.registering:
@@ -22252,7 +22252,7 @@ enum TargetType {
   trackedCluster,
 }
 
-extension TargetTypeValue on TargetType {
+extension TargetTypeValueExtension on TargetType {
   String toValue() {
     switch (this) {
       case TargetType.rdsInstance:
@@ -22577,7 +22577,7 @@ enum WriteForwardingStatus {
   unknown,
 }
 
-extension WriteForwardingStatusValue on WriteForwardingStatus {
+extension WriteForwardingStatusValueExtension on WriteForwardingStatus {
   String toValue() {
     switch (this) {
       case WriteForwardingStatus.enabled:

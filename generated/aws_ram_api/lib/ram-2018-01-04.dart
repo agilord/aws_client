@@ -1766,7 +1766,7 @@ enum ResourceOwner {
   otherAccounts,
 }
 
-extension ResourceOwnerValue on ResourceOwner {
+extension ResourceOwnerValueExtension on ResourceOwner {
   String toValue() {
     switch (this) {
       case ResourceOwner.self:
@@ -1939,7 +1939,7 @@ enum ResourceShareAssociationStatus {
   disassociated,
 }
 
-extension ResourceShareAssociationStatusValue
+extension ResourceShareAssociationStatusValueExtension
     on ResourceShareAssociationStatus {
   String toValue() {
     switch (this) {
@@ -1981,7 +1981,8 @@ enum ResourceShareAssociationType {
   resource,
 }
 
-extension ResourceShareAssociationTypeValue on ResourceShareAssociationType {
+extension ResourceShareAssociationTypeValueExtension
+    on ResourceShareAssociationType {
   String toValue() {
     switch (this) {
       case ResourceShareAssociationType.principal:
@@ -2010,7 +2011,7 @@ enum ResourceShareFeatureSet {
   standard,
 }
 
-extension ResourceShareFeatureSetValue on ResourceShareFeatureSet {
+extension ResourceShareFeatureSetValueExtension on ResourceShareFeatureSet {
   String toValue() {
     switch (this) {
       case ResourceShareFeatureSet.createdFromPolicy:
@@ -2101,7 +2102,8 @@ enum ResourceShareInvitationStatus {
   expired,
 }
 
-extension ResourceShareInvitationStatusValue on ResourceShareInvitationStatus {
+extension ResourceShareInvitationStatusValueExtension
+    on ResourceShareInvitationStatus {
   String toValue() {
     switch (this) {
       case ResourceShareInvitationStatus.pending:
@@ -2245,7 +2247,7 @@ enum ResourceShareStatus {
   deleted,
 }
 
-extension ResourceShareStatusValue on ResourceShareStatus {
+extension ResourceShareStatusValueExtension on ResourceShareStatus {
   String toValue() {
     switch (this) {
       case ResourceShareStatus.pending:
@@ -2288,7 +2290,7 @@ enum ResourceStatus {
   pending,
 }
 
-extension ResourceStatusValue on ResourceStatus {
+extension ResourceStatusValueExtension on ResourceStatus {
   String toValue() {
     switch (this) {
       case ResourceStatus.available:

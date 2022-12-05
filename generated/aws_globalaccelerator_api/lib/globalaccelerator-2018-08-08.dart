@@ -3142,7 +3142,7 @@ enum AcceleratorStatus {
   inProgress,
 }
 
-extension AcceleratorStatusValue on AcceleratorStatus {
+extension AcceleratorStatusValueExtension on AcceleratorStatus {
   String toValue() {
     switch (this) {
       case AcceleratorStatus.deployed:
@@ -3336,7 +3336,7 @@ enum ByoipCidrState {
   failedDeprovision,
 }
 
-extension ByoipCidrStateValue on ByoipCidrState {
+extension ByoipCidrStateValueExtension on ByoipCidrState {
   String toValue() {
     switch (this) {
       case ByoipCidrState.pendingProvisioning:
@@ -3428,7 +3428,7 @@ enum ClientAffinity {
   sourceIp,
 }
 
-extension ClientAffinityValue on ClientAffinity {
+extension ClientAffinityValueExtension on ClientAffinity {
   String toValue() {
     switch (this) {
       case ClientAffinity.none:
@@ -3679,7 +3679,7 @@ enum CustomRoutingAcceleratorStatus {
   inProgress,
 }
 
-extension CustomRoutingAcceleratorStatusValue
+extension CustomRoutingAcceleratorStatusValueExtension
     on CustomRoutingAcceleratorStatus {
   String toValue() {
     switch (this) {
@@ -3776,7 +3776,7 @@ enum CustomRoutingDestinationTrafficState {
   deny,
 }
 
-extension CustomRoutingDestinationTrafficStateValue
+extension CustomRoutingDestinationTrafficStateValueExtension
     on CustomRoutingDestinationTrafficState {
   String toValue() {
     switch (this) {
@@ -3912,7 +3912,7 @@ enum CustomRoutingProtocol {
   udp,
 }
 
-extension CustomRoutingProtocolValue on CustomRoutingProtocol {
+extension CustomRoutingProtocolValueExtension on CustomRoutingProtocol {
   String toValue() {
     switch (this) {
       case CustomRoutingProtocol.tcp:
@@ -4366,7 +4366,7 @@ enum HealthCheckProtocol {
   https,
 }
 
-extension HealthCheckProtocolValue on HealthCheckProtocol {
+extension HealthCheckProtocolValueExtension on HealthCheckProtocol {
   String toValue() {
     switch (this) {
       case HealthCheckProtocol.tcp:
@@ -4399,7 +4399,7 @@ enum HealthState {
   unhealthy,
 }
 
-extension HealthStateValue on HealthState {
+extension HealthStateValueExtension on HealthState {
   String toValue() {
     switch (this) {
       case HealthState.initial:
@@ -4430,7 +4430,7 @@ enum IpAddressType {
   ipv4,
 }
 
-extension IpAddressTypeValue on IpAddressType {
+extension IpAddressTypeValueExtension on IpAddressType {
   String toValue() {
     switch (this) {
       case IpAddressType.ipv4:
@@ -4887,7 +4887,7 @@ enum Protocol {
   udp,
 }
 
-extension ProtocolValue on Protocol {
+extension ProtocolValueExtension on Protocol {
   String toValue() {
     switch (this) {
       case Protocol.tcp:

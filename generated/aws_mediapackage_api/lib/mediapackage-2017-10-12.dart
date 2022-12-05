@@ -728,7 +728,7 @@ enum AdMarkers {
   daterange,
 }
 
-extension AdMarkersValue on AdMarkers {
+extension AdMarkersValueExtension on AdMarkers {
   String toValue() {
     switch (this) {
       case AdMarkers.none:
@@ -781,7 +781,7 @@ enum AdsOnDeliveryRestrictions {
   both,
 }
 
-extension AdsOnDeliveryRestrictionsValue on AdsOnDeliveryRestrictions {
+extension AdsOnDeliveryRestrictionsValueExtension on AdsOnDeliveryRestrictions {
   String toValue() {
     switch (this) {
       case AdsOnDeliveryRestrictions.none:
@@ -1691,7 +1691,7 @@ enum EncryptionMethod {
   sampleAes,
 }
 
-extension EncryptionMethodValue on EncryptionMethod {
+extension EncryptionMethodValueExtension on EncryptionMethod {
   String toValue() {
     switch (this) {
       case EncryptionMethod.aes_128:
@@ -2285,7 +2285,7 @@ enum ManifestLayout {
   compact,
 }
 
-extension ManifestLayoutValue on ManifestLayout {
+extension ManifestLayoutValueExtension on ManifestLayout {
   String toValue() {
     switch (this) {
       case ManifestLayout.full:
@@ -2485,7 +2485,7 @@ enum Origination {
   deny,
 }
 
-extension OriginationValue on Origination {
+extension OriginationValueExtension on Origination {
   String toValue() {
     switch (this) {
       case Origination.allow:
@@ -2514,7 +2514,7 @@ enum PlaylistType {
   vod,
 }
 
-extension PlaylistTypeValue on PlaylistType {
+extension PlaylistTypeValueExtension on PlaylistType {
   String toValue() {
     switch (this) {
       case PlaylistType.none:
@@ -2546,7 +2546,7 @@ enum Profile {
   hbbtv_1_5,
 }
 
-extension ProfileValue on Profile {
+extension ProfileValueExtension on Profile {
   String toValue() {
     switch (this) {
       case Profile.none:
@@ -2705,7 +2705,7 @@ enum SegmentTemplateFormat {
   numberWithDuration,
 }
 
-extension SegmentTemplateFormatValue on SegmentTemplateFormat {
+extension SegmentTemplateFormatValueExtension on SegmentTemplateFormat {
   String toValue() {
     switch (this) {
       case SegmentTemplateFormat.numberWithTimeline:
@@ -2795,7 +2795,7 @@ enum Status {
   failed,
 }
 
-extension StatusValue on Status {
+extension StatusValueExtension on Status {
   String toValue() {
     switch (this) {
       case Status.inProgress:
@@ -2828,7 +2828,7 @@ enum StreamOrder {
   videoBitrateDescending,
 }
 
-extension StreamOrderValue on StreamOrder {
+extension StreamOrderValueExtension on StreamOrder {
   String toValue() {
     switch (this) {
       case StreamOrder.original:
@@ -3046,7 +3046,7 @@ enum UtcTiming {
   httpIso,
 }
 
-extension UtcTimingValue on UtcTiming {
+extension UtcTimingValueExtension on UtcTiming {
   String toValue() {
     switch (this) {
       case UtcTiming.none:
@@ -3084,7 +3084,7 @@ enum AdTriggersElement {
   distributorOverlayPlacementOpportunity,
 }
 
-extension AdTriggersElementValue on AdTriggersElement {
+extension AdTriggersElementValueExtension on AdTriggersElement {
   String toValue() {
     switch (this) {
       case AdTriggersElement.spliceInsert:
@@ -3135,7 +3135,7 @@ enum PeriodTriggersElement {
   ads,
 }
 
-extension PeriodTriggersElementValue on PeriodTriggersElement {
+extension PeriodTriggersElementValueExtension on PeriodTriggersElement {
   String toValue() {
     switch (this) {
       case PeriodTriggersElement.ads:

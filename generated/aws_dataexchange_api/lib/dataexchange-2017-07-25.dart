@@ -968,7 +968,7 @@ enum AssetType {
   s3Snapshot,
 }
 
-extension AssetTypeValue on AssetType {
+extension AssetTypeValueExtension on AssetType {
   String toValue() {
     switch (this) {
       case AssetType.s3Snapshot:
@@ -997,7 +997,7 @@ enum Code {
   malwareScanEncryptedFile,
 }
 
-extension CodeValue on Code {
+extension CodeValueExtension on Code {
   String toValue() {
     switch (this) {
       case Code.accessDeniedException:
@@ -2012,7 +2012,7 @@ enum JobErrorLimitName {
   assetSizeInGb,
 }
 
-extension JobErrorLimitNameValue on JobErrorLimitName {
+extension JobErrorLimitNameValueExtension on JobErrorLimitName {
   String toValue() {
     switch (this) {
       case JobErrorLimitName.assetsPerRevision:
@@ -2041,7 +2041,7 @@ enum JobErrorResourceTypes {
   asset,
 }
 
-extension JobErrorResourceTypesValue on JobErrorResourceTypes {
+extension JobErrorResourceTypesValueExtension on JobErrorResourceTypes {
   String toValue() {
     switch (this) {
       case JobErrorResourceTypes.revision:
@@ -2180,7 +2180,7 @@ enum Origin {
   entitled,
 }
 
-extension OriginValue on Origin {
+extension OriginValueExtension on Origin {
   String toValue() {
     switch (this) {
       case Origin.owned:
@@ -2375,7 +2375,7 @@ enum ServerSideEncryptionTypes {
   aes256,
 }
 
-extension ServerSideEncryptionTypesValue on ServerSideEncryptionTypes {
+extension ServerSideEncryptionTypesValueExtension on ServerSideEncryptionTypes {
   String toValue() {
     switch (this) {
       case ServerSideEncryptionTypes.awsKms:
@@ -2414,7 +2414,7 @@ enum State {
   timedOut,
 }
 
-extension StateValue on State {
+extension StateValueExtension on State {
   String toValue() {
     switch (this) {
       case State.waiting:
@@ -2460,7 +2460,7 @@ enum Type {
   exportAssetToSignedUrl,
 }
 
-extension TypeValue on Type {
+extension TypeValueExtension on Type {
   String toValue() {
     switch (this) {
       case Type.importAssetsFromS3:

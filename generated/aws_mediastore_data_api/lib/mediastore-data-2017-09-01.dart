@@ -494,7 +494,7 @@ enum ItemType {
   folder,
 }
 
-extension ItemTypeValue on ItemType {
+extension ItemTypeValueExtension on ItemType {
   String toValue() {
     switch (this) {
       case ItemType.object:
@@ -572,7 +572,7 @@ enum StorageClass {
   temporal,
 }
 
-extension StorageClassValue on StorageClass {
+extension StorageClassValueExtension on StorageClass {
   String toValue() {
     switch (this) {
       case StorageClass.temporal:
@@ -596,7 +596,7 @@ enum UploadAvailability {
   streaming,
 }
 
-extension UploadAvailabilityValue on UploadAvailability {
+extension UploadAvailabilityValueExtension on UploadAvailability {
   String toValue() {
     switch (this) {
       case UploadAvailability.standard:

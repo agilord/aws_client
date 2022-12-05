@@ -3177,7 +3177,7 @@ enum ArtifactNamespace {
   buildId,
 }
 
-extension ArtifactNamespaceValue on ArtifactNamespace {
+extension ArtifactNamespaceValueExtension on ArtifactNamespace {
   String toValue() {
     switch (this) {
       case ArtifactNamespace.none:
@@ -3205,7 +3205,7 @@ enum ArtifactPackaging {
   zip,
 }
 
-extension ArtifactPackagingValue on ArtifactPackaging {
+extension ArtifactPackagingValueExtension on ArtifactPackaging {
   String toValue() {
     switch (this) {
       case ArtifactPackaging.none:
@@ -3234,7 +3234,7 @@ enum ArtifactsType {
   noArtifacts,
 }
 
-extension ArtifactsTypeValue on ArtifactsType {
+extension ArtifactsTypeValueExtension on ArtifactsType {
   String toValue() {
     switch (this) {
       case ArtifactsType.codepipeline:
@@ -3267,7 +3267,7 @@ enum AuthType {
   personalAccessToken,
 }
 
-extension AuthTypeValue on AuthType {
+extension AuthTypeValueExtension on AuthType {
   String toValue() {
     switch (this) {
       case AuthType.oauth:
@@ -4211,7 +4211,7 @@ enum BuildBatchPhaseType {
   stopped,
 }
 
-extension BuildBatchPhaseTypeValue on BuildBatchPhaseType {
+extension BuildBatchPhaseTypeValueExtension on BuildBatchPhaseType {
   String toValue() {
     switch (this) {
       case BuildBatchPhaseType.submitted:
@@ -4442,7 +4442,7 @@ enum BuildPhaseType {
   completed,
 }
 
-extension BuildPhaseTypeValue on BuildPhaseType {
+extension BuildPhaseTypeValueExtension on BuildPhaseType {
   String toValue() {
     switch (this) {
       case BuildPhaseType.submitted:
@@ -4617,7 +4617,7 @@ enum CacheMode {
   localCustomCache,
 }
 
-extension CacheModeValue on CacheMode {
+extension CacheModeValueExtension on CacheMode {
   String toValue() {
     switch (this) {
       case CacheMode.localDockerLayerCache:
@@ -4650,7 +4650,7 @@ enum CacheType {
   local,
 }
 
-extension CacheTypeValue on CacheType {
+extension CacheTypeValueExtension on CacheType {
   String toValue() {
     switch (this) {
       case CacheType.noCache:
@@ -4852,7 +4852,7 @@ enum ComputeType {
   buildGeneral1_2xlarge,
 }
 
-extension ComputeTypeValue on ComputeType {
+extension ComputeTypeValueExtension on ComputeType {
   String toValue() {
     switch (this) {
       case ComputeType.buildGeneral1Small:
@@ -4936,7 +4936,7 @@ enum CredentialProviderType {
   secretsManager,
 }
 
-extension CredentialProviderTypeValue on CredentialProviderType {
+extension CredentialProviderTypeValueExtension on CredentialProviderType {
   String toValue() {
     switch (this) {
       case CredentialProviderType.secretsManager:
@@ -5199,7 +5199,7 @@ enum EnvironmentType {
   windowsServer_2019Container,
 }
 
-extension EnvironmentTypeValue on EnvironmentType {
+extension EnvironmentTypeValueExtension on EnvironmentType {
   String toValue() {
     switch (this) {
       case EnvironmentType.windowsContainer:
@@ -5306,7 +5306,7 @@ enum EnvironmentVariableType {
   secretsManager,
 }
 
-extension EnvironmentVariableTypeValue on EnvironmentVariableType {
+extension EnvironmentVariableTypeValueExtension on EnvironmentVariableType {
   String toValue() {
     switch (this) {
       case EnvironmentVariableType.plaintext:
@@ -5364,7 +5364,7 @@ enum FileSystemType {
   efs,
 }
 
-extension FileSystemTypeValue on FileSystemType {
+extension FileSystemTypeValueExtension on FileSystemType {
   String toValue() {
     switch (this) {
       case FileSystemType.efs:
@@ -5447,7 +5447,7 @@ enum ImagePullCredentialsType {
   serviceRole,
 }
 
-extension ImagePullCredentialsTypeValue on ImagePullCredentialsType {
+extension ImagePullCredentialsTypeValueExtension on ImagePullCredentialsType {
   String toValue() {
     switch (this) {
       case ImagePullCredentialsType.codebuild:
@@ -5504,7 +5504,7 @@ enum LanguageType {
   php,
 }
 
-extension LanguageTypeValue on LanguageType {
+extension LanguageTypeValueExtension on LanguageType {
   String toValue() {
     switch (this) {
       case LanguageType.java:
@@ -5906,7 +5906,7 @@ enum LogsConfigStatusType {
   disabled,
 }
 
-extension LogsConfigStatusTypeValue on LogsConfigStatusType {
+extension LogsConfigStatusTypeValueExtension on LogsConfigStatusType {
   String toValue() {
     switch (this) {
       case LogsConfigStatusType.enabled:
@@ -6041,7 +6041,7 @@ enum PlatformType {
   windowsServer,
 }
 
-extension PlatformTypeValue on PlatformType {
+extension PlatformTypeValueExtension on PlatformType {
   String toValue() {
     switch (this) {
       case PlatformType.debian:
@@ -7006,7 +7006,7 @@ enum ProjectSortByType {
   lastModifiedTime,
 }
 
-extension ProjectSortByTypeValue on ProjectSortByType {
+extension ProjectSortByTypeValueExtension on ProjectSortByType {
   String toValue() {
     switch (this) {
       case ProjectSortByType.name:
@@ -7459,7 +7459,8 @@ enum ReportCodeCoverageSortByType {
   filePath,
 }
 
-extension ReportCodeCoverageSortByTypeValue on ReportCodeCoverageSortByType {
+extension ReportCodeCoverageSortByTypeValueExtension
+    on ReportCodeCoverageSortByType {
   String toValue() {
     switch (this) {
       case ReportCodeCoverageSortByType.lineCoveragePercentage:
@@ -7531,7 +7532,7 @@ enum ReportExportConfigType {
   noExport,
 }
 
-extension ReportExportConfigTypeValue on ReportExportConfigType {
+extension ReportExportConfigTypeValueExtension on ReportExportConfigType {
   String toValue() {
     switch (this) {
       case ReportExportConfigType.s3:
@@ -7639,7 +7640,7 @@ enum ReportGroupSortByType {
   lastModifiedTime,
 }
 
-extension ReportGroupSortByTypeValue on ReportGroupSortByType {
+extension ReportGroupSortByTypeValueExtension on ReportGroupSortByType {
   String toValue() {
     switch (this) {
       case ReportGroupSortByType.name:
@@ -7671,7 +7672,7 @@ enum ReportGroupStatusType {
   deleting,
 }
 
-extension ReportGroupStatusTypeValue on ReportGroupStatusType {
+extension ReportGroupStatusTypeValueExtension on ReportGroupStatusType {
   String toValue() {
     switch (this) {
       case ReportGroupStatusType.active:
@@ -7706,7 +7707,7 @@ enum ReportGroupTrendFieldType {
   branchesMissed,
 }
 
-extension ReportGroupTrendFieldTypeValue on ReportGroupTrendFieldType {
+extension ReportGroupTrendFieldTypeValueExtension on ReportGroupTrendFieldType {
   String toValue() {
     switch (this) {
       case ReportGroupTrendFieldType.passRate:
@@ -7781,7 +7782,7 @@ enum ReportPackagingType {
   none,
 }
 
-extension ReportPackagingTypeValue on ReportPackagingType {
+extension ReportPackagingTypeValueExtension on ReportPackagingType {
   String toValue() {
     switch (this) {
       case ReportPackagingType.zip:
@@ -7812,7 +7813,7 @@ enum ReportStatusType {
   deleting,
 }
 
-extension ReportStatusTypeValue on ReportStatusType {
+extension ReportStatusTypeValueExtension on ReportStatusType {
   String toValue() {
     switch (this) {
       case ReportStatusType.generating:
@@ -7852,7 +7853,7 @@ enum ReportType {
   codeCoverage,
 }
 
-extension ReportTypeValue on ReportType {
+extension ReportTypeValueExtension on ReportType {
   String toValue() {
     switch (this) {
       case ReportType.test:
@@ -7938,7 +7939,7 @@ enum RetryBuildBatchType {
   retryFailedBuilds,
 }
 
-extension RetryBuildBatchTypeValue on RetryBuildBatchType {
+extension RetryBuildBatchTypeValueExtension on RetryBuildBatchType {
   String toValue() {
     switch (this) {
       case RetryBuildBatchType.retryAllBuilds:
@@ -8093,7 +8094,7 @@ enum ServerType {
   githubEnterprise,
 }
 
-extension ServerTypeValue on ServerType {
+extension ServerTypeValueExtension on ServerType {
   String toValue() {
     switch (this) {
       case ServerType.github:
@@ -8125,7 +8126,7 @@ enum SharedResourceSortByType {
   modifiedTime,
 }
 
-extension SharedResourceSortByTypeValue on SharedResourceSortByType {
+extension SharedResourceSortByTypeValueExtension on SharedResourceSortByType {
   String toValue() {
     switch (this) {
       case SharedResourceSortByType.arn:
@@ -8153,7 +8154,7 @@ enum SortOrderType {
   descending,
 }
 
-extension SortOrderTypeValue on SortOrderType {
+extension SortOrderTypeValueExtension on SortOrderType {
   String toValue() {
     switch (this) {
       case SortOrderType.ascending:
@@ -8217,7 +8218,7 @@ enum SourceAuthType {
   oauth,
 }
 
-extension SourceAuthTypeValue on SourceAuthType {
+extension SourceAuthTypeValueExtension on SourceAuthType {
   String toValue() {
     switch (this) {
       case SourceAuthType.oauth:
@@ -8274,7 +8275,7 @@ enum SourceType {
   noSource,
 }
 
-extension SourceTypeValue on SourceType {
+extension SourceTypeValueExtension on SourceType {
   String toValue() {
     switch (this) {
       case SourceType.codecommit:
@@ -8359,7 +8360,7 @@ enum StatusType {
   stopped,
 }
 
-extension StatusTypeValue on StatusType {
+extension StatusTypeValueExtension on StatusType {
   String toValue() {
     switch (this) {
       case StatusType.succeeded:
@@ -8757,7 +8758,7 @@ enum WebhookBuildType {
   buildBatch,
 }
 
-extension WebhookBuildTypeValue on WebhookBuildType {
+extension WebhookBuildTypeValueExtension on WebhookBuildType {
   String toValue() {
     switch (this) {
       case WebhookBuildType.build:
@@ -8884,7 +8885,7 @@ enum WebhookFilterType {
   commitMessage,
 }
 
-extension WebhookFilterTypeValue on WebhookFilterType {
+extension WebhookFilterTypeValueExtension on WebhookFilterType {
   String toValue() {
     switch (this) {
       case WebhookFilterType.event:

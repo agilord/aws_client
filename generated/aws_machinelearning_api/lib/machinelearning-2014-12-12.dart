@@ -2566,7 +2566,7 @@ enum Algorithm {
   sgd,
 }
 
-extension AlgorithmValue on Algorithm {
+extension AlgorithmValueExtension on Algorithm {
   String toValue() {
     switch (this) {
       case Algorithm.sgd:
@@ -2725,7 +2725,8 @@ enum BatchPredictionFilterVariable {
   dataURI,
 }
 
-extension BatchPredictionFilterVariableValue on BatchPredictionFilterVariable {
+extension BatchPredictionFilterVariableValueExtension
+    on BatchPredictionFilterVariable {
   String toValue() {
     switch (this) {
       case BatchPredictionFilterVariable.createdAt:
@@ -3088,7 +3089,7 @@ enum DataSourceFilterVariable {
   iAMUser,
 }
 
-extension DataSourceFilterVariableValue on DataSourceFilterVariable {
+extension DataSourceFilterVariableValueExtension on DataSourceFilterVariable {
   String toValue() {
     switch (this) {
       case DataSourceFilterVariable.createdAt:
@@ -3395,7 +3396,7 @@ enum DetailsAttributes {
   algorithm,
 }
 
-extension DetailsAttributesValue on DetailsAttributes {
+extension DetailsAttributesValueExtension on DetailsAttributes {
   String toValue() {
     switch (this) {
       case DetailsAttributes.predictiveModelType:
@@ -3435,7 +3436,7 @@ enum EntityStatus {
   deleted,
 }
 
-extension EntityStatusValue on EntityStatus {
+extension EntityStatusValueExtension on EntityStatus {
   String toValue() {
     switch (this) {
       case EntityStatus.pending:
@@ -3623,7 +3624,7 @@ enum EvaluationFilterVariable {
   dataURI,
 }
 
-extension EvaluationFilterVariableValue on EvaluationFilterVariable {
+extension EvaluationFilterVariableValueExtension on EvaluationFilterVariable {
   String toValue() {
     switch (this) {
       case EvaluationFilterVariable.createdAt:
@@ -4610,7 +4611,7 @@ enum MLModelFilterVariable {
   trainingDataURI,
 }
 
-extension MLModelFilterVariableValue on MLModelFilterVariable {
+extension MLModelFilterVariableValueExtension on MLModelFilterVariable {
   String toValue() {
     switch (this) {
       case MLModelFilterVariable.createdAt:
@@ -4671,7 +4672,7 @@ enum MLModelType {
   multiclass,
 }
 
-extension MLModelTypeValue on MLModelType {
+extension MLModelTypeValueExtension on MLModelType {
   String toValue() {
     switch (this) {
       case MLModelType.regression:
@@ -5190,7 +5191,7 @@ enum RealtimeEndpointStatus {
   failed,
 }
 
-extension RealtimeEndpointStatusValue on RealtimeEndpointStatus {
+extension RealtimeEndpointStatusValueExtension on RealtimeEndpointStatus {
   String toValue() {
     switch (this) {
       case RealtimeEndpointStatus.none:
@@ -5678,7 +5679,7 @@ enum SortOrder {
   dsc,
 }
 
-extension SortOrderValue on SortOrder {
+extension SortOrderValueExtension on SortOrder {
   String toValue() {
     switch (this) {
       case SortOrder.asc:
@@ -5753,7 +5754,7 @@ enum TaggableResourceType {
   mLModel,
 }
 
-extension TaggableResourceTypeValue on TaggableResourceType {
+extension TaggableResourceTypeValueExtension on TaggableResourceType {
   String toValue() {
     switch (this) {
       case TaggableResourceType.batchPrediction:

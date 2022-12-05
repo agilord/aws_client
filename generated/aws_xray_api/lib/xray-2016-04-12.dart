@@ -1674,7 +1674,7 @@ enum EncryptionStatus {
   active,
 }
 
-extension EncryptionStatusValue on EncryptionStatus {
+extension EncryptionStatusValueExtension on EncryptionStatus {
   String toValue() {
     switch (this) {
       case EncryptionStatus.updating:
@@ -1702,7 +1702,7 @@ enum EncryptionType {
   kms,
 }
 
-extension EncryptionTypeValue on EncryptionType {
+extension EncryptionTypeValueExtension on EncryptionType {
   String toValue() {
     switch (this) {
       case EncryptionType.none:
@@ -2615,7 +2615,7 @@ enum InsightCategory {
   fault,
 }
 
-extension InsightCategoryValue on InsightCategory {
+extension InsightCategoryValueExtension on InsightCategory {
   String toValue() {
     switch (this) {
       case InsightCategory.fault:
@@ -2774,7 +2774,7 @@ enum InsightState {
   closed,
 }
 
-extension InsightStateValue on InsightState {
+extension InsightStateValueExtension on InsightState {
   String toValue() {
     switch (this) {
       case InsightState.active:
@@ -3507,7 +3507,7 @@ enum SamplingStrategyName {
   fixedRate,
 }
 
-extension SamplingStrategyNameValue on SamplingStrategyName {
+extension SamplingStrategyNameValueExtension on SamplingStrategyName {
   String toValue() {
     switch (this) {
       case SamplingStrategyName.partialScan:
@@ -3900,7 +3900,7 @@ enum TimeRangeType {
   event,
 }
 
-extension TimeRangeTypeValue on TimeRangeType {
+extension TimeRangeTypeValueExtension on TimeRangeType {
   String toValue() {
     switch (this) {
       case TimeRangeType.traceId:

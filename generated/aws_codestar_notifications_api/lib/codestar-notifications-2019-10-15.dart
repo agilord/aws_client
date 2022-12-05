@@ -787,7 +787,7 @@ enum DetailType {
   full,
 }
 
-extension DetailTypeValue on DetailType {
+extension DetailTypeValueExtension on DetailType {
   String toValue() {
     switch (this) {
       case DetailType.basic:
@@ -869,7 +869,7 @@ enum ListEventTypesFilterName {
   serviceName,
 }
 
-extension ListEventTypesFilterNameValue on ListEventTypesFilterName {
+extension ListEventTypesFilterNameValueExtension on ListEventTypesFilterName {
   String toValue() {
     switch (this) {
       case ListEventTypesFilterName.resourceType:
@@ -950,7 +950,7 @@ enum ListNotificationRulesFilterName {
   targetAddress,
 }
 
-extension ListNotificationRulesFilterNameValue
+extension ListNotificationRulesFilterNameValueExtension
     on ListNotificationRulesFilterName {
   String toValue() {
     switch (this) {
@@ -1057,7 +1057,7 @@ enum ListTargetsFilterName {
   targetStatus,
 }
 
-extension ListTargetsFilterNameValue on ListTargetsFilterName {
+extension ListTargetsFilterNameValueExtension on ListTargetsFilterName {
   String toValue() {
     switch (this) {
       case ListTargetsFilterName.targetType:
@@ -1112,7 +1112,7 @@ enum NotificationRuleStatus {
   disabled,
 }
 
-extension NotificationRuleStatusValue on NotificationRuleStatus {
+extension NotificationRuleStatusValueExtension on NotificationRuleStatus {
   String toValue() {
     switch (this) {
       case NotificationRuleStatus.enabled:
@@ -1215,7 +1215,7 @@ enum TargetStatus {
   deactivated,
 }
 
-extension TargetStatusValue on TargetStatus {
+extension TargetStatusValueExtension on TargetStatus {
   String toValue() {
     switch (this) {
       case TargetStatus.pending:

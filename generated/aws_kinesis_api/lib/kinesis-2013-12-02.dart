@@ -2529,7 +2529,7 @@ enum ConsumerStatus {
   active,
 }
 
-extension ConsumerStatusValue on ConsumerStatus {
+extension ConsumerStatusValueExtension on ConsumerStatus {
   String toValue() {
     switch (this) {
       case ConsumerStatus.creating:
@@ -2628,7 +2628,7 @@ enum EncryptionType {
   kms,
 }
 
-extension EncryptionTypeValue on EncryptionType {
+extension EncryptionTypeValueExtension on EncryptionType {
   String toValue() {
     switch (this) {
       case EncryptionType.none:
@@ -2953,7 +2953,7 @@ enum MetricsName {
   all,
 }
 
-extension MetricsNameValue on MetricsName {
+extension MetricsNameValueExtension on MetricsName {
   String toValue() {
     switch (this) {
       case MetricsName.incomingBytes:
@@ -3235,7 +3235,7 @@ enum ScalingType {
   uniformScaling,
 }
 
-extension ScalingTypeValue on ScalingType {
+extension ScalingTypeValueExtension on ScalingType {
   String toValue() {
     switch (this) {
       case ScalingType.uniformScaling:
@@ -3344,7 +3344,7 @@ enum ShardFilterType {
   fromTimestamp,
 }
 
-extension ShardFilterTypeValue on ShardFilterType {
+extension ShardFilterTypeValueExtension on ShardFilterType {
   String toValue() {
     switch (this) {
       case ShardFilterType.afterShardId:
@@ -3391,7 +3391,7 @@ enum ShardIteratorType {
   atTimestamp,
 }
 
-extension ShardIteratorTypeValue on ShardIteratorType {
+extension ShardIteratorTypeValueExtension on ShardIteratorType {
   String toValue() {
     switch (this) {
       case ShardIteratorType.atSequenceNumber:
@@ -3684,7 +3684,7 @@ enum StreamStatus {
   updating,
 }
 
-extension StreamStatusValue on StreamStatus {
+extension StreamStatusValueExtension on StreamStatus {
   String toValue() {
     switch (this) {
       case StreamStatus.creating:

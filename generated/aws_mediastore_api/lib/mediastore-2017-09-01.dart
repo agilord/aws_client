@@ -1069,7 +1069,7 @@ enum ContainerLevelMetrics {
   disabled,
 }
 
-extension ContainerLevelMetricsValue on ContainerLevelMetrics {
+extension ContainerLevelMetricsValueExtension on ContainerLevelMetrics {
   String toValue() {
     switch (this) {
       case ContainerLevelMetrics.enabled:
@@ -1098,7 +1098,7 @@ enum ContainerStatus {
   deleting,
 }
 
-extension ContainerStatusValue on ContainerStatus {
+extension ContainerStatusValueExtension on ContainerStatus {
   String toValue() {
     switch (this) {
       case ContainerStatus.active:
@@ -1405,7 +1405,7 @@ enum MethodName {
   head,
 }
 
-extension MethodNameValue on MethodName {
+extension MethodNameValueExtension on MethodName {
   String toValue() {
     switch (this) {
       case MethodName.put:

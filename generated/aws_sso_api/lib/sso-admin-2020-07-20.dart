@@ -2672,7 +2672,7 @@ enum InstanceAccessControlAttributeConfigurationStatus {
   creationFailed,
 }
 
-extension InstanceAccessControlAttributeConfigurationStatusValue
+extension InstanceAccessControlAttributeConfigurationStatusValueExtension
     on InstanceAccessControlAttributeConfigurationStatus {
   String toValue() {
     switch (this) {
@@ -3110,7 +3110,7 @@ enum PrincipalType {
   group,
 }
 
-extension PrincipalTypeValue on PrincipalType {
+extension PrincipalTypeValueExtension on PrincipalType {
   String toValue() {
     switch (this) {
       case PrincipalType.user:
@@ -3157,7 +3157,7 @@ enum ProvisionTargetType {
   allProvisionedAccounts,
 }
 
-extension ProvisionTargetTypeValue on ProvisionTargetType {
+extension ProvisionTargetTypeValueExtension on ProvisionTargetType {
   String toValue() {
     switch (this) {
       case ProvisionTargetType.awsAccount:
@@ -3185,7 +3185,7 @@ enum ProvisioningStatus {
   latestPermissionSetNotProvisioned,
 }
 
-extension ProvisioningStatusValue on ProvisioningStatus {
+extension ProvisioningStatusValueExtension on ProvisioningStatus {
   String toValue() {
     switch (this) {
       case ProvisioningStatus.latestPermissionSetProvisioned:
@@ -3222,7 +3222,7 @@ enum StatusValues {
   succeeded,
 }
 
-extension StatusValuesValue on StatusValues {
+extension StatusValuesValueExtension on StatusValues {
   String toValue() {
     switch (this) {
       case StatusValues.inProgress:
@@ -3291,7 +3291,7 @@ enum TargetType {
   awsAccount,
 }
 
-extension TargetTypeValue on TargetType {
+extension TargetTypeValueExtension on TargetType {
   String toValue() {
     switch (this) {
       case TargetType.awsAccount:

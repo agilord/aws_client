@@ -1378,7 +1378,7 @@ enum AccountRoleStatus {
   deleted,
 }
 
-extension AccountRoleStatusValue on AccountRoleStatus {
+extension AccountRoleStatusValueExtension on AccountRoleStatus {
   String toValue() {
     switch (this) {
       case AccountRoleStatus.ready:
@@ -1691,7 +1691,7 @@ enum CustomerPolicyScopeIdType {
   orgUnit,
 }
 
-extension CustomerPolicyScopeIdTypeValue on CustomerPolicyScopeIdType {
+extension CustomerPolicyScopeIdTypeValueExtension on CustomerPolicyScopeIdType {
   String toValue() {
     switch (this) {
       case CustomerPolicyScopeIdType.account:
@@ -1721,7 +1721,7 @@ enum DependentServiceName {
   awsvpc,
 }
 
-extension DependentServiceNameValue on DependentServiceName {
+extension DependentServiceNameValueExtension on DependentServiceName {
   String toValue() {
     switch (this) {
       case DependentServiceName.awsconfig:
@@ -2656,7 +2656,8 @@ enum PolicyComplianceStatusType {
   nonCompliant,
 }
 
-extension PolicyComplianceStatusTypeValue on PolicyComplianceStatusType {
+extension PolicyComplianceStatusTypeValueExtension
+    on PolicyComplianceStatusType {
   String toValue() {
     switch (this) {
       case PolicyComplianceStatusType.compliant:
@@ -2910,7 +2911,7 @@ enum RemediationActionType {
   modify,
 }
 
-extension RemediationActionTypeValue on RemediationActionType {
+extension RemediationActionTypeValueExtension on RemediationActionType {
   String toValue() {
     switch (this) {
       case RemediationActionType.remove:
@@ -3235,7 +3236,7 @@ enum SecurityServiceType {
   networkFirewall,
 }
 
-extension SecurityServiceTypeValue on SecurityServiceType {
+extension SecurityServiceTypeValueExtension on SecurityServiceType {
   String toValue() {
     switch (this) {
       case SecurityServiceType.waf:
@@ -3446,7 +3447,7 @@ enum ViolationReason {
   networkFirewallPolicyModified,
 }
 
-extension ViolationReasonValue on ViolationReason {
+extension ViolationReasonValueExtension on ViolationReason {
   String toValue() {
     switch (this) {
       case ViolationReason.webAclMissingRuleGroup:

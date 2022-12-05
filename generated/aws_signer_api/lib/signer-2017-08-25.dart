@@ -967,7 +967,7 @@ enum Category {
   awsIoT,
 }
 
-extension CategoryValue on Category {
+extension CategoryValueExtension on Category {
   String toValue() {
     switch (this) {
       case Category.awsIoT:
@@ -1131,7 +1131,7 @@ enum EncryptionAlgorithm {
   ecdsa,
 }
 
-extension EncryptionAlgorithmValue on EncryptionAlgorithm {
+extension EncryptionAlgorithmValueExtension on EncryptionAlgorithm {
   String toValue() {
     switch (this) {
       case EncryptionAlgorithm.rsa:
@@ -1338,7 +1338,7 @@ enum HashAlgorithm {
   sha256,
 }
 
-extension HashAlgorithmValue on HashAlgorithm {
+extension HashAlgorithmValueExtension on HashAlgorithm {
   String toValue() {
     switch (this) {
       case HashAlgorithm.sha1:
@@ -1390,7 +1390,7 @@ enum ImageFormat {
   jSONDetached,
 }
 
-extension ImageFormatValue on ImageFormat {
+extension ImageFormatValueExtension on ImageFormat {
   String toValue() {
     switch (this) {
       case ImageFormat.json:
@@ -2155,7 +2155,7 @@ enum SigningProfileStatus {
   revoked,
 }
 
-extension SigningProfileStatusValue on SigningProfileStatus {
+extension SigningProfileStatusValueExtension on SigningProfileStatus {
   String toValue() {
     switch (this) {
       case SigningProfileStatus.active:
@@ -2188,7 +2188,7 @@ enum SigningStatus {
   succeeded,
 }
 
-extension SigningStatusValue on SigningStatus {
+extension SigningStatusValueExtension on SigningStatus {
   String toValue() {
     switch (this) {
       case SigningStatus.inProgress:
@@ -2279,7 +2279,7 @@ enum ValidityType {
   years,
 }
 
-extension ValidityTypeValue on ValidityType {
+extension ValidityTypeValueExtension on ValidityType {
   String toValue() {
     switch (this) {
       case ValidityType.days:

@@ -3607,7 +3607,7 @@ enum BucketCannedACL {
   authenticatedRead,
 }
 
-extension BucketCannedACLValue on BucketCannedACL {
+extension BucketCannedACLValueExtension on BucketCannedACL {
   String toValue() {
     switch (this) {
       case BucketCannedACL.private:
@@ -3693,7 +3693,7 @@ enum BucketLocationConstraint {
   euCentral_1,
 }
 
-extension BucketLocationConstraintValue on BucketLocationConstraint {
+extension BucketLocationConstraintValueExtension on BucketLocationConstraint {
   String toValue() {
     switch (this) {
       case BucketLocationConstraint.eu:
@@ -4082,7 +4082,7 @@ enum ExpirationStatus {
   disabled,
 }
 
-extension ExpirationStatusValue on ExpirationStatus {
+extension ExpirationStatusValueExtension on ExpirationStatus {
   String toValue() {
     switch (this) {
       case ExpirationStatus.enabled:
@@ -4110,7 +4110,7 @@ enum Format {
   parquet,
 }
 
-extension FormatValue on Format {
+extension FormatValueExtension on Format {
   String toValue() {
     switch (this) {
       case Format.csv:
@@ -4628,7 +4628,7 @@ enum JobManifestFieldName {
   versionId,
 }
 
-extension JobManifestFieldNameValue on JobManifestFieldName {
+extension JobManifestFieldNameValueExtension on JobManifestFieldName {
   String toValue() {
     switch (this) {
       case JobManifestFieldName.ignore:
@@ -4664,7 +4664,7 @@ enum JobManifestFormat {
   s3InventoryReportCsv_20161130,
 }
 
-extension JobManifestFormatValue on JobManifestFormat {
+extension JobManifestFormatValueExtension on JobManifestFormat {
   String toValue() {
     switch (this) {
       case JobManifestFormat.s3BatchOperationsCsv_20180820:
@@ -4967,7 +4967,7 @@ enum JobReportFormat {
   reportCsv_20180820,
 }
 
-extension JobReportFormatValue on JobReportFormat {
+extension JobReportFormatValueExtension on JobReportFormat {
   String toValue() {
     switch (this) {
       case JobReportFormat.reportCsv_20180820:
@@ -4991,7 +4991,7 @@ enum JobReportScope {
   failedTasksOnly,
 }
 
-extension JobReportScopeValue on JobReportScope {
+extension JobReportScopeValueExtension on JobReportScope {
   String toValue() {
     switch (this) {
       case JobReportScope.allTasks:
@@ -5030,7 +5030,7 @@ enum JobStatus {
   suspended,
 }
 
-extension JobStatusValue on JobStatus {
+extension JobStatusValueExtension on JobStatus {
   String toValue() {
     switch (this) {
       case JobStatus.active:
@@ -5558,7 +5558,7 @@ enum NetworkOrigin {
   vpc,
 }
 
-extension NetworkOriginValue on NetworkOrigin {
+extension NetworkOriginValueExtension on NetworkOrigin {
   String toValue() {
     switch (this) {
       case NetworkOrigin.internet:
@@ -5673,7 +5673,7 @@ enum OperationName {
   s3PutObjectRetention,
 }
 
-extension OperationNameValue on OperationName {
+extension OperationNameValueExtension on OperationName {
   String toValue() {
     switch (this) {
       case OperationName.lambdaInvoke:
@@ -5720,7 +5720,7 @@ enum OutputSchemaVersion {
   v_1,
 }
 
-extension OutputSchemaVersionValue on OutputSchemaVersion {
+extension OutputSchemaVersionValueExtension on OutputSchemaVersion {
   String toValue() {
     switch (this) {
       case OutputSchemaVersion.v_1:
@@ -6209,7 +6209,7 @@ enum RequestedJobStatus {
   ready,
 }
 
-extension RequestedJobStatusValue on RequestedJobStatus {
+extension RequestedJobStatusValueExtension on RequestedJobStatus {
   String toValue() {
     switch (this) {
       case RequestedJobStatus.cancelled:
@@ -6401,7 +6401,7 @@ enum S3CannedAccessControlList {
   bucketOwnerFullControl,
 }
 
-extension S3CannedAccessControlListValue on S3CannedAccessControlList {
+extension S3CannedAccessControlListValueExtension on S3CannedAccessControlList {
   String toValue() {
     switch (this) {
       case S3CannedAccessControlList.private:
@@ -6642,7 +6642,7 @@ enum S3GlacierJobTier {
   standard,
 }
 
-extension S3GlacierJobTierValue on S3GlacierJobTier {
+extension S3GlacierJobTierValueExtension on S3GlacierJobTier {
   String toValue() {
     switch (this) {
       case S3GlacierJobTier.bulk:
@@ -6759,7 +6759,7 @@ enum S3GranteeTypeIdentifier {
   uri,
 }
 
-extension S3GranteeTypeIdentifierValue on S3GranteeTypeIdentifier {
+extension S3GranteeTypeIdentifierValueExtension on S3GranteeTypeIdentifier {
   String toValue() {
     switch (this) {
       case S3GranteeTypeIdentifier.id:
@@ -6836,7 +6836,7 @@ enum S3MetadataDirective {
   replace,
 }
 
-extension S3MetadataDirectiveValue on S3MetadataDirective {
+extension S3MetadataDirectiveValueExtension on S3MetadataDirective {
   String toValue() {
     switch (this) {
       case S3MetadataDirective.copy:
@@ -6898,7 +6898,8 @@ enum S3ObjectLockLegalHoldStatus {
   on,
 }
 
-extension S3ObjectLockLegalHoldStatusValue on S3ObjectLockLegalHoldStatus {
+extension S3ObjectLockLegalHoldStatusValueExtension
+    on S3ObjectLockLegalHoldStatus {
   String toValue() {
     switch (this) {
       case S3ObjectLockLegalHoldStatus.off:
@@ -6926,7 +6927,7 @@ enum S3ObjectLockMode {
   governance,
 }
 
-extension S3ObjectLockModeValue on S3ObjectLockMode {
+extension S3ObjectLockModeValueExtension on S3ObjectLockMode {
   String toValue() {
     switch (this) {
       case S3ObjectLockMode.compliance:
@@ -6954,7 +6955,7 @@ enum S3ObjectLockRetentionMode {
   governance,
 }
 
-extension S3ObjectLockRetentionModeValue on S3ObjectLockRetentionMode {
+extension S3ObjectLockRetentionModeValueExtension on S3ObjectLockRetentionMode {
   String toValue() {
     switch (this) {
       case S3ObjectLockRetentionMode.compliance:
@@ -7149,7 +7150,7 @@ enum S3Permission {
   writeAcp,
 }
 
-extension S3PermissionValue on S3Permission {
+extension S3PermissionValueExtension on S3Permission {
   String toValue() {
     switch (this) {
       case S3Permission.fullControl:
@@ -7236,7 +7237,7 @@ enum S3SSEAlgorithm {
   kms,
 }
 
-extension S3SSEAlgorithmValue on S3SSEAlgorithm {
+extension S3SSEAlgorithmValueExtension on S3SSEAlgorithm {
   String toValue() {
     switch (this) {
       case S3SSEAlgorithm.aes256:
@@ -7431,7 +7432,7 @@ enum S3StorageClass {
   deepArchive,
 }
 
-extension S3StorageClassValue on S3StorageClass {
+extension S3StorageClassValueExtension on S3StorageClass {
   String toValue() {
     switch (this) {
       case S3StorageClass.standard:
@@ -7936,7 +7937,7 @@ enum TransitionStorageClass {
   deepArchive,
 }
 
-extension TransitionStorageClassValue on TransitionStorageClass {
+extension TransitionStorageClassValueExtension on TransitionStorageClass {
   String toValue() {
     switch (this) {
       case TransitionStorageClass.glacier:

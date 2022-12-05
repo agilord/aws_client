@@ -918,7 +918,7 @@ enum BackupPolicy {
   $default,
 }
 
-extension BackupPolicyValue on BackupPolicy {
+extension BackupPolicyValueExtension on BackupPolicy {
   String toValue() {
     switch (this) {
       case BackupPolicy.$default:
@@ -971,7 +971,7 @@ enum BackupRetentionType {
   days,
 }
 
-extension BackupRetentionTypeValue on BackupRetentionType {
+extension BackupRetentionTypeValueExtension on BackupRetentionType {
   String toValue() {
     switch (this) {
       case BackupRetentionType.days:
@@ -997,7 +997,7 @@ enum BackupState {
   pendingDeletion,
 }
 
-extension BackupStateValue on BackupState {
+extension BackupStateValueExtension on BackupState {
   String toValue() {
     switch (this) {
       case BackupState.createInProgress:
@@ -1178,7 +1178,7 @@ enum ClusterState {
   degraded,
 }
 
-extension ClusterStateValue on ClusterState {
+extension ClusterStateValueExtension on ClusterState {
   String toValue() {
     switch (this) {
       case ClusterState.createInProgress:
@@ -1472,7 +1472,7 @@ enum HsmState {
   deleted,
 }
 
-extension HsmStateValue on HsmState {
+extension HsmStateValueExtension on HsmState {
   String toValue() {
     switch (this) {
       case HsmState.createInProgress:

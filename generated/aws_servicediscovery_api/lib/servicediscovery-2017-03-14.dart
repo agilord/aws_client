@@ -1817,7 +1817,7 @@ enum CustomHealthStatus {
   unhealthy,
 }
 
-extension CustomHealthStatusValue on CustomHealthStatus {
+extension CustomHealthStatusValueExtension on CustomHealthStatus {
   String toValue() {
     switch (this) {
       case CustomHealthStatus.healthy:
@@ -2195,7 +2195,7 @@ enum FilterCondition {
   between,
 }
 
-extension FilterConditionValue on FilterCondition {
+extension FilterConditionValueExtension on FilterCondition {
   String toValue() {
     switch (this) {
       case FilterCondition.eq:
@@ -2563,7 +2563,7 @@ enum HealthCheckType {
   tcp,
 }
 
-extension HealthCheckTypeValue on HealthCheckType {
+extension HealthCheckTypeValueExtension on HealthCheckType {
   String toValue() {
     switch (this) {
       case HealthCheckType.http:
@@ -2596,7 +2596,7 @@ enum HealthStatus {
   unknown,
 }
 
-extension HealthStatusValue on HealthStatus {
+extension HealthStatusValueExtension on HealthStatus {
   String toValue() {
     switch (this) {
       case HealthStatus.healthy:
@@ -2629,7 +2629,7 @@ enum HealthStatusFilter {
   all,
 }
 
-extension HealthStatusFilterValue on HealthStatusFilter {
+extension HealthStatusFilterValueExtension on HealthStatusFilter {
   String toValue() {
     switch (this) {
       case HealthStatusFilter.healthy:
@@ -3212,7 +3212,7 @@ enum NamespaceFilterName {
   type,
 }
 
-extension NamespaceFilterNameValue on NamespaceFilterName {
+extension NamespaceFilterNameValueExtension on NamespaceFilterName {
   String toValue() {
     switch (this) {
       case NamespaceFilterName.type:
@@ -3319,7 +3319,7 @@ enum NamespaceType {
   http,
 }
 
-extension NamespaceTypeValue on NamespaceType {
+extension NamespaceTypeValueExtension on NamespaceType {
   String toValue() {
     switch (this) {
       case NamespaceType.dnsPublic:
@@ -3567,7 +3567,7 @@ enum OperationFilterName {
   updateDate,
 }
 
-extension OperationFilterNameValue on OperationFilterName {
+extension OperationFilterNameValueExtension on OperationFilterName {
   String toValue() {
     switch (this) {
       case OperationFilterName.namespaceId:
@@ -3609,7 +3609,7 @@ enum OperationStatus {
   fail,
 }
 
-extension OperationStatusValue on OperationStatus {
+extension OperationStatusValueExtension on OperationStatus {
   String toValue() {
     switch (this) {
       case OperationStatus.submitted:
@@ -3686,7 +3686,7 @@ enum OperationTargetType {
   instance,
 }
 
-extension OperationTargetTypeValue on OperationTargetType {
+extension OperationTargetTypeValueExtension on OperationTargetType {
   String toValue() {
     switch (this) {
       case OperationTargetType.namespace:
@@ -3721,7 +3721,7 @@ enum OperationType {
   deregisterInstance,
 }
 
-extension OperationTypeValue on OperationType {
+extension OperationTypeValueExtension on OperationType {
   String toValue() {
     switch (this) {
       case OperationType.createNamespace:
@@ -3763,7 +3763,7 @@ enum RecordType {
   cname,
 }
 
-extension RecordTypeValue on RecordType {
+extension RecordTypeValueExtension on RecordType {
   String toValue() {
     switch (this) {
       case RecordType.srv:
@@ -3815,7 +3815,7 @@ enum RoutingPolicy {
   weighted,
 }
 
-extension RoutingPolicyValue on RoutingPolicy {
+extension RoutingPolicyValueExtension on RoutingPolicy {
   String toValue() {
     switch (this) {
       case RoutingPolicy.multivalue:
@@ -4013,7 +4013,7 @@ enum ServiceFilterName {
   namespaceId,
 }
 
-extension ServiceFilterNameValue on ServiceFilterName {
+extension ServiceFilterNameValueExtension on ServiceFilterName {
   String toValue() {
     switch (this) {
       case ServiceFilterName.namespaceId:

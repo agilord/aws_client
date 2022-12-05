@@ -1579,7 +1579,7 @@ enum AttackLayer {
   application,
 }
 
-extension AttackLayerValue on AttackLayer {
+extension AttackLayerValueExtension on AttackLayer {
   String toValue() {
     switch (this) {
       case AttackLayer.network:
@@ -1659,7 +1659,7 @@ enum AttackPropertyIdentifier {
   wordpressPingbackSource,
 }
 
-extension AttackPropertyIdentifierValue on AttackPropertyIdentifier {
+extension AttackPropertyIdentifierValueExtension on AttackPropertyIdentifier {
   String toValue() {
     switch (this) {
       case AttackPropertyIdentifier.destinationUrl:
@@ -1908,7 +1908,7 @@ enum AutoRenew {
   disabled,
 }
 
-extension AutoRenewValue on AutoRenew {
+extension AutoRenewValueExtension on AutoRenew {
   String toValue() {
     switch (this) {
       case AutoRenew.enabled:
@@ -2378,7 +2378,7 @@ enum ProactiveEngagementStatus {
   pending,
 }
 
-extension ProactiveEngagementStatusValue on ProactiveEngagementStatus {
+extension ProactiveEngagementStatusValueExtension on ProactiveEngagementStatus {
   String toValue() {
     switch (this) {
       case ProactiveEngagementStatus.enabled:
@@ -2414,7 +2414,7 @@ enum ProtectedResourceType {
   globalAccelerator,
 }
 
-extension ProtectedResourceTypeValue on ProtectedResourceType {
+extension ProtectedResourceTypeValueExtension on ProtectedResourceType {
   String toValue() {
     switch (this) {
       case ProtectedResourceType.cloudfrontDistribution:
@@ -2567,7 +2567,8 @@ enum ProtectionGroupAggregation {
   max,
 }
 
-extension ProtectionGroupAggregationValue on ProtectionGroupAggregation {
+extension ProtectionGroupAggregationValueExtension
+    on ProtectionGroupAggregation {
   String toValue() {
     switch (this) {
       case ProtectionGroupAggregation.sum:
@@ -2639,7 +2640,7 @@ enum ProtectionGroupPattern {
   byResourceType,
 }
 
-extension ProtectionGroupPatternValue on ProtectionGroupPattern {
+extension ProtectionGroupPatternValueExtension on ProtectionGroupPattern {
   String toValue() {
     switch (this) {
       case ProtectionGroupPattern.all:
@@ -2743,7 +2744,7 @@ enum SubResourceType {
   url,
 }
 
-extension SubResourceTypeValue on SubResourceType {
+extension SubResourceTypeValueExtension on SubResourceType {
   String toValue() {
     switch (this) {
       case SubResourceType.ip:
@@ -2863,7 +2864,7 @@ enum SubscriptionState {
   inactive,
 }
 
-extension SubscriptionStateValue on SubscriptionState {
+extension SubscriptionStateValueExtension on SubscriptionState {
   String toValue() {
     switch (this) {
       case SubscriptionState.active:
@@ -2988,7 +2989,7 @@ enum Unit {
   requests,
 }
 
-extension UnitValue on Unit {
+extension UnitValueExtension on Unit {
   String toValue() {
     switch (this) {
       case Unit.bits:

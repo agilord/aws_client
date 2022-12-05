@@ -1003,7 +1003,7 @@ enum CloudComponentState {
   deprecated,
 }
 
-extension CloudComponentStateValue on CloudComponentState {
+extension CloudComponentStateValueExtension on CloudComponentState {
   String toValue() {
     switch (this) {
       case CloudComponentState.requested:
@@ -1228,7 +1228,7 @@ enum ComponentDependencyType {
   soft,
 }
 
-extension ComponentDependencyTypeValue on ComponentDependencyType {
+extension ComponentDependencyTypeValueExtension on ComponentDependencyType {
   String toValue() {
     switch (this) {
       case ComponentDependencyType.hard:
@@ -1456,7 +1456,7 @@ enum ComponentVisibilityScope {
   public,
 }
 
-extension ComponentVisibilityScopeValue on ComponentVisibilityScope {
+extension ComponentVisibilityScopeValueExtension on ComponentVisibilityScope {
   String toValue() {
     switch (this) {
       case ComponentVisibilityScope.private:
@@ -1523,7 +1523,7 @@ enum CoreDeviceStatus {
   unhealthy,
 }
 
-extension CoreDeviceStatusValue on CoreDeviceStatus {
+extension CoreDeviceStatusValueExtension on CoreDeviceStatus {
   String toValue() {
     switch (this) {
       case CoreDeviceStatus.healthy:
@@ -1731,7 +1731,7 @@ enum DeploymentComponentUpdatePolicyAction {
   skipNotifyComponents,
 }
 
-extension DeploymentComponentUpdatePolicyActionValue
+extension DeploymentComponentUpdatePolicyActionValueExtension
     on DeploymentComponentUpdatePolicyAction {
   String toValue() {
     switch (this) {
@@ -1798,7 +1798,7 @@ enum DeploymentFailureHandlingPolicy {
   doNothing,
 }
 
-extension DeploymentFailureHandlingPolicyValue
+extension DeploymentFailureHandlingPolicyValueExtension
     on DeploymentFailureHandlingPolicy {
   String toValue() {
     switch (this) {
@@ -1828,7 +1828,7 @@ enum DeploymentHistoryFilter {
   latestOnly,
 }
 
-extension DeploymentHistoryFilterValue on DeploymentHistoryFilter {
+extension DeploymentHistoryFilterValueExtension on DeploymentHistoryFilter {
   String toValue() {
     switch (this) {
       case DeploymentHistoryFilter.all:
@@ -1962,7 +1962,7 @@ enum DeploymentStatus {
   inactive,
 }
 
-extension DeploymentStatusValue on DeploymentStatus {
+extension DeploymentStatusValueExtension on DeploymentStatus {
   String toValue() {
     switch (this) {
       case DeploymentStatus.active:
@@ -2149,7 +2149,7 @@ enum EffectiveDeploymentExecutionStatus {
   rejected,
 }
 
-extension EffectiveDeploymentExecutionStatusValue
+extension EffectiveDeploymentExecutionStatusValueExtension
     on EffectiveDeploymentExecutionStatus {
   String toValue() {
     switch (this) {
@@ -2456,7 +2456,7 @@ enum InstalledComponentLifecycleState {
   finished,
 }
 
-extension InstalledComponentLifecycleStateValue
+extension InstalledComponentLifecycleStateValueExtension
     on InstalledComponentLifecycleState {
   String toValue() {
     switch (this) {
@@ -2509,7 +2509,7 @@ enum IoTJobAbortAction {
   cancel,
 }
 
-extension IoTJobAbortActionValue on IoTJobAbortAction {
+extension IoTJobAbortActionValueExtension on IoTJobAbortAction {
   String toValue() {
     switch (this) {
       case IoTJobAbortAction.cancel:
@@ -2623,7 +2623,8 @@ enum IoTJobExecutionFailureType {
   all,
 }
 
-extension IoTJobExecutionFailureTypeValue on IoTJobExecutionFailureType {
+extension IoTJobExecutionFailureTypeValueExtension
+    on IoTJobExecutionFailureType {
   String toValue() {
     switch (this) {
       case IoTJobExecutionFailureType.failed:
@@ -2911,7 +2912,7 @@ enum LambdaEventSourceType {
   iotCore,
 }
 
-extension LambdaEventSourceTypeValue on LambdaEventSourceType {
+extension LambdaEventSourceTypeValueExtension on LambdaEventSourceType {
   String toValue() {
     switch (this) {
       case LambdaEventSourceType.pubSub:
@@ -3045,7 +3046,8 @@ enum LambdaFilesystemPermission {
   rw,
 }
 
-extension LambdaFilesystemPermissionValue on LambdaFilesystemPermission {
+extension LambdaFilesystemPermissionValueExtension
+    on LambdaFilesystemPermission {
   String toValue() {
     switch (this) {
       case LambdaFilesystemPermission.ro:
@@ -3132,7 +3134,7 @@ enum LambdaInputPayloadEncodingType {
   binary,
 }
 
-extension LambdaInputPayloadEncodingTypeValue
+extension LambdaInputPayloadEncodingTypeValueExtension
     on LambdaInputPayloadEncodingType {
   String toValue() {
     switch (this) {
@@ -3162,7 +3164,7 @@ enum LambdaIsolationMode {
   noContainer,
 }
 
-extension LambdaIsolationModeValue on LambdaIsolationMode {
+extension LambdaIsolationModeValueExtension on LambdaIsolationMode {
   String toValue() {
     switch (this) {
       case LambdaIsolationMode.greengrassContainer:
@@ -3416,7 +3418,7 @@ enum RecipeOutputFormat {
   yaml,
 }
 
-extension RecipeOutputFormatValue on RecipeOutputFormat {
+extension RecipeOutputFormatValueExtension on RecipeOutputFormat {
   String toValue() {
     switch (this) {
       case RecipeOutputFormat.json:

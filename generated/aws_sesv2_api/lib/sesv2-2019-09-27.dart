@@ -3569,7 +3569,7 @@ enum BehaviorOnMxFailure {
   rejectMessage,
 }
 
-extension BehaviorOnMxFailureValue on BehaviorOnMxFailure {
+extension BehaviorOnMxFailureValueExtension on BehaviorOnMxFailure {
   String toValue() {
     switch (this) {
       case BehaviorOnMxFailure.useDefaultValue:
@@ -3815,7 +3815,7 @@ enum BulkEmailStatus {
   failed,
 }
 
-extension BulkEmailStatusValue on BulkEmailStatus {
+extension BulkEmailStatusValueExtension on BulkEmailStatus {
   String toValue() {
     switch (this) {
       case BulkEmailStatus.success:
@@ -4029,7 +4029,7 @@ enum ContactLanguage {
   ja,
 }
 
-extension ContactLanguageValue on ContactLanguage {
+extension ContactLanguageValueExtension on ContactLanguage {
   String toValue() {
     switch (this) {
       case ContactLanguage.en:
@@ -4119,7 +4119,7 @@ enum ContactListImportAction {
   put,
 }
 
-extension ContactListImportActionValue on ContactListImportAction {
+extension ContactListImportActionValueExtension on ContactListImportAction {
   String toValue() {
     switch (this) {
       case ContactListImportAction.delete:
@@ -4396,7 +4396,7 @@ enum DataFormat {
   json,
 }
 
-extension DataFormatValue on DataFormat {
+extension DataFormatValueExtension on DataFormat {
   String toValue() {
     switch (this) {
       case DataFormat.csv:
@@ -4566,7 +4566,7 @@ enum DeliverabilityDashboardAccountStatus {
   disabled,
 }
 
-extension DeliverabilityDashboardAccountStatusValue
+extension DeliverabilityDashboardAccountStatusValueExtension
     on DeliverabilityDashboardAccountStatus {
   String toValue() {
     switch (this) {
@@ -4658,7 +4658,7 @@ enum DeliverabilityTestStatus {
   completed,
 }
 
-extension DeliverabilityTestStatusValue on DeliverabilityTestStatus {
+extension DeliverabilityTestStatusValueExtension on DeliverabilityTestStatus {
   String toValue() {
     switch (this) {
       case DeliverabilityTestStatus.inProgress:
@@ -4759,7 +4759,7 @@ enum DimensionValueSource {
   linkTag,
 }
 
-extension DimensionValueSourceValue on DimensionValueSource {
+extension DimensionValueSourceValueExtension on DimensionValueSource {
   String toValue() {
     switch (this) {
       case DimensionValueSource.messageTag:
@@ -4919,7 +4919,8 @@ enum DkimSigningAttributesOrigin {
   external,
 }
 
-extension DkimSigningAttributesOriginValue on DkimSigningAttributesOrigin {
+extension DkimSigningAttributesOriginValueExtension
+    on DkimSigningAttributesOrigin {
   String toValue() {
     switch (this) {
       case DkimSigningAttributesOrigin.awsSes:
@@ -4976,7 +4977,7 @@ enum DkimStatus {
   notStarted,
 }
 
-extension DkimStatusValue on DkimStatus {
+extension DkimStatusValueExtension on DkimStatus {
   String toValue() {
     switch (this) {
       case DkimStatus.pending:
@@ -5493,7 +5494,7 @@ enum EventType {
   subscription,
 }
 
-extension EventTypeValue on EventType {
+extension EventTypeValueExtension on EventType {
   String toValue() {
     switch (this) {
       case EventType.send:
@@ -6366,7 +6367,7 @@ enum IdentityType {
   managedDomain,
 }
 
-extension IdentityTypeValue on IdentityType {
+extension IdentityTypeValueExtension on IdentityType {
   String toValue() {
     switch (this) {
       case IdentityType.emailAddress:
@@ -6469,7 +6470,7 @@ enum ImportDestinationType {
   contactList,
 }
 
-extension ImportDestinationTypeValue on ImportDestinationType {
+extension ImportDestinationTypeValueExtension on ImportDestinationType {
   String toValue() {
     switch (this) {
       case ImportDestinationType.suppressionList:
@@ -6587,7 +6588,7 @@ enum JobStatus {
   failed,
 }
 
-extension JobStatusValue on JobStatus {
+extension JobStatusValueExtension on JobStatus {
   String toValue() {
     switch (this) {
       case JobStatus.created:
@@ -7110,7 +7111,7 @@ enum MailFromDomainStatus {
   temporaryFailure,
 }
 
-extension MailFromDomainStatusValue on MailFromDomainStatus {
+extension MailFromDomainStatusValueExtension on MailFromDomainStatus {
   String toValue() {
     switch (this) {
       case MailFromDomainStatus.pending:
@@ -7146,7 +7147,7 @@ enum MailType {
   transactional,
 }
 
-extension MailTypeValue on MailType {
+extension MailTypeValueExtension on MailType {
   String toValue() {
     switch (this) {
       case MailType.marketing:
@@ -7742,7 +7743,7 @@ enum ReviewStatus {
   denied,
 }
 
-extension ReviewStatusValue on ReviewStatus {
+extension ReviewStatusValueExtension on ReviewStatus {
   String toValue() {
     switch (this) {
       case ReviewStatus.pending:
@@ -7915,7 +7916,7 @@ enum SubscriptionStatus {
   optOut,
 }
 
-extension SubscriptionStatusValue on SubscriptionStatus {
+extension SubscriptionStatusValueExtension on SubscriptionStatus {
   String toValue() {
     switch (this) {
       case SubscriptionStatus.optIn:
@@ -8112,7 +8113,8 @@ enum SuppressionListImportAction {
   put,
 }
 
-extension SuppressionListImportActionValue on SuppressionListImportAction {
+extension SuppressionListImportActionValueExtension
+    on SuppressionListImportAction {
   String toValue() {
     switch (this) {
       case SuppressionListImportAction.delete:
@@ -8155,7 +8157,7 @@ enum SuppressionListReason {
   complaint,
 }
 
-extension SuppressionListReasonValue on SuppressionListReason {
+extension SuppressionListReasonValueExtension on SuppressionListReason {
   String toValue() {
     switch (this) {
       case SuppressionListReason.bounce:
@@ -8359,7 +8361,7 @@ enum TlsPolicy {
   optional,
 }
 
-extension TlsPolicyValue on TlsPolicy {
+extension TlsPolicyValueExtension on TlsPolicy {
   String toValue() {
     switch (this) {
       case TlsPolicy.require:
@@ -8614,7 +8616,7 @@ enum WarmupStatus {
   done,
 }
 
-extension WarmupStatusValue on WarmupStatus {
+extension WarmupStatusValueExtension on WarmupStatus {
   String toValue() {
     switch (this) {
       case WarmupStatus.inProgress:

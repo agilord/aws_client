@@ -4862,7 +4862,7 @@ enum ArtifactCategory {
   log,
 }
 
-extension ArtifactCategoryValue on ArtifactCategory {
+extension ArtifactCategoryValueExtension on ArtifactCategory {
   String toValue() {
     switch (this) {
       case ArtifactCategory.screenshot:
@@ -4920,7 +4920,7 @@ enum ArtifactType {
   testspecOutput,
 }
 
-extension ArtifactTypeValue on ArtifactType {
+extension ArtifactTypeValueExtension on ArtifactType {
   String toValue() {
     switch (this) {
       case ArtifactType.unknown:
@@ -5052,7 +5052,7 @@ enum BillingMethod {
   unmetered,
 }
 
-extension BillingMethodValue on BillingMethod {
+extension BillingMethodValueExtension on BillingMethod {
   String toValue() {
     switch (this) {
       case BillingMethod.metered:
@@ -5335,7 +5335,7 @@ enum CurrencyCode {
   usd,
 }
 
-extension CurrencyCodeValue on CurrencyCode {
+extension CurrencyCodeValueExtension on CurrencyCode {
   String toValue() {
     switch (this) {
       case CurrencyCode.usd:
@@ -5645,7 +5645,7 @@ enum DeviceAttribute {
   availability,
 }
 
-extension DeviceAttributeValue on DeviceAttribute {
+extension DeviceAttributeValueExtension on DeviceAttribute {
   String toValue() {
     switch (this) {
       case DeviceAttribute.arn:
@@ -5719,7 +5719,7 @@ enum DeviceAvailability {
   highlyAvailable,
 }
 
-extension DeviceAvailabilityValue on DeviceAvailability {
+extension DeviceAvailabilityValueExtension on DeviceAvailability {
   String toValue() {
     switch (this) {
       case DeviceAvailability.temporaryNotAvailable:
@@ -5908,7 +5908,7 @@ enum DeviceFilterAttribute {
   fleetType,
 }
 
-extension DeviceFilterAttributeValue on DeviceFilterAttribute {
+extension DeviceFilterAttributeValueExtension on DeviceFilterAttribute {
   String toValue() {
     switch (this) {
       case DeviceFilterAttribute.arn:
@@ -5976,7 +5976,7 @@ enum DeviceFormFactor {
   tablet,
 }
 
-extension DeviceFormFactorValue on DeviceFormFactor {
+extension DeviceFormFactorValueExtension on DeviceFormFactor {
   String toValue() {
     switch (this) {
       case DeviceFormFactor.phone:
@@ -6079,7 +6079,7 @@ enum DevicePlatform {
   ios,
 }
 
-extension DevicePlatformValue on DevicePlatform {
+extension DevicePlatformValueExtension on DevicePlatform {
   String toValue() {
     switch (this) {
       case DevicePlatform.android:
@@ -6200,7 +6200,7 @@ enum DevicePoolType {
   private,
 }
 
-extension DevicePoolTypeValue on DevicePoolType {
+extension DevicePoolTypeValueExtension on DevicePoolType {
   String toValue() {
     switch (this) {
       case DevicePoolType.curated:
@@ -6448,7 +6448,7 @@ enum ExecutionResult {
   stopped,
 }
 
-extension ExecutionResultValue on ExecutionResult {
+extension ExecutionResultValueExtension on ExecutionResult {
   String toValue() {
     switch (this) {
       case ExecutionResult.pending:
@@ -6496,7 +6496,7 @@ enum ExecutionResultCode {
   vpcEndpointSetupFailed,
 }
 
-extension ExecutionResultCodeValue on ExecutionResultCode {
+extension ExecutionResultCodeValueExtension on ExecutionResultCode {
   String toValue() {
     switch (this) {
       case ExecutionResultCode.parsingFailed:
@@ -6531,7 +6531,7 @@ enum ExecutionStatus {
   stopping,
 }
 
-extension ExecutionStatusValue on ExecutionStatus {
+extension ExecutionStatusValueExtension on ExecutionStatus {
   String toValue() {
     switch (this) {
       case ExecutionStatus.pending:
@@ -7033,7 +7033,7 @@ enum InstanceStatus {
   notAvailable,
 }
 
-extension InstanceStatusValue on InstanceStatus {
+extension InstanceStatusValueExtension on InstanceStatus {
   String toValue() {
     switch (this) {
       case InstanceStatus.inUse:
@@ -7070,7 +7070,7 @@ enum InteractionMode {
   videoOnly,
 }
 
-extension InteractionModeValue on InteractionMode {
+extension InteractionModeValueExtension on InteractionMode {
   String toValue() {
     switch (this) {
       case InteractionMode.interactive:
@@ -8048,7 +8048,7 @@ enum NetworkProfileType {
   private,
 }
 
-extension NetworkProfileTypeValue on NetworkProfileType {
+extension NetworkProfileTypeValueExtension on NetworkProfileType {
   String toValue() {
     switch (this) {
       case NetworkProfileType.curated:
@@ -8208,7 +8208,7 @@ enum OfferingTransactionType {
   system,
 }
 
-extension OfferingTransactionTypeValue on OfferingTransactionType {
+extension OfferingTransactionTypeValueExtension on OfferingTransactionType {
   String toValue() {
     switch (this) {
       case OfferingTransactionType.purchase:
@@ -8239,7 +8239,7 @@ enum OfferingType {
   recurring,
 }
 
-extension OfferingTypeValue on OfferingType {
+extension OfferingTypeValueExtension on OfferingType {
   String toValue() {
     switch (this) {
       case OfferingType.recurring:
@@ -8479,7 +8479,7 @@ enum RecurringChargeFrequency {
   monthly,
 }
 
-extension RecurringChargeFrequencyValue on RecurringChargeFrequency {
+extension RecurringChargeFrequencyValueExtension on RecurringChargeFrequency {
   String toValue() {
     switch (this) {
       case RecurringChargeFrequency.monthly:
@@ -8884,7 +8884,7 @@ enum RuleOperator {
   contains,
 }
 
-extension RuleOperatorValue on RuleOperator {
+extension RuleOperatorValueExtension on RuleOperator {
   String toValue() {
     switch (this) {
       case RuleOperator.equals:
@@ -9372,7 +9372,7 @@ enum SampleType {
   openglMaxDrawtime,
 }
 
-extension SampleTypeValue on SampleType {
+extension SampleTypeValueExtension on SampleType {
   String toValue() {
     switch (this) {
       case SampleType.cpu:
@@ -10398,7 +10398,7 @@ enum TestGridSessionArtifactCategory {
   log,
 }
 
-extension TestGridSessionArtifactCategoryValue
+extension TestGridSessionArtifactCategoryValueExtension
     on TestGridSessionArtifactCategory {
   String toValue() {
     switch (this) {
@@ -10429,7 +10429,8 @@ enum TestGridSessionArtifactType {
   seleniumLog,
 }
 
-extension TestGridSessionArtifactTypeValue on TestGridSessionArtifactType {
+extension TestGridSessionArtifactTypeValueExtension
+    on TestGridSessionArtifactType {
   String toValue() {
     switch (this) {
       case TestGridSessionArtifactType.unknown:
@@ -10462,7 +10463,7 @@ enum TestGridSessionStatus {
   errored,
 }
 
-extension TestGridSessionStatusValue on TestGridSessionStatus {
+extension TestGridSessionStatusValueExtension on TestGridSessionStatus {
   String toValue() {
     switch (this) {
       case TestGridSessionStatus.active:
@@ -10513,7 +10514,7 @@ enum TestType {
   remoteAccessReplay,
 }
 
-extension TestTypeValue on TestType {
+extension TestTypeValueExtension on TestType {
   String toValue() {
     switch (this) {
       case TestType.builtinFuzz:
@@ -10993,7 +10994,7 @@ enum UploadCategory {
   private,
 }
 
-extension UploadCategoryValue on UploadCategory {
+extension UploadCategoryValueExtension on UploadCategory {
   String toValue() {
     switch (this) {
       case UploadCategory.curated:
@@ -11023,7 +11024,7 @@ enum UploadStatus {
   failed,
 }
 
-extension UploadStatusValue on UploadStatus {
+extension UploadStatusValueExtension on UploadStatus {
   String toValue() {
     switch (this) {
       case UploadStatus.initialized:
@@ -11089,7 +11090,7 @@ enum UploadType {
   xctestUiTestSpec,
 }
 
-extension UploadTypeValue on UploadType {
+extension UploadTypeValueExtension on UploadType {
   String toValue() {
     switch (this) {
       case UploadType.androidApp:

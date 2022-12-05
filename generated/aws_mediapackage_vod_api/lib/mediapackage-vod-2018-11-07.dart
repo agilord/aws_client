@@ -549,7 +549,7 @@ enum AdMarkers {
   passthrough,
 }
 
-extension AdMarkersValue on AdMarkers {
+extension AdMarkersValueExtension on AdMarkers {
   String toValue() {
     switch (this) {
       case AdMarkers.none:
@@ -1195,7 +1195,7 @@ enum EncryptionMethod {
   sampleAes,
 }
 
-extension EncryptionMethodValue on EncryptionMethod {
+extension EncryptionMethodValueExtension on EncryptionMethod {
   String toValue() {
     switch (this) {
       case EncryptionMethod.aes_128:
@@ -1477,7 +1477,7 @@ enum ManifestLayout {
   compact,
 }
 
-extension ManifestLayoutValue on ManifestLayout {
+extension ManifestLayoutValueExtension on ManifestLayout {
   String toValue() {
     switch (this) {
       case ManifestLayout.full:
@@ -1681,7 +1681,7 @@ enum Profile {
   hbbtv_1_5,
 }
 
-extension ProfileValue on Profile {
+extension ProfileValueExtension on Profile {
   String toValue() {
     switch (this) {
       case Profile.none:
@@ -1710,7 +1710,7 @@ enum SegmentTemplateFormat {
   numberWithDuration,
 }
 
-extension SegmentTemplateFormatValue on SegmentTemplateFormat {
+extension SegmentTemplateFormatValueExtension on SegmentTemplateFormat {
   String toValue() {
     switch (this) {
       case SegmentTemplateFormat.numberWithTimeline:
@@ -1784,7 +1784,7 @@ enum StreamOrder {
   videoBitrateDescending,
 }
 
-extension StreamOrderValue on StreamOrder {
+extension StreamOrderValueExtension on StreamOrder {
   String toValue() {
     switch (this) {
       case StreamOrder.original:
@@ -1887,7 +1887,7 @@ enum PeriodTriggersElement {
   ads,
 }
 
-extension PeriodTriggersElementValue on PeriodTriggersElement {
+extension PeriodTriggersElementValueExtension on PeriodTriggersElement {
   String toValue() {
     switch (this) {
       case PeriodTriggersElement.ads:

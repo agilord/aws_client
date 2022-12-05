@@ -4563,7 +4563,7 @@ enum ActivityTaskTimeoutType {
   heartbeat,
 }
 
-extension ActivityTaskTimeoutTypeValue on ActivityTaskTimeoutType {
+extension ActivityTaskTimeoutTypeValueExtension on ActivityTaskTimeoutType {
   String toValue() {
     switch (this) {
       case ActivityTaskTimeoutType.startToClose:
@@ -4874,7 +4874,7 @@ enum CancelTimerFailedCause {
   operationNotPermitted,
 }
 
-extension CancelTimerFailedCauseValue on CancelTimerFailedCause {
+extension CancelTimerFailedCauseValueExtension on CancelTimerFailedCause {
   String toValue() {
     switch (this) {
       case CancelTimerFailedCause.timerIdUnknown:
@@ -4982,7 +4982,7 @@ enum CancelWorkflowExecutionFailedCause {
   operationNotPermitted,
 }
 
-extension CancelWorkflowExecutionFailedCauseValue
+extension CancelWorkflowExecutionFailedCauseValueExtension
     on CancelWorkflowExecutionFailedCause {
   String toValue() {
     switch (this) {
@@ -5048,7 +5048,7 @@ enum ChildPolicy {
   abandon,
 }
 
-extension ChildPolicyValue on ChildPolicy {
+extension ChildPolicyValueExtension on ChildPolicy {
   String toValue() {
     switch (this) {
       case ChildPolicy.terminate:
@@ -5347,7 +5347,7 @@ enum CloseStatus {
   timedOut,
 }
 
-extension CloseStatusValue on CloseStatus {
+extension CloseStatusValueExtension on CloseStatus {
   String toValue() {
     switch (this) {
       case CloseStatus.completed:
@@ -5453,7 +5453,7 @@ enum CompleteWorkflowExecutionFailedCause {
   operationNotPermitted,
 }
 
-extension CompleteWorkflowExecutionFailedCauseValue
+extension CompleteWorkflowExecutionFailedCauseValueExtension
     on CompleteWorkflowExecutionFailedCause {
   String toValue() {
     switch (this) {
@@ -5699,7 +5699,7 @@ enum ContinueAsNewWorkflowExecutionFailedCause {
   operationNotPermitted,
 }
 
-extension ContinueAsNewWorkflowExecutionFailedCauseValue
+extension ContinueAsNewWorkflowExecutionFailedCauseValueExtension
     on ContinueAsNewWorkflowExecutionFailedCause {
   String toValue() {
     switch (this) {
@@ -6371,7 +6371,7 @@ enum DecisionTaskTimeoutType {
   startToClose,
 }
 
-extension DecisionTaskTimeoutTypeValue on DecisionTaskTimeoutType {
+extension DecisionTaskTimeoutTypeValueExtension on DecisionTaskTimeoutType {
   String toValue() {
     switch (this) {
       case DecisionTaskTimeoutType.startToClose:
@@ -6406,7 +6406,7 @@ enum DecisionType {
   scheduleLambdaFunction,
 }
 
-extension DecisionTypeValue on DecisionType {
+extension DecisionTypeValueExtension on DecisionType {
   String toValue() {
     switch (this) {
       case DecisionType.scheduleActivityTask:
@@ -6642,7 +6642,7 @@ enum EventType {
   startLambdaFunctionFailed,
 }
 
-extension EventTypeValue on EventType {
+extension EventTypeValueExtension on EventType {
   String toValue() {
     switch (this) {
       case EventType.workflowExecutionStarted:
@@ -6878,7 +6878,7 @@ enum ExecutionStatus {
   closed,
 }
 
-extension ExecutionStatusValue on ExecutionStatus {
+extension ExecutionStatusValueExtension on ExecutionStatus {
   String toValue() {
     switch (this) {
       case ExecutionStatus.open:
@@ -7035,7 +7035,7 @@ enum FailWorkflowExecutionFailedCause {
   operationNotPermitted,
 }
 
-extension FailWorkflowExecutionFailedCauseValue
+extension FailWorkflowExecutionFailedCauseValueExtension
     on FailWorkflowExecutionFailedCause {
   String toValue() {
     switch (this) {
@@ -8210,7 +8210,7 @@ enum LambdaFunctionTimeoutType {
   startToClose,
 }
 
-extension LambdaFunctionTimeoutTypeValue on LambdaFunctionTimeoutType {
+extension LambdaFunctionTimeoutTypeValueExtension on LambdaFunctionTimeoutType {
   String toValue() {
     switch (this) {
       case LambdaFunctionTimeoutType.startToClose:
@@ -8348,7 +8348,7 @@ enum RecordMarkerFailedCause {
   operationNotPermitted,
 }
 
-extension RecordMarkerFailedCauseValue on RecordMarkerFailedCause {
+extension RecordMarkerFailedCauseValueExtension on RecordMarkerFailedCause {
   String toValue() {
     switch (this) {
       case RecordMarkerFailedCause.operationNotPermitted:
@@ -8410,7 +8410,7 @@ enum RegistrationStatus {
   deprecated,
 }
 
-extension RegistrationStatusValue on RegistrationStatus {
+extension RegistrationStatusValueExtension on RegistrationStatus {
   String toValue() {
     switch (this) {
       case RegistrationStatus.registered:
@@ -8481,7 +8481,7 @@ enum RequestCancelActivityTaskFailedCause {
   operationNotPermitted,
 }
 
-extension RequestCancelActivityTaskFailedCauseValue
+extension RequestCancelActivityTaskFailedCauseValueExtension
     on RequestCancelActivityTaskFailedCause {
   String toValue() {
     switch (this) {
@@ -8611,7 +8611,7 @@ enum RequestCancelExternalWorkflowExecutionFailedCause {
   operationNotPermitted,
 }
 
-extension RequestCancelExternalWorkflowExecutionFailedCauseValue
+extension RequestCancelExternalWorkflowExecutionFailedCauseValueExtension
     on RequestCancelExternalWorkflowExecutionFailedCause {
   String toValue() {
     switch (this) {
@@ -8997,7 +8997,7 @@ enum ScheduleActivityTaskFailedCause {
   operationNotPermitted,
 }
 
-extension ScheduleActivityTaskFailedCauseValue
+extension ScheduleActivityTaskFailedCauseValueExtension
     on ScheduleActivityTaskFailedCause {
   String toValue() {
     switch (this) {
@@ -9163,7 +9163,7 @@ enum ScheduleLambdaFunctionFailedCause {
   lambdaServiceNotAvailableInRegion,
 }
 
-extension ScheduleLambdaFunctionFailedCauseValue
+extension ScheduleLambdaFunctionFailedCauseValueExtension
     on ScheduleLambdaFunctionFailedCause {
   String toValue() {
     switch (this) {
@@ -9321,7 +9321,7 @@ enum SignalExternalWorkflowExecutionFailedCause {
   operationNotPermitted,
 }
 
-extension SignalExternalWorkflowExecutionFailedCauseValue
+extension SignalExternalWorkflowExecutionFailedCauseValueExtension
     on SignalExternalWorkflowExecutionFailedCause {
   String toValue() {
     switch (this) {
@@ -9686,7 +9686,7 @@ enum StartChildWorkflowExecutionFailedCause {
   operationNotPermitted,
 }
 
-extension StartChildWorkflowExecutionFailedCauseValue
+extension StartChildWorkflowExecutionFailedCauseValueExtension
     on StartChildWorkflowExecutionFailedCause {
   String toValue() {
     switch (this) {
@@ -9944,7 +9944,7 @@ enum StartLambdaFunctionFailedCause {
   assumeRoleFailed,
 }
 
-extension StartLambdaFunctionFailedCauseValue
+extension StartLambdaFunctionFailedCauseValueExtension
     on StartLambdaFunctionFailedCause {
   String toValue() {
     switch (this) {
@@ -10074,7 +10074,7 @@ enum StartTimerFailedCause {
   operationNotPermitted,
 }
 
-extension StartTimerFailedCauseValue on StartTimerFailedCause {
+extension StartTimerFailedCauseValueExtension on StartTimerFailedCause {
   String toValue() {
     switch (this) {
       case StartTimerFailedCause.timerIdAlreadyInUse:
@@ -10306,7 +10306,7 @@ enum WorkflowExecutionCancelRequestedCause {
   childPolicyApplied,
 }
 
-extension WorkflowExecutionCancelRequestedCauseValue
+extension WorkflowExecutionCancelRequestedCauseValueExtension
     on WorkflowExecutionCancelRequestedCause {
   String toValue() {
     switch (this) {
@@ -11040,7 +11040,7 @@ enum WorkflowExecutionTerminatedCause {
   operatorInitiated,
 }
 
-extension WorkflowExecutionTerminatedCauseValue
+extension WorkflowExecutionTerminatedCauseValueExtension
     on WorkflowExecutionTerminatedCause {
   String toValue() {
     switch (this) {
@@ -11167,7 +11167,8 @@ enum WorkflowExecutionTimeoutType {
   startToClose,
 }
 
-extension WorkflowExecutionTimeoutTypeValue on WorkflowExecutionTimeoutType {
+extension WorkflowExecutionTimeoutTypeValueExtension
+    on WorkflowExecutionTimeoutType {
   String toValue() {
     switch (this) {
       case WorkflowExecutionTimeoutType.startToClose:

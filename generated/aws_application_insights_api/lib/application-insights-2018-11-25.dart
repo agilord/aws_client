@@ -1783,7 +1783,7 @@ enum CloudWatchEventSource {
   rds,
 }
 
-extension CloudWatchEventSourceValue on CloudWatchEventSource {
+extension CloudWatchEventSourceValueExtension on CloudWatchEventSource {
   String toValue() {
     switch (this) {
       case CloudWatchEventSource.ec2:
@@ -1865,7 +1865,7 @@ enum ConfigurationEventResourceType {
   ssmAssociation,
 }
 
-extension ConfigurationEventResourceTypeValue
+extension ConfigurationEventResourceTypeValueExtension
     on ConfigurationEventResourceType {
   String toValue() {
     switch (this) {
@@ -1904,7 +1904,7 @@ enum ConfigurationEventStatus {
   error,
 }
 
-extension ConfigurationEventStatusValue on ConfigurationEventStatus {
+extension ConfigurationEventStatusValueExtension on ConfigurationEventStatus {
   String toValue() {
     switch (this) {
       case ConfigurationEventStatus.info:
@@ -2157,7 +2157,7 @@ enum FeedbackKey {
   insightsFeedback,
 }
 
-extension FeedbackKeyValue on FeedbackKey {
+extension FeedbackKeyValueExtension on FeedbackKey {
   String toValue() {
     switch (this) {
       case FeedbackKey.insightsFeedback:
@@ -2182,7 +2182,7 @@ enum FeedbackValue {
   notUseful,
 }
 
-extension FeedbackValueValue on FeedbackValue {
+extension FeedbackValueValueExtension on FeedbackValue {
   String toValue() {
     switch (this) {
       case FeedbackValue.notSpecified:
@@ -2385,7 +2385,7 @@ enum LogFilter {
   info,
 }
 
-extension LogFilterValue on LogFilter {
+extension LogFilterValueExtension on LogFilter {
   String toValue() {
     switch (this) {
       case LogFilter.error:
@@ -2712,7 +2712,7 @@ enum OsType {
   linux,
 }
 
-extension OsTypeValue on OsType {
+extension OsTypeValueExtension on OsType {
   String toValue() {
     switch (this) {
       case OsType.windows:
@@ -2820,7 +2820,7 @@ enum SeverityLevel {
   high,
 }
 
-extension SeverityLevelValue on SeverityLevel {
+extension SeverityLevelValueExtension on SeverityLevel {
   String toValue() {
     switch (this) {
       case SeverityLevel.low:
@@ -2853,7 +2853,7 @@ enum Status {
   pending,
 }
 
-extension StatusValue on Status {
+extension StatusValueExtension on Status {
   String toValue() {
     switch (this) {
       case Status.ignore:
@@ -2962,7 +2962,7 @@ enum Tier {
   oracle,
 }
 
-extension TierValue on Tier {
+extension TierValueExtension on Tier {
   String toValue() {
     switch (this) {
       case Tier.custom:

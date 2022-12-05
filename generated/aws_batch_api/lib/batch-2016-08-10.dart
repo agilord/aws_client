@@ -1234,7 +1234,7 @@ enum ArrayJobDependency {
   sequential,
 }
 
-extension ArrayJobDependencyValue on ArrayJobDependency {
+extension ArrayJobDependencyValueExtension on ArrayJobDependency {
   String toValue() {
     switch (this) {
       case ArrayJobDependency.nToN:
@@ -1327,7 +1327,7 @@ enum AssignPublicIp {
   disabled,
 }
 
-extension AssignPublicIpValue on AssignPublicIp {
+extension AssignPublicIpValueExtension on AssignPublicIp {
   String toValue() {
     switch (this) {
       case AssignPublicIp.enabled:
@@ -1445,7 +1445,7 @@ enum CEState {
   disabled,
 }
 
-extension CEStateValue on CEState {
+extension CEStateValueExtension on CEState {
   String toValue() {
     switch (this) {
       case CEState.enabled:
@@ -1477,7 +1477,7 @@ enum CEStatus {
   invalid,
 }
 
-extension CEStatusValue on CEStatus {
+extension CEStatusValueExtension on CEStatus {
   String toValue() {
     switch (this) {
       case CEStatus.creating:
@@ -1521,7 +1521,7 @@ enum CEType {
   unmanaged,
 }
 
-extension CETypeValue on CEType {
+extension CETypeValueExtension on CEType {
   String toValue() {
     switch (this) {
       case CEType.managed:
@@ -1550,7 +1550,7 @@ enum CRAllocationStrategy {
   spotCapacityOptimized,
 }
 
-extension CRAllocationStrategyValue on CRAllocationStrategy {
+extension CRAllocationStrategyValueExtension on CRAllocationStrategy {
   String toValue() {
     switch (this) {
       case CRAllocationStrategy.bestFit:
@@ -1584,7 +1584,7 @@ enum CRType {
   fargateSpot,
 }
 
-extension CRTypeValue on CRType {
+extension CRTypeValueExtension on CRType {
   String toValue() {
     switch (this) {
       case CRType.ec2:
@@ -3162,7 +3162,7 @@ enum DeviceCgroupPermission {
   mknod,
 }
 
-extension DeviceCgroupPermissionValue on DeviceCgroupPermission {
+extension DeviceCgroupPermissionValueExtension on DeviceCgroupPermission {
   String toValue() {
     switch (this) {
       case DeviceCgroupPermission.read:
@@ -3376,7 +3376,7 @@ enum JQState {
   disabled,
 }
 
-extension JQStateValue on JQState {
+extension JQStateValueExtension on JQState {
   String toValue() {
     switch (this) {
       case JQState.enabled:
@@ -3408,7 +3408,7 @@ enum JQStatus {
   invalid,
 }
 
-extension JQStatusValue on JQStatus {
+extension JQStatusValueExtension on JQStatus {
   String toValue() {
     switch (this) {
       case JQStatus.creating:
@@ -3567,7 +3567,7 @@ enum JobDefinitionType {
   multinode,
 }
 
-extension JobDefinitionTypeValue on JobDefinitionType {
+extension JobDefinitionTypeValueExtension on JobDefinitionType {
   String toValue() {
     switch (this) {
       case JobDefinitionType.container:
@@ -3878,7 +3878,7 @@ enum JobStatus {
   failed,
 }
 
-extension JobStatusValue on JobStatus {
+extension JobStatusValueExtension on JobStatus {
   String toValue() {
     switch (this) {
       case JobStatus.submitted:
@@ -4424,7 +4424,7 @@ enum LogDriver {
   splunk,
 }
 
-extension LogDriverValue on LogDriver {
+extension LogDriverValueExtension on LogDriver {
   String toValue() {
     switch (this) {
       case LogDriver.jsonFile:
@@ -4776,7 +4776,7 @@ enum PlatformCapability {
   fargate,
 }
 
-extension PlatformCapabilityValue on PlatformCapability {
+extension PlatformCapabilityValueExtension on PlatformCapability {
   String toValue() {
     switch (this) {
       case PlatformCapability.ec2:
@@ -4947,7 +4947,7 @@ enum ResourceType {
   memory,
 }
 
-extension ResourceTypeValue on ResourceType {
+extension ResourceTypeValueExtension on ResourceType {
   String toValue() {
     switch (this) {
       case ResourceType.gpu:
@@ -4979,7 +4979,7 @@ enum RetryAction {
   exit,
 }
 
-extension RetryActionValue on RetryAction {
+extension RetryActionValueExtension on RetryAction {
   String toValue() {
     switch (this) {
       case RetryAction.retry:

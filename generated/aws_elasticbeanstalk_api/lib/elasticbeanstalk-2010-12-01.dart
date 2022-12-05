@@ -3099,7 +3099,7 @@ enum ActionHistoryStatus {
   unknown,
 }
 
-extension ActionHistoryStatusValue on ActionHistoryStatus {
+extension ActionHistoryStatusValueExtension on ActionHistoryStatus {
   String toValue() {
     switch (this) {
       case ActionHistoryStatus.completed:
@@ -3133,7 +3133,7 @@ enum ActionStatus {
   unknown,
 }
 
-extension ActionStatusValue on ActionStatus {
+extension ActionStatusValueExtension on ActionStatus {
   String toValue() {
     switch (this) {
       case ActionStatus.scheduled:
@@ -3170,7 +3170,7 @@ enum ActionType {
   unknown,
 }
 
-extension ActionTypeValue on ActionType {
+extension ActionTypeValueExtension on ActionType {
   String toValue() {
     switch (this) {
       case ActionType.instanceRefresh:
@@ -3584,7 +3584,7 @@ enum ApplicationVersionStatus {
   building,
 }
 
-extension ApplicationVersionStatusValue on ApplicationVersionStatus {
+extension ApplicationVersionStatusValueExtension on ApplicationVersionStatus {
   String toValue() {
     switch (this) {
       case ApplicationVersionStatus.processed:
@@ -3850,7 +3850,7 @@ enum ComputeType {
   buildGeneral1Large,
 }
 
-extension ComputeTypeValue on ComputeType {
+extension ComputeTypeValueExtension on ComputeType {
   String toValue() {
     switch (this) {
       case ComputeType.buildGeneral1Small:
@@ -3883,7 +3883,8 @@ enum ConfigurationDeploymentStatus {
   failed,
 }
 
-extension ConfigurationDeploymentStatusValue on ConfigurationDeploymentStatus {
+extension ConfigurationDeploymentStatusValueExtension
+    on ConfigurationDeploymentStatus {
   String toValue() {
     switch (this) {
       case ConfigurationDeploymentStatus.deployed:
@@ -4093,7 +4094,8 @@ enum ConfigurationOptionValueType {
   list,
 }
 
-extension ConfigurationOptionValueTypeValue on ConfigurationOptionValueType {
+extension ConfigurationOptionValueTypeValueExtension
+    on ConfigurationOptionValueType {
   String toValue() {
     switch (this) {
       case ConfigurationOptionValueType.scalar:
@@ -4782,7 +4784,7 @@ enum EnvironmentHealth {
   grey,
 }
 
-extension EnvironmentHealthValue on EnvironmentHealth {
+extension EnvironmentHealthValueExtension on EnvironmentHealth {
   String toValue() {
     switch (this) {
       case EnvironmentHealth.green:
@@ -4824,7 +4826,8 @@ enum EnvironmentHealthAttribute {
   refreshedAt,
 }
 
-extension EnvironmentHealthAttributeValue on EnvironmentHealthAttribute {
+extension EnvironmentHealthAttributeValueExtension
+    on EnvironmentHealthAttribute {
   String toValue() {
     switch (this) {
       case EnvironmentHealthAttribute.status:
@@ -4883,7 +4886,7 @@ enum EnvironmentHealthStatus {
   suspended,
 }
 
-extension EnvironmentHealthStatusValue on EnvironmentHealthStatus {
+extension EnvironmentHealthStatusValueExtension on EnvironmentHealthStatus {
   String toValue() {
     switch (this) {
       case EnvironmentHealthStatus.noData:
@@ -4974,7 +4977,7 @@ enum EnvironmentInfoType {
   bundle,
 }
 
-extension EnvironmentInfoTypeValue on EnvironmentInfoType {
+extension EnvironmentInfoTypeValueExtension on EnvironmentInfoType {
   String toValue() {
     switch (this) {
       case EnvironmentInfoType.tail:
@@ -5137,7 +5140,7 @@ enum EnvironmentStatus {
   terminated,
 }
 
-extension EnvironmentStatusValue on EnvironmentStatus {
+extension EnvironmentStatusValueExtension on EnvironmentStatus {
   String toValue() {
     switch (this) {
       case EnvironmentStatus.aborting:
@@ -5336,7 +5339,7 @@ enum EventSeverity {
   fatal,
 }
 
-extension EventSeverityValue on EventSeverity {
+extension EventSeverityValueExtension on EventSeverity {
   String toValue() {
     switch (this) {
       case EventSeverity.trace:
@@ -5385,7 +5388,7 @@ enum FailureType {
   permissionsError,
 }
 
-extension FailureTypeValue on FailureType {
+extension FailureTypeValueExtension on FailureType {
   String toValue() {
     switch (this) {
       case FailureType.updateCancelled:
@@ -5517,7 +5520,7 @@ enum InstancesHealthAttribute {
   all,
 }
 
-extension InstancesHealthAttributeValue on InstancesHealthAttribute {
+extension InstancesHealthAttributeValueExtension on InstancesHealthAttribute {
   String toValue() {
     switch (this) {
       case InstancesHealthAttribute.healthStatus:
@@ -6325,7 +6328,7 @@ enum PlatformStatus {
   deleted,
 }
 
-extension PlatformStatusValue on PlatformStatus {
+extension PlatformStatusValueExtension on PlatformStatus {
   String toValue() {
     switch (this) {
       case PlatformStatus.creating:
@@ -6839,7 +6842,7 @@ enum SourceRepository {
   s3,
 }
 
-extension SourceRepositoryValue on SourceRepository {
+extension SourceRepositoryValueExtension on SourceRepository {
   String toValue() {
     switch (this) {
       case SourceRepository.codeCommit:
@@ -6867,7 +6870,7 @@ enum SourceType {
   zip,
 }
 
-extension SourceTypeValue on SourceType {
+extension SourceTypeValueExtension on SourceType {
   String toValue() {
     switch (this) {
       case SourceType.git:
@@ -7045,7 +7048,7 @@ enum ValidationSeverity {
   warning,
 }
 
-extension ValidationSeverityValue on ValidationSeverity {
+extension ValidationSeverityValueExtension on ValidationSeverity {
   String toValue() {
     switch (this) {
       case ValidationSeverity.error:

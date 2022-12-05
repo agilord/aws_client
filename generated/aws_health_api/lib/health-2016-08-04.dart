@@ -2103,7 +2103,7 @@ enum EntityStatusCode {
   unknown,
 }
 
-extension EntityStatusCodeValue on EntityStatusCode {
+extension EntityStatusCodeValueExtension on EntityStatusCode {
   String toValue() {
     switch (this) {
       case EntityStatusCode.impaired:
@@ -2134,7 +2134,7 @@ enum EventAggregateField {
   eventTypeCategory,
 }
 
-extension EventAggregateFieldValue on EventAggregateField {
+extension EventAggregateFieldValueExtension on EventAggregateField {
   String toValue() {
     switch (this) {
       case EventAggregateField.eventTypeCategory:
@@ -2159,7 +2159,7 @@ enum EventScopeCode {
   none,
 }
 
-extension EventScopeCodeValue on EventScopeCode {
+extension EventScopeCodeValueExtension on EventScopeCode {
   String toValue() {
     switch (this) {
       case EventScopeCode.public:
@@ -2192,7 +2192,7 @@ enum EventStatusCode {
   upcoming,
 }
 
-extension EventStatusCodeValue on EventStatusCode {
+extension EventStatusCodeValueExtension on EventStatusCode {
   String toValue() {
     switch (this) {
       case EventStatusCode.open:
@@ -2226,7 +2226,7 @@ enum EventTypeCategory {
   investigation,
 }
 
-extension EventTypeCategoryValue on EventTypeCategory {
+extension EventTypeCategoryValueExtension on EventTypeCategory {
   String toValue() {
     switch (this) {
       case EventTypeCategory.issue:

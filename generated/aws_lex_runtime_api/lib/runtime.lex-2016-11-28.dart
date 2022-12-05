@@ -977,7 +977,7 @@ enum ConfirmationStatus {
   denied,
 }
 
-extension ConfirmationStatusValue on ConfirmationStatus {
+extension ConfirmationStatusValueExtension on ConfirmationStatus {
   String toValue() {
     switch (this) {
       case ConfirmationStatus.none:
@@ -1008,7 +1008,7 @@ enum ContentType {
   applicationVndAmazonawsCardGeneric,
 }
 
-extension ContentTypeValue on ContentType {
+extension ContentTypeValueExtension on ContentType {
   String toValue() {
     switch (this) {
       case ContentType.applicationVndAmazonawsCardGeneric:
@@ -1193,7 +1193,7 @@ enum DialogActionType {
   delegate,
 }
 
-extension DialogActionTypeValue on DialogActionType {
+extension DialogActionTypeValueExtension on DialogActionType {
   String toValue() {
     switch (this) {
       case DialogActionType.elicitIntent:
@@ -1237,7 +1237,7 @@ enum DialogState {
   failed,
 }
 
-extension DialogStateValue on DialogState {
+extension DialogStateValueExtension on DialogState {
   String toValue() {
     switch (this) {
       case DialogState.elicitIntent:
@@ -1282,7 +1282,7 @@ enum FulfillmentState {
   readyForFulfillment,
 }
 
-extension FulfillmentStateValue on FulfillmentState {
+extension FulfillmentStateValueExtension on FulfillmentState {
   String toValue() {
     switch (this) {
       case FulfillmentState.fulfilled:
@@ -1564,7 +1564,7 @@ enum MessageFormatType {
   composite,
 }
 
-extension MessageFormatTypeValue on MessageFormatType {
+extension MessageFormatTypeValueExtension on MessageFormatType {
   String toValue() {
     switch (this) {
       case MessageFormatType.plainText:

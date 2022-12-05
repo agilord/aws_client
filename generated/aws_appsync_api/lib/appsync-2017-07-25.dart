@@ -2404,7 +2404,7 @@ enum ApiCacheStatus {
   failed,
 }
 
-extension ApiCacheStatusValue on ApiCacheStatus {
+extension ApiCacheStatusValueExtension on ApiCacheStatus {
   String toValue() {
     switch (this) {
       case ApiCacheStatus.available:
@@ -2457,7 +2457,7 @@ enum ApiCacheType {
   large_12x,
 }
 
-extension ApiCacheTypeValue on ApiCacheType {
+extension ApiCacheTypeValueExtension on ApiCacheType {
   String toValue() {
     switch (this) {
       case ApiCacheType.t2Small:
@@ -2537,7 +2537,7 @@ enum ApiCachingBehavior {
   perResolverCaching,
 }
 
-extension ApiCachingBehaviorValue on ApiCachingBehavior {
+extension ApiCachingBehaviorValueExtension on ApiCachingBehavior {
   String toValue() {
     switch (this) {
       case ApiCachingBehavior.fullRequestCaching:
@@ -2659,7 +2659,7 @@ enum AuthenticationType {
   openidConnect,
 }
 
-extension AuthenticationTypeValue on AuthenticationType {
+extension AuthenticationTypeValueExtension on AuthenticationType {
   String toValue() {
     switch (this) {
       case AuthenticationType.apiKey:
@@ -2732,7 +2732,7 @@ enum AuthorizationType {
   awsIam,
 }
 
-extension AuthorizationTypeValue on AuthorizationType {
+extension AuthorizationTypeValueExtension on AuthorizationType {
   String toValue() {
     switch (this) {
       case AuthorizationType.awsIam:
@@ -2859,7 +2859,7 @@ enum ConflictDetectionType {
   none,
 }
 
-extension ConflictDetectionTypeValue on ConflictDetectionType {
+extension ConflictDetectionTypeValueExtension on ConflictDetectionType {
   String toValue() {
     switch (this) {
       case ConflictDetectionType.version:
@@ -2889,7 +2889,7 @@ enum ConflictHandlerType {
   none,
 }
 
-extension ConflictHandlerTypeValue on ConflictHandlerType {
+extension ConflictHandlerTypeValueExtension on ConflictHandlerType {
   String toValue() {
     switch (this) {
       case ConflictHandlerType.optimisticConcurrency:
@@ -3144,7 +3144,7 @@ enum DataSourceType {
   relationalDatabase,
 }
 
-extension DataSourceTypeValue on DataSourceType {
+extension DataSourceTypeValueExtension on DataSourceType {
   String toValue() {
     switch (this) {
       case DataSourceType.awsLambda:
@@ -3188,7 +3188,7 @@ enum DefaultAction {
   deny,
 }
 
-extension DefaultActionValue on DefaultAction {
+extension DefaultActionValueExtension on DefaultAction {
   String toValue() {
     switch (this) {
       case DefaultAction.allow:
@@ -3387,7 +3387,7 @@ enum FieldLogLevel {
   all,
 }
 
-extension FieldLogLevelValue on FieldLogLevel {
+extension FieldLogLevelValueExtension on FieldLogLevel {
   String toValue() {
     switch (this) {
       case FieldLogLevel.none:
@@ -4075,7 +4075,7 @@ enum OutputType {
   json,
 }
 
-extension OutputTypeValue on OutputType {
+extension OutputTypeValueExtension on OutputType {
   String toValue() {
     switch (this) {
       case OutputType.sdl:
@@ -4222,7 +4222,8 @@ enum RelationalDatabaseSourceType {
   rdsHttpEndpoint,
 }
 
-extension RelationalDatabaseSourceTypeValue on RelationalDatabaseSourceType {
+extension RelationalDatabaseSourceTypeValueExtension
+    on RelationalDatabaseSourceType {
   String toValue() {
     switch (this) {
       case RelationalDatabaseSourceType.rdsHttpEndpoint:
@@ -4329,7 +4330,7 @@ enum ResolverKind {
   pipeline,
 }
 
-extension ResolverKindValue on ResolverKind {
+extension ResolverKindValueExtension on ResolverKind {
   String toValue() {
     switch (this) {
       case ResolverKind.unit:
@@ -4361,7 +4362,7 @@ enum SchemaStatus {
   notApplicable,
 }
 
-extension SchemaStatusValue on SchemaStatus {
+extension SchemaStatusValueExtension on SchemaStatus {
   String toValue() {
     switch (this) {
       case SchemaStatus.processing:
@@ -4533,7 +4534,7 @@ enum TypeDefinitionFormat {
   json,
 }
 
-extension TypeDefinitionFormatValue on TypeDefinitionFormat {
+extension TypeDefinitionFormatValueExtension on TypeDefinitionFormat {
   String toValue() {
     switch (this) {
       case TypeDefinitionFormat.sdl:

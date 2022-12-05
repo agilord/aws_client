@@ -629,7 +629,7 @@ enum Engine {
   neural,
 }
 
-extension EngineValue on Engine {
+extension EngineValueExtension on Engine {
   String toValue() {
     switch (this) {
       case Engine.standard:
@@ -657,7 +657,7 @@ enum Gender {
   male,
 }
 
-extension GenderValue on Gender {
+extension GenderValueExtension on Gender {
   String toValue() {
     switch (this) {
       case Gender.female:
@@ -756,7 +756,7 @@ enum LanguageCode {
   trTr,
 }
 
-extension LanguageCodeValue on LanguageCode {
+extension LanguageCodeValueExtension on LanguageCode {
   String toValue() {
     switch (this) {
       case LanguageCode.arb:
@@ -1036,7 +1036,7 @@ enum OutputFormat {
   pcm,
 }
 
-extension OutputFormatValue on OutputFormat {
+extension OutputFormatValueExtension on OutputFormat {
   String toValue() {
     switch (this) {
       case OutputFormat.json:
@@ -1081,7 +1081,7 @@ enum SpeechMarkType {
   word,
 }
 
-extension SpeechMarkTypeValue on SpeechMarkType {
+extension SpeechMarkTypeValueExtension on SpeechMarkType {
   String toValue() {
     switch (this) {
       case SpeechMarkType.sentence:
@@ -1291,7 +1291,7 @@ enum TaskStatus {
   failed,
 }
 
-extension TaskStatusValue on TaskStatus {
+extension TaskStatusValueExtension on TaskStatus {
   String toValue() {
     switch (this) {
       case TaskStatus.scheduled:
@@ -1327,7 +1327,7 @@ enum TextType {
   text,
 }
 
-extension TextTypeValue on TextType {
+extension TextTypeValueExtension on TextType {
   String toValue() {
     switch (this) {
       case TextType.ssml:
@@ -1475,7 +1475,7 @@ enum VoiceId {
   zhiyu,
 }
 
-extension VoiceIdValue on VoiceId {
+extension VoiceIdValueExtension on VoiceId {
   String toValue() {
     switch (this) {
       case VoiceId.aditi:

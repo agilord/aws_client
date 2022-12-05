@@ -1047,7 +1047,7 @@ enum Capability {
   capabilityResourcePolicy,
 }
 
-extension CapabilityValue on Capability {
+extension CapabilityValueExtension on Capability {
   String toValue() {
     switch (this) {
       case Capability.capabilityIam:
@@ -1898,7 +1898,7 @@ enum Status {
   expired,
 }
 
-extension StatusValue on Status {
+extension StatusValueExtension on Status {
   String toValue() {
     switch (this) {
       case Status.preparing:

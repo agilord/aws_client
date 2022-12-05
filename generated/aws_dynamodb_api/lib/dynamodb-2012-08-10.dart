@@ -5431,7 +5431,7 @@ enum AttributeAction {
   delete,
 }
 
-extension AttributeActionValue on AttributeAction {
+extension AttributeActionValueExtension on AttributeAction {
   String toValue() {
     switch (this) {
       case AttributeAction.add:
@@ -6101,7 +6101,7 @@ enum BackupStatus {
   available,
 }
 
-extension BackupStatusValue on BackupStatus {
+extension BackupStatusValueExtension on BackupStatus {
   String toValue() {
     switch (this) {
       case BackupStatus.creating:
@@ -6214,7 +6214,7 @@ enum BackupType {
   awsBackup,
 }
 
-extension BackupTypeValue on BackupType {
+extension BackupTypeValueExtension on BackupType {
   String toValue() {
     switch (this) {
       case BackupType.user:
@@ -6248,7 +6248,7 @@ enum BackupTypeFilter {
   all,
 }
 
-extension BackupTypeFilterValue on BackupTypeFilter {
+extension BackupTypeFilterValueExtension on BackupTypeFilter {
   String toValue() {
     switch (this) {
       case BackupTypeFilter.user:
@@ -6408,7 +6408,8 @@ enum BatchStatementErrorCodeEnum {
   duplicateItem,
 }
 
-extension BatchStatementErrorCodeEnumValue on BatchStatementErrorCodeEnum {
+extension BatchStatementErrorCodeEnumValueExtension
+    on BatchStatementErrorCodeEnum {
   String toValue() {
     switch (this) {
       case BatchStatementErrorCodeEnum.conditionalCheckFailed:
@@ -6648,7 +6649,7 @@ enum BillingMode {
   payPerRequest,
 }
 
-extension BillingModeValue on BillingMode {
+extension BillingModeValueExtension on BillingMode {
   String toValue() {
     switch (this) {
       case BillingMode.provisioned:
@@ -6749,7 +6750,7 @@ enum ComparisonOperator {
   beginsWith,
 }
 
-extension ComparisonOperatorValue on ComparisonOperator {
+extension ComparisonOperatorValueExtension on ComparisonOperator {
   String toValue() {
     switch (this) {
       case ComparisonOperator.eq:
@@ -7103,7 +7104,7 @@ enum ConditionalOperator {
   or,
 }
 
-extension ConditionalOperatorValue on ConditionalOperator {
+extension ConditionalOperatorValueExtension on ConditionalOperator {
   String toValue() {
     switch (this) {
       case ConditionalOperator.and:
@@ -7218,7 +7219,7 @@ enum ContinuousBackupsStatus {
   disabled,
 }
 
-extension ContinuousBackupsStatusValue on ContinuousBackupsStatus {
+extension ContinuousBackupsStatusValueExtension on ContinuousBackupsStatus {
   String toValue() {
     switch (this) {
       case ContinuousBackupsStatus.enabled:
@@ -7246,7 +7247,7 @@ enum ContributorInsightsAction {
   disable,
 }
 
-extension ContributorInsightsActionValue on ContributorInsightsAction {
+extension ContributorInsightsActionValueExtension on ContributorInsightsAction {
   String toValue() {
     switch (this) {
       case ContributorInsightsAction.enable:
@@ -7277,7 +7278,7 @@ enum ContributorInsightsStatus {
   failed,
 }
 
-extension ContributorInsightsStatusValue on ContributorInsightsStatus {
+extension ContributorInsightsStatusValueExtension on ContributorInsightsStatus {
   String toValue() {
     switch (this) {
       case ContributorInsightsStatus.enabling:
@@ -8026,7 +8027,7 @@ enum DestinationStatus {
   enableFailed,
 }
 
-extension DestinationStatusValue on DestinationStatus {
+extension DestinationStatusValueExtension on DestinationStatus {
   String toValue() {
     switch (this) {
       case DestinationStatus.enabling:
@@ -8537,7 +8538,7 @@ enum ExportFormat {
   ion,
 }
 
-extension ExportFormatValue on ExportFormat {
+extension ExportFormatValueExtension on ExportFormat {
   String toValue() {
     switch (this) {
       case ExportFormat.dynamodbJson:
@@ -8566,7 +8567,7 @@ enum ExportStatus {
   failed,
 }
 
-extension ExportStatusValue on ExportStatus {
+extension ExportStatusValueExtension on ExportStatus {
   String toValue() {
     switch (this) {
       case ExportStatus.inProgress:
@@ -9182,7 +9183,7 @@ enum GlobalTableStatus {
   updating,
 }
 
-extension GlobalTableStatusValue on GlobalTableStatus {
+extension GlobalTableStatusValueExtension on GlobalTableStatus {
   String toValue() {
     switch (this) {
       case GlobalTableStatus.creating:
@@ -9220,7 +9221,7 @@ enum IndexStatus {
   active,
 }
 
-extension IndexStatusValue on IndexStatus {
+extension IndexStatusValueExtension on IndexStatus {
   String toValue() {
     switch (this) {
       case IndexStatus.creating:
@@ -9369,7 +9370,7 @@ enum KeyType {
   range,
 }
 
-extension KeyTypeValue on KeyType {
+extension KeyTypeValueExtension on KeyType {
   String toValue() {
     switch (this) {
       case KeyType.hash:
@@ -10003,7 +10004,7 @@ enum PointInTimeRecoveryStatus {
   disabled,
 }
 
-extension PointInTimeRecoveryStatusValue on PointInTimeRecoveryStatus {
+extension PointInTimeRecoveryStatusValueExtension on PointInTimeRecoveryStatus {
   String toValue() {
     switch (this) {
       case PointInTimeRecoveryStatus.enabled:
@@ -10088,7 +10089,7 @@ enum ProjectionType {
   include,
 }
 
-extension ProjectionTypeValue on ProjectionType {
+extension ProjectionTypeValueExtension on ProjectionType {
   String toValue() {
     switch (this) {
       case ProjectionType.all:
@@ -11089,7 +11090,7 @@ enum ReplicaStatus {
   inaccessibleEncryptionCredentials,
 }
 
-extension ReplicaStatusValue on ReplicaStatus {
+extension ReplicaStatusValueExtension on ReplicaStatus {
   String toValue() {
     switch (this) {
       case ReplicaStatus.creating:
@@ -11307,7 +11308,7 @@ enum ReturnConsumedCapacity {
   none,
 }
 
-extension ReturnConsumedCapacityValue on ReturnConsumedCapacity {
+extension ReturnConsumedCapacityValueExtension on ReturnConsumedCapacity {
   String toValue() {
     switch (this) {
       case ReturnConsumedCapacity.indexes:
@@ -11339,7 +11340,8 @@ enum ReturnItemCollectionMetrics {
   none,
 }
 
-extension ReturnItemCollectionMetricsValue on ReturnItemCollectionMetrics {
+extension ReturnItemCollectionMetricsValueExtension
+    on ReturnItemCollectionMetrics {
   String toValue() {
     switch (this) {
       case ReturnItemCollectionMetrics.size:
@@ -11370,7 +11372,7 @@ enum ReturnValue {
   updatedNew,
 }
 
-extension ReturnValueValue on ReturnValue {
+extension ReturnValueValueExtension on ReturnValue {
   String toValue() {
     switch (this) {
       case ReturnValue.none:
@@ -11410,7 +11412,7 @@ enum ReturnValuesOnConditionCheckFailure {
   none,
 }
 
-extension ReturnValuesOnConditionCheckFailureValue
+extension ReturnValuesOnConditionCheckFailureValueExtension
     on ReturnValuesOnConditionCheckFailure {
   String toValue() {
     switch (this) {
@@ -11440,7 +11442,7 @@ enum S3SseAlgorithm {
   kms,
 }
 
-extension S3SseAlgorithmValue on S3SseAlgorithm {
+extension S3SseAlgorithmValueExtension on S3SseAlgorithm {
   String toValue() {
     switch (this) {
       case S3SseAlgorithm.aes256:
@@ -11568,7 +11570,7 @@ enum SSEStatus {
   updating,
 }
 
-extension SSEStatusValue on SSEStatus {
+extension SSEStatusValueExtension on SSEStatus {
   String toValue() {
     switch (this) {
       case SSEStatus.enabling:
@@ -11608,7 +11610,7 @@ enum SSEType {
   kms,
 }
 
-extension SSETypeValue on SSEType {
+extension SSETypeValueExtension on SSEType {
   String toValue() {
     switch (this) {
       case SSEType.aes256:
@@ -11637,7 +11639,7 @@ enum ScalarAttributeType {
   b,
 }
 
-extension ScalarAttributeTypeValue on ScalarAttributeType {
+extension ScalarAttributeTypeValueExtension on ScalarAttributeType {
   String toValue() {
     switch (this) {
       case ScalarAttributeType.s:
@@ -11749,7 +11751,7 @@ enum Select {
   count,
 }
 
-extension SelectValue on Select {
+extension SelectValueExtension on Select {
   String toValue() {
     switch (this) {
       case Select.allAttributes:
@@ -11970,7 +11972,7 @@ enum StreamViewType {
   keysOnly,
 }
 
-extension StreamViewTypeValue on StreamViewType {
+extension StreamViewTypeValueExtension on StreamViewType {
   String toValue() {
     switch (this) {
       case StreamViewType.newImage:
@@ -12458,7 +12460,7 @@ enum TableStatus {
   archived,
 }
 
-extension TableStatusValue on TableStatus {
+extension TableStatusValueExtension on TableStatus {
   String toValue() {
     switch (this) {
       case TableStatus.creating:
@@ -12603,7 +12605,7 @@ enum TimeToLiveStatus {
   disabled,
 }
 
-extension TimeToLiveStatusValue on TimeToLiveStatus {
+extension TimeToLiveStatusValueExtension on TimeToLiveStatus {
   String toValue() {
     switch (this) {
       case TimeToLiveStatus.enabling:

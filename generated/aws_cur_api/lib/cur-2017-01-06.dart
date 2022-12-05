@@ -231,7 +231,7 @@ enum AWSRegion {
   cnNorthwest_1,
 }
 
-extension AWSRegionValue on AWSRegion {
+extension AWSRegionValueExtension on AWSRegion {
   String toValue() {
     switch (this) {
       case AWSRegion.afSouth_1:
@@ -345,7 +345,7 @@ enum AdditionalArtifact {
   athena,
 }
 
-extension AdditionalArtifactValue on AdditionalArtifact {
+extension AdditionalArtifactValueExtension on AdditionalArtifact {
   String toValue() {
     switch (this) {
       case AdditionalArtifact.redshift:
@@ -379,7 +379,7 @@ enum CompressionFormat {
   parquet,
 }
 
-extension CompressionFormatValue on CompressionFormat {
+extension CompressionFormatValueExtension on CompressionFormat {
   String toValue() {
     switch (this) {
       case CompressionFormat.zip:
@@ -562,7 +562,7 @@ enum ReportFormat {
   parquet,
 }
 
-extension ReportFormatValue on ReportFormat {
+extension ReportFormatValueExtension on ReportFormat {
   String toValue() {
     switch (this) {
       case ReportFormat.textORcsv:
@@ -590,7 +590,7 @@ enum ReportVersioning {
   overwriteReport,
 }
 
-extension ReportVersioningValue on ReportVersioning {
+extension ReportVersioningValueExtension on ReportVersioning {
   String toValue() {
     switch (this) {
       case ReportVersioning.createNewReport:
@@ -618,7 +618,7 @@ enum SchemaElement {
   resources,
 }
 
-extension SchemaElementValue on SchemaElement {
+extension SchemaElementValueExtension on SchemaElement {
   String toValue() {
     switch (this) {
       case SchemaElement.resources:
@@ -644,7 +644,7 @@ enum TimeUnit {
   monthly,
 }
 
-extension TimeUnitValue on TimeUnit {
+extension TimeUnitValueExtension on TimeUnit {
   String toValue() {
     switch (this) {
       case TimeUnit.hourly:

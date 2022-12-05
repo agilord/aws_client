@@ -1111,7 +1111,7 @@ enum EBSFilterName {
   finding,
 }
 
-extension EBSFilterNameValue on EBSFilterName {
+extension EBSFilterNameValueExtension on EBSFilterName {
   String toValue() {
     switch (this) {
       case EBSFilterName.finding:
@@ -1135,7 +1135,7 @@ enum EBSFinding {
   notOptimized,
 }
 
-extension EBSFindingValue on EBSFinding {
+extension EBSFindingValueExtension on EBSFinding {
   String toValue() {
     switch (this) {
       case EBSFinding.optimized:
@@ -1165,7 +1165,7 @@ enum EBSMetricName {
   volumeWriteBytesPerSecond,
 }
 
-extension EBSMetricNameValue on EBSMetricName {
+extension EBSMetricNameValueExtension on EBSMetricName {
   String toValue() {
     switch (this) {
       case EBSMetricName.volumeReadOpsPerSecond:
@@ -1382,7 +1382,7 @@ enum ExportableAutoScalingGroupField {
   lastRefreshTimestamp,
 }
 
-extension ExportableAutoScalingGroupFieldValue
+extension ExportableAutoScalingGroupFieldValueExtension
     on ExportableAutoScalingGroupField {
   String toValue() {
     switch (this) {
@@ -1614,7 +1614,7 @@ enum ExportableInstanceField {
   lastRefreshTimestamp,
 }
 
-extension ExportableInstanceFieldValue on ExportableInstanceField {
+extension ExportableInstanceFieldValueExtension on ExportableInstanceField {
   String toValue() {
     switch (this) {
       case ExportableInstanceField.accountId:
@@ -1787,7 +1787,7 @@ enum FileFormat {
   csv,
 }
 
-extension FileFormatValue on FileFormat {
+extension FileFormatValueExtension on FileFormat {
   String toValue() {
     switch (this) {
       case FileFormat.csv:
@@ -1864,7 +1864,7 @@ enum FilterName {
   recommendationSourceType,
 }
 
-extension FilterNameValue on FilterName {
+extension FilterNameValueExtension on FilterName {
   String toValue() {
     switch (this) {
       case FilterName.finding:
@@ -1894,7 +1894,7 @@ enum Finding {
   notOptimized,
 }
 
-extension FindingValue on Finding {
+extension FindingValueExtension on Finding {
   String toValue() {
     switch (this) {
       case Finding.underprovisioned:
@@ -1930,7 +1930,7 @@ enum FindingReasonCode {
   memoryUnderprovisioned,
 }
 
-extension FindingReasonCodeValue on FindingReasonCode {
+extension FindingReasonCodeValueExtension on FindingReasonCode {
   String toValue() {
     switch (this) {
       case FindingReasonCode.memoryOverprovisioned:
@@ -2409,7 +2409,7 @@ enum JobFilterName {
   jobStatus,
 }
 
-extension JobFilterNameValue on JobFilterName {
+extension JobFilterNameValueExtension on JobFilterName {
   String toValue() {
     switch (this) {
       case JobFilterName.resourceType:
@@ -2439,7 +2439,7 @@ enum JobStatus {
   failed,
 }
 
-extension JobStatusValue on JobStatus {
+extension JobStatusValueExtension on JobStatus {
   String toValue() {
     switch (this) {
       case JobStatus.queued:
@@ -2474,7 +2474,7 @@ enum LambdaFunctionMemoryMetricName {
   duration,
 }
 
-extension LambdaFunctionMemoryMetricNameValue
+extension LambdaFunctionMemoryMetricNameValueExtension
     on LambdaFunctionMemoryMetricName {
   String toValue() {
     switch (this) {
@@ -2501,7 +2501,7 @@ enum LambdaFunctionMemoryMetricStatistic {
   expected,
 }
 
-extension LambdaFunctionMemoryMetricStatisticValue
+extension LambdaFunctionMemoryMetricStatisticValueExtension
     on LambdaFunctionMemoryMetricStatistic {
   String toValue() {
     switch (this) {
@@ -2597,7 +2597,7 @@ enum LambdaFunctionMetricName {
   memory,
 }
 
-extension LambdaFunctionMetricNameValue on LambdaFunctionMetricName {
+extension LambdaFunctionMetricNameValueExtension on LambdaFunctionMetricName {
   String toValue() {
     switch (this) {
       case LambdaFunctionMetricName.duration:
@@ -2625,7 +2625,8 @@ enum LambdaFunctionMetricStatistic {
   average,
 }
 
-extension LambdaFunctionMetricStatisticValue on LambdaFunctionMetricStatistic {
+extension LambdaFunctionMetricStatisticValueExtension
+    on LambdaFunctionMetricStatistic {
   String toValue() {
     switch (this) {
       case LambdaFunctionMetricStatistic.maximum:
@@ -2850,7 +2851,7 @@ enum LambdaFunctionRecommendationFilterName {
   findingReasonCode,
 }
 
-extension LambdaFunctionRecommendationFilterNameValue
+extension LambdaFunctionRecommendationFilterNameValueExtension
     on LambdaFunctionRecommendationFilterName {
   String toValue() {
     switch (this) {
@@ -2882,7 +2883,7 @@ enum LambdaFunctionRecommendationFinding {
   unavailable,
 }
 
-extension LambdaFunctionRecommendationFindingValue
+extension LambdaFunctionRecommendationFindingValueExtension
     on LambdaFunctionRecommendationFinding {
   String toValue() {
     switch (this) {
@@ -2918,7 +2919,7 @@ enum LambdaFunctionRecommendationFindingReasonCode {
   inconclusive,
 }
 
-extension LambdaFunctionRecommendationFindingReasonCodeValue
+extension LambdaFunctionRecommendationFindingReasonCodeValueExtension
     on LambdaFunctionRecommendationFindingReasonCode {
   String toValue() {
     switch (this) {
@@ -2989,7 +2990,7 @@ enum MetricName {
   ebsWriteBytesPerSecond,
 }
 
-extension MetricNameValue on MetricName {
+extension MetricNameValueExtension on MetricName {
   String toValue() {
     switch (this) {
       case MetricName.cpu:
@@ -3033,7 +3034,7 @@ enum MetricStatistic {
   average,
 }
 
-extension MetricStatisticValue on MetricStatistic {
+extension MetricStatisticValueExtension on MetricStatistic {
   String toValue() {
     switch (this) {
       case MetricStatistic.maximum:
@@ -3236,7 +3237,7 @@ enum RecommendationSourceType {
   lambdaFunction,
 }
 
-extension RecommendationSourceTypeValue on RecommendationSourceType {
+extension RecommendationSourceTypeValueExtension on RecommendationSourceType {
   String toValue() {
     switch (this) {
       case RecommendationSourceType.ec2Instance:
@@ -3346,7 +3347,7 @@ enum ResourceType {
   autoScalingGroup,
 }
 
-extension ResourceTypeValue on ResourceType {
+extension ResourceTypeValueExtension on ResourceType {
   String toValue() {
     switch (this) {
       case ResourceType.ec2Instance:
@@ -3442,7 +3443,7 @@ enum Status {
   failed,
 }
 
-extension StatusValue on Status {
+extension StatusValueExtension on Status {
   String toValue() {
     switch (this) {
       case Status.active:

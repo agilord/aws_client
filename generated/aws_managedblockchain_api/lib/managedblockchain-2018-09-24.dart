@@ -1469,7 +1469,7 @@ enum Edition {
   standard,
 }
 
-extension EditionValue on Edition {
+extension EditionValueExtension on Edition {
   String toValue() {
     switch (this) {
       case Edition.starter:
@@ -1497,7 +1497,7 @@ enum Framework {
   ethereum,
 }
 
-extension FrameworkValue on Framework {
+extension FrameworkValueExtension on Framework {
   String toValue() {
     switch (this) {
       case Framework.hyperledgerFabric:
@@ -1656,7 +1656,7 @@ enum InvitationStatus {
   expired,
 }
 
-extension InvitationStatusValue on InvitationStatus {
+extension InvitationStatusValueExtension on InvitationStatus {
   String toValue() {
     switch (this) {
       case InvitationStatus.pending:
@@ -2174,7 +2174,7 @@ enum MemberStatus {
   deleted,
 }
 
-extension MemberStatusValue on MemberStatus {
+extension MemberStatusValueExtension on MemberStatus {
   String toValue() {
     switch (this) {
       case MemberStatus.creating:
@@ -2475,7 +2475,7 @@ enum NetworkStatus {
   deleted,
 }
 
-extension NetworkStatusValue on NetworkStatus {
+extension NetworkStatusValueExtension on NetworkStatus {
   String toValue() {
     switch (this) {
       case NetworkStatus.creating:
@@ -2832,7 +2832,7 @@ enum NodeStatus {
   failed,
 }
 
-extension NodeStatusValue on NodeStatus {
+extension NodeStatusValueExtension on NodeStatus {
   String toValue() {
     switch (this) {
       case NodeStatus.creating:
@@ -3074,7 +3074,7 @@ enum ProposalStatus {
   actionFailed,
 }
 
-extension ProposalStatusValue on ProposalStatus {
+extension ProposalStatusValueExtension on ProposalStatus {
   String toValue() {
     switch (this) {
       case ProposalStatus.inProgress:
@@ -3228,7 +3228,7 @@ enum StateDBType {
   couchDB,
 }
 
-extension StateDBTypeValue on StateDBType {
+extension StateDBTypeValueExtension on StateDBType {
   String toValue() {
     switch (this) {
       case StateDBType.levelDB:
@@ -3256,7 +3256,7 @@ enum ThresholdComparator {
   greaterThanOrEqualTo,
 }
 
-extension ThresholdComparatorValue on ThresholdComparator {
+extension ThresholdComparatorValueExtension on ThresholdComparator {
   String toValue() {
     switch (this) {
       case ThresholdComparator.greaterThan:
@@ -3332,7 +3332,7 @@ enum VoteValue {
   no,
 }
 
-extension VoteValueValue on VoteValue {
+extension VoteValueValueExtension on VoteValue {
   String toValue() {
     switch (this) {
       case VoteValue.yes:

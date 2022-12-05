@@ -1752,7 +1752,7 @@ enum ColumnNullable {
   unknown,
 }
 
-extension ColumnNullableValue on ColumnNullable {
+extension ColumnNullableValueExtension on ColumnNullable {
   String toValue() {
     switch (this) {
       case ColumnNullable.notNull:
@@ -1905,7 +1905,7 @@ enum DataCatalogType {
   hive,
 }
 
-extension DataCatalogTypeValue on DataCatalogType {
+extension DataCatalogTypeValueExtension on DataCatalogType {
   String toValue() {
     switch (this) {
       case DataCatalogType.lambda:
@@ -2041,7 +2041,7 @@ enum EncryptionOption {
   cseKms,
 }
 
-extension EncryptionOptionValue on EncryptionOption {
+extension EncryptionOptionValueExtension on EncryptionOption {
   String toValue() {
     switch (this) {
       case EncryptionOption.sseS3:
@@ -2516,7 +2516,7 @@ enum QueryExecutionState {
   cancelled,
 }
 
-extension QueryExecutionStateValue on QueryExecutionState {
+extension QueryExecutionStateValueExtension on QueryExecutionState {
   String toValue() {
     switch (this) {
       case QueryExecutionState.queued:
@@ -2856,7 +2856,7 @@ enum StatementType {
   utility,
 }
 
-extension StatementTypeValue on StatementType {
+extension StatementTypeValueExtension on StatementType {
   String toValue() {
     switch (this) {
       case StatementType.ddl:
@@ -3295,7 +3295,7 @@ enum WorkGroupState {
   disabled,
 }
 
-extension WorkGroupStateValue on WorkGroupState {
+extension WorkGroupStateValueExtension on WorkGroupState {
   String toValue() {
     switch (this) {
       case WorkGroupState.enabled:

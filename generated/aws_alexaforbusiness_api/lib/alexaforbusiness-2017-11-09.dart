@@ -4617,7 +4617,7 @@ enum BusinessReportFailureCode {
   internalFailure,
 }
 
-extension BusinessReportFailureCodeValue on BusinessReportFailureCode {
+extension BusinessReportFailureCodeValueExtension on BusinessReportFailureCode {
   String toValue() {
     switch (this) {
       case BusinessReportFailureCode.accessDenied:
@@ -4649,7 +4649,7 @@ enum BusinessReportFormat {
   csvZip,
 }
 
-extension BusinessReportFormatValue on BusinessReportFormat {
+extension BusinessReportFormatValueExtension on BusinessReportFormat {
   String toValue() {
     switch (this) {
       case BusinessReportFormat.csv:
@@ -4678,7 +4678,7 @@ enum BusinessReportInterval {
   thirtyDays,
 }
 
-extension BusinessReportIntervalValue on BusinessReportInterval {
+extension BusinessReportIntervalValueExtension on BusinessReportInterval {
   String toValue() {
     switch (this) {
       case BusinessReportInterval.oneDay:
@@ -4814,7 +4814,7 @@ enum BusinessReportStatus {
   failed,
 }
 
-extension BusinessReportStatusValue on BusinessReportStatus {
+extension BusinessReportStatusValueExtension on BusinessReportStatus {
   String toValue() {
     switch (this) {
       case BusinessReportStatus.running:
@@ -4868,7 +4868,7 @@ enum CommsProtocol {
   h323,
 }
 
-extension CommsProtocolValue on CommsProtocol {
+extension CommsProtocolValueExtension on CommsProtocol {
   String toValue() {
     switch (this) {
       case CommsProtocol.sip:
@@ -4983,7 +4983,7 @@ enum ConferenceProviderType {
   custom,
 }
 
-extension ConferenceProviderTypeValue on ConferenceProviderType {
+extension ConferenceProviderTypeValueExtension on ConferenceProviderType {
   String toValue() {
     switch (this) {
       case ConferenceProviderType.chime:
@@ -5043,7 +5043,7 @@ enum ConnectionStatus {
   offline,
 }
 
-extension ConnectionStatusValue on ConnectionStatus {
+extension ConnectionStatusValueExtension on ConnectionStatus {
   String toValue() {
     switch (this) {
       case ConnectionStatus.online:
@@ -5767,7 +5767,7 @@ enum DeviceEventType {
   deviceStatus,
 }
 
-extension DeviceEventTypeValue on DeviceEventType {
+extension DeviceEventTypeValueExtension on DeviceEventType {
   String toValue() {
     switch (this) {
       case DeviceEventType.connectionStatus:
@@ -5824,7 +5824,7 @@ enum DeviceStatus {
   failed,
 }
 
-extension DeviceStatusValue on DeviceStatus {
+extension DeviceStatusValueExtension on DeviceStatus {
   String toValue() {
     switch (this) {
       case DeviceStatus.ready:
@@ -5899,7 +5899,7 @@ enum DeviceStatusDetailCode {
   certificateAuthorityAccessDenied,
 }
 
-extension DeviceStatusDetailCodeValue on DeviceStatusDetailCode {
+extension DeviceStatusDetailCodeValueExtension on DeviceStatusDetailCode {
   String toValue() {
     switch (this) {
       case DeviceStatusDetailCode.deviceSoftwareUpdateNeeded:
@@ -6016,7 +6016,7 @@ enum DeviceUsageType {
   voice,
 }
 
-extension DeviceUsageTypeValue on DeviceUsageType {
+extension DeviceUsageTypeValueExtension on DeviceUsageType {
   String toValue() {
     switch (this) {
       case DeviceUsageType.voice:
@@ -6078,7 +6078,7 @@ enum DistanceUnit {
   imperial,
 }
 
-extension DistanceUnitValue on DistanceUnit {
+extension DistanceUnitValueExtension on DistanceUnit {
   String toValue() {
     switch (this) {
       case DistanceUnit.metric:
@@ -6106,7 +6106,7 @@ enum EnablementType {
   pending,
 }
 
-extension EnablementTypeValue on EnablementType {
+extension EnablementTypeValueExtension on EnablementType {
   String toValue() {
     switch (this) {
       case EnablementType.enabled:
@@ -6134,7 +6134,7 @@ enum EnablementTypeFilter {
   pending,
 }
 
-extension EnablementTypeFilterValue on EnablementTypeFilter {
+extension EnablementTypeFilterValueExtension on EnablementTypeFilter {
   String toValue() {
     switch (this) {
       case EnablementTypeFilter.enabled:
@@ -6195,7 +6195,7 @@ enum EndOfMeetingReminderType {
   knock,
 }
 
-extension EndOfMeetingReminderTypeValue on EndOfMeetingReminderType {
+extension EndOfMeetingReminderTypeValueExtension on EndOfMeetingReminderType {
   String toValue() {
     switch (this) {
       case EndOfMeetingReminderType.announcementTimeCheck:
@@ -6234,7 +6234,7 @@ enum EnrollmentStatus {
   deregistering,
 }
 
-extension EnrollmentStatusValue on EnrollmentStatus {
+extension EnrollmentStatusValueExtension on EnrollmentStatus {
   String toValue() {
     switch (this) {
       case EnrollmentStatus.initialized:
@@ -6280,7 +6280,7 @@ enum Feature {
   all,
 }
 
-extension FeatureValue on Feature {
+extension FeatureValueExtension on Feature {
   String toValue() {
     switch (this) {
       case Feature.bluetooth:
@@ -6985,7 +6985,7 @@ enum Locale {
   enUs,
 }
 
-extension LocaleValue on Locale {
+extension LocaleValueExtension on Locale {
   String toValue() {
     switch (this) {
       case Locale.enUs:
@@ -7090,7 +7090,7 @@ enum NetworkEapMethod {
   eapTls,
 }
 
-extension NetworkEapMethodValue on NetworkEapMethod {
+extension NetworkEapMethodValueExtension on NetworkEapMethod {
   String toValue() {
     switch (this) {
       case NetworkEapMethod.eapTls:
@@ -7237,7 +7237,7 @@ enum NetworkSecurityType {
   wpa2Enterprise,
 }
 
-extension NetworkSecurityTypeValue on NetworkSecurityType {
+extension NetworkSecurityTypeValueExtension on NetworkSecurityType {
   String toValue() {
     switch (this) {
       case NetworkSecurityType.open:
@@ -7355,7 +7355,7 @@ enum PhoneNumberType {
   home,
 }
 
-extension PhoneNumberTypeValue on PhoneNumberType {
+extension PhoneNumberTypeValueExtension on PhoneNumberType {
   String toValue() {
     switch (this) {
       case PhoneNumberType.mobile:
@@ -7602,7 +7602,7 @@ enum RequirePin {
   optional,
 }
 
-extension RequirePinValue on RequirePin {
+extension RequirePinValueExtension on RequirePin {
   String toValue() {
     switch (this) {
       case RequirePin.yes:
@@ -8043,7 +8043,7 @@ enum SipType {
   work,
 }
 
-extension SipTypeValue on SipType {
+extension SipTypeValueExtension on SipType {
   String toValue() {
     switch (this) {
       case SipType.work:
@@ -8233,7 +8233,7 @@ enum SkillType {
   private,
 }
 
-extension SkillTypeValue on SkillType {
+extension SkillTypeValueExtension on SkillType {
   String toValue() {
     switch (this) {
       case SkillType.public:
@@ -8262,7 +8262,7 @@ enum SkillTypeFilter {
   all,
 }
 
-extension SkillTypeFilterValue on SkillTypeFilter {
+extension SkillTypeFilterValueExtension on SkillTypeFilter {
   String toValue() {
     switch (this) {
       case SkillTypeFilter.public:
@@ -8392,7 +8392,7 @@ enum SortValue {
   desc,
 }
 
-extension SortValueValue on SortValue {
+extension SortValueValueExtension on SortValue {
   String toValue() {
     switch (this) {
       case SortValue.asc:
@@ -8496,7 +8496,7 @@ enum TemperatureUnit {
   celsius,
 }
 
-extension TemperatureUnitValue on TemperatureUnit {
+extension TemperatureUnitValueExtension on TemperatureUnit {
   String toValue() {
     switch (this) {
       case TemperatureUnit.fahrenheit:
@@ -8799,7 +8799,7 @@ enum WakeWord {
   computer,
 }
 
-extension WakeWordValue on WakeWord {
+extension WakeWordValueExtension on WakeWord {
   String toValue() {
     switch (this) {
       case WakeWord.alexa:

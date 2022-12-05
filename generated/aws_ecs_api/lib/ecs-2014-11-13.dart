@@ -4803,7 +4803,7 @@ enum AgentUpdateStatus {
   failed,
 }
 
-extension AgentUpdateStatusValue on AgentUpdateStatus {
+extension AgentUpdateStatusValueExtension on AgentUpdateStatus {
   String toValue() {
     switch (this) {
       case AgentUpdateStatus.pending:
@@ -4847,7 +4847,7 @@ enum AssignPublicIp {
   disabled,
 }
 
-extension AssignPublicIpValue on AssignPublicIp {
+extension AssignPublicIpValueExtension on AssignPublicIp {
   String toValue() {
     switch (this) {
       case AssignPublicIp.enabled:
@@ -5238,7 +5238,7 @@ enum CapacityProviderField {
   tags,
 }
 
-extension CapacityProviderFieldValue on CapacityProviderField {
+extension CapacityProviderFieldValueExtension on CapacityProviderField {
   String toValue() {
     switch (this) {
       case CapacityProviderField.tags:
@@ -5262,7 +5262,7 @@ enum CapacityProviderStatus {
   inactive,
 }
 
-extension CapacityProviderStatusValue on CapacityProviderStatus {
+extension CapacityProviderStatusValueExtension on CapacityProviderStatus {
   String toValue() {
     switch (this) {
       case CapacityProviderStatus.active:
@@ -5341,7 +5341,8 @@ enum CapacityProviderUpdateStatus {
   updateFailed,
 }
 
-extension CapacityProviderUpdateStatusValue on CapacityProviderUpdateStatus {
+extension CapacityProviderUpdateStatusValueExtension
+    on CapacityProviderUpdateStatus {
   String toValue() {
     switch (this) {
       case CapacityProviderUpdateStatus.deleteInProgress:
@@ -5597,7 +5598,7 @@ enum ClusterField {
   tags,
 }
 
-extension ClusterFieldValue on ClusterField {
+extension ClusterFieldValueExtension on ClusterField {
   String toValue() {
     switch (this) {
       case ClusterField.attachments:
@@ -5669,7 +5670,7 @@ enum ClusterSettingName {
   containerInsights,
 }
 
-extension ClusterSettingNameValue on ClusterSettingName {
+extension ClusterSettingNameValueExtension on ClusterSettingName {
   String toValue() {
     switch (this) {
       case ClusterSettingName.containerInsights:
@@ -5693,7 +5694,7 @@ enum Compatibility {
   fargate,
 }
 
-extension CompatibilityValue on Compatibility {
+extension CompatibilityValueExtension on Compatibility {
   String toValue() {
     switch (this) {
       case Compatibility.ec2:
@@ -5721,7 +5722,7 @@ enum Connectivity {
   disconnected,
 }
 
-extension ConnectivityValue on Connectivity {
+extension ConnectivityValueExtension on Connectivity {
   String toValue() {
     switch (this) {
       case Connectivity.connected:
@@ -5859,7 +5860,7 @@ enum ContainerCondition {
   healthy,
 }
 
-extension ContainerConditionValue on ContainerCondition {
+extension ContainerConditionValueExtension on ContainerCondition {
   String toValue() {
     switch (this) {
       case ContainerCondition.start:
@@ -7199,7 +7200,7 @@ enum ContainerInstanceField {
   tags,
 }
 
-extension ContainerInstanceFieldValue on ContainerInstanceField {
+extension ContainerInstanceFieldValueExtension on ContainerInstanceField {
   String toValue() {
     switch (this) {
       case ContainerInstanceField.tags:
@@ -7226,7 +7227,7 @@ enum ContainerInstanceStatus {
   registrationFailed,
 }
 
-extension ContainerInstanceStatusValue on ContainerInstanceStatus {
+extension ContainerInstanceStatusValueExtension on ContainerInstanceStatus {
   String toValue() {
     switch (this) {
       case ContainerInstanceStatus.active:
@@ -7911,7 +7912,7 @@ enum DeploymentControllerType {
   external,
 }
 
-extension DeploymentControllerTypeValue on DeploymentControllerType {
+extension DeploymentControllerTypeValueExtension on DeploymentControllerType {
   String toValue() {
     switch (this) {
       case DeploymentControllerType.ecs:
@@ -7944,7 +7945,7 @@ enum DeploymentRolloutState {
   inProgress,
 }
 
-extension DeploymentRolloutStateValue on DeploymentRolloutState {
+extension DeploymentRolloutStateValueExtension on DeploymentRolloutState {
   String toValue() {
     switch (this) {
       case DeploymentRolloutState.completed:
@@ -8234,7 +8235,7 @@ enum DesiredStatus {
   stopped,
 }
 
-extension DesiredStatusValue on DesiredStatus {
+extension DesiredStatusValueExtension on DesiredStatus {
   String toValue() {
     switch (this) {
       case DesiredStatus.running:
@@ -8309,7 +8310,7 @@ enum DeviceCgroupPermission {
   mknod,
 }
 
-extension DeviceCgroupPermissionValue on DeviceCgroupPermission {
+extension DeviceCgroupPermissionValueExtension on DeviceCgroupPermission {
   String toValue() {
     switch (this) {
       case DeviceCgroupPermission.read:
@@ -8493,7 +8494,7 @@ enum EFSAuthorizationConfigIAM {
   disabled,
 }
 
-extension EFSAuthorizationConfigIAMValue on EFSAuthorizationConfigIAM {
+extension EFSAuthorizationConfigIAMValueExtension on EFSAuthorizationConfigIAM {
   String toValue() {
     switch (this) {
       case EFSAuthorizationConfigIAM.enabled:
@@ -8521,7 +8522,7 @@ enum EFSTransitEncryption {
   disabled,
 }
 
-extension EFSTransitEncryptionValue on EFSTransitEncryption {
+extension EFSTransitEncryptionValueExtension on EFSTransitEncryption {
   String toValue() {
     switch (this) {
       case EFSTransitEncryption.enabled:
@@ -8678,7 +8679,7 @@ enum EnvironmentFileType {
   s3,
 }
 
-extension EnvironmentFileTypeValue on EnvironmentFileType {
+extension EnvironmentFileTypeValueExtension on EnvironmentFileType {
   String toValue() {
     switch (this) {
       case EnvironmentFileType.s3:
@@ -8864,7 +8865,7 @@ enum FirelensConfigurationType {
   fluentbit,
 }
 
-extension FirelensConfigurationTypeValue on FirelensConfigurationType {
+extension FirelensConfigurationTypeValueExtension on FirelensConfigurationType {
   String toValue() {
     switch (this) {
       case FirelensConfigurationType.fluentd:
@@ -9037,7 +9038,7 @@ enum HealthStatus {
   unknown,
 }
 
-extension HealthStatusValue on HealthStatus {
+extension HealthStatusValueExtension on HealthStatus {
   String toValue() {
     switch (this) {
       case HealthStatus.healthy:
@@ -9204,7 +9205,7 @@ enum IpcMode {
   none,
 }
 
-extension IpcModeValue on IpcMode {
+extension IpcModeValueExtension on IpcMode {
   String toValue() {
     switch (this) {
       case IpcMode.host:
@@ -9346,7 +9347,7 @@ enum LaunchType {
   fargate,
 }
 
-extension LaunchTypeValue on LaunchType {
+extension LaunchTypeValueExtension on LaunchType {
   String toValue() {
     switch (this) {
       case LaunchType.ec2:
@@ -9957,7 +9958,7 @@ enum LogDriver {
   awsfirelens,
 }
 
-extension LogDriverValue on LogDriver {
+extension LogDriverValueExtension on LogDriver {
   String toValue() {
     switch (this) {
       case LogDriver.jsonFile:
@@ -10083,7 +10084,7 @@ enum ManagedScalingStatus {
   disabled,
 }
 
-extension ManagedScalingStatusValue on ManagedScalingStatus {
+extension ManagedScalingStatusValueExtension on ManagedScalingStatus {
   String toValue() {
     switch (this) {
       case ManagedScalingStatus.enabled:
@@ -10111,7 +10112,8 @@ enum ManagedTerminationProtection {
   disabled,
 }
 
-extension ManagedTerminationProtectionValue on ManagedTerminationProtection {
+extension ManagedTerminationProtectionValueExtension
+    on ManagedTerminationProtection {
   String toValue() {
     switch (this) {
       case ManagedTerminationProtection.enabled:
@@ -10281,7 +10283,7 @@ enum NetworkMode {
   none,
 }
 
-extension NetworkModeValue on NetworkMode {
+extension NetworkModeValueExtension on NetworkMode {
   String toValue() {
     switch (this) {
       case NetworkMode.bridge:
@@ -10317,7 +10319,7 @@ enum PidMode {
   task,
 }
 
-extension PidModeValue on PidMode {
+extension PidModeValueExtension on PidMode {
   String toValue() {
     switch (this) {
       case PidMode.host:
@@ -10390,7 +10392,7 @@ enum PlacementConstraintType {
   memberOf,
 }
 
-extension PlacementConstraintTypeValue on PlacementConstraintType {
+extension PlacementConstraintTypeValueExtension on PlacementConstraintType {
   String toValue() {
     switch (this) {
       case PlacementConstraintType.distinctInstance:
@@ -10466,7 +10468,7 @@ enum PlacementStrategyType {
   binpack,
 }
 
-extension PlacementStrategyTypeValue on PlacementStrategyType {
+extension PlacementStrategyTypeValueExtension on PlacementStrategyType {
   String toValue() {
     switch (this) {
       case PlacementStrategyType.random:
@@ -10523,7 +10525,7 @@ enum PlatformDeviceType {
   gpu,
 }
 
-extension PlatformDeviceTypeValue on PlatformDeviceType {
+extension PlatformDeviceTypeValueExtension on PlatformDeviceType {
   String toValue() {
     switch (this) {
       case PlatformDeviceType.gpu:
@@ -10639,7 +10641,7 @@ enum PropagateTags {
   service,
 }
 
-extension PropagateTagsValue on PropagateTags {
+extension PropagateTagsValueExtension on PropagateTags {
   String toValue() {
     switch (this) {
       case PropagateTags.taskDefinition:
@@ -10753,7 +10755,7 @@ enum ProxyConfigurationType {
   appmesh,
 }
 
-extension ProxyConfigurationTypeValue on ProxyConfigurationType {
+extension ProxyConfigurationTypeValueExtension on ProxyConfigurationType {
   String toValue() {
     switch (this) {
       case ProxyConfigurationType.appmesh:
@@ -11026,7 +11028,7 @@ enum ResourceType {
   inferenceAccelerator,
 }
 
-extension ResourceTypeValue on ResourceType {
+extension ResourceTypeValueExtension on ResourceType {
   String toValue() {
     switch (this) {
       case ResourceType.gpu:
@@ -11111,7 +11113,7 @@ enum ScaleUnit {
   percent,
 }
 
-extension ScaleUnitValue on ScaleUnit {
+extension ScaleUnitValueExtension on ScaleUnit {
   String toValue() {
     switch (this) {
       case ScaleUnit.percent:
@@ -11135,7 +11137,7 @@ enum SchedulingStrategy {
   daemon,
 }
 
-extension SchedulingStrategyValue on SchedulingStrategy {
+extension SchedulingStrategyValueExtension on SchedulingStrategy {
   String toValue() {
     switch (this) {
       case SchedulingStrategy.replica:
@@ -11163,7 +11165,7 @@ enum Scope {
   shared,
 }
 
-extension ScopeValue on Scope {
+extension ScopeValueExtension on Scope {
   String toValue() {
     switch (this) {
       case Scope.task:
@@ -11566,7 +11568,7 @@ enum ServiceField {
   tags,
 }
 
-extension ServiceFieldValue on ServiceField {
+extension ServiceFieldValueExtension on ServiceField {
   String toValue() {
     switch (this) {
       case ServiceField.tags:
@@ -11683,7 +11685,7 @@ enum SettingName {
   containerInsights,
 }
 
-extension SettingNameValue on SettingName {
+extension SettingNameValueExtension on SettingName {
   String toValue() {
     switch (this) {
       case SettingName.serviceLongArnFormat:
@@ -11723,7 +11725,7 @@ enum SortOrder {
   desc,
 }
 
-extension SortOrderValue on SortOrder {
+extension SortOrderValueExtension on SortOrder {
   String toValue() {
     switch (this) {
       case SortOrder.asc:
@@ -11751,7 +11753,7 @@ enum StabilityStatus {
   stabilizing,
 }
 
-extension StabilityStatusValue on StabilityStatus {
+extension StabilityStatusValueExtension on StabilityStatus {
   String toValue() {
     switch (this) {
       case StabilityStatus.steadyState:
@@ -11995,7 +11997,7 @@ enum TargetType {
   containerInstance,
 }
 
-extension TargetTypeValue on TargetType {
+extension TargetTypeValueExtension on TargetType {
   String toValue() {
     switch (this) {
       case TargetType.containerInstance:
@@ -12716,7 +12718,8 @@ enum TaskDefinitionFamilyStatus {
   all,
 }
 
-extension TaskDefinitionFamilyStatusValue on TaskDefinitionFamilyStatus {
+extension TaskDefinitionFamilyStatusValueExtension
+    on TaskDefinitionFamilyStatus {
   String toValue() {
     switch (this) {
       case TaskDefinitionFamilyStatus.active:
@@ -12747,7 +12750,7 @@ enum TaskDefinitionField {
   tags,
 }
 
-extension TaskDefinitionFieldValue on TaskDefinitionField {
+extension TaskDefinitionFieldValueExtension on TaskDefinitionField {
   String toValue() {
     switch (this) {
       case TaskDefinitionField.tags:
@@ -12814,7 +12817,7 @@ enum TaskDefinitionPlacementConstraintType {
   memberOf,
 }
 
-extension TaskDefinitionPlacementConstraintTypeValue
+extension TaskDefinitionPlacementConstraintTypeValueExtension
     on TaskDefinitionPlacementConstraintType {
   String toValue() {
     switch (this) {
@@ -12841,7 +12844,7 @@ enum TaskDefinitionStatus {
   inactive,
 }
 
-extension TaskDefinitionStatusValue on TaskDefinitionStatus {
+extension TaskDefinitionStatusValueExtension on TaskDefinitionStatus {
   String toValue() {
     switch (this) {
       case TaskDefinitionStatus.active:
@@ -12868,7 +12871,7 @@ enum TaskField {
   tags,
 }
 
-extension TaskFieldValue on TaskField {
+extension TaskFieldValueExtension on TaskField {
   String toValue() {
     switch (this) {
       case TaskField.tags:
@@ -13206,7 +13209,7 @@ enum TaskSetField {
   tags,
 }
 
-extension TaskSetFieldValue on TaskSetField {
+extension TaskSetFieldValueExtension on TaskSetField {
   String toValue() {
     switch (this) {
       case TaskSetField.tags:
@@ -13231,7 +13234,7 @@ enum TaskStopCode {
   userInitiated,
 }
 
-extension TaskStopCodeValue on TaskStopCode {
+extension TaskStopCodeValueExtension on TaskStopCode {
   String toValue() {
     switch (this) {
       case TaskStopCode.taskFailedToStart:
@@ -13310,7 +13313,7 @@ enum TransportProtocol {
   udp,
 }
 
-extension TransportProtocolValue on TransportProtocol {
+extension TransportProtocolValueExtension on TransportProtocol {
   String toValue() {
     switch (this) {
       case TransportProtocol.tcp:
@@ -13387,7 +13390,7 @@ enum UlimitName {
   stack,
 }
 
-extension UlimitNameValue on UlimitName {
+extension UlimitNameValueExtension on UlimitName {
   String toValue() {
     switch (this) {
       case UlimitName.core:

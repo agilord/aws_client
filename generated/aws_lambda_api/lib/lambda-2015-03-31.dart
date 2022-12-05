@@ -4834,7 +4834,7 @@ enum CodeSigningPolicy {
   enforce,
 }
 
-extension CodeSigningPolicyValue on CodeSigningPolicy {
+extension CodeSigningPolicyValueExtension on CodeSigningPolicy {
   String toValue() {
     switch (this) {
       case CodeSigningPolicy.warn:
@@ -4959,7 +4959,7 @@ enum EndPointType {
   kafkaBootstrapServers,
 }
 
-extension EndPointTypeValue on EndPointType {
+extension EndPointTypeValueExtension on EndPointType {
   String toValue() {
     switch (this) {
       case EndPointType.kafkaBootstrapServers:
@@ -5207,7 +5207,7 @@ enum EventSourcePosition {
   atTimestamp,
 }
 
-extension EventSourcePositionValue on EventSourcePosition {
+extension EventSourcePositionValueExtension on EventSourcePosition {
   String toValue() {
     switch (this) {
       case EventSourcePosition.trimHorizon:
@@ -5598,7 +5598,7 @@ enum FunctionResponseType {
   reportBatchItemFailures,
 }
 
-extension FunctionResponseTypeValue on FunctionResponseType {
+extension FunctionResponseTypeValueExtension on FunctionResponseType {
   String toValue() {
     switch (this) {
       case FunctionResponseType.reportBatchItemFailures:
@@ -5621,7 +5621,7 @@ enum FunctionVersion {
   all,
 }
 
-extension FunctionVersionValue on FunctionVersion {
+extension FunctionVersionValueExtension on FunctionVersion {
   String toValue() {
     switch (this) {
       case FunctionVersion.all:
@@ -6036,7 +6036,7 @@ enum InvocationType {
   dryRun,
 }
 
-extension InvocationTypeValue on InvocationType {
+extension InvocationTypeValueExtension on InvocationType {
   String toValue() {
     switch (this) {
       case InvocationType.event:
@@ -6084,7 +6084,7 @@ enum LastUpdateStatus {
   inProgress,
 }
 
-extension LastUpdateStatusValue on LastUpdateStatus {
+extension LastUpdateStatusValueExtension on LastUpdateStatus {
   String toValue() {
     switch (this) {
       case LastUpdateStatus.successful:
@@ -6124,7 +6124,8 @@ enum LastUpdateStatusReasonCode {
   invalidImage,
 }
 
-extension LastUpdateStatusReasonCodeValue on LastUpdateStatusReasonCode {
+extension LastUpdateStatusReasonCodeValueExtension
+    on LastUpdateStatusReasonCode {
   String toValue() {
     switch (this) {
       case LastUpdateStatusReasonCode.eniLimitExceeded:
@@ -6612,7 +6613,7 @@ enum LogType {
   tail,
 }
 
-extension LogTypeValue on LogType {
+extension LogTypeValueExtension on LogType {
   String toValue() {
     switch (this) {
       case LogType.none:
@@ -6684,7 +6685,7 @@ enum PackageType {
   image,
 }
 
-extension PackageTypeValue on PackageType {
+extension PackageTypeValueExtension on PackageType {
   String toValue() {
     switch (this) {
       case PackageType.zip:
@@ -6766,7 +6767,7 @@ enum ProvisionedConcurrencyStatusEnum {
   failed,
 }
 
-extension ProvisionedConcurrencyStatusEnumValue
+extension ProvisionedConcurrencyStatusEnumValueExtension
     on ProvisionedConcurrencyStatusEnum {
   String toValue() {
     switch (this) {
@@ -6960,7 +6961,7 @@ enum Runtime {
   providedAl2,
 }
 
-extension RuntimeValue on Runtime {
+extension RuntimeValueExtension on Runtime {
   String toValue() {
     switch (this) {
       case Runtime.nodejs:
@@ -7158,7 +7159,7 @@ enum SourceAccessType {
   saslScram_256Auth,
 }
 
-extension SourceAccessTypeValue on SourceAccessType {
+extension SourceAccessTypeValueExtension on SourceAccessType {
   String toValue() {
     switch (this) {
       case SourceAccessType.basicAuth:
@@ -7200,7 +7201,7 @@ enum State {
   failed,
 }
 
-extension StateValue on State {
+extension StateValueExtension on State {
   String toValue() {
     switch (this) {
       case State.pending:
@@ -7247,7 +7248,7 @@ enum StateReasonCode {
   invalidImage,
 }
 
-extension StateReasonCodeValue on StateReasonCode {
+extension StateReasonCodeValueExtension on StateReasonCode {
   String toValue() {
     switch (this) {
       case StateReasonCode.idle:
@@ -7351,7 +7352,7 @@ enum TracingMode {
   passThrough,
 }
 
-extension TracingModeValue on TracingMode {
+extension TracingModeValueExtension on TracingMode {
   String toValue() {
     switch (this) {
       case TracingMode.active:

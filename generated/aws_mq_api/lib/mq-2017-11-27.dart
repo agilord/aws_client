@@ -980,7 +980,7 @@ enum AuthenticationStrategy {
   ldap,
 }
 
-extension AuthenticationStrategyValue on AuthenticationStrategy {
+extension AuthenticationStrategyValueExtension on AuthenticationStrategy {
   String toValue() {
     switch (this) {
       case AuthenticationStrategy.simple:
@@ -1128,7 +1128,7 @@ enum BrokerState {
   rebootInProgress,
 }
 
-extension BrokerStateValue on BrokerState {
+extension BrokerStateValueExtension on BrokerState {
   String toValue() {
     switch (this) {
       case BrokerState.creationInProgress:
@@ -1170,7 +1170,7 @@ enum BrokerStorageType {
   efs,
 }
 
-extension BrokerStorageTypeValue on BrokerStorageType {
+extension BrokerStorageTypeValueExtension on BrokerStorageType {
   String toValue() {
     switch (this) {
       case BrokerStorageType.ebs:
@@ -1253,7 +1253,7 @@ enum ChangeType {
   delete,
 }
 
-extension ChangeTypeValue on ChangeType {
+extension ChangeTypeValueExtension on ChangeType {
   String toValue() {
     switch (this) {
       case ChangeType.create:
@@ -1518,7 +1518,7 @@ enum DayOfWeek {
   sunday,
 }
 
-extension DayOfWeekValue on DayOfWeek {
+extension DayOfWeekValueExtension on DayOfWeek {
   String toValue() {
     switch (this) {
       case DayOfWeek.monday:
@@ -1589,7 +1589,7 @@ enum DeploymentMode {
   clusterMultiAz,
 }
 
-extension DeploymentModeValue on DeploymentMode {
+extension DeploymentModeValueExtension on DeploymentMode {
   String toValue() {
     switch (this) {
       case DeploymentMode.singleInstance:
@@ -2065,7 +2065,7 @@ enum EngineType {
   rabbitmq,
 }
 
-extension EngineTypeValue on EngineType {
+extension EngineTypeValueExtension on EngineType {
   String toValue() {
     switch (this) {
       case EngineType.activemq:
@@ -2520,7 +2520,7 @@ enum SanitizationWarningReason {
   invalidAttributeValueRemoved,
 }
 
-extension SanitizationWarningReasonValue on SanitizationWarningReason {
+extension SanitizationWarningReasonValueExtension on SanitizationWarningReason {
   String toValue() {
     switch (this) {
       case SanitizationWarningReason.disallowedElementRemoved:

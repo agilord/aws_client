@@ -535,7 +535,7 @@ enum CurrencyCode {
   usd,
 }
 
-extension CurrencyCodeValue on CurrencyCode {
+extension CurrencyCodeValueExtension on CurrencyCode {
   String toValue() {
     switch (this) {
       case CurrencyCode.cny:
@@ -927,7 +927,7 @@ enum SavingsPlanOfferingFilterAttribute {
   instanceFamily,
 }
 
-extension SavingsPlanOfferingFilterAttributeValue
+extension SavingsPlanOfferingFilterAttributeValueExtension
     on SavingsPlanOfferingFilterAttribute {
   String toValue() {
     switch (this) {
@@ -999,7 +999,7 @@ enum SavingsPlanOfferingPropertyKey {
   instanceFamily,
 }
 
-extension SavingsPlanOfferingPropertyKeyValue
+extension SavingsPlanOfferingPropertyKeyValueExtension
     on SavingsPlanOfferingPropertyKey {
   String toValue() {
     switch (this) {
@@ -1130,7 +1130,7 @@ enum SavingsPlanPaymentOption {
   noUpfront,
 }
 
-extension SavingsPlanPaymentOptionValue on SavingsPlanPaymentOption {
+extension SavingsPlanPaymentOptionValueExtension on SavingsPlanPaymentOption {
   String toValue() {
     switch (this) {
       case SavingsPlanPaymentOption.allUpfront:
@@ -1163,7 +1163,7 @@ enum SavingsPlanProductType {
   lambda,
 }
 
-extension SavingsPlanProductTypeValue on SavingsPlanProductType {
+extension SavingsPlanProductTypeValueExtension on SavingsPlanProductType {
   String toValue() {
     switch (this) {
       case SavingsPlanProductType.ec2:
@@ -1276,7 +1276,7 @@ enum SavingsPlanRateFilterAttribute {
   productId,
 }
 
-extension SavingsPlanRateFilterAttributeValue
+extension SavingsPlanRateFilterAttributeValueExtension
     on SavingsPlanRateFilterAttribute {
   String toValue() {
     switch (this) {
@@ -1328,7 +1328,7 @@ enum SavingsPlanRateFilterName {
   operation,
 }
 
-extension SavingsPlanRateFilterNameValue on SavingsPlanRateFilterName {
+extension SavingsPlanRateFilterNameValueExtension on SavingsPlanRateFilterName {
   String toValue() {
     switch (this) {
       case SavingsPlanRateFilterName.region:
@@ -1403,7 +1403,8 @@ enum SavingsPlanRatePropertyKey {
   tenancy,
 }
 
-extension SavingsPlanRatePropertyKeyValue on SavingsPlanRatePropertyKey {
+extension SavingsPlanRatePropertyKeyValueExtension
+    on SavingsPlanRatePropertyKey {
   String toValue() {
     switch (this) {
       case SavingsPlanRatePropertyKey.region:
@@ -1444,7 +1445,8 @@ enum SavingsPlanRateServiceCode {
   awsLambda,
 }
 
-extension SavingsPlanRateServiceCodeValue on SavingsPlanRateServiceCode {
+extension SavingsPlanRateServiceCodeValueExtension
+    on SavingsPlanRateServiceCode {
   String toValue() {
     switch (this) {
       case SavingsPlanRateServiceCode.amazonEC2:
@@ -1477,7 +1479,7 @@ enum SavingsPlanRateUnit {
   request,
 }
 
-extension SavingsPlanRateUnitValue on SavingsPlanRateUnit {
+extension SavingsPlanRateUnitValueExtension on SavingsPlanRateUnit {
   String toValue() {
     switch (this) {
       case SavingsPlanRateUnit.hrs:
@@ -1513,7 +1515,7 @@ enum SavingsPlanState {
   queuedDeleted,
 }
 
-extension SavingsPlanStateValue on SavingsPlanState {
+extension SavingsPlanStateValueExtension on SavingsPlanState {
   String toValue() {
     switch (this) {
       case SavingsPlanState.paymentPending:
@@ -1557,7 +1559,7 @@ enum SavingsPlanType {
   eC2Instance,
 }
 
-extension SavingsPlanTypeValue on SavingsPlanType {
+extension SavingsPlanTypeValueExtension on SavingsPlanType {
   String toValue() {
     switch (this) {
       case SavingsPlanType.compute:
@@ -1592,7 +1594,7 @@ enum SavingsPlansFilterName {
   end,
 }
 
-extension SavingsPlansFilterNameValue on SavingsPlansFilterName {
+extension SavingsPlansFilterNameValueExtension on SavingsPlansFilterName {
   String toValue() {
     switch (this) {
       case SavingsPlansFilterName.region:

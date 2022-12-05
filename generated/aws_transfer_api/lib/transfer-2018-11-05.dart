@@ -2230,7 +2230,7 @@ enum EndpointType {
   vpcEndpoint,
 }
 
-extension EndpointTypeValue on EndpointType {
+extension EndpointTypeValueExtension on EndpointType {
   String toValue() {
     switch (this) {
       case EndpointType.public:
@@ -2293,7 +2293,7 @@ enum HomeDirectoryType {
   logical,
 }
 
-extension HomeDirectoryTypeValue on HomeDirectoryType {
+extension HomeDirectoryTypeValueExtension on HomeDirectoryType {
   String toValue() {
     switch (this) {
       case HomeDirectoryType.path:
@@ -2360,7 +2360,7 @@ enum IdentityProviderType {
   apiGateway,
 }
 
-extension IdentityProviderTypeValue on IdentityProviderType {
+extension IdentityProviderTypeValueExtension on IdentityProviderType {
   String toValue() {
     switch (this) {
       case IdentityProviderType.serviceManaged:
@@ -2645,7 +2645,7 @@ enum Protocol {
   ftps,
 }
 
-extension ProtocolValue on Protocol {
+extension ProtocolValueExtension on Protocol {
   String toValue() {
     switch (this) {
       case Protocol.sftp:
@@ -2727,7 +2727,7 @@ enum State {
   stopFailed,
 }
 
-extension StateValue on State {
+extension StateValueExtension on State {
   String toValue() {
     switch (this) {
       case State.offline:

@@ -815,7 +815,7 @@ enum ServiceType {
   rds,
 }
 
-extension ServiceTypeValue on ServiceType {
+extension ServiceTypeValueExtension on ServiceType {
   String toValue() {
     switch (this) {
       case ServiceType.rds:

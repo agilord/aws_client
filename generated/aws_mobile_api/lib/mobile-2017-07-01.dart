@@ -640,7 +640,7 @@ enum Platform {
   javascript,
 }
 
-extension PlatformValue on Platform {
+extension PlatformValueExtension on Platform {
   String toValue() {
     switch (this) {
       case Platform.osx:
@@ -733,7 +733,7 @@ enum ProjectState {
   importing,
 }
 
-extension ProjectStateValue on ProjectState {
+extension ProjectStateValueExtension on ProjectState {
   String toValue() {
     switch (this) {
       case ProjectState.normal:

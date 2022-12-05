@@ -2690,7 +2690,7 @@ enum ArchiveState {
   updateFailed,
 }
 
-extension ArchiveStateValue on ArchiveState {
+extension ArchiveStateValueExtension on ArchiveState {
   String toValue() {
     switch (this) {
       case ArchiveState.enabled:
@@ -2734,7 +2734,7 @@ enum AssignPublicIp {
   disabled,
 }
 
-extension AssignPublicIpValue on AssignPublicIp {
+extension AssignPublicIpValueExtension on AssignPublicIp {
   String toValue() {
     switch (this) {
       case AssignPublicIp.enabled:
@@ -3530,7 +3530,7 @@ enum EventSourceState {
   deleted,
 }
 
-extension EventSourceStateValue on EventSourceState {
+extension EventSourceStateValueExtension on EventSourceState {
   String toValue() {
     switch (this) {
       case EventSourceState.pending:
@@ -3722,7 +3722,7 @@ enum LaunchType {
   fargate,
 }
 
-extension LaunchTypeValue on LaunchType {
+extension LaunchTypeValueExtension on LaunchType {
   String toValue() {
     switch (this) {
       case LaunchType.ec2:
@@ -4528,7 +4528,7 @@ enum ReplayState {
   failed,
 }
 
-extension ReplayStateValue on ReplayState {
+extension ReplayStateValueExtension on ReplayState {
   String toValue() {
     switch (this) {
       case ReplayState.starting:
@@ -4667,7 +4667,7 @@ enum RuleState {
   disabled,
 }
 
-extension RuleStateValue on RuleState {
+extension RuleStateValueExtension on RuleState {
   String toValue() {
     switch (this) {
       case RuleState.enabled:

@@ -10959,7 +10959,7 @@ enum AccessAdvisorUsageGranularityType {
   actionLevel,
 }
 
-extension AccessAdvisorUsageGranularityTypeValue
+extension AccessAdvisorUsageGranularityTypeValueExtension
     on AccessAdvisorUsageGranularityType {
   String toValue() {
     switch (this) {
@@ -11332,7 +11332,7 @@ enum ContextKeyTypeEnum {
   dateList,
 }
 
-extension ContextKeyTypeEnumValue on ContextKeyTypeEnum {
+extension ContextKeyTypeEnumValueExtension on ContextKeyTypeEnum {
   String toValue() {
     switch (this) {
       case ContextKeyTypeEnum.string:
@@ -11660,7 +11660,7 @@ enum DeletionTaskStatusType {
   notStarted,
 }
 
-extension DeletionTaskStatusTypeValue on DeletionTaskStatusType {
+extension DeletionTaskStatusTypeValueExtension on DeletionTaskStatusType {
   String toValue() {
     switch (this) {
       case DeletionTaskStatusType.succeeded:
@@ -11770,7 +11770,7 @@ enum EntityType {
   awsManagedPolicy,
 }
 
-extension EntityTypeValue on EntityType {
+extension EntityTypeValueExtension on EntityType {
   String toValue() {
     switch (this) {
       case EntityType.user:
@@ -14275,7 +14275,7 @@ enum PermissionsBoundaryAttachmentType {
   permissionsBoundaryPolicy,
 }
 
-extension PermissionsBoundaryAttachmentTypeValue
+extension PermissionsBoundaryAttachmentTypeValueExtension
     on PermissionsBoundaryAttachmentType {
   String toValue() {
     switch (this) {
@@ -14447,7 +14447,8 @@ enum PolicyEvaluationDecisionType {
   implicitDeny,
 }
 
-extension PolicyEvaluationDecisionTypeValue on PolicyEvaluationDecisionType {
+extension PolicyEvaluationDecisionTypeValueExtension
+    on PolicyEvaluationDecisionType {
   String toValue() {
     switch (this) {
       case PolicyEvaluationDecisionType.allowed:
@@ -14597,7 +14598,7 @@ enum PolicySourceType {
   none,
 }
 
-extension PolicySourceTypeValue on PolicySourceType {
+extension PolicySourceTypeValueExtension on PolicySourceType {
   String toValue() {
     switch (this) {
       case PolicySourceType.user:
@@ -14651,7 +14652,7 @@ enum PolicyUsageType {
   permissionsBoundary,
 }
 
-extension PolicyUsageTypeValue on PolicyUsageType {
+extension PolicyUsageTypeValueExtension on PolicyUsageType {
   String toValue() {
     switch (this) {
       case PolicyUsageType.permissionsPolicy:
@@ -14788,7 +14789,7 @@ enum ReportFormatType {
   textCsv,
 }
 
-extension ReportFormatTypeValue on ReportFormatType {
+extension ReportFormatTypeValueExtension on ReportFormatType {
   String toValue() {
     switch (this) {
       case ReportFormatType.textCsv:
@@ -14813,7 +14814,7 @@ enum ReportStateType {
   complete,
 }
 
-extension ReportStateTypeValue on ReportStateType {
+extension ReportStateTypeValueExtension on ReportStateType {
   String toValue() {
     switch (this) {
       case ReportStateType.started:
@@ -16149,7 +16150,7 @@ enum AssignmentStatusType {
   any,
 }
 
-extension AssignmentStatusTypeValue on AssignmentStatusType {
+extension AssignmentStatusTypeValueExtension on AssignmentStatusType {
   String toValue() {
     switch (this) {
       case AssignmentStatusType.assigned:
@@ -16181,7 +16182,7 @@ enum EncodingType {
   pem,
 }
 
-extension EncodingTypeValue on EncodingType {
+extension EncodingTypeValueExtension on EncodingType {
   String toValue() {
     switch (this) {
       case EncodingType.ssh:
@@ -16209,7 +16210,8 @@ enum GlobalEndpointTokenVersion {
   v2Token,
 }
 
-extension GlobalEndpointTokenVersionValue on GlobalEndpointTokenVersion {
+extension GlobalEndpointTokenVersionValueExtension
+    on GlobalEndpointTokenVersion {
   String toValue() {
     switch (this) {
       case GlobalEndpointTokenVersion.v1Token:
@@ -16238,7 +16240,7 @@ enum JobStatusType {
   failed,
 }
 
-extension JobStatusTypeValue on JobStatusType {
+extension JobStatusTypeValueExtension on JobStatusType {
   String toValue() {
     switch (this) {
       case JobStatusType.inProgress:
@@ -16271,7 +16273,7 @@ enum PolicyOwnerEntityType {
   group,
 }
 
-extension PolicyOwnerEntityTypeValue on PolicyOwnerEntityType {
+extension PolicyOwnerEntityTypeValueExtension on PolicyOwnerEntityType {
   String toValue() {
     switch (this) {
       case PolicyOwnerEntityType.user:
@@ -16304,7 +16306,7 @@ enum PolicyScopeType {
   local,
 }
 
-extension PolicyScopeTypeValue on PolicyScopeType {
+extension PolicyScopeTypeValueExtension on PolicyScopeType {
   String toValue() {
     switch (this) {
       case PolicyScopeType.all:
@@ -16336,7 +16338,7 @@ enum PolicyType {
   managed,
 }
 
-extension PolicyTypeValue on PolicyType {
+extension PolicyTypeValueExtension on PolicyType {
   String toValue() {
     switch (this) {
       case PolicyType.inline:
@@ -16366,7 +16368,7 @@ enum SortKeyType {
   lastAuthenticatedTimeDescending,
 }
 
-extension SortKeyTypeValue on SortKeyType {
+extension SortKeyTypeValueExtension on SortKeyType {
   String toValue() {
     switch (this) {
       case SortKeyType.serviceNamespaceAscending:
@@ -16402,7 +16404,7 @@ enum StatusType {
   inactive,
 }
 
-extension StatusTypeValue on StatusType {
+extension StatusTypeValueExtension on StatusType {
   String toValue() {
     switch (this) {
       case StatusType.active:
@@ -16454,7 +16456,7 @@ enum SummaryKeyType {
   globalEndpointTokenVersion,
 }
 
-extension SummaryKeyTypeValue on SummaryKeyType {
+extension SummaryKeyTypeValueExtension on SummaryKeyType {
   String toValue() {
     switch (this) {
       case SummaryKeyType.users:

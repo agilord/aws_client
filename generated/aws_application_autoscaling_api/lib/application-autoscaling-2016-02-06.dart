@@ -2624,7 +2624,7 @@ enum AdjustmentType {
   exactCapacity,
 }
 
-extension AdjustmentTypeValue on AdjustmentType {
+extension AdjustmentTypeValueExtension on AdjustmentType {
   String toValue() {
     switch (this) {
       case AdjustmentType.changeInCapacity:
@@ -2875,7 +2875,7 @@ enum MetricAggregationType {
   maximum,
 }
 
-extension MetricAggregationTypeValue on MetricAggregationType {
+extension MetricAggregationTypeValueExtension on MetricAggregationType {
   String toValue() {
     switch (this) {
       case MetricAggregationType.average:
@@ -2939,7 +2939,7 @@ enum MetricStatistic {
   sum,
 }
 
-extension MetricStatisticValue on MetricStatistic {
+extension MetricStatisticValueExtension on MetricStatistic {
   String toValue() {
     switch (this) {
       case MetricStatistic.average:
@@ -2994,7 +2994,7 @@ enum MetricType {
   kafkaBrokerStorageUtilization,
 }
 
-extension MetricTypeValue on MetricType {
+extension MetricTypeValueExtension on MetricType {
   String toValue() {
     switch (this) {
       case MetricType.dynamoDBReadCapacityUtilization:
@@ -3082,7 +3082,7 @@ enum PolicyType {
   targetTrackingScaling,
 }
 
-extension PolicyTypeValue on PolicyType {
+extension PolicyTypeValueExtension on PolicyType {
   String toValue() {
     switch (this) {
       case PolicyType.stepScaling:
@@ -3229,7 +3229,7 @@ enum ScalableDimension {
   kafkaBrokerStorageVolumeSize,
 }
 
-extension ScalableDimensionValue on ScalableDimension {
+extension ScalableDimensionValueExtension on ScalableDimension {
   String toValue() {
     switch (this) {
       case ScalableDimension.ecsServiceDesiredCount:
@@ -3796,7 +3796,7 @@ enum ScalingActivityStatusCode {
   failed,
 }
 
-extension ScalingActivityStatusCodeValue on ScalingActivityStatusCode {
+extension ScalingActivityStatusCodeValueExtension on ScalingActivityStatusCode {
   String toValue() {
     switch (this) {
       case ScalingActivityStatusCode.pending:
@@ -4332,7 +4332,7 @@ enum ServiceNamespace {
   kafka,
 }
 
-extension ServiceNamespaceValue on ServiceNamespace {
+extension ServiceNamespaceValueExtension on ServiceNamespace {
   String toValue() {
     switch (this) {
       case ServiceNamespace.ecs:

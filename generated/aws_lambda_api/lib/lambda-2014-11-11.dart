@@ -929,7 +929,7 @@ enum Mode {
   event,
 }
 
-extension ModeValue on Mode {
+extension ModeValueExtension on Mode {
   String toValue() {
     switch (this) {
       case Mode.event:
@@ -969,7 +969,7 @@ enum Runtime {
   nodejs,
 }
 
-extension RuntimeValue on Runtime {
+extension RuntimeValueExtension on Runtime {
   String toValue() {
     switch (this) {
       case Runtime.nodejs:

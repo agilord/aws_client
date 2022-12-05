@@ -5233,7 +5233,7 @@ enum Channel {
   task,
 }
 
-extension ChannelValue on Channel {
+extension ChannelValueExtension on Channel {
   String toValue() {
     switch (this) {
       case Channel.voice:
@@ -5286,7 +5286,7 @@ enum Comparison {
   lt,
 }
 
-extension ComparisonValue on Comparison {
+extension ComparisonValueExtension on Comparison {
   String toValue() {
     switch (this) {
       case Comparison.lt:
@@ -5401,7 +5401,7 @@ enum ContactFlowType {
   queueTransfer,
 }
 
-extension ContactFlowTypeValue on ContactFlowType {
+extension ContactFlowTypeValueExtension on ContactFlowType {
   String toValue() {
     switch (this) {
       case ContactFlowType.contactFlow:
@@ -5707,7 +5707,7 @@ enum CurrentMetricName {
   slotsAvailable,
 }
 
-extension CurrentMetricNameValue on CurrentMetricName {
+extension CurrentMetricNameValueExtension on CurrentMetricName {
   String toValue() {
     switch (this) {
       case CurrentMetricName.agentsOnline:
@@ -5979,7 +5979,7 @@ enum DirectoryType {
   existingDirectory,
 }
 
-extension DirectoryTypeValue on DirectoryType {
+extension DirectoryTypeValueExtension on DirectoryType {
   String toValue() {
     switch (this) {
       case DirectoryType.saml:
@@ -6039,7 +6039,7 @@ enum EncryptionType {
   kms,
 }
 
-extension EncryptionTypeValue on EncryptionType {
+extension EncryptionTypeValueExtension on EncryptionType {
   String toValue() {
     switch (this) {
       case EncryptionType.kms:
@@ -6180,7 +6180,7 @@ enum Grouping {
   channel,
 }
 
-extension GroupingValue on Grouping {
+extension GroupingValueExtension on Grouping {
   String toValue() {
     switch (this) {
       case Grouping.queue:
@@ -6541,7 +6541,7 @@ enum HistoricalMetricName {
   serviceLevel,
 }
 
-extension HistoricalMetricNameValue on HistoricalMetricName {
+extension HistoricalMetricNameValueExtension on HistoricalMetricName {
   String toValue() {
     switch (this) {
       case HistoricalMetricName.contactsQueued:
@@ -6780,7 +6780,7 @@ enum InstanceAttributeType {
   earlyMedia,
 }
 
-extension InstanceAttributeTypeValue on InstanceAttributeType {
+extension InstanceAttributeTypeValueExtension on InstanceAttributeType {
   String toValue() {
     switch (this) {
       case InstanceAttributeType.inboundCalls:
@@ -6829,7 +6829,7 @@ enum InstanceStatus {
   creationFailed,
 }
 
-extension InstanceStatusValue on InstanceStatus {
+extension InstanceStatusValueExtension on InstanceStatus {
   String toValue() {
     switch (this) {
       case InstanceStatus.creationInProgress:
@@ -6952,7 +6952,8 @@ enum InstanceStorageResourceType {
   agentEvents,
 }
 
-extension InstanceStorageResourceTypeValue on InstanceStorageResourceType {
+extension InstanceStorageResourceTypeValueExtension
+    on InstanceStorageResourceType {
   String toValue() {
     switch (this) {
       case InstanceStorageResourceType.chatTranscripts:
@@ -7102,7 +7103,7 @@ enum IntegrationType {
   event,
 }
 
-extension IntegrationTypeValue on IntegrationType {
+extension IntegrationTypeValueExtension on IntegrationType {
   String toValue() {
     switch (this) {
       case IntegrationType.event:
@@ -8007,7 +8008,7 @@ enum PhoneNumberCountryCode {
   zw,
 }
 
-extension PhoneNumberCountryCodeValue on PhoneNumberCountryCode {
+extension PhoneNumberCountryCodeValueExtension on PhoneNumberCountryCode {
   String toValue() {
     switch (this) {
       case PhoneNumberCountryCode.af:
@@ -9034,7 +9035,7 @@ enum PhoneNumberType {
   did,
 }
 
-extension PhoneNumberTypeValue on PhoneNumberType {
+extension PhoneNumberTypeValueExtension on PhoneNumberType {
   String toValue() {
     switch (this) {
       case PhoneNumberType.tollFree:
@@ -9062,7 +9063,7 @@ enum PhoneType {
   deskPhone,
 }
 
-extension PhoneTypeValue on PhoneType {
+extension PhoneTypeValueExtension on PhoneType {
   String toValue() {
     switch (this) {
       case PhoneType.softPhone:
@@ -9195,7 +9196,7 @@ enum QueueType {
   agent,
 }
 
-extension QueueTypeValue on QueueType {
+extension QueueTypeValueExtension on QueueType {
   String toValue() {
     switch (this) {
       case QueueType.standard:
@@ -9357,7 +9358,7 @@ enum QuickConnectType {
   phoneNumber,
 }
 
-extension QuickConnectTypeValue on QuickConnectType {
+extension QuickConnectTypeValueExtension on QuickConnectType {
   String toValue() {
     switch (this) {
       case QuickConnectType.user:
@@ -9412,7 +9413,7 @@ enum ReferenceType {
   url,
 }
 
-extension ReferenceTypeValue on ReferenceType {
+extension ReferenceTypeValueExtension on ReferenceType {
   String toValue() {
     switch (this) {
       case ReferenceType.url:
@@ -9717,7 +9718,7 @@ enum SourceType {
   zendesk,
 }
 
-extension SourceTypeValue on SourceType {
+extension SourceTypeValueExtension on SourceType {
   String toValue() {
     switch (this) {
       case SourceType.salesforce:
@@ -9809,7 +9810,7 @@ enum Statistic {
   avg,
 }
 
-extension StatisticValue on Statistic {
+extension StatisticValueExtension on Statistic {
   String toValue() {
     switch (this) {
       case Statistic.sum:
@@ -9857,7 +9858,7 @@ enum StorageType {
   kinesisFirehose,
 }
 
-extension StorageTypeValue on StorageType {
+extension StorageTypeValueExtension on StorageType {
   String toValue() {
     switch (this) {
       case StorageType.s3:
@@ -9930,7 +9931,7 @@ enum Unit {
   percent,
 }
 
-extension UnitValue on Unit {
+extension UnitValueExtension on Unit {
   String toValue() {
     switch (this) {
       case Unit.seconds:
@@ -9994,7 +9995,7 @@ enum UseCaseType {
   rulesEvaluation,
 }
 
-extension UseCaseTypeValue on UseCaseType {
+extension UseCaseTypeValueExtension on UseCaseType {
   String toValue() {
     switch (this) {
       case UseCaseType.rulesEvaluation:
@@ -10245,7 +10246,7 @@ enum VoiceRecordingTrack {
   all,
 }
 
-extension VoiceRecordingTrackValue on VoiceRecordingTrack {
+extension VoiceRecordingTrackValueExtension on VoiceRecordingTrack {
   String toValue() {
     switch (this) {
       case VoiceRecordingTrack.fromAgent:

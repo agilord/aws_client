@@ -1210,7 +1210,7 @@ enum AacAudioDescriptionBroadcasterMix {
   normal,
 }
 
-extension AacAudioDescriptionBroadcasterMixValue
+extension AacAudioDescriptionBroadcasterMixValueExtension
     on AacAudioDescriptionBroadcasterMix {
   String toValue() {
     switch (this) {
@@ -1242,7 +1242,7 @@ enum AacCodecProfile {
   hev2,
 }
 
-extension AacCodecProfileValue on AacCodecProfile {
+extension AacCodecProfileValueExtension on AacCodecProfile {
   String toValue() {
     switch (this) {
       case AacCodecProfile.lc:
@@ -1282,7 +1282,7 @@ enum AacCodingMode {
   codingMode_5_1,
 }
 
-extension AacCodingModeValue on AacCodingMode {
+extension AacCodingModeValueExtension on AacCodingMode {
   String toValue() {
     switch (this) {
       case AacCodingMode.adReceiverMix:
@@ -1323,7 +1323,7 @@ enum AacRateControlMode {
   vbr,
 }
 
-extension AacRateControlModeValue on AacRateControlMode {
+extension AacRateControlModeValueExtension on AacRateControlMode {
   String toValue() {
     switch (this) {
       case AacRateControlMode.cbr:
@@ -1353,7 +1353,7 @@ enum AacRawFormat {
   none,
 }
 
-extension AacRawFormatValue on AacRawFormat {
+extension AacRawFormatValueExtension on AacRawFormat {
   String toValue() {
     switch (this) {
       case AacRawFormat.latmLoas:
@@ -1493,7 +1493,7 @@ enum AacSpecification {
   mpeg4,
 }
 
-extension AacSpecificationValue on AacSpecification {
+extension AacSpecificationValueExtension on AacSpecification {
   String toValue() {
     switch (this) {
       case AacSpecification.mpeg2:
@@ -1524,7 +1524,7 @@ enum AacVbrQuality {
   high,
 }
 
-extension AacVbrQualityValue on AacVbrQuality {
+extension AacVbrQualityValueExtension on AacVbrQuality {
   String toValue() {
     switch (this) {
       case AacVbrQuality.low:
@@ -1568,7 +1568,7 @@ enum Ac3BitstreamMode {
   voiceOver,
 }
 
-extension Ac3BitstreamModeValue on Ac3BitstreamMode {
+extension Ac3BitstreamModeValueExtension on Ac3BitstreamMode {
   String toValue() {
     switch (this) {
       case Ac3BitstreamMode.completeMain:
@@ -1623,7 +1623,7 @@ enum Ac3CodingMode {
   codingMode_3_2Lfe,
 }
 
-extension Ac3CodingModeValue on Ac3CodingMode {
+extension Ac3CodingModeValueExtension on Ac3CodingMode {
   String toValue() {
     switch (this) {
       case Ac3CodingMode.codingMode_1_0:
@@ -1661,7 +1661,7 @@ enum Ac3DynamicRangeCompressionProfile {
   none,
 }
 
-extension Ac3DynamicRangeCompressionProfileValue
+extension Ac3DynamicRangeCompressionProfileValueExtension
     on Ac3DynamicRangeCompressionProfile {
   String toValue() {
     switch (this) {
@@ -1693,7 +1693,7 @@ enum Ac3LfeFilter {
   disabled,
 }
 
-extension Ac3LfeFilterValue on Ac3LfeFilter {
+extension Ac3LfeFilterValueExtension on Ac3LfeFilter {
   String toValue() {
     switch (this) {
       case Ac3LfeFilter.enabled:
@@ -1724,7 +1724,7 @@ enum Ac3MetadataControl {
   useConfigured,
 }
 
-extension Ac3MetadataControlValue on Ac3MetadataControl {
+extension Ac3MetadataControlValueExtension on Ac3MetadataControl {
   String toValue() {
     switch (this) {
       case Ac3MetadataControl.followInput:
@@ -1844,7 +1844,7 @@ enum AccelerationMode {
   preferred,
 }
 
-extension AccelerationModeValue on AccelerationMode {
+extension AccelerationModeValueExtension on AccelerationMode {
   String toValue() {
     switch (this) {
       case AccelerationMode.disabled:
@@ -1914,7 +1914,7 @@ enum AccelerationStatus {
   notAccelerated,
 }
 
-extension AccelerationStatusValue on AccelerationStatus {
+extension AccelerationStatusValueExtension on AccelerationStatus {
   String toValue() {
     switch (this) {
       case AccelerationStatus.notApplicable:
@@ -1957,7 +1957,7 @@ enum AfdSignaling {
   fixed,
 }
 
-extension AfdSignalingValue on AfdSignaling {
+extension AfdSignalingValueExtension on AfdSignaling {
   String toValue() {
     switch (this) {
       case AfdSignaling.none:
@@ -2034,7 +2034,7 @@ enum AlphaBehavior {
   remapToLuma,
 }
 
-extension AlphaBehaviorValue on AlphaBehavior {
+extension AlphaBehaviorValueExtension on AlphaBehavior {
   String toValue() {
     switch (this) {
       case AlphaBehavior.discard:
@@ -2067,7 +2067,7 @@ enum AncillaryConvert608To708 {
   disabled,
 }
 
-extension AncillaryConvert608To708Value on AncillaryConvert608To708 {
+extension AncillaryConvert608To708ValueExtension on AncillaryConvert608To708 {
   String toValue() {
     switch (this) {
       case AncillaryConvert608To708.upconvert:
@@ -2146,7 +2146,8 @@ enum AncillaryTerminateCaptions {
   disabled,
 }
 
-extension AncillaryTerminateCaptionsValue on AncillaryTerminateCaptions {
+extension AncillaryTerminateCaptionsValueExtension
+    on AncillaryTerminateCaptions {
   String toValue() {
     switch (this) {
       case AncillaryTerminateCaptions.endOfInput:
@@ -2177,7 +2178,7 @@ enum AntiAlias {
   enabled,
 }
 
-extension AntiAliasValue on AntiAlias {
+extension AntiAliasValueExtension on AntiAlias {
   String toValue() {
     switch (this) {
       case AntiAlias.disabled:
@@ -2228,7 +2229,7 @@ enum AudioChannelTag {
   vhr,
 }
 
-extension AudioChannelTagValue on AudioChannelTag {
+extension AudioChannelTagValueExtension on AudioChannelTag {
   String toValue() {
     switch (this) {
       case AudioChannelTag.l:
@@ -2349,7 +2350,7 @@ enum AudioCodec {
   passthrough,
 }
 
-extension AudioCodecValue on AudioCodec {
+extension AudioCodecValueExtension on AudioCodec {
   String toValue() {
     switch (this) {
       case AudioCodec.aac:
@@ -2553,7 +2554,7 @@ enum AudioDefaultSelection {
   notDefault,
 }
 
-extension AudioDefaultSelectionValue on AudioDefaultSelection {
+extension AudioDefaultSelectionValueExtension on AudioDefaultSelection {
   String toValue() {
     switch (this) {
       case AudioDefaultSelection.$default:
@@ -2752,7 +2753,7 @@ enum AudioLanguageCodeControl {
   useConfigured,
 }
 
-extension AudioLanguageCodeControlValue on AudioLanguageCodeControl {
+extension AudioLanguageCodeControlValueExtension on AudioLanguageCodeControl {
   String toValue() {
     switch (this) {
       case AudioLanguageCodeControl.followInput:
@@ -2792,7 +2793,8 @@ enum AudioNormalizationAlgorithm {
   ituBs_1770_4,
 }
 
-extension AudioNormalizationAlgorithmValue on AudioNormalizationAlgorithm {
+extension AudioNormalizationAlgorithmValueExtension
+    on AudioNormalizationAlgorithm {
   String toValue() {
     switch (this) {
       case AudioNormalizationAlgorithm.ituBs_1770_1:
@@ -2830,7 +2832,7 @@ enum AudioNormalizationAlgorithmControl {
   measureOnly,
 }
 
-extension AudioNormalizationAlgorithmControlValue
+extension AudioNormalizationAlgorithmControlValueExtension
     on AudioNormalizationAlgorithmControl {
   String toValue() {
     switch (this) {
@@ -2861,7 +2863,7 @@ enum AudioNormalizationLoudnessLogging {
   dontLog,
 }
 
-extension AudioNormalizationLoudnessLoggingValue
+extension AudioNormalizationLoudnessLoggingValueExtension
     on AudioNormalizationLoudnessLogging {
   String toValue() {
     switch (this) {
@@ -2893,7 +2895,7 @@ enum AudioNormalizationPeakCalculation {
   none,
 }
 
-extension AudioNormalizationPeakCalculationValue
+extension AudioNormalizationPeakCalculationValueExtension
     on AudioNormalizationPeakCalculation {
   String toValue() {
     switch (this) {
@@ -3149,7 +3151,7 @@ enum AudioSelectorType {
   languageCode,
 }
 
-extension AudioSelectorTypeValue on AudioSelectorType {
+extension AudioSelectorTypeValueExtension on AudioSelectorType {
   String toValue() {
     switch (this) {
       case AudioSelectorType.pid:
@@ -3187,7 +3189,7 @@ enum AudioTypeControl {
   useConfigured,
 }
 
-extension AudioTypeControlValue on AudioTypeControl {
+extension AudioTypeControlValueExtension on AudioTypeControl {
   String toValue() {
     switch (this) {
       case AudioTypeControl.followInput:
@@ -3302,7 +3304,7 @@ enum Av1AdaptiveQuantization {
   max,
 }
 
-extension Av1AdaptiveQuantizationValue on Av1AdaptiveQuantization {
+extension Av1AdaptiveQuantizationValueExtension on Av1AdaptiveQuantization {
   String toValue() {
     switch (this) {
       case Av1AdaptiveQuantization.off:
@@ -3358,7 +3360,7 @@ enum Av1FramerateControl {
   specified,
 }
 
-extension Av1FramerateControlValue on Av1FramerateControl {
+extension Av1FramerateControlValueExtension on Av1FramerateControl {
   String toValue() {
     switch (this) {
       case Av1FramerateControl.initializeFromSource:
@@ -3398,7 +3400,7 @@ enum Av1FramerateConversionAlgorithm {
   frameformer,
 }
 
-extension Av1FramerateConversionAlgorithmValue
+extension Av1FramerateConversionAlgorithmValueExtension
     on Av1FramerateConversionAlgorithm {
   String toValue() {
     switch (this) {
@@ -3479,7 +3481,7 @@ enum Av1RateControlMode {
   qvbr,
 }
 
-extension Av1RateControlModeValue on Av1RateControlMode {
+extension Av1RateControlModeValueExtension on Av1RateControlMode {
   String toValue() {
     switch (this) {
       case Av1RateControlMode.qvbr:
@@ -3697,7 +3699,7 @@ enum Av1SpatialAdaptiveQuantization {
   enabled,
 }
 
-extension Av1SpatialAdaptiveQuantizationValue
+extension Av1SpatialAdaptiveQuantizationValueExtension
     on Av1SpatialAdaptiveQuantization {
   String toValue() {
     switch (this) {
@@ -3755,7 +3757,7 @@ enum AvcIntraClass {
   class_200,
 }
 
-extension AvcIntraClassValue on AvcIntraClass {
+extension AvcIntraClassValueExtension on AvcIntraClass {
   String toValue() {
     switch (this) {
       case AvcIntraClass.class_50:
@@ -3799,7 +3801,7 @@ enum AvcIntraFramerateControl {
   specified,
 }
 
-extension AvcIntraFramerateControlValue on AvcIntraFramerateControl {
+extension AvcIntraFramerateControlValueExtension on AvcIntraFramerateControl {
   String toValue() {
     switch (this) {
       case AvcIntraFramerateControl.initializeFromSource:
@@ -3839,7 +3841,7 @@ enum AvcIntraFramerateConversionAlgorithm {
   frameformer,
 }
 
-extension AvcIntraFramerateConversionAlgorithmValue
+extension AvcIntraFramerateConversionAlgorithmValueExtension
     on AvcIntraFramerateConversionAlgorithm {
   String toValue() {
     switch (this) {
@@ -3889,7 +3891,7 @@ enum AvcIntraInterlaceMode {
   followBottomField,
 }
 
-extension AvcIntraInterlaceModeValue on AvcIntraInterlaceMode {
+extension AvcIntraInterlaceModeValueExtension on AvcIntraInterlaceMode {
   String toValue() {
     switch (this) {
       case AvcIntraInterlaceMode.progressive:
@@ -4076,7 +4078,7 @@ enum AvcIntraSlowPal {
   enabled,
 }
 
-extension AvcIntraSlowPalValue on AvcIntraSlowPal {
+extension AvcIntraSlowPalValueExtension on AvcIntraSlowPal {
   String toValue() {
     switch (this) {
       case AvcIntraSlowPal.disabled:
@@ -4110,7 +4112,7 @@ enum AvcIntraTelecine {
   hard,
 }
 
-extension AvcIntraTelecineValue on AvcIntraTelecine {
+extension AvcIntraTelecineValueExtension on AvcIntraTelecine {
   String toValue() {
     switch (this) {
       case AvcIntraTelecine.none:
@@ -4142,7 +4144,7 @@ enum BillingTagsSource {
   job,
 }
 
-extension BillingTagsSourceValue on BillingTagsSource {
+extension BillingTagsSourceValueExtension on BillingTagsSource {
   String toValue() {
     switch (this) {
       case BillingTagsSource.queue:
@@ -4377,7 +4379,7 @@ enum BurninSubtitleAlignment {
   left,
 }
 
-extension BurninSubtitleAlignmentValue on BurninSubtitleAlignment {
+extension BurninSubtitleAlignmentValueExtension on BurninSubtitleAlignment {
   String toValue() {
     switch (this) {
       case BurninSubtitleAlignment.centered:
@@ -4408,7 +4410,8 @@ enum BurninSubtitleBackgroundColor {
   white,
 }
 
-extension BurninSubtitleBackgroundColorValue on BurninSubtitleBackgroundColor {
+extension BurninSubtitleBackgroundColorValueExtension
+    on BurninSubtitleBackgroundColor {
   String toValue() {
     switch (this) {
       case BurninSubtitleBackgroundColor.none:
@@ -4448,7 +4451,7 @@ enum BurninSubtitleFontColor {
   blue,
 }
 
-extension BurninSubtitleFontColorValue on BurninSubtitleFontColor {
+extension BurninSubtitleFontColorValueExtension on BurninSubtitleFontColor {
   String toValue() {
     switch (this) {
       case BurninSubtitleFontColor.white:
@@ -4500,7 +4503,8 @@ enum BurninSubtitleOutlineColor {
   blue,
 }
 
-extension BurninSubtitleOutlineColorValue on BurninSubtitleOutlineColor {
+extension BurninSubtitleOutlineColorValueExtension
+    on BurninSubtitleOutlineColor {
   String toValue() {
     switch (this) {
       case BurninSubtitleOutlineColor.black:
@@ -4547,7 +4551,7 @@ enum BurninSubtitleShadowColor {
   white,
 }
 
-extension BurninSubtitleShadowColorValue on BurninSubtitleShadowColor {
+extension BurninSubtitleShadowColorValueExtension on BurninSubtitleShadowColor {
   String toValue() {
     switch (this) {
       case BurninSubtitleShadowColor.none:
@@ -4585,7 +4589,8 @@ enum BurninSubtitleTeletextSpacing {
   proportional,
 }
 
-extension BurninSubtitleTeletextSpacingValue on BurninSubtitleTeletextSpacing {
+extension BurninSubtitleTeletextSpacingValueExtension
+    on BurninSubtitleTeletextSpacing {
   String toValue() {
     switch (this) {
       case BurninSubtitleTeletextSpacing.fixedGrid:
@@ -4890,7 +4895,7 @@ enum CaptionDestinationType {
   webvtt,
 }
 
-extension CaptionDestinationTypeValue on CaptionDestinationType {
+extension CaptionDestinationTypeValueExtension on CaptionDestinationType {
   String toValue() {
     switch (this) {
       case CaptionDestinationType.burnIn:
@@ -5161,7 +5166,7 @@ enum CaptionSourceType {
   imsc,
 }
 
-extension CaptionSourceTypeValue on CaptionSourceType {
+extension CaptionSourceTypeValueExtension on CaptionSourceType {
   String toValue() {
     switch (this) {
       case CaptionSourceType.ancillary:
@@ -5305,7 +5310,7 @@ enum CmafClientCache {
   enabled,
 }
 
-extension CmafClientCacheValue on CmafClientCache {
+extension CmafClientCacheValueExtension on CmafClientCache {
   String toValue() {
     switch (this) {
       case CmafClientCache.disabled:
@@ -5335,7 +5340,7 @@ enum CmafCodecSpecification {
   rfc_4281,
 }
 
-extension CmafCodecSpecificationValue on CmafCodecSpecification {
+extension CmafCodecSpecificationValueExtension on CmafCodecSpecification {
   String toValue() {
     switch (this) {
       case CmafCodecSpecification.rfc_6381:
@@ -5446,7 +5451,7 @@ enum CmafEncryptionType {
   aesCtr,
 }
 
-extension CmafEncryptionTypeValue on CmafEncryptionType {
+extension CmafEncryptionTypeValueExtension on CmafEncryptionType {
   String toValue() {
     switch (this) {
       case CmafEncryptionType.sampleAes:
@@ -5714,7 +5719,7 @@ enum CmafInitializationVectorInManifest {
   exclude,
 }
 
-extension CmafInitializationVectorInManifestValue
+extension CmafInitializationVectorInManifestValueExtension
     on CmafInitializationVectorInManifest {
   String toValue() {
     switch (this) {
@@ -5747,7 +5752,7 @@ enum CmafKeyProviderType {
   staticKey,
 }
 
-extension CmafKeyProviderTypeValue on CmafKeyProviderType {
+extension CmafKeyProviderTypeValueExtension on CmafKeyProviderType {
   String toValue() {
     switch (this) {
       case CmafKeyProviderType.speke:
@@ -5776,7 +5781,7 @@ enum CmafManifestCompression {
   none,
 }
 
-extension CmafManifestCompressionValue on CmafManifestCompression {
+extension CmafManifestCompressionValueExtension on CmafManifestCompression {
   String toValue() {
     switch (this) {
       case CmafManifestCompression.gzip:
@@ -5806,7 +5811,8 @@ enum CmafManifestDurationFormat {
   integer,
 }
 
-extension CmafManifestDurationFormatValue on CmafManifestDurationFormat {
+extension CmafManifestDurationFormatValueExtension
+    on CmafManifestDurationFormat {
   String toValue() {
     switch (this) {
       case CmafManifestDurationFormat.floatingPoint:
@@ -5841,7 +5847,7 @@ enum CmafMpdProfile {
   onDemandProfile,
 }
 
-extension CmafMpdProfileValue on CmafMpdProfile {
+extension CmafMpdProfileValueExtension on CmafMpdProfile {
   String toValue() {
     switch (this) {
       case CmafMpdProfile.mainProfile:
@@ -5872,7 +5878,7 @@ enum CmafSegmentControl {
   segmentedFiles,
 }
 
-extension CmafSegmentControlValue on CmafSegmentControl {
+extension CmafSegmentControlValueExtension on CmafSegmentControl {
   String toValue() {
     switch (this) {
       case CmafSegmentControl.singleFile:
@@ -5902,7 +5908,7 @@ enum CmafStreamInfResolution {
   exclude,
 }
 
-extension CmafStreamInfResolutionValue on CmafStreamInfResolution {
+extension CmafStreamInfResolutionValueExtension on CmafStreamInfResolution {
   String toValue() {
     switch (this) {
       case CmafStreamInfResolution.include:
@@ -5931,7 +5937,7 @@ enum CmafWriteDASHManifest {
   enabled,
 }
 
-extension CmafWriteDASHManifestValue on CmafWriteDASHManifest {
+extension CmafWriteDASHManifestValueExtension on CmafWriteDASHManifest {
   String toValue() {
     switch (this) {
       case CmafWriteDASHManifest.disabled:
@@ -5961,7 +5967,7 @@ enum CmafWriteHLSManifest {
   enabled,
 }
 
-extension CmafWriteHLSManifestValue on CmafWriteHLSManifest {
+extension CmafWriteHLSManifestValueExtension on CmafWriteHLSManifest {
   String toValue() {
     switch (this) {
       case CmafWriteHLSManifest.disabled:
@@ -5996,7 +6002,7 @@ enum CmafWriteSegmentTimelineInRepresentation {
   disabled,
 }
 
-extension CmafWriteSegmentTimelineInRepresentationValue
+extension CmafWriteSegmentTimelineInRepresentationValueExtension
     on CmafWriteSegmentTimelineInRepresentation {
   String toValue() {
     switch (this) {
@@ -6041,7 +6047,7 @@ enum CmfcAudioDuration {
   matchVideoDuration,
 }
 
-extension CmfcAudioDurationValue on CmfcAudioDuration {
+extension CmfcAudioDurationValueExtension on CmfcAudioDuration {
   String toValue() {
     switch (this) {
       case CmfcAudioDuration.defaultCodecDuration:
@@ -6073,7 +6079,7 @@ enum CmfcScte35Esam {
   none,
 }
 
-extension CmfcScte35EsamValue on CmfcScte35Esam {
+extension CmfcScte35EsamValueExtension on CmfcScte35Esam {
   String toValue() {
     switch (this) {
       case CmfcScte35Esam.insert:
@@ -6105,7 +6111,7 @@ enum CmfcScte35Source {
   none,
 }
 
-extension CmfcScte35SourceValue on CmfcScte35Source {
+extension CmfcScte35SourceValueExtension on CmfcScte35Source {
   String toValue() {
     switch (this) {
       case CmfcScte35Source.passthrough:
@@ -6269,7 +6275,7 @@ enum ColorMetadata {
   insert,
 }
 
-extension ColorMetadataValue on ColorMetadata {
+extension ColorMetadataValueExtension on ColorMetadata {
   String toValue() {
     switch (this) {
       case ColorMetadata.ignore:
@@ -6310,7 +6316,7 @@ enum ColorSpace {
   hlg_2020,
 }
 
-extension ColorSpaceValue on ColorSpace {
+extension ColorSpaceValueExtension on ColorSpace {
   String toValue() {
     switch (this) {
       case ColorSpace.follow:
@@ -6359,7 +6365,7 @@ enum ColorSpaceConversion {
   forceHlg_2020,
 }
 
-extension ColorSpaceConversionValue on ColorSpaceConversion {
+extension ColorSpaceConversionValueExtension on ColorSpaceConversion {
   String toValue() {
     switch (this) {
       case ColorSpaceConversion.none:
@@ -6408,7 +6414,7 @@ enum ColorSpaceUsage {
   fallback,
 }
 
-extension ColorSpaceUsageValue on ColorSpaceUsage {
+extension ColorSpaceUsageValueExtension on ColorSpaceUsage {
   String toValue() {
     switch (this) {
       case ColorSpaceUsage.force:
@@ -6436,7 +6442,7 @@ enum Commitment {
   oneYear,
 }
 
-extension CommitmentValue on Commitment {
+extension CommitmentValueExtension on Commitment {
   String toValue() {
     switch (this) {
       case Commitment.oneYear:
@@ -6576,7 +6582,7 @@ enum ContainerType {
   raw,
 }
 
-extension ContainerTypeValue on ContainerType {
+extension ContainerTypeValueExtension on ContainerType {
   String toValue() {
     switch (this) {
       case ContainerType.f4v:
@@ -6970,7 +6976,7 @@ enum DashIsoHbbtvCompliance {
   none,
 }
 
-extension DashIsoHbbtvComplianceValue on DashIsoHbbtvCompliance {
+extension DashIsoHbbtvComplianceValueExtension on DashIsoHbbtvCompliance {
   String toValue() {
     switch (this) {
       case DashIsoHbbtvCompliance.hbbtv_1_5:
@@ -7005,7 +7011,7 @@ enum DashIsoMpdProfile {
   onDemandProfile,
 }
 
-extension DashIsoMpdProfileValue on DashIsoMpdProfile {
+extension DashIsoMpdProfileValueExtension on DashIsoMpdProfile {
   String toValue() {
     switch (this) {
       case DashIsoMpdProfile.mainProfile:
@@ -7040,7 +7046,7 @@ enum DashIsoPlaybackDeviceCompatibility {
   unencryptedSei,
 }
 
-extension DashIsoPlaybackDeviceCompatibilityValue
+extension DashIsoPlaybackDeviceCompatibilityValueExtension
     on DashIsoPlaybackDeviceCompatibility {
   String toValue() {
     switch (this) {
@@ -7073,7 +7079,7 @@ enum DashIsoSegmentControl {
   segmentedFiles,
 }
 
-extension DashIsoSegmentControlValue on DashIsoSegmentControl {
+extension DashIsoSegmentControlValueExtension on DashIsoSegmentControl {
   String toValue() {
     switch (this) {
       case DashIsoSegmentControl.singleFile:
@@ -7108,7 +7114,7 @@ enum DashIsoWriteSegmentTimelineInRepresentation {
   disabled,
 }
 
-extension DashIsoWriteSegmentTimelineInRepresentationValue
+extension DashIsoWriteSegmentTimelineInRepresentationValueExtension
     on DashIsoWriteSegmentTimelineInRepresentation {
   String toValue() {
     switch (this) {
@@ -7141,7 +7147,7 @@ enum DecryptionMode {
   aesGcm,
 }
 
-extension DecryptionModeValue on DecryptionMode {
+extension DecryptionModeValueExtension on DecryptionMode {
   String toValue() {
     switch (this) {
       case DecryptionMode.aesCtr:
@@ -7181,7 +7187,7 @@ enum DeinterlaceAlgorithm {
   blendTicker,
 }
 
-extension DeinterlaceAlgorithmValue on DeinterlaceAlgorithm {
+extension DeinterlaceAlgorithmValueExtension on DeinterlaceAlgorithm {
   String toValue() {
     switch (this) {
       case DeinterlaceAlgorithm.interpolate:
@@ -7276,7 +7282,7 @@ enum DeinterlacerControl {
   normal,
 }
 
-extension DeinterlacerControlValue on DeinterlacerControl {
+extension DeinterlacerControlValueExtension on DeinterlacerControl {
   String toValue() {
     switch (this) {
       case DeinterlacerControl.forceAllFrames:
@@ -7309,7 +7315,7 @@ enum DeinterlacerMode {
   adaptive,
 }
 
-extension DeinterlacerModeValue on DeinterlacerMode {
+extension DeinterlacerModeValueExtension on DeinterlacerMode {
   String toValue() {
     switch (this) {
       case DeinterlacerMode.deinterlace:
@@ -7366,7 +7372,7 @@ enum DescribeEndpointsMode {
   getOnly,
 }
 
-extension DescribeEndpointsModeValue on DescribeEndpointsMode {
+extension DescribeEndpointsModeValueExtension on DescribeEndpointsMode {
   String toValue() {
     switch (this) {
       case DescribeEndpointsMode.$default:
@@ -7527,7 +7533,7 @@ enum DolbyVisionLevel6Mode {
   specify,
 }
 
-extension DolbyVisionLevel6ModeValue on DolbyVisionLevel6Mode {
+extension DolbyVisionLevel6ModeValueExtension on DolbyVisionLevel6Mode {
   String toValue() {
     switch (this) {
       case DolbyVisionLevel6Mode.passthrough:
@@ -7561,7 +7567,7 @@ enum DolbyVisionProfile {
   profile_5,
 }
 
-extension DolbyVisionProfileValue on DolbyVisionProfile {
+extension DolbyVisionProfileValueExtension on DolbyVisionProfile {
   String toValue() {
     switch (this) {
       case DolbyVisionProfile.profile_5:
@@ -7590,7 +7596,7 @@ enum DropFrameTimecode {
   enabled,
 }
 
-extension DropFrameTimecodeValue on DropFrameTimecode {
+extension DropFrameTimecodeValueExtension on DropFrameTimecode {
   String toValue() {
     switch (this) {
       case DropFrameTimecode.disabled:
@@ -7943,7 +7949,7 @@ enum DvbSubtitleAlignment {
   left,
 }
 
-extension DvbSubtitleAlignmentValue on DvbSubtitleAlignment {
+extension DvbSubtitleAlignmentValueExtension on DvbSubtitleAlignment {
   String toValue() {
     switch (this) {
       case DvbSubtitleAlignment.centered:
@@ -7974,7 +7980,8 @@ enum DvbSubtitleBackgroundColor {
   white,
 }
 
-extension DvbSubtitleBackgroundColorValue on DvbSubtitleBackgroundColor {
+extension DvbSubtitleBackgroundColorValueExtension
+    on DvbSubtitleBackgroundColor {
   String toValue() {
     switch (this) {
       case DvbSubtitleBackgroundColor.none:
@@ -8014,7 +8021,7 @@ enum DvbSubtitleFontColor {
   blue,
 }
 
-extension DvbSubtitleFontColorValue on DvbSubtitleFontColor {
+extension DvbSubtitleFontColorValueExtension on DvbSubtitleFontColor {
   String toValue() {
     switch (this) {
       case DvbSubtitleFontColor.white:
@@ -8066,7 +8073,7 @@ enum DvbSubtitleOutlineColor {
   blue,
 }
 
-extension DvbSubtitleOutlineColorValue on DvbSubtitleOutlineColor {
+extension DvbSubtitleOutlineColorValueExtension on DvbSubtitleOutlineColor {
   String toValue() {
     switch (this) {
       case DvbSubtitleOutlineColor.black:
@@ -8113,7 +8120,7 @@ enum DvbSubtitleShadowColor {
   white,
 }
 
-extension DvbSubtitleShadowColorValue on DvbSubtitleShadowColor {
+extension DvbSubtitleShadowColorValueExtension on DvbSubtitleShadowColor {
   String toValue() {
     switch (this) {
       case DvbSubtitleShadowColor.none:
@@ -8151,7 +8158,8 @@ enum DvbSubtitleTeletextSpacing {
   proportional,
 }
 
-extension DvbSubtitleTeletextSpacingValue on DvbSubtitleTeletextSpacing {
+extension DvbSubtitleTeletextSpacingValueExtension
+    on DvbSubtitleTeletextSpacing {
   String toValue() {
     switch (this) {
       case DvbSubtitleTeletextSpacing.fixedGrid:
@@ -8182,7 +8190,7 @@ enum DvbSubtitlingType {
   standard,
 }
 
-extension DvbSubtitlingTypeValue on DvbSubtitlingType {
+extension DvbSubtitlingTypeValueExtension on DvbSubtitlingType {
   String toValue() {
     switch (this) {
       case DvbSubtitlingType.hearingImpaired:
@@ -8236,7 +8244,7 @@ enum Eac3AtmosBitstreamMode {
   completeMain,
 }
 
-extension Eac3AtmosBitstreamModeValue on Eac3AtmosBitstreamMode {
+extension Eac3AtmosBitstreamModeValueExtension on Eac3AtmosBitstreamMode {
   String toValue() {
     switch (this) {
       case Eac3AtmosBitstreamMode.completeMain:
@@ -8261,7 +8269,7 @@ enum Eac3AtmosCodingMode {
   codingMode_9_1_6,
 }
 
-extension Eac3AtmosCodingModeValue on Eac3AtmosCodingMode {
+extension Eac3AtmosCodingModeValueExtension on Eac3AtmosCodingMode {
   String toValue() {
     switch (this) {
       case Eac3AtmosCodingMode.codingMode_9_1_6:
@@ -8287,7 +8295,8 @@ enum Eac3AtmosDialogueIntelligence {
   disabled,
 }
 
-extension Eac3AtmosDialogueIntelligenceValue on Eac3AtmosDialogueIntelligence {
+extension Eac3AtmosDialogueIntelligenceValueExtension
+    on Eac3AtmosDialogueIntelligence {
   String toValue() {
     switch (this) {
       case Eac3AtmosDialogueIntelligence.enabled:
@@ -8320,7 +8329,7 @@ enum Eac3AtmosDynamicRangeCompressionLine {
   speech,
 }
 
-extension Eac3AtmosDynamicRangeCompressionLineValue
+extension Eac3AtmosDynamicRangeCompressionLineValueExtension
     on Eac3AtmosDynamicRangeCompressionLine {
   String toValue() {
     switch (this) {
@@ -8373,7 +8382,7 @@ enum Eac3AtmosDynamicRangeCompressionRf {
   speech,
 }
 
-extension Eac3AtmosDynamicRangeCompressionRfValue
+extension Eac3AtmosDynamicRangeCompressionRfValueExtension
     on Eac3AtmosDynamicRangeCompressionRf {
   String toValue() {
     switch (this) {
@@ -8423,7 +8432,7 @@ enum Eac3AtmosMeteringMode {
   ituBs_1770_4,
 }
 
-extension Eac3AtmosMeteringModeValue on Eac3AtmosMeteringMode {
+extension Eac3AtmosMeteringModeValueExtension on Eac3AtmosMeteringMode {
   String toValue() {
     switch (this) {
       case Eac3AtmosMeteringMode.leqA:
@@ -8626,7 +8635,7 @@ enum Eac3AtmosStereoDownmix {
   dpl2,
 }
 
-extension Eac3AtmosStereoDownmixValue on Eac3AtmosStereoDownmix {
+extension Eac3AtmosStereoDownmixValueExtension on Eac3AtmosStereoDownmix {
   String toValue() {
     switch (this) {
       case Eac3AtmosStereoDownmix.notIndicated:
@@ -8665,7 +8674,7 @@ enum Eac3AtmosSurroundExMode {
   disabled,
 }
 
-extension Eac3AtmosSurroundExModeValue on Eac3AtmosSurroundExMode {
+extension Eac3AtmosSurroundExModeValueExtension on Eac3AtmosSurroundExMode {
   String toValue() {
     switch (this) {
       case Eac3AtmosSurroundExMode.notIndicated:
@@ -8699,7 +8708,7 @@ enum Eac3AttenuationControl {
   none,
 }
 
-extension Eac3AttenuationControlValue on Eac3AttenuationControl {
+extension Eac3AttenuationControlValueExtension on Eac3AttenuationControl {
   String toValue() {
     switch (this) {
       case Eac3AttenuationControl.attenuate_3Db:
@@ -8733,7 +8742,7 @@ enum Eac3BitstreamMode {
   visuallyImpaired,
 }
 
-extension Eac3BitstreamModeValue on Eac3BitstreamMode {
+extension Eac3BitstreamModeValueExtension on Eac3BitstreamMode {
   String toValue() {
     switch (this) {
       case Eac3BitstreamMode.completeMain:
@@ -8775,7 +8784,7 @@ enum Eac3CodingMode {
   codingMode_3_2,
 }
 
-extension Eac3CodingModeValue on Eac3CodingMode {
+extension Eac3CodingModeValueExtension on Eac3CodingMode {
   String toValue() {
     switch (this) {
       case Eac3CodingMode.codingMode_1_0:
@@ -8808,7 +8817,7 @@ enum Eac3DcFilter {
   disabled,
 }
 
-extension Eac3DcFilterValue on Eac3DcFilter {
+extension Eac3DcFilterValueExtension on Eac3DcFilter {
   String toValue() {
     switch (this) {
       case Eac3DcFilter.enabled:
@@ -8841,7 +8850,7 @@ enum Eac3DynamicRangeCompressionLine {
   speech,
 }
 
-extension Eac3DynamicRangeCompressionLineValue
+extension Eac3DynamicRangeCompressionLineValueExtension
     on Eac3DynamicRangeCompressionLine {
   String toValue() {
     switch (this) {
@@ -8893,7 +8902,8 @@ enum Eac3DynamicRangeCompressionRf {
   speech,
 }
 
-extension Eac3DynamicRangeCompressionRfValue on Eac3DynamicRangeCompressionRf {
+extension Eac3DynamicRangeCompressionRfValueExtension
+    on Eac3DynamicRangeCompressionRf {
   String toValue() {
     switch (this) {
       case Eac3DynamicRangeCompressionRf.none:
@@ -8938,7 +8948,7 @@ enum Eac3LfeControl {
   noLfe,
 }
 
-extension Eac3LfeControlValue on Eac3LfeControl {
+extension Eac3LfeControlValueExtension on Eac3LfeControl {
   String toValue() {
     switch (this) {
       case Eac3LfeControl.lfe:
@@ -8968,7 +8978,7 @@ enum Eac3LfeFilter {
   disabled,
 }
 
-extension Eac3LfeFilterValue on Eac3LfeFilter {
+extension Eac3LfeFilterValueExtension on Eac3LfeFilter {
   String toValue() {
     switch (this) {
       case Eac3LfeFilter.enabled:
@@ -8999,7 +9009,7 @@ enum Eac3MetadataControl {
   useConfigured,
 }
 
-extension Eac3MetadataControlValue on Eac3MetadataControl {
+extension Eac3MetadataControlValueExtension on Eac3MetadataControl {
   String toValue() {
     switch (this) {
       case Eac3MetadataControl.followInput:
@@ -9032,7 +9042,7 @@ enum Eac3PassthroughControl {
   noPassthrough,
 }
 
-extension Eac3PassthroughControlValue on Eac3PassthroughControl {
+extension Eac3PassthroughControlValueExtension on Eac3PassthroughControl {
   String toValue() {
     switch (this) {
       case Eac3PassthroughControl.whenPossible:
@@ -9062,7 +9072,7 @@ enum Eac3PhaseControl {
   noShift,
 }
 
-extension Eac3PhaseControlValue on Eac3PhaseControl {
+extension Eac3PhaseControlValueExtension on Eac3PhaseControl {
   String toValue() {
     switch (this) {
       case Eac3PhaseControl.shift_90Degrees:
@@ -9323,7 +9333,7 @@ enum Eac3StereoDownmix {
   dpl2,
 }
 
-extension Eac3StereoDownmixValue on Eac3StereoDownmix {
+extension Eac3StereoDownmixValueExtension on Eac3StereoDownmix {
   String toValue() {
     switch (this) {
       case Eac3StereoDownmix.notIndicated:
@@ -9362,7 +9372,7 @@ enum Eac3SurroundExMode {
   disabled,
 }
 
-extension Eac3SurroundExModeValue on Eac3SurroundExMode {
+extension Eac3SurroundExModeValueExtension on Eac3SurroundExMode {
   String toValue() {
     switch (this) {
       case Eac3SurroundExMode.notIndicated:
@@ -9397,7 +9407,7 @@ enum Eac3SurroundMode {
   disabled,
 }
 
-extension Eac3SurroundModeValue on Eac3SurroundMode {
+extension Eac3SurroundModeValueExtension on Eac3SurroundMode {
   String toValue() {
     switch (this) {
       case Eac3SurroundMode.notIndicated:
@@ -9434,7 +9444,7 @@ enum EmbeddedConvert608To708 {
   disabled,
 }
 
-extension EmbeddedConvert608To708Value on EmbeddedConvert608To708 {
+extension EmbeddedConvert608To708ValueExtension on EmbeddedConvert608To708 {
   String toValue() {
     switch (this) {
       case EmbeddedConvert608To708.upconvert:
@@ -9567,7 +9577,7 @@ enum EmbeddedTerminateCaptions {
   disabled,
 }
 
-extension EmbeddedTerminateCaptionsValue on EmbeddedTerminateCaptions {
+extension EmbeddedTerminateCaptionsValueExtension on EmbeddedTerminateCaptions {
   String toValue() {
     switch (this) {
       case EmbeddedTerminateCaptions.endOfInput:
@@ -9729,7 +9739,7 @@ enum F4vMoovPlacement {
   normal,
 }
 
-extension F4vMoovPlacementValue on F4vMoovPlacement {
+extension F4vMoovPlacementValueExtension on F4vMoovPlacement {
   String toValue() {
     switch (this) {
       case F4vMoovPlacement.progressiveDownload:
@@ -9825,7 +9835,7 @@ enum FileSourceConvert608To708 {
   disabled,
 }
 
-extension FileSourceConvert608To708Value on FileSourceConvert608To708 {
+extension FileSourceConvert608To708ValueExtension on FileSourceConvert608To708 {
   String toValue() {
     switch (this) {
       case FileSourceConvert608To708.upconvert:
@@ -9919,7 +9929,7 @@ enum FontScript {
   hant,
 }
 
-extension FontScriptValue on FontScript {
+extension FontScriptValueExtension on FontScript {
   String toValue() {
     switch (this) {
       case FontScript.automatic:
@@ -10093,7 +10103,7 @@ enum H264AdaptiveQuantization {
   max,
 }
 
-extension H264AdaptiveQuantizationValue on H264AdaptiveQuantization {
+extension H264AdaptiveQuantizationValueExtension on H264AdaptiveQuantization {
   String toValue() {
     switch (this) {
       case H264AdaptiveQuantization.off:
@@ -10158,7 +10168,7 @@ enum H264CodecLevel {
   level_5_2,
 }
 
-extension H264CodecLevelValue on H264CodecLevel {
+extension H264CodecLevelValueExtension on H264CodecLevel {
   String toValue() {
     switch (this) {
       case H264CodecLevel.auto:
@@ -10252,7 +10262,7 @@ enum H264CodecProfile {
   main,
 }
 
-extension H264CodecProfileValue on H264CodecProfile {
+extension H264CodecProfileValueExtension on H264CodecProfile {
   String toValue() {
     switch (this) {
       case H264CodecProfile.baseline:
@@ -10302,7 +10312,7 @@ enum H264DynamicSubGop {
   static,
 }
 
-extension H264DynamicSubGopValue on H264DynamicSubGop {
+extension H264DynamicSubGopValueExtension on H264DynamicSubGop {
   String toValue() {
     switch (this) {
       case H264DynamicSubGop.adaptive:
@@ -10331,7 +10341,7 @@ enum H264EntropyEncoding {
   cavlc,
 }
 
-extension H264EntropyEncodingValue on H264EntropyEncoding {
+extension H264EntropyEncodingValueExtension on H264EntropyEncoding {
   String toValue() {
     switch (this) {
       case H264EntropyEncoding.cabac:
@@ -10362,7 +10372,7 @@ enum H264FieldEncoding {
   forceField,
 }
 
-extension H264FieldEncodingValue on H264FieldEncoding {
+extension H264FieldEncodingValueExtension on H264FieldEncoding {
   String toValue() {
     switch (this) {
       case H264FieldEncoding.paff:
@@ -10404,7 +10414,7 @@ enum H264FlickerAdaptiveQuantization {
   enabled,
 }
 
-extension H264FlickerAdaptiveQuantizationValue
+extension H264FlickerAdaptiveQuantizationValueExtension
     on H264FlickerAdaptiveQuantization {
   String toValue() {
     switch (this) {
@@ -10446,7 +10456,7 @@ enum H264FramerateControl {
   specified,
 }
 
-extension H264FramerateControlValue on H264FramerateControl {
+extension H264FramerateControlValueExtension on H264FramerateControl {
   String toValue() {
     switch (this) {
       case H264FramerateControl.initializeFromSource:
@@ -10486,7 +10496,7 @@ enum H264FramerateConversionAlgorithm {
   frameformer,
 }
 
-extension H264FramerateConversionAlgorithmValue
+extension H264FramerateConversionAlgorithmValueExtension
     on H264FramerateConversionAlgorithm {
   String toValue() {
     switch (this) {
@@ -10521,7 +10531,7 @@ enum H264GopBReference {
   enabled,
 }
 
-extension H264GopBReferenceValue on H264GopBReference {
+extension H264GopBReferenceValueExtension on H264GopBReference {
   String toValue() {
     switch (this) {
       case H264GopBReference.disabled:
@@ -10551,7 +10561,7 @@ enum H264GopSizeUnits {
   seconds,
 }
 
-extension H264GopSizeUnitsValue on H264GopSizeUnits {
+extension H264GopSizeUnitsValueExtension on H264GopSizeUnits {
   String toValue() {
     switch (this) {
       case H264GopSizeUnits.frames:
@@ -10594,7 +10604,7 @@ enum H264InterlaceMode {
   followBottomField,
 }
 
-extension H264InterlaceModeValue on H264InterlaceMode {
+extension H264InterlaceModeValueExtension on H264InterlaceMode {
   String toValue() {
     switch (this) {
       case H264InterlaceMode.progressive:
@@ -10642,7 +10652,7 @@ enum H264ParControl {
   specified,
 }
 
-extension H264ParControlValue on H264ParControl {
+extension H264ParControlValueExtension on H264ParControl {
   String toValue() {
     switch (this) {
       case H264ParControl.initializeFromSource:
@@ -10674,7 +10684,7 @@ enum H264QualityTuningLevel {
   multiPassHq,
 }
 
-extension H264QualityTuningLevelValue on H264QualityTuningLevel {
+extension H264QualityTuningLevelValueExtension on H264QualityTuningLevel {
   String toValue() {
     switch (this) {
       case H264QualityTuningLevel.singlePass:
@@ -10767,7 +10777,7 @@ enum H264RateControlMode {
   qvbr,
 }
 
-extension H264RateControlModeValue on H264RateControlMode {
+extension H264RateControlModeValueExtension on H264RateControlMode {
   String toValue() {
     switch (this) {
       case H264RateControlMode.vbr:
@@ -10800,7 +10810,7 @@ enum H264RepeatPps {
   enabled,
 }
 
-extension H264RepeatPpsValue on H264RepeatPps {
+extension H264RepeatPpsValueExtension on H264RepeatPps {
   String toValue() {
     switch (this) {
       case H264RepeatPps.disabled:
@@ -10835,7 +10845,7 @@ enum H264SceneChangeDetect {
   transitionDetection,
 }
 
-extension H264SceneChangeDetectValue on H264SceneChangeDetect {
+extension H264SceneChangeDetectValueExtension on H264SceneChangeDetect {
   String toValue() {
     switch (this) {
       case H264SceneChangeDetect.disabled:
@@ -11387,7 +11397,7 @@ enum H264SlowPal {
   enabled,
 }
 
-extension H264SlowPalValue on H264SlowPal {
+extension H264SlowPalValueExtension on H264SlowPal {
   String toValue() {
     switch (this) {
       case H264SlowPal.disabled:
@@ -11439,7 +11449,7 @@ enum H264SpatialAdaptiveQuantization {
   enabled,
 }
 
-extension H264SpatialAdaptiveQuantizationValue
+extension H264SpatialAdaptiveQuantizationValueExtension
     on H264SpatialAdaptiveQuantization {
   String toValue() {
     switch (this) {
@@ -11470,7 +11480,7 @@ enum H264Syntax {
   rp2027,
 }
 
-extension H264SyntaxValue on H264Syntax {
+extension H264SyntaxValueExtension on H264Syntax {
   String toValue() {
     switch (this) {
       case H264Syntax.$default:
@@ -11507,7 +11517,7 @@ enum H264Telecine {
   hard,
 }
 
-extension H264TelecineValue on H264Telecine {
+extension H264TelecineValueExtension on H264Telecine {
   String toValue() {
     switch (this) {
       case H264Telecine.none:
@@ -11561,7 +11571,7 @@ enum H264TemporalAdaptiveQuantization {
   enabled,
 }
 
-extension H264TemporalAdaptiveQuantizationValue
+extension H264TemporalAdaptiveQuantizationValueExtension
     on H264TemporalAdaptiveQuantization {
   String toValue() {
     switch (this) {
@@ -11592,7 +11602,8 @@ enum H264UnregisteredSeiTimecode {
   enabled,
 }
 
-extension H264UnregisteredSeiTimecodeValue on H264UnregisteredSeiTimecode {
+extension H264UnregisteredSeiTimecodeValueExtension
+    on H264UnregisteredSeiTimecode {
   String toValue() {
     switch (this) {
       case H264UnregisteredSeiTimecode.disabled:
@@ -11629,7 +11640,7 @@ enum H265AdaptiveQuantization {
   max,
 }
 
-extension H265AdaptiveQuantizationValue on H265AdaptiveQuantization {
+extension H265AdaptiveQuantizationValueExtension on H265AdaptiveQuantization {
   String toValue() {
     switch (this) {
       case H265AdaptiveQuantization.off:
@@ -11675,7 +11686,7 @@ enum H265AlternateTransferFunctionSei {
   enabled,
 }
 
-extension H265AlternateTransferFunctionSeiValue
+extension H265AlternateTransferFunctionSeiValueExtension
     on H265AlternateTransferFunctionSei {
   String toValue() {
     switch (this) {
@@ -11718,7 +11729,7 @@ enum H265CodecLevel {
   level_6_2,
 }
 
-extension H265CodecLevelValue on H265CodecLevel {
+extension H265CodecLevelValueExtension on H265CodecLevel {
   String toValue() {
     switch (this) {
       case H265CodecLevel.auto:
@@ -11804,7 +11815,7 @@ enum H265CodecProfile {
   main_422_10bitHigh,
 }
 
-extension H265CodecProfileValue on H265CodecProfile {
+extension H265CodecProfileValueExtension on H265CodecProfile {
   String toValue() {
     switch (this) {
       case H265CodecProfile.mainMain:
@@ -11862,7 +11873,7 @@ enum H265DynamicSubGop {
   static,
 }
 
-extension H265DynamicSubGopValue on H265DynamicSubGop {
+extension H265DynamicSubGopValueExtension on H265DynamicSubGop {
   String toValue() {
     switch (this) {
       case H265DynamicSubGop.adaptive:
@@ -11897,7 +11908,7 @@ enum H265FlickerAdaptiveQuantization {
   enabled,
 }
 
-extension H265FlickerAdaptiveQuantizationValue
+extension H265FlickerAdaptiveQuantizationValueExtension
     on H265FlickerAdaptiveQuantization {
   String toValue() {
     switch (this) {
@@ -11939,7 +11950,7 @@ enum H265FramerateControl {
   specified,
 }
 
-extension H265FramerateControlValue on H265FramerateControl {
+extension H265FramerateControlValueExtension on H265FramerateControl {
   String toValue() {
     switch (this) {
       case H265FramerateControl.initializeFromSource:
@@ -11979,7 +11990,7 @@ enum H265FramerateConversionAlgorithm {
   frameformer,
 }
 
-extension H265FramerateConversionAlgorithmValue
+extension H265FramerateConversionAlgorithmValueExtension
     on H265FramerateConversionAlgorithm {
   String toValue() {
     switch (this) {
@@ -12014,7 +12025,7 @@ enum H265GopBReference {
   enabled,
 }
 
-extension H265GopBReferenceValue on H265GopBReference {
+extension H265GopBReferenceValueExtension on H265GopBReference {
   String toValue() {
     switch (this) {
       case H265GopBReference.disabled:
@@ -12044,7 +12055,7 @@ enum H265GopSizeUnits {
   seconds,
 }
 
-extension H265GopSizeUnitsValue on H265GopSizeUnits {
+extension H265GopSizeUnitsValueExtension on H265GopSizeUnits {
   String toValue() {
     switch (this) {
       case H265GopSizeUnits.frames:
@@ -12087,7 +12098,7 @@ enum H265InterlaceMode {
   followBottomField,
 }
 
-extension H265InterlaceModeValue on H265InterlaceMode {
+extension H265InterlaceModeValueExtension on H265InterlaceMode {
   String toValue() {
     switch (this) {
       case H265InterlaceMode.progressive:
@@ -12135,7 +12146,7 @@ enum H265ParControl {
   specified,
 }
 
-extension H265ParControlValue on H265ParControl {
+extension H265ParControlValueExtension on H265ParControl {
   String toValue() {
     switch (this) {
       case H265ParControl.initializeFromSource:
@@ -12167,7 +12178,7 @@ enum H265QualityTuningLevel {
   multiPassHq,
 }
 
-extension H265QualityTuningLevelValue on H265QualityTuningLevel {
+extension H265QualityTuningLevelValueExtension on H265QualityTuningLevel {
   String toValue() {
     switch (this) {
       case H265QualityTuningLevel.singlePass:
@@ -12260,7 +12271,7 @@ enum H265RateControlMode {
   qvbr,
 }
 
-extension H265RateControlModeValue on H265RateControlMode {
+extension H265RateControlModeValueExtension on H265RateControlMode {
   String toValue() {
     switch (this) {
       case H265RateControlMode.vbr:
@@ -12295,7 +12306,7 @@ enum H265SampleAdaptiveOffsetFilterMode {
   off,
 }
 
-extension H265SampleAdaptiveOffsetFilterModeValue
+extension H265SampleAdaptiveOffsetFilterModeValueExtension
     on H265SampleAdaptiveOffsetFilterMode {
   String toValue() {
     switch (this) {
@@ -12336,7 +12347,7 @@ enum H265SceneChangeDetect {
   transitionDetection,
 }
 
-extension H265SceneChangeDetectValue on H265SceneChangeDetect {
+extension H265SceneChangeDetectValueExtension on H265SceneChangeDetect {
   String toValue() {
     switch (this) {
       case H265SceneChangeDetect.disabled:
@@ -12873,7 +12884,7 @@ enum H265SlowPal {
   enabled,
 }
 
-extension H265SlowPalValue on H265SlowPal {
+extension H265SlowPalValueExtension on H265SlowPal {
   String toValue() {
     switch (this) {
       case H265SlowPal.disabled:
@@ -12916,7 +12927,7 @@ enum H265SpatialAdaptiveQuantization {
   enabled,
 }
 
-extension H265SpatialAdaptiveQuantizationValue
+extension H265SpatialAdaptiveQuantizationValueExtension
     on H265SpatialAdaptiveQuantization {
   String toValue() {
     switch (this) {
@@ -12954,7 +12965,7 @@ enum H265Telecine {
   hard,
 }
 
-extension H265TelecineValue on H265Telecine {
+extension H265TelecineValueExtension on H265Telecine {
   String toValue() {
     switch (this) {
       case H265Telecine.none:
@@ -12999,7 +13010,7 @@ enum H265TemporalAdaptiveQuantization {
   enabled,
 }
 
-extension H265TemporalAdaptiveQuantizationValue
+extension H265TemporalAdaptiveQuantizationValueExtension
     on H265TemporalAdaptiveQuantization {
   String toValue() {
     switch (this) {
@@ -13037,7 +13048,7 @@ enum H265TemporalIds {
   enabled,
 }
 
-extension H265TemporalIdsValue on H265TemporalIds {
+extension H265TemporalIdsValueExtension on H265TemporalIds {
   String toValue() {
     switch (this) {
       case H265TemporalIds.disabled:
@@ -13067,7 +13078,7 @@ enum H265Tiles {
   enabled,
 }
 
-extension H265TilesValue on H265Tiles {
+extension H265TilesValueExtension on H265Tiles {
   String toValue() {
     switch (this) {
       case H265Tiles.disabled:
@@ -13096,7 +13107,8 @@ enum H265UnregisteredSeiTimecode {
   enabled,
 }
 
-extension H265UnregisteredSeiTimecodeValue on H265UnregisteredSeiTimecode {
+extension H265UnregisteredSeiTimecodeValueExtension
+    on H265UnregisteredSeiTimecode {
   String toValue() {
     switch (this) {
       case H265UnregisteredSeiTimecode.disabled:
@@ -13135,7 +13147,7 @@ enum H265WriteMp4PackagingType {
   hev1,
 }
 
-extension H265WriteMp4PackagingTypeValue on H265WriteMp4PackagingType {
+extension H265WriteMp4PackagingTypeValueExtension on H265WriteMp4PackagingType {
   String toValue() {
     switch (this) {
       case H265WriteMp4PackagingType.hvc1:
@@ -13298,7 +13310,7 @@ enum HlsAdMarkers {
   elementalScte35,
 }
 
-extension HlsAdMarkersValue on HlsAdMarkers {
+extension HlsAdMarkersValueExtension on HlsAdMarkers {
   String toValue() {
     switch (this) {
       case HlsAdMarkers.elemental:
@@ -13375,7 +13387,7 @@ enum HlsAudioOnlyContainer {
   m2ts,
 }
 
-extension HlsAudioOnlyContainerValue on HlsAudioOnlyContainer {
+extension HlsAudioOnlyContainerValueExtension on HlsAudioOnlyContainer {
   String toValue() {
     switch (this) {
       case HlsAudioOnlyContainer.automatic:
@@ -13407,7 +13419,7 @@ enum HlsAudioOnlyHeader {
   exclude,
 }
 
-extension HlsAudioOnlyHeaderValue on HlsAudioOnlyHeader {
+extension HlsAudioOnlyHeaderValueExtension on HlsAudioOnlyHeader {
   String toValue() {
     switch (this) {
       case HlsAudioOnlyHeader.include:
@@ -13448,7 +13460,7 @@ enum HlsAudioTrackType {
   audioOnlyVariantStream,
 }
 
-extension HlsAudioTrackTypeValue on HlsAudioTrackType {
+extension HlsAudioTrackTypeValueExtension on HlsAudioTrackType {
   String toValue() {
     switch (this) {
       case HlsAudioTrackType.alternateAudioAutoSelectDefault:
@@ -13540,7 +13552,7 @@ enum HlsCaptionLanguageSetting {
   none,
 }
 
-extension HlsCaptionLanguageSettingValue on HlsCaptionLanguageSetting {
+extension HlsCaptionLanguageSettingValueExtension on HlsCaptionLanguageSetting {
   String toValue() {
     switch (this) {
       case HlsCaptionLanguageSetting.insert:
@@ -13576,7 +13588,7 @@ enum HlsClientCache {
   enabled,
 }
 
-extension HlsClientCacheValue on HlsClientCache {
+extension HlsClientCacheValueExtension on HlsClientCache {
   String toValue() {
     switch (this) {
       case HlsClientCache.disabled:
@@ -13606,7 +13618,7 @@ enum HlsCodecSpecification {
   rfc_4281,
 }
 
-extension HlsCodecSpecificationValue on HlsCodecSpecification {
+extension HlsCodecSpecificationValueExtension on HlsCodecSpecification {
   String toValue() {
     switch (this) {
       case HlsCodecSpecification.rfc_6381:
@@ -13635,7 +13647,7 @@ enum HlsDirectoryStructure {
   subdirectoryPerStream,
 }
 
-extension HlsDirectoryStructureValue on HlsDirectoryStructure {
+extension HlsDirectoryStructureValueExtension on HlsDirectoryStructure {
   String toValue() {
     switch (this) {
       case HlsDirectoryStructure.singleDirectory:
@@ -13757,7 +13769,7 @@ enum HlsEncryptionType {
   sampleAes,
 }
 
-extension HlsEncryptionTypeValue on HlsEncryptionType {
+extension HlsEncryptionTypeValueExtension on HlsEncryptionType {
   String toValue() {
     switch (this) {
       case HlsEncryptionType.aes128:
@@ -14079,7 +14091,7 @@ enum HlsIFrameOnlyManifest {
   exclude,
 }
 
-extension HlsIFrameOnlyManifestValue on HlsIFrameOnlyManifest {
+extension HlsIFrameOnlyManifestValueExtension on HlsIFrameOnlyManifest {
   String toValue() {
     switch (this) {
       case HlsIFrameOnlyManifest.include:
@@ -14111,7 +14123,7 @@ enum HlsInitializationVectorInManifest {
   exclude,
 }
 
-extension HlsInitializationVectorInManifestValue
+extension HlsInitializationVectorInManifestValueExtension
     on HlsInitializationVectorInManifest {
   String toValue() {
     switch (this) {
@@ -14144,7 +14156,7 @@ enum HlsKeyProviderType {
   staticKey,
 }
 
-extension HlsKeyProviderTypeValue on HlsKeyProviderType {
+extension HlsKeyProviderTypeValueExtension on HlsKeyProviderType {
   String toValue() {
     switch (this) {
       case HlsKeyProviderType.speke:
@@ -14173,7 +14185,7 @@ enum HlsManifestCompression {
   none,
 }
 
-extension HlsManifestCompressionValue on HlsManifestCompression {
+extension HlsManifestCompressionValueExtension on HlsManifestCompression {
   String toValue() {
     switch (this) {
       case HlsManifestCompression.gzip:
@@ -14203,7 +14215,7 @@ enum HlsManifestDurationFormat {
   integer,
 }
 
-extension HlsManifestDurationFormatValue on HlsManifestDurationFormat {
+extension HlsManifestDurationFormatValueExtension on HlsManifestDurationFormat {
   String toValue() {
     switch (this) {
       case HlsManifestDurationFormat.floatingPoint:
@@ -14233,7 +14245,7 @@ enum HlsOfflineEncrypted {
   disabled,
 }
 
-extension HlsOfflineEncryptedValue on HlsOfflineEncrypted {
+extension HlsOfflineEncryptedValueExtension on HlsOfflineEncrypted {
   String toValue() {
     switch (this) {
       case HlsOfflineEncrypted.enabled:
@@ -14263,7 +14275,7 @@ enum HlsOutputSelection {
   segmentsOnly,
 }
 
-extension HlsOutputSelectionValue on HlsOutputSelection {
+extension HlsOutputSelectionValueExtension on HlsOutputSelection {
   String toValue() {
     switch (this) {
       case HlsOutputSelection.manifestsAndSegments:
@@ -14296,7 +14308,7 @@ enum HlsProgramDateTime {
   exclude,
 }
 
-extension HlsProgramDateTimeValue on HlsProgramDateTime {
+extension HlsProgramDateTimeValueExtension on HlsProgramDateTime {
   String toValue() {
     switch (this) {
       case HlsProgramDateTime.include:
@@ -14326,7 +14338,7 @@ enum HlsSegmentControl {
   segmentedFiles,
 }
 
-extension HlsSegmentControlValue on HlsSegmentControl {
+extension HlsSegmentControlValueExtension on HlsSegmentControl {
   String toValue() {
     switch (this) {
       case HlsSegmentControl.singleFile:
@@ -14438,7 +14450,7 @@ enum HlsStreamInfResolution {
   exclude,
 }
 
-extension HlsStreamInfResolutionValue on HlsStreamInfResolution {
+extension HlsStreamInfResolutionValueExtension on HlsStreamInfResolution {
   String toValue() {
     switch (this) {
       case HlsStreamInfResolution.include:
@@ -14468,7 +14480,7 @@ enum HlsTimedMetadataId3Frame {
   tdrl,
 }
 
-extension HlsTimedMetadataId3FrameValue on HlsTimedMetadataId3Frame {
+extension HlsTimedMetadataId3FrameValueExtension on HlsTimedMetadataId3Frame {
   String toValue() {
     switch (this) {
       case HlsTimedMetadataId3Frame.none:
@@ -14637,7 +14649,7 @@ enum ImscStylePassthrough {
   disabled,
 }
 
-extension ImscStylePassthroughValue on ImscStylePassthrough {
+extension ImscStylePassthroughValueExtension on ImscStylePassthrough {
   String toValue() {
     switch (this) {
       case ImscStylePassthrough.enabled:
@@ -14973,7 +14985,7 @@ enum InputDeblockFilter {
   disabled,
 }
 
-extension InputDeblockFilterValue on InputDeblockFilter {
+extension InputDeblockFilterValueExtension on InputDeblockFilter {
   String toValue() {
     switch (this) {
       case InputDeblockFilter.enabled:
@@ -15062,7 +15074,7 @@ enum InputDenoiseFilter {
   disabled,
 }
 
-extension InputDenoiseFilterValue on InputDenoiseFilter {
+extension InputDenoiseFilterValueExtension on InputDenoiseFilter {
   String toValue() {
     switch (this) {
       case InputDenoiseFilter.enabled:
@@ -15099,7 +15111,7 @@ enum InputFilterEnable {
   force,
 }
 
-extension InputFilterEnableValue on InputFilterEnable {
+extension InputFilterEnableValueExtension on InputFilterEnable {
   String toValue() {
     switch (this) {
       case InputFilterEnable.auto:
@@ -15134,7 +15146,7 @@ enum InputPsiControl {
   usePsi,
 }
 
-extension InputPsiControlValue on InputPsiControl {
+extension InputPsiControlValueExtension on InputPsiControl {
   String toValue() {
     switch (this) {
       case InputPsiControl.ignorePsi:
@@ -15175,7 +15187,7 @@ enum InputRotate {
   auto,
 }
 
-extension InputRotateValue on InputRotate {
+extension InputRotateValueExtension on InputRotate {
   String toValue() {
     switch (this) {
       case InputRotate.degree_0:
@@ -15222,7 +15234,7 @@ enum InputScanType {
   psf,
 }
 
-extension InputScanTypeValue on InputScanType {
+extension InputScanTypeValueExtension on InputScanType {
   String toValue() {
     switch (this) {
       case InputScanType.auto:
@@ -15479,7 +15491,7 @@ enum InputTimecodeSource {
   specifiedstart,
 }
 
-extension InputTimecodeSourceValue on InputTimecodeSource {
+extension InputTimecodeSourceValueExtension on InputTimecodeSource {
   String toValue() {
     switch (this) {
       case InputTimecodeSource.embedded:
@@ -15854,7 +15866,7 @@ enum JobPhase {
   uploading,
 }
 
-extension JobPhaseValue on JobPhase {
+extension JobPhaseValueExtension on JobPhase {
   String toValue() {
     switch (this) {
       case JobPhase.probing:
@@ -16036,7 +16048,7 @@ enum JobStatus {
   error,
 }
 
-extension JobStatusValue on JobStatus {
+extension JobStatusValueExtension on JobStatus {
   String toValue() {
     switch (this) {
       case JobStatus.submitted:
@@ -16173,7 +16185,7 @@ enum JobTemplateListBy {
   system,
 }
 
-extension JobTemplateListByValue on JobTemplateListBy {
+extension JobTemplateListByValueExtension on JobTemplateListBy {
   String toValue() {
     switch (this) {
       case JobTemplateListBy.name:
@@ -16543,7 +16555,7 @@ enum LanguageCode {
   tng,
 }
 
-extension LanguageCodeValue on LanguageCode {
+extension LanguageCodeValueExtension on LanguageCode {
   String toValue() {
     switch (this) {
       case LanguageCode.eng:
@@ -17433,7 +17445,7 @@ enum M2tsAudioBufferModel {
   atsc,
 }
 
-extension M2tsAudioBufferModelValue on M2tsAudioBufferModel {
+extension M2tsAudioBufferModelValueExtension on M2tsAudioBufferModel {
   String toValue() {
     switch (this) {
       case M2tsAudioBufferModel.dvb:
@@ -17475,7 +17487,7 @@ enum M2tsAudioDuration {
   matchVideoDuration,
 }
 
-extension M2tsAudioDurationValue on M2tsAudioDuration {
+extension M2tsAudioDurationValueExtension on M2tsAudioDuration {
   String toValue() {
     switch (this) {
       case M2tsAudioDuration.defaultCodecDuration:
@@ -17507,7 +17519,7 @@ enum M2tsBufferModel {
   none,
 }
 
-extension M2tsBufferModelValue on M2tsBufferModel {
+extension M2tsBufferModelValueExtension on M2tsBufferModel {
   String toValue() {
     switch (this) {
       case M2tsBufferModel.multiplex:
@@ -17541,7 +17553,7 @@ enum M2tsEbpAudioInterval {
   videoInterval,
 }
 
-extension M2tsEbpAudioIntervalValue on M2tsEbpAudioInterval {
+extension M2tsEbpAudioIntervalValueExtension on M2tsEbpAudioInterval {
   String toValue() {
     switch (this) {
       case M2tsEbpAudioInterval.videoAndFixedIntervals:
@@ -17573,7 +17585,7 @@ enum M2tsEbpPlacement {
   videoPid,
 }
 
-extension M2tsEbpPlacementValue on M2tsEbpPlacement {
+extension M2tsEbpPlacementValueExtension on M2tsEbpPlacement {
   String toValue() {
     switch (this) {
       case M2tsEbpPlacement.videoAndAudioPids:
@@ -17602,7 +17614,7 @@ enum M2tsEsRateInPes {
   exclude,
 }
 
-extension M2tsEsRateInPesValue on M2tsEsRateInPes {
+extension M2tsEsRateInPesValueExtension on M2tsEsRateInPes {
   String toValue() {
     switch (this) {
       case M2tsEsRateInPes.include:
@@ -17633,7 +17645,7 @@ enum M2tsForceTsVideoEbpOrder {
   $default,
 }
 
-extension M2tsForceTsVideoEbpOrderValue on M2tsForceTsVideoEbpOrder {
+extension M2tsForceTsVideoEbpOrderValueExtension on M2tsForceTsVideoEbpOrder {
   String toValue() {
     switch (this) {
       case M2tsForceTsVideoEbpOrder.force:
@@ -17663,7 +17675,7 @@ enum M2tsNielsenId3 {
   none,
 }
 
-extension M2tsNielsenId3Value on M2tsNielsenId3 {
+extension M2tsNielsenId3ValueExtension on M2tsNielsenId3 {
   String toValue() {
     switch (this) {
       case M2tsNielsenId3.insert:
@@ -17695,7 +17707,7 @@ enum M2tsPcrControl {
   configuredPcrPeriod,
 }
 
-extension M2tsPcrControlValue on M2tsPcrControl {
+extension M2tsPcrControlValueExtension on M2tsPcrControl {
   String toValue() {
     switch (this) {
       case M2tsPcrControl.pcrEveryPesPacket:
@@ -17726,7 +17738,7 @@ enum M2tsRateMode {
   cbr,
 }
 
-extension M2tsRateModeValue on M2tsRateMode {
+extension M2tsRateModeValueExtension on M2tsRateMode {
   String toValue() {
     switch (this) {
       case M2tsRateMode.vbr:
@@ -17787,7 +17799,7 @@ enum M2tsScte35Source {
   none,
 }
 
-extension M2tsScte35SourceValue on M2tsScte35Source {
+extension M2tsScte35SourceValueExtension on M2tsScte35Source {
   String toValue() {
     switch (this) {
       case M2tsScte35Source.passthrough:
@@ -17826,7 +17838,7 @@ enum M2tsSegmentationMarkers {
   ebpLegacy,
 }
 
-extension M2tsSegmentationMarkersValue on M2tsSegmentationMarkers {
+extension M2tsSegmentationMarkersValueExtension on M2tsSegmentationMarkers {
   String toValue() {
     switch (this) {
       case M2tsSegmentationMarkers.none:
@@ -17882,7 +17894,7 @@ enum M2tsSegmentationStyle {
   resetCadence,
 }
 
-extension M2tsSegmentationStyleValue on M2tsSegmentationStyle {
+extension M2tsSegmentationStyleValueExtension on M2tsSegmentationStyle {
   String toValue() {
     switch (this) {
       case M2tsSegmentationStyle.maintainCadence:
@@ -18324,7 +18336,7 @@ enum M3u8AudioDuration {
   matchVideoDuration,
 }
 
-extension M3u8AudioDurationValue on M3u8AudioDuration {
+extension M3u8AudioDurationValueExtension on M3u8AudioDuration {
   String toValue() {
     switch (this) {
       case M3u8AudioDuration.defaultCodecDuration:
@@ -18354,7 +18366,7 @@ enum M3u8NielsenId3 {
   none,
 }
 
-extension M3u8NielsenId3Value on M3u8NielsenId3 {
+extension M3u8NielsenId3ValueExtension on M3u8NielsenId3 {
   String toValue() {
     switch (this) {
       case M3u8NielsenId3.insert:
@@ -18386,7 +18398,7 @@ enum M3u8PcrControl {
   configuredPcrPeriod,
 }
 
-extension M3u8PcrControlValue on M3u8PcrControl {
+extension M3u8PcrControlValueExtension on M3u8PcrControl {
   String toValue() {
     switch (this) {
       case M3u8PcrControl.pcrEveryPesPacket:
@@ -18422,7 +18434,7 @@ enum M3u8Scte35Source {
   none,
 }
 
-extension M3u8Scte35SourceValue on M3u8Scte35Source {
+extension M3u8Scte35SourceValueExtension on M3u8Scte35Source {
   String toValue() {
     switch (this) {
       case M3u8Scte35Source.passthrough:
@@ -18756,7 +18768,7 @@ enum MotionImageInsertionMode {
   png,
 }
 
-extension MotionImageInsertionModeValue on MotionImageInsertionMode {
+extension MotionImageInsertionModeValueExtension on MotionImageInsertionMode {
   String toValue() {
     switch (this) {
       case MotionImageInsertionMode.mov:
@@ -18818,7 +18830,7 @@ enum MotionImagePlayback {
   repeat,
 }
 
-extension MotionImagePlaybackValue on MotionImagePlayback {
+extension MotionImagePlaybackValueExtension on MotionImagePlayback {
   String toValue() {
     switch (this) {
       case MotionImagePlayback.once:
@@ -18848,7 +18860,7 @@ enum MovClapAtom {
   exclude,
 }
 
-extension MovClapAtomValue on MovClapAtom {
+extension MovClapAtomValueExtension on MovClapAtom {
   String toValue() {
     switch (this) {
       case MovClapAtom.include:
@@ -18881,7 +18893,7 @@ enum MovCslgAtom {
   exclude,
 }
 
-extension MovCslgAtomValue on MovCslgAtom {
+extension MovCslgAtomValueExtension on MovCslgAtom {
   String toValue() {
     switch (this) {
       case MovCslgAtom.include:
@@ -18913,7 +18925,7 @@ enum MovMpeg2FourCCControl {
   mpeg,
 }
 
-extension MovMpeg2FourCCControlValue on MovMpeg2FourCCControl {
+extension MovMpeg2FourCCControlValueExtension on MovMpeg2FourCCControl {
   String toValue() {
     switch (this) {
       case MovMpeg2FourCCControl.xdcam:
@@ -18946,7 +18958,7 @@ enum MovPaddingControl {
   none,
 }
 
-extension MovPaddingControlValue on MovPaddingControl {
+extension MovPaddingControlValueExtension on MovPaddingControl {
   String toValue() {
     switch (this) {
       case MovPaddingControl.omneon:
@@ -18975,7 +18987,7 @@ enum MovReference {
   external,
 }
 
-extension MovReferenceValue on MovReference {
+extension MovReferenceValueExtension on MovReference {
   String toValue() {
     switch (this) {
       case MovReference.selfContained:
@@ -19109,7 +19121,7 @@ enum Mp3RateControlMode {
   vbr,
 }
 
-extension Mp3RateControlModeValue on Mp3RateControlMode {
+extension Mp3RateControlModeValueExtension on Mp3RateControlMode {
   String toValue() {
     switch (this) {
       case Mp3RateControlMode.cbr:
@@ -19199,7 +19211,7 @@ enum Mp4CslgAtom {
   exclude,
 }
 
-extension Mp4CslgAtomValue on Mp4CslgAtom {
+extension Mp4CslgAtomValueExtension on Mp4CslgAtom {
   String toValue() {
     switch (this) {
       case Mp4CslgAtom.include:
@@ -19228,7 +19240,7 @@ enum Mp4FreeSpaceBox {
   exclude,
 }
 
-extension Mp4FreeSpaceBoxValue on Mp4FreeSpaceBox {
+extension Mp4FreeSpaceBoxValueExtension on Mp4FreeSpaceBox {
   String toValue() {
     switch (this) {
       case Mp4FreeSpaceBox.include:
@@ -19259,7 +19271,7 @@ enum Mp4MoovPlacement {
   normal,
 }
 
-extension Mp4MoovPlacementValue on Mp4MoovPlacement {
+extension Mp4MoovPlacementValueExtension on Mp4MoovPlacement {
   String toValue() {
     switch (this) {
       case Mp4MoovPlacement.progressiveDownload:
@@ -19377,7 +19389,8 @@ enum MpdAccessibilityCaptionHints {
   exclude,
 }
 
-extension MpdAccessibilityCaptionHintsValue on MpdAccessibilityCaptionHints {
+extension MpdAccessibilityCaptionHintsValueExtension
+    on MpdAccessibilityCaptionHints {
   String toValue() {
     switch (this) {
       case MpdAccessibilityCaptionHints.include:
@@ -19419,7 +19432,7 @@ enum MpdAudioDuration {
   matchVideoDuration,
 }
 
-extension MpdAudioDurationValue on MpdAudioDuration {
+extension MpdAudioDurationValueExtension on MpdAudioDuration {
   String toValue() {
     switch (this) {
       case MpdAudioDuration.defaultCodecDuration:
@@ -19453,7 +19466,7 @@ enum MpdCaptionContainerType {
   fragmentedMp4,
 }
 
-extension MpdCaptionContainerTypeValue on MpdCaptionContainerType {
+extension MpdCaptionContainerTypeValueExtension on MpdCaptionContainerType {
   String toValue() {
     switch (this) {
       case MpdCaptionContainerType.raw:
@@ -19485,7 +19498,7 @@ enum MpdScte35Esam {
   none,
 }
 
-extension MpdScte35EsamValue on MpdScte35Esam {
+extension MpdScte35EsamValueExtension on MpdScte35Esam {
   String toValue() {
     switch (this) {
       case MpdScte35Esam.insert:
@@ -19517,7 +19530,7 @@ enum MpdScte35Source {
   none,
 }
 
-extension MpdScte35SourceValue on MpdScte35Source {
+extension MpdScte35SourceValueExtension on MpdScte35Source {
   String toValue() {
     switch (this) {
       case MpdScte35Source.passthrough:
@@ -19635,7 +19648,7 @@ enum Mpeg2AdaptiveQuantization {
   high,
 }
 
-extension Mpeg2AdaptiveQuantizationValue on Mpeg2AdaptiveQuantization {
+extension Mpeg2AdaptiveQuantizationValueExtension on Mpeg2AdaptiveQuantization {
   String toValue() {
     switch (this) {
       case Mpeg2AdaptiveQuantization.off:
@@ -19675,7 +19688,7 @@ enum Mpeg2CodecLevel {
   high,
 }
 
-extension Mpeg2CodecLevelValue on Mpeg2CodecLevel {
+extension Mpeg2CodecLevelValueExtension on Mpeg2CodecLevel {
   String toValue() {
     switch (this) {
       case Mpeg2CodecLevel.auto:
@@ -19717,7 +19730,7 @@ enum Mpeg2CodecProfile {
   profile_422,
 }
 
-extension Mpeg2CodecProfileValue on Mpeg2CodecProfile {
+extension Mpeg2CodecProfileValueExtension on Mpeg2CodecProfile {
   String toValue() {
     switch (this) {
       case Mpeg2CodecProfile.main:
@@ -19751,7 +19764,7 @@ enum Mpeg2DynamicSubGop {
   static,
 }
 
-extension Mpeg2DynamicSubGopValue on Mpeg2DynamicSubGop {
+extension Mpeg2DynamicSubGopValueExtension on Mpeg2DynamicSubGop {
   String toValue() {
     switch (this) {
       case Mpeg2DynamicSubGop.adaptive:
@@ -19791,7 +19804,7 @@ enum Mpeg2FramerateControl {
   specified,
 }
 
-extension Mpeg2FramerateControlValue on Mpeg2FramerateControl {
+extension Mpeg2FramerateControlValueExtension on Mpeg2FramerateControl {
   String toValue() {
     switch (this) {
       case Mpeg2FramerateControl.initializeFromSource:
@@ -19831,7 +19844,7 @@ enum Mpeg2FramerateConversionAlgorithm {
   frameformer,
 }
 
-extension Mpeg2FramerateConversionAlgorithmValue
+extension Mpeg2FramerateConversionAlgorithmValueExtension
     on Mpeg2FramerateConversionAlgorithm {
   String toValue() {
     switch (this) {
@@ -19867,7 +19880,7 @@ enum Mpeg2GopSizeUnits {
   seconds,
 }
 
-extension Mpeg2GopSizeUnitsValue on Mpeg2GopSizeUnits {
+extension Mpeg2GopSizeUnitsValueExtension on Mpeg2GopSizeUnits {
   String toValue() {
     switch (this) {
       case Mpeg2GopSizeUnits.frames:
@@ -19910,7 +19923,7 @@ enum Mpeg2InterlaceMode {
   followBottomField,
 }
 
-extension Mpeg2InterlaceModeValue on Mpeg2InterlaceMode {
+extension Mpeg2InterlaceModeValueExtension on Mpeg2InterlaceMode {
   String toValue() {
     switch (this) {
       case Mpeg2InterlaceMode.progressive:
@@ -19957,7 +19970,7 @@ enum Mpeg2IntraDcPrecision {
   intraDcPrecision_11,
 }
 
-extension Mpeg2IntraDcPrecisionValue on Mpeg2IntraDcPrecision {
+extension Mpeg2IntraDcPrecisionValueExtension on Mpeg2IntraDcPrecision {
   String toValue() {
     switch (this) {
       case Mpeg2IntraDcPrecision.auto:
@@ -20005,7 +20018,7 @@ enum Mpeg2ParControl {
   specified,
 }
 
-extension Mpeg2ParControlValue on Mpeg2ParControl {
+extension Mpeg2ParControlValueExtension on Mpeg2ParControl {
   String toValue() {
     switch (this) {
       case Mpeg2ParControl.initializeFromSource:
@@ -20036,7 +20049,7 @@ enum Mpeg2QualityTuningLevel {
   multiPass,
 }
 
-extension Mpeg2QualityTuningLevelValue on Mpeg2QualityTuningLevel {
+extension Mpeg2QualityTuningLevelValueExtension on Mpeg2QualityTuningLevel {
   String toValue() {
     switch (this) {
       case Mpeg2QualityTuningLevel.singlePass:
@@ -20066,7 +20079,7 @@ enum Mpeg2RateControlMode {
   cbr,
 }
 
-extension Mpeg2RateControlModeValue on Mpeg2RateControlMode {
+extension Mpeg2RateControlModeValueExtension on Mpeg2RateControlMode {
   String toValue() {
     switch (this) {
       case Mpeg2RateControlMode.vbr:
@@ -20097,7 +20110,7 @@ enum Mpeg2SceneChangeDetect {
   enabled,
 }
 
-extension Mpeg2SceneChangeDetectValue on Mpeg2SceneChangeDetect {
+extension Mpeg2SceneChangeDetectValueExtension on Mpeg2SceneChangeDetect {
   String toValue() {
     switch (this) {
       case Mpeg2SceneChangeDetect.disabled:
@@ -20537,7 +20550,7 @@ enum Mpeg2SlowPal {
   enabled,
 }
 
-extension Mpeg2SlowPalValue on Mpeg2SlowPal {
+extension Mpeg2SlowPalValueExtension on Mpeg2SlowPal {
   String toValue() {
     switch (this) {
       case Mpeg2SlowPal.disabled:
@@ -20580,7 +20593,7 @@ enum Mpeg2SpatialAdaptiveQuantization {
   enabled,
 }
 
-extension Mpeg2SpatialAdaptiveQuantizationValue
+extension Mpeg2SpatialAdaptiveQuantizationValueExtension
     on Mpeg2SpatialAdaptiveQuantization {
   String toValue() {
     switch (this) {
@@ -20614,7 +20627,7 @@ enum Mpeg2Syntax {
   d_10,
 }
 
-extension Mpeg2SyntaxValue on Mpeg2Syntax {
+extension Mpeg2SyntaxValueExtension on Mpeg2Syntax {
   String toValue() {
     switch (this) {
       case Mpeg2Syntax.$default:
@@ -20651,7 +20664,7 @@ enum Mpeg2Telecine {
   hard,
 }
 
-extension Mpeg2TelecineValue on Mpeg2Telecine {
+extension Mpeg2TelecineValueExtension on Mpeg2Telecine {
   String toValue() {
     switch (this) {
       case Mpeg2Telecine.none:
@@ -20696,7 +20709,7 @@ enum Mpeg2TemporalAdaptiveQuantization {
   enabled,
 }
 
-extension Mpeg2TemporalAdaptiveQuantizationValue
+extension Mpeg2TemporalAdaptiveQuantizationValueExtension
     on Mpeg2TemporalAdaptiveQuantization {
   String toValue() {
     switch (this) {
@@ -20769,7 +20782,8 @@ enum MsSmoothAudioDeduplication {
   none,
 }
 
-extension MsSmoothAudioDeduplicationValue on MsSmoothAudioDeduplication {
+extension MsSmoothAudioDeduplicationValueExtension
+    on MsSmoothAudioDeduplication {
   String toValue() {
     switch (this) {
       case MsSmoothAudioDeduplication.combineDuplicateStreams:
@@ -20922,7 +20936,7 @@ enum MsSmoothManifestEncoding {
   utf16,
 }
 
-extension MsSmoothManifestEncodingValue on MsSmoothManifestEncoding {
+extension MsSmoothManifestEncodingValueExtension on MsSmoothManifestEncoding {
   String toValue() {
     switch (this) {
       case MsSmoothManifestEncoding.utf8:
@@ -20959,7 +20973,7 @@ enum MxfAfdSignaling {
   copyFromVideo,
 }
 
-extension MxfAfdSignalingValue on MxfAfdSignaling {
+extension MxfAfdSignalingValueExtension on MxfAfdSignaling {
   String toValue() {
     switch (this) {
       case MxfAfdSignaling.noCopy:
@@ -20994,7 +21008,7 @@ enum MxfProfile {
   op1a,
 }
 
-extension MxfProfileValue on MxfProfile {
+extension MxfProfileValueExtension on MxfProfile {
   String toValue() {
     switch (this) {
       case MxfProfile.d_10:
@@ -21138,7 +21152,7 @@ enum NielsenActiveWatermarkProcessType {
   naes2AndNwAndCbet,
 }
 
-extension NielsenActiveWatermarkProcessTypeValue
+extension NielsenActiveWatermarkProcessTypeValueExtension
     on NielsenActiveWatermarkProcessType {
   String toValue() {
     switch (this) {
@@ -21359,7 +21373,7 @@ enum NielsenSourceWatermarkStatusType {
   watermarked,
 }
 
-extension NielsenSourceWatermarkStatusTypeValue
+extension NielsenSourceWatermarkStatusTypeValueExtension
     on NielsenSourceWatermarkStatusType {
   String toValue() {
     switch (this) {
@@ -21393,7 +21407,7 @@ enum NielsenUniqueTicPerAudioTrackType {
   sameTicsPerTrack,
 }
 
-extension NielsenUniqueTicPerAudioTrackTypeValue
+extension NielsenUniqueTicPerAudioTrackTypeValueExtension
     on NielsenUniqueTicPerAudioTrackType {
   String toValue() {
     switch (this) {
@@ -21430,7 +21444,7 @@ enum NoiseFilterPostTemporalSharpening {
   auto,
 }
 
-extension NoiseFilterPostTemporalSharpeningValue
+extension NoiseFilterPostTemporalSharpeningValueExtension
     on NoiseFilterPostTemporalSharpening {
   String toValue() {
     switch (this) {
@@ -21541,7 +21555,7 @@ enum NoiseReducerFilter {
   temporal,
 }
 
-extension NoiseReducerFilterValue on NoiseReducerFilter {
+extension NoiseReducerFilterValueExtension on NoiseReducerFilter {
   String toValue() {
     switch (this) {
       case NoiseReducerFilter.bilateral:
@@ -21760,7 +21774,7 @@ enum Order {
   descending,
 }
 
-extension OrderValue on Order {
+extension OrderValueExtension on Order {
   String toValue() {
     switch (this) {
       case Order.ascending:
@@ -22113,7 +22127,7 @@ enum OutputGroupType {
   cmafGroupSettings,
 }
 
-extension OutputGroupTypeValue on OutputGroupType {
+extension OutputGroupTypeValueExtension on OutputGroupType {
   String toValue() {
     switch (this) {
       case OutputGroupType.hlsGroupSettings:
@@ -22162,7 +22176,7 @@ enum OutputSdt {
   sdtNone,
 }
 
-extension OutputSdtValue on OutputSdt {
+extension OutputSdtValueExtension on OutputSdt {
   String toValue() {
     switch (this) {
       case OutputSdt.sdtFollow:
@@ -22310,7 +22324,7 @@ enum PresetListBy {
   system,
 }
 
-extension PresetListByValue on PresetListBy {
+extension PresetListByValueExtension on PresetListBy {
   String toValue() {
     switch (this) {
       case PresetListBy.name:
@@ -22410,7 +22424,7 @@ enum PricingPlan {
   reserved,
 }
 
-extension PricingPlanValue on PricingPlan {
+extension PricingPlanValueExtension on PricingPlan {
   String toValue() {
     switch (this) {
       case PricingPlan.onDemand:
@@ -22442,7 +22456,7 @@ enum ProresCodecProfile {
   appleProres_422Proxy,
 }
 
-extension ProresCodecProfileValue on ProresCodecProfile {
+extension ProresCodecProfileValueExtension on ProresCodecProfile {
   String toValue() {
     switch (this) {
       case ProresCodecProfile.appleProres_422:
@@ -22490,7 +22504,7 @@ enum ProresFramerateControl {
   specified,
 }
 
-extension ProresFramerateControlValue on ProresFramerateControl {
+extension ProresFramerateControlValueExtension on ProresFramerateControl {
   String toValue() {
     switch (this) {
       case ProresFramerateControl.initializeFromSource:
@@ -22530,7 +22544,7 @@ enum ProresFramerateConversionAlgorithm {
   frameformer,
 }
 
-extension ProresFramerateConversionAlgorithmValue
+extension ProresFramerateConversionAlgorithmValueExtension
     on ProresFramerateConversionAlgorithm {
   String toValue() {
     switch (this) {
@@ -22579,7 +22593,7 @@ enum ProresInterlaceMode {
   followBottomField,
 }
 
-extension ProresInterlaceModeValue on ProresInterlaceMode {
+extension ProresInterlaceModeValueExtension on ProresInterlaceMode {
   String toValue() {
     switch (this) {
       case ProresInterlaceMode.progressive:
@@ -22627,7 +22641,7 @@ enum ProresParControl {
   specified,
 }
 
-extension ProresParControlValue on ProresParControl {
+extension ProresParControlValueExtension on ProresParControl {
   String toValue() {
     switch (this) {
       case ProresParControl.initializeFromSource:
@@ -22836,7 +22850,7 @@ enum ProresSlowPal {
   enabled,
 }
 
-extension ProresSlowPalValue on ProresSlowPal {
+extension ProresSlowPalValueExtension on ProresSlowPal {
   String toValue() {
     switch (this) {
       case ProresSlowPal.disabled:
@@ -22870,7 +22884,7 @@ enum ProresTelecine {
   hard,
 }
 
-extension ProresTelecineValue on ProresTelecine {
+extension ProresTelecineValueExtension on ProresTelecine {
   String toValue() {
     switch (this) {
       case ProresTelecine.none:
@@ -22983,7 +22997,7 @@ enum QueueListBy {
   creationDate,
 }
 
-extension QueueListByValue on QueueListBy {
+extension QueueListByValueExtension on QueueListBy {
   String toValue() {
     switch (this) {
       case QueueListBy.name:
@@ -23014,7 +23028,7 @@ enum QueueStatus {
   paused,
 }
 
-extension QueueStatusValue on QueueStatus {
+extension QueueStatusValueExtension on QueueStatus {
   String toValue() {
     switch (this) {
       case QueueStatus.active:
@@ -23164,7 +23178,7 @@ enum RenewalType {
   expire,
 }
 
-extension RenewalTypeValue on RenewalType {
+extension RenewalTypeValueExtension on RenewalType {
   String toValue() {
     switch (this) {
       case RenewalType.autoRenew:
@@ -23284,7 +23298,7 @@ enum ReservationPlanStatus {
   expired,
 }
 
-extension ReservationPlanStatusValue on ReservationPlanStatus {
+extension ReservationPlanStatusValueExtension on ReservationPlanStatus {
   String toValue() {
     switch (this) {
       case ReservationPlanStatus.active:
@@ -23343,7 +23357,7 @@ enum RespondToAfd {
   passthrough,
 }
 
-extension RespondToAfdValue on RespondToAfd {
+extension RespondToAfdValueExtension on RespondToAfd {
   String toValue() {
     switch (this) {
       case RespondToAfd.none:
@@ -23487,7 +23501,7 @@ enum S3ObjectCannedAcl {
   bucketOwnerFullControl,
 }
 
-extension S3ObjectCannedAclValue on S3ObjectCannedAcl {
+extension S3ObjectCannedAclValueExtension on S3ObjectCannedAcl {
   String toValue() {
     switch (this) {
       case S3ObjectCannedAcl.publicRead:
@@ -23534,7 +23548,8 @@ enum S3ServerSideEncryptionType {
   serverSideEncryptionKms,
 }
 
-extension S3ServerSideEncryptionTypeValue on S3ServerSideEncryptionType {
+extension S3ServerSideEncryptionTypeValueExtension
+    on S3ServerSideEncryptionType {
   String toValue() {
     switch (this) {
       case S3ServerSideEncryptionType.serverSideEncryptionS3:
@@ -23568,7 +23583,7 @@ enum ScalingBehavior {
   stretchToOutput,
 }
 
-extension ScalingBehaviorValue on ScalingBehavior {
+extension ScalingBehaviorValueExtension on ScalingBehavior {
   String toValue() {
     switch (this) {
       case ScalingBehavior.$default:
@@ -23605,7 +23620,7 @@ enum SccDestinationFramerate {
   framerate_29_97NonDropframe,
 }
 
-extension SccDestinationFramerateValue on SccDestinationFramerate {
+extension SccDestinationFramerateValueExtension on SccDestinationFramerate {
   String toValue() {
     switch (this) {
       case SccDestinationFramerate.framerate_23_97:
@@ -23676,7 +23691,7 @@ enum SimulateReservedQueue {
   enabled,
 }
 
-extension SimulateReservedQueueValue on SimulateReservedQueue {
+extension SimulateReservedQueueValueExtension on SimulateReservedQueue {
   String toValue() {
     switch (this) {
       case SimulateReservedQueue.disabled:
@@ -23898,7 +23913,7 @@ enum StatusUpdateInterval {
   seconds_600,
 }
 
-extension StatusUpdateIntervalValue on StatusUpdateInterval {
+extension StatusUpdateIntervalValueExtension on StatusUpdateInterval {
   String toValue() {
     switch (this) {
       case StatusUpdateInterval.seconds_10:
@@ -24029,7 +24044,7 @@ enum TeletextPageType {
   pageTypeHearingImpairedSubtitle,
 }
 
-extension TeletextPageTypeValue on TeletextPageType {
+extension TeletextPageTypeValueExtension on TeletextPageType {
   String toValue() {
     switch (this) {
       case TeletextPageType.pageTypeInitial:
@@ -24146,7 +24161,7 @@ enum TimecodeBurninPosition {
   bottomRight,
 }
 
-extension TimecodeBurninPositionValue on TimecodeBurninPosition {
+extension TimecodeBurninPositionValueExtension on TimecodeBurninPosition {
   String toValue() {
     switch (this) {
       case TimecodeBurninPosition.topCenter:
@@ -24289,7 +24304,7 @@ enum TimecodeSource {
   specifiedstart,
 }
 
-extension TimecodeSourceValue on TimecodeSource {
+extension TimecodeSourceValueExtension on TimecodeSource {
   String toValue() {
     switch (this) {
       case TimecodeSource.embedded:
@@ -24323,7 +24338,7 @@ enum TimedMetadata {
   none,
 }
 
-extension TimedMetadataValue on TimedMetadata {
+extension TimedMetadataValueExtension on TimedMetadata {
   String toValue() {
     switch (this) {
       case TimedMetadata.passthrough:
@@ -24464,7 +24479,7 @@ enum TtmlStylePassthrough {
   disabled,
 }
 
-extension TtmlStylePassthroughValue on TtmlStylePassthrough {
+extension TtmlStylePassthroughValueExtension on TtmlStylePassthrough {
   String toValue() {
     switch (this) {
       case TtmlStylePassthrough.enabled:
@@ -24492,7 +24507,7 @@ enum Type {
   custom,
 }
 
-extension TypeValue on Type {
+extension TypeValueExtension on Type {
   String toValue() {
     switch (this) {
       case Type.system:
@@ -24590,7 +24605,7 @@ enum Vc3Class {
   class_220_10bit,
 }
 
-extension Vc3ClassValue on Vc3Class {
+extension Vc3ClassValueExtension on Vc3Class {
   String toValue() {
     switch (this) {
       case Vc3Class.class_145_8bit:
@@ -24634,7 +24649,7 @@ enum Vc3FramerateControl {
   specified,
 }
 
-extension Vc3FramerateControlValue on Vc3FramerateControl {
+extension Vc3FramerateControlValueExtension on Vc3FramerateControl {
   String toValue() {
     switch (this) {
       case Vc3FramerateControl.initializeFromSource:
@@ -24674,7 +24689,7 @@ enum Vc3FramerateConversionAlgorithm {
   frameformer,
 }
 
-extension Vc3FramerateConversionAlgorithmValue
+extension Vc3FramerateConversionAlgorithmValueExtension
     on Vc3FramerateConversionAlgorithm {
   String toValue() {
     switch (this) {
@@ -24710,7 +24725,7 @@ enum Vc3InterlaceMode {
   progressive,
 }
 
-extension Vc3InterlaceModeValue on Vc3InterlaceMode {
+extension Vc3InterlaceModeValueExtension on Vc3InterlaceMode {
   String toValue() {
     switch (this) {
       case Vc3InterlaceMode.interlaced:
@@ -24872,7 +24887,7 @@ enum Vc3SlowPal {
   enabled,
 }
 
-extension Vc3SlowPalValue on Vc3SlowPal {
+extension Vc3SlowPalValueExtension on Vc3SlowPal {
   String toValue() {
     switch (this) {
       case Vc3SlowPal.disabled:
@@ -24906,7 +24921,7 @@ enum Vc3Telecine {
   hard,
 }
 
-extension Vc3TelecineValue on Vc3Telecine {
+extension Vc3TelecineValueExtension on Vc3Telecine {
   String toValue() {
     switch (this) {
       case Vc3Telecine.none:
@@ -24943,7 +24958,7 @@ enum VideoCodec {
   vp9,
 }
 
-extension VideoCodecValue on VideoCodec {
+extension VideoCodecValueExtension on VideoCodec {
   String toValue() {
     switch (this) {
       case VideoCodec.av1:
@@ -25574,7 +25589,7 @@ enum VideoTimecodeInsertion {
   picTimingSei,
 }
 
-extension VideoTimecodeInsertionValue on VideoTimecodeInsertion {
+extension VideoTimecodeInsertionValueExtension on VideoTimecodeInsertion {
   String toValue() {
     switch (this) {
       case VideoTimecodeInsertion.disabled:
@@ -25657,7 +25672,7 @@ enum Vp8FramerateControl {
   specified,
 }
 
-extension Vp8FramerateControlValue on Vp8FramerateControl {
+extension Vp8FramerateControlValueExtension on Vp8FramerateControl {
   String toValue() {
     switch (this) {
       case Vp8FramerateControl.initializeFromSource:
@@ -25697,7 +25712,7 @@ enum Vp8FramerateConversionAlgorithm {
   frameformer,
 }
 
-extension Vp8FramerateConversionAlgorithmValue
+extension Vp8FramerateConversionAlgorithmValueExtension
     on Vp8FramerateConversionAlgorithm {
   String toValue() {
     switch (this) {
@@ -25739,7 +25754,7 @@ enum Vp8ParControl {
   specified,
 }
 
-extension Vp8ParControlValue on Vp8ParControl {
+extension Vp8ParControlValueExtension on Vp8ParControl {
   String toValue() {
     switch (this) {
       case Vp8ParControl.initializeFromSource:
@@ -25770,7 +25785,7 @@ enum Vp8QualityTuningLevel {
   multiPassHq,
 }
 
-extension Vp8QualityTuningLevelValue on Vp8QualityTuningLevel {
+extension Vp8QualityTuningLevelValueExtension on Vp8QualityTuningLevel {
   String toValue() {
     switch (this) {
       case Vp8QualityTuningLevel.multiPass:
@@ -25799,7 +25814,7 @@ enum Vp8RateControlMode {
   vbr,
 }
 
-extension Vp8RateControlModeValue on Vp8RateControlMode {
+extension Vp8RateControlModeValueExtension on Vp8RateControlMode {
   String toValue() {
     switch (this) {
       case Vp8RateControlMode.vbr:
@@ -26008,7 +26023,7 @@ enum Vp9FramerateControl {
   specified,
 }
 
-extension Vp9FramerateControlValue on Vp9FramerateControl {
+extension Vp9FramerateControlValueExtension on Vp9FramerateControl {
   String toValue() {
     switch (this) {
       case Vp9FramerateControl.initializeFromSource:
@@ -26048,7 +26063,7 @@ enum Vp9FramerateConversionAlgorithm {
   frameformer,
 }
 
-extension Vp9FramerateConversionAlgorithmValue
+extension Vp9FramerateConversionAlgorithmValueExtension
     on Vp9FramerateConversionAlgorithm {
   String toValue() {
     switch (this) {
@@ -26090,7 +26105,7 @@ enum Vp9ParControl {
   specified,
 }
 
-extension Vp9ParControlValue on Vp9ParControl {
+extension Vp9ParControlValueExtension on Vp9ParControl {
   String toValue() {
     switch (this) {
       case Vp9ParControl.initializeFromSource:
@@ -26121,7 +26136,7 @@ enum Vp9QualityTuningLevel {
   multiPassHq,
 }
 
-extension Vp9QualityTuningLevelValue on Vp9QualityTuningLevel {
+extension Vp9QualityTuningLevelValueExtension on Vp9QualityTuningLevel {
   String toValue() {
     switch (this) {
       case Vp9QualityTuningLevel.multiPass:
@@ -26150,7 +26165,7 @@ enum Vp9RateControlMode {
   vbr,
 }
 
-extension Vp9RateControlModeValue on Vp9RateControlMode {
+extension Vp9RateControlModeValueExtension on Vp9RateControlMode {
   String toValue() {
     switch (this) {
       case Vp9RateControlMode.vbr:
@@ -26348,7 +26363,7 @@ enum WatermarkingStrength {
   strongest,
 }
 
-extension WatermarkingStrengthValue on WatermarkingStrength {
+extension WatermarkingStrengthValueExtension on WatermarkingStrength {
   String toValue() {
     switch (this) {
       case WatermarkingStrength.lightest:
@@ -26391,7 +26406,7 @@ enum WavFormat {
   rf64,
 }
 
-extension WavFormatValue on WavFormat {
+extension WavFormatValueExtension on WavFormat {
   String toValue() {
     switch (this) {
       case WavFormat.riff:

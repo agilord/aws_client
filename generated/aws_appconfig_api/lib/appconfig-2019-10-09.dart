@@ -2095,7 +2095,7 @@ enum DeploymentEventType {
   deploymentCompleted,
 }
 
-extension DeploymentEventTypeValue on DeploymentEventType {
+extension DeploymentEventTypeValueExtension on DeploymentEventType {
   String toValue() {
     switch (this) {
       case DeploymentEventType.percentageUpdated:
@@ -2143,7 +2143,7 @@ enum DeploymentState {
   rolledBack,
 }
 
-extension DeploymentStateValue on DeploymentState {
+extension DeploymentStateValueExtension on DeploymentState {
   String toValue() {
     switch (this) {
       case DeploymentState.baking:
@@ -2397,7 +2397,7 @@ enum EnvironmentState {
   rolledBack,
 }
 
-extension EnvironmentStateValue on EnvironmentState {
+extension EnvironmentStateValueExtension on EnvironmentState {
   String toValue() {
     switch (this) {
       case EnvironmentState.readyForDeployment:
@@ -2456,7 +2456,7 @@ enum GrowthType {
   exponential,
 }
 
-extension GrowthTypeValue on GrowthType {
+extension GrowthTypeValueExtension on GrowthType {
   String toValue() {
     switch (this) {
       case GrowthType.linear:
@@ -2606,7 +2606,7 @@ enum ReplicateTo {
   ssmDocument,
 }
 
-extension ReplicateToValue on ReplicateTo {
+extension ReplicateToValueExtension on ReplicateTo {
   String toValue() {
     switch (this) {
       case ReplicateTo.none:
@@ -2653,7 +2653,7 @@ enum TriggeredBy {
   internalError,
 }
 
-extension TriggeredByValue on TriggeredBy {
+extension TriggeredByValueExtension on TriggeredBy {
   String toValue() {
     switch (this) {
       case TriggeredBy.user:
@@ -2724,7 +2724,7 @@ enum ValidatorType {
   lambda,
 }
 
-extension ValidatorTypeValue on ValidatorType {
+extension ValidatorTypeValueExtension on ValidatorType {
   String toValue() {
     switch (this) {
       case ValidatorType.jsonSchema:

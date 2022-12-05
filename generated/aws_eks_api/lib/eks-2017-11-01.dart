@@ -1798,7 +1798,7 @@ enum AMITypes {
   al2Arm_64,
 }
 
-extension AMITypesValue on AMITypes {
+extension AMITypesValueExtension on AMITypes {
   String toValue() {
     switch (this) {
       case AMITypes.al2X86_64:
@@ -1975,7 +1975,7 @@ enum AddonIssueCode {
   configurationConflict,
 }
 
-extension AddonIssueCodeValue on AddonIssueCode {
+extension AddonIssueCodeValueExtension on AddonIssueCode {
   String toValue() {
     switch (this) {
       case AddonIssueCode.accessDenied:
@@ -2020,7 +2020,7 @@ enum AddonStatus {
   degraded,
 }
 
-extension AddonStatusValue on AddonStatus {
+extension AddonStatusValueExtension on AddonStatus {
   String toValue() {
     switch (this) {
       case AddonStatus.creating:
@@ -2116,7 +2116,7 @@ enum CapacityTypes {
   spot,
 }
 
-extension CapacityTypesValue on CapacityTypes {
+extension CapacityTypesValueExtension on CapacityTypes {
   String toValue() {
     switch (this) {
       case CapacityTypes.onDemand:
@@ -2287,7 +2287,7 @@ enum ClusterStatus {
   updating,
 }
 
-extension ClusterStatusValue on ClusterStatus {
+extension ClusterStatusValueExtension on ClusterStatus {
   String toValue() {
     switch (this) {
       case ClusterStatus.creating:
@@ -2641,7 +2641,7 @@ enum ErrorCode {
   configurationConflict,
 }
 
-extension ErrorCodeValue on ErrorCode {
+extension ErrorCodeValueExtension on ErrorCode {
   String toValue() {
     switch (this) {
       case ErrorCode.subnetNotFound:
@@ -2882,7 +2882,7 @@ enum FargateProfileStatus {
   deleteFailed,
 }
 
-extension FargateProfileStatusValue on FargateProfileStatus {
+extension FargateProfileStatusValueExtension on FargateProfileStatus {
   String toValue() {
     switch (this) {
       case FargateProfileStatus.creating:
@@ -3353,7 +3353,7 @@ enum LogType {
   scheduler,
 }
 
-extension LogTypeValue on LogType {
+extension LogTypeValueExtension on LogType {
   String toValue() {
     switch (this) {
       case LogType.api:
@@ -3620,7 +3620,7 @@ enum NodegroupIssueCode {
   clusterUnreachable,
 }
 
-extension NodegroupIssueCodeValue on NodegroupIssueCode {
+extension NodegroupIssueCodeValueExtension on NodegroupIssueCode {
   String toValue() {
     switch (this) {
       case NodegroupIssueCode.autoScalingGroupNotFound:
@@ -3784,7 +3784,7 @@ enum NodegroupStatus {
   degraded,
 }
 
-extension NodegroupStatusValue on NodegroupStatus {
+extension NodegroupStatusValueExtension on NodegroupStatus {
   String toValue() {
     switch (this) {
       case NodegroupStatus.creating:
@@ -3922,7 +3922,7 @@ enum ResolveConflicts {
   none,
 }
 
-extension ResolveConflictsValue on ResolveConflicts {
+extension ResolveConflictsValueExtension on ResolveConflicts {
   String toValue() {
     switch (this) {
       case ResolveConflicts.overwrite:
@@ -4141,7 +4141,7 @@ enum UpdateParamType {
   resolveConflicts,
 }
 
-extension UpdateParamTypeValue on UpdateParamType {
+extension UpdateParamTypeValueExtension on UpdateParamType {
   String toValue() {
     switch (this) {
       case UpdateParamType.version:
@@ -4223,7 +4223,7 @@ enum UpdateStatus {
   successful,
 }
 
-extension UpdateStatusValue on UpdateStatus {
+extension UpdateStatusValueExtension on UpdateStatus {
   String toValue() {
     switch (this) {
       case UpdateStatus.inProgress:
@@ -4262,7 +4262,7 @@ enum UpdateType {
   addonUpdate,
 }
 
-extension UpdateTypeValue on UpdateType {
+extension UpdateTypeValueExtension on UpdateType {
   String toValue() {
     switch (this) {
       case UpdateType.versionUpdate:

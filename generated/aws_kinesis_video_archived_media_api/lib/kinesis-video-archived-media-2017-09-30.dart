@@ -1246,7 +1246,7 @@ enum ClipFragmentSelectorType {
   serverTimestamp,
 }
 
-extension ClipFragmentSelectorTypeValue on ClipFragmentSelectorType {
+extension ClipFragmentSelectorTypeValueExtension on ClipFragmentSelectorType {
   String toValue() {
     switch (this) {
       case ClipFragmentSelectorType.producerTimestamp:
@@ -1318,7 +1318,7 @@ enum ContainerFormat {
   mpegTs,
 }
 
-extension ContainerFormatValue on ContainerFormat {
+extension ContainerFormatValueExtension on ContainerFormat {
   String toValue() {
     switch (this) {
       case ContainerFormat.fragmentedMp4:
@@ -1346,7 +1346,7 @@ enum DASHDisplayFragmentNumber {
   never,
 }
 
-extension DASHDisplayFragmentNumberValue on DASHDisplayFragmentNumber {
+extension DASHDisplayFragmentNumberValueExtension on DASHDisplayFragmentNumber {
   String toValue() {
     switch (this) {
       case DASHDisplayFragmentNumber.always:
@@ -1374,7 +1374,8 @@ enum DASHDisplayFragmentTimestamp {
   never,
 }
 
-extension DASHDisplayFragmentTimestampValue on DASHDisplayFragmentTimestamp {
+extension DASHDisplayFragmentTimestampValueExtension
+    on DASHDisplayFragmentTimestamp {
   String toValue() {
     switch (this) {
       case DASHDisplayFragmentTimestamp.always:
@@ -1460,7 +1461,7 @@ enum DASHFragmentSelectorType {
   serverTimestamp,
 }
 
-extension DASHFragmentSelectorTypeValue on DASHFragmentSelectorType {
+extension DASHFragmentSelectorTypeValueExtension on DASHFragmentSelectorType {
   String toValue() {
     switch (this) {
       case DASHFragmentSelectorType.producerTimestamp:
@@ -1489,7 +1490,7 @@ enum DASHPlaybackMode {
   onDemand,
 }
 
-extension DASHPlaybackModeValue on DASHPlaybackMode {
+extension DASHPlaybackModeValueExtension on DASHPlaybackMode {
   String toValue() {
     switch (this) {
       case DASHPlaybackMode.live:
@@ -1662,7 +1663,7 @@ enum FragmentSelectorType {
   serverTimestamp,
 }
 
-extension FragmentSelectorTypeValue on FragmentSelectorType {
+extension FragmentSelectorTypeValueExtension on FragmentSelectorType {
   String toValue() {
     switch (this) {
       case FragmentSelectorType.producerTimestamp:
@@ -1783,7 +1784,7 @@ enum HLSDiscontinuityMode {
   onDiscontinuity,
 }
 
-extension HLSDiscontinuityModeValue on HLSDiscontinuityMode {
+extension HLSDiscontinuityModeValueExtension on HLSDiscontinuityMode {
   String toValue() {
     switch (this) {
       case HLSDiscontinuityMode.always:
@@ -1815,7 +1816,8 @@ enum HLSDisplayFragmentTimestamp {
   never,
 }
 
-extension HLSDisplayFragmentTimestampValue on HLSDisplayFragmentTimestamp {
+extension HLSDisplayFragmentTimestampValueExtension
+    on HLSDisplayFragmentTimestamp {
   String toValue() {
     switch (this) {
       case HLSDisplayFragmentTimestamp.always:
@@ -1900,7 +1902,7 @@ enum HLSFragmentSelectorType {
   serverTimestamp,
 }
 
-extension HLSFragmentSelectorTypeValue on HLSFragmentSelectorType {
+extension HLSFragmentSelectorTypeValueExtension on HLSFragmentSelectorType {
   String toValue() {
     switch (this) {
       case HLSFragmentSelectorType.producerTimestamp:
@@ -1929,7 +1931,7 @@ enum HLSPlaybackMode {
   onDemand,
 }
 
-extension HLSPlaybackModeValue on HLSPlaybackMode {
+extension HLSPlaybackModeValueExtension on HLSPlaybackMode {
   String toValue() {
     switch (this) {
       case HLSPlaybackMode.live:
