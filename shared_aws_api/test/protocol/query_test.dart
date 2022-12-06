@@ -30,7 +30,8 @@ void main() {
             requestUri: 'requestUri',
             exceptionFnMap: {});
       } catch (error) {
-        expect(error.toString(), 'XmlParserException: "<" expected at 1:1');
+        expect(error.toString(),
+            'XmlParserException: Expected a single root element at 1:1');
         theError = error;
       }
       expect(theError, isA<XmlParserException>());
