@@ -2,6 +2,7 @@ import 'package:aws_client.generator/model/descriptor.dart';
 import '../model/dart_type.dart';
 import '../model/shape.dart';
 import '../utils/string_utils.dart';
+import 'library_builder.dart';
 
 class Nullability {
   static final inputOutput = Nullability._(true, true);
@@ -118,8 +119,9 @@ String encodeJsonCode(Shape shape, String variable,
     shape.isTopLevelInputEnum = true;
     return '$variable${nullability.inputNullAware}.toValue()${nullability == Nullability.input ? "?? ''" : ''}';
   } else if (shape.type == 'timestamp') {
-    final timestampFormat =
-        member?.timestampFormat ?? shape.timestampFormat ?? 'unixTimestamp';
+    final timestampFormat = member != null
+        ? calculateDateTimeToJson(member)
+        : shape.timestampFormat ?? 'unixTimestamp';
     return '${timestampFormat}ToJson($variable)';
   } else if (shape.type == 'blob') {
     if (nullability.inputNullable) {

@@ -10328,8 +10328,8 @@ class TimeRangeFilter {
     final endTime = this.endTime;
     final startTime = this.startTime;
     return {
-      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
-      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
+      if (endTime != null) 'EndTime': iso8601ToJson(endTime),
+      if (startTime != null) 'StartTime': iso8601ToJson(startTime),
     };
   }
 }
