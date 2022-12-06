@@ -4486,7 +4486,7 @@ class MetricDatum {
       if (dimensions != null) 'Dimensions': dimensions,
       if (statisticValues != null) 'StatisticValues': statisticValues,
       if (storageResolution != null) 'StorageResolution': storageResolution,
-      if (timestamp != null) 'Timestamp': unixTimestampToJson(timestamp),
+      if (timestamp != null) 'Timestamp': iso8601ToJson(timestamp),
       if (unit != null) 'Unit': unit.toValue(),
       if (value != null) 'Value': value,
       if (values != null) 'Values': values,
@@ -4678,8 +4678,8 @@ class Range {
     final endTime = this.endTime;
     final startTime = this.startTime;
     return {
-      'EndTime': unixTimestampToJson(endTime),
-      'StartTime': unixTimestampToJson(startTime),
+      'EndTime': iso8601ToJson(endTime),
+      'StartTime': iso8601ToJson(startTime),
     };
   }
 }

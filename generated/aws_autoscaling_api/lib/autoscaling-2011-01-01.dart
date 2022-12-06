@@ -7619,11 +7619,11 @@ class ScheduledUpdateGroupActionRequest {
     return {
       'ScheduledActionName': scheduledActionName,
       if (desiredCapacity != null) 'DesiredCapacity': desiredCapacity,
-      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
+      if (endTime != null) 'EndTime': iso8601ToJson(endTime),
       if (maxSize != null) 'MaxSize': maxSize,
       if (minSize != null) 'MinSize': minSize,
       if (recurrence != null) 'Recurrence': recurrence,
-      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
+      if (startTime != null) 'StartTime': iso8601ToJson(startTime),
     };
   }
 }

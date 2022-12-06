@@ -5885,7 +5885,7 @@ class MessageDsn {
     final extensionFields = this.extensionFields;
     return {
       'ReportingMta': reportingMta,
-      if (arrivalDate != null) 'ArrivalDate': unixTimestampToJson(arrivalDate),
+      if (arrivalDate != null) 'ArrivalDate': iso8601ToJson(arrivalDate),
       if (extensionFields != null) 'ExtensionFields': extensionFields,
     };
   }
@@ -6440,7 +6440,7 @@ class RecipientDsnFields {
       if (extensionFields != null) 'ExtensionFields': extensionFields,
       if (finalRecipient != null) 'FinalRecipient': finalRecipient,
       if (lastAttemptDate != null)
-        'LastAttemptDate': unixTimestampToJson(lastAttemptDate),
+        'LastAttemptDate': iso8601ToJson(lastAttemptDate),
       if (remoteMta != null) 'RemoteMta': remoteMta,
     };
   }
