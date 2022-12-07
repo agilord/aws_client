@@ -37,6 +37,10 @@ class BumpVersionCommand extends Command {
         help: 'Force a specific new version to use.',
       )
       ..addOption(
+        'changelog',
+        help: 'Text that goes in the changelog',
+      )
+      ..addOption(
         'version-increment',
         help: 'The increment type to use (augments commit messages).',
         allowed: ['major', 'minor', 'patch'],
@@ -123,6 +127,8 @@ class BumpVersionCommand extends Command {
         continue;
       }
 
+      final changelogText = (argResults!['changelog'] as String?) ?? '';
+
       final updateLines = [
         '## $newVersion',
         if (currentHash?.trim().isNotEmpty == true) ...[
@@ -130,9 +136,8 @@ class BumpVersionCommand extends Command {
           '(git hash: $currentHash)',
           '',
         ],
-        if (!currentChanges.any((c) => c.isQualified) &&
-            oldSharedVersion == newSharedVersion)
-          '- initial release',
+        if (changelogText.isNotEmpty) '- $changelogText',
+        if (!changelogExists) '- initial release',
         if (oldSharedVersion != newSharedVersion) '- bump shared package',
         ...currentChanges
             .where((c) => c.isQualified)
