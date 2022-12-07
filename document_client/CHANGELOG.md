@@ -1,3 +1,8 @@
+## 2.0.0
+
+- Update shared package
+- Add String set type conversion
+
 ## 1.0.0
 
 - Null Safety
