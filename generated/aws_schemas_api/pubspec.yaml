@@ -1,6 +1,6 @@
 name: aws_schemas_api
 description: AWS API client for Schemas (generated from SDK API specification).
-version: 1.2.0
+version: 2.0.0
 homepage: https://github.com/agilord/aws_client/tree/master/generated/aws_schemas_api
 
 
@@ -10,6 +10,6 @@ environment:
   sdk: '>=2.12.0 <3.0.0'
 
 dependencies:
-  shared_aws_api: ^1.2.0
+  shared_aws_api: ^2.0.0
 
 

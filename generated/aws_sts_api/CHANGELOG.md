@@ -1,3 +1,10 @@
+## 2.0.0
+
+(git hash: d5961a484eb5c31b2fcbd49b9babfeb3ecb6080a)
+
+- Bump dependencies, bugfixes
+- bump shared package
+
 ## 1.2.0
 
 (git hash: 715cc9dfeeb7409ea2c85b645cac83375ad0a78b)
