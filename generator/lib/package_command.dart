@@ -137,8 +137,7 @@ class BumpVersionCommand extends Command {
           '',
         ],
         if (changelogText.isNotEmpty) '- $changelogText',
-        if (!changelogExists)
-          '- initial release',
+        if (!changelogExists) '- initial release',
         if (oldSharedVersion != newSharedVersion) '- bump shared package',
         ...currentChanges
             .where((c) => c.isQualified)
