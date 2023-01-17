@@ -945,6 +945,7 @@ enum BlockType {
   table,
   cell,
   selectionElement,
+  mergedCell,
 }
 
 extension BlockTypeValueExtension on BlockType {
@@ -964,6 +965,8 @@ extension BlockTypeValueExtension on BlockType {
         return 'CELL';
       case BlockType.selectionElement:
         return 'SELECTION_ELEMENT';
+      case BlockType.mergedCell:
+        return 'MERGED_CELL';
     }
   }
 }
@@ -985,6 +988,8 @@ extension BlockTypeFromString on String {
         return BlockType.cell;
       case 'SELECTION_ELEMENT':
         return BlockType.selectionElement;
+      case 'MERGED_CELL':
+        return BlockType.mergedCell;
     }
     throw Exception('$this is not known in enum BlockType');
   }
@@ -1187,6 +1192,7 @@ class DocumentMetadata {
 enum EntityType {
   key,
   value,
+  columnHeader,
 }
 
 extension EntityTypeValueExtension on EntityType {
@@ -1196,6 +1202,8 @@ extension EntityTypeValueExtension on EntityType {
         return 'KEY';
       case EntityType.value:
         return 'VALUE';
+      case EntityType.columnHeader:
+        return 'COLUMN_HEADER';
     }
   }
 }
@@ -1207,6 +1215,8 @@ extension EntityTypeFromString on String {
         return EntityType.key;
       case 'VALUE':
         return EntityType.value;
+      case 'COLUMN_HEADER':
+        return EntityType.columnHeader;
     }
     throw Exception('$this is not known in enum EntityType');
   }
@@ -1628,6 +1638,7 @@ enum RelationshipType {
   value,
   child,
   complexFeatures,
+  mergedCell
 }
 
 extension RelationshipTypeValueExtension on RelationshipType {
@@ -1639,6 +1650,8 @@ extension RelationshipTypeValueExtension on RelationshipType {
         return 'CHILD';
       case RelationshipType.complexFeatures:
         return 'COMPLEX_FEATURES';
+      case RelationshipType.mergedCell:
+        return "MERGED_CELL";
     }
   }
 }
@@ -1652,6 +1665,8 @@ extension RelationshipTypeFromString on String {
         return RelationshipType.child;
       case 'COMPLEX_FEATURES':
         return RelationshipType.complexFeatures;
+      case 'MERGED_CELL':
+        return RelationshipType.mergedCell;
     }
     throw Exception('$this is not known in enum RelationshipType');
   }
