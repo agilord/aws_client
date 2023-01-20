@@ -1,3 +1,12 @@
+## 2.0.1
+
+- Patch signing algorithm for S3 compatibility
+
+## 2.0.0
+
+- Bug fixes in protocols
+- Bump package:xml to >=6.0.0
+
 ## 1.2.0
 
 - Add `close()` method to protocol classes for closing auto created http client.
