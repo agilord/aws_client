@@ -69,6 +69,10 @@ class CredentialsUtil {
       return null;
     }
 
-    return AwsClientCredentials(accessKey: accessKey, secretKey: secretKey);
+    return AwsClientCredentials(
+      accessKey: accessKey,
+      secretKey: secretKey,
+      sessionToken: config.get(profile, 'aws_session_token'),
+    );
   }
 }
