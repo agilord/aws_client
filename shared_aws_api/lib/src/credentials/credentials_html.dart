@@ -1,5 +1,7 @@
-import 'package:shared_aws_api/src/credentials.dart';
+import '../credentials.dart';
 
 class CredentialsUtil {
   static AwsClientCredentials? resolve() => null;
+
+  static AwsClientCredentials? fromProfileFile({String? profile}) => null;
 }
