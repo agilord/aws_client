@@ -31,18 +31,18 @@ class Api {
   factory Api.fromJson(Map<String, dynamic> json) => _$ApiFromJson(json);
 
   void initReferences() {
-    operations.values.forEach((o) {
+    for (var o in operations.values) {
       o.api = this;
       o.initReferences();
-    });
-    shapes.entries.forEach((e) {
+    }
+    for (var e in shapes.entries) {
       e.value.name = e.key;
       e.value.api = this;
       e.value.initReferences();
       if (e.value.exception) {
         e.value.markUsed(false);
       }
-    });
+    }
   }
 
   bool get usesQueryProtocol => metadata.protocol == 'query';

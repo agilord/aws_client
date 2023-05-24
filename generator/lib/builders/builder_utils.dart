@@ -1,5 +1,5 @@
-import 'package:aws_client.generator/model/descriptor.dart';
 import '../model/dart_type.dart';
+import '../model/descriptor.dart';
 import '../model/shape.dart';
 import '../utils/string_utils.dart';
 import 'library_builder.dart';
@@ -130,7 +130,7 @@ String encodeJsonCode(Shape shape, String variable,
       return 'base64Encode($variable)';
     }
   }
-  return '$variable';
+  return variable;
 }
 
 // Try to prevent "unnecessary_lambdas" lint

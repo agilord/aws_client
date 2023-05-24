@@ -103,9 +103,11 @@ class Shape {
     this.union,
     this.requiresLength,
   ) {
-    membersMap?.entries.forEach((e) {
-      e.value.name = e.key;
-    });
+    if (membersMap != null) {
+      for (var e in membersMap!.entries) {
+        e.value.name = e.key;
+      }
+    }
     _members = membersMap?.values.toList() ?? <Member>[];
     required?.forEach((name) {
       _members.firstWhere((m) => m.name == name)._isRequired = true;
@@ -123,7 +125,9 @@ class Shape {
     member?.api = api;
     key?.api = api;
     value?.api = api;
-    members.forEach((m) => m.api = api);
+    for (var m in members) {
+      m.api = api;
+    }
   }
 
   List<Member> get members => _members;
@@ -186,7 +190,9 @@ class Shape {
     } else {
       isUsedInOutput = true;
     }
-    members.forEach((m) => m.shapeClass!.markUsed(isInput));
+    for (var m in members) {
+      m.shapeClass!.markUsed(isInput);
+    }
     member?.shapeClass?.markUsed(isInput);
     key?.shapeClass?.markUsed(isInput);
     value?.shapeClass?.markUsed(isInput);

@@ -1,10 +1,10 @@
 import 'dart:convert';
-import 'package:aws_client.generator/builders/library_builder.dart';
-import 'package:aws_client.generator/model/api.dart';
-import 'package:aws_client.generator/model/descriptor.dart';
-import 'package:aws_client.generator/model/operation.dart';
-import 'package:aws_client.generator/model/shape.dart';
-import 'package:aws_client.generator/model/test_model.dart';
+import '../model/api.dart';
+import '../model/descriptor.dart';
+import '../model/operation.dart';
+import '../model/shape.dart';
+import '../model/test_model.dart';
+import 'library_builder.dart';
 
 String buildTestSuite(TestSuite testSuite, Api api) {
   final code = StringBuffer('''

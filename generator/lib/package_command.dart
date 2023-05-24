@@ -1,9 +1,9 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
 import 'package:args/command_runner.dart';
 import 'package:http/http.dart';
-import 'package:pedantic/pedantic.dart';
 import 'package:pool/pool.dart';
 import 'package:version/version.dart';
 import 'package:yaml/yaml.dart';

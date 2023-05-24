@@ -3,10 +3,10 @@ import 'dart:io';
 
 import 'package:archive/archive.dart';
 import 'package:args/command_runner.dart';
-import 'package:aws_client.generator/model/config.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as path;
 import 'package:yaml/yaml.dart';
+import 'model/config.dart';
 
 class DownloadCommand extends Command {
   Config? config;
