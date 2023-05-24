@@ -128,21 +128,6 @@ class EKS {
     String? serviceAccountRoleArn,
     Map<String, String>? tags,
   }) async {
-    ArgumentError.checkNotNull(addonName, 'addonName');
-    ArgumentError.checkNotNull(clusterName, 'clusterName');
-    _s.validateStringLength(
-      'clusterName',
-      clusterName,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'serviceAccountRoleArn',
-      serviceAccountRoleArn,
-      1,
-      255,
-    );
     final $payload = <String, dynamic>{
       'addonName': addonName,
       if (addonVersion != null) 'addonVersion': addonVersion,
@@ -286,16 +271,6 @@ class EKS {
     Map<String, String>? tags,
     String? version,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(resourcesVpcConfig, 'resourcesVpcConfig');
-    ArgumentError.checkNotNull(roleArn, 'roleArn');
     final $payload = <String, dynamic>{
       'name': name,
       'resourcesVpcConfig': resourcesVpcConfig,
@@ -408,9 +383,6 @@ class EKS {
     List<String>? subnets,
     Map<String, String>? tags,
   }) async {
-    ArgumentError.checkNotNull(clusterName, 'clusterName');
-    ArgumentError.checkNotNull(fargateProfileName, 'fargateProfileName');
-    ArgumentError.checkNotNull(podExecutionRoleArn, 'podExecutionRoleArn');
     final $payload = <String, dynamic>{
       'fargateProfileName': fargateProfileName,
       'podExecutionRoleArn': podExecutionRoleArn,
@@ -608,10 +580,6 @@ class EKS {
     Map<String, String>? tags,
     String? version,
   }) async {
-    ArgumentError.checkNotNull(clusterName, 'clusterName');
-    ArgumentError.checkNotNull(nodeRole, 'nodeRole');
-    ArgumentError.checkNotNull(nodegroupName, 'nodegroupName');
-    ArgumentError.checkNotNull(subnets, 'subnets');
     final $payload = <String, dynamic>{
       'nodeRole': nodeRole,
       'nodegroupName': nodegroupName,
@@ -662,15 +630,6 @@ class EKS {
     required String addonName,
     required String clusterName,
   }) async {
-    ArgumentError.checkNotNull(addonName, 'addonName');
-    ArgumentError.checkNotNull(clusterName, 'clusterName');
-    _s.validateStringLength(
-      'clusterName',
-      clusterName,
-      1,
-      100,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -706,7 +665,6 @@ class EKS {
   Future<DeleteClusterResponse> deleteCluster({
     required String name,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -743,8 +701,6 @@ class EKS {
     required String clusterName,
     required String fargateProfileName,
   }) async {
-    ArgumentError.checkNotNull(clusterName, 'clusterName');
-    ArgumentError.checkNotNull(fargateProfileName, 'fargateProfileName');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -774,8 +730,6 @@ class EKS {
     required String clusterName,
     required String nodegroupName,
   }) async {
-    ArgumentError.checkNotNull(clusterName, 'clusterName');
-    ArgumentError.checkNotNull(nodegroupName, 'nodegroupName');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -806,15 +760,6 @@ class EKS {
     required String addonName,
     required String clusterName,
   }) async {
-    ArgumentError.checkNotNull(addonName, 'addonName');
-    ArgumentError.checkNotNull(clusterName, 'clusterName');
-    _s.validateStringLength(
-      'clusterName',
-      clusterName,
-      1,
-      100,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -904,7 +849,6 @@ class EKS {
   Future<DescribeClusterResponse> describeCluster({
     required String name,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -930,8 +874,6 @@ class EKS {
     required String clusterName,
     required String fargateProfileName,
   }) async {
-    ArgumentError.checkNotNull(clusterName, 'clusterName');
-    ArgumentError.checkNotNull(fargateProfileName, 'fargateProfileName');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -959,8 +901,6 @@ class EKS {
     required String clusterName,
     required String nodegroupName,
   }) async {
-    ArgumentError.checkNotNull(clusterName, 'clusterName');
-    ArgumentError.checkNotNull(nodegroupName, 'nodegroupName');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1003,8 +943,6 @@ class EKS {
     String? addonName,
     String? nodegroupName,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    ArgumentError.checkNotNull(updateId, 'updateId');
     final $query = <String, List<String>>{
       if (addonName != null) 'addonName': [addonName],
       if (nodegroupName != null) 'nodegroupName': [nodegroupName],
@@ -1058,14 +996,6 @@ class EKS {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(clusterName, 'clusterName');
-    _s.validateStringLength(
-      'clusterName',
-      clusterName,
-      1,
-      100,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1173,7 +1103,6 @@ class EKS {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(clusterName, 'clusterName');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1232,7 +1161,6 @@ class EKS {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(clusterName, 'clusterName');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1265,7 +1193,6 @@ class EKS {
   Future<ListTagsForResourceResponse> listTagsForResource({
     required String resourceArn,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1316,7 +1243,6 @@ class EKS {
     String? nextToken,
     String? nodegroupName,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1362,8 +1288,6 @@ class EKS {
     required String resourceArn,
     required Map<String, String> tags,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
       'tags': tags,
     };
@@ -1391,8 +1315,6 @@ class EKS {
     required String resourceArn,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
       'tagKeys': tagKeys,
     };
@@ -1460,21 +1382,6 @@ class EKS {
     ResolveConflicts? resolveConflicts,
     String? serviceAccountRoleArn,
   }) async {
-    ArgumentError.checkNotNull(addonName, 'addonName');
-    ArgumentError.checkNotNull(clusterName, 'clusterName');
-    _s.validateStringLength(
-      'clusterName',
-      clusterName,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'serviceAccountRoleArn',
-      serviceAccountRoleArn,
-      1,
-      255,
-    );
     final $payload = <String, dynamic>{
       if (addonVersion != null) 'addonVersion': addonVersion,
       'clientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
@@ -1561,7 +1468,6 @@ class EKS {
     Logging? logging,
     VpcConfigRequest? resourcesVpcConfig,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
     final $payload = <String, dynamic>{
       'clientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       if (logging != null) 'logging': logging,
@@ -1612,8 +1518,6 @@ class EKS {
     required String version,
     String? clientRequestToken,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    ArgumentError.checkNotNull(version, 'version');
     final $payload = <String, dynamic>{
       'version': version,
       'clientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
@@ -1664,8 +1568,6 @@ class EKS {
     UpdateLabelsPayload? labels,
     NodegroupScalingConfig? scalingConfig,
   }) async {
-    ArgumentError.checkNotNull(clusterName, 'clusterName');
-    ArgumentError.checkNotNull(nodegroupName, 'nodegroupName');
     final $payload = <String, dynamic>{
       'clientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       if (labels != null) 'labels': labels,
@@ -1772,8 +1674,6 @@ class EKS {
     String? releaseVersion,
     String? version,
   }) async {
-    ArgumentError.checkNotNull(clusterName, 'clusterName');
-    ArgumentError.checkNotNull(nodegroupName, 'nodegroupName');
     final $payload = <String, dynamic>{
       'clientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       if (force != null) 'force': force,

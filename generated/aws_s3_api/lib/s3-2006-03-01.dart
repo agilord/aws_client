@@ -132,16 +132,6 @@ class S3 {
     String? expectedBucketOwner,
     RequestPayer? requestPayer,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
-    ArgumentError.checkNotNull(key, 'key');
-    _s.validateStringLength(
-      'key',
-      key,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(uploadId, 'uploadId');
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -308,16 +298,6 @@ class S3 {
     CompletedMultipartUpload? multipartUpload,
     RequestPayer? requestPayer,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
-    ArgumentError.checkNotNull(key, 'key');
-    _s.validateStringLength(
-      'key',
-      key,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(uploadId, 'uploadId');
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -830,16 +810,6 @@ class S3 {
     TaggingDirective? taggingDirective,
     String? websiteRedirectLocation,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
-    ArgumentError.checkNotNull(copySource, 'copySource');
-    ArgumentError.checkNotNull(key, 'key');
-    _s.validateStringLength(
-      'key',
-      key,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'x-amz-copy-source': copySource.toString(),
       if (acl != null) 'x-amz-acl': acl.toValue(),
@@ -1127,7 +1097,6 @@ class S3 {
     String? grantWriteACP,
     bool? objectLockEnabledForBucket,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
     final headers = <String, String>{
       if (acl != null) 'x-amz-acl': acl.toValue(),
       if (grantFullControl != null)
@@ -1614,15 +1583,6 @@ class S3 {
     String? tagging,
     String? websiteRedirectLocation,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
-    ArgumentError.checkNotNull(key, 'key');
-    _s.validateStringLength(
-      'key',
-      key,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       if (acl != null) 'x-amz-acl': acl.toValue(),
       if (bucketKeyEnabled != null)
@@ -1738,7 +1698,6 @@ class S3 {
     required String bucket,
     String? expectedBucketOwner,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -1800,8 +1759,6 @@ class S3 {
     required String id,
     String? expectedBucketOwner,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
-    ArgumentError.checkNotNull(id, 'id');
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -1854,7 +1811,6 @@ class S3 {
     required String bucket,
     String? expectedBucketOwner,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -1908,7 +1864,6 @@ class S3 {
     required String bucket,
     String? expectedBucketOwner,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -1970,8 +1925,6 @@ class S3 {
     required String bucket,
     required String id,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
-    ArgumentError.checkNotNull(id, 'id');
     final $query = <String, List<String>>{
       'id': [id],
     };
@@ -2032,8 +1985,6 @@ class S3 {
     required String id,
     String? expectedBucketOwner,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
-    ArgumentError.checkNotNull(id, 'id');
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -2092,7 +2043,6 @@ class S3 {
     required String bucket,
     String? expectedBucketOwner,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -2160,8 +2110,6 @@ class S3 {
     required String id,
     String? expectedBucketOwner,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
-    ArgumentError.checkNotNull(id, 'id');
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -2213,7 +2161,6 @@ class S3 {
     required String bucket,
     String? expectedBucketOwner,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -2271,7 +2218,6 @@ class S3 {
     required String bucket,
     String? expectedBucketOwner,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -2327,7 +2273,6 @@ class S3 {
     required String bucket,
     String? expectedBucketOwner,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -2370,7 +2315,6 @@ class S3 {
     required String bucket,
     String? expectedBucketOwner,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -2424,7 +2368,6 @@ class S3 {
     required String bucket,
     String? expectedBucketOwner,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -2527,15 +2470,6 @@ class S3 {
     RequestPayer? requestPayer,
     String? versionId,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
-    ArgumentError.checkNotNull(key, 'key');
-    _s.validateStringLength(
-      'key',
-      key,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       if (bypassGovernanceRetention != null)
         'x-amz-bypass-governance-retention':
@@ -2633,15 +2567,6 @@ class S3 {
     String? expectedBucketOwner,
     String? versionId,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
-    ArgumentError.checkNotNull(key, 'key');
-    _s.validateStringLength(
-      'key',
-      key,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -2772,8 +2697,6 @@ class S3 {
     String? mfa,
     RequestPayer? requestPayer,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
-    ArgumentError.checkNotNull(delete, 'delete');
     final headers = <String, String>{
       if (bypassGovernanceRetention != null)
         'x-amz-bypass-governance-retention':
@@ -2847,7 +2770,6 @@ class S3 {
     required String bucket,
     String? expectedBucketOwner,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -2910,7 +2832,6 @@ class S3 {
     required String bucket,
     String? expectedBucketOwner,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -2950,7 +2871,6 @@ class S3 {
     required String bucket,
     String? expectedBucketOwner,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -3015,8 +2935,6 @@ class S3 {
     required String id,
     String? expectedBucketOwner,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
-    ArgumentError.checkNotNull(id, 'id');
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -3071,7 +2989,6 @@ class S3 {
     required String bucket,
     String? expectedBucketOwner,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -3124,7 +3041,6 @@ class S3 {
     required String bucket,
     String? expectedBucketOwner,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -3191,8 +3107,6 @@ class S3 {
     required String bucket,
     required String id,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
-    ArgumentError.checkNotNull(id, 'id');
     final $query = <String, List<String>>{
       'id': [id],
     };
@@ -3259,8 +3173,6 @@ class S3 {
     required String id,
     String? expectedBucketOwner,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
-    ArgumentError.checkNotNull(id, 'id');
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -3349,7 +3261,6 @@ class S3 {
     required String bucket,
     String? expectedBucketOwner,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -3436,7 +3347,6 @@ class S3 {
     required String bucket,
     String? expectedBucketOwner,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -3481,7 +3391,6 @@ class S3 {
     required String bucket,
     String? expectedBucketOwner,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -3522,7 +3431,6 @@ class S3 {
     required String bucket,
     String? expectedBucketOwner,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -3590,8 +3498,6 @@ class S3 {
     required String id,
     String? expectedBucketOwner,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
-    ArgumentError.checkNotNull(id, 'id');
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -3627,7 +3533,6 @@ class S3 {
     required String bucket,
     String? expectedBucketOwner,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -3679,7 +3584,6 @@ class S3 {
     required String bucket,
     String? expectedBucketOwner,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -3728,7 +3632,6 @@ class S3 {
     required String bucket,
     String? expectedBucketOwner,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -3785,7 +3688,6 @@ class S3 {
     required String bucket,
     String? expectedBucketOwner,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -3847,7 +3749,6 @@ class S3 {
     required String bucket,
     String? expectedBucketOwner,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -3913,7 +3814,6 @@ class S3 {
     required String bucket,
     String? expectedBucketOwner,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -3957,7 +3857,6 @@ class S3 {
     required String bucket,
     String? expectedBucketOwner,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -4013,7 +3912,6 @@ class S3 {
     required String bucket,
     String? expectedBucketOwner,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -4065,7 +3963,6 @@ class S3 {
     required String bucket,
     String? expectedBucketOwner,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -4115,7 +4012,6 @@ class S3 {
     required String bucket,
     String? expectedBucketOwner,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -4430,15 +4326,6 @@ class S3 {
     String? sSECustomerKeyMD5,
     String? versionId,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
-    ArgumentError.checkNotNull(key, 'key');
-    _s.validateStringLength(
-      'key',
-      key,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -4615,15 +4502,6 @@ class S3 {
     RequestPayer? requestPayer,
     String? versionId,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
-    ArgumentError.checkNotNull(key, 'key');
-    _s.validateStringLength(
-      'key',
-      key,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -4688,15 +4566,6 @@ class S3 {
     RequestPayer? requestPayer,
     String? versionId,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
-    ArgumentError.checkNotNull(key, 'key');
-    _s.validateStringLength(
-      'key',
-      key,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -4746,7 +4615,6 @@ class S3 {
     required String bucket,
     String? expectedBucketOwner,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -4801,15 +4669,6 @@ class S3 {
     RequestPayer? requestPayer,
     String? versionId,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
-    ArgumentError.checkNotNull(key, 'key');
-    _s.validateStringLength(
-      'key',
-      key,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -4899,15 +4758,6 @@ class S3 {
     String? expectedBucketOwner,
     String? versionId,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
-    ArgumentError.checkNotNull(key, 'key');
-    _s.validateStringLength(
-      'key',
-      key,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -4975,15 +4825,6 @@ class S3 {
     String? expectedBucketOwner,
     RequestPayer? requestPayer,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
-    ArgumentError.checkNotNull(key, 'key');
-    _s.validateStringLength(
-      'key',
-      key,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -5058,7 +4899,6 @@ class S3 {
     required String bucket,
     String? expectedBucketOwner,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -5124,7 +4964,6 @@ class S3 {
     required String bucket,
     String? expectedBucketOwner,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -5340,15 +5179,6 @@ class S3 {
     String? sSECustomerKeyMD5,
     String? versionId,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
-    ArgumentError.checkNotNull(key, 'key');
-    _s.validateStringLength(
-      'key',
-      key,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -5512,7 +5342,6 @@ class S3 {
     String? continuationToken,
     String? expectedBucketOwner,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -5580,7 +5409,6 @@ class S3 {
     required String bucket,
     String? continuationToken,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
     final $query = <String, List<String>>{
       if (continuationToken != null) 'continuation-token': [continuationToken],
     };
@@ -5658,7 +5486,6 @@ class S3 {
     String? continuationToken,
     String? expectedBucketOwner,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -5742,7 +5569,6 @@ class S3 {
     String? continuationToken,
     String? expectedBucketOwner,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -5904,7 +5730,6 @@ class S3 {
     String? prefix,
     String? uploadIdMarker,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -6006,7 +5831,6 @@ class S3 {
     String? prefix,
     String? versionIdMarker,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -6123,7 +5947,6 @@ class S3 {
     String? prefix,
     RequestPayer? requestPayer,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -6265,7 +6088,6 @@ class S3 {
     RequestPayer? requestPayer,
     String? startAfter,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -6387,16 +6209,6 @@ class S3 {
     int? partNumberMarker,
     RequestPayer? requestPayer,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
-    ArgumentError.checkNotNull(key, 'key');
-    _s.validateStringLength(
-      'key',
-      key,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(uploadId, 'uploadId');
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -6511,9 +6323,6 @@ class S3 {
     required String bucket,
     String? expectedBucketOwner,
   }) async {
-    ArgumentError.checkNotNull(
-        accelerateConfiguration, 'accelerateConfiguration');
-    ArgumentError.checkNotNull(bucket, 'bucket');
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -6772,7 +6581,6 @@ class S3 {
     String? grantWrite,
     String? grantWriteACP,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
     final headers = <String, String>{
       if (acl != null) 'x-amz-acl': acl.toValue(),
       if (contentMD5 != null) 'Content-MD5': contentMD5.toString(),
@@ -6903,10 +6711,6 @@ class S3 {
     required String id,
     String? expectedBucketOwner,
   }) async {
-    ArgumentError.checkNotNull(
-        analyticsConfiguration, 'analyticsConfiguration');
-    ArgumentError.checkNotNull(bucket, 'bucket');
-    ArgumentError.checkNotNull(id, 'id');
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -7016,8 +6820,6 @@ class S3 {
     String? contentMD5,
     String? expectedBucketOwner,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
-    ArgumentError.checkNotNull(cORSConfiguration, 'cORSConfiguration');
     final headers = <String, String>{
       if (contentMD5 != null) 'Content-MD5': contentMD5.toString(),
       if (expectedBucketOwner != null)
@@ -7099,9 +6901,6 @@ class S3 {
     String? contentMD5,
     String? expectedBucketOwner,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
-    ArgumentError.checkNotNull(
-        serverSideEncryptionConfiguration, 'serverSideEncryptionConfiguration');
     final headers = <String, String>{
       if (contentMD5 != null) 'Content-MD5': contentMD5.toString(),
       if (expectedBucketOwner != null)
@@ -7169,10 +6968,6 @@ class S3 {
     required String id,
     required IntelligentTieringConfiguration intelligentTieringConfiguration,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
-    ArgumentError.checkNotNull(id, 'id');
-    ArgumentError.checkNotNull(
-        intelligentTieringConfiguration, 'intelligentTieringConfiguration');
     final $query = <String, List<String>>{
       'id': [id],
     };
@@ -7293,10 +7088,6 @@ class S3 {
     required InventoryConfiguration inventoryConfiguration,
     String? expectedBucketOwner,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
-    ArgumentError.checkNotNull(id, 'id');
-    ArgumentError.checkNotNull(
-        inventoryConfiguration, 'inventoryConfiguration');
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -7418,7 +7209,6 @@ class S3 {
     String? expectedBucketOwner,
     LifecycleConfiguration? lifecycleConfiguration,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
     final headers = <String, String>{
       if (contentMD5 != null) 'Content-MD5': contentMD5.toString(),
       if (expectedBucketOwner != null)
@@ -7540,7 +7330,6 @@ class S3 {
     String? expectedBucketOwner,
     BucketLifecycleConfiguration? lifecycleConfiguration,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -7655,8 +7444,6 @@ class S3 {
     String? contentMD5,
     String? expectedBucketOwner,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
-    ArgumentError.checkNotNull(bucketLoggingStatus, 'bucketLoggingStatus');
     final headers = <String, String>{
       if (contentMD5 != null) 'Content-MD5': contentMD5.toString(),
       if (expectedBucketOwner != null)
@@ -7743,9 +7530,6 @@ class S3 {
     required MetricsConfiguration metricsConfiguration,
     String? expectedBucketOwner,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
-    ArgumentError.checkNotNull(id, 'id');
-    ArgumentError.checkNotNull(metricsConfiguration, 'metricsConfiguration');
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -7790,9 +7574,6 @@ class S3 {
     String? contentMD5,
     String? expectedBucketOwner,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
-    ArgumentError.checkNotNull(
-        notificationConfiguration, 'notificationConfiguration');
     final headers = <String, String>{
       if (contentMD5 != null) 'Content-MD5': contentMD5.toString(),
       if (expectedBucketOwner != null)
@@ -7884,9 +7665,6 @@ class S3 {
     required NotificationConfiguration notificationConfiguration,
     String? expectedBucketOwner,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
-    ArgumentError.checkNotNull(
-        notificationConfiguration, 'notificationConfiguration');
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -7947,8 +7725,6 @@ class S3 {
     String? contentMD5,
     String? expectedBucketOwner,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
-    ArgumentError.checkNotNull(ownershipControls, 'ownershipControls');
     final headers = <String, String>{
       if (contentMD5 != null) 'Content-MD5': contentMD5.toString(),
       if (expectedBucketOwner != null)
@@ -8023,8 +7799,6 @@ class S3 {
     String? contentMD5,
     String? expectedBucketOwner,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
-    ArgumentError.checkNotNull(policy, 'policy');
     final headers = <String, String>{
       if (confirmRemoveSelfBucketAccess != null)
         'x-amz-confirm-remove-self-bucket-access':
@@ -8145,9 +7919,6 @@ class S3 {
     String? expectedBucketOwner,
     String? token,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
-    ArgumentError.checkNotNull(
-        replicationConfiguration, 'replicationConfiguration');
     final headers = <String, String>{
       if (contentMD5 != null) 'Content-MD5': contentMD5.toString(),
       if (expectedBucketOwner != null)
@@ -8210,9 +7981,6 @@ class S3 {
     String? contentMD5,
     String? expectedBucketOwner,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
-    ArgumentError.checkNotNull(
-        requestPaymentConfiguration, 'requestPaymentConfiguration');
     final headers = <String, String>{
       if (contentMD5 != null) 'Content-MD5': contentMD5.toString(),
       if (expectedBucketOwner != null)
@@ -8335,8 +8103,6 @@ class S3 {
     String? contentMD5,
     String? expectedBucketOwner,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
-    ArgumentError.checkNotNull(tagging, 'tagging');
     final headers = <String, String>{
       if (contentMD5 != null) 'Content-MD5': contentMD5.toString(),
       if (expectedBucketOwner != null)
@@ -8429,9 +8195,6 @@ class S3 {
     String? expectedBucketOwner,
     String? mfa,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
-    ArgumentError.checkNotNull(
-        versioningConfiguration, 'versioningConfiguration');
     final headers = <String, String>{
       if (contentMD5 != null) 'Content-MD5': contentMD5.toString(),
       if (expectedBucketOwner != null)
@@ -8568,8 +8331,6 @@ class S3 {
     String? contentMD5,
     String? expectedBucketOwner,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
-    ArgumentError.checkNotNull(websiteConfiguration, 'websiteConfiguration');
     final headers = <String, String>{
       if (contentMD5 != null) 'Content-MD5': contentMD5.toString(),
       if (expectedBucketOwner != null)
@@ -8911,15 +8672,6 @@ class S3 {
     String? tagging,
     String? websiteRedirectLocation,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
-    ArgumentError.checkNotNull(key, 'key');
-    _s.validateStringLength(
-      'key',
-      key,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       if (acl != null) 'x-amz-acl': acl.toValue(),
       if (bucketKeyEnabled != null)
@@ -9299,15 +9051,6 @@ class S3 {
     RequestPayer? requestPayer,
     String? versionId,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
-    ArgumentError.checkNotNull(key, 'key');
-    _s.validateStringLength(
-      'key',
-      key,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       if (acl != null) 'x-amz-acl': acl.toValue(),
       if (contentMD5 != null) 'Content-MD5': contentMD5.toString(),
@@ -9398,15 +9141,6 @@ class S3 {
     RequestPayer? requestPayer,
     String? versionId,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
-    ArgumentError.checkNotNull(key, 'key');
-    _s.validateStringLength(
-      'key',
-      key,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       if (contentMD5 != null) 'Content-MD5': contentMD5.toString(),
       if (expectedBucketOwner != null)
@@ -9477,7 +9211,6 @@ class S3 {
     RequestPayer? requestPayer,
     String? token,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
     final headers = <String, String>{
       if (contentMD5 != null) 'Content-MD5': contentMD5.toString(),
       if (expectedBucketOwner != null)
@@ -9562,15 +9295,6 @@ class S3 {
     ObjectLockRetention? retention,
     String? versionId,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
-    ArgumentError.checkNotNull(key, 'key');
-    _s.validateStringLength(
-      'key',
-      key,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       if (bypassGovernanceRetention != null)
         'x-amz-bypass-governance-retention':
@@ -9728,16 +9452,6 @@ class S3 {
     String? expectedBucketOwner,
     String? versionId,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
-    ArgumentError.checkNotNull(key, 'key');
-    _s.validateStringLength(
-      'key',
-      key,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(tagging, 'tagging');
     final headers = <String, String>{
       if (contentMD5 != null) 'Content-MD5': contentMD5.toString(),
       if (expectedBucketOwner != null)
@@ -9832,9 +9546,6 @@ class S3 {
     String? contentMD5,
     String? expectedBucketOwner,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
-    ArgumentError.checkNotNull(
-        publicAccessBlockConfiguration, 'publicAccessBlockConfiguration');
     final headers = <String, String>{
       if (contentMD5 != null) 'Content-MD5': contentMD5.toString(),
       if (expectedBucketOwner != null)
@@ -10195,15 +9906,6 @@ class S3 {
     RestoreRequest? restoreRequest,
     String? versionId,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
-    ArgumentError.checkNotNull(key, 'key');
-    _s.validateStringLength(
-      'key',
-      key,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -10436,19 +10138,6 @@ class S3 {
     String? sSECustomerKeyMD5,
     ScanRange? scanRange,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
-    ArgumentError.checkNotNull(expression, 'expression');
-    ArgumentError.checkNotNull(expressionType, 'expressionType');
-    ArgumentError.checkNotNull(inputSerialization, 'inputSerialization');
-    ArgumentError.checkNotNull(key, 'key');
-    _s.validateStringLength(
-      'key',
-      key,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(outputSerialization, 'outputSerialization');
     final headers = <String, String>{
       if (expectedBucketOwner != null)
         'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
@@ -10705,17 +10394,6 @@ class S3 {
     Uint8List? sSECustomerKey,
     String? sSECustomerKeyMD5,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
-    ArgumentError.checkNotNull(key, 'key');
-    _s.validateStringLength(
-      'key',
-      key,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(partNumber, 'partNumber');
-    ArgumentError.checkNotNull(uploadId, 'uploadId');
     final headers = <String, String>{
       if (contentLength != null) 'Content-Length': contentLength.toString(),
       if (contentMD5 != null) 'Content-MD5': contentMD5.toString(),
@@ -11092,18 +10770,6 @@ class S3 {
     Uint8List? sSECustomerKey,
     String? sSECustomerKeyMD5,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
-    ArgumentError.checkNotNull(copySource, 'copySource');
-    ArgumentError.checkNotNull(key, 'key');
-    _s.validateStringLength(
-      'key',
-      key,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(partNumber, 'partNumber');
-    ArgumentError.checkNotNull(uploadId, 'uploadId');
     final headers = <String, String>{
       'x-amz-copy-source': copySource.toString(),
       if (copySourceIfMatch != null)

@@ -83,17 +83,6 @@ class TranscribeService {
     required CLMLanguageCode languageCode,
     required String modelName,
   }) async {
-    ArgumentError.checkNotNull(baseModelName, 'baseModelName');
-    ArgumentError.checkNotNull(inputDataConfig, 'inputDataConfig');
-    ArgumentError.checkNotNull(languageCode, 'languageCode');
-    ArgumentError.checkNotNull(modelName, 'modelName');
-    _s.validateStringLength(
-      'modelName',
-      modelName,
-      1,
-      200,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Transcribe.CreateLanguageModel'
@@ -162,23 +151,6 @@ class TranscribeService {
     required String vocabularyFileUri,
     required String vocabularyName,
   }) async {
-    ArgumentError.checkNotNull(languageCode, 'languageCode');
-    ArgumentError.checkNotNull(vocabularyFileUri, 'vocabularyFileUri');
-    _s.validateStringLength(
-      'vocabularyFileUri',
-      vocabularyFileUri,
-      1,
-      2000,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(vocabularyName, 'vocabularyName');
-    _s.validateStringLength(
-      'vocabularyName',
-      vocabularyName,
-      1,
-      200,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Transcribe.CreateMedicalVocabulary'
@@ -237,21 +209,6 @@ class TranscribeService {
     List<String>? phrases,
     String? vocabularyFileUri,
   }) async {
-    ArgumentError.checkNotNull(languageCode, 'languageCode');
-    ArgumentError.checkNotNull(vocabularyName, 'vocabularyName');
-    _s.validateStringLength(
-      'vocabularyName',
-      vocabularyName,
-      1,
-      200,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'vocabularyFileUri',
-      vocabularyFileUri,
-      1,
-      2000,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Transcribe.CreateVocabulary'
@@ -320,21 +277,6 @@ class TranscribeService {
     String? vocabularyFilterFileUri,
     List<String>? words,
   }) async {
-    ArgumentError.checkNotNull(languageCode, 'languageCode');
-    ArgumentError.checkNotNull(vocabularyFilterName, 'vocabularyFilterName');
-    _s.validateStringLength(
-      'vocabularyFilterName',
-      vocabularyFilterName,
-      1,
-      200,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'vocabularyFilterFileUri',
-      vocabularyFilterFileUri,
-      1,
-      2000,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Transcribe.CreateVocabularyFilter'
@@ -368,14 +310,6 @@ class TranscribeService {
   Future<void> deleteLanguageModel({
     required String modelName,
   }) async {
-    ArgumentError.checkNotNull(modelName, 'modelName');
-    _s.validateStringLength(
-      'modelName',
-      modelName,
-      1,
-      200,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Transcribe.DeleteLanguageModel'
@@ -405,15 +339,6 @@ class TranscribeService {
   Future<void> deleteMedicalTranscriptionJob({
     required String medicalTranscriptionJobName,
   }) async {
-    ArgumentError.checkNotNull(
-        medicalTranscriptionJobName, 'medicalTranscriptionJobName');
-    _s.validateStringLength(
-      'medicalTranscriptionJobName',
-      medicalTranscriptionJobName,
-      1,
-      200,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Transcribe.DeleteMedicalTranscriptionJob'
@@ -442,14 +367,6 @@ class TranscribeService {
   Future<void> deleteMedicalVocabulary({
     required String vocabularyName,
   }) async {
-    ArgumentError.checkNotNull(vocabularyName, 'vocabularyName');
-    _s.validateStringLength(
-      'vocabularyName',
-      vocabularyName,
-      1,
-      200,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Transcribe.DeleteMedicalVocabulary'
@@ -478,14 +395,6 @@ class TranscribeService {
   Future<void> deleteTranscriptionJob({
     required String transcriptionJobName,
   }) async {
-    ArgumentError.checkNotNull(transcriptionJobName, 'transcriptionJobName');
-    _s.validateStringLength(
-      'transcriptionJobName',
-      transcriptionJobName,
-      1,
-      200,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Transcribe.DeleteTranscriptionJob'
@@ -514,14 +423,6 @@ class TranscribeService {
   Future<void> deleteVocabulary({
     required String vocabularyName,
   }) async {
-    ArgumentError.checkNotNull(vocabularyName, 'vocabularyName');
-    _s.validateStringLength(
-      'vocabularyName',
-      vocabularyName,
-      1,
-      200,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Transcribe.DeleteVocabulary'
@@ -550,14 +451,6 @@ class TranscribeService {
   Future<void> deleteVocabularyFilter({
     required String vocabularyFilterName,
   }) async {
-    ArgumentError.checkNotNull(vocabularyFilterName, 'vocabularyFilterName');
-    _s.validateStringLength(
-      'vocabularyFilterName',
-      vocabularyFilterName,
-      1,
-      200,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Transcribe.DeleteVocabularyFilter'
@@ -592,14 +485,6 @@ class TranscribeService {
   Future<DescribeLanguageModelResponse> describeLanguageModel({
     required String modelName,
   }) async {
-    ArgumentError.checkNotNull(modelName, 'modelName');
-    _s.validateStringLength(
-      'modelName',
-      modelName,
-      1,
-      200,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Transcribe.DescribeLanguageModel'
@@ -634,15 +519,6 @@ class TranscribeService {
   Future<GetMedicalTranscriptionJobResponse> getMedicalTranscriptionJob({
     required String medicalTranscriptionJobName,
   }) async {
-    ArgumentError.checkNotNull(
-        medicalTranscriptionJobName, 'medicalTranscriptionJobName');
-    _s.validateStringLength(
-      'medicalTranscriptionJobName',
-      medicalTranscriptionJobName,
-      1,
-      200,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Transcribe.GetMedicalTranscriptionJob'
@@ -674,14 +550,6 @@ class TranscribeService {
   Future<GetMedicalVocabularyResponse> getMedicalVocabulary({
     required String vocabularyName,
   }) async {
-    ArgumentError.checkNotNull(vocabularyName, 'vocabularyName');
-    _s.validateStringLength(
-      'vocabularyName',
-      vocabularyName,
-      1,
-      200,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Transcribe.GetMedicalVocabulary'
@@ -717,14 +585,6 @@ class TranscribeService {
   Future<GetTranscriptionJobResponse> getTranscriptionJob({
     required String transcriptionJobName,
   }) async {
-    ArgumentError.checkNotNull(transcriptionJobName, 'transcriptionJobName');
-    _s.validateStringLength(
-      'transcriptionJobName',
-      transcriptionJobName,
-      1,
-      200,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Transcribe.GetTranscriptionJob'
@@ -756,14 +616,6 @@ class TranscribeService {
   Future<GetVocabularyResponse> getVocabulary({
     required String vocabularyName,
   }) async {
-    ArgumentError.checkNotNull(vocabularyName, 'vocabularyName');
-    _s.validateStringLength(
-      'vocabularyName',
-      vocabularyName,
-      1,
-      200,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Transcribe.GetVocabulary'
@@ -794,14 +646,6 @@ class TranscribeService {
   Future<GetVocabularyFilterResponse> getVocabularyFilter({
     required String vocabularyFilterName,
   }) async {
-    ArgumentError.checkNotNull(vocabularyFilterName, 'vocabularyFilterName');
-    _s.validateStringLength(
-      'vocabularyFilterName',
-      vocabularyFilterName,
-      1,
-      200,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Transcribe.GetVocabularyFilter'
@@ -859,18 +703,6 @@ class TranscribeService {
       1,
       100,
     );
-    _s.validateStringLength(
-      'nameContains',
-      nameContains,
-      1,
-      200,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Transcribe.ListLanguageModels'
@@ -924,23 +756,11 @@ class TranscribeService {
     String? nextToken,
     TranscriptionJobStatus? status,
   }) async {
-    _s.validateStringLength(
-      'jobNameContains',
-      jobNameContains,
-      1,
-      200,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1001,18 +821,6 @@ class TranscribeService {
       1,
       100,
     );
-    _s.validateStringLength(
-      'nameContains',
-      nameContains,
-      1,
-      200,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Transcribe.ListMedicalVocabularies'
@@ -1064,23 +872,11 @@ class TranscribeService {
     String? nextToken,
     TranscriptionJobStatus? status,
   }) async {
-    _s.validateStringLength(
-      'jobNameContains',
-      jobNameContains,
-      1,
-      200,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1140,18 +936,6 @@ class TranscribeService {
       1,
       100,
     );
-    _s.validateStringLength(
-      'nameContains',
-      nameContains,
-      1,
-      200,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Transcribe.ListVocabularies'
@@ -1201,18 +985,6 @@ class TranscribeService {
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nameContains',
-      nameContains,
-      1,
-      200,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1363,44 +1135,11 @@ class TranscribeService {
     String? outputKey,
     MedicalTranscriptionSetting? settings,
   }) async {
-    ArgumentError.checkNotNull(languageCode, 'languageCode');
-    ArgumentError.checkNotNull(media, 'media');
-    ArgumentError.checkNotNull(
-        medicalTranscriptionJobName, 'medicalTranscriptionJobName');
-    _s.validateStringLength(
-      'medicalTranscriptionJobName',
-      medicalTranscriptionJobName,
-      1,
-      200,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(outputBucketName, 'outputBucketName');
-    _s.validateStringLength(
-      'outputBucketName',
-      outputBucketName,
-      0,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(specialty, 'specialty');
-    ArgumentError.checkNotNull(type, 'type');
     _s.validateNumRange(
       'mediaSampleRateHertz',
       mediaSampleRateHertz,
       8000,
       48000,
-    );
-    _s.validateStringLength(
-      'outputEncryptionKMSKeyId',
-      outputEncryptionKMSKeyId,
-      1,
-      2048,
-    );
-    _s.validateStringLength(
-      'outputKey',
-      outputKey,
-      1,
-      1024,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1588,38 +1327,11 @@ class TranscribeService {
     String? outputKey,
     Settings? settings,
   }) async {
-    ArgumentError.checkNotNull(media, 'media');
-    ArgumentError.checkNotNull(transcriptionJobName, 'transcriptionJobName');
-    _s.validateStringLength(
-      'transcriptionJobName',
-      transcriptionJobName,
-      1,
-      200,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'mediaSampleRateHertz',
       mediaSampleRateHertz,
       8000,
       48000,
-    );
-    _s.validateStringLength(
-      'outputBucketName',
-      outputBucketName,
-      0,
-      64,
-    );
-    _s.validateStringLength(
-      'outputEncryptionKMSKeyId',
-      outputEncryptionKMSKeyId,
-      1,
-      2048,
-    );
-    _s.validateStringLength(
-      'outputKey',
-      outputKey,
-      1,
-      1024,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1703,21 +1415,6 @@ class TranscribeService {
     required String vocabularyName,
     String? vocabularyFileUri,
   }) async {
-    ArgumentError.checkNotNull(languageCode, 'languageCode');
-    ArgumentError.checkNotNull(vocabularyName, 'vocabularyName');
-    _s.validateStringLength(
-      'vocabularyName',
-      vocabularyName,
-      1,
-      200,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'vocabularyFileUri',
-      vocabularyFileUri,
-      1,
-      2000,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Transcribe.UpdateMedicalVocabulary'
@@ -1779,21 +1476,6 @@ class TranscribeService {
     List<String>? phrases,
     String? vocabularyFileUri,
   }) async {
-    ArgumentError.checkNotNull(languageCode, 'languageCode');
-    ArgumentError.checkNotNull(vocabularyName, 'vocabularyName');
-    _s.validateStringLength(
-      'vocabularyName',
-      vocabularyName,
-      1,
-      200,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'vocabularyFileUri',
-      vocabularyFileUri,
-      1,
-      2000,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Transcribe.UpdateVocabulary'
@@ -1854,20 +1536,6 @@ class TranscribeService {
     String? vocabularyFilterFileUri,
     List<String>? words,
   }) async {
-    ArgumentError.checkNotNull(vocabularyFilterName, 'vocabularyFilterName');
-    _s.validateStringLength(
-      'vocabularyFilterName',
-      vocabularyFilterName,
-      1,
-      200,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'vocabularyFilterFileUri',
-      vocabularyFilterFileUri,
-      1,
-      2000,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Transcribe.UpdateVocabularyFilter'

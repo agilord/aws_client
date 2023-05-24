@@ -83,8 +83,6 @@ class ElasticLoadBalancing {
     required List<String> loadBalancerNames,
     required List<Tag> tags,
   }) async {
-    ArgumentError.checkNotNull(loadBalancerNames, 'loadBalancerNames');
-    ArgumentError.checkNotNull(tags, 'tags');
     final $request = <String, dynamic>{};
     $request['LoadBalancerNames'] = loadBalancerNames;
     $request['Tags'] = tags;
@@ -125,8 +123,6 @@ class ElasticLoadBalancing {
     required String loadBalancerName,
     required List<String> securityGroups,
   }) async {
-    ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
-    ArgumentError.checkNotNull(securityGroups, 'securityGroups');
     final $request = <String, dynamic>{};
     $request['LoadBalancerName'] = loadBalancerName;
     $request['SecurityGroups'] = securityGroups;
@@ -168,8 +164,6 @@ class ElasticLoadBalancing {
     required String loadBalancerName,
     required List<String> subnets,
   }) async {
-    ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
-    ArgumentError.checkNotNull(subnets, 'subnets');
     final $request = <String, dynamic>{};
     $request['LoadBalancerName'] = loadBalancerName;
     $request['Subnets'] = subnets;
@@ -206,8 +200,6 @@ class ElasticLoadBalancing {
     required HealthCheck healthCheck,
     required String loadBalancerName,
   }) async {
-    ArgumentError.checkNotNull(healthCheck, 'healthCheck');
-    ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
     final $request = <String, dynamic>{};
     $request['HealthCheck'] = healthCheck;
     $request['LoadBalancerName'] = loadBalancerName;
@@ -263,9 +255,6 @@ class ElasticLoadBalancing {
     required String loadBalancerName,
     required String policyName,
   }) async {
-    ArgumentError.checkNotNull(cookieName, 'cookieName');
-    ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
-    ArgumentError.checkNotNull(policyName, 'policyName');
     final $request = <String, dynamic>{};
     $request['CookieName'] = cookieName;
     $request['LoadBalancerName'] = loadBalancerName;
@@ -327,8 +316,6 @@ class ElasticLoadBalancing {
     required String policyName,
     int? cookieExpirationPeriod,
   }) async {
-    ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
-    ArgumentError.checkNotNull(policyName, 'policyName');
     final $request = <String, dynamic>{};
     $request['LoadBalancerName'] = loadBalancerName;
     $request['PolicyName'] = policyName;
@@ -437,8 +424,6 @@ class ElasticLoadBalancing {
     List<String>? subnets,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(listeners, 'listeners');
-    ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
     final $request = <String, dynamic>{};
     $request['Listeners'] = listeners;
     $request['LoadBalancerName'] = loadBalancerName;
@@ -486,8 +471,6 @@ class ElasticLoadBalancing {
     required List<Listener> listeners,
     required String loadBalancerName,
   }) async {
-    ArgumentError.checkNotNull(listeners, 'listeners');
-    ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
     final $request = <String, dynamic>{};
     $request['Listeners'] = listeners;
     $request['LoadBalancerName'] = loadBalancerName;
@@ -536,9 +519,6 @@ class ElasticLoadBalancing {
     required String policyTypeName,
     List<PolicyAttribute>? policyAttributes,
   }) async {
-    ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
-    ArgumentError.checkNotNull(policyName, 'policyName');
-    ArgumentError.checkNotNull(policyTypeName, 'policyTypeName');
     final $request = <String, dynamic>{};
     $request['LoadBalancerName'] = loadBalancerName;
     $request['PolicyName'] = policyName;
@@ -573,7 +553,6 @@ class ElasticLoadBalancing {
   Future<void> deleteLoadBalancer({
     required String loadBalancerName,
   }) async {
-    ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
     final $request = <String, dynamic>{};
     $request['LoadBalancerName'] = loadBalancerName;
     await _protocol.send(
@@ -602,8 +581,6 @@ class ElasticLoadBalancing {
     required String loadBalancerName,
     required List<int> loadBalancerPorts,
   }) async {
-    ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
-    ArgumentError.checkNotNull(loadBalancerPorts, 'loadBalancerPorts');
     final $request = <String, dynamic>{};
     $request['LoadBalancerName'] = loadBalancerName;
     $request['LoadBalancerPorts'] = loadBalancerPorts;
@@ -635,8 +612,6 @@ class ElasticLoadBalancing {
     required String loadBalancerName,
     required String policyName,
   }) async {
-    ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
-    ArgumentError.checkNotNull(policyName, 'policyName');
     final $request = <String, dynamic>{};
     $request['LoadBalancerName'] = loadBalancerName;
     $request['PolicyName'] = policyName;
@@ -677,8 +652,6 @@ class ElasticLoadBalancing {
     required List<Instance> instances,
     required String loadBalancerName,
   }) async {
-    ArgumentError.checkNotNull(instances, 'instances');
-    ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
     final $request = <String, dynamic>{};
     $request['Instances'] = instances;
     $request['LoadBalancerName'] = loadBalancerName;
@@ -756,7 +729,6 @@ class ElasticLoadBalancing {
     required String loadBalancerName,
     List<Instance>? instances,
   }) async {
-    ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
     final $request = <String, dynamic>{};
     $request['LoadBalancerName'] = loadBalancerName;
     instances?.also((arg) => $request['Instances'] = arg);
@@ -784,7 +756,6 @@ class ElasticLoadBalancing {
   Future<DescribeLoadBalancerAttributesOutput> describeLoadBalancerAttributes({
     required String loadBalancerName,
   }) async {
-    ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
     final $request = <String, dynamic>{};
     $request['LoadBalancerName'] = loadBalancerName;
     final $result = await _protocol.send(
@@ -932,7 +903,6 @@ class ElasticLoadBalancing {
   Future<DescribeTagsOutput> describeTags({
     required List<String> loadBalancerNames,
   }) async {
-    ArgumentError.checkNotNull(loadBalancerNames, 'loadBalancerNames');
     final $request = <String, dynamic>{};
     $request['LoadBalancerNames'] = loadBalancerNames;
     final $result = await _protocol.send(
@@ -969,8 +939,6 @@ class ElasticLoadBalancing {
     required String loadBalancerName,
     required List<String> subnets,
   }) async {
-    ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
-    ArgumentError.checkNotNull(subnets, 'subnets');
     final $request = <String, dynamic>{};
     $request['LoadBalancerName'] = loadBalancerName;
     $request['Subnets'] = subnets;
@@ -1019,8 +987,6 @@ class ElasticLoadBalancing {
     required List<String> availabilityZones,
     required String loadBalancerName,
   }) async {
-    ArgumentError.checkNotNull(availabilityZones, 'availabilityZones');
-    ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
     final $request = <String, dynamic>{};
     $request['AvailabilityZones'] = availabilityZones;
     $request['LoadBalancerName'] = loadBalancerName;
@@ -1062,8 +1028,6 @@ class ElasticLoadBalancing {
     required List<String> availabilityZones,
     required String loadBalancerName,
   }) async {
-    ArgumentError.checkNotNull(availabilityZones, 'availabilityZones');
-    ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
     final $request = <String, dynamic>{};
     $request['AvailabilityZones'] = availabilityZones;
     $request['LoadBalancerName'] = loadBalancerName;
@@ -1129,9 +1093,6 @@ class ElasticLoadBalancing {
     required LoadBalancerAttributes loadBalancerAttributes,
     required String loadBalancerName,
   }) async {
-    ArgumentError.checkNotNull(
-        loadBalancerAttributes, 'loadBalancerAttributes');
-    ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
     final $request = <String, dynamic>{};
     $request['LoadBalancerAttributes'] = loadBalancerAttributes;
     $request['LoadBalancerName'] = loadBalancerName;
@@ -1189,8 +1150,6 @@ class ElasticLoadBalancing {
     required List<Instance> instances,
     required String loadBalancerName,
   }) async {
-    ArgumentError.checkNotNull(instances, 'instances');
-    ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
     final $request = <String, dynamic>{};
     $request['Instances'] = instances;
     $request['LoadBalancerName'] = loadBalancerName;
@@ -1222,8 +1181,6 @@ class ElasticLoadBalancing {
     required List<String> loadBalancerNames,
     required List<TagKeyOnly> tags,
   }) async {
-    ArgumentError.checkNotNull(loadBalancerNames, 'loadBalancerNames');
-    ArgumentError.checkNotNull(tags, 'tags');
     final $request = <String, dynamic>{};
     $request['LoadBalancerNames'] = loadBalancerNames;
     $request['Tags'] = tags;
@@ -1268,9 +1225,6 @@ class ElasticLoadBalancing {
     required int loadBalancerPort,
     required String sSLCertificateId,
   }) async {
-    ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
-    ArgumentError.checkNotNull(loadBalancerPort, 'loadBalancerPort');
-    ArgumentError.checkNotNull(sSLCertificateId, 'sSLCertificateId');
     final $request = <String, dynamic>{};
     $request['LoadBalancerName'] = loadBalancerName;
     $request['LoadBalancerPort'] = loadBalancerPort;
@@ -1328,9 +1282,6 @@ class ElasticLoadBalancing {
     required String loadBalancerName,
     required List<String> policyNames,
   }) async {
-    ArgumentError.checkNotNull(instancePort, 'instancePort');
-    ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
-    ArgumentError.checkNotNull(policyNames, 'policyNames');
     final $request = <String, dynamic>{};
     $request['InstancePort'] = instancePort;
     $request['LoadBalancerName'] = loadBalancerName;
@@ -1382,9 +1333,6 @@ class ElasticLoadBalancing {
     required int loadBalancerPort,
     required List<String> policyNames,
   }) async {
-    ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
-    ArgumentError.checkNotNull(loadBalancerPort, 'loadBalancerPort');
-    ArgumentError.checkNotNull(policyNames, 'policyNames');
     final $request = <String, dynamic>{};
     $request['LoadBalancerName'] = loadBalancerName;
     $request['LoadBalancerPort'] = loadBalancerPort;

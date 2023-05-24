@@ -54,7 +54,6 @@ class Enum {
     List<EnumType>? listEnums,
     List<EnumType>? uRIListEnums,
   }) async {
-    ArgumentError.checkNotNull(uRIFooEnum, 'uRIFooEnum');
     final headers = <String, String>{
       if (headerEnum != null) 'x-amz-enum': headerEnum.toValue(),
     };
@@ -85,7 +84,6 @@ class Enum {
     List<EnumType>? listEnums,
     List<EnumType>? uRIListEnums,
   }) async {
-    ArgumentError.checkNotNull(uRIFooEnum, 'uRIFooEnum');
     final headers = <String, String>{
       if (headerEnum != null) 'x-amz-enum': headerEnum.toValue(),
     };

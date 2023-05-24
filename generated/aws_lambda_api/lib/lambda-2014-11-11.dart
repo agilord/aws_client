@@ -111,16 +111,6 @@ class Lambda {
     int? batchSize,
     Map<String, String>? parameters,
   }) async {
-    ArgumentError.checkNotNull(eventSource, 'eventSource');
-    ArgumentError.checkNotNull(functionName, 'functionName');
-    _s.validateStringLength(
-      'functionName',
-      functionName,
-      1,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(role, 'role');
     final $payload = <String, dynamic>{
       'EventSource': eventSource,
       'FunctionName': functionName,
@@ -150,14 +140,6 @@ class Lambda {
   Future<void> deleteFunction({
     required String functionName,
   }) async {
-    ArgumentError.checkNotNull(functionName, 'functionName');
-    _s.validateStringLength(
-      'functionName',
-      functionName,
-      1,
-      64,
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -181,7 +163,6 @@ class Lambda {
   Future<EventSourceConfiguration> getEventSource({
     required String uuid,
   }) async {
-    ArgumentError.checkNotNull(uuid, 'uuid');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -209,14 +190,6 @@ class Lambda {
   Future<GetFunctionResponse> getFunction({
     required String functionName,
   }) async {
-    ArgumentError.checkNotNull(functionName, 'functionName');
-    _s.validateStringLength(
-      'functionName',
-      functionName,
-      1,
-      64,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -242,14 +215,6 @@ class Lambda {
   Future<FunctionConfiguration> getFunctionConfiguration({
     required String functionName,
   }) async {
-    ArgumentError.checkNotNull(functionName, 'functionName');
-    _s.validateStringLength(
-      'functionName',
-      functionName,
-      1,
-      64,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -281,15 +246,6 @@ class Lambda {
     required String functionName,
     required Uint8List invokeArgs,
   }) async {
-    ArgumentError.checkNotNull(functionName, 'functionName');
-    _s.validateStringLength(
-      'functionName',
-      functionName,
-      1,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(invokeArgs, 'invokeArgs');
     final response = await _protocol.send(
       payload: invokeArgs,
       method: 'POST',
@@ -335,12 +291,6 @@ class Lambda {
     String? marker,
     int? maxItems,
   }) async {
-    _s.validateStringLength(
-      'functionName',
-      functionName,
-      1,
-      64,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
@@ -419,7 +369,6 @@ class Lambda {
   Future<void> removeEventSource({
     required String uuid,
   }) async {
-    ArgumentError.checkNotNull(uuid, 'uuid');
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -477,20 +426,6 @@ class Lambda {
     String? role,
     int? timeout,
   }) async {
-    ArgumentError.checkNotNull(functionName, 'functionName');
-    _s.validateStringLength(
-      'functionName',
-      functionName,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      256,
-    );
     _s.validateNumRange(
       'memorySize',
       memorySize,
@@ -591,25 +526,6 @@ class Lambda {
     int? memorySize,
     int? timeout,
   }) async {
-    ArgumentError.checkNotNull(functionName, 'functionName');
-    _s.validateStringLength(
-      'functionName',
-      functionName,
-      1,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(functionZip, 'functionZip');
-    ArgumentError.checkNotNull(handler, 'handler');
-    ArgumentError.checkNotNull(mode, 'mode');
-    ArgumentError.checkNotNull(role, 'role');
-    ArgumentError.checkNotNull(runtime, 'runtime');
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      256,
-    );
     _s.validateNumRange(
       'memorySize',
       memorySize,

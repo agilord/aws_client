@@ -64,7 +64,6 @@ class MediaConvert {
   Future<void> associateCertificate({
     required String arn,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
     final $payload = <String, dynamic>{
       'arn': arn,
     };
@@ -91,7 +90,6 @@ class MediaConvert {
   Future<void> cancelJob({
     required String id,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -200,8 +198,6 @@ class MediaConvert {
     Map<String, String>? tags,
     Map<String, String>? userMetadata,
   }) async {
-    ArgumentError.checkNotNull(role, 'role');
-    ArgumentError.checkNotNull(settings, 'settings');
     _s.validateNumRange(
       'priority',
       priority,
@@ -306,8 +302,6 @@ class MediaConvert {
     StatusUpdateInterval? statusUpdateInterval,
     Map<String, String>? tags,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    ArgumentError.checkNotNull(settings, 'settings');
     _s.validateNumRange(
       'priority',
       priority,
@@ -369,8 +363,6 @@ class MediaConvert {
     String? description,
     Map<String, String>? tags,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    ArgumentError.checkNotNull(settings, 'settings');
     final $payload = <String, dynamic>{
       'name': name,
       'settings': settings,
@@ -431,7 +423,6 @@ class MediaConvert {
     QueueStatus? status,
     Map<String, String>? tags,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
     final $payload = <String, dynamic>{
       'name': name,
       if (description != null) 'description': description,
@@ -464,7 +455,6 @@ class MediaConvert {
   Future<void> deleteJobTemplate({
     required String name,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -487,7 +477,6 @@ class MediaConvert {
   Future<void> deletePreset({
     required String name,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -510,7 +499,6 @@ class MediaConvert {
   Future<void> deleteQueue({
     required String name,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -578,7 +566,6 @@ class MediaConvert {
   Future<void> disassociateCertificate({
     required String arn,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -601,7 +588,6 @@ class MediaConvert {
   Future<GetJobResponse> getJob({
     required String id,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -625,7 +611,6 @@ class MediaConvert {
   Future<GetJobTemplateResponse> getJobTemplate({
     required String name,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -649,7 +634,6 @@ class MediaConvert {
   Future<GetPresetResponse> getPreset({
     required String name,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -673,7 +657,6 @@ class MediaConvert {
   Future<GetQueueResponse> getQueue({
     required String name,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -939,7 +922,6 @@ class MediaConvert {
   Future<ListTagsForResourceResponse> listTagsForResource({
     required String arn,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -971,8 +953,6 @@ class MediaConvert {
     required String arn,
     required Map<String, String> tags,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
-    ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
       'arn': arn,
       'tags': tags,
@@ -1006,7 +986,6 @@ class MediaConvert {
     required String arn,
     List<String>? tagKeys,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
     final $payload = <String, dynamic>{
       if (tagKeys != null) 'tagKeys': tagKeys,
     };
@@ -1076,7 +1055,6 @@ class MediaConvert {
     JobTemplateSettings? settings,
     StatusUpdateInterval? statusUpdateInterval,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
     _s.validateNumRange(
       'priority',
       priority,
@@ -1130,7 +1108,6 @@ class MediaConvert {
     String? description,
     PresetSettings? settings,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
     final $payload = <String, dynamic>{
       if (category != null) 'category': category,
       if (description != null) 'description': description,
@@ -1179,7 +1156,6 @@ class MediaConvert {
     ReservationPlanSettings? reservationPlanSettings,
     QueueStatus? status,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
     final $payload = <String, dynamic>{
       if (description != null) 'description': description,
       if (reservationPlanSettings != null)

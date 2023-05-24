@@ -199,10 +199,6 @@ class DAX {
     String? subnetGroupName,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(clusterName, 'clusterName');
-    ArgumentError.checkNotNull(iamRoleArn, 'iamRoleArn');
-    ArgumentError.checkNotNull(nodeType, 'nodeType');
-    ArgumentError.checkNotNull(replicationFactor, 'replicationFactor');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonDAXV3.CreateCluster'
@@ -256,7 +252,6 @@ class DAX {
     required String parameterGroupName,
     String? description,
   }) async {
-    ArgumentError.checkNotNull(parameterGroupName, 'parameterGroupName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonDAXV3.CreateParameterGroup'
@@ -297,8 +292,6 @@ class DAX {
     required List<String> subnetIds,
     String? description,
   }) async {
-    ArgumentError.checkNotNull(subnetGroupName, 'subnetGroupName');
-    ArgumentError.checkNotNull(subnetIds, 'subnetIds');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonDAXV3.CreateSubnetGroup'
@@ -350,8 +343,6 @@ class DAX {
     List<String>? availabilityZones,
     List<String>? nodeIdsToRemove,
   }) async {
-    ArgumentError.checkNotNull(clusterName, 'clusterName');
-    ArgumentError.checkNotNull(newReplicationFactor, 'newReplicationFactor');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonDAXV3.DecreaseReplicationFactor'
@@ -389,7 +380,6 @@ class DAX {
   Future<DeleteClusterResponse> deleteCluster({
     required String clusterName,
   }) async {
-    ArgumentError.checkNotNull(clusterName, 'clusterName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonDAXV3.DeleteCluster'
@@ -422,7 +412,6 @@ class DAX {
   Future<DeleteParameterGroupResponse> deleteParameterGroup({
     required String parameterGroupName,
   }) async {
-    ArgumentError.checkNotNull(parameterGroupName, 'parameterGroupName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonDAXV3.DeleteParameterGroup'
@@ -456,7 +445,6 @@ class DAX {
   Future<DeleteSubnetGroupResponse> deleteSubnetGroup({
     required String subnetGroupName,
   }) async {
-    ArgumentError.checkNotNull(subnetGroupName, 'subnetGroupName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonDAXV3.DeleteSubnetGroup'
@@ -737,7 +725,6 @@ class DAX {
     String? nextToken,
     String? source,
   }) async {
-    ArgumentError.checkNotNull(parameterGroupName, 'parameterGroupName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonDAXV3.DescribeParameters'
@@ -833,8 +820,6 @@ class DAX {
     required int newReplicationFactor,
     List<String>? availabilityZones,
   }) async {
-    ArgumentError.checkNotNull(clusterName, 'clusterName');
-    ArgumentError.checkNotNull(newReplicationFactor, 'newReplicationFactor');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonDAXV3.IncreaseReplicationFactor'
@@ -876,7 +861,6 @@ class DAX {
     required String resourceName,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(resourceName, 'resourceName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonDAXV3.ListTags'
@@ -919,8 +903,6 @@ class DAX {
     required String clusterName,
     required String nodeId,
   }) async {
-    ArgumentError.checkNotNull(clusterName, 'clusterName');
-    ArgumentError.checkNotNull(nodeId, 'nodeId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonDAXV3.RebootNode'
@@ -960,8 +942,6 @@ class DAX {
     required String resourceName,
     required List<Tag> tags,
   }) async {
-    ArgumentError.checkNotNull(resourceName, 'resourceName');
-    ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonDAXV3.TagResource'
@@ -1002,8 +982,6 @@ class DAX {
     required String resourceName,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(resourceName, 'resourceName');
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonDAXV3.UntagResource'
@@ -1069,7 +1047,6 @@ class DAX {
     String? preferredMaintenanceWindow,
     List<String>? securityGroupIds,
   }) async {
-    ArgumentError.checkNotNull(clusterName, 'clusterName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonDAXV3.UpdateCluster'
@@ -1118,8 +1095,6 @@ class DAX {
     required String parameterGroupName,
     required List<ParameterNameValue> parameterNameValues,
   }) async {
-    ArgumentError.checkNotNull(parameterGroupName, 'parameterGroupName');
-    ArgumentError.checkNotNull(parameterNameValues, 'parameterNameValues');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonDAXV3.UpdateParameterGroup'
@@ -1160,7 +1135,6 @@ class DAX {
     String? description,
     List<String>? subnetIds,
   }) async {
-    ArgumentError.checkNotNull(subnetGroupName, 'subnetGroupName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonDAXV3.UpdateSubnetGroup'

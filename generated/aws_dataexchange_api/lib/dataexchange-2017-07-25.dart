@@ -82,7 +82,6 @@ class DataExchange {
   Future<void> cancelJob({
     required String jobId,
   }) async {
-    ArgumentError.checkNotNull(jobId, 'jobId');
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -122,9 +121,6 @@ class DataExchange {
     required String name,
     Map<String, String>? tags,
   }) async {
-    ArgumentError.checkNotNull(assetType, 'assetType');
-    ArgumentError.checkNotNull(description, 'description');
-    ArgumentError.checkNotNull(name, 'name');
     final $payload = <String, dynamic>{
       'AssetType': assetType.toValue(),
       'Description': description,
@@ -157,8 +153,6 @@ class DataExchange {
     required RequestDetails details,
     required Type type,
   }) async {
-    ArgumentError.checkNotNull(details, 'details');
-    ArgumentError.checkNotNull(type, 'type');
     final $payload = <String, dynamic>{
       'Details': details,
       'Type': type.toValue(),
@@ -197,13 +191,6 @@ class DataExchange {
     String? comment,
     Map<String, String>? tags,
   }) async {
-    ArgumentError.checkNotNull(dataSetId, 'dataSetId');
-    _s.validateStringLength(
-      'comment',
-      comment,
-      0,
-      16384,
-    );
     final $payload = <String, dynamic>{
       if (comment != null) 'Comment': comment,
       if (tags != null) 'Tags': tags,
@@ -239,9 +226,6 @@ class DataExchange {
     required String dataSetId,
     required String revisionId,
   }) async {
-    ArgumentError.checkNotNull(assetId, 'assetId');
-    ArgumentError.checkNotNull(dataSetId, 'dataSetId');
-    ArgumentError.checkNotNull(revisionId, 'revisionId');
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -265,7 +249,6 @@ class DataExchange {
   Future<void> deleteDataSet({
     required String dataSetId,
   }) async {
-    ArgumentError.checkNotNull(dataSetId, 'dataSetId');
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -292,8 +275,6 @@ class DataExchange {
     required String dataSetId,
     required String revisionId,
   }) async {
-    ArgumentError.checkNotNull(dataSetId, 'dataSetId');
-    ArgumentError.checkNotNull(revisionId, 'revisionId');
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -323,9 +304,6 @@ class DataExchange {
     required String dataSetId,
     required String revisionId,
   }) async {
-    ArgumentError.checkNotNull(assetId, 'assetId');
-    ArgumentError.checkNotNull(dataSetId, 'dataSetId');
-    ArgumentError.checkNotNull(revisionId, 'revisionId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -348,7 +326,6 @@ class DataExchange {
   Future<GetDataSetResponse> getDataSet({
     required String dataSetId,
   }) async {
-    ArgumentError.checkNotNull(dataSetId, 'dataSetId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -370,7 +347,6 @@ class DataExchange {
   Future<GetJobResponse> getJob({
     required String jobId,
   }) async {
-    ArgumentError.checkNotNull(jobId, 'jobId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -396,8 +372,6 @@ class DataExchange {
     required String dataSetId,
     required String revisionId,
   }) async {
-    ArgumentError.checkNotNull(dataSetId, 'dataSetId');
-    ArgumentError.checkNotNull(revisionId, 'revisionId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -430,7 +404,6 @@ class DataExchange {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(dataSetId, 'dataSetId');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -569,8 +542,6 @@ class DataExchange {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(dataSetId, 'dataSetId');
-    ArgumentError.checkNotNull(revisionId, 'revisionId');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -599,7 +570,6 @@ class DataExchange {
   Future<ListTagsForResourceResponse> listTagsForResource({
     required String resourceArn,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -623,7 +593,6 @@ class DataExchange {
   Future<void> startJob({
     required String jobId,
   }) async {
-    ArgumentError.checkNotNull(jobId, 'jobId');
     final response = await _protocol.send(
       payload: null,
       method: 'PATCH',
@@ -643,8 +612,6 @@ class DataExchange {
     required String resourceArn,
     required Map<String, String> tags,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
       'tags': tags,
     };
@@ -667,8 +634,6 @@ class DataExchange {
     required String resourceArn,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
       'tagKeys': tagKeys,
     };
@@ -709,10 +674,6 @@ class DataExchange {
     required String name,
     required String revisionId,
   }) async {
-    ArgumentError.checkNotNull(assetId, 'assetId');
-    ArgumentError.checkNotNull(dataSetId, 'dataSetId');
-    ArgumentError.checkNotNull(name, 'name');
-    ArgumentError.checkNotNull(revisionId, 'revisionId');
     final $payload = <String, dynamic>{
       'Name': name,
     };
@@ -747,7 +708,6 @@ class DataExchange {
     String? description,
     String? name,
   }) async {
-    ArgumentError.checkNotNull(dataSetId, 'dataSetId');
     final $payload = <String, dynamic>{
       if (description != null) 'Description': description,
       if (name != null) 'Name': name,
@@ -789,14 +749,6 @@ class DataExchange {
     String? comment,
     bool? finalized,
   }) async {
-    ArgumentError.checkNotNull(dataSetId, 'dataSetId');
-    ArgumentError.checkNotNull(revisionId, 'revisionId');
-    _s.validateStringLength(
-      'comment',
-      comment,
-      0,
-      16384,
-    );
     final $payload = <String, dynamic>{
       if (comment != null) 'Comment': comment,
       if (finalized != null) 'Finalized': finalized,

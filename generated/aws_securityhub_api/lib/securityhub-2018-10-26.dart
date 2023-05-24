@@ -119,8 +119,6 @@ class SecurityHub {
     required String invitationId,
     required String masterId,
   }) async {
-    ArgumentError.checkNotNull(invitationId, 'invitationId');
-    ArgumentError.checkNotNull(masterId, 'masterId');
     final $payload = <String, dynamic>{
       'InvitationId': invitationId,
       'MasterId': masterId,
@@ -150,8 +148,6 @@ class SecurityHub {
   Future<BatchDisableStandardsResponse> batchDisableStandards({
     required List<String> standardsSubscriptionArns,
   }) async {
-    ArgumentError.checkNotNull(
-        standardsSubscriptionArns, 'standardsSubscriptionArns');
     final $payload = <String, dynamic>{
       'StandardsSubscriptionArns': standardsSubscriptionArns,
     };
@@ -182,8 +178,6 @@ class SecurityHub {
   Future<BatchEnableStandardsResponse> batchEnableStandards({
     required List<StandardsSubscriptionRequest> standardsSubscriptionRequests,
   }) async {
-    ArgumentError.checkNotNull(
-        standardsSubscriptionRequests, 'standardsSubscriptionRequests');
     final $payload = <String, dynamic>{
       'StandardsSubscriptionRequests': standardsSubscriptionRequests,
     };
@@ -258,7 +252,6 @@ class SecurityHub {
   Future<BatchImportFindingsResponse> batchImportFindings({
     required List<AwsSecurityFinding> findings,
   }) async {
-    ArgumentError.checkNotNull(findings, 'findings');
     final $payload = <String, dynamic>{
       'Findings': findings,
     };
@@ -419,7 +412,6 @@ class SecurityHub {
     VerificationState? verificationState,
     WorkflowUpdate? workflow,
   }) async {
-    ArgumentError.checkNotNull(findingIdentifiers, 'findingIdentifiers');
     _s.validateNumRange(
       'confidence',
       confidence,
@@ -478,9 +470,6 @@ class SecurityHub {
     required String id,
     required String name,
   }) async {
-    ArgumentError.checkNotNull(description, 'description');
-    ArgumentError.checkNotNull(id, 'id');
-    ArgumentError.checkNotNull(name, 'name');
     final $payload = <String, dynamic>{
       'Description': description,
       'Id': id,
@@ -526,9 +515,6 @@ class SecurityHub {
     required String groupByAttribute,
     required String name,
   }) async {
-    ArgumentError.checkNotNull(filters, 'filters');
-    ArgumentError.checkNotNull(groupByAttribute, 'groupByAttribute');
-    ArgumentError.checkNotNull(name, 'name');
     final $payload = <String, dynamic>{
       'Filters': filters,
       'GroupByAttribute': groupByAttribute,
@@ -599,7 +585,6 @@ class SecurityHub {
   Future<CreateMembersResponse> createMembers({
     required List<AccountDetails> accountDetails,
   }) async {
-    ArgumentError.checkNotNull(accountDetails, 'accountDetails');
     final $payload = <String, dynamic>{
       'AccountDetails': accountDetails,
     };
@@ -628,7 +613,6 @@ class SecurityHub {
   Future<DeclineInvitationsResponse> declineInvitations({
     required List<String> accountIds,
   }) async {
-    ArgumentError.checkNotNull(accountIds, 'accountIds');
     final $payload = <String, dynamic>{
       'AccountIds': accountIds,
     };
@@ -657,7 +641,6 @@ class SecurityHub {
   Future<DeleteActionTargetResponse> deleteActionTarget({
     required String actionTargetArn,
   }) async {
-    ArgumentError.checkNotNull(actionTargetArn, 'actionTargetArn');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -681,7 +664,6 @@ class SecurityHub {
   Future<DeleteInsightResponse> deleteInsight({
     required String insightArn,
   }) async {
-    ArgumentError.checkNotNull(insightArn, 'insightArn');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -709,7 +691,6 @@ class SecurityHub {
   Future<DeleteInvitationsResponse> deleteInvitations({
     required List<String> accountIds,
   }) async {
-    ArgumentError.checkNotNull(accountIds, 'accountIds');
     final $payload = <String, dynamic>{
       'AccountIds': accountIds,
     };
@@ -738,7 +719,6 @@ class SecurityHub {
   Future<DeleteMembersResponse> deleteMembers({
     required List<String> accountIds,
   }) async {
-    ArgumentError.checkNotNull(accountIds, 'accountIds');
     final $payload = <String, dynamic>{
       'AccountIds': accountIds,
     };
@@ -958,8 +938,6 @@ class SecurityHub {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(
-        standardsSubscriptionArn, 'standardsSubscriptionArn');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -996,8 +974,6 @@ class SecurityHub {
   Future<void> disableImportFindingsForProduct({
     required String productSubscriptionArn,
   }) async {
-    ArgumentError.checkNotNull(
-        productSubscriptionArn, 'productSubscriptionArn');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1020,7 +996,6 @@ class SecurityHub {
   Future<void> disableOrganizationAdminAccount({
     required String adminAccountId,
   }) async {
-    ArgumentError.checkNotNull(adminAccountId, 'adminAccountId');
     final $payload = <String, dynamic>{
       'AdminAccountId': adminAccountId,
     };
@@ -1099,7 +1074,6 @@ class SecurityHub {
   Future<void> disassociateMembers({
     required List<String> accountIds,
   }) async {
-    ArgumentError.checkNotNull(accountIds, 'accountIds');
     final $payload = <String, dynamic>{
       'AccountIds': accountIds,
     };
@@ -1129,7 +1103,6 @@ class SecurityHub {
       enableImportFindingsForProduct({
     required String productArn,
   }) async {
-    ArgumentError.checkNotNull(productArn, 'productArn');
     final $payload = <String, dynamic>{
       'ProductArn': productArn,
     };
@@ -1156,7 +1129,6 @@ class SecurityHub {
   Future<void> enableOrganizationAdminAccount({
     required String adminAccountId,
   }) async {
-    ArgumentError.checkNotNull(adminAccountId, 'adminAccountId');
     final $payload = <String, dynamic>{
       'AdminAccountId': adminAccountId,
     };
@@ -1350,7 +1322,6 @@ class SecurityHub {
   Future<GetInsightResultsResponse> getInsightResults({
     required String insightArn,
   }) async {
-    ArgumentError.checkNotNull(insightArn, 'insightArn');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1470,7 +1441,6 @@ class SecurityHub {
   Future<GetMembersResponse> getMembers({
     required List<String> accountIds,
   }) async {
-    ArgumentError.checkNotNull(accountIds, 'accountIds');
     final $payload = <String, dynamic>{
       'AccountIds': accountIds,
     };
@@ -1509,7 +1479,6 @@ class SecurityHub {
   Future<InviteMembersResponse> inviteMembers({
     required List<String> accountIds,
   }) async {
-    ArgumentError.checkNotNull(accountIds, 'accountIds');
     final $payload = <String, dynamic>{
       'AccountIds': accountIds,
     };
@@ -1719,7 +1688,6 @@ class SecurityHub {
   Future<ListTagsForResourceResponse> listTagsForResource({
     required String resourceArn,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1744,8 +1712,6 @@ class SecurityHub {
     required String resourceArn,
     required Map<String, String> tags,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
       'Tags': tags,
     };
@@ -1772,8 +1738,6 @@ class SecurityHub {
     required String resourceArn,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
       'tagKeys': tagKeys,
     };
@@ -1808,7 +1772,6 @@ class SecurityHub {
     String? description,
     String? name,
   }) async {
-    ArgumentError.checkNotNull(actionTargetArn, 'actionTargetArn');
     final $payload = <String, dynamic>{
       if (description != null) 'Description': description,
       if (name != null) 'Name': name,
@@ -1848,7 +1811,6 @@ class SecurityHub {
     NoteUpdate? note,
     RecordState? recordState,
   }) async {
-    ArgumentError.checkNotNull(filters, 'filters');
     final $payload = <String, dynamic>{
       'Filters': filters,
       if (note != null) 'Note': note,
@@ -1887,7 +1849,6 @@ class SecurityHub {
     String? groupByAttribute,
     String? name,
   }) async {
-    ArgumentError.checkNotNull(insightArn, 'insightArn');
     final $payload = <String, dynamic>{
       if (filters != null) 'Filters': filters,
       if (groupByAttribute != null) 'GroupByAttribute': groupByAttribute,
@@ -1922,7 +1883,6 @@ class SecurityHub {
   Future<void> updateOrganizationConfiguration({
     required bool autoEnable,
   }) async {
-    ArgumentError.checkNotNull(autoEnable, 'autoEnable');
     final $payload = <String, dynamic>{
       'AutoEnable': autoEnable,
     };
@@ -1985,7 +1945,6 @@ class SecurityHub {
     ControlStatus? controlStatus,
     String? disabledReason,
   }) async {
-    ArgumentError.checkNotNull(standardsControlArn, 'standardsControlArn');
     final $payload = <String, dynamic>{
       if (controlStatus != null) 'ControlStatus': controlStatus.toValue(),
       if (disabledReason != null) 'DisabledReason': disabledReason,

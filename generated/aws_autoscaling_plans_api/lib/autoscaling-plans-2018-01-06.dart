@@ -74,16 +74,6 @@ class AutoScalingPlans {
     required List<ScalingInstruction> scalingInstructions,
     required String scalingPlanName,
   }) async {
-    ArgumentError.checkNotNull(applicationSource, 'applicationSource');
-    ArgumentError.checkNotNull(scalingInstructions, 'scalingInstructions');
-    ArgumentError.checkNotNull(scalingPlanName, 'scalingPlanName');
-    _s.validateStringLength(
-      'scalingPlanName',
-      scalingPlanName,
-      1,
-      128,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AnyScaleScalingPlannerFrontendService.CreateScalingPlan'
@@ -126,15 +116,6 @@ class AutoScalingPlans {
     required String scalingPlanName,
     required int scalingPlanVersion,
   }) async {
-    ArgumentError.checkNotNull(scalingPlanName, 'scalingPlanName');
-    _s.validateStringLength(
-      'scalingPlanName',
-      scalingPlanName,
-      1,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(scalingPlanVersion, 'scalingPlanVersion');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AnyScaleScalingPlannerFrontendService.DeleteScalingPlan'
@@ -177,15 +158,6 @@ class AutoScalingPlans {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(scalingPlanName, 'scalingPlanName');
-    _s.validateStringLength(
-      'scalingPlanName',
-      scalingPlanName,
-      1,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(scalingPlanVersion, 'scalingPlanVersion');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -368,21 +340,6 @@ class AutoScalingPlans {
     required ServiceNamespace serviceNamespace,
     required DateTime startTime,
   }) async {
-    ArgumentError.checkNotNull(endTime, 'endTime');
-    ArgumentError.checkNotNull(forecastDataType, 'forecastDataType');
-    ArgumentError.checkNotNull(resourceId, 'resourceId');
-    ArgumentError.checkNotNull(scalableDimension, 'scalableDimension');
-    ArgumentError.checkNotNull(scalingPlanName, 'scalingPlanName');
-    _s.validateStringLength(
-      'scalingPlanName',
-      scalingPlanName,
-      1,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(scalingPlanVersion, 'scalingPlanVersion');
-    ArgumentError.checkNotNull(serviceNamespace, 'serviceNamespace');
-    ArgumentError.checkNotNull(startTime, 'startTime');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -437,15 +394,6 @@ class AutoScalingPlans {
     ApplicationSource? applicationSource,
     List<ScalingInstruction>? scalingInstructions,
   }) async {
-    ArgumentError.checkNotNull(scalingPlanName, 'scalingPlanName');
-    _s.validateStringLength(
-      'scalingPlanName',
-      scalingPlanName,
-      1,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(scalingPlanVersion, 'scalingPlanVersion');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AnyScaleScalingPlannerFrontendService.UpdateScalingPlan'

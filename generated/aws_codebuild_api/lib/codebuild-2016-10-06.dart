@@ -66,7 +66,6 @@ class CodeBuild {
   Future<BatchDeleteBuildsOutput> batchDeleteBuilds({
     required List<String> ids,
   }) async {
-    ArgumentError.checkNotNull(ids, 'ids');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeBuild_20161006.BatchDeleteBuilds'
@@ -94,7 +93,6 @@ class CodeBuild {
   Future<BatchGetBuildBatchesOutput> batchGetBuildBatches({
     required List<String> ids,
   }) async {
-    ArgumentError.checkNotNull(ids, 'ids');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeBuild_20161006.BatchGetBuildBatches'
@@ -122,7 +120,6 @@ class CodeBuild {
   Future<BatchGetBuildsOutput> batchGetBuilds({
     required List<String> ids,
   }) async {
-    ArgumentError.checkNotNull(ids, 'ids');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeBuild_20161006.BatchGetBuilds'
@@ -152,7 +149,6 @@ class CodeBuild {
   Future<BatchGetProjectsOutput> batchGetProjects({
     required List<String> names,
   }) async {
-    ArgumentError.checkNotNull(names, 'names');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeBuild_20161006.BatchGetProjects'
@@ -180,7 +176,6 @@ class CodeBuild {
   Future<BatchGetReportGroupsOutput> batchGetReportGroups({
     required List<String> reportGroupArns,
   }) async {
-    ArgumentError.checkNotNull(reportGroupArns, 'reportGroupArns');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeBuild_20161006.BatchGetReportGroups'
@@ -208,7 +203,6 @@ class CodeBuild {
   Future<BatchGetReportsOutput> batchGetReports({
     required List<String> reportArns,
   }) async {
-    ArgumentError.checkNotNull(reportArns, 'reportArns');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeBuild_20161006.BatchGetReports'
@@ -372,37 +366,6 @@ class CodeBuild {
     int? timeoutInMinutes,
     VpcConfig? vpcConfig,
   }) async {
-    ArgumentError.checkNotNull(artifacts, 'artifacts');
-    ArgumentError.checkNotNull(environment, 'environment');
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      2,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(serviceRole, 'serviceRole');
-    _s.validateStringLength(
-      'serviceRole',
-      serviceRole,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(source, 'source');
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      255,
-    );
-    _s.validateStringLength(
-      'encryptionKey',
-      encryptionKey,
-      1,
-      1152921504606846976,
-    );
     _s.validateNumRange(
       'queuedTimeoutInMinutes',
       queuedTimeoutInMinutes,
@@ -483,16 +446,6 @@ class CodeBuild {
     required ReportType type,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(exportConfig, 'exportConfig');
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      2,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(type, 'type');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeBuild_20161006.CreateReportGroup'
@@ -565,14 +518,6 @@ class CodeBuild {
     WebhookBuildType? buildType,
     List<List<WebhookFilter>>? filterGroups,
   }) async {
-    ArgumentError.checkNotNull(projectName, 'projectName');
-    _s.validateStringLength(
-      'projectName',
-      projectName,
-      2,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeBuild_20161006.CreateWebhook'
@@ -603,14 +548,6 @@ class CodeBuild {
   Future<DeleteBuildBatchOutput> deleteBuildBatch({
     required String id,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeBuild_20161006.DeleteBuildBatch'
@@ -639,14 +576,6 @@ class CodeBuild {
   Future<void> deleteProject({
     required String name,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeBuild_20161006.DeleteProject'
@@ -672,14 +601,6 @@ class CodeBuild {
   Future<void> deleteReport({
     required String arn,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeBuild_20161006.DeleteReport'
@@ -719,14 +640,6 @@ class CodeBuild {
     required String arn,
     bool? deleteReports,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeBuild_20161006.DeleteReportGroup'
@@ -753,14 +666,6 @@ class CodeBuild {
   Future<void> deleteResourcePolicy({
     required String resourceArn,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeBuild_20161006.DeleteResourcePolicy'
@@ -788,14 +693,6 @@ class CodeBuild {
   Future<DeleteSourceCredentialsOutput> deleteSourceCredentials({
     required String arn,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeBuild_20161006.DeleteSourceCredentials'
@@ -828,14 +725,6 @@ class CodeBuild {
   Future<void> deleteWebhook({
     required String projectName,
   }) async {
-    ArgumentError.checkNotNull(projectName, 'projectName');
-    _s.validateStringLength(
-      'projectName',
-      projectName,
-      2,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeBuild_20161006.DeleteWebhook'
@@ -892,14 +781,6 @@ class CodeBuild {
     ReportCodeCoverageSortByType? sortBy,
     SortOrderType? sortOrder,
   }) async {
-    ArgumentError.checkNotNull(reportArn, 'reportArn');
-    _s.validateStringLength(
-      'reportArn',
-      reportArn,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxLineCoveragePercentage',
       maxLineCoveragePercentage,
@@ -974,7 +855,6 @@ class CodeBuild {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(reportArn, 'reportArn');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1010,15 +890,6 @@ class CodeBuild {
     required ReportGroupTrendFieldType trendField,
     int? numOfReports,
   }) async {
-    ArgumentError.checkNotNull(reportGroupArn, 'reportGroupArn');
-    _s.validateStringLength(
-      'reportGroupArn',
-      reportGroupArn,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(trendField, 'trendField');
     _s.validateNumRange(
       'numOfReports',
       numOfReports,
@@ -1055,14 +926,6 @@ class CodeBuild {
   Future<GetResourcePolicyOutput> getResourcePolicy({
     required String resourceArn,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeBuild_20161006.GetResourcePolicy'
@@ -1116,22 +979,6 @@ class CodeBuild {
     bool? shouldOverwrite,
     String? username,
   }) async {
-    ArgumentError.checkNotNull(authType, 'authType');
-    ArgumentError.checkNotNull(serverType, 'serverType');
-    ArgumentError.checkNotNull(token, 'token');
-    _s.validateStringLength(
-      'token',
-      token,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'username',
-      username,
-      1,
-      1152921504606846976,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeBuild_20161006.ImportSourceCredentials'
@@ -1164,14 +1011,6 @@ class CodeBuild {
   Future<void> invalidateProjectCache({
     required String projectName,
   }) async {
-    ArgumentError.checkNotNull(projectName, 'projectName');
-    _s.validateStringLength(
-      'projectName',
-      projectName,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeBuild_20161006.InvalidateProjectCache'
@@ -1296,12 +1135,6 @@ class CodeBuild {
       1,
       100,
     );
-    _s.validateStringLength(
-      'projectName',
-      projectName,
-      1,
-      1152921504606846976,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeBuild_20161006.ListBuildBatchesForProject'
@@ -1405,14 +1238,6 @@ class CodeBuild {
     String? nextToken,
     SortOrderType? sortOrder,
   }) async {
-    ArgumentError.checkNotNull(projectName, 'projectName');
-    _s.validateStringLength(
-      'projectName',
-      projectName,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeBuild_20161006.ListBuildsForProject'
@@ -1502,12 +1327,6 @@ class CodeBuild {
     ProjectSortByType? sortBy,
     SortOrderType? sortOrder,
   }) async {
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeBuild_20161006.ListProjects'
@@ -1704,7 +1523,6 @@ class CodeBuild {
     String? nextToken,
     SortOrderType? sortOrder,
   }) async {
-    ArgumentError.checkNotNull(reportGroupArn, 'reportGroupArn');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1787,12 +1605,6 @@ class CodeBuild {
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1931,22 +1743,6 @@ class CodeBuild {
     required String policy,
     required String resourceArn,
   }) async {
-    ArgumentError.checkNotNull(policy, 'policy');
-    _s.validateStringLength(
-      'policy',
-      policy,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeBuild_20161006.PutResourcePolicy'
@@ -1985,12 +1781,6 @@ class CodeBuild {
     String? id,
     String? idempotencyToken,
   }) async {
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      1152921504606846976,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeBuild_20161006.RetryBuild'
@@ -2033,12 +1823,6 @@ class CodeBuild {
     String? idempotencyToken,
     RetryBuildBatchType? retryType,
   }) async {
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      1152921504606846976,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeBuild_20161006.RetryBuildBatch'
@@ -2289,30 +2073,10 @@ class CodeBuild {
     String? sourceVersion,
     int? timeoutInMinutesOverride,
   }) async {
-    ArgumentError.checkNotNull(projectName, 'projectName');
-    _s.validateStringLength(
-      'projectName',
-      projectName,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'encryptionKeyOverride',
-      encryptionKeyOverride,
-      1,
-      1152921504606846976,
-    );
     _s.validateNumRange(
       'gitCloneDepthOverride',
       gitCloneDepthOverride,
       0,
-      1152921504606846976,
-    );
-    _s.validateStringLength(
-      'imageOverride',
-      imageOverride,
-      1,
       1152921504606846976,
     );
     _s.validateNumRange(
@@ -2320,12 +2084,6 @@ class CodeBuild {
       queuedTimeoutInMinutesOverride,
       5,
       480,
-    );
-    _s.validateStringLength(
-      'serviceRoleOverride',
-      serviceRoleOverride,
-      1,
-      1152921504606846976,
     );
     _s.validateNumRange(
       'timeoutInMinutesOverride',
@@ -2627,25 +2385,11 @@ class CodeBuild {
     SourceType? sourceTypeOverride,
     String? sourceVersion,
   }) async {
-    ArgumentError.checkNotNull(projectName, 'projectName');
-    _s.validateStringLength(
-      'projectName',
-      projectName,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'buildTimeoutInMinutesOverride',
       buildTimeoutInMinutesOverride,
       5,
       480,
-    );
-    _s.validateStringLength(
-      'encryptionKeyOverride',
-      encryptionKeyOverride,
-      1,
-      1152921504606846976,
     );
     _s.validateNumRange(
       'gitCloneDepthOverride',
@@ -2653,23 +2397,11 @@ class CodeBuild {
       0,
       1152921504606846976,
     );
-    _s.validateStringLength(
-      'imageOverride',
-      imageOverride,
-      1,
-      1152921504606846976,
-    );
     _s.validateNumRange(
       'queuedTimeoutInMinutesOverride',
       queuedTimeoutInMinutesOverride,
       5,
       480,
-    );
-    _s.validateStringLength(
-      'serviceRoleOverride',
-      serviceRoleOverride,
-      1,
-      1152921504606846976,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2752,14 +2484,6 @@ class CodeBuild {
   Future<StopBuildOutput> stopBuild({
     required String id,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeBuild_20161006.StopBuild'
@@ -2788,14 +2512,6 @@ class CodeBuild {
   Future<StopBuildBatchOutput> stopBuildBatch({
     required String id,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeBuild_20161006.StopBuildBatch'
@@ -2961,37 +2677,11 @@ class CodeBuild {
     int? timeoutInMinutes,
     VpcConfig? vpcConfig,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      255,
-    );
-    _s.validateStringLength(
-      'encryptionKey',
-      encryptionKey,
-      1,
-      1152921504606846976,
-    );
     _s.validateNumRange(
       'queuedTimeoutInMinutes',
       queuedTimeoutInMinutes,
       5,
       480,
-    );
-    _s.validateStringLength(
-      'serviceRole',
-      serviceRole,
-      1,
-      1152921504606846976,
     );
     _s.validateNumRange(
       'timeoutInMinutes',
@@ -3071,14 +2761,6 @@ class CodeBuild {
     ReportExportConfig? exportConfig,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeBuild_20161006.UpdateReportGroup'
@@ -3141,14 +2823,6 @@ class CodeBuild {
     List<List<WebhookFilter>>? filterGroups,
     bool? rotateSecret,
   }) async {
-    ArgumentError.checkNotNull(projectName, 'projectName');
-    _s.validateStringLength(
-      'projectName',
-      projectName,
-      2,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeBuild_20161006.UpdateWebhook'

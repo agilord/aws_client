@@ -84,7 +84,6 @@ class Athena {
   Future<BatchGetNamedQueryOutput> batchGetNamedQuery({
     required List<String> namedQueryIds,
   }) async {
-    ArgumentError.checkNotNull(namedQueryIds, 'namedQueryIds');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonAthena.BatchGetNamedQuery'
@@ -119,7 +118,6 @@ class Athena {
   Future<BatchGetQueryExecutionOutput> batchGetQueryExecution({
     required List<String> queryExecutionIds,
   }) async {
-    ArgumentError.checkNotNull(queryExecutionIds, 'queryExecutionIds');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonAthena.BatchGetQueryExecution'
@@ -205,21 +203,6 @@ class Athena {
     Map<String, String>? parameters,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      256,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(type, 'type');
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      1024,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonAthena.CreateDataCatalog'
@@ -285,42 +268,6 @@ class Athena {
     String? description,
     String? workGroup,
   }) async {
-    ArgumentError.checkNotNull(database, 'database');
-    _s.validateStringLength(
-      'database',
-      database,
-      1,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(queryString, 'queryString');
-    _s.validateStringLength(
-      'queryString',
-      queryString,
-      1,
-      262144,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      32,
-      128,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      1024,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonAthena.CreateNamedQuery'
@@ -374,13 +321,6 @@ class Athena {
     String? description,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1024,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonAthena.CreateWorkGroup'
@@ -410,14 +350,6 @@ class Athena {
   Future<void> deleteDataCatalog({
     required String name,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonAthena.DeleteDataCatalog'
@@ -481,7 +413,6 @@ class Athena {
     required String workGroup,
     bool? recursiveDeleteOption,
   }) async {
-    ArgumentError.checkNotNull(workGroup, 'workGroup');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonAthena.DeleteWorkGroup'
@@ -510,14 +441,6 @@ class Athena {
   Future<GetDataCatalogOutput> getDataCatalog({
     required String name,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonAthena.GetDataCatalog'
@@ -551,22 +474,6 @@ class Athena {
     required String catalogName,
     required String databaseName,
   }) async {
-    ArgumentError.checkNotNull(catalogName, 'catalogName');
-    _s.validateStringLength(
-      'catalogName',
-      catalogName,
-      1,
-      256,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(databaseName, 'databaseName');
-    _s.validateStringLength(
-      'databaseName',
-      databaseName,
-      1,
-      128,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonAthena.GetDatabase'
@@ -597,7 +504,6 @@ class Athena {
   Future<GetNamedQueryOutput> getNamedQuery({
     required String namedQueryId,
   }) async {
-    ArgumentError.checkNotNull(namedQueryId, 'namedQueryId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonAthena.GetNamedQuery'
@@ -628,7 +534,6 @@ class Athena {
   Future<GetQueryExecutionOutput> getQueryExecution({
     required String queryExecutionId,
   }) async {
-    ArgumentError.checkNotNull(queryExecutionId, 'queryExecutionId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonAthena.GetQueryExecution'
@@ -685,18 +590,11 @@ class Athena {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(queryExecutionId, 'queryExecutionId');
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       1000,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -738,30 +636,6 @@ class Athena {
     required String databaseName,
     required String tableName,
   }) async {
-    ArgumentError.checkNotNull(catalogName, 'catalogName');
-    _s.validateStringLength(
-      'catalogName',
-      catalogName,
-      1,
-      256,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(databaseName, 'databaseName');
-    _s.validateStringLength(
-      'databaseName',
-      databaseName,
-      1,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(tableName, 'tableName');
-    _s.validateStringLength(
-      'tableName',
-      tableName,
-      1,
-      128,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonAthena.GetTableMetadata'
@@ -792,7 +666,6 @@ class Athena {
   Future<GetWorkGroupOutput> getWorkGroup({
     required String workGroup,
   }) async {
-    ArgumentError.checkNotNull(workGroup, 'workGroup');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonAthena.GetWorkGroup'
@@ -833,12 +706,6 @@ class Athena {
       maxResults,
       2,
       50,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -881,25 +748,11 @@ class Athena {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(catalogName, 'catalogName');
-    _s.validateStringLength(
-      'catalogName',
-      catalogName,
-      1,
-      256,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       50,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -957,12 +810,6 @@ class Athena {
       0,
       50,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonAthena.ListNamedQueries'
@@ -1019,12 +866,6 @@ class Athena {
       0,
       50,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonAthena.ListQueryExecutions'
@@ -1076,39 +917,11 @@ class Athena {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(catalogName, 'catalogName');
-    _s.validateStringLength(
-      'catalogName',
-      catalogName,
-      1,
-      256,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(databaseName, 'databaseName');
-    _s.validateStringLength(
-      'databaseName',
-      databaseName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'expression',
-      expression,
-      0,
-      256,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       50,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1155,25 +968,11 @@ class Athena {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(resourceARN, 'resourceARN');
-    _s.validateStringLength(
-      'resourceARN',
-      resourceARN,
-      1,
-      1011,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       75,
       1152921504606846976,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1217,12 +1016,6 @@ class Athena {
       maxResults,
       1,
       50,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1291,20 +1084,6 @@ class Athena {
     ResultConfiguration? resultConfiguration,
     String? workGroup,
   }) async {
-    ArgumentError.checkNotNull(queryString, 'queryString');
-    _s.validateStringLength(
-      'queryString',
-      queryString,
-      1,
-      262144,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      32,
-      128,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonAthena.StartQueryExecution'
@@ -1391,15 +1170,6 @@ class Athena {
     required String resourceARN,
     required List<Tag> tags,
   }) async {
-    ArgumentError.checkNotNull(resourceARN, 'resourceARN');
-    _s.validateStringLength(
-      'resourceARN',
-      resourceARN,
-      1,
-      1011,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonAthena.TagResource'
@@ -1433,15 +1203,6 @@ class Athena {
     required String resourceARN,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(resourceARN, 'resourceARN');
-    _s.validateStringLength(
-      'resourceARN',
-      resourceARN,
-      1,
-      1011,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonAthena.UntagResource'
@@ -1521,21 +1282,6 @@ class Athena {
     String? description,
     Map<String, String>? parameters,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      256,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(type, 'type');
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      1024,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonAthena.UpdateDataCatalog'
@@ -1578,13 +1324,6 @@ class Athena {
     String? description,
     WorkGroupState? state,
   }) async {
-    ArgumentError.checkNotNull(workGroup, 'workGroup');
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1024,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonAthena.UpdateWorkGroup'

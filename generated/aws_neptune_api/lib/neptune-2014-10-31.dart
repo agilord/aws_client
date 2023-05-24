@@ -88,8 +88,6 @@ class Neptune {
     required String roleArn,
     String? featureName,
   }) async {
-    ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
-    ArgumentError.checkNotNull(roleArn, 'roleArn');
     final $request = <String, dynamic>{};
     $request['DBClusterIdentifier'] = dBClusterIdentifier;
     $request['RoleArn'] = roleArn;
@@ -143,8 +141,6 @@ class Neptune {
     required String sourceIdentifier,
     required String subscriptionName,
   }) async {
-    ArgumentError.checkNotNull(sourceIdentifier, 'sourceIdentifier');
-    ArgumentError.checkNotNull(subscriptionName, 'subscriptionName');
     final $request = <String, dynamic>{};
     $request['SourceIdentifier'] = sourceIdentifier;
     $request['SubscriptionName'] = subscriptionName;
@@ -183,8 +179,6 @@ class Neptune {
     required String resourceName,
     required List<Tag> tags,
   }) async {
-    ArgumentError.checkNotNull(resourceName, 'resourceName');
-    ArgumentError.checkNotNull(tags, 'tags');
     final $request = <String, dynamic>{};
     $request['ResourceName'] = resourceName;
     $request['Tags'] = tags;
@@ -241,9 +235,6 @@ class Neptune {
     required String optInType,
     required String resourceIdentifier,
   }) async {
-    ArgumentError.checkNotNull(applyAction, 'applyAction');
-    ArgumentError.checkNotNull(optInType, 'optInType');
-    ArgumentError.checkNotNull(resourceIdentifier, 'resourceIdentifier');
     final $request = <String, dynamic>{};
     $request['ApplyAction'] = applyAction;
     $request['OptInType'] = optInType;
@@ -324,12 +315,6 @@ class Neptune {
     required String targetDBClusterParameterGroupIdentifier,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(sourceDBClusterParameterGroupIdentifier,
-        'sourceDBClusterParameterGroupIdentifier');
-    ArgumentError.checkNotNull(targetDBClusterParameterGroupDescription,
-        'targetDBClusterParameterGroupDescription');
-    ArgumentError.checkNotNull(targetDBClusterParameterGroupIdentifier,
-        'targetDBClusterParameterGroupIdentifier');
     final $request = <String, dynamic>{};
     $request['SourceDBClusterParameterGroupIdentifier'] =
         sourceDBClusterParameterGroupIdentifier;
@@ -441,10 +426,6 @@ class Neptune {
     String? preSignedUrl,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(
-        sourceDBClusterSnapshotIdentifier, 'sourceDBClusterSnapshotIdentifier');
-    ArgumentError.checkNotNull(
-        targetDBClusterSnapshotIdentifier, 'targetDBClusterSnapshotIdentifier');
     final $request = <String, dynamic>{};
     $request['SourceDBClusterSnapshotIdentifier'] =
         sourceDBClusterSnapshotIdentifier;
@@ -524,12 +505,6 @@ class Neptune {
     required String targetDBParameterGroupIdentifier,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(
-        sourceDBParameterGroupIdentifier, 'sourceDBParameterGroupIdentifier');
-    ArgumentError.checkNotNull(
-        targetDBParameterGroupDescription, 'targetDBParameterGroupDescription');
-    ArgumentError.checkNotNull(
-        targetDBParameterGroupIdentifier, 'targetDBParameterGroupIdentifier');
     final $request = <String, dynamic>{};
     $request['SourceDBParameterGroupIdentifier'] =
         sourceDBParameterGroupIdentifier;
@@ -816,8 +791,6 @@ class Neptune {
     List<Tag>? tags,
     List<String>? vpcSecurityGroupIds,
   }) async {
-    ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
-    ArgumentError.checkNotNull(engine, 'engine');
     final $request = <String, dynamic>{};
     $request['DBClusterIdentifier'] = dBClusterIdentifier;
     $request['Engine'] = engine;
@@ -905,10 +878,6 @@ class Neptune {
     List<String>? staticMembers,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(
-        dBClusterEndpointIdentifier, 'dBClusterEndpointIdentifier');
-    ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
-    ArgumentError.checkNotNull(endpointType, 'endpointType');
     final $request = <String, dynamic>{};
     $request['DBClusterEndpointIdentifier'] = dBClusterEndpointIdentifier;
     $request['DBClusterIdentifier'] = dBClusterIdentifier;
@@ -992,11 +961,6 @@ class Neptune {
     required String description,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(
-        dBClusterParameterGroupName, 'dBClusterParameterGroupName');
-    ArgumentError.checkNotNull(
-        dBParameterGroupFamily, 'dBParameterGroupFamily');
-    ArgumentError.checkNotNull(description, 'description');
     final $request = <String, dynamic>{};
     $request['DBClusterParameterGroupName'] = dBClusterParameterGroupName;
     $request['DBParameterGroupFamily'] = dBParameterGroupFamily;
@@ -1063,9 +1027,6 @@ class Neptune {
     required String dBClusterSnapshotIdentifier,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
-    ArgumentError.checkNotNull(
-        dBClusterSnapshotIdentifier, 'dBClusterSnapshotIdentifier');
     final $request = <String, dynamic>{};
     $request['DBClusterIdentifier'] = dBClusterIdentifier;
     $request['DBClusterSnapshotIdentifier'] = dBClusterSnapshotIdentifier;
@@ -1445,9 +1406,6 @@ class Neptune {
     String? timezone,
     List<String>? vpcSecurityGroupIds,
   }) async {
-    ArgumentError.checkNotNull(dBInstanceClass, 'dBInstanceClass');
-    ArgumentError.checkNotNull(dBInstanceIdentifier, 'dBInstanceIdentifier');
-    ArgumentError.checkNotNull(engine, 'engine');
     final $request = <String, dynamic>{};
     $request['DBInstanceClass'] = dBInstanceClass;
     $request['DBInstanceIdentifier'] = dBInstanceIdentifier;
@@ -1578,10 +1536,6 @@ class Neptune {
     required String description,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(
-        dBParameterGroupFamily, 'dBParameterGroupFamily');
-    ArgumentError.checkNotNull(dBParameterGroupName, 'dBParameterGroupName');
-    ArgumentError.checkNotNull(description, 'description');
     final $request = <String, dynamic>{};
     $request['DBParameterGroupFamily'] = dBParameterGroupFamily;
     $request['DBParameterGroupName'] = dBParameterGroupName;
@@ -1633,10 +1587,6 @@ class Neptune {
     required List<String> subnetIds,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(
-        dBSubnetGroupDescription, 'dBSubnetGroupDescription');
-    ArgumentError.checkNotNull(dBSubnetGroupName, 'dBSubnetGroupName');
-    ArgumentError.checkNotNull(subnetIds, 'subnetIds');
     final $request = <String, dynamic>{};
     $request['DBSubnetGroupDescription'] = dBSubnetGroupDescription;
     $request['DBSubnetGroupName'] = dBSubnetGroupName;
@@ -1757,8 +1707,6 @@ class Neptune {
     String? sourceType,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(snsTopicArn, 'snsTopicArn');
-    ArgumentError.checkNotNull(subscriptionName, 'subscriptionName');
     final $request = <String, dynamic>{};
     $request['SnsTopicArn'] = snsTopicArn;
     $request['SubscriptionName'] = subscriptionName;
@@ -1844,7 +1792,6 @@ class Neptune {
     String? finalDBSnapshotIdentifier,
     bool? skipFinalSnapshot,
   }) async {
-    ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
     final $request = <String, dynamic>{};
     $request['DBClusterIdentifier'] = dBClusterIdentifier;
     finalDBSnapshotIdentifier
@@ -1877,8 +1824,6 @@ class Neptune {
   Future<DeleteDBClusterEndpointOutput> deleteDBClusterEndpoint({
     required String dBClusterEndpointIdentifier,
   }) async {
-    ArgumentError.checkNotNull(
-        dBClusterEndpointIdentifier, 'dBClusterEndpointIdentifier');
     final $request = <String, dynamic>{};
     $request['DBClusterEndpointIdentifier'] = dBClusterEndpointIdentifier;
     final $result = await _protocol.send(
@@ -1920,8 +1865,6 @@ class Neptune {
   Future<void> deleteDBClusterParameterGroup({
     required String dBClusterParameterGroupName,
   }) async {
-    ArgumentError.checkNotNull(
-        dBClusterParameterGroupName, 'dBClusterParameterGroupName');
     final $request = <String, dynamic>{};
     $request['DBClusterParameterGroupName'] = dBClusterParameterGroupName;
     await _protocol.send(
@@ -1954,8 +1897,6 @@ class Neptune {
   Future<DeleteDBClusterSnapshotResult> deleteDBClusterSnapshot({
     required String dBClusterSnapshotIdentifier,
   }) async {
-    ArgumentError.checkNotNull(
-        dBClusterSnapshotIdentifier, 'dBClusterSnapshotIdentifier');
     final $request = <String, dynamic>{};
     $request['DBClusterSnapshotIdentifier'] = dBClusterSnapshotIdentifier;
     final $result = await _protocol.send(
@@ -2054,7 +1995,6 @@ class Neptune {
     String? finalDBSnapshotIdentifier,
     bool? skipFinalSnapshot,
   }) async {
-    ArgumentError.checkNotNull(dBInstanceIdentifier, 'dBInstanceIdentifier');
     final $request = <String, dynamic>{};
     $request['DBInstanceIdentifier'] = dBInstanceIdentifier;
     finalDBSnapshotIdentifier
@@ -2099,7 +2039,6 @@ class Neptune {
   Future<void> deleteDBParameterGroup({
     required String dBParameterGroupName,
   }) async {
-    ArgumentError.checkNotNull(dBParameterGroupName, 'dBParameterGroupName');
     final $request = <String, dynamic>{};
     $request['DBParameterGroupName'] = dBParameterGroupName;
     await _protocol.send(
@@ -2138,7 +2077,6 @@ class Neptune {
   Future<void> deleteDBSubnetGroup({
     required String dBSubnetGroupName,
   }) async {
-    ArgumentError.checkNotNull(dBSubnetGroupName, 'dBSubnetGroupName');
     final $request = <String, dynamic>{};
     $request['DBSubnetGroupName'] = dBSubnetGroupName;
     await _protocol.send(
@@ -2163,7 +2101,6 @@ class Neptune {
   Future<DeleteEventSubscriptionResult> deleteEventSubscription({
     required String subscriptionName,
   }) async {
-    ArgumentError.checkNotNull(subscriptionName, 'subscriptionName');
     final $request = <String, dynamic>{};
     $request['SubscriptionName'] = subscriptionName;
     final $result = await _protocol.send(
@@ -2364,8 +2301,6 @@ class Neptune {
     int? maxRecords,
     String? source,
   }) async {
-    ArgumentError.checkNotNull(
-        dBClusterParameterGroupName, 'dBClusterParameterGroupName');
     final $request = <String, dynamic>{};
     $request['DBClusterParameterGroupName'] = dBClusterParameterGroupName;
     filters?.also((arg) => $request['Filters'] = arg);
@@ -2409,8 +2344,6 @@ class Neptune {
       describeDBClusterSnapshotAttributes({
     required String dBClusterSnapshotIdentifier,
   }) async {
-    ArgumentError.checkNotNull(
-        dBClusterSnapshotIdentifier, 'dBClusterSnapshotIdentifier');
     final $request = <String, dynamic>{};
     $request['DBClusterSnapshotIdentifier'] = dBClusterSnapshotIdentifier;
     final $result = await _protocol.send(
@@ -2930,7 +2863,6 @@ class Neptune {
     int? maxRecords,
     String? source,
   }) async {
-    ArgumentError.checkNotNull(dBParameterGroupName, 'dBParameterGroupName');
     final $request = <String, dynamic>{};
     $request['DBParameterGroupName'] = dBParameterGroupName;
     filters?.also((arg) => $request['Filters'] = arg);
@@ -3039,8 +2971,6 @@ class Neptune {
     String? marker,
     int? maxRecords,
   }) async {
-    ArgumentError.checkNotNull(
-        dBParameterGroupFamily, 'dBParameterGroupFamily');
     final $request = <String, dynamic>{};
     $request['DBParameterGroupFamily'] = dBParameterGroupFamily;
     filters?.also((arg) => $request['Filters'] = arg);
@@ -3091,8 +3021,6 @@ class Neptune {
     String? marker,
     int? maxRecords,
   }) async {
-    ArgumentError.checkNotNull(
-        dBParameterGroupFamily, 'dBParameterGroupFamily');
     final $request = <String, dynamic>{};
     $request['DBParameterGroupFamily'] = dBParameterGroupFamily;
     filters?.also((arg) => $request['Filters'] = arg);
@@ -3365,7 +3293,6 @@ class Neptune {
     int? maxRecords,
     bool? vpc,
   }) async {
-    ArgumentError.checkNotNull(engine, 'engine');
     final $request = <String, dynamic>{};
     $request['Engine'] = engine;
     dBInstanceClass?.also((arg) => $request['DBInstanceClass'] = arg);
@@ -3469,7 +3396,6 @@ class Neptune {
       describeValidDBInstanceModifications({
     required String dBInstanceIdentifier,
   }) async {
-    ArgumentError.checkNotNull(dBInstanceIdentifier, 'dBInstanceIdentifier');
     final $request = <String, dynamic>{};
     $request['DBInstanceIdentifier'] = dBInstanceIdentifier;
     final $result = await _protocol.send(
@@ -3560,7 +3486,6 @@ class Neptune {
     required String resourceName,
     List<Filter>? filters,
   }) async {
-    ArgumentError.checkNotNull(resourceName, 'resourceName');
     final $request = <String, dynamic>{};
     $request['ResourceName'] = resourceName;
     filters?.also((arg) => $request['Filters'] = arg);
@@ -3758,7 +3683,6 @@ class Neptune {
     String? preferredMaintenanceWindow,
     List<String>? vpcSecurityGroupIds,
   }) async {
-    ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
     final $request = <String, dynamic>{};
     $request['DBClusterIdentifier'] = dBClusterIdentifier;
     applyImmediately?.also((arg) => $request['ApplyImmediately'] = arg);
@@ -3826,8 +3750,6 @@ class Neptune {
     List<String>? excludedMembers,
     List<String>? staticMembers,
   }) async {
-    ArgumentError.checkNotNull(
-        dBClusterEndpointIdentifier, 'dBClusterEndpointIdentifier');
     final $request = <String, dynamic>{};
     $request['DBClusterEndpointIdentifier'] = dBClusterEndpointIdentifier;
     endpointType?.also((arg) => $request['EndpointType'] = arg);
@@ -3882,9 +3804,6 @@ class Neptune {
     required String dBClusterParameterGroupName,
     required List<Parameter> parameters,
   }) async {
-    ArgumentError.checkNotNull(
-        dBClusterParameterGroupName, 'dBClusterParameterGroupName');
-    ArgumentError.checkNotNull(parameters, 'parameters');
     final $request = <String, dynamic>{};
     $request['DBClusterParameterGroupName'] = dBClusterParameterGroupName;
     $request['Parameters'] = parameters;
@@ -3964,9 +3883,6 @@ class Neptune {
     List<String>? valuesToAdd,
     List<String>? valuesToRemove,
   }) async {
-    ArgumentError.checkNotNull(attributeName, 'attributeName');
-    ArgumentError.checkNotNull(
-        dBClusterSnapshotIdentifier, 'dBClusterSnapshotIdentifier');
     final $request = <String, dynamic>{};
     $request['AttributeName'] = attributeName;
     $request['DBClusterSnapshotIdentifier'] = dBClusterSnapshotIdentifier;
@@ -4354,7 +4270,6 @@ class Neptune {
     String? tdeCredentialPassword,
     List<String>? vpcSecurityGroupIds,
   }) async {
-    ArgumentError.checkNotNull(dBInstanceIdentifier, 'dBInstanceIdentifier');
     final $request = <String, dynamic>{};
     $request['DBInstanceIdentifier'] = dBInstanceIdentifier;
     allocatedStorage?.also((arg) => $request['AllocatedStorage'] = arg);
@@ -4472,8 +4387,6 @@ class Neptune {
     required String dBParameterGroupName,
     required List<Parameter> parameters,
   }) async {
-    ArgumentError.checkNotNull(dBParameterGroupName, 'dBParameterGroupName');
-    ArgumentError.checkNotNull(parameters, 'parameters');
     final $request = <String, dynamic>{};
     $request['DBParameterGroupName'] = dBParameterGroupName;
     $request['Parameters'] = parameters;
@@ -4519,8 +4432,6 @@ class Neptune {
     required List<String> subnetIds,
     String? dBSubnetGroupDescription,
   }) async {
-    ArgumentError.checkNotNull(dBSubnetGroupName, 'dBSubnetGroupName');
-    ArgumentError.checkNotNull(subnetIds, 'subnetIds');
     final $request = <String, dynamic>{};
     $request['DBSubnetGroupName'] = dBSubnetGroupName;
     $request['SubnetIds'] = subnetIds;
@@ -4587,7 +4498,6 @@ class Neptune {
     String? snsTopicArn,
     String? sourceType,
   }) async {
-    ArgumentError.checkNotNull(subscriptionName, 'subscriptionName');
     final $request = <String, dynamic>{};
     $request['SubscriptionName'] = subscriptionName;
     enabled?.also((arg) => $request['Enabled'] = arg);
@@ -4618,7 +4528,6 @@ class Neptune {
   Future<PromoteReadReplicaDBClusterResult> promoteReadReplicaDBCluster({
     required String dBClusterIdentifier,
   }) async {
-    ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
     final $request = <String, dynamic>{};
     $request['DBClusterIdentifier'] = dBClusterIdentifier;
     final $result = await _protocol.send(
@@ -4669,7 +4578,6 @@ class Neptune {
     required String dBInstanceIdentifier,
     bool? forceFailover,
   }) async {
-    ArgumentError.checkNotNull(dBInstanceIdentifier, 'dBInstanceIdentifier');
     final $request = <String, dynamic>{};
     $request['DBInstanceIdentifier'] = dBInstanceIdentifier;
     forceFailover?.also((arg) => $request['ForceFailover'] = arg);
@@ -4711,8 +4619,6 @@ class Neptune {
     required String roleArn,
     String? featureName,
   }) async {
-    ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
-    ArgumentError.checkNotNull(roleArn, 'roleArn');
     final $request = <String, dynamic>{};
     $request['DBClusterIdentifier'] = dBClusterIdentifier;
     $request['RoleArn'] = roleArn;
@@ -4748,8 +4654,6 @@ class Neptune {
     required String sourceIdentifier,
     required String subscriptionName,
   }) async {
-    ArgumentError.checkNotNull(sourceIdentifier, 'sourceIdentifier');
-    ArgumentError.checkNotNull(subscriptionName, 'subscriptionName');
     final $request = <String, dynamic>{};
     $request['SourceIdentifier'] = sourceIdentifier;
     $request['SubscriptionName'] = subscriptionName;
@@ -4786,8 +4690,6 @@ class Neptune {
     required String resourceName,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(resourceName, 'resourceName');
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $request = <String, dynamic>{};
     $request['ResourceName'] = resourceName;
     $request['TagKeys'] = tagKeys;
@@ -4837,8 +4739,6 @@ class Neptune {
     List<Parameter>? parameters,
     bool? resetAllParameters,
   }) async {
-    ArgumentError.checkNotNull(
-        dBClusterParameterGroupName, 'dBClusterParameterGroupName');
     final $request = <String, dynamic>{};
     $request['DBClusterParameterGroupName'] = dBClusterParameterGroupName;
     parameters?.also((arg) => $request['Parameters'] = arg);
@@ -4900,7 +4800,6 @@ class Neptune {
     List<Parameter>? parameters,
     bool? resetAllParameters,
   }) async {
-    ArgumentError.checkNotNull(dBParameterGroupName, 'dBParameterGroupName');
     final $request = <String, dynamic>{};
     $request['DBParameterGroupName'] = dBParameterGroupName;
     parameters?.also((arg) => $request['Parameters'] = arg);
@@ -5095,9 +4994,6 @@ class Neptune {
     List<Tag>? tags,
     List<String>? vpcSecurityGroupIds,
   }) async {
-    ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
-    ArgumentError.checkNotNull(engine, 'engine');
-    ArgumentError.checkNotNull(snapshotIdentifier, 'snapshotIdentifier');
     final $request = <String, dynamic>{};
     $request['DBClusterIdentifier'] = dBClusterIdentifier;
     $request['Engine'] = engine;
@@ -5344,9 +5240,6 @@ class Neptune {
     bool? useLatestRestorableTime,
     List<String>? vpcSecurityGroupIds,
   }) async {
-    ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
-    ArgumentError.checkNotNull(
-        sourceDBClusterIdentifier, 'sourceDBClusterIdentifier');
     final $request = <String, dynamic>{};
     $request['DBClusterIdentifier'] = dBClusterIdentifier;
     $request['SourceDBClusterIdentifier'] = sourceDBClusterIdentifier;
@@ -5395,7 +5288,6 @@ class Neptune {
   Future<StartDBClusterResult> startDBCluster({
     required String dBClusterIdentifier,
   }) async {
-    ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
     final $request = <String, dynamic>{};
     $request['DBClusterIdentifier'] = dBClusterIdentifier;
     final $result = await _protocol.send(
@@ -5429,7 +5321,6 @@ class Neptune {
   Future<StopDBClusterResult> stopDBCluster({
     required String dBClusterIdentifier,
   }) async {
-    ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
     final $request = <String, dynamic>{};
     $request['DBClusterIdentifier'] = dBClusterIdentifier;
     final $result = await _protocol.send(

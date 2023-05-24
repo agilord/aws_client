@@ -77,20 +77,6 @@ class AppConfig {
     String? description,
     Map<String, String>? tags,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1024,
-    );
     final $payload = <String, dynamic>{
       'Name': name,
       if (description != null) 'Description': description,
@@ -172,35 +158,6 @@ class AppConfig {
     Map<String, String>? tags,
     List<Validator>? validators,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
-    ArgumentError.checkNotNull(locationUri, 'locationUri');
-    _s.validateStringLength(
-      'locationUri',
-      locationUri,
-      1,
-      2048,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1024,
-    );
-    _s.validateStringLength(
-      'retrievalRoleArn',
-      retrievalRoleArn,
-      20,
-      2048,
-    );
     final $payload = <String, dynamic>{
       'LocationUri': locationUri,
       'Name': name,
@@ -291,8 +248,6 @@ class AppConfig {
     GrowthType? growthType,
     Map<String, String>? tags,
   }) async {
-    ArgumentError.checkNotNull(
-        deploymentDurationInMinutes, 'deploymentDurationInMinutes');
     _s.validateNumRange(
       'deploymentDurationInMinutes',
       deploymentDurationInMinutes,
@@ -300,28 +255,12 @@ class AppConfig {
       1440,
       isRequired: true,
     );
-    ArgumentError.checkNotNull(growthFactor, 'growthFactor');
     _s.validateNumRange(
       'growthFactor',
       growthFactor,
       1,
       100,
       isRequired: true,
-    );
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(replicateTo, 'replicateTo');
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1024,
     );
     _s.validateNumRange(
       'finalBakeTimeInMinutes',
@@ -385,21 +324,6 @@ class AppConfig {
     List<Monitor>? monitors,
     Map<String, String>? tags,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1024,
-    );
     final $payload = <String, dynamic>{
       'Name': name,
       if (description != null) 'Description': description,
@@ -456,24 +380,6 @@ class AppConfig {
     String? description,
     int? latestVersionNumber,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
-    ArgumentError.checkNotNull(
-        configurationProfileId, 'configurationProfileId');
-    ArgumentError.checkNotNull(content, 'content');
-    ArgumentError.checkNotNull(contentType, 'contentType');
-    _s.validateStringLength(
-      'contentType',
-      contentType,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1024,
-    );
     final headers = <String, String>{
       'Content-Type': contentType.toString(),
       if (description != null) 'Description': description.toString(),
@@ -514,7 +420,6 @@ class AppConfig {
   Future<void> deleteApplication({
     required String applicationId,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -541,9 +446,6 @@ class AppConfig {
     required String applicationId,
     required String configurationProfileId,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
-    ArgumentError.checkNotNull(
-        configurationProfileId, 'configurationProfileId');
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -565,7 +467,6 @@ class AppConfig {
   Future<void> deleteDeploymentStrategy({
     required String deploymentStrategyId,
   }) async {
-    ArgumentError.checkNotNull(deploymentStrategyId, 'deploymentStrategyId');
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -592,8 +493,6 @@ class AppConfig {
     required String applicationId,
     required String environmentId,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
-    ArgumentError.checkNotNull(environmentId, 'environmentId');
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -623,10 +522,6 @@ class AppConfig {
     required String configurationProfileId,
     required int versionNumber,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
-    ArgumentError.checkNotNull(
-        configurationProfileId, 'configurationProfileId');
-    ArgumentError.checkNotNull(versionNumber, 'versionNumber');
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -647,7 +542,6 @@ class AppConfig {
   Future<Application> getApplication({
     required String applicationId,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -723,44 +617,6 @@ class AppConfig {
     required String environment,
     String? clientConfigurationVersion,
   }) async {
-    ArgumentError.checkNotNull(application, 'application');
-    _s.validateStringLength(
-      'application',
-      application,
-      1,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(clientId, 'clientId');
-    _s.validateStringLength(
-      'clientId',
-      clientId,
-      1,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(configuration, 'configuration');
-    _s.validateStringLength(
-      'configuration',
-      configuration,
-      1,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(environment, 'environment');
-    _s.validateStringLength(
-      'environment',
-      environment,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientConfigurationVersion',
-      clientConfigurationVersion,
-      1,
-      1024,
-    );
     final $query = <String, List<String>>{
       'client_id': [clientId],
       if (clientConfigurationVersion != null)
@@ -799,9 +655,6 @@ class AppConfig {
     required String applicationId,
     required String configurationProfileId,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
-    ArgumentError.checkNotNull(
-        configurationProfileId, 'configurationProfileId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -831,9 +684,6 @@ class AppConfig {
     required int deploymentNumber,
     required String environmentId,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
-    ArgumentError.checkNotNull(deploymentNumber, 'deploymentNumber');
-    ArgumentError.checkNotNull(environmentId, 'environmentId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -859,7 +709,6 @@ class AppConfig {
   Future<DeploymentStrategy> getDeploymentStrategy({
     required String deploymentStrategyId,
   }) async {
-    ArgumentError.checkNotNull(deploymentStrategyId, 'deploymentStrategyId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -891,8 +740,6 @@ class AppConfig {
     required String applicationId,
     required String environmentId,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
-    ArgumentError.checkNotNull(environmentId, 'environmentId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -922,10 +769,6 @@ class AppConfig {
     required String configurationProfileId,
     required int versionNumber,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
-    ArgumentError.checkNotNull(
-        configurationProfileId, 'configurationProfileId');
-    ArgumentError.checkNotNull(versionNumber, 'versionNumber');
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
@@ -969,12 +812,6 @@ class AppConfig {
       1,
       50,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2048,
-    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'max_results': [maxResults.toString()],
       if (nextToken != null) 'next_token': [nextToken],
@@ -1010,18 +847,11 @@ class AppConfig {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       50,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2048,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'max_results': [maxResults.toString()],
@@ -1059,12 +889,6 @@ class AppConfig {
       maxResults,
       1,
       50,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2048,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'max_results': [maxResults.toString()],
@@ -1105,19 +929,11 @@ class AppConfig {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
-    ArgumentError.checkNotNull(environmentId, 'environmentId');
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       50,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2048,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'max_results': [maxResults.toString()],
@@ -1155,18 +971,11 @@ class AppConfig {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       50,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2048,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'max_results': [maxResults.toString()],
@@ -1209,20 +1018,11 @@ class AppConfig {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
-    ArgumentError.checkNotNull(
-        configurationProfileId, 'configurationProfileId');
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       50,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2048,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'max_results': [maxResults.toString()],
@@ -1250,14 +1050,6 @@ class AppConfig {
   Future<ResourceTags> listTagsForResource({
     required String resourceArn,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1305,25 +1097,6 @@ class AppConfig {
     String? description,
     Map<String, String>? tags,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
-    ArgumentError.checkNotNull(
-        configurationProfileId, 'configurationProfileId');
-    ArgumentError.checkNotNull(configurationVersion, 'configurationVersion');
-    _s.validateStringLength(
-      'configurationVersion',
-      configurationVersion,
-      1,
-      1024,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(deploymentStrategyId, 'deploymentStrategyId');
-    ArgumentError.checkNotNull(environmentId, 'environmentId');
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1024,
-    );
     final $payload = <String, dynamic>{
       'ConfigurationProfileId': configurationProfileId,
       'ConfigurationVersion': configurationVersion,
@@ -1362,9 +1135,6 @@ class AppConfig {
     required int deploymentNumber,
     required String environmentId,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
-    ArgumentError.checkNotNull(deploymentNumber, 'deploymentNumber');
-    ArgumentError.checkNotNull(environmentId, 'environmentId');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1395,15 +1165,6 @@ class AppConfig {
     required String resourceArn,
     required Map<String, String> tags,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      20,
-      2048,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
       'Tags': tags,
     };
@@ -1430,15 +1191,6 @@ class AppConfig {
     required String resourceArn,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      20,
-      2048,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
       'tagKeys': tagKeys,
     };
@@ -1470,19 +1222,6 @@ class AppConfig {
     String? description,
     String? name,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1024,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      64,
-    );
     final $payload = <String, dynamic>{
       if (description != null) 'Description': description,
       if (name != null) 'Name': name,
@@ -1528,27 +1267,6 @@ class AppConfig {
     String? retrievalRoleArn,
     List<Validator>? validators,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
-    ArgumentError.checkNotNull(
-        configurationProfileId, 'configurationProfileId');
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1024,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'retrievalRoleArn',
-      retrievalRoleArn,
-      20,
-      2048,
-    );
     final $payload = <String, dynamic>{
       if (description != null) 'Description': description,
       if (name != null) 'Name': name,
@@ -1624,18 +1342,11 @@ class AppConfig {
     double? growthFactor,
     GrowthType? growthType,
   }) async {
-    ArgumentError.checkNotNull(deploymentStrategyId, 'deploymentStrategyId');
     _s.validateNumRange(
       'deploymentDurationInMinutes',
       deploymentDurationInMinutes,
       0,
       1440,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1024,
     );
     _s.validateNumRange(
       'finalBakeTimeInMinutes',
@@ -1695,20 +1406,6 @@ class AppConfig {
     List<Monitor>? monitors,
     String? name,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
-    ArgumentError.checkNotNull(environmentId, 'environmentId');
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1024,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      64,
-    );
     final $payload = <String, dynamic>{
       if (description != null) 'Description': description,
       if (monitors != null) 'Monitors': monitors,
@@ -1744,17 +1441,6 @@ class AppConfig {
     required String configurationProfileId,
     required String configurationVersion,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
-    ArgumentError.checkNotNull(
-        configurationProfileId, 'configurationProfileId');
-    ArgumentError.checkNotNull(configurationVersion, 'configurationVersion');
-    _s.validateStringLength(
-      'configurationVersion',
-      configurationVersion,
-      1,
-      1024,
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       'configuration_version': [configurationVersion],
     };

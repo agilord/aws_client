@@ -115,27 +115,12 @@ class EBS {
     ChecksumAggregationMethod? checksumAggregationMethod,
     ChecksumAlgorithm? checksumAlgorithm,
   }) async {
-    ArgumentError.checkNotNull(changedBlocksCount, 'changedBlocksCount');
     _s.validateNumRange(
       'changedBlocksCount',
       changedBlocksCount,
       0,
       1152921504606846976,
       isRequired: true,
-    );
-    ArgumentError.checkNotNull(snapshotId, 'snapshotId');
-    _s.validateStringLength(
-      'snapshotId',
-      snapshotId,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'checksum',
-      checksum,
-      0,
-      64,
     );
     final headers = <String, String>{
       'x-amz-ChangedBlocksCount': changedBlocksCount.toString(),
@@ -186,28 +171,11 @@ class EBS {
     required String blockToken,
     required String snapshotId,
   }) async {
-    ArgumentError.checkNotNull(blockIndex, 'blockIndex');
     _s.validateNumRange(
       'blockIndex',
       blockIndex,
       0,
       1152921504606846976,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(blockToken, 'blockToken');
-    _s.validateStringLength(
-      'blockToken',
-      blockToken,
-      0,
-      256,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(snapshotId, 'snapshotId');
-    _s.validateStringLength(
-      'snapshotId',
-      snapshotId,
-      1,
-      64,
       isRequired: true,
     );
     final $query = <String, List<String>>{
@@ -275,31 +243,11 @@ class EBS {
     String? nextToken,
     int? startingBlockIndex,
   }) async {
-    ArgumentError.checkNotNull(secondSnapshotId, 'secondSnapshotId');
-    _s.validateStringLength(
-      'secondSnapshotId',
-      secondSnapshotId,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'firstSnapshotId',
-      firstSnapshotId,
-      1,
-      64,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       100,
       10000,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      256,
     );
     _s.validateNumRange(
       'startingBlockIndex',
@@ -354,25 +302,11 @@ class EBS {
     String? nextToken,
     int? startingBlockIndex,
   }) async {
-    ArgumentError.checkNotNull(snapshotId, 'snapshotId');
-    _s.validateStringLength(
-      'snapshotId',
-      snapshotId,
-      1,
-      64,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       100,
       10000,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      256,
     );
     _s.validateNumRange(
       'startingBlockIndex',
@@ -460,31 +394,11 @@ class EBS {
     required String snapshotId,
     int? progress,
   }) async {
-    ArgumentError.checkNotNull(blockData, 'blockData');
-    ArgumentError.checkNotNull(blockIndex, 'blockIndex');
     _s.validateNumRange(
       'blockIndex',
       blockIndex,
       0,
       1152921504606846976,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(checksum, 'checksum');
-    _s.validateStringLength(
-      'checksum',
-      checksum,
-      0,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(checksumAlgorithm, 'checksumAlgorithm');
-    ArgumentError.checkNotNull(dataLength, 'dataLength');
-    ArgumentError.checkNotNull(snapshotId, 'snapshotId');
-    _s.validateStringLength(
-      'snapshotId',
-      snapshotId,
-      1,
-      64,
       isRequired: true,
     );
     _s.validateNumRange(
@@ -628,37 +542,12 @@ class EBS {
     List<Tag>? tags,
     int? timeout,
   }) async {
-    ArgumentError.checkNotNull(volumeSize, 'volumeSize');
     _s.validateNumRange(
       'volumeSize',
       volumeSize,
       1,
       1152921504606846976,
       isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      0,
-      255,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      255,
-    );
-    _s.validateStringLength(
-      'kmsKeyArn',
-      kmsKeyArn,
-      1,
-      2048,
-    );
-    _s.validateStringLength(
-      'parentSnapshotId',
-      parentSnapshotId,
-      1,
-      64,
     );
     _s.validateNumRange(
       'timeout',

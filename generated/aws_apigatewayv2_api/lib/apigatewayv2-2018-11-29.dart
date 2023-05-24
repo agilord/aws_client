@@ -138,8 +138,6 @@ class ApiGatewayV2 {
     String? target,
     String? version,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    ArgumentError.checkNotNull(protocolType, 'protocolType');
     final $payload = <String, dynamic>{
       'name': name,
       'protocolType': protocolType.toValue(),
@@ -192,9 +190,6 @@ class ApiGatewayV2 {
     required String stage,
     String? apiMappingKey,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
-    ArgumentError.checkNotNull(domainName, 'domainName');
-    ArgumentError.checkNotNull(stage, 'stage');
     final $payload = <String, dynamic>{
       'apiId': apiId,
       'stage': stage,
@@ -314,10 +309,6 @@ class ApiGatewayV2 {
     String? identityValidationExpression,
     JWTConfiguration? jwtConfiguration,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
-    ArgumentError.checkNotNull(authorizerType, 'authorizerType');
-    ArgumentError.checkNotNull(identitySource, 'identitySource');
-    ArgumentError.checkNotNull(name, 'name');
     _s.validateNumRange(
       'authorizerResultTtlInSeconds',
       authorizerResultTtlInSeconds,
@@ -370,7 +361,6 @@ class ApiGatewayV2 {
     String? description,
     String? stageName,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
     final $payload = <String, dynamic>{
       if (description != null) 'description': description,
       if (stageName != null) 'stageName': stageName,
@@ -409,7 +399,6 @@ class ApiGatewayV2 {
     MutualTlsAuthenticationInput? mutualTlsAuthentication,
     Map<String, String>? tags,
   }) async {
-    ArgumentError.checkNotNull(domainName, 'domainName');
     final $payload = <String, dynamic>{
       'domainName': domainName,
       if (domainNameConfigurations != null)
@@ -627,8 +616,6 @@ class ApiGatewayV2 {
     int? timeoutInMillis,
     TlsConfigInput? tlsConfig,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
-    ArgumentError.checkNotNull(integrationType, 'integrationType');
     _s.validateNumRange(
       'timeoutInMillis',
       timeoutInMillis,
@@ -729,10 +716,6 @@ class ApiGatewayV2 {
     Map<String, String>? responseTemplates,
     String? templateSelectionExpression,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
-    ArgumentError.checkNotNull(integrationId, 'integrationId');
-    ArgumentError.checkNotNull(
-        integrationResponseKey, 'integrationResponseKey');
     final $payload = <String, dynamic>{
       'integrationResponseKey': integrationResponseKey,
       if (contentHandlingStrategy != null)
@@ -781,9 +764,6 @@ class ApiGatewayV2 {
     String? contentType,
     String? description,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
-    ArgumentError.checkNotNull(name, 'name');
-    ArgumentError.checkNotNull(schema, 'schema');
     final $payload = <String, dynamic>{
       'name': name,
       'schema': schema,
@@ -864,8 +844,6 @@ class ApiGatewayV2 {
     String? routeResponseSelectionExpression,
     String? target,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
-    ArgumentError.checkNotNull(routeKey, 'routeKey');
     final $payload = <String, dynamic>{
       'routeKey': routeKey,
       if (apiKeyRequired != null) 'apiKeyRequired': apiKeyRequired,
@@ -925,9 +903,6 @@ class ApiGatewayV2 {
     Map<String, String>? responseModels,
     Map<String, ParameterConstraints>? responseParameters,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
-    ArgumentError.checkNotNull(routeId, 'routeId');
-    ArgumentError.checkNotNull(routeResponseKey, 'routeResponseKey');
     final $payload = <String, dynamic>{
       'routeResponseKey': routeResponseKey,
       if (modelSelectionExpression != null)
@@ -1002,8 +977,6 @@ class ApiGatewayV2 {
     Map<String, String>? stageVariables,
     Map<String, String>? tags,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
-    ArgumentError.checkNotNull(stageName, 'stageName');
     final $payload = <String, dynamic>{
       'stageName': stageName,
       if (accessLogSettings != null) 'accessLogSettings': accessLogSettings,
@@ -1049,8 +1022,6 @@ class ApiGatewayV2 {
     List<String>? securityGroupIds,
     Map<String, String>? tags,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    ArgumentError.checkNotNull(subnetIds, 'subnetIds');
     final $payload = <String, dynamic>{
       'name': name,
       'subnetIds': subnetIds,
@@ -1082,8 +1053,6 @@ class ApiGatewayV2 {
     required String apiId,
     required String stageName,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
-    ArgumentError.checkNotNull(stageName, 'stageName');
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1103,7 +1072,6 @@ class ApiGatewayV2 {
   Future<void> deleteApi({
     required String apiId,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1127,8 +1095,6 @@ class ApiGatewayV2 {
     required String apiMappingId,
     required String domainName,
   }) async {
-    ArgumentError.checkNotNull(apiMappingId, 'apiMappingId');
-    ArgumentError.checkNotNull(domainName, 'domainName');
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1152,8 +1118,6 @@ class ApiGatewayV2 {
     required String apiId,
     required String authorizerId,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
-    ArgumentError.checkNotNull(authorizerId, 'authorizerId');
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1173,7 +1137,6 @@ class ApiGatewayV2 {
   Future<void> deleteCorsConfiguration({
     required String apiId,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1196,8 +1159,6 @@ class ApiGatewayV2 {
     required String apiId,
     required String deploymentId,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
-    ArgumentError.checkNotNull(deploymentId, 'deploymentId');
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1217,7 +1178,6 @@ class ApiGatewayV2 {
   Future<void> deleteDomainName({
     required String domainName,
   }) async {
-    ArgumentError.checkNotNull(domainName, 'domainName');
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1240,8 +1200,6 @@ class ApiGatewayV2 {
     required String apiId,
     required String integrationId,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
-    ArgumentError.checkNotNull(integrationId, 'integrationId');
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1269,9 +1227,6 @@ class ApiGatewayV2 {
     required String integrationId,
     required String integrationResponseId,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
-    ArgumentError.checkNotNull(integrationId, 'integrationId');
-    ArgumentError.checkNotNull(integrationResponseId, 'integrationResponseId');
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1295,8 +1250,6 @@ class ApiGatewayV2 {
     required String apiId,
     required String modelId,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
-    ArgumentError.checkNotNull(modelId, 'modelId');
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1320,8 +1273,6 @@ class ApiGatewayV2 {
     required String apiId,
     required String routeId,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
-    ArgumentError.checkNotNull(routeId, 'routeId');
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1349,9 +1300,6 @@ class ApiGatewayV2 {
     required String requestParameterKey,
     required String routeId,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
-    ArgumentError.checkNotNull(requestParameterKey, 'requestParameterKey');
-    ArgumentError.checkNotNull(routeId, 'routeId');
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1379,9 +1327,6 @@ class ApiGatewayV2 {
     required String routeId,
     required String routeResponseId,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
-    ArgumentError.checkNotNull(routeId, 'routeId');
-    ArgumentError.checkNotNull(routeResponseId, 'routeResponseId');
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1410,9 +1355,6 @@ class ApiGatewayV2 {
     required String routeKey,
     required String stageName,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
-    ArgumentError.checkNotNull(routeKey, 'routeKey');
-    ArgumentError.checkNotNull(stageName, 'stageName');
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1437,8 +1379,6 @@ class ApiGatewayV2 {
     required String apiId,
     required String stageName,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
-    ArgumentError.checkNotNull(stageName, 'stageName');
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1458,7 +1398,6 @@ class ApiGatewayV2 {
   Future<void> deleteVpcLink({
     required String vpcLinkId,
   }) async {
-    ArgumentError.checkNotNull(vpcLinkId, 'vpcLinkId');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1504,9 +1443,6 @@ class ApiGatewayV2 {
     bool? includeExtensions,
     String? stageName,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
-    ArgumentError.checkNotNull(outputType, 'outputType');
-    ArgumentError.checkNotNull(specification, 'specification');
     final $query = <String, List<String>>{
       'outputType': [outputType],
       if (exportVersion != null) 'exportVersion': [exportVersion],
@@ -1544,8 +1480,6 @@ class ApiGatewayV2 {
     required String apiId,
     required String stageName,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
-    ArgumentError.checkNotNull(stageName, 'stageName');
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1565,7 +1499,6 @@ class ApiGatewayV2 {
   Future<GetApiResponse> getApi({
     required String apiId,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1590,8 +1523,6 @@ class ApiGatewayV2 {
     required String apiMappingId,
     required String domainName,
   }) async {
-    ArgumentError.checkNotNull(apiMappingId, 'apiMappingId');
-    ArgumentError.checkNotNull(domainName, 'domainName');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1622,7 +1553,6 @@ class ApiGatewayV2 {
     String? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(domainName, 'domainName');
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults],
       if (nextToken != null) 'nextToken': [nextToken],
@@ -1682,8 +1612,6 @@ class ApiGatewayV2 {
     required String apiId,
     required String authorizerId,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
-    ArgumentError.checkNotNull(authorizerId, 'authorizerId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1714,7 +1642,6 @@ class ApiGatewayV2 {
     String? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults],
       if (nextToken != null) 'nextToken': [nextToken],
@@ -1743,8 +1670,6 @@ class ApiGatewayV2 {
     required String apiId,
     required String deploymentId,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
-    ArgumentError.checkNotNull(deploymentId, 'deploymentId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1775,7 +1700,6 @@ class ApiGatewayV2 {
     String? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults],
       if (nextToken != null) 'nextToken': [nextToken],
@@ -1800,7 +1724,6 @@ class ApiGatewayV2 {
   Future<GetDomainNameResponse> getDomainName({
     required String domainName,
   }) async {
-    ArgumentError.checkNotNull(domainName, 'domainName');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1854,8 +1777,6 @@ class ApiGatewayV2 {
     required String apiId,
     required String integrationId,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
-    ArgumentError.checkNotNull(integrationId, 'integrationId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1884,9 +1805,6 @@ class ApiGatewayV2 {
     required String integrationId,
     required String integrationResponseId,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
-    ArgumentError.checkNotNull(integrationId, 'integrationId');
-    ArgumentError.checkNotNull(integrationResponseId, 'integrationResponseId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1921,8 +1839,6 @@ class ApiGatewayV2 {
     String? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
-    ArgumentError.checkNotNull(integrationId, 'integrationId');
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults],
       if (nextToken != null) 'nextToken': [nextToken],
@@ -1958,7 +1874,6 @@ class ApiGatewayV2 {
     String? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults],
       if (nextToken != null) 'nextToken': [nextToken],
@@ -1987,8 +1902,6 @@ class ApiGatewayV2 {
     required String apiId,
     required String modelId,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
-    ArgumentError.checkNotNull(modelId, 'modelId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -2013,8 +1926,6 @@ class ApiGatewayV2 {
     required String apiId,
     required String modelId,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
-    ArgumentError.checkNotNull(modelId, 'modelId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -2045,7 +1956,6 @@ class ApiGatewayV2 {
     String? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults],
       if (nextToken != null) 'nextToken': [nextToken],
@@ -2074,8 +1984,6 @@ class ApiGatewayV2 {
     required String apiId,
     required String routeId,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
-    ArgumentError.checkNotNull(routeId, 'routeId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -2104,9 +2012,6 @@ class ApiGatewayV2 {
     required String routeId,
     required String routeResponseId,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
-    ArgumentError.checkNotNull(routeId, 'routeId');
-    ArgumentError.checkNotNull(routeResponseId, 'routeResponseId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -2141,8 +2046,6 @@ class ApiGatewayV2 {
     String? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
-    ArgumentError.checkNotNull(routeId, 'routeId');
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults],
       if (nextToken != null) 'nextToken': [nextToken],
@@ -2178,7 +2081,6 @@ class ApiGatewayV2 {
     String? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults],
       if (nextToken != null) 'nextToken': [nextToken],
@@ -2208,8 +2110,6 @@ class ApiGatewayV2 {
     required String apiId,
     required String stageName,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
-    ArgumentError.checkNotNull(stageName, 'stageName');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -2240,7 +2140,6 @@ class ApiGatewayV2 {
     String? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults],
       if (nextToken != null) 'nextToken': [nextToken],
@@ -2267,7 +2166,6 @@ class ApiGatewayV2 {
   Future<GetTagsResponse> getTags({
     required String resourceArn,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -2287,7 +2185,6 @@ class ApiGatewayV2 {
   Future<GetVpcLinkResponse> getVpcLink({
     required String vpcLinkId,
   }) async {
-    ArgumentError.checkNotNull(vpcLinkId, 'vpcLinkId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -2352,7 +2249,6 @@ class ApiGatewayV2 {
     String? basepath,
     bool? failOnWarnings,
   }) async {
-    ArgumentError.checkNotNull(body, 'body');
     final $query = <String, List<String>>{
       if (basepath != null) 'basepath': [basepath],
       if (failOnWarnings != null) 'failOnWarnings': [failOnWarnings.toString()],
@@ -2400,8 +2296,6 @@ class ApiGatewayV2 {
     String? basepath,
     bool? failOnWarnings,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
-    ArgumentError.checkNotNull(body, 'body');
     final $query = <String, List<String>>{
       if (basepath != null) 'basepath': [basepath],
       if (failOnWarnings != null) 'failOnWarnings': [failOnWarnings.toString()],
@@ -2436,7 +2330,6 @@ class ApiGatewayV2 {
     required String resourceArn,
     Map<String, String>? tags,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final $payload = <String, dynamic>{
       if (tags != null) 'tags': tags,
     };
@@ -2464,8 +2357,6 @@ class ApiGatewayV2 {
     required String resourceArn,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
       'tagKeys': tagKeys,
     };
@@ -2561,7 +2452,6 @@ class ApiGatewayV2 {
     String? target,
     String? version,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
     final $payload = <String, dynamic>{
       if (apiKeySelectionExpression != null)
         'apiKeySelectionExpression': apiKeySelectionExpression,
@@ -2616,9 +2506,6 @@ class ApiGatewayV2 {
     String? apiMappingKey,
     String? stage,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
-    ArgumentError.checkNotNull(apiMappingId, 'apiMappingId');
-    ArgumentError.checkNotNull(domainName, 'domainName');
     final $payload = <String, dynamic>{
       'apiId': apiId,
       if (apiMappingKey != null) 'apiMappingKey': apiMappingKey,
@@ -2741,8 +2628,6 @@ class ApiGatewayV2 {
     JWTConfiguration? jwtConfiguration,
     String? name,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
-    ArgumentError.checkNotNull(authorizerId, 'authorizerId');
     _s.validateNumRange(
       'authorizerResultTtlInSeconds',
       authorizerResultTtlInSeconds,
@@ -2796,8 +2681,6 @@ class ApiGatewayV2 {
     required String deploymentId,
     String? description,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
-    ArgumentError.checkNotNull(deploymentId, 'deploymentId');
     final $payload = <String, dynamic>{
       if (description != null) 'description': description,
     };
@@ -2831,7 +2714,6 @@ class ApiGatewayV2 {
     List<DomainNameConfiguration>? domainNameConfigurations,
     MutualTlsAuthenticationInput? mutualTlsAuthentication,
   }) async {
-    ArgumentError.checkNotNull(domainName, 'domainName');
     final $payload = <String, dynamic>{
       if (domainNameConfigurations != null)
         'domainNameConfigurations': domainNameConfigurations,
@@ -3051,8 +2933,6 @@ class ApiGatewayV2 {
     int? timeoutInMillis,
     TlsConfigInput? tlsConfig,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
-    ArgumentError.checkNotNull(integrationId, 'integrationId');
     _s.validateNumRange(
       'timeoutInMillis',
       timeoutInMillis,
@@ -3162,9 +3042,6 @@ class ApiGatewayV2 {
     Map<String, String>? responseTemplates,
     String? templateSelectionExpression,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
-    ArgumentError.checkNotNull(integrationId, 'integrationId');
-    ArgumentError.checkNotNull(integrationResponseId, 'integrationResponseId');
     final $payload = <String, dynamic>{
       if (contentHandlingStrategy != null)
         'contentHandlingStrategy': contentHandlingStrategy.toValue(),
@@ -3218,8 +3095,6 @@ class ApiGatewayV2 {
     String? name,
     String? schema,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
-    ArgumentError.checkNotNull(modelId, 'modelId');
     final $payload = <String, dynamic>{
       if (contentType != null) 'contentType': contentType,
       if (description != null) 'description': description,
@@ -3305,8 +3180,6 @@ class ApiGatewayV2 {
     String? routeResponseSelectionExpression,
     String? target,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
-    ArgumentError.checkNotNull(routeId, 'routeId');
     final $payload = <String, dynamic>{
       if (apiKeyRequired != null) 'apiKeyRequired': apiKeyRequired,
       if (authorizationScopes != null)
@@ -3371,9 +3244,6 @@ class ApiGatewayV2 {
     Map<String, ParameterConstraints>? responseParameters,
     String? routeResponseKey,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
-    ArgumentError.checkNotNull(routeId, 'routeId');
-    ArgumentError.checkNotNull(routeResponseId, 'routeResponseId');
     final $payload = <String, dynamic>{
       if (modelSelectionExpression != null)
         'modelSelectionExpression': modelSelectionExpression,
@@ -3445,8 +3315,6 @@ class ApiGatewayV2 {
     Map<String, RouteSettings>? routeSettings,
     Map<String, String>? stageVariables,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
-    ArgumentError.checkNotNull(stageName, 'stageName');
     final $payload = <String, dynamic>{
       if (accessLogSettings != null) 'accessLogSettings': accessLogSettings,
       if (autoDeploy != null) 'autoDeploy': autoDeploy,
@@ -3484,7 +3352,6 @@ class ApiGatewayV2 {
     required String vpcLinkId,
     String? name,
   }) async {
-    ArgumentError.checkNotNull(vpcLinkId, 'vpcLinkId');
     final $payload = <String, dynamic>{
       if (name != null) 'name': name,
     };

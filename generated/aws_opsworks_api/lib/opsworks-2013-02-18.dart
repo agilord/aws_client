@@ -83,8 +83,6 @@ class OpsWorks {
     required String instanceId,
     required List<String> layerIds,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    ArgumentError.checkNotNull(layerIds, 'layerIds');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.AssignInstance'
@@ -129,7 +127,6 @@ class OpsWorks {
     required String volumeId,
     String? instanceId,
   }) async {
-    ArgumentError.checkNotNull(volumeId, 'volumeId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.AssignVolume'
@@ -172,7 +169,6 @@ class OpsWorks {
     required String elasticIp,
     String? instanceId,
   }) async {
-    ArgumentError.checkNotNull(elasticIp, 'elasticIp');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.AssociateElasticIp'
@@ -223,9 +219,6 @@ class OpsWorks {
     required String elasticLoadBalancerName,
     required String layerId,
   }) async {
-    ArgumentError.checkNotNull(
-        elasticLoadBalancerName, 'elasticLoadBalancerName');
-    ArgumentError.checkNotNull(layerId, 'layerId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.AttachElasticLoadBalancer'
@@ -583,8 +576,6 @@ class OpsWorks {
     bool? useOpsworksSecurityGroups,
     String? vpcId,
   }) async {
-    ArgumentError.checkNotNull(serviceRoleArn, 'serviceRoleArn');
-    ArgumentError.checkNotNull(sourceStackId, 'sourceStackId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.CloneStack'
@@ -718,9 +709,6 @@ class OpsWorks {
     String? shortname,
     SslConfiguration? sslConfiguration,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    ArgumentError.checkNotNull(stackId, 'stackId');
-    ArgumentError.checkNotNull(type, 'type');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.CreateApp'
@@ -808,8 +796,6 @@ class OpsWorks {
     List<String>? instanceIds,
     List<String>? layerIds,
   }) async {
-    ArgumentError.checkNotNull(command, 'command');
-    ArgumentError.checkNotNull(stackId, 'stackId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.CreateDeployment'
@@ -1040,9 +1026,6 @@ class OpsWorks {
     String? tenancy,
     String? virtualizationType,
   }) async {
-    ArgumentError.checkNotNull(instanceType, 'instanceType');
-    ArgumentError.checkNotNull(layerIds, 'layerIds');
-    ArgumentError.checkNotNull(stackId, 'stackId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.CreateInstance'
@@ -1222,10 +1205,6 @@ class OpsWorks {
     bool? useEbsOptimizedInstances,
     List<VolumeConfiguration>? volumeConfigurations,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    ArgumentError.checkNotNull(shortname, 'shortname');
-    ArgumentError.checkNotNull(stackId, 'stackId');
-    ArgumentError.checkNotNull(type, 'type');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.CreateLayer'
@@ -1610,11 +1589,6 @@ class OpsWorks {
     bool? useOpsworksSecurityGroups,
     String? vpcId,
   }) async {
-    ArgumentError.checkNotNull(
-        defaultInstanceProfileArn, 'defaultInstanceProfileArn');
-    ArgumentError.checkNotNull(name, 'name');
-    ArgumentError.checkNotNull(region, 'region');
-    ArgumentError.checkNotNull(serviceRoleArn, 'serviceRoleArn');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.CreateStack'
@@ -1692,7 +1666,6 @@ class OpsWorks {
     String? sshPublicKey,
     String? sshUsername,
   }) async {
-    ArgumentError.checkNotNull(iamUserArn, 'iamUserArn');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.CreateUserProfile'
@@ -1732,7 +1705,6 @@ class OpsWorks {
   Future<void> deleteApp({
     required String appId,
   }) async {
-    ArgumentError.checkNotNull(appId, 'appId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.DeleteApp'
@@ -1779,7 +1751,6 @@ class OpsWorks {
     bool? deleteElasticIp,
     bool? deleteVolumes,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.DeleteInstance'
@@ -1819,7 +1790,6 @@ class OpsWorks {
   Future<void> deleteLayer({
     required String layerId,
   }) async {
-    ArgumentError.checkNotNull(layerId, 'layerId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.DeleteLayer'
@@ -1856,7 +1826,6 @@ class OpsWorks {
   Future<void> deleteStack({
     required String stackId,
   }) async {
-    ArgumentError.checkNotNull(stackId, 'stackId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.DeleteStack'
@@ -1889,7 +1858,6 @@ class OpsWorks {
   Future<void> deleteUserProfile({
     required String iamUserArn,
   }) async {
-    ArgumentError.checkNotNull(iamUserArn, 'iamUserArn');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.DeleteUserProfile'
@@ -1925,7 +1893,6 @@ class OpsWorks {
   Future<void> deregisterEcsCluster({
     required String ecsClusterArn,
   }) async {
-    ArgumentError.checkNotNull(ecsClusterArn, 'ecsClusterArn');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.DeregisterEcsCluster'
@@ -1962,7 +1929,6 @@ class OpsWorks {
   Future<void> deregisterElasticIp({
     required String elasticIp,
   }) async {
-    ArgumentError.checkNotNull(elasticIp, 'elasticIp');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.DeregisterElasticIp'
@@ -1999,7 +1965,6 @@ class OpsWorks {
   Future<void> deregisterInstance({
     required String instanceId,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.DeregisterInstance'
@@ -2033,7 +1998,6 @@ class OpsWorks {
   Future<void> deregisterRdsDbInstance({
     required String rdsDbInstanceArn,
   }) async {
-    ArgumentError.checkNotNull(rdsDbInstanceArn, 'rdsDbInstanceArn');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.DeregisterRdsDbInstance'
@@ -2072,7 +2036,6 @@ class OpsWorks {
   Future<void> deregisterVolume({
     required String volumeId,
   }) async {
-    ArgumentError.checkNotNull(volumeId, 'volumeId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.DeregisterVolume'
@@ -2556,7 +2519,6 @@ class OpsWorks {
   Future<DescribeLoadBasedAutoScalingResult> describeLoadBasedAutoScaling({
     required List<String> layerIds,
   }) async {
-    ArgumentError.checkNotNull(layerIds, 'layerIds');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.DescribeLoadBasedAutoScaling'
@@ -2733,7 +2695,6 @@ class OpsWorks {
     required String stackId,
     List<String>? rdsDbInstanceArns,
   }) async {
-    ArgumentError.checkNotNull(stackId, 'stackId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.DescribeRdsDbInstances'
@@ -2824,7 +2785,6 @@ class OpsWorks {
       describeStackProvisioningParameters({
     required String stackId,
   }) async {
-    ArgumentError.checkNotNull(stackId, 'stackId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.DescribeStackProvisioningParameters'
@@ -2863,7 +2823,6 @@ class OpsWorks {
   Future<DescribeStackSummaryResult> describeStackSummary({
     required String stackId,
   }) async {
-    ArgumentError.checkNotNull(stackId, 'stackId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.DescribeStackSummary'
@@ -2938,7 +2897,6 @@ class OpsWorks {
   Future<DescribeTimeBasedAutoScalingResult> describeTimeBasedAutoScaling({
     required List<String> instanceIds,
   }) async {
-    ArgumentError.checkNotNull(instanceIds, 'instanceIds');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.DescribeTimeBasedAutoScaling'
@@ -3072,9 +3030,6 @@ class OpsWorks {
     required String elasticLoadBalancerName,
     required String layerId,
   }) async {
-    ArgumentError.checkNotNull(
-        elasticLoadBalancerName, 'elasticLoadBalancerName');
-    ArgumentError.checkNotNull(layerId, 'layerId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.DetachElasticLoadBalancer'
@@ -3112,7 +3067,6 @@ class OpsWorks {
   Future<void> disassociateElasticIp({
     required String elasticIp,
   }) async {
-    ArgumentError.checkNotNull(elasticIp, 'elasticIp');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.DisassociateElasticIp'
@@ -3147,7 +3101,6 @@ class OpsWorks {
   Future<GetHostnameSuggestionResult> getHostnameSuggestion({
     required String layerId,
   }) async {
-    ArgumentError.checkNotNull(layerId, 'layerId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.GetHostnameSuggestion'
@@ -3186,7 +3139,6 @@ class OpsWorks {
     required String instanceId,
     int? validForInMinutes,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
     _s.validateNumRange(
       'validForInMinutes',
       validForInMinutes,
@@ -3232,7 +3184,6 @@ class OpsWorks {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.ListTags'
@@ -3272,7 +3223,6 @@ class OpsWorks {
   Future<void> rebootInstance({
     required String instanceId,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.RebootInstance'
@@ -3314,8 +3264,6 @@ class OpsWorks {
     required String ecsClusterArn,
     required String stackId,
   }) async {
-    ArgumentError.checkNotNull(ecsClusterArn, 'ecsClusterArn');
-    ArgumentError.checkNotNull(stackId, 'stackId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.RegisterEcsCluster'
@@ -3361,8 +3309,6 @@ class OpsWorks {
     required String elasticIp,
     required String stackId,
   }) async {
-    ArgumentError.checkNotNull(elasticIp, 'elasticIp');
-    ArgumentError.checkNotNull(stackId, 'stackId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.RegisterElasticIp'
@@ -3442,7 +3388,6 @@ class OpsWorks {
     String? rsaPublicKey,
     String? rsaPublicKeyFingerprint,
   }) async {
-    ArgumentError.checkNotNull(stackId, 'stackId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.RegisterInstance'
@@ -3497,10 +3442,6 @@ class OpsWorks {
     required String rdsDbInstanceArn,
     required String stackId,
   }) async {
-    ArgumentError.checkNotNull(dbPassword, 'dbPassword');
-    ArgumentError.checkNotNull(dbUser, 'dbUser');
-    ArgumentError.checkNotNull(rdsDbInstanceArn, 'rdsDbInstanceArn');
-    ArgumentError.checkNotNull(stackId, 'stackId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.RegisterRdsDbInstance'
@@ -3546,7 +3487,6 @@ class OpsWorks {
     required String stackId,
     String? ec2VolumeId,
   }) async {
-    ArgumentError.checkNotNull(stackId, 'stackId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.RegisterVolume'
@@ -3608,7 +3548,6 @@ class OpsWorks {
     bool? enable,
     AutoScalingThresholds? upScaling,
   }) async {
-    ArgumentError.checkNotNull(layerId, 'layerId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.SetLoadBasedAutoScaling'
@@ -3686,8 +3625,6 @@ class OpsWorks {
     bool? allowSudo,
     String? level,
   }) async {
-    ArgumentError.checkNotNull(iamUserArn, 'iamUserArn');
-    ArgumentError.checkNotNull(stackId, 'stackId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.SetPermission'
@@ -3732,7 +3669,6 @@ class OpsWorks {
     required String instanceId,
     WeeklyAutoScalingSchedule? autoScalingSchedule,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.SetTimeBasedAutoScaling'
@@ -3770,7 +3706,6 @@ class OpsWorks {
   Future<void> startInstance({
     required String instanceId,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.StartInstance'
@@ -3804,7 +3739,6 @@ class OpsWorks {
   Future<void> startStack({
     required String stackId,
   }) async {
-    ArgumentError.checkNotNull(stackId, 'stackId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.StartStack'
@@ -3853,7 +3787,6 @@ class OpsWorks {
     required String instanceId,
     bool? force,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.StopInstance'
@@ -3888,7 +3821,6 @@ class OpsWorks {
   Future<void> stopStack({
     required String stackId,
   }) async {
-    ArgumentError.checkNotNull(stackId, 'stackId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.StopStack'
@@ -3945,8 +3877,6 @@ class OpsWorks {
     required String resourceArn,
     required Map<String, String> tags,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.TagResource'
@@ -3984,7 +3914,6 @@ class OpsWorks {
   Future<void> unassignInstance({
     required String instanceId,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.UnassignInstance'
@@ -4021,7 +3950,6 @@ class OpsWorks {
   Future<void> unassignVolume({
     required String volumeId,
   }) async {
-    ArgumentError.checkNotNull(volumeId, 'volumeId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.UnassignVolume'
@@ -4052,8 +3980,6 @@ class OpsWorks {
     required String resourceArn,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.UntagResource'
@@ -4146,7 +4072,6 @@ class OpsWorks {
     SslConfiguration? sslConfiguration,
     AppType? type,
   }) async {
-    ArgumentError.checkNotNull(appId, 'appId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.UpdateApp'
@@ -4198,7 +4123,6 @@ class OpsWorks {
     required String elasticIp,
     String? name,
   }) async {
-    ArgumentError.checkNotNull(elasticIp, 'elasticIp');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.UpdateElasticIp'
@@ -4367,7 +4291,6 @@ class OpsWorks {
     String? os,
     String? sshKeyName,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.UpdateInstance'
@@ -4516,7 +4439,6 @@ class OpsWorks {
     bool? useEbsOptimizedInstances,
     List<VolumeConfiguration>? volumeConfigurations,
   }) async {
-    ArgumentError.checkNotNull(layerId, 'layerId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.UpdateLayer'
@@ -4615,7 +4537,6 @@ class OpsWorks {
     String? dbPassword,
     String? dbUser,
   }) async {
-    ArgumentError.checkNotNull(rdsDbInstanceArn, 'rdsDbInstanceArn');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.UpdateRdsDbInstance'
@@ -4899,7 +4820,6 @@ class OpsWorks {
     bool? useCustomCookbooks,
     bool? useOpsworksSecurityGroups,
   }) async {
-    ArgumentError.checkNotNull(stackId, 'stackId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.UpdateStack'
@@ -4976,7 +4896,6 @@ class OpsWorks {
     String? sshPublicKey,
     String? sshUsername,
   }) async {
-    ArgumentError.checkNotNull(iamUserArn, 'iamUserArn');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.UpdateUserProfile'
@@ -5025,7 +4944,6 @@ class OpsWorks {
     String? mountPoint,
     String? name,
   }) async {
-    ArgumentError.checkNotNull(volumeId, 'volumeId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OpsWorks_20130218.UpdateVolume'

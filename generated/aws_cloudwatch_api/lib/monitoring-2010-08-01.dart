@@ -98,7 +98,6 @@ class CloudWatch {
   Future<void> deleteAlarms({
     required List<String> alarmNames,
   }) async {
-    ArgumentError.checkNotNull(alarmNames, 'alarmNames');
     final $request = <String, dynamic>{};
     $request['AlarmNames'] = alarmNames;
     await _protocol.send(
@@ -138,23 +137,6 @@ class CloudWatch {
     required String stat,
     List<Dimension>? dimensions,
   }) async {
-    ArgumentError.checkNotNull(metricName, 'metricName');
-    _s.validateStringLength(
-      'metricName',
-      metricName,
-      1,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(namespace, 'namespace');
-    _s.validateStringLength(
-      'namespace',
-      namespace,
-      1,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(stat, 'stat');
     final $request = <String, dynamic>{};
     $request['MetricName'] = metricName;
     $request['Namespace'] = namespace;
@@ -186,7 +168,6 @@ class CloudWatch {
   Future<void> deleteDashboards({
     required List<String> dashboardNames,
   }) async {
-    ArgumentError.checkNotNull(dashboardNames, 'dashboardNames');
     final $request = <String, dynamic>{};
     $request['DashboardNames'] = dashboardNames;
     await _protocol.send(
@@ -218,7 +199,6 @@ class CloudWatch {
   Future<DeleteInsightRulesOutput> deleteInsightRules({
     required List<String> ruleNames,
   }) async {
-    ArgumentError.checkNotNull(ruleNames, 'ruleNames');
     final $request = <String, dynamic>{};
     $request['RuleNames'] = ruleNames;
     final $result = await _protocol.send(
@@ -283,12 +263,6 @@ class CloudWatch {
     ScanBy? scanBy,
     DateTime? startDate,
   }) async {
-    _s.validateStringLength(
-      'alarmName',
-      alarmName,
-      1,
-      255,
-    );
     _s.validateNumRange(
       'maxRecords',
       maxRecords,
@@ -404,35 +378,11 @@ class CloudWatch {
     String? parentsOfAlarmName,
     StateValue? stateValue,
   }) async {
-    _s.validateStringLength(
-      'actionPrefix',
-      actionPrefix,
-      1,
-      1024,
-    );
-    _s.validateStringLength(
-      'alarmNamePrefix',
-      alarmNamePrefix,
-      1,
-      255,
-    );
-    _s.validateStringLength(
-      'childrenOfAlarmName',
-      childrenOfAlarmName,
-      1,
-      255,
-    );
     _s.validateNumRange(
       'maxRecords',
       maxRecords,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'parentsOfAlarmName',
-      parentsOfAlarmName,
-      1,
-      255,
     );
     final $request = <String, dynamic>{};
     actionPrefix?.also((arg) => $request['ActionPrefix'] = arg);
@@ -500,22 +450,6 @@ class CloudWatch {
     Statistic? statistic,
     StandardUnit? unit,
   }) async {
-    ArgumentError.checkNotNull(metricName, 'metricName');
-    _s.validateStringLength(
-      'metricName',
-      metricName,
-      1,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(namespace, 'namespace');
-    _s.validateStringLength(
-      'namespace',
-      namespace,
-      1,
-      255,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'period',
       period,
@@ -592,18 +526,6 @@ class CloudWatch {
       1,
       1152921504606846976,
     );
-    _s.validateStringLength(
-      'metricName',
-      metricName,
-      1,
-      255,
-    );
-    _s.validateStringLength(
-      'namespace',
-      namespace,
-      1,
-      255,
-    );
     final $request = <String, dynamic>{};
     dimensions?.also((arg) => $request['Dimensions'] = arg);
     maxResults?.also((arg) => $request['MaxResults'] = arg);
@@ -674,7 +596,6 @@ class CloudWatch {
   Future<void> disableAlarmActions({
     required List<String> alarmNames,
   }) async {
-    ArgumentError.checkNotNull(alarmNames, 'alarmNames');
     final $request = <String, dynamic>{};
     $request['AlarmNames'] = alarmNames;
     await _protocol.send(
@@ -702,7 +623,6 @@ class CloudWatch {
   Future<DisableInsightRulesOutput> disableInsightRules({
     required List<String> ruleNames,
   }) async {
-    ArgumentError.checkNotNull(ruleNames, 'ruleNames');
     final $request = <String, dynamic>{};
     $request['RuleNames'] = ruleNames;
     final $result = await _protocol.send(
@@ -726,7 +646,6 @@ class CloudWatch {
   Future<void> enableAlarmActions({
     required List<String> alarmNames,
   }) async {
-    ArgumentError.checkNotNull(alarmNames, 'alarmNames');
     final $request = <String, dynamic>{};
     $request['AlarmNames'] = alarmNames;
     await _protocol.send(
@@ -755,7 +674,6 @@ class CloudWatch {
   Future<EnableInsightRulesOutput> enableInsightRules({
     required List<String> ruleNames,
   }) async {
-    ArgumentError.checkNotNull(ruleNames, 'ruleNames');
     final $request = <String, dynamic>{};
     $request['RuleNames'] = ruleNames;
     final $result = await _protocol.send(
@@ -788,7 +706,6 @@ class CloudWatch {
   Future<GetDashboardOutput> getDashboard({
     required String dashboardName,
   }) async {
-    ArgumentError.checkNotNull(dashboardName, 'dashboardName');
     final $request = <String, dynamic>{};
     $request['DashboardName'] = dashboardName;
     final $result = await _protocol.send(
@@ -927,29 +844,12 @@ class CloudWatch {
     List<String>? metrics,
     String? orderBy,
   }) async {
-    ArgumentError.checkNotNull(endTime, 'endTime');
-    ArgumentError.checkNotNull(period, 'period');
     _s.validateNumRange(
       'period',
       period,
       1,
       1152921504606846976,
       isRequired: true,
-    );
-    ArgumentError.checkNotNull(ruleName, 'ruleName');
-    _s.validateStringLength(
-      'ruleName',
-      ruleName,
-      1,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(startTime, 'startTime');
-    _s.validateStringLength(
-      'orderBy',
-      orderBy,
-      1,
-      32,
     );
     final $request = <String, dynamic>{};
     $request['EndTime'] = _s.iso8601ToJson(endTime);
@@ -1109,9 +1009,6 @@ class CloudWatch {
     String? nextToken,
     ScanBy? scanBy,
   }) async {
-    ArgumentError.checkNotNull(endTime, 'endTime');
-    ArgumentError.checkNotNull(metricDataQueries, 'metricDataQueries');
-    ArgumentError.checkNotNull(startTime, 'startTime');
     final $request = <String, dynamic>{};
     $request['EndTime'] = _s.iso8601ToJson(endTime);
     $request['MetricDataQueries'] = metricDataQueries;
@@ -1327,24 +1224,6 @@ class CloudWatch {
     List<Statistic>? statistics,
     StandardUnit? unit,
   }) async {
-    ArgumentError.checkNotNull(endTime, 'endTime');
-    ArgumentError.checkNotNull(metricName, 'metricName');
-    _s.validateStringLength(
-      'metricName',
-      metricName,
-      1,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(namespace, 'namespace');
-    _s.validateStringLength(
-      'namespace',
-      namespace,
-      1,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(period, 'period');
     _s.validateNumRange(
       'period',
       period,
@@ -1352,7 +1231,6 @@ class CloudWatch {
       1152921504606846976,
       isRequired: true,
     );
-    ArgumentError.checkNotNull(startTime, 'startTime');
     final $request = <String, dynamic>{};
     $request['EndTime'] = _s.iso8601ToJson(endTime);
     $request['MetricName'] = metricName;
@@ -1453,7 +1331,6 @@ class CloudWatch {
     required String metricWidget,
     String? outputFormat,
   }) async {
-    ArgumentError.checkNotNull(metricWidget, 'metricWidget');
     final $request = <String, dynamic>{};
     $request['MetricWidget'] = metricWidget;
     outputFormat?.also((arg) => $request['OutputFormat'] = arg);
@@ -1571,18 +1448,6 @@ class CloudWatch {
     String? nextToken,
     RecentlyActive? recentlyActive,
   }) async {
-    _s.validateStringLength(
-      'metricName',
-      metricName,
-      1,
-      255,
-    );
-    _s.validateStringLength(
-      'namespace',
-      namespace,
-      1,
-      255,
-    );
     final $request = <String, dynamic>{};
     dimensions?.also((arg) => $request['Dimensions'] = arg);
     metricName?.also((arg) => $request['MetricName'] = arg);
@@ -1628,14 +1493,6 @@ class CloudWatch {
   Future<ListTagsForResourceOutput> listTagsForResource({
     required String resourceARN,
   }) async {
-    ArgumentError.checkNotNull(resourceARN, 'resourceARN');
-    _s.validateStringLength(
-      'resourceARN',
-      resourceARN,
-      1,
-      1024,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['ResourceARN'] = resourceARN;
     final $result = await _protocol.send(
@@ -1690,23 +1547,6 @@ class CloudWatch {
     AnomalyDetectorConfiguration? configuration,
     List<Dimension>? dimensions,
   }) async {
-    ArgumentError.checkNotNull(metricName, 'metricName');
-    _s.validateStringLength(
-      'metricName',
-      metricName,
-      1,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(namespace, 'namespace');
-    _s.validateStringLength(
-      'namespace',
-      namespace,
-      1,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(stat, 'stat');
     final $request = <String, dynamic>{};
     $request['MetricName'] = metricName;
     $request['Namespace'] = namespace;
@@ -1900,28 +1740,6 @@ class CloudWatch {
     List<String>? oKActions,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(alarmName, 'alarmName');
-    _s.validateStringLength(
-      'alarmName',
-      alarmName,
-      1,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(alarmRule, 'alarmRule');
-    _s.validateStringLength(
-      'alarmRule',
-      alarmRule,
-      1,
-      10240,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'alarmDescription',
-      alarmDescription,
-      0,
-      1024,
-    );
     final $request = <String, dynamic>{};
     $request['AlarmName'] = alarmName;
     $request['AlarmRule'] = alarmRule;
@@ -1987,8 +1805,6 @@ class CloudWatch {
     required String dashboardBody,
     required String dashboardName,
   }) async {
-    ArgumentError.checkNotNull(dashboardBody, 'dashboardBody');
-    ArgumentError.checkNotNull(dashboardName, 'dashboardName');
     final $request = <String, dynamic>{};
     $request['DashboardBody'] = dashboardBody;
     $request['DashboardName'] = dashboardName;
@@ -2054,28 +1870,6 @@ class CloudWatch {
     String? ruleState,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(ruleDefinition, 'ruleDefinition');
-    _s.validateStringLength(
-      'ruleDefinition',
-      ruleDefinition,
-      1,
-      8192,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(ruleName, 'ruleName');
-    _s.validateStringLength(
-      'ruleName',
-      ruleName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'ruleState',
-      ruleState,
-      1,
-      32,
-    );
     final $request = <String, dynamic>{};
     $request['RuleDefinition'] = ruleDefinition;
     $request['RuleName'] = ruleName;
@@ -2408,16 +2202,6 @@ class CloudWatch {
     String? treatMissingData,
     StandardUnit? unit,
   }) async {
-    ArgumentError.checkNotNull(alarmName, 'alarmName');
-    _s.validateStringLength(
-      'alarmName',
-      alarmName,
-      1,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(comparisonOperator, 'comparisonOperator');
-    ArgumentError.checkNotNull(evaluationPeriods, 'evaluationPeriods');
     _s.validateNumRange(
       'evaluationPeriods',
       evaluationPeriods,
@@ -2425,53 +2209,17 @@ class CloudWatch {
       1152921504606846976,
       isRequired: true,
     );
-    _s.validateStringLength(
-      'alarmDescription',
-      alarmDescription,
-      0,
-      1024,
-    );
     _s.validateNumRange(
       'datapointsToAlarm',
       datapointsToAlarm,
       1,
       1152921504606846976,
     );
-    _s.validateStringLength(
-      'evaluateLowSampleCountPercentile',
-      evaluateLowSampleCountPercentile,
-      1,
-      255,
-    );
-    _s.validateStringLength(
-      'metricName',
-      metricName,
-      1,
-      255,
-    );
-    _s.validateStringLength(
-      'namespace',
-      namespace,
-      1,
-      255,
-    );
     _s.validateNumRange(
       'period',
       period,
       1,
       1152921504606846976,
-    );
-    _s.validateStringLength(
-      'thresholdMetricId',
-      thresholdMetricId,
-      1,
-      255,
-    );
-    _s.validateStringLength(
-      'treatMissingData',
-      treatMissingData,
-      1,
-      255,
     );
     final $request = <String, dynamic>{};
     $request['AlarmName'] = alarmName;
@@ -2590,15 +2338,6 @@ class CloudWatch {
     required List<MetricDatum> metricData,
     required String namespace,
   }) async {
-    ArgumentError.checkNotNull(metricData, 'metricData');
-    ArgumentError.checkNotNull(namespace, 'namespace');
-    _s.validateStringLength(
-      'namespace',
-      namespace,
-      1,
-      255,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['MetricData'] = metricData;
     $request['Namespace'] = namespace;
@@ -2659,29 +2398,6 @@ class CloudWatch {
     required StateValue stateValue,
     String? stateReasonData,
   }) async {
-    ArgumentError.checkNotNull(alarmName, 'alarmName');
-    _s.validateStringLength(
-      'alarmName',
-      alarmName,
-      1,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(stateReason, 'stateReason');
-    _s.validateStringLength(
-      'stateReason',
-      stateReason,
-      0,
-      1023,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(stateValue, 'stateValue');
-    _s.validateStringLength(
-      'stateReasonData',
-      stateReasonData,
-      0,
-      4000,
-    );
     final $request = <String, dynamic>{};
     $request['AlarmName'] = alarmName;
     $request['StateReason'] = stateReason;
@@ -2745,15 +2461,6 @@ class CloudWatch {
     required String resourceARN,
     required List<Tag> tags,
   }) async {
-    ArgumentError.checkNotNull(resourceARN, 'resourceARN');
-    _s.validateStringLength(
-      'resourceARN',
-      resourceARN,
-      1,
-      1024,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(tags, 'tags');
     final $request = <String, dynamic>{};
     $request['ResourceARN'] = resourceARN;
     $request['Tags'] = tags;
@@ -2799,15 +2506,6 @@ class CloudWatch {
     required String resourceARN,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(resourceARN, 'resourceARN');
-    _s.validateStringLength(
-      'resourceARN',
-      resourceARN,
-      1,
-      1024,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $request = <String, dynamic>{};
     $request['ResourceARN'] = resourceARN;
     $request['TagKeys'] = tagKeys;

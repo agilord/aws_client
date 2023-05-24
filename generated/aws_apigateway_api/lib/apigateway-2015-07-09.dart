@@ -229,9 +229,6 @@ class APIGateway {
     String? identityValidationExpression,
     List<String>? providerARNs,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
-    ArgumentError.checkNotNull(type, 'type');
     final $payload = <String, dynamic>{
       'name': name,
       'type': type.toValue(),
@@ -286,8 +283,6 @@ class APIGateway {
     String? basePath,
     String? stage,
   }) async {
-    ArgumentError.checkNotNull(domainName, 'domainName');
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
     final $payload = <String, dynamic>{
       'restApiId': restApiId,
       if (basePath != null) 'basePath': basePath,
@@ -360,7 +355,6 @@ class APIGateway {
     bool? tracingEnabled,
     Map<String, String>? variables,
   }) async {
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
     final $payload = <String, dynamic>{
       if (cacheClusterEnabled != null)
         'cacheClusterEnabled': cacheClusterEnabled,
@@ -406,9 +400,6 @@ class APIGateway {
     required String properties,
     required String restApiId,
   }) async {
-    ArgumentError.checkNotNull(location, 'location');
-    ArgumentError.checkNotNull(properties, 'properties');
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
     final $payload = <String, dynamic>{
       'location': location,
       'properties': properties,
@@ -448,8 +439,6 @@ class APIGateway {
     String? description,
     String? stageName,
   }) async {
-    ArgumentError.checkNotNull(documentationVersion, 'documentationVersion');
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
     final $payload = <String, dynamic>{
       'documentationVersion': documentationVersion,
       if (description != null) 'description': description,
@@ -538,7 +527,6 @@ class APIGateway {
     SecurityPolicy? securityPolicy,
     Map<String, String>? tags,
   }) async {
-    ArgumentError.checkNotNull(domainName, 'domainName');
     final $payload = <String, dynamic>{
       'domainName': domainName,
       if (certificateArn != null) 'certificateArn': certificateArn,
@@ -600,9 +588,6 @@ class APIGateway {
     String? description,
     String? schema,
   }) async {
-    ArgumentError.checkNotNull(contentType, 'contentType');
-    ArgumentError.checkNotNull(name, 'name');
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
     final $payload = <String, dynamic>{
       'contentType': contentType,
       'name': name,
@@ -646,7 +631,6 @@ class APIGateway {
     bool? validateRequestBody,
     bool? validateRequestParameters,
   }) async {
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
     final $payload = <String, dynamic>{
       if (name != null) 'name': name,
       if (validateRequestBody != null)
@@ -686,9 +670,6 @@ class APIGateway {
     required String pathPart,
     required String restApiId,
   }) async {
-    ArgumentError.checkNotNull(parentId, 'parentId');
-    ArgumentError.checkNotNull(pathPart, 'pathPart');
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
     final $payload = <String, dynamic>{
       'pathPart': pathPart,
     };
@@ -775,7 +756,6 @@ class APIGateway {
     Map<String, String>? tags,
     String? version,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
     final $payload = <String, dynamic>{
       'name': name,
       if (apiKeySource != null) 'apiKeySource': apiKeySource.toValue(),
@@ -864,9 +844,6 @@ class APIGateway {
     bool? tracingEnabled,
     Map<String, String>? variables,
   }) async {
-    ArgumentError.checkNotNull(deploymentId, 'deploymentId');
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
-    ArgumentError.checkNotNull(stageName, 'stageName');
     final $payload = <String, dynamic>{
       'deploymentId': deploymentId,
       'stageName': stageName,
@@ -928,7 +905,6 @@ class APIGateway {
     Map<String, String>? tags,
     ThrottleSettings? throttle,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
     final $payload = <String, dynamic>{
       'name': name,
       if (apiStages != null) 'apiStages': apiStages,
@@ -970,9 +946,6 @@ class APIGateway {
     required String keyType,
     required String usagePlanId,
   }) async {
-    ArgumentError.checkNotNull(keyId, 'keyId');
-    ArgumentError.checkNotNull(keyType, 'keyType');
-    ArgumentError.checkNotNull(usagePlanId, 'usagePlanId');
     final $payload = <String, dynamic>{
       'keyId': keyId,
       'keyType': keyType,
@@ -1016,8 +989,6 @@ class APIGateway {
     String? description,
     Map<String, String>? tags,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    ArgumentError.checkNotNull(targetArns, 'targetArns');
     final $payload = <String, dynamic>{
       'name': name,
       'targetArns': targetArns,
@@ -1044,7 +1015,6 @@ class APIGateway {
   Future<void> deleteApiKey({
     required String apiKey,
   }) async {
-    ArgumentError.checkNotNull(apiKey, 'apiKey');
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1073,8 +1043,6 @@ class APIGateway {
     required String authorizerId,
     required String restApiId,
   }) async {
-    ArgumentError.checkNotNull(authorizerId, 'authorizerId');
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1106,8 +1074,6 @@ class APIGateway {
     required String basePath,
     required String domainName,
   }) async {
-    ArgumentError.checkNotNull(basePath, 'basePath');
-    ArgumentError.checkNotNull(domainName, 'domainName');
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1130,7 +1096,6 @@ class APIGateway {
   Future<void> deleteClientCertificate({
     required String clientCertificateId,
   }) async {
-    ArgumentError.checkNotNull(clientCertificateId, 'clientCertificateId');
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1157,8 +1122,6 @@ class APIGateway {
     required String deploymentId,
     required String restApiId,
   }) async {
-    ArgumentError.checkNotNull(deploymentId, 'deploymentId');
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1184,8 +1147,6 @@ class APIGateway {
     required String documentationPartId,
     required String restApiId,
   }) async {
-    ArgumentError.checkNotNull(documentationPartId, 'documentationPartId');
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1212,8 +1173,6 @@ class APIGateway {
     required String documentationVersion,
     required String restApiId,
   }) async {
-    ArgumentError.checkNotNull(documentationVersion, 'documentationVersion');
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1235,7 +1194,6 @@ class APIGateway {
   Future<void> deleteDomainName({
     required String domainName,
   }) async {
-    ArgumentError.checkNotNull(domainName, 'domainName');
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1288,8 +1246,6 @@ class APIGateway {
     required GatewayResponseType responseType,
     required String restApiId,
   }) async {
-    ArgumentError.checkNotNull(responseType, 'responseType');
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1319,9 +1275,6 @@ class APIGateway {
     required String resourceId,
     required String restApiId,
   }) async {
-    ArgumentError.checkNotNull(httpMethod, 'httpMethod');
-    ArgumentError.checkNotNull(resourceId, 'resourceId');
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1357,10 +1310,6 @@ class APIGateway {
     required String restApiId,
     required String statusCode,
   }) async {
-    ArgumentError.checkNotNull(httpMethod, 'httpMethod');
-    ArgumentError.checkNotNull(resourceId, 'resourceId');
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
-    ArgumentError.checkNotNull(statusCode, 'statusCode');
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1390,9 +1339,6 @@ class APIGateway {
     required String resourceId,
     required String restApiId,
   }) async {
-    ArgumentError.checkNotNull(httpMethod, 'httpMethod');
-    ArgumentError.checkNotNull(resourceId, 'resourceId');
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1429,10 +1375,6 @@ class APIGateway {
     required String restApiId,
     required String statusCode,
   }) async {
-    ArgumentError.checkNotNull(httpMethod, 'httpMethod');
-    ArgumentError.checkNotNull(resourceId, 'resourceId');
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
-    ArgumentError.checkNotNull(statusCode, 'statusCode');
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1459,8 +1401,6 @@ class APIGateway {
     required String modelName,
     required String restApiId,
   }) async {
-    ArgumentError.checkNotNull(modelName, 'modelName');
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1487,8 +1427,6 @@ class APIGateway {
     required String requestValidatorId,
     required String restApiId,
   }) async {
-    ArgumentError.checkNotNull(requestValidatorId, 'requestValidatorId');
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1515,8 +1453,6 @@ class APIGateway {
     required String resourceId,
     required String restApiId,
   }) async {
-    ArgumentError.checkNotNull(resourceId, 'resourceId');
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1538,7 +1474,6 @@ class APIGateway {
   Future<void> deleteRestApi({
     required String restApiId,
   }) async {
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1563,8 +1498,6 @@ class APIGateway {
     required String restApiId,
     required String stageName,
   }) async {
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
-    ArgumentError.checkNotNull(stageName, 'stageName');
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1586,7 +1519,6 @@ class APIGateway {
   Future<void> deleteUsagePlan({
     required String usagePlanId,
   }) async {
-    ArgumentError.checkNotNull(usagePlanId, 'usagePlanId');
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1615,8 +1547,6 @@ class APIGateway {
     required String keyId,
     required String usagePlanId,
   }) async {
-    ArgumentError.checkNotNull(keyId, 'keyId');
-    ArgumentError.checkNotNull(usagePlanId, 'usagePlanId');
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1639,7 +1569,6 @@ class APIGateway {
   Future<void> deleteVpcLink({
     required String vpcLinkId,
   }) async {
-    ArgumentError.checkNotNull(vpcLinkId, 'vpcLinkId');
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1664,8 +1593,6 @@ class APIGateway {
     required String restApiId,
     required String stageName,
   }) async {
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
-    ArgumentError.checkNotNull(stageName, 'stageName');
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1691,8 +1618,6 @@ class APIGateway {
     required String restApiId,
     required String stageName,
   }) async {
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
-    ArgumentError.checkNotNull(stageName, 'stageName');
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1763,7 +1688,6 @@ class APIGateway {
     required String apiKey,
     bool? includeValue,
   }) async {
-    ArgumentError.checkNotNull(apiKey, 'apiKey');
     final $query = <String, List<String>>{
       if (includeValue != null) 'includeValue': [includeValue.toString()],
     };
@@ -1842,8 +1766,6 @@ class APIGateway {
     required String authorizerId,
     required String restApiId,
   }) async {
-    ArgumentError.checkNotNull(authorizerId, 'authorizerId');
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1878,7 +1800,6 @@ class APIGateway {
     int? limit,
     String? position,
   }) async {
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
     final $query = <String, List<String>>{
       if (limit != null) 'limit': [limit.toString()],
       if (position != null) 'position': [position],
@@ -1912,8 +1833,6 @@ class APIGateway {
     required String basePath,
     required String domainName,
   }) async {
-    ArgumentError.checkNotNull(basePath, 'basePath');
-    ArgumentError.checkNotNull(domainName, 'domainName');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1944,7 +1863,6 @@ class APIGateway {
     int? limit,
     String? position,
   }) async {
-    ArgumentError.checkNotNull(domainName, 'domainName');
     final $query = <String, List<String>>{
       if (limit != null) 'limit': [limit.toString()],
       if (position != null) 'position': [position],
@@ -1972,7 +1890,6 @@ class APIGateway {
   Future<ClientCertificate> getClientCertificate({
     required String clientCertificateId,
   }) async {
-    ArgumentError.checkNotNull(clientCertificateId, 'clientCertificateId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -2044,8 +1961,6 @@ class APIGateway {
     required String restApiId,
     List<String>? embed,
   }) async {
-    ArgumentError.checkNotNull(deploymentId, 'deploymentId');
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
     final $query = <String, List<String>>{
       if (embed != null) 'embed': embed,
     };
@@ -2082,7 +1997,6 @@ class APIGateway {
     int? limit,
     String? position,
   }) async {
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
     final $query = <String, List<String>>{
       if (limit != null) 'limit': [limit.toString()],
       if (position != null) 'position': [position],
@@ -2111,8 +2025,6 @@ class APIGateway {
     required String documentationPartId,
     required String restApiId,
   }) async {
-    ArgumentError.checkNotNull(documentationPartId, 'documentationPartId');
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -2162,7 +2074,6 @@ class APIGateway {
     String? position,
     DocumentationPartType? type,
   }) async {
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
     final $query = <String, List<String>>{
       if (limit != null) 'limit': [limit.toString()],
       if (locationStatus != null) 'locationStatus': [locationStatus.toValue()],
@@ -2197,8 +2108,6 @@ class APIGateway {
     required String documentationVersion,
     required String restApiId,
   }) async {
-    ArgumentError.checkNotNull(documentationVersion, 'documentationVersion');
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -2229,7 +2138,6 @@ class APIGateway {
     int? limit,
     String? position,
   }) async {
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
     final $query = <String, List<String>>{
       if (limit != null) 'limit': [limit.toString()],
       if (position != null) 'position': [position],
@@ -2258,7 +2166,6 @@ class APIGateway {
   Future<DomainName> getDomainName({
     required String domainName,
   }) async {
-    ArgumentError.checkNotNull(domainName, 'domainName');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -2342,9 +2249,6 @@ class APIGateway {
     String? accepts,
     Map<String, String>? parameters,
   }) async {
-    ArgumentError.checkNotNull(exportType, 'exportType');
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
-    ArgumentError.checkNotNull(stageName, 'stageName');
     final headers = <String, String>{
       if (accepts != null) 'Accept': accepts.toString(),
     };
@@ -2411,8 +2315,6 @@ class APIGateway {
     required GatewayResponseType responseType,
     required String restApiId,
   }) async {
-    ArgumentError.checkNotNull(responseType, 'responseType');
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -2450,7 +2352,6 @@ class APIGateway {
     int? limit,
     String? position,
   }) async {
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
     final $query = <String, List<String>>{
       if (limit != null) 'limit': [limit.toString()],
       if (position != null) 'position': [position],
@@ -2485,9 +2386,6 @@ class APIGateway {
     required String resourceId,
     required String restApiId,
   }) async {
-    ArgumentError.checkNotNull(httpMethod, 'httpMethod');
-    ArgumentError.checkNotNull(resourceId, 'resourceId');
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -2522,10 +2420,6 @@ class APIGateway {
     required String restApiId,
     required String statusCode,
   }) async {
-    ArgumentError.checkNotNull(httpMethod, 'httpMethod');
-    ArgumentError.checkNotNull(resourceId, 'resourceId');
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
-    ArgumentError.checkNotNull(statusCode, 'statusCode');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -2555,9 +2449,6 @@ class APIGateway {
     required String resourceId,
     required String restApiId,
   }) async {
-    ArgumentError.checkNotNull(httpMethod, 'httpMethod');
-    ArgumentError.checkNotNull(resourceId, 'resourceId');
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -2592,10 +2483,6 @@ class APIGateway {
     required String restApiId,
     required String statusCode,
   }) async {
-    ArgumentError.checkNotNull(httpMethod, 'httpMethod');
-    ArgumentError.checkNotNull(resourceId, 'resourceId');
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
-    ArgumentError.checkNotNull(statusCode, 'statusCode');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -2628,8 +2515,6 @@ class APIGateway {
     required String restApiId,
     bool? flatten,
   }) async {
-    ArgumentError.checkNotNull(modelName, 'modelName');
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
     final $query = <String, List<String>>{
       if (flatten != null) 'flatten': [flatten.toString()],
     };
@@ -2661,8 +2546,6 @@ class APIGateway {
     required String modelName,
     required String restApiId,
   }) async {
-    ArgumentError.checkNotNull(modelName, 'modelName');
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -2694,7 +2577,6 @@ class APIGateway {
     int? limit,
     String? position,
   }) async {
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
     final $query = <String, List<String>>{
       if (limit != null) 'limit': [limit.toString()],
       if (position != null) 'position': [position],
@@ -2724,8 +2606,6 @@ class APIGateway {
     required String requestValidatorId,
     required String restApiId,
   }) async {
-    ArgumentError.checkNotNull(requestValidatorId, 'requestValidatorId');
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -2757,7 +2637,6 @@ class APIGateway {
     int? limit,
     String? position,
   }) async {
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
     final $query = <String, List<String>>{
       if (limit != null) 'limit': [limit.toString()],
       if (position != null) 'position': [position],
@@ -2799,8 +2678,6 @@ class APIGateway {
     required String restApiId,
     List<String>? embed,
   }) async {
-    ArgumentError.checkNotNull(resourceId, 'resourceId');
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
     final $query = <String, List<String>>{
       if (embed != null) 'embed': embed,
     };
@@ -2846,7 +2723,6 @@ class APIGateway {
     int? limit,
     String? position,
   }) async {
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
     final $query = <String, List<String>>{
       if (embed != null) 'embed': embed,
       if (limit != null) 'limit': [limit.toString()],
@@ -2873,7 +2749,6 @@ class APIGateway {
   Future<RestApi> getRestApi({
     required String restApiId,
   }) async {
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -2949,9 +2824,6 @@ class APIGateway {
     required String stageName,
     Map<String, String>? parameters,
   }) async {
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
-    ArgumentError.checkNotNull(sdkType, 'sdkType');
-    ArgumentError.checkNotNull(stageName, 'stageName');
     final $query = <String, List<String>>{
       if (parameters != null)
         for (var e in parameters.entries) e.key: [e.value],
@@ -2983,7 +2855,6 @@ class APIGateway {
   Future<SdkType> getSdkType({
     required String id,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -3036,8 +2907,6 @@ class APIGateway {
     required String restApiId,
     required String stageName,
   }) async {
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
-    ArgumentError.checkNotNull(stageName, 'stageName');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -3063,7 +2932,6 @@ class APIGateway {
     required String restApiId,
     String? deploymentId,
   }) async {
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
     final $query = <String, List<String>>{
       if (deploymentId != null) 'deploymentId': [deploymentId],
     };
@@ -3100,7 +2968,6 @@ class APIGateway {
     int? limit,
     String? position,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final $query = <String, List<String>>{
       if (limit != null) 'limit': [limit.toString()],
       if (position != null) 'position': [position],
@@ -3148,9 +3015,6 @@ class APIGateway {
     int? limit,
     String? position,
   }) async {
-    ArgumentError.checkNotNull(endDate, 'endDate');
-    ArgumentError.checkNotNull(startDate, 'startDate');
-    ArgumentError.checkNotNull(usagePlanId, 'usagePlanId');
     final $query = <String, List<String>>{
       'endDate': [endDate],
       'startDate': [startDate],
@@ -3181,7 +3045,6 @@ class APIGateway {
   Future<UsagePlan> getUsagePlan({
     required String usagePlanId,
   }) async {
-    ArgumentError.checkNotNull(usagePlanId, 'usagePlanId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -3210,8 +3073,6 @@ class APIGateway {
     required String keyId,
     required String usagePlanId,
   }) async {
-    ArgumentError.checkNotNull(keyId, 'keyId');
-    ArgumentError.checkNotNull(usagePlanId, 'usagePlanId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -3251,7 +3112,6 @@ class APIGateway {
     String? nameQuery,
     String? position,
   }) async {
-    ArgumentError.checkNotNull(usagePlanId, 'usagePlanId');
     final $query = <String, List<String>>{
       if (limit != null) 'limit': [limit.toString()],
       if (nameQuery != null) 'name': [nameQuery],
@@ -3316,7 +3176,6 @@ class APIGateway {
   Future<VpcLink> getVpcLink({
     required String vpcLinkId,
   }) async {
-    ArgumentError.checkNotNull(vpcLinkId, 'vpcLinkId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -3385,8 +3244,6 @@ class APIGateway {
     required ApiKeysFormat format,
     bool? failOnWarnings,
   }) async {
-    ArgumentError.checkNotNull(body, 'body');
-    ArgumentError.checkNotNull(format, 'format');
     final $query = <String, List<String>>{
       'format': [format.toValue()],
       if (failOnWarnings != null) 'failonwarnings': [failOnWarnings.toString()],
@@ -3431,8 +3288,6 @@ class APIGateway {
     bool? failOnWarnings,
     PutMode? mode,
   }) async {
-    ArgumentError.checkNotNull(body, 'body');
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
     final $query = <String, List<String>>{
       if (failOnWarnings != null) 'failonwarnings': [failOnWarnings.toString()],
       if (mode != null) 'mode': [mode.toValue()],
@@ -3499,7 +3354,6 @@ class APIGateway {
     bool? failOnWarnings,
     Map<String, String>? parameters,
   }) async {
-    ArgumentError.checkNotNull(body, 'body');
     final $query = <String, List<String>>{
       if (failOnWarnings != null) 'failonwarnings': [failOnWarnings.toString()],
       if (parameters != null)
@@ -3576,8 +3430,6 @@ class APIGateway {
     Map<String, String>? responseTemplates,
     String? statusCode,
   }) async {
-    ArgumentError.checkNotNull(responseType, 'responseType');
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
     final $payload = <String, dynamic>{
       if (responseParameters != null) 'responseParameters': responseParameters,
       if (responseTemplates != null) 'responseTemplates': responseTemplates,
@@ -3766,10 +3618,6 @@ class APIGateway {
     TlsConfig? tlsConfig,
     String? uri,
   }) async {
-    ArgumentError.checkNotNull(httpMethod, 'httpMethod');
-    ArgumentError.checkNotNull(resourceId, 'resourceId');
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
-    ArgumentError.checkNotNull(type, 'type');
     final $payload = <String, dynamic>{
       'type': type.toValue(),
       if (cacheKeyParameters != null) 'cacheKeyParameters': cacheKeyParameters,
@@ -3869,10 +3717,6 @@ class APIGateway {
     Map<String, String>? responseTemplates,
     String? selectionPattern,
   }) async {
-    ArgumentError.checkNotNull(httpMethod, 'httpMethod');
-    ArgumentError.checkNotNull(resourceId, 'resourceId');
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
-    ArgumentError.checkNotNull(statusCode, 'statusCode');
     final $payload = <String, dynamic>{
       if (contentHandling != null) 'contentHandling': contentHandling.toValue(),
       if (responseParameters != null) 'responseParameters': responseParameters,
@@ -3971,10 +3815,6 @@ class APIGateway {
     Map<String, bool>? requestParameters,
     String? requestValidatorId,
   }) async {
-    ArgumentError.checkNotNull(authorizationType, 'authorizationType');
-    ArgumentError.checkNotNull(httpMethod, 'httpMethod');
-    ArgumentError.checkNotNull(resourceId, 'resourceId');
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
     final $payload = <String, dynamic>{
       'authorizationType': authorizationType,
       if (apiKeyRequired != null) 'apiKeyRequired': apiKeyRequired,
@@ -4046,10 +3886,6 @@ class APIGateway {
     Map<String, String>? responseModels,
     Map<String, bool>? responseParameters,
   }) async {
-    ArgumentError.checkNotNull(httpMethod, 'httpMethod');
-    ArgumentError.checkNotNull(resourceId, 'resourceId');
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
-    ArgumentError.checkNotNull(statusCode, 'statusCode');
     final $payload = <String, dynamic>{
       if (responseModels != null) 'responseModels': responseModels,
       if (responseParameters != null) 'responseParameters': responseParameters,
@@ -4108,8 +3944,6 @@ class APIGateway {
     PutMode? mode,
     Map<String, String>? parameters,
   }) async {
-    ArgumentError.checkNotNull(body, 'body');
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
     final $query = <String, List<String>>{
       if (failOnWarnings != null) 'failonwarnings': [failOnWarnings.toString()],
       if (mode != null) 'mode': [mode.toValue()],
@@ -4146,8 +3980,6 @@ class APIGateway {
     required String resourceArn,
     required Map<String, String> tags,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
       'tags': tags,
     };
@@ -4213,8 +4045,6 @@ class APIGateway {
     String? pathWithQueryString,
     Map<String, String>? stageVariables,
   }) async {
-    ArgumentError.checkNotNull(authorizerId, 'authorizerId');
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
     final $payload = <String, dynamic>{
       if (additionalContext != null) 'additionalContext': additionalContext,
       if (body != null) 'body': body,
@@ -4284,9 +4114,6 @@ class APIGateway {
     String? pathWithQueryString,
     Map<String, String>? stageVariables,
   }) async {
-    ArgumentError.checkNotNull(httpMethod, 'httpMethod');
-    ArgumentError.checkNotNull(resourceId, 'resourceId');
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
     final $payload = <String, dynamic>{
       if (body != null) 'body': body,
       if (clientCertificateId != null)
@@ -4324,8 +4151,6 @@ class APIGateway {
     required String resourceArn,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
       'tagKeys': tagKeys,
     };
@@ -4381,7 +4206,6 @@ class APIGateway {
     required String apiKey,
     List<PatchOperation>? patchOperations,
   }) async {
-    ArgumentError.checkNotNull(apiKey, 'apiKey');
     final $payload = <String, dynamic>{
       if (patchOperations != null) 'patchOperations': patchOperations,
     };
@@ -4418,8 +4242,6 @@ class APIGateway {
     required String restApiId,
     List<PatchOperation>? patchOperations,
   }) async {
-    ArgumentError.checkNotNull(authorizerId, 'authorizerId');
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
     final $payload = <String, dynamic>{
       if (patchOperations != null) 'patchOperations': patchOperations,
     };
@@ -4459,8 +4281,6 @@ class APIGateway {
     required String domainName,
     List<PatchOperation>? patchOperations,
   }) async {
-    ArgumentError.checkNotNull(basePath, 'basePath');
-    ArgumentError.checkNotNull(domainName, 'domainName');
     final $payload = <String, dynamic>{
       if (patchOperations != null) 'patchOperations': patchOperations,
     };
@@ -4492,7 +4312,6 @@ class APIGateway {
     required String clientCertificateId,
     List<PatchOperation>? patchOperations,
   }) async {
-    ArgumentError.checkNotNull(clientCertificateId, 'clientCertificateId');
     final $payload = <String, dynamic>{
       if (patchOperations != null) 'patchOperations': patchOperations,
     };
@@ -4529,8 +4348,6 @@ class APIGateway {
     required String restApiId,
     List<PatchOperation>? patchOperations,
   }) async {
-    ArgumentError.checkNotNull(deploymentId, 'deploymentId');
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
     final $payload = <String, dynamic>{
       if (patchOperations != null) 'patchOperations': patchOperations,
     };
@@ -4566,8 +4383,6 @@ class APIGateway {
     required String restApiId,
     List<PatchOperation>? patchOperations,
   }) async {
-    ArgumentError.checkNotNull(documentationPartId, 'documentationPartId');
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
     final $payload = <String, dynamic>{
       if (patchOperations != null) 'patchOperations': patchOperations,
     };
@@ -4603,8 +4418,6 @@ class APIGateway {
     required String restApiId,
     List<PatchOperation>? patchOperations,
   }) async {
-    ArgumentError.checkNotNull(documentationVersion, 'documentationVersion');
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
     final $payload = <String, dynamic>{
       if (patchOperations != null) 'patchOperations': patchOperations,
     };
@@ -4636,7 +4449,6 @@ class APIGateway {
     required String domainName,
     List<PatchOperation>? patchOperations,
   }) async {
-    ArgumentError.checkNotNull(domainName, 'domainName');
     final $payload = <String, dynamic>{
       if (patchOperations != null) 'patchOperations': patchOperations,
     };
@@ -4696,8 +4508,6 @@ class APIGateway {
     required String restApiId,
     List<PatchOperation>? patchOperations,
   }) async {
-    ArgumentError.checkNotNull(responseType, 'responseType');
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
     final $payload = <String, dynamic>{
       if (patchOperations != null) 'patchOperations': patchOperations,
     };
@@ -4737,9 +4547,6 @@ class APIGateway {
     required String restApiId,
     List<PatchOperation>? patchOperations,
   }) async {
-    ArgumentError.checkNotNull(httpMethod, 'httpMethod');
-    ArgumentError.checkNotNull(resourceId, 'resourceId');
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
     final $payload = <String, dynamic>{
       if (patchOperations != null) 'patchOperations': patchOperations,
     };
@@ -4784,10 +4591,6 @@ class APIGateway {
     required String statusCode,
     List<PatchOperation>? patchOperations,
   }) async {
-    ArgumentError.checkNotNull(httpMethod, 'httpMethod');
-    ArgumentError.checkNotNull(resourceId, 'resourceId');
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
-    ArgumentError.checkNotNull(statusCode, 'statusCode');
     final $payload = <String, dynamic>{
       if (patchOperations != null) 'patchOperations': patchOperations,
     };
@@ -4827,9 +4630,6 @@ class APIGateway {
     required String restApiId,
     List<PatchOperation>? patchOperations,
   }) async {
-    ArgumentError.checkNotNull(httpMethod, 'httpMethod');
-    ArgumentError.checkNotNull(resourceId, 'resourceId');
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
     final $payload = <String, dynamic>{
       if (patchOperations != null) 'patchOperations': patchOperations,
     };
@@ -4875,10 +4675,6 @@ class APIGateway {
     required String statusCode,
     List<PatchOperation>? patchOperations,
   }) async {
-    ArgumentError.checkNotNull(httpMethod, 'httpMethod');
-    ArgumentError.checkNotNull(resourceId, 'resourceId');
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
-    ArgumentError.checkNotNull(statusCode, 'statusCode');
     final $payload = <String, dynamic>{
       if (patchOperations != null) 'patchOperations': patchOperations,
     };
@@ -4914,8 +4710,6 @@ class APIGateway {
     required String restApiId,
     List<PatchOperation>? patchOperations,
   }) async {
-    ArgumentError.checkNotNull(modelName, 'modelName');
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
     final $payload = <String, dynamic>{
       if (patchOperations != null) 'patchOperations': patchOperations,
     };
@@ -4950,8 +4744,6 @@ class APIGateway {
     required String restApiId,
     List<PatchOperation>? patchOperations,
   }) async {
-    ArgumentError.checkNotNull(requestValidatorId, 'requestValidatorId');
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
     final $payload = <String, dynamic>{
       if (patchOperations != null) 'patchOperations': patchOperations,
     };
@@ -4987,8 +4779,6 @@ class APIGateway {
     required String restApiId,
     List<PatchOperation>? patchOperations,
   }) async {
-    ArgumentError.checkNotNull(resourceId, 'resourceId');
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
     final $payload = <String, dynamic>{
       if (patchOperations != null) 'patchOperations': patchOperations,
     };
@@ -5020,7 +4810,6 @@ class APIGateway {
     required String restApiId,
     List<PatchOperation>? patchOperations,
   }) async {
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
     final $payload = <String, dynamic>{
       if (patchOperations != null) 'patchOperations': patchOperations,
     };
@@ -5056,8 +4845,6 @@ class APIGateway {
     required String stageName,
     List<PatchOperation>? patchOperations,
   }) async {
-    ArgumentError.checkNotNull(restApiId, 'restApiId');
-    ArgumentError.checkNotNull(stageName, 'stageName');
     final $payload = <String, dynamic>{
       if (patchOperations != null) 'patchOperations': patchOperations,
     };
@@ -5094,8 +4881,6 @@ class APIGateway {
     required String usagePlanId,
     List<PatchOperation>? patchOperations,
   }) async {
-    ArgumentError.checkNotNull(keyId, 'keyId');
-    ArgumentError.checkNotNull(usagePlanId, 'usagePlanId');
     final $payload = <String, dynamic>{
       if (patchOperations != null) 'patchOperations': patchOperations,
     };
@@ -5127,7 +4912,6 @@ class APIGateway {
     required String usagePlanId,
     List<PatchOperation>? patchOperations,
   }) async {
-    ArgumentError.checkNotNull(usagePlanId, 'usagePlanId');
     final $payload = <String, dynamic>{
       if (patchOperations != null) 'patchOperations': patchOperations,
     };
@@ -5159,7 +4943,6 @@ class APIGateway {
     required String vpcLinkId,
     List<PatchOperation>? patchOperations,
   }) async {
-    ArgumentError.checkNotNull(vpcLinkId, 'vpcLinkId');
     final $payload = <String, dynamic>{
       if (patchOperations != null) 'patchOperations': patchOperations,
     };

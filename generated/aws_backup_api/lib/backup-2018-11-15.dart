@@ -82,7 +82,6 @@ class Backup {
     Map<String, String>? backupPlanTags,
     String? creatorRequestId,
   }) async {
-    ArgumentError.checkNotNull(backupPlan, 'backupPlan');
     final $payload = <String, dynamic>{
       'BackupPlan': backupPlan,
       if (backupPlanTags != null) 'BackupPlanTags': backupPlanTags,
@@ -155,8 +154,6 @@ class Backup {
     required BackupSelection backupSelection,
     String? creatorRequestId,
   }) async {
-    ArgumentError.checkNotNull(backupPlanId, 'backupPlanId');
-    ArgumentError.checkNotNull(backupSelection, 'backupSelection');
     final $payload = <String, dynamic>{
       'BackupSelection': backupSelection,
       if (creatorRequestId != null) 'CreatorRequestId': creatorRequestId,
@@ -209,7 +206,6 @@ class Backup {
     String? creatorRequestId,
     String? encryptionKeyArn,
   }) async {
-    ArgumentError.checkNotNull(backupVaultName, 'backupVaultName');
     final $payload = <String, dynamic>{
       if (backupVaultTags != null) 'BackupVaultTags': backupVaultTags,
       if (creatorRequestId != null) 'CreatorRequestId': creatorRequestId,
@@ -240,7 +236,6 @@ class Backup {
   Future<DeleteBackupPlanOutput> deleteBackupPlan({
     required String backupPlanId,
   }) async {
-    ArgumentError.checkNotNull(backupPlanId, 'backupPlanId');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -268,8 +263,6 @@ class Backup {
     required String backupPlanId,
     required String selectionId,
   }) async {
-    ArgumentError.checkNotNull(backupPlanId, 'backupPlanId');
-    ArgumentError.checkNotNull(selectionId, 'selectionId');
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -296,7 +289,6 @@ class Backup {
   Future<void> deleteBackupVault({
     required String backupVaultName,
   }) async {
-    ArgumentError.checkNotNull(backupVaultName, 'backupVaultName');
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -320,7 +312,6 @@ class Backup {
   Future<void> deleteBackupVaultAccessPolicy({
     required String backupVaultName,
   }) async {
-    ArgumentError.checkNotNull(backupVaultName, 'backupVaultName');
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -345,7 +336,6 @@ class Backup {
   Future<void> deleteBackupVaultNotifications({
     required String backupVaultName,
   }) async {
-    ArgumentError.checkNotNull(backupVaultName, 'backupVaultName');
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -377,8 +367,6 @@ class Backup {
     required String backupVaultName,
     required String recoveryPointArn,
   }) async {
-    ArgumentError.checkNotNull(backupVaultName, 'backupVaultName');
-    ArgumentError.checkNotNull(recoveryPointArn, 'recoveryPointArn');
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -401,7 +389,6 @@ class Backup {
   Future<DescribeBackupJobOutput> describeBackupJob({
     required String backupJobId,
   }) async {
-    ArgumentError.checkNotNull(backupJobId, 'backupJobId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -426,7 +413,6 @@ class Backup {
   Future<DescribeBackupVaultOutput> describeBackupVault({
     required String backupVaultName,
   }) async {
-    ArgumentError.checkNotNull(backupVaultName, 'backupVaultName');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -448,7 +434,6 @@ class Backup {
   Future<DescribeCopyJobOutput> describeCopyJob({
     required String copyJobId,
   }) async {
-    ArgumentError.checkNotNull(copyJobId, 'copyJobId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -486,7 +471,6 @@ class Backup {
   Future<DescribeProtectedResourceOutput> describeProtectedResource({
     required String resourceArn,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -518,8 +502,6 @@ class Backup {
     required String backupVaultName,
     required String recoveryPointArn,
   }) async {
-    ArgumentError.checkNotNull(backupVaultName, 'backupVaultName');
-    ArgumentError.checkNotNull(recoveryPointArn, 'recoveryPointArn');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -562,7 +544,6 @@ class Backup {
   Future<DescribeRestoreJobOutput> describeRestoreJob({
     required String restoreJobId,
   }) async {
-    ArgumentError.checkNotNull(restoreJobId, 'restoreJobId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -585,7 +566,6 @@ class Backup {
   Future<ExportBackupPlanTemplateOutput> exportBackupPlanTemplate({
     required String backupPlanId,
   }) async {
-    ArgumentError.checkNotNull(backupPlanId, 'backupPlanId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -615,7 +595,6 @@ class Backup {
     required String backupPlanId,
     String? versionId,
   }) async {
-    ArgumentError.checkNotNull(backupPlanId, 'backupPlanId');
     final $query = <String, List<String>>{
       if (versionId != null) 'versionId': [versionId],
     };
@@ -642,8 +621,6 @@ class Backup {
   Future<GetBackupPlanFromJSONOutput> getBackupPlanFromJSON({
     required String backupPlanTemplateJson,
   }) async {
-    ArgumentError.checkNotNull(
-        backupPlanTemplateJson, 'backupPlanTemplateJson');
     final $payload = <String, dynamic>{
       'BackupPlanTemplateJson': backupPlanTemplateJson,
     };
@@ -669,7 +646,6 @@ class Backup {
   Future<GetBackupPlanFromTemplateOutput> getBackupPlanFromTemplate({
     required String backupPlanTemplateId,
   }) async {
-    ArgumentError.checkNotNull(backupPlanTemplateId, 'backupPlanTemplateId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -698,8 +674,6 @@ class Backup {
     required String backupPlanId,
     required String selectionId,
   }) async {
-    ArgumentError.checkNotNull(backupPlanId, 'backupPlanId');
-    ArgumentError.checkNotNull(selectionId, 'selectionId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -726,7 +700,6 @@ class Backup {
   Future<GetBackupVaultAccessPolicyOutput> getBackupVaultAccessPolicy({
     required String backupVaultName,
   }) async {
-    ArgumentError.checkNotNull(backupVaultName, 'backupVaultName');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -752,7 +725,6 @@ class Backup {
   Future<GetBackupVaultNotificationsOutput> getBackupVaultNotifications({
     required String backupVaultName,
   }) async {
-    ArgumentError.checkNotNull(backupVaultName, 'backupVaultName');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -786,8 +758,6 @@ class Backup {
     required String backupVaultName,
     required String recoveryPointArn,
   }) async {
-    ArgumentError.checkNotNull(backupVaultName, 'backupVaultName');
-    ArgumentError.checkNotNull(recoveryPointArn, 'recoveryPointArn');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -976,7 +946,6 @@ class Backup {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(backupPlanId, 'backupPlanId');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1071,7 +1040,6 @@ class Backup {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(backupPlanId, 'backupPlanId');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1323,7 +1291,6 @@ class Backup {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(backupVaultName, 'backupVaultName');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1377,7 +1344,6 @@ class Backup {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1493,7 +1459,6 @@ class Backup {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1535,7 +1500,6 @@ class Backup {
     required String backupVaultName,
     String? policy,
   }) async {
-    ArgumentError.checkNotNull(backupVaultName, 'backupVaultName');
     final $payload = <String, dynamic>{
       if (policy != null) 'Policy': policy,
     };
@@ -1575,9 +1539,6 @@ class Backup {
     required String backupVaultName,
     required String sNSTopicArn,
   }) async {
-    ArgumentError.checkNotNull(backupVaultEvents, 'backupVaultEvents');
-    ArgumentError.checkNotNull(backupVaultName, 'backupVaultName');
-    ArgumentError.checkNotNull(sNSTopicArn, 'sNSTopicArn');
     final $payload = <String, dynamic>{
       'BackupVaultEvents': backupVaultEvents.map((e) => e.toValue()).toList(),
       'SNSTopicArn': sNSTopicArn,
@@ -1661,9 +1622,6 @@ class Backup {
     Map<String, String>? recoveryPointTags,
     int? startWindowMinutes,
   }) async {
-    ArgumentError.checkNotNull(backupVaultName, 'backupVaultName');
-    ArgumentError.checkNotNull(iamRoleArn, 'iamRoleArn');
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final $payload = <String, dynamic>{
       'BackupVaultName': backupVaultName,
       'IamRoleArn': iamRoleArn,
@@ -1724,11 +1682,6 @@ class Backup {
     String? idempotencyToken,
     Lifecycle? lifecycle,
   }) async {
-    ArgumentError.checkNotNull(
-        destinationBackupVaultArn, 'destinationBackupVaultArn');
-    ArgumentError.checkNotNull(iamRoleArn, 'iamRoleArn');
-    ArgumentError.checkNotNull(recoveryPointArn, 'recoveryPointArn');
-    ArgumentError.checkNotNull(sourceBackupVaultName, 'sourceBackupVaultName');
     final $payload = <String, dynamic>{
       'DestinationBackupVaultArn': destinationBackupVaultArn,
       'IamRoleArn': iamRoleArn,
@@ -1847,9 +1800,6 @@ class Backup {
     String? idempotencyToken,
     String? resourceType,
   }) async {
-    ArgumentError.checkNotNull(iamRoleArn, 'iamRoleArn');
-    ArgumentError.checkNotNull(metadata, 'metadata');
-    ArgumentError.checkNotNull(recoveryPointArn, 'recoveryPointArn');
     final $payload = <String, dynamic>{
       'IamRoleArn': iamRoleArn,
       'Metadata': metadata,
@@ -1879,7 +1829,6 @@ class Backup {
   Future<void> stopBackupJob({
     required String backupJobId,
   }) async {
-    ArgumentError.checkNotNull(backupJobId, 'backupJobId');
     await _protocol.send(
       payload: null,
       method: 'POST',
@@ -1908,8 +1857,6 @@ class Backup {
     required String resourceArn,
     required Map<String, String> tags,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
       'Tags': tags,
     };
@@ -1939,8 +1886,6 @@ class Backup {
     required String resourceArn,
     required List<String> tagKeyList,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    ArgumentError.checkNotNull(tagKeyList, 'tagKeyList');
     final $payload = <String, dynamic>{
       'TagKeyList': tagKeyList,
     };
@@ -1971,8 +1916,6 @@ class Backup {
     required BackupPlanInput backupPlan,
     required String backupPlanId,
   }) async {
-    ArgumentError.checkNotNull(backupPlan, 'backupPlan');
-    ArgumentError.checkNotNull(backupPlanId, 'backupPlanId');
     final $payload = <String, dynamic>{
       'BackupPlan': backupPlan,
     };
@@ -2052,8 +1995,6 @@ class Backup {
     required String recoveryPointArn,
     Lifecycle? lifecycle,
   }) async {
-    ArgumentError.checkNotNull(backupVaultName, 'backupVaultName');
-    ArgumentError.checkNotNull(recoveryPointArn, 'recoveryPointArn');
     final $payload = <String, dynamic>{
       if (lifecycle != null) 'Lifecycle': lifecycle,
     };

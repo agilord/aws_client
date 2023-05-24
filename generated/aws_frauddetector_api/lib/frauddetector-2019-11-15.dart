@@ -68,7 +68,6 @@ class FraudDetector {
     required List<VariableEntry> variableEntries,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(variableEntries, 'variableEntries');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.BatchCreateVariable'
@@ -100,7 +99,6 @@ class FraudDetector {
   Future<BatchGetVariableResult> batchGetVariable({
     required List<String> names,
   }) async {
-    ArgumentError.checkNotNull(names, 'names');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.BatchGetVariable'
@@ -169,21 +167,6 @@ class FraudDetector {
     RuleExecutionMode? ruleExecutionMode,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(detectorId, 'detectorId');
-    _s.validateStringLength(
-      'detectorId',
-      detectorId,
-      1,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(rules, 'rules');
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      128,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.CreateDetectorVersion'
@@ -237,22 +220,6 @@ class FraudDetector {
     String? description,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(eventTypeName, 'eventTypeName');
-    ArgumentError.checkNotNull(modelId, 'modelId');
-    _s.validateStringLength(
-      'modelId',
-      modelId,
-      1,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(modelType, 'modelType');
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      128,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.CreateModel'
@@ -308,17 +275,6 @@ class FraudDetector {
     ExternalEventsDetail? externalEventsDetail,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(modelId, 'modelId');
-    _s.validateStringLength(
-      'modelId',
-      modelId,
-      1,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(modelType, 'modelType');
-    ArgumentError.checkNotNull(trainingDataSchema, 'trainingDataSchema');
-    ArgumentError.checkNotNull(trainingDataSource, 'trainingDataSource');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.CreateModelVersion'
@@ -379,38 +335,6 @@ class FraudDetector {
     String? description,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(detectorId, 'detectorId');
-    _s.validateStringLength(
-      'detectorId',
-      detectorId,
-      1,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(expression, 'expression');
-    _s.validateStringLength(
-      'expression',
-      expression,
-      1,
-      4096,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(language, 'language');
-    ArgumentError.checkNotNull(outcomes, 'outcomes');
-    ArgumentError.checkNotNull(ruleId, 'ruleId');
-    _s.validateStringLength(
-      'ruleId',
-      ruleId,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      128,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.CreateRule'
@@ -482,10 +406,6 @@ class FraudDetector {
     List<Tag>? tags,
     String? variableType,
   }) async {
-    ArgumentError.checkNotNull(dataSource, 'dataSource');
-    ArgumentError.checkNotNull(dataType, 'dataType');
-    ArgumentError.checkNotNull(defaultValue, 'defaultValue');
-    ArgumentError.checkNotNull(name, 'name');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.CreateVariable'
@@ -525,14 +445,6 @@ class FraudDetector {
   Future<void> deleteDetector({
     required String detectorId,
   }) async {
-    ArgumentError.checkNotNull(detectorId, 'detectorId');
-    _s.validateStringLength(
-      'detectorId',
-      detectorId,
-      1,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.DeleteDetector'
@@ -572,22 +484,6 @@ class FraudDetector {
     required String detectorId,
     required String detectorVersionId,
   }) async {
-    ArgumentError.checkNotNull(detectorId, 'detectorId');
-    _s.validateStringLength(
-      'detectorId',
-      detectorId,
-      1,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(detectorVersionId, 'detectorVersionId');
-    _s.validateStringLength(
-      'detectorVersionId',
-      detectorVersionId,
-      1,
-      5,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.DeleteDetectorVersion'
@@ -623,14 +519,6 @@ class FraudDetector {
   Future<void> deleteEntityType({
     required String name,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.DeleteEntityType'
@@ -667,22 +555,6 @@ class FraudDetector {
     required String eventId,
     required String eventTypeName,
   }) async {
-    ArgumentError.checkNotNull(eventId, 'eventId');
-    _s.validateStringLength(
-      'eventId',
-      eventId,
-      1,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(eventTypeName, 'eventTypeName');
-    _s.validateStringLength(
-      'eventTypeName',
-      eventTypeName,
-      1,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.DeleteEvent'
@@ -718,14 +590,6 @@ class FraudDetector {
   Future<void> deleteEventType({
     required String name,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.DeleteEventType'
@@ -759,14 +623,6 @@ class FraudDetector {
   Future<void> deleteExternalModel({
     required String modelEndpoint,
   }) async {
-    ArgumentError.checkNotNull(modelEndpoint, 'modelEndpoint');
-    _s.validateStringLength(
-      'modelEndpoint',
-      modelEndpoint,
-      1,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.DeleteExternalModel'
@@ -804,14 +660,6 @@ class FraudDetector {
   Future<void> deleteLabel({
     required String name,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.DeleteLabel'
@@ -851,15 +699,6 @@ class FraudDetector {
     required String modelId,
     required ModelTypeEnum modelType,
   }) async {
-    ArgumentError.checkNotNull(modelId, 'modelId');
-    _s.validateStringLength(
-      'modelId',
-      modelId,
-      1,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(modelType, 'modelType');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.DeleteModel'
@@ -904,23 +743,6 @@ class FraudDetector {
     required ModelTypeEnum modelType,
     required String modelVersionNumber,
   }) async {
-    ArgumentError.checkNotNull(modelId, 'modelId');
-    _s.validateStringLength(
-      'modelId',
-      modelId,
-      1,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(modelType, 'modelType');
-    ArgumentError.checkNotNull(modelVersionNumber, 'modelVersionNumber');
-    _s.validateStringLength(
-      'modelVersionNumber',
-      modelVersionNumber,
-      3,
-      7,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.DeleteModelVersion'
@@ -958,14 +780,6 @@ class FraudDetector {
   Future<void> deleteOutcome({
     required String name,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.DeleteOutcome'
@@ -997,7 +811,6 @@ class FraudDetector {
   Future<void> deleteRule({
     required Rule rule,
   }) async {
-    ArgumentError.checkNotNull(rule, 'rule');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.DeleteRule'
@@ -1038,7 +851,6 @@ class FraudDetector {
   Future<void> deleteVariable({
     required String name,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.DeleteVariable'
@@ -1076,14 +888,6 @@ class FraudDetector {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(detectorId, 'detectorId');
-    _s.validateStringLength(
-      'detectorId',
-      detectorId,
-      1,
-      64,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1146,18 +950,6 @@ class FraudDetector {
       1,
       10,
     );
-    _s.validateStringLength(
-      'modelId',
-      modelId,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'modelVersionNumber',
-      modelVersionNumber,
-      3,
-      7,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.DescribeModelVersions'
@@ -1198,22 +990,6 @@ class FraudDetector {
     required String detectorId,
     required String detectorVersionId,
   }) async {
-    ArgumentError.checkNotNull(detectorId, 'detectorId');
-    _s.validateStringLength(
-      'detectorId',
-      detectorId,
-      1,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(detectorVersionId, 'detectorVersionId');
-    _s.validateStringLength(
-      'detectorVersionId',
-      detectorVersionId,
-      1,
-      5,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.GetDetectorVersion'
@@ -1260,12 +1036,6 @@ class FraudDetector {
     int? maxResults,
     String? nextToken,
   }) async {
-    _s.validateStringLength(
-      'detectorId',
-      detectorId,
-      1,
-      64,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1323,12 +1093,6 @@ class FraudDetector {
       maxResults,
       5,
       10,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      64,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1397,18 +1161,6 @@ class FraudDetector {
     String? detectorVersionId,
     Map<String, ModelEndpointDataBlob>? externalModelEndpointDataBlobs,
   }) async {
-    ArgumentError.checkNotNull(detectorId, 'detectorId');
-    ArgumentError.checkNotNull(entities, 'entities');
-    ArgumentError.checkNotNull(eventId, 'eventId');
-    ArgumentError.checkNotNull(eventTimestamp, 'eventTimestamp');
-    ArgumentError.checkNotNull(eventTypeName, 'eventTypeName');
-    ArgumentError.checkNotNull(eventVariables, 'eventVariables');
-    _s.validateStringLength(
-      'detectorVersionId',
-      detectorVersionId,
-      1,
-      5,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.GetEventPrediction'
@@ -1466,12 +1218,6 @@ class FraudDetector {
       maxResults,
       5,
       10,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      64,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1601,12 +1347,6 @@ class FraudDetector {
       10,
       50,
     );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      64,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.GetLabels'
@@ -1647,23 +1387,6 @@ class FraudDetector {
     required ModelTypeEnum modelType,
     required String modelVersionNumber,
   }) async {
-    ArgumentError.checkNotNull(modelId, 'modelId');
-    _s.validateStringLength(
-      'modelId',
-      modelId,
-      1,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(modelType, 'modelType');
-    ArgumentError.checkNotNull(modelVersionNumber, 'modelVersionNumber');
-    _s.validateStringLength(
-      'modelVersionNumber',
-      modelVersionNumber,
-      3,
-      7,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.GetModelVersion'
@@ -1724,12 +1447,6 @@ class FraudDetector {
       1,
       10,
     );
-    _s.validateStringLength(
-      'modelId',
-      modelId,
-      1,
-      64,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.GetModels'
@@ -1782,12 +1499,6 @@ class FraudDetector {
       maxResults,
       50,
       100,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      64,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1848,31 +1559,11 @@ class FraudDetector {
     String? ruleId,
     String? ruleVersion,
   }) async {
-    ArgumentError.checkNotNull(detectorId, 'detectorId');
-    _s.validateStringLength(
-      'detectorId',
-      detectorId,
-      1,
-      64,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       50,
       100,
-    );
-    _s.validateStringLength(
-      'ruleId',
-      ruleId,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'ruleVersion',
-      ruleVersion,
-      1,
-      5,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1971,14 +1662,6 @@ class FraudDetector {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(resourceARN, 'resourceARN');
-    _s.validateStringLength(
-      'resourceARN',
-      resourceARN,
-      1,
-      256,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -2029,28 +1712,6 @@ class FraudDetector {
     String? description,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(detectorId, 'detectorId');
-    _s.validateStringLength(
-      'detectorId',
-      detectorId,
-      1,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(eventTypeName, 'eventTypeName');
-    _s.validateStringLength(
-      'eventTypeName',
-      eventTypeName,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      128,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.PutDetector'
@@ -2093,20 +1754,6 @@ class FraudDetector {
     String? description,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      128,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.PutEntityType'
@@ -2163,22 +1810,6 @@ class FraudDetector {
     List<String>? labels,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(entityTypes, 'entityTypes');
-    ArgumentError.checkNotNull(eventVariables, 'eventVariables');
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      128,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.PutEventType'
@@ -2238,20 +1869,6 @@ class FraudDetector {
     required ModelOutputConfiguration outputConfiguration,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(inputConfiguration, 'inputConfiguration');
-    ArgumentError.checkNotNull(
-        invokeModelEndpointRoleArn, 'invokeModelEndpointRoleArn');
-    ArgumentError.checkNotNull(modelEndpoint, 'modelEndpoint');
-    _s.validateStringLength(
-      'modelEndpoint',
-      modelEndpoint,
-      1,
-      63,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(modelEndpointStatus, 'modelEndpointStatus');
-    ArgumentError.checkNotNull(modelSource, 'modelSource');
-    ArgumentError.checkNotNull(outputConfiguration, 'outputConfiguration');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.PutExternalModel'
@@ -2287,14 +1904,6 @@ class FraudDetector {
   Future<void> putKMSEncryptionKey({
     required String kmsEncryptionKeyArn,
   }) async {
-    ArgumentError.checkNotNull(kmsEncryptionKeyArn, 'kmsEncryptionKeyArn');
-    _s.validateStringLength(
-      'kmsEncryptionKeyArn',
-      kmsEncryptionKeyArn,
-      7,
-      90,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.PutKMSEncryptionKey'
@@ -2332,20 +1941,6 @@ class FraudDetector {
     String? description,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      128,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.PutLabel'
@@ -2384,20 +1979,6 @@ class FraudDetector {
     String? description,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      128,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.PutOutcome'
@@ -2431,15 +2012,6 @@ class FraudDetector {
     required String resourceARN,
     required List<Tag> tags,
   }) async {
-    ArgumentError.checkNotNull(resourceARN, 'resourceARN');
-    _s.validateStringLength(
-      'resourceARN',
-      resourceARN,
-      1,
-      256,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.TagResource'
@@ -2472,15 +2044,6 @@ class FraudDetector {
     required String resourceARN,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(resourceARN, 'resourceARN');
-    _s.validateStringLength(
-      'resourceARN',
-      resourceARN,
-      1,
-      256,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.UntagResource'
@@ -2549,31 +2112,6 @@ class FraudDetector {
     List<ModelVersion>? modelVersions,
     RuleExecutionMode? ruleExecutionMode,
   }) async {
-    ArgumentError.checkNotNull(detectorId, 'detectorId');
-    _s.validateStringLength(
-      'detectorId',
-      detectorId,
-      1,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(detectorVersionId, 'detectorVersionId');
-    _s.validateStringLength(
-      'detectorVersionId',
-      detectorVersionId,
-      1,
-      5,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(
-        externalModelEndpoints, 'externalModelEndpoints');
-    ArgumentError.checkNotNull(rules, 'rules');
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      128,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.UpdateDetectorVersion'
@@ -2619,30 +2157,6 @@ class FraudDetector {
     required String detectorId,
     required String detectorVersionId,
   }) async {
-    ArgumentError.checkNotNull(description, 'description');
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(detectorId, 'detectorId');
-    _s.validateStringLength(
-      'detectorId',
-      detectorId,
-      1,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(detectorVersionId, 'detectorVersionId');
-    _s.validateStringLength(
-      'detectorVersionId',
-      detectorVersionId,
-      1,
-      5,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.UpdateDetectorVersionMetadata'
@@ -2685,23 +2199,6 @@ class FraudDetector {
     required String detectorVersionId,
     required DetectorVersionStatus status,
   }) async {
-    ArgumentError.checkNotNull(detectorId, 'detectorId');
-    _s.validateStringLength(
-      'detectorId',
-      detectorId,
-      1,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(detectorVersionId, 'detectorVersionId');
-    _s.validateStringLength(
-      'detectorVersionId',
-      detectorVersionId,
-      1,
-      5,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(status, 'status');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.UpdateDetectorVersionStatus'
@@ -2741,21 +2238,6 @@ class FraudDetector {
     required ModelTypeEnum modelType,
     String? description,
   }) async {
-    ArgumentError.checkNotNull(modelId, 'modelId');
-    _s.validateStringLength(
-      'modelId',
-      modelId,
-      1,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(modelType, 'modelType');
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      128,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.UpdateModel'
@@ -2806,23 +2288,6 @@ class FraudDetector {
     ExternalEventsDetail? externalEventsDetail,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(majorVersionNumber, 'majorVersionNumber');
-    _s.validateStringLength(
-      'majorVersionNumber',
-      majorVersionNumber,
-      1,
-      5,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(modelId, 'modelId');
-    _s.validateStringLength(
-      'modelId',
-      modelId,
-      1,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(modelType, 'modelType');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.UpdateModelVersion'
@@ -2879,24 +2344,6 @@ class FraudDetector {
     required String modelVersionNumber,
     required ModelVersionStatus status,
   }) async {
-    ArgumentError.checkNotNull(modelId, 'modelId');
-    _s.validateStringLength(
-      'modelId',
-      modelId,
-      1,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(modelType, 'modelType');
-    ArgumentError.checkNotNull(modelVersionNumber, 'modelVersionNumber');
-    _s.validateStringLength(
-      'modelVersionNumber',
-      modelVersionNumber,
-      3,
-      7,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(status, 'status');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.UpdateModelVersionStatus'
@@ -2933,15 +2380,6 @@ class FraudDetector {
     required String description,
     required Rule rule,
   }) async {
-    ArgumentError.checkNotNull(description, 'description');
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(rule, 'rule');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.UpdateRuleMetadata'
@@ -2993,23 +2431,6 @@ class FraudDetector {
     String? description,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(expression, 'expression');
-    _s.validateStringLength(
-      'expression',
-      expression,
-      1,
-      4096,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(language, 'language');
-    ArgumentError.checkNotNull(outcomes, 'outcomes');
-    ArgumentError.checkNotNull(rule, 'rule');
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      128,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.UpdateRuleVersion'
@@ -3060,7 +2481,6 @@ class FraudDetector {
     String? description,
     String? variableType,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.UpdateVariable'

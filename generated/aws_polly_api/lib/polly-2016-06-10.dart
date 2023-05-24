@@ -71,7 +71,6 @@ class Polly {
   Future<void> deleteLexicon({
     required String name,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -131,12 +130,6 @@ class Polly {
     LanguageCode? languageCode,
     String? nextToken,
   }) async {
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      4096,
-    );
     final $query = <String, List<String>>{
       if (engine != null) 'Engine': [engine.toValue()],
       if (includeAdditionalLanguageCodes != null)
@@ -169,7 +162,6 @@ class Polly {
   Future<GetLexiconOutput> getLexicon({
     required String name,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -193,7 +185,6 @@ class Polly {
   Future<GetSpeechSynthesisTaskOutput> getSpeechSynthesisTask({
     required String taskId,
   }) async {
-    ArgumentError.checkNotNull(taskId, 'taskId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -218,12 +209,6 @@ class Polly {
   Future<ListLexiconsOutput> listLexicons({
     String? nextToken,
   }) async {
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      4096,
-    );
     final $query = <String, List<String>>{
       if (nextToken != null) 'NextToken': [nextToken],
     };
@@ -263,12 +248,6 @@ class Polly {
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      4096,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'MaxResults': [maxResults.toString()],
@@ -314,8 +293,6 @@ class Polly {
     required String content,
     required String name,
   }) async {
-    ArgumentError.checkNotNull(content, 'content');
-    ArgumentError.checkNotNull(name, 'name');
     final $payload = <String, dynamic>{
       'Content': content,
     };
@@ -423,10 +400,6 @@ class Polly {
     List<SpeechMarkType>? speechMarkTypes,
     TextType? textType,
   }) async {
-    ArgumentError.checkNotNull(outputFormat, 'outputFormat');
-    ArgumentError.checkNotNull(outputS3BucketName, 'outputS3BucketName');
-    ArgumentError.checkNotNull(text, 'text');
-    ArgumentError.checkNotNull(voiceId, 'voiceId');
     final $payload = <String, dynamic>{
       'OutputFormat': outputFormat.toValue(),
       'OutputS3BucketName': outputS3BucketName,
@@ -562,9 +535,6 @@ class Polly {
     List<SpeechMarkType>? speechMarkTypes,
     TextType? textType,
   }) async {
-    ArgumentError.checkNotNull(outputFormat, 'outputFormat');
-    ArgumentError.checkNotNull(text, 'text');
-    ArgumentError.checkNotNull(voiceId, 'voiceId');
     final $payload = <String, dynamic>{
       'OutputFormat': outputFormat.toValue(),
       'Text': text,

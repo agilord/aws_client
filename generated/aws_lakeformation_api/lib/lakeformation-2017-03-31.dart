@@ -66,13 +66,6 @@ class LakeFormation {
     required List<BatchPermissionsRequestEntry> entries,
     String? catalogId,
   }) async {
-    ArgumentError.checkNotNull(entries, 'entries');
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSLakeFormation.BatchGrantPermissions'
@@ -110,13 +103,6 @@ class LakeFormation {
     required List<BatchPermissionsRequestEntry> entries,
     String? catalogId,
   }) async {
-    ArgumentError.checkNotNull(entries, 'entries');
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSLakeFormation.BatchRevokePermissions'
@@ -152,7 +138,6 @@ class LakeFormation {
   Future<void> deregisterResource({
     required String resourceArn,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSLakeFormation.DeregisterResource'
@@ -182,7 +167,6 @@ class LakeFormation {
   Future<DescribeResourceResponse> describeResource({
     required String resourceArn,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSLakeFormation.DescribeResource'
@@ -216,12 +200,6 @@ class LakeFormation {
   Future<GetDataLakeSettingsResponse> getDataLakeSettings({
     String? catalogId,
   }) async {
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSLakeFormation.GetDataLakeSettings'
@@ -272,13 +250,6 @@ class LakeFormation {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -354,15 +325,6 @@ class LakeFormation {
     String? catalogId,
     List<Permission>? permissionsWithGrantOption,
   }) async {
-    ArgumentError.checkNotNull(permissions, 'permissions');
-    ArgumentError.checkNotNull(principal, 'principal');
-    ArgumentError.checkNotNull(resource, 'resource');
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSLakeFormation.GrantPermissions'
@@ -432,12 +394,6 @@ class LakeFormation {
     Resource? resource,
     DataLakeResourceType? resourceType,
   }) async {
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -541,13 +497,6 @@ class LakeFormation {
     required DataLakeSettings dataLakeSettings,
     String? catalogId,
   }) async {
-    ArgumentError.checkNotNull(dataLakeSettings, 'dataLakeSettings');
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSLakeFormation.PutDataLakeSettings'
@@ -612,7 +561,6 @@ class LakeFormation {
     String? roleArn,
     bool? useServiceLinkedRole,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSLakeFormation.RegisterResource'
@@ -667,15 +615,6 @@ class LakeFormation {
     String? catalogId,
     List<Permission>? permissionsWithGrantOption,
   }) async {
-    ArgumentError.checkNotNull(permissions, 'permissions');
-    ArgumentError.checkNotNull(principal, 'principal');
-    ArgumentError.checkNotNull(resource, 'resource');
-    _s.validateStringLength(
-      'catalogId',
-      catalogId,
-      1,
-      255,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSLakeFormation.RevokePermissions'
@@ -716,8 +655,6 @@ class LakeFormation {
     required String resourceArn,
     required String roleArn,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    ArgumentError.checkNotNull(roleArn, 'roleArn');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSLakeFormation.UpdateResource'

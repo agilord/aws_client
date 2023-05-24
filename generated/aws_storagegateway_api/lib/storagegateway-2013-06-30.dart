@@ -142,56 +142,6 @@ class StorageGateway {
     List<Tag>? tags,
     String? tapeDriveType,
   }) async {
-    ArgumentError.checkNotNull(activationKey, 'activationKey');
-    _s.validateStringLength(
-      'activationKey',
-      activationKey,
-      1,
-      50,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(gatewayName, 'gatewayName');
-    _s.validateStringLength(
-      'gatewayName',
-      gatewayName,
-      2,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(gatewayRegion, 'gatewayRegion');
-    _s.validateStringLength(
-      'gatewayRegion',
-      gatewayRegion,
-      1,
-      25,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(gatewayTimezone, 'gatewayTimezone');
-    _s.validateStringLength(
-      'gatewayTimezone',
-      gatewayTimezone,
-      3,
-      10,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'gatewayType',
-      gatewayType,
-      2,
-      20,
-    );
-    _s.validateStringLength(
-      'mediumChangerType',
-      mediumChangerType,
-      2,
-      50,
-    );
-    _s.validateStringLength(
-      'tapeDriveType',
-      tapeDriveType,
-      2,
-      50,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.ActivateGateway'
@@ -238,15 +188,6 @@ class StorageGateway {
     required List<String> diskIds,
     required String gatewayARN,
   }) async {
-    ArgumentError.checkNotNull(diskIds, 'diskIds');
-    ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.AddCache'
@@ -308,15 +249,6 @@ class StorageGateway {
     required String resourceARN,
     required List<Tag> tags,
   }) async {
-    ArgumentError.checkNotNull(resourceARN, 'resourceARN');
-    _s.validateStringLength(
-      'resourceARN',
-      resourceARN,
-      50,
-      500,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.AddTagsToResource'
@@ -355,15 +287,6 @@ class StorageGateway {
     required List<String> diskIds,
     required String gatewayARN,
   }) async {
-    ArgumentError.checkNotNull(diskIds, 'diskIds');
-    ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.AddUploadBuffer'
@@ -407,15 +330,6 @@ class StorageGateway {
     required List<String> diskIds,
     required String gatewayARN,
   }) async {
-    ArgumentError.checkNotNull(diskIds, 'diskIds');
-    ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.AddWorkingStorage'
@@ -473,22 +387,6 @@ class StorageGateway {
     required String tapeARN,
     bool? bypassGovernanceRetention,
   }) async {
-    ArgumentError.checkNotNull(poolId, 'poolId');
-    _s.validateStringLength(
-      'poolId',
-      poolId,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(tapeARN, 'tapeARN');
-    _s.validateStringLength(
-      'tapeARN',
-      tapeARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.AssignTapePool'
@@ -555,35 +453,6 @@ class StorageGateway {
     String? diskId,
     String? targetName,
   }) async {
-    ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(networkInterfaceId, 'networkInterfaceId');
-    ArgumentError.checkNotNull(volumeARN, 'volumeARN');
-    _s.validateStringLength(
-      'volumeARN',
-      volumeARN,
-      50,
-      500,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'diskId',
-      diskId,
-      1,
-      300,
-    );
-    _s.validateStringLength(
-      'targetName',
-      targetName,
-      1,
-      200,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.AttachVolume'
@@ -620,22 +489,6 @@ class StorageGateway {
     required String gatewayARN,
     required String tapeARN,
   }) async {
-    ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(tapeARN, 'tapeARN');
-    _s.validateStringLength(
-      'tapeARN',
-      tapeARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.CancelArchival'
@@ -670,22 +523,6 @@ class StorageGateway {
     required String gatewayARN,
     required String tapeARN,
   }) async {
-    ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(tapeARN, 'tapeARN');
-    _s.validateStringLength(
-      'tapeARN',
-      tapeARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.CancelRetrieval'
@@ -801,44 +638,6 @@ class StorageGateway {
     String? sourceVolumeARN,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(clientToken, 'clientToken');
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      5,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(networkInterfaceId, 'networkInterfaceId');
-    ArgumentError.checkNotNull(targetName, 'targetName');
-    _s.validateStringLength(
-      'targetName',
-      targetName,
-      1,
-      200,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(volumeSizeInBytes, 'volumeSizeInBytes');
-    _s.validateStringLength(
-      'kMSKey',
-      kMSKey,
-      7,
-      2048,
-    );
-    _s.validateStringLength(
-      'sourceVolumeARN',
-      sourceVolumeARN,
-      50,
-      500,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.CreateCachediSCSIVolume'
@@ -1025,68 +824,6 @@ class StorageGateway {
     String? squash,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(clientToken, 'clientToken');
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      5,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(locationARN, 'locationARN');
-    _s.validateStringLength(
-      'locationARN',
-      locationARN,
-      16,
-      1400,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(role, 'role');
-    _s.validateStringLength(
-      'role',
-      role,
-      20,
-      2048,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'defaultStorageClass',
-      defaultStorageClass,
-      5,
-      50,
-    );
-    _s.validateStringLength(
-      'fileShareName',
-      fileShareName,
-      1,
-      255,
-    );
-    _s.validateStringLength(
-      'kMSKey',
-      kMSKey,
-      7,
-      2048,
-    );
-    _s.validateStringLength(
-      'notificationPolicy',
-      notificationPolicy,
-      2,
-      100,
-    );
-    _s.validateStringLength(
-      'squash',
-      squash,
-      5,
-      15,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.CreateNFSFileShare'
@@ -1321,74 +1058,6 @@ class StorageGateway {
     List<Tag>? tags,
     List<String>? validUserList,
   }) async {
-    ArgumentError.checkNotNull(clientToken, 'clientToken');
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      5,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(locationARN, 'locationARN');
-    _s.validateStringLength(
-      'locationARN',
-      locationARN,
-      16,
-      1400,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(role, 'role');
-    _s.validateStringLength(
-      'role',
-      role,
-      20,
-      2048,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'auditDestinationARN',
-      auditDestinationARN,
-      0,
-      1024,
-    );
-    _s.validateStringLength(
-      'authentication',
-      authentication,
-      5,
-      15,
-    );
-    _s.validateStringLength(
-      'defaultStorageClass',
-      defaultStorageClass,
-      5,
-      50,
-    );
-    _s.validateStringLength(
-      'fileShareName',
-      fileShareName,
-      1,
-      255,
-    );
-    _s.validateStringLength(
-      'kMSKey',
-      kMSKey,
-      7,
-      2048,
-    );
-    _s.validateStringLength(
-      'notificationPolicy',
-      notificationPolicy,
-      2,
-      100,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.CreateSMBFileShare'
@@ -1496,22 +1165,6 @@ class StorageGateway {
     required String volumeARN,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(snapshotDescription, 'snapshotDescription');
-    _s.validateStringLength(
-      'snapshotDescription',
-      snapshotDescription,
-      1,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(volumeARN, 'volumeARN');
-    _s.validateStringLength(
-      'volumeARN',
-      volumeARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.CreateSnapshot'
@@ -1586,22 +1239,6 @@ class StorageGateway {
     required String volumeARN,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(snapshotDescription, 'snapshotDescription');
-    _s.validateStringLength(
-      'snapshotDescription',
-      snapshotDescription,
-      1,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(volumeARN, 'volumeARN');
-    _s.validateStringLength(
-      'volumeARN',
-      volumeARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -1712,38 +1349,6 @@ class StorageGateway {
     String? snapshotId,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(diskId, 'diskId');
-    _s.validateStringLength(
-      'diskId',
-      diskId,
-      1,
-      300,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(networkInterfaceId, 'networkInterfaceId');
-    ArgumentError.checkNotNull(preserveExistingData, 'preserveExistingData');
-    ArgumentError.checkNotNull(targetName, 'targetName');
-    _s.validateStringLength(
-      'targetName',
-      targetName,
-      1,
-      200,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'kMSKey',
-      kMSKey,
-      7,
-      2048,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.CreateStorediSCSIVolume'
@@ -1812,15 +1417,6 @@ class StorageGateway {
     RetentionLockType? retentionLockType,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(poolName, 'poolName');
-    _s.validateStringLength(
-      'poolName',
-      poolName,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(storageClass, 'storageClass');
     _s.validateNumRange(
       'retentionLockTimeInDays',
       retentionLockTimeInDays,
@@ -1928,35 +1524,6 @@ class StorageGateway {
     List<Tag>? tags,
     bool? worm,
   }) async {
-    ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(tapeBarcode, 'tapeBarcode');
-    _s.validateStringLength(
-      'tapeBarcode',
-      tapeBarcode,
-      7,
-      16,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(tapeSizeInBytes, 'tapeSizeInBytes');
-    _s.validateStringLength(
-      'kMSKey',
-      kMSKey,
-      7,
-      2048,
-    );
-    _s.validateStringLength(
-      'poolId',
-      poolId,
-      1,
-      100,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.CreateTapeWithBarcode'
@@ -2072,50 +1639,12 @@ class StorageGateway {
     List<Tag>? tags,
     bool? worm,
   }) async {
-    ArgumentError.checkNotNull(clientToken, 'clientToken');
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      5,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(numTapesToCreate, 'numTapesToCreate');
     _s.validateNumRange(
       'numTapesToCreate',
       numTapesToCreate,
       1,
       10,
       isRequired: true,
-    );
-    ArgumentError.checkNotNull(tapeBarcodePrefix, 'tapeBarcodePrefix');
-    _s.validateStringLength(
-      'tapeBarcodePrefix',
-      tapeBarcodePrefix,
-      1,
-      4,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(tapeSizeInBytes, 'tapeSizeInBytes');
-    _s.validateStringLength(
-      'kMSKey',
-      kMSKey,
-      7,
-      2048,
-    );
-    _s.validateStringLength(
-      'poolId',
-      poolId,
-      1,
-      100,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2154,14 +1683,6 @@ class StorageGateway {
       deleteAutomaticTapeCreationPolicy({
     required String gatewayARN,
   }) async {
-    ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -2201,22 +1722,6 @@ class StorageGateway {
     required String bandwidthType,
     required String gatewayARN,
   }) async {
-    ArgumentError.checkNotNull(bandwidthType, 'bandwidthType');
-    _s.validateStringLength(
-      'bandwidthType',
-      bandwidthType,
-      3,
-      25,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.DeleteBandwidthRateLimit'
@@ -2254,22 +1759,6 @@ class StorageGateway {
     required String initiatorName,
     required String targetARN,
   }) async {
-    ArgumentError.checkNotNull(initiatorName, 'initiatorName');
-    _s.validateStringLength(
-      'initiatorName',
-      initiatorName,
-      1,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(targetARN, 'targetARN');
-    _s.validateStringLength(
-      'targetARN',
-      targetARN,
-      50,
-      800,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.DeleteChapCredentials'
@@ -2310,14 +1799,6 @@ class StorageGateway {
     required String fileShareARN,
     bool? forceDelete,
   }) async {
-    ArgumentError.checkNotNull(fileShareARN, 'fileShareARN');
-    _s.validateStringLength(
-      'fileShareARN',
-      fileShareARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.DeleteFileShare'
@@ -2362,14 +1843,6 @@ class StorageGateway {
   Future<DeleteGatewayOutput> deleteGateway({
     required String gatewayARN,
   }) async {
-    ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.DeleteGateway'
@@ -2412,14 +1885,6 @@ class StorageGateway {
   Future<DeleteSnapshotScheduleOutput> deleteSnapshotSchedule({
     required String volumeARN,
   }) async {
-    ArgumentError.checkNotNull(volumeARN, 'volumeARN');
-    _s.validateStringLength(
-      'volumeARN',
-      volumeARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.DeleteSnapshotSchedule'
@@ -2463,22 +1928,6 @@ class StorageGateway {
     required String tapeARN,
     bool? bypassGovernanceRetention,
   }) async {
-    ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(tapeARN, 'tapeARN');
-    _s.validateStringLength(
-      'tapeARN',
-      tapeARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.DeleteTape'
@@ -2520,14 +1969,6 @@ class StorageGateway {
     required String tapeARN,
     bool? bypassGovernanceRetention,
   }) async {
-    ArgumentError.checkNotNull(tapeARN, 'tapeARN');
-    _s.validateStringLength(
-      'tapeARN',
-      tapeARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.DeleteTapeArchive'
@@ -2560,14 +2001,6 @@ class StorageGateway {
   Future<DeleteTapePoolOutput> deleteTapePool({
     required String poolARN,
   }) async {
-    ArgumentError.checkNotNull(poolARN, 'poolARN');
-    _s.validateStringLength(
-      'poolARN',
-      poolARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.DeleteTapePool'
@@ -2613,14 +2046,6 @@ class StorageGateway {
   Future<DeleteVolumeOutput> deleteVolume({
     required String volumeARN,
   }) async {
-    ArgumentError.checkNotNull(volumeARN, 'volumeARN');
-    _s.validateStringLength(
-      'volumeARN',
-      volumeARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.DeleteVolume'
@@ -2649,14 +2074,6 @@ class StorageGateway {
       describeAvailabilityMonitorTest({
     required String gatewayARN,
   }) async {
-    ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.DescribeAvailabilityMonitorTest'
@@ -2691,14 +2108,6 @@ class StorageGateway {
   Future<DescribeBandwidthRateLimitOutput> describeBandwidthRateLimit({
     required String gatewayARN,
   }) async {
-    ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.DescribeBandwidthRateLimit'
@@ -2743,14 +2152,6 @@ class StorageGateway {
       describeBandwidthRateLimitSchedule({
     required String gatewayARN,
   }) async {
-    ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -2781,14 +2182,6 @@ class StorageGateway {
   Future<DescribeCacheOutput> describeCache({
     required String gatewayARN,
   }) async {
-    ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.DescribeCache'
@@ -2824,7 +2217,6 @@ class StorageGateway {
   Future<DescribeCachediSCSIVolumesOutput> describeCachediSCSIVolumes({
     required List<String> volumeARNs,
   }) async {
-    ArgumentError.checkNotNull(volumeARNs, 'volumeARNs');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.DescribeCachediSCSIVolumes'
@@ -2858,14 +2250,6 @@ class StorageGateway {
   Future<DescribeChapCredentialsOutput> describeChapCredentials({
     required String targetARN,
   }) async {
-    ArgumentError.checkNotNull(targetARN, 'targetARN');
-    _s.validateStringLength(
-      'targetARN',
-      targetARN,
-      50,
-      800,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.DescribeChapCredentials'
@@ -2894,14 +2278,6 @@ class StorageGateway {
   Future<DescribeGatewayInformationOutput> describeGatewayInformation({
     required String gatewayARN,
   }) async {
-    ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.DescribeGatewayInformation'
@@ -2929,14 +2305,6 @@ class StorageGateway {
   Future<DescribeMaintenanceStartTimeOutput> describeMaintenanceStartTime({
     required String gatewayARN,
   }) async {
-    ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.DescribeMaintenanceStartTime'
@@ -2967,7 +2335,6 @@ class StorageGateway {
   Future<DescribeNFSFileSharesOutput> describeNFSFileShares({
     required List<String> fileShareARNList,
   }) async {
-    ArgumentError.checkNotNull(fileShareARNList, 'fileShareARNList');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.DescribeNFSFileShares'
@@ -2998,7 +2365,6 @@ class StorageGateway {
   Future<DescribeSMBFileSharesOutput> describeSMBFileShares({
     required List<String> fileShareARNList,
   }) async {
-    ArgumentError.checkNotNull(fileShareARNList, 'fileShareARNList');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.DescribeSMBFileShares'
@@ -3025,14 +2391,6 @@ class StorageGateway {
   Future<DescribeSMBSettingsOutput> describeSMBSettings({
     required String gatewayARN,
   }) async {
-    ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.DescribeSMBSettings'
@@ -3065,14 +2423,6 @@ class StorageGateway {
   Future<DescribeSnapshotScheduleOutput> describeSnapshotSchedule({
     required String volumeARN,
   }) async {
-    ArgumentError.checkNotNull(volumeARN, 'volumeARN');
-    _s.validateStringLength(
-      'volumeARN',
-      volumeARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.DescribeSnapshotSchedule'
@@ -3107,7 +2457,6 @@ class StorageGateway {
   Future<DescribeStorediSCSIVolumesOutput> describeStorediSCSIVolumes({
     required List<String> volumeARNs,
   }) async {
-    ArgumentError.checkNotNull(volumeARNs, 'volumeARNs');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.DescribeStorediSCSIVolumes'
@@ -3158,12 +2507,6 @@ class StorageGateway {
       1,
       1152921504606846976,
     );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      1000,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.DescribeTapeArchives'
@@ -3207,25 +2550,11 @@ class StorageGateway {
     int? limit,
     String? marker,
   }) async {
-    ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'limit',
       limit,
       1,
       1152921504606846976,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      1000,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3279,25 +2608,11 @@ class StorageGateway {
     String? marker,
     List<String>? tapeARNs,
   }) async {
-    ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'limit',
       limit,
       1,
       1152921504606846976,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      1000,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3331,14 +2646,6 @@ class StorageGateway {
   Future<DescribeUploadBufferOutput> describeUploadBuffer({
     required String gatewayARN,
   }) async {
-    ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.DescribeUploadBuffer'
@@ -3388,25 +2695,11 @@ class StorageGateway {
     String? marker,
     List<String>? vTLDeviceARNs,
   }) async {
-    ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'limit',
       limit,
       1,
       1152921504606846976,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      1000,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3446,14 +2739,6 @@ class StorageGateway {
   Future<DescribeWorkingStorageOutput> describeWorkingStorage({
     required String gatewayARN,
   }) async {
-    ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.DescribeWorkingStorage'
@@ -3496,14 +2781,6 @@ class StorageGateway {
     required String volumeARN,
     bool? forceDetach,
   }) async {
-    ArgumentError.checkNotNull(volumeARN, 'volumeARN');
-    _s.validateStringLength(
-      'volumeARN',
-      volumeARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.DetachVolume'
@@ -3538,14 +2815,6 @@ class StorageGateway {
   Future<DisableGatewayOutput> disableGateway({
     required String gatewayARN,
   }) async {
-    ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.DisableGateway'
@@ -3611,44 +2880,6 @@ class StorageGateway {
     String? organizationalUnit,
     int? timeoutInSeconds,
   }) async {
-    ArgumentError.checkNotNull(domainName, 'domainName');
-    _s.validateStringLength(
-      'domainName',
-      domainName,
-      1,
-      1024,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(password, 'password');
-    _s.validateStringLength(
-      'password',
-      password,
-      1,
-      1024,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      1024,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'organizationalUnit',
-      organizationalUnit,
-      1,
-      1024,
-    );
     _s.validateNumRange(
       'timeoutInSeconds',
       timeoutInSeconds,
@@ -3692,12 +2923,6 @@ class StorageGateway {
       listAutomaticTapeCreationPolicies({
     String? gatewayARN,
   }) async {
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -3742,23 +2967,11 @@ class StorageGateway {
     int? limit,
     String? marker,
   }) async {
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-    );
     _s.validateNumRange(
       'limit',
       limit,
       1,
       1152921504606846976,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      1000,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3813,12 +3026,6 @@ class StorageGateway {
       1,
       1152921504606846976,
     );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      1000,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.ListGateways'
@@ -3855,14 +3062,6 @@ class StorageGateway {
   Future<ListLocalDisksOutput> listLocalDisks({
     required String gatewayARN,
   }) async {
-    ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.ListLocalDisks'
@@ -3903,25 +3102,11 @@ class StorageGateway {
     int? limit,
     String? marker,
   }) async {
-    ArgumentError.checkNotNull(resourceARN, 'resourceARN');
-    _s.validateStringLength(
-      'resourceARN',
-      resourceARN,
-      50,
-      500,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'limit',
       limit,
       1,
       1152921504606846976,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      1000,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3980,12 +3165,6 @@ class StorageGateway {
       1,
       1152921504606846976,
     );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      1000,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.ListTapePools'
@@ -4039,12 +3218,6 @@ class StorageGateway {
       1,
       1152921504606846976,
     );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      1000,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.ListTapes'
@@ -4079,14 +3252,6 @@ class StorageGateway {
   Future<ListVolumeInitiatorsOutput> listVolumeInitiators({
     required String volumeARN,
   }) async {
-    ArgumentError.checkNotNull(volumeARN, 'volumeARN');
-    _s.validateStringLength(
-      'volumeARN',
-      volumeARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.ListVolumeInitiators'
@@ -4119,14 +3284,6 @@ class StorageGateway {
   Future<ListVolumeRecoveryPointsOutput> listVolumeRecoveryPoints({
     required String gatewayARN,
   }) async {
-    ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.ListVolumeRecoveryPoints'
@@ -4175,23 +3332,11 @@ class StorageGateway {
     int? limit,
     String? marker,
   }) async {
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-    );
     _s.validateNumRange(
       'limit',
       limit,
       1,
       1152921504606846976,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      1000,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4234,14 +3379,6 @@ class StorageGateway {
   Future<NotifyWhenUploadedOutput> notifyWhenUploaded({
     required String fileShareARN,
   }) async {
-    ArgumentError.checkNotNull(fileShareARN, 'fileShareARN');
-    _s.validateStringLength(
-      'fileShareARN',
-      fileShareARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.NotifyWhenUploaded'
@@ -4325,14 +3462,6 @@ class StorageGateway {
     List<String>? folderList,
     bool? recursive,
   }) async {
-    ArgumentError.checkNotNull(fileShareARN, 'fileShareARN');
-    _s.validateStringLength(
-      'fileShareARN',
-      fileShareARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.RefreshCache'
@@ -4370,15 +3499,6 @@ class StorageGateway {
     required String resourceARN,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(resourceARN, 'resourceARN');
-    _s.validateStringLength(
-      'resourceARN',
-      resourceARN,
-      50,
-      500,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.RemoveTagsFromResource'
@@ -4419,14 +3539,6 @@ class StorageGateway {
   Future<ResetCacheOutput> resetCache({
     required String gatewayARN,
   }) async {
-    ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.ResetCache'
@@ -4474,22 +3586,6 @@ class StorageGateway {
     required String gatewayARN,
     required String tapeARN,
   }) async {
-    ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(tapeARN, 'tapeARN');
-    _s.validateStringLength(
-      'tapeARN',
-      tapeARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.RetrieveTapeArchive'
@@ -4531,22 +3627,6 @@ class StorageGateway {
     required String gatewayARN,
     required String tapeARN,
   }) async {
-    ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(tapeARN, 'tapeARN');
-    _s.validateStringLength(
-      'tapeARN',
-      tapeARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.RetrieveTapeRecoveryPoint'
@@ -4580,22 +3660,6 @@ class StorageGateway {
     required String gatewayARN,
     required String localConsolePassword,
   }) async {
-    ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(localConsolePassword, 'localConsolePassword');
-    _s.validateStringLength(
-      'localConsolePassword',
-      localConsolePassword,
-      6,
-      512,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.SetLocalConsolePassword'
@@ -4632,22 +3696,6 @@ class StorageGateway {
     required String gatewayARN,
     required String password,
   }) async {
-    ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(password, 'password');
-    _s.validateStringLength(
-      'password',
-      password,
-      6,
-      512,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.SetSMBGuestPassword'
@@ -4696,14 +3744,6 @@ class StorageGateway {
   Future<ShutdownGatewayOutput> shutdownGateway({
     required String gatewayARN,
   }) async {
-    ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.ShutdownGateway'
@@ -4737,14 +3777,6 @@ class StorageGateway {
   Future<StartAvailabilityMonitorTestOutput> startAvailabilityMonitorTest({
     required String gatewayARN,
   }) async {
-    ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.StartAvailabilityMonitorTest'
@@ -4782,14 +3814,6 @@ class StorageGateway {
   Future<StartGatewayOutput> startGateway({
     required String gatewayARN,
   }) async {
-    ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.StartGateway'
@@ -4829,16 +3853,6 @@ class StorageGateway {
     required List<AutomaticTapeCreationRule> automaticTapeCreationRules,
     required String gatewayARN,
   }) async {
-    ArgumentError.checkNotNull(
-        automaticTapeCreationRules, 'automaticTapeCreationRules');
-    ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -4885,14 +3899,6 @@ class StorageGateway {
     int? averageDownloadRateLimitInBitsPerSec,
     int? averageUploadRateLimitInBitsPerSec,
   }) async {
-    ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'averageDownloadRateLimitInBitsPerSec',
       averageDownloadRateLimitInBitsPerSec,
@@ -4947,16 +3953,6 @@ class StorageGateway {
     required List<BandwidthRateLimitInterval> bandwidthRateLimitIntervals,
     required String gatewayARN,
   }) async {
-    ArgumentError.checkNotNull(
-        bandwidthRateLimitIntervals, 'bandwidthRateLimitIntervals');
-    ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.UpdateBandwidthRateLimitSchedule'
@@ -5017,37 +4013,6 @@ class StorageGateway {
     required String targetARN,
     String? secretToAuthenticateTarget,
   }) async {
-    ArgumentError.checkNotNull(initiatorName, 'initiatorName');
-    _s.validateStringLength(
-      'initiatorName',
-      initiatorName,
-      1,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(
-        secretToAuthenticateInitiator, 'secretToAuthenticateInitiator');
-    _s.validateStringLength(
-      'secretToAuthenticateInitiator',
-      secretToAuthenticateInitiator,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(targetARN, 'targetARN');
-    _s.validateStringLength(
-      'targetARN',
-      targetARN,
-      50,
-      800,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'secretToAuthenticateTarget',
-      secretToAuthenticateTarget,
-      1,
-      100,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.UpdateChapCredentials'
@@ -5098,32 +4063,6 @@ class StorageGateway {
     String? gatewayName,
     String? gatewayTimezone,
   }) async {
-    ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'cloudWatchLogGroupARN',
-      cloudWatchLogGroupARN,
-      0,
-      562,
-    );
-    _s.validateStringLength(
-      'gatewayName',
-      gatewayName,
-      2,
-      255,
-    );
-    _s.validateStringLength(
-      'gatewayTimezone',
-      gatewayTimezone,
-      3,
-      10,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.UpdateGatewayInformation'
@@ -5169,14 +4108,6 @@ class StorageGateway {
   Future<UpdateGatewaySoftwareNowOutput> updateGatewaySoftwareNow({
     required String gatewayARN,
   }) async {
-    ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.UpdateGatewaySoftwareNow'
@@ -5228,15 +4159,6 @@ class StorageGateway {
     int? dayOfMonth,
     int? dayOfWeek,
   }) async {
-    ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(hourOfDay, 'hourOfDay');
     _s.validateNumRange(
       'hourOfDay',
       hourOfDay,
@@ -5244,7 +4166,6 @@ class StorageGateway {
       23,
       isRequired: true,
     );
-    ArgumentError.checkNotNull(minuteOfHour, 'minuteOfHour');
     _s.validateNumRange(
       'minuteOfHour',
       minuteOfHour,
@@ -5425,44 +4346,6 @@ class StorageGateway {
     bool? requesterPays,
     String? squash,
   }) async {
-    ArgumentError.checkNotNull(fileShareARN, 'fileShareARN');
-    _s.validateStringLength(
-      'fileShareARN',
-      fileShareARN,
-      50,
-      500,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'defaultStorageClass',
-      defaultStorageClass,
-      5,
-      50,
-    );
-    _s.validateStringLength(
-      'fileShareName',
-      fileShareName,
-      1,
-      255,
-    );
-    _s.validateStringLength(
-      'kMSKey',
-      kMSKey,
-      7,
-      2048,
-    );
-    _s.validateStringLength(
-      'notificationPolicy',
-      notificationPolicy,
-      2,
-      100,
-    );
-    _s.validateStringLength(
-      'squash',
-      squash,
-      5,
-      15,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.UpdateNFSFileShare'
@@ -5657,44 +4540,6 @@ class StorageGateway {
     bool? sMBACLEnabled,
     List<String>? validUserList,
   }) async {
-    ArgumentError.checkNotNull(fileShareARN, 'fileShareARN');
-    _s.validateStringLength(
-      'fileShareARN',
-      fileShareARN,
-      50,
-      500,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'auditDestinationARN',
-      auditDestinationARN,
-      0,
-      1024,
-    );
-    _s.validateStringLength(
-      'defaultStorageClass',
-      defaultStorageClass,
-      5,
-      50,
-    );
-    _s.validateStringLength(
-      'fileShareName',
-      fileShareName,
-      1,
-      255,
-    );
-    _s.validateStringLength(
-      'kMSKey',
-      kMSKey,
-      7,
-      2048,
-    );
-    _s.validateStringLength(
-      'notificationPolicy',
-      notificationPolicy,
-      2,
-      100,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.UpdateSMBFileShare'
@@ -5748,15 +4593,6 @@ class StorageGateway {
     required bool fileSharesVisible,
     required String gatewayARN,
   }) async {
-    ArgumentError.checkNotNull(fileSharesVisible, 'fileSharesVisible');
-    ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.UpdateSMBFileShareVisibility'
@@ -5808,15 +4644,6 @@ class StorageGateway {
     required String gatewayARN,
     required SMBSecurityStrategy sMBSecurityStrategy,
   }) async {
-    ArgumentError.checkNotNull(gatewayARN, 'gatewayARN');
-    _s.validateStringLength(
-      'gatewayARN',
-      gatewayARN,
-      50,
-      500,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(sMBSecurityStrategy, 'sMBSecurityStrategy');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.UpdateSMBSecurityStrategy'
@@ -5884,7 +4711,6 @@ class StorageGateway {
     String? description,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(recurrenceInHours, 'recurrenceInHours');
     _s.validateNumRange(
       'recurrenceInHours',
       recurrenceInHours,
@@ -5892,27 +4718,12 @@ class StorageGateway {
       24,
       isRequired: true,
     );
-    ArgumentError.checkNotNull(startAt, 'startAt');
     _s.validateNumRange(
       'startAt',
       startAt,
       0,
       23,
       isRequired: true,
-    );
-    ArgumentError.checkNotNull(volumeARN, 'volumeARN');
-    _s.validateStringLength(
-      'volumeARN',
-      volumeARN,
-      50,
-      500,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      255,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -5957,22 +4768,6 @@ class StorageGateway {
     required String deviceType,
     required String vTLDeviceARN,
   }) async {
-    ArgumentError.checkNotNull(deviceType, 'deviceType');
-    _s.validateStringLength(
-      'deviceType',
-      deviceType,
-      2,
-      50,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(vTLDeviceARN, 'vTLDeviceARN');
-    _s.validateStringLength(
-      'vTLDeviceARN',
-      vTLDeviceARN,
-      50,
-      500,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'StorageGateway_20130630.UpdateVTLDeviceType'

@@ -77,14 +77,6 @@ class FMS {
   Future<void> associateAdminAccount({
     required String adminAccount,
   }) async {
-    ArgumentError.checkNotNull(adminAccount, 'adminAccount');
-    _s.validateStringLength(
-      'adminAccount',
-      adminAccount,
-      1,
-      1024,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSFMS_20180101.AssociateAdminAccount'
@@ -114,14 +106,6 @@ class FMS {
   Future<void> deleteAppsList({
     required String listId,
   }) async {
-    ArgumentError.checkNotNull(listId, 'listId');
-    _s.validateStringLength(
-      'listId',
-      listId,
-      36,
-      36,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSFMS_20180101.DeleteAppsList'
@@ -212,14 +196,6 @@ class FMS {
     required String policyId,
     bool? deleteAllPolicyResources,
   }) async {
-    ArgumentError.checkNotNull(policyId, 'policyId');
-    _s.validateStringLength(
-      'policyId',
-      policyId,
-      36,
-      36,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSFMS_20180101.DeletePolicy'
@@ -251,14 +227,6 @@ class FMS {
   Future<void> deleteProtocolsList({
     required String listId,
   }) async {
-    ArgumentError.checkNotNull(listId, 'listId');
-    _s.validateStringLength(
-      'listId',
-      listId,
-      36,
-      36,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSFMS_20180101.DeleteProtocolsList'
@@ -336,14 +304,6 @@ class FMS {
     required String listId,
     bool? defaultList,
   }) async {
-    ArgumentError.checkNotNull(listId, 'listId');
-    _s.validateStringLength(
-      'listId',
-      listId,
-      36,
-      36,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSFMS_20180101.GetAppsList'
@@ -393,22 +353,6 @@ class FMS {
     required String memberAccount,
     required String policyId,
   }) async {
-    ArgumentError.checkNotNull(memberAccount, 'memberAccount');
-    _s.validateStringLength(
-      'memberAccount',
-      memberAccount,
-      1,
-      1024,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(policyId, 'policyId');
-    _s.validateStringLength(
-      'policyId',
-      policyId,
-      36,
-      36,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSFMS_20180101.GetComplianceDetail'
@@ -462,14 +406,6 @@ class FMS {
   Future<GetPolicyResponse> getPolicy({
     required String policyId,
   }) async {
-    ArgumentError.checkNotNull(policyId, 'policyId');
-    _s.validateStringLength(
-      'policyId',
-      policyId,
-      36,
-      36,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSFMS_20180101.GetPolicy'
@@ -540,31 +476,11 @@ class FMS {
     String? nextToken,
     DateTime? startTime,
   }) async {
-    ArgumentError.checkNotNull(policyId, 'policyId');
-    _s.validateStringLength(
-      'policyId',
-      policyId,
-      36,
-      36,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'memberAccountId',
-      memberAccountId,
-      1,
-      1024,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      4096,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -607,14 +523,6 @@ class FMS {
     required String listId,
     bool? defaultList,
   }) async {
-    ArgumentError.checkNotNull(listId, 'listId');
-    _s.validateStringLength(
-      'listId',
-      listId,
-      36,
-      36,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSFMS_20180101.GetProtocolsList'
@@ -665,38 +573,6 @@ class FMS {
     required String resourceId,
     required String resourceType,
   }) async {
-    ArgumentError.checkNotNull(memberAccount, 'memberAccount');
-    _s.validateStringLength(
-      'memberAccount',
-      memberAccount,
-      1,
-      1024,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(policyId, 'policyId');
-    _s.validateStringLength(
-      'policyId',
-      policyId,
-      36,
-      36,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(resourceId, 'resourceId');
-    _s.validateStringLength(
-      'resourceId',
-      resourceId,
-      1,
-      1024,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(resourceType, 'resourceType');
-    _s.validateStringLength(
-      'resourceType',
-      resourceType,
-      1,
-      128,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSFMS_20180101.GetViolationDetails'
@@ -749,19 +625,12 @@ class FMS {
     bool? defaultLists,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(maxResults, 'maxResults');
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
       isRequired: true,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      4096,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -816,25 +685,11 @@ class FMS {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(policyId, 'policyId');
-    _s.validateStringLength(
-      'policyId',
-      policyId,
-      36,
-      36,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      4096,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -890,12 +745,6 @@ class FMS {
       1,
       100,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      4096,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSFMS_20180101.ListMemberAccounts'
@@ -949,12 +798,6 @@ class FMS {
       1,
       100,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      4096,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSFMS_20180101.ListPolicies'
@@ -1004,19 +847,12 @@ class FMS {
     bool? defaultLists,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(maxResults, 'maxResults');
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
       isRequired: true,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      4096,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1052,14 +888,6 @@ class FMS {
   Future<ListTagsForResourceResponse> listTagsForResource({
     required String resourceArn,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      1024,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSFMS_20180101.ListTagsForResource'
@@ -1095,7 +923,6 @@ class FMS {
     required AppsListData appsList,
     List<Tag>? tagList,
   }) async {
-    ArgumentError.checkNotNull(appsList, 'appsList');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSFMS_20180101.PutAppsList'
@@ -1140,22 +967,6 @@ class FMS {
     required String snsRoleName,
     required String snsTopicArn,
   }) async {
-    ArgumentError.checkNotNull(snsRoleName, 'snsRoleName');
-    _s.validateStringLength(
-      'snsRoleName',
-      snsRoleName,
-      1,
-      1024,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(snsTopicArn, 'snsTopicArn');
-    _s.validateStringLength(
-      'snsTopicArn',
-      snsTopicArn,
-      1,
-      1024,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSFMS_20180101.PutNotificationChannel'
@@ -1223,7 +1034,6 @@ class FMS {
     required Policy policy,
     List<Tag>? tagList,
   }) async {
-    ArgumentError.checkNotNull(policy, 'policy');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSFMS_20180101.PutPolicy'
@@ -1260,7 +1070,6 @@ class FMS {
     required ProtocolsListData protocolsList,
     List<Tag>? tagList,
   }) async {
-    ArgumentError.checkNotNull(protocolsList, 'protocolsList');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSFMS_20180101.PutProtocolsList'
@@ -1299,15 +1108,6 @@ class FMS {
     required String resourceArn,
     required List<Tag> tagList,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      1024,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(tagList, 'tagList');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSFMS_20180101.TagResource'
@@ -1343,15 +1143,6 @@ class FMS {
     required String resourceArn,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      1024,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSFMS_20180101.UntagResource'

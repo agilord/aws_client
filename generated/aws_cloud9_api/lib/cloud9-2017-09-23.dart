@@ -110,39 +110,11 @@ class Cloud9 {
     String? subnetId,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(instanceType, 'instanceType');
-    _s.validateStringLength(
-      'instanceType',
-      instanceType,
-      5,
-      20,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      60,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'automaticStopTimeMinutes',
       automaticStopTimeMinutes,
       0,
       20160,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      200,
-    );
-    _s.validateStringLength(
-      'subnetId',
-      subnetId,
-      5,
-      30,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -206,9 +178,6 @@ class Cloud9 {
     required MemberPermissions permissions,
     required String userArn,
   }) async {
-    ArgumentError.checkNotNull(environmentId, 'environmentId');
-    ArgumentError.checkNotNull(permissions, 'permissions');
-    ArgumentError.checkNotNull(userArn, 'userArn');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -246,7 +215,6 @@ class Cloud9 {
   Future<void> deleteEnvironment({
     required String environmentId,
   }) async {
-    ArgumentError.checkNotNull(environmentId, 'environmentId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCloud9WorkspaceManagementService.DeleteEnvironment'
@@ -283,8 +251,6 @@ class Cloud9 {
     required String environmentId,
     required String userArn,
   }) async {
-    ArgumentError.checkNotNull(environmentId, 'environmentId');
-    ArgumentError.checkNotNull(userArn, 'userArn');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -402,7 +368,6 @@ class Cloud9 {
   Future<DescribeEnvironmentStatusResult> describeEnvironmentStatus({
     required String environmentId,
   }) async {
-    ArgumentError.checkNotNull(environmentId, 'environmentId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -437,7 +402,6 @@ class Cloud9 {
   Future<DescribeEnvironmentsResult> describeEnvironments({
     required List<String> environmentIds,
   }) async {
-    ArgumentError.checkNotNull(environmentIds, 'environmentIds');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCloud9WorkspaceManagementService.DescribeEnvironments'
@@ -518,7 +482,6 @@ class Cloud9 {
   Future<ListTagsForResourceResponse> listTagsForResource({
     required String resourceARN,
   }) async {
-    ArgumentError.checkNotNull(resourceARN, 'resourceARN');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCloud9WorkspaceManagementService.ListTagsForResource'
@@ -558,8 +521,6 @@ class Cloud9 {
     required String resourceARN,
     required List<Tag> tags,
   }) async {
-    ArgumentError.checkNotNull(resourceARN, 'resourceARN');
-    ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCloud9WorkspaceManagementService.TagResource'
@@ -595,8 +556,6 @@ class Cloud9 {
     required String resourceARN,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(resourceARN, 'resourceARN');
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCloud9WorkspaceManagementService.UntagResource'
@@ -637,19 +596,6 @@ class Cloud9 {
     String? description,
     String? name,
   }) async {
-    ArgumentError.checkNotNull(environmentId, 'environmentId');
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      200,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      60,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCloud9WorkspaceManagementService.UpdateEnvironment'
@@ -704,9 +650,6 @@ class Cloud9 {
     required MemberPermissions permissions,
     required String userArn,
   }) async {
-    ArgumentError.checkNotNull(environmentId, 'environmentId');
-    ArgumentError.checkNotNull(permissions, 'permissions');
-    ArgumentError.checkNotNull(userArn, 'userArn');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':

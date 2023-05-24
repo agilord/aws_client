@@ -80,22 +80,6 @@ class AppStream {
     required String fleetName,
     required String stackName,
   }) async {
-    ArgumentError.checkNotNull(fleetName, 'fleetName');
-    _s.validateStringLength(
-      'fleetName',
-      fleetName,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(stackName, 'stackName');
-    _s.validateStringLength(
-      'stackName',
-      stackName,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.AssociateFleet'
@@ -125,7 +109,6 @@ class AppStream {
   Future<BatchAssociateUserStackResult> batchAssociateUserStack({
     required List<UserStackAssociation> userStackAssociations,
   }) async {
-    ArgumentError.checkNotNull(userStackAssociations, 'userStackAssociations');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.BatchAssociateUserStack'
@@ -154,7 +137,6 @@ class AppStream {
   Future<BatchDisassociateUserStackResult> batchDisassociateUserStack({
     required List<UserStackAssociation> userStackAssociations,
   }) async {
-    ArgumentError.checkNotNull(userStackAssociations, 'userStackAssociations');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.BatchDisassociateUserStack'
@@ -202,22 +184,6 @@ class AppStream {
     required String sourceImageName,
     String? destinationImageDescription,
   }) async {
-    ArgumentError.checkNotNull(destinationImageName, 'destinationImageName');
-    ArgumentError.checkNotNull(destinationRegion, 'destinationRegion');
-    _s.validateStringLength(
-      'destinationRegion',
-      destinationRegion,
-      1,
-      32,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(sourceImageName, 'sourceImageName');
-    _s.validateStringLength(
-      'destinationImageDescription',
-      destinationImageDescription,
-      0,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.CopyImage'
@@ -265,9 +231,6 @@ class AppStream {
     required List<String> organizationalUnitDistinguishedNames,
     ServiceAccountCredentials? serviceAccountCredentials,
   }) async {
-    ArgumentError.checkNotNull(directoryName, 'directoryName');
-    ArgumentError.checkNotNull(organizationalUnitDistinguishedNames,
-        'organizationalUnitDistinguishedNames');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.CreateDirectoryConfig'
@@ -552,34 +515,6 @@ class AppStream {
     Map<String, String>? tags,
     VpcConfig? vpcConfig,
   }) async {
-    ArgumentError.checkNotNull(computeCapacity, 'computeCapacity');
-    ArgumentError.checkNotNull(instanceType, 'instanceType');
-    _s.validateStringLength(
-      'instanceType',
-      instanceType,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      256,
-    );
-    _s.validateStringLength(
-      'displayName',
-      displayName,
-      0,
-      100,
-    );
-    _s.validateStringLength(
-      'imageName',
-      imageName,
-      1,
-      1152921504606846976,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.CreateFleet'
@@ -819,39 +754,6 @@ class AppStream {
     Map<String, String>? tags,
     VpcConfig? vpcConfig,
   }) async {
-    ArgumentError.checkNotNull(instanceType, 'instanceType');
-    _s.validateStringLength(
-      'instanceType',
-      instanceType,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'appstreamAgentVersion',
-      appstreamAgentVersion,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      256,
-    );
-    _s.validateStringLength(
-      'displayName',
-      displayName,
-      0,
-      100,
-    );
-    _s.validateStringLength(
-      'imageName',
-      imageName,
-      1,
-      1152921504606846976,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.CreateImageBuilder'
@@ -899,14 +801,6 @@ class AppStream {
     required String name,
     int? validity,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.CreateImageBuilderStreamingURL'
@@ -1005,31 +899,6 @@ class AppStream {
     Map<String, String>? tags,
     List<UserSetting>? userSettings,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      256,
-    );
-    _s.validateStringLength(
-      'displayName',
-      displayName,
-      0,
-      100,
-    );
-    _s.validateStringLength(
-      'feedbackURL',
-      feedbackURL,
-      0,
-      1000,
-    );
-    _s.validateStringLength(
-      'redirectURL',
-      redirectURL,
-      0,
-      1000,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.CreateStack'
@@ -1097,42 +966,6 @@ class AppStream {
     String? sessionContext,
     int? validity,
   }) async {
-    ArgumentError.checkNotNull(fleetName, 'fleetName');
-    _s.validateStringLength(
-      'fleetName',
-      fleetName,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(stackName, 'stackName');
-    _s.validateStringLength(
-      'stackName',
-      stackName,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(userId, 'userId');
-    _s.validateStringLength(
-      'userId',
-      userId,
-      2,
-      32,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'applicationId',
-      applicationId,
-      1,
-      1152921504606846976,
-    );
-    _s.validateStringLength(
-      'sessionContext',
-      sessionContext,
-      1,
-      1152921504606846976,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.CreateStreamingURL'
@@ -1221,27 +1054,6 @@ class AppStream {
     String? lastName,
     MessageAction? messageAction,
   }) async {
-    ArgumentError.checkNotNull(authenticationType, 'authenticationType');
-    ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'firstName',
-      firstName,
-      0,
-      2048,
-    );
-    _s.validateStringLength(
-      'lastName',
-      lastName,
-      0,
-      2048,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.CreateUser'
@@ -1274,7 +1086,6 @@ class AppStream {
   Future<void> deleteDirectoryConfig({
     required String directoryName,
   }) async {
-    ArgumentError.checkNotNull(directoryName, 'directoryName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.DeleteDirectoryConfig'
@@ -1302,14 +1113,6 @@ class AppStream {
   Future<void> deleteFleet({
     required String name,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.DeleteFleet'
@@ -1340,7 +1143,6 @@ class AppStream {
   Future<DeleteImageResult> deleteImage({
     required String name,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.DeleteImage'
@@ -1370,7 +1172,6 @@ class AppStream {
   Future<DeleteImageBuilderResult> deleteImageBuilder({
     required String name,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.DeleteImageBuilder'
@@ -1406,8 +1207,6 @@ class AppStream {
     required String name,
     required String sharedAccountId,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    ArgumentError.checkNotNull(sharedAccountId, 'sharedAccountId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.DeleteImagePermissions'
@@ -1439,14 +1238,6 @@ class AppStream {
   Future<void> deleteStack({
     required String name,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.DeleteStack'
@@ -1497,15 +1288,6 @@ class AppStream {
     required AuthenticationType authenticationType,
     required String userName,
   }) async {
-    ArgumentError.checkNotNull(authenticationType, 'authenticationType');
-    ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      128,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.DeleteUser'
@@ -1548,12 +1330,6 @@ class AppStream {
     int? maxResults,
     String? nextToken,
   }) async {
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.DescribeDirectoryConfigs'
@@ -1589,12 +1365,6 @@ class AppStream {
     List<String>? names,
     String? nextToken,
   }) async {
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.DescribeFleets'
@@ -1634,12 +1404,6 @@ class AppStream {
     List<String>? names,
     String? nextToken,
   }) async {
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.DescribeImageBuilders'
@@ -1685,18 +1449,11 @@ class AppStream {
     String? nextToken,
     List<String>? sharedAwsAccountIds,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
     _s.validateNumRange(
       'maxResults',
       maxResults,
       0,
       500,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1754,12 +1511,6 @@ class AppStream {
       maxResults,
       0,
       25,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1822,34 +1573,6 @@ class AppStream {
     String? nextToken,
     String? userId,
   }) async {
-    ArgumentError.checkNotNull(fleetName, 'fleetName');
-    _s.validateStringLength(
-      'fleetName',
-      fleetName,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(stackName, 'stackName');
-    _s.validateStringLength(
-      'stackName',
-      stackName,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
-    );
-    _s.validateStringLength(
-      'userId',
-      userId,
-      2,
-      128,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.DescribeSessions'
@@ -1889,12 +1612,6 @@ class AppStream {
     List<String>? names,
     String? nextToken,
   }) async {
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.DescribeStacks'
@@ -1930,12 +1647,6 @@ class AppStream {
     int? maxResults,
     String? nextToken,
   }) async {
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.DescribeUsageReportSubscriptions'
@@ -2003,24 +1714,6 @@ class AppStream {
       0,
       500,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
-    );
-    _s.validateStringLength(
-      'stackName',
-      stackName,
-      1,
-      1152921504606846976,
-    );
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      128,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.DescribeUserStackAssociations'
@@ -2065,13 +1758,6 @@ class AppStream {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(authenticationType, 'authenticationType');
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.DescribeUsers'
@@ -2110,15 +1796,6 @@ class AppStream {
     required AuthenticationType authenticationType,
     required String userName,
   }) async {
-    ArgumentError.checkNotNull(authenticationType, 'authenticationType');
-    ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      128,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.DisableUser'
@@ -2152,22 +1829,6 @@ class AppStream {
     required String fleetName,
     required String stackName,
   }) async {
-    ArgumentError.checkNotNull(fleetName, 'fleetName');
-    _s.validateStringLength(
-      'fleetName',
-      fleetName,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(stackName, 'stackName');
-    _s.validateStringLength(
-      'stackName',
-      stackName,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.DisassociateFleet'
@@ -2207,15 +1868,6 @@ class AppStream {
     required AuthenticationType authenticationType,
     required String userName,
   }) async {
-    ArgumentError.checkNotNull(authenticationType, 'authenticationType');
-    ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      128,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.EnableUser'
@@ -2240,14 +1892,6 @@ class AppStream {
   Future<void> expireSession({
     required String sessionId,
   }) async {
-    ArgumentError.checkNotNull(sessionId, 'sessionId');
-    _s.validateStringLength(
-      'sessionId',
-      sessionId,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.ExpireSession'
@@ -2277,20 +1921,6 @@ class AppStream {
     required String stackName,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(stackName, 'stackName');
-    _s.validateStringLength(
-      'stackName',
-      stackName,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.ListAssociatedFleets'
@@ -2323,20 +1953,6 @@ class AppStream {
     required String fleetName,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(fleetName, 'fleetName');
-    _s.validateStringLength(
-      'fleetName',
-      fleetName,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.ListAssociatedStacks'
@@ -2371,7 +1987,6 @@ class AppStream {
   Future<ListTagsForResourceResponse> listTagsForResource({
     required String resourceArn,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.ListTagsForResource'
@@ -2406,14 +2021,6 @@ class AppStream {
   Future<void> startFleet({
     required String name,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.StartFleet'
@@ -2448,20 +2055,6 @@ class AppStream {
     required String name,
     String? appstreamAgentVersion,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'appstreamAgentVersion',
-      appstreamAgentVersion,
-      1,
-      100,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.StartImageBuilder'
@@ -2492,14 +2085,6 @@ class AppStream {
   Future<void> stopFleet({
     required String name,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.StopFleet'
@@ -2527,14 +2112,6 @@ class AppStream {
   Future<StopImageBuilderResult> stopImageBuilder({
     required String name,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.StopImageBuilder'
@@ -2591,8 +2168,6 @@ class AppStream {
     required String resourceArn,
     required Map<String, String> tags,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.TagResource'
@@ -2632,8 +2207,6 @@ class AppStream {
     required String resourceArn,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.UntagResource'
@@ -2675,7 +2248,6 @@ class AppStream {
     List<String>? organizationalUnitDistinguishedNames,
     ServiceAccountCredentials? serviceAccountCredentials,
   }) async {
-    ArgumentError.checkNotNull(directoryName, 'directoryName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.UpdateDirectoryConfig'
@@ -2945,36 +2517,6 @@ class AppStream {
     StreamView? streamView,
     VpcConfig? vpcConfig,
   }) async {
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      256,
-    );
-    _s.validateStringLength(
-      'displayName',
-      displayName,
-      0,
-      100,
-    );
-    _s.validateStringLength(
-      'imageName',
-      imageName,
-      1,
-      1152921504606846976,
-    );
-    _s.validateStringLength(
-      'instanceType',
-      instanceType,
-      1,
-      1152921504606846976,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      1152921504606846976,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.UpdateFleet'
@@ -3035,9 +2577,6 @@ class AppStream {
     required String name,
     required String sharedAccountId,
   }) async {
-    ArgumentError.checkNotNull(imagePermissions, 'imagePermissions');
-    ArgumentError.checkNotNull(name, 'name');
-    ArgumentError.checkNotNull(sharedAccountId, 'sharedAccountId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.UpdateImagePermissions'
@@ -3126,38 +2665,6 @@ class AppStream {
     List<StorageConnector>? storageConnectors,
     List<UserSetting>? userSettings,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      256,
-    );
-    _s.validateStringLength(
-      'displayName',
-      displayName,
-      0,
-      100,
-    );
-    _s.validateStringLength(
-      'feedbackURL',
-      feedbackURL,
-      0,
-      1000,
-    );
-    _s.validateStringLength(
-      'redirectURL',
-      redirectURL,
-      0,
-      1000,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'PhotonAdminProxyService.UpdateStack'

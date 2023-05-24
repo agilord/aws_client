@@ -68,8 +68,6 @@ class Inspector {
     required List<Attribute> attributes,
     required List<String> findingArns,
   }) async {
-    ArgumentError.checkNotNull(attributes, 'attributes');
-    ArgumentError.checkNotNull(findingArns, 'findingArns');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'InspectorService.AddAttributesToFindings'
@@ -123,20 +121,6 @@ class Inspector {
     required String assessmentTargetName,
     String? resourceGroupArn,
   }) async {
-    ArgumentError.checkNotNull(assessmentTargetName, 'assessmentTargetName');
-    _s.validateStringLength(
-      'assessmentTargetName',
-      assessmentTargetName,
-      1,
-      140,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'resourceGroupArn',
-      resourceGroupArn,
-      1,
-      300,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'InspectorService.CreateAssessmentTarget'
@@ -199,24 +183,6 @@ class Inspector {
     required List<String> rulesPackageArns,
     List<Attribute>? userAttributesForFindings,
   }) async {
-    ArgumentError.checkNotNull(assessmentTargetArn, 'assessmentTargetArn');
-    _s.validateStringLength(
-      'assessmentTargetArn',
-      assessmentTargetArn,
-      1,
-      300,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(
-        assessmentTemplateName, 'assessmentTemplateName');
-    _s.validateStringLength(
-      'assessmentTemplateName',
-      assessmentTemplateName,
-      1,
-      140,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(durationInSeconds, 'durationInSeconds');
     _s.validateNumRange(
       'durationInSeconds',
       durationInSeconds,
@@ -224,7 +190,6 @@ class Inspector {
       86400,
       isRequired: true,
     );
-    ArgumentError.checkNotNull(rulesPackageArns, 'rulesPackageArns');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'InspectorService.CreateAssessmentTemplate'
@@ -266,14 +231,6 @@ class Inspector {
   Future<CreateExclusionsPreviewResponse> createExclusionsPreview({
     required String assessmentTemplateArn,
   }) async {
-    ArgumentError.checkNotNull(assessmentTemplateArn, 'assessmentTemplateArn');
-    _s.validateStringLength(
-      'assessmentTemplateArn',
-      assessmentTemplateArn,
-      1,
-      300,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'InspectorService.CreateExclusionsPreview'
@@ -312,7 +269,6 @@ class Inspector {
   Future<CreateResourceGroupResponse> createResourceGroup({
     required List<ResourceGroupTag> resourceGroupTags,
   }) async {
-    ArgumentError.checkNotNull(resourceGroupTags, 'resourceGroupTags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'InspectorService.CreateResourceGroup'
@@ -346,14 +302,6 @@ class Inspector {
   Future<void> deleteAssessmentRun({
     required String assessmentRunArn,
   }) async {
-    ArgumentError.checkNotNull(assessmentRunArn, 'assessmentRunArn');
-    _s.validateStringLength(
-      'assessmentRunArn',
-      assessmentRunArn,
-      1,
-      300,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'InspectorService.DeleteAssessmentRun'
@@ -385,14 +333,6 @@ class Inspector {
   Future<void> deleteAssessmentTarget({
     required String assessmentTargetArn,
   }) async {
-    ArgumentError.checkNotNull(assessmentTargetArn, 'assessmentTargetArn');
-    _s.validateStringLength(
-      'assessmentTargetArn',
-      assessmentTargetArn,
-      1,
-      300,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'InspectorService.DeleteAssessmentTarget'
@@ -424,14 +364,6 @@ class Inspector {
   Future<void> deleteAssessmentTemplate({
     required String assessmentTemplateArn,
   }) async {
-    ArgumentError.checkNotNull(assessmentTemplateArn, 'assessmentTemplateArn');
-    _s.validateStringLength(
-      'assessmentTemplateArn',
-      assessmentTemplateArn,
-      1,
-      300,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'InspectorService.DeleteAssessmentTemplate'
@@ -459,7 +391,6 @@ class Inspector {
   Future<DescribeAssessmentRunsResponse> describeAssessmentRuns({
     required List<String> assessmentRunArns,
   }) async {
-    ArgumentError.checkNotNull(assessmentRunArns, 'assessmentRunArns');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'InspectorService.DescribeAssessmentRuns'
@@ -489,7 +420,6 @@ class Inspector {
   Future<DescribeAssessmentTargetsResponse> describeAssessmentTargets({
     required List<String> assessmentTargetArns,
   }) async {
-    ArgumentError.checkNotNull(assessmentTargetArns, 'assessmentTargetArns');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'InspectorService.DescribeAssessmentTargets'
@@ -516,8 +446,6 @@ class Inspector {
   Future<DescribeAssessmentTemplatesResponse> describeAssessmentTemplates({
     required List<String> assessmentTemplateArns,
   }) async {
-    ArgumentError.checkNotNull(
-        assessmentTemplateArns, 'assessmentTemplateArns');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'InspectorService.DescribeAssessmentTemplates'
@@ -572,7 +500,6 @@ class Inspector {
     required List<String> exclusionArns,
     Locale? locale,
   }) async {
-    ArgumentError.checkNotNull(exclusionArns, 'exclusionArns');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'InspectorService.DescribeExclusions'
@@ -607,7 +534,6 @@ class Inspector {
     required List<String> findingArns,
     Locale? locale,
   }) async {
-    ArgumentError.checkNotNull(findingArns, 'findingArns');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'InspectorService.DescribeFindings'
@@ -638,7 +564,6 @@ class Inspector {
   Future<DescribeResourceGroupsResponse> describeResourceGroups({
     required List<String> resourceGroupArns,
   }) async {
-    ArgumentError.checkNotNull(resourceGroupArns, 'resourceGroupArns');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'InspectorService.DescribeResourceGroups'
@@ -672,7 +597,6 @@ class Inspector {
     required List<String> rulesPackageArns,
     Locale? locale,
   }) async {
-    ArgumentError.checkNotNull(rulesPackageArns, 'rulesPackageArns');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'InspectorService.DescribeRulesPackages'
@@ -722,16 +646,6 @@ class Inspector {
     required ReportFileFormat reportFileFormat,
     required ReportType reportType,
   }) async {
-    ArgumentError.checkNotNull(assessmentRunArn, 'assessmentRunArn');
-    _s.validateStringLength(
-      'assessmentRunArn',
-      assessmentRunArn,
-      1,
-      300,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(reportFileFormat, 'reportFileFormat');
-    ArgumentError.checkNotNull(reportType, 'reportType');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'InspectorService.GetAssessmentReport'
@@ -789,21 +703,6 @@ class Inspector {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(assessmentTemplateArn, 'assessmentTemplateArn');
-    _s.validateStringLength(
-      'assessmentTemplateArn',
-      assessmentTemplateArn,
-      1,
-      300,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(previewToken, 'previewToken');
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      300,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'InspectorService.GetExclusionsPreview'
@@ -840,14 +739,6 @@ class Inspector {
   Future<GetTelemetryMetadataResponse> getTelemetryMetadata({
     required String assessmentRunArn,
   }) async {
-    ArgumentError.checkNotNull(assessmentRunArn, 'assessmentRunArn');
-    _s.validateStringLength(
-      'assessmentRunArn',
-      assessmentRunArn,
-      1,
-      300,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'InspectorService.GetTelemetryMetadata'
@@ -902,20 +793,6 @@ class Inspector {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(assessmentRunArn, 'assessmentRunArn');
-    _s.validateStringLength(
-      'assessmentRunArn',
-      assessmentRunArn,
-      1,
-      300,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      300,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'InspectorService.ListAssessmentRunAgents'
@@ -974,12 +851,6 @@ class Inspector {
     int? maxResults,
     String? nextToken,
   }) async {
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      300,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'InspectorService.ListAssessmentRuns'
@@ -1034,12 +905,6 @@ class Inspector {
     int? maxResults,
     String? nextToken,
   }) async {
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      300,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'InspectorService.ListAssessmentTargets'
@@ -1096,12 +961,6 @@ class Inspector {
     int? maxResults,
     String? nextToken,
   }) async {
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      300,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'InspectorService.ListAssessmentTemplates'
@@ -1152,18 +1011,6 @@ class Inspector {
     String? nextToken,
     String? resourceArn,
   }) async {
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      300,
-    );
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      300,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'InspectorService.ListEventSubscriptions'
@@ -1209,20 +1056,6 @@ class Inspector {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(assessmentRunArn, 'assessmentRunArn');
-    _s.validateStringLength(
-      'assessmentRunArn',
-      assessmentRunArn,
-      1,
-      300,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      300,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'InspectorService.ListExclusions'
@@ -1279,12 +1112,6 @@ class Inspector {
     int? maxResults,
     String? nextToken,
   }) async {
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      300,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'InspectorService.ListFindings'
@@ -1326,12 +1153,6 @@ class Inspector {
     int? maxResults,
     String? nextToken,
   }) async {
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      300,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'InspectorService.ListRulesPackages'
@@ -1364,14 +1185,6 @@ class Inspector {
   Future<ListTagsForResourceResponse> listTagsForResource({
     required String resourceArn,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      300,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'InspectorService.ListTagsForResource'
@@ -1417,20 +1230,6 @@ class Inspector {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(previewAgentsArn, 'previewAgentsArn');
-    _s.validateStringLength(
-      'previewAgentsArn',
-      previewAgentsArn,
-      1,
-      300,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      300,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'InspectorService.PreviewAgents'
@@ -1466,14 +1265,6 @@ class Inspector {
   Future<void> registerCrossAccountAccessRole({
     required String roleArn,
   }) async {
-    ArgumentError.checkNotNull(roleArn, 'roleArn');
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      1,
-      300,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'InspectorService.RegisterCrossAccountAccessRole'
@@ -1511,8 +1302,6 @@ class Inspector {
     required List<String> attributeKeys,
     required List<String> findingArns,
   }) async {
-    ArgumentError.checkNotNull(attributeKeys, 'attributeKeys');
-    ArgumentError.checkNotNull(findingArns, 'findingArns');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'InspectorService.RemoveAttributesFromFindings'
@@ -1551,14 +1340,6 @@ class Inspector {
     required String resourceArn,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      300,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'InspectorService.SetTagsForResource'
@@ -1600,20 +1381,6 @@ class Inspector {
     required String assessmentTemplateArn,
     String? assessmentRunName,
   }) async {
-    ArgumentError.checkNotNull(assessmentTemplateArn, 'assessmentTemplateArn');
-    _s.validateStringLength(
-      'assessmentTemplateArn',
-      assessmentTemplateArn,
-      1,
-      300,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'assessmentRunName',
-      assessmentRunName,
-      1,
-      140,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'InspectorService.StartAssessmentRun'
@@ -1655,14 +1422,6 @@ class Inspector {
     required String assessmentRunArn,
     StopAction? stopAction,
   }) async {
-    ArgumentError.checkNotNull(assessmentRunArn, 'assessmentRunArn');
-    _s.validateStringLength(
-      'assessmentRunArn',
-      assessmentRunArn,
-      1,
-      300,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'InspectorService.StopAssessmentRun'
@@ -1704,23 +1463,6 @@ class Inspector {
     required String resourceArn,
     required String topicArn,
   }) async {
-    ArgumentError.checkNotNull(event, 'event');
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      300,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(topicArn, 'topicArn');
-    _s.validateStringLength(
-      'topicArn',
-      topicArn,
-      1,
-      300,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'InspectorService.SubscribeToEvent'
@@ -1762,23 +1504,6 @@ class Inspector {
     required String resourceArn,
     required String topicArn,
   }) async {
-    ArgumentError.checkNotNull(event, 'event');
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      300,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(topicArn, 'topicArn');
-    _s.validateStringLength(
-      'topicArn',
-      topicArn,
-      1,
-      300,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'InspectorService.UnsubscribeFromEvent'
@@ -1823,28 +1548,6 @@ class Inspector {
     required String assessmentTargetName,
     String? resourceGroupArn,
   }) async {
-    ArgumentError.checkNotNull(assessmentTargetArn, 'assessmentTargetArn');
-    _s.validateStringLength(
-      'assessmentTargetArn',
-      assessmentTargetArn,
-      1,
-      300,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(assessmentTargetName, 'assessmentTargetName');
-    _s.validateStringLength(
-      'assessmentTargetName',
-      assessmentTargetName,
-      1,
-      140,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'resourceGroupArn',
-      resourceGroupArn,
-      1,
-      300,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'InspectorService.UpdateAssessmentTarget'

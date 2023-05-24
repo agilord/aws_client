@@ -224,9 +224,6 @@ class ServerlessApplicationRepository {
     String? templateBody,
     String? templateUrl,
   }) async {
-    ArgumentError.checkNotNull(author, 'author');
-    ArgumentError.checkNotNull(description, 'description');
-    ArgumentError.checkNotNull(name, 'name');
     final $payload = <String, dynamic>{
       'author': author,
       'description': description,
@@ -291,8 +288,6 @@ class ServerlessApplicationRepository {
     String? templateBody,
     String? templateUrl,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
-    ArgumentError.checkNotNull(semanticVersion, 'semanticVersion');
     final $payload = <String, dynamic>{
       if (sourceCodeArchiveUrl != null)
         'sourceCodeArchiveUrl': sourceCodeArchiveUrl,
@@ -454,8 +449,6 @@ class ServerlessApplicationRepository {
     List<Tag>? tags,
     String? templateId,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
-    ArgumentError.checkNotNull(stackName, 'stackName');
     final $payload = <String, dynamic>{
       'stackName': stackName,
       if (capabilities != null) 'capabilities': capabilities,
@@ -502,7 +495,6 @@ class ServerlessApplicationRepository {
     required String applicationId,
     String? semanticVersion,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
     final $payload = <String, dynamic>{
       if (semanticVersion != null) 'semanticVersion': semanticVersion,
     };
@@ -530,7 +522,6 @@ class ServerlessApplicationRepository {
   Future<void> deleteApplication({
     required String applicationId,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -556,7 +547,6 @@ class ServerlessApplicationRepository {
     required String applicationId,
     String? semanticVersion,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
     final $query = <String, List<String>>{
       if (semanticVersion != null) 'semanticVersion': [semanticVersion],
     };
@@ -583,7 +573,6 @@ class ServerlessApplicationRepository {
   Future<GetApplicationPolicyResponse> getApplicationPolicy({
     required String applicationId,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -613,8 +602,6 @@ class ServerlessApplicationRepository {
     required String applicationId,
     required String templateId,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
-    ArgumentError.checkNotNull(templateId, 'templateId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -650,7 +637,6 @@ class ServerlessApplicationRepository {
     String? nextToken,
     String? semanticVersion,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
     _s.validateNumRange(
       'maxItems',
       maxItems,
@@ -694,7 +680,6 @@ class ServerlessApplicationRepository {
     int? maxItems,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
     _s.validateNumRange(
       'maxItems',
       maxItems,
@@ -774,8 +759,6 @@ class ServerlessApplicationRepository {
     required String applicationId,
     required List<ApplicationPolicyStatement> statements,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
-    ArgumentError.checkNotNull(statements, 'statements');
     final $payload = <String, dynamic>{
       'statements': statements,
     };
@@ -807,8 +790,6 @@ class ServerlessApplicationRepository {
     required String applicationId,
     required String organizationId,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
-    ArgumentError.checkNotNull(organizationId, 'organizationId');
     final $payload = <String, dynamic>{
       'organizationId': organizationId,
     };
@@ -875,7 +856,6 @@ class ServerlessApplicationRepository {
     String? readmeBody,
     String? readmeUrl,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
     final $payload = <String, dynamic>{
       if (author != null) 'author': author,
       if (description != null) 'description': description,

@@ -82,14 +82,6 @@ class MarketplaceEntitlementService {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(productCode, 'productCode');
-    _s.validateStringLength(
-      'productCode',
-      productCode,
-      1,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSMPEntitlementService.GetEntitlements'

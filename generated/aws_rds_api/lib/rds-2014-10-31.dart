@@ -88,8 +88,6 @@ class RDS {
     required String roleArn,
     String? featureName,
   }) async {
-    ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
-    ArgumentError.checkNotNull(roleArn, 'roleArn');
     final $request = <String, dynamic>{};
     $request['DBClusterIdentifier'] = dBClusterIdentifier;
     $request['RoleArn'] = roleArn;
@@ -135,9 +133,6 @@ class RDS {
     required String featureName,
     required String roleArn,
   }) async {
-    ArgumentError.checkNotNull(dBInstanceIdentifier, 'dBInstanceIdentifier');
-    ArgumentError.checkNotNull(featureName, 'featureName');
-    ArgumentError.checkNotNull(roleArn, 'roleArn');
     final $request = <String, dynamic>{};
     $request['DBInstanceIdentifier'] = dBInstanceIdentifier;
     $request['FeatureName'] = featureName;
@@ -200,8 +195,6 @@ class RDS {
     required String sourceIdentifier,
     required String subscriptionName,
   }) async {
-    ArgumentError.checkNotNull(sourceIdentifier, 'sourceIdentifier');
-    ArgumentError.checkNotNull(subscriptionName, 'subscriptionName');
     final $request = <String, dynamic>{};
     $request['SourceIdentifier'] = sourceIdentifier;
     $request['SubscriptionName'] = subscriptionName;
@@ -246,8 +239,6 @@ class RDS {
     required String resourceName,
     required List<Tag> tags,
   }) async {
-    ArgumentError.checkNotNull(resourceName, 'resourceName');
-    ArgumentError.checkNotNull(tags, 'tags');
     final $request = <String, dynamic>{};
     $request['ResourceName'] = resourceName;
     $request['Tags'] = tags;
@@ -307,9 +298,6 @@ class RDS {
     required String optInType,
     required String resourceIdentifier,
   }) async {
-    ArgumentError.checkNotNull(applyAction, 'applyAction');
-    ArgumentError.checkNotNull(optInType, 'optInType');
-    ArgumentError.checkNotNull(resourceIdentifier, 'resourceIdentifier');
     final $request = <String, dynamic>{};
     $request['ApplyAction'] = applyAction;
     $request['OptInType'] = optInType;
@@ -386,7 +374,6 @@ class RDS {
     String? eC2SecurityGroupName,
     String? eC2SecurityGroupOwnerId,
   }) async {
-    ArgumentError.checkNotNull(dBSecurityGroupName, 'dBSecurityGroupName');
     final $request = <String, dynamic>{};
     $request['DBSecurityGroupName'] = dBSecurityGroupName;
     cidrip?.also((arg) => $request['CIDRIP'] = arg);
@@ -479,8 +466,6 @@ class RDS {
     bool? force,
     bool? useEarliestTimeOnPointInTimeUnavailable,
   }) async {
-    ArgumentError.checkNotNull(backtrackTo, 'backtrackTo');
-    ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
     final $request = <String, dynamic>{};
     $request['BacktrackTo'] = _s.iso8601ToJson(backtrackTo);
     $request['DBClusterIdentifier'] = dBClusterIdentifier;
@@ -512,7 +497,6 @@ class RDS {
   Future<ExportTask> cancelExportTask({
     required String exportTaskIdentifier,
   }) async {
-    ArgumentError.checkNotNull(exportTaskIdentifier, 'exportTaskIdentifier');
     final $request = <String, dynamic>{};
     $request['ExportTaskIdentifier'] = exportTaskIdentifier;
     final $result = await _protocol.send(
@@ -592,12 +576,6 @@ class RDS {
     required String targetDBClusterParameterGroupIdentifier,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(sourceDBClusterParameterGroupIdentifier,
-        'sourceDBClusterParameterGroupIdentifier');
-    ArgumentError.checkNotNull(targetDBClusterParameterGroupDescription,
-        'targetDBClusterParameterGroupDescription');
-    ArgumentError.checkNotNull(targetDBClusterParameterGroupIdentifier,
-        'targetDBClusterParameterGroupIdentifier');
     final $request = <String, dynamic>{};
     $request['SourceDBClusterParameterGroupIdentifier'] =
         sourceDBClusterParameterGroupIdentifier;
@@ -862,10 +840,6 @@ class RDS {
     String? sourceRegion,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(
-        sourceDBClusterSnapshotIdentifier, 'sourceDBClusterSnapshotIdentifier');
-    ArgumentError.checkNotNull(
-        targetDBClusterSnapshotIdentifier, 'targetDBClusterSnapshotIdentifier');
     final $request = <String, dynamic>{};
     $request['SourceDBClusterSnapshotIdentifier'] =
         sourceDBClusterSnapshotIdentifier;
@@ -944,12 +918,6 @@ class RDS {
     required String targetDBParameterGroupIdentifier,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(
-        sourceDBParameterGroupIdentifier, 'sourceDBParameterGroupIdentifier');
-    ArgumentError.checkNotNull(
-        targetDBParameterGroupDescription, 'targetDBParameterGroupDescription');
-    ArgumentError.checkNotNull(
-        targetDBParameterGroupIdentifier, 'targetDBParameterGroupIdentifier');
     final $request = <String, dynamic>{};
     $request['SourceDBParameterGroupIdentifier'] =
         sourceDBParameterGroupIdentifier;
@@ -1160,10 +1128,6 @@ class RDS {
     List<Tag>? tags,
     String? targetCustomAvailabilityZone,
   }) async {
-    ArgumentError.checkNotNull(
-        sourceDBSnapshotIdentifier, 'sourceDBSnapshotIdentifier');
-    ArgumentError.checkNotNull(
-        targetDBSnapshotIdentifier, 'targetDBSnapshotIdentifier');
     final $request = <String, dynamic>{};
     $request['SourceDBSnapshotIdentifier'] = sourceDBSnapshotIdentifier;
     $request['TargetDBSnapshotIdentifier'] = targetDBSnapshotIdentifier;
@@ -1235,12 +1199,6 @@ class RDS {
     required String targetOptionGroupIdentifier,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(
-        sourceOptionGroupIdentifier, 'sourceOptionGroupIdentifier');
-    ArgumentError.checkNotNull(
-        targetOptionGroupDescription, 'targetOptionGroupDescription');
-    ArgumentError.checkNotNull(
-        targetOptionGroupIdentifier, 'targetOptionGroupIdentifier');
     final $request = <String, dynamic>{};
     $request['SourceOptionGroupIdentifier'] = sourceOptionGroupIdentifier;
     $request['TargetOptionGroupDescription'] = targetOptionGroupDescription;
@@ -1297,8 +1255,6 @@ class RDS {
     String? newVpnTunnelName,
     String? vpnTunnelOriginatorIP,
   }) async {
-    ArgumentError.checkNotNull(
-        customAvailabilityZoneName, 'customAvailabilityZoneName');
     final $request = <String, dynamic>{};
     $request['CustomAvailabilityZoneName'] = customAvailabilityZoneName;
     existingVpnId?.also((arg) => $request['ExistingVpnId'] = arg);
@@ -1815,8 +1771,6 @@ class RDS {
     List<Tag>? tags,
     List<String>? vpcSecurityGroupIds,
   }) async {
-    ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
-    ArgumentError.checkNotNull(engine, 'engine');
     final $request = <String, dynamic>{};
     $request['DBClusterIdentifier'] = dBClusterIdentifier;
     $request['Engine'] = engine;
@@ -1919,10 +1873,6 @@ class RDS {
     List<String>? staticMembers,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(
-        dBClusterEndpointIdentifier, 'dBClusterEndpointIdentifier');
-    ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
-    ArgumentError.checkNotNull(endpointType, 'endpointType');
     final $request = <String, dynamic>{};
     $request['DBClusterEndpointIdentifier'] = dBClusterEndpointIdentifier;
     $request['DBClusterIdentifier'] = dBClusterIdentifier;
@@ -2020,11 +1970,6 @@ class RDS {
     required String description,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(
-        dBClusterParameterGroupName, 'dBClusterParameterGroupName');
-    ArgumentError.checkNotNull(
-        dBParameterGroupFamily, 'dBParameterGroupFamily');
-    ArgumentError.checkNotNull(description, 'description');
     final $request = <String, dynamic>{};
     $request['DBClusterParameterGroupName'] = dBClusterParameterGroupName;
     $request['DBParameterGroupFamily'] = dBParameterGroupFamily;
@@ -2097,9 +2042,6 @@ class RDS {
     required String dBClusterSnapshotIdentifier,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
-    ArgumentError.checkNotNull(
-        dBClusterSnapshotIdentifier, 'dBClusterSnapshotIdentifier');
     final $request = <String, dynamic>{};
     $request['DBClusterIdentifier'] = dBClusterIdentifier;
     $request['DBClusterSnapshotIdentifier'] = dBClusterSnapshotIdentifier;
@@ -3155,9 +3097,6 @@ class RDS {
     String? timezone,
     List<String>? vpcSecurityGroupIds,
   }) async {
-    ArgumentError.checkNotNull(dBInstanceClass, 'dBInstanceClass');
-    ArgumentError.checkNotNull(dBInstanceIdentifier, 'dBInstanceIdentifier');
-    ArgumentError.checkNotNull(engine, 'engine');
     final $request = <String, dynamic>{};
     $request['DBInstanceClass'] = dBInstanceClass;
     $request['DBInstanceIdentifier'] = dBInstanceIdentifier;
@@ -3707,9 +3646,6 @@ class RDS {
     bool? useDefaultProcessorFeatures,
     List<String>? vpcSecurityGroupIds,
   }) async {
-    ArgumentError.checkNotNull(dBInstanceIdentifier, 'dBInstanceIdentifier');
-    ArgumentError.checkNotNull(
-        sourceDBInstanceIdentifier, 'sourceDBInstanceIdentifier');
     final $request = <String, dynamic>{};
     $request['DBInstanceIdentifier'] = dBInstanceIdentifier;
     $request['SourceDBInstanceIdentifier'] = sourceDBInstanceIdentifier;
@@ -3838,10 +3774,6 @@ class RDS {
     required String description,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(
-        dBParameterGroupFamily, 'dBParameterGroupFamily');
-    ArgumentError.checkNotNull(dBParameterGroupName, 'dBParameterGroupName');
-    ArgumentError.checkNotNull(description, 'description');
     final $request = <String, dynamic>{};
     $request['DBParameterGroupFamily'] = dBParameterGroupFamily;
     $request['DBParameterGroupName'] = dBParameterGroupName;
@@ -3926,11 +3858,6 @@ class RDS {
     List<Tag>? tags,
     List<String>? vpcSecurityGroupIds,
   }) async {
-    ArgumentError.checkNotNull(auth, 'auth');
-    ArgumentError.checkNotNull(dBProxyName, 'dBProxyName');
-    ArgumentError.checkNotNull(engineFamily, 'engineFamily');
-    ArgumentError.checkNotNull(roleArn, 'roleArn');
-    ArgumentError.checkNotNull(vpcSubnetIds, 'vpcSubnetIds');
     final $request = <String, dynamic>{};
     $request['Auth'] = auth;
     $request['DBProxyName'] = dBProxyName;
@@ -3999,9 +3926,6 @@ class RDS {
     required String dBSecurityGroupName,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(
-        dBSecurityGroupDescription, 'dBSecurityGroupDescription');
-    ArgumentError.checkNotNull(dBSecurityGroupName, 'dBSecurityGroupName');
     final $request = <String, dynamic>{};
     $request['DBSecurityGroupDescription'] = dBSecurityGroupDescription;
     $request['DBSecurityGroupName'] = dBSecurityGroupName;
@@ -4064,8 +3988,6 @@ class RDS {
     required String dBSnapshotIdentifier,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(dBInstanceIdentifier, 'dBInstanceIdentifier');
-    ArgumentError.checkNotNull(dBSnapshotIdentifier, 'dBSnapshotIdentifier');
     final $request = <String, dynamic>{};
     $request['DBInstanceIdentifier'] = dBInstanceIdentifier;
     $request['DBSnapshotIdentifier'] = dBSnapshotIdentifier;
@@ -4116,10 +4038,6 @@ class RDS {
     required List<String> subnetIds,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(
-        dBSubnetGroupDescription, 'dBSubnetGroupDescription');
-    ArgumentError.checkNotNull(dBSubnetGroupName, 'dBSubnetGroupName');
-    ArgumentError.checkNotNull(subnetIds, 'subnetIds');
     final $request = <String, dynamic>{};
     $request['DBSubnetGroupDescription'] = dBSubnetGroupDescription;
     $request['DBSubnetGroupName'] = dBSubnetGroupName;
@@ -4260,8 +4178,6 @@ class RDS {
     String? sourceType,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(snsTopicArn, 'snsTopicArn');
-    ArgumentError.checkNotNull(subscriptionName, 'subscriptionName');
     final $request = <String, dynamic>{};
     $request['SnsTopicArn'] = snsTopicArn;
     $request['SubscriptionName'] = subscriptionName;
@@ -4403,11 +4319,6 @@ class RDS {
     required String optionGroupName,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(engineName, 'engineName');
-    ArgumentError.checkNotNull(majorEngineVersion, 'majorEngineVersion');
-    ArgumentError.checkNotNull(
-        optionGroupDescription, 'optionGroupDescription');
-    ArgumentError.checkNotNull(optionGroupName, 'optionGroupName');
     final $request = <String, dynamic>{};
     $request['EngineName'] = engineName;
     $request['MajorEngineVersion'] = majorEngineVersion;
@@ -4445,8 +4356,6 @@ class RDS {
   Future<DeleteCustomAvailabilityZoneResult> deleteCustomAvailabilityZone({
     required String customAvailabilityZoneId,
   }) async {
-    ArgumentError.checkNotNull(
-        customAvailabilityZoneId, 'customAvailabilityZoneId');
     final $request = <String, dynamic>{};
     $request['CustomAvailabilityZoneId'] = customAvailabilityZoneId;
     final $result = await _protocol.send(
@@ -4531,7 +4440,6 @@ class RDS {
     String? finalDBSnapshotIdentifier,
     bool? skipFinalSnapshot,
   }) async {
-    ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
     final $request = <String, dynamic>{};
     $request['DBClusterIdentifier'] = dBClusterIdentifier;
     finalDBSnapshotIdentifier
@@ -4566,8 +4474,6 @@ class RDS {
   Future<DBClusterEndpoint> deleteDBClusterEndpoint({
     required String dBClusterEndpointIdentifier,
   }) async {
-    ArgumentError.checkNotNull(
-        dBClusterEndpointIdentifier, 'dBClusterEndpointIdentifier');
     final $request = <String, dynamic>{};
     $request['DBClusterEndpointIdentifier'] = dBClusterEndpointIdentifier;
     final $result = await _protocol.send(
@@ -4616,8 +4522,6 @@ class RDS {
   Future<void> deleteDBClusterParameterGroup({
     required String dBClusterParameterGroupName,
   }) async {
-    ArgumentError.checkNotNull(
-        dBClusterParameterGroupName, 'dBClusterParameterGroupName');
     final $request = <String, dynamic>{};
     $request['DBClusterParameterGroupName'] = dBClusterParameterGroupName;
     await _protocol.send(
@@ -4656,8 +4560,6 @@ class RDS {
   Future<DeleteDBClusterSnapshotResult> deleteDBClusterSnapshot({
     required String dBClusterSnapshotIdentifier,
   }) async {
-    ArgumentError.checkNotNull(
-        dBClusterSnapshotIdentifier, 'dBClusterSnapshotIdentifier');
     final $request = <String, dynamic>{};
     $request['DBClusterSnapshotIdentifier'] = dBClusterSnapshotIdentifier;
     final $result = await _protocol.send(
@@ -4779,7 +4681,6 @@ class RDS {
     String? finalDBSnapshotIdentifier,
     bool? skipFinalSnapshot,
   }) async {
-    ArgumentError.checkNotNull(dBInstanceIdentifier, 'dBInstanceIdentifier');
     final $request = <String, dynamic>{};
     $request['DBInstanceIdentifier'] = dBInstanceIdentifier;
     deleteAutomatedBackups
@@ -4864,7 +4765,6 @@ class RDS {
   Future<void> deleteDBParameterGroup({
     required String dBParameterGroupName,
   }) async {
-    ArgumentError.checkNotNull(dBParameterGroupName, 'dBParameterGroupName');
     final $request = <String, dynamic>{};
     $request['DBParameterGroupName'] = dBParameterGroupName;
     await _protocol.send(
@@ -4889,7 +4789,6 @@ class RDS {
   Future<DeleteDBProxyResponse> deleteDBProxy({
     required String dBProxyName,
   }) async {
-    ArgumentError.checkNotNull(dBProxyName, 'dBProxyName');
     final $request = <String, dynamic>{};
     $request['DBProxyName'] = dBProxyName;
     final $result = await _protocol.send(
@@ -4939,7 +4838,6 @@ class RDS {
   Future<void> deleteDBSecurityGroup({
     required String dBSecurityGroupName,
   }) async {
-    ArgumentError.checkNotNull(dBSecurityGroupName, 'dBSecurityGroupName');
     final $request = <String, dynamic>{};
     $request['DBSecurityGroupName'] = dBSecurityGroupName;
     await _protocol.send(
@@ -4971,7 +4869,6 @@ class RDS {
   Future<DeleteDBSnapshotResult> deleteDBSnapshot({
     required String dBSnapshotIdentifier,
   }) async {
-    ArgumentError.checkNotNull(dBSnapshotIdentifier, 'dBSnapshotIdentifier');
     final $request = <String, dynamic>{};
     $request['DBSnapshotIdentifier'] = dBSnapshotIdentifier;
     final $result = await _protocol.send(
@@ -5012,7 +4909,6 @@ class RDS {
   Future<void> deleteDBSubnetGroup({
     required String dBSubnetGroupName,
   }) async {
-    ArgumentError.checkNotNull(dBSubnetGroupName, 'dBSubnetGroupName');
     final $request = <String, dynamic>{};
     $request['DBSubnetGroupName'] = dBSubnetGroupName;
     await _protocol.send(
@@ -5037,7 +4933,6 @@ class RDS {
   Future<DeleteEventSubscriptionResult> deleteEventSubscription({
     required String subscriptionName,
   }) async {
-    ArgumentError.checkNotNull(subscriptionName, 'subscriptionName');
     final $request = <String, dynamic>{};
     $request['SubscriptionName'] = subscriptionName;
     final $result = await _protocol.send(
@@ -5068,8 +4963,6 @@ class RDS {
   Future<DeleteGlobalClusterResult> deleteGlobalCluster({
     required String globalClusterIdentifier,
   }) async {
-    ArgumentError.checkNotNull(
-        globalClusterIdentifier, 'globalClusterIdentifier');
     final $request = <String, dynamic>{};
     $request['GlobalClusterIdentifier'] = globalClusterIdentifier;
     final $result = await _protocol.send(
@@ -5096,7 +4989,6 @@ class RDS {
   Future<InstallationMedia> deleteInstallationMedia({
     required String installationMediaId,
   }) async {
-    ArgumentError.checkNotNull(installationMediaId, 'installationMediaId');
     final $request = <String, dynamic>{};
     $request['InstallationMediaId'] = installationMediaId;
     final $result = await _protocol.send(
@@ -5126,7 +5018,6 @@ class RDS {
   Future<void> deleteOptionGroup({
     required String optionGroupName,
   }) async {
-    ArgumentError.checkNotNull(optionGroupName, 'optionGroupName');
     final $request = <String, dynamic>{};
     $request['OptionGroupName'] = optionGroupName;
     await _protocol.send(
@@ -5167,7 +5058,6 @@ class RDS {
     List<String>? dBInstanceIdentifiers,
     String? targetGroupName,
   }) async {
-    ArgumentError.checkNotNull(dBProxyName, 'dBProxyName');
     final $request = <String, dynamic>{};
     $request['DBProxyName'] = dBProxyName;
     dBClusterIdentifiers?.also((arg) => $request['DBClusterIdentifiers'] = arg);
@@ -5432,7 +5322,6 @@ class RDS {
     String? marker,
     int? maxRecords,
   }) async {
-    ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
     final $request = <String, dynamic>{};
     $request['DBClusterIdentifier'] = dBClusterIdentifier;
     backtrackIdentifier?.also((arg) => $request['BacktrackIdentifier'] = arg);
@@ -5650,8 +5539,6 @@ class RDS {
     int? maxRecords,
     String? source,
   }) async {
-    ArgumentError.checkNotNull(
-        dBClusterParameterGroupName, 'dBClusterParameterGroupName');
     final $request = <String, dynamic>{};
     $request['DBClusterParameterGroupName'] = dBClusterParameterGroupName;
     filters?.also((arg) => $request['Filters'] = arg);
@@ -5698,8 +5585,6 @@ class RDS {
       describeDBClusterSnapshotAttributes({
     required String dBClusterSnapshotIdentifier,
   }) async {
-    ArgumentError.checkNotNull(
-        dBClusterSnapshotIdentifier, 'dBClusterSnapshotIdentifier');
     final $request = <String, dynamic>{};
     $request['DBClusterSnapshotIdentifier'] = dBClusterSnapshotIdentifier;
     final $result = await _protocol.send(
@@ -6319,7 +6204,6 @@ class RDS {
     String? marker,
     int? maxRecords,
   }) async {
-    ArgumentError.checkNotNull(dBInstanceIdentifier, 'dBInstanceIdentifier');
     final $request = <String, dynamic>{};
     $request['DBInstanceIdentifier'] = dBInstanceIdentifier;
     fileLastWritten?.also((arg) => $request['FileLastWritten'] = arg);
@@ -6449,7 +6333,6 @@ class RDS {
     int? maxRecords,
     String? source,
   }) async {
-    ArgumentError.checkNotNull(dBParameterGroupName, 'dBParameterGroupName');
     final $request = <String, dynamic>{};
     $request['DBParameterGroupName'] = dBParameterGroupName;
     filters?.also((arg) => $request['Filters'] = arg);
@@ -6563,7 +6446,6 @@ class RDS {
     int? maxRecords,
     String? targetGroupName,
   }) async {
-    ArgumentError.checkNotNull(dBProxyName, 'dBProxyName');
     _s.validateNumRange(
       'maxRecords',
       maxRecords,
@@ -6628,7 +6510,6 @@ class RDS {
     int? maxRecords,
     String? targetGroupName,
   }) async {
-    ArgumentError.checkNotNull(dBProxyName, 'dBProxyName');
     _s.validateNumRange(
       'maxRecords',
       maxRecords,
@@ -6728,7 +6609,6 @@ class RDS {
   Future<DescribeDBSnapshotAttributesResult> describeDBSnapshotAttributes({
     required String dBSnapshotIdentifier,
   }) async {
-    ArgumentError.checkNotNull(dBSnapshotIdentifier, 'dBSnapshotIdentifier');
     final $request = <String, dynamic>{};
     $request['DBSnapshotIdentifier'] = dBSnapshotIdentifier;
     final $result = await _protocol.send(
@@ -7013,8 +6893,6 @@ class RDS {
     String? marker,
     int? maxRecords,
   }) async {
-    ArgumentError.checkNotNull(
-        dBParameterGroupFamily, 'dBParameterGroupFamily');
     final $request = <String, dynamic>{};
     $request['DBParameterGroupFamily'] = dBParameterGroupFamily;
     filters?.also((arg) => $request['Filters'] = arg);
@@ -7065,8 +6943,6 @@ class RDS {
     String? marker,
     int? maxRecords,
   }) async {
-    ArgumentError.checkNotNull(
-        dBParameterGroupFamily, 'dBParameterGroupFamily');
     final $request = <String, dynamic>{};
     $request['DBParameterGroupFamily'] = dBParameterGroupFamily;
     filters?.also((arg) => $request['Filters'] = arg);
@@ -7569,7 +7445,6 @@ class RDS {
     String? marker,
     int? maxRecords,
   }) async {
-    ArgumentError.checkNotNull(engineName, 'engineName');
     final $request = <String, dynamic>{};
     $request['EngineName'] = engineName;
     filters?.also((arg) => $request['Filters'] = arg);
@@ -7711,7 +7586,6 @@ class RDS {
     int? maxRecords,
     bool? vpc,
   }) async {
-    ArgumentError.checkNotNull(engine, 'engine');
     final $request = <String, dynamic>{};
     $request['Engine'] = engine;
     availabilityZoneGroup
@@ -8070,7 +7944,6 @@ class RDS {
       describeValidDBInstanceModifications({
     required String dBInstanceIdentifier,
   }) async {
-    ArgumentError.checkNotNull(dBInstanceIdentifier, 'dBInstanceIdentifier');
     final $request = <String, dynamic>{};
     $request['DBInstanceIdentifier'] = dBInstanceIdentifier;
     final $result = await _protocol.send(
@@ -8148,8 +8021,6 @@ class RDS {
     String? marker,
     int? numberOfLines,
   }) async {
-    ArgumentError.checkNotNull(dBInstanceIdentifier, 'dBInstanceIdentifier');
-    ArgumentError.checkNotNull(logFileName, 'logFileName');
     final $request = <String, dynamic>{};
     $request['DBInstanceIdentifier'] = dBInstanceIdentifier;
     $request['LogFileName'] = logFileName;
@@ -8214,7 +8085,6 @@ class RDS {
     required String dBClusterIdentifier,
     String? targetDBInstanceIdentifier,
   }) async {
-    ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
     final $request = <String, dynamic>{};
     $request['DBClusterIdentifier'] = dBClusterIdentifier;
     targetDBInstanceIdentifier
@@ -8301,14 +8171,6 @@ class RDS {
     required String engineVersion,
     required String oSInstallationMediaPath,
   }) async {
-    ArgumentError.checkNotNull(
-        customAvailabilityZoneId, 'customAvailabilityZoneId');
-    ArgumentError.checkNotNull(engine, 'engine');
-    ArgumentError.checkNotNull(
-        engineInstallationMediaPath, 'engineInstallationMediaPath');
-    ArgumentError.checkNotNull(engineVersion, 'engineVersion');
-    ArgumentError.checkNotNull(
-        oSInstallationMediaPath, 'oSInstallationMediaPath');
     final $request = <String, dynamic>{};
     $request['CustomAvailabilityZoneId'] = customAvailabilityZoneId;
     $request['Engine'] = engine;
@@ -8354,7 +8216,6 @@ class RDS {
     required String resourceName,
     List<Filter>? filters,
   }) async {
-    ArgumentError.checkNotNull(resourceName, 'resourceName');
     final $request = <String, dynamic>{};
     $request['ResourceName'] = resourceName;
     filters?.also((arg) => $request['Filters'] = arg);
@@ -8535,7 +8396,6 @@ class RDS {
     int? secondsBeforeTimeout,
     String? timeoutAction,
   }) async {
-    ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
     final $request = <String, dynamic>{};
     $request['DBClusterIdentifier'] = dBClusterIdentifier;
     capacity?.also((arg) => $request['Capacity'] = arg);
@@ -8872,7 +8732,6 @@ class RDS {
     ScalingConfiguration? scalingConfiguration,
     List<String>? vpcSecurityGroupIds,
   }) async {
-    ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
     final $request = <String, dynamic>{};
     $request['DBClusterIdentifier'] = dBClusterIdentifier;
     allowMajorVersionUpgrade
@@ -8955,8 +8814,6 @@ class RDS {
     List<String>? excludedMembers,
     List<String>? staticMembers,
   }) async {
-    ArgumentError.checkNotNull(
-        dBClusterEndpointIdentifier, 'dBClusterEndpointIdentifier');
     final $request = <String, dynamic>{};
     $request['DBClusterEndpointIdentifier'] = dBClusterEndpointIdentifier;
     endpointType?.also((arg) => $request['EndpointType'] = arg);
@@ -9024,9 +8881,6 @@ class RDS {
     required String dBClusterParameterGroupName,
     required List<Parameter> parameters,
   }) async {
-    ArgumentError.checkNotNull(
-        dBClusterParameterGroupName, 'dBClusterParameterGroupName');
-    ArgumentError.checkNotNull(parameters, 'parameters');
     final $request = <String, dynamic>{};
     $request['DBClusterParameterGroupName'] = dBClusterParameterGroupName;
     $request['Parameters'] = parameters;
@@ -9118,9 +8972,6 @@ class RDS {
     List<String>? valuesToAdd,
     List<String>? valuesToRemove,
   }) async {
-    ArgumentError.checkNotNull(attributeName, 'attributeName');
-    ArgumentError.checkNotNull(
-        dBClusterSnapshotIdentifier, 'dBClusterSnapshotIdentifier');
     final $request = <String, dynamic>{};
     $request['AttributeName'] = attributeName;
     $request['DBClusterSnapshotIdentifier'] = dBClusterSnapshotIdentifier;
@@ -9862,7 +9713,6 @@ class RDS {
     bool? useDefaultProcessorFeatures,
     List<String>? vpcSecurityGroupIds,
   }) async {
-    ArgumentError.checkNotNull(dBInstanceIdentifier, 'dBInstanceIdentifier');
     final $request = <String, dynamic>{};
     $request['DBInstanceIdentifier'] = dBInstanceIdentifier;
     allocatedStorage?.also((arg) => $request['AllocatedStorage'] = arg);
@@ -9993,8 +9843,6 @@ class RDS {
     required String dBParameterGroupName,
     required List<Parameter> parameters,
   }) async {
-    ArgumentError.checkNotNull(dBParameterGroupName, 'dBParameterGroupName');
-    ArgumentError.checkNotNull(parameters, 'parameters');
     final $request = <String, dynamic>{};
     $request['DBParameterGroupName'] = dBParameterGroupName;
     $request['Parameters'] = parameters;
@@ -10065,7 +9913,6 @@ class RDS {
     String? roleArn,
     List<String>? securityGroups,
   }) async {
-    ArgumentError.checkNotNull(dBProxyName, 'dBProxyName');
     final $request = <String, dynamic>{};
     $request['DBProxyName'] = dBProxyName;
     auth?.also((arg) => $request['Auth'] = arg);
@@ -10115,8 +9962,6 @@ class RDS {
     ConnectionPoolConfiguration? connectionPoolConfig,
     String? newName,
   }) async {
-    ArgumentError.checkNotNull(dBProxyName, 'dBProxyName');
-    ArgumentError.checkNotNull(targetGroupName, 'targetGroupName');
     final $request = <String, dynamic>{};
     $request['DBProxyName'] = dBProxyName;
     $request['TargetGroupName'] = targetGroupName;
@@ -10193,7 +10038,6 @@ class RDS {
     String? engineVersion,
     String? optionGroupName,
   }) async {
-    ArgumentError.checkNotNull(dBSnapshotIdentifier, 'dBSnapshotIdentifier');
     final $request = <String, dynamic>{};
     $request['DBSnapshotIdentifier'] = dBSnapshotIdentifier;
     engineVersion?.also((arg) => $request['EngineVersion'] = arg);
@@ -10279,8 +10123,6 @@ class RDS {
     List<String>? valuesToAdd,
     List<String>? valuesToRemove,
   }) async {
-    ArgumentError.checkNotNull(attributeName, 'attributeName');
-    ArgumentError.checkNotNull(dBSnapshotIdentifier, 'dBSnapshotIdentifier');
     final $request = <String, dynamic>{};
     $request['AttributeName'] = attributeName;
     $request['DBSnapshotIdentifier'] = dBSnapshotIdentifier;
@@ -10328,8 +10170,6 @@ class RDS {
     required List<String> subnetIds,
     String? dBSubnetGroupDescription,
   }) async {
-    ArgumentError.checkNotNull(dBSubnetGroupName, 'dBSubnetGroupName');
-    ArgumentError.checkNotNull(subnetIds, 'subnetIds');
     final $request = <String, dynamic>{};
     $request['DBSubnetGroupName'] = dBSubnetGroupName;
     $request['SubnetIds'] = subnetIds;
@@ -10402,7 +10242,6 @@ class RDS {
     String? snsTopicArn,
     String? sourceType,
   }) async {
-    ArgumentError.checkNotNull(subscriptionName, 'subscriptionName');
     final $request = <String, dynamic>{};
     $request['SubscriptionName'] = subscriptionName;
     enabled?.also((arg) => $request['Enabled'] = arg);
@@ -10525,7 +10364,6 @@ class RDS {
     List<OptionConfiguration>? optionsToInclude,
     List<String>? optionsToRemove,
   }) async {
-    ArgumentError.checkNotNull(optionGroupName, 'optionGroupName');
     final $request = <String, dynamic>{};
     $request['OptionGroupName'] = optionGroupName;
     applyImmediately?.also((arg) => $request['ApplyImmediately'] = arg);
@@ -10628,7 +10466,6 @@ class RDS {
     int? backupRetentionPeriod,
     String? preferredBackupWindow,
   }) async {
-    ArgumentError.checkNotNull(dBInstanceIdentifier, 'dBInstanceIdentifier');
     final $request = <String, dynamic>{};
     $request['DBInstanceIdentifier'] = dBInstanceIdentifier;
     backupRetentionPeriod
@@ -10672,7 +10509,6 @@ class RDS {
   Future<PromoteReadReplicaDBClusterResult> promoteReadReplicaDBCluster({
     required String dBClusterIdentifier,
   }) async {
-    ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
     final $request = <String, dynamic>{};
     $request['DBClusterIdentifier'] = dBClusterIdentifier;
     final $result = await _protocol.send(
@@ -10716,8 +10552,6 @@ class RDS {
     String? reservedDBInstanceId,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(
-        reservedDBInstancesOfferingId, 'reservedDBInstancesOfferingId');
     final $request = <String, dynamic>{};
     $request['ReservedDBInstancesOfferingId'] = reservedDBInstancesOfferingId;
     dBInstanceCount?.also((arg) => $request['DBInstanceCount'] = arg);
@@ -10775,7 +10609,6 @@ class RDS {
     required String dBInstanceIdentifier,
     bool? forceFailover,
   }) async {
-    ArgumentError.checkNotNull(dBInstanceIdentifier, 'dBInstanceIdentifier');
     final $request = <String, dynamic>{};
     $request['DBInstanceIdentifier'] = dBInstanceIdentifier;
     forceFailover?.also((arg) => $request['ForceFailover'] = arg);
@@ -10824,7 +10657,6 @@ class RDS {
     List<String>? dBInstanceIdentifiers,
     String? targetGroupName,
   }) async {
-    ArgumentError.checkNotNull(dBProxyName, 'dBProxyName');
     final $request = <String, dynamic>{};
     $request['DBProxyName'] = dBProxyName;
     dBClusterIdentifiers?.also((arg) => $request['DBClusterIdentifiers'] = arg);
@@ -10915,8 +10747,6 @@ class RDS {
     required String roleArn,
     String? featureName,
   }) async {
-    ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
-    ArgumentError.checkNotNull(roleArn, 'roleArn');
     final $request = <String, dynamic>{};
     $request['DBClusterIdentifier'] = dBClusterIdentifier;
     $request['RoleArn'] = roleArn;
@@ -10957,9 +10787,6 @@ class RDS {
     required String featureName,
     required String roleArn,
   }) async {
-    ArgumentError.checkNotNull(dBInstanceIdentifier, 'dBInstanceIdentifier');
-    ArgumentError.checkNotNull(featureName, 'featureName');
-    ArgumentError.checkNotNull(roleArn, 'roleArn');
     final $request = <String, dynamic>{};
     $request['DBInstanceIdentifier'] = dBInstanceIdentifier;
     $request['FeatureName'] = featureName;
@@ -10995,8 +10822,6 @@ class RDS {
     required String sourceIdentifier,
     required String subscriptionName,
   }) async {
-    ArgumentError.checkNotNull(sourceIdentifier, 'sourceIdentifier');
-    ArgumentError.checkNotNull(subscriptionName, 'subscriptionName');
     final $request = <String, dynamic>{};
     $request['SourceIdentifier'] = sourceIdentifier;
     $request['SubscriptionName'] = subscriptionName;
@@ -11039,8 +10864,6 @@ class RDS {
     required String resourceName,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(resourceName, 'resourceName');
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $request = <String, dynamic>{};
     $request['ResourceName'] = resourceName;
     $request['TagKeys'] = tagKeys;
@@ -11098,8 +10921,6 @@ class RDS {
     List<Parameter>? parameters,
     bool? resetAllParameters,
   }) async {
-    ArgumentError.checkNotNull(
-        dBClusterParameterGroupName, 'dBClusterParameterGroupName');
     final $request = <String, dynamic>{};
     $request['DBClusterParameterGroupName'] = dBClusterParameterGroupName;
     parameters?.also((arg) => $request['Parameters'] = arg);
@@ -11180,7 +11001,6 @@ class RDS {
     List<Parameter>? parameters,
     bool? resetAllParameters,
   }) async {
-    ArgumentError.checkNotNull(dBParameterGroupName, 'dBParameterGroupName');
     final $request = <String, dynamic>{};
     $request['DBParameterGroupName'] = dBParameterGroupName;
     parameters?.also((arg) => $request['Parameters'] = arg);
@@ -11558,14 +11378,6 @@ class RDS {
     List<Tag>? tags,
     List<String>? vpcSecurityGroupIds,
   }) async {
-    ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
-    ArgumentError.checkNotNull(engine, 'engine');
-    ArgumentError.checkNotNull(masterUserPassword, 'masterUserPassword');
-    ArgumentError.checkNotNull(masterUsername, 'masterUsername');
-    ArgumentError.checkNotNull(s3BucketName, 's3BucketName');
-    ArgumentError.checkNotNull(s3IngestionRoleArn, 's3IngestionRoleArn');
-    ArgumentError.checkNotNull(sourceEngine, 'sourceEngine');
-    ArgumentError.checkNotNull(sourceEngineVersion, 'sourceEngineVersion');
     final $request = <String, dynamic>{};
     $request['DBClusterIdentifier'] = dBClusterIdentifier;
     $request['Engine'] = engine;
@@ -11907,9 +11719,6 @@ class RDS {
     List<Tag>? tags,
     List<String>? vpcSecurityGroupIds,
   }) async {
-    ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
-    ArgumentError.checkNotNull(engine, 'engine');
-    ArgumentError.checkNotNull(snapshotIdentifier, 'snapshotIdentifier');
     final $request = <String, dynamic>{};
     $request['DBClusterIdentifier'] = dBClusterIdentifier;
     $request['Engine'] = engine;
@@ -12225,9 +12034,6 @@ class RDS {
     bool? useLatestRestorableTime,
     List<String>? vpcSecurityGroupIds,
   }) async {
-    ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
-    ArgumentError.checkNotNull(
-        sourceDBClusterIdentifier, 'sourceDBClusterIdentifier');
     final $request = <String, dynamic>{};
     $request['DBClusterIdentifier'] = dBClusterIdentifier;
     $request['SourceDBClusterIdentifier'] = sourceDBClusterIdentifier;
@@ -12639,8 +12445,6 @@ class RDS {
     bool? useDefaultProcessorFeatures,
     List<String>? vpcSecurityGroupIds,
   }) async {
-    ArgumentError.checkNotNull(dBInstanceIdentifier, 'dBInstanceIdentifier');
-    ArgumentError.checkNotNull(dBSnapshotIdentifier, 'dBSnapshotIdentifier');
     final $request = <String, dynamic>{};
     $request['DBInstanceIdentifier'] = dBInstanceIdentifier;
     $request['DBSnapshotIdentifier'] = dBSnapshotIdentifier;
@@ -13123,13 +12927,6 @@ class RDS {
     bool? useDefaultProcessorFeatures,
     List<String>? vpcSecurityGroupIds,
   }) async {
-    ArgumentError.checkNotNull(dBInstanceClass, 'dBInstanceClass');
-    ArgumentError.checkNotNull(dBInstanceIdentifier, 'dBInstanceIdentifier');
-    ArgumentError.checkNotNull(engine, 'engine');
-    ArgumentError.checkNotNull(s3BucketName, 's3BucketName');
-    ArgumentError.checkNotNull(s3IngestionRoleArn, 's3IngestionRoleArn');
-    ArgumentError.checkNotNull(sourceEngine, 'sourceEngine');
-    ArgumentError.checkNotNull(sourceEngineVersion, 'sourceEngineVersion');
     final $request = <String, dynamic>{};
     $request['DBInstanceClass'] = dBInstanceClass;
     $request['DBInstanceIdentifier'] = dBInstanceIdentifier;
@@ -13594,8 +13391,6 @@ class RDS {
     bool? useLatestRestorableTime,
     List<String>? vpcSecurityGroupIds,
   }) async {
-    ArgumentError.checkNotNull(
-        targetDBInstanceIdentifier, 'targetDBInstanceIdentifier');
     final $request = <String, dynamic>{};
     $request['TargetDBInstanceIdentifier'] = targetDBInstanceIdentifier;
     autoMinorVersionUpgrade
@@ -13700,7 +13495,6 @@ class RDS {
     String? eC2SecurityGroupName,
     String? eC2SecurityGroupOwnerId,
   }) async {
-    ArgumentError.checkNotNull(dBSecurityGroupName, 'dBSecurityGroupName');
     final $request = <String, dynamic>{};
     $request['DBSecurityGroupName'] = dBSecurityGroupName;
     cidrip?.also((arg) => $request['CIDRIP'] = arg);
@@ -13757,9 +13551,6 @@ class RDS {
     required String resourceArn,
     bool? applyImmediately,
   }) async {
-    ArgumentError.checkNotNull(kmsKeyId, 'kmsKeyId');
-    ArgumentError.checkNotNull(mode, 'mode');
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final $request = <String, dynamic>{};
     $request['KmsKeyId'] = kmsKeyId;
     $request['Mode'] = mode.toValue();
@@ -13800,7 +13591,6 @@ class RDS {
   Future<StartDBClusterResult> startDBCluster({
     required String dBClusterIdentifier,
   }) async {
-    ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
     final $request = <String, dynamic>{};
     $request['DBClusterIdentifier'] = dBClusterIdentifier;
     final $result = await _protocol.send(
@@ -13846,7 +13636,6 @@ class RDS {
   Future<StartDBInstanceResult> startDBInstance({
     required String dBInstanceIdentifier,
   }) async {
-    ArgumentError.checkNotNull(dBInstanceIdentifier, 'dBInstanceIdentifier');
     final $request = <String, dynamic>{};
     $request['DBInstanceIdentifier'] = dBInstanceIdentifier;
     final $result = await _protocol.send(
@@ -13903,7 +13692,6 @@ class RDS {
     String? kmsKeyId,
     String? preSignedUrl,
   }) async {
-    ArgumentError.checkNotNull(sourceDBInstanceArn, 'sourceDBInstanceArn');
     final $request = <String, dynamic>{};
     $request['SourceDBInstanceArn'] = sourceDBInstanceArn;
     backupRetentionPeriod
@@ -14027,11 +13815,6 @@ class RDS {
     List<String>? exportOnly,
     String? s3Prefix,
   }) async {
-    ArgumentError.checkNotNull(exportTaskIdentifier, 'exportTaskIdentifier');
-    ArgumentError.checkNotNull(iamRoleArn, 'iamRoleArn');
-    ArgumentError.checkNotNull(kmsKeyId, 'kmsKeyId');
-    ArgumentError.checkNotNull(s3BucketName, 's3BucketName');
-    ArgumentError.checkNotNull(sourceArn, 'sourceArn');
     final $request = <String, dynamic>{};
     $request['ExportTaskIdentifier'] = exportTaskIdentifier;
     $request['IamRoleArn'] = iamRoleArn;
@@ -14080,7 +13863,6 @@ class RDS {
     required String resourceArn,
     bool? applyImmediately,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final $request = <String, dynamic>{};
     $request['ResourceArn'] = resourceArn;
     applyImmediately?.also((arg) => $request['ApplyImmediately'] = arg);
@@ -14121,7 +13903,6 @@ class RDS {
   Future<StopDBClusterResult> stopDBCluster({
     required String dBClusterIdentifier,
   }) async {
-    ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
     final $request = <String, dynamic>{};
     $request['DBClusterIdentifier'] = dBClusterIdentifier;
     final $result = await _protocol.send(
@@ -14168,7 +13949,6 @@ class RDS {
     required String dBInstanceIdentifier,
     String? dBSnapshotIdentifier,
   }) async {
-    ArgumentError.checkNotNull(dBInstanceIdentifier, 'dBInstanceIdentifier');
     final $request = <String, dynamic>{};
     $request['DBInstanceIdentifier'] = dBInstanceIdentifier;
     dBSnapshotIdentifier?.also((arg) => $request['DBSnapshotIdentifier'] = arg);
@@ -14204,7 +13984,6 @@ class RDS {
       stopDBInstanceAutomatedBackupsReplication({
     required String sourceDBInstanceArn,
   }) async {
-    ArgumentError.checkNotNull(sourceDBInstanceArn, 'sourceDBInstanceArn');
     final $request = <String, dynamic>{};
     $request['SourceDBInstanceArn'] = sourceDBInstanceArn;
     final $result = await _protocol.send(

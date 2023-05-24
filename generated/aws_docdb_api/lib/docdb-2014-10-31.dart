@@ -73,8 +73,6 @@ class DocDB {
     required String resourceName,
     required List<Tag> tags,
   }) async {
-    ArgumentError.checkNotNull(resourceName, 'resourceName');
-    ArgumentError.checkNotNull(tags, 'tags');
     final $request = <String, dynamic>{};
     $request['ResourceName'] = resourceName;
     $request['Tags'] = tags;
@@ -130,9 +128,6 @@ class DocDB {
     required String optInType,
     required String resourceIdentifier,
   }) async {
-    ArgumentError.checkNotNull(applyAction, 'applyAction');
-    ArgumentError.checkNotNull(optInType, 'optInType');
-    ArgumentError.checkNotNull(resourceIdentifier, 'resourceIdentifier');
     final $request = <String, dynamic>{};
     $request['ApplyAction'] = applyAction;
     $request['OptInType'] = optInType;
@@ -211,12 +206,6 @@ class DocDB {
     required String targetDBClusterParameterGroupIdentifier,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(sourceDBClusterParameterGroupIdentifier,
-        'sourceDBClusterParameterGroupIdentifier');
-    ArgumentError.checkNotNull(targetDBClusterParameterGroupDescription,
-        'targetDBClusterParameterGroupDescription');
-    ArgumentError.checkNotNull(targetDBClusterParameterGroupIdentifier,
-        'targetDBClusterParameterGroupIdentifier');
     final $request = <String, dynamic>{};
     $request['SourceDBClusterParameterGroupIdentifier'] =
         sourceDBClusterParameterGroupIdentifier;
@@ -376,10 +365,6 @@ class DocDB {
     String? preSignedUrl,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(
-        sourceDBClusterSnapshotIdentifier, 'sourceDBClusterSnapshotIdentifier');
-    ArgumentError.checkNotNull(
-        targetDBClusterSnapshotIdentifier, 'targetDBClusterSnapshotIdentifier');
     final $request = <String, dynamic>{};
     $request['SourceDBClusterSnapshotIdentifier'] =
         sourceDBClusterSnapshotIdentifier;
@@ -612,10 +597,6 @@ class DocDB {
     List<Tag>? tags,
     List<String>? vpcSecurityGroupIds,
   }) async {
-    ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
-    ArgumentError.checkNotNull(engine, 'engine');
-    ArgumentError.checkNotNull(masterUserPassword, 'masterUserPassword');
-    ArgumentError.checkNotNull(masterUsername, 'masterUsername');
     final $request = <String, dynamic>{};
     $request['DBClusterIdentifier'] = dBClusterIdentifier;
     $request['Engine'] = engine;
@@ -707,11 +688,6 @@ class DocDB {
     required String description,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(
-        dBClusterParameterGroupName, 'dBClusterParameterGroupName');
-    ArgumentError.checkNotNull(
-        dBParameterGroupFamily, 'dBParameterGroupFamily');
-    ArgumentError.checkNotNull(description, 'description');
     final $request = <String, dynamic>{};
     $request['DBClusterParameterGroupName'] = dBClusterParameterGroupName;
     $request['DBParameterGroupFamily'] = dBParameterGroupFamily;
@@ -778,9 +754,6 @@ class DocDB {
     required String dBClusterSnapshotIdentifier,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
-    ArgumentError.checkNotNull(
-        dBClusterSnapshotIdentifier, 'dBClusterSnapshotIdentifier');
     final $request = <String, dynamic>{};
     $request['DBClusterIdentifier'] = dBClusterIdentifier;
     $request['DBClusterSnapshotIdentifier'] = dBClusterSnapshotIdentifier;
@@ -897,10 +870,6 @@ class DocDB {
     int? promotionTier,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
-    ArgumentError.checkNotNull(dBInstanceClass, 'dBInstanceClass');
-    ArgumentError.checkNotNull(dBInstanceIdentifier, 'dBInstanceIdentifier');
-    ArgumentError.checkNotNull(engine, 'engine');
     final $request = <String, dynamic>{};
     $request['DBClusterIdentifier'] = dBClusterIdentifier;
     $request['DBInstanceClass'] = dBInstanceClass;
@@ -958,10 +927,6 @@ class DocDB {
     required List<String> subnetIds,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(
-        dBSubnetGroupDescription, 'dBSubnetGroupDescription');
-    ArgumentError.checkNotNull(dBSubnetGroupName, 'dBSubnetGroupName');
-    ArgumentError.checkNotNull(subnetIds, 'subnetIds');
     final $request = <String, dynamic>{};
     $request['DBSubnetGroupDescription'] = dBSubnetGroupDescription;
     $request['DBSubnetGroupName'] = dBSubnetGroupName;
@@ -1041,7 +1006,6 @@ class DocDB {
     String? finalDBSnapshotIdentifier,
     bool? skipFinalSnapshot,
   }) async {
-    ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
     final $request = <String, dynamic>{};
     $request['DBClusterIdentifier'] = dBClusterIdentifier;
     finalDBSnapshotIdentifier
@@ -1086,8 +1050,6 @@ class DocDB {
   Future<void> deleteDBClusterParameterGroup({
     required String dBClusterParameterGroupName,
   }) async {
-    ArgumentError.checkNotNull(
-        dBClusterParameterGroupName, 'dBClusterParameterGroupName');
     final $request = <String, dynamic>{};
     $request['DBClusterParameterGroupName'] = dBClusterParameterGroupName;
     await _protocol.send(
@@ -1120,8 +1082,6 @@ class DocDB {
   Future<DeleteDBClusterSnapshotResult> deleteDBClusterSnapshot({
     required String dBClusterSnapshotIdentifier,
   }) async {
-    ArgumentError.checkNotNull(
-        dBClusterSnapshotIdentifier, 'dBClusterSnapshotIdentifier');
     final $request = <String, dynamic>{};
     $request['DBClusterSnapshotIdentifier'] = dBClusterSnapshotIdentifier;
     final $result = await _protocol.send(
@@ -1160,7 +1120,6 @@ class DocDB {
   Future<DeleteDBInstanceResult> deleteDBInstance({
     required String dBInstanceIdentifier,
   }) async {
-    ArgumentError.checkNotNull(dBInstanceIdentifier, 'dBInstanceIdentifier');
     final $request = <String, dynamic>{};
     $request['DBInstanceIdentifier'] = dBInstanceIdentifier;
     final $result = await _protocol.send(
@@ -1201,7 +1160,6 @@ class DocDB {
   Future<void> deleteDBSubnetGroup({
     required String dBSubnetGroupName,
   }) async {
-    ArgumentError.checkNotNull(dBSubnetGroupName, 'dBSubnetGroupName');
     final $request = <String, dynamic>{};
     $request['DBSubnetGroupName'] = dBSubnetGroupName;
     await _protocol.send(
@@ -1396,8 +1354,6 @@ class DocDB {
     int? maxRecords,
     String? source,
   }) async {
-    ArgumentError.checkNotNull(
-        dBClusterParameterGroupName, 'dBClusterParameterGroupName');
     final $request = <String, dynamic>{};
     $request['DBClusterParameterGroupName'] = dBClusterParameterGroupName;
     filters?.also((arg) => $request['Filters'] = arg);
@@ -1437,8 +1393,6 @@ class DocDB {
       describeDBClusterSnapshotAttributes({
     required String dBClusterSnapshotIdentifier,
   }) async {
-    ArgumentError.checkNotNull(
-        dBClusterSnapshotIdentifier, 'dBClusterSnapshotIdentifier');
     final $request = <String, dynamic>{};
     $request['DBClusterSnapshotIdentifier'] = dBClusterSnapshotIdentifier;
     final $result = await _protocol.send(
@@ -1914,8 +1868,6 @@ class DocDB {
     String? marker,
     int? maxRecords,
   }) async {
-    ArgumentError.checkNotNull(
-        dBParameterGroupFamily, 'dBParameterGroupFamily');
     final $request = <String, dynamic>{};
     $request['DBParameterGroupFamily'] = dBParameterGroupFamily;
     filters?.also((arg) => $request['Filters'] = arg);
@@ -2130,7 +2082,6 @@ class DocDB {
     int? maxRecords,
     bool? vpc,
   }) async {
-    ArgumentError.checkNotNull(engine, 'engine');
     final $request = <String, dynamic>{};
     $request['Engine'] = engine;
     dBInstanceClass?.also((arg) => $request['DBInstanceClass'] = arg);
@@ -2289,7 +2240,6 @@ class DocDB {
     required String resourceName,
     List<Filter>? filters,
   }) async {
-    ArgumentError.checkNotNull(resourceName, 'resourceName');
     final $request = <String, dynamic>{};
     $request['ResourceName'] = resourceName;
     filters?.also((arg) => $request['Filters'] = arg);
@@ -2477,7 +2427,6 @@ class DocDB {
     String? preferredMaintenanceWindow,
     List<String>? vpcSecurityGroupIds,
   }) async {
-    ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
     final $request = <String, dynamic>{};
     $request['DBClusterIdentifier'] = dBClusterIdentifier;
     applyImmediately?.also((arg) => $request['ApplyImmediately'] = arg);
@@ -2543,9 +2492,6 @@ class DocDB {
     required String dBClusterParameterGroupName,
     required List<Parameter> parameters,
   }) async {
-    ArgumentError.checkNotNull(
-        dBClusterParameterGroupName, 'dBClusterParameterGroupName');
-    ArgumentError.checkNotNull(parameters, 'parameters');
     final $request = <String, dynamic>{};
     $request['DBClusterParameterGroupName'] = dBClusterParameterGroupName;
     $request['Parameters'] = parameters;
@@ -2621,9 +2567,6 @@ class DocDB {
     List<String>? valuesToAdd,
     List<String>? valuesToRemove,
   }) async {
-    ArgumentError.checkNotNull(attributeName, 'attributeName');
-    ArgumentError.checkNotNull(
-        dBClusterSnapshotIdentifier, 'dBClusterSnapshotIdentifier');
     final $request = <String, dynamic>{};
     $request['AttributeName'] = attributeName;
     $request['DBClusterSnapshotIdentifier'] = dBClusterSnapshotIdentifier;
@@ -2767,7 +2710,6 @@ class DocDB {
     String? preferredMaintenanceWindow,
     int? promotionTier,
   }) async {
-    ArgumentError.checkNotNull(dBInstanceIdentifier, 'dBInstanceIdentifier');
     final $request = <String, dynamic>{};
     $request['DBInstanceIdentifier'] = dBInstanceIdentifier;
     applyImmediately?.also((arg) => $request['ApplyImmediately'] = arg);
@@ -2823,8 +2765,6 @@ class DocDB {
     required List<String> subnetIds,
     String? dBSubnetGroupDescription,
   }) async {
-    ArgumentError.checkNotNull(dBSubnetGroupName, 'dBSubnetGroupName');
-    ArgumentError.checkNotNull(subnetIds, 'subnetIds');
     final $request = <String, dynamic>{};
     $request['DBSubnetGroupName'] = dBSubnetGroupName;
     $request['SubnetIds'] = subnetIds;
@@ -2877,7 +2817,6 @@ class DocDB {
     required String dBInstanceIdentifier,
     bool? forceFailover,
   }) async {
-    ArgumentError.checkNotNull(dBInstanceIdentifier, 'dBInstanceIdentifier');
     final $request = <String, dynamic>{};
     $request['DBInstanceIdentifier'] = dBInstanceIdentifier;
     forceFailover?.also((arg) => $request['ForceFailover'] = arg);
@@ -2911,8 +2850,6 @@ class DocDB {
     required String resourceName,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(resourceName, 'resourceName');
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $request = <String, dynamic>{};
     $request['ResourceName'] = resourceName;
     $request['TagKeys'] = tagKeys;
@@ -2960,8 +2897,6 @@ class DocDB {
     List<Parameter>? parameters,
     bool? resetAllParameters,
   }) async {
-    ArgumentError.checkNotNull(
-        dBClusterParameterGroupName, 'dBClusterParameterGroupName');
     final $request = <String, dynamic>{};
     $request['DBClusterParameterGroupName'] = dBClusterParameterGroupName;
     parameters?.also((arg) => $request['Parameters'] = arg);
@@ -3125,9 +3060,6 @@ class DocDB {
     List<Tag>? tags,
     List<String>? vpcSecurityGroupIds,
   }) async {
-    ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
-    ArgumentError.checkNotNull(engine, 'engine');
-    ArgumentError.checkNotNull(snapshotIdentifier, 'snapshotIdentifier');
     final $request = <String, dynamic>{};
     $request['DBClusterIdentifier'] = dBClusterIdentifier;
     $request['Engine'] = engine;
@@ -3317,9 +3249,6 @@ class DocDB {
     bool? useLatestRestorableTime,
     List<String>? vpcSecurityGroupIds,
   }) async {
-    ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
-    ArgumentError.checkNotNull(
-        sourceDBClusterIdentifier, 'sourceDBClusterIdentifier');
     final $request = <String, dynamic>{};
     $request['DBClusterIdentifier'] = dBClusterIdentifier;
     $request['SourceDBClusterIdentifier'] = sourceDBClusterIdentifier;
@@ -3364,7 +3293,6 @@ class DocDB {
   Future<StartDBClusterResult> startDBCluster({
     required String dBClusterIdentifier,
   }) async {
-    ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
     final $request = <String, dynamic>{};
     $request['DBClusterIdentifier'] = dBClusterIdentifier;
     final $result = await _protocol.send(
@@ -3397,7 +3325,6 @@ class DocDB {
   Future<StopDBClusterResult> stopDBCluster({
     required String dBClusterIdentifier,
   }) async {
-    ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
     final $request = <String, dynamic>{};
     $request['DBClusterIdentifier'] = dBClusterIdentifier;
     final $result = await _protocol.send(

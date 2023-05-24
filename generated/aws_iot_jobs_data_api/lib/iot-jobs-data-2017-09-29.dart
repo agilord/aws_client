@@ -91,15 +91,6 @@ class IoTJobsDataPlane {
     int? executionNumber,
     bool? includeJobDocument,
   }) async {
-    ArgumentError.checkNotNull(jobId, 'jobId');
-    ArgumentError.checkNotNull(thingName, 'thingName');
-    _s.validateStringLength(
-      'thingName',
-      thingName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       if (executionNumber != null)
         'executionNumber': [executionNumber.toString()],
@@ -130,14 +121,6 @@ class IoTJobsDataPlane {
   Future<GetPendingJobExecutionsResponse> getPendingJobExecutions({
     required String thingName,
   }) async {
-    ArgumentError.checkNotNull(thingName, 'thingName');
-    _s.validateStringLength(
-      'thingName',
-      thingName,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -179,14 +162,6 @@ class IoTJobsDataPlane {
     Map<String, String>? statusDetails,
     int? stepTimeoutInMinutes,
   }) async {
-    ArgumentError.checkNotNull(thingName, 'thingName');
-    _s.validateStringLength(
-      'thingName',
-      thingName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       if (statusDetails != null) 'statusDetails': statusDetails,
       if (stepTimeoutInMinutes != null)
@@ -267,23 +242,6 @@ class IoTJobsDataPlane {
     Map<String, String>? statusDetails,
     int? stepTimeoutInMinutes,
   }) async {
-    ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      1,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(status, 'status');
-    ArgumentError.checkNotNull(thingName, 'thingName');
-    _s.validateStringLength(
-      'thingName',
-      thingName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'status': status.toValue(),
       if (executionNumber != null) 'executionNumber': executionNumber,

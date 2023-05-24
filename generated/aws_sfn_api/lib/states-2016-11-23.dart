@@ -117,14 +117,6 @@ class SFN {
     required String name,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      80,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'AWSStepFunctions.CreateActivity'
@@ -252,30 +244,6 @@ class SFN {
     TracingConfiguration? tracingConfiguration,
     StateMachineType? type,
   }) async {
-    ArgumentError.checkNotNull(definition, 'definition');
-    _s.validateStringLength(
-      'definition',
-      definition,
-      1,
-      1048576,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      80,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(roleArn, 'roleArn');
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      1,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'AWSStepFunctions.CreateStateMachine'
@@ -311,14 +279,6 @@ class SFN {
   Future<void> deleteActivity({
     required String activityArn,
   }) async {
-    ArgumentError.checkNotNull(activityArn, 'activityArn');
-    _s.validateStringLength(
-      'activityArn',
-      activityArn,
-      1,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'AWSStepFunctions.DeleteActivity'
@@ -351,14 +311,6 @@ class SFN {
   Future<void> deleteStateMachine({
     required String stateMachineArn,
   }) async {
-    ArgumentError.checkNotNull(stateMachineArn, 'stateMachineArn');
-    _s.validateStringLength(
-      'stateMachineArn',
-      stateMachineArn,
-      1,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'AWSStepFunctions.DeleteStateMachine'
@@ -389,14 +341,6 @@ class SFN {
   Future<DescribeActivityOutput> describeActivity({
     required String activityArn,
   }) async {
-    ArgumentError.checkNotNull(activityArn, 'activityArn');
-    _s.validateStringLength(
-      'activityArn',
-      activityArn,
-      1,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'AWSStepFunctions.DescribeActivity'
@@ -430,14 +374,6 @@ class SFN {
   Future<DescribeExecutionOutput> describeExecution({
     required String executionArn,
   }) async {
-    ArgumentError.checkNotNull(executionArn, 'executionArn');
-    _s.validateStringLength(
-      'executionArn',
-      executionArn,
-      1,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'AWSStepFunctions.DescribeExecution'
@@ -470,14 +406,6 @@ class SFN {
   Future<DescribeStateMachineOutput> describeStateMachine({
     required String stateMachineArn,
   }) async {
-    ArgumentError.checkNotNull(stateMachineArn, 'stateMachineArn');
-    _s.validateStringLength(
-      'stateMachineArn',
-      stateMachineArn,
-      1,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'AWSStepFunctions.DescribeStateMachine'
@@ -513,14 +441,6 @@ class SFN {
       describeStateMachineForExecution({
     required String executionArn,
   }) async {
-    ArgumentError.checkNotNull(executionArn, 'executionArn');
-    _s.validateStringLength(
-      'executionArn',
-      executionArn,
-      1,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'AWSStepFunctions.DescribeStateMachineForExecution'
@@ -574,20 +494,6 @@ class SFN {
     required String activityArn,
     String? workerName,
   }) async {
-    ArgumentError.checkNotNull(activityArn, 'activityArn');
-    _s.validateStringLength(
-      'activityArn',
-      activityArn,
-      1,
-      256,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'workerName',
-      workerName,
-      1,
-      80,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'AWSStepFunctions.GetActivityTask'
@@ -658,25 +564,11 @@ class SFN {
     String? nextToken,
     bool? reverseOrder,
   }) async {
-    ArgumentError.checkNotNull(executionArn, 'executionArn');
-    _s.validateStringLength(
-      'executionArn',
-      executionArn,
-      1,
-      256,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       0,
       1000,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -741,12 +633,6 @@ class SFN {
       maxResults,
       0,
       1000,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -817,25 +703,11 @@ class SFN {
     String? nextToken,
     ExecutionStatus? statusFilter,
   }) async {
-    ArgumentError.checkNotNull(stateMachineArn, 'stateMachineArn');
-    _s.validateStringLength(
-      'stateMachineArn',
-      stateMachineArn,
-      1,
-      256,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       0,
       1000,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      3096,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -899,12 +771,6 @@ class SFN {
       0,
       1000,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'AWSStepFunctions.ListStateMachines'
@@ -938,14 +804,6 @@ class SFN {
   Future<ListTagsForResourceOutput> listTagsForResource({
     required String resourceArn,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'AWSStepFunctions.ListTagsForResource'
@@ -990,26 +848,6 @@ class SFN {
     String? cause,
     String? error,
   }) async {
-    ArgumentError.checkNotNull(taskToken, 'taskToken');
-    _s.validateStringLength(
-      'taskToken',
-      taskToken,
-      1,
-      1024,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'cause',
-      cause,
-      0,
-      32768,
-    );
-    _s.validateStringLength(
-      'error',
-      error,
-      0,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'AWSStepFunctions.SendTaskFailure'
@@ -1064,14 +902,6 @@ class SFN {
   Future<void> sendTaskHeartbeat({
     required String taskToken,
   }) async {
-    ArgumentError.checkNotNull(taskToken, 'taskToken');
-    _s.validateStringLength(
-      'taskToken',
-      taskToken,
-      1,
-      1024,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'AWSStepFunctions.SendTaskHeartbeat'
@@ -1112,22 +942,6 @@ class SFN {
     required String output,
     required String taskToken,
   }) async {
-    ArgumentError.checkNotNull(output, 'output');
-    _s.validateStringLength(
-      'output',
-      output,
-      0,
-      262144,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(taskToken, 'taskToken');
-    _s.validateStringLength(
-      'taskToken',
-      taskToken,
-      1,
-      1024,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'AWSStepFunctions.SendTaskSuccess'
@@ -1216,32 +1030,6 @@ class SFN {
     String? name,
     String? traceHeader,
   }) async {
-    ArgumentError.checkNotNull(stateMachineArn, 'stateMachineArn');
-    _s.validateStringLength(
-      'stateMachineArn',
-      stateMachineArn,
-      1,
-      256,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'input',
-      input,
-      0,
-      262144,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      80,
-    );
-    _s.validateStringLength(
-      'traceHeader',
-      traceHeader,
-      0,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'AWSStepFunctions.StartExecution'
@@ -1299,32 +1087,6 @@ class SFN {
     String? name,
     String? traceHeader,
   }) async {
-    ArgumentError.checkNotNull(stateMachineArn, 'stateMachineArn');
-    _s.validateStringLength(
-      'stateMachineArn',
-      stateMachineArn,
-      1,
-      256,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'input',
-      input,
-      0,
-      262144,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      80,
-    );
-    _s.validateStringLength(
-      'traceHeader',
-      traceHeader,
-      0,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'AWSStepFunctions.StartSyncExecution'
@@ -1366,26 +1128,6 @@ class SFN {
     String? cause,
     String? error,
   }) async {
-    ArgumentError.checkNotNull(executionArn, 'executionArn');
-    _s.validateStringLength(
-      'executionArn',
-      executionArn,
-      1,
-      256,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'cause',
-      cause,
-      0,
-      32768,
-    );
-    _s.validateStringLength(
-      'error',
-      error,
-      0,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'AWSStepFunctions.StopExecution'
@@ -1435,15 +1177,6 @@ class SFN {
     required String resourceArn,
     required List<Tag> tags,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      256,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'AWSStepFunctions.TagResource'
@@ -1476,15 +1209,6 @@ class SFN {
     required String resourceArn,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      256,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'AWSStepFunctions.UntagResource'
@@ -1548,26 +1272,6 @@ class SFN {
     String? roleArn,
     TracingConfiguration? tracingConfiguration,
   }) async {
-    ArgumentError.checkNotNull(stateMachineArn, 'stateMachineArn');
-    _s.validateStringLength(
-      'stateMachineArn',
-      stateMachineArn,
-      1,
-      256,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'definition',
-      definition,
-      1,
-      1048576,
-    );
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      1,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'AWSStepFunctions.UpdateStateMachine'

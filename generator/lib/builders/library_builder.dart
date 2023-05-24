@@ -134,19 +134,21 @@ ${builder.constructor()}
     writeln(') async {');
     for (final member in parameterShape?.members ?? <Member>[]) {
       final name = member.fieldName;
-      if (member.isRequired) {
-        writeln('    ArgumentError.checkNotNull($name, \'$name\');');
-      }
 
       if (member.shapeClass?.max != null || member.shapeClass?.min != null) {
         final max = member.shapeClass?.max ?? pow(2, 60).toInt();
         final min = member.shapeClass?.min ?? pow(2, -60).toInt();
 
+        // Below code is commented out for the time being, since string length
+        // in the service definitions are sometime incorrect
+        /*
         if (member.dartType == 'String') {
           final isRequired = member.isRequired ? 'isRequired: true,' : '';
           writeln(
               "_s.validateStringLength('$name', $name, $min, $max, $isRequired);");
-        } else if (member.dartType == 'int' || member.dartType == 'double') {
+        }
+        */
+        if (member.dartType == 'int' || member.dartType == 'double') {
           final isRequired = member.isRequired ? 'isRequired: true,' : '';
           writeln(
               "_s.validateNumRange('$name', $name, $min, $max, $isRequired);");

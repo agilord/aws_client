@@ -71,8 +71,6 @@ class Greengrass {
     required String groupId,
     required String roleArn,
   }) async {
-    ArgumentError.checkNotNull(groupId, 'groupId');
-    ArgumentError.checkNotNull(roleArn, 'roleArn');
     final $payload = <String, dynamic>{
       'RoleArn': roleArn,
     };
@@ -98,7 +96,6 @@ class Greengrass {
   Future<AssociateServiceRoleToAccountResponse> associateServiceRoleToAccount({
     required String roleArn,
   }) async {
-    ArgumentError.checkNotNull(roleArn, 'roleArn');
     final $payload = <String, dynamic>{
       'RoleArn': roleArn,
     };
@@ -173,7 +170,6 @@ class Greengrass {
     String? amznClientToken,
     List<Connector>? connectors,
   }) async {
-    ArgumentError.checkNotNull(connectorDefinitionId, 'connectorDefinitionId');
     final headers = <String, String>{
       if (amznClientToken != null)
         'X-Amzn-Client-Token': amznClientToken.toString(),
@@ -252,7 +248,6 @@ class Greengrass {
     String? amznClientToken,
     List<Core>? cores,
   }) async {
-    ArgumentError.checkNotNull(coreDefinitionId, 'coreDefinitionId');
     final headers = <String, String>{
       if (amznClientToken != null)
         'X-Amzn-Client-Token': amznClientToken.toString(),
@@ -298,8 +293,6 @@ class Greengrass {
     String? deploymentId,
     String? groupVersionId,
   }) async {
-    ArgumentError.checkNotNull(deploymentType, 'deploymentType');
-    ArgumentError.checkNotNull(groupId, 'groupId');
     final headers = <String, String>{
       if (amznClientToken != null)
         'X-Amzn-Client-Token': amznClientToken.toString(),
@@ -379,7 +372,6 @@ class Greengrass {
     String? amznClientToken,
     List<Device>? devices,
   }) async {
-    ArgumentError.checkNotNull(deviceDefinitionId, 'deviceDefinitionId');
     final headers = <String, String>{
       if (amznClientToken != null)
         'X-Amzn-Client-Token': amznClientToken.toString(),
@@ -467,7 +459,6 @@ class Greengrass {
     FunctionDefaultConfig? defaultConfig,
     List<$Function>? functions,
   }) async {
-    ArgumentError.checkNotNull(functionDefinitionId, 'functionDefinitionId');
     final headers = <String, String>{
       if (amznClientToken != null)
         'X-Amzn-Client-Token': amznClientToken.toString(),
@@ -547,7 +538,6 @@ class Greengrass {
     required String groupId,
     String? amznClientToken,
   }) async {
-    ArgumentError.checkNotNull(groupId, 'groupId');
     final headers = <String, String>{
       if (amznClientToken != null)
         'X-Amzn-Client-Token': amznClientToken.toString(),
@@ -604,7 +594,6 @@ class Greengrass {
     String? resourceDefinitionVersionArn,
     String? subscriptionDefinitionVersionArn,
   }) async {
-    ArgumentError.checkNotNull(groupId, 'groupId');
     final headers = <String, String>{
       if (amznClientToken != null)
         'X-Amzn-Client-Token': amznClientToken.toString(),
@@ -694,7 +683,6 @@ class Greengrass {
     String? amznClientToken,
     List<Logger>? loggers,
   }) async {
-    ArgumentError.checkNotNull(loggerDefinitionId, 'loggerDefinitionId');
     final headers = <String, String>{
       if (amznClientToken != null)
         'X-Amzn-Client-Token': amznClientToken.toString(),
@@ -774,7 +762,6 @@ class Greengrass {
     String? amznClientToken,
     List<Resource>? resources,
   }) async {
-    ArgumentError.checkNotNull(resourceDefinitionId, 'resourceDefinitionId');
     final headers = <String, String>{
       if (amznClientToken != null)
         'X-Amzn-Client-Token': amznClientToken.toString(),
@@ -813,13 +800,6 @@ class Greengrass {
     String? amznClientToken,
     UpdateAgentLogLevel? updateAgentLogLevel,
   }) async {
-    ArgumentError.checkNotNull(s3UrlSignerRole, 's3UrlSignerRole');
-    ArgumentError.checkNotNull(softwareToUpdate, 'softwareToUpdate');
-    ArgumentError.checkNotNull(updateTargets, 'updateTargets');
-    ArgumentError.checkNotNull(
-        updateTargetsArchitecture, 'updateTargetsArchitecture');
-    ArgumentError.checkNotNull(
-        updateTargetsOperatingSystem, 'updateTargetsOperatingSystem');
     final headers = <String, String>{
       if (amznClientToken != null)
         'X-Amzn-Client-Token': amznClientToken.toString(),
@@ -904,8 +884,6 @@ class Greengrass {
     String? amznClientToken,
     List<Subscription>? subscriptions,
   }) async {
-    ArgumentError.checkNotNull(
-        subscriptionDefinitionId, 'subscriptionDefinitionId');
     final headers = <String, String>{
       if (amznClientToken != null)
         'X-Amzn-Client-Token': amznClientToken.toString(),
@@ -933,7 +911,6 @@ class Greengrass {
   Future<void> deleteConnectorDefinition({
     required String connectorDefinitionId,
   }) async {
-    ArgumentError.checkNotNull(connectorDefinitionId, 'connectorDefinitionId');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -952,7 +929,6 @@ class Greengrass {
   Future<void> deleteCoreDefinition({
     required String coreDefinitionId,
   }) async {
-    ArgumentError.checkNotNull(coreDefinitionId, 'coreDefinitionId');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -971,7 +947,6 @@ class Greengrass {
   Future<void> deleteDeviceDefinition({
     required String deviceDefinitionId,
   }) async {
-    ArgumentError.checkNotNull(deviceDefinitionId, 'deviceDefinitionId');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -990,7 +965,6 @@ class Greengrass {
   Future<void> deleteFunctionDefinition({
     required String functionDefinitionId,
   }) async {
-    ArgumentError.checkNotNull(functionDefinitionId, 'functionDefinitionId');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1009,7 +983,6 @@ class Greengrass {
   Future<void> deleteGroup({
     required String groupId,
   }) async {
-    ArgumentError.checkNotNull(groupId, 'groupId');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1027,7 +1000,6 @@ class Greengrass {
   Future<void> deleteLoggerDefinition({
     required String loggerDefinitionId,
   }) async {
-    ArgumentError.checkNotNull(loggerDefinitionId, 'loggerDefinitionId');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1046,7 +1018,6 @@ class Greengrass {
   Future<void> deleteResourceDefinition({
     required String resourceDefinitionId,
   }) async {
-    ArgumentError.checkNotNull(resourceDefinitionId, 'resourceDefinitionId');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1065,8 +1036,6 @@ class Greengrass {
   Future<void> deleteSubscriptionDefinition({
     required String subscriptionDefinitionId,
   }) async {
-    ArgumentError.checkNotNull(
-        subscriptionDefinitionId, 'subscriptionDefinitionId');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1086,7 +1055,6 @@ class Greengrass {
   Future<DisassociateRoleFromGroupResponse> disassociateRoleFromGroup({
     required String groupId,
   }) async {
-    ArgumentError.checkNotNull(groupId, 'groupId');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1121,7 +1089,6 @@ class Greengrass {
   Future<GetAssociatedRoleResponse> getAssociatedRole({
     required String groupId,
   }) async {
-    ArgumentError.checkNotNull(groupId, 'groupId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1140,7 +1107,6 @@ class Greengrass {
   Future<GetBulkDeploymentStatusResponse> getBulkDeploymentStatus({
     required String bulkDeploymentId,
   }) async {
-    ArgumentError.checkNotNull(bulkDeploymentId, 'bulkDeploymentId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1161,7 +1127,6 @@ class Greengrass {
   Future<GetConnectivityInfoResponse> getConnectivityInfo({
     required String thingName,
   }) async {
-    ArgumentError.checkNotNull(thingName, 'thingName');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1181,7 +1146,6 @@ class Greengrass {
   Future<GetConnectorDefinitionResponse> getConnectorDefinition({
     required String connectorDefinitionId,
   }) async {
-    ArgumentError.checkNotNull(connectorDefinitionId, 'connectorDefinitionId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1218,9 +1182,6 @@ class Greengrass {
     required String connectorDefinitionVersionId,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(connectorDefinitionId, 'connectorDefinitionId');
-    ArgumentError.checkNotNull(
-        connectorDefinitionVersionId, 'connectorDefinitionVersionId');
     final $query = <String, List<String>>{
       if (nextToken != null) 'NextToken': [nextToken],
     };
@@ -1244,7 +1205,6 @@ class Greengrass {
   Future<GetCoreDefinitionResponse> getCoreDefinition({
     required String coreDefinitionId,
   }) async {
-    ArgumentError.checkNotNull(coreDefinitionId, 'coreDefinitionId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1273,9 +1233,6 @@ class Greengrass {
     required String coreDefinitionId,
     required String coreDefinitionVersionId,
   }) async {
-    ArgumentError.checkNotNull(coreDefinitionId, 'coreDefinitionId');
-    ArgumentError.checkNotNull(
-        coreDefinitionVersionId, 'coreDefinitionVersionId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1299,8 +1256,6 @@ class Greengrass {
     required String deploymentId,
     required String groupId,
   }) async {
-    ArgumentError.checkNotNull(deploymentId, 'deploymentId');
-    ArgumentError.checkNotNull(groupId, 'groupId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1320,7 +1275,6 @@ class Greengrass {
   Future<GetDeviceDefinitionResponse> getDeviceDefinition({
     required String deviceDefinitionId,
   }) async {
-    ArgumentError.checkNotNull(deviceDefinitionId, 'deviceDefinitionId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1354,9 +1308,6 @@ class Greengrass {
     required String deviceDefinitionVersionId,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(deviceDefinitionId, 'deviceDefinitionId');
-    ArgumentError.checkNotNull(
-        deviceDefinitionVersionId, 'deviceDefinitionVersionId');
     final $query = <String, List<String>>{
       if (nextToken != null) 'NextToken': [nextToken],
     };
@@ -1381,7 +1332,6 @@ class Greengrass {
   Future<GetFunctionDefinitionResponse> getFunctionDefinition({
     required String functionDefinitionId,
   }) async {
-    ArgumentError.checkNotNull(functionDefinitionId, 'functionDefinitionId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1417,9 +1367,6 @@ class Greengrass {
     required String functionDefinitionVersionId,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(functionDefinitionId, 'functionDefinitionId');
-    ArgumentError.checkNotNull(
-        functionDefinitionVersionId, 'functionDefinitionVersionId');
     final $query = <String, List<String>>{
       if (nextToken != null) 'NextToken': [nextToken],
     };
@@ -1443,7 +1390,6 @@ class Greengrass {
   Future<GetGroupResponse> getGroup({
     required String groupId,
   }) async {
-    ArgumentError.checkNotNull(groupId, 'groupId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1468,9 +1414,6 @@ class Greengrass {
     required String certificateAuthorityId,
     required String groupId,
   }) async {
-    ArgumentError.checkNotNull(
-        certificateAuthorityId, 'certificateAuthorityId');
-    ArgumentError.checkNotNull(groupId, 'groupId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1492,7 +1435,6 @@ class Greengrass {
       getGroupCertificateConfiguration({
     required String groupId,
   }) async {
-    ArgumentError.checkNotNull(groupId, 'groupId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1520,8 +1462,6 @@ class Greengrass {
     required String groupId,
     required String groupVersionId,
   }) async {
-    ArgumentError.checkNotNull(groupId, 'groupId');
-    ArgumentError.checkNotNull(groupVersionId, 'groupVersionId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1541,7 +1481,6 @@ class Greengrass {
   Future<GetLoggerDefinitionResponse> getLoggerDefinition({
     required String loggerDefinitionId,
   }) async {
-    ArgumentError.checkNotNull(loggerDefinitionId, 'loggerDefinitionId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1575,9 +1514,6 @@ class Greengrass {
     required String loggerDefinitionVersionId,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(loggerDefinitionId, 'loggerDefinitionId');
-    ArgumentError.checkNotNull(
-        loggerDefinitionVersionId, 'loggerDefinitionVersionId');
     final $query = <String, List<String>>{
       if (nextToken != null) 'NextToken': [nextToken],
     };
@@ -1602,7 +1538,6 @@ class Greengrass {
   Future<GetResourceDefinitionResponse> getResourceDefinition({
     required String resourceDefinitionId,
   }) async {
-    ArgumentError.checkNotNull(resourceDefinitionId, 'resourceDefinitionId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1632,9 +1567,6 @@ class Greengrass {
     required String resourceDefinitionId,
     required String resourceDefinitionVersionId,
   }) async {
-    ArgumentError.checkNotNull(resourceDefinitionId, 'resourceDefinitionId');
-    ArgumentError.checkNotNull(
-        resourceDefinitionVersionId, 'resourceDefinitionVersionId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1667,8 +1599,6 @@ class Greengrass {
   Future<GetSubscriptionDefinitionResponse> getSubscriptionDefinition({
     required String subscriptionDefinitionId,
   }) async {
-    ArgumentError.checkNotNull(
-        subscriptionDefinitionId, 'subscriptionDefinitionId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1703,10 +1633,6 @@ class Greengrass {
     required String subscriptionDefinitionVersionId,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(
-        subscriptionDefinitionId, 'subscriptionDefinitionId');
-    ArgumentError.checkNotNull(
-        subscriptionDefinitionVersionId, 'subscriptionDefinitionVersionId');
     final $query = <String, List<String>>{
       if (nextToken != null) 'NextToken': [nextToken],
     };
@@ -1731,7 +1657,6 @@ class Greengrass {
   Future<GetThingRuntimeConfigurationResponse> getThingRuntimeConfiguration({
     required String thingName,
   }) async {
-    ArgumentError.checkNotNull(thingName, 'thingName');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1762,7 +1687,6 @@ class Greengrass {
     String? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(bulkDeploymentId, 'bulkDeploymentId');
     final $query = <String, List<String>>{
       if (maxResults != null) 'MaxResults': [maxResults],
       if (nextToken != null) 'NextToken': [nextToken],
@@ -1828,7 +1752,6 @@ class Greengrass {
     String? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(connectorDefinitionId, 'connectorDefinitionId');
     final $query = <String, List<String>>{
       if (maxResults != null) 'MaxResults': [maxResults],
       if (nextToken != null) 'NextToken': [nextToken],
@@ -1888,7 +1811,6 @@ class Greengrass {
     String? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(coreDefinitionId, 'coreDefinitionId');
     final $query = <String, List<String>>{
       if (maxResults != null) 'MaxResults': [maxResults],
       if (nextToken != null) 'NextToken': [nextToken],
@@ -1948,7 +1870,6 @@ class Greengrass {
     String? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(groupId, 'groupId');
     final $query = <String, List<String>>{
       if (maxResults != null) 'MaxResults': [maxResults],
       if (nextToken != null) 'NextToken': [nextToken],
@@ -1982,7 +1903,6 @@ class Greengrass {
     String? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(deviceDefinitionId, 'deviceDefinitionId');
     final $query = <String, List<String>>{
       if (maxResults != null) 'MaxResults': [maxResults],
       if (nextToken != null) 'NextToken': [nextToken],
@@ -2043,7 +1963,6 @@ class Greengrass {
     String? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(functionDefinitionId, 'functionDefinitionId');
     final $query = <String, List<String>>{
       if (maxResults != null) 'MaxResults': [maxResults],
       if (nextToken != null) 'NextToken': [nextToken],
@@ -2096,7 +2015,6 @@ class Greengrass {
       listGroupCertificateAuthorities({
     required String groupId,
   }) async {
-    ArgumentError.checkNotNull(groupId, 'groupId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -2125,7 +2043,6 @@ class Greengrass {
     String? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(groupId, 'groupId');
     final $query = <String, List<String>>{
       if (maxResults != null) 'MaxResults': [maxResults],
       if (nextToken != null) 'NextToken': [nextToken],
@@ -2184,7 +2101,6 @@ class Greengrass {
     String? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(loggerDefinitionId, 'loggerDefinitionId');
     final $query = <String, List<String>>{
       if (maxResults != null) 'MaxResults': [maxResults],
       if (nextToken != null) 'NextToken': [nextToken],
@@ -2245,7 +2161,6 @@ class Greengrass {
     String? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(resourceDefinitionId, 'resourceDefinitionId');
     final $query = <String, List<String>>{
       if (maxResults != null) 'MaxResults': [maxResults],
       if (nextToken != null) 'NextToken': [nextToken],
@@ -2306,8 +2221,6 @@ class Greengrass {
     String? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(
-        subscriptionDefinitionId, 'subscriptionDefinitionId');
     final $query = <String, List<String>>{
       if (maxResults != null) 'MaxResults': [maxResults],
       if (nextToken != null) 'NextToken': [nextToken],
@@ -2358,7 +2271,6 @@ class Greengrass {
   Future<ListTagsForResourceResponse> listTagsForResource({
     required String resourceArn,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -2385,7 +2297,6 @@ class Greengrass {
     String? amznClientToken,
     bool? force,
   }) async {
-    ArgumentError.checkNotNull(groupId, 'groupId');
     final headers = <String, String>{
       if (amznClientToken != null)
         'X-Amzn-Client-Token': amznClientToken.toString(),
@@ -2438,8 +2349,6 @@ class Greengrass {
     String? amznClientToken,
     Map<String, String>? tags,
   }) async {
-    ArgumentError.checkNotNull(executionRoleArn, 'executionRoleArn');
-    ArgumentError.checkNotNull(inputFileUri, 'inputFileUri');
     final headers = <String, String>{
       if (amznClientToken != null)
         'X-Amzn-Client-Token': amznClientToken.toString(),
@@ -2472,7 +2381,6 @@ class Greengrass {
   Future<void> stopBulkDeployment({
     required String bulkDeploymentId,
   }) async {
-    ArgumentError.checkNotNull(bulkDeploymentId, 'bulkDeploymentId');
     final response = await _protocol.send(
       payload: null,
       method: 'PUT',
@@ -2495,7 +2403,6 @@ class Greengrass {
     required String resourceArn,
     Map<String, String>? tags,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final $payload = <String, dynamic>{
       if (tags != null) 'tags': tags,
     };
@@ -2520,8 +2427,6 @@ class Greengrass {
     required String resourceArn,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
       'tagKeys': tagKeys,
     };
@@ -2550,7 +2455,6 @@ class Greengrass {
     required String thingName,
     List<ConnectivityInfo>? connectivityInfo,
   }) async {
-    ArgumentError.checkNotNull(thingName, 'thingName');
     final $payload = <String, dynamic>{
       if (connectivityInfo != null) 'ConnectivityInfo': connectivityInfo,
     };
@@ -2577,7 +2481,6 @@ class Greengrass {
     required String connectorDefinitionId,
     String? name,
   }) async {
-    ArgumentError.checkNotNull(connectorDefinitionId, 'connectorDefinitionId');
     final $payload = <String, dynamic>{
       if (name != null) 'Name': name,
     };
@@ -2603,7 +2506,6 @@ class Greengrass {
     required String coreDefinitionId,
     String? name,
   }) async {
-    ArgumentError.checkNotNull(coreDefinitionId, 'coreDefinitionId');
     final $payload = <String, dynamic>{
       if (name != null) 'Name': name,
     };
@@ -2629,7 +2531,6 @@ class Greengrass {
     required String deviceDefinitionId,
     String? name,
   }) async {
-    ArgumentError.checkNotNull(deviceDefinitionId, 'deviceDefinitionId');
     final $payload = <String, dynamic>{
       if (name != null) 'Name': name,
     };
@@ -2655,7 +2556,6 @@ class Greengrass {
     required String functionDefinitionId,
     String? name,
   }) async {
-    ArgumentError.checkNotNull(functionDefinitionId, 'functionDefinitionId');
     final $payload = <String, dynamic>{
       if (name != null) 'Name': name,
     };
@@ -2681,7 +2581,6 @@ class Greengrass {
     required String groupId,
     String? name,
   }) async {
-    ArgumentError.checkNotNull(groupId, 'groupId');
     final $payload = <String, dynamic>{
       if (name != null) 'Name': name,
     };
@@ -2709,7 +2608,6 @@ class Greengrass {
     required String groupId,
     String? certificateExpiryInMilliseconds,
   }) async {
-    ArgumentError.checkNotNull(groupId, 'groupId');
     final $payload = <String, dynamic>{
       if (certificateExpiryInMilliseconds != null)
         'CertificateExpiryInMilliseconds': certificateExpiryInMilliseconds,
@@ -2737,7 +2635,6 @@ class Greengrass {
     required String loggerDefinitionId,
     String? name,
   }) async {
-    ArgumentError.checkNotNull(loggerDefinitionId, 'loggerDefinitionId');
     final $payload = <String, dynamic>{
       if (name != null) 'Name': name,
     };
@@ -2763,7 +2660,6 @@ class Greengrass {
     required String resourceDefinitionId,
     String? name,
   }) async {
-    ArgumentError.checkNotNull(resourceDefinitionId, 'resourceDefinitionId');
     final $payload = <String, dynamic>{
       if (name != null) 'Name': name,
     };
@@ -2789,8 +2685,6 @@ class Greengrass {
     required String subscriptionDefinitionId,
     String? name,
   }) async {
-    ArgumentError.checkNotNull(
-        subscriptionDefinitionId, 'subscriptionDefinitionId');
     final $payload = <String, dynamic>{
       if (name != null) 'Name': name,
     };
@@ -2817,7 +2711,6 @@ class Greengrass {
     required String thingName,
     TelemetryConfigurationUpdate? telemetryConfiguration,
   }) async {
-    ArgumentError.checkNotNull(thingName, 'thingName');
     final $payload = <String, dynamic>{
       if (telemetryConfiguration != null)
         'TelemetryConfiguration': telemetryConfiguration,

@@ -84,14 +84,6 @@ class AutoScaling {
     required String autoScalingGroupName,
     List<String>? instanceIds,
   }) async {
-    ArgumentError.checkNotNull(autoScalingGroupName, 'autoScalingGroupName');
-    _s.validateStringLength(
-      'autoScalingGroupName',
-      autoScalingGroupName,
-      1,
-      255,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['AutoScalingGroupName'] = autoScalingGroupName;
     instanceIds?.also((arg) => $request['InstanceIds'] = arg);
@@ -150,15 +142,6 @@ class AutoScaling {
     required String autoScalingGroupName,
     required List<String> targetGroupARNs,
   }) async {
-    ArgumentError.checkNotNull(autoScalingGroupName, 'autoScalingGroupName');
-    _s.validateStringLength(
-      'autoScalingGroupName',
-      autoScalingGroupName,
-      1,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(targetGroupARNs, 'targetGroupARNs');
     final $request = <String, dynamic>{};
     $request['AutoScalingGroupName'] = autoScalingGroupName;
     $request['TargetGroupARNs'] = targetGroupARNs;
@@ -205,15 +188,6 @@ class AutoScaling {
     required String autoScalingGroupName,
     required List<String> loadBalancerNames,
   }) async {
-    ArgumentError.checkNotNull(autoScalingGroupName, 'autoScalingGroupName');
-    _s.validateStringLength(
-      'autoScalingGroupName',
-      autoScalingGroupName,
-      1,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(loadBalancerNames, 'loadBalancerNames');
     final $request = <String, dynamic>{};
     $request['AutoScalingGroupName'] = autoScalingGroupName;
     $request['LoadBalancerNames'] = loadBalancerNames;
@@ -245,15 +219,6 @@ class AutoScaling {
     required String autoScalingGroupName,
     required List<String> scheduledActionNames,
   }) async {
-    ArgumentError.checkNotNull(autoScalingGroupName, 'autoScalingGroupName');
-    _s.validateStringLength(
-      'autoScalingGroupName',
-      autoScalingGroupName,
-      1,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(scheduledActionNames, 'scheduledActionNames');
     final $request = <String, dynamic>{};
     $request['AutoScalingGroupName'] = autoScalingGroupName;
     $request['ScheduledActionNames'] = scheduledActionNames;
@@ -290,16 +255,6 @@ class AutoScaling {
     required List<ScheduledUpdateGroupActionRequest>
         scheduledUpdateGroupActions,
   }) async {
-    ArgumentError.checkNotNull(autoScalingGroupName, 'autoScalingGroupName');
-    _s.validateStringLength(
-      'autoScalingGroupName',
-      autoScalingGroupName,
-      1,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(
-        scheduledUpdateGroupActions, 'scheduledUpdateGroupActions');
     final $request = <String, dynamic>{};
     $request['AutoScalingGroupName'] = autoScalingGroupName;
     $request['ScheduledUpdateGroupActions'] = scheduledUpdateGroupActions;
@@ -334,14 +289,6 @@ class AutoScaling {
   Future<CancelInstanceRefreshAnswer> cancelInstanceRefresh({
     required String autoScalingGroupName,
   }) async {
-    ArgumentError.checkNotNull(autoScalingGroupName, 'autoScalingGroupName');
-    _s.validateStringLength(
-      'autoScalingGroupName',
-      autoScalingGroupName,
-      1,
-      255,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['AutoScalingGroupName'] = autoScalingGroupName;
     final $result = await _protocol.send(
@@ -418,35 +365,6 @@ class AutoScaling {
     String? instanceId,
     String? lifecycleActionToken,
   }) async {
-    ArgumentError.checkNotNull(autoScalingGroupName, 'autoScalingGroupName');
-    _s.validateStringLength(
-      'autoScalingGroupName',
-      autoScalingGroupName,
-      1,
-      1600,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(lifecycleActionResult, 'lifecycleActionResult');
-    ArgumentError.checkNotNull(lifecycleHookName, 'lifecycleHookName');
-    _s.validateStringLength(
-      'lifecycleHookName',
-      lifecycleHookName,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      19,
-    );
-    _s.validateStringLength(
-      'lifecycleActionToken',
-      lifecycleActionToken,
-      36,
-      36,
-    );
     final $request = <String, dynamic>{};
     $request['AutoScalingGroupName'] = autoScalingGroupName;
     $request['LifecycleActionResult'] = lifecycleActionResult;
@@ -728,52 +646,6 @@ class AutoScaling {
     List<String>? terminationPolicies,
     String? vPCZoneIdentifier,
   }) async {
-    ArgumentError.checkNotNull(autoScalingGroupName, 'autoScalingGroupName');
-    _s.validateStringLength(
-      'autoScalingGroupName',
-      autoScalingGroupName,
-      1,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(maxSize, 'maxSize');
-    ArgumentError.checkNotNull(minSize, 'minSize');
-    _s.validateStringLength(
-      'healthCheckType',
-      healthCheckType,
-      1,
-      32,
-    );
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      19,
-    );
-    _s.validateStringLength(
-      'launchConfigurationName',
-      launchConfigurationName,
-      1,
-      255,
-    );
-    _s.validateStringLength(
-      'placementGroup',
-      placementGroup,
-      1,
-      255,
-    );
-    _s.validateStringLength(
-      'serviceLinkedRoleARN',
-      serviceLinkedRoleARN,
-      1,
-      1600,
-    );
-    _s.validateStringLength(
-      'vPCZoneIdentifier',
-      vPCZoneIdentifier,
-      1,
-      2047,
-    );
     final $request = <String, dynamic>{};
     $request['AutoScalingGroupName'] = autoScalingGroupName;
     $request['MaxSize'] = maxSize;
@@ -1051,81 +923,6 @@ class AutoScaling {
     String? spotPrice,
     String? userData,
   }) async {
-    ArgumentError.checkNotNull(
-        launchConfigurationName, 'launchConfigurationName');
-    _s.validateStringLength(
-      'launchConfigurationName',
-      launchConfigurationName,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'classicLinkVPCId',
-      classicLinkVPCId,
-      1,
-      255,
-    );
-    _s.validateStringLength(
-      'iamInstanceProfile',
-      iamInstanceProfile,
-      1,
-      1600,
-    );
-    _s.validateStringLength(
-      'imageId',
-      imageId,
-      1,
-      255,
-    );
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      19,
-    );
-    _s.validateStringLength(
-      'instanceType',
-      instanceType,
-      1,
-      255,
-    );
-    _s.validateStringLength(
-      'kernelId',
-      kernelId,
-      1,
-      255,
-    );
-    _s.validateStringLength(
-      'keyName',
-      keyName,
-      1,
-      255,
-    );
-    _s.validateStringLength(
-      'placementTenancy',
-      placementTenancy,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'ramdiskId',
-      ramdiskId,
-      1,
-      255,
-    );
-    _s.validateStringLength(
-      'spotPrice',
-      spotPrice,
-      1,
-      255,
-    );
-    _s.validateStringLength(
-      'userData',
-      userData,
-      0,
-      21847,
-    );
     final $request = <String, dynamic>{};
     $request['LaunchConfigurationName'] = launchConfigurationName;
     associatePublicIpAddress
@@ -1181,7 +978,6 @@ class AutoScaling {
   Future<void> createOrUpdateTags({
     required List<Tag> tags,
   }) async {
-    ArgumentError.checkNotNull(tags, 'tags');
     final $request = <String, dynamic>{};
     $request['Tags'] = tags;
     await _protocol.send(
@@ -1230,14 +1026,6 @@ class AutoScaling {
     required String autoScalingGroupName,
     bool? forceDelete,
   }) async {
-    ArgumentError.checkNotNull(autoScalingGroupName, 'autoScalingGroupName');
-    _s.validateStringLength(
-      'autoScalingGroupName',
-      autoScalingGroupName,
-      1,
-      255,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['AutoScalingGroupName'] = autoScalingGroupName;
     forceDelete?.also((arg) => $request['ForceDelete'] = arg);
@@ -1267,15 +1055,6 @@ class AutoScaling {
   Future<void> deleteLaunchConfiguration({
     required String launchConfigurationName,
   }) async {
-    ArgumentError.checkNotNull(
-        launchConfigurationName, 'launchConfigurationName');
-    _s.validateStringLength(
-      'launchConfigurationName',
-      launchConfigurationName,
-      1,
-      255,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['LaunchConfigurationName'] = launchConfigurationName;
     await _protocol.send(
@@ -1307,22 +1086,6 @@ class AutoScaling {
     required String autoScalingGroupName,
     required String lifecycleHookName,
   }) async {
-    ArgumentError.checkNotNull(autoScalingGroupName, 'autoScalingGroupName');
-    _s.validateStringLength(
-      'autoScalingGroupName',
-      autoScalingGroupName,
-      1,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(lifecycleHookName, 'lifecycleHookName');
-    _s.validateStringLength(
-      'lifecycleHookName',
-      lifecycleHookName,
-      1,
-      255,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['AutoScalingGroupName'] = autoScalingGroupName;
     $request['LifecycleHookName'] = lifecycleHookName;
@@ -1353,22 +1116,6 @@ class AutoScaling {
     required String autoScalingGroupName,
     required String topicARN,
   }) async {
-    ArgumentError.checkNotNull(autoScalingGroupName, 'autoScalingGroupName');
-    _s.validateStringLength(
-      'autoScalingGroupName',
-      autoScalingGroupName,
-      1,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(topicARN, 'topicARN');
-    _s.validateStringLength(
-      'topicARN',
-      topicARN,
-      1,
-      255,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['AutoScalingGroupName'] = autoScalingGroupName;
     $request['TopicARN'] = topicARN;
@@ -1406,20 +1153,6 @@ class AutoScaling {
     required String policyName,
     String? autoScalingGroupName,
   }) async {
-    ArgumentError.checkNotNull(policyName, 'policyName');
-    _s.validateStringLength(
-      'policyName',
-      policyName,
-      1,
-      1600,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'autoScalingGroupName',
-      autoScalingGroupName,
-      1,
-      255,
-    );
     final $request = <String, dynamic>{};
     $request['PolicyName'] = policyName;
     autoScalingGroupName?.also((arg) => $request['AutoScalingGroupName'] = arg);
@@ -1448,22 +1181,6 @@ class AutoScaling {
     required String autoScalingGroupName,
     required String scheduledActionName,
   }) async {
-    ArgumentError.checkNotNull(autoScalingGroupName, 'autoScalingGroupName');
-    _s.validateStringLength(
-      'autoScalingGroupName',
-      autoScalingGroupName,
-      1,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(scheduledActionName, 'scheduledActionName');
-    _s.validateStringLength(
-      'scheduledActionName',
-      scheduledActionName,
-      1,
-      255,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['AutoScalingGroupName'] = autoScalingGroupName;
     $request['ScheduledActionName'] = scheduledActionName;
@@ -1489,7 +1206,6 @@ class AutoScaling {
   Future<void> deleteTags({
     required List<Tag> tags,
   }) async {
-    ArgumentError.checkNotNull(tags, 'tags');
     final $request = <String, dynamic>{};
     $request['Tags'] = tags;
     await _protocol.send(
@@ -1720,14 +1436,6 @@ class AutoScaling {
     int? maxRecords,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(autoScalingGroupName, 'autoScalingGroupName');
-    _s.validateStringLength(
-      'autoScalingGroupName',
-      autoScalingGroupName,
-      1,
-      255,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['AutoScalingGroupName'] = autoScalingGroupName;
     instanceRefreshIds?.also((arg) => $request['InstanceRefreshIds'] = arg);
@@ -1830,14 +1538,6 @@ class AutoScaling {
     required String autoScalingGroupName,
     List<String>? lifecycleHookNames,
   }) async {
-    ArgumentError.checkNotNull(autoScalingGroupName, 'autoScalingGroupName');
-    _s.validateStringLength(
-      'autoScalingGroupName',
-      autoScalingGroupName,
-      1,
-      255,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['AutoScalingGroupName'] = autoScalingGroupName;
     lifecycleHookNames?.also((arg) => $request['LifecycleHookNames'] = arg);
@@ -1875,14 +1575,6 @@ class AutoScaling {
     int? maxRecords,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(autoScalingGroupName, 'autoScalingGroupName');
-    _s.validateStringLength(
-      'autoScalingGroupName',
-      autoScalingGroupName,
-      1,
-      255,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['AutoScalingGroupName'] = autoScalingGroupName;
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
@@ -1924,14 +1616,6 @@ class AutoScaling {
     int? maxRecords,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(autoScalingGroupName, 'autoScalingGroupName');
-    _s.validateStringLength(
-      'autoScalingGroupName',
-      autoScalingGroupName,
-      1,
-      255,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['AutoScalingGroupName'] = autoScalingGroupName;
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
@@ -2047,12 +1731,6 @@ class AutoScaling {
     List<String>? policyNames,
     List<String>? policyTypes,
   }) async {
-    _s.validateStringLength(
-      'autoScalingGroupName',
-      autoScalingGroupName,
-      1,
-      255,
-    );
     final $request = <String, dynamic>{};
     autoScalingGroupName?.also((arg) => $request['AutoScalingGroupName'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
@@ -2102,12 +1780,6 @@ class AutoScaling {
     int? maxRecords,
     String? nextToken,
   }) async {
-    _s.validateStringLength(
-      'autoScalingGroupName',
-      autoScalingGroupName,
-      1,
-      255,
-    );
     final $request = <String, dynamic>{};
     activityIds?.also((arg) => $request['ActivityIds'] = arg);
     autoScalingGroupName?.also((arg) => $request['AutoScalingGroupName'] = arg);
@@ -2184,12 +1856,6 @@ class AutoScaling {
     List<String>? scheduledActionNames,
     DateTime? startTime,
   }) async {
-    _s.validateStringLength(
-      'autoScalingGroupName',
-      autoScalingGroupName,
-      1,
-      255,
-    );
     final $request = <String, dynamic>{};
     autoScalingGroupName?.also((arg) => $request['AutoScalingGroupName'] = arg);
     endTime?.also((arg) => $request['EndTime'] = _s.iso8601ToJson(arg));
@@ -2323,16 +1989,6 @@ class AutoScaling {
     required bool shouldDecrementDesiredCapacity,
     List<String>? instanceIds,
   }) async {
-    ArgumentError.checkNotNull(autoScalingGroupName, 'autoScalingGroupName');
-    _s.validateStringLength(
-      'autoScalingGroupName',
-      autoScalingGroupName,
-      1,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(
-        shouldDecrementDesiredCapacity, 'shouldDecrementDesiredCapacity');
     final $request = <String, dynamic>{};
     $request['AutoScalingGroupName'] = autoScalingGroupName;
     $request['ShouldDecrementDesiredCapacity'] = shouldDecrementDesiredCapacity;
@@ -2365,15 +2021,6 @@ class AutoScaling {
     required String autoScalingGroupName,
     required List<String> targetGroupARNs,
   }) async {
-    ArgumentError.checkNotNull(autoScalingGroupName, 'autoScalingGroupName');
-    _s.validateStringLength(
-      'autoScalingGroupName',
-      autoScalingGroupName,
-      1,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(targetGroupARNs, 'targetGroupARNs');
     final $request = <String, dynamic>{};
     $request['AutoScalingGroupName'] = autoScalingGroupName;
     $request['TargetGroupARNs'] = targetGroupARNs;
@@ -2413,15 +2060,6 @@ class AutoScaling {
     required String autoScalingGroupName,
     required List<String> loadBalancerNames,
   }) async {
-    ArgumentError.checkNotNull(autoScalingGroupName, 'autoScalingGroupName');
-    _s.validateStringLength(
-      'autoScalingGroupName',
-      autoScalingGroupName,
-      1,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(loadBalancerNames, 'loadBalancerNames');
     final $request = <String, dynamic>{};
     $request['AutoScalingGroupName'] = autoScalingGroupName;
     $request['LoadBalancerNames'] = loadBalancerNames;
@@ -2494,14 +2132,6 @@ class AutoScaling {
     required String autoScalingGroupName,
     List<String>? metrics,
   }) async {
-    ArgumentError.checkNotNull(autoScalingGroupName, 'autoScalingGroupName');
-    _s.validateStringLength(
-      'autoScalingGroupName',
-      autoScalingGroupName,
-      1,
-      255,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['AutoScalingGroupName'] = autoScalingGroupName;
     metrics?.also((arg) => $request['Metrics'] = arg);
@@ -2587,22 +2217,6 @@ class AutoScaling {
     required String granularity,
     List<String>? metrics,
   }) async {
-    ArgumentError.checkNotNull(autoScalingGroupName, 'autoScalingGroupName');
-    _s.validateStringLength(
-      'autoScalingGroupName',
-      autoScalingGroupName,
-      1,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(granularity, 'granularity');
-    _s.validateStringLength(
-      'granularity',
-      granularity,
-      1,
-      255,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['AutoScalingGroupName'] = autoScalingGroupName;
     $request['Granularity'] = granularity;
@@ -2651,16 +2265,6 @@ class AutoScaling {
     required bool shouldDecrementDesiredCapacity,
     List<String>? instanceIds,
   }) async {
-    ArgumentError.checkNotNull(autoScalingGroupName, 'autoScalingGroupName');
-    _s.validateStringLength(
-      'autoScalingGroupName',
-      autoScalingGroupName,
-      1,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(
-        shouldDecrementDesiredCapacity, 'shouldDecrementDesiredCapacity');
     final $request = <String, dynamic>{};
     $request['AutoScalingGroupName'] = autoScalingGroupName;
     $request['ShouldDecrementDesiredCapacity'] = shouldDecrementDesiredCapacity;
@@ -2726,20 +2330,6 @@ class AutoScaling {
     bool? honorCooldown,
     double? metricValue,
   }) async {
-    ArgumentError.checkNotNull(policyName, 'policyName');
-    _s.validateStringLength(
-      'policyName',
-      policyName,
-      1,
-      1600,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'autoScalingGroupName',
-      autoScalingGroupName,
-      1,
-      255,
-    );
     final $request = <String, dynamic>{};
     $request['PolicyName'] = policyName;
     autoScalingGroupName?.also((arg) => $request['AutoScalingGroupName'] = arg);
@@ -2779,14 +2369,6 @@ class AutoScaling {
     required String autoScalingGroupName,
     List<String>? instanceIds,
   }) async {
-    ArgumentError.checkNotNull(autoScalingGroupName, 'autoScalingGroupName');
-    _s.validateStringLength(
-      'autoScalingGroupName',
-      autoScalingGroupName,
-      1,
-      255,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['AutoScalingGroupName'] = autoScalingGroupName;
     instanceIds?.also((arg) => $request['InstanceIds'] = arg);
@@ -2925,40 +2507,6 @@ class AutoScaling {
     String? notificationTargetARN,
     String? roleARN,
   }) async {
-    ArgumentError.checkNotNull(autoScalingGroupName, 'autoScalingGroupName');
-    _s.validateStringLength(
-      'autoScalingGroupName',
-      autoScalingGroupName,
-      1,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(lifecycleHookName, 'lifecycleHookName');
-    _s.validateStringLength(
-      'lifecycleHookName',
-      lifecycleHookName,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'notificationMetadata',
-      notificationMetadata,
-      1,
-      1023,
-    );
-    _s.validateStringLength(
-      'notificationTargetARN',
-      notificationTargetARN,
-      0,
-      255,
-    );
-    _s.validateStringLength(
-      'roleARN',
-      roleARN,
-      1,
-      255,
-    );
     final $request = <String, dynamic>{};
     $request['AutoScalingGroupName'] = autoScalingGroupName;
     $request['LifecycleHookName'] = lifecycleHookName;
@@ -3016,23 +2564,6 @@ class AutoScaling {
     required List<String> notificationTypes,
     required String topicARN,
   }) async {
-    ArgumentError.checkNotNull(autoScalingGroupName, 'autoScalingGroupName');
-    _s.validateStringLength(
-      'autoScalingGroupName',
-      autoScalingGroupName,
-      1,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(notificationTypes, 'notificationTypes');
-    ArgumentError.checkNotNull(topicARN, 'topicARN');
-    _s.validateStringLength(
-      'topicARN',
-      topicARN,
-      1,
-      255,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['AutoScalingGroupName'] = autoScalingGroupName;
     $request['NotificationTypes'] = notificationTypes;
@@ -3212,40 +2743,6 @@ class AutoScaling {
     List<StepAdjustment>? stepAdjustments,
     TargetTrackingConfiguration? targetTrackingConfiguration,
   }) async {
-    ArgumentError.checkNotNull(autoScalingGroupName, 'autoScalingGroupName');
-    _s.validateStringLength(
-      'autoScalingGroupName',
-      autoScalingGroupName,
-      1,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(policyName, 'policyName');
-    _s.validateStringLength(
-      'policyName',
-      policyName,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'adjustmentType',
-      adjustmentType,
-      1,
-      255,
-    );
-    _s.validateStringLength(
-      'metricAggregationType',
-      metricAggregationType,
-      1,
-      32,
-    );
-    _s.validateStringLength(
-      'policyType',
-      policyType,
-      1,
-      64,
-    );
     final $request = <String, dynamic>{};
     $request['AutoScalingGroupName'] = autoScalingGroupName;
     $request['PolicyName'] = policyName;
@@ -3347,28 +2844,6 @@ class AutoScaling {
     DateTime? startTime,
     DateTime? time,
   }) async {
-    ArgumentError.checkNotNull(autoScalingGroupName, 'autoScalingGroupName');
-    _s.validateStringLength(
-      'autoScalingGroupName',
-      autoScalingGroupName,
-      1,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(scheduledActionName, 'scheduledActionName');
-    _s.validateStringLength(
-      'scheduledActionName',
-      scheduledActionName,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'recurrence',
-      recurrence,
-      1,
-      255,
-    );
     final $request = <String, dynamic>{};
     $request['AutoScalingGroupName'] = autoScalingGroupName;
     $request['ScheduledActionName'] = scheduledActionName;
@@ -3446,34 +2921,6 @@ class AutoScaling {
     String? instanceId,
     String? lifecycleActionToken,
   }) async {
-    ArgumentError.checkNotNull(autoScalingGroupName, 'autoScalingGroupName');
-    _s.validateStringLength(
-      'autoScalingGroupName',
-      autoScalingGroupName,
-      1,
-      1600,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(lifecycleHookName, 'lifecycleHookName');
-    _s.validateStringLength(
-      'lifecycleHookName',
-      lifecycleHookName,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      19,
-    );
-    _s.validateStringLength(
-      'lifecycleActionToken',
-      lifecycleActionToken,
-      36,
-      36,
-    );
     final $request = <String, dynamic>{};
     $request['AutoScalingGroupName'] = autoScalingGroupName;
     $request['LifecycleHookName'] = lifecycleHookName;
@@ -3543,14 +2990,6 @@ class AutoScaling {
     required String autoScalingGroupName,
     List<String>? scalingProcesses,
   }) async {
-    ArgumentError.checkNotNull(autoScalingGroupName, 'autoScalingGroupName');
-    _s.validateStringLength(
-      'autoScalingGroupName',
-      autoScalingGroupName,
-      1,
-      255,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['AutoScalingGroupName'] = autoScalingGroupName;
     scalingProcesses?.also((arg) => $request['ScalingProcesses'] = arg);
@@ -3597,15 +3036,6 @@ class AutoScaling {
     required int desiredCapacity,
     bool? honorCooldown,
   }) async {
-    ArgumentError.checkNotNull(autoScalingGroupName, 'autoScalingGroupName');
-    _s.validateStringLength(
-      'autoScalingGroupName',
-      autoScalingGroupName,
-      1,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(desiredCapacity, 'desiredCapacity');
     final $request = <String, dynamic>{};
     $request['AutoScalingGroupName'] = autoScalingGroupName;
     $request['DesiredCapacity'] = desiredCapacity;
@@ -3654,22 +3084,6 @@ class AutoScaling {
     required String instanceId,
     bool? shouldRespectGracePeriod,
   }) async {
-    ArgumentError.checkNotNull(healthStatus, 'healthStatus');
-    _s.validateStringLength(
-      'healthStatus',
-      healthStatus,
-      1,
-      32,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      19,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['HealthStatus'] = healthStatus;
     $request['InstanceId'] = instanceId;
@@ -3714,16 +3128,6 @@ class AutoScaling {
     required List<String> instanceIds,
     required bool protectedFromScaleIn,
   }) async {
-    ArgumentError.checkNotNull(autoScalingGroupName, 'autoScalingGroupName');
-    _s.validateStringLength(
-      'autoScalingGroupName',
-      autoScalingGroupName,
-      1,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(instanceIds, 'instanceIds');
-    ArgumentError.checkNotNull(protectedFromScaleIn, 'protectedFromScaleIn');
     final $request = <String, dynamic>{};
     $request['AutoScalingGroupName'] = autoScalingGroupName;
     $request['InstanceIds'] = instanceIds;
@@ -3790,14 +3194,6 @@ class AutoScaling {
     RefreshPreferences? preferences,
     RefreshStrategy? strategy,
   }) async {
-    ArgumentError.checkNotNull(autoScalingGroupName, 'autoScalingGroupName');
-    _s.validateStringLength(
-      'autoScalingGroupName',
-      autoScalingGroupName,
-      1,
-      255,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['AutoScalingGroupName'] = autoScalingGroupName;
     preferences?.also((arg) => $request['Preferences'] = arg);
@@ -3872,14 +3268,6 @@ class AutoScaling {
     required String autoScalingGroupName,
     List<String>? scalingProcesses,
   }) async {
-    ArgumentError.checkNotNull(autoScalingGroupName, 'autoScalingGroupName');
-    _s.validateStringLength(
-      'autoScalingGroupName',
-      autoScalingGroupName,
-      1,
-      255,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['AutoScalingGroupName'] = autoScalingGroupName;
     scalingProcesses?.also((arg) => $request['ScalingProcesses'] = arg);
@@ -3928,16 +3316,6 @@ class AutoScaling {
     required String instanceId,
     required bool shouldDecrementDesiredCapacity,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      19,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(
-        shouldDecrementDesiredCapacity, 'shouldDecrementDesiredCapacity');
     final $request = <String, dynamic>{};
     $request['InstanceId'] = instanceId;
     $request['ShouldDecrementDesiredCapacity'] = shouldDecrementDesiredCapacity;
@@ -4149,44 +3527,6 @@ class AutoScaling {
     List<String>? terminationPolicies,
     String? vPCZoneIdentifier,
   }) async {
-    ArgumentError.checkNotNull(autoScalingGroupName, 'autoScalingGroupName');
-    _s.validateStringLength(
-      'autoScalingGroupName',
-      autoScalingGroupName,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'healthCheckType',
-      healthCheckType,
-      1,
-      32,
-    );
-    _s.validateStringLength(
-      'launchConfigurationName',
-      launchConfigurationName,
-      1,
-      255,
-    );
-    _s.validateStringLength(
-      'placementGroup',
-      placementGroup,
-      1,
-      255,
-    );
-    _s.validateStringLength(
-      'serviceLinkedRoleARN',
-      serviceLinkedRoleARN,
-      1,
-      1600,
-    );
-    _s.validateStringLength(
-      'vPCZoneIdentifier',
-      vPCZoneIdentifier,
-      1,
-      2047,
-    );
     final $request = <String, dynamic>{};
     $request['AutoScalingGroupName'] = autoScalingGroupName;
     availabilityZones?.also((arg) => $request['AvailabilityZones'] = arg);

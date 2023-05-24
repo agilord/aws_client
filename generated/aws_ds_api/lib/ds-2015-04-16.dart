@@ -78,7 +78,6 @@ class DirectoryService {
   Future<AcceptSharedDirectoryResult> acceptSharedDirectory({
     required String sharedDirectoryId,
   }) async {
-    ArgumentError.checkNotNull(sharedDirectoryId, 'sharedDirectoryId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.AcceptSharedDirectory'
@@ -202,8 +201,6 @@ class DirectoryService {
     required List<IpRoute> ipRoutes,
     bool? updateSecurityGroupForDirectoryControllers,
   }) async {
-    ArgumentError.checkNotNull(directoryId, 'directoryId');
-    ArgumentError.checkNotNull(ipRoutes, 'ipRoutes');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.AddIpRoutes'
@@ -250,16 +247,6 @@ class DirectoryService {
     required String regionName,
     required DirectoryVpcSettings vPCSettings,
   }) async {
-    ArgumentError.checkNotNull(directoryId, 'directoryId');
-    ArgumentError.checkNotNull(regionName, 'regionName');
-    _s.validateStringLength(
-      'regionName',
-      regionName,
-      8,
-      32,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(vPCSettings, 'vPCSettings');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.AddRegion'
@@ -297,8 +284,6 @@ class DirectoryService {
     required String resourceId,
     required List<Tag> tags,
   }) async {
-    ArgumentError.checkNotNull(resourceId, 'resourceId');
-    ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.AddTagsToResource'
@@ -335,8 +320,6 @@ class DirectoryService {
     required String directoryId,
     required String schemaExtensionId,
   }) async {
-    ArgumentError.checkNotNull(directoryId, 'directoryId');
-    ArgumentError.checkNotNull(schemaExtensionId, 'schemaExtensionId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.CancelSchemaExtension'
@@ -400,23 +383,6 @@ class DirectoryService {
     String? shortName,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(connectSettings, 'connectSettings');
-    ArgumentError.checkNotNull(name, 'name');
-    ArgumentError.checkNotNull(password, 'password');
-    _s.validateStringLength(
-      'password',
-      password,
-      1,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(size, 'size');
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      128,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.ConnectDirectory'
@@ -468,15 +434,6 @@ class DirectoryService {
     required String alias,
     required String directoryId,
   }) async {
-    ArgumentError.checkNotNull(alias, 'alias');
-    _s.validateStringLength(
-      'alias',
-      alias,
-      1,
-      62,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(directoryId, 'directoryId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.CreateAlias'
@@ -531,29 +488,6 @@ class DirectoryService {
     List<Attribute>? computerAttributes,
     String? organizationalUnitDistinguishedName,
   }) async {
-    ArgumentError.checkNotNull(computerName, 'computerName');
-    _s.validateStringLength(
-      'computerName',
-      computerName,
-      1,
-      15,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(directoryId, 'directoryId');
-    ArgumentError.checkNotNull(password, 'password');
-    _s.validateStringLength(
-      'password',
-      password,
-      8,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'organizationalUnitDistinguishedName',
-      organizationalUnitDistinguishedName,
-      1,
-      2000,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.CreateComputer'
@@ -608,9 +542,6 @@ class DirectoryService {
     required List<String> dnsIpAddrs,
     required String remoteDomainName,
   }) async {
-    ArgumentError.checkNotNull(directoryId, 'directoryId');
-    ArgumentError.checkNotNull(dnsIpAddrs, 'dnsIpAddrs');
-    ArgumentError.checkNotNull(remoteDomainName, 'remoteDomainName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.CreateConditionalForwarder'
@@ -714,15 +645,6 @@ class DirectoryService {
     List<Tag>? tags,
     DirectoryVpcSettings? vpcSettings,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    ArgumentError.checkNotNull(password, 'password');
-    ArgumentError.checkNotNull(size, 'size');
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      128,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.CreateDirectory'
@@ -769,15 +691,6 @@ class DirectoryService {
     required String directoryId,
     required String logGroupName,
   }) async {
-    ArgumentError.checkNotNull(directoryId, 'directoryId');
-    ArgumentError.checkNotNull(logGroupName, 'logGroupName');
-    _s.validateStringLength(
-      'logGroupName',
-      logGroupName,
-      1,
-      512,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.CreateLogSubscription'
@@ -855,15 +768,6 @@ class DirectoryService {
     String? shortName,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    ArgumentError.checkNotNull(password, 'password');
-    ArgumentError.checkNotNull(vpcSettings, 'vpcSettings');
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      128,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.CreateMicrosoftAD'
@@ -909,13 +813,6 @@ class DirectoryService {
     required String directoryId,
     String? name,
   }) async {
-    ArgumentError.checkNotNull(directoryId, 'directoryId');
-    _s.validateStringLength(
-      'name',
-      name,
-      0,
-      128,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.CreateSnapshot'
@@ -986,17 +883,6 @@ class DirectoryService {
     SelectiveAuth? selectiveAuth,
     TrustType? trustType,
   }) async {
-    ArgumentError.checkNotNull(directoryId, 'directoryId');
-    ArgumentError.checkNotNull(remoteDomainName, 'remoteDomainName');
-    ArgumentError.checkNotNull(trustDirection, 'trustDirection');
-    ArgumentError.checkNotNull(trustPassword, 'trustPassword');
-    _s.validateStringLength(
-      'trustPassword',
-      trustPassword,
-      1,
-      128,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.CreateTrust'
@@ -1042,8 +928,6 @@ class DirectoryService {
     required String directoryId,
     required String remoteDomainName,
   }) async {
-    ArgumentError.checkNotNull(directoryId, 'directoryId');
-    ArgumentError.checkNotNull(remoteDomainName, 'remoteDomainName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.DeleteConditionalForwarder'
@@ -1080,7 +964,6 @@ class DirectoryService {
   Future<DeleteDirectoryResult> deleteDirectory({
     required String directoryId,
   }) async {
-    ArgumentError.checkNotNull(directoryId, 'directoryId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.DeleteDirectory'
@@ -1111,7 +994,6 @@ class DirectoryService {
   Future<void> deleteLogSubscription({
     required String directoryId,
   }) async {
-    ArgumentError.checkNotNull(directoryId, 'directoryId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.DeleteLogSubscription'
@@ -1140,7 +1022,6 @@ class DirectoryService {
   Future<DeleteSnapshotResult> deleteSnapshot({
     required String snapshotId,
   }) async {
-    ArgumentError.checkNotNull(snapshotId, 'snapshotId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.DeleteSnapshot'
@@ -1177,7 +1058,6 @@ class DirectoryService {
     required String trustId,
     bool? deleteAssociatedConditionalForwarder,
   }) async {
-    ArgumentError.checkNotNull(trustId, 'trustId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.DeleteTrust'
@@ -1220,8 +1100,6 @@ class DirectoryService {
     required String certificateId,
     required String directoryId,
   }) async {
-    ArgumentError.checkNotNull(certificateId, 'certificateId');
-    ArgumentError.checkNotNull(directoryId, 'directoryId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.DeregisterCertificate'
@@ -1257,15 +1135,6 @@ class DirectoryService {
     required String directoryId,
     required String topicName,
   }) async {
-    ArgumentError.checkNotNull(directoryId, 'directoryId');
-    ArgumentError.checkNotNull(topicName, 'topicName');
-    _s.validateStringLength(
-      'topicName',
-      topicName,
-      1,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.DeregisterEventTopic'
@@ -1302,8 +1171,6 @@ class DirectoryService {
     required String certificateId,
     required String directoryId,
   }) async {
-    ArgumentError.checkNotNull(certificateId, 'certificateId');
-    ArgumentError.checkNotNull(directoryId, 'directoryId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.DescribeCertificate'
@@ -1347,7 +1214,6 @@ class DirectoryService {
     required String directoryId,
     List<String>? remoteDomainNames,
   }) async {
-    ArgumentError.checkNotNull(directoryId, 'directoryId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.DescribeConditionalForwarders'
@@ -1464,7 +1330,6 @@ class DirectoryService {
     int? limit,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(directoryId, 'directoryId');
     _s.validateNumRange(
       'limit',
       limit,
@@ -1565,7 +1430,6 @@ class DirectoryService {
     String? nextToken,
     LDAPSType? type,
   }) async {
-    ArgumentError.checkNotNull(directoryId, 'directoryId');
     _s.validateNumRange(
       'limit',
       limit,
@@ -1618,13 +1482,6 @@ class DirectoryService {
     String? nextToken,
     String? regionName,
   }) async {
-    ArgumentError.checkNotNull(directoryId, 'directoryId');
-    _s.validateStringLength(
-      'regionName',
-      regionName,
-      8,
-      32,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.DescribeRegions'
@@ -1673,7 +1530,6 @@ class DirectoryService {
     String? nextToken,
     List<String>? sharedDirectoryIds,
   }) async {
-    ArgumentError.checkNotNull(ownerDirectoryId, 'ownerDirectoryId');
     _s.validateNumRange(
       'limit',
       limit,
@@ -1851,8 +1707,6 @@ class DirectoryService {
     required String directoryId,
     required ClientAuthenticationType type,
   }) async {
-    ArgumentError.checkNotNull(directoryId, 'directoryId');
-    ArgumentError.checkNotNull(type, 'type');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.DisableClientAuthentication'
@@ -1890,8 +1744,6 @@ class DirectoryService {
     required String directoryId,
     required LDAPSType type,
   }) async {
-    ArgumentError.checkNotNull(directoryId, 'directoryId');
-    ArgumentError.checkNotNull(type, 'type');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.DisableLDAPS'
@@ -1922,7 +1774,6 @@ class DirectoryService {
   Future<void> disableRadius({
     required String directoryId,
   }) async {
-    ArgumentError.checkNotNull(directoryId, 'directoryId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.DisableRadius'
@@ -1970,19 +1821,6 @@ class DirectoryService {
     String? password,
     String? userName,
   }) async {
-    ArgumentError.checkNotNull(directoryId, 'directoryId');
-    _s.validateStringLength(
-      'password',
-      password,
-      1,
-      128,
-    );
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      1152921504606846976,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.DisableSso'
@@ -2024,8 +1862,6 @@ class DirectoryService {
     required String directoryId,
     required ClientAuthenticationType type,
   }) async {
-    ArgumentError.checkNotNull(directoryId, 'directoryId');
-    ArgumentError.checkNotNull(type, 'type');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.EnableClientAuthentication'
@@ -2065,8 +1901,6 @@ class DirectoryService {
     required String directoryId,
     required LDAPSType type,
   }) async {
-    ArgumentError.checkNotNull(directoryId, 'directoryId');
-    ArgumentError.checkNotNull(type, 'type');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.EnableLDAPS'
@@ -2104,8 +1938,6 @@ class DirectoryService {
     required String directoryId,
     required RadiusSettings radiusSettings,
   }) async {
-    ArgumentError.checkNotNull(directoryId, 'directoryId');
-    ArgumentError.checkNotNull(radiusSettings, 'radiusSettings');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.EnableRadius'
@@ -2156,19 +1988,6 @@ class DirectoryService {
     String? password,
     String? userName,
   }) async {
-    ArgumentError.checkNotNull(directoryId, 'directoryId');
-    _s.validateStringLength(
-      'password',
-      password,
-      1,
-      128,
-    );
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      1152921504606846976,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.EnableSso'
@@ -2219,7 +2038,6 @@ class DirectoryService {
   Future<GetSnapshotLimitsResult> getSnapshotLimits({
     required String directoryId,
   }) async {
-    ArgumentError.checkNotNull(directoryId, 'directoryId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.GetSnapshotLimits'
@@ -2265,7 +2083,6 @@ class DirectoryService {
     int? limit,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(directoryId, 'directoryId');
     _s.validateNumRange(
       'limit',
       limit,
@@ -2316,7 +2133,6 @@ class DirectoryService {
     int? limit,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(directoryId, 'directoryId');
     _s.validateNumRange(
       'limit',
       limit,
@@ -2415,7 +2231,6 @@ class DirectoryService {
     int? limit,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(directoryId, 'directoryId');
     _s.validateNumRange(
       'limit',
       limit,
@@ -2463,7 +2278,6 @@ class DirectoryService {
     int? limit,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(resourceId, 'resourceId');
     _s.validateNumRange(
       'limit',
       limit,
@@ -2523,15 +2337,6 @@ class DirectoryService {
     ClientCertAuthSettings? clientCertAuthSettings,
     CertificateType? type,
   }) async {
-    ArgumentError.checkNotNull(certificateData, 'certificateData');
-    _s.validateStringLength(
-      'certificateData',
-      certificateData,
-      1,
-      8192,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(directoryId, 'directoryId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.RegisterCertificate'
@@ -2576,15 +2381,6 @@ class DirectoryService {
     required String directoryId,
     required String topicName,
   }) async {
-    ArgumentError.checkNotNull(directoryId, 'directoryId');
-    ArgumentError.checkNotNull(topicName, 'topicName');
-    _s.validateStringLength(
-      'topicName',
-      topicName,
-      1,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.RegisterEventTopic'
@@ -2617,7 +2413,6 @@ class DirectoryService {
   Future<RejectSharedDirectoryResult> rejectSharedDirectory({
     required String sharedDirectoryId,
   }) async {
-    ArgumentError.checkNotNull(sharedDirectoryId, 'sharedDirectoryId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.RejectSharedDirectory'
@@ -2654,8 +2449,6 @@ class DirectoryService {
     required List<String> cidrIps,
     required String directoryId,
   }) async {
-    ArgumentError.checkNotNull(cidrIps, 'cidrIps');
-    ArgumentError.checkNotNull(directoryId, 'directoryId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.RemoveIpRoutes'
@@ -2690,7 +2483,6 @@ class DirectoryService {
   Future<void> removeRegion({
     required String directoryId,
   }) async {
-    ArgumentError.checkNotNull(directoryId, 'directoryId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.RemoveRegion'
@@ -2723,8 +2515,6 @@ class DirectoryService {
     required String resourceId,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(resourceId, 'resourceId');
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.RemoveTagsFromResource'
@@ -2787,23 +2577,6 @@ class DirectoryService {
     required String newPassword,
     required String userName,
   }) async {
-    ArgumentError.checkNotNull(directoryId, 'directoryId');
-    ArgumentError.checkNotNull(newPassword, 'newPassword');
-    _s.validateStringLength(
-      'newPassword',
-      newPassword,
-      1,
-      127,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.ResetUserPassword'
@@ -2843,7 +2616,6 @@ class DirectoryService {
   Future<void> restoreFromSnapshot({
     required String snapshotId,
   }) async {
-    ArgumentError.checkNotNull(snapshotId, 'snapshotId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.RestoreFromSnapshot'
@@ -2917,15 +2689,6 @@ class DirectoryService {
     required ShareTarget shareTarget,
     String? shareNotes,
   }) async {
-    ArgumentError.checkNotNull(directoryId, 'directoryId');
-    ArgumentError.checkNotNull(shareMethod, 'shareMethod');
-    ArgumentError.checkNotNull(shareTarget, 'shareTarget');
-    _s.validateStringLength(
-      'shareNotes',
-      shareNotes,
-      0,
-      1024,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.ShareDirectory'
@@ -2978,25 +2741,6 @@ class DirectoryService {
     required String directoryId,
     required String ldifContent,
   }) async {
-    ArgumentError.checkNotNull(createSnapshotBeforeSchemaExtension,
-        'createSnapshotBeforeSchemaExtension');
-    ArgumentError.checkNotNull(description, 'description');
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(directoryId, 'directoryId');
-    ArgumentError.checkNotNull(ldifContent, 'ldifContent');
-    _s.validateStringLength(
-      'ldifContent',
-      ldifContent,
-      1,
-      500000,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.StartSchemaExtension'
@@ -3039,8 +2783,6 @@ class DirectoryService {
     required String directoryId,
     required UnshareTarget unshareTarget,
   }) async {
-    ArgumentError.checkNotNull(directoryId, 'directoryId');
-    ArgumentError.checkNotNull(unshareTarget, 'unshareTarget');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.UnshareDirectory'
@@ -3086,9 +2828,6 @@ class DirectoryService {
     required List<String> dnsIpAddrs,
     required String remoteDomainName,
   }) async {
-    ArgumentError.checkNotNull(directoryId, 'directoryId');
-    ArgumentError.checkNotNull(dnsIpAddrs, 'dnsIpAddrs');
-    ArgumentError.checkNotNull(remoteDomainName, 'remoteDomainName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.UpdateConditionalForwarder'
@@ -3132,7 +2871,6 @@ class DirectoryService {
     required int desiredNumber,
     required String directoryId,
   }) async {
-    ArgumentError.checkNotNull(desiredNumber, 'desiredNumber');
     _s.validateNumRange(
       'desiredNumber',
       desiredNumber,
@@ -3140,7 +2878,6 @@ class DirectoryService {
       1152921504606846976,
       isRequired: true,
     );
-    ArgumentError.checkNotNull(directoryId, 'directoryId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -3178,8 +2915,6 @@ class DirectoryService {
     required String directoryId,
     required RadiusSettings radiusSettings,
   }) async {
-    ArgumentError.checkNotNull(directoryId, 'directoryId');
-    ArgumentError.checkNotNull(radiusSettings, 'radiusSettings');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.UpdateRadius'
@@ -3214,7 +2949,6 @@ class DirectoryService {
     required String trustId,
     SelectiveAuth? selectiveAuth,
   }) async {
-    ArgumentError.checkNotNull(trustId, 'trustId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.UpdateTrust'
@@ -3251,7 +2985,6 @@ class DirectoryService {
   Future<VerifyTrustResult> verifyTrust({
     required String trustId,
   }) async {
-    ArgumentError.checkNotNull(trustId, 'trustId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DirectoryService_20150416.VerifyTrust'

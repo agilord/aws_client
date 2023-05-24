@@ -97,38 +97,6 @@ class Personalize {
     String? filterArn,
     int? numResults,
   }) async {
-    ArgumentError.checkNotNull(jobInput, 'jobInput');
-    ArgumentError.checkNotNull(jobName, 'jobName');
-    _s.validateStringLength(
-      'jobName',
-      jobName,
-      1,
-      63,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(jobOutput, 'jobOutput');
-    ArgumentError.checkNotNull(roleArn, 'roleArn');
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      0,
-      256,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(solutionVersionArn, 'solutionVersionArn');
-    _s.validateStringLength(
-      'solutionVersionArn',
-      solutionVersionArn,
-      0,
-      256,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'filterArn',
-      filterArn,
-      0,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonPersonalize.CreateBatchInferenceJob'
@@ -237,28 +205,11 @@ class Personalize {
     required String solutionVersionArn,
     CampaignConfig? campaignConfig,
   }) async {
-    ArgumentError.checkNotNull(minProvisionedTPS, 'minProvisionedTPS');
     _s.validateNumRange(
       'minProvisionedTPS',
       minProvisionedTPS,
       1,
       1152921504606846976,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      63,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(solutionVersionArn, 'solutionVersionArn');
-    _s.validateStringLength(
-      'solutionVersionArn',
-      solutionVersionArn,
-      0,
-      256,
       isRequired: true,
     );
     final headers = <String, String>{
@@ -368,38 +319,6 @@ class Personalize {
     required String name,
     required String schemaArn,
   }) async {
-    ArgumentError.checkNotNull(datasetGroupArn, 'datasetGroupArn');
-    _s.validateStringLength(
-      'datasetGroupArn',
-      datasetGroupArn,
-      0,
-      256,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(datasetType, 'datasetType');
-    _s.validateStringLength(
-      'datasetType',
-      datasetType,
-      0,
-      256,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      63,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(schemaArn, 'schemaArn');
-    _s.validateStringLength(
-      'schemaArn',
-      schemaArn,
-      0,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonPersonalize.CreateDataset'
@@ -506,20 +425,6 @@ class Personalize {
     String? kmsKeyArn,
     String? roleArn,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      63,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      0,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonPersonalize.CreateDatasetGroup'
@@ -601,31 +506,6 @@ class Personalize {
     required String jobName,
     required String roleArn,
   }) async {
-    ArgumentError.checkNotNull(dataSource, 'dataSource');
-    ArgumentError.checkNotNull(datasetArn, 'datasetArn');
-    _s.validateStringLength(
-      'datasetArn',
-      datasetArn,
-      0,
-      256,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(jobName, 'jobName');
-    _s.validateStringLength(
-      'jobName',
-      jobName,
-      1,
-      63,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(roleArn, 'roleArn');
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      0,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonPersonalize.CreateDatasetImportJob'
@@ -709,22 +589,6 @@ class Personalize {
     required String datasetGroupArn,
     required String name,
   }) async {
-    ArgumentError.checkNotNull(datasetGroupArn, 'datasetGroupArn');
-    _s.validateStringLength(
-      'datasetGroupArn',
-      datasetGroupArn,
-      0,
-      256,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonPersonalize.CreateEventTracker'
@@ -777,30 +641,6 @@ class Personalize {
     required String filterExpression,
     required String name,
   }) async {
-    ArgumentError.checkNotNull(datasetGroupArn, 'datasetGroupArn');
-    _s.validateStringLength(
-      'datasetGroupArn',
-      datasetGroupArn,
-      0,
-      256,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(filterExpression, 'filterExpression');
-    _s.validateStringLength(
-      'filterExpression',
-      filterExpression,
-      1,
-      2500,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonPersonalize.CreateFilter'
@@ -854,22 +694,6 @@ class Personalize {
     required String name,
     required String schema,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      63,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(schema, 'schema');
-    _s.validateStringLength(
-      'schema',
-      schema,
-      0,
-      10000,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonPersonalize.CreateSchema'
@@ -1005,34 +829,6 @@ class Personalize {
     String? recipeArn,
     SolutionConfig? solutionConfig,
   }) async {
-    ArgumentError.checkNotNull(datasetGroupArn, 'datasetGroupArn');
-    _s.validateStringLength(
-      'datasetGroupArn',
-      datasetGroupArn,
-      0,
-      256,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      63,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'eventType',
-      eventType,
-      0,
-      256,
-    );
-    _s.validateStringLength(
-      'recipeArn',
-      recipeArn,
-      0,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonPersonalize.CreateSolution'
@@ -1129,14 +925,6 @@ class Personalize {
     required String solutionArn,
     TrainingMode? trainingMode,
   }) async {
-    ArgumentError.checkNotNull(solutionArn, 'solutionArn');
-    _s.validateStringLength(
-      'solutionArn',
-      solutionArn,
-      0,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonPersonalize.CreateSolutionVersion'
@@ -1171,14 +959,6 @@ class Personalize {
   Future<void> deleteCampaign({
     required String campaignArn,
   }) async {
-    ArgumentError.checkNotNull(campaignArn, 'campaignArn');
-    _s.validateStringLength(
-      'campaignArn',
-      campaignArn,
-      0,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonPersonalize.DeleteCampaign'
@@ -1209,14 +989,6 @@ class Personalize {
   Future<void> deleteDataset({
     required String datasetArn,
   }) async {
-    ArgumentError.checkNotNull(datasetArn, 'datasetArn');
-    _s.validateStringLength(
-      'datasetArn',
-      datasetArn,
-      0,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonPersonalize.DeleteDataset'
@@ -1257,14 +1029,6 @@ class Personalize {
   Future<void> deleteDatasetGroup({
     required String datasetGroupArn,
   }) async {
-    ArgumentError.checkNotNull(datasetGroupArn, 'datasetGroupArn');
-    _s.validateStringLength(
-      'datasetGroupArn',
-      datasetGroupArn,
-      0,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonPersonalize.DeleteDatasetGroup'
@@ -1294,14 +1058,6 @@ class Personalize {
   Future<void> deleteEventTracker({
     required String eventTrackerArn,
   }) async {
-    ArgumentError.checkNotNull(eventTrackerArn, 'eventTrackerArn');
-    _s.validateStringLength(
-      'eventTrackerArn',
-      eventTrackerArn,
-      0,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonPersonalize.DeleteEventTracker'
@@ -1329,14 +1085,6 @@ class Personalize {
   Future<void> deleteFilter({
     required String filterArn,
   }) async {
-    ArgumentError.checkNotNull(filterArn, 'filterArn');
-    _s.validateStringLength(
-      'filterArn',
-      filterArn,
-      0,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonPersonalize.DeleteFilter'
@@ -1366,14 +1114,6 @@ class Personalize {
   Future<void> deleteSchema({
     required String schemaArn,
   }) async {
-    ArgumentError.checkNotNull(schemaArn, 'schemaArn');
-    _s.validateStringLength(
-      'schemaArn',
-      schemaArn,
-      0,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonPersonalize.DeleteSchema'
@@ -1407,14 +1147,6 @@ class Personalize {
   Future<void> deleteSolution({
     required String solutionArn,
   }) async {
-    ArgumentError.checkNotNull(solutionArn, 'solutionArn');
-    _s.validateStringLength(
-      'solutionArn',
-      solutionArn,
-      0,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonPersonalize.DeleteSolution'
@@ -1441,14 +1173,6 @@ class Personalize {
   Future<DescribeAlgorithmResponse> describeAlgorithm({
     required String algorithmArn,
   }) async {
-    ArgumentError.checkNotNull(algorithmArn, 'algorithmArn');
-    _s.validateStringLength(
-      'algorithmArn',
-      algorithmArn,
-      0,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonPersonalize.DescribeAlgorithm'
@@ -1479,14 +1203,6 @@ class Personalize {
   Future<DescribeBatchInferenceJobResponse> describeBatchInferenceJob({
     required String batchInferenceJobArn,
   }) async {
-    ArgumentError.checkNotNull(batchInferenceJobArn, 'batchInferenceJobArn');
-    _s.validateStringLength(
-      'batchInferenceJobArn',
-      batchInferenceJobArn,
-      0,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonPersonalize.DescribeBatchInferenceJob'
@@ -1530,14 +1246,6 @@ class Personalize {
   Future<DescribeCampaignResponse> describeCampaign({
     required String campaignArn,
   }) async {
-    ArgumentError.checkNotNull(campaignArn, 'campaignArn');
-    _s.validateStringLength(
-      'campaignArn',
-      campaignArn,
-      0,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonPersonalize.DescribeCampaign'
@@ -1567,14 +1275,6 @@ class Personalize {
   Future<DescribeDatasetResponse> describeDataset({
     required String datasetArn,
   }) async {
-    ArgumentError.checkNotNull(datasetArn, 'datasetArn');
-    _s.validateStringLength(
-      'datasetArn',
-      datasetArn,
-      0,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonPersonalize.DescribeDataset'
@@ -1604,14 +1304,6 @@ class Personalize {
   Future<DescribeDatasetGroupResponse> describeDatasetGroup({
     required String datasetGroupArn,
   }) async {
-    ArgumentError.checkNotNull(datasetGroupArn, 'datasetGroupArn');
-    _s.validateStringLength(
-      'datasetGroupArn',
-      datasetGroupArn,
-      0,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonPersonalize.DescribeDatasetGroup'
@@ -1641,14 +1333,6 @@ class Personalize {
   Future<DescribeDatasetImportJobResponse> describeDatasetImportJob({
     required String datasetImportJobArn,
   }) async {
-    ArgumentError.checkNotNull(datasetImportJobArn, 'datasetImportJobArn');
-    _s.validateStringLength(
-      'datasetImportJobArn',
-      datasetImportJobArn,
-      0,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonPersonalize.DescribeDatasetImportJob'
@@ -1679,14 +1363,6 @@ class Personalize {
   Future<DescribeEventTrackerResponse> describeEventTracker({
     required String eventTrackerArn,
   }) async {
-    ArgumentError.checkNotNull(eventTrackerArn, 'eventTrackerArn');
-    _s.validateStringLength(
-      'eventTrackerArn',
-      eventTrackerArn,
-      0,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonPersonalize.DescribeEventTracker'
@@ -1715,15 +1391,6 @@ class Personalize {
   Future<DescribeFeatureTransformationResponse> describeFeatureTransformation({
     required String featureTransformationArn,
   }) async {
-    ArgumentError.checkNotNull(
-        featureTransformationArn, 'featureTransformationArn');
-    _s.validateStringLength(
-      'featureTransformationArn',
-      featureTransformationArn,
-      0,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonPersonalize.DescribeFeatureTransformation'
@@ -1752,14 +1419,6 @@ class Personalize {
   Future<DescribeFilterResponse> describeFilter({
     required String filterArn,
   }) async {
-    ArgumentError.checkNotNull(filterArn, 'filterArn');
-    _s.validateStringLength(
-      'filterArn',
-      filterArn,
-      0,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonPersonalize.DescribeFilter'
@@ -1810,14 +1469,6 @@ class Personalize {
   Future<DescribeRecipeResponse> describeRecipe({
     required String recipeArn,
   }) async {
-    ArgumentError.checkNotNull(recipeArn, 'recipeArn');
-    _s.validateStringLength(
-      'recipeArn',
-      recipeArn,
-      0,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonPersonalize.DescribeRecipe'
@@ -1847,14 +1498,6 @@ class Personalize {
   Future<DescribeSchemaResponse> describeSchema({
     required String schemaArn,
   }) async {
-    ArgumentError.checkNotNull(schemaArn, 'schemaArn');
-    _s.validateStringLength(
-      'schemaArn',
-      schemaArn,
-      0,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonPersonalize.DescribeSchema'
@@ -1884,14 +1527,6 @@ class Personalize {
   Future<DescribeSolutionResponse> describeSolution({
     required String solutionArn,
   }) async {
-    ArgumentError.checkNotNull(solutionArn, 'solutionArn');
-    _s.validateStringLength(
-      'solutionArn',
-      solutionArn,
-      0,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonPersonalize.DescribeSolution'
@@ -1921,14 +1556,6 @@ class Personalize {
   Future<DescribeSolutionVersionResponse> describeSolutionVersion({
     required String solutionVersionArn,
   }) async {
-    ArgumentError.checkNotNull(solutionVersionArn, 'solutionVersionArn');
-    _s.validateStringLength(
-      'solutionVersionArn',
-      solutionVersionArn,
-      0,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonPersonalize.DescribeSolutionVersion'
@@ -1959,14 +1586,6 @@ class Personalize {
   Future<GetSolutionMetricsResponse> getSolutionMetrics({
     required String solutionVersionArn,
   }) async {
-    ArgumentError.checkNotNull(solutionVersionArn, 'solutionVersionArn');
-    _s.validateStringLength(
-      'solutionVersionArn',
-      solutionVersionArn,
-      0,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonPersonalize.GetSolutionMetrics'
@@ -2011,18 +1630,6 @@ class Personalize {
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      1300,
-    );
-    _s.validateStringLength(
-      'solutionVersionArn',
-      solutionVersionArn,
-      0,
-      256,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2076,18 +1683,6 @@ class Personalize {
       1,
       100,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      1300,
-    );
-    _s.validateStringLength(
-      'solutionArn',
-      solutionArn,
-      0,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonPersonalize.ListCampaigns'
@@ -2129,12 +1724,6 @@ class Personalize {
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      1300,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2181,23 +1770,11 @@ class Personalize {
     int? maxResults,
     String? nextToken,
   }) async {
-    _s.validateStringLength(
-      'datasetArn',
-      datasetArn,
-      0,
-      256,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      1300,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2243,23 +1820,11 @@ class Personalize {
     int? maxResults,
     String? nextToken,
   }) async {
-    _s.validateStringLength(
-      'datasetGroupArn',
-      datasetGroupArn,
-      0,
-      256,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      1300,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2303,23 +1868,11 @@ class Personalize {
     int? maxResults,
     String? nextToken,
   }) async {
-    _s.validateStringLength(
-      'datasetGroupArn',
-      datasetGroupArn,
-      0,
-      256,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      1300,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2360,23 +1913,11 @@ class Personalize {
     int? maxResults,
     String? nextToken,
   }) async {
-    _s.validateStringLength(
-      'datasetGroupArn',
-      datasetGroupArn,
-      0,
-      256,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      1300,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2423,12 +1964,6 @@ class Personalize {
       1,
       100,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      1300,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonPersonalize.ListRecipes'
@@ -2470,12 +2005,6 @@ class Personalize {
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      1300,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2527,18 +2056,6 @@ class Personalize {
       1,
       100,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      1300,
-    );
-    _s.validateStringLength(
-      'solutionArn',
-      solutionArn,
-      0,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonPersonalize.ListSolutionVersions'
@@ -2582,23 +2099,11 @@ class Personalize {
     int? maxResults,
     String? nextToken,
   }) async {
-    _s.validateStringLength(
-      'datasetGroupArn',
-      datasetGroupArn,
-      0,
-      256,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      1300,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2653,25 +2158,11 @@ class Personalize {
     int? minProvisionedTPS,
     String? solutionVersionArn,
   }) async {
-    ArgumentError.checkNotNull(campaignArn, 'campaignArn');
-    _s.validateStringLength(
-      'campaignArn',
-      campaignArn,
-      0,
-      256,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'minProvisionedTPS',
       minProvisionedTPS,
       1,
       1152921504606846976,
-    );
-    _s.validateStringLength(
-      'solutionVersionArn',
-      solutionVersionArn,
-      0,
-      256,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',

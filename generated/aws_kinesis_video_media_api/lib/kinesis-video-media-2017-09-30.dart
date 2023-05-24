@@ -128,19 +128,6 @@ class KinesisVideoMedia {
     String? streamARN,
     String? streamName,
   }) async {
-    ArgumentError.checkNotNull(startSelector, 'startSelector');
-    _s.validateStringLength(
-      'streamARN',
-      streamARN,
-      1,
-      1024,
-    );
-    _s.validateStringLength(
-      'streamName',
-      streamName,
-      1,
-      256,
-    );
     final $payload = <String, dynamic>{
       'StartSelector': startSelector,
       if (streamARN != null) 'StreamARN': streamARN,

@@ -102,29 +102,6 @@ class DeviceFarm {
     String? description,
     int? maxDevices,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      0,
-      256,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(projectArn, 'projectArn');
-    _s.validateStringLength(
-      'projectArn',
-      projectArn,
-      32,
-      1011,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(rules, 'rules');
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      16384,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.CreateDevicePool'
@@ -182,20 +159,6 @@ class DeviceFarm {
     bool? packageCleanup,
     bool? rebootAfterUse,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      0,
-      256,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      16384,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.CreateInstanceProfile'
@@ -283,28 +246,6 @@ class DeviceFarm {
     int? uplinkJitterMs,
     int? uplinkLossPercent,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      0,
-      256,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(projectArn, 'projectArn');
-    _s.validateStringLength(
-      'projectArn',
-      projectArn,
-      32,
-      1011,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      16384,
-    );
     _s.validateNumRange(
       'downlinkLossPercent',
       downlinkLossPercent,
@@ -368,14 +309,6 @@ class DeviceFarm {
     required String name,
     int? defaultJobTimeoutMinutes,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      0,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.CreateProject'
@@ -500,52 +433,6 @@ class DeviceFarm {
     bool? skipAppResign,
     String? sshPublicKey,
   }) async {
-    ArgumentError.checkNotNull(deviceArn, 'deviceArn');
-    _s.validateStringLength(
-      'deviceArn',
-      deviceArn,
-      32,
-      1011,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(projectArn, 'projectArn');
-    _s.validateStringLength(
-      'projectArn',
-      projectArn,
-      32,
-      1011,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientId',
-      clientId,
-      0,
-      64,
-    );
-    _s.validateStringLength(
-      'instanceArn',
-      instanceArn,
-      32,
-      1011,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      0,
-      256,
-    );
-    _s.validateStringLength(
-      'remoteRecordAppArn',
-      remoteRecordAppArn,
-      32,
-      1011,
-    );
-    _s.validateStringLength(
-      'sshPublicKey',
-      sshPublicKey,
-      0,
-      8192,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.CreateRemoteAccessSession'
@@ -593,20 +480,6 @@ class DeviceFarm {
     required String name,
     String? description,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      2048,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.CreateTestGridProject'
@@ -643,20 +516,11 @@ class DeviceFarm {
     required int expiresInSeconds,
     required String projectArn,
   }) async {
-    ArgumentError.checkNotNull(expiresInSeconds, 'expiresInSeconds');
     _s.validateNumRange(
       'expiresInSeconds',
       expiresInSeconds,
       60,
       86400,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(projectArn, 'projectArn');
-    _s.validateStringLength(
-      'projectArn',
-      projectArn,
-      32,
-      1011,
       isRequired: true,
     );
     final headers = <String, String>{
@@ -810,29 +674,6 @@ class DeviceFarm {
     required UploadType type,
     String? contentType,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      0,
-      256,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(projectArn, 'projectArn');
-    _s.validateStringLength(
-      'projectArn',
-      projectArn,
-      32,
-      1011,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(type, 'type');
-    _s.validateStringLength(
-      'contentType',
-      contentType,
-      0,
-      64,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.CreateUpload'
@@ -882,36 +723,6 @@ class DeviceFarm {
     required String vpceServiceName,
     String? vpceConfigurationDescription,
   }) async {
-    ArgumentError.checkNotNull(serviceDnsName, 'serviceDnsName');
-    _s.validateStringLength(
-      'serviceDnsName',
-      serviceDnsName,
-      0,
-      2048,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(vpceConfigurationName, 'vpceConfigurationName');
-    _s.validateStringLength(
-      'vpceConfigurationName',
-      vpceConfigurationName,
-      0,
-      1024,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(vpceServiceName, 'vpceServiceName');
-    _s.validateStringLength(
-      'vpceServiceName',
-      vpceServiceName,
-      0,
-      2048,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'vpceConfigurationDescription',
-      vpceConfigurationDescription,
-      0,
-      2048,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.CreateVPCEConfiguration'
@@ -948,14 +759,6 @@ class DeviceFarm {
   Future<void> deleteDevicePool({
     required String arn,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      32,
-      1011,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.DeleteDevicePool'
@@ -986,14 +789,6 @@ class DeviceFarm {
   Future<void> deleteInstanceProfile({
     required String arn,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      32,
-      1011,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.DeleteInstanceProfile'
@@ -1022,14 +817,6 @@ class DeviceFarm {
   Future<void> deleteNetworkProfile({
     required String arn,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      32,
-      1011,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.DeleteNetworkProfile'
@@ -1061,14 +848,6 @@ class DeviceFarm {
   Future<void> deleteProject({
     required String arn,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      32,
-      1011,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.DeleteProject'
@@ -1098,14 +877,6 @@ class DeviceFarm {
   Future<void> deleteRemoteAccessSession({
     required String arn,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      32,
-      1011,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.DeleteRemoteAccessSession'
@@ -1136,14 +907,6 @@ class DeviceFarm {
   Future<void> deleteRun({
     required String arn,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      32,
-      1011,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.DeleteRun'
@@ -1178,14 +941,6 @@ class DeviceFarm {
   Future<void> deleteTestGridProject({
     required String projectArn,
   }) async {
-    ArgumentError.checkNotNull(projectArn, 'projectArn');
-    _s.validateStringLength(
-      'projectArn',
-      projectArn,
-      32,
-      1011,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.DeleteTestGridProject'
@@ -1215,14 +970,6 @@ class DeviceFarm {
   Future<void> deleteUpload({
     required String arn,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      32,
-      1011,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.DeleteUpload'
@@ -1253,14 +1000,6 @@ class DeviceFarm {
   Future<void> deleteVPCEConfiguration({
     required String arn,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      32,
-      1011,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.DeleteVPCEConfiguration'
@@ -1312,14 +1051,6 @@ class DeviceFarm {
   Future<GetDeviceResult> getDevice({
     required String arn,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      32,
-      1011,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.GetDevice'
@@ -1352,14 +1083,6 @@ class DeviceFarm {
   Future<GetDeviceInstanceResult> getDeviceInstance({
     required String arn,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      32,
-      1011,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.GetDeviceInstance'
@@ -1390,14 +1113,6 @@ class DeviceFarm {
   Future<GetDevicePoolResult> getDevicePool({
     required String arn,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      32,
-      1011,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.GetDevicePool'
@@ -1504,20 +1219,6 @@ class DeviceFarm {
     ScheduleRunTest? test,
     TestType? testType,
   }) async {
-    ArgumentError.checkNotNull(devicePoolArn, 'devicePoolArn');
-    _s.validateStringLength(
-      'devicePoolArn',
-      devicePoolArn,
-      32,
-      1011,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'appArn',
-      appArn,
-      32,
-      1011,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.GetDevicePoolCompatibility'
@@ -1552,14 +1253,6 @@ class DeviceFarm {
   Future<GetInstanceProfileResult> getInstanceProfile({
     required String arn,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      32,
-      1011,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.GetInstanceProfile'
@@ -1590,14 +1283,6 @@ class DeviceFarm {
   Future<GetJobResult> getJob({
     required String arn,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      32,
-      1011,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.GetJob'
@@ -1628,14 +1313,6 @@ class DeviceFarm {
   Future<GetNetworkProfileResult> getNetworkProfile({
     required String arn,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      32,
-      1011,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.GetNetworkProfile'
@@ -1674,12 +1351,6 @@ class DeviceFarm {
   Future<GetOfferingStatusResult> getOfferingStatus({
     String? nextToken,
   }) async {
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      4,
-      1024,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.GetOfferingStatus'
@@ -1710,14 +1381,6 @@ class DeviceFarm {
   Future<GetProjectResult> getProject({
     required String arn,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      32,
-      1011,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.GetProject'
@@ -1749,14 +1412,6 @@ class DeviceFarm {
   Future<GetRemoteAccessSessionResult> getRemoteAccessSession({
     required String arn,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      32,
-      1011,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.GetRemoteAccessSession'
@@ -1787,14 +1442,6 @@ class DeviceFarm {
   Future<GetRunResult> getRun({
     required String arn,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      32,
-      1011,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.GetRun'
@@ -1825,14 +1472,6 @@ class DeviceFarm {
   Future<GetSuiteResult> getSuite({
     required String arn,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      32,
-      1011,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.GetSuite'
@@ -1863,14 +1502,6 @@ class DeviceFarm {
   Future<GetTestResult> getTest({
     required String arn,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      32,
-      1011,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.GetTest'
@@ -1901,14 +1532,6 @@ class DeviceFarm {
   Future<GetTestGridProjectResult> getTestGridProject({
     required String projectArn,
   }) async {
-    ArgumentError.checkNotNull(projectArn, 'projectArn');
-    _s.validateStringLength(
-      'projectArn',
-      projectArn,
-      32,
-      1011,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.GetTestGridProject'
@@ -1961,24 +1584,6 @@ class DeviceFarm {
     String? sessionArn,
     String? sessionId,
   }) async {
-    _s.validateStringLength(
-      'projectArn',
-      projectArn,
-      32,
-      1011,
-    );
-    _s.validateStringLength(
-      'sessionArn',
-      sessionArn,
-      32,
-      1011,
-    );
-    _s.validateStringLength(
-      'sessionId',
-      sessionId,
-      1,
-      128,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.GetTestGridSession'
@@ -2011,14 +1616,6 @@ class DeviceFarm {
   Future<GetUploadResult> getUpload({
     required String arn,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      32,
-      1011,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.GetUpload'
@@ -2050,14 +1647,6 @@ class DeviceFarm {
   Future<GetVPCEConfigurationResult> getVPCEConfiguration({
     required String arn,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      32,
-      1011,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.GetVPCEConfiguration'
@@ -2095,23 +1684,6 @@ class DeviceFarm {
     required String appArn,
     required String remoteAccessSessionArn,
   }) async {
-    ArgumentError.checkNotNull(appArn, 'appArn');
-    _s.validateStringLength(
-      'appArn',
-      appArn,
-      32,
-      1011,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(
-        remoteAccessSessionArn, 'remoteAccessSessionArn');
-    _s.validateStringLength(
-      'remoteAccessSessionArn',
-      remoteAccessSessionArn,
-      32,
-      1011,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.InstallToRemoteAccessSession'
@@ -2166,21 +1738,6 @@ class DeviceFarm {
     required ArtifactCategory type,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      32,
-      1011,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(type, 'type');
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      4,
-      1024,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.ListArtifacts'
@@ -2220,12 +1777,6 @@ class DeviceFarm {
     int? maxResults,
     String? nextToken,
   }) async {
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      4,
-      1024,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.ListDeviceInstances'
@@ -2278,20 +1829,6 @@ class DeviceFarm {
     String? nextToken,
     DevicePoolType? type,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      32,
-      1011,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      4,
-      1024,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.ListDevicePools'
@@ -2425,18 +1962,6 @@ class DeviceFarm {
     List<DeviceFilter>? filters,
     String? nextToken,
   }) async {
-    _s.validateStringLength(
-      'arn',
-      arn,
-      32,
-      1011,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      4,
-      1024,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.ListDevices'
@@ -2475,12 +2000,6 @@ class DeviceFarm {
     int? maxResults,
     String? nextToken,
   }) async {
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      4,
-      1024,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.ListInstanceProfiles'
@@ -2517,20 +2036,6 @@ class DeviceFarm {
     required String arn,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      32,
-      1011,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      4,
-      1024,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.ListJobs'
@@ -2573,20 +2078,6 @@ class DeviceFarm {
     String? nextToken,
     NetworkProfileType? type,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      32,
-      1011,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      4,
-      1024,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.ListNetworkProfiles'
@@ -2626,12 +2117,6 @@ class DeviceFarm {
   Future<ListOfferingPromotionsResult> listOfferingPromotions({
     String? nextToken,
   }) async {
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      4,
-      1024,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.ListOfferingPromotions'
@@ -2669,12 +2154,6 @@ class DeviceFarm {
   Future<ListOfferingTransactionsResult> listOfferingTransactions({
     String? nextToken,
   }) async {
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      4,
-      1024,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.ListOfferingTransactions'
@@ -2712,12 +2191,6 @@ class DeviceFarm {
   Future<ListOfferingsResult> listOfferings({
     String? nextToken,
   }) async {
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      4,
-      1024,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.ListOfferings'
@@ -2755,18 +2228,6 @@ class DeviceFarm {
     String? arn,
     String? nextToken,
   }) async {
-    _s.validateStringLength(
-      'arn',
-      arn,
-      32,
-      1011,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      4,
-      1024,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.ListProjects'
@@ -2804,20 +2265,6 @@ class DeviceFarm {
     required String arn,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      32,
-      1011,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      4,
-      1024,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.ListRemoteAccessSessions'
@@ -2855,20 +2302,6 @@ class DeviceFarm {
     required String arn,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      32,
-      1011,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      4,
-      1024,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.ListRuns'
@@ -2905,20 +2338,6 @@ class DeviceFarm {
     required String arn,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      32,
-      1011,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      4,
-      1024,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.ListSamples'
@@ -2955,20 +2374,6 @@ class DeviceFarm {
     required String arn,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      32,
-      1011,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      4,
-      1024,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.ListSuites'
@@ -3005,14 +2410,6 @@ class DeviceFarm {
   Future<ListTagsForResourceResponse> listTagsForResource({
     required String resourceARN,
   }) async {
-    ArgumentError.checkNotNull(resourceARN, 'resourceARN');
-    _s.validateStringLength(
-      'resourceARN',
-      resourceARN,
-      32,
-      1011,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.ListTagsForResource'
@@ -3050,12 +2447,6 @@ class DeviceFarm {
       maxResult,
       1,
       1000,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      4,
-      1024,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3095,25 +2486,11 @@ class DeviceFarm {
     int? maxResult,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(sessionArn, 'sessionArn');
-    _s.validateStringLength(
-      'sessionArn',
-      sessionArn,
-      32,
-      1011,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResult',
       maxResult,
       1,
       1000,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      4,
-      1024,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3158,25 +2535,11 @@ class DeviceFarm {
     String? nextToken,
     TestGridSessionArtifactCategory? type,
   }) async {
-    ArgumentError.checkNotNull(sessionArn, 'sessionArn');
-    _s.validateStringLength(
-      'sessionArn',
-      sessionArn,
-      32,
-      1011,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResult',
       maxResult,
       1,
       1000,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      4,
-      1024,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3238,25 +2601,11 @@ class DeviceFarm {
     String? nextToken,
     TestGridSessionStatus? status,
   }) async {
-    ArgumentError.checkNotNull(projectArn, 'projectArn');
-    _s.validateStringLength(
-      'projectArn',
-      projectArn,
-      32,
-      1011,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResult',
       maxResult,
       1,
       1000,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      4,
-      1024,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3304,20 +2653,6 @@ class DeviceFarm {
     required String arn,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      32,
-      1011,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      4,
-      1024,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.ListTests'
@@ -3360,20 +2695,6 @@ class DeviceFarm {
     required String arn,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      32,
-      1011,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      4,
-      1024,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.ListUniqueProblems'
@@ -3516,20 +2837,6 @@ class DeviceFarm {
     String? nextToken,
     UploadType? type,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      32,
-      1011,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      4,
-      1024,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.ListUploads'
@@ -3567,12 +2874,6 @@ class DeviceFarm {
     int? maxResults,
     String? nextToken,
   }) async {
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      4,
-      1024,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.ListVPCEConfigurations'
@@ -3618,18 +2919,6 @@ class DeviceFarm {
     String? offeringPromotionId,
     int? quantity,
   }) async {
-    _s.validateStringLength(
-      'offeringId',
-      offeringId,
-      32,
-      1152921504606846976,
-    );
-    _s.validateStringLength(
-      'offeringPromotionId',
-      offeringPromotionId,
-      4,
-      1152921504606846976,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.PurchaseOffering'
@@ -3672,12 +2961,6 @@ class DeviceFarm {
     String? offeringId,
     int? quantity,
   }) async {
-    _s.validateStringLength(
-      'offeringId',
-      offeringId,
-      32,
-      1152921504606846976,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.RenewOffering'
@@ -3744,33 +3027,6 @@ class DeviceFarm {
     ExecutionConfiguration? executionConfiguration,
     String? name,
   }) async {
-    ArgumentError.checkNotNull(projectArn, 'projectArn');
-    _s.validateStringLength(
-      'projectArn',
-      projectArn,
-      32,
-      1011,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(test, 'test');
-    _s.validateStringLength(
-      'appArn',
-      appArn,
-      32,
-      1011,
-    );
-    _s.validateStringLength(
-      'devicePoolArn',
-      devicePoolArn,
-      32,
-      1011,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      0,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.ScheduleRun'
@@ -3815,14 +3071,6 @@ class DeviceFarm {
   Future<StopJobResult> stopJob({
     required String arn,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      32,
-      1011,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.StopJob'
@@ -3853,14 +3101,6 @@ class DeviceFarm {
   Future<StopRemoteAccessSessionResult> stopRemoteAccessSession({
     required String arn,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      32,
-      1011,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.StopRemoteAccessSession'
@@ -3896,14 +3136,6 @@ class DeviceFarm {
   Future<StopRunResult> stopRun({
     required String arn,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      32,
-      1011,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.StopRun'
@@ -3949,15 +3181,6 @@ class DeviceFarm {
     required String resourceARN,
     required List<Tag> tags,
   }) async {
-    ArgumentError.checkNotNull(resourceARN, 'resourceARN');
-    _s.validateStringLength(
-      'resourceARN',
-      resourceARN,
-      32,
-      1011,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.TagResource'
@@ -3996,15 +3219,6 @@ class DeviceFarm {
     required String resourceARN,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(resourceARN, 'resourceARN');
-    _s.validateStringLength(
-      'resourceARN',
-      resourceARN,
-      32,
-      1011,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.UntagResource'
@@ -4043,20 +3257,6 @@ class DeviceFarm {
     List<String>? labels,
     String? profileArn,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      32,
-      1011,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'profileArn',
-      profileArn,
-      32,
-      1011,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.UpdateDeviceInstance'
@@ -4131,26 +3331,6 @@ class DeviceFarm {
     String? name,
     List<Rule>? rules,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      32,
-      1011,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      16384,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      0,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.UpdateDevicePool'
@@ -4212,26 +3392,6 @@ class DeviceFarm {
     bool? packageCleanup,
     bool? rebootAfterUse,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      32,
-      1011,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      16384,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      0,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.UpdateInstanceProfile'
@@ -4322,31 +3482,11 @@ class DeviceFarm {
     int? uplinkJitterMs,
     int? uplinkLossPercent,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      32,
-      1011,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      16384,
-    );
     _s.validateNumRange(
       'downlinkLossPercent',
       downlinkLossPercent,
       0,
       100,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      0,
-      256,
     );
     _s.validateNumRange(
       'uplinkLossPercent',
@@ -4408,20 +3548,6 @@ class DeviceFarm {
     int? defaultJobTimeoutMinutes,
     String? name,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      32,
-      1011,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      0,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.UpdateProject'
@@ -4462,26 +3588,6 @@ class DeviceFarm {
     String? description,
     String? name,
   }) async {
-    ArgumentError.checkNotNull(projectArn, 'projectArn');
-    _s.validateStringLength(
-      'projectArn',
-      projectArn,
-      32,
-      1011,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      2048,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      64,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.UpdateTestGridProject'
@@ -4529,26 +3635,6 @@ class DeviceFarm {
     bool? editContent,
     String? name,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      32,
-      1011,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'contentType',
-      contentType,
-      0,
-      64,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      0,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.UpdateUpload'
@@ -4604,38 +3690,6 @@ class DeviceFarm {
     String? vpceConfigurationName,
     String? vpceServiceName,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      32,
-      1011,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'serviceDnsName',
-      serviceDnsName,
-      0,
-      2048,
-    );
-    _s.validateStringLength(
-      'vpceConfigurationDescription',
-      vpceConfigurationDescription,
-      0,
-      2048,
-    );
-    _s.validateStringLength(
-      'vpceConfigurationName',
-      vpceConfigurationName,
-      0,
-      1024,
-    );
-    _s.validateStringLength(
-      'vpceServiceName',
-      vpceServiceName,
-      0,
-      2048,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DeviceFarm_20150623.UpdateVPCEConfiguration'

@@ -56,7 +56,6 @@ class MapWithEnumKey {
     required String queueName,
     Map<QueueAttributeName, String>? attributes,
   }) async {
-    ArgumentError.checkNotNull(queueName, 'queueName');
     final $request = <String, dynamic>{};
     $request['QueueName'] = queueName;
     attributes?.also((arg) =>

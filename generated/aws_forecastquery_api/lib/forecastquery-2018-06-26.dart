@@ -105,21 +105,6 @@ class ForecastQueryService {
     String? nextToken,
     String? startDate,
   }) async {
-    ArgumentError.checkNotNull(filters, 'filters');
-    ArgumentError.checkNotNull(forecastArn, 'forecastArn');
-    _s.validateStringLength(
-      'forecastArn',
-      forecastArn,
-      0,
-      256,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      3000,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonForecastRuntime.QueryForecast'

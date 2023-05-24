@@ -161,12 +161,6 @@ class ResourceGroupsTaggingAPI {
       1,
       1000,
     );
-    _s.validateStringLength(
-      'paginationToken',
-      paginationToken,
-      0,
-      2048,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ResourceGroupsTaggingAPI_20170126.GetComplianceSummary'
@@ -366,12 +360,6 @@ class ResourceGroupsTaggingAPI {
     List<TagFilter>? tagFilters,
     int? tagsPerPage,
   }) async {
-    _s.validateStringLength(
-      'paginationToken',
-      paginationToken,
-      0,
-      2048,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ResourceGroupsTaggingAPI_20170126.GetResources'
@@ -414,12 +402,6 @@ class ResourceGroupsTaggingAPI {
   Future<GetTagKeysOutput> getTagKeys({
     String? paginationToken,
   }) async {
-    _s.validateStringLength(
-      'paginationToken',
-      paginationToken,
-      0,
-      2048,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ResourceGroupsTaggingAPI_20170126.GetTagKeys'
@@ -459,20 +441,6 @@ class ResourceGroupsTaggingAPI {
     required String key,
     String? paginationToken,
   }) async {
-    ArgumentError.checkNotNull(key, 'key');
-    _s.validateStringLength(
-      'key',
-      key,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'paginationToken',
-      paginationToken,
-      0,
-      2048,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ResourceGroupsTaggingAPI_20170126.GetTagValues'
@@ -520,14 +488,6 @@ class ResourceGroupsTaggingAPI {
   Future<void> startReportCreation({
     required String s3Bucket,
   }) async {
-    ArgumentError.checkNotNull(s3Bucket, 's3Bucket');
-    _s.validateStringLength(
-      's3Bucket',
-      s3Bucket,
-      3,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ResourceGroupsTaggingAPI_20170126.StartReportCreation'
@@ -594,8 +554,6 @@ class ResourceGroupsTaggingAPI {
     required List<String> resourceARNList,
     required Map<String, String> tags,
   }) async {
-    ArgumentError.checkNotNull(resourceARNList, 'resourceARNList');
-    ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ResourceGroupsTaggingAPI_20170126.TagResources'
@@ -652,8 +610,6 @@ class ResourceGroupsTaggingAPI {
     required List<String> resourceARNList,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(resourceARNList, 'resourceARNList');
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ResourceGroupsTaggingAPI_20170126.UntagResources'

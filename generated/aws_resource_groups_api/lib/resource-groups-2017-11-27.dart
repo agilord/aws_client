@@ -127,20 +127,6 @@ class ResourceGroups {
     ResourceQuery? resourceQuery,
     Map<String, String>? tags,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      512,
-    );
     final $payload = <String, dynamic>{
       'Name': name,
       if (configuration != null) 'Configuration': configuration,
@@ -187,18 +173,6 @@ class ResourceGroups {
     String? group,
     String? groupName,
   }) async {
-    _s.validateStringLength(
-      'group',
-      group,
-      1,
-      1600,
-    );
-    _s.validateStringLength(
-      'groupName',
-      groupName,
-      1,
-      128,
-    );
     final $payload = <String, dynamic>{
       if (group != null) 'Group': group,
       if (groupName != null) 'GroupName': groupName,
@@ -240,18 +214,6 @@ class ResourceGroups {
     String? group,
     String? groupName,
   }) async {
-    _s.validateStringLength(
-      'group',
-      group,
-      1,
-      1600,
-    );
-    _s.validateStringLength(
-      'groupName',
-      groupName,
-      1,
-      128,
-    );
     final $payload = <String, dynamic>{
       if (group != null) 'Group': group,
       if (groupName != null) 'GroupName': groupName,
@@ -292,12 +254,6 @@ class ResourceGroups {
   Future<GetGroupConfigurationOutput> getGroupConfiguration({
     String? group,
   }) async {
-    _s.validateStringLength(
-      'group',
-      group,
-      1,
-      1600,
-    );
     final $payload = <String, dynamic>{
       if (group != null) 'Group': group,
     };
@@ -341,18 +297,6 @@ class ResourceGroups {
     String? group,
     String? groupName,
   }) async {
-    _s.validateStringLength(
-      'group',
-      group,
-      1,
-      1600,
-    );
-    _s.validateStringLength(
-      'groupName',
-      groupName,
-      1,
-      128,
-    );
     final $payload = <String, dynamic>{
       if (group != null) 'Group': group,
       if (groupName != null) 'GroupName': groupName,
@@ -391,14 +335,6 @@ class ResourceGroups {
   Future<GetTagsOutput> getTags({
     required String arn,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      12,
-      1600,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -436,15 +372,6 @@ class ResourceGroups {
     required String group,
     required List<String> resourceArns,
   }) async {
-    ArgumentError.checkNotNull(group, 'group');
-    _s.validateStringLength(
-      'group',
-      group,
-      1,
-      1600,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(resourceArns, 'resourceArns');
     final $payload = <String, dynamic>{
       'Group': group,
       'ResourceArns': resourceArns,
@@ -548,29 +475,11 @@ class ResourceGroups {
     int? maxResults,
     String? nextToken,
   }) async {
-    _s.validateStringLength(
-      'group',
-      group,
-      1,
-      1600,
-    );
-    _s.validateStringLength(
-      'groupName',
-      groupName,
-      1,
-      128,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       50,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
     );
     final $payload = <String, dynamic>{
       if (filters != null) 'Filters': filters,
@@ -662,12 +571,6 @@ class ResourceGroups {
       1,
       50,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
-    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
@@ -727,12 +630,6 @@ class ResourceGroups {
     List<GroupConfigurationItem>? configuration,
     String? group,
   }) async {
-    _s.validateStringLength(
-      'group',
-      group,
-      1,
-      1600,
-    );
     final $payload = <String, dynamic>{
       if (configuration != null) 'Configuration': configuration,
       if (group != null) 'Group': group,
@@ -794,18 +691,11 @@ class ResourceGroups {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(resourceQuery, 'resourceQuery');
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       50,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
     );
     final $payload = <String, dynamic>{
       'ResourceQuery': resourceQuery,
@@ -857,15 +747,6 @@ class ResourceGroups {
     required String arn,
     required Map<String, String> tags,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      12,
-      1600,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
       'Tags': tags,
     };
@@ -907,15 +788,6 @@ class ResourceGroups {
     required String group,
     required List<String> resourceArns,
   }) async {
-    ArgumentError.checkNotNull(group, 'group');
-    _s.validateStringLength(
-      'group',
-      group,
-      1,
-      1600,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(resourceArns, 'resourceArns');
     final $payload = <String, dynamic>{
       'Group': group,
       'ResourceArns': resourceArns,
@@ -958,15 +830,6 @@ class ResourceGroups {
     required String arn,
     required List<String> keys,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      12,
-      1600,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(keys, 'keys');
     final $payload = <String, dynamic>{
       'Keys': keys,
     };
@@ -1014,24 +877,6 @@ class ResourceGroups {
     String? group,
     String? groupName,
   }) async {
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      512,
-    );
-    _s.validateStringLength(
-      'group',
-      group,
-      1,
-      1600,
-    );
-    _s.validateStringLength(
-      'groupName',
-      groupName,
-      1,
-      128,
-    );
     final $payload = <String, dynamic>{
       if (description != null) 'Description': description,
       if (group != null) 'Group': group,
@@ -1086,19 +931,6 @@ class ResourceGroups {
     String? group,
     String? groupName,
   }) async {
-    ArgumentError.checkNotNull(resourceQuery, 'resourceQuery');
-    _s.validateStringLength(
-      'group',
-      group,
-      1,
-      1600,
-    );
-    _s.validateStringLength(
-      'groupName',
-      groupName,
-      1,
-      128,
-    );
     final $payload = <String, dynamic>{
       'ResourceQuery': resourceQuery,
       if (group != null) 'Group': group,

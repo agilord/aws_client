@@ -70,20 +70,6 @@ class Schemas {
     String? description,
     Map<String, String>? tags,
   }) async {
-    ArgumentError.checkNotNull(sourceArn, 'sourceArn');
-    _s.validateStringLength(
-      'sourceArn',
-      sourceArn,
-      20,
-      1600,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      256,
-    );
     final $payload = <String, dynamic>{
       'SourceArn': sourceArn,
       if (description != null) 'Description': description,
@@ -120,13 +106,6 @@ class Schemas {
     String? description,
     Map<String, String>? tags,
   }) async {
-    ArgumentError.checkNotNull(registryName, 'registryName');
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      256,
-    );
     final $payload = <String, dynamic>{
       if (description != null) 'Description': description,
       if (tags != null) 'tags': tags,
@@ -175,23 +154,6 @@ class Schemas {
     String? description,
     Map<String, String>? tags,
   }) async {
-    ArgumentError.checkNotNull(content, 'content');
-    _s.validateStringLength(
-      'content',
-      content,
-      1,
-      100000,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(registryName, 'registryName');
-    ArgumentError.checkNotNull(schemaName, 'schemaName');
-    ArgumentError.checkNotNull(type, 'type');
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      256,
-    );
     final $payload = <String, dynamic>{
       'Content': content,
       'Type': type.toValue(),
@@ -222,7 +184,6 @@ class Schemas {
   Future<void> deleteDiscoverer({
     required String discovererId,
   }) async {
-    ArgumentError.checkNotNull(discovererId, 'discovererId');
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -245,7 +206,6 @@ class Schemas {
   Future<void> deleteRegistry({
     required String registryName,
   }) async {
-    ArgumentError.checkNotNull(registryName, 'registryName');
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -298,8 +258,6 @@ class Schemas {
     required String registryName,
     required String schemaName,
   }) async {
-    ArgumentError.checkNotNull(registryName, 'registryName');
-    ArgumentError.checkNotNull(schemaName, 'schemaName');
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -331,9 +289,6 @@ class Schemas {
     required String schemaName,
     required String schemaVersion,
   }) async {
-    ArgumentError.checkNotNull(registryName, 'registryName');
-    ArgumentError.checkNotNull(schemaName, 'schemaName');
-    ArgumentError.checkNotNull(schemaVersion, 'schemaVersion');
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -369,9 +324,6 @@ class Schemas {
     required String schemaName,
     String? schemaVersion,
   }) async {
-    ArgumentError.checkNotNull(language, 'language');
-    ArgumentError.checkNotNull(registryName, 'registryName');
-    ArgumentError.checkNotNull(schemaName, 'schemaName');
     final $query = <String, List<String>>{
       if (schemaVersion != null) 'schemaVersion': [schemaVersion],
     };
@@ -400,7 +352,6 @@ class Schemas {
   Future<DescribeDiscovererResponse> describeDiscoverer({
     required String discovererId,
   }) async {
-    ArgumentError.checkNotNull(discovererId, 'discovererId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -424,7 +375,6 @@ class Schemas {
   Future<DescribeRegistryResponse> describeRegistry({
     required String registryName,
   }) async {
-    ArgumentError.checkNotNull(registryName, 'registryName');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -456,8 +406,6 @@ class Schemas {
     required String schemaName,
     String? schemaVersion,
   }) async {
-    ArgumentError.checkNotNull(registryName, 'registryName');
-    ArgumentError.checkNotNull(schemaName, 'schemaName');
     final $query = <String, List<String>>{
       if (schemaVersion != null) 'schemaVersion': [schemaVersion],
     };
@@ -495,9 +443,6 @@ class Schemas {
     required String type,
     String? schemaVersion,
   }) async {
-    ArgumentError.checkNotNull(registryName, 'registryName');
-    ArgumentError.checkNotNull(schemaName, 'schemaName');
-    ArgumentError.checkNotNull(type, 'type');
     final $query = <String, List<String>>{
       'type': [type],
       if (schemaVersion != null) 'schemaVersion': [schemaVersion],
@@ -539,9 +484,6 @@ class Schemas {
     required String schemaName,
     String? schemaVersion,
   }) async {
-    ArgumentError.checkNotNull(language, 'language');
-    ArgumentError.checkNotNull(registryName, 'registryName');
-    ArgumentError.checkNotNull(schemaName, 'schemaName');
     final $query = <String, List<String>>{
       if (schemaVersion != null) 'schemaVersion': [schemaVersion],
     };
@@ -577,8 +519,6 @@ class Schemas {
     required List<String> events,
     required Type type,
   }) async {
-    ArgumentError.checkNotNull(events, 'events');
-    ArgumentError.checkNotNull(type, 'type');
     final $payload = <String, dynamic>{
       'Events': events,
       'Type': type.toValue(),
@@ -730,8 +670,6 @@ class Schemas {
     int? limit,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(registryName, 'registryName');
-    ArgumentError.checkNotNull(schemaName, 'schemaName');
     final $query = <String, List<String>>{
       if (limit != null) 'limit': [limit.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
@@ -772,7 +710,6 @@ class Schemas {
     String? nextToken,
     String? schemaNamePrefix,
   }) async {
-    ArgumentError.checkNotNull(registryName, 'registryName');
     final $query = <String, List<String>>{
       if (limit != null) 'limit': [limit.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
@@ -801,7 +738,6 @@ class Schemas {
   Future<ListTagsForResourceResponse> listTagsForResource({
     required String resourceArn,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -838,9 +774,6 @@ class Schemas {
     required String schemaName,
     String? schemaVersion,
   }) async {
-    ArgumentError.checkNotNull(language, 'language');
-    ArgumentError.checkNotNull(registryName, 'registryName');
-    ArgumentError.checkNotNull(schemaName, 'schemaName');
     final $query = <String, List<String>>{
       if (schemaVersion != null) 'schemaVersion': [schemaVersion],
     };
@@ -878,7 +811,6 @@ class Schemas {
     String? registryName,
     String? revisionId,
   }) async {
-    ArgumentError.checkNotNull(policy, 'policy');
     final $query = <String, List<String>>{
       if (registryName != null) 'registryName': [registryName],
     };
@@ -921,8 +853,6 @@ class Schemas {
     int? limit,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(keywords, 'keywords');
-    ArgumentError.checkNotNull(registryName, 'registryName');
     final $query = <String, List<String>>{
       'keywords': [keywords],
       if (limit != null) 'limit': [limit.toString()],
@@ -953,7 +883,6 @@ class Schemas {
   Future<StartDiscovererResponse> startDiscoverer({
     required String discovererId,
   }) async {
-    ArgumentError.checkNotNull(discovererId, 'discovererId');
     final response = await _protocol.send(
       payload: null,
       method: 'POST',
@@ -978,7 +907,6 @@ class Schemas {
   Future<StopDiscovererResponse> stopDiscoverer({
     required String discovererId,
   }) async {
-    ArgumentError.checkNotNull(discovererId, 'discovererId');
     final response = await _protocol.send(
       payload: null,
       method: 'POST',
@@ -1005,8 +933,6 @@ class Schemas {
     required String resourceArn,
     required Map<String, String> tags,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
       'tags': tags,
     };
@@ -1034,8 +960,6 @@ class Schemas {
     required String resourceArn,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
       'tagKeys': tagKeys,
     };
@@ -1066,13 +990,6 @@ class Schemas {
     required String discovererId,
     String? description,
   }) async {
-    ArgumentError.checkNotNull(discovererId, 'discovererId');
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      256,
-    );
     final $payload = <String, dynamic>{
       if (description != null) 'Description': description,
     };
@@ -1103,13 +1020,6 @@ class Schemas {
     required String registryName,
     String? description,
   }) async {
-    ArgumentError.checkNotNull(registryName, 'registryName');
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      256,
-    );
     final $payload = <String, dynamic>{
       if (description != null) 'Description': description,
     };
@@ -1158,26 +1068,6 @@ class Schemas {
     String? description,
     Type? type,
   }) async {
-    ArgumentError.checkNotNull(registryName, 'registryName');
-    ArgumentError.checkNotNull(schemaName, 'schemaName');
-    _s.validateStringLength(
-      'clientTokenId',
-      clientTokenId,
-      0,
-      36,
-    );
-    _s.validateStringLength(
-      'content',
-      content,
-      1,
-      100000,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      256,
-    );
     final $payload = <String, dynamic>{
       'ClientTokenId': clientTokenId ?? _s.generateIdempotencyToken(),
       if (content != null) 'Content': content,

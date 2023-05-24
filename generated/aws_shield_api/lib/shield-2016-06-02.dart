@@ -78,14 +78,6 @@ class Shield {
   Future<void> associateDRTLogBucket({
     required String logBucket,
   }) async {
-    ArgumentError.checkNotNull(logBucket, 'logBucket');
-    _s.validateStringLength(
-      'logBucket',
-      logBucket,
-      3,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSShield_20160616.AssociateDRTLogBucket'
@@ -162,14 +154,6 @@ class Shield {
   Future<void> associateDRTRole({
     required String roleArn,
   }) async {
-    ArgumentError.checkNotNull(roleArn, 'roleArn');
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      1,
-      2048,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSShield_20160616.AssociateDRTRole'
@@ -215,22 +199,6 @@ class Shield {
     required String healthCheckArn,
     required String protectionId,
   }) async {
-    ArgumentError.checkNotNull(healthCheckArn, 'healthCheckArn');
-    _s.validateStringLength(
-      'healthCheckArn',
-      healthCheckArn,
-      1,
-      2048,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(protectionId, 'protectionId');
-    _s.validateStringLength(
-      'protectionId',
-      protectionId,
-      1,
-      36,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSShield_20160616.AssociateHealthCheck'
@@ -290,7 +258,6 @@ class Shield {
   Future<void> associateProactiveEngagementDetails({
     required List<EmergencyContact> emergencyContactList,
   }) async {
-    ArgumentError.checkNotNull(emergencyContactList, 'emergencyContactList');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSShield_20160616.AssociateProactiveEngagementDetails'
@@ -373,22 +340,6 @@ class Shield {
     required String name,
     required String resourceArn,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      2048,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSShield_20160616.CreateProtection'
@@ -473,16 +424,6 @@ class Shield {
     List<String>? members,
     ProtectedResourceType? resourceType,
   }) async {
-    ArgumentError.checkNotNull(aggregation, 'aggregation');
-    ArgumentError.checkNotNull(pattern, 'pattern');
-    ArgumentError.checkNotNull(protectionGroupId, 'protectionGroupId');
-    _s.validateStringLength(
-      'protectionGroupId',
-      protectionGroupId,
-      1,
-      36,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSShield_20160616.CreateProtectionGroup'
@@ -536,14 +477,6 @@ class Shield {
   Future<void> deleteProtection({
     required String protectionId,
   }) async {
-    ArgumentError.checkNotNull(protectionId, 'protectionId');
-    _s.validateStringLength(
-      'protectionId',
-      protectionId,
-      1,
-      36,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSShield_20160616.DeleteProtection'
@@ -573,14 +506,6 @@ class Shield {
   Future<void> deleteProtectionGroup({
     required String protectionGroupId,
   }) async {
-    ArgumentError.checkNotNull(protectionGroupId, 'protectionGroupId');
-    _s.validateStringLength(
-      'protectionGroupId',
-      protectionGroupId,
-      1,
-      36,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSShield_20160616.DeleteProtectionGroup'
@@ -629,14 +554,6 @@ class Shield {
   Future<DescribeAttackResponse> describeAttack({
     required String attackId,
   }) async {
-    ArgumentError.checkNotNull(attackId, 'attackId');
-    _s.validateStringLength(
-      'attackId',
-      attackId,
-      1,
-      128,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSShield_20160616.DescribeAttack'
@@ -754,18 +671,6 @@ class Shield {
     String? protectionId,
     String? resourceArn,
   }) async {
-    _s.validateStringLength(
-      'protectionId',
-      protectionId,
-      1,
-      36,
-    );
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      2048,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSShield_20160616.DescribeProtection'
@@ -797,14 +702,6 @@ class Shield {
   Future<DescribeProtectionGroupResponse> describeProtectionGroup({
     required String protectionGroupId,
   }) async {
-    ArgumentError.checkNotNull(protectionGroupId, 'protectionGroupId');
-    _s.validateStringLength(
-      'protectionGroupId',
-      protectionGroupId,
-      1,
-      36,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSShield_20160616.DescribeProtectionGroup'
@@ -891,14 +788,6 @@ class Shield {
   Future<void> disassociateDRTLogBucket({
     required String logBucket,
   }) async {
-    ArgumentError.checkNotNull(logBucket, 'logBucket');
-    _s.validateStringLength(
-      'logBucket',
-      logBucket,
-      3,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSShield_20160616.DisassociateDRTLogBucket'
@@ -973,22 +862,6 @@ class Shield {
     required String healthCheckArn,
     required String protectionId,
   }) async {
-    ArgumentError.checkNotNull(healthCheckArn, 'healthCheckArn');
-    _s.validateStringLength(
-      'healthCheckArn',
-      healthCheckArn,
-      1,
-      2048,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(protectionId, 'protectionId');
-    _s.validateStringLength(
-      'protectionId',
-      protectionId,
-      1,
-      36,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSShield_20160616.DisassociateHealthCheck'
@@ -1103,12 +976,6 @@ class Shield {
       0,
       10000,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      4096,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSShield_20160616.ListAttacks'
@@ -1161,12 +1028,6 @@ class Shield {
       0,
       10000,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      4096,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSShield_20160616.ListProtectionGroups'
@@ -1215,12 +1076,6 @@ class Shield {
       maxResults,
       0,
       10000,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      4096,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1273,25 +1128,11 @@ class Shield {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(protectionGroupId, 'protectionGroupId');
-    _s.validateStringLength(
-      'protectionGroupId',
-      protectionGroupId,
-      1,
-      36,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       0,
       10000,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      4096,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1411,16 +1252,6 @@ class Shield {
     List<String>? members,
     ProtectedResourceType? resourceType,
   }) async {
-    ArgumentError.checkNotNull(aggregation, 'aggregation');
-    ArgumentError.checkNotNull(pattern, 'pattern');
-    ArgumentError.checkNotNull(protectionGroupId, 'protectionGroupId');
-    _s.validateStringLength(
-      'protectionGroupId',
-      protectionGroupId,
-      1,
-      36,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSShield_20160616.UpdateProtectionGroup'

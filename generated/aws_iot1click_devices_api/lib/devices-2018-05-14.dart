@@ -66,7 +66,6 @@ class IoT1ClickDevicesService {
   Future<ClaimDevicesByClaimCodeResponse> claimDevicesByClaimCode({
     required String claimCode,
   }) async {
-    ArgumentError.checkNotNull(claimCode, 'claimCode');
     final response = await _protocol.send(
       payload: null,
       method: 'PUT',
@@ -88,7 +87,6 @@ class IoT1ClickDevicesService {
   Future<DescribeDeviceResponse> describeDevice({
     required String deviceId,
   }) async {
-    ArgumentError.checkNotNull(deviceId, 'deviceId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -131,7 +129,6 @@ class IoT1ClickDevicesService {
     required String deviceId,
     Map<String, String>? tags,
   }) async {
-    ArgumentError.checkNotNull(deviceId, 'deviceId');
     final $payload = <String, dynamic>{
       if (tags != null) 'tags': tags,
     };
@@ -156,7 +153,6 @@ class IoT1ClickDevicesService {
   Future<GetDeviceMethodsResponse> getDeviceMethods({
     required String deviceId,
   }) async {
-    ArgumentError.checkNotNull(deviceId, 'deviceId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -186,7 +182,6 @@ class IoT1ClickDevicesService {
   Future<InitiateDeviceClaimResponse> initiateDeviceClaim({
     required String deviceId,
   }) async {
-    ArgumentError.checkNotNull(deviceId, 'deviceId');
     final response = await _protocol.send(
       payload: null,
       method: 'PUT',
@@ -220,7 +215,6 @@ class IoT1ClickDevicesService {
     DeviceMethod? deviceMethod,
     String? deviceMethodParameters,
   }) async {
-    ArgumentError.checkNotNull(deviceId, 'deviceId');
     final $payload = <String, dynamic>{
       if (deviceMethod != null) 'deviceMethod': deviceMethod,
       if (deviceMethodParameters != null)
@@ -270,9 +264,6 @@ class IoT1ClickDevicesService {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(deviceId, 'deviceId');
-    ArgumentError.checkNotNull(fromTimeStamp, 'fromTimeStamp');
-    ArgumentError.checkNotNull(toTimeStamp, 'toTimeStamp');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -347,7 +338,6 @@ class IoT1ClickDevicesService {
   Future<ListTagsForResourceResponse> listTagsForResource({
     required String resourceArn,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -383,8 +373,6 @@ class IoT1ClickDevicesService {
     required String resourceArn,
     required Map<String, String> tags,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
       'tags': tags,
     };
@@ -407,7 +395,6 @@ class IoT1ClickDevicesService {
   Future<UnclaimDeviceResponse> unclaimDevice({
     required String deviceId,
   }) async {
-    ArgumentError.checkNotNull(deviceId, 'deviceId');
     final response = await _protocol.send(
       payload: null,
       method: 'PUT',
@@ -434,8 +421,6 @@ class IoT1ClickDevicesService {
     required String resourceArn,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
       'tagKeys': tagKeys,
     };
@@ -465,7 +450,6 @@ class IoT1ClickDevicesService {
     required String deviceId,
     bool? enabled,
   }) async {
-    ArgumentError.checkNotNull(deviceId, 'deviceId');
     final $payload = <String, dynamic>{
       if (enabled != null) 'enabled': enabled,
     };

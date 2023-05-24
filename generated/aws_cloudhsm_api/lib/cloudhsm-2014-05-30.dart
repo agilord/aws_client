@@ -88,8 +88,6 @@ class CloudHSM {
     required String resourceArn,
     required List<Tag> tagList,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    ArgumentError.checkNotNull(tagList, 'tagList');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CloudHsmFrontendService.AddTagsToResource'
@@ -137,7 +135,6 @@ class CloudHSM {
   Future<CreateHapgResponse> createHapg({
     required String label,
   }) async {
-    ArgumentError.checkNotNull(label, 'label');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CloudHsmFrontendService.CreateHapg'
@@ -227,10 +224,6 @@ class CloudHSM {
     String? externalId,
     String? syslogIp,
   }) async {
-    ArgumentError.checkNotNull(iamRoleArn, 'iamRoleArn');
-    ArgumentError.checkNotNull(sshKey, 'sshKey');
-    ArgumentError.checkNotNull(subnetId, 'subnetId');
-    ArgumentError.checkNotNull(subscriptionType, 'subscriptionType');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CloudHsmFrontendService.CreateHsm'
@@ -288,14 +281,6 @@ class CloudHSM {
     required String certificate,
     String? label,
   }) async {
-    ArgumentError.checkNotNull(certificate, 'certificate');
-    _s.validateStringLength(
-      'certificate',
-      certificate,
-      600,
-      2400,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CloudHsmFrontendService.CreateLunaClient'
@@ -342,7 +327,6 @@ class CloudHSM {
   Future<DeleteHapgResponse> deleteHapg({
     required String hapgArn,
   }) async {
-    ArgumentError.checkNotNull(hapgArn, 'hapgArn');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CloudHsmFrontendService.DeleteHapg'
@@ -389,7 +373,6 @@ class CloudHSM {
   Future<DeleteHsmResponse> deleteHsm({
     required String hsmArn,
   }) async {
-    ArgumentError.checkNotNull(hsmArn, 'hsmArn');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CloudHsmFrontendService.DeleteHsm'
@@ -435,7 +418,6 @@ class CloudHSM {
   Future<DeleteLunaClientResponse> deleteLunaClient({
     required String clientArn,
   }) async {
-    ArgumentError.checkNotNull(clientArn, 'clientArn');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CloudHsmFrontendService.DeleteLunaClient'
@@ -481,7 +463,6 @@ class CloudHSM {
   Future<DescribeHapgResponse> describeHapg({
     required String hapgArn,
   }) async {
-    ArgumentError.checkNotNull(hapgArn, 'hapgArn');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CloudHsmFrontendService.DescribeHapg'
@@ -641,9 +622,6 @@ class CloudHSM {
     required ClientVersion clientVersion,
     required List<String> hapgList,
   }) async {
-    ArgumentError.checkNotNull(clientArn, 'clientArn');
-    ArgumentError.checkNotNull(clientVersion, 'clientVersion');
-    ArgumentError.checkNotNull(hapgList, 'hapgList');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CloudHsmFrontendService.GetConfig'
@@ -885,7 +863,6 @@ class CloudHSM {
   Future<ListTagsForResourceResponse> listTagsForResource({
     required String resourceArn,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CloudHsmFrontendService.ListTagsForResource'
@@ -940,7 +917,6 @@ class CloudHSM {
     String? label,
     List<String>? partitionSerialList,
   }) async {
-    ArgumentError.checkNotNull(hapgArn, 'hapgArn');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CloudHsmFrontendService.ModifyHapg'
@@ -1023,7 +999,6 @@ class CloudHSM {
     String? subnetId,
     String? syslogIp,
   }) async {
-    ArgumentError.checkNotNull(hsmArn, 'hsmArn');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CloudHsmFrontendService.ModifyHsm'
@@ -1079,15 +1054,6 @@ class CloudHSM {
     required String certificate,
     required String clientArn,
   }) async {
-    ArgumentError.checkNotNull(certificate, 'certificate');
-    _s.validateStringLength(
-      'certificate',
-      certificate,
-      600,
-      2400,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(clientArn, 'clientArn');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CloudHsmFrontendService.ModifyLunaClient'
@@ -1144,8 +1110,6 @@ class CloudHSM {
     required String resourceArn,
     required List<String> tagKeyList,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    ArgumentError.checkNotNull(tagKeyList, 'tagKeyList');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CloudHsmFrontendService.RemoveTagsFromResource'

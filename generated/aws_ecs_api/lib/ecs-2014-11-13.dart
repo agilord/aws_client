@@ -123,9 +123,6 @@ class ECS {
     required String name,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(
-        autoScalingGroupProvider, 'autoScalingGroupProvider');
-    ArgumentError.checkNotNull(name, 'name');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -760,7 +757,6 @@ class ECS {
     List<Tag>? tags,
     String? taskDefinition,
   }) async {
-    ArgumentError.checkNotNull(serviceName, 'serviceName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonEC2ContainerServiceV20141113.CreateService'
@@ -957,9 +953,6 @@ class ECS {
     List<ServiceRegistry>? serviceRegistries,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(cluster, 'cluster');
-    ArgumentError.checkNotNull(service, 'service');
-    ArgumentError.checkNotNull(taskDefinition, 'taskDefinition');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonEC2ContainerServiceV20141113.CreateTaskSet'
@@ -1019,7 +1012,6 @@ class ECS {
     required SettingName name,
     String? principalArn,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonEC2ContainerServiceV20141113.DeleteAccountSetting'
@@ -1059,7 +1051,6 @@ class ECS {
     required List<Attribute> attributes,
     String? cluster,
   }) async {
-    ArgumentError.checkNotNull(attributes, 'attributes');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonEC2ContainerServiceV20141113.DeleteAttributes'
@@ -1107,7 +1098,6 @@ class ECS {
   Future<DeleteCapacityProviderResponse> deleteCapacityProvider({
     required String capacityProvider,
   }) async {
-    ArgumentError.checkNotNull(capacityProvider, 'capacityProvider');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -1153,7 +1143,6 @@ class ECS {
   Future<DeleteClusterResponse> deleteCluster({
     required String cluster,
   }) async {
-    ArgumentError.checkNotNull(cluster, 'cluster');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonEC2ContainerServiceV20141113.DeleteCluster'
@@ -1219,7 +1208,6 @@ class ECS {
     String? cluster,
     bool? force,
   }) async {
-    ArgumentError.checkNotNull(service, 'service');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonEC2ContainerServiceV20141113.DeleteService'
@@ -1278,9 +1266,6 @@ class ECS {
     required String taskSet,
     bool? force,
   }) async {
-    ArgumentError.checkNotNull(cluster, 'cluster');
-    ArgumentError.checkNotNull(service, 'service');
-    ArgumentError.checkNotNull(taskSet, 'taskSet');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonEC2ContainerServiceV20141113.DeleteTaskSet'
@@ -1358,7 +1343,6 @@ class ECS {
     String? cluster,
     bool? force,
   }) async {
-    ArgumentError.checkNotNull(containerInstance, 'containerInstance');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -1411,7 +1395,6 @@ class ECS {
   Future<DeregisterTaskDefinitionResponse> deregisterTaskDefinition({
     required String taskDefinition,
   }) async {
-    ArgumentError.checkNotNull(taskDefinition, 'taskDefinition');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -1605,7 +1588,6 @@ class ECS {
     String? cluster,
     List<ContainerInstanceField>? include,
   }) async {
-    ArgumentError.checkNotNull(containerInstances, 'containerInstances');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -1655,7 +1637,6 @@ class ECS {
     String? cluster,
     List<ServiceField>? include,
   }) async {
-    ArgumentError.checkNotNull(services, 'services');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonEC2ContainerServiceV20141113.DescribeServices'
@@ -1704,7 +1685,6 @@ class ECS {
     required String taskDefinition,
     List<TaskDefinitionField>? include,
   }) async {
-    ArgumentError.checkNotNull(taskDefinition, 'taskDefinition');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -1763,8 +1743,6 @@ class ECS {
     List<TaskSetField>? include,
     List<String>? taskSets,
   }) async {
-    ArgumentError.checkNotNull(cluster, 'cluster');
-    ArgumentError.checkNotNull(service, 'service');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonEC2ContainerServiceV20141113.DescribeTaskSets'
@@ -1813,7 +1791,6 @@ class ECS {
     String? cluster,
     List<TaskField>? include,
   }) async {
-    ArgumentError.checkNotNull(tasks, 'tasks');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonEC2ContainerServiceV20141113.DescribeTasks'
@@ -2012,7 +1989,6 @@ class ECS {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(targetType, 'targetType');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonEC2ContainerServiceV20141113.ListAttributes'
@@ -2255,7 +2231,6 @@ class ECS {
   Future<ListTagsForResourceResponse> listTagsForResource({
     required String resourceArn,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonEC2ContainerServiceV20141113.ListTagsForResource'
@@ -2625,8 +2600,6 @@ class ECS {
     required String value,
     String? principalArn,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    ArgumentError.checkNotNull(value, 'value');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonEC2ContainerServiceV20141113.PutAccountSetting'
@@ -2674,8 +2647,6 @@ class ECS {
     required SettingName name,
     required String value,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    ArgumentError.checkNotNull(value, 'value');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -2721,7 +2692,6 @@ class ECS {
     required List<Attribute> attributes,
     String? cluster,
   }) async {
-    ArgumentError.checkNotNull(attributes, 'attributes');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonEC2ContainerServiceV20141113.PutAttributes'
@@ -2811,10 +2781,6 @@ class ECS {
     required String cluster,
     required List<CapacityProviderStrategyItem> defaultCapacityProviderStrategy,
   }) async {
-    ArgumentError.checkNotNull(capacityProviders, 'capacityProviders');
-    ArgumentError.checkNotNull(cluster, 'cluster');
-    ArgumentError.checkNotNull(
-        defaultCapacityProviderStrategy, 'defaultCapacityProviderStrategy');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -3291,8 +3257,6 @@ class ECS {
     String? taskRoleArn,
     List<Volume>? volumes,
   }) async {
-    ArgumentError.checkNotNull(containerDefinitions, 'containerDefinitions');
-    ArgumentError.checkNotNull(family, 'family');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -3567,7 +3531,6 @@ class ECS {
     String? startedBy,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(taskDefinition, 'taskDefinition');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonEC2ContainerServiceV20141113.RunTask'
@@ -3737,8 +3700,6 @@ class ECS {
     String? startedBy,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(containerInstances, 'containerInstances');
-    ArgumentError.checkNotNull(taskDefinition, 'taskDefinition');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonEC2ContainerServiceV20141113.StartTask'
@@ -3811,7 +3772,6 @@ class ECS {
     String? cluster,
     String? reason,
   }) async {
-    ArgumentError.checkNotNull(task, 'task');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonEC2ContainerServiceV20141113.StopTask'
@@ -3853,7 +3813,6 @@ class ECS {
     required List<AttachmentStateChange> attachments,
     String? cluster,
   }) async {
-    ArgumentError.checkNotNull(attachments, 'attachments');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -4078,8 +4037,6 @@ class ECS {
     required String resourceArn,
     required List<Tag> tags,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonEC2ContainerServiceV20141113.TagResource'
@@ -4116,8 +4073,6 @@ class ECS {
     required String resourceArn,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonEC2ContainerServiceV20141113.UntagResource'
@@ -4151,9 +4106,6 @@ class ECS {
     required AutoScalingGroupProviderUpdate autoScalingGroupProvider,
     required String name,
   }) async {
-    ArgumentError.checkNotNull(
-        autoScalingGroupProvider, 'autoScalingGroupProvider');
-    ArgumentError.checkNotNull(name, 'name');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -4193,8 +4145,6 @@ class ECS {
     required String cluster,
     required List<ClusterSetting> settings,
   }) async {
-    ArgumentError.checkNotNull(cluster, 'cluster');
-    ArgumentError.checkNotNull(settings, 'settings');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonEC2ContainerServiceV20141113.UpdateClusterSettings'
@@ -4248,7 +4198,6 @@ class ECS {
     required String containerInstance,
     String? cluster,
   }) async {
-    ArgumentError.checkNotNull(containerInstance, 'containerInstance');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonEC2ContainerServiceV20141113.UpdateContainerAgent'
@@ -4356,8 +4305,6 @@ class ECS {
     required ContainerInstanceStatus status,
     String? cluster,
   }) async {
-    ArgumentError.checkNotNull(containerInstances, 'containerInstances');
-    ArgumentError.checkNotNull(status, 'status');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -4639,7 +4586,6 @@ class ECS {
     String? platformVersion,
     String? taskDefinition,
   }) async {
-    ArgumentError.checkNotNull(service, 'service');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonEC2ContainerServiceV20141113.UpdateService'
@@ -4710,9 +4656,6 @@ class ECS {
     required String primaryTaskSet,
     required String service,
   }) async {
-    ArgumentError.checkNotNull(cluster, 'cluster');
-    ArgumentError.checkNotNull(primaryTaskSet, 'primaryTaskSet');
-    ArgumentError.checkNotNull(service, 'service');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -4768,10 +4711,6 @@ class ECS {
     required String service,
     required String taskSet,
   }) async {
-    ArgumentError.checkNotNull(cluster, 'cluster');
-    ArgumentError.checkNotNull(scale, 'scale');
-    ArgumentError.checkNotNull(service, 'service');
-    ArgumentError.checkNotNull(taskSet, 'taskSet');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonEC2ContainerServiceV20141113.UpdateTaskSet'

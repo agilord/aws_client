@@ -85,15 +85,6 @@ class CodeGuruProfiler {
     required List<Channel> channels,
     required String profilingGroupName,
   }) async {
-    ArgumentError.checkNotNull(channels, 'channels');
-    ArgumentError.checkNotNull(profilingGroupName, 'profilingGroupName');
-    _s.validateStringLength(
-      'profilingGroupName',
-      profilingGroupName,
-      1,
-      255,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'channels': channels,
     };
@@ -168,20 +159,6 @@ class CodeGuruProfiler {
     DateTime? startTime,
     AggregationPeriod? targetResolution,
   }) async {
-    ArgumentError.checkNotNull(profilingGroupName, 'profilingGroupName');
-    _s.validateStringLength(
-      'profilingGroupName',
-      profilingGroupName,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'period',
-      period,
-      1,
-      64,
-    );
     final $query = <String, List<String>>{
       if (endTime != null) 'endTime': [_s.iso8601ToJson(endTime).toString()],
       if (period != null) 'period': [period],
@@ -269,20 +246,6 @@ class CodeGuruProfiler {
     String? fleetInstanceId,
     Map<MetadataField, String>? metadata,
   }) async {
-    ArgumentError.checkNotNull(profilingGroupName, 'profilingGroupName');
-    _s.validateStringLength(
-      'profilingGroupName',
-      profilingGroupName,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'fleetInstanceId',
-      fleetInstanceId,
-      1,
-      255,
-    );
     final $payload = <String, dynamic>{
       if (fleetInstanceId != null) 'fleetInstanceId': fleetInstanceId,
       if (metadata != null)
@@ -337,20 +300,6 @@ class CodeGuruProfiler {
     ComputePlatform? computePlatform,
     Map<String, String>? tags,
   }) async {
-    ArgumentError.checkNotNull(profilingGroupName, 'profilingGroupName');
-    _s.validateStringLength(
-      'profilingGroupName',
-      profilingGroupName,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      1,
-      64,
-    );
     final $query = <String, List<String>>{
       if (clientToken != null) 'clientToken': [clientToken],
     };
@@ -386,14 +335,6 @@ class CodeGuruProfiler {
   Future<void> deleteProfilingGroup({
     required String profilingGroupName,
   }) async {
-    ArgumentError.checkNotNull(profilingGroupName, 'profilingGroupName');
-    _s.validateStringLength(
-      'profilingGroupName',
-      profilingGroupName,
-      1,
-      255,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -417,14 +358,6 @@ class CodeGuruProfiler {
   Future<DescribeProfilingGroupResponse> describeProfilingGroup({
     required String profilingGroupName,
   }) async {
-    ArgumentError.checkNotNull(profilingGroupName, 'profilingGroupName');
-    _s.validateStringLength(
-      'profilingGroupName',
-      profilingGroupName,
-      1,
-      255,
-      isRequired: true,
-    );
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
@@ -484,12 +417,6 @@ class CodeGuruProfiler {
       1,
       1000,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      64,
-    );
     final $query = <String, List<String>>{
       if (dailyReportsOnly != null)
         'dailyReportsOnly': [dailyReportsOnly.toString()],
@@ -520,14 +447,6 @@ class CodeGuruProfiler {
   Future<GetNotificationConfigurationResponse> getNotificationConfiguration({
     required String profilingGroupName,
   }) async {
-    ArgumentError.checkNotNull(profilingGroupName, 'profilingGroupName');
-    _s.validateStringLength(
-      'profilingGroupName',
-      profilingGroupName,
-      1,
-      255,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -549,14 +468,6 @@ class CodeGuruProfiler {
   Future<GetPolicyResponse> getPolicy({
     required String profilingGroupName,
   }) async {
-    ArgumentError.checkNotNull(profilingGroupName, 'profilingGroupName');
-    _s.validateStringLength(
-      'profilingGroupName',
-      profilingGroupName,
-      1,
-      255,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -669,25 +580,11 @@ class CodeGuruProfiler {
     String? period,
     DateTime? startTime,
   }) async {
-    ArgumentError.checkNotNull(profilingGroupName, 'profilingGroupName');
-    _s.validateStringLength(
-      'profilingGroupName',
-      profilingGroupName,
-      1,
-      255,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxDepth',
       maxDepth,
       1,
       10000,
-    );
-    _s.validateStringLength(
-      'period',
-      period,
-      1,
-      64,
     );
     final headers = <String, String>{
       if (accept != null) 'Accept': accept.toString(),
@@ -790,16 +687,6 @@ class CodeGuruProfiler {
     required DateTime startTime,
     String? locale,
   }) async {
-    ArgumentError.checkNotNull(endTime, 'endTime');
-    ArgumentError.checkNotNull(profilingGroupName, 'profilingGroupName');
-    _s.validateStringLength(
-      'profilingGroupName',
-      profilingGroupName,
-      1,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(startTime, 'startTime');
     final $query = <String, List<String>>{
       'endTime': [_s.iso8601ToJson(endTime).toString()],
       'startTime': [_s.iso8601ToJson(startTime).toString()],
@@ -872,27 +759,11 @@ class CodeGuruProfiler {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(endTime, 'endTime');
-    ArgumentError.checkNotNull(profilingGroupName, 'profilingGroupName');
-    _s.validateStringLength(
-      'profilingGroupName',
-      profilingGroupName,
-      1,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(startTime, 'startTime');
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       1000,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      64,
     );
     final $query = <String, List<String>>{
       'endTime': [_s.iso8601ToJson(endTime).toString()],
@@ -979,28 +850,11 @@ class CodeGuruProfiler {
     String? nextToken,
     OrderBy? orderBy,
   }) async {
-    ArgumentError.checkNotNull(endTime, 'endTime');
-    ArgumentError.checkNotNull(period, 'period');
-    ArgumentError.checkNotNull(profilingGroupName, 'profilingGroupName');
-    _s.validateStringLength(
-      'profilingGroupName',
-      profilingGroupName,
-      1,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(startTime, 'startTime');
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       1000,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      64,
     );
     final $query = <String, List<String>>{
       'endTime': [_s.iso8601ToJson(endTime).toString()],
@@ -1068,12 +922,6 @@ class CodeGuruProfiler {
       1,
       1000,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      64,
-    );
     final $query = <String, List<String>>{
       if (includeDescription != null)
         'includeDescription': [includeDescription.toString()],
@@ -1102,7 +950,6 @@ class CodeGuruProfiler {
   Future<ListTagsForResourceResponse> listTagsForResource({
     required String resourceArn,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1151,22 +998,6 @@ class CodeGuruProfiler {
     required String profilingGroupName,
     String? profileToken,
   }) async {
-    ArgumentError.checkNotNull(agentProfile, 'agentProfile');
-    ArgumentError.checkNotNull(contentType, 'contentType');
-    ArgumentError.checkNotNull(profilingGroupName, 'profilingGroupName');
-    _s.validateStringLength(
-      'profilingGroupName',
-      profilingGroupName,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'profileToken',
-      profileToken,
-      1,
-      64,
-    );
     final headers = <String, String>{
       'Content-Type': contentType.toString(),
     };
@@ -1241,16 +1072,6 @@ class CodeGuruProfiler {
     required String profilingGroupName,
     String? revisionId,
   }) async {
-    ArgumentError.checkNotNull(actionGroup, 'actionGroup');
-    ArgumentError.checkNotNull(principals, 'principals');
-    ArgumentError.checkNotNull(profilingGroupName, 'profilingGroupName');
-    _s.validateStringLength(
-      'profilingGroupName',
-      profilingGroupName,
-      1,
-      255,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'principals': principals,
       if (revisionId != null) 'revisionId': revisionId,
@@ -1282,15 +1103,6 @@ class CodeGuruProfiler {
     required String channelId,
     required String profilingGroupName,
   }) async {
-    ArgumentError.checkNotNull(channelId, 'channelId');
-    ArgumentError.checkNotNull(profilingGroupName, 'profilingGroupName');
-    _s.validateStringLength(
-      'profilingGroupName',
-      profilingGroupName,
-      1,
-      255,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1337,16 +1149,6 @@ class CodeGuruProfiler {
     required String profilingGroupName,
     required String revisionId,
   }) async {
-    ArgumentError.checkNotNull(actionGroup, 'actionGroup');
-    ArgumentError.checkNotNull(profilingGroupName, 'profilingGroupName');
-    _s.validateStringLength(
-      'profilingGroupName',
-      profilingGroupName,
-      1,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(revisionId, 'revisionId');
     final $query = <String, List<String>>{
       'revisionId': [revisionId],
     };
@@ -1390,16 +1192,6 @@ class CodeGuruProfiler {
     required FeedbackType type,
     String? comment,
   }) async {
-    ArgumentError.checkNotNull(anomalyInstanceId, 'anomalyInstanceId');
-    ArgumentError.checkNotNull(profilingGroupName, 'profilingGroupName');
-    _s.validateStringLength(
-      'profilingGroupName',
-      profilingGroupName,
-      1,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(type, 'type');
     final $payload = <String, dynamic>{
       'type': type.toValue(),
       if (comment != null) 'comment': comment,
@@ -1428,8 +1220,6 @@ class CodeGuruProfiler {
     required String resourceArn,
     required Map<String, String> tags,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
       'tags': tags,
     };
@@ -1458,8 +1248,6 @@ class CodeGuruProfiler {
     required String resourceArn,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
       'tagKeys': tagKeys,
     };
@@ -1489,16 +1277,6 @@ class CodeGuruProfiler {
     required AgentOrchestrationConfig agentOrchestrationConfig,
     required String profilingGroupName,
   }) async {
-    ArgumentError.checkNotNull(
-        agentOrchestrationConfig, 'agentOrchestrationConfig');
-    ArgumentError.checkNotNull(profilingGroupName, 'profilingGroupName');
-    _s.validateStringLength(
-      'profilingGroupName',
-      profilingGroupName,
-      1,
-      255,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'agentOrchestrationConfig': agentOrchestrationConfig,
     };

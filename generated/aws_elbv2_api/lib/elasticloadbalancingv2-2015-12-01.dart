@@ -88,8 +88,6 @@ class ElasticLoadBalancingv2 {
     required List<Certificate> certificates,
     required String listenerArn,
   }) async {
-    ArgumentError.checkNotNull(certificates, 'certificates');
-    ArgumentError.checkNotNull(listenerArn, 'listenerArn');
     final $request = <String, dynamic>{};
     $request['Certificates'] = certificates;
     $request['ListenerArn'] = listenerArn;
@@ -128,8 +126,6 @@ class ElasticLoadBalancingv2 {
     required List<String> resourceArns,
     required List<Tag> tags,
   }) async {
-    ArgumentError.checkNotNull(resourceArns, 'resourceArns');
-    ArgumentError.checkNotNull(tags, 'tags');
     final $request = <String, dynamic>{};
     $request['ResourceArns'] = resourceArns;
     $request['Tags'] = tags;
@@ -261,8 +257,6 @@ class ElasticLoadBalancingv2 {
     String? sslPolicy,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(defaultActions, 'defaultActions');
-    ArgumentError.checkNotNull(loadBalancerArn, 'loadBalancerArn');
     _s.validateNumRange(
       'port',
       port,
@@ -429,13 +423,6 @@ class ElasticLoadBalancingv2 {
     List<Tag>? tags,
     LoadBalancerTypeEnum? type,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'customerOwnedIpv4Pool',
-      customerOwnedIpv4Pool,
-      0,
-      256,
-    );
     final $request = <String, dynamic>{};
     $request['Name'] = name;
     customerOwnedIpv4Pool
@@ -510,10 +497,6 @@ class ElasticLoadBalancingv2 {
     required int priority,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(actions, 'actions');
-    ArgumentError.checkNotNull(conditions, 'conditions');
-    ArgumentError.checkNotNull(listenerArn, 'listenerArn');
-    ArgumentError.checkNotNull(priority, 'priority');
     _s.validateNumRange(
       'priority',
       priority,
@@ -710,18 +693,11 @@ class ElasticLoadBalancingv2 {
     int? unhealthyThresholdCount,
     String? vpcId,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
     _s.validateNumRange(
       'healthCheckIntervalSeconds',
       healthCheckIntervalSeconds,
       5,
       300,
-    );
-    _s.validateStringLength(
-      'healthCheckPath',
-      healthCheckPath,
-      1,
-      1024,
     );
     _s.validateNumRange(
       'healthCheckTimeoutSeconds',
@@ -795,7 +771,6 @@ class ElasticLoadBalancingv2 {
   Future<void> deleteListener({
     required String listenerArn,
   }) async {
-    ArgumentError.checkNotNull(listenerArn, 'listenerArn');
     final $request = <String, dynamic>{};
     $request['ListenerArn'] = listenerArn;
     await _protocol.send(
@@ -833,7 +808,6 @@ class ElasticLoadBalancingv2 {
   Future<void> deleteLoadBalancer({
     required String loadBalancerArn,
   }) async {
-    ArgumentError.checkNotNull(loadBalancerArn, 'loadBalancerArn');
     final $request = <String, dynamic>{};
     $request['LoadBalancerArn'] = loadBalancerArn;
     await _protocol.send(
@@ -861,7 +835,6 @@ class ElasticLoadBalancingv2 {
   Future<void> deleteRule({
     required String ruleArn,
   }) async {
-    ArgumentError.checkNotNull(ruleArn, 'ruleArn');
     final $request = <String, dynamic>{};
     $request['RuleArn'] = ruleArn;
     await _protocol.send(
@@ -892,7 +865,6 @@ class ElasticLoadBalancingv2 {
   Future<void> deleteTargetGroup({
     required String targetGroupArn,
   }) async {
-    ArgumentError.checkNotNull(targetGroupArn, 'targetGroupArn');
     final $request = <String, dynamic>{};
     $request['TargetGroupArn'] = targetGroupArn;
     await _protocol.send(
@@ -926,8 +898,6 @@ class ElasticLoadBalancingv2 {
     required String targetGroupArn,
     required List<TargetDescription> targets,
   }) async {
-    ArgumentError.checkNotNull(targetGroupArn, 'targetGroupArn');
-    ArgumentError.checkNotNull(targets, 'targets');
     final $request = <String, dynamic>{};
     $request['TargetGroupArn'] = targetGroupArn;
     $request['Targets'] = targets;
@@ -1029,7 +999,6 @@ class ElasticLoadBalancingv2 {
     String? marker,
     int? pageSize,
   }) async {
-    ArgumentError.checkNotNull(listenerArn, 'listenerArn');
     _s.validateNumRange(
       'pageSize',
       pageSize,
@@ -1136,7 +1105,6 @@ class ElasticLoadBalancingv2 {
   Future<DescribeLoadBalancerAttributesOutput> describeLoadBalancerAttributes({
     required String loadBalancerArn,
   }) async {
-    ArgumentError.checkNotNull(loadBalancerArn, 'loadBalancerArn');
     final $request = <String, dynamic>{};
     $request['LoadBalancerArn'] = loadBalancerArn;
     final $result = await _protocol.send(
@@ -1315,7 +1283,6 @@ class ElasticLoadBalancingv2 {
   Future<DescribeTagsOutput> describeTags({
     required List<String> resourceArns,
   }) async {
-    ArgumentError.checkNotNull(resourceArns, 'resourceArns');
     final $request = <String, dynamic>{};
     $request['ResourceArns'] = resourceArns;
     final $result = await _protocol.send(
@@ -1361,7 +1328,6 @@ class ElasticLoadBalancingv2 {
   Future<DescribeTargetGroupAttributesOutput> describeTargetGroupAttributes({
     required String targetGroupArn,
   }) async {
-    ArgumentError.checkNotNull(targetGroupArn, 'targetGroupArn');
     final $request = <String, dynamic>{};
     $request['TargetGroupArn'] = targetGroupArn;
     final $result = await _protocol.send(
@@ -1450,7 +1416,6 @@ class ElasticLoadBalancingv2 {
     required String targetGroupArn,
     List<TargetDescription>? targets,
   }) async {
-    ArgumentError.checkNotNull(targetGroupArn, 'targetGroupArn');
     final $request = <String, dynamic>{};
     $request['TargetGroupArn'] = targetGroupArn;
     targets?.also((arg) => $request['Targets'] = arg);
@@ -1564,7 +1529,6 @@ class ElasticLoadBalancingv2 {
     ProtocolEnum? protocol,
     String? sslPolicy,
   }) async {
-    ArgumentError.checkNotNull(listenerArn, 'listenerArn');
     _s.validateNumRange(
       'port',
       port,
@@ -1612,8 +1576,6 @@ class ElasticLoadBalancingv2 {
     required List<LoadBalancerAttribute> attributes,
     required String loadBalancerArn,
   }) async {
-    ArgumentError.checkNotNull(attributes, 'attributes');
-    ArgumentError.checkNotNull(loadBalancerArn, 'loadBalancerArn');
     final $request = <String, dynamic>{};
     $request['Attributes'] = attributes;
     $request['LoadBalancerArn'] = loadBalancerArn;
@@ -1663,7 +1625,6 @@ class ElasticLoadBalancingv2 {
     List<Action>? actions,
     List<RuleCondition>? conditions,
   }) async {
-    ArgumentError.checkNotNull(ruleArn, 'ruleArn');
     final $request = <String, dynamic>{};
     $request['RuleArn'] = ruleArn;
     actions?.also((arg) => $request['Actions'] = arg);
@@ -1753,18 +1714,11 @@ class ElasticLoadBalancingv2 {
     Matcher? matcher,
     int? unhealthyThresholdCount,
   }) async {
-    ArgumentError.checkNotNull(targetGroupArn, 'targetGroupArn');
     _s.validateNumRange(
       'healthCheckIntervalSeconds',
       healthCheckIntervalSeconds,
       5,
       300,
-    );
-    _s.validateStringLength(
-      'healthCheckPath',
-      healthCheckPath,
-      1,
-      1024,
     );
     _s.validateNumRange(
       'healthCheckTimeoutSeconds',
@@ -1828,8 +1782,6 @@ class ElasticLoadBalancingv2 {
     required List<TargetGroupAttribute> attributes,
     required String targetGroupArn,
   }) async {
-    ArgumentError.checkNotNull(attributes, 'attributes');
-    ArgumentError.checkNotNull(targetGroupArn, 'targetGroupArn');
     final $request = <String, dynamic>{};
     $request['Attributes'] = attributes;
     $request['TargetGroupArn'] = targetGroupArn;
@@ -1877,8 +1829,6 @@ class ElasticLoadBalancingv2 {
     required String targetGroupArn,
     required List<TargetDescription> targets,
   }) async {
-    ArgumentError.checkNotNull(targetGroupArn, 'targetGroupArn');
-    ArgumentError.checkNotNull(targets, 'targets');
     final $request = <String, dynamic>{};
     $request['TargetGroupArn'] = targetGroupArn;
     $request['Targets'] = targets;
@@ -1912,8 +1862,6 @@ class ElasticLoadBalancingv2 {
     required List<Certificate> certificates,
     required String listenerArn,
   }) async {
-    ArgumentError.checkNotNull(certificates, 'certificates');
-    ArgumentError.checkNotNull(listenerArn, 'listenerArn');
     final $request = <String, dynamic>{};
     $request['Certificates'] = certificates;
     $request['ListenerArn'] = listenerArn;
@@ -1950,8 +1898,6 @@ class ElasticLoadBalancingv2 {
     required List<String> resourceArns,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(resourceArns, 'resourceArns');
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $request = <String, dynamic>{};
     $request['ResourceArns'] = resourceArns;
     $request['TagKeys'] = tagKeys;
@@ -1987,8 +1933,6 @@ class ElasticLoadBalancingv2 {
     required IpAddressType ipAddressType,
     required String loadBalancerArn,
   }) async {
-    ArgumentError.checkNotNull(ipAddressType, 'ipAddressType');
-    ArgumentError.checkNotNull(loadBalancerArn, 'loadBalancerArn');
     final $request = <String, dynamic>{};
     $request['IpAddressType'] = ipAddressType.toValue();
     $request['LoadBalancerArn'] = loadBalancerArn;
@@ -2021,7 +1965,6 @@ class ElasticLoadBalancingv2 {
   Future<SetRulePrioritiesOutput> setRulePriorities({
     required List<RulePriorityPair> rulePriorities,
   }) async {
-    ArgumentError.checkNotNull(rulePriorities, 'rulePriorities');
     final $request = <String, dynamic>{};
     $request['RulePriorities'] = rulePriorities;
     final $result = await _protocol.send(
@@ -2058,8 +2001,6 @@ class ElasticLoadBalancingv2 {
     required String loadBalancerArn,
     required List<String> securityGroups,
   }) async {
-    ArgumentError.checkNotNull(loadBalancerArn, 'loadBalancerArn');
-    ArgumentError.checkNotNull(securityGroups, 'securityGroups');
     final $request = <String, dynamic>{};
     $request['LoadBalancerArn'] = loadBalancerArn;
     $request['SecurityGroups'] = securityGroups;
@@ -2144,7 +2085,6 @@ class ElasticLoadBalancingv2 {
     List<SubnetMapping>? subnetMappings,
     List<String>? subnets,
   }) async {
-    ArgumentError.checkNotNull(loadBalancerArn, 'loadBalancerArn');
     final $request = <String, dynamic>{};
     $request['LoadBalancerArn'] = loadBalancerArn;
     ipAddressType?.also((arg) => $request['IpAddressType'] = arg.toValue());

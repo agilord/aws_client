@@ -52,7 +52,6 @@ class URIParameterAndQuerystringParams {
     String? ascending,
     String? pageToken,
   }) async {
-    ArgumentError.checkNotNull(pipelineId, 'pipelineId');
     final $query = <String, List<String>>{
       if (ascending != null) 'Ascending': [ascending],
       if (pageToken != null) 'PageToken': [pageToken],

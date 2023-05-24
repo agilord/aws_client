@@ -126,8 +126,6 @@ class Textract {
     required List<FeatureType> featureTypes,
     HumanLoopConfig? humanLoopConfig,
   }) async {
-    ArgumentError.checkNotNull(document, 'document');
-    ArgumentError.checkNotNull(featureTypes, 'featureTypes');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Textract.AnalyzeDocument'
@@ -188,7 +186,6 @@ class Textract {
   Future<DetectDocumentTextResponse> detectDocumentText({
     required Document document,
   }) async {
-    ArgumentError.checkNotNull(document, 'document');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Textract.DetectDocumentText'
@@ -291,25 +288,11 @@ class Textract {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      1,
-      64,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       1152921504606846976,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      255,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -397,25 +380,11 @@ class Textract {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      1,
-      64,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       1152921504606846976,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      255,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -524,26 +493,6 @@ class Textract {
     NotificationChannel? notificationChannel,
     OutputConfig? outputConfig,
   }) async {
-    ArgumentError.checkNotNull(documentLocation, 'documentLocation');
-    ArgumentError.checkNotNull(featureTypes, 'featureTypes');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'jobTag',
-      jobTag,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'kMSKeyId',
-      kMSKeyId,
-      1,
-      2048,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Textract.StartDocumentAnalysis'
@@ -647,25 +596,6 @@ class Textract {
     NotificationChannel? notificationChannel,
     OutputConfig? outputConfig,
   }) async {
-    ArgumentError.checkNotNull(documentLocation, 'documentLocation');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'jobTag',
-      jobTag,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'kMSKeyId',
-      kMSKeyId,
-      1,
-      2048,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Textract.StartDocumentTextDetection'

@@ -93,7 +93,6 @@ class PinpointSMSVoice {
     EventDestinationDefinition? eventDestination,
     String? eventDestinationName,
   }) async {
-    ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
     final $payload = <String, dynamic>{
       if (eventDestination != null) 'EventDestination': eventDestination,
       if (eventDestinationName != null)
@@ -120,7 +119,6 @@ class PinpointSMSVoice {
   Future<void> deleteConfigurationSet({
     required String configurationSetName,
   }) async {
-    ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -146,8 +144,6 @@ class PinpointSMSVoice {
     required String configurationSetName,
     required String eventDestinationName,
   }) async {
-    ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
-    ArgumentError.checkNotNull(eventDestinationName, 'eventDestinationName');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -172,7 +168,6 @@ class PinpointSMSVoice {
       getConfigurationSetEventDestinations({
     required String configurationSetName,
   }) async {
-    ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -283,8 +278,6 @@ class PinpointSMSVoice {
     required String eventDestinationName,
     EventDestinationDefinition? eventDestination,
   }) async {
-    ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
-    ArgumentError.checkNotNull(eventDestinationName, 'eventDestinationName');
     final $payload = <String, dynamic>{
       if (eventDestination != null) 'EventDestination': eventDestination,
     };

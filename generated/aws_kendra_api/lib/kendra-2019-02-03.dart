@@ -72,15 +72,6 @@ class Kendra {
     required String indexId,
     DataSourceSyncJobMetricTarget? dataSourceSyncJobMetricTarget,
   }) async {
-    ArgumentError.checkNotNull(documentIdList, 'documentIdList');
-    ArgumentError.checkNotNull(indexId, 'indexId');
-    _s.validateStringLength(
-      'indexId',
-      indexId,
-      36,
-      36,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSKendraFrontendService.BatchDeleteDocument'
@@ -156,21 +147,6 @@ class Kendra {
     required String indexId,
     String? roleArn,
   }) async {
-    ArgumentError.checkNotNull(documents, 'documents');
-    ArgumentError.checkNotNull(indexId, 'indexId');
-    _s.validateStringLength(
-      'indexId',
-      indexId,
-      36,
-      36,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      1,
-      1284,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSKendraFrontendService.BatchPutDocument'
@@ -277,41 +253,6 @@ class Kendra {
     String? schedule,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(indexId, 'indexId');
-    _s.validateStringLength(
-      'indexId',
-      indexId,
-      36,
-      36,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      1000,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(type, 'type');
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1000,
-    );
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      1,
-      1284,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSKendraFrontendService.CreateDataSource'
@@ -397,43 +338,6 @@ class Kendra {
     FaqFileFormat? fileFormat,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(indexId, 'indexId');
-    _s.validateStringLength(
-      'indexId',
-      indexId,
-      36,
-      36,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(roleArn, 'roleArn');
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      1,
-      1284,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(s3Path, 's3Path');
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1000,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSKendraFrontendService.CreateFaq'
@@ -537,34 +441,6 @@ class Kendra {
     UserContextPolicy? userContextPolicy,
     List<UserTokenConfiguration>? userTokenConfigurations,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      1000,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(roleArn, 'roleArn');
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      1,
-      1284,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1000,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSKendraFrontendService.CreateIndex'
@@ -641,43 +517,6 @@ class Kendra {
     String? description,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(indexId, 'indexId');
-    _s.validateStringLength(
-      'indexId',
-      indexId,
-      36,
-      36,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(roleArn, 'roleArn');
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      1,
-      1284,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(sourceS3Path, 'sourceS3Path');
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1000,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSKendraFrontendService.CreateThesaurus'
@@ -725,22 +564,6 @@ class Kendra {
     required String id,
     required String indexId,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(indexId, 'indexId');
-    _s.validateStringLength(
-      'indexId',
-      indexId,
-      36,
-      36,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSKendraFrontendService.DeleteDataSource'
@@ -776,22 +599,6 @@ class Kendra {
     required String id,
     required String indexId,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(indexId, 'indexId');
-    _s.validateStringLength(
-      'indexId',
-      indexId,
-      36,
-      36,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSKendraFrontendService.DeleteFaq'
@@ -826,14 +633,6 @@ class Kendra {
   Future<void> deleteIndex({
     required String id,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      36,
-      36,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSKendraFrontendService.DeleteIndex'
@@ -868,22 +667,6 @@ class Kendra {
     required String id,
     required String indexId,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(indexId, 'indexId');
-    _s.validateStringLength(
-      'indexId',
-      indexId,
-      36,
-      36,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSKendraFrontendService.DeleteThesaurus'
@@ -918,22 +701,6 @@ class Kendra {
     required String id,
     required String indexId,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(indexId, 'indexId');
-    _s.validateStringLength(
-      'indexId',
-      indexId,
-      36,
-      36,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSKendraFrontendService.DescribeDataSource'
@@ -970,22 +737,6 @@ class Kendra {
     required String id,
     required String indexId,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(indexId, 'indexId');
-    _s.validateStringLength(
-      'indexId',
-      indexId,
-      36,
-      36,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSKendraFrontendService.DescribeFaq'
@@ -1018,14 +769,6 @@ class Kendra {
   Future<DescribeIndexResponse> describeIndex({
     required String id,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      36,
-      36,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSKendraFrontendService.DescribeIndex'
@@ -1061,22 +804,6 @@ class Kendra {
     required String id,
     required String indexId,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(indexId, 'indexId');
-    _s.validateStringLength(
-      'indexId',
-      indexId,
-      36,
-      36,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSKendraFrontendService.DescribeThesaurus'
@@ -1136,33 +863,11 @@ class Kendra {
     TimeRange? startTimeFilter,
     DataSourceSyncJobStatus? statusFilter,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(indexId, 'indexId');
-    _s.validateStringLength(
-      'indexId',
-      indexId,
-      36,
-      36,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       10,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      800,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1211,25 +916,11 @@ class Kendra {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(indexId, 'indexId');
-    _s.validateStringLength(
-      'indexId',
-      indexId,
-      36,
-      36,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      800,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1275,25 +966,11 @@ class Kendra {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(indexId, 'indexId');
-    _s.validateStringLength(
-      'indexId',
-      indexId,
-      36,
-      36,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      800,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1340,12 +1017,6 @@ class Kendra {
       1,
       100,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      800,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSKendraFrontendService.ListIndices'
@@ -1380,14 +1051,6 @@ class Kendra {
   Future<ListTagsForResourceResponse> listTagsForResource({
     required String resourceARN,
   }) async {
-    ArgumentError.checkNotNull(resourceARN, 'resourceARN');
-    _s.validateStringLength(
-      'resourceARN',
-      resourceARN,
-      1,
-      1011,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSKendraFrontendService.ListTagsForResource'
@@ -1430,25 +1093,11 @@ class Kendra {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(indexId, 'indexId');
-    _s.validateStringLength(
-      'indexId',
-      indexId,
-      36,
-      36,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      800,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1576,28 +1225,6 @@ class Kendra {
     UserContext? userContext,
     String? visitorId,
   }) async {
-    ArgumentError.checkNotNull(indexId, 'indexId');
-    _s.validateStringLength(
-      'indexId',
-      indexId,
-      36,
-      36,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(queryText, 'queryText');
-    _s.validateStringLength(
-      'queryText',
-      queryText,
-      1,
-      1000,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'visitorId',
-      visitorId,
-      1,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSKendraFrontendService.Query'
@@ -1650,22 +1277,6 @@ class Kendra {
     required String id,
     required String indexId,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(indexId, 'indexId');
-    _s.validateStringLength(
-      'indexId',
-      indexId,
-      36,
-      36,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSKendraFrontendService.StartDataSourceSyncJob'
@@ -1704,22 +1315,6 @@ class Kendra {
     required String id,
     required String indexId,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(indexId, 'indexId');
-    _s.validateStringLength(
-      'indexId',
-      indexId,
-      36,
-      36,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSKendraFrontendService.StopDataSourceSyncJob'
@@ -1767,22 +1362,6 @@ class Kendra {
     List<ClickFeedback>? clickFeedbackItems,
     List<RelevanceFeedback>? relevanceFeedbackItems,
   }) async {
-    ArgumentError.checkNotNull(indexId, 'indexId');
-    _s.validateStringLength(
-      'indexId',
-      indexId,
-      36,
-      36,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(queryId, 'queryId');
-    _s.validateStringLength(
-      'queryId',
-      queryId,
-      1,
-      36,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSKendraFrontendService.SubmitFeedback'
@@ -1824,15 +1403,6 @@ class Kendra {
     required String resourceARN,
     required List<Tag> tags,
   }) async {
-    ArgumentError.checkNotNull(resourceARN, 'resourceARN');
-    _s.validateStringLength(
-      'resourceARN',
-      resourceARN,
-      1,
-      1011,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSKendraFrontendService.TagResource'
@@ -1869,15 +1439,6 @@ class Kendra {
     required String resourceARN,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(resourceARN, 'resourceARN');
-    _s.validateStringLength(
-      'resourceARN',
-      resourceARN,
-      1,
-      1011,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSKendraFrontendService.UntagResource'
@@ -1933,40 +1494,6 @@ class Kendra {
     String? roleArn,
     String? schedule,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(indexId, 'indexId');
-    _s.validateStringLength(
-      'indexId',
-      indexId,
-      36,
-      36,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1000,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      1000,
-    );
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      1,
-      1284,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSKendraFrontendService.UpdateDataSource'
@@ -2038,32 +1565,6 @@ class Kendra {
     UserContextPolicy? userContextPolicy,
     List<UserTokenConfiguration>? userTokenConfigurations,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      36,
-      36,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1000,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      1000,
-    );
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      1,
-      1284,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSKendraFrontendService.UpdateIndex'
@@ -2122,40 +1623,6 @@ class Kendra {
     String? roleArn,
     S3Path? sourceS3Path,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(indexId, 'indexId');
-    _s.validateStringLength(
-      'indexId',
-      indexId,
-      36,
-      36,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1000,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      100,
-    );
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      1,
-      1284,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSKendraFrontendService.UpdateThesaurus'

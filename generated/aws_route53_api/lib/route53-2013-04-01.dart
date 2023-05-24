@@ -66,22 +66,6 @@ class Route53 {
     required String hostedZoneId,
     required String name,
   }) async {
-    ArgumentError.checkNotNull(hostedZoneId, 'hostedZoneId');
-    _s.validateStringLength(
-      'hostedZoneId',
-      hostedZoneId,
-      0,
-      32,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      3,
-      128,
-      isRequired: true,
-    );
     final $result = await _protocol.send(
       method: 'POST',
       requestUri:
@@ -132,15 +116,6 @@ class Route53 {
     required VPC vpc,
     String? comment,
   }) async {
-    ArgumentError.checkNotNull(hostedZoneId, 'hostedZoneId');
-    _s.validateStringLength(
-      'hostedZoneId',
-      hostedZoneId,
-      0,
-      32,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(vpc, 'vpc');
     final $result = await _protocol.send(
       method: 'POST',
       requestUri:
@@ -276,15 +251,6 @@ class Route53 {
     required ChangeBatch changeBatch,
     required String hostedZoneId,
   }) async {
-    ArgumentError.checkNotNull(changeBatch, 'changeBatch');
-    ArgumentError.checkNotNull(hostedZoneId, 'hostedZoneId');
-    _s.validateStringLength(
-      'hostedZoneId',
-      hostedZoneId,
-      0,
-      32,
-      isRequired: true,
-    );
     final $result = await _protocol.send(
       method: 'POST',
       requestUri:
@@ -348,15 +314,6 @@ class Route53 {
     List<Tag>? addTags,
     List<String>? removeTagKeys,
   }) async {
-    ArgumentError.checkNotNull(resourceId, 'resourceId');
-    _s.validateStringLength(
-      'resourceId',
-      resourceId,
-      0,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(resourceType, 'resourceType');
     await _protocol.send(
       method: 'POST',
       requestUri:
@@ -461,15 +418,6 @@ class Route53 {
     required String callerReference,
     required HealthCheckConfig healthCheckConfig,
   }) async {
-    ArgumentError.checkNotNull(callerReference, 'callerReference');
-    _s.validateStringLength(
-      'callerReference',
-      callerReference,
-      1,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(healthCheckConfig, 'healthCheckConfig');
     final $result = await _protocol.sendRaw(
       method: 'POST',
       requestUri: '/2013-04-01/healthcheck',
@@ -607,28 +555,6 @@ class Route53 {
     HostedZoneConfig? hostedZoneConfig,
     VPC? vpc,
   }) async {
-    ArgumentError.checkNotNull(callerReference, 'callerReference');
-    _s.validateStringLength(
-      'callerReference',
-      callerReference,
-      1,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      0,
-      1024,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'delegationSetId',
-      delegationSetId,
-      0,
-      32,
-    );
     final $result = await _protocol.sendRaw(
       method: 'POST',
       requestUri: '/2013-04-01/hostedzone',
@@ -733,40 +659,6 @@ class Route53 {
     required String name,
     required String status,
   }) async {
-    ArgumentError.checkNotNull(callerReference, 'callerReference');
-    _s.validateStringLength(
-      'callerReference',
-      callerReference,
-      1,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(hostedZoneId, 'hostedZoneId');
-    _s.validateStringLength(
-      'hostedZoneId',
-      hostedZoneId,
-      0,
-      32,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(
-        keyManagementServiceArn, 'keyManagementServiceArn');
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      3,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(status, 'status');
-    _s.validateStringLength(
-      'status',
-      status,
-      5,
-      150,
-      isRequired: true,
-    );
     final $result = await _protocol.sendRaw(
       method: 'POST',
       requestUri: '/2013-04-01/keysigningkey',
@@ -941,16 +833,6 @@ class Route53 {
     required String cloudWatchLogsLogGroupArn,
     required String hostedZoneId,
   }) async {
-    ArgumentError.checkNotNull(
-        cloudWatchLogsLogGroupArn, 'cloudWatchLogsLogGroupArn');
-    ArgumentError.checkNotNull(hostedZoneId, 'hostedZoneId');
-    _s.validateStringLength(
-      'hostedZoneId',
-      hostedZoneId,
-      0,
-      32,
-      isRequired: true,
-    );
     final $result = await _protocol.sendRaw(
       method: 'POST',
       requestUri: '/2013-04-01/queryloggingconfig',
@@ -1060,20 +942,6 @@ class Route53 {
     required String callerReference,
     String? hostedZoneId,
   }) async {
-    ArgumentError.checkNotNull(callerReference, 'callerReference');
-    _s.validateStringLength(
-      'callerReference',
-      callerReference,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'hostedZoneId',
-      hostedZoneId,
-      0,
-      32,
-    );
     final $result = await _protocol.sendRaw(
       method: 'POST',
       requestUri: '/2013-04-01/delegationset',
@@ -1121,28 +989,6 @@ class Route53 {
     required String name,
     String? comment,
   }) async {
-    ArgumentError.checkNotNull(document, 'document');
-    _s.validateStringLength(
-      'document',
-      document,
-      0,
-      102400,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      0,
-      512,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'comment',
-      comment,
-      0,
-      1024,
-    );
     final $result = await _protocol.sendRaw(
       method: 'POST',
       requestUri: '/2013-04-01/trafficpolicy',
@@ -1207,23 +1053,6 @@ class Route53 {
     required String trafficPolicyId,
     required int trafficPolicyVersion,
   }) async {
-    ArgumentError.checkNotNull(hostedZoneId, 'hostedZoneId');
-    _s.validateStringLength(
-      'hostedZoneId',
-      hostedZoneId,
-      0,
-      32,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      0,
-      1024,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(ttl, 'ttl');
     _s.validateNumRange(
       'ttl',
       ttl,
@@ -1231,15 +1060,6 @@ class Route53 {
       2147483647,
       isRequired: true,
     );
-    ArgumentError.checkNotNull(trafficPolicyId, 'trafficPolicyId');
-    _s.validateStringLength(
-      'trafficPolicyId',
-      trafficPolicyId,
-      1,
-      36,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(trafficPolicyVersion, 'trafficPolicyVersion');
     _s.validateNumRange(
       'trafficPolicyVersion',
       trafficPolicyVersion,
@@ -1305,28 +1125,6 @@ class Route53 {
     required String id,
     String? comment,
   }) async {
-    ArgumentError.checkNotNull(document, 'document');
-    _s.validateStringLength(
-      'document',
-      document,
-      0,
-      102400,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      36,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'comment',
-      comment,
-      0,
-      1024,
-    );
     final $result = await _protocol.sendRaw(
       method: 'POST',
       requestUri: '/2013-04-01/trafficpolicy/${Uri.encodeComponent(id)}',
@@ -1380,15 +1178,6 @@ class Route53 {
     required String hostedZoneId,
     required VPC vpc,
   }) async {
-    ArgumentError.checkNotNull(hostedZoneId, 'hostedZoneId');
-    _s.validateStringLength(
-      'hostedZoneId',
-      hostedZoneId,
-      0,
-      32,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(vpc, 'vpc');
     final $result = await _protocol.send(
       method: 'POST',
       requestUri:
@@ -1427,22 +1216,6 @@ class Route53 {
     required String hostedZoneId,
     required String name,
   }) async {
-    ArgumentError.checkNotNull(hostedZoneId, 'hostedZoneId');
-    _s.validateStringLength(
-      'hostedZoneId',
-      hostedZoneId,
-      0,
-      32,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      3,
-      128,
-      isRequired: true,
-    );
     final $result = await _protocol.send(
       method: 'POST',
       requestUri:
@@ -1480,14 +1253,6 @@ class Route53 {
   Future<void> deleteHealthCheck({
     required String healthCheckId,
   }) async {
-    ArgumentError.checkNotNull(healthCheckId, 'healthCheckId');
-    _s.validateStringLength(
-      'healthCheckId',
-      healthCheckId,
-      0,
-      64,
-      isRequired: true,
-    );
     await _protocol.send(
       method: 'DELETE',
       requestUri:
@@ -1563,14 +1328,6 @@ class Route53 {
   Future<DeleteHostedZoneResponse> deleteHostedZone({
     required String id,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      0,
-      32,
-      isRequired: true,
-    );
     final $result = await _protocol.send(
       method: 'DELETE',
       requestUri: '/2013-04-01/hostedzone/${Uri.encodeComponent(id)}',
@@ -1598,22 +1355,6 @@ class Route53 {
     required String hostedZoneId,
     required String name,
   }) async {
-    ArgumentError.checkNotNull(hostedZoneId, 'hostedZoneId');
-    _s.validateStringLength(
-      'hostedZoneId',
-      hostedZoneId,
-      0,
-      32,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      3,
-      128,
-      isRequired: true,
-    );
     final $result = await _protocol.send(
       method: 'DELETE',
       requestUri:
@@ -1640,14 +1381,6 @@ class Route53 {
   Future<void> deleteQueryLoggingConfig({
     required String id,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      36,
-      isRequired: true,
-    );
     await _protocol.send(
       method: 'DELETE',
       requestUri: '/2013-04-01/queryloggingconfig/${Uri.encodeComponent(id)}',
@@ -1676,14 +1409,6 @@ class Route53 {
   Future<void> deleteReusableDelegationSet({
     required String id,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      0,
-      32,
-      isRequired: true,
-    );
     await _protocol.send(
       method: 'DELETE',
       requestUri: '/2013-04-01/delegationset/${Uri.encodeComponent(id)}',
@@ -1726,15 +1451,6 @@ class Route53 {
     required String id,
     required int version,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      36,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(version, 'version');
     _s.validateNumRange(
       'version',
       version,
@@ -1771,14 +1487,6 @@ class Route53 {
   Future<void> deleteTrafficPolicyInstance({
     required String id,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      36,
-      isRequired: true,
-    );
     await _protocol.send(
       method: 'DELETE',
       requestUri:
@@ -1819,15 +1527,6 @@ class Route53 {
     required String hostedZoneId,
     required VPC vpc,
   }) async {
-    ArgumentError.checkNotNull(hostedZoneId, 'hostedZoneId');
-    _s.validateStringLength(
-      'hostedZoneId',
-      hostedZoneId,
-      0,
-      32,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(vpc, 'vpc');
     await _protocol.send(
       method: 'POST',
       requestUri:
@@ -1861,14 +1560,6 @@ class Route53 {
   Future<DisableHostedZoneDNSSECResponse> disableHostedZoneDNSSEC({
     required String hostedZoneId,
   }) async {
-    ArgumentError.checkNotNull(hostedZoneId, 'hostedZoneId');
-    _s.validateStringLength(
-      'hostedZoneId',
-      hostedZoneId,
-      0,
-      32,
-      isRequired: true,
-    );
     final $result = await _protocol.send(
       method: 'POST',
       requestUri:
@@ -1930,15 +1621,6 @@ class Route53 {
     required VPC vpc,
     String? comment,
   }) async {
-    ArgumentError.checkNotNull(hostedZoneId, 'hostedZoneId');
-    _s.validateStringLength(
-      'hostedZoneId',
-      hostedZoneId,
-      0,
-      32,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(vpc, 'vpc');
     final $result = await _protocol.send(
       method: 'POST',
       requestUri:
@@ -1973,14 +1655,6 @@ class Route53 {
   Future<EnableHostedZoneDNSSECResponse> enableHostedZoneDNSSEC({
     required String hostedZoneId,
   }) async {
-    ArgumentError.checkNotNull(hostedZoneId, 'hostedZoneId');
-    _s.validateStringLength(
-      'hostedZoneId',
-      hostedZoneId,
-      0,
-      32,
-      isRequired: true,
-    );
     final $result = await _protocol.send(
       method: 'POST',
       requestUri:
@@ -2038,7 +1712,6 @@ class Route53 {
   Future<GetAccountLimitResponse> getAccountLimit({
     required AccountLimitType type,
   }) async {
-    ArgumentError.checkNotNull(type, 'type');
     final $result = await _protocol.send(
       method: 'GET',
       requestUri:
@@ -2073,14 +1746,6 @@ class Route53 {
   Future<GetChangeResponse> getChange({
     required String id,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      0,
-      32,
-      isRequired: true,
-    );
     final $result = await _protocol.send(
       method: 'GET',
       requestUri: '/2013-04-01/change/${Uri.encodeComponent(id)}',
@@ -2117,14 +1782,6 @@ class Route53 {
   Future<GetDNSSECResponse> getDNSSEC({
     required String hostedZoneId,
   }) async {
-    ArgumentError.checkNotNull(hostedZoneId, 'hostedZoneId');
-    _s.validateStringLength(
-      'hostedZoneId',
-      hostedZoneId,
-      0,
-      32,
-      isRequired: true,
-    );
     final $result = await _protocol.send(
       method: 'GET',
       requestUri:
@@ -2206,24 +1863,6 @@ class Route53 {
     String? countryCode,
     String? subdivisionCode,
   }) async {
-    _s.validateStringLength(
-      'continentCode',
-      continentCode,
-      2,
-      2,
-    );
-    _s.validateStringLength(
-      'countryCode',
-      countryCode,
-      1,
-      2,
-    );
-    _s.validateStringLength(
-      'subdivisionCode',
-      subdivisionCode,
-      1,
-      3,
-    );
     final $query = <String, List<String>>{
       if (continentCode != null) 'continentcode': [continentCode],
       if (countryCode != null) 'countrycode': [countryCode],
@@ -2252,14 +1891,6 @@ class Route53 {
   Future<GetHealthCheckResponse> getHealthCheck({
     required String healthCheckId,
   }) async {
-    ArgumentError.checkNotNull(healthCheckId, 'healthCheckId');
-    _s.validateStringLength(
-      'healthCheckId',
-      healthCheckId,
-      0,
-      64,
-      isRequired: true,
-    );
     final $result = await _protocol.send(
       method: 'GET',
       requestUri:
@@ -2299,14 +1930,6 @@ class Route53 {
       getHealthCheckLastFailureReason({
     required String healthCheckId,
   }) async {
-    ArgumentError.checkNotNull(healthCheckId, 'healthCheckId');
-    _s.validateStringLength(
-      'healthCheckId',
-      healthCheckId,
-      0,
-      64,
-      isRequired: true,
-    );
     final $result = await _protocol.send(
       method: 'GET',
       requestUri:
@@ -2334,14 +1957,6 @@ class Route53 {
   Future<GetHealthCheckStatusResponse> getHealthCheckStatus({
     required String healthCheckId,
   }) async {
-    ArgumentError.checkNotNull(healthCheckId, 'healthCheckId');
-    _s.validateStringLength(
-      'healthCheckId',
-      healthCheckId,
-      0,
-      64,
-      isRequired: true,
-    );
     final $result = await _protocol.send(
       method: 'GET',
       requestUri:
@@ -2362,14 +1977,6 @@ class Route53 {
   Future<GetHostedZoneResponse> getHostedZone({
     required String id,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      0,
-      32,
-      isRequired: true,
-    );
     final $result = await _protocol.send(
       method: 'GET',
       requestUri: '/2013-04-01/hostedzone/${Uri.encodeComponent(id)}',
@@ -2425,15 +2032,6 @@ class Route53 {
     required String hostedZoneId,
     required HostedZoneLimitType type,
   }) async {
-    ArgumentError.checkNotNull(hostedZoneId, 'hostedZoneId');
-    _s.validateStringLength(
-      'hostedZoneId',
-      hostedZoneId,
-      0,
-      32,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(type, 'type');
     final $result = await _protocol.send(
       method: 'GET',
       requestUri:
@@ -2460,14 +2058,6 @@ class Route53 {
   Future<GetQueryLoggingConfigResponse> getQueryLoggingConfig({
     required String id,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      36,
-      isRequired: true,
-    );
     final $result = await _protocol.send(
       method: 'GET',
       requestUri: '/2013-04-01/queryloggingconfig/${Uri.encodeComponent(id)}',
@@ -2489,14 +2079,6 @@ class Route53 {
   Future<GetReusableDelegationSetResponse> getReusableDelegationSet({
     required String id,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      0,
-      32,
-      isRequired: true,
-    );
     final $result = await _protocol.send(
       method: 'GET',
       requestUri: '/2013-04-01/delegationset/${Uri.encodeComponent(id)}',
@@ -2529,15 +2111,6 @@ class Route53 {
     required String delegationSetId,
     required ReusableDelegationSetLimitType type,
   }) async {
-    ArgumentError.checkNotNull(delegationSetId, 'delegationSetId');
-    _s.validateStringLength(
-      'delegationSetId',
-      delegationSetId,
-      0,
-      32,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(type, 'type');
     final $result = await _protocol.send(
       method: 'GET',
       requestUri:
@@ -2566,15 +2139,6 @@ class Route53 {
     required String id,
     required int version,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      36,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(version, 'version');
     _s.validateNumRange(
       'version',
       version,
@@ -2612,14 +2176,6 @@ class Route53 {
   Future<GetTrafficPolicyInstanceResponse> getTrafficPolicyInstance({
     required String id,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      36,
-      isRequired: true,
-    );
     final $result = await _protocol.send(
       method: 'GET',
       requestUri:
@@ -2697,24 +2253,6 @@ class Route53 {
     String? startCountryCode,
     String? startSubdivisionCode,
   }) async {
-    _s.validateStringLength(
-      'startContinentCode',
-      startContinentCode,
-      2,
-      2,
-    );
-    _s.validateStringLength(
-      'startCountryCode',
-      startCountryCode,
-      1,
-      2,
-    );
-    _s.validateStringLength(
-      'startSubdivisionCode',
-      startSubdivisionCode,
-      1,
-      3,
-    );
     final $query = <String, List<String>>{
       if (maxItems != null) 'maxitems': [maxItems],
       if (startContinentCode != null)
@@ -2761,12 +2299,6 @@ class Route53 {
     String? marker,
     String? maxItems,
   }) async {
-    _s.validateStringLength(
-      'marker',
-      marker,
-      0,
-      64,
-    );
     final $query = <String, List<String>>{
       if (marker != null) 'marker': [marker],
       if (maxItems != null) 'maxitems': [maxItems],
@@ -2822,18 +2354,6 @@ class Route53 {
     String? marker,
     String? maxItems,
   }) async {
-    _s.validateStringLength(
-      'delegationSetId',
-      delegationSetId,
-      0,
-      32,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      0,
-      64,
-    );
     final $query = <String, List<String>>{
       if (delegationSetId != null) 'delegationsetid': [delegationSetId],
       if (marker != null) 'marker': [marker],
@@ -2951,18 +2471,6 @@ class Route53 {
     String? hostedZoneId,
     String? maxItems,
   }) async {
-    _s.validateStringLength(
-      'dNSName',
-      dNSName,
-      0,
-      1024,
-    );
-    _s.validateStringLength(
-      'hostedZoneId',
-      hostedZoneId,
-      0,
-      32,
-    );
     final $query = <String, List<String>>{
       if (dNSName != null) 'dnsname': [dNSName],
       if (hostedZoneId != null) 'hostedzoneid': [hostedZoneId],
@@ -3030,21 +2538,6 @@ class Route53 {
     String? maxItems,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(vPCId, 'vPCId');
-    _s.validateStringLength(
-      'vPCId',
-      vPCId,
-      0,
-      1024,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(vPCRegion, 'vPCRegion');
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      1024,
-    );
     final $query = <String, List<String>>{
       'vpcid': [vPCId],
       'vpcregion': [vPCRegion.toValue()],
@@ -3111,18 +2604,6 @@ class Route53 {
     String? maxResults,
     String? nextToken,
   }) async {
-    _s.validateStringLength(
-      'hostedZoneId',
-      hostedZoneId,
-      0,
-      32,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      1024,
-    );
     final $query = <String, List<String>>{
       if (hostedZoneId != null) 'hostedzoneid': [hostedZoneId],
       if (maxResults != null) 'maxresults': [maxResults],
@@ -3279,26 +2760,6 @@ class Route53 {
     String? startRecordName,
     RRType? startRecordType,
   }) async {
-    ArgumentError.checkNotNull(hostedZoneId, 'hostedZoneId');
-    _s.validateStringLength(
-      'hostedZoneId',
-      hostedZoneId,
-      0,
-      32,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'startRecordIdentifier',
-      startRecordIdentifier,
-      1,
-      128,
-    );
-    _s.validateStringLength(
-      'startRecordName',
-      startRecordName,
-      0,
-      1024,
-    );
     final $query = <String, List<String>>{
       if (maxItems != null) 'maxitems': [maxItems],
       if (startRecordIdentifier != null) 'identifier': [startRecordIdentifier],
@@ -3341,12 +2802,6 @@ class Route53 {
     String? marker,
     String? maxItems,
   }) async {
-    _s.validateStringLength(
-      'marker',
-      marker,
-      0,
-      64,
-    );
     final $query = <String, List<String>>{
       if (marker != null) 'marker': [marker],
       if (maxItems != null) 'maxitems': [maxItems],
@@ -3391,15 +2846,6 @@ class Route53 {
     required String resourceId,
     required TagResourceType resourceType,
   }) async {
-    ArgumentError.checkNotNull(resourceId, 'resourceId');
-    _s.validateStringLength(
-      'resourceId',
-      resourceId,
-      0,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(resourceType, 'resourceType');
     final $result = await _protocol.send(
       method: 'GET',
       requestUri:
@@ -3441,8 +2887,6 @@ class Route53 {
     required List<String> resourceIds,
     required TagResourceType resourceType,
   }) async {
-    ArgumentError.checkNotNull(resourceIds, 'resourceIds');
-    ArgumentError.checkNotNull(resourceType, 'resourceType');
     final $result = await _protocol.send(
       method: 'POST',
       requestUri:
@@ -3494,12 +2938,6 @@ class Route53 {
     String? maxItems,
     String? trafficPolicyIdMarker,
   }) async {
-    _s.validateStringLength(
-      'trafficPolicyIdMarker',
-      trafficPolicyIdMarker,
-      1,
-      36,
-    );
     final $query = <String, List<String>>{
       if (maxItems != null) 'maxitems': [maxItems],
       if (trafficPolicyIdMarker != null)
@@ -3585,18 +3023,6 @@ class Route53 {
     String? trafficPolicyInstanceNameMarker,
     RRType? trafficPolicyInstanceTypeMarker,
   }) async {
-    _s.validateStringLength(
-      'hostedZoneIdMarker',
-      hostedZoneIdMarker,
-      0,
-      32,
-    );
-    _s.validateStringLength(
-      'trafficPolicyInstanceNameMarker',
-      trafficPolicyInstanceNameMarker,
-      0,
-      1024,
-    );
     final $query = <String, List<String>>{
       if (hostedZoneIdMarker != null) 'hostedzoneid': [hostedZoneIdMarker],
       if (maxItems != null) 'maxitems': [maxItems],
@@ -3678,20 +3104,6 @@ class Route53 {
     String? trafficPolicyInstanceNameMarker,
     RRType? trafficPolicyInstanceTypeMarker,
   }) async {
-    ArgumentError.checkNotNull(hostedZoneId, 'hostedZoneId');
-    _s.validateStringLength(
-      'hostedZoneId',
-      hostedZoneId,
-      0,
-      32,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'trafficPolicyInstanceNameMarker',
-      trafficPolicyInstanceNameMarker,
-      0,
-      1024,
-    );
     final $query = <String, List<String>>{
       'id': [hostedZoneId],
       if (maxItems != null) 'maxitems': [maxItems],
@@ -3798,33 +3210,12 @@ class Route53 {
     String? trafficPolicyInstanceNameMarker,
     RRType? trafficPolicyInstanceTypeMarker,
   }) async {
-    ArgumentError.checkNotNull(trafficPolicyId, 'trafficPolicyId');
-    _s.validateStringLength(
-      'trafficPolicyId',
-      trafficPolicyId,
-      1,
-      36,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(trafficPolicyVersion, 'trafficPolicyVersion');
     _s.validateNumRange(
       'trafficPolicyVersion',
       trafficPolicyVersion,
       1,
       1000,
       isRequired: true,
-    );
-    _s.validateStringLength(
-      'hostedZoneIdMarker',
-      hostedZoneIdMarker,
-      0,
-      32,
-    );
-    _s.validateStringLength(
-      'trafficPolicyInstanceNameMarker',
-      trafficPolicyInstanceNameMarker,
-      0,
-      1024,
     );
     final $query = <String, List<String>>{
       'id': [trafficPolicyId],
@@ -3883,20 +3274,6 @@ class Route53 {
     String? maxItems,
     String? trafficPolicyVersionMarker,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      36,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'trafficPolicyVersionMarker',
-      trafficPolicyVersionMarker,
-      0,
-      4,
-    );
     final $query = <String, List<String>>{
       if (maxItems != null) 'maxitems': [maxItems],
       if (trafficPolicyVersionMarker != null)
@@ -3945,20 +3322,6 @@ class Route53 {
     String? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(hostedZoneId, 'hostedZoneId');
-    _s.validateStringLength(
-      'hostedZoneId',
-      hostedZoneId,
-      0,
-      32,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      1024,
-    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxresults': [maxResults],
       if (nextToken != null) 'nexttoken': [nextToken],
@@ -4032,41 +3395,6 @@ class Route53 {
     String? eDNS0ClientSubnetMask,
     String? resolverIP,
   }) async {
-    ArgumentError.checkNotNull(hostedZoneId, 'hostedZoneId');
-    _s.validateStringLength(
-      'hostedZoneId',
-      hostedZoneId,
-      0,
-      32,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(recordName, 'recordName');
-    _s.validateStringLength(
-      'recordName',
-      recordName,
-      0,
-      1024,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(recordType, 'recordType');
-    _s.validateStringLength(
-      'eDNS0ClientSubnetIP',
-      eDNS0ClientSubnetIP,
-      0,
-      45,
-    );
-    _s.validateStringLength(
-      'eDNS0ClientSubnetMask',
-      eDNS0ClientSubnetMask,
-      0,
-      3,
-    );
-    _s.validateStringLength(
-      'resolverIP',
-      resolverIP,
-      0,
-      45,
-    );
     final $query = <String, List<String>>{
       'hostedzoneid': [hostedZoneId],
       'recordname': [recordName],
@@ -4478,25 +3806,11 @@ class Route53 {
     String? resourcePath,
     String? searchString,
   }) async {
-    ArgumentError.checkNotNull(healthCheckId, 'healthCheckId');
-    _s.validateStringLength(
-      'healthCheckId',
-      healthCheckId,
-      0,
-      64,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'failureThreshold',
       failureThreshold,
       1,
       10,
-    );
-    _s.validateStringLength(
-      'fullyQualifiedDomainName',
-      fullyQualifiedDomainName,
-      0,
-      255,
     );
     _s.validateNumRange(
       'healthCheckVersion',
@@ -4510,29 +3824,11 @@ class Route53 {
       0,
       256,
     );
-    _s.validateStringLength(
-      'iPAddress',
-      iPAddress,
-      0,
-      45,
-    );
     _s.validateNumRange(
       'port',
       port,
       1,
       65535,
-    );
-    _s.validateStringLength(
-      'resourcePath',
-      resourcePath,
-      0,
-      255,
-    );
-    _s.validateStringLength(
-      'searchString',
-      searchString,
-      0,
-      255,
     );
     final $result = await _protocol.send(
       method: 'POST',
@@ -4584,20 +3880,6 @@ class Route53 {
     required String id,
     String? comment,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      0,
-      32,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'comment',
-      comment,
-      0,
-      256,
-    );
     final $result = await _protocol.send(
       method: 'POST',
       requestUri: '/2013-04-01/hostedzone/${Uri.encodeComponent(id)}',
@@ -4634,23 +3916,6 @@ class Route53 {
     required String id,
     required int version,
   }) async {
-    ArgumentError.checkNotNull(comment, 'comment');
-    _s.validateStringLength(
-      'comment',
-      comment,
-      0,
-      1024,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      36,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(version, 'version');
     _s.validateNumRange(
       'version',
       version,
@@ -4726,15 +3991,6 @@ class Route53 {
     required String trafficPolicyId,
     required int trafficPolicyVersion,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'id',
-      id,
-      1,
-      36,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(ttl, 'ttl');
     _s.validateNumRange(
       'ttl',
       ttl,
@@ -4742,15 +3998,6 @@ class Route53 {
       2147483647,
       isRequired: true,
     );
-    ArgumentError.checkNotNull(trafficPolicyId, 'trafficPolicyId');
-    _s.validateStringLength(
-      'trafficPolicyId',
-      trafficPolicyId,
-      1,
-      36,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(trafficPolicyVersion, 'trafficPolicyVersion');
     _s.validateNumRange(
       'trafficPolicyVersion',
       trafficPolicyVersion,

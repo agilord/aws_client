@@ -60,7 +60,6 @@ class RoboMaker {
   Future<BatchDeleteWorldsResponse> batchDeleteWorlds({
     required List<String> worlds,
   }) async {
-    ArgumentError.checkNotNull(worlds, 'worlds');
     final $payload = <String, dynamic>{
       'worlds': worlds,
     };
@@ -85,7 +84,6 @@ class RoboMaker {
   Future<BatchDescribeSimulationJobResponse> batchDescribeSimulationJob({
     required List<String> jobs,
   }) async {
-    ArgumentError.checkNotNull(jobs, 'jobs');
     final $payload = <String, dynamic>{
       'jobs': jobs,
     };
@@ -110,14 +108,6 @@ class RoboMaker {
   Future<void> cancelDeploymentJob({
     required String job,
   }) async {
-    ArgumentError.checkNotNull(job, 'job');
-    _s.validateStringLength(
-      'job',
-      job,
-      1,
-      1224,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'job': job,
     };
@@ -141,14 +131,6 @@ class RoboMaker {
   Future<void> cancelSimulationJob({
     required String job,
   }) async {
-    ArgumentError.checkNotNull(job, 'job');
-    _s.validateStringLength(
-      'job',
-      job,
-      1,
-      1224,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'job': job,
     };
@@ -174,14 +156,6 @@ class RoboMaker {
   Future<void> cancelSimulationJobBatch({
     required String batch,
   }) async {
-    ArgumentError.checkNotNull(batch, 'batch');
-    _s.validateStringLength(
-      'batch',
-      batch,
-      1,
-      1224,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'batch': batch,
     };
@@ -205,14 +179,6 @@ class RoboMaker {
   Future<void> cancelWorldExportJob({
     required String job,
   }) async {
-    ArgumentError.checkNotNull(job, 'job');
-    _s.validateStringLength(
-      'job',
-      job,
-      1,
-      1224,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'job': job,
     };
@@ -236,14 +202,6 @@ class RoboMaker {
   Future<void> cancelWorldGenerationJob({
     required String job,
   }) async {
-    ArgumentError.checkNotNull(job, 'job');
-    _s.validateStringLength(
-      'job',
-      job,
-      1,
-      1224,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'job': job,
     };
@@ -298,22 +256,6 @@ class RoboMaker {
     DeploymentConfig? deploymentConfig,
     Map<String, String>? tags,
   }) async {
-    ArgumentError.checkNotNull(
-        deploymentApplicationConfigs, 'deploymentApplicationConfigs');
-    ArgumentError.checkNotNull(fleet, 'fleet');
-    _s.validateStringLength(
-      'fleet',
-      fleet,
-      1,
-      1224,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-    );
     final $payload = <String, dynamic>{
       'deploymentApplicationConfigs': deploymentApplicationConfigs,
       'fleet': fleet,
@@ -348,14 +290,6 @@ class RoboMaker {
     required String name,
     Map<String, String>? tags,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      255,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'name': name,
       if (tags != null) 'tags': tags,
@@ -395,23 +329,6 @@ class RoboMaker {
     required String name,
     Map<String, String>? tags,
   }) async {
-    ArgumentError.checkNotNull(architecture, 'architecture');
-    ArgumentError.checkNotNull(greengrassGroupId, 'greengrassGroupId');
-    _s.validateStringLength(
-      'greengrassGroupId',
-      greengrassGroupId,
-      1,
-      1224,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      255,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'architecture': architecture.toValue(),
       'greengrassGroupId': greengrassGroupId,
@@ -455,16 +372,6 @@ class RoboMaker {
     required List<SourceConfig> sources,
     Map<String, String>? tags,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(robotSoftwareSuite, 'robotSoftwareSuite');
-    ArgumentError.checkNotNull(sources, 'sources');
     final $payload = <String, dynamic>{
       'name': name,
       'robotSoftwareSuite': robotSoftwareSuite,
@@ -498,20 +405,6 @@ class RoboMaker {
     required String application,
     String? currentRevisionId,
   }) async {
-    ArgumentError.checkNotNull(application, 'application');
-    _s.validateStringLength(
-      'application',
-      application,
-      1,
-      1224,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'currentRevisionId',
-      currentRevisionId,
-      1,
-      40,
-    );
     final $payload = <String, dynamic>{
       'application': application,
       if (currentRevisionId != null) 'currentRevisionId': currentRevisionId,
@@ -561,18 +454,6 @@ class RoboMaker {
     RenderingEngine? renderingEngine,
     Map<String, String>? tags,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(robotSoftwareSuite, 'robotSoftwareSuite');
-    ArgumentError.checkNotNull(
-        simulationSoftwareSuite, 'simulationSoftwareSuite');
-    ArgumentError.checkNotNull(sources, 'sources');
     final $payload = <String, dynamic>{
       'name': name,
       'robotSoftwareSuite': robotSoftwareSuite,
@@ -610,20 +491,6 @@ class RoboMaker {
     required String application,
     String? currentRevisionId,
   }) async {
-    ArgumentError.checkNotNull(application, 'application');
-    _s.validateStringLength(
-      'application',
-      application,
-      1,
-      1224,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'currentRevisionId',
-      currentRevisionId,
-      1,
-      40,
-    );
     final $payload = <String, dynamic>{
       'application': application,
       if (currentRevisionId != null) 'currentRevisionId': currentRevisionId,
@@ -720,22 +587,6 @@ class RoboMaker {
     Map<String, String>? tags,
     VPCConfig? vpcConfig,
   }) async {
-    ArgumentError.checkNotNull(iamRole, 'iamRole');
-    _s.validateStringLength(
-      'iamRole',
-      iamRole,
-      1,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(
-        maxJobDurationInSeconds, 'maxJobDurationInSeconds');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-    );
     final $payload = <String, dynamic>{
       'iamRole': iamRole,
       'maxJobDurationInSeconds': maxJobDurationInSeconds,
@@ -791,22 +642,6 @@ class RoboMaker {
     String? clientRequestToken,
     Map<String, String>? tags,
   }) async {
-    ArgumentError.checkNotNull(iamRole, 'iamRole');
-    _s.validateStringLength(
-      'iamRole',
-      iamRole,
-      1,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(outputLocation, 'outputLocation');
-    ArgumentError.checkNotNull(worlds, 'worlds');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-    );
     final $payload = <String, dynamic>{
       'iamRole': iamRole,
       'outputLocation': outputLocation,
@@ -858,21 +693,6 @@ class RoboMaker {
     Map<String, String>? tags,
     Map<String, String>? worldTags,
   }) async {
-    ArgumentError.checkNotNull(template, 'template');
-    _s.validateStringLength(
-      'template',
-      template,
-      1,
-      1224,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(worldCount, 'worldCount');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-    );
     final $payload = <String, dynamic>{
       'template': template,
       'worldCount': worldCount,
@@ -921,24 +741,6 @@ class RoboMaker {
     String? templateBody,
     TemplateLocation? templateLocation,
   }) async {
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      0,
-      255,
-    );
-    _s.validateStringLength(
-      'templateBody',
-      templateBody,
-      1,
-      262144,
-    );
     final $payload = <String, dynamic>{
       if (clientRequestToken != null) 'clientRequestToken': clientRequestToken,
       if (name != null) 'name': name,
@@ -966,14 +768,6 @@ class RoboMaker {
   Future<void> deleteFleet({
     required String fleet,
   }) async {
-    ArgumentError.checkNotNull(fleet, 'fleet');
-    _s.validateStringLength(
-      'fleet',
-      fleet,
-      1,
-      1224,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'fleet': fleet,
     };
@@ -996,14 +790,6 @@ class RoboMaker {
   Future<void> deleteRobot({
     required String robot,
   }) async {
-    ArgumentError.checkNotNull(robot, 'robot');
-    _s.validateStringLength(
-      'robot',
-      robot,
-      1,
-      1224,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'robot': robot,
     };
@@ -1030,20 +816,6 @@ class RoboMaker {
     required String application,
     String? applicationVersion,
   }) async {
-    ArgumentError.checkNotNull(application, 'application');
-    _s.validateStringLength(
-      'application',
-      application,
-      1,
-      1224,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'applicationVersion',
-      applicationVersion,
-      1,
-      255,
-    );
     final $payload = <String, dynamic>{
       'application': application,
       if (applicationVersion != null) 'applicationVersion': applicationVersion,
@@ -1071,20 +843,6 @@ class RoboMaker {
     required String application,
     String? applicationVersion,
   }) async {
-    ArgumentError.checkNotNull(application, 'application');
-    _s.validateStringLength(
-      'application',
-      application,
-      1,
-      1224,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'applicationVersion',
-      applicationVersion,
-      1,
-      255,
-    );
     final $payload = <String, dynamic>{
       'application': application,
       if (applicationVersion != null) 'applicationVersion': applicationVersion,
@@ -1109,14 +867,6 @@ class RoboMaker {
   Future<void> deleteWorldTemplate({
     required String template,
   }) async {
-    ArgumentError.checkNotNull(template, 'template');
-    _s.validateStringLength(
-      'template',
-      template,
-      1,
-      1224,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'template': template,
     };
@@ -1144,22 +894,6 @@ class RoboMaker {
     required String fleet,
     required String robot,
   }) async {
-    ArgumentError.checkNotNull(fleet, 'fleet');
-    _s.validateStringLength(
-      'fleet',
-      fleet,
-      1,
-      1224,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(robot, 'robot');
-    _s.validateStringLength(
-      'robot',
-      robot,
-      1,
-      1224,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'fleet': fleet,
       'robot': robot,
@@ -1185,14 +919,6 @@ class RoboMaker {
   Future<DescribeDeploymentJobResponse> describeDeploymentJob({
     required String job,
   }) async {
-    ArgumentError.checkNotNull(job, 'job');
-    _s.validateStringLength(
-      'job',
-      job,
-      1,
-      1224,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'job': job,
     };
@@ -1217,14 +943,6 @@ class RoboMaker {
   Future<DescribeFleetResponse> describeFleet({
     required String fleet,
   }) async {
-    ArgumentError.checkNotNull(fleet, 'fleet');
-    _s.validateStringLength(
-      'fleet',
-      fleet,
-      1,
-      1224,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'fleet': fleet,
     };
@@ -1249,14 +967,6 @@ class RoboMaker {
   Future<DescribeRobotResponse> describeRobot({
     required String robot,
   }) async {
-    ArgumentError.checkNotNull(robot, 'robot');
-    _s.validateStringLength(
-      'robot',
-      robot,
-      1,
-      1224,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'robot': robot,
     };
@@ -1285,20 +995,6 @@ class RoboMaker {
     required String application,
     String? applicationVersion,
   }) async {
-    ArgumentError.checkNotNull(application, 'application');
-    _s.validateStringLength(
-      'application',
-      application,
-      1,
-      1224,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'applicationVersion',
-      applicationVersion,
-      1,
-      255,
-    );
     final $payload = <String, dynamic>{
       'application': application,
       if (applicationVersion != null) 'applicationVersion': applicationVersion,
@@ -1328,20 +1024,6 @@ class RoboMaker {
     required String application,
     String? applicationVersion,
   }) async {
-    ArgumentError.checkNotNull(application, 'application');
-    _s.validateStringLength(
-      'application',
-      application,
-      1,
-      1224,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'applicationVersion',
-      applicationVersion,
-      1,
-      255,
-    );
     final $payload = <String, dynamic>{
       'application': application,
       if (applicationVersion != null) 'applicationVersion': applicationVersion,
@@ -1367,14 +1049,6 @@ class RoboMaker {
   Future<DescribeSimulationJobResponse> describeSimulationJob({
     required String job,
   }) async {
-    ArgumentError.checkNotNull(job, 'job');
-    _s.validateStringLength(
-      'job',
-      job,
-      1,
-      1224,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'job': job,
     };
@@ -1398,14 +1072,6 @@ class RoboMaker {
   Future<DescribeSimulationJobBatchResponse> describeSimulationJobBatch({
     required String batch,
   }) async {
-    ArgumentError.checkNotNull(batch, 'batch');
-    _s.validateStringLength(
-      'batch',
-      batch,
-      1,
-      1224,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'batch': batch,
     };
@@ -1430,14 +1096,6 @@ class RoboMaker {
   Future<DescribeWorldResponse> describeWorld({
     required String world,
   }) async {
-    ArgumentError.checkNotNull(world, 'world');
-    _s.validateStringLength(
-      'world',
-      world,
-      1,
-      1224,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'world': world,
     };
@@ -1462,14 +1120,6 @@ class RoboMaker {
   Future<DescribeWorldExportJobResponse> describeWorldExportJob({
     required String job,
   }) async {
-    ArgumentError.checkNotNull(job, 'job');
-    _s.validateStringLength(
-      'job',
-      job,
-      1,
-      1224,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'job': job,
     };
@@ -1494,14 +1144,6 @@ class RoboMaker {
   Future<DescribeWorldGenerationJobResponse> describeWorldGenerationJob({
     required String job,
   }) async {
-    ArgumentError.checkNotNull(job, 'job');
-    _s.validateStringLength(
-      'job',
-      job,
-      1,
-      1224,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'job': job,
     };
@@ -1526,14 +1168,6 @@ class RoboMaker {
   Future<DescribeWorldTemplateResponse> describeWorldTemplate({
     required String template,
   }) async {
-    ArgumentError.checkNotNull(template, 'template');
-    _s.validateStringLength(
-      'template',
-      template,
-      1,
-      1224,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'template': template,
     };
@@ -1562,18 +1196,6 @@ class RoboMaker {
     String? generationJob,
     String? template,
   }) async {
-    _s.validateStringLength(
-      'generationJob',
-      generationJob,
-      1,
-      1224,
-    );
-    _s.validateStringLength(
-      'template',
-      template,
-      1,
-      1224,
-    );
     final $payload = <String, dynamic>{
       if (generationJob != null) 'generationJob': generationJob,
       if (template != null) 'template': template,
@@ -1627,12 +1249,6 @@ class RoboMaker {
     int? maxResults,
     String? nextToken,
   }) async {
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2048,
-    );
     final $payload = <String, dynamic>{
       if (filters != null) 'filters': filters,
       if (maxResults != null) 'maxResults': maxResults,
@@ -1689,12 +1305,6 @@ class RoboMaker {
     int? maxResults,
     String? nextToken,
   }) async {
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2048,
-    );
     final $payload = <String, dynamic>{
       if (filters != null) 'filters': filters,
       if (maxResults != null) 'maxResults': maxResults,
@@ -1750,18 +1360,6 @@ class RoboMaker {
     String? nextToken,
     String? versionQualifier,
   }) async {
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2048,
-    );
-    _s.validateStringLength(
-      'versionQualifier',
-      versionQualifier,
-      1,
-      255,
-    );
     final $payload = <String, dynamic>{
       if (filters != null) 'filters': filters,
       if (maxResults != null) 'maxResults': maxResults,
@@ -1817,12 +1415,6 @@ class RoboMaker {
     int? maxResults,
     String? nextToken,
   }) async {
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2048,
-    );
     final $payload = <String, dynamic>{
       if (filters != null) 'filters': filters,
       if (maxResults != null) 'maxResults': maxResults,
@@ -1879,18 +1471,6 @@ class RoboMaker {
     String? nextToken,
     String? versionQualifier,
   }) async {
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2048,
-    );
-    _s.validateStringLength(
-      'versionQualifier',
-      versionQualifier,
-      1,
-      255,
-    );
     final $payload = <String, dynamic>{
       if (filters != null) 'filters': filters,
       if (maxResults != null) 'maxResults': maxResults,
@@ -1936,12 +1516,6 @@ class RoboMaker {
     int? maxResults,
     String? nextToken,
   }) async {
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2048,
-    );
     final $payload = <String, dynamic>{
       if (filters != null) 'filters': filters,
       if (maxResults != null) 'maxResults': maxResults,
@@ -1997,12 +1571,6 @@ class RoboMaker {
     int? maxResults,
     String? nextToken,
   }) async {
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2048,
-    );
     final $payload = <String, dynamic>{
       if (filters != null) 'filters': filters,
       if (maxResults != null) 'maxResults': maxResults,
@@ -2029,14 +1597,6 @@ class RoboMaker {
   Future<ListTagsForResourceResponse> listTagsForResource({
     required String resourceArn,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      1224,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -2079,12 +1639,6 @@ class RoboMaker {
     int? maxResults,
     String? nextToken,
   }) async {
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2048,
-    );
     final $payload = <String, dynamic>{
       if (filters != null) 'filters': filters,
       if (maxResults != null) 'maxResults': maxResults,
@@ -2132,12 +1686,6 @@ class RoboMaker {
     int? maxResults,
     String? nextToken,
   }) async {
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2048,
-    );
     final $payload = <String, dynamic>{
       if (filters != null) 'filters': filters,
       if (maxResults != null) 'maxResults': maxResults,
@@ -2180,12 +1728,6 @@ class RoboMaker {
     int? maxResults,
     String? nextToken,
   }) async {
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2048,
-    );
     final $payload = <String, dynamic>{
       if (maxResults != null) 'maxResults': maxResults,
       if (nextToken != null) 'nextToken': nextToken,
@@ -2231,12 +1773,6 @@ class RoboMaker {
     int? maxResults,
     String? nextToken,
   }) async {
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2048,
-    );
     final $payload = <String, dynamic>{
       if (filters != null) 'filters': filters,
       if (maxResults != null) 'maxResults': maxResults,
@@ -2268,22 +1804,6 @@ class RoboMaker {
     required String fleet,
     required String robot,
   }) async {
-    ArgumentError.checkNotNull(fleet, 'fleet');
-    _s.validateStringLength(
-      'fleet',
-      fleet,
-      1,
-      1224,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(robot, 'robot');
-    _s.validateStringLength(
-      'robot',
-      robot,
-      1,
-      1224,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'fleet': fleet,
       'robot': robot,
@@ -2310,14 +1830,6 @@ class RoboMaker {
   Future<void> restartSimulationJob({
     required String job,
   }) async {
-    ArgumentError.checkNotNull(job, 'job');
-    _s.validateStringLength(
-      'job',
-      job,
-      1,
-      1224,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'job': job,
     };
@@ -2357,14 +1869,6 @@ class RoboMaker {
     String? clientRequestToken,
     Map<String, String>? tags,
   }) async {
-    ArgumentError.checkNotNull(
-        createSimulationJobRequests, 'createSimulationJobRequests');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-    );
     final $payload = <String, dynamic>{
       'createSimulationJobRequests': createSimulationJobRequests,
       if (batchPolicy != null) 'batchPolicy': batchPolicy,
@@ -2401,20 +1905,6 @@ class RoboMaker {
     required String fleet,
     String? clientRequestToken,
   }) async {
-    ArgumentError.checkNotNull(fleet, 'fleet');
-    _s.validateStringLength(
-      'fleet',
-      fleet,
-      1,
-      1224,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-    );
     final $payload = <String, dynamic>{
       'fleet': fleet,
       'clientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
@@ -2455,15 +1945,6 @@ class RoboMaker {
     required String resourceArn,
     required Map<String, String> tags,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      1224,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
       'tags': tags,
     };
@@ -2498,15 +1979,6 @@ class RoboMaker {
     required String resourceArn,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      1224,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
       'tagKeys': tagKeys,
     };
@@ -2544,22 +2016,6 @@ class RoboMaker {
     required List<SourceConfig> sources,
     String? currentRevisionId,
   }) async {
-    ArgumentError.checkNotNull(application, 'application');
-    _s.validateStringLength(
-      'application',
-      application,
-      1,
-      1224,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(robotSoftwareSuite, 'robotSoftwareSuite');
-    ArgumentError.checkNotNull(sources, 'sources');
-    _s.validateStringLength(
-      'currentRevisionId',
-      currentRevisionId,
-      1,
-      40,
-    );
     final $payload = <String, dynamic>{
       'application': application,
       'robotSoftwareSuite': robotSoftwareSuite,
@@ -2608,24 +2064,6 @@ class RoboMaker {
     String? currentRevisionId,
     RenderingEngine? renderingEngine,
   }) async {
-    ArgumentError.checkNotNull(application, 'application');
-    _s.validateStringLength(
-      'application',
-      application,
-      1,
-      1224,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(robotSoftwareSuite, 'robotSoftwareSuite');
-    ArgumentError.checkNotNull(
-        simulationSoftwareSuite, 'simulationSoftwareSuite');
-    ArgumentError.checkNotNull(sources, 'sources');
-    _s.validateStringLength(
-      'currentRevisionId',
-      currentRevisionId,
-      1,
-      40,
-    );
     final $payload = <String, dynamic>{
       'application': application,
       'robotSoftwareSuite': robotSoftwareSuite,
@@ -2667,26 +2105,6 @@ class RoboMaker {
     String? templateBody,
     TemplateLocation? templateLocation,
   }) async {
-    ArgumentError.checkNotNull(template, 'template');
-    _s.validateStringLength(
-      'template',
-      template,
-      1,
-      1224,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      0,
-      255,
-    );
-    _s.validateStringLength(
-      'templateBody',
-      templateBody,
-      1,
-      262144,
-    );
     final $payload = <String, dynamic>{
       'template': template,
       if (name != null) 'name': name,

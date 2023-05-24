@@ -79,21 +79,6 @@ class ConnectParticipant {
     required String connectionToken,
     String? clientToken,
   }) async {
-    ArgumentError.checkNotNull(attachmentIds, 'attachmentIds');
-    ArgumentError.checkNotNull(connectionToken, 'connectionToken');
-    _s.validateStringLength(
-      'connectionToken',
-      connectionToken,
-      1,
-      1000,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      1,
-      500,
-    );
     final headers = <String, String>{
       'X-Amz-Bearer': connectionToken.toString(),
     };
@@ -152,15 +137,6 @@ class ConnectParticipant {
     required String participantToken,
     required List<ConnectionType> type,
   }) async {
-    ArgumentError.checkNotNull(participantToken, 'participantToken');
-    _s.validateStringLength(
-      'participantToken',
-      participantToken,
-      1,
-      1000,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(type, 'type');
     final headers = <String, String>{
       'X-Amz-Bearer': participantToken.toString(),
     };
@@ -199,20 +175,6 @@ class ConnectParticipant {
     required String connectionToken,
     String? clientToken,
   }) async {
-    ArgumentError.checkNotNull(connectionToken, 'connectionToken');
-    _s.validateStringLength(
-      'connectionToken',
-      connectionToken,
-      1,
-      1000,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      0,
-      500,
-    );
     final headers = <String, String>{
       'X-Amz-Bearer': connectionToken.toString(),
     };
@@ -245,22 +207,6 @@ class ConnectParticipant {
     required String attachmentId,
     required String connectionToken,
   }) async {
-    ArgumentError.checkNotNull(attachmentId, 'attachmentId');
-    _s.validateStringLength(
-      'attachmentId',
-      attachmentId,
-      1,
-      256,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(connectionToken, 'connectionToken');
-    _s.validateStringLength(
-      'connectionToken',
-      connectionToken,
-      1,
-      1000,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'X-Amz-Bearer': connectionToken.toString(),
     };
@@ -322,31 +268,11 @@ class ConnectParticipant {
     SortKey? sortOrder,
     StartPosition? startPosition,
   }) async {
-    ArgumentError.checkNotNull(connectionToken, 'connectionToken');
-    _s.validateStringLength(
-      'connectionToken',
-      connectionToken,
-      1,
-      1000,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'contactId',
-      contactId,
-      1,
-      256,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       0,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1000,
     );
     final headers = <String, String>{
       'X-Amz-Bearer': connectionToken.toString(),
@@ -409,34 +335,6 @@ class ConnectParticipant {
     String? clientToken,
     String? content,
   }) async {
-    ArgumentError.checkNotNull(connectionToken, 'connectionToken');
-    _s.validateStringLength(
-      'connectionToken',
-      connectionToken,
-      1,
-      1000,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(contentType, 'contentType');
-    _s.validateStringLength(
-      'contentType',
-      contentType,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      0,
-      500,
-    );
-    _s.validateStringLength(
-      'content',
-      content,
-      1,
-      1024,
-    );
     final headers = <String, String>{
       'X-Amz-Bearer': connectionToken.toString(),
     };
@@ -486,36 +384,6 @@ class ConnectParticipant {
     required String contentType,
     String? clientToken,
   }) async {
-    ArgumentError.checkNotNull(connectionToken, 'connectionToken');
-    _s.validateStringLength(
-      'connectionToken',
-      connectionToken,
-      1,
-      1000,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(content, 'content');
-    _s.validateStringLength(
-      'content',
-      content,
-      1,
-      1024,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(contentType, 'contentType');
-    _s.validateStringLength(
-      'contentType',
-      contentType,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      0,
-      500,
-    );
     final headers = <String, String>{
       'X-Amz-Bearer': connectionToken.toString(),
     };
@@ -567,43 +435,12 @@ class ConnectParticipant {
     required String contentType,
     String? clientToken,
   }) async {
-    ArgumentError.checkNotNull(attachmentName, 'attachmentName');
-    _s.validateStringLength(
-      'attachmentName',
-      attachmentName,
-      1,
-      256,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(attachmentSizeInBytes, 'attachmentSizeInBytes');
     _s.validateNumRange(
       'attachmentSizeInBytes',
       attachmentSizeInBytes,
       1,
       1152921504606846976,
       isRequired: true,
-    );
-    ArgumentError.checkNotNull(connectionToken, 'connectionToken');
-    _s.validateStringLength(
-      'connectionToken',
-      connectionToken,
-      1,
-      1000,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(contentType, 'contentType');
-    _s.validateStringLength(
-      'contentType',
-      contentType,
-      1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      1,
-      500,
     );
     final headers = <String, String>{
       'X-Amz-Bearer': connectionToken.toString(),

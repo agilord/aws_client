@@ -209,10 +209,6 @@ class SQS {
     required String label,
     required String queueUrl,
   }) async {
-    ArgumentError.checkNotNull(awsAccountIds, 'awsAccountIds');
-    ArgumentError.checkNotNull(actions, 'actions');
-    ArgumentError.checkNotNull(label, 'label');
-    ArgumentError.checkNotNull(queueUrl, 'queueUrl');
     final $request = <String, dynamic>{};
     $request['AWSAccountIds'] = awsAccountIds;
     $request['Actions'] = actions;
@@ -315,9 +311,6 @@ class SQS {
     required String receiptHandle,
     required int visibilityTimeout,
   }) async {
-    ArgumentError.checkNotNull(queueUrl, 'queueUrl');
-    ArgumentError.checkNotNull(receiptHandle, 'receiptHandle');
-    ArgumentError.checkNotNull(visibilityTimeout, 'visibilityTimeout');
     final $request = <String, dynamic>{};
     $request['QueueUrl'] = queueUrl;
     $request['ReceiptHandle'] = receiptHandle;
@@ -370,8 +363,6 @@ class SQS {
     required List<ChangeMessageVisibilityBatchRequestEntry> entries,
     required String queueUrl,
   }) async {
-    ArgumentError.checkNotNull(entries, 'entries');
-    ArgumentError.checkNotNull(queueUrl, 'queueUrl');
     final $request = <String, dynamic>{};
     $request['Entries'] = entries;
     $request['QueueUrl'] = queueUrl;
@@ -740,7 +731,6 @@ class SQS {
     Map<QueueAttributeName, String>? attributes,
     Map<String, String>? tags,
   }) async {
-    ArgumentError.checkNotNull(queueName, 'queueName');
     final $request = <String, dynamic>{};
     $request['QueueName'] = queueName;
     attributes?.also((arg) =>
@@ -799,8 +789,6 @@ class SQS {
     required String queueUrl,
     required String receiptHandle,
   }) async {
-    ArgumentError.checkNotNull(queueUrl, 'queueUrl');
-    ArgumentError.checkNotNull(receiptHandle, 'receiptHandle');
     final $request = <String, dynamic>{};
     $request['QueueUrl'] = queueUrl;
     $request['ReceiptHandle'] = receiptHandle;
@@ -849,8 +837,6 @@ class SQS {
     required List<DeleteMessageBatchRequestEntry> entries,
     required String queueUrl,
   }) async {
-    ArgumentError.checkNotNull(entries, 'entries');
-    ArgumentError.checkNotNull(queueUrl, 'queueUrl');
     final $request = <String, dynamic>{};
     $request['Entries'] = entries;
     $request['QueueUrl'] = queueUrl;
@@ -897,7 +883,6 @@ class SQS {
   Future<void> deleteQueue({
     required String queueUrl,
   }) async {
-    ArgumentError.checkNotNull(queueUrl, 'queueUrl');
     final $request = <String, dynamic>{};
     $request['QueueUrl'] = queueUrl;
     await _protocol.send(
@@ -1133,7 +1118,6 @@ class SQS {
     required String queueUrl,
     List<QueueAttributeName>? attributeNames,
   }) async {
-    ArgumentError.checkNotNull(queueUrl, 'queueUrl');
     final $request = <String, dynamic>{};
     $request['QueueUrl'] = queueUrl;
     attributeNames?.also((arg) =>
@@ -1178,7 +1162,6 @@ class SQS {
     required String queueName,
     String? queueOwnerAWSAccountId,
   }) async {
-    ArgumentError.checkNotNull(queueName, 'queueName');
     final $request = <String, dynamic>{};
     $request['QueueName'] = queueName;
     queueOwnerAWSAccountId
@@ -1234,7 +1217,6 @@ class SQS {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(queueUrl, 'queueUrl');
     final $request = <String, dynamic>{};
     $request['QueueUrl'] = queueUrl;
     maxResults?.also((arg) => $request['MaxResults'] = arg);
@@ -1271,7 +1253,6 @@ class SQS {
   Future<ListQueueTagsResult> listQueueTags({
     required String queueUrl,
   }) async {
-    ArgumentError.checkNotNull(queueUrl, 'queueUrl');
     final $request = <String, dynamic>{};
     $request['QueueUrl'] = queueUrl;
     final $result = await _protocol.send(
@@ -1371,7 +1352,6 @@ class SQS {
   Future<void> purgeQueue({
     required String queueUrl,
   }) async {
-    ArgumentError.checkNotNull(queueUrl, 'queueUrl');
     final $request = <String, dynamic>{};
     $request['QueueUrl'] = queueUrl;
     await _protocol.send(
@@ -1647,7 +1627,6 @@ class SQS {
     int? visibilityTimeout,
     int? waitTimeSeconds,
   }) async {
-    ArgumentError.checkNotNull(queueUrl, 'queueUrl');
     final $request = <String, dynamic>{};
     $request['QueueUrl'] = queueUrl;
     attributeNames?.also((arg) =>
@@ -1707,8 +1686,6 @@ class SQS {
     required String label,
     required String queueUrl,
   }) async {
-    ArgumentError.checkNotNull(label, 'label');
-    ArgumentError.checkNotNull(queueUrl, 'queueUrl');
     final $request = <String, dynamic>{};
     $request['Label'] = label;
     $request['QueueUrl'] = queueUrl;
@@ -1913,8 +1890,6 @@ class SQS {
     Map<MessageSystemAttributeNameForSends, MessageSystemAttributeValue>?
         messageSystemAttributes,
   }) async {
-    ArgumentError.checkNotNull(messageBody, 'messageBody');
-    ArgumentError.checkNotNull(queueUrl, 'queueUrl');
     final $request = <String, dynamic>{};
     $request['MessageBody'] = messageBody;
     $request['QueueUrl'] = queueUrl;
@@ -1993,8 +1968,6 @@ class SQS {
     required List<SendMessageBatchRequestEntry> entries,
     required String queueUrl,
   }) async {
-    ArgumentError.checkNotNull(entries, 'entries');
-    ArgumentError.checkNotNull(queueUrl, 'queueUrl');
     final $request = <String, dynamic>{};
     $request['Entries'] = entries;
     $request['QueueUrl'] = queueUrl;
@@ -2259,8 +2232,6 @@ class SQS {
     required Map<QueueAttributeName, String> attributes,
     required String queueUrl,
   }) async {
-    ArgumentError.checkNotNull(attributes, 'attributes');
-    ArgumentError.checkNotNull(queueUrl, 'queueUrl');
     final $request = <String, dynamic>{};
     $request['Attributes'] = attributes.map((k, v) => MapEntry(k.toValue(), v));
     $request['QueueUrl'] = queueUrl;
@@ -2321,8 +2292,6 @@ class SQS {
     required String queueUrl,
     required Map<String, String> tags,
   }) async {
-    ArgumentError.checkNotNull(queueUrl, 'queueUrl');
-    ArgumentError.checkNotNull(tags, 'tags');
     final $request = <String, dynamic>{};
     $request['QueueUrl'] = queueUrl;
     $request['Tags'] = tags;
@@ -2360,8 +2329,6 @@ class SQS {
     required String queueUrl,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(queueUrl, 'queueUrl');
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $request = <String, dynamic>{};
     $request['QueueUrl'] = queueUrl;
     $request['TagKeys'] = tagKeys;

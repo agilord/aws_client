@@ -153,10 +153,6 @@ class AppSync {
     bool? atRestEncryptionEnabled,
     bool? transitEncryptionEnabled,
   }) async {
-    ArgumentError.checkNotNull(apiCachingBehavior, 'apiCachingBehavior');
-    ArgumentError.checkNotNull(apiId, 'apiId');
-    ArgumentError.checkNotNull(ttl, 'ttl');
-    ArgumentError.checkNotNull(type, 'type');
     final $payload = <String, dynamic>{
       'apiCachingBehavior': apiCachingBehavior.toValue(),
       'ttl': ttl,
@@ -203,7 +199,6 @@ class AppSync {
     String? description,
     int? expires,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
     final $payload = <String, dynamic>{
       if (description != null) 'description': description,
       if (expires != null) 'expires': expires,
@@ -267,16 +262,6 @@ class AppSync {
     RelationalDatabaseDataSourceConfig? relationalDatabaseConfig,
     String? serviceRoleArn,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      65536,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(type, 'type');
     final $payload = <String, dynamic>{
       'name': name,
       'type': type.toValue(),
@@ -341,36 +326,6 @@ class AppSync {
     String? requestMappingTemplate,
     String? responseMappingTemplate,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
-    ArgumentError.checkNotNull(dataSourceName, 'dataSourceName');
-    _s.validateStringLength(
-      'dataSourceName',
-      dataSourceName,
-      1,
-      65536,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(functionVersion, 'functionVersion');
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      65536,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'requestMappingTemplate',
-      requestMappingTemplate,
-      1,
-      65536,
-    );
-    _s.validateStringLength(
-      'responseMappingTemplate',
-      responseMappingTemplate,
-      1,
-      65536,
-    );
     final $payload = <String, dynamic>{
       'dataSourceName': dataSourceName,
       'functionVersion': functionVersion,
@@ -435,8 +390,6 @@ class AppSync {
     UserPoolConfig? userPoolConfig,
     bool? xrayEnabled,
   }) async {
-    ArgumentError.checkNotNull(authenticationType, 'authenticationType');
-    ArgumentError.checkNotNull(name, 'name');
     final $payload = <String, dynamic>{
       'authenticationType': authenticationType.toValue(),
       'name': name,
@@ -532,41 +485,6 @@ class AppSync {
     String? responseMappingTemplate,
     SyncConfig? syncConfig,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
-    ArgumentError.checkNotNull(fieldName, 'fieldName');
-    _s.validateStringLength(
-      'fieldName',
-      fieldName,
-      1,
-      65536,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(typeName, 'typeName');
-    _s.validateStringLength(
-      'typeName',
-      typeName,
-      1,
-      65536,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'dataSourceName',
-      dataSourceName,
-      1,
-      65536,
-    );
-    _s.validateStringLength(
-      'requestMappingTemplate',
-      requestMappingTemplate,
-      1,
-      65536,
-    );
-    _s.validateStringLength(
-      'responseMappingTemplate',
-      responseMappingTemplate,
-      1,
-      65536,
-    );
     final $payload = <String, dynamic>{
       'fieldName': fieldName,
       if (cachingConfig != null) 'cachingConfig': cachingConfig,
@@ -613,9 +531,6 @@ class AppSync {
     required String definition,
     required TypeDefinitionFormat format,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
-    ArgumentError.checkNotNull(definition, 'definition');
-    ArgumentError.checkNotNull(format, 'format');
     final $payload = <String, dynamic>{
       'definition': definition,
       'format': format.toValue(),
@@ -642,7 +557,6 @@ class AppSync {
   Future<void> deleteApiCache({
     required String apiId,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -667,8 +581,6 @@ class AppSync {
     required String apiId,
     required String id,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
-    ArgumentError.checkNotNull(id, 'id');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -695,15 +607,6 @@ class AppSync {
     required String apiId,
     required String name,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      65536,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -729,15 +632,6 @@ class AppSync {
     required String apiId,
     required String functionId,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
-    ArgumentError.checkNotNull(functionId, 'functionId');
-    _s.validateStringLength(
-      'functionId',
-      functionId,
-      1,
-      65536,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -761,7 +655,6 @@ class AppSync {
   Future<void> deleteGraphqlApi({
     required String apiId,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -790,23 +683,6 @@ class AppSync {
     required String fieldName,
     required String typeName,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
-    ArgumentError.checkNotNull(fieldName, 'fieldName');
-    _s.validateStringLength(
-      'fieldName',
-      fieldName,
-      1,
-      65536,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(typeName, 'typeName');
-    _s.validateStringLength(
-      'typeName',
-      typeName,
-      1,
-      65536,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -833,15 +709,6 @@ class AppSync {
     required String apiId,
     required String typeName,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
-    ArgumentError.checkNotNull(typeName, 'typeName');
-    _s.validateStringLength(
-      'typeName',
-      typeName,
-      1,
-      65536,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -864,7 +731,6 @@ class AppSync {
   Future<void> flushApiCache({
     required String apiId,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -886,7 +752,6 @@ class AppSync {
   Future<GetApiCacheResponse> getApiCache({
     required String apiId,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -913,15 +778,6 @@ class AppSync {
     required String apiId,
     required String name,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      65536,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -947,15 +803,6 @@ class AppSync {
     required String apiId,
     required String functionId,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
-    ArgumentError.checkNotNull(functionId, 'functionId');
-    _s.validateStringLength(
-      'functionId',
-      functionId,
-      1,
-      65536,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -979,7 +826,6 @@ class AppSync {
   Future<GetGraphqlApiResponse> getGraphqlApi({
     required String apiId,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1010,8 +856,6 @@ class AppSync {
     required OutputType format,
     bool? includeDirectives,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
-    ArgumentError.checkNotNull(format, 'format');
     final $query = <String, List<String>>{
       'format': [format.toValue()],
       if (includeDirectives != null)
@@ -1048,23 +892,6 @@ class AppSync {
     required String fieldName,
     required String typeName,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
-    ArgumentError.checkNotNull(fieldName, 'fieldName');
-    _s.validateStringLength(
-      'fieldName',
-      fieldName,
-      1,
-      65536,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(typeName, 'typeName');
-    _s.validateStringLength(
-      'typeName',
-      typeName,
-      1,
-      65536,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1087,7 +914,6 @@ class AppSync {
   Future<GetSchemaCreationStatusResponse> getSchemaCreationStatus({
     required String apiId,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1118,16 +944,6 @@ class AppSync {
     required TypeDefinitionFormat format,
     required String typeName,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
-    ArgumentError.checkNotNull(format, 'format');
-    ArgumentError.checkNotNull(typeName, 'typeName');
-    _s.validateStringLength(
-      'typeName',
-      typeName,
-      1,
-      65536,
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       'format': [format.toValue()],
     };
@@ -1169,18 +985,11 @@ class AppSync {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
     _s.validateNumRange(
       'maxResults',
       maxResults,
       0,
       25,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      65536,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
@@ -1217,18 +1026,11 @@ class AppSync {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
     _s.validateNumRange(
       'maxResults',
       maxResults,
       0,
       25,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      65536,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
@@ -1265,18 +1067,11 @@ class AppSync {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
     _s.validateNumRange(
       'maxResults',
       maxResults,
       0,
       25,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      65536,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
@@ -1313,12 +1108,6 @@ class AppSync {
       maxResults,
       0,
       25,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      65536,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
@@ -1359,19 +1148,11 @@ class AppSync {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
-    ArgumentError.checkNotNull(typeName, 'typeName');
     _s.validateNumRange(
       'maxResults',
       maxResults,
       0,
       25,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      65536,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
@@ -1413,19 +1194,11 @@ class AppSync {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
-    ArgumentError.checkNotNull(functionId, 'functionId');
     _s.validateNumRange(
       'maxResults',
       maxResults,
       0,
       25,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      65536,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
@@ -1456,14 +1229,6 @@ class AppSync {
   Future<ListTagsForResourceResponse> listTagsForResource({
     required String resourceArn,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      70,
-      75,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1499,19 +1264,11 @@ class AppSync {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
-    ArgumentError.checkNotNull(format, 'format');
     _s.validateNumRange(
       'maxResults',
       maxResults,
       0,
       25,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      65536,
     );
     final $query = <String, List<String>>{
       'format': [format.toValue()],
@@ -1547,8 +1304,6 @@ class AppSync {
     required String apiId,
     required Uint8List definition,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
-    ArgumentError.checkNotNull(definition, 'definition');
     final $payload = <String, dynamic>{
       'definition': base64Encode(definition),
     };
@@ -1579,15 +1334,6 @@ class AppSync {
     required String resourceArn,
     required Map<String, String> tags,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      70,
-      75,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
       'tags': tags,
     };
@@ -1617,15 +1363,6 @@ class AppSync {
     required String resourceArn,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      70,
-      75,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
       'tagKeys': tagKeys,
     };
@@ -1732,10 +1469,6 @@ class AppSync {
     required int ttl,
     required ApiCacheType type,
   }) async {
-    ArgumentError.checkNotNull(apiCachingBehavior, 'apiCachingBehavior');
-    ArgumentError.checkNotNull(apiId, 'apiId');
-    ArgumentError.checkNotNull(ttl, 'ttl');
-    ArgumentError.checkNotNull(type, 'type');
     final $payload = <String, dynamic>{
       'apiCachingBehavior': apiCachingBehavior.toValue(),
       'ttl': ttl,
@@ -1777,8 +1510,6 @@ class AppSync {
     String? description,
     int? expires,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
-    ArgumentError.checkNotNull(id, 'id');
     final $payload = <String, dynamic>{
       if (description != null) 'description': description,
       if (expires != null) 'expires': expires,
@@ -1842,16 +1573,6 @@ class AppSync {
     RelationalDatabaseDataSourceConfig? relationalDatabaseConfig,
     String? serviceRoleArn,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      65536,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(type, 'type');
     final $payload = <String, dynamic>{
       'type': type.toValue(),
       if (description != null) 'description': description,
@@ -1916,44 +1637,6 @@ class AppSync {
     String? requestMappingTemplate,
     String? responseMappingTemplate,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
-    ArgumentError.checkNotNull(dataSourceName, 'dataSourceName');
-    _s.validateStringLength(
-      'dataSourceName',
-      dataSourceName,
-      1,
-      65536,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(functionId, 'functionId');
-    _s.validateStringLength(
-      'functionId',
-      functionId,
-      1,
-      65536,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(functionVersion, 'functionVersion');
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      65536,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'requestMappingTemplate',
-      requestMappingTemplate,
-      1,
-      65536,
-    );
-    _s.validateStringLength(
-      'responseMappingTemplate',
-      responseMappingTemplate,
-      1,
-      65536,
-    );
     final $payload = <String, dynamic>{
       'dataSourceName': dataSourceName,
       'functionVersion': functionVersion,
@@ -2020,8 +1703,6 @@ class AppSync {
     UserPoolConfig? userPoolConfig,
     bool? xrayEnabled,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
-    ArgumentError.checkNotNull(name, 'name');
     final $payload = <String, dynamic>{
       'name': name,
       if (additionalAuthenticationProviders != null)
@@ -2114,41 +1795,6 @@ class AppSync {
     String? responseMappingTemplate,
     SyncConfig? syncConfig,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
-    ArgumentError.checkNotNull(fieldName, 'fieldName');
-    _s.validateStringLength(
-      'fieldName',
-      fieldName,
-      1,
-      65536,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(typeName, 'typeName');
-    _s.validateStringLength(
-      'typeName',
-      typeName,
-      1,
-      65536,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'dataSourceName',
-      dataSourceName,
-      1,
-      65536,
-    );
-    _s.validateStringLength(
-      'requestMappingTemplate',
-      requestMappingTemplate,
-      1,
-      65536,
-    );
-    _s.validateStringLength(
-      'responseMappingTemplate',
-      responseMappingTemplate,
-      1,
-      65536,
-    );
     final $payload = <String, dynamic>{
       if (cachingConfig != null) 'cachingConfig': cachingConfig,
       if (dataSourceName != null) 'dataSourceName': dataSourceName,
@@ -2195,16 +1841,6 @@ class AppSync {
     required String typeName,
     String? definition,
   }) async {
-    ArgumentError.checkNotNull(apiId, 'apiId');
-    ArgumentError.checkNotNull(format, 'format');
-    ArgumentError.checkNotNull(typeName, 'typeName');
-    _s.validateStringLength(
-      'typeName',
-      typeName,
-      1,
-      65536,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'format': format.toValue(),
       if (definition != null) 'definition': definition,

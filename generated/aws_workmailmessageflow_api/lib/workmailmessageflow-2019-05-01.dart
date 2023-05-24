@@ -57,14 +57,6 @@ class WorkMailMessageFlow {
   Future<GetRawMessageContentResponse> getRawMessageContent({
     required String messageId,
   }) async {
-    ArgumentError.checkNotNull(messageId, 'messageId');
-    _s.validateStringLength(
-      'messageId',
-      messageId,
-      1,
-      120,
-      isRequired: true,
-    );
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',

@@ -51,7 +51,6 @@ class StringToStringMapsInQuerystring {
     required String pipelineId,
     Map<String, String>? queryDoc,
   }) async {
-    ArgumentError.checkNotNull(pipelineId, 'pipelineId');
     final $query = <String, List<String>>{
       if (queryDoc != null)
         for (var e in queryDoc.entries) e.key: [e.value],

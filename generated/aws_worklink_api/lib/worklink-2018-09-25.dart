@@ -83,29 +83,6 @@ class WorkLink {
     required String fleetArn,
     String? displayName,
   }) async {
-    ArgumentError.checkNotNull(acmCertificateArn, 'acmCertificateArn');
-    ArgumentError.checkNotNull(domainName, 'domainName');
-    _s.validateStringLength(
-      'domainName',
-      domainName,
-      1,
-      253,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(fleetArn, 'fleetArn');
-    _s.validateStringLength(
-      'fleetArn',
-      fleetArn,
-      20,
-      2048,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'displayName',
-      displayName,
-      0,
-      100,
-    );
     final $payload = <String, dynamic>{
       'AcmCertificateArn': acmCertificateArn,
       'DomainName': domainName,
@@ -146,22 +123,6 @@ class WorkLink {
     required String fleetArn,
     String? domainName,
   }) async {
-    ArgumentError.checkNotNull(
-        authorizationProviderType, 'authorizationProviderType');
-    ArgumentError.checkNotNull(fleetArn, 'fleetArn');
-    _s.validateStringLength(
-      'fleetArn',
-      fleetArn,
-      20,
-      2048,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'domainName',
-      domainName,
-      1,
-      253,
-    );
     final $payload = <String, dynamic>{
       'AuthorizationProviderType': authorizationProviderType.toValue(),
       'FleetArn': fleetArn,
@@ -201,28 +162,6 @@ class WorkLink {
     required String fleetArn,
     String? displayName,
   }) async {
-    ArgumentError.checkNotNull(certificate, 'certificate');
-    _s.validateStringLength(
-      'certificate',
-      certificate,
-      1,
-      8192,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(fleetArn, 'fleetArn');
-    _s.validateStringLength(
-      'fleetArn',
-      fleetArn,
-      20,
-      2048,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'displayName',
-      displayName,
-      0,
-      100,
-    );
     final $payload = <String, dynamic>{
       'Certificate': certificate,
       'FleetArn': fleetArn,
@@ -266,20 +205,6 @@ class WorkLink {
     bool? optimizeForEndUserLocation,
     Map<String, String>? tags,
   }) async {
-    ArgumentError.checkNotNull(fleetName, 'fleetName');
-    _s.validateStringLength(
-      'fleetName',
-      fleetName,
-      1,
-      48,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'displayName',
-      displayName,
-      0,
-      100,
-    );
     final $payload = <String, dynamic>{
       'FleetName': fleetName,
       if (displayName != null) 'DisplayName': displayName,
@@ -310,14 +235,6 @@ class WorkLink {
   Future<void> deleteFleet({
     required String fleetArn,
   }) async {
-    ArgumentError.checkNotNull(fleetArn, 'fleetArn');
-    _s.validateStringLength(
-      'fleetArn',
-      fleetArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'FleetArn': fleetArn,
     };
@@ -344,14 +261,6 @@ class WorkLink {
       describeAuditStreamConfiguration({
     required String fleetArn,
   }) async {
-    ArgumentError.checkNotNull(fleetArn, 'fleetArn');
-    _s.validateStringLength(
-      'fleetArn',
-      fleetArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'FleetArn': fleetArn,
     };
@@ -379,14 +288,6 @@ class WorkLink {
       describeCompanyNetworkConfiguration({
     required String fleetArn,
   }) async {
-    ArgumentError.checkNotNull(fleetArn, 'fleetArn');
-    _s.validateStringLength(
-      'fleetArn',
-      fleetArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'FleetArn': fleetArn,
     };
@@ -416,22 +317,6 @@ class WorkLink {
     required String deviceId,
     required String fleetArn,
   }) async {
-    ArgumentError.checkNotNull(deviceId, 'deviceId');
-    _s.validateStringLength(
-      'deviceId',
-      deviceId,
-      1,
-      256,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(fleetArn, 'fleetArn');
-    _s.validateStringLength(
-      'fleetArn',
-      fleetArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'DeviceId': deviceId,
       'FleetArn': fleetArn,
@@ -459,14 +344,6 @@ class WorkLink {
       describeDevicePolicyConfiguration({
     required String fleetArn,
   }) async {
-    ArgumentError.checkNotNull(fleetArn, 'fleetArn');
-    _s.validateStringLength(
-      'fleetArn',
-      fleetArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'FleetArn': fleetArn,
     };
@@ -496,22 +373,6 @@ class WorkLink {
     required String domainName,
     required String fleetArn,
   }) async {
-    ArgumentError.checkNotNull(domainName, 'domainName');
-    _s.validateStringLength(
-      'domainName',
-      domainName,
-      1,
-      253,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(fleetArn, 'fleetArn');
-    _s.validateStringLength(
-      'fleetArn',
-      fleetArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'DomainName': domainName,
       'FleetArn': fleetArn,
@@ -539,14 +400,6 @@ class WorkLink {
   Future<DescribeFleetMetadataResponse> describeFleetMetadata({
     required String fleetArn,
   }) async {
-    ArgumentError.checkNotNull(fleetArn, 'fleetArn');
-    _s.validateStringLength(
-      'fleetArn',
-      fleetArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'FleetArn': fleetArn,
     };
@@ -573,14 +426,6 @@ class WorkLink {
       describeIdentityProviderConfiguration({
     required String fleetArn,
   }) async {
-    ArgumentError.checkNotNull(fleetArn, 'fleetArn');
-    _s.validateStringLength(
-      'fleetArn',
-      fleetArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'FleetArn': fleetArn,
     };
@@ -611,22 +456,6 @@ class WorkLink {
     required String fleetArn,
     required String websiteCaId,
   }) async {
-    ArgumentError.checkNotNull(fleetArn, 'fleetArn');
-    _s.validateStringLength(
-      'fleetArn',
-      fleetArn,
-      20,
-      2048,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(websiteCaId, 'websiteCaId');
-    _s.validateStringLength(
-      'websiteCaId',
-      websiteCaId,
-      1,
-      256,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'FleetArn': fleetArn,
       'WebsiteCaId': websiteCaId,
@@ -658,22 +487,6 @@ class WorkLink {
     required String domainName,
     required String fleetArn,
   }) async {
-    ArgumentError.checkNotNull(domainName, 'domainName');
-    _s.validateStringLength(
-      'domainName',
-      domainName,
-      1,
-      253,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(fleetArn, 'fleetArn');
-    _s.validateStringLength(
-      'fleetArn',
-      fleetArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'DomainName': domainName,
       'FleetArn': fleetArn,
@@ -706,23 +519,6 @@ class WorkLink {
     required String authorizationProviderId,
     required String fleetArn,
   }) async {
-    ArgumentError.checkNotNull(
-        authorizationProviderId, 'authorizationProviderId');
-    _s.validateStringLength(
-      'authorizationProviderId',
-      authorizationProviderId,
-      1,
-      256,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(fleetArn, 'fleetArn');
-    _s.validateStringLength(
-      'fleetArn',
-      fleetArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'AuthorizationProviderId': authorizationProviderId,
       'FleetArn': fleetArn,
@@ -752,22 +548,6 @@ class WorkLink {
     required String fleetArn,
     required String websiteCaId,
   }) async {
-    ArgumentError.checkNotNull(fleetArn, 'fleetArn');
-    _s.validateStringLength(
-      'fleetArn',
-      fleetArn,
-      20,
-      2048,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(websiteCaId, 'websiteCaId');
-    _s.validateStringLength(
-      'websiteCaId',
-      websiteCaId,
-      1,
-      256,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'FleetArn': fleetArn,
       'WebsiteCaId': websiteCaId,
@@ -802,25 +582,11 @@ class WorkLink {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(fleetArn, 'fleetArn');
-    _s.validateStringLength(
-      'fleetArn',
-      fleetArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       1152921504606846976,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      4096,
     );
     final $payload = <String, dynamic>{
       'FleetArn': fleetArn,
@@ -858,25 +624,11 @@ class WorkLink {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(fleetArn, 'fleetArn');
-    _s.validateStringLength(
-      'fleetArn',
-      fleetArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       1152921504606846976,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      4096,
     );
     final $payload = <String, dynamic>{
       'FleetArn': fleetArn,
@@ -915,12 +667,6 @@ class WorkLink {
       1,
       1152921504606846976,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      4096,
-    );
     final $payload = <String, dynamic>{
       if (maxResults != null) 'MaxResults': maxResults,
       if (nextToken != null) 'NextToken': nextToken,
@@ -943,14 +689,6 @@ class WorkLink {
   Future<ListTagsForResourceResponse> listTagsForResource({
     required String resourceArn,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -984,25 +722,11 @@ class WorkLink {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(fleetArn, 'fleetArn');
-    _s.validateStringLength(
-      'fleetArn',
-      fleetArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       1152921504606846976,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      4096,
     );
     final $payload = <String, dynamic>{
       'FleetArn': fleetArn,
@@ -1041,25 +765,11 @@ class WorkLink {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(fleetArn, 'fleetArn');
-    _s.validateStringLength(
-      'fleetArn',
-      fleetArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       1152921504606846976,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      4096,
     );
     final $payload = <String, dynamic>{
       'FleetArn': fleetArn,
@@ -1092,22 +802,6 @@ class WorkLink {
     required String domainName,
     required String fleetArn,
   }) async {
-    ArgumentError.checkNotNull(domainName, 'domainName');
-    _s.validateStringLength(
-      'domainName',
-      domainName,
-      1,
-      253,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(fleetArn, 'fleetArn');
-    _s.validateStringLength(
-      'fleetArn',
-      fleetArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'DomainName': domainName,
       'FleetArn': fleetArn,
@@ -1137,22 +831,6 @@ class WorkLink {
     required String domainName,
     required String fleetArn,
   }) async {
-    ArgumentError.checkNotNull(domainName, 'domainName');
-    _s.validateStringLength(
-      'domainName',
-      domainName,
-      1,
-      253,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(fleetArn, 'fleetArn');
-    _s.validateStringLength(
-      'fleetArn',
-      fleetArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'DomainName': domainName,
       'FleetArn': fleetArn,
@@ -1183,22 +861,6 @@ class WorkLink {
     required String fleetArn,
     required String username,
   }) async {
-    ArgumentError.checkNotNull(fleetArn, 'fleetArn');
-    _s.validateStringLength(
-      'fleetArn',
-      fleetArn,
-      20,
-      2048,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(username, 'username');
-    _s.validateStringLength(
-      'username',
-      username,
-      1,
-      256,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'FleetArn': fleetArn,
       'Username': username,
@@ -1226,15 +888,6 @@ class WorkLink {
     required String resourceArn,
     required Map<String, String> tags,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      20,
-      2048,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
       'Tags': tags,
     };
@@ -1259,15 +912,6 @@ class WorkLink {
     required String resourceArn,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      20,
-      2048,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
       'tagKeys': tagKeys,
     };
@@ -1297,14 +941,6 @@ class WorkLink {
     required String fleetArn,
     String? auditStreamArn,
   }) async {
-    ArgumentError.checkNotNull(fleetArn, 'fleetArn');
-    _s.validateStringLength(
-      'fleetArn',
-      fleetArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'FleetArn': fleetArn,
       if (auditStreamArn != null) 'AuditStreamArn': auditStreamArn,
@@ -1343,17 +979,6 @@ class WorkLink {
     required List<String> subnetIds,
     required String vpcId,
   }) async {
-    ArgumentError.checkNotNull(fleetArn, 'fleetArn');
-    _s.validateStringLength(
-      'fleetArn',
-      fleetArn,
-      20,
-      2048,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(securityGroupIds, 'securityGroupIds');
-    ArgumentError.checkNotNull(subnetIds, 'subnetIds');
-    ArgumentError.checkNotNull(vpcId, 'vpcId');
     final $payload = <String, dynamic>{
       'FleetArn': fleetArn,
       'SecurityGroupIds': securityGroupIds,
@@ -1386,20 +1011,6 @@ class WorkLink {
     required String fleetArn,
     String? deviceCaCertificate,
   }) async {
-    ArgumentError.checkNotNull(fleetArn, 'fleetArn');
-    _s.validateStringLength(
-      'fleetArn',
-      fleetArn,
-      20,
-      2048,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'deviceCaCertificate',
-      deviceCaCertificate,
-      1,
-      32768,
-    );
     final $payload = <String, dynamic>{
       'FleetArn': fleetArn,
       if (deviceCaCertificate != null)
@@ -1434,28 +1045,6 @@ class WorkLink {
     required String fleetArn,
     String? displayName,
   }) async {
-    ArgumentError.checkNotNull(domainName, 'domainName');
-    _s.validateStringLength(
-      'domainName',
-      domainName,
-      1,
-      253,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(fleetArn, 'fleetArn');
-    _s.validateStringLength(
-      'fleetArn',
-      fleetArn,
-      20,
-      2048,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'displayName',
-      displayName,
-      0,
-      100,
-    );
     final $payload = <String, dynamic>{
       'DomainName': domainName,
       'FleetArn': fleetArn,
@@ -1492,20 +1081,6 @@ class WorkLink {
     String? displayName,
     bool? optimizeForEndUserLocation,
   }) async {
-    ArgumentError.checkNotNull(fleetArn, 'fleetArn');
-    _s.validateStringLength(
-      'fleetArn',
-      fleetArn,
-      20,
-      2048,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'displayName',
-      displayName,
-      0,
-      100,
-    );
     final $payload = <String, dynamic>{
       'FleetArn': fleetArn,
       if (displayName != null) 'DisplayName': displayName,
@@ -1542,21 +1117,6 @@ class WorkLink {
     required IdentityProviderType identityProviderType,
     String? identityProviderSamlMetadata,
   }) async {
-    ArgumentError.checkNotNull(fleetArn, 'fleetArn');
-    _s.validateStringLength(
-      'fleetArn',
-      fleetArn,
-      20,
-      2048,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(identityProviderType, 'identityProviderType');
-    _s.validateStringLength(
-      'identityProviderSamlMetadata',
-      identityProviderSamlMetadata,
-      1,
-      204800,
-    );
     final $payload = <String, dynamic>{
       'FleetArn': fleetArn,
       'IdentityProviderType': identityProviderType.toValue(),

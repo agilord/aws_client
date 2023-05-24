@@ -98,25 +98,11 @@ class Health {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(eventArn, 'eventArn');
-    _s.validateStringLength(
-      'eventArn',
-      eventArn,
-      0,
-      1600,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       10,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      4,
-      10000,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -180,24 +166,11 @@ class Health {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(filter, 'filter');
-    _s.validateStringLength(
-      'locale',
-      locale,
-      2,
-      256,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       10,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      4,
-      10000,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -267,25 +240,11 @@ class Health {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(
-        organizationEntityFilters, 'organizationEntityFilters');
-    _s.validateStringLength(
-      'locale',
-      locale,
-      2,
-      256,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       10,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      4,
-      10000,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -371,18 +330,11 @@ class Health {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(aggregateField, 'aggregateField');
     _s.validateNumRange(
       'maxResults',
       maxResults,
       10,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      4,
-      10000,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -432,13 +384,6 @@ class Health {
     required List<String> eventArns,
     String? locale,
   }) async {
-    ArgumentError.checkNotNull(eventArns, 'eventArns');
-    _s.validateStringLength(
-      'locale',
-      locale,
-      2,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHealth_20160804.DescribeEventDetails'
@@ -509,14 +454,6 @@ class Health {
     required List<EventAccountFilter> organizationEventDetailFilters,
     String? locale,
   }) async {
-    ArgumentError.checkNotNull(
-        organizationEventDetailFilters, 'organizationEventDetailFilters');
-    _s.validateStringLength(
-      'locale',
-      locale,
-      2,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHealth_20160804.DescribeEventDetailsForOrganization'
@@ -571,23 +508,11 @@ class Health {
     int? maxResults,
     String? nextToken,
   }) async {
-    _s.validateStringLength(
-      'locale',
-      locale,
-      2,
-      256,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       10,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      4,
-      10000,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -667,23 +592,11 @@ class Health {
     int? maxResults,
     String? nextToken,
   }) async {
-    _s.validateStringLength(
-      'locale',
-      locale,
-      2,
-      256,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       10,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      4,
-      10000,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -771,23 +684,11 @@ class Health {
     int? maxResults,
     String? nextToken,
   }) async {
-    _s.validateStringLength(
-      'locale',
-      locale,
-      2,
-      256,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       10,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      4,
-      10000,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',

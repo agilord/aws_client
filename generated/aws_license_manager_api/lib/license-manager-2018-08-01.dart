@@ -63,14 +63,6 @@ class LicenseManager {
   Future<AcceptGrantResponse> acceptGrant({
     required String grantArn,
   }) async {
-    ArgumentError.checkNotNull(grantArn, 'grantArn');
-    _s.validateStringLength(
-      'grantArn',
-      grantArn,
-      0,
-      2048,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSLicenseManager.AcceptGrant'
@@ -109,8 +101,6 @@ class LicenseManager {
     required String licenseConsumptionToken,
     String? beneficiary,
   }) async {
-    ArgumentError.checkNotNull(
-        licenseConsumptionToken, 'licenseConsumptionToken');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSLicenseManager.CheckInLicense'
@@ -171,25 +161,6 @@ class LicenseManager {
     List<Metadata>? checkoutMetadata,
     String? nodeId,
   }) async {
-    ArgumentError.checkNotNull(clientToken, 'clientToken');
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      0,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(
-        digitalSignatureMethod, 'digitalSignatureMethod');
-    ArgumentError.checkNotNull(entitlements, 'entitlements');
-    ArgumentError.checkNotNull(licenseArn, 'licenseArn');
-    _s.validateStringLength(
-      'licenseArn',
-      licenseArn,
-      0,
-      2048,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSLicenseManager.CheckoutBorrowLicense'
@@ -255,18 +226,6 @@ class LicenseManager {
     String? beneficiary,
     String? nodeId,
   }) async {
-    ArgumentError.checkNotNull(checkoutType, 'checkoutType');
-    ArgumentError.checkNotNull(clientToken, 'clientToken');
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      0,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(entitlements, 'entitlements');
-    ArgumentError.checkNotNull(keyFingerprint, 'keyFingerprint');
-    ArgumentError.checkNotNull(productSKU, 'productSKU');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSLicenseManager.CheckoutLicense'
@@ -328,19 +287,6 @@ class LicenseManager {
     required String licenseArn,
     required List<String> principals,
   }) async {
-    ArgumentError.checkNotNull(allowedOperations, 'allowedOperations');
-    ArgumentError.checkNotNull(clientToken, 'clientToken');
-    ArgumentError.checkNotNull(grantName, 'grantName');
-    ArgumentError.checkNotNull(homeRegion, 'homeRegion');
-    ArgumentError.checkNotNull(licenseArn, 'licenseArn');
-    _s.validateStringLength(
-      'licenseArn',
-      licenseArn,
-      0,
-      2048,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(principals, 'principals');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSLicenseManager.CreateGrant'
@@ -400,15 +346,6 @@ class LicenseManager {
     String? sourceVersion,
     GrantStatus? status,
   }) async {
-    ArgumentError.checkNotNull(clientToken, 'clientToken');
-    ArgumentError.checkNotNull(grantArn, 'grantArn');
-    _s.validateStringLength(
-      'grantArn',
-      grantArn,
-      0,
-      2048,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSLicenseManager.CreateGrantVersion'
@@ -493,17 +430,6 @@ class LicenseManager {
     required DatetimeRange validity,
     List<Metadata>? licenseMetadata,
   }) async {
-    ArgumentError.checkNotNull(beneficiary, 'beneficiary');
-    ArgumentError.checkNotNull(clientToken, 'clientToken');
-    ArgumentError.checkNotNull(
-        consumptionConfiguration, 'consumptionConfiguration');
-    ArgumentError.checkNotNull(entitlements, 'entitlements');
-    ArgumentError.checkNotNull(homeRegion, 'homeRegion');
-    ArgumentError.checkNotNull(issuer, 'issuer');
-    ArgumentError.checkNotNull(licenseName, 'licenseName');
-    ArgumentError.checkNotNull(productName, 'productName');
-    ArgumentError.checkNotNull(productSKU, 'productSKU');
-    ArgumentError.checkNotNull(validity, 'validity');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSLicenseManager.CreateLicense'
@@ -618,8 +544,6 @@ class LicenseManager {
     List<ProductInformation>? productInformationList,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(licenseCountingType, 'licenseCountingType');
-    ArgumentError.checkNotNull(name, 'name');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSLicenseManager.CreateLicenseConfiguration'
@@ -713,24 +637,6 @@ class LicenseManager {
     List<Metadata>? licenseMetadata,
     String? sourceVersion,
   }) async {
-    ArgumentError.checkNotNull(clientToken, 'clientToken');
-    ArgumentError.checkNotNull(
-        consumptionConfiguration, 'consumptionConfiguration');
-    ArgumentError.checkNotNull(entitlements, 'entitlements');
-    ArgumentError.checkNotNull(homeRegion, 'homeRegion');
-    ArgumentError.checkNotNull(issuer, 'issuer');
-    ArgumentError.checkNotNull(licenseArn, 'licenseArn');
-    _s.validateStringLength(
-      'licenseArn',
-      licenseArn,
-      0,
-      2048,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(licenseName, 'licenseName');
-    ArgumentError.checkNotNull(productName, 'productName');
-    ArgumentError.checkNotNull(status, 'status');
-    ArgumentError.checkNotNull(validity, 'validity');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSLicenseManager.CreateLicenseVersion'
@@ -800,22 +706,6 @@ class LicenseManager {
     List<String>? roleArns,
     List<String>? tokenProperties,
   }) async {
-    ArgumentError.checkNotNull(clientToken, 'clientToken');
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      0,
-      60,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(licenseArn, 'licenseArn');
-    _s.validateStringLength(
-      'licenseArn',
-      licenseArn,
-      0,
-      2048,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSLicenseManager.CreateToken'
@@ -857,15 +747,6 @@ class LicenseManager {
     required String grantArn,
     required String version,
   }) async {
-    ArgumentError.checkNotNull(grantArn, 'grantArn');
-    _s.validateStringLength(
-      'grantArn',
-      grantArn,
-      0,
-      2048,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(version, 'version');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSLicenseManager.DeleteGrant'
@@ -905,15 +786,6 @@ class LicenseManager {
     required String licenseArn,
     required String sourceVersion,
   }) async {
-    ArgumentError.checkNotNull(licenseArn, 'licenseArn');
-    _s.validateStringLength(
-      'licenseArn',
-      licenseArn,
-      0,
-      2048,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(sourceVersion, 'sourceVersion');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSLicenseManager.DeleteLicense'
@@ -948,8 +820,6 @@ class LicenseManager {
   Future<void> deleteLicenseConfiguration({
     required String licenseConfigurationArn,
   }) async {
-    ArgumentError.checkNotNull(
-        licenseConfigurationArn, 'licenseConfigurationArn');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSLicenseManager.DeleteLicenseConfiguration'
@@ -981,7 +851,6 @@ class LicenseManager {
   Future<void> deleteToken({
     required String tokenId,
   }) async {
-    ArgumentError.checkNotNull(tokenId, 'tokenId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSLicenseManager.DeleteToken'
@@ -1019,8 +888,6 @@ class LicenseManager {
     required String licenseConsumptionToken,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(
-        licenseConsumptionToken, 'licenseConsumptionToken');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSLicenseManager.ExtendLicenseConsumption'
@@ -1058,14 +925,6 @@ class LicenseManager {
     required String token,
     List<String>? tokenProperties,
   }) async {
-    ArgumentError.checkNotNull(token, 'token');
-    _s.validateStringLength(
-      'token',
-      token,
-      0,
-      4096,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSLicenseManager.GetAccessToken'
@@ -1104,14 +963,6 @@ class LicenseManager {
     required String grantArn,
     String? version,
   }) async {
-    ArgumentError.checkNotNull(grantArn, 'grantArn');
-    _s.validateStringLength(
-      'grantArn',
-      grantArn,
-      0,
-      2048,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSLicenseManager.GetGrant'
@@ -1149,14 +1000,6 @@ class LicenseManager {
     required String licenseArn,
     String? version,
   }) async {
-    ArgumentError.checkNotNull(licenseArn, 'licenseArn');
-    _s.validateStringLength(
-      'licenseArn',
-      licenseArn,
-      0,
-      2048,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSLicenseManager.GetLicense'
@@ -1189,8 +1032,6 @@ class LicenseManager {
   Future<GetLicenseConfigurationResponse> getLicenseConfiguration({
     required String licenseConfigurationArn,
   }) async {
-    ArgumentError.checkNotNull(
-        licenseConfigurationArn, 'licenseConfigurationArn');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSLicenseManager.GetLicenseConfiguration'
@@ -1223,14 +1064,6 @@ class LicenseManager {
   Future<GetLicenseUsageResponse> getLicenseUsage({
     required String licenseArn,
   }) async {
-    ArgumentError.checkNotNull(licenseArn, 'licenseArn');
-    _s.validateStringLength(
-      'licenseArn',
-      licenseArn,
-      0,
-      2048,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSLicenseManager.GetLicenseUsage'
@@ -1298,8 +1131,6 @@ class LicenseManager {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(
-        licenseConfigurationArn, 'licenseConfigurationArn');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -1413,8 +1244,6 @@ class LicenseManager {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(
-        licenseConfigurationArn, 'licenseConfigurationArn');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -1528,7 +1357,6 @@ class LicenseManager {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSLicenseManager.ListLicenseSpecificationsForResource'
@@ -1571,14 +1399,6 @@ class LicenseManager {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(licenseArn, 'licenseArn');
-    _s.validateStringLength(
-      'licenseArn',
-      licenseArn,
-      0,
-      2048,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1894,7 +1714,6 @@ class LicenseManager {
   Future<ListTagsForResourceResponse> listTagsForResource({
     required String resourceArn,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSLicenseManager.ListTagsForResource'
@@ -2020,8 +1839,6 @@ class LicenseManager {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(
-        licenseConfigurationArn, 'licenseConfigurationArn');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSLicenseManager.ListUsageForLicenseConfiguration'
@@ -2058,14 +1875,6 @@ class LicenseManager {
   Future<RejectGrantResponse> rejectGrant({
     required String grantArn,
   }) async {
-    ArgumentError.checkNotNull(grantArn, 'grantArn');
-    _s.validateStringLength(
-      'grantArn',
-      grantArn,
-      0,
-      2048,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSLicenseManager.RejectGrant'
@@ -2101,8 +1910,6 @@ class LicenseManager {
     required String resourceArn,
     required List<Tag> tags,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSLicenseManager.TagResource'
@@ -2137,8 +1944,6 @@ class LicenseManager {
     required String resourceArn,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSLicenseManager.UntagResource'
@@ -2203,8 +2008,6 @@ class LicenseManager {
     String? name,
     List<ProductInformation>? productInformationList,
   }) async {
-    ArgumentError.checkNotNull(
-        licenseConfigurationArn, 'licenseConfigurationArn');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSLicenseManager.UpdateLicenseConfiguration'
@@ -2262,7 +2065,6 @@ class LicenseManager {
     List<LicenseSpecification>? addLicenseSpecifications,
     List<LicenseSpecification>? removeLicenseSpecifications,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSLicenseManager.UpdateLicenseSpecificationsForResource'

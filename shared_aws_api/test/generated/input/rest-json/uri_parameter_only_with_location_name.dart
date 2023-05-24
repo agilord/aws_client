@@ -50,7 +50,6 @@ class URIParameterOnlyWithLocationName {
   Future<void> operationName0({
     required String foo,
   }) async {
-    ArgumentError.checkNotNull(foo, 'foo');
     await _protocol.send(
       payload: null,
       method: 'GET',

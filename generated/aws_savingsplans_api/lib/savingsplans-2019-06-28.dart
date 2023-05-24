@@ -90,8 +90,6 @@ class SavingsPlans {
     Map<String, String>? tags,
     String? upfrontPaymentAmount,
   }) async {
-    ArgumentError.checkNotNull(commitment, 'commitment');
-    ArgumentError.checkNotNull(savingsPlanOfferingId, 'savingsPlanOfferingId');
     final $payload = <String, dynamic>{
       'commitment': commitment,
       'savingsPlanOfferingId': savingsPlanOfferingId,
@@ -123,7 +121,6 @@ class SavingsPlans {
   Future<void> deleteQueuedSavingsPlan({
     required String savingsPlanId,
   }) async {
-    ArgumentError.checkNotNull(savingsPlanId, 'savingsPlanId');
     final $payload = <String, dynamic>{
       'savingsPlanId': savingsPlanId,
     };
@@ -158,18 +155,11 @@ class SavingsPlans {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(savingsPlanId, 'savingsPlanId');
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       1000,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      1024,
     );
     final $payload = <String, dynamic>{
       'savingsPlanId': savingsPlanId,
@@ -222,12 +212,6 @@ class SavingsPlans {
       maxResults,
       1,
       1000,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      1024,
     );
     final $payload = <String, dynamic>{
       if (filters != null) 'filters': filters,
@@ -299,12 +283,6 @@ class SavingsPlans {
       maxResults,
       0,
       1000,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      1024,
     );
     final $payload = <String, dynamic>{
       if (filters != null) 'filters': filters,
@@ -398,12 +376,6 @@ class SavingsPlans {
       0,
       1000,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      1024,
-    );
     final $payload = <String, dynamic>{
       if (currencies != null)
         'currencies': currencies.map((e) => e.toValue()).toList(),
@@ -442,7 +414,6 @@ class SavingsPlans {
   Future<ListTagsForResourceResponse> listTagsForResource({
     required String resourceArn,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final $payload = <String, dynamic>{
       'resourceArn': resourceArn,
     };
@@ -472,8 +443,6 @@ class SavingsPlans {
     required String resourceArn,
     required Map<String, String> tags,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
       'resourceArn': resourceArn,
       'tags': tags,
@@ -501,8 +470,6 @@ class SavingsPlans {
     required String resourceArn,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $payload = <String, dynamic>{
       'resourceArn': resourceArn,
       'tagKeys': tagKeys,

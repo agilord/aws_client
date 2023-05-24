@@ -263,7 +263,6 @@ class MQ {
     required String resourceArn,
     Map<String, String>? tags,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final $payload = <String, dynamic>{
       if (tags != null) 'tags': tags,
     };
@@ -311,8 +310,6 @@ class MQ {
     List<String>? groups,
     String? password,
   }) async {
-    ArgumentError.checkNotNull(brokerId, 'brokerId');
-    ArgumentError.checkNotNull(username, 'username');
     final $payload = <String, dynamic>{
       if (consoleAccess != null) 'consoleAccess': consoleAccess,
       if (groups != null) 'groups': groups,
@@ -339,7 +336,6 @@ class MQ {
   Future<DeleteBrokerResponse> deleteBroker({
     required String brokerId,
   }) async {
-    ArgumentError.checkNotNull(brokerId, 'brokerId');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -365,8 +361,6 @@ class MQ {
     required String resourceArn,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
       'tagKeys': tagKeys,
     };
@@ -397,8 +391,6 @@ class MQ {
     required String brokerId,
     required String username,
   }) async {
-    ArgumentError.checkNotNull(brokerId, 'brokerId');
-    ArgumentError.checkNotNull(username, 'username');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -423,7 +415,6 @@ class MQ {
   Future<DescribeBrokerResponse> describeBroker({
     required String brokerId,
   }) async {
-    ArgumentError.checkNotNull(brokerId, 'brokerId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -539,7 +530,6 @@ class MQ {
   Future<DescribeConfigurationResponse> describeConfiguration({
     required String configurationId,
   }) async {
-    ArgumentError.checkNotNull(configurationId, 'configurationId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -566,8 +556,6 @@ class MQ {
     required String configurationId,
     required String configurationRevision,
   }) async {
-    ArgumentError.checkNotNull(configurationId, 'configurationId');
-    ArgumentError.checkNotNull(configurationRevision, 'configurationRevision');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -596,8 +584,6 @@ class MQ {
     required String brokerId,
     required String username,
   }) async {
-    ArgumentError.checkNotNull(brokerId, 'brokerId');
-    ArgumentError.checkNotNull(username, 'username');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -667,7 +653,6 @@ class MQ {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(configurationId, 'configurationId');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -738,7 +723,6 @@ class MQ {
   Future<ListTagsResponse> listTags({
     required String resourceArn,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -770,7 +754,6 @@ class MQ {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(brokerId, 'brokerId');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -803,7 +786,6 @@ class MQ {
   Future<void> rebootBroker({
     required String brokerId,
   }) async {
-    ArgumentError.checkNotNull(brokerId, 'brokerId');
     final response = await _protocol.send(
       payload: null,
       method: 'POST',
@@ -865,7 +847,6 @@ class MQ {
     Logs? logs,
     List<String>? securityGroups,
   }) async {
-    ArgumentError.checkNotNull(brokerId, 'brokerId');
     final $payload = <String, dynamic>{
       if (authenticationStrategy != null)
         'authenticationStrategy': authenticationStrategy.toValue(),
@@ -908,7 +889,6 @@ class MQ {
     String? data,
     String? description,
   }) async {
-    ArgumentError.checkNotNull(configurationId, 'configurationId');
     final $payload = <String, dynamic>{
       if (data != null) 'data': data,
       if (description != null) 'description': description,
@@ -957,8 +937,6 @@ class MQ {
     List<String>? groups,
     String? password,
   }) async {
-    ArgumentError.checkNotNull(brokerId, 'brokerId');
-    ArgumentError.checkNotNull(username, 'username');
     final $payload = <String, dynamic>{
       if (consoleAccess != null) 'consoleAccess': consoleAccess,
       if (groups != null) 'groups': groups,

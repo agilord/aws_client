@@ -51,8 +51,6 @@ class GreedyKeys {
     required String bucket,
     required String key,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
-    ArgumentError.checkNotNull(key, 'key');
     await _protocol.send(
       method: 'GET',
       requestUri:

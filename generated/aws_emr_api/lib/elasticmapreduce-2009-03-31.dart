@@ -69,15 +69,6 @@ class EMR {
     required String clusterId,
     required InstanceFleetConfig instanceFleet,
   }) async {
-    ArgumentError.checkNotNull(clusterId, 'clusterId');
-    _s.validateStringLength(
-      'clusterId',
-      clusterId,
-      0,
-      256,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(instanceFleet, 'instanceFleet');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ElasticMapReduce.AddInstanceFleet'
@@ -110,15 +101,6 @@ class EMR {
     required List<InstanceGroupConfig> instanceGroups,
     required String jobFlowId,
   }) async {
-    ArgumentError.checkNotNull(instanceGroups, 'instanceGroups');
-    ArgumentError.checkNotNull(jobFlowId, 'jobFlowId');
-    _s.validateStringLength(
-      'jobFlowId',
-      jobFlowId,
-      0,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ElasticMapReduce.AddInstanceGroups'
@@ -178,15 +160,6 @@ class EMR {
     required String jobFlowId,
     required List<StepConfig> steps,
   }) async {
-    ArgumentError.checkNotNull(jobFlowId, 'jobFlowId');
-    _s.validateStringLength(
-      'jobFlowId',
-      jobFlowId,
-      0,
-      256,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(steps, 'steps');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ElasticMapReduce.AddJobFlowSteps'
@@ -228,8 +201,6 @@ class EMR {
     required String resourceId,
     required List<Tag> tags,
   }) async {
-    ArgumentError.checkNotNull(resourceId, 'resourceId');
-    ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ElasticMapReduce.AddTags'
@@ -273,15 +244,6 @@ class EMR {
     required List<String> stepIds,
     StepCancellationOption? stepCancellationOption,
   }) async {
-    ArgumentError.checkNotNull(clusterId, 'clusterId');
-    _s.validateStringLength(
-      'clusterId',
-      clusterId,
-      0,
-      256,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(stepIds, 'stepIds');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ElasticMapReduce.CancelSteps'
@@ -322,15 +284,6 @@ class EMR {
     required String name,
     required String securityConfiguration,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      0,
-      10280,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(securityConfiguration, 'securityConfiguration');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ElasticMapReduce.CreateSecurityConfiguration'
@@ -423,69 +376,6 @@ class EMR {
     String? description,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(authMode, 'authMode');
-    ArgumentError.checkNotNull(engineSecurityGroupId, 'engineSecurityGroupId');
-    _s.validateStringLength(
-      'engineSecurityGroupId',
-      engineSecurityGroupId,
-      0,
-      256,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      0,
-      256,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(serviceRole, 'serviceRole');
-    _s.validateStringLength(
-      'serviceRole',
-      serviceRole,
-      0,
-      10280,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(subnetIds, 'subnetIds');
-    ArgumentError.checkNotNull(userRole, 'userRole');
-    _s.validateStringLength(
-      'userRole',
-      userRole,
-      0,
-      10280,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(vpcId, 'vpcId');
-    _s.validateStringLength(
-      'vpcId',
-      vpcId,
-      0,
-      256,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(
-        workspaceSecurityGroupId, 'workspaceSecurityGroupId');
-    _s.validateStringLength(
-      'workspaceSecurityGroupId',
-      workspaceSecurityGroupId,
-      0,
-      256,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'defaultS3Location',
-      defaultS3Location,
-      0,
-      10280,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ElasticMapReduce.CreateStudio'
@@ -559,35 +449,6 @@ class EMR {
     String? identityId,
     String? identityName,
   }) async {
-    ArgumentError.checkNotNull(identityType, 'identityType');
-    ArgumentError.checkNotNull(sessionPolicyArn, 'sessionPolicyArn');
-    _s.validateStringLength(
-      'sessionPolicyArn',
-      sessionPolicyArn,
-      0,
-      256,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(studioId, 'studioId');
-    _s.validateStringLength(
-      'studioId',
-      studioId,
-      0,
-      256,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'identityId',
-      identityId,
-      0,
-      256,
-    );
-    _s.validateStringLength(
-      'identityName',
-      identityName,
-      0,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ElasticMapReduce.CreateStudioSessionMapping'
@@ -618,14 +479,6 @@ class EMR {
   Future<void> deleteSecurityConfiguration({
     required String name,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      0,
-      10280,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ElasticMapReduce.DeleteSecurityConfiguration'
@@ -656,14 +509,6 @@ class EMR {
   Future<void> deleteStudio({
     required String studioId,
   }) async {
-    ArgumentError.checkNotNull(studioId, 'studioId');
-    _s.validateStringLength(
-      'studioId',
-      studioId,
-      0,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ElasticMapReduce.DeleteStudio'
@@ -719,27 +564,6 @@ class EMR {
     String? identityId,
     String? identityName,
   }) async {
-    ArgumentError.checkNotNull(identityType, 'identityType');
-    ArgumentError.checkNotNull(studioId, 'studioId');
-    _s.validateStringLength(
-      'studioId',
-      studioId,
-      0,
-      256,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'identityId',
-      identityId,
-      0,
-      256,
-    );
-    _s.validateStringLength(
-      'identityName',
-      identityName,
-      0,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ElasticMapReduce.DeleteStudioSessionMapping'
@@ -770,7 +594,6 @@ class EMR {
   Future<DescribeClusterOutput> describeCluster({
     required String clusterId,
   }) async {
-    ArgumentError.checkNotNull(clusterId, 'clusterId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ElasticMapReduce.DescribeCluster'
@@ -870,14 +693,6 @@ class EMR {
   Future<DescribeNotebookExecutionOutput> describeNotebookExecution({
     required String notebookExecutionId,
   }) async {
-    ArgumentError.checkNotNull(notebookExecutionId, 'notebookExecutionId');
-    _s.validateStringLength(
-      'notebookExecutionId',
-      notebookExecutionId,
-      0,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ElasticMapReduce.DescribeNotebookExecution'
@@ -907,14 +722,6 @@ class EMR {
   Future<DescribeSecurityConfigurationOutput> describeSecurityConfiguration({
     required String name,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      0,
-      10280,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ElasticMapReduce.DescribeSecurityConfiguration'
@@ -947,8 +754,6 @@ class EMR {
     required String clusterId,
     required String stepId,
   }) async {
-    ArgumentError.checkNotNull(clusterId, 'clusterId');
-    ArgumentError.checkNotNull(stepId, 'stepId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ElasticMapReduce.DescribeStep'
@@ -983,14 +788,6 @@ class EMR {
   Future<DescribeStudioOutput> describeStudio({
     required String studioId,
   }) async {
-    ArgumentError.checkNotNull(studioId, 'studioId');
-    _s.validateStringLength(
-      'studioId',
-      studioId,
-      0,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ElasticMapReduce.DescribeStudio'
@@ -1042,7 +839,6 @@ class EMR {
   Future<GetManagedScalingPolicyOutput> getManagedScalingPolicy({
     required String clusterId,
   }) async {
-    ArgumentError.checkNotNull(clusterId, 'clusterId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ElasticMapReduce.GetManagedScalingPolicy'
@@ -1099,27 +895,6 @@ class EMR {
     String? identityId,
     String? identityName,
   }) async {
-    ArgumentError.checkNotNull(identityType, 'identityType');
-    ArgumentError.checkNotNull(studioId, 'studioId');
-    _s.validateStringLength(
-      'studioId',
-      studioId,
-      0,
-      256,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'identityId',
-      identityId,
-      0,
-      256,
-    );
-    _s.validateStringLength(
-      'identityName',
-      identityName,
-      0,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ElasticMapReduce.GetStudioSessionMapping'
@@ -1156,7 +931,6 @@ class EMR {
     required String clusterId,
     String? marker,
   }) async {
-    ArgumentError.checkNotNull(clusterId, 'clusterId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ElasticMapReduce.ListBootstrapActions'
@@ -1244,7 +1018,6 @@ class EMR {
     required String clusterId,
     String? marker,
   }) async {
-    ArgumentError.checkNotNull(clusterId, 'clusterId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ElasticMapReduce.ListInstanceFleets'
@@ -1278,7 +1051,6 @@ class EMR {
     required String clusterId,
     String? marker,
   }) async {
-    ArgumentError.checkNotNull(clusterId, 'clusterId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ElasticMapReduce.ListInstanceGroups'
@@ -1336,7 +1108,6 @@ class EMR {
     List<InstanceState>? instanceStates,
     String? marker,
   }) async {
-    ArgumentError.checkNotNull(clusterId, 'clusterId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ElasticMapReduce.ListInstances'
@@ -1442,12 +1213,6 @@ class EMR {
     NotebookExecutionStatus? status,
     DateTime? to,
   }) async {
-    _s.validateStringLength(
-      'editorId',
-      editorId,
-      0,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ElasticMapReduce.ListNotebookExecutions'
@@ -1528,7 +1293,6 @@ class EMR {
     List<String>? stepIds,
     List<StepState>? stepStates,
   }) async {
-    ArgumentError.checkNotNull(clusterId, 'clusterId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ElasticMapReduce.ListSteps'
@@ -1576,12 +1340,6 @@ class EMR {
     String? marker,
     String? studioId,
   }) async {
-    _s.validateStringLength(
-      'studioId',
-      studioId,
-      0,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ElasticMapReduce.ListStudioSessionMappings'
@@ -1652,7 +1410,6 @@ class EMR {
     required String clusterId,
     int? stepConcurrencyLevel,
   }) async {
-    ArgumentError.checkNotNull(clusterId, 'clusterId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ElasticMapReduce.ModifyCluster'
@@ -1693,8 +1450,6 @@ class EMR {
     required String clusterId,
     required InstanceFleetModifyConfig instanceFleet,
   }) async {
-    ArgumentError.checkNotNull(clusterId, 'clusterId');
-    ArgumentError.checkNotNull(instanceFleet, 'instanceFleet');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ElasticMapReduce.ModifyInstanceFleet'
@@ -1765,9 +1520,6 @@ class EMR {
     required String clusterId,
     required String instanceGroupId,
   }) async {
-    ArgumentError.checkNotNull(autoScalingPolicy, 'autoScalingPolicy');
-    ArgumentError.checkNotNull(clusterId, 'clusterId');
-    ArgumentError.checkNotNull(instanceGroupId, 'instanceGroupId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ElasticMapReduce.PutAutoScalingPolicy'
@@ -1819,8 +1571,6 @@ class EMR {
   Future<void> putBlockPublicAccessConfiguration({
     required BlockPublicAccessConfiguration blockPublicAccessConfiguration,
   }) async {
-    ArgumentError.checkNotNull(
-        blockPublicAccessConfiguration, 'blockPublicAccessConfiguration');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ElasticMapReduce.PutBlockPublicAccessConfiguration'
@@ -1853,8 +1603,6 @@ class EMR {
     required String clusterId,
     required ManagedScalingPolicy managedScalingPolicy,
   }) async {
-    ArgumentError.checkNotNull(clusterId, 'clusterId');
-    ArgumentError.checkNotNull(managedScalingPolicy, 'managedScalingPolicy');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ElasticMapReduce.PutManagedScalingPolicy'
@@ -1886,8 +1634,6 @@ class EMR {
     required String clusterId,
     required String instanceGroupId,
   }) async {
-    ArgumentError.checkNotNull(clusterId, 'clusterId');
-    ArgumentError.checkNotNull(instanceGroupId, 'instanceGroupId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ElasticMapReduce.RemoveAutoScalingPolicy'
@@ -1913,7 +1659,6 @@ class EMR {
   Future<void> removeManagedScalingPolicy({
     required String clusterId,
   }) async {
-    ArgumentError.checkNotNull(clusterId, 'clusterId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ElasticMapReduce.RemoveManagedScalingPolicy'
@@ -1952,8 +1697,6 @@ class EMR {
     required String resourceId,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(resourceId, 'resourceId');
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ElasticMapReduce.RemoveTags'
@@ -2242,75 +1985,6 @@ class EMR {
     List<Tag>? tags,
     bool? visibleToAllUsers,
   }) async {
-    ArgumentError.checkNotNull(instances, 'instances');
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      0,
-      256,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'additionalInfo',
-      additionalInfo,
-      0,
-      10280,
-    );
-    _s.validateStringLength(
-      'amiVersion',
-      amiVersion,
-      0,
-      256,
-    );
-    _s.validateStringLength(
-      'autoScalingRole',
-      autoScalingRole,
-      0,
-      10280,
-    );
-    _s.validateStringLength(
-      'customAmiId',
-      customAmiId,
-      0,
-      256,
-    );
-    _s.validateStringLength(
-      'jobFlowRole',
-      jobFlowRole,
-      0,
-      10280,
-    );
-    _s.validateStringLength(
-      'logEncryptionKmsKeyId',
-      logEncryptionKmsKeyId,
-      0,
-      10280,
-    );
-    _s.validateStringLength(
-      'logUri',
-      logUri,
-      0,
-      10280,
-    );
-    _s.validateStringLength(
-      'releaseLabel',
-      releaseLabel,
-      0,
-      256,
-    );
-    _s.validateStringLength(
-      'securityConfiguration',
-      securityConfiguration,
-      0,
-      10280,
-    );
-    _s.validateStringLength(
-      'serviceRole',
-      serviceRole,
-      0,
-      10280,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ElasticMapReduce.RunJobFlow'
@@ -2402,8 +2076,6 @@ class EMR {
     required List<String> jobFlowIds,
     required bool terminationProtected,
   }) async {
-    ArgumentError.checkNotNull(jobFlowIds, 'jobFlowIds');
-    ArgumentError.checkNotNull(terminationProtected, 'terminationProtected');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ElasticMapReduce.SetTerminationProtection'
@@ -2446,8 +2118,6 @@ class EMR {
     required List<String> jobFlowIds,
     required bool visibleToAllUsers,
   }) async {
-    ArgumentError.checkNotNull(jobFlowIds, 'jobFlowIds');
-    ArgumentError.checkNotNull(visibleToAllUsers, 'visibleToAllUsers');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ElasticMapReduce.SetVisibleToAllUsers'
@@ -2517,49 +2187,6 @@ class EMR {
     String? notebookParams,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(editorId, 'editorId');
-    _s.validateStringLength(
-      'editorId',
-      editorId,
-      0,
-      256,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(executionEngine, 'executionEngine');
-    ArgumentError.checkNotNull(relativePath, 'relativePath');
-    _s.validateStringLength(
-      'relativePath',
-      relativePath,
-      0,
-      10280,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(serviceRole, 'serviceRole');
-    _s.validateStringLength(
-      'serviceRole',
-      serviceRole,
-      0,
-      10280,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'notebookExecutionName',
-      notebookExecutionName,
-      0,
-      256,
-    );
-    _s.validateStringLength(
-      'notebookInstanceSecurityGroupId',
-      notebookInstanceSecurityGroupId,
-      0,
-      256,
-    );
-    _s.validateStringLength(
-      'notebookParams',
-      notebookParams,
-      0,
-      10280,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ElasticMapReduce.StartNotebookExecution'
@@ -2597,14 +2224,6 @@ class EMR {
   Future<void> stopNotebookExecution({
     required String notebookExecutionId,
   }) async {
-    ArgumentError.checkNotNull(notebookExecutionId, 'notebookExecutionId');
-    _s.validateStringLength(
-      'notebookExecutionId',
-      notebookExecutionId,
-      0,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ElasticMapReduce.StopNotebookExecution'
@@ -2640,7 +2259,6 @@ class EMR {
   Future<void> terminateJobFlows({
     required List<String> jobFlowIds,
   }) async {
-    ArgumentError.checkNotNull(jobFlowIds, 'jobFlowIds');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ElasticMapReduce.TerminateJobFlows'
@@ -2700,35 +2318,6 @@ class EMR {
     String? identityId,
     String? identityName,
   }) async {
-    ArgumentError.checkNotNull(identityType, 'identityType');
-    ArgumentError.checkNotNull(sessionPolicyArn, 'sessionPolicyArn');
-    _s.validateStringLength(
-      'sessionPolicyArn',
-      sessionPolicyArn,
-      0,
-      256,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(studioId, 'studioId');
-    _s.validateStringLength(
-      'studioId',
-      studioId,
-      0,
-      256,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'identityId',
-      identityId,
-      0,
-      256,
-    );
-    _s.validateStringLength(
-      'identityName',
-      identityName,
-      0,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ElasticMapReduce.UpdateStudioSessionMapping'

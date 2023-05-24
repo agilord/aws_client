@@ -85,11 +85,6 @@ class DirectConnect {
     required String proposalId,
     List<RouteFilterPrefix>? overrideAllowedPrefixesToDirectConnectGateway,
   }) async {
-    ArgumentError.checkNotNull(
-        associatedGatewayOwnerAccount, 'associatedGatewayOwnerAccount');
-    ArgumentError.checkNotNull(
-        directConnectGatewayId, 'directConnectGatewayId');
-    ArgumentError.checkNotNull(proposalId, 'proposalId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -155,11 +150,6 @@ class DirectConnect {
     required String ownerAccount,
     required int vlan,
   }) async {
-    ArgumentError.checkNotNull(bandwidth, 'bandwidth');
-    ArgumentError.checkNotNull(connectionName, 'connectionName');
-    ArgumentError.checkNotNull(interconnectId, 'interconnectId');
-    ArgumentError.checkNotNull(ownerAccount, 'ownerAccount');
-    ArgumentError.checkNotNull(vlan, 'vlan');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OvertureService.AllocateConnectionOnInterconnect'
@@ -228,11 +218,6 @@ class DirectConnect {
     required int vlan,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(bandwidth, 'bandwidth');
-    ArgumentError.checkNotNull(connectionId, 'connectionId');
-    ArgumentError.checkNotNull(connectionName, 'connectionName');
-    ArgumentError.checkNotNull(ownerAccount, 'ownerAccount');
-    ArgumentError.checkNotNull(vlan, 'vlan');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OvertureService.AllocateHostedConnection'
@@ -284,10 +269,6 @@ class DirectConnect {
         newPrivateVirtualInterfaceAllocation,
     required String ownerAccount,
   }) async {
-    ArgumentError.checkNotNull(connectionId, 'connectionId');
-    ArgumentError.checkNotNull(newPrivateVirtualInterfaceAllocation,
-        'newPrivateVirtualInterfaceAllocation');
-    ArgumentError.checkNotNull(ownerAccount, 'ownerAccount');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OvertureService.AllocatePrivateVirtualInterface'
@@ -344,10 +325,6 @@ class DirectConnect {
         newPublicVirtualInterfaceAllocation,
     required String ownerAccount,
   }) async {
-    ArgumentError.checkNotNull(connectionId, 'connectionId');
-    ArgumentError.checkNotNull(newPublicVirtualInterfaceAllocation,
-        'newPublicVirtualInterfaceAllocation');
-    ArgumentError.checkNotNull(ownerAccount, 'ownerAccount');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OvertureService.AllocatePublicVirtualInterface'
@@ -402,10 +379,6 @@ class DirectConnect {
         newTransitVirtualInterfaceAllocation,
     required String ownerAccount,
   }) async {
-    ArgumentError.checkNotNull(connectionId, 'connectionId');
-    ArgumentError.checkNotNull(newTransitVirtualInterfaceAllocation,
-        'newTransitVirtualInterfaceAllocation');
-    ArgumentError.checkNotNull(ownerAccount, 'ownerAccount');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OvertureService.AllocateTransitVirtualInterface'
@@ -458,8 +431,6 @@ class DirectConnect {
     required String connectionId,
     required String lagId,
   }) async {
-    ArgumentError.checkNotNull(connectionId, 'connectionId');
-    ArgumentError.checkNotNull(lagId, 'lagId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OvertureService.AssociateConnectionWithLag'
@@ -500,8 +471,6 @@ class DirectConnect {
     required String connectionId,
     required String parentConnectionId,
   }) async {
-    ArgumentError.checkNotNull(connectionId, 'connectionId');
-    ArgumentError.checkNotNull(parentConnectionId, 'parentConnectionId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OvertureService.AssociateHostedConnection'
@@ -548,8 +517,6 @@ class DirectConnect {
     required String connectionId,
     required String virtualInterfaceId,
   }) async {
-    ArgumentError.checkNotNull(connectionId, 'connectionId');
-    ArgumentError.checkNotNull(virtualInterfaceId, 'virtualInterfaceId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OvertureService.AssociateVirtualInterface'
@@ -584,7 +551,6 @@ class DirectConnect {
   Future<ConfirmConnectionResponse> confirmConnection({
     required String connectionId,
   }) async {
-    ArgumentError.checkNotNull(connectionId, 'connectionId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OvertureService.ConfirmConnection'
@@ -627,7 +593,6 @@ class DirectConnect {
     String? directConnectGatewayId,
     String? virtualGatewayId,
   }) async {
-    ArgumentError.checkNotNull(virtualInterfaceId, 'virtualInterfaceId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OvertureService.ConfirmPrivateVirtualInterface'
@@ -663,7 +628,6 @@ class DirectConnect {
   Future<ConfirmPublicVirtualInterfaceResponse> confirmPublicVirtualInterface({
     required String virtualInterfaceId,
   }) async {
-    ArgumentError.checkNotNull(virtualInterfaceId, 'virtualInterfaceId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OvertureService.ConfirmPublicVirtualInterface'
@@ -702,9 +666,6 @@ class DirectConnect {
     required String directConnectGatewayId,
     required String virtualInterfaceId,
   }) async {
-    ArgumentError.checkNotNull(
-        directConnectGatewayId, 'directConnectGatewayId');
-    ArgumentError.checkNotNull(virtualInterfaceId, 'virtualInterfaceId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OvertureService.ConfirmTransitVirtualInterface'
@@ -818,9 +779,6 @@ class DirectConnect {
     String? providerName,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(bandwidth, 'bandwidth');
-    ArgumentError.checkNotNull(connectionName, 'connectionName');
-    ArgumentError.checkNotNull(location, 'location');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OvertureService.CreateConnection'
@@ -868,8 +826,6 @@ class DirectConnect {
     required String directConnectGatewayName,
     int? amazonSideAsn,
   }) async {
-    ArgumentError.checkNotNull(
-        directConnectGatewayName, 'directConnectGatewayName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OvertureService.CreateDirectConnectGateway'
@@ -921,8 +877,6 @@ class DirectConnect {
     String? gatewayId,
     String? virtualGatewayId,
   }) async {
-    ArgumentError.checkNotNull(
-        directConnectGatewayId, 'directConnectGatewayId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OvertureService.CreateDirectConnectGatewayAssociation'
@@ -979,11 +933,6 @@ class DirectConnect {
     List<RouteFilterPrefix>? addAllowedPrefixesToDirectConnectGateway,
     List<RouteFilterPrefix>? removeAllowedPrefixesToDirectConnectGateway,
   }) async {
-    ArgumentError.checkNotNull(
-        directConnectGatewayId, 'directConnectGatewayId');
-    ArgumentError.checkNotNull(
-        directConnectGatewayOwnerAccount, 'directConnectGatewayOwnerAccount');
-    ArgumentError.checkNotNull(gatewayId, 'gatewayId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -1068,9 +1017,6 @@ class DirectConnect {
     String? providerName,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(bandwidth, 'bandwidth');
-    ArgumentError.checkNotNull(interconnectName, 'interconnectName');
-    ArgumentError.checkNotNull(location, 'location');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OvertureService.CreateInterconnect'
@@ -1161,10 +1107,6 @@ class DirectConnect {
     String? providerName,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(connectionsBandwidth, 'connectionsBandwidth');
-    ArgumentError.checkNotNull(lagName, 'lagName');
-    ArgumentError.checkNotNull(location, 'location');
-    ArgumentError.checkNotNull(numberOfConnections, 'numberOfConnections');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OvertureService.CreateLag'
@@ -1221,9 +1163,6 @@ class DirectConnect {
     required String connectionId,
     required NewPrivateVirtualInterface newPrivateVirtualInterface,
   }) async {
-    ArgumentError.checkNotNull(connectionId, 'connectionId');
-    ArgumentError.checkNotNull(
-        newPrivateVirtualInterface, 'newPrivateVirtualInterface');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OvertureService.CreatePrivateVirtualInterface'
@@ -1266,9 +1205,6 @@ class DirectConnect {
     required String connectionId,
     required NewPublicVirtualInterface newPublicVirtualInterface,
   }) async {
-    ArgumentError.checkNotNull(connectionId, 'connectionId');
-    ArgumentError.checkNotNull(
-        newPublicVirtualInterface, 'newPublicVirtualInterface');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OvertureService.CreatePublicVirtualInterface'
@@ -1321,9 +1257,6 @@ class DirectConnect {
     required String connectionId,
     required NewTransitVirtualInterface newTransitVirtualInterface,
   }) async {
-    ArgumentError.checkNotNull(connectionId, 'connectionId');
-    ArgumentError.checkNotNull(
-        newTransitVirtualInterface, 'newTransitVirtualInterface');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OvertureService.CreateTransitVirtualInterface'
@@ -1406,7 +1339,6 @@ class DirectConnect {
   Future<Connection> deleteConnection({
     required String connectionId,
   }) async {
-    ArgumentError.checkNotNull(connectionId, 'connectionId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OvertureService.DeleteConnection'
@@ -1438,8 +1370,6 @@ class DirectConnect {
   Future<DeleteDirectConnectGatewayResult> deleteDirectConnectGateway({
     required String directConnectGatewayId,
   }) async {
-    ArgumentError.checkNotNull(
-        directConnectGatewayId, 'directConnectGatewayId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OvertureService.DeleteDirectConnectGateway'
@@ -1518,7 +1448,6 @@ class DirectConnect {
       deleteDirectConnectGatewayAssociationProposal({
     required String proposalId,
   }) async {
-    ArgumentError.checkNotNull(proposalId, 'proposalId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -1552,7 +1481,6 @@ class DirectConnect {
   Future<DeleteInterconnectResponse> deleteInterconnect({
     required String interconnectId,
   }) async {
-    ArgumentError.checkNotNull(interconnectId, 'interconnectId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OvertureService.DeleteInterconnect'
@@ -1582,7 +1510,6 @@ class DirectConnect {
   Future<Lag> deleteLag({
     required String lagId,
   }) async {
-    ArgumentError.checkNotNull(lagId, 'lagId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OvertureService.DeleteLag'
@@ -1611,7 +1538,6 @@ class DirectConnect {
   Future<DeleteVirtualInterfaceResponse> deleteVirtualInterface({
     required String virtualInterfaceId,
   }) async {
-    ArgumentError.checkNotNull(virtualInterfaceId, 'virtualInterfaceId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OvertureService.DeleteVirtualInterface'
@@ -1663,7 +1589,6 @@ class DirectConnect {
     LoaContentType? loaContentType,
     String? providerName,
   }) async {
-    ArgumentError.checkNotNull(connectionId, 'connectionId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OvertureService.DescribeConnectionLoa'
@@ -1729,7 +1654,6 @@ class DirectConnect {
   Future<Connections> describeConnectionsOnInterconnect({
     required String interconnectId,
   }) async {
-    ArgumentError.checkNotNull(interconnectId, 'interconnectId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OvertureService.DescribeConnectionsOnInterconnect'
@@ -1994,7 +1918,6 @@ class DirectConnect {
   Future<Connections> describeHostedConnections({
     required String connectionId,
   }) async {
-    ArgumentError.checkNotNull(connectionId, 'connectionId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OvertureService.DescribeHostedConnections'
@@ -2044,7 +1967,6 @@ class DirectConnect {
     LoaContentType? loaContentType,
     String? providerName,
   }) async {
-    ArgumentError.checkNotNull(interconnectId, 'interconnectId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OvertureService.DescribeInterconnectLoa'
@@ -2151,7 +2073,6 @@ class DirectConnect {
     LoaContentType? loaContentType,
     String? providerName,
   }) async {
-    ArgumentError.checkNotNull(connectionId, 'connectionId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OvertureService.DescribeLoa'
@@ -2205,7 +2126,6 @@ class DirectConnect {
   Future<DescribeTagsResponse> describeTags({
     required List<String> resourceArns,
   }) async {
-    ArgumentError.checkNotNull(resourceArns, 'resourceArns');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OvertureService.DescribeTags'
@@ -2314,8 +2234,6 @@ class DirectConnect {
     required String connectionId,
     required String lagId,
   }) async {
-    ArgumentError.checkNotNull(connectionId, 'connectionId');
-    ArgumentError.checkNotNull(lagId, 'lagId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OvertureService.DisassociateConnectionFromLag'
@@ -2431,7 +2349,6 @@ class DirectConnect {
     List<String>? bgpPeers,
     int? testDurationInMinutes,
   }) async {
-    ArgumentError.checkNotNull(virtualInterfaceId, 'virtualInterfaceId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OvertureService.StartBgpFailoverTest'
@@ -2463,7 +2380,6 @@ class DirectConnect {
   Future<StopBgpFailoverTestResponse> stopBgpFailoverTest({
     required String virtualInterfaceId,
   }) async {
-    ArgumentError.checkNotNull(virtualInterfaceId, 'virtualInterfaceId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OvertureService.StopBgpFailoverTest'
@@ -2503,8 +2419,6 @@ class DirectConnect {
     required String resourceArn,
     required List<Tag> tags,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OvertureService.TagResource'
@@ -2536,8 +2450,6 @@ class DirectConnect {
     required String resourceArn,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OvertureService.UntagResource'
@@ -2640,7 +2552,6 @@ class DirectConnect {
     String? lagName,
     int? minimumLinks,
   }) async {
-    ArgumentError.checkNotNull(lagId, 'lagId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OvertureService.UpdateLag'
@@ -2685,7 +2596,6 @@ class DirectConnect {
     required String virtualInterfaceId,
     int? mtu,
   }) async {
-    ArgumentError.checkNotNull(virtualInterfaceId, 'virtualInterfaceId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OvertureService.UpdateVirtualInterfaceAttributes'

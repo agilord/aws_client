@@ -83,23 +83,6 @@ class IAM {
     required String clientID,
     required String openIDConnectProviderArn,
   }) async {
-    ArgumentError.checkNotNull(clientID, 'clientID');
-    _s.validateStringLength(
-      'clientID',
-      clientID,
-      1,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(
-        openIDConnectProviderArn, 'openIDConnectProviderArn');
-    _s.validateStringLength(
-      'openIDConnectProviderArn',
-      openIDConnectProviderArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['ClientID'] = clientID;
     $request['OpenIDConnectProviderArn'] = openIDConnectProviderArn;
@@ -164,22 +147,6 @@ class IAM {
     required String instanceProfileName,
     required String roleName,
   }) async {
-    ArgumentError.checkNotNull(instanceProfileName, 'instanceProfileName');
-    _s.validateStringLength(
-      'instanceProfileName',
-      instanceProfileName,
-      1,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(roleName, 'roleName');
-    _s.validateStringLength(
-      'roleName',
-      roleName,
-      1,
-      64,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['InstanceProfileName'] = instanceProfileName;
     $request['RoleName'] = roleName;
@@ -220,22 +187,6 @@ class IAM {
     required String groupName,
     required String userName,
   }) async {
-    ArgumentError.checkNotNull(groupName, 'groupName');
-    _s.validateStringLength(
-      'groupName',
-      groupName,
-      1,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['GroupName'] = groupName;
     $request['UserName'] = userName;
@@ -285,22 +236,6 @@ class IAM {
     required String groupName,
     required String policyArn,
   }) async {
-    ArgumentError.checkNotNull(groupName, 'groupName');
-    _s.validateStringLength(
-      'groupName',
-      groupName,
-      1,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(policyArn, 'policyArn');
-    _s.validateStringLength(
-      'policyArn',
-      policyArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['GroupName'] = groupName;
     $request['PolicyArn'] = policyArn;
@@ -357,22 +292,6 @@ class IAM {
     required String policyArn,
     required String roleName,
   }) async {
-    ArgumentError.checkNotNull(policyArn, 'policyArn');
-    _s.validateStringLength(
-      'policyArn',
-      policyArn,
-      20,
-      2048,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(roleName, 'roleName');
-    _s.validateStringLength(
-      'roleName',
-      roleName,
-      1,
-      64,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['PolicyArn'] = policyArn;
     $request['RoleName'] = roleName;
@@ -422,22 +341,6 @@ class IAM {
     required String policyArn,
     required String userName,
   }) async {
-    ArgumentError.checkNotNull(policyArn, 'policyArn');
-    _s.validateStringLength(
-      'policyArn',
-      policyArn,
-      20,
-      2048,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      64,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['PolicyArn'] = policyArn;
     $request['UserName'] = userName;
@@ -490,22 +393,6 @@ class IAM {
     required String newPassword,
     required String oldPassword,
   }) async {
-    ArgumentError.checkNotNull(newPassword, 'newPassword');
-    _s.validateStringLength(
-      'newPassword',
-      newPassword,
-      1,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(oldPassword, 'oldPassword');
-    _s.validateStringLength(
-      'oldPassword',
-      oldPassword,
-      1,
-      128,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['NewPassword'] = newPassword;
     $request['OldPassword'] = oldPassword;
@@ -557,12 +444,6 @@ class IAM {
   Future<CreateAccessKeyResponse> createAccessKey({
     String? userName,
   }) async {
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      128,
-    );
     final $request = <String, dynamic>{};
     userName?.also((arg) => $request['UserName'] = arg);
     final $result = await _protocol.send(
@@ -598,14 +479,6 @@ class IAM {
   Future<void> createAccountAlias({
     required String accountAlias,
   }) async {
-    ArgumentError.checkNotNull(accountAlias, 'accountAlias');
-    _s.validateStringLength(
-      'accountAlias',
-      accountAlias,
-      3,
-      63,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['AccountAlias'] = accountAlias;
     await _protocol.send(
@@ -658,20 +531,6 @@ class IAM {
     required String groupName,
     String? path,
   }) async {
-    ArgumentError.checkNotNull(groupName, 'groupName');
-    _s.validateStringLength(
-      'groupName',
-      groupName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'path',
-      path,
-      1,
-      512,
-    );
     final $request = <String, dynamic>{};
     $request['GroupName'] = groupName;
     path?.also((arg) => $request['Path'] = arg);
@@ -730,20 +589,6 @@ class IAM {
     required String instanceProfileName,
     String? path,
   }) async {
-    ArgumentError.checkNotNull(instanceProfileName, 'instanceProfileName');
-    _s.validateStringLength(
-      'instanceProfileName',
-      instanceProfileName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'path',
-      path,
-      1,
-      512,
-    );
     final $request = <String, dynamic>{};
     $request['InstanceProfileName'] = instanceProfileName;
     path?.also((arg) => $request['Path'] = arg);
@@ -804,22 +649,6 @@ class IAM {
     required String userName,
     bool? passwordResetRequired,
   }) async {
-    ArgumentError.checkNotNull(password, 'password');
-    _s.validateStringLength(
-      'password',
-      password,
-      1,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      64,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['Password'] = password;
     $request['UserName'] = userName;
@@ -928,15 +757,6 @@ class IAM {
     required String url,
     List<String>? clientIDList,
   }) async {
-    ArgumentError.checkNotNull(thumbprintList, 'thumbprintList');
-    ArgumentError.checkNotNull(url, 'url');
-    _s.validateStringLength(
-      'url',
-      url,
-      1,
-      255,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['ThumbprintList'] = thumbprintList;
     $request['Url'] = url;
@@ -1040,34 +860,6 @@ class IAM {
     String? description,
     String? path,
   }) async {
-    ArgumentError.checkNotNull(policyDocument, 'policyDocument');
-    _s.validateStringLength(
-      'policyDocument',
-      policyDocument,
-      1,
-      131072,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(policyName, 'policyName');
-    _s.validateStringLength(
-      'policyName',
-      policyName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1000,
-    );
-    _s.validateStringLength(
-      'path',
-      path,
-      1,
-      512,
-    );
     final $request = <String, dynamic>{};
     $request['PolicyDocument'] = policyDocument;
     $request['PolicyName'] = policyName;
@@ -1159,22 +951,6 @@ class IAM {
     required String policyDocument,
     bool? setAsDefault,
   }) async {
-    ArgumentError.checkNotNull(policyArn, 'policyArn');
-    _s.validateStringLength(
-      'policyArn',
-      policyArn,
-      20,
-      2048,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(policyDocument, 'policyDocument');
-    _s.validateStringLength(
-      'policyDocument',
-      policyDocument,
-      1,
-      131072,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['PolicyArn'] = policyArn;
     $request['PolicyDocument'] = policyDocument;
@@ -1306,46 +1082,11 @@ class IAM {
     String? permissionsBoundary,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(
-        assumeRolePolicyDocument, 'assumeRolePolicyDocument');
-    _s.validateStringLength(
-      'assumeRolePolicyDocument',
-      assumeRolePolicyDocument,
-      1,
-      131072,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(roleName, 'roleName');
-    _s.validateStringLength(
-      'roleName',
-      roleName,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1000,
-    );
     _s.validateNumRange(
       'maxSessionDuration',
       maxSessionDuration,
       3600,
       43200,
-    );
-    _s.validateStringLength(
-      'path',
-      path,
-      1,
-      512,
-    );
-    _s.validateStringLength(
-      'permissionsBoundary',
-      permissionsBoundary,
-      20,
-      2048,
     );
     final $request = <String, dynamic>{};
     $request['AssumeRolePolicyDocument'] = assumeRolePolicyDocument;
@@ -1423,22 +1164,6 @@ class IAM {
     required String name,
     required String sAMLMetadataDocument,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(sAMLMetadataDocument, 'sAMLMetadataDocument');
-    _s.validateStringLength(
-      'sAMLMetadataDocument',
-      sAMLMetadataDocument,
-      1000,
-      10000000,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['Name'] = name;
     $request['SAMLMetadataDocument'] = sAMLMetadataDocument;
@@ -1507,26 +1232,6 @@ class IAM {
     String? customSuffix,
     String? description,
   }) async {
-    ArgumentError.checkNotNull(awsServiceName, 'awsServiceName');
-    _s.validateStringLength(
-      'awsServiceName',
-      awsServiceName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'customSuffix',
-      customSuffix,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1000,
-    );
     final $request = <String, dynamic>{};
     $request['AWSServiceName'] = awsServiceName;
     customSuffix?.also((arg) => $request['CustomSuffix'] = arg);
@@ -1587,15 +1292,6 @@ class IAM {
     required String serviceName,
     required String userName,
   }) async {
-    ArgumentError.checkNotNull(serviceName, 'serviceName');
-    ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      64,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['ServiceName'] = serviceName;
     $request['UserName'] = userName;
@@ -1670,26 +1366,6 @@ class IAM {
     String? permissionsBoundary,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'path',
-      path,
-      1,
-      512,
-    );
-    _s.validateStringLength(
-      'permissionsBoundary',
-      permissionsBoundary,
-      20,
-      2048,
-    );
     final $request = <String, dynamic>{};
     $request['UserName'] = userName;
     path?.also((arg) => $request['Path'] = arg);
@@ -1761,20 +1437,6 @@ class IAM {
     required String virtualMFADeviceName,
     String? path,
   }) async {
-    ArgumentError.checkNotNull(virtualMFADeviceName, 'virtualMFADeviceName');
-    _s.validateStringLength(
-      'virtualMFADeviceName',
-      virtualMFADeviceName,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'path',
-      path,
-      1,
-      512,
-    );
     final $request = <String, dynamic>{};
     $request['VirtualMFADeviceName'] = virtualMFADeviceName;
     path?.also((arg) => $request['Path'] = arg);
@@ -1826,22 +1488,6 @@ class IAM {
     required String serialNumber,
     required String userName,
   }) async {
-    ArgumentError.checkNotNull(serialNumber, 'serialNumber');
-    _s.validateStringLength(
-      'serialNumber',
-      serialNumber,
-      9,
-      256,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['SerialNumber'] = serialNumber;
     $request['UserName'] = userName;
@@ -1888,20 +1534,6 @@ class IAM {
     required String accessKeyId,
     String? userName,
   }) async {
-    ArgumentError.checkNotNull(accessKeyId, 'accessKeyId');
-    _s.validateStringLength(
-      'accessKeyId',
-      accessKeyId,
-      16,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      128,
-    );
     final $request = <String, dynamic>{};
     $request['AccessKeyId'] = accessKeyId;
     userName?.also((arg) => $request['UserName'] = arg);
@@ -1936,14 +1568,6 @@ class IAM {
   Future<void> deleteAccountAlias({
     required String accountAlias,
   }) async {
-    ArgumentError.checkNotNull(accountAlias, 'accountAlias');
-    _s.validateStringLength(
-      'accountAlias',
-      accountAlias,
-      3,
-      63,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['AccountAlias'] = accountAlias;
     await _protocol.send(
@@ -1994,14 +1618,6 @@ class IAM {
   Future<void> deleteGroup({
     required String groupName,
   }) async {
-    ArgumentError.checkNotNull(groupName, 'groupName');
-    _s.validateStringLength(
-      'groupName',
-      groupName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['GroupName'] = groupName;
     await _protocol.send(
@@ -2049,22 +1665,6 @@ class IAM {
     required String groupName,
     required String policyName,
   }) async {
-    ArgumentError.checkNotNull(groupName, 'groupName');
-    _s.validateStringLength(
-      'groupName',
-      groupName,
-      1,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(policyName, 'policyName');
-    _s.validateStringLength(
-      'policyName',
-      policyName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['GroupName'] = groupName;
     $request['PolicyName'] = policyName;
@@ -2107,14 +1707,6 @@ class IAM {
   Future<void> deleteInstanceProfile({
     required String instanceProfileName,
   }) async {
-    ArgumentError.checkNotNull(instanceProfileName, 'instanceProfileName');
-    _s.validateStringLength(
-      'instanceProfileName',
-      instanceProfileName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['InstanceProfileName'] = instanceProfileName;
     await _protocol.send(
@@ -2154,14 +1746,6 @@ class IAM {
   Future<void> deleteLoginProfile({
     required String userName,
   }) async {
-    ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      64,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['UserName'] = userName;
     await _protocol.send(
@@ -2196,15 +1780,6 @@ class IAM {
   Future<void> deleteOpenIDConnectProvider({
     required String openIDConnectProviderArn,
   }) async {
-    ArgumentError.checkNotNull(
-        openIDConnectProviderArn, 'openIDConnectProviderArn');
-    _s.validateStringLength(
-      'openIDConnectProviderArn',
-      openIDConnectProviderArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['OpenIDConnectProviderArn'] = openIDConnectProviderArn;
     await _protocol.send(
@@ -2265,14 +1840,6 @@ class IAM {
   Future<void> deletePolicy({
     required String policyArn,
   }) async {
-    ArgumentError.checkNotNull(policyArn, 'policyArn');
-    _s.validateStringLength(
-      'policyArn',
-      policyArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['PolicyArn'] = policyArn;
     await _protocol.send(
@@ -2329,15 +1896,6 @@ class IAM {
     required String policyArn,
     required String versionId,
   }) async {
-    ArgumentError.checkNotNull(policyArn, 'policyArn');
-    _s.validateStringLength(
-      'policyArn',
-      policyArn,
-      20,
-      2048,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(versionId, 'versionId');
     final $request = <String, dynamic>{};
     $request['PolicyArn'] = policyArn;
     $request['VersionId'] = versionId;
@@ -2381,14 +1939,6 @@ class IAM {
   Future<void> deleteRole({
     required String roleName,
   }) async {
-    ArgumentError.checkNotNull(roleName, 'roleName');
-    _s.validateStringLength(
-      'roleName',
-      roleName,
-      1,
-      64,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['RoleName'] = roleName;
     await _protocol.send(
@@ -2420,14 +1970,6 @@ class IAM {
   Future<void> deleteRolePermissionsBoundary({
     required String roleName,
   }) async {
-    ArgumentError.checkNotNull(roleName, 'roleName');
-    _s.validateStringLength(
-      'roleName',
-      roleName,
-      1,
-      64,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['RoleName'] = roleName;
     await _protocol.send(
@@ -2476,22 +2018,6 @@ class IAM {
     required String policyName,
     required String roleName,
   }) async {
-    ArgumentError.checkNotNull(policyName, 'policyName');
-    _s.validateStringLength(
-      'policyName',
-      policyName,
-      1,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(roleName, 'roleName');
-    _s.validateStringLength(
-      'roleName',
-      roleName,
-      1,
-      64,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['PolicyName'] = policyName;
     $request['RoleName'] = roleName;
@@ -2529,14 +2055,6 @@ class IAM {
   Future<void> deleteSAMLProvider({
     required String sAMLProviderArn,
   }) async {
-    ArgumentError.checkNotNull(sAMLProviderArn, 'sAMLProviderArn');
-    _s.validateStringLength(
-      'sAMLProviderArn',
-      sAMLProviderArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['SAMLProviderArn'] = sAMLProviderArn;
     await _protocol.send(
@@ -2581,22 +2099,6 @@ class IAM {
     required String sSHPublicKeyId,
     required String userName,
   }) async {
-    ArgumentError.checkNotNull(sSHPublicKeyId, 'sSHPublicKeyId');
-    _s.validateStringLength(
-      'sSHPublicKeyId',
-      sSHPublicKeyId,
-      20,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      64,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['SSHPublicKeyId'] = sSHPublicKeyId;
     $request['UserName'] = userName;
@@ -2646,14 +2148,6 @@ class IAM {
   Future<void> deleteServerCertificate({
     required String serverCertificateName,
   }) async {
-    ArgumentError.checkNotNull(serverCertificateName, 'serverCertificateName');
-    _s.validateStringLength(
-      'serverCertificateName',
-      serverCertificateName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['ServerCertificateName'] = serverCertificateName;
     await _protocol.send(
@@ -2700,14 +2194,6 @@ class IAM {
   Future<DeleteServiceLinkedRoleResponse> deleteServiceLinkedRole({
     required String roleName,
   }) async {
-    ArgumentError.checkNotNull(roleName, 'roleName');
-    _s.validateStringLength(
-      'roleName',
-      roleName,
-      1,
-      64,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['RoleName'] = roleName;
     final $result = await _protocol.send(
@@ -2749,21 +2235,6 @@ class IAM {
     required String serviceSpecificCredentialId,
     String? userName,
   }) async {
-    ArgumentError.checkNotNull(
-        serviceSpecificCredentialId, 'serviceSpecificCredentialId');
-    _s.validateStringLength(
-      'serviceSpecificCredentialId',
-      serviceSpecificCredentialId,
-      20,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      64,
-    );
     final $request = <String, dynamic>{};
     $request['ServiceSpecificCredentialId'] = serviceSpecificCredentialId;
     userName?.also((arg) => $request['UserName'] = arg);
@@ -2809,20 +2280,6 @@ class IAM {
     required String certificateId,
     String? userName,
   }) async {
-    ArgumentError.checkNotNull(certificateId, 'certificateId');
-    _s.validateStringLength(
-      'certificateId',
-      certificateId,
-      24,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      128,
-    );
     final $request = <String, dynamic>{};
     $request['CertificateId'] = certificateId;
     userName?.also((arg) => $request['UserName'] = arg);
@@ -2892,14 +2349,6 @@ class IAM {
   Future<void> deleteUser({
     required String userName,
   }) async {
-    ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['UserName'] = userName;
     await _protocol.send(
@@ -2930,14 +2379,6 @@ class IAM {
   Future<void> deleteUserPermissionsBoundary({
     required String userName,
   }) async {
-    ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      64,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['UserName'] = userName;
     await _protocol.send(
@@ -2985,22 +2426,6 @@ class IAM {
     required String policyName,
     required String userName,
   }) async {
-    ArgumentError.checkNotNull(policyName, 'policyName');
-    _s.validateStringLength(
-      'policyName',
-      policyName,
-      1,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['PolicyName'] = policyName;
     $request['UserName'] = userName;
@@ -3039,14 +2464,6 @@ class IAM {
   Future<void> deleteVirtualMFADevice({
     required String serialNumber,
   }) async {
-    ArgumentError.checkNotNull(serialNumber, 'serialNumber');
-    _s.validateStringLength(
-      'serialNumber',
-      serialNumber,
-      9,
-      256,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['SerialNumber'] = serialNumber;
     await _protocol.send(
@@ -3094,22 +2511,6 @@ class IAM {
     required String groupName,
     required String policyArn,
   }) async {
-    ArgumentError.checkNotNull(groupName, 'groupName');
-    _s.validateStringLength(
-      'groupName',
-      groupName,
-      1,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(policyArn, 'policyArn');
-    _s.validateStringLength(
-      'policyArn',
-      policyArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['GroupName'] = groupName;
     $request['PolicyArn'] = policyArn;
@@ -3159,22 +2560,6 @@ class IAM {
     required String policyArn,
     required String roleName,
   }) async {
-    ArgumentError.checkNotNull(policyArn, 'policyArn');
-    _s.validateStringLength(
-      'policyArn',
-      policyArn,
-      20,
-      2048,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(roleName, 'roleName');
-    _s.validateStringLength(
-      'roleName',
-      roleName,
-      1,
-      64,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['PolicyArn'] = policyArn;
     $request['RoleName'] = roleName;
@@ -3223,22 +2608,6 @@ class IAM {
     required String policyArn,
     required String userName,
   }) async {
-    ArgumentError.checkNotNull(policyArn, 'policyArn');
-    _s.validateStringLength(
-      'policyArn',
-      policyArn,
-      20,
-      2048,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      64,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['PolicyArn'] = policyArn;
     $request['UserName'] = userName;
@@ -3315,38 +2684,6 @@ class IAM {
     required String serialNumber,
     required String userName,
   }) async {
-    ArgumentError.checkNotNull(authenticationCode1, 'authenticationCode1');
-    _s.validateStringLength(
-      'authenticationCode1',
-      authenticationCode1,
-      6,
-      6,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(authenticationCode2, 'authenticationCode2');
-    _s.validateStringLength(
-      'authenticationCode2',
-      authenticationCode2,
-      6,
-      6,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(serialNumber, 'serialNumber');
-    _s.validateStringLength(
-      'serialNumber',
-      serialNumber,
-      9,
-      256,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['AuthenticationCode1'] = authenticationCode1;
     $request['AuthenticationCode2'] = authenticationCode2;
@@ -3546,14 +2883,6 @@ class IAM {
     required String entityPath,
     String? organizationsPolicyId,
   }) async {
-    ArgumentError.checkNotNull(entityPath, 'entityPath');
-    _s.validateStringLength(
-      'entityPath',
-      entityPath,
-      19,
-      427,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['EntityPath'] = entityPath;
     organizationsPolicyId
@@ -3656,14 +2985,6 @@ class IAM {
     required String arn,
     AccessAdvisorUsageGranularityType? granularity,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      20,
-      2048,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['Arn'] = arn;
     granularity?.also((arg) => $request['Granularity'] = arg.toValue());
@@ -3695,14 +3016,6 @@ class IAM {
   Future<GetAccessKeyLastUsedResponse> getAccessKeyLastUsed({
     required String accessKeyId,
   }) async {
-    ArgumentError.checkNotNull(accessKeyId, 'accessKeyId');
-    _s.validateStringLength(
-      'accessKeyId',
-      accessKeyId,
-      16,
-      128,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['AccessKeyId'] = accessKeyId;
     final $result = await _protocol.send(
@@ -3770,12 +3083,6 @@ class IAM {
     String? marker,
     int? maxItems,
   }) async {
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
@@ -3888,7 +3195,6 @@ class IAM {
   Future<GetContextKeysForPolicyResponse> getContextKeysForCustomPolicy({
     required List<String> policyInputList,
   }) async {
-    ArgumentError.checkNotNull(policyInputList, 'policyInputList');
     final $request = <String, dynamic>{};
     $request['PolicyInputList'] = policyInputList;
     final $result = await _protocol.send(
@@ -3970,14 +3276,6 @@ class IAM {
     required String policySourceArn,
     List<String>? policyInputList,
   }) async {
-    ArgumentError.checkNotNull(policySourceArn, 'policySourceArn');
-    _s.validateStringLength(
-      'policySourceArn',
-      policySourceArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['PolicySourceArn'] = policySourceArn;
     policyInputList?.also((arg) => $request['PolicyInputList'] = arg);
@@ -4057,20 +3355,6 @@ class IAM {
     String? marker,
     int? maxItems,
   }) async {
-    ArgumentError.checkNotNull(groupName, 'groupName');
-    _s.validateStringLength(
-      'groupName',
-      groupName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
@@ -4136,22 +3420,6 @@ class IAM {
     required String groupName,
     required String policyName,
   }) async {
-    ArgumentError.checkNotNull(groupName, 'groupName');
-    _s.validateStringLength(
-      'groupName',
-      groupName,
-      1,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(policyName, 'policyName');
-    _s.validateStringLength(
-      'policyName',
-      policyName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['GroupName'] = groupName;
     $request['PolicyName'] = policyName;
@@ -4188,14 +3456,6 @@ class IAM {
   Future<GetInstanceProfileResponse> getInstanceProfile({
     required String instanceProfileName,
   }) async {
-    ArgumentError.checkNotNull(instanceProfileName, 'instanceProfileName');
-    _s.validateStringLength(
-      'instanceProfileName',
-      instanceProfileName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['InstanceProfileName'] = instanceProfileName;
     final $result = await _protocol.send(
@@ -4229,14 +3489,6 @@ class IAM {
   Future<GetLoginProfileResponse> getLoginProfile({
     required String userName,
   }) async {
-    ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      64,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['UserName'] = userName;
     final $result = await _protocol.send(
@@ -4272,15 +3524,6 @@ class IAM {
   Future<GetOpenIDConnectProviderResponse> getOpenIDConnectProvider({
     required String openIDConnectProviderArn,
   }) async {
-    ArgumentError.checkNotNull(
-        openIDConnectProviderArn, 'openIDConnectProviderArn');
-    _s.validateStringLength(
-      'openIDConnectProviderArn',
-      openIDConnectProviderArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['OpenIDConnectProviderArn'] = openIDConnectProviderArn;
     final $result = await _protocol.send(
@@ -4357,20 +3600,6 @@ class IAM {
     int? maxItems,
     SortKeyType? sortKey,
   }) async {
-    ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      36,
-      36,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
@@ -4428,14 +3657,6 @@ class IAM {
   Future<GetPolicyResponse> getPolicy({
     required String policyArn,
   }) async {
-    ArgumentError.checkNotNull(policyArn, 'policyArn');
-    _s.validateStringLength(
-      'policyArn',
-      policyArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['PolicyArn'] = policyArn;
     final $result = await _protocol.send(
@@ -4503,15 +3724,6 @@ class IAM {
     required String policyArn,
     required String versionId,
   }) async {
-    ArgumentError.checkNotNull(policyArn, 'policyArn');
-    _s.validateStringLength(
-      'policyArn',
-      policyArn,
-      20,
-      2048,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(versionId, 'versionId');
     final $request = <String, dynamic>{};
     $request['PolicyArn'] = policyArn;
     $request['VersionId'] = versionId;
@@ -4556,14 +3768,6 @@ class IAM {
   Future<GetRoleResponse> getRole({
     required String roleName,
   }) async {
-    ArgumentError.checkNotNull(roleName, 'roleName');
-    _s.validateStringLength(
-      'roleName',
-      roleName,
-      1,
-      64,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['RoleName'] = roleName;
     final $result = await _protocol.send(
@@ -4625,22 +3829,6 @@ class IAM {
     required String policyName,
     required String roleName,
   }) async {
-    ArgumentError.checkNotNull(policyName, 'policyName');
-    _s.validateStringLength(
-      'policyName',
-      policyName,
-      1,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(roleName, 'roleName');
-    _s.validateStringLength(
-      'roleName',
-      roleName,
-      1,
-      64,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['PolicyName'] = policyName;
     $request['RoleName'] = roleName;
@@ -4681,14 +3869,6 @@ class IAM {
   Future<GetSAMLProviderResponse> getSAMLProvider({
     required String sAMLProviderArn,
   }) async {
-    ArgumentError.checkNotNull(sAMLProviderArn, 'sAMLProviderArn');
-    _s.validateStringLength(
-      'sAMLProviderArn',
-      sAMLProviderArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['SAMLProviderArn'] = sAMLProviderArn;
     final $result = await _protocol.send(
@@ -4742,23 +3922,6 @@ class IAM {
     required String sSHPublicKeyId,
     required String userName,
   }) async {
-    ArgumentError.checkNotNull(encoding, 'encoding');
-    ArgumentError.checkNotNull(sSHPublicKeyId, 'sSHPublicKeyId');
-    _s.validateStringLength(
-      'sSHPublicKeyId',
-      sSHPublicKeyId,
-      20,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      64,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['Encoding'] = encoding.toValue();
     $request['SSHPublicKeyId'] = sSHPublicKeyId;
@@ -4799,14 +3962,6 @@ class IAM {
   Future<GetServerCertificateResponse> getServerCertificate({
     required String serverCertificateName,
   }) async {
-    ArgumentError.checkNotNull(serverCertificateName, 'serverCertificateName');
-    _s.validateStringLength(
-      'serverCertificateName',
-      serverCertificateName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['ServerCertificateName'] = serverCertificateName;
     final $result = await _protocol.send(
@@ -4915,20 +4070,6 @@ class IAM {
     String? marker,
     int? maxItems,
   }) async {
-    ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      36,
-      36,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
@@ -5028,28 +4169,6 @@ class IAM {
     String? marker,
     int? maxItems,
   }) async {
-    ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      36,
-      36,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(serviceNamespace, 'serviceNamespace');
-    _s.validateStringLength(
-      'serviceNamespace',
-      serviceNamespace,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
@@ -5095,14 +4214,6 @@ class IAM {
       getServiceLinkedRoleDeletionStatus({
     required String deletionTaskId,
   }) async {
-    ArgumentError.checkNotNull(deletionTaskId, 'deletionTaskId');
-    _s.validateStringLength(
-      'deletionTaskId',
-      deletionTaskId,
-      1,
-      1000,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['DeletionTaskId'] = deletionTaskId;
     final $result = await _protocol.send(
@@ -5139,12 +4250,6 @@ class IAM {
   Future<GetUserResponse> getUser({
     String? userName,
   }) async {
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      128,
-    );
     final $request = <String, dynamic>{};
     userName?.also((arg) => $request['UserName'] = arg);
     final $result = await _protocol.send(
@@ -5202,22 +4307,6 @@ class IAM {
     required String policyName,
     required String userName,
   }) async {
-    ArgumentError.checkNotNull(policyName, 'policyName');
-    _s.validateStringLength(
-      'policyName',
-      policyName,
-      1,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['PolicyName'] = policyName;
     $request['UserName'] = userName;
@@ -5286,23 +4375,11 @@ class IAM {
     int? maxItems,
     String? userName,
   }) async {
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
       1,
       1000,
-    );
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      128,
     );
     final $request = <String, dynamic>{};
     marker?.also((arg) => $request['Marker'] = arg);
@@ -5351,12 +4428,6 @@ class IAM {
     String? marker,
     int? maxItems,
   }) async {
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
@@ -5444,31 +4515,11 @@ class IAM {
     int? maxItems,
     String? pathPrefix,
   }) async {
-    ArgumentError.checkNotNull(groupName, 'groupName');
-    _s.validateStringLength(
-      'groupName',
-      groupName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
       1,
       1000,
-    );
-    _s.validateStringLength(
-      'pathPrefix',
-      pathPrefix,
-      1,
-      512,
     );
     final $request = <String, dynamic>{};
     $request['GroupName'] = groupName;
@@ -5553,31 +4604,11 @@ class IAM {
     int? maxItems,
     String? pathPrefix,
   }) async {
-    ArgumentError.checkNotNull(roleName, 'roleName');
-    _s.validateStringLength(
-      'roleName',
-      roleName,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
       1,
       1000,
-    );
-    _s.validateStringLength(
-      'pathPrefix',
-      pathPrefix,
-      1,
-      512,
     );
     final $request = <String, dynamic>{};
     $request['RoleName'] = roleName;
@@ -5662,31 +4693,11 @@ class IAM {
     int? maxItems,
     String? pathPrefix,
   }) async {
-    ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
       1,
       1000,
-    );
-    _s.validateStringLength(
-      'pathPrefix',
-      pathPrefix,
-      1,
-      512,
     );
     final $request = <String, dynamic>{};
     $request['UserName'] = userName;
@@ -5789,31 +4800,11 @@ class IAM {
     String? pathPrefix,
     PolicyUsageType? policyUsageFilter,
   }) async {
-    ArgumentError.checkNotNull(policyArn, 'policyArn');
-    _s.validateStringLength(
-      'policyArn',
-      policyArn,
-      20,
-      2048,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
       1,
       1000,
-    );
-    _s.validateStringLength(
-      'pathPrefix',
-      pathPrefix,
-      1,
-      512,
     );
     final $request = <String, dynamic>{};
     $request['PolicyArn'] = policyArn;
@@ -5885,20 +4876,6 @@ class IAM {
     String? marker,
     int? maxItems,
   }) async {
-    ArgumentError.checkNotNull(groupName, 'groupName');
-    _s.validateStringLength(
-      'groupName',
-      groupName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
@@ -5967,23 +4944,11 @@ class IAM {
     int? maxItems,
     String? pathPrefix,
   }) async {
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
       1,
       1000,
-    );
-    _s.validateStringLength(
-      'pathPrefix',
-      pathPrefix,
-      1,
-      512,
     );
     final $request = <String, dynamic>{};
     marker?.also((arg) => $request['Marker'] = arg);
@@ -6042,20 +5007,6 @@ class IAM {
     String? marker,
     int? maxItems,
   }) async {
-    ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
@@ -6128,23 +5079,11 @@ class IAM {
     int? maxItems,
     String? pathPrefix,
   }) async {
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
       1,
       1000,
-    );
-    _s.validateStringLength(
-      'pathPrefix',
-      pathPrefix,
-      1,
-      512,
     );
     final $request = <String, dynamic>{};
     marker?.also((arg) => $request['Marker'] = arg);
@@ -6207,20 +5146,6 @@ class IAM {
     String? marker,
     int? maxItems,
   }) async {
-    ArgumentError.checkNotNull(roleName, 'roleName');
-    _s.validateStringLength(
-      'roleName',
-      roleName,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
@@ -6288,23 +5213,11 @@ class IAM {
     int? maxItems,
     String? userName,
   }) async {
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
       1,
       1000,
-    );
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      128,
     );
     final $request = <String, dynamic>{};
     marker?.also((arg) => $request['Marker'] = arg);
@@ -6430,23 +5343,11 @@ class IAM {
     PolicyUsageType? policyUsageFilter,
     PolicyScopeType? scope,
   }) async {
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
       1,
       1000,
-    );
-    _s.validateStringLength(
-      'pathPrefix',
-      pathPrefix,
-      1,
-      512,
     );
     final $request = <String, dynamic>{};
     marker?.also((arg) => $request['Marker'] = arg);
@@ -6546,21 +5447,6 @@ class IAM {
     required List<String> serviceNamespaces,
     String? marker,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      20,
-      2048,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(serviceNamespaces, 'serviceNamespaces');
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
     final $request = <String, dynamic>{};
     $request['Arn'] = arn;
     $request['ServiceNamespaces'] = serviceNamespaces;
@@ -6623,20 +5509,6 @@ class IAM {
     String? marker,
     int? maxItems,
   }) async {
-    ArgumentError.checkNotNull(policyArn, 'policyArn');
-    _s.validateStringLength(
-      'policyArn',
-      policyArn,
-      20,
-      2048,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
@@ -6709,20 +5581,6 @@ class IAM {
     String? marker,
     int? maxItems,
   }) async {
-    ArgumentError.checkNotNull(roleName, 'roleName');
-    _s.validateStringLength(
-      'roleName',
-      roleName,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
@@ -6786,20 +5644,6 @@ class IAM {
     String? marker,
     int? maxItems,
   }) async {
-    ArgumentError.checkNotNull(roleName, 'roleName');
-    _s.validateStringLength(
-      'roleName',
-      roleName,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
@@ -6872,23 +5716,11 @@ class IAM {
     int? maxItems,
     String? pathPrefix,
   }) async {
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
       1,
       1000,
-    );
-    _s.validateStringLength(
-      'pathPrefix',
-      pathPrefix,
-      1,
-      512,
     );
     final $request = <String, dynamic>{};
     marker?.also((arg) => $request['Marker'] = arg);
@@ -6982,23 +5814,11 @@ class IAM {
     int? maxItems,
     String? userName,
   }) async {
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
       1,
       1000,
-    );
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      64,
     );
     final $request = <String, dynamic>{};
     marker?.also((arg) => $request['Marker'] = arg);
@@ -7069,23 +5889,11 @@ class IAM {
     int? maxItems,
     String? pathPrefix,
   }) async {
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
       1,
       1000,
-    );
-    _s.validateStringLength(
-      'pathPrefix',
-      pathPrefix,
-      1,
-      512,
     );
     final $request = <String, dynamic>{};
     marker?.also((arg) => $request['Marker'] = arg);
@@ -7136,12 +5944,6 @@ class IAM {
     String? serviceName,
     String? userName,
   }) async {
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      64,
-    );
     final $request = <String, dynamic>{};
     serviceName?.also((arg) => $request['ServiceName'] = arg);
     userName?.also((arg) => $request['UserName'] = arg);
@@ -7206,23 +6008,11 @@ class IAM {
     int? maxItems,
     String? userName,
   }) async {
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
       1,
       1000,
-    );
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      128,
     );
     final $request = <String, dynamic>{};
     marker?.also((arg) => $request['Marker'] = arg);
@@ -7289,20 +6079,6 @@ class IAM {
     String? marker,
     int? maxItems,
   }) async {
-    ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
@@ -7366,20 +6142,6 @@ class IAM {
     String? marker,
     int? maxItems,
   }) async {
-    ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
@@ -7450,23 +6212,11 @@ class IAM {
     int? maxItems,
     String? pathPrefix,
   }) async {
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
       1,
       1000,
-    );
-    _s.validateStringLength(
-      'pathPrefix',
-      pathPrefix,
-      1,
-      512,
     );
     final $request = <String, dynamic>{};
     marker?.also((arg) => $request['Marker'] = arg);
@@ -7523,12 +6273,6 @@ class IAM {
     String? marker,
     int? maxItems,
   }) async {
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
@@ -7627,30 +6371,6 @@ class IAM {
     required String policyDocument,
     required String policyName,
   }) async {
-    ArgumentError.checkNotNull(groupName, 'groupName');
-    _s.validateStringLength(
-      'groupName',
-      groupName,
-      1,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(policyDocument, 'policyDocument');
-    _s.validateStringLength(
-      'policyDocument',
-      policyDocument,
-      1,
-      131072,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(policyName, 'policyName');
-    _s.validateStringLength(
-      'policyName',
-      policyName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['GroupName'] = groupName;
     $request['PolicyDocument'] = policyDocument;
@@ -7699,22 +6419,6 @@ class IAM {
     required String permissionsBoundary,
     required String roleName,
   }) async {
-    ArgumentError.checkNotNull(permissionsBoundary, 'permissionsBoundary');
-    _s.validateStringLength(
-      'permissionsBoundary',
-      permissionsBoundary,
-      20,
-      2048,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(roleName, 'roleName');
-    _s.validateStringLength(
-      'roleName',
-      roleName,
-      1,
-      64,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['PermissionsBoundary'] = permissionsBoundary;
     $request['RoleName'] = roleName;
@@ -7812,30 +6516,6 @@ class IAM {
     required String policyName,
     required String roleName,
   }) async {
-    ArgumentError.checkNotNull(policyDocument, 'policyDocument');
-    _s.validateStringLength(
-      'policyDocument',
-      policyDocument,
-      1,
-      131072,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(policyName, 'policyName');
-    _s.validateStringLength(
-      'policyName',
-      policyName,
-      1,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(roleName, 'roleName');
-    _s.validateStringLength(
-      'roleName',
-      roleName,
-      1,
-      64,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['PolicyDocument'] = policyDocument;
     $request['PolicyName'] = policyName;
@@ -7881,22 +6561,6 @@ class IAM {
     required String permissionsBoundary,
     required String userName,
   }) async {
-    ArgumentError.checkNotNull(permissionsBoundary, 'permissionsBoundary');
-    _s.validateStringLength(
-      'permissionsBoundary',
-      permissionsBoundary,
-      20,
-      2048,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      64,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['PermissionsBoundary'] = permissionsBoundary;
     $request['UserName'] = userName;
@@ -7986,30 +6650,6 @@ class IAM {
     required String policyName,
     required String userName,
   }) async {
-    ArgumentError.checkNotNull(policyDocument, 'policyDocument');
-    _s.validateStringLength(
-      'policyDocument',
-      policyDocument,
-      1,
-      131072,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(policyName, 'policyName');
-    _s.validateStringLength(
-      'policyName',
-      policyName,
-      1,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['PolicyDocument'] = policyDocument;
     $request['PolicyName'] = policyName;
@@ -8055,23 +6695,6 @@ class IAM {
     required String clientID,
     required String openIDConnectProviderArn,
   }) async {
-    ArgumentError.checkNotNull(clientID, 'clientID');
-    _s.validateStringLength(
-      'clientID',
-      clientID,
-      1,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(
-        openIDConnectProviderArn, 'openIDConnectProviderArn');
-    _s.validateStringLength(
-      'openIDConnectProviderArn',
-      openIDConnectProviderArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['ClientID'] = clientID;
     $request['OpenIDConnectProviderArn'] = openIDConnectProviderArn;
@@ -8124,22 +6747,6 @@ class IAM {
     required String instanceProfileName,
     required String roleName,
   }) async {
-    ArgumentError.checkNotNull(instanceProfileName, 'instanceProfileName');
-    _s.validateStringLength(
-      'instanceProfileName',
-      instanceProfileName,
-      1,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(roleName, 'roleName');
-    _s.validateStringLength(
-      'roleName',
-      roleName,
-      1,
-      64,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['InstanceProfileName'] = instanceProfileName;
     $request['RoleName'] = roleName;
@@ -8180,22 +6787,6 @@ class IAM {
     required String groupName,
     required String userName,
   }) async {
-    ArgumentError.checkNotNull(groupName, 'groupName');
-    _s.validateStringLength(
-      'groupName',
-      groupName,
-      1,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['GroupName'] = groupName;
     $request['UserName'] = userName;
@@ -8239,21 +6830,6 @@ class IAM {
     required String serviceSpecificCredentialId,
     String? userName,
   }) async {
-    ArgumentError.checkNotNull(
-        serviceSpecificCredentialId, 'serviceSpecificCredentialId');
-    _s.validateStringLength(
-      'serviceSpecificCredentialId',
-      serviceSpecificCredentialId,
-      20,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      64,
-    );
     final $request = <String, dynamic>{};
     $request['ServiceSpecificCredentialId'] = serviceSpecificCredentialId;
     userName?.also((arg) => $request['UserName'] = arg);
@@ -8315,38 +6891,6 @@ class IAM {
     required String serialNumber,
     required String userName,
   }) async {
-    ArgumentError.checkNotNull(authenticationCode1, 'authenticationCode1');
-    _s.validateStringLength(
-      'authenticationCode1',
-      authenticationCode1,
-      6,
-      6,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(authenticationCode2, 'authenticationCode2');
-    _s.validateStringLength(
-      'authenticationCode2',
-      authenticationCode2,
-      6,
-      6,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(serialNumber, 'serialNumber');
-    _s.validateStringLength(
-      'serialNumber',
-      serialNumber,
-      9,
-      256,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['AuthenticationCode1'] = authenticationCode1;
     $request['AuthenticationCode2'] = authenticationCode2;
@@ -8399,15 +6943,6 @@ class IAM {
     required String policyArn,
     required String versionId,
   }) async {
-    ArgumentError.checkNotNull(policyArn, 'policyArn');
-    _s.validateStringLength(
-      'policyArn',
-      policyArn,
-      20,
-      2048,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(versionId, 'versionId');
     final $request = <String, dynamic>{};
     $request['PolicyArn'] = policyArn;
     $request['VersionId'] = versionId;
@@ -8465,8 +7000,6 @@ class IAM {
   Future<void> setSecurityTokenServicePreferences({
     required GlobalEndpointTokenVersion globalEndpointTokenVersion,
   }) async {
-    ArgumentError.checkNotNull(
-        globalEndpointTokenVersion, 'globalEndpointTokenVersion');
     final $request = <String, dynamic>{};
     $request['GlobalEndpointTokenVersion'] =
         globalEndpointTokenVersion.toValue();
@@ -8733,43 +7266,11 @@ class IAM {
     String? resourceOwner,
     String? resourcePolicy,
   }) async {
-    ArgumentError.checkNotNull(actionNames, 'actionNames');
-    ArgumentError.checkNotNull(policyInputList, 'policyInputList');
-    _s.validateStringLength(
-      'callerArn',
-      callerArn,
-      1,
-      2048,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
       1,
       1000,
-    );
-    _s.validateStringLength(
-      'resourceHandlingOption',
-      resourceHandlingOption,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'resourceOwner',
-      resourceOwner,
-      1,
-      2048,
-    );
-    _s.validateStringLength(
-      'resourcePolicy',
-      resourcePolicy,
-      1,
-      131072,
     );
     final $request = <String, dynamic>{};
     $request['ActionNames'] = actionNames;
@@ -9078,50 +7579,11 @@ class IAM {
     String? resourceOwner,
     String? resourcePolicy,
   }) async {
-    ArgumentError.checkNotNull(actionNames, 'actionNames');
-    ArgumentError.checkNotNull(policySourceArn, 'policySourceArn');
-    _s.validateStringLength(
-      'policySourceArn',
-      policySourceArn,
-      20,
-      2048,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'callerArn',
-      callerArn,
-      1,
-      2048,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      1,
-      320,
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
       1,
       1000,
-    );
-    _s.validateStringLength(
-      'resourceHandlingOption',
-      resourceHandlingOption,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'resourceOwner',
-      resourceOwner,
-      1,
-      2048,
-    );
-    _s.validateStringLength(
-      'resourcePolicy',
-      resourcePolicy,
-      1,
-      131072,
     );
     final $request = <String, dynamic>{};
     $request['ActionNames'] = actionNames;
@@ -9220,15 +7682,6 @@ class IAM {
     required String roleName,
     required List<Tag> tags,
   }) async {
-    ArgumentError.checkNotNull(roleName, 'roleName');
-    _s.validateStringLength(
-      'roleName',
-      roleName,
-      1,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(tags, 'tags');
     final $request = <String, dynamic>{};
     $request['RoleName'] = roleName;
     $request['Tags'] = tags;
@@ -9311,15 +7764,6 @@ class IAM {
     required List<Tag> tags,
     required String userName,
   }) async {
-    ArgumentError.checkNotNull(tags, 'tags');
-    ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['Tags'] = tags;
     $request['UserName'] = userName;
@@ -9360,15 +7804,6 @@ class IAM {
     required String roleName,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(roleName, 'roleName');
-    _s.validateStringLength(
-      'roleName',
-      roleName,
-      1,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $request = <String, dynamic>{};
     $request['RoleName'] = roleName;
     $request['TagKeys'] = tagKeys;
@@ -9409,15 +7844,6 @@ class IAM {
     required List<String> tagKeys,
     required String userName,
   }) async {
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['TagKeys'] = tagKeys;
     $request['UserName'] = userName;
@@ -9475,21 +7901,6 @@ class IAM {
     required StatusType status,
     String? userName,
   }) async {
-    ArgumentError.checkNotNull(accessKeyId, 'accessKeyId');
-    _s.validateStringLength(
-      'accessKeyId',
-      accessKeyId,
-      16,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(status, 'status');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      128,
-    );
     final $request = <String, dynamic>{};
     $request['AccessKeyId'] = accessKeyId;
     $request['Status'] = status.toValue();
@@ -9709,22 +8120,6 @@ class IAM {
     required String policyDocument,
     required String roleName,
   }) async {
-    ArgumentError.checkNotNull(policyDocument, 'policyDocument');
-    _s.validateStringLength(
-      'policyDocument',
-      policyDocument,
-      1,
-      131072,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(roleName, 'roleName');
-    _s.validateStringLength(
-      'roleName',
-      roleName,
-      1,
-      64,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['PolicyDocument'] = policyDocument;
     $request['RoleName'] = roleName;
@@ -9796,26 +8191,6 @@ class IAM {
     String? newGroupName,
     String? newPath,
   }) async {
-    ArgumentError.checkNotNull(groupName, 'groupName');
-    _s.validateStringLength(
-      'groupName',
-      groupName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'newGroupName',
-      newGroupName,
-      1,
-      128,
-    );
-    _s.validateStringLength(
-      'newPath',
-      newPath,
-      1,
-      512,
-    );
     final $request = <String, dynamic>{};
     $request['GroupName'] = groupName;
     newGroupName?.also((arg) => $request['NewGroupName'] = arg);
@@ -9886,20 +8261,6 @@ class IAM {
     String? password,
     bool? passwordResetRequired,
   }) async {
-    ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'password',
-      password,
-      1,
-      128,
-    );
     final $request = <String, dynamic>{};
     $request['UserName'] = userName;
     password?.also((arg) => $request['Password'] = arg);
@@ -9958,16 +8319,6 @@ class IAM {
     required String openIDConnectProviderArn,
     required List<String> thumbprintList,
   }) async {
-    ArgumentError.checkNotNull(
-        openIDConnectProviderArn, 'openIDConnectProviderArn');
-    _s.validateStringLength(
-      'openIDConnectProviderArn',
-      openIDConnectProviderArn,
-      20,
-      2048,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(thumbprintList, 'thumbprintList');
     final $request = <String, dynamic>{};
     $request['OpenIDConnectProviderArn'] = openIDConnectProviderArn;
     $request['ThumbprintList'] = thumbprintList;
@@ -10019,20 +8370,6 @@ class IAM {
     String? description,
     int? maxSessionDuration,
   }) async {
-    ArgumentError.checkNotNull(roleName, 'roleName');
-    _s.validateStringLength(
-      'roleName',
-      roleName,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1000,
-    );
     _s.validateNumRange(
       'maxSessionDuration',
       maxSessionDuration,
@@ -10075,22 +8412,6 @@ class IAM {
     required String description,
     required String roleName,
   }) async {
-    ArgumentError.checkNotNull(description, 'description');
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1000,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(roleName, 'roleName');
-    _s.validateStringLength(
-      'roleName',
-      roleName,
-      1,
-      64,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['Description'] = description;
     $request['RoleName'] = roleName;
@@ -10140,22 +8461,6 @@ class IAM {
     required String sAMLMetadataDocument,
     required String sAMLProviderArn,
   }) async {
-    ArgumentError.checkNotNull(sAMLMetadataDocument, 'sAMLMetadataDocument');
-    _s.validateStringLength(
-      'sAMLMetadataDocument',
-      sAMLMetadataDocument,
-      1000,
-      10000000,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(sAMLProviderArn, 'sAMLProviderArn');
-    _s.validateStringLength(
-      'sAMLProviderArn',
-      sAMLProviderArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['SAMLMetadataDocument'] = sAMLMetadataDocument;
     $request['SAMLProviderArn'] = sAMLProviderArn;
@@ -10212,23 +8517,6 @@ class IAM {
     required StatusType status,
     required String userName,
   }) async {
-    ArgumentError.checkNotNull(sSHPublicKeyId, 'sSHPublicKeyId');
-    _s.validateStringLength(
-      'sSHPublicKeyId',
-      sSHPublicKeyId,
-      20,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(status, 'status');
-    ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      64,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['SSHPublicKeyId'] = sSHPublicKeyId;
     $request['Status'] = status.toValue();
@@ -10310,26 +8598,6 @@ class IAM {
     String? newPath,
     String? newServerCertificateName,
   }) async {
-    ArgumentError.checkNotNull(serverCertificateName, 'serverCertificateName');
-    _s.validateStringLength(
-      'serverCertificateName',
-      serverCertificateName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'newPath',
-      newPath,
-      1,
-      512,
-    );
-    _s.validateStringLength(
-      'newServerCertificateName',
-      newServerCertificateName,
-      1,
-      128,
-    );
     final $request = <String, dynamic>{};
     $request['ServerCertificateName'] = serverCertificateName;
     newPath?.also((arg) => $request['NewPath'] = arg);
@@ -10379,22 +8647,6 @@ class IAM {
     required StatusType status,
     String? userName,
   }) async {
-    ArgumentError.checkNotNull(
-        serviceSpecificCredentialId, 'serviceSpecificCredentialId');
-    _s.validateStringLength(
-      'serviceSpecificCredentialId',
-      serviceSpecificCredentialId,
-      20,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(status, 'status');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      64,
-    );
     final $request = <String, dynamic>{};
     $request['ServiceSpecificCredentialId'] = serviceSpecificCredentialId;
     $request['Status'] = status.toValue();
@@ -10449,21 +8701,6 @@ class IAM {
     required StatusType status,
     String? userName,
   }) async {
-    ArgumentError.checkNotNull(certificateId, 'certificateId');
-    _s.validateStringLength(
-      'certificateId',
-      certificateId,
-      24,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(status, 'status');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      128,
-    );
     final $request = <String, dynamic>{};
     $request['CertificateId'] = certificateId;
     $request['Status'] = status.toValue();
@@ -10538,26 +8775,6 @@ class IAM {
     String? newPath,
     String? newUserName,
   }) async {
-    ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'newPath',
-      newPath,
-      1,
-      512,
-    );
-    _s.validateStringLength(
-      'newUserName',
-      newUserName,
-      1,
-      64,
-    );
     final $request = <String, dynamic>{};
     $request['UserName'] = userName;
     newPath?.also((arg) => $request['NewPath'] = arg);
@@ -10626,22 +8843,6 @@ class IAM {
     required String sSHPublicKeyBody,
     required String userName,
   }) async {
-    ArgumentError.checkNotNull(sSHPublicKeyBody, 'sSHPublicKeyBody');
-    _s.validateStringLength(
-      'sSHPublicKeyBody',
-      sSHPublicKeyBody,
-      1,
-      16384,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      64,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['SSHPublicKeyBody'] = sSHPublicKeyBody;
     $request['UserName'] = userName;
@@ -10803,42 +9004,6 @@ class IAM {
     String? certificateChain,
     String? path,
   }) async {
-    ArgumentError.checkNotNull(certificateBody, 'certificateBody');
-    _s.validateStringLength(
-      'certificateBody',
-      certificateBody,
-      1,
-      16384,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(privateKey, 'privateKey');
-    _s.validateStringLength(
-      'privateKey',
-      privateKey,
-      1,
-      16384,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(serverCertificateName, 'serverCertificateName');
-    _s.validateStringLength(
-      'serverCertificateName',
-      serverCertificateName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'certificateChain',
-      certificateChain,
-      1,
-      2097152,
-    );
-    _s.validateStringLength(
-      'path',
-      path,
-      1,
-      512,
-    );
     final $request = <String, dynamic>{};
     $request['CertificateBody'] = certificateBody;
     $request['PrivateKey'] = privateKey;
@@ -10922,20 +9087,6 @@ class IAM {
     required String certificateBody,
     String? userName,
   }) async {
-    ArgumentError.checkNotNull(certificateBody, 'certificateBody');
-    _s.validateStringLength(
-      'certificateBody',
-      certificateBody,
-      1,
-      16384,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      128,
-    );
     final $request = <String, dynamic>{};
     $request['CertificateBody'] = certificateBody;
     userName?.also((arg) => $request['UserName'] = arg);
