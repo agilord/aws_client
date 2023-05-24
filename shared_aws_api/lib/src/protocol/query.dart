@@ -3,10 +3,10 @@ import 'dart:typed_data';
 
 import 'package:http/http.dart';
 import 'package:meta/meta.dart';
-import 'package:shared_aws_api/src/model/shape.dart';
 import 'package:xml/xml.dart';
 
 import '../credentials.dart';
+import '../model/shape.dart';
 import '../utils/query_string.dart';
 import '_sign.dart';
 import 'endpoint.dart';
@@ -90,9 +90,9 @@ class QueryProtocol {
 
     if (elem.name.local == 'ErrorResponse') {
       final error = elem.findElements('Error').first;
-      final type = error.findElements('Type').first.text;
-      final code = error.findElements('Code').first.text;
-      final message = error.findElements('Message').first.text;
+      final type = error.findElements('Type').first.innerText;
+      final code = error.findElements('Code').first.innerText;
+      final message = error.findElements('Message').first.innerText;
       final fn = exceptionFnMap[code];
       final exception = fn != null
           ? fn(type, message)

@@ -1,6 +1,6 @@
 import 'package:aws_dynamodb_api/dynamodb-2012-08-10.dart';
-import 'package:document_client/src/translator.dart';
 import 'package:shared_aws_api/shared.dart';
+import 'src/translator.dart';
 
 export 'package:aws_dynamodb_api/dynamodb-2012-08-10.dart';
 

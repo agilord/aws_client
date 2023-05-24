@@ -86,17 +86,17 @@ class RestXmlProtocol {
 
       if (elem?.name.local == 'ErrorResponse') {
         final error = elem!.findElements('Error').first;
-        final type = error.findElements('Type').first.text;
-        final code = error.findElements('Code').first.text;
-        final message = error.findElements('Message').first.text;
+        final type = error.findElements('Type').first.innerText;
+        final code = error.findElements('Code').first.innerText;
+        final message = error.findElements('Message').first.innerText;
         final fn = exceptionFnMap[code];
         final exception = fn != null
             ? fn(type, message)
             : GenericAwsException(type: type, code: code, message: message);
         throw exception;
       } else if (elem?.name.local == 'Error') {
-        final code = elem!.findElements('Code').first.text;
-        final message = elem.findElements('Message').first.text;
+        final code = elem!.findElements('Code').first.innerText;
+        final message = elem.findElements('Message').first.innerText;
         throw GenericAwsException(code: code, message: message);
       } else {
         throwException(rs, body, exceptionFnMap);

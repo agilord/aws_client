@@ -16,7 +16,7 @@ abstract class MemberOrDescriptor {
 
 @JsonSerializable(createToJson: false, disallowUnrecognizedKeys: true)
 class Descriptor {
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   late Api api;
   final String shape;
   final String? resultWrapper;

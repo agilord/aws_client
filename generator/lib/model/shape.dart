@@ -10,19 +10,19 @@ part 'shape.g.dart';
 
 @JsonSerializable(createToJson: false, disallowUnrecognizedKeys: true)
 class Shape {
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   late Api api;
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   late String name;
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   bool isUsedInInput = false;
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   bool isTopLevelInputEnum = false;
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   bool isTopLevelOutputEnum = false;
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   bool isUsedInOutput = false;
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   bool excludeFactoryMethod = false;
   final String type;
   @JsonKey(name: 'enum')
@@ -195,11 +195,11 @@ class Shape {
 
 @JsonSerializable(createToJson: false, disallowUnrecognizedKeys: true)
 class Member {
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   late Api api;
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   late String name;
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   bool _isRequired = false;
   final String shape;
   final String? documentation;

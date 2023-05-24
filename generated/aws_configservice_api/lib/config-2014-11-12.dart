@@ -9056,10 +9056,10 @@ extension OrganizationConfigRuleTriggerTypeValueExtension
   String toValue() {
     switch (this) {
       case OrganizationConfigRuleTriggerType
-          .configurationItemChangeNotification:
+            .configurationItemChangeNotification:
         return 'ConfigurationItemChangeNotification';
       case OrganizationConfigRuleTriggerType
-          .oversizedConfigurationItemChangeNotification:
+            .oversizedConfigurationItemChangeNotification:
         return 'OversizedConfigurationItemChangeNotification';
       case OrganizationConfigRuleTriggerType.scheduledNotification:
         return 'ScheduledNotification';

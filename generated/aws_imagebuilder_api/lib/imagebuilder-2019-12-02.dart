@@ -5597,7 +5597,7 @@ extension PipelineExecutionStartConditionValueExtension
       case PipelineExecutionStartCondition.expressionMatchOnly:
         return 'EXPRESSION_MATCH_ONLY';
       case PipelineExecutionStartCondition
-          .expressionMatchAndDependencyUpdatesAvailable:
+            .expressionMatchAndDependencyUpdatesAvailable:
         return 'EXPRESSION_MATCH_AND_DEPENDENCY_UPDATES_AVAILABLE';
     }
   }

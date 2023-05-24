@@ -1,8 +1,8 @@
 import 'dart:io';
 
-import 'package:aws_credential_providers/src/ini/ini_file_loader.dart';
 import 'package:aws_sts_api/sts-2011-06-15.dart';
 import 'package:shared_aws_api/shared.dart';
+import 'ini_file_loader.dart';
 
 const _assumeRoleDefaultRegion = 'us-east-1';
 

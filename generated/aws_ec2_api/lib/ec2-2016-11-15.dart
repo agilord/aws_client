@@ -28323,7 +28323,7 @@ extension DeleteQueuedReservedInstancesErrorCodeValueExtension
       case DeleteQueuedReservedInstancesErrorCode.reservedInstancesIdInvalid:
         return 'reserved-instances-id-invalid';
       case DeleteQueuedReservedInstancesErrorCode
-          .reservedInstancesNotInQueuedState:
+            .reservedInstancesNotInQueuedState:
         return 'reserved-instances-not-in-queued-state';
       case DeleteQueuedReservedInstancesErrorCode.unexpectedError:
         return 'unexpected-error';
@@ -51718,16 +51718,16 @@ extension UnsuccessfulInstanceCreditSpecificationErrorCodeValueExtension
   String toValue() {
     switch (this) {
       case UnsuccessfulInstanceCreditSpecificationErrorCode
-          .invalidInstanceIDMalformed:
+            .invalidInstanceIDMalformed:
         return 'InvalidInstanceID.Malformed';
       case UnsuccessfulInstanceCreditSpecificationErrorCode
-          .invalidInstanceIDNotFound:
+            .invalidInstanceIDNotFound:
         return 'InvalidInstanceID.NotFound';
       case UnsuccessfulInstanceCreditSpecificationErrorCode
-          .incorrectInstanceState:
+            .incorrectInstanceState:
         return 'IncorrectInstanceState';
       case UnsuccessfulInstanceCreditSpecificationErrorCode
-          .instanceCreditSpecificationNotSupported:
+            .instanceCreditSpecificationNotSupported:
         return 'InstanceCreditSpecification.NotSupported';
     }
   }

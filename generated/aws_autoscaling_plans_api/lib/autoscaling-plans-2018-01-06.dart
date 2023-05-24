@@ -1053,13 +1053,13 @@ extension PredictiveScalingMaxCapacityBehaviorValueExtension
   String toValue() {
     switch (this) {
       case PredictiveScalingMaxCapacityBehavior
-          .setForecastCapacityToMaxCapacity:
+            .setForecastCapacityToMaxCapacity:
         return 'SetForecastCapacityToMaxCapacity';
       case PredictiveScalingMaxCapacityBehavior
-          .setMaxCapacityToForecastCapacity:
+            .setMaxCapacityToForecastCapacity:
         return 'SetMaxCapacityToForecastCapacity';
       case PredictiveScalingMaxCapacityBehavior
-          .setMaxCapacityAboveForecastCapacity:
+            .setMaxCapacityAboveForecastCapacity:
         return 'SetMaxCapacityAboveForecastCapacity';
     }
   }

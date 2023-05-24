@@ -87,7 +87,7 @@ XmlElement? extractXmlChild(XmlElement elem, String name) {
 
 String? extractXmlStringValue(XmlElement elem, String name) {
   final c = extractXmlChild(elem, name);
-  return c?.text;
+  return c?.innerText;
 }
 
 String? extractXmlStringAttribute(XmlElement elem, String name) {
@@ -130,7 +130,7 @@ Uint8List? extractXmlUint8ListValue(XmlElement elem, String name) {
 }
 
 List<String> extractXmlStringListValues(XmlElement elem, String name) {
-  return elem.findElements(name).map((e) => e.text).toList();
+  return elem.findElements(name).map((e) => e.innerText).toList();
 }
 
 List<bool> extractXmlBoolListValues(XmlElement elem, String name) {
