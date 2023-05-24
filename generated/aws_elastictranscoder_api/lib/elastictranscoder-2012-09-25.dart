@@ -71,7 +71,6 @@ class ElasticTranscoder {
   Future<void> cancelJob({
     required String id,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -150,13 +149,6 @@ class ElasticTranscoder {
     List<CreateJobPlaylist>? playlists,
     Map<String, String>? userMetadata,
   }) async {
-    ArgumentError.checkNotNull(pipelineId, 'pipelineId');
-    _s.validateStringLength(
-      'outputKeyPrefix',
-      outputKeyPrefix,
-      1,
-      255,
-    );
     final $payload = <String, dynamic>{
       'PipelineId': pipelineId,
       if (input != null) 'Input': input,
@@ -468,22 +460,6 @@ class ElasticTranscoder {
     String? outputBucket,
     PipelineOutputConfig? thumbnailConfig,
   }) async {
-    ArgumentError.checkNotNull(inputBucket, 'inputBucket');
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      40,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(role, 'role');
-    _s.validateStringLength(
-      'awsKmsKeyArn',
-      awsKmsKeyArn,
-      0,
-      255,
-    );
     final $payload = <String, dynamic>{
       'InputBucket': inputBucket,
       'Name': name,
@@ -559,21 +535,6 @@ class ElasticTranscoder {
     Thumbnails? thumbnails,
     VideoParameters? video,
   }) async {
-    ArgumentError.checkNotNull(container, 'container');
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      40,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      255,
-    );
     final $payload = <String, dynamic>{
       'Container': container,
       'Name': name,
@@ -609,7 +570,6 @@ class ElasticTranscoder {
   Future<void> deletePipeline({
     required String id,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -637,7 +597,6 @@ class ElasticTranscoder {
   Future<void> deletePreset({
     required String id,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -676,7 +635,6 @@ class ElasticTranscoder {
     String? ascending,
     String? pageToken,
   }) async {
-    ArgumentError.checkNotNull(pipelineId, 'pipelineId');
     final $query = <String, List<String>>{
       if (ascending != null) 'Ascending': [ascending],
       if (pageToken != null) 'PageToken': [pageToken],
@@ -722,7 +680,6 @@ class ElasticTranscoder {
     String? ascending,
     String? pageToken,
   }) async {
-    ArgumentError.checkNotNull(status, 'status');
     final $query = <String, List<String>>{
       if (ascending != null) 'Ascending': [ascending],
       if (pageToken != null) 'PageToken': [pageToken],
@@ -820,7 +777,6 @@ class ElasticTranscoder {
   Future<ReadJobResponse> readJob({
     required String id,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -843,7 +799,6 @@ class ElasticTranscoder {
   Future<ReadPipelineResponse> readPipeline({
     required String id,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -867,7 +822,6 @@ class ElasticTranscoder {
   Future<ReadPresetResponse> readPreset({
     required String id,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -914,10 +868,6 @@ class ElasticTranscoder {
     required String role,
     required List<String> topics,
   }) async {
-    ArgumentError.checkNotNull(inputBucket, 'inputBucket');
-    ArgumentError.checkNotNull(outputBucket, 'outputBucket');
-    ArgumentError.checkNotNull(role, 'role');
-    ArgumentError.checkNotNull(topics, 'topics');
     final $payload = <String, dynamic>{
       'InputBucket': inputBucket,
       'OutputBucket': outputBucket,
@@ -1195,19 +1145,6 @@ class ElasticTranscoder {
     String? role,
     PipelineOutputConfig? thumbnailConfig,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringLength(
-      'awsKmsKeyArn',
-      awsKmsKeyArn,
-      0,
-      255,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      40,
-    );
     final $payload = <String, dynamic>{
       if (awsKmsKeyArn != null) 'AwsKmsKeyArn': awsKmsKeyArn,
       if (contentConfig != null) 'ContentConfig': contentConfig,
@@ -1277,8 +1214,6 @@ class ElasticTranscoder {
     required String id,
     required Notifications notifications,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
-    ArgumentError.checkNotNull(notifications, 'notifications');
     final $payload = <String, dynamic>{
       'Notifications': notifications,
     };
@@ -1326,8 +1261,6 @@ class ElasticTranscoder {
     required String id,
     required String status,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
-    ArgumentError.checkNotNull(status, 'status');
     final $payload = <String, dynamic>{
       'Status': status,
     };

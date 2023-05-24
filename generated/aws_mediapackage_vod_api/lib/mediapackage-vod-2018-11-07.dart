@@ -79,10 +79,6 @@ class MediaPackageVod {
     String? resourceId,
     Map<String, String>? tags,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
-    ArgumentError.checkNotNull(packagingGroupId, 'packagingGroupId');
-    ArgumentError.checkNotNull(sourceArn, 'sourceArn');
-    ArgumentError.checkNotNull(sourceRoleArn, 'sourceRoleArn');
     final $payload = <String, dynamic>{
       'id': id,
       'packagingGroupId': packagingGroupId,
@@ -123,8 +119,6 @@ class MediaPackageVod {
     MssPackage? mssPackage,
     Map<String, String>? tags,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
-    ArgumentError.checkNotNull(packagingGroupId, 'packagingGroupId');
     final $payload = <String, dynamic>{
       'id': id,
       'packagingGroupId': packagingGroupId,
@@ -159,7 +153,6 @@ class MediaPackageVod {
     Authorization? authorization,
     Map<String, String>? tags,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
     final $payload = <String, dynamic>{
       'id': id,
       if (authorization != null) 'authorization': authorization,
@@ -188,7 +181,6 @@ class MediaPackageVod {
   Future<void> deleteAsset({
     required String id,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -211,7 +203,6 @@ class MediaPackageVod {
   Future<void> deletePackagingConfiguration({
     required String id,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -234,7 +225,6 @@ class MediaPackageVod {
   Future<void> deletePackagingGroup({
     required String id,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -257,7 +247,6 @@ class MediaPackageVod {
   Future<DescribeAssetResponse> describeAsset({
     required String id,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -283,7 +272,6 @@ class MediaPackageVod {
       describePackagingConfiguration({
     required String id,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -307,7 +295,6 @@ class MediaPackageVod {
   Future<DescribePackagingGroupResponse> describePackagingGroup({
     required String id,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -450,7 +437,6 @@ class MediaPackageVod {
   Future<ListTagsForResourceResponse> listTagsForResource({
     required String resourceArn,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -473,8 +459,6 @@ class MediaPackageVod {
     required String resourceArn,
     required Map<String, String> tags,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
       'tags': tags,
     };
@@ -499,8 +483,6 @@ class MediaPackageVod {
     required String resourceArn,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
       'tagKeys': tagKeys,
     };
@@ -529,7 +511,6 @@ class MediaPackageVod {
     required String id,
     Authorization? authorization,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
     final $payload = <String, dynamic>{
       if (authorization != null) 'authorization': authorization,
     };

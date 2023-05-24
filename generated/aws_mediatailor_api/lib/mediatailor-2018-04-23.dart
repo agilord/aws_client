@@ -64,7 +64,6 @@ class MediaTailor {
   Future<void> deletePlaybackConfiguration({
     required String name,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -80,7 +79,6 @@ class MediaTailor {
   Future<GetPlaybackConfigurationResponse> getPlaybackConfiguration({
     required String name,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -138,7 +136,6 @@ class MediaTailor {
   Future<ListTagsForResourceResponse> listTagsForResource({
     required String resourceArn,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -279,8 +276,6 @@ class MediaTailor {
     required String resourceArn,
     required Map<String, String> tags,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
       'tags': tags,
     };
@@ -308,8 +303,6 @@ class MediaTailor {
     required String resourceArn,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
       'tagKeys': tagKeys,
     };

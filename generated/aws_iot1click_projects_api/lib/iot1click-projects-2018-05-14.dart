@@ -75,38 +75,6 @@ class IoT1ClickProjects {
     required String placementName,
     required String projectName,
   }) async {
-    ArgumentError.checkNotNull(deviceId, 'deviceId');
-    _s.validateStringLength(
-      'deviceId',
-      deviceId,
-      1,
-      32,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(deviceTemplateName, 'deviceTemplateName');
-    _s.validateStringLength(
-      'deviceTemplateName',
-      deviceTemplateName,
-      1,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(placementName, 'placementName');
-    _s.validateStringLength(
-      'placementName',
-      placementName,
-      1,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(projectName, 'projectName');
-    _s.validateStringLength(
-      'projectName',
-      projectName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'deviceId': deviceId,
     };
@@ -140,22 +108,6 @@ class IoT1ClickProjects {
     required String projectName,
     Map<String, String>? attributes,
   }) async {
-    ArgumentError.checkNotNull(placementName, 'placementName');
-    _s.validateStringLength(
-      'placementName',
-      placementName,
-      1,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(projectName, 'projectName');
-    _s.validateStringLength(
-      'projectName',
-      projectName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'placementName': placementName,
       if (attributes != null) 'attributes': attributes,
@@ -201,20 +153,6 @@ class IoT1ClickProjects {
     PlacementTemplate? placementTemplate,
     Map<String, String>? tags,
   }) async {
-    ArgumentError.checkNotNull(projectName, 'projectName');
-    _s.validateStringLength(
-      'projectName',
-      projectName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      500,
-    );
     final $payload = <String, dynamic>{
       'projectName': projectName,
       if (description != null) 'description': description,
@@ -249,22 +187,6 @@ class IoT1ClickProjects {
     required String placementName,
     required String projectName,
   }) async {
-    ArgumentError.checkNotNull(placementName, 'placementName');
-    _s.validateStringLength(
-      'placementName',
-      placementName,
-      1,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(projectName, 'projectName');
-    _s.validateStringLength(
-      'projectName',
-      projectName,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -290,14 +212,6 @@ class IoT1ClickProjects {
   Future<void> deleteProject({
     required String projectName,
   }) async {
-    ArgumentError.checkNotNull(projectName, 'projectName');
-    _s.validateStringLength(
-      'projectName',
-      projectName,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -321,22 +235,6 @@ class IoT1ClickProjects {
     required String placementName,
     required String projectName,
   }) async {
-    ArgumentError.checkNotNull(placementName, 'placementName');
-    _s.validateStringLength(
-      'placementName',
-      placementName,
-      1,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(projectName, 'projectName');
-    _s.validateStringLength(
-      'projectName',
-      projectName,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -358,14 +256,6 @@ class IoT1ClickProjects {
   Future<DescribeProjectResponse> describeProject({
     required String projectName,
   }) async {
-    ArgumentError.checkNotNull(projectName, 'projectName');
-    _s.validateStringLength(
-      'projectName',
-      projectName,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -395,30 +285,6 @@ class IoT1ClickProjects {
     required String placementName,
     required String projectName,
   }) async {
-    ArgumentError.checkNotNull(deviceTemplateName, 'deviceTemplateName');
-    _s.validateStringLength(
-      'deviceTemplateName',
-      deviceTemplateName,
-      1,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(placementName, 'placementName');
-    _s.validateStringLength(
-      'placementName',
-      placementName,
-      1,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(projectName, 'projectName');
-    _s.validateStringLength(
-      'projectName',
-      projectName,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -443,22 +309,6 @@ class IoT1ClickProjects {
     required String placementName,
     required String projectName,
   }) async {
-    ArgumentError.checkNotNull(placementName, 'placementName');
-    _s.validateStringLength(
-      'placementName',
-      placementName,
-      1,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(projectName, 'projectName');
-    _s.validateStringLength(
-      'projectName',
-      projectName,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -489,25 +339,11 @@ class IoT1ClickProjects {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(projectName, 'projectName');
-    _s.validateStringLength(
-      'projectName',
-      projectName,
-      1,
-      128,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       250,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
@@ -545,12 +381,6 @@ class IoT1ClickProjects {
       1,
       250,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
-    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
@@ -577,7 +407,6 @@ class IoT1ClickProjects {
   Future<ListTagsForResourceResponse> listTagsForResource({
     required String resourceArn,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -609,8 +438,6 @@ class IoT1ClickProjects {
     required String resourceArn,
     required Map<String, String> tags,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
       'tags': tags,
     };
@@ -637,8 +464,6 @@ class IoT1ClickProjects {
     required String resourceArn,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
       'tagKeys': tagKeys,
     };
@@ -673,22 +498,6 @@ class IoT1ClickProjects {
     required String projectName,
     Map<String, String>? attributes,
   }) async {
-    ArgumentError.checkNotNull(placementName, 'placementName');
-    _s.validateStringLength(
-      'placementName',
-      placementName,
-      1,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(projectName, 'projectName');
-    _s.validateStringLength(
-      'projectName',
-      projectName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       if (attributes != null) 'attributes': attributes,
     };
@@ -728,20 +537,6 @@ class IoT1ClickProjects {
     String? description,
     PlacementTemplate? placementTemplate,
   }) async {
-    ArgumentError.checkNotNull(projectName, 'projectName');
-    _s.validateStringLength(
-      'projectName',
-      projectName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      500,
-    );
     final $payload = <String, dynamic>{
       if (description != null) 'description': description,
       if (placementTemplate != null) 'placementTemplate': placementTemplate,

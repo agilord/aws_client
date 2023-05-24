@@ -101,8 +101,6 @@ class SES {
     required String originalRuleSetName,
     required String ruleSetName,
   }) async {
-    ArgumentError.checkNotNull(originalRuleSetName, 'originalRuleSetName');
-    ArgumentError.checkNotNull(ruleSetName, 'ruleSetName');
     final $request = <String, dynamic>{};
     $request['OriginalRuleSetName'] = originalRuleSetName;
     $request['RuleSetName'] = ruleSetName;
@@ -137,7 +135,6 @@ class SES {
   Future<void> createConfigurationSet({
     required ConfigurationSet configurationSet,
   }) async {
-    ArgumentError.checkNotNull(configurationSet, 'configurationSet');
     final $request = <String, dynamic>{};
     $request['ConfigurationSet'] = configurationSet;
     await _protocol.send(
@@ -185,8 +182,6 @@ class SES {
     required String configurationSetName,
     required EventDestination eventDestination,
   }) async {
-    ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
-    ArgumentError.checkNotNull(eventDestination, 'eventDestination');
     final $request = <String, dynamic>{};
     $request['ConfigurationSetName'] = configurationSetName;
     $request['EventDestination'] = eventDestination;
@@ -224,8 +219,6 @@ class SES {
     required String configurationSetName,
     required TrackingOptions trackingOptions,
   }) async {
-    ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
-    ArgumentError.checkNotNull(trackingOptions, 'trackingOptions');
     final $request = <String, dynamic>{};
     $request['ConfigurationSetName'] = configurationSetName;
     $request['TrackingOptions'] = trackingOptions;
@@ -288,12 +281,6 @@ class SES {
     required String templateName,
     required String templateSubject,
   }) async {
-    ArgumentError.checkNotNull(failureRedirectionURL, 'failureRedirectionURL');
-    ArgumentError.checkNotNull(fromEmailAddress, 'fromEmailAddress');
-    ArgumentError.checkNotNull(successRedirectionURL, 'successRedirectionURL');
-    ArgumentError.checkNotNull(templateContent, 'templateContent');
-    ArgumentError.checkNotNull(templateName, 'templateName');
-    ArgumentError.checkNotNull(templateSubject, 'templateSubject');
     final $request = <String, dynamic>{};
     $request['FailureRedirectionURL'] = failureRedirectionURL;
     $request['FromEmailAddress'] = fromEmailAddress;
@@ -331,7 +318,6 @@ class SES {
   Future<void> createReceiptFilter({
     required ReceiptFilter filter,
   }) async {
-    ArgumentError.checkNotNull(filter, 'filter');
     final $request = <String, dynamic>{};
     $request['Filter'] = filter;
     await _protocol.send(
@@ -379,8 +365,6 @@ class SES {
     required String ruleSetName,
     String? after,
   }) async {
-    ArgumentError.checkNotNull(rule, 'rule');
-    ArgumentError.checkNotNull(ruleSetName, 'ruleSetName');
     final $request = <String, dynamic>{};
     $request['Rule'] = rule;
     $request['RuleSetName'] = ruleSetName;
@@ -427,7 +411,6 @@ class SES {
   Future<void> createReceiptRuleSet({
     required String ruleSetName,
   }) async {
-    ArgumentError.checkNotNull(ruleSetName, 'ruleSetName');
     final $request = <String, dynamic>{};
     $request['RuleSetName'] = ruleSetName;
     await _protocol.send(
@@ -461,7 +444,6 @@ class SES {
   Future<void> createTemplate({
     required Template template,
   }) async {
-    ArgumentError.checkNotNull(template, 'template');
     final $request = <String, dynamic>{};
     $request['Template'] = template;
     await _protocol.send(
@@ -492,7 +474,6 @@ class SES {
   Future<void> deleteConfigurationSet({
     required String configurationSetName,
   }) async {
-    ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
     final $request = <String, dynamic>{};
     $request['ConfigurationSetName'] = configurationSetName;
     await _protocol.send(
@@ -530,8 +511,6 @@ class SES {
     required String configurationSetName,
     required String eventDestinationName,
   }) async {
-    ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
-    ArgumentError.checkNotNull(eventDestinationName, 'eventDestinationName');
     final $request = <String, dynamic>{};
     $request['ConfigurationSetName'] = configurationSetName;
     $request['EventDestinationName'] = eventDestinationName;
@@ -572,7 +551,6 @@ class SES {
   Future<void> deleteConfigurationSetTrackingOptions({
     required String configurationSetName,
   }) async {
-    ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
     final $request = <String, dynamic>{};
     $request['ConfigurationSetName'] = configurationSetName;
     await _protocol.send(
@@ -603,7 +581,6 @@ class SES {
   Future<void> deleteCustomVerificationEmailTemplate({
     required String templateName,
   }) async {
-    ArgumentError.checkNotNull(templateName, 'templateName');
     final $request = <String, dynamic>{};
     $request['TemplateName'] = templateName;
     await _protocol.send(
@@ -629,7 +606,6 @@ class SES {
   Future<void> deleteIdentity({
     required String identity,
   }) async {
-    ArgumentError.checkNotNull(identity, 'identity');
     final $request = <String, dynamic>{};
     $request['Identity'] = identity;
     await _protocol.send(
@@ -675,15 +651,6 @@ class SES {
     required String identity,
     required String policyName,
   }) async {
-    ArgumentError.checkNotNull(identity, 'identity');
-    ArgumentError.checkNotNull(policyName, 'policyName');
-    _s.validateStringLength(
-      'policyName',
-      policyName,
-      1,
-      64,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['Identity'] = identity;
     $request['PolicyName'] = policyName;
@@ -713,7 +680,6 @@ class SES {
   Future<void> deleteReceiptFilter({
     required String filterName,
   }) async {
-    ArgumentError.checkNotNull(filterName, 'filterName');
     final $request = <String, dynamic>{};
     $request['FilterName'] = filterName;
     await _protocol.send(
@@ -748,8 +714,6 @@ class SES {
     required String ruleName,
     required String ruleSetName,
   }) async {
-    ArgumentError.checkNotNull(ruleName, 'ruleName');
-    ArgumentError.checkNotNull(ruleSetName, 'ruleSetName');
     final $request = <String, dynamic>{};
     $request['RuleName'] = ruleName;
     $request['RuleSetName'] = ruleSetName;
@@ -784,7 +748,6 @@ class SES {
   Future<void> deleteReceiptRuleSet({
     required String ruleSetName,
   }) async {
-    ArgumentError.checkNotNull(ruleSetName, 'ruleSetName');
     final $request = <String, dynamic>{};
     $request['RuleSetName'] = ruleSetName;
     await _protocol.send(
@@ -809,7 +772,6 @@ class SES {
   Future<void> deleteTemplate({
     required String templateName,
   }) async {
-    ArgumentError.checkNotNull(templateName, 'templateName');
     final $request = <String, dynamic>{};
     $request['TemplateName'] = templateName;
     await _protocol.send(
@@ -833,7 +795,6 @@ class SES {
   Future<void> deleteVerifiedEmailAddress({
     required String emailAddress,
   }) async {
-    ArgumentError.checkNotNull(emailAddress, 'emailAddress');
     final $request = <String, dynamic>{};
     $request['EmailAddress'] = emailAddress;
     await _protocol.send(
@@ -891,7 +852,6 @@ class SES {
     required String configurationSetName,
     List<ConfigurationSetAttribute>? configurationSetAttributeNames,
   }) async {
-    ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
     final $request = <String, dynamic>{};
     $request['ConfigurationSetName'] = configurationSetName;
     configurationSetAttributeNames?.also((arg) =>
@@ -931,8 +891,6 @@ class SES {
     required String ruleName,
     required String ruleSetName,
   }) async {
-    ArgumentError.checkNotNull(ruleName, 'ruleName');
-    ArgumentError.checkNotNull(ruleSetName, 'ruleSetName');
     final $request = <String, dynamic>{};
     $request['RuleName'] = ruleName;
     $request['RuleSetName'] = ruleSetName;
@@ -965,7 +923,6 @@ class SES {
   Future<DescribeReceiptRuleSetResponse> describeReceiptRuleSet({
     required String ruleSetName,
   }) async {
-    ArgumentError.checkNotNull(ruleSetName, 'ruleSetName');
     final $request = <String, dynamic>{};
     $request['RuleSetName'] = ruleSetName;
     final $result = await _protocol.send(
@@ -1020,7 +977,6 @@ class SES {
       getCustomVerificationEmailTemplate({
     required String templateName,
   }) async {
-    ArgumentError.checkNotNull(templateName, 'templateName');
     final $request = <String, dynamic>{};
     $request['TemplateName'] = templateName;
     final $result = await _protocol.send(
@@ -1073,7 +1029,6 @@ class SES {
   Future<GetIdentityDkimAttributesResponse> getIdentityDkimAttributes({
     required List<String> identities,
   }) async {
-    ArgumentError.checkNotNull(identities, 'identities');
     final $request = <String, dynamic>{};
     $request['Identities'] = identities;
     final $result = await _protocol.send(
@@ -1102,7 +1057,6 @@ class SES {
       getIdentityMailFromDomainAttributes({
     required List<String> identities,
   }) async {
-    ArgumentError.checkNotNull(identities, 'identities');
     final $request = <String, dynamic>{};
     $request['Identities'] = identities;
     final $result = await _protocol.send(
@@ -1138,7 +1092,6 @@ class SES {
       getIdentityNotificationAttributes({
     required List<String> identities,
   }) async {
-    ArgumentError.checkNotNull(identities, 'identities');
     final $request = <String, dynamic>{};
     $request['Identities'] = identities;
     final $result = await _protocol.send(
@@ -1188,8 +1141,6 @@ class SES {
     required String identity,
     required List<String> policyNames,
   }) async {
-    ArgumentError.checkNotNull(identity, 'identity');
-    ArgumentError.checkNotNull(policyNames, 'policyNames');
     final $request = <String, dynamic>{};
     $request['Identity'] = identity;
     $request['PolicyNames'] = policyNames;
@@ -1237,7 +1188,6 @@ class SES {
       getIdentityVerificationAttributes({
     required List<String> identities,
   }) async {
-    ArgumentError.checkNotNull(identities, 'identities');
     final $request = <String, dynamic>{};
     $request['Identities'] = identities;
     final $result = await _protocol.send(
@@ -1305,7 +1255,6 @@ class SES {
   Future<GetTemplateResponse> getTemplate({
     required String templateName,
   }) async {
-    ArgumentError.checkNotNull(templateName, 'templateName');
     final $request = <String, dynamic>{};
     $request['TemplateName'] = templateName;
     final $result = await _protocol.send(
@@ -1479,7 +1428,6 @@ class SES {
   Future<ListIdentityPoliciesResponse> listIdentityPolicies({
     required String identity,
   }) async {
-    ArgumentError.checkNotNull(identity, 'identity');
     final $request = <String, dynamic>{};
     $request['Identity'] = identity;
     final $result = await _protocol.send(
@@ -1623,7 +1571,6 @@ class SES {
     required String configurationSetName,
     DeliveryOptions? deliveryOptions,
   }) async {
-    ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
     final $request = <String, dynamic>{};
     $request['ConfigurationSetName'] = configurationSetName;
     deliveryOptions?.also((arg) => $request['DeliveryOptions'] = arg);
@@ -1682,23 +1629,6 @@ class SES {
     required String policy,
     required String policyName,
   }) async {
-    ArgumentError.checkNotNull(identity, 'identity');
-    ArgumentError.checkNotNull(policy, 'policy');
-    _s.validateStringLength(
-      'policy',
-      policy,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(policyName, 'policyName');
-    _s.validateStringLength(
-      'policyName',
-      policyName,
-      1,
-      64,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['Identity'] = identity;
     $request['Policy'] = policy;
@@ -1741,8 +1671,6 @@ class SES {
     required List<String> ruleNames,
     required String ruleSetName,
   }) async {
-    ArgumentError.checkNotNull(ruleNames, 'ruleNames');
-    ArgumentError.checkNotNull(ruleSetName, 'ruleSetName');
     final $request = <String, dynamic>{};
     $request['RuleNames'] = ruleNames;
     $request['RuleSetName'] = ruleSetName;
@@ -1811,10 +1739,6 @@ class SES {
     String? explanation,
     MessageDsn? messageDsn,
   }) async {
-    ArgumentError.checkNotNull(bounceSender, 'bounceSender');
-    ArgumentError.checkNotNull(
-        bouncedRecipientInfoList, 'bouncedRecipientInfoList');
-    ArgumentError.checkNotNull(originalMessageId, 'originalMessageId');
     final $request = <String, dynamic>{};
     $request['BounceSender'] = bounceSender;
     $request['BouncedRecipientInfoList'] = bouncedRecipientInfoList;
@@ -2011,15 +1935,6 @@ class SES {
     String? sourceArn,
     String? templateArn,
   }) async {
-    ArgumentError.checkNotNull(destinations, 'destinations');
-    ArgumentError.checkNotNull(source, 'source');
-    ArgumentError.checkNotNull(template, 'template');
-    _s.validateStringLength(
-      'defaultTemplateData',
-      defaultTemplateData,
-      0,
-      262144,
-    );
     final $request = <String, dynamic>{};
     $request['Destinations'] = destinations;
     $request['Source'] = source;
@@ -2080,8 +1995,6 @@ class SES {
     required String templateName,
     String? configurationSetName,
   }) async {
-    ArgumentError.checkNotNull(emailAddress, 'emailAddress');
-    ArgumentError.checkNotNull(templateName, 'templateName');
     final $request = <String, dynamic>{};
     $request['EmailAddress'] = emailAddress;
     $request['TemplateName'] = templateName;
@@ -2259,9 +2172,6 @@ class SES {
     String? sourceArn,
     List<MessageTag>? tags,
   }) async {
-    ArgumentError.checkNotNull(destination, 'destination');
-    ArgumentError.checkNotNull(message, 'message');
-    ArgumentError.checkNotNull(source, 'source');
     final $request = <String, dynamic>{};
     $request['Destination'] = destination;
     $request['Message'] = message;
@@ -2555,7 +2465,6 @@ class SES {
     String? sourceArn,
     List<MessageTag>? tags,
   }) async {
-    ArgumentError.checkNotNull(rawMessage, 'rawMessage');
     final $request = <String, dynamic>{};
     $request['RawMessage'] = rawMessage;
     configurationSetName?.also((arg) => $request['ConfigurationSetName'] = arg);
@@ -2759,17 +2668,6 @@ class SES {
     List<MessageTag>? tags,
     String? templateArn,
   }) async {
-    ArgumentError.checkNotNull(destination, 'destination');
-    ArgumentError.checkNotNull(source, 'source');
-    ArgumentError.checkNotNull(template, 'template');
-    ArgumentError.checkNotNull(templateData, 'templateData');
-    _s.validateStringLength(
-      'templateData',
-      templateData,
-      0,
-      262144,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['Destination'] = destination;
     $request['Source'] = source;
@@ -2861,8 +2759,6 @@ class SES {
     required bool dkimEnabled,
     required String identity,
   }) async {
-    ArgumentError.checkNotNull(dkimEnabled, 'dkimEnabled');
-    ArgumentError.checkNotNull(identity, 'identity');
     final $request = <String, dynamic>{};
     $request['DkimEnabled'] = dkimEnabled;
     $request['Identity'] = identity;
@@ -2911,8 +2807,6 @@ class SES {
     required bool forwardingEnabled,
     required String identity,
   }) async {
-    ArgumentError.checkNotNull(forwardingEnabled, 'forwardingEnabled');
-    ArgumentError.checkNotNull(identity, 'identity');
     final $request = <String, dynamic>{};
     $request['ForwardingEnabled'] = forwardingEnabled;
     $request['Identity'] = identity;
@@ -2961,9 +2855,6 @@ class SES {
     required String identity,
     required NotificationType notificationType,
   }) async {
-    ArgumentError.checkNotNull(enabled, 'enabled');
-    ArgumentError.checkNotNull(identity, 'identity');
-    ArgumentError.checkNotNull(notificationType, 'notificationType');
     final $request = <String, dynamic>{};
     $request['Enabled'] = enabled;
     $request['Identity'] = identity;
@@ -3022,7 +2913,6 @@ class SES {
     BehaviorOnMXFailure? behaviorOnMXFailure,
     String? mailFromDomain,
   }) async {
-    ArgumentError.checkNotNull(identity, 'identity');
     final $request = <String, dynamic>{};
     $request['Identity'] = identity;
     behaviorOnMXFailure
@@ -3079,8 +2969,6 @@ class SES {
     required NotificationType notificationType,
     String? snsTopic,
   }) async {
-    ArgumentError.checkNotNull(identity, 'identity');
-    ArgumentError.checkNotNull(notificationType, 'notificationType');
     final $request = <String, dynamic>{};
     $request['Identity'] = identity;
     $request['NotificationType'] = notificationType.toValue();
@@ -3124,8 +3012,6 @@ class SES {
     required String ruleSetName,
     String? after,
   }) async {
-    ArgumentError.checkNotNull(ruleName, 'ruleName');
-    ArgumentError.checkNotNull(ruleSetName, 'ruleSetName');
     final $request = <String, dynamic>{};
     $request['RuleName'] = ruleName;
     $request['RuleSetName'] = ruleSetName;
@@ -3163,15 +3049,6 @@ class SES {
     required String templateData,
     required String templateName,
   }) async {
-    ArgumentError.checkNotNull(templateData, 'templateData');
-    _s.validateStringLength(
-      'templateData',
-      templateData,
-      0,
-      262144,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(templateName, 'templateName');
     final $request = <String, dynamic>{};
     $request['TemplateData'] = templateData;
     $request['TemplateName'] = templateName;
@@ -3249,8 +3126,6 @@ class SES {
     required String configurationSetName,
     required EventDestination eventDestination,
   }) async {
-    ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
-    ArgumentError.checkNotNull(eventDestination, 'eventDestination');
     final $request = <String, dynamic>{};
     $request['ConfigurationSetName'] = configurationSetName;
     $request['EventDestination'] = eventDestination;
@@ -3288,8 +3163,6 @@ class SES {
     required String configurationSetName,
     required bool enabled,
   }) async {
-    ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
-    ArgumentError.checkNotNull(enabled, 'enabled');
     final $request = <String, dynamic>{};
     $request['ConfigurationSetName'] = configurationSetName;
     $request['Enabled'] = enabled;
@@ -3326,8 +3199,6 @@ class SES {
     required String configurationSetName,
     required bool enabled,
   }) async {
-    ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
-    ArgumentError.checkNotNull(enabled, 'enabled');
     final $request = <String, dynamic>{};
     $request['ConfigurationSetName'] = configurationSetName;
     $request['Enabled'] = enabled;
@@ -3364,8 +3235,6 @@ class SES {
     required String configurationSetName,
     required TrackingOptions trackingOptions,
   }) async {
-    ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
-    ArgumentError.checkNotNull(trackingOptions, 'trackingOptions');
     final $request = <String, dynamic>{};
     $request['ConfigurationSetName'] = configurationSetName;
     $request['TrackingOptions'] = trackingOptions;
@@ -3428,7 +3297,6 @@ class SES {
     String? templateContent,
     String? templateSubject,
   }) async {
-    ArgumentError.checkNotNull(templateName, 'templateName');
     final $request = <String, dynamic>{};
     $request['TemplateName'] = templateName;
     failureRedirectionURL
@@ -3474,8 +3342,6 @@ class SES {
     required ReceiptRule rule,
     required String ruleSetName,
   }) async {
-    ArgumentError.checkNotNull(rule, 'rule');
-    ArgumentError.checkNotNull(ruleSetName, 'ruleSetName');
     final $request = <String, dynamic>{};
     $request['Rule'] = rule;
     $request['RuleSetName'] = ruleSetName;
@@ -3505,7 +3371,6 @@ class SES {
   Future<void> updateTemplate({
     required Template template,
   }) async {
-    ArgumentError.checkNotNull(template, 'template');
     final $request = <String, dynamic>{};
     $request['Template'] = template;
     await _protocol.send(
@@ -3568,7 +3433,6 @@ class SES {
   Future<VerifyDomainDkimResponse> verifyDomainDkim({
     required String domain,
   }) async {
-    ArgumentError.checkNotNull(domain, 'domain');
     final $request = <String, dynamic>{};
     $request['Domain'] = domain;
     final $result = await _protocol.send(
@@ -3598,7 +3462,6 @@ class SES {
   Future<VerifyDomainIdentityResponse> verifyDomainIdentity({
     required String domain,
   }) async {
-    ArgumentError.checkNotNull(domain, 'domain');
     final $request = <String, dynamic>{};
     $request['Domain'] = domain;
     final $result = await _protocol.send(
@@ -3623,7 +3486,6 @@ class SES {
   Future<void> verifyEmailAddress({
     required String emailAddress,
   }) async {
-    ArgumentError.checkNotNull(emailAddress, 'emailAddress');
     final $request = <String, dynamic>{};
     $request['EmailAddress'] = emailAddress;
     await _protocol.send(
@@ -3650,7 +3512,6 @@ class SES {
   Future<void> verifyEmailIdentity({
     required String emailAddress,
   }) async {
-    ArgumentError.checkNotNull(emailAddress, 'emailAddress');
     final $request = <String, dynamic>{};
     $request['EmailAddress'] = emailAddress;
     await _protocol.send(

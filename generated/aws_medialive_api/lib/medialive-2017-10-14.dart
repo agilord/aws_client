@@ -67,7 +67,6 @@ class MediaLive {
   Future<void> acceptInputDeviceTransfer({
     required String inputDeviceId,
   }) async {
-    ArgumentError.checkNotNull(inputDeviceId, 'inputDeviceId');
     final response = await _protocol.send(
       payload: null,
       method: 'POST',
@@ -211,7 +210,6 @@ class MediaLive {
     BatchScheduleActionCreateRequest? creates,
     BatchScheduleActionDeleteRequest? deletes,
   }) async {
-    ArgumentError.checkNotNull(channelId, 'channelId');
     final $payload = <String, dynamic>{
       if (creates != null) 'creates': creates,
       if (deletes != null) 'deletes': deletes,
@@ -243,7 +241,6 @@ class MediaLive {
   Future<void> cancelInputDeviceTransfer({
     required String inputDeviceId,
   }) async {
-    ArgumentError.checkNotNull(inputDeviceId, 'inputDeviceId');
     final response = await _protocol.send(
       payload: null,
       method: 'POST',
@@ -479,9 +476,6 @@ class MediaLive {
     String? requestId,
     Map<String, String>? tags,
   }) async {
-    ArgumentError.checkNotNull(availabilityZones, 'availabilityZones');
-    ArgumentError.checkNotNull(multiplexSettings, 'multiplexSettings');
-    ArgumentError.checkNotNull(name, 'name');
     final $payload = <String, dynamic>{
       'availabilityZones': availabilityZones,
       'multiplexSettings': multiplexSettings,
@@ -527,10 +521,6 @@ class MediaLive {
     required String programName,
     String? requestId,
   }) async {
-    ArgumentError.checkNotNull(multiplexId, 'multiplexId');
-    ArgumentError.checkNotNull(
-        multiplexProgramSettings, 'multiplexProgramSettings');
-    ArgumentError.checkNotNull(programName, 'programName');
     final $payload = <String, dynamic>{
       'multiplexProgramSettings': multiplexProgramSettings,
       'programName': programName,
@@ -556,7 +546,6 @@ class MediaLive {
     required String resourceArn,
     Map<String, String>? tags,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final $payload = <String, dynamic>{
       if (tags != null) 'tags': tags,
     };
@@ -584,7 +573,6 @@ class MediaLive {
   Future<DeleteChannelResponse> deleteChannel({
     required String channelId,
   }) async {
-    ArgumentError.checkNotNull(channelId, 'channelId');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -610,7 +598,6 @@ class MediaLive {
   Future<void> deleteInput({
     required String inputId,
   }) async {
-    ArgumentError.checkNotNull(inputId, 'inputId');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -634,7 +621,6 @@ class MediaLive {
   Future<void> deleteInputSecurityGroup({
     required String inputSecurityGroupId,
   }) async {
-    ArgumentError.checkNotNull(inputSecurityGroupId, 'inputSecurityGroupId');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -660,7 +646,6 @@ class MediaLive {
   Future<DeleteMultiplexResponse> deleteMultiplex({
     required String multiplexId,
   }) async {
-    ArgumentError.checkNotNull(multiplexId, 'multiplexId');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -690,8 +675,6 @@ class MediaLive {
     required String multiplexId,
     required String programName,
   }) async {
-    ArgumentError.checkNotNull(multiplexId, 'multiplexId');
-    ArgumentError.checkNotNull(programName, 'programName');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -718,7 +701,6 @@ class MediaLive {
   Future<DeleteReservationResponse> deleteReservation({
     required String reservationId,
   }) async {
-    ArgumentError.checkNotNull(reservationId, 'reservationId');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -743,7 +725,6 @@ class MediaLive {
   Future<void> deleteSchedule({
     required String channelId,
   }) async {
-    ArgumentError.checkNotNull(channelId, 'channelId');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -765,8 +746,6 @@ class MediaLive {
     required String resourceArn,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
       'tagKeys': tagKeys,
     };
@@ -794,7 +773,6 @@ class MediaLive {
   Future<DescribeChannelResponse> describeChannel({
     required String channelId,
   }) async {
-    ArgumentError.checkNotNull(channelId, 'channelId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -819,7 +797,6 @@ class MediaLive {
   Future<DescribeInputResponse> describeInput({
     required String inputId,
   }) async {
-    ArgumentError.checkNotNull(inputId, 'inputId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -844,7 +821,6 @@ class MediaLive {
   Future<DescribeInputDeviceResponse> describeInputDevice({
     required String inputDeviceId,
   }) async {
-    ArgumentError.checkNotNull(inputDeviceId, 'inputDeviceId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -873,8 +849,6 @@ class MediaLive {
     required AcceptHeader accept,
     required String inputDeviceId,
   }) async {
-    ArgumentError.checkNotNull(accept, 'accept');
-    ArgumentError.checkNotNull(inputDeviceId, 'inputDeviceId');
     final headers = <String, String>{
       'accept': accept.toValue(),
     };
@@ -914,7 +888,6 @@ class MediaLive {
   Future<DescribeInputSecurityGroupResponse> describeInputSecurityGroup({
     required String inputSecurityGroupId,
   }) async {
-    ArgumentError.checkNotNull(inputSecurityGroupId, 'inputSecurityGroupId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -940,7 +913,6 @@ class MediaLive {
   Future<DescribeMultiplexResponse> describeMultiplex({
     required String multiplexId,
   }) async {
-    ArgumentError.checkNotNull(multiplexId, 'multiplexId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -969,8 +941,6 @@ class MediaLive {
     required String multiplexId,
     required String programName,
   }) async {
-    ArgumentError.checkNotNull(multiplexId, 'multiplexId');
-    ArgumentError.checkNotNull(programName, 'programName');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -996,7 +966,6 @@ class MediaLive {
   Future<DescribeOfferingResponse> describeOffering({
     required String offeringId,
   }) async {
-    ArgumentError.checkNotNull(offeringId, 'offeringId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1021,7 +990,6 @@ class MediaLive {
   Future<DescribeReservationResponse> describeReservation({
     required String reservationId,
   }) async {
-    ArgumentError.checkNotNull(reservationId, 'reservationId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1048,7 +1016,6 @@ class MediaLive {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(channelId, 'channelId');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1117,7 +1084,6 @@ class MediaLive {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(transferType, 'transferType');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1258,7 +1224,6 @@ class MediaLive {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(multiplexId, 'multiplexId');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1483,7 +1448,6 @@ class MediaLive {
   Future<ListTagsForResourceResponse> listTagsForResource({
     required String resourceArn,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1532,7 +1496,6 @@ class MediaLive {
     String? start,
     Map<String, String>? tags,
   }) async {
-    ArgumentError.checkNotNull(count, 'count');
     _s.validateNumRange(
       'count',
       count,
@@ -1540,7 +1503,6 @@ class MediaLive {
       1152921504606846976,
       isRequired: true,
     );
-    ArgumentError.checkNotNull(offeringId, 'offeringId');
     final $payload = <String, dynamic>{
       'count': count,
       if (name != null) 'name': name,
@@ -1575,7 +1537,6 @@ class MediaLive {
   Future<void> rejectInputDeviceTransfer({
     required String inputDeviceId,
   }) async {
-    ArgumentError.checkNotNull(inputDeviceId, 'inputDeviceId');
     final response = await _protocol.send(
       payload: null,
       method: 'POST',
@@ -1601,7 +1562,6 @@ class MediaLive {
   Future<StartChannelResponse> startChannel({
     required String channelId,
   }) async {
-    ArgumentError.checkNotNull(channelId, 'channelId');
     final response = await _protocol.send(
       payload: null,
       method: 'POST',
@@ -1628,7 +1588,6 @@ class MediaLive {
   Future<StartMultiplexResponse> startMultiplex({
     required String multiplexId,
   }) async {
-    ArgumentError.checkNotNull(multiplexId, 'multiplexId');
     final response = await _protocol.send(
       payload: null,
       method: 'POST',
@@ -1654,7 +1613,6 @@ class MediaLive {
   Future<StopChannelResponse> stopChannel({
     required String channelId,
   }) async {
-    ArgumentError.checkNotNull(channelId, 'channelId');
     final response = await _protocol.send(
       payload: null,
       method: 'POST',
@@ -1681,7 +1639,6 @@ class MediaLive {
   Future<StopMultiplexResponse> stopMultiplex({
     required String multiplexId,
   }) async {
-    ArgumentError.checkNotNull(multiplexId, 'multiplexId');
     final response = await _protocol.send(
       payload: null,
       method: 'POST',
@@ -1717,7 +1674,6 @@ class MediaLive {
     String? targetCustomerId,
     String? transferMessage,
   }) async {
-    ArgumentError.checkNotNull(inputDeviceId, 'inputDeviceId');
     final $payload = <String, dynamic>{
       if (targetCustomerId != null) 'targetCustomerId': targetCustomerId,
       if (transferMessage != null) 'transferMessage': transferMessage,
@@ -1777,7 +1733,6 @@ class MediaLive {
     String? name,
     String? roleArn,
   }) async {
-    ArgumentError.checkNotNull(channelId, 'channelId');
     final $payload = <String, dynamic>{
       if (cdiInputSpecification != null)
         'cdiInputSpecification': cdiInputSpecification,
@@ -1823,8 +1778,6 @@ class MediaLive {
     required String channelId,
     List<OutputDestination>? destinations,
   }) async {
-    ArgumentError.checkNotNull(channelClass, 'channelClass');
-    ArgumentError.checkNotNull(channelId, 'channelId');
     final $payload = <String, dynamic>{
       'channelClass': channelClass.toValue(),
       if (destinations != null) 'destinations': destinations,
@@ -1890,7 +1843,6 @@ class MediaLive {
     String? roleArn,
     List<InputSourceRequest>? sources,
   }) async {
-    ArgumentError.checkNotNull(inputId, 'inputId');
     final $payload = <String, dynamic>{
       if (destinations != null) 'destinations': destinations,
       if (inputDevices != null) 'inputDevices': inputDevices,
@@ -1938,7 +1890,6 @@ class MediaLive {
     String? name,
     InputDeviceConfigurableSettings? uhdDeviceSettings,
   }) async {
-    ArgumentError.checkNotNull(inputDeviceId, 'inputDeviceId');
     final $payload = <String, dynamic>{
       if (hdDeviceSettings != null) 'hdDeviceSettings': hdDeviceSettings,
       if (name != null) 'name': name,
@@ -1976,7 +1927,6 @@ class MediaLive {
     Map<String, String>? tags,
     List<InputWhitelistRuleCidr>? whitelistRules,
   }) async {
-    ArgumentError.checkNotNull(inputSecurityGroupId, 'inputSecurityGroupId');
     final $payload = <String, dynamic>{
       if (tags != null) 'tags': tags,
       if (whitelistRules != null) 'whitelistRules': whitelistRules,
@@ -2015,7 +1965,6 @@ class MediaLive {
     MultiplexSettings? multiplexSettings,
     String? name,
   }) async {
-    ArgumentError.checkNotNull(multiplexId, 'multiplexId');
     final $payload = <String, dynamic>{
       if (multiplexSettings != null) 'multiplexSettings': multiplexSettings,
       if (name != null) 'name': name,
@@ -2053,8 +2002,6 @@ class MediaLive {
     required String programName,
     MultiplexProgramSettings? multiplexProgramSettings,
   }) async {
-    ArgumentError.checkNotNull(multiplexId, 'multiplexId');
-    ArgumentError.checkNotNull(programName, 'programName');
     final $payload = <String, dynamic>{
       if (multiplexProgramSettings != null)
         'multiplexProgramSettings': multiplexProgramSettings,
@@ -2089,7 +2036,6 @@ class MediaLive {
     required String reservationId,
     String? name,
   }) async {
-    ArgumentError.checkNotNull(reservationId, 'reservationId');
     final $payload = <String, dynamic>{
       if (name != null) 'name': name,
     };

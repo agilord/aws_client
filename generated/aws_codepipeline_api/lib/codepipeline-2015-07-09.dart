@@ -71,15 +71,6 @@ class CodePipeline {
     required String jobId,
     required String nonce,
   }) async {
-    ArgumentError.checkNotNull(jobId, 'jobId');
-    ArgumentError.checkNotNull(nonce, 'nonce');
-    _s.validateStringLength(
-      'nonce',
-      nonce,
-      1,
-      50,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodePipeline_20150709.AcknowledgeJob'
@@ -124,30 +115,6 @@ class CodePipeline {
     required String jobId,
     required String nonce,
   }) async {
-    ArgumentError.checkNotNull(clientToken, 'clientToken');
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      1,
-      256,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      1,
-      512,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(nonce, 'nonce');
-    _s.validateStringLength(
-      'nonce',
-      nonce,
-      1,
-      50,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodePipeline_20150709.AcknowledgeThirdPartyJob'
@@ -220,25 +187,6 @@ class CodePipeline {
     ActionTypeSettings? settings,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(category, 'category');
-    ArgumentError.checkNotNull(inputArtifactDetails, 'inputArtifactDetails');
-    ArgumentError.checkNotNull(outputArtifactDetails, 'outputArtifactDetails');
-    ArgumentError.checkNotNull(provider, 'provider');
-    _s.validateStringLength(
-      'provider',
-      provider,
-      1,
-      25,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(version, 'version');
-    _s.validateStringLength(
-      'version',
-      version,
-      1,
-      9,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodePipeline_20150709.CreateCustomActionType'
@@ -294,7 +242,6 @@ class CodePipeline {
     required PipelineDeclaration pipeline,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(pipeline, 'pipeline');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodePipeline_20150709.CreatePipeline'
@@ -343,23 +290,6 @@ class CodePipeline {
     required String provider,
     required String version,
   }) async {
-    ArgumentError.checkNotNull(category, 'category');
-    ArgumentError.checkNotNull(provider, 'provider');
-    _s.validateStringLength(
-      'provider',
-      provider,
-      1,
-      25,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(version, 'version');
-    _s.validateStringLength(
-      'version',
-      version,
-      1,
-      9,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodePipeline_20150709.DeleteCustomActionType'
@@ -388,14 +318,6 @@ class CodePipeline {
   Future<void> deletePipeline({
     required String name,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      100,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodePipeline_20150709.DeletePipeline'
@@ -426,14 +348,6 @@ class CodePipeline {
   Future<void> deleteWebhook({
     required String name,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      100,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodePipeline_20150709.DeleteWebhook'
@@ -462,12 +376,6 @@ class CodePipeline {
   Future<void> deregisterWebhookWithThirdParty({
     String? webhookName,
   }) async {
-    _s.validateStringLength(
-      'webhookName',
-      webhookName,
-      1,
-      100,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodePipeline_20150709.DeregisterWebhookWithThirdParty'
@@ -515,31 +423,6 @@ class CodePipeline {
     required String stageName,
     required StageTransitionType transitionType,
   }) async {
-    ArgumentError.checkNotNull(pipelineName, 'pipelineName');
-    _s.validateStringLength(
-      'pipelineName',
-      pipelineName,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(reason, 'reason');
-    _s.validateStringLength(
-      'reason',
-      reason,
-      1,
-      300,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(stageName, 'stageName');
-    _s.validateStringLength(
-      'stageName',
-      stageName,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(transitionType, 'transitionType');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodePipeline_20150709.DisableStageTransition'
@@ -584,23 +467,6 @@ class CodePipeline {
     required String stageName,
     required StageTransitionType transitionType,
   }) async {
-    ArgumentError.checkNotNull(pipelineName, 'pipelineName');
-    _s.validateStringLength(
-      'pipelineName',
-      pipelineName,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(stageName, 'stageName');
-    _s.validateStringLength(
-      'stageName',
-      stageName,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(transitionType, 'transitionType');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodePipeline_20150709.EnableStageTransition'
@@ -635,7 +501,6 @@ class CodePipeline {
   Future<GetJobDetailsOutput> getJobDetails({
     required String jobId,
   }) async {
-    ArgumentError.checkNotNull(jobId, 'jobId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodePipeline_20150709.GetJobDetails'
@@ -674,14 +539,6 @@ class CodePipeline {
     required String name,
     int? version,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      100,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'version',
       version,
@@ -725,15 +582,6 @@ class CodePipeline {
     required String pipelineExecutionId,
     required String pipelineName,
   }) async {
-    ArgumentError.checkNotNull(pipelineExecutionId, 'pipelineExecutionId');
-    ArgumentError.checkNotNull(pipelineName, 'pipelineName');
-    _s.validateStringLength(
-      'pipelineName',
-      pipelineName,
-      1,
-      100,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodePipeline_20150709.GetPipelineExecution'
@@ -769,14 +617,6 @@ class CodePipeline {
   Future<GetPipelineStateOutput> getPipelineState({
     required String name,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      100,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodePipeline_20150709.GetPipelineState'
@@ -820,22 +660,6 @@ class CodePipeline {
     required String clientToken,
     required String jobId,
   }) async {
-    ArgumentError.checkNotNull(clientToken, 'clientToken');
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      1,
-      256,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      1,
-      512,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodePipeline_20150709.GetThirdPartyJobDetails'
@@ -889,25 +713,11 @@ class CodePipeline {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(pipelineName, 'pipelineName');
-    _s.validateStringLength(
-      'pipelineName',
-      pipelineName,
-      1,
-      100,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2048,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -946,12 +756,6 @@ class CodePipeline {
     ActionOwner? actionOwnerFilter,
     String? nextToken,
   }) async {
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2048,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodePipeline_20150709.ListActionTypes'
@@ -997,25 +801,11 @@ class CodePipeline {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(pipelineName, 'pipelineName');
-    _s.validateStringLength(
-      'pipelineName',
-      pipelineName,
-      1,
-      100,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2048,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1048,12 +838,6 @@ class CodePipeline {
   Future<ListPipelinesOutput> listPipelines({
     String? nextToken,
   }) async {
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2048,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodePipeline_20150709.ListPipelines'
@@ -1095,18 +879,11 @@ class CodePipeline {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2048,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1151,12 +928,6 @@ class CodePipeline {
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2048,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1208,7 +979,6 @@ class CodePipeline {
     int? maxBatchSize,
     Map<String, String>? queryParam,
   }) async {
-    ArgumentError.checkNotNull(actionTypeId, 'actionTypeId');
     _s.validateNumRange(
       'maxBatchSize',
       maxBatchSize,
@@ -1255,7 +1025,6 @@ class CodePipeline {
     required ActionTypeId actionTypeId,
     int? maxBatchSize,
   }) async {
-    ArgumentError.checkNotNull(actionTypeId, 'actionTypeId');
     _s.validateNumRange(
       'maxBatchSize',
       maxBatchSize,
@@ -1306,31 +1075,6 @@ class CodePipeline {
     required String pipelineName,
     required String stageName,
   }) async {
-    ArgumentError.checkNotNull(actionName, 'actionName');
-    _s.validateStringLength(
-      'actionName',
-      actionName,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(actionRevision, 'actionRevision');
-    ArgumentError.checkNotNull(pipelineName, 'pipelineName');
-    _s.validateStringLength(
-      'pipelineName',
-      pipelineName,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(stageName, 'stageName');
-    _s.validateStringLength(
-      'stageName',
-      stageName,
-      1,
-      100,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodePipeline_20150709.PutActionRevision'
@@ -1386,32 +1130,6 @@ class CodePipeline {
     required String stageName,
     required String token,
   }) async {
-    ArgumentError.checkNotNull(actionName, 'actionName');
-    _s.validateStringLength(
-      'actionName',
-      actionName,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(pipelineName, 'pipelineName');
-    _s.validateStringLength(
-      'pipelineName',
-      pipelineName,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(result, 'result');
-    ArgumentError.checkNotNull(stageName, 'stageName');
-    _s.validateStringLength(
-      'stageName',
-      stageName,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(token, 'token');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodePipeline_20150709.PutApprovalResult'
@@ -1451,8 +1169,6 @@ class CodePipeline {
     required FailureDetails failureDetails,
     required String jobId,
   }) async {
-    ArgumentError.checkNotNull(failureDetails, 'failureDetails');
-    ArgumentError.checkNotNull(jobId, 'jobId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodePipeline_20150709.PutJobFailureResult'
@@ -1510,13 +1226,6 @@ class CodePipeline {
     ExecutionDetails? executionDetails,
     Map<String, String>? outputVariables,
   }) async {
-    ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'continuationToken',
-      continuationToken,
-      1,
-      2048,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodePipeline_20150709.PutJobSuccessResult'
@@ -1561,23 +1270,6 @@ class CodePipeline {
     required FailureDetails failureDetails,
     required String jobId,
   }) async {
-    ArgumentError.checkNotNull(clientToken, 'clientToken');
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      1,
-      256,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(failureDetails, 'failureDetails');
-    ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      1,
-      512,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodePipeline_20150709.PutThirdPartyJobFailureResult'
@@ -1634,28 +1326,6 @@ class CodePipeline {
     CurrentRevision? currentRevision,
     ExecutionDetails? executionDetails,
   }) async {
-    ArgumentError.checkNotNull(clientToken, 'clientToken');
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      1,
-      256,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      1,
-      512,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'continuationToken',
-      continuationToken,
-      1,
-      2048,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodePipeline_20150709.PutThirdPartyJobSuccessResult'
@@ -1708,7 +1378,6 @@ class CodePipeline {
     required WebhookDefinition webhook,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(webhook, 'webhook');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodePipeline_20150709.PutWebhook'
@@ -1740,12 +1409,6 @@ class CodePipeline {
   Future<void> registerWebhookWithThirdParty({
     String? webhookName,
   }) async {
-    _s.validateStringLength(
-      'webhookName',
-      webhookName,
-      1,
-      100,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodePipeline_20150709.RegisterWebhookWithThirdParty'
@@ -1794,24 +1457,6 @@ class CodePipeline {
     required StageRetryMode retryMode,
     required String stageName,
   }) async {
-    ArgumentError.checkNotNull(pipelineExecutionId, 'pipelineExecutionId');
-    ArgumentError.checkNotNull(pipelineName, 'pipelineName');
-    _s.validateStringLength(
-      'pipelineName',
-      pipelineName,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(retryMode, 'retryMode');
-    ArgumentError.checkNotNull(stageName, 'stageName');
-    _s.validateStringLength(
-      'stageName',
-      stageName,
-      1,
-      100,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodePipeline_20150709.RetryStageExecution'
@@ -1850,20 +1495,6 @@ class CodePipeline {
     required String name,
     String? clientRequestToken,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      128,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodePipeline_20150709.StartPipelineExecution'
@@ -1921,21 +1552,6 @@ class CodePipeline {
     bool? abandon,
     String? reason,
   }) async {
-    ArgumentError.checkNotNull(pipelineExecutionId, 'pipelineExecutionId');
-    ArgumentError.checkNotNull(pipelineName, 'pipelineName');
-    _s.validateStringLength(
-      'pipelineName',
-      pipelineName,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'reason',
-      reason,
-      0,
-      200,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodePipeline_20150709.StopPipelineExecution'
@@ -1976,8 +1592,6 @@ class CodePipeline {
     required String resourceArn,
     required List<Tag> tags,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodePipeline_20150709.TagResource'
@@ -2012,8 +1626,6 @@ class CodePipeline {
     required String resourceArn,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodePipeline_20150709.UntagResource'
@@ -2048,7 +1660,6 @@ class CodePipeline {
   Future<UpdatePipelineOutput> updatePipeline({
     required PipelineDeclaration pipeline,
   }) async {
-    ArgumentError.checkNotNull(pipeline, 'pipeline');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodePipeline_20150709.UpdatePipeline'

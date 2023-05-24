@@ -61,7 +61,6 @@ class ApiGatewayManagementApi {
   Future<void> deleteConnection({
     required String connectionId,
   }) async {
-    ArgumentError.checkNotNull(connectionId, 'connectionId');
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -78,7 +77,6 @@ class ApiGatewayManagementApi {
   Future<GetConnectionResponse> getConnection({
     required String connectionId,
   }) async {
-    ArgumentError.checkNotNull(connectionId, 'connectionId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -104,8 +102,6 @@ class ApiGatewayManagementApi {
     required String connectionId,
     required Uint8List data,
   }) async {
-    ArgumentError.checkNotNull(connectionId, 'connectionId');
-    ArgumentError.checkNotNull(data, 'data');
     await _protocol.send(
       payload: data,
       method: 'POST',

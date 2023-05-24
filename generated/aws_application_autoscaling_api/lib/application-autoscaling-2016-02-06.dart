@@ -312,24 +312,6 @@ class ApplicationAutoScaling {
     required ScalableDimension scalableDimension,
     required ServiceNamespace serviceNamespace,
   }) async {
-    ArgumentError.checkNotNull(policyName, 'policyName');
-    _s.validateStringLength(
-      'policyName',
-      policyName,
-      1,
-      1600,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(resourceId, 'resourceId');
-    _s.validateStringLength(
-      'resourceId',
-      resourceId,
-      1,
-      1600,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(scalableDimension, 'scalableDimension');
-    ArgumentError.checkNotNull(serviceNamespace, 'serviceNamespace');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AnyScaleFrontendService.DeleteScalingPolicy'
@@ -534,24 +516,6 @@ class ApplicationAutoScaling {
     required String scheduledActionName,
     required ServiceNamespace serviceNamespace,
   }) async {
-    ArgumentError.checkNotNull(resourceId, 'resourceId');
-    _s.validateStringLength(
-      'resourceId',
-      resourceId,
-      1,
-      1600,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(scalableDimension, 'scalableDimension');
-    ArgumentError.checkNotNull(scheduledActionName, 'scheduledActionName');
-    _s.validateStringLength(
-      'scheduledActionName',
-      scheduledActionName,
-      1,
-      1600,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(serviceNamespace, 'serviceNamespace');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AnyScaleFrontendService.DeleteScheduledAction'
@@ -753,16 +717,6 @@ class ApplicationAutoScaling {
     required ScalableDimension scalableDimension,
     required ServiceNamespace serviceNamespace,
   }) async {
-    ArgumentError.checkNotNull(resourceId, 'resourceId');
-    _s.validateStringLength(
-      'resourceId',
-      resourceId,
-      1,
-      1600,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(scalableDimension, 'scalableDimension');
-    ArgumentError.checkNotNull(serviceNamespace, 'serviceNamespace');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AnyScaleFrontendService.DeregisterScalableTarget'
@@ -978,7 +932,6 @@ class ApplicationAutoScaling {
     List<String>? resourceIds,
     ScalableDimension? scalableDimension,
   }) async {
-    ArgumentError.checkNotNull(serviceNamespace, 'serviceNamespace');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AnyScaleFrontendService.DescribeScalableTargets'
@@ -1200,13 +1153,6 @@ class ApplicationAutoScaling {
     String? resourceId,
     ScalableDimension? scalableDimension,
   }) async {
-    ArgumentError.checkNotNull(serviceNamespace, 'serviceNamespace');
-    _s.validateStringLength(
-      'resourceId',
-      resourceId,
-      1,
-      1600,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AnyScaleFrontendService.DescribeScalingActivities'
@@ -1439,13 +1385,6 @@ class ApplicationAutoScaling {
     String? resourceId,
     ScalableDimension? scalableDimension,
   }) async {
-    ArgumentError.checkNotNull(serviceNamespace, 'serviceNamespace');
-    _s.validateStringLength(
-      'resourceId',
-      resourceId,
-      1,
-      1600,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AnyScaleFrontendService.DescribeScalingPolicies'
@@ -1677,13 +1616,6 @@ class ApplicationAutoScaling {
     ScalableDimension? scalableDimension,
     List<String>? scheduledActionNames,
   }) async {
-    ArgumentError.checkNotNull(serviceNamespace, 'serviceNamespace');
-    _s.validateStringLength(
-      'resourceId',
-      resourceId,
-      1,
-      1600,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AnyScaleFrontendService.DescribeScheduledActions'
@@ -1961,24 +1893,6 @@ class ApplicationAutoScaling {
     TargetTrackingScalingPolicyConfiguration?
         targetTrackingScalingPolicyConfiguration,
   }) async {
-    ArgumentError.checkNotNull(policyName, 'policyName');
-    _s.validateStringLength(
-      'policyName',
-      policyName,
-      1,
-      256,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(resourceId, 'resourceId');
-    _s.validateStringLength(
-      'resourceId',
-      resourceId,
-      1,
-      1600,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(scalableDimension, 'scalableDimension');
-    ArgumentError.checkNotNull(serviceNamespace, 'serviceNamespace');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AnyScaleFrontendService.PutScalingPolicy'
@@ -2257,30 +2171,6 @@ class ApplicationAutoScaling {
     String? schedule,
     DateTime? startTime,
   }) async {
-    ArgumentError.checkNotNull(resourceId, 'resourceId');
-    _s.validateStringLength(
-      'resourceId',
-      resourceId,
-      1,
-      1600,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(scalableDimension, 'scalableDimension');
-    ArgumentError.checkNotNull(scheduledActionName, 'scheduledActionName');
-    _s.validateStringLength(
-      'scheduledActionName',
-      scheduledActionName,
-      1,
-      256,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(serviceNamespace, 'serviceNamespace');
-    _s.validateStringLength(
-      'schedule',
-      schedule,
-      1,
-      1600,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AnyScaleFrontendService.PutScheduledAction'
@@ -2579,22 +2469,6 @@ class ApplicationAutoScaling {
     String? roleARN,
     SuspendedState? suspendedState,
   }) async {
-    ArgumentError.checkNotNull(resourceId, 'resourceId');
-    _s.validateStringLength(
-      'resourceId',
-      resourceId,
-      1,
-      1600,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(scalableDimension, 'scalableDimension');
-    ArgumentError.checkNotNull(serviceNamespace, 'serviceNamespace');
-    _s.validateStringLength(
-      'roleARN',
-      roleARN,
-      1,
-      1600,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AnyScaleFrontendService.RegisterScalableTarget'

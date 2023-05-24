@@ -54,7 +54,6 @@ class URIParameterQuerystringParamsHeadersAndJSONBody {
     StructType? config,
     String? pageToken,
   }) async {
-    ArgumentError.checkNotNull(pipelineId, 'pipelineId');
     final headers = <String, String>{
       if (checksum != null) 'x-amz-checksum': checksum.toString(),
     };

@@ -60,8 +60,6 @@ class Pinpoint {
   Future<CreateAppResponse> createApp({
     required CreateApplicationRequest createApplicationRequest,
   }) async {
-    ArgumentError.checkNotNull(
-        createApplicationRequest, 'createApplicationRequest');
     final response = await _protocol.sendRaw(
       payload: createApplicationRequest,
       method: 'POST',
@@ -92,8 +90,6 @@ class Pinpoint {
     required String applicationId,
     required WriteCampaignRequest writeCampaignRequest,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
-    ArgumentError.checkNotNull(writeCampaignRequest, 'writeCampaignRequest');
     final response = await _protocol.sendRaw(
       payload: writeCampaignRequest,
       method: 'POST',
@@ -124,8 +120,6 @@ class Pinpoint {
     required EmailTemplateRequest emailTemplateRequest,
     required String templateName,
   }) async {
-    ArgumentError.checkNotNull(emailTemplateRequest, 'emailTemplateRequest');
-    ArgumentError.checkNotNull(templateName, 'templateName');
     final response = await _protocol.sendRaw(
       payload: emailTemplateRequest,
       method: 'POST',
@@ -155,8 +149,6 @@ class Pinpoint {
     required String applicationId,
     required ExportJobRequest exportJobRequest,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
-    ArgumentError.checkNotNull(exportJobRequest, 'exportJobRequest');
     final response = await _protocol.sendRaw(
       payload: exportJobRequest,
       method: 'POST',
@@ -186,8 +178,6 @@ class Pinpoint {
     required String applicationId,
     required ImportJobRequest importJobRequest,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
-    ArgumentError.checkNotNull(importJobRequest, 'importJobRequest');
     final response = await _protocol.sendRaw(
       payload: importJobRequest,
       method: 'POST',
@@ -217,8 +207,6 @@ class Pinpoint {
     required String applicationId,
     required WriteJourneyRequest writeJourneyRequest,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
-    ArgumentError.checkNotNull(writeJourneyRequest, 'writeJourneyRequest');
     final response = await _protocol.sendRaw(
       payload: writeJourneyRequest,
       method: 'POST',
@@ -249,9 +237,6 @@ class Pinpoint {
     required PushNotificationTemplateRequest pushNotificationTemplateRequest,
     required String templateName,
   }) async {
-    ArgumentError.checkNotNull(
-        pushNotificationTemplateRequest, 'pushNotificationTemplateRequest');
-    ArgumentError.checkNotNull(templateName, 'templateName');
     final response = await _protocol.sendRaw(
       payload: pushNotificationTemplateRequest,
       method: 'POST',
@@ -277,8 +262,6 @@ class Pinpoint {
       createRecommenderConfiguration({
     required CreateRecommenderConfiguration createRecommenderConfiguration,
   }) async {
-    ArgumentError.checkNotNull(
-        createRecommenderConfiguration, 'createRecommenderConfiguration');
     final response = await _protocol.sendRaw(
       payload: createRecommenderConfiguration,
       method: 'POST',
@@ -311,8 +294,6 @@ class Pinpoint {
     required String applicationId,
     required WriteSegmentRequest writeSegmentRequest,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
-    ArgumentError.checkNotNull(writeSegmentRequest, 'writeSegmentRequest');
     final response = await _protocol.sendRaw(
       payload: writeSegmentRequest,
       method: 'POST',
@@ -343,8 +324,6 @@ class Pinpoint {
     required SMSTemplateRequest sMSTemplateRequest,
     required String templateName,
   }) async {
-    ArgumentError.checkNotNull(sMSTemplateRequest, 'sMSTemplateRequest');
-    ArgumentError.checkNotNull(templateName, 'templateName');
     final response = await _protocol.sendRaw(
       payload: sMSTemplateRequest,
       method: 'POST',
@@ -375,8 +354,6 @@ class Pinpoint {
     required String templateName,
     required VoiceTemplateRequest voiceTemplateRequest,
   }) async {
-    ArgumentError.checkNotNull(templateName, 'templateName');
-    ArgumentError.checkNotNull(voiceTemplateRequest, 'voiceTemplateRequest');
     final response = await _protocol.sendRaw(
       payload: voiceTemplateRequest,
       method: 'POST',
@@ -406,7 +383,6 @@ class Pinpoint {
   Future<DeleteAdmChannelResponse> deleteAdmChannel({
     required String applicationId,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'DELETE',
@@ -436,7 +412,6 @@ class Pinpoint {
   Future<DeleteApnsChannelResponse> deleteApnsChannel({
     required String applicationId,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'DELETE',
@@ -467,7 +442,6 @@ class Pinpoint {
   Future<DeleteApnsSandboxChannelResponse> deleteApnsSandboxChannel({
     required String applicationId,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'DELETE',
@@ -498,7 +472,6 @@ class Pinpoint {
   Future<DeleteApnsVoipChannelResponse> deleteApnsVoipChannel({
     required String applicationId,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'DELETE',
@@ -529,7 +502,6 @@ class Pinpoint {
   Future<DeleteApnsVoipSandboxChannelResponse> deleteApnsVoipSandboxChannel({
     required String applicationId,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'DELETE',
@@ -560,7 +532,6 @@ class Pinpoint {
   Future<DeleteAppResponse> deleteApp({
     required String applicationId,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'DELETE',
@@ -590,7 +561,6 @@ class Pinpoint {
   Future<DeleteBaiduChannelResponse> deleteBaiduChannel({
     required String applicationId,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'DELETE',
@@ -624,8 +594,6 @@ class Pinpoint {
     required String applicationId,
     required String campaignId,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
-    ArgumentError.checkNotNull(campaignId, 'campaignId');
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'DELETE',
@@ -656,7 +624,6 @@ class Pinpoint {
   Future<DeleteEmailChannelResponse> deleteEmailChannel({
     required String applicationId,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'DELETE',
@@ -721,7 +688,6 @@ class Pinpoint {
     required String templateName,
     String? version,
   }) async {
-    ArgumentError.checkNotNull(templateName, 'templateName');
     final $query = <String, List<String>>{
       if (version != null) 'version': [version],
     };
@@ -758,8 +724,6 @@ class Pinpoint {
     required String applicationId,
     required String endpointId,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
-    ArgumentError.checkNotNull(endpointId, 'endpointId');
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'DELETE',
@@ -789,7 +753,6 @@ class Pinpoint {
   Future<DeleteEventStreamResponse> deleteEventStream({
     required String applicationId,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'DELETE',
@@ -819,7 +782,6 @@ class Pinpoint {
   Future<DeleteGcmChannelResponse> deleteGcmChannel({
     required String applicationId,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'DELETE',
@@ -852,8 +814,6 @@ class Pinpoint {
     required String applicationId,
     required String journeyId,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
-    ArgumentError.checkNotNull(journeyId, 'journeyId');
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'DELETE',
@@ -918,7 +878,6 @@ class Pinpoint {
     required String templateName,
     String? version,
   }) async {
-    ArgumentError.checkNotNull(templateName, 'templateName');
     final $query = <String, List<String>>{
       if (version != null) 'version': [version],
     };
@@ -953,7 +912,6 @@ class Pinpoint {
       deleteRecommenderConfiguration({
     required String recommenderId,
   }) async {
-    ArgumentError.checkNotNull(recommenderId, 'recommenderId');
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'DELETE',
@@ -987,8 +945,6 @@ class Pinpoint {
     required String applicationId,
     required String segmentId,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
-    ArgumentError.checkNotNull(segmentId, 'segmentId');
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'DELETE',
@@ -1019,7 +975,6 @@ class Pinpoint {
   Future<DeleteSmsChannelResponse> deleteSmsChannel({
     required String applicationId,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'DELETE',
@@ -1083,7 +1038,6 @@ class Pinpoint {
     required String templateName,
     String? version,
   }) async {
-    ArgumentError.checkNotNull(templateName, 'templateName');
     final $query = <String, List<String>>{
       if (version != null) 'version': [version],
     };
@@ -1120,8 +1074,6 @@ class Pinpoint {
     required String applicationId,
     required String userId,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
-    ArgumentError.checkNotNull(userId, 'userId');
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'DELETE',
@@ -1152,7 +1104,6 @@ class Pinpoint {
   Future<DeleteVoiceChannelResponse> deleteVoiceChannel({
     required String applicationId,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'DELETE',
@@ -1217,7 +1168,6 @@ class Pinpoint {
     required String templateName,
     String? version,
   }) async {
-    ArgumentError.checkNotNull(templateName, 'templateName');
     final $query = <String, List<String>>{
       if (version != null) 'version': [version],
     };
@@ -1251,7 +1201,6 @@ class Pinpoint {
   Future<GetAdmChannelResponse> getAdmChannel({
     required String applicationId,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
@@ -1281,7 +1230,6 @@ class Pinpoint {
   Future<GetApnsChannelResponse> getApnsChannel({
     required String applicationId,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
@@ -1312,7 +1260,6 @@ class Pinpoint {
   Future<GetApnsSandboxChannelResponse> getApnsSandboxChannel({
     required String applicationId,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
@@ -1343,7 +1290,6 @@ class Pinpoint {
   Future<GetApnsVoipChannelResponse> getApnsVoipChannel({
     required String applicationId,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
@@ -1374,7 +1320,6 @@ class Pinpoint {
   Future<GetApnsVoipSandboxChannelResponse> getApnsVoipSandboxChannel({
     required String applicationId,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
@@ -1405,7 +1350,6 @@ class Pinpoint {
   Future<GetAppResponse> getApp({
     required String applicationId,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
@@ -1473,8 +1417,6 @@ class Pinpoint {
     String? pageSize,
     DateTime? startTime,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
-    ArgumentError.checkNotNull(kpiName, 'kpiName');
     final $query = <String, List<String>>{
       if (endTime != null) 'end-time': [_s.iso8601ToJson(endTime).toString()],
       if (nextToken != null) 'next-token': [nextToken],
@@ -1513,7 +1455,6 @@ class Pinpoint {
   Future<GetApplicationSettingsResponse> getApplicationSettings({
     required String applicationId,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
@@ -1583,7 +1524,6 @@ class Pinpoint {
   Future<GetBaiduChannelResponse> getBaiduChannel({
     required String applicationId,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
@@ -1618,8 +1558,6 @@ class Pinpoint {
     required String applicationId,
     required String campaignId,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
-    ArgumentError.checkNotNull(campaignId, 'campaignId');
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
@@ -1664,8 +1602,6 @@ class Pinpoint {
     String? pageSize,
     String? token,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
-    ArgumentError.checkNotNull(campaignId, 'campaignId');
     final $query = <String, List<String>>{
       if (pageSize != null) 'page-size': [pageSize],
       if (token != null) 'token': [token],
@@ -1743,9 +1679,6 @@ class Pinpoint {
     String? pageSize,
     DateTime? startTime,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
-    ArgumentError.checkNotNull(campaignId, 'campaignId');
-    ArgumentError.checkNotNull(kpiName, 'kpiName');
     final $query = <String, List<String>>{
       if (endTime != null) 'end-time': [_s.iso8601ToJson(endTime).toString()],
       if (nextToken != null) 'next-token': [nextToken],
@@ -1793,9 +1726,6 @@ class Pinpoint {
     required String campaignId,
     required String version,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
-    ArgumentError.checkNotNull(campaignId, 'campaignId');
-    ArgumentError.checkNotNull(version, 'version');
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
@@ -1841,8 +1771,6 @@ class Pinpoint {
     String? pageSize,
     String? token,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
-    ArgumentError.checkNotNull(campaignId, 'campaignId');
     final $query = <String, List<String>>{
       if (pageSize != null) 'page-size': [pageSize],
       if (token != null) 'token': [token],
@@ -1889,7 +1817,6 @@ class Pinpoint {
     String? pageSize,
     String? token,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
     final $query = <String, List<String>>{
       if (pageSize != null) 'page-size': [pageSize],
       if (token != null) 'token': [token],
@@ -1924,7 +1851,6 @@ class Pinpoint {
   Future<GetChannelsResponse> getChannels({
     required String applicationId,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
@@ -1954,7 +1880,6 @@ class Pinpoint {
   Future<GetEmailChannelResponse> getEmailChannel({
     required String applicationId,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
@@ -2019,7 +1944,6 @@ class Pinpoint {
     required String templateName,
     String? version,
   }) async {
-    ArgumentError.checkNotNull(templateName, 'templateName');
     final $query = <String, List<String>>{
       if (version != null) 'version': [version],
     };
@@ -2057,8 +1981,6 @@ class Pinpoint {
     required String applicationId,
     required String endpointId,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
-    ArgumentError.checkNotNull(endpointId, 'endpointId');
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
@@ -2088,7 +2010,6 @@ class Pinpoint {
   Future<GetEventStreamResponse> getEventStream({
     required String applicationId,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
@@ -2122,8 +2043,6 @@ class Pinpoint {
     required String applicationId,
     required String jobId,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
-    ArgumentError.checkNotNull(jobId, 'jobId');
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
@@ -2165,7 +2084,6 @@ class Pinpoint {
     String? pageSize,
     String? token,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
     final $query = <String, List<String>>{
       if (pageSize != null) 'page-size': [pageSize],
       if (token != null) 'token': [token],
@@ -2200,7 +2118,6 @@ class Pinpoint {
   Future<GetGcmChannelResponse> getGcmChannel({
     required String applicationId,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
@@ -2234,8 +2151,6 @@ class Pinpoint {
     required String applicationId,
     required String jobId,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
-    ArgumentError.checkNotNull(jobId, 'jobId');
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
@@ -2277,7 +2192,6 @@ class Pinpoint {
     String? pageSize,
     String? token,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
     final $query = <String, List<String>>{
       if (pageSize != null) 'page-size': [pageSize],
       if (token != null) 'token': [token],
@@ -2316,8 +2230,6 @@ class Pinpoint {
     required String applicationId,
     required String journeyId,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
-    ArgumentError.checkNotNull(journeyId, 'journeyId');
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
@@ -2390,9 +2302,6 @@ class Pinpoint {
     String? pageSize,
     DateTime? startTime,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
-    ArgumentError.checkNotNull(journeyId, 'journeyId');
-    ArgumentError.checkNotNull(kpiName, 'kpiName');
     final $query = <String, List<String>>{
       if (endTime != null) 'end-time': [_s.iso8601ToJson(endTime).toString()],
       if (nextToken != null) 'next-token': [nextToken],
@@ -2452,9 +2361,6 @@ class Pinpoint {
     String? nextToken,
     String? pageSize,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
-    ArgumentError.checkNotNull(journeyActivityId, 'journeyActivityId');
-    ArgumentError.checkNotNull(journeyId, 'journeyId');
     final $query = <String, List<String>>{
       if (nextToken != null) 'next-token': [nextToken],
       if (pageSize != null) 'page-size': [pageSize],
@@ -2507,8 +2413,6 @@ class Pinpoint {
     String? nextToken,
     String? pageSize,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
-    ArgumentError.checkNotNull(journeyId, 'journeyId');
     final $query = <String, List<String>>{
       if (nextToken != null) 'next-token': [nextToken],
       if (pageSize != null) 'page-size': [pageSize],
@@ -2579,7 +2483,6 @@ class Pinpoint {
     required String templateName,
     String? version,
   }) async {
-    ArgumentError.checkNotNull(templateName, 'templateName');
     final $query = <String, List<String>>{
       if (version != null) 'version': [version],
     };
@@ -2615,7 +2518,6 @@ class Pinpoint {
   Future<GetRecommenderConfigurationResponse> getRecommenderConfiguration({
     required String recommenderId,
   }) async {
-    ArgumentError.checkNotNull(recommenderId, 'recommenderId');
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
@@ -2691,8 +2593,6 @@ class Pinpoint {
     required String applicationId,
     required String segmentId,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
-    ArgumentError.checkNotNull(segmentId, 'segmentId');
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
@@ -2738,8 +2638,6 @@ class Pinpoint {
     String? pageSize,
     String? token,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
-    ArgumentError.checkNotNull(segmentId, 'segmentId');
     final $query = <String, List<String>>{
       if (pageSize != null) 'page-size': [pageSize],
       if (token != null) 'token': [token],
@@ -2790,8 +2688,6 @@ class Pinpoint {
     String? pageSize,
     String? token,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
-    ArgumentError.checkNotNull(segmentId, 'segmentId');
     final $query = <String, List<String>>{
       if (pageSize != null) 'page-size': [pageSize],
       if (token != null) 'token': [token],
@@ -2836,9 +2732,6 @@ class Pinpoint {
     required String segmentId,
     required String version,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
-    ArgumentError.checkNotNull(segmentId, 'segmentId');
-    ArgumentError.checkNotNull(version, 'version');
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
@@ -2885,8 +2778,6 @@ class Pinpoint {
     String? pageSize,
     String? token,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
-    ArgumentError.checkNotNull(segmentId, 'segmentId');
     final $query = <String, List<String>>{
       if (pageSize != null) 'page-size': [pageSize],
       if (token != null) 'token': [token],
@@ -2933,7 +2824,6 @@ class Pinpoint {
     String? pageSize,
     String? token,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
     final $query = <String, List<String>>{
       if (pageSize != null) 'page-size': [pageSize],
       if (token != null) 'token': [token],
@@ -2968,7 +2858,6 @@ class Pinpoint {
   Future<GetSmsChannelResponse> getSmsChannel({
     required String applicationId,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
@@ -3032,7 +2921,6 @@ class Pinpoint {
     required String templateName,
     String? version,
   }) async {
-    ArgumentError.checkNotNull(templateName, 'templateName');
     final $query = <String, List<String>>{
       if (version != null) 'version': [version],
     };
@@ -3070,8 +2958,6 @@ class Pinpoint {
     required String applicationId,
     required String userId,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
-    ArgumentError.checkNotNull(userId, 'userId');
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
@@ -3102,7 +2988,6 @@ class Pinpoint {
   Future<GetVoiceChannelResponse> getVoiceChannel({
     required String applicationId,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
@@ -3167,7 +3052,6 @@ class Pinpoint {
     required String templateName,
     String? version,
   }) async {
-    ArgumentError.checkNotNull(templateName, 'templateName');
     final $query = <String, List<String>>{
       if (version != null) 'version': [version],
     };
@@ -3212,7 +3096,6 @@ class Pinpoint {
     String? pageSize,
     String? token,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
     final $query = <String, List<String>>{
       if (pageSize != null) 'page-size': [pageSize],
       if (token != null) 'token': [token],
@@ -3238,7 +3121,6 @@ class Pinpoint {
   Future<ListTagsForResourceResponse> listTagsForResource({
     required String resourceArn,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
@@ -3287,8 +3169,6 @@ class Pinpoint {
     String? nextToken,
     String? pageSize,
   }) async {
-    ArgumentError.checkNotNull(templateName, 'templateName');
-    ArgumentError.checkNotNull(templateType, 'templateType');
     final $query = <String, List<String>>{
       if (nextToken != null) 'next-token': [nextToken],
       if (pageSize != null) 'page-size': [pageSize],
@@ -3372,7 +3252,6 @@ class Pinpoint {
   Future<PhoneNumberValidateResponse> phoneNumberValidate({
     required NumberValidateRequest numberValidateRequest,
   }) async {
-    ArgumentError.checkNotNull(numberValidateRequest, 'numberValidateRequest');
     final response = await _protocol.sendRaw(
       payload: numberValidateRequest,
       method: 'POST',
@@ -3403,8 +3282,6 @@ class Pinpoint {
     required String applicationId,
     required WriteEventStream writeEventStream,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
-    ArgumentError.checkNotNull(writeEventStream, 'writeEventStream');
     final response = await _protocol.sendRaw(
       payload: writeEventStream,
       method: 'POST',
@@ -3435,8 +3312,6 @@ class Pinpoint {
     required String applicationId,
     required EventsRequest eventsRequest,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
-    ArgumentError.checkNotNull(eventsRequest, 'eventsRequest');
     final response = await _protocol.sendRaw(
       payload: eventsRequest,
       method: 'POST',
@@ -3488,10 +3363,6 @@ class Pinpoint {
     required String attributeType,
     required UpdateAttributesRequest updateAttributesRequest,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
-    ArgumentError.checkNotNull(attributeType, 'attributeType');
-    ArgumentError.checkNotNull(
-        updateAttributesRequest, 'updateAttributesRequest');
     final response = await _protocol.sendRaw(
       payload: updateAttributesRequest,
       method: 'PUT',
@@ -3522,8 +3393,6 @@ class Pinpoint {
     required String applicationId,
     required MessageRequest messageRequest,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
-    ArgumentError.checkNotNull(messageRequest, 'messageRequest');
     final response = await _protocol.sendRaw(
       payload: messageRequest,
       method: 'POST',
@@ -3553,9 +3422,6 @@ class Pinpoint {
     required String applicationId,
     required SendUsersMessageRequest sendUsersMessageRequest,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
-    ArgumentError.checkNotNull(
-        sendUsersMessageRequest, 'sendUsersMessageRequest');
     final response = await _protocol.sendRaw(
       payload: sendUsersMessageRequest,
       method: 'POST',
@@ -3578,8 +3444,6 @@ class Pinpoint {
     required String resourceArn,
     required TagsModel tagsModel,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    ArgumentError.checkNotNull(tagsModel, 'tagsModel');
     await _protocol.send(
       payload: tagsModel,
       method: 'POST',
@@ -3602,8 +3466,6 @@ class Pinpoint {
     required String resourceArn,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
       'tagKeys': tagKeys,
     };
@@ -3634,8 +3496,6 @@ class Pinpoint {
     required ADMChannelRequest aDMChannelRequest,
     required String applicationId,
   }) async {
-    ArgumentError.checkNotNull(aDMChannelRequest, 'aDMChannelRequest');
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
     final response = await _protocol.sendRaw(
       payload: aDMChannelRequest,
       method: 'PUT',
@@ -3666,8 +3526,6 @@ class Pinpoint {
     required APNSChannelRequest aPNSChannelRequest,
     required String applicationId,
   }) async {
-    ArgumentError.checkNotNull(aPNSChannelRequest, 'aPNSChannelRequest');
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
     final response = await _protocol.sendRaw(
       payload: aPNSChannelRequest,
       method: 'PUT',
@@ -3699,9 +3557,6 @@ class Pinpoint {
     required APNSSandboxChannelRequest aPNSSandboxChannelRequest,
     required String applicationId,
   }) async {
-    ArgumentError.checkNotNull(
-        aPNSSandboxChannelRequest, 'aPNSSandboxChannelRequest');
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
     final response = await _protocol.sendRaw(
       payload: aPNSSandboxChannelRequest,
       method: 'PUT',
@@ -3733,9 +3588,6 @@ class Pinpoint {
     required APNSVoipChannelRequest aPNSVoipChannelRequest,
     required String applicationId,
   }) async {
-    ArgumentError.checkNotNull(
-        aPNSVoipChannelRequest, 'aPNSVoipChannelRequest');
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
     final response = await _protocol.sendRaw(
       payload: aPNSVoipChannelRequest,
       method: 'PUT',
@@ -3767,9 +3619,6 @@ class Pinpoint {
     required APNSVoipSandboxChannelRequest aPNSVoipSandboxChannelRequest,
     required String applicationId,
   }) async {
-    ArgumentError.checkNotNull(
-        aPNSVoipSandboxChannelRequest, 'aPNSVoipSandboxChannelRequest');
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
     final response = await _protocol.sendRaw(
       payload: aPNSVoipSandboxChannelRequest,
       method: 'PUT',
@@ -3801,9 +3650,6 @@ class Pinpoint {
     required String applicationId,
     required WriteApplicationSettingsRequest writeApplicationSettingsRequest,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
-    ArgumentError.checkNotNull(
-        writeApplicationSettingsRequest, 'writeApplicationSettingsRequest');
     final response = await _protocol.sendRaw(
       payload: writeApplicationSettingsRequest,
       method: 'PUT',
@@ -3834,8 +3680,6 @@ class Pinpoint {
     required String applicationId,
     required BaiduChannelRequest baiduChannelRequest,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
-    ArgumentError.checkNotNull(baiduChannelRequest, 'baiduChannelRequest');
     final response = await _protocol.sendRaw(
       payload: baiduChannelRequest,
       method: 'PUT',
@@ -3870,9 +3714,6 @@ class Pinpoint {
     required String campaignId,
     required WriteCampaignRequest writeCampaignRequest,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
-    ArgumentError.checkNotNull(campaignId, 'campaignId');
-    ArgumentError.checkNotNull(writeCampaignRequest, 'writeCampaignRequest');
     final response = await _protocol.sendRaw(
       payload: writeCampaignRequest,
       method: 'PUT',
@@ -3904,8 +3745,6 @@ class Pinpoint {
     required String applicationId,
     required EmailChannelRequest emailChannelRequest,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
-    ArgumentError.checkNotNull(emailChannelRequest, 'emailChannelRequest');
     final response = await _protocol.sendRaw(
       payload: emailChannelRequest,
       method: 'PUT',
@@ -3983,8 +3822,6 @@ class Pinpoint {
     bool? createNewVersion,
     String? version,
   }) async {
-    ArgumentError.checkNotNull(emailTemplateRequest, 'emailTemplateRequest');
-    ArgumentError.checkNotNull(templateName, 'templateName');
     final $query = <String, List<String>>{
       if (createNewVersion != null)
         'create-new-version': [createNewVersion.toString()],
@@ -4028,9 +3865,6 @@ class Pinpoint {
     required String endpointId,
     required EndpointRequest endpointRequest,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
-    ArgumentError.checkNotNull(endpointId, 'endpointId');
-    ArgumentError.checkNotNull(endpointRequest, 'endpointRequest');
     final response = await _protocol.sendRaw(
       payload: endpointRequest,
       method: 'PUT',
@@ -4066,8 +3900,6 @@ class Pinpoint {
     required String applicationId,
     required EndpointBatchRequest endpointBatchRequest,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
-    ArgumentError.checkNotNull(endpointBatchRequest, 'endpointBatchRequest');
     final response = await _protocol.sendRaw(
       payload: endpointBatchRequest,
       method: 'PUT',
@@ -4098,8 +3930,6 @@ class Pinpoint {
     required String applicationId,
     required GCMChannelRequest gCMChannelRequest,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
-    ArgumentError.checkNotNull(gCMChannelRequest, 'gCMChannelRequest');
     final response = await _protocol.sendRaw(
       payload: gCMChannelRequest,
       method: 'PUT',
@@ -4134,9 +3964,6 @@ class Pinpoint {
     required String journeyId,
     required WriteJourneyRequest writeJourneyRequest,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
-    ArgumentError.checkNotNull(journeyId, 'journeyId');
-    ArgumentError.checkNotNull(writeJourneyRequest, 'writeJourneyRequest');
     final response = await _protocol.sendRaw(
       payload: writeJourneyRequest,
       method: 'PUT',
@@ -4171,9 +3998,6 @@ class Pinpoint {
     required String journeyId,
     required JourneyStateRequest journeyStateRequest,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
-    ArgumentError.checkNotNull(journeyId, 'journeyId');
-    ArgumentError.checkNotNull(journeyStateRequest, 'journeyStateRequest');
     final response = await _protocol.sendRaw(
       payload: journeyStateRequest,
       method: 'PUT',
@@ -4251,9 +4075,6 @@ class Pinpoint {
     bool? createNewVersion,
     String? version,
   }) async {
-    ArgumentError.checkNotNull(
-        pushNotificationTemplateRequest, 'pushNotificationTemplateRequest');
-    ArgumentError.checkNotNull(templateName, 'templateName');
     final $query = <String, List<String>>{
       if (createNewVersion != null)
         'create-new-version': [createNewVersion.toString()],
@@ -4291,9 +4112,6 @@ class Pinpoint {
     required String recommenderId,
     required UpdateRecommenderConfiguration updateRecommenderConfiguration,
   }) async {
-    ArgumentError.checkNotNull(recommenderId, 'recommenderId');
-    ArgumentError.checkNotNull(
-        updateRecommenderConfiguration, 'updateRecommenderConfiguration');
     final response = await _protocol.sendRaw(
       payload: updateRecommenderConfiguration,
       method: 'PUT',
@@ -4330,9 +4148,6 @@ class Pinpoint {
     required String segmentId,
     required WriteSegmentRequest writeSegmentRequest,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
-    ArgumentError.checkNotNull(segmentId, 'segmentId');
-    ArgumentError.checkNotNull(writeSegmentRequest, 'writeSegmentRequest');
     final response = await _protocol.sendRaw(
       payload: writeSegmentRequest,
       method: 'PUT',
@@ -4364,8 +4179,6 @@ class Pinpoint {
     required String applicationId,
     required SMSChannelRequest sMSChannelRequest,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
-    ArgumentError.checkNotNull(sMSChannelRequest, 'sMSChannelRequest');
     final response = await _protocol.sendRaw(
       payload: sMSChannelRequest,
       method: 'PUT',
@@ -4442,8 +4255,6 @@ class Pinpoint {
     bool? createNewVersion,
     String? version,
   }) async {
-    ArgumentError.checkNotNull(sMSTemplateRequest, 'sMSTemplateRequest');
-    ArgumentError.checkNotNull(templateName, 'templateName');
     final $query = <String, List<String>>{
       if (createNewVersion != null)
         'create-new-version': [createNewVersion.toString()],
@@ -4487,10 +4298,6 @@ class Pinpoint {
     required String templateName,
     required String templateType,
   }) async {
-    ArgumentError.checkNotNull(
-        templateActiveVersionRequest, 'templateActiveVersionRequest');
-    ArgumentError.checkNotNull(templateName, 'templateName');
-    ArgumentError.checkNotNull(templateType, 'templateType');
     final response = await _protocol.sendRaw(
       payload: templateActiveVersionRequest,
       method: 'PUT',
@@ -4522,8 +4329,6 @@ class Pinpoint {
     required String applicationId,
     required VoiceChannelRequest voiceChannelRequest,
   }) async {
-    ArgumentError.checkNotNull(applicationId, 'applicationId');
-    ArgumentError.checkNotNull(voiceChannelRequest, 'voiceChannelRequest');
     final response = await _protocol.sendRaw(
       payload: voiceChannelRequest,
       method: 'PUT',
@@ -4601,8 +4406,6 @@ class Pinpoint {
     bool? createNewVersion,
     String? version,
   }) async {
-    ArgumentError.checkNotNull(templateName, 'templateName');
-    ArgumentError.checkNotNull(voiceTemplateRequest, 'voiceTemplateRequest');
     final $query = <String, List<String>>{
       if (createNewVersion != null)
         'create-new-version': [createNewVersion.toString()],

@@ -122,22 +122,6 @@ class CloudWatchLogs {
     required String kmsKeyId,
     required String logGroupName,
   }) async {
-    ArgumentError.checkNotNull(kmsKeyId, 'kmsKeyId');
-    _s.validateStringLength(
-      'kmsKeyId',
-      kmsKeyId,
-      0,
-      256,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(logGroupName, 'logGroupName');
-    _s.validateStringLength(
-      'logGroupName',
-      logGroupName,
-      1,
-      512,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Logs_20140328.AssociateKmsKey'
@@ -170,14 +154,6 @@ class CloudWatchLogs {
   Future<void> cancelExportTask({
     required String taskId,
   }) async {
-    ArgumentError.checkNotNull(taskId, 'taskId');
-    _s.validateStringLength(
-      'taskId',
-      taskId,
-      1,
-      512,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Logs_20140328.CancelExportTask'
@@ -260,15 +236,6 @@ class CloudWatchLogs {
     String? logStreamNamePrefix,
     String? taskName,
   }) async {
-    ArgumentError.checkNotNull(destination, 'destination');
-    _s.validateStringLength(
-      'destination',
-      destination,
-      1,
-      512,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(from, 'from');
     _s.validateNumRange(
       'from',
       from,
@@ -276,33 +243,12 @@ class CloudWatchLogs {
       1152921504606846976,
       isRequired: true,
     );
-    ArgumentError.checkNotNull(logGroupName, 'logGroupName');
-    _s.validateStringLength(
-      'logGroupName',
-      logGroupName,
-      1,
-      512,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(to, 'to');
     _s.validateNumRange(
       'to',
       to,
       0,
       1152921504606846976,
       isRequired: true,
-    );
-    _s.validateStringLength(
-      'logStreamNamePrefix',
-      logStreamNamePrefix,
-      1,
-      512,
-    );
-    _s.validateStringLength(
-      'taskName',
-      taskName,
-      1,
-      512,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -390,20 +336,6 @@ class CloudWatchLogs {
     String? kmsKeyId,
     Map<String, String>? tags,
   }) async {
-    ArgumentError.checkNotNull(logGroupName, 'logGroupName');
-    _s.validateStringLength(
-      'logGroupName',
-      logGroupName,
-      1,
-      512,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'kmsKeyId',
-      kmsKeyId,
-      0,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Logs_20140328.CreateLogGroup'
@@ -458,22 +390,6 @@ class CloudWatchLogs {
     required String logGroupName,
     required String logStreamName,
   }) async {
-    ArgumentError.checkNotNull(logGroupName, 'logGroupName');
-    _s.validateStringLength(
-      'logGroupName',
-      logGroupName,
-      1,
-      512,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(logStreamName, 'logStreamName');
-    _s.validateStringLength(
-      'logStreamName',
-      logStreamName,
-      1,
-      512,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Logs_20140328.CreateLogStream'
@@ -505,14 +421,6 @@ class CloudWatchLogs {
   Future<void> deleteDestination({
     required String destinationName,
   }) async {
-    ArgumentError.checkNotNull(destinationName, 'destinationName');
-    _s.validateStringLength(
-      'destinationName',
-      destinationName,
-      1,
-      512,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Logs_20140328.DeleteDestination'
@@ -542,14 +450,6 @@ class CloudWatchLogs {
   Future<void> deleteLogGroup({
     required String logGroupName,
   }) async {
-    ArgumentError.checkNotNull(logGroupName, 'logGroupName');
-    _s.validateStringLength(
-      'logGroupName',
-      logGroupName,
-      1,
-      512,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Logs_20140328.DeleteLogGroup'
@@ -583,22 +483,6 @@ class CloudWatchLogs {
     required String logGroupName,
     required String logStreamName,
   }) async {
-    ArgumentError.checkNotNull(logGroupName, 'logGroupName');
-    _s.validateStringLength(
-      'logGroupName',
-      logGroupName,
-      1,
-      512,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(logStreamName, 'logStreamName');
-    _s.validateStringLength(
-      'logStreamName',
-      logStreamName,
-      1,
-      512,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Logs_20140328.DeleteLogStream'
@@ -632,22 +516,6 @@ class CloudWatchLogs {
     required String filterName,
     required String logGroupName,
   }) async {
-    ArgumentError.checkNotNull(filterName, 'filterName');
-    _s.validateStringLength(
-      'filterName',
-      filterName,
-      1,
-      512,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(logGroupName, 'logGroupName');
-    _s.validateStringLength(
-      'logGroupName',
-      logGroupName,
-      1,
-      512,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Logs_20140328.DeleteMetricFilter'
@@ -685,14 +553,6 @@ class CloudWatchLogs {
   Future<DeleteQueryDefinitionResponse> deleteQueryDefinition({
     required String queryDefinitionId,
   }) async {
-    ArgumentError.checkNotNull(queryDefinitionId, 'queryDefinitionId');
-    _s.validateStringLength(
-      'queryDefinitionId',
-      queryDefinitionId,
-      0,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Logs_20140328.DeleteQueryDefinition'
@@ -754,14 +614,6 @@ class CloudWatchLogs {
   Future<void> deleteRetentionPolicy({
     required String logGroupName,
   }) async {
-    ArgumentError.checkNotNull(logGroupName, 'logGroupName');
-    _s.validateStringLength(
-      'logGroupName',
-      logGroupName,
-      1,
-      512,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Logs_20140328.DeleteRetentionPolicy'
@@ -794,22 +646,6 @@ class CloudWatchLogs {
     required String filterName,
     required String logGroupName,
   }) async {
-    ArgumentError.checkNotNull(filterName, 'filterName');
-    _s.validateStringLength(
-      'filterName',
-      filterName,
-      1,
-      512,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(logGroupName, 'logGroupName');
-    _s.validateStringLength(
-      'logGroupName',
-      logGroupName,
-      1,
-      512,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Logs_20140328.DeleteSubscriptionFilter'
@@ -849,23 +685,11 @@ class CloudWatchLogs {
     int? limit,
     String? nextToken,
   }) async {
-    _s.validateStringLength(
-      'destinationNamePrefix',
-      destinationNamePrefix,
-      1,
-      512,
-    );
     _s.validateNumRange(
       'limit',
       limit,
       1,
       50,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -921,18 +745,6 @@ class CloudWatchLogs {
       1,
       50,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
-    );
-    _s.validateStringLength(
-      'taskId',
-      taskId,
-      1,
-      512,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Logs_20140328.DescribeExportTasks'
@@ -980,18 +792,6 @@ class CloudWatchLogs {
       limit,
       1,
       50,
-    );
-    _s.validateStringLength(
-      'logGroupNamePrefix',
-      logGroupNamePrefix,
-      1,
-      512,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1070,31 +870,11 @@ class CloudWatchLogs {
     String? nextToken,
     OrderBy? orderBy,
   }) async {
-    ArgumentError.checkNotNull(logGroupName, 'logGroupName');
-    _s.validateStringLength(
-      'logGroupName',
-      logGroupName,
-      1,
-      512,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'limit',
       limit,
       1,
       50,
-    );
-    _s.validateStringLength(
-      'logStreamNamePrefix',
-      logStreamNamePrefix,
-      1,
-      512,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1160,41 +940,11 @@ class CloudWatchLogs {
     String? metricNamespace,
     String? nextToken,
   }) async {
-    _s.validateStringLength(
-      'filterNamePrefix',
-      filterNamePrefix,
-      1,
-      512,
-    );
     _s.validateNumRange(
       'limit',
       limit,
       1,
       50,
-    );
-    _s.validateStringLength(
-      'logGroupName',
-      logGroupName,
-      1,
-      512,
-    );
-    _s.validateStringLength(
-      'metricName',
-      metricName,
-      0,
-      255,
-    );
-    _s.validateStringLength(
-      'metricNamespace',
-      metricNamespace,
-      0,
-      255,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1244,23 +994,11 @@ class CloudWatchLogs {
     String? nextToken,
     QueryStatus? status,
   }) async {
-    _s.validateStringLength(
-      'logGroupName',
-      logGroupName,
-      1,
-      512,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       1000,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1310,18 +1048,6 @@ class CloudWatchLogs {
       1,
       1000,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
-    );
-    _s.validateStringLength(
-      'queryDefinitionNamePrefix',
-      queryDefinitionNamePrefix,
-      1,
-      255,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Logs_20140328.DescribeQueryDefinitions'
@@ -1360,12 +1086,6 @@ class CloudWatchLogs {
       limit,
       1,
       50,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1414,31 +1134,11 @@ class CloudWatchLogs {
     int? limit,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(logGroupName, 'logGroupName');
-    _s.validateStringLength(
-      'logGroupName',
-      logGroupName,
-      1,
-      512,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'filterNamePrefix',
-      filterNamePrefix,
-      1,
-      512,
-    );
     _s.validateNumRange(
       'limit',
       limit,
       1,
       50,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1481,14 +1181,6 @@ class CloudWatchLogs {
   Future<void> disassociateKmsKey({
     required String logGroupName,
   }) async {
-    ArgumentError.checkNotNull(logGroupName, 'logGroupName');
-    _s.validateStringLength(
-      'logGroupName',
-      logGroupName,
-      1,
-      512,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Logs_20140328.DisassociateKmsKey'
@@ -1592,43 +1284,17 @@ class CloudWatchLogs {
     String? nextToken,
     int? startTime,
   }) async {
-    ArgumentError.checkNotNull(logGroupName, 'logGroupName');
-    _s.validateStringLength(
-      'logGroupName',
-      logGroupName,
-      1,
-      512,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'endTime',
       endTime,
       0,
       1152921504606846976,
     );
-    _s.validateStringLength(
-      'filterPattern',
-      filterPattern,
-      0,
-      1024,
-    );
     _s.validateNumRange(
       'limit',
       limit,
       1,
       10000,
-    );
-    _s.validateStringLength(
-      'logStreamNamePrefix',
-      logStreamNamePrefix,
-      1,
-      512,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
     );
     _s.validateNumRange(
       'startTime',
@@ -1721,22 +1387,6 @@ class CloudWatchLogs {
     bool? startFromHead,
     int? startTime,
   }) async {
-    ArgumentError.checkNotNull(logGroupName, 'logGroupName');
-    _s.validateStringLength(
-      'logGroupName',
-      logGroupName,
-      1,
-      512,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(logStreamName, 'logStreamName');
-    _s.validateStringLength(
-      'logStreamName',
-      logStreamName,
-      1,
-      512,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'endTime',
       endTime,
@@ -1748,12 +1398,6 @@ class CloudWatchLogs {
       limit,
       1,
       10000,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
     );
     _s.validateNumRange(
       'startTime',
@@ -1818,14 +1462,6 @@ class CloudWatchLogs {
     required String logGroupName,
     int? time,
   }) async {
-    ArgumentError.checkNotNull(logGroupName, 'logGroupName');
-    _s.validateStringLength(
-      'logGroupName',
-      logGroupName,
-      1,
-      512,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'time',
       time,
@@ -1872,7 +1508,6 @@ class CloudWatchLogs {
   Future<GetLogRecordResponse> getLogRecord({
     required String logRecordPointer,
   }) async {
-    ArgumentError.checkNotNull(logRecordPointer, 'logRecordPointer');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Logs_20140328.GetLogRecord'
@@ -1917,14 +1552,6 @@ class CloudWatchLogs {
   Future<GetQueryResultsResponse> getQueryResults({
     required String queryId,
   }) async {
-    ArgumentError.checkNotNull(queryId, 'queryId');
-    _s.validateStringLength(
-      'queryId',
-      queryId,
-      0,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Logs_20140328.GetQueryResults'
@@ -1953,14 +1580,6 @@ class CloudWatchLogs {
   Future<ListTagsLogGroupResponse> listTagsLogGroup({
     required String logGroupName,
   }) async {
-    ArgumentError.checkNotNull(logGroupName, 'logGroupName');
-    _s.validateStringLength(
-      'logGroupName',
-      logGroupName,
-      1,
-      512,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Logs_20140328.ListTagsLogGroup'
@@ -2018,30 +1637,6 @@ class CloudWatchLogs {
     required String roleArn,
     required String targetArn,
   }) async {
-    ArgumentError.checkNotNull(destinationName, 'destinationName');
-    _s.validateStringLength(
-      'destinationName',
-      destinationName,
-      1,
-      512,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(roleArn, 'roleArn');
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(targetArn, 'targetArn');
-    _s.validateStringLength(
-      'targetArn',
-      targetArn,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Logs_20140328.PutDestination'
@@ -2083,22 +1678,6 @@ class CloudWatchLogs {
     required String accessPolicy,
     required String destinationName,
   }) async {
-    ArgumentError.checkNotNull(accessPolicy, 'accessPolicy');
-    _s.validateStringLength(
-      'accessPolicy',
-      accessPolicy,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(destinationName, 'destinationName');
-    _s.validateStringLength(
-      'destinationName',
-      destinationName,
-      1,
-      512,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Logs_20140328.PutDestinationPolicy'
@@ -2196,29 +1775,6 @@ class CloudWatchLogs {
     required String logStreamName,
     String? sequenceToken,
   }) async {
-    ArgumentError.checkNotNull(logEvents, 'logEvents');
-    ArgumentError.checkNotNull(logGroupName, 'logGroupName');
-    _s.validateStringLength(
-      'logGroupName',
-      logGroupName,
-      1,
-      512,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(logStreamName, 'logStreamName');
-    _s.validateStringLength(
-      'logStreamName',
-      logStreamName,
-      1,
-      512,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'sequenceToken',
-      sequenceToken,
-      1,
-      1152921504606846976,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Logs_20140328.PutLogEvents'
@@ -2271,31 +1827,6 @@ class CloudWatchLogs {
     required String logGroupName,
     required List<MetricTransformation> metricTransformations,
   }) async {
-    ArgumentError.checkNotNull(filterName, 'filterName');
-    _s.validateStringLength(
-      'filterName',
-      filterName,
-      1,
-      512,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(filterPattern, 'filterPattern');
-    _s.validateStringLength(
-      'filterPattern',
-      filterPattern,
-      0,
-      1024,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(logGroupName, 'logGroupName');
-    _s.validateStringLength(
-      'logGroupName',
-      logGroupName,
-      1,
-      512,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(metricTransformations, 'metricTransformations');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Logs_20140328.PutMetricFilter'
@@ -2370,28 +1901,6 @@ class CloudWatchLogs {
     List<String>? logGroupNames,
     String? queryDefinitionId,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(queryString, 'queryString');
-    _s.validateStringLength(
-      'queryString',
-      queryString,
-      1,
-      10000,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'queryDefinitionId',
-      queryDefinitionId,
-      0,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Logs_20140328.PutQueryDefinition'
@@ -2442,12 +1951,6 @@ class CloudWatchLogs {
     String? policyDocument,
     String? policyName,
   }) async {
-    _s.validateStringLength(
-      'policyDocument',
-      policyDocument,
-      1,
-      5120,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Logs_20140328.PutResourcePolicy'
@@ -2482,15 +1985,6 @@ class CloudWatchLogs {
     required String logGroupName,
     required int retentionInDays,
   }) async {
-    ArgumentError.checkNotNull(logGroupName, 'logGroupName');
-    _s.validateStringLength(
-      'logGroupName',
-      logGroupName,
-      1,
-      512,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(retentionInDays, 'retentionInDays');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Logs_20140328.PutRetentionPolicy'
@@ -2606,44 +2100,6 @@ class CloudWatchLogs {
     Distribution? distribution,
     String? roleArn,
   }) async {
-    ArgumentError.checkNotNull(destinationArn, 'destinationArn');
-    _s.validateStringLength(
-      'destinationArn',
-      destinationArn,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(filterName, 'filterName');
-    _s.validateStringLength(
-      'filterName',
-      filterName,
-      1,
-      512,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(filterPattern, 'filterPattern');
-    _s.validateStringLength(
-      'filterPattern',
-      filterPattern,
-      0,
-      1024,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(logGroupName, 'logGroupName');
-    _s.validateStringLength(
-      'logGroupName',
-      logGroupName,
-      1,
-      512,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      1,
-      1152921504606846976,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Logs_20140328.PutSubscriptionFilter'
@@ -2723,7 +2179,6 @@ class CloudWatchLogs {
     String? logGroupName,
     List<String>? logGroupNames,
   }) async {
-    ArgumentError.checkNotNull(endTime, 'endTime');
     _s.validateNumRange(
       'endTime',
       endTime,
@@ -2731,15 +2186,6 @@ class CloudWatchLogs {
       1152921504606846976,
       isRequired: true,
     );
-    ArgumentError.checkNotNull(queryString, 'queryString');
-    _s.validateStringLength(
-      'queryString',
-      queryString,
-      0,
-      10000,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(startTime, 'startTime');
     _s.validateNumRange(
       'startTime',
       startTime,
@@ -2752,12 +2198,6 @@ class CloudWatchLogs {
       limit,
       1,
       10000,
-    );
-    _s.validateStringLength(
-      'logGroupName',
-      logGroupName,
-      1,
-      512,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2796,14 +2236,6 @@ class CloudWatchLogs {
   Future<StopQueryResponse> stopQuery({
     required String queryId,
   }) async {
-    ArgumentError.checkNotNull(queryId, 'queryId');
-    _s.validateStringLength(
-      'queryId',
-      queryId,
-      0,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Logs_20140328.StopQuery'
@@ -2846,15 +2278,6 @@ class CloudWatchLogs {
     required String logGroupName,
     required Map<String, String> tags,
   }) async {
-    ArgumentError.checkNotNull(logGroupName, 'logGroupName');
-    _s.validateStringLength(
-      'logGroupName',
-      logGroupName,
-      1,
-      512,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Logs_20140328.TagLogGroup'
@@ -2885,15 +2308,6 @@ class CloudWatchLogs {
     required String filterPattern,
     required List<String> logEventMessages,
   }) async {
-    ArgumentError.checkNotNull(filterPattern, 'filterPattern');
-    _s.validateStringLength(
-      'filterPattern',
-      filterPattern,
-      0,
-      1024,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(logEventMessages, 'logEventMessages');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Logs_20140328.TestMetricFilter'
@@ -2931,15 +2345,6 @@ class CloudWatchLogs {
     required String logGroupName,
     required List<String> tags,
   }) async {
-    ArgumentError.checkNotNull(logGroupName, 'logGroupName');
-    _s.validateStringLength(
-      'logGroupName',
-      logGroupName,
-      1,
-      512,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Logs_20140328.UntagLogGroup'

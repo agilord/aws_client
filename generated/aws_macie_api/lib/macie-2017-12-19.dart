@@ -67,7 +67,6 @@ class Macie {
   Future<void> associateMemberAccount({
     required String memberAccountId,
   }) async {
-    ArgumentError.checkNotNull(memberAccountId, 'memberAccountId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MacieService.AssociateMemberAccount'
@@ -107,7 +106,6 @@ class Macie {
     required List<S3ResourceClassification> s3Resources,
     String? memberAccountId,
   }) async {
-    ArgumentError.checkNotNull(s3Resources, 's3Resources');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MacieService.AssociateS3Resources'
@@ -138,7 +136,6 @@ class Macie {
   Future<void> disassociateMemberAccount({
     required String memberAccountId,
   }) async {
-    ArgumentError.checkNotNull(memberAccountId, 'memberAccountId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MacieService.DisassociateMemberAccount'
@@ -176,7 +173,6 @@ class Macie {
     required List<S3Resource> associatedS3Resources,
     String? memberAccountId,
   }) async {
-    ArgumentError.checkNotNull(associatedS3Resources, 'associatedS3Resources');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MacieService.DisassociateS3Resources'
@@ -220,12 +216,6 @@ class Macie {
       maxResults,
       0,
       250,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      500,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -280,12 +270,6 @@ class Macie {
       0,
       250,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      500,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MacieService.ListS3Resources'
@@ -327,7 +311,6 @@ class Macie {
     required List<S3ResourceClassificationUpdate> s3ResourcesUpdate,
     String? memberAccountId,
   }) async {
-    ArgumentError.checkNotNull(s3ResourcesUpdate, 's3ResourcesUpdate');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MacieService.UpdateS3Resources'

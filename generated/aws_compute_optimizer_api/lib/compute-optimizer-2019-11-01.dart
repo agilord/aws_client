@@ -220,7 +220,6 @@ class ComputeOptimizer {
     List<Filter>? filters,
     bool? includeMemberAccounts,
   }) async {
-    ArgumentError.checkNotNull(s3DestinationConfig, 's3DestinationConfig');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target':
@@ -335,7 +334,6 @@ class ComputeOptimizer {
     List<Filter>? filters,
     bool? includeMemberAccounts,
   }) async {
-    ArgumentError.checkNotNull(s3DestinationConfig, 's3DestinationConfig');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'ComputeOptimizerService.ExportEC2InstanceRecommendations'
@@ -629,11 +627,6 @@ class ComputeOptimizer {
     required DateTime startTime,
     required MetricStatistic stat,
   }) async {
-    ArgumentError.checkNotNull(endTime, 'endTime');
-    ArgumentError.checkNotNull(instanceArn, 'instanceArn');
-    ArgumentError.checkNotNull(period, 'period');
-    ArgumentError.checkNotNull(startTime, 'startTime');
-    ArgumentError.checkNotNull(stat, 'stat');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target':
@@ -854,7 +847,6 @@ class ComputeOptimizer {
     required Status status,
     bool? includeMemberAccounts,
   }) async {
-    ArgumentError.checkNotNull(status, 'status');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'ComputeOptimizerService.UpdateEnrollmentStatus'

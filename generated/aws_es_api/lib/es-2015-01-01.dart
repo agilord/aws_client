@@ -61,8 +61,6 @@ class ElasticsearchService {
       acceptInboundCrossClusterSearchConnection({
     required String crossClusterSearchConnectionId,
   }) async {
-    ArgumentError.checkNotNull(
-        crossClusterSearchConnectionId, 'crossClusterSearchConnectionId');
     final response = await _protocol.send(
       payload: null,
       method: 'PUT',
@@ -95,8 +93,6 @@ class ElasticsearchService {
     required String arn,
     required List<Tag> tagList,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
-    ArgumentError.checkNotNull(tagList, 'tagList');
     final $payload = <String, dynamic>{
       'ARN': arn,
       'TagList': tagList,
@@ -128,15 +124,6 @@ class ElasticsearchService {
     required String domainName,
     required String packageID,
   }) async {
-    ArgumentError.checkNotNull(domainName, 'domainName');
-    _s.validateStringLength(
-      'domainName',
-      domainName,
-      3,
-      28,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(packageID, 'packageID');
     final response = await _protocol.send(
       payload: null,
       method: 'POST',
@@ -164,14 +151,6 @@ class ElasticsearchService {
       cancelElasticsearchServiceSoftwareUpdate({
     required String domainName,
   }) async {
-    ArgumentError.checkNotNull(domainName, 'domainName');
-    _s.validateStringLength(
-      'domainName',
-      domainName,
-      3,
-      28,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'DomainName': domainName,
     };
@@ -277,14 +256,6 @@ class ElasticsearchService {
     SnapshotOptions? snapshotOptions,
     VPCOptions? vPCOptions,
   }) async {
-    ArgumentError.checkNotNull(domainName, 'domainName');
-    _s.validateStringLength(
-      'domainName',
-      domainName,
-      3,
-      28,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'DomainName': domainName,
       if (accessPolicies != null) 'AccessPolicies': accessPolicies,
@@ -343,16 +314,6 @@ class ElasticsearchService {
     required DomainInformation destinationDomainInfo,
     required DomainInformation sourceDomainInfo,
   }) async {
-    ArgumentError.checkNotNull(connectionAlias, 'connectionAlias');
-    _s.validateStringLength(
-      'connectionAlias',
-      connectionAlias,
-      0,
-      20,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(destinationDomainInfo, 'destinationDomainInfo');
-    ArgumentError.checkNotNull(sourceDomainInfo, 'sourceDomainInfo');
     final $payload = <String, dynamic>{
       'ConnectionAlias': connectionAlias,
       'DestinationDomainInfo': destinationDomainInfo,
@@ -396,22 +357,6 @@ class ElasticsearchService {
     required PackageType packageType,
     String? packageDescription,
   }) async {
-    ArgumentError.checkNotNull(packageName, 'packageName');
-    _s.validateStringLength(
-      'packageName',
-      packageName,
-      3,
-      28,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(packageSource, 'packageSource');
-    ArgumentError.checkNotNull(packageType, 'packageType');
-    _s.validateStringLength(
-      'packageDescription',
-      packageDescription,
-      0,
-      1024,
-    );
     final $payload = <String, dynamic>{
       'PackageName': packageName,
       'PackageSource': packageSource,
@@ -440,14 +385,6 @@ class ElasticsearchService {
   Future<DeleteElasticsearchDomainResponse> deleteElasticsearchDomain({
     required String domainName,
   }) async {
-    ArgumentError.checkNotNull(domainName, 'domainName');
-    _s.validateStringLength(
-      'domainName',
-      domainName,
-      3,
-      28,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -489,8 +426,6 @@ class ElasticsearchService {
       deleteInboundCrossClusterSearchConnection({
     required String crossClusterSearchConnectionId,
   }) async {
-    ArgumentError.checkNotNull(
-        crossClusterSearchConnectionId, 'crossClusterSearchConnectionId');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -513,8 +448,6 @@ class ElasticsearchService {
       deleteOutboundCrossClusterSearchConnection({
     required String crossClusterSearchConnectionId,
   }) async {
-    ArgumentError.checkNotNull(
-        crossClusterSearchConnectionId, 'crossClusterSearchConnectionId');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -541,7 +474,6 @@ class ElasticsearchService {
   Future<DeletePackageResponse> deletePackage({
     required String packageID,
   }) async {
-    ArgumentError.checkNotNull(packageID, 'packageID');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -564,14 +496,6 @@ class ElasticsearchService {
   Future<DescribeElasticsearchDomainResponse> describeElasticsearchDomain({
     required String domainName,
   }) async {
-    ArgumentError.checkNotNull(domainName, 'domainName');
-    _s.validateStringLength(
-      'domainName',
-      domainName,
-      3,
-      28,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -596,14 +520,6 @@ class ElasticsearchService {
       describeElasticsearchDomainConfig({
     required String domainName,
   }) async {
-    ArgumentError.checkNotNull(domainName, 'domainName');
-    _s.validateStringLength(
-      'domainName',
-      domainName,
-      3,
-      28,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -626,7 +542,6 @@ class ElasticsearchService {
   Future<DescribeElasticsearchDomainsResponse> describeElasticsearchDomains({
     required List<String> domainNames,
   }) async {
-    ArgumentError.checkNotNull(domainNames, 'domainNames');
     final $payload = <String, dynamic>{
       'DomainNames': domainNames,
     };
@@ -668,14 +583,6 @@ class ElasticsearchService {
     required ESPartitionInstanceType instanceType,
     String? domainName,
   }) async {
-    ArgumentError.checkNotNull(elasticsearchVersion, 'elasticsearchVersion');
-    ArgumentError.checkNotNull(instanceType, 'instanceType');
-    _s.validateStringLength(
-      'domainName',
-      domainName,
-      3,
-      28,
-    );
     final $query = <String, List<String>>{
       if (domainName != null) 'domainName': [domainName],
     };
@@ -952,15 +859,6 @@ class ElasticsearchService {
     required String domainName,
     required String packageID,
   }) async {
-    ArgumentError.checkNotNull(domainName, 'domainName');
-    _s.validateStringLength(
-      'domainName',
-      domainName,
-      3,
-      28,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(packageID, 'packageID');
     final response = await _protocol.send(
       payload: null,
       method: 'POST',
@@ -984,12 +882,6 @@ class ElasticsearchService {
       getCompatibleElasticsearchVersions({
     String? domainName,
   }) async {
-    _s.validateStringLength(
-      'domainName',
-      domainName,
-      3,
-      28,
-    );
     final $query = <String, List<String>>{
       if (domainName != null) 'domainName': [domainName],
     };
@@ -1026,7 +918,6 @@ class ElasticsearchService {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(packageID, 'packageID');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1061,14 +952,6 @@ class ElasticsearchService {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(domainName, 'domainName');
-    _s.validateStringLength(
-      'domainName',
-      domainName,
-      3,
-      28,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1101,14 +984,6 @@ class ElasticsearchService {
   Future<GetUpgradeStatusResponse> getUpgradeStatus({
     required String domainName,
   }) async {
-    ArgumentError.checkNotNull(domainName, 'domainName');
-    _s.validateStringLength(
-      'domainName',
-      domainName,
-      3,
-      28,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1156,7 +1031,6 @@ class ElasticsearchService {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(packageID, 'packageID');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1209,13 +1083,6 @@ class ElasticsearchService {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(elasticsearchVersion, 'elasticsearchVersion');
-    _s.validateStringLength(
-      'domainName',
-      domainName,
-      3,
-      28,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1294,14 +1161,6 @@ class ElasticsearchService {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(domainName, 'domainName');
-    _s.validateStringLength(
-      'domainName',
-      domainName,
-      3,
-      28,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1336,7 +1195,6 @@ class ElasticsearchService {
   Future<ListTagsResponse> listTags({
     required String arn,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
     final $query = <String, List<String>>{
       'arn': [arn],
     };
@@ -1373,16 +1231,6 @@ class ElasticsearchService {
     required String reservedElasticsearchInstanceOfferingId,
     int? instanceCount,
   }) async {
-    ArgumentError.checkNotNull(reservationName, 'reservationName');
-    _s.validateStringLength(
-      'reservationName',
-      reservationName,
-      5,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(reservedElasticsearchInstanceOfferingId,
-        'reservedElasticsearchInstanceOfferingId');
     _s.validateNumRange(
       'instanceCount',
       instanceCount,
@@ -1417,8 +1265,6 @@ class ElasticsearchService {
       rejectInboundCrossClusterSearchConnection({
     required String crossClusterSearchConnectionId,
   }) async {
-    ArgumentError.checkNotNull(
-        crossClusterSearchConnectionId, 'crossClusterSearchConnectionId');
     final response = await _protocol.send(
       payload: null,
       method: 'PUT',
@@ -1446,8 +1292,6 @@ class ElasticsearchService {
     required String arn,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $payload = <String, dynamic>{
       'ARN': arn,
       'TagKeys': tagKeys,
@@ -1474,14 +1318,6 @@ class ElasticsearchService {
       startElasticsearchServiceSoftwareUpdate({
     required String domainName,
   }) async {
-    ArgumentError.checkNotNull(domainName, 'domainName');
-    _s.validateStringLength(
-      'domainName',
-      domainName,
-      3,
-      28,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'DomainName': domainName,
     };
@@ -1565,14 +1401,6 @@ class ElasticsearchService {
     SnapshotOptions? snapshotOptions,
     VPCOptions? vPCOptions,
   }) async {
-    ArgumentError.checkNotNull(domainName, 'domainName');
-    _s.validateStringLength(
-      'domainName',
-      domainName,
-      3,
-      28,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       if (accessPolicies != null) 'AccessPolicies': accessPolicies,
       if (advancedOptions != null) 'AdvancedOptions': advancedOptions,
@@ -1624,20 +1452,6 @@ class ElasticsearchService {
     String? commitMessage,
     String? packageDescription,
   }) async {
-    ArgumentError.checkNotNull(packageID, 'packageID');
-    ArgumentError.checkNotNull(packageSource, 'packageSource');
-    _s.validateStringLength(
-      'commitMessage',
-      commitMessage,
-      0,
-      160,
-    );
-    _s.validateStringLength(
-      'packageDescription',
-      packageDescription,
-      0,
-      1024,
-    );
     final $payload = <String, dynamic>{
       'PackageID': packageID,
       'PackageSource': packageSource,
@@ -1674,15 +1488,6 @@ class ElasticsearchService {
     required String targetVersion,
     bool? performCheckOnly,
   }) async {
-    ArgumentError.checkNotNull(domainName, 'domainName');
-    _s.validateStringLength(
-      'domainName',
-      domainName,
-      3,
-      28,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(targetVersion, 'targetVersion');
     final $payload = <String, dynamic>{
       'DomainName': domainName,
       'TargetVersion': targetVersion,

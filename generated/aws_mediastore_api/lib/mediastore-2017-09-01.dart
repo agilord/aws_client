@@ -76,14 +76,6 @@ class MediaStore {
     required String containerName,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(containerName, 'containerName');
-    _s.validateStringLength(
-      'containerName',
-      containerName,
-      1,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MediaStore_20170901.CreateContainer'
@@ -116,14 +108,6 @@ class MediaStore {
   Future<void> deleteContainer({
     required String containerName,
   }) async {
-    ArgumentError.checkNotNull(containerName, 'containerName');
-    _s.validateStringLength(
-      'containerName',
-      containerName,
-      1,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MediaStore_20170901.DeleteContainer'
@@ -152,14 +136,6 @@ class MediaStore {
   Future<void> deleteContainerPolicy({
     required String containerName,
   }) async {
-    ArgumentError.checkNotNull(containerName, 'containerName');
-    _s.validateStringLength(
-      'containerName',
-      containerName,
-      1,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MediaStore_20170901.DeleteContainerPolicy'
@@ -193,14 +169,6 @@ class MediaStore {
   Future<void> deleteCorsPolicy({
     required String containerName,
   }) async {
-    ArgumentError.checkNotNull(containerName, 'containerName');
-    _s.validateStringLength(
-      'containerName',
-      containerName,
-      1,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MediaStore_20170901.DeleteCorsPolicy'
@@ -230,14 +198,6 @@ class MediaStore {
   Future<void> deleteLifecyclePolicy({
     required String containerName,
   }) async {
-    ArgumentError.checkNotNull(containerName, 'containerName');
-    _s.validateStringLength(
-      'containerName',
-      containerName,
-      1,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MediaStore_20170901.DeleteLifecyclePolicy'
@@ -269,14 +229,6 @@ class MediaStore {
   Future<void> deleteMetricPolicy({
     required String containerName,
   }) async {
-    ArgumentError.checkNotNull(containerName, 'containerName');
-    _s.validateStringLength(
-      'containerName',
-      containerName,
-      1,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MediaStore_20170901.DeleteMetricPolicy'
@@ -310,12 +262,6 @@ class MediaStore {
   Future<DescribeContainerOutput> describeContainer({
     String? containerName,
   }) async {
-    _s.validateStringLength(
-      'containerName',
-      containerName,
-      1,
-      255,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MediaStore_20170901.DescribeContainer'
@@ -349,14 +295,6 @@ class MediaStore {
   Future<GetContainerPolicyOutput> getContainerPolicy({
     required String containerName,
   }) async {
-    ArgumentError.checkNotNull(containerName, 'containerName');
-    _s.validateStringLength(
-      'containerName',
-      containerName,
-      1,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MediaStore_20170901.GetContainerPolicy'
@@ -392,14 +330,6 @@ class MediaStore {
   Future<GetCorsPolicyOutput> getCorsPolicy({
     required String containerName,
   }) async {
-    ArgumentError.checkNotNull(containerName, 'containerName');
-    _s.validateStringLength(
-      'containerName',
-      containerName,
-      1,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MediaStore_20170901.GetCorsPolicy'
@@ -430,14 +360,6 @@ class MediaStore {
   Future<GetLifecyclePolicyOutput> getLifecyclePolicy({
     required String containerName,
   }) async {
-    ArgumentError.checkNotNull(containerName, 'containerName');
-    _s.validateStringLength(
-      'containerName',
-      containerName,
-      1,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MediaStore_20170901.GetLifecyclePolicy'
@@ -468,14 +390,6 @@ class MediaStore {
   Future<GetMetricPolicyOutput> getMetricPolicy({
     required String containerName,
   }) async {
-    ArgumentError.checkNotNull(containerName, 'containerName');
-    _s.validateStringLength(
-      'containerName',
-      containerName,
-      1,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MediaStore_20170901.GetMetricPolicy'
@@ -528,12 +442,6 @@ class MediaStore {
       1,
       100,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MediaStore_20170901.ListContainers'
@@ -564,14 +472,6 @@ class MediaStore {
   Future<ListTagsForResourceOutput> listTagsForResource({
     required String resource,
   }) async {
-    ArgumentError.checkNotNull(resource, 'resource');
-    _s.validateStringLength(
-      'resource',
-      resource,
-      1,
-      1024,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MediaStore_20170901.ListTagsForResource'
@@ -623,22 +523,6 @@ class MediaStore {
     required String containerName,
     required String policy,
   }) async {
-    ArgumentError.checkNotNull(containerName, 'containerName');
-    _s.validateStringLength(
-      'containerName',
-      containerName,
-      1,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(policy, 'policy');
-    _s.validateStringLength(
-      'policy',
-      policy,
-      1,
-      8192,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MediaStore_20170901.PutContainerPolicy'
@@ -686,15 +570,6 @@ class MediaStore {
     required String containerName,
     required List<CorsRule> corsPolicy,
   }) async {
-    ArgumentError.checkNotNull(containerName, 'containerName');
-    _s.validateStringLength(
-      'containerName',
-      containerName,
-      1,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(corsPolicy, 'corsPolicy');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MediaStore_20170901.PutCorsPolicy'
@@ -735,22 +610,6 @@ class MediaStore {
     required String containerName,
     required String lifecyclePolicy,
   }) async {
-    ArgumentError.checkNotNull(containerName, 'containerName');
-    _s.validateStringLength(
-      'containerName',
-      containerName,
-      1,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(lifecyclePolicy, 'lifecyclePolicy');
-    _s.validateStringLength(
-      'lifecyclePolicy',
-      lifecyclePolicy,
-      0,
-      8192,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MediaStore_20170901.PutLifecyclePolicy'
@@ -805,15 +664,6 @@ class MediaStore {
     required String containerName,
     required MetricPolicy metricPolicy,
   }) async {
-    ArgumentError.checkNotNull(containerName, 'containerName');
-    _s.validateStringLength(
-      'containerName',
-      containerName,
-      1,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(metricPolicy, 'metricPolicy');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MediaStore_20170901.PutMetricPolicy'
@@ -844,14 +694,6 @@ class MediaStore {
   Future<void> startAccessLogging({
     required String containerName,
   }) async {
-    ArgumentError.checkNotNull(containerName, 'containerName');
-    _s.validateStringLength(
-      'containerName',
-      containerName,
-      1,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MediaStore_20170901.StartAccessLogging'
@@ -881,14 +723,6 @@ class MediaStore {
   Future<void> stopAccessLogging({
     required String containerName,
   }) async {
-    ArgumentError.checkNotNull(containerName, 'containerName');
-    _s.validateStringLength(
-      'containerName',
-      containerName,
-      1,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MediaStore_20170901.StopAccessLogging'
@@ -933,15 +767,6 @@ class MediaStore {
     required String resource,
     required List<Tag> tags,
   }) async {
-    ArgumentError.checkNotNull(resource, 'resource');
-    _s.validateStringLength(
-      'resource',
-      resource,
-      1,
-      1024,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MediaStore_20170901.TagResource'
@@ -978,15 +803,6 @@ class MediaStore {
     required String resource,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(resource, 'resource');
-    _s.validateStringLength(
-      'resource',
-      resource,
-      1,
-      1024,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MediaStore_20170901.UntagResource'

@@ -75,22 +75,6 @@ class WorkSpaces {
     required String aliasId,
     required String resourceId,
   }) async {
-    ArgumentError.checkNotNull(aliasId, 'aliasId');
-    _s.validateStringLength(
-      'aliasId',
-      aliasId,
-      13,
-      68,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(resourceId, 'resourceId');
-    _s.validateStringLength(
-      'resourceId',
-      resourceId,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.AssociateConnectionAlias'
@@ -129,15 +113,6 @@ class WorkSpaces {
     required String directoryId,
     required List<String> groupIds,
   }) async {
-    ArgumentError.checkNotNull(directoryId, 'directoryId');
-    _s.validateStringLength(
-      'directoryId',
-      directoryId,
-      10,
-      65,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(groupIds, 'groupIds');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.AssociateIpGroups'
@@ -175,8 +150,6 @@ class WorkSpaces {
     required String groupId,
     required List<IpRuleItem> userRules,
   }) async {
-    ArgumentError.checkNotNull(groupId, 'groupId');
-    ArgumentError.checkNotNull(userRules, 'userRules');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.AuthorizeIpRules'
@@ -243,29 +216,6 @@ class WorkSpaces {
     String? description,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(sourceImageId, 'sourceImageId');
-    ArgumentError.checkNotNull(sourceRegion, 'sourceRegion');
-    _s.validateStringLength(
-      'sourceRegion',
-      sourceRegion,
-      1,
-      31,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.CopyWorkspaceImage'
@@ -316,14 +266,6 @@ class WorkSpaces {
     required String connectionString,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(connectionString, 'connectionString');
-    _s.validateStringLength(
-      'connectionString',
-      connectionString,
-      1,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.CreateConnectionAlias'
@@ -380,7 +322,6 @@ class WorkSpaces {
     List<Tag>? tags,
     List<IpRuleItem>? userRules,
   }) async {
-    ArgumentError.checkNotNull(groupName, 'groupName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.CreateIpGroup'
@@ -419,15 +360,6 @@ class WorkSpaces {
     required String resourceId,
     required List<Tag> tags,
   }) async {
-    ArgumentError.checkNotNull(resourceId, 'resourceId');
-    _s.validateStringLength(
-      'resourceId',
-      resourceId,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.CreateTags'
@@ -458,7 +390,6 @@ class WorkSpaces {
   Future<CreateWorkspacesResult> createWorkspaces({
     required List<WorkspaceRequest> workspaces,
   }) async {
-    ArgumentError.checkNotNull(workspaces, 'workspaces');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.CreateWorkspaces'
@@ -508,14 +439,6 @@ class WorkSpaces {
   Future<void> deleteConnectionAlias({
     required String aliasId,
   }) async {
-    ArgumentError.checkNotNull(aliasId, 'aliasId');
-    _s.validateStringLength(
-      'aliasId',
-      aliasId,
-      13,
-      68,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.DeleteConnectionAlias'
@@ -547,7 +470,6 @@ class WorkSpaces {
   Future<void> deleteIpGroup({
     required String groupId,
   }) async {
-    ArgumentError.checkNotNull(groupId, 'groupId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.DeleteIpGroup'
@@ -580,15 +502,6 @@ class WorkSpaces {
     required String resourceId,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(resourceId, 'resourceId');
-    _s.validateStringLength(
-      'resourceId',
-      resourceId,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.DeleteTags'
@@ -619,7 +532,6 @@ class WorkSpaces {
   Future<void> deleteWorkspaceImage({
     required String imageId,
   }) async {
-    ArgumentError.checkNotNull(imageId, 'imageId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.DeleteWorkspaceImage'
@@ -669,14 +581,6 @@ class WorkSpaces {
   Future<void> deregisterWorkspaceDirectory({
     required String directoryId,
   }) async {
-    ArgumentError.checkNotNull(directoryId, 'directoryId');
-    _s.validateStringLength(
-      'directoryId',
-      directoryId,
-      10,
-      65,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.DeregisterWorkspaceDirectory'
@@ -724,12 +628,6 @@ class WorkSpaces {
   Future<DescribeAccountModificationsResult> describeAccountModifications({
     String? nextToken,
   }) async {
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2048,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.DescribeAccountModifications'
@@ -760,7 +658,6 @@ class WorkSpaces {
   Future<DescribeClientPropertiesResult> describeClientProperties({
     required List<String> resourceIds,
   }) async {
-    ArgumentError.checkNotNull(resourceIds, 'resourceIds');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.DescribeClientProperties'
@@ -805,25 +702,11 @@ class WorkSpaces {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(aliasId, 'aliasId');
-    _s.validateStringLength(
-      'aliasId',
-      aliasId,
-      13,
-      68,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       25,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2048,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -878,18 +761,6 @@ class WorkSpaces {
       1,
       25,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2048,
-    );
-    _s.validateStringLength(
-      'resourceId',
-      resourceId,
-      1,
-      1152921504606846976,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.DescribeConnectionAliases'
@@ -936,12 +807,6 @@ class WorkSpaces {
       1,
       25,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2048,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.DescribeIpGroups'
@@ -973,14 +838,6 @@ class WorkSpaces {
   Future<DescribeTagsResult> describeTags({
     required String resourceId,
   }) async {
-    ArgumentError.checkNotNull(resourceId, 'resourceId');
-    _s.validateStringLength(
-      'resourceId',
-      resourceId,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.DescribeTags'
@@ -1024,12 +881,6 @@ class WorkSpaces {
     String? nextToken,
     String? owner,
   }) async {
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2048,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.DescribeWorkspaceBundles'
@@ -1076,12 +927,6 @@ class WorkSpaces {
       1,
       25,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2048,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.DescribeWorkspaceDirectories'
@@ -1124,18 +969,11 @@ class WorkSpaces {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(imageId, 'imageId');
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       25,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2048,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1187,12 +1025,6 @@ class WorkSpaces {
       1,
       25,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2048,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.DescribeWorkspaceImages'
@@ -1225,7 +1057,6 @@ class WorkSpaces {
   Future<DescribeWorkspaceSnapshotsResult> describeWorkspaceSnapshots({
     required String workspaceId,
   }) async {
-    ArgumentError.checkNotNull(workspaceId, 'workspaceId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.DescribeWorkspaceSnapshots'
@@ -1289,29 +1120,11 @@ class WorkSpaces {
     String? userName,
     List<String>? workspaceIds,
   }) async {
-    _s.validateStringLength(
-      'directoryId',
-      directoryId,
-      10,
-      65,
-    );
     _s.validateNumRange(
       'limit',
       limit,
       1,
       25,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2048,
-    );
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      63,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1351,12 +1164,6 @@ class WorkSpaces {
     String? nextToken,
     List<String>? workspaceIds,
   }) async {
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2048,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.DescribeWorkspacesConnectionStatus'
@@ -1399,14 +1206,6 @@ class WorkSpaces {
   Future<void> disassociateConnectionAlias({
     required String aliasId,
   }) async {
-    ArgumentError.checkNotNull(aliasId, 'aliasId');
-    _s.validateStringLength(
-      'aliasId',
-      aliasId,
-      13,
-      68,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.DisassociateConnectionAlias'
@@ -1440,15 +1239,6 @@ class WorkSpaces {
     required String directoryId,
     required List<String> groupIds,
   }) async {
-    ArgumentError.checkNotNull(directoryId, 'directoryId');
-    _s.validateStringLength(
-      'directoryId',
-      directoryId,
-      10,
-      65,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(groupIds, 'groupIds');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.DisassociateIpGroups'
@@ -1521,24 +1311,6 @@ class WorkSpaces {
     List<Application>? applications,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(ec2ImageId, 'ec2ImageId');
-    ArgumentError.checkNotNull(imageDescription, 'imageDescription');
-    _s.validateStringLength(
-      'imageDescription',
-      imageDescription,
-      1,
-      256,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(imageName, 'imageName');
-    _s.validateStringLength(
-      'imageName',
-      imageName,
-      1,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(ingestionProcess, 'ingestionProcess');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.ImportWorkspaceImage'
@@ -1596,19 +1368,11 @@ class WorkSpaces {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(
-        managementCidrRangeConstraint, 'managementCidrRangeConstraint');
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       5,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2048,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1662,8 +1426,6 @@ class WorkSpaces {
     required String bundleId,
     required String sourceWorkspaceId,
   }) async {
-    ArgumentError.checkNotNull(bundleId, 'bundleId');
-    ArgumentError.checkNotNull(sourceWorkspaceId, 'sourceWorkspaceId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.MigrateWorkspace'
@@ -1741,15 +1503,6 @@ class WorkSpaces {
     required ClientProperties clientProperties,
     required String resourceId,
   }) async {
-    ArgumentError.checkNotNull(clientProperties, 'clientProperties');
-    ArgumentError.checkNotNull(resourceId, 'resourceId');
-    _s.validateStringLength(
-      'resourceId',
-      resourceId,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.ModifyClientProperties'
@@ -1785,16 +1538,6 @@ class WorkSpaces {
     required String resourceId,
     required SelfservicePermissions selfservicePermissions,
   }) async {
-    ArgumentError.checkNotNull(resourceId, 'resourceId');
-    _s.validateStringLength(
-      'resourceId',
-      resourceId,
-      10,
-      65,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(
-        selfservicePermissions, 'selfservicePermissions');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.ModifySelfservicePermissions'
@@ -1829,16 +1572,6 @@ class WorkSpaces {
     required String resourceId,
     required WorkspaceAccessProperties workspaceAccessProperties,
   }) async {
-    ArgumentError.checkNotNull(resourceId, 'resourceId');
-    _s.validateStringLength(
-      'resourceId',
-      resourceId,
-      10,
-      65,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(
-        workspaceAccessProperties, 'workspaceAccessProperties');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.ModifyWorkspaceAccessProperties'
@@ -1872,16 +1605,6 @@ class WorkSpaces {
     required String resourceId,
     required WorkspaceCreationProperties workspaceCreationProperties,
   }) async {
-    ArgumentError.checkNotNull(resourceId, 'resourceId');
-    _s.validateStringLength(
-      'resourceId',
-      resourceId,
-      10,
-      65,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(
-        workspaceCreationProperties, 'workspaceCreationProperties');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.ModifyWorkspaceCreationProperties'
@@ -1921,8 +1644,6 @@ class WorkSpaces {
     required String workspaceId,
     required WorkspaceProperties workspaceProperties,
   }) async {
-    ArgumentError.checkNotNull(workspaceId, 'workspaceId');
-    ArgumentError.checkNotNull(workspaceProperties, 'workspaceProperties');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.ModifyWorkspaceProperties'
@@ -1961,8 +1682,6 @@ class WorkSpaces {
     required String workspaceId,
     required TargetWorkspaceState workspaceState,
   }) async {
-    ArgumentError.checkNotNull(workspaceId, 'workspaceId');
-    ArgumentError.checkNotNull(workspaceState, 'workspaceState');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.ModifyWorkspaceState'
@@ -1993,8 +1712,6 @@ class WorkSpaces {
   Future<RebootWorkspacesResult> rebootWorkspaces({
     required List<RebootRequest> rebootWorkspaceRequests,
   }) async {
-    ArgumentError.checkNotNull(
-        rebootWorkspaceRequests, 'rebootWorkspaceRequests');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.RebootWorkspaces'
@@ -2032,8 +1749,6 @@ class WorkSpaces {
   Future<RebuildWorkspacesResult> rebuildWorkspaces({
     required List<RebuildRequest> rebuildWorkspaceRequests,
   }) async {
-    ArgumentError.checkNotNull(
-        rebuildWorkspaceRequests, 'rebuildWorkspaceRequests');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.RebuildWorkspaces'
@@ -2113,15 +1828,6 @@ class WorkSpaces {
     List<Tag>? tags,
     Tenancy? tenancy,
   }) async {
-    ArgumentError.checkNotNull(directoryId, 'directoryId');
-    _s.validateStringLength(
-      'directoryId',
-      directoryId,
-      10,
-      65,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(enableWorkDocs, 'enableWorkDocs');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.RegisterWorkspaceDirectory'
@@ -2166,7 +1872,6 @@ class WorkSpaces {
   Future<void> restoreWorkspace({
     required String workspaceId,
   }) async {
-    ArgumentError.checkNotNull(workspaceId, 'workspaceId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.RestoreWorkspace'
@@ -2199,8 +1904,6 @@ class WorkSpaces {
     required String groupId,
     required List<String> userRules,
   }) async {
-    ArgumentError.checkNotNull(groupId, 'groupId');
-    ArgumentError.checkNotNull(userRules, 'userRules');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.RevokeIpRules'
@@ -2228,8 +1931,6 @@ class WorkSpaces {
   Future<StartWorkspacesResult> startWorkspaces({
     required List<StartRequest> startWorkspaceRequests,
   }) async {
-    ArgumentError.checkNotNull(
-        startWorkspaceRequests, 'startWorkspaceRequests');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.StartWorkspaces'
@@ -2259,7 +1960,6 @@ class WorkSpaces {
   Future<StopWorkspacesResult> stopWorkspaces({
     required List<StopRequest> stopWorkspaceRequests,
   }) async {
-    ArgumentError.checkNotNull(stopWorkspaceRequests, 'stopWorkspaceRequests');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.StopWorkspaces'
@@ -2317,8 +2017,6 @@ class WorkSpaces {
   Future<TerminateWorkspacesResult> terminateWorkspaces({
     required List<TerminateRequest> terminateWorkspaceRequests,
   }) async {
-    ArgumentError.checkNotNull(
-        terminateWorkspaceRequests, 'terminateWorkspaceRequests');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.TerminateWorkspaces'
@@ -2382,16 +2080,6 @@ class WorkSpaces {
     required String aliasId,
     required ConnectionAliasPermission connectionAliasPermission,
   }) async {
-    ArgumentError.checkNotNull(aliasId, 'aliasId');
-    _s.validateStringLength(
-      'aliasId',
-      aliasId,
-      13,
-      68,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(
-        connectionAliasPermission, 'connectionAliasPermission');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.UpdateConnectionAliasPermission'
@@ -2427,8 +2115,6 @@ class WorkSpaces {
     required String groupId,
     required List<IpRuleItem> userRules,
   }) async {
-    ArgumentError.checkNotNull(groupId, 'groupId');
-    ArgumentError.checkNotNull(userRules, 'userRules');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.UpdateRulesOfIpGroup'
@@ -2502,9 +2188,6 @@ class WorkSpaces {
     required String imageId,
     required String sharedAccountId,
   }) async {
-    ArgumentError.checkNotNull(allowCopyImage, 'allowCopyImage');
-    ArgumentError.checkNotNull(imageId, 'imageId');
-    ArgumentError.checkNotNull(sharedAccountId, 'sharedAccountId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.UpdateWorkspaceImagePermission'

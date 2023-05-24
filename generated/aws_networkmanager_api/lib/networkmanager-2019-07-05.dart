@@ -97,9 +97,6 @@ class NetworkManager {
     required String globalNetworkId,
     String? linkId,
   }) async {
-    ArgumentError.checkNotNull(customerGatewayArn, 'customerGatewayArn');
-    ArgumentError.checkNotNull(deviceId, 'deviceId');
-    ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
     final $payload = <String, dynamic>{
       'CustomerGatewayArn': customerGatewayArn,
       'DeviceId': deviceId,
@@ -140,9 +137,6 @@ class NetworkManager {
     required String globalNetworkId,
     required String linkId,
   }) async {
-    ArgumentError.checkNotNull(deviceId, 'deviceId');
-    ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
-    ArgumentError.checkNotNull(linkId, 'linkId');
     final $payload = <String, dynamic>{
       'DeviceId': deviceId,
       'LinkId': linkId,
@@ -193,10 +187,6 @@ class NetworkManager {
     required String transitGatewayConnectPeerArn,
     String? linkId,
   }) async {
-    ArgumentError.checkNotNull(deviceId, 'deviceId');
-    ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
-    ArgumentError.checkNotNull(
-        transitGatewayConnectPeerArn, 'transitGatewayConnectPeerArn');
     final $payload = <String, dynamic>{
       'DeviceId': deviceId,
       'TransitGatewayConnectPeerArn': transitGatewayConnectPeerArn,
@@ -255,9 +245,6 @@ class NetworkManager {
     String? linkId,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(connectedDeviceId, 'connectedDeviceId');
-    ArgumentError.checkNotNull(deviceId, 'deviceId');
-    ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
     final $payload = <String, dynamic>{
       'ConnectedDeviceId': connectedDeviceId,
       'DeviceId': deviceId,
@@ -337,7 +324,6 @@ class NetworkManager {
     String? type,
     String? vendor,
   }) async {
-    ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
     final $payload = <String, dynamic>{
       if (awsLocation != null) 'AWSLocation': awsLocation,
       if (description != null) 'Description': description,
@@ -441,9 +427,6 @@ class NetworkManager {
     List<Tag>? tags,
     String? type,
   }) async {
-    ArgumentError.checkNotNull(bandwidth, 'bandwidth');
-    ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
-    ArgumentError.checkNotNull(siteId, 'siteId');
     final $payload = <String, dynamic>{
       'Bandwidth': bandwidth,
       'SiteId': siteId,
@@ -505,7 +488,6 @@ class NetworkManager {
     Location? location,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
     final $payload = <String, dynamic>{
       if (description != null) 'Description': description,
       if (location != null) 'Location': location,
@@ -539,8 +521,6 @@ class NetworkManager {
     required String connectionId,
     required String globalNetworkId,
   }) async {
-    ArgumentError.checkNotNull(connectionId, 'connectionId');
-    ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -570,8 +550,6 @@ class NetworkManager {
     required String deviceId,
     required String globalNetworkId,
   }) async {
-    ArgumentError.checkNotNull(deviceId, 'deviceId');
-    ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -598,7 +576,6 @@ class NetworkManager {
   Future<DeleteGlobalNetworkResponse> deleteGlobalNetwork({
     required String globalNetworkId,
   }) async {
-    ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -627,8 +604,6 @@ class NetworkManager {
     required String globalNetworkId,
     required String linkId,
   }) async {
-    ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
-    ArgumentError.checkNotNull(linkId, 'linkId');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -658,8 +633,6 @@ class NetworkManager {
     required String globalNetworkId,
     required String siteId,
   }) async {
-    ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
-    ArgumentError.checkNotNull(siteId, 'siteId');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -690,8 +663,6 @@ class NetworkManager {
     required String globalNetworkId,
     required String transitGatewayArn,
   }) async {
-    ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
-    ArgumentError.checkNotNull(transitGatewayArn, 'transitGatewayArn');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -769,8 +740,6 @@ class NetworkManager {
     required String customerGatewayArn,
     required String globalNetworkId,
   }) async {
-    ArgumentError.checkNotNull(customerGatewayArn, 'customerGatewayArn');
-    ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -804,9 +773,6 @@ class NetworkManager {
     required String globalNetworkId,
     required String linkId,
   }) async {
-    ArgumentError.checkNotNull(deviceId, 'deviceId');
-    ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
-    ArgumentError.checkNotNull(linkId, 'linkId');
     final $query = <String, List<String>>{
       'deviceId': [deviceId],
       'linkId': [linkId],
@@ -841,9 +807,6 @@ class NetworkManager {
     required String globalNetworkId,
     required String transitGatewayConnectPeerArn,
   }) async {
-    ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
-    ArgumentError.checkNotNull(
-        transitGatewayConnectPeerArn, 'transitGatewayConnectPeerArn');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -884,7 +847,6 @@ class NetworkManager {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -939,7 +901,6 @@ class NetworkManager {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -992,7 +953,6 @@ class NetworkManager {
     String? nextToken,
     String? siteId,
   }) async {
-    ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1046,7 +1006,6 @@ class NetworkManager {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1110,7 +1069,6 @@ class NetworkManager {
     String? siteId,
     String? type,
   }) async {
-    ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1161,7 +1119,6 @@ class NetworkManager {
     String? nextToken,
     List<String>? siteIds,
   }) async {
-    ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1212,7 +1169,6 @@ class NetworkManager {
     String? nextToken,
     List<String>? transitGatewayConnectPeerArns,
   }) async {
-    ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1264,7 +1220,6 @@ class NetworkManager {
     String? nextToken,
     List<String>? transitGatewayArns,
   }) async {
-    ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1300,7 +1255,6 @@ class NetworkManager {
   Future<ListTagsForResourceResponse> listTagsForResource({
     required String resourceArn,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1334,8 +1288,6 @@ class NetworkManager {
     required String globalNetworkId,
     required String transitGatewayArn,
   }) async {
-    ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
-    ArgumentError.checkNotNull(transitGatewayArn, 'transitGatewayArn');
     final $payload = <String, dynamic>{
       'TransitGatewayArn': transitGatewayArn,
     };
@@ -1368,8 +1320,6 @@ class NetworkManager {
     required String resourceArn,
     required List<Tag> tags,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
       'Tags': tags,
     };
@@ -1399,8 +1349,6 @@ class NetworkManager {
     required String resourceArn,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
       'tagKeys': tagKeys,
     };
@@ -1446,8 +1394,6 @@ class NetworkManager {
     String? description,
     String? linkId,
   }) async {
-    ArgumentError.checkNotNull(connectionId, 'connectionId');
-    ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
     final $payload = <String, dynamic>{
       if (connectedLinkId != null) 'ConnectedLinkId': connectedLinkId,
       if (description != null) 'Description': description,
@@ -1519,8 +1465,6 @@ class NetworkManager {
     String? type,
     String? vendor,
   }) async {
-    ArgumentError.checkNotNull(deviceId, 'deviceId');
-    ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
     final $payload = <String, dynamic>{
       if (awsLocation != null) 'AWSLocation': awsLocation,
       if (description != null) 'Description': description,
@@ -1562,7 +1506,6 @@ class NetworkManager {
     required String globalNetworkId,
     String? description,
   }) async {
-    ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
     final $payload = <String, dynamic>{
       if (description != null) 'Description': description,
     };
@@ -1617,8 +1560,6 @@ class NetworkManager {
     String? provider,
     String? type,
   }) async {
-    ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
-    ArgumentError.checkNotNull(linkId, 'linkId');
     final $payload = <String, dynamic>{
       if (bandwidth != null) 'Bandwidth': bandwidth,
       if (description != null) 'Description': description,
@@ -1676,8 +1617,6 @@ class NetworkManager {
     String? description,
     Location? location,
   }) async {
-    ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
-    ArgumentError.checkNotNull(siteId, 'siteId');
     final $payload = <String, dynamic>{
       if (description != null) 'Description': description,
       if (location != null) 'Location': location,

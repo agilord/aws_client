@@ -77,14 +77,6 @@ class CognitoSync {
   Future<BulkPublishResponse> bulkPublish({
     required String identityPoolId,
   }) async {
-    ArgumentError.checkNotNull(identityPoolId, 'identityPoolId');
-    _s.validateStringLength(
-      'identityPoolId',
-      identityPoolId,
-      1,
-      55,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'POST',
@@ -128,30 +120,6 @@ class CognitoSync {
     required String identityId,
     required String identityPoolId,
   }) async {
-    ArgumentError.checkNotNull(datasetName, 'datasetName');
-    _s.validateStringLength(
-      'datasetName',
-      datasetName,
-      1,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(identityId, 'identityId');
-    _s.validateStringLength(
-      'identityId',
-      identityId,
-      1,
-      55,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(identityPoolId, 'identityPoolId');
-    _s.validateStringLength(
-      'identityPoolId',
-      identityPoolId,
-      1,
-      55,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -195,30 +163,6 @@ class CognitoSync {
     required String identityId,
     required String identityPoolId,
   }) async {
-    ArgumentError.checkNotNull(datasetName, 'datasetName');
-    _s.validateStringLength(
-      'datasetName',
-      datasetName,
-      1,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(identityId, 'identityId');
-    _s.validateStringLength(
-      'identityId',
-      identityId,
-      1,
-      55,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(identityPoolId, 'identityPoolId');
-    _s.validateStringLength(
-      'identityPoolId',
-      identityPoolId,
-      1,
-      55,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -248,14 +192,6 @@ class CognitoSync {
   Future<DescribeIdentityPoolUsageResponse> describeIdentityPoolUsage({
     required String identityPoolId,
   }) async {
-    ArgumentError.checkNotNull(identityPoolId, 'identityPoolId');
-    _s.validateStringLength(
-      'identityPoolId',
-      identityPoolId,
-      1,
-      55,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -290,22 +226,6 @@ class CognitoSync {
     required String identityId,
     required String identityPoolId,
   }) async {
-    ArgumentError.checkNotNull(identityId, 'identityId');
-    _s.validateStringLength(
-      'identityId',
-      identityId,
-      1,
-      55,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(identityPoolId, 'identityPoolId');
-    _s.validateStringLength(
-      'identityPoolId',
-      identityPoolId,
-      1,
-      55,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -333,14 +253,6 @@ class CognitoSync {
   Future<GetBulkPublishDetailsResponse> getBulkPublishDetails({
     required String identityPoolId,
   }) async {
-    ArgumentError.checkNotNull(identityPoolId, 'identityPoolId');
-    _s.validateStringLength(
-      'identityPoolId',
-      identityPoolId,
-      1,
-      55,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'POST',
@@ -368,14 +280,6 @@ class CognitoSync {
   Future<GetCognitoEventsResponse> getCognitoEvents({
     required String identityPoolId,
   }) async {
-    ArgumentError.checkNotNull(identityPoolId, 'identityPoolId');
-    _s.validateStringLength(
-      'identityPoolId',
-      identityPoolId,
-      1,
-      55,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -404,14 +308,6 @@ class CognitoSync {
   Future<GetIdentityPoolConfigurationResponse> getIdentityPoolConfiguration({
     required String identityPoolId,
   }) async {
-    ArgumentError.checkNotNull(identityPoolId, 'identityPoolId');
-    _s.validateStringLength(
-      'identityPoolId',
-      identityPoolId,
-      1,
-      55,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -456,22 +352,6 @@ class CognitoSync {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(identityId, 'identityId');
-    _s.validateStringLength(
-      'identityId',
-      identityId,
-      1,
-      55,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(identityPoolId, 'identityPoolId');
-    _s.validateStringLength(
-      'identityPoolId',
-      identityPoolId,
-      1,
-      55,
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
@@ -569,30 +449,6 @@ class CognitoSync {
     String? nextToken,
     String? syncSessionToken,
   }) async {
-    ArgumentError.checkNotNull(datasetName, 'datasetName');
-    _s.validateStringLength(
-      'datasetName',
-      datasetName,
-      1,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(identityId, 'identityId');
-    _s.validateStringLength(
-      'identityId',
-      identityId,
-      1,
-      55,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(identityPoolId, 'identityPoolId');
-    _s.validateStringLength(
-      'identityPoolId',
-      identityPoolId,
-      1,
-      55,
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       if (lastSyncCount != null) 'lastSyncCount': [lastSyncCount.toString()],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
@@ -641,24 +497,6 @@ class CognitoSync {
     required Platform platform,
     required String token,
   }) async {
-    ArgumentError.checkNotNull(identityId, 'identityId');
-    _s.validateStringLength(
-      'identityId',
-      identityId,
-      1,
-      55,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(identityPoolId, 'identityPoolId');
-    _s.validateStringLength(
-      'identityPoolId',
-      identityPoolId,
-      1,
-      55,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(platform, 'platform');
-    ArgumentError.checkNotNull(token, 'token');
     final $payload = <String, dynamic>{
       'Platform': platform.toValue(),
       'Token': token,
@@ -696,15 +534,6 @@ class CognitoSync {
     required Map<String, String> events,
     required String identityPoolId,
   }) async {
-    ArgumentError.checkNotNull(events, 'events');
-    ArgumentError.checkNotNull(identityPoolId, 'identityPoolId');
-    _s.validateStringLength(
-      'identityPoolId',
-      identityPoolId,
-      1,
-      55,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'Events': events,
     };
@@ -744,14 +573,6 @@ class CognitoSync {
     CognitoStreams? cognitoStreams,
     PushSync? pushSync,
   }) async {
-    ArgumentError.checkNotNull(identityPoolId, 'identityPoolId');
-    _s.validateStringLength(
-      'identityPoolId',
-      identityPoolId,
-      1,
-      55,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       if (cognitoStreams != null) 'CognitoStreams': cognitoStreams,
       if (pushSync != null) 'PushSync': pushSync,
@@ -798,38 +619,6 @@ class CognitoSync {
     required String identityId,
     required String identityPoolId,
   }) async {
-    ArgumentError.checkNotNull(datasetName, 'datasetName');
-    _s.validateStringLength(
-      'datasetName',
-      datasetName,
-      1,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(deviceId, 'deviceId');
-    _s.validateStringLength(
-      'deviceId',
-      deviceId,
-      1,
-      256,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(identityId, 'identityId');
-    _s.validateStringLength(
-      'identityId',
-      identityId,
-      1,
-      55,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(identityPoolId, 'identityPoolId');
-    _s.validateStringLength(
-      'identityPoolId',
-      identityPoolId,
-      1,
-      55,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'POST',
@@ -871,38 +660,6 @@ class CognitoSync {
     required String identityId,
     required String identityPoolId,
   }) async {
-    ArgumentError.checkNotNull(datasetName, 'datasetName');
-    _s.validateStringLength(
-      'datasetName',
-      datasetName,
-      1,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(deviceId, 'deviceId');
-    _s.validateStringLength(
-      'deviceId',
-      deviceId,
-      1,
-      256,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(identityId, 'identityId');
-    _s.validateStringLength(
-      'identityId',
-      identityId,
-      1,
-      55,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(identityPoolId, 'identityPoolId');
-    _s.validateStringLength(
-      'identityPoolId',
-      identityPoolId,
-      1,
-      55,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -978,37 +735,6 @@ class CognitoSync {
     String? deviceId,
     List<RecordPatch>? recordPatches,
   }) async {
-    ArgumentError.checkNotNull(datasetName, 'datasetName');
-    _s.validateStringLength(
-      'datasetName',
-      datasetName,
-      1,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(identityId, 'identityId');
-    _s.validateStringLength(
-      'identityId',
-      identityId,
-      1,
-      55,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(identityPoolId, 'identityPoolId');
-    _s.validateStringLength(
-      'identityPoolId',
-      identityPoolId,
-      1,
-      55,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(syncSessionToken, 'syncSessionToken');
-    _s.validateStringLength(
-      'deviceId',
-      deviceId,
-      1,
-      256,
-    );
     final headers = <String, String>{
       if (clientContext != null)
         'x-amz-Client-Context': clientContext.toString(),

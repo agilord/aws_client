@@ -223,30 +223,6 @@ class Transfer {
     String? securityPolicyName,
     List<Tag>? tags,
   }) async {
-    _s.validateStringLength(
-      'certificate',
-      certificate,
-      0,
-      1600,
-    );
-    _s.validateStringLength(
-      'hostKey',
-      hostKey,
-      0,
-      4096,
-    );
-    _s.validateStringLength(
-      'loggingRole',
-      loggingRole,
-      20,
-      2048,
-    );
-    _s.validateStringLength(
-      'securityPolicyName',
-      securityPolicyName,
-      0,
-      100,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TransferService.CreateServer'
@@ -395,48 +371,6 @@ class Transfer {
     String? sshPublicKeyBody,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(role, 'role');
-    _s.validateStringLength(
-      'role',
-      role,
-      20,
-      2048,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(serverId, 'serverId');
-    _s.validateStringLength(
-      'serverId',
-      serverId,
-      19,
-      19,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      3,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'homeDirectory',
-      homeDirectory,
-      0,
-      1024,
-    );
-    _s.validateStringLength(
-      'policy',
-      policy,
-      0,
-      2048,
-    );
-    _s.validateStringLength(
-      'sshPublicKeyBody',
-      sshPublicKeyBody,
-      0,
-      2048,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TransferService.CreateUser'
@@ -480,14 +414,6 @@ class Transfer {
   Future<void> deleteServer({
     required String serverId,
   }) async {
-    ArgumentError.checkNotNull(serverId, 'serverId');
-    _s.validateStringLength(
-      'serverId',
-      serverId,
-      19,
-      19,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TransferService.DeleteServer'
@@ -528,30 +454,6 @@ class Transfer {
     required String sshPublicKeyId,
     required String userName,
   }) async {
-    ArgumentError.checkNotNull(serverId, 'serverId');
-    _s.validateStringLength(
-      'serverId',
-      serverId,
-      19,
-      19,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(sshPublicKeyId, 'sshPublicKeyId');
-    _s.validateStringLength(
-      'sshPublicKeyId',
-      sshPublicKeyId,
-      21,
-      21,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      3,
-      100,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TransferService.DeleteSshPublicKey'
@@ -594,22 +496,6 @@ class Transfer {
     required String serverId,
     required String userName,
   }) async {
-    ArgumentError.checkNotNull(serverId, 'serverId');
-    _s.validateStringLength(
-      'serverId',
-      serverId,
-      19,
-      19,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      3,
-      100,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TransferService.DeleteUser'
@@ -644,14 +530,6 @@ class Transfer {
   Future<DescribeSecurityPolicyResponse> describeSecurityPolicy({
     required String securityPolicyName,
   }) async {
-    ArgumentError.checkNotNull(securityPolicyName, 'securityPolicyName');
-    _s.validateStringLength(
-      'securityPolicyName',
-      securityPolicyName,
-      0,
-      100,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TransferService.DescribeSecurityPolicy'
@@ -687,14 +565,6 @@ class Transfer {
   Future<DescribeServerResponse> describeServer({
     required String serverId,
   }) async {
-    ArgumentError.checkNotNull(serverId, 'serverId');
-    _s.validateStringLength(
-      'serverId',
-      serverId,
-      19,
-      19,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TransferService.DescribeServer'
@@ -736,22 +606,6 @@ class Transfer {
     required String serverId,
     required String userName,
   }) async {
-    ArgumentError.checkNotNull(serverId, 'serverId');
-    _s.validateStringLength(
-      'serverId',
-      serverId,
-      19,
-      19,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      3,
-      100,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TransferService.DescribeUser'
@@ -799,30 +653,6 @@ class Transfer {
     required String sshPublicKeyBody,
     required String userName,
   }) async {
-    ArgumentError.checkNotNull(serverId, 'serverId');
-    _s.validateStringLength(
-      'serverId',
-      serverId,
-      19,
-      19,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(sshPublicKeyBody, 'sshPublicKeyBody');
-    _s.validateStringLength(
-      'sshPublicKeyBody',
-      sshPublicKeyBody,
-      0,
-      2048,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      3,
-      100,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TransferService.ImportSshPublicKey'
@@ -871,12 +701,6 @@ class Transfer {
       1,
       1000,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      6144,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TransferService.ListSecurityPolicies'
@@ -922,12 +746,6 @@ class Transfer {
       maxResults,
       1,
       1000,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      6144,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -976,25 +794,11 @@ class Transfer {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      20,
-      1600,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       1000,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      6144,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1043,25 +847,11 @@ class Transfer {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(serverId, 'serverId');
-    _s.validateStringLength(
-      'serverId',
-      serverId,
-      19,
-      19,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       1000,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      6144,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1105,14 +895,6 @@ class Transfer {
   Future<void> startServer({
     required String serverId,
   }) async {
-    ArgumentError.checkNotNull(serverId, 'serverId');
-    _s.validateStringLength(
-      'serverId',
-      serverId,
-      19,
-      19,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TransferService.StartServer'
@@ -1156,14 +938,6 @@ class Transfer {
   Future<void> stopServer({
     required String serverId,
   }) async {
-    ArgumentError.checkNotNull(serverId, 'serverId');
-    _s.validateStringLength(
-      'serverId',
-      serverId,
-      19,
-      19,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TransferService.StopServer'
@@ -1203,15 +977,6 @@ class Transfer {
     required String arn,
     required List<Tag> tags,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      20,
-      1600,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TransferService.TagResource'
@@ -1277,34 +1042,6 @@ class Transfer {
     String? sourceIp,
     String? userPassword,
   }) async {
-    ArgumentError.checkNotNull(serverId, 'serverId');
-    _s.validateStringLength(
-      'serverId',
-      serverId,
-      19,
-      19,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      3,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'sourceIp',
-      sourceIp,
-      0,
-      32,
-    );
-    _s.validateStringLength(
-      'userPassword',
-      userPassword,
-      0,
-      2048,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TransferService.TestIdentityProvider'
@@ -1351,15 +1088,6 @@ class Transfer {
     required String arn,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      20,
-      1600,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TransferService.UntagResource'
@@ -1531,38 +1259,6 @@ class Transfer {
     List<Protocol>? protocols,
     String? securityPolicyName,
   }) async {
-    ArgumentError.checkNotNull(serverId, 'serverId');
-    _s.validateStringLength(
-      'serverId',
-      serverId,
-      19,
-      19,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'certificate',
-      certificate,
-      0,
-      1600,
-    );
-    _s.validateStringLength(
-      'hostKey',
-      hostKey,
-      0,
-      4096,
-    );
-    _s.validateStringLength(
-      'loggingRole',
-      loggingRole,
-      0,
-      2048,
-    );
-    _s.validateStringLength(
-      'securityPolicyName',
-      securityPolicyName,
-      0,
-      100,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TransferService.UpdateServer'
@@ -1696,40 +1392,6 @@ class Transfer {
     String? policy,
     String? role,
   }) async {
-    ArgumentError.checkNotNull(serverId, 'serverId');
-    _s.validateStringLength(
-      'serverId',
-      serverId,
-      19,
-      19,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      3,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'homeDirectory',
-      homeDirectory,
-      0,
-      1024,
-    );
-    _s.validateStringLength(
-      'policy',
-      policy,
-      0,
-      2048,
-    );
-    _s.validateStringLength(
-      'role',
-      role,
-      20,
-      2048,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'TransferService.UpdateUser'

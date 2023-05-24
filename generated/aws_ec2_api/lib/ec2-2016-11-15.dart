@@ -55,7 +55,6 @@ class EC2 {
     bool? dryRun,
     List<TargetConfigurationRequest>? targetConfigurations,
   }) async {
-    ArgumentError.checkNotNull(reservedInstanceIds, 'reservedInstanceIds');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -107,8 +106,6 @@ class EC2 {
     required String transitGatewayAttachmentId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(
-        transitGatewayAttachmentId, 'transitGatewayAttachmentId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -134,8 +131,6 @@ class EC2 {
     required String transitGatewayAttachmentId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(
-        transitGatewayAttachmentId, 'transitGatewayAttachmentId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -160,8 +155,6 @@ class EC2 {
     required List<String> vpcEndpointIds,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(serviceId, 'serviceId');
-    ArgumentError.checkNotNull(vpcEndpointIds, 'vpcEndpointIds');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -224,7 +217,6 @@ class EC2 {
     required String cidr,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(cidr, 'cidr');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -388,8 +380,6 @@ class EC2 {
     String? instanceType,
     List<TagSpecification>? tagSpecifications,
   }) async {
-    ArgumentError.checkNotNull(availabilityZone, 'availabilityZone');
-    ArgumentError.checkNotNull(quantity, 'quantity');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -421,9 +411,6 @@ class EC2 {
     required String vpcId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(clientVpnEndpointId, 'clientVpnEndpointId');
-    ArgumentError.checkNotNull(securityGroupIds, 'securityGroupIds');
-    ArgumentError.checkNotNull(vpcId, 'vpcId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -458,7 +445,6 @@ class EC2 {
     int? ipv6AddressCount,
     List<String>? ipv6Addresses,
   }) async {
-    ArgumentError.checkNotNull(networkInterfaceId, 'networkInterfaceId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -515,7 +501,6 @@ class EC2 {
     List<String>? privateIpAddresses,
     int? secondaryPrivateIpAddressCount,
   }) async {
-    ArgumentError.checkNotNull(networkInterfaceId, 'networkInterfaceId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -647,8 +632,6 @@ class EC2 {
     String? clientToken,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(clientVpnEndpointId, 'clientVpnEndpointId');
-    ArgumentError.checkNotNull(subnetId, 'subnetId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -685,8 +668,6 @@ class EC2 {
     required String vpcId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(dhcpOptionsId, 'dhcpOptionsId');
-    ArgumentError.checkNotNull(vpcId, 'vpcId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -733,18 +714,6 @@ class EC2 {
     bool? dryRun,
     String? roleArn,
   }) async {
-    _s.validateStringLength(
-      'certificateArn',
-      certificateArn,
-      1,
-      1283,
-    );
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      1,
-      1283,
-    );
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -761,8 +730,6 @@ class EC2 {
     required IamInstanceProfileSpecification iamInstanceProfile,
     required String instanceId,
   }) async {
-    ArgumentError.checkNotNull(iamInstanceProfile, 'iamInstanceProfile');
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -799,7 +766,6 @@ class EC2 {
     String? gatewayId,
     String? subnetId,
   }) async {
-    ArgumentError.checkNotNull(routeTableId, 'routeTableId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -818,8 +784,6 @@ class EC2 {
     required String ipv6CidrBlock,
     required String subnetId,
   }) async {
-    ArgumentError.checkNotNull(ipv6CidrBlock, 'ipv6CidrBlock');
-    ArgumentError.checkNotNull(subnetId, 'subnetId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -881,10 +845,6 @@ class EC2 {
     required String transitGatewayRouteTableId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(
-        transitGatewayAttachmentId, 'transitGatewayAttachmentId');
-    ArgumentError.checkNotNull(
-        transitGatewayRouteTableId, 'transitGatewayRouteTableId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -941,7 +901,6 @@ class EC2 {
     String? ipv6CidrBlockNetworkBorderGroup,
     String? ipv6Pool,
   }) async {
-    ArgumentError.checkNotNull(vpcId, 'vpcId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -982,9 +941,6 @@ class EC2 {
     required String vpcId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(groups, 'groups');
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    ArgumentError.checkNotNull(vpcId, 'vpcId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -1012,8 +968,6 @@ class EC2 {
     required String vpcId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(internetGatewayId, 'internetGatewayId');
-    ArgumentError.checkNotNull(vpcId, 'vpcId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -1047,9 +1001,6 @@ class EC2 {
     bool? dryRun,
     int? networkCardIndex,
   }) async {
-    ArgumentError.checkNotNull(deviceIndex, 'deviceIndex');
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    ArgumentError.checkNotNull(networkInterfaceId, 'networkInterfaceId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -1112,9 +1063,6 @@ class EC2 {
     required String volumeId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(device, 'device');
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    ArgumentError.checkNotNull(volumeId, 'volumeId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -1143,8 +1091,6 @@ class EC2 {
     required String vpnGatewayId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(vpcId, 'vpcId');
-    ArgumentError.checkNotNull(vpnGatewayId, 'vpnGatewayId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -1196,8 +1142,6 @@ class EC2 {
     String? description,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(clientVpnEndpointId, 'clientVpnEndpointId');
-    ArgumentError.checkNotNull(targetNetworkCidr, 'targetNetworkCidr');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -1266,7 +1210,6 @@ class EC2 {
     String? sourceSecurityGroupOwnerId,
     int? toPort,
   }) async {
-    ArgumentError.checkNotNull(groupId, 'groupId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -1415,8 +1358,6 @@ class EC2 {
     required Storage storage,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    ArgumentError.checkNotNull(storage, 'storage');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -1437,7 +1378,6 @@ class EC2 {
     required String bundleId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(bundleId, 'bundleId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -1465,7 +1405,6 @@ class EC2 {
     required String capacityReservationId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(capacityReservationId, 'capacityReservationId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -1497,7 +1436,6 @@ class EC2 {
     bool? dryRun,
     String? reasonMessage,
   }) async {
-    ArgumentError.checkNotNull(conversionTaskId, 'conversionTaskId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -1513,7 +1451,6 @@ class EC2 {
   Future<void> cancelExportTask({
     required String exportTaskId,
   }) async {
-    ArgumentError.checkNotNull(exportTaskId, 'exportTaskId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -1554,8 +1491,6 @@ class EC2 {
   Future<CancelReservedInstancesListingResult> cancelReservedInstancesListing({
     required String reservedInstancesListingId,
   }) async {
-    ArgumentError.checkNotNull(
-        reservedInstancesListingId, 'reservedInstancesListingId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -1588,8 +1523,6 @@ class EC2 {
     required bool terminateInstances,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(spotFleetRequestIds, 'spotFleetRequestIds');
-    ArgumentError.checkNotNull(terminateInstances, 'terminateInstances');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -1613,8 +1546,6 @@ class EC2 {
     required List<String> spotInstanceRequestIds,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(
-        spotInstanceRequestIds, 'spotInstanceRequestIds');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -1641,8 +1572,6 @@ class EC2 {
     required String productCode,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    ArgumentError.checkNotNull(productCode, 'productCode');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -1681,8 +1610,6 @@ class EC2 {
     bool? dryRun,
     String? name,
   }) async {
-    ArgumentError.checkNotNull(sourceFpgaImageId, 'sourceFpgaImageId');
-    ArgumentError.checkNotNull(sourceRegion, 'sourceRegion');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -1778,9 +1705,6 @@ class EC2 {
     bool? encrypted,
     String? kmsKeyId,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    ArgumentError.checkNotNull(sourceImageId, 'sourceImageId');
-    ArgumentError.checkNotNull(sourceRegion, 'sourceRegion');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -1905,8 +1829,6 @@ class EC2 {
     String? presignedUrl,
     List<TagSpecification>? tagSpecifications,
   }) async {
-    ArgumentError.checkNotNull(sourceRegion, 'sourceRegion');
-    ArgumentError.checkNotNull(sourceSnapshotId, 'sourceSnapshotId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -2068,9 +1990,6 @@ class EC2 {
     List<TagSpecification>? tagSpecifications,
     CapacityReservationTenancy? tenancy,
   }) async {
-    ArgumentError.checkNotNull(instanceCount, 'instanceCount');
-    ArgumentError.checkNotNull(instancePlatform, 'instancePlatform');
-    ArgumentError.checkNotNull(instanceType, 'instanceType');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -2104,7 +2023,6 @@ class EC2 {
     bool? dryRun,
     List<TagSpecification>? tagSpecifications,
   }) async {
-    ArgumentError.checkNotNull(vpcId, 'vpcId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -2234,10 +2152,6 @@ class EC2 {
     String? vpcId,
     int? vpnPort,
   }) async {
-    ArgumentError.checkNotNull(authenticationOptions, 'authenticationOptions');
-    ArgumentError.checkNotNull(clientCidrBlock, 'clientCidrBlock');
-    ArgumentError.checkNotNull(connectionLogOptions, 'connectionLogOptions');
-    ArgumentError.checkNotNull(serverCertificateArn, 'serverCertificateArn');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -2301,9 +2215,6 @@ class EC2 {
     String? description,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(clientVpnEndpointId, 'clientVpnEndpointId');
-    ArgumentError.checkNotNull(destinationCidrBlock, 'destinationCidrBlock');
-    ArgumentError.checkNotNull(targetVpcSubnetId, 'targetVpcSubnetId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -2386,8 +2297,6 @@ class EC2 {
     String? publicIp,
     List<TagSpecification>? tagSpecifications,
   }) async {
-    ArgumentError.checkNotNull(bgpAsn, 'bgpAsn');
-    ArgumentError.checkNotNull(type, 'type');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -2412,7 +2321,6 @@ class EC2 {
     required String availabilityZone,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(availabilityZone, 'availabilityZone');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -2518,7 +2426,6 @@ class EC2 {
     bool? dryRun,
     List<TagSpecification>? tagSpecifications,
   }) async {
-    ArgumentError.checkNotNull(dhcpConfigurations, 'dhcpConfigurations');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -2553,7 +2460,6 @@ class EC2 {
     bool? dryRun,
     List<TagSpecification>? tagSpecifications,
   }) async {
-    ArgumentError.checkNotNull(vpcId, 'vpcId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -2667,9 +2573,6 @@ class EC2 {
     DateTime? validFrom,
     DateTime? validUntil,
   }) async {
-    ArgumentError.checkNotNull(launchTemplateConfigs, 'launchTemplateConfigs');
-    ArgumentError.checkNotNull(
-        targetCapacitySpecification, 'targetCapacitySpecification');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -2812,9 +2715,6 @@ class EC2 {
     int? maxAggregationInterval,
     List<TagSpecification>? tagSpecifications,
   }) async {
-    ArgumentError.checkNotNull(resourceIds, 'resourceIds');
-    ArgumentError.checkNotNull(resourceType, 'resourceType');
-    ArgumentError.checkNotNull(trafficType, 'trafficType');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -2867,7 +2767,6 @@ class EC2 {
     String? name,
     List<TagSpecification>? tagSpecifications,
   }) async {
-    ArgumentError.checkNotNull(inputStorageLocation, 'inputStorageLocation');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -2948,8 +2847,6 @@ class EC2 {
     bool? noReboot,
     List<TagSpecification>? tagSpecifications,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    ArgumentError.checkNotNull(name, 'name');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -2984,9 +2881,6 @@ class EC2 {
     String? description,
     List<TagSpecification>? tagSpecifications,
   }) async {
-    ArgumentError.checkNotNull(exportToS3Task, 'exportToS3Task');
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    ArgumentError.checkNotNull(targetEnvironment, 'targetEnvironment');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -3051,7 +2945,6 @@ class EC2 {
     bool? dryRun,
     List<TagSpecification>? tagSpecifications,
   }) async {
-    ArgumentError.checkNotNull(keyName, 'keyName');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -3098,21 +2991,6 @@ class EC2 {
     List<TagSpecification>? tagSpecifications,
     String? versionDescription,
   }) async {
-    ArgumentError.checkNotNull(launchTemplateData, 'launchTemplateData');
-    ArgumentError.checkNotNull(launchTemplateName, 'launchTemplateName');
-    _s.validateStringLength(
-      'launchTemplateName',
-      launchTemplateName,
-      3,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'versionDescription',
-      versionDescription,
-      0,
-      255,
-    );
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -3174,19 +3052,6 @@ class EC2 {
     String? sourceVersion,
     String? versionDescription,
   }) async {
-    ArgumentError.checkNotNull(launchTemplateData, 'launchTemplateData');
-    _s.validateStringLength(
-      'launchTemplateName',
-      launchTemplateName,
-      3,
-      128,
-    );
-    _s.validateStringLength(
-      'versionDescription',
-      versionDescription,
-      0,
-      255,
-    );
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -3215,11 +3080,6 @@ class EC2 {
     required String localGatewayVirtualInterfaceGroupId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(destinationCidrBlock, 'destinationCidrBlock');
-    ArgumentError.checkNotNull(
-        localGatewayRouteTableId, 'localGatewayRouteTableId');
-    ArgumentError.checkNotNull(localGatewayVirtualInterfaceGroupId,
-        'localGatewayVirtualInterfaceGroupId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -3248,9 +3108,6 @@ class EC2 {
     bool? dryRun,
     List<TagSpecification>? tagSpecifications,
   }) async {
-    ArgumentError.checkNotNull(
-        localGatewayRouteTableId, 'localGatewayRouteTableId');
-    ArgumentError.checkNotNull(vpcId, 'vpcId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -3305,9 +3162,6 @@ class EC2 {
     List<AddPrefixListEntry>? entries,
     List<TagSpecification>? tagSpecifications,
   }) async {
-    ArgumentError.checkNotNull(addressFamily, 'addressFamily');
-    ArgumentError.checkNotNull(maxEntries, 'maxEntries');
-    ArgumentError.checkNotNull(prefixListName, 'prefixListName');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -3353,8 +3207,6 @@ class EC2 {
     bool? dryRun,
     List<TagSpecification>? tagSpecifications,
   }) async {
-    ArgumentError.checkNotNull(allocationId, 'allocationId');
-    ArgumentError.checkNotNull(subnetId, 'subnetId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -3383,7 +3235,6 @@ class EC2 {
     bool? dryRun,
     List<TagSpecification>? tagSpecifications,
   }) async {
-    ArgumentError.checkNotNull(vpcId, 'vpcId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -3469,11 +3320,6 @@ class EC2 {
     String? ipv6CidrBlock,
     PortRange? portRange,
   }) async {
-    ArgumentError.checkNotNull(egress, 'egress');
-    ArgumentError.checkNotNull(networkAclId, 'networkAclId');
-    ArgumentError.checkNotNull(protocol, 'protocol');
-    ArgumentError.checkNotNull(ruleAction, 'ruleAction');
-    ArgumentError.checkNotNull(ruleNumber, 'ruleNumber');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -3530,26 +3376,11 @@ class EC2 {
     String? sourceIp,
     List<TagSpecification>? tagSpecifications,
   }) async {
-    ArgumentError.checkNotNull(destination, 'destination');
-    ArgumentError.checkNotNull(protocol, 'protocol');
-    ArgumentError.checkNotNull(source, 'source');
-    _s.validateStringLength(
-      'destinationIp',
-      destinationIp,
-      0,
-      15,
-    );
     _s.validateNumRange(
       'destinationPort',
       destinationPort,
       1,
       65535,
-    );
-    _s.validateStringLength(
-      'sourceIp',
-      sourceIp,
-      0,
-      15,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -3636,7 +3467,6 @@ class EC2 {
     int? secondaryPrivateIpAddressCount,
     List<TagSpecification>? tagSpecifications,
   }) async {
-    ArgumentError.checkNotNull(subnetId, 'subnetId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -3673,8 +3503,6 @@ class EC2 {
     String? awsService,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(networkInterfaceId, 'networkInterfaceId');
-    ArgumentError.checkNotNull(permission, 'permission');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -3781,10 +3609,6 @@ class EC2 {
     required List<PriceScheduleSpecification> priceSchedules,
     required String reservedInstancesId,
   }) async {
-    ArgumentError.checkNotNull(clientToken, 'clientToken');
-    ArgumentError.checkNotNull(instanceCount, 'instanceCount');
-    ArgumentError.checkNotNull(priceSchedules, 'priceSchedules');
-    ArgumentError.checkNotNull(reservedInstancesId, 'reservedInstancesId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -3892,7 +3716,6 @@ class EC2 {
     String? vpcEndpointId,
     String? vpcPeeringConnectionId,
   }) async {
-    ArgumentError.checkNotNull(routeTableId, 'routeTableId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -3921,7 +3744,6 @@ class EC2 {
     bool? dryRun,
     List<TagSpecification>? tagSpecifications,
   }) async {
-    ArgumentError.checkNotNull(vpcId, 'vpcId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -3997,8 +3819,6 @@ class EC2 {
     List<TagSpecification>? tagSpecifications,
     String? vpcId,
   }) async {
-    ArgumentError.checkNotNull(description, 'description');
-    ArgumentError.checkNotNull(groupName, 'groupName');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -4061,7 +3881,6 @@ class EC2 {
     bool? dryRun,
     List<TagSpecification>? tagSpecifications,
   }) async {
-    ArgumentError.checkNotNull(volumeId, 'volumeId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -4096,7 +3915,6 @@ class EC2 {
     bool? dryRun,
     List<TagSpecification>? tagSpecifications,
   }) async {
-    ArgumentError.checkNotNull(instanceSpecification, 'instanceSpecification');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -4128,7 +3946,6 @@ class EC2 {
     bool? dryRun,
     String? prefix,
   }) async {
-    ArgumentError.checkNotNull(bucket, 'bucket');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -4212,8 +4029,6 @@ class EC2 {
     String? outpostArn,
     List<TagSpecification>? tagSpecifications,
   }) async {
-    ArgumentError.checkNotNull(cidrBlock, 'cidrBlock');
-    ArgumentError.checkNotNull(vpcId, 'vpcId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -4255,8 +4070,6 @@ class EC2 {
     required List<Tag> tags,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(resources, 'resources');
-    ArgumentError.checkNotNull(tags, 'tags');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -4370,12 +4183,6 @@ class EC2 {
     int? protocol,
     TrafficMirrorPortRangeRequest? sourcePortRange,
   }) async {
-    ArgumentError.checkNotNull(destinationCidrBlock, 'destinationCidrBlock');
-    ArgumentError.checkNotNull(ruleAction, 'ruleAction');
-    ArgumentError.checkNotNull(ruleNumber, 'ruleNumber');
-    ArgumentError.checkNotNull(sourceCidrBlock, 'sourceCidrBlock');
-    ArgumentError.checkNotNull(trafficDirection, 'trafficDirection');
-    ArgumentError.checkNotNull(trafficMirrorFilterId, 'trafficMirrorFilterId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -4459,10 +4266,6 @@ class EC2 {
     List<TagSpecification>? tagSpecifications,
     int? virtualNetworkId,
   }) async {
-    ArgumentError.checkNotNull(networkInterfaceId, 'networkInterfaceId');
-    ArgumentError.checkNotNull(sessionNumber, 'sessionNumber');
-    ArgumentError.checkNotNull(trafficMirrorFilterId, 'trafficMirrorFilterId');
-    ArgumentError.checkNotNull(trafficMirrorTargetId, 'trafficMirrorTargetId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -4596,9 +4399,6 @@ class EC2 {
     bool? dryRun,
     List<TagSpecification>? tagSpecifications,
   }) async {
-    ArgumentError.checkNotNull(options, 'options');
-    ArgumentError.checkNotNull(transportTransitGatewayAttachmentId,
-        'transportTransitGatewayAttachmentId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -4655,10 +4455,6 @@ class EC2 {
     List<TagSpecification>? tagSpecifications,
     String? transitGatewayAddress,
   }) async {
-    ArgumentError.checkNotNull(insideCidrBlocks, 'insideCidrBlocks');
-    ArgumentError.checkNotNull(peerAddress, 'peerAddress');
-    ArgumentError.checkNotNull(
-        transitGatewayAttachmentId, 'transitGatewayAttachmentId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -4692,7 +4488,6 @@ class EC2 {
     CreateTransitGatewayMulticastDomainRequestOptions? options,
     List<TagSpecification>? tagSpecifications,
   }) async {
-    ArgumentError.checkNotNull(transitGatewayId, 'transitGatewayId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -4736,10 +4531,6 @@ class EC2 {
     bool? dryRun,
     List<TagSpecification>? tagSpecifications,
   }) async {
-    ArgumentError.checkNotNull(peerAccountId, 'peerAccountId');
-    ArgumentError.checkNotNull(peerRegion, 'peerRegion');
-    ArgumentError.checkNotNull(peerTransitGatewayId, 'peerTransitGatewayId');
-    ArgumentError.checkNotNull(transitGatewayId, 'transitGatewayId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -4773,9 +4564,6 @@ class EC2 {
     bool? dryRun,
     String? transitGatewayAttachmentId,
   }) async {
-    ArgumentError.checkNotNull(prefixListId, 'prefixListId');
-    ArgumentError.checkNotNull(
-        transitGatewayRouteTableId, 'transitGatewayRouteTableId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -4808,9 +4596,6 @@ class EC2 {
     bool? dryRun,
     String? transitGatewayAttachmentId,
   }) async {
-    ArgumentError.checkNotNull(destinationCidrBlock, 'destinationCidrBlock');
-    ArgumentError.checkNotNull(
-        transitGatewayRouteTableId, 'transitGatewayRouteTableId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -4834,7 +4619,6 @@ class EC2 {
     bool? dryRun,
     List<TagSpecification>? tagSpecifications,
   }) async {
-    ArgumentError.checkNotNull(transitGatewayId, 'transitGatewayId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -4881,9 +4665,6 @@ class EC2 {
     CreateTransitGatewayVpcAttachmentRequestOptions? options,
     List<TagSpecification>? tagSpecifications,
   }) async {
-    ArgumentError.checkNotNull(subnetIds, 'subnetIds');
-    ArgumentError.checkNotNull(transitGatewayId, 'transitGatewayId');
-    ArgumentError.checkNotNull(vpcId, 'vpcId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -5085,7 +4866,6 @@ class EC2 {
     int? throughput,
     VolumeType? volumeType,
   }) async {
-    ArgumentError.checkNotNull(availabilityZone, 'availabilityZone');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -5176,7 +4956,6 @@ class EC2 {
     String? ipv6Pool,
     List<TagSpecification>? tagSpecifications,
   }) async {
-    ArgumentError.checkNotNull(cidrBlock, 'cidrBlock');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -5282,8 +5061,6 @@ class EC2 {
     List<TagSpecification>? tagSpecifications,
     VpcEndpointType? vpcEndpointType,
   }) async {
-    ArgumentError.checkNotNull(serviceName, 'serviceName');
-    ArgumentError.checkNotNull(vpcId, 'vpcId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -5333,9 +5110,6 @@ class EC2 {
     String? serviceId,
     String? vpcEndpointId,
   }) async {
-    ArgumentError.checkNotNull(connectionEvents, 'connectionEvents');
-    ArgumentError.checkNotNull(
-        connectionNotificationArn, 'connectionNotificationArn');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -5532,8 +5306,6 @@ class EC2 {
     String? transitGatewayId,
     String? vpnGatewayId,
   }) async {
-    ArgumentError.checkNotNull(customerGatewayId, 'customerGatewayId');
-    ArgumentError.checkNotNull(type, 'type');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -5556,8 +5328,6 @@ class EC2 {
     required String destinationCidrBlock,
     required String vpnConnectionId,
   }) async {
-    ArgumentError.checkNotNull(destinationCidrBlock, 'destinationCidrBlock');
-    ArgumentError.checkNotNull(vpnConnectionId, 'vpnConnectionId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -5600,7 +5370,6 @@ class EC2 {
     bool? dryRun,
     List<TagSpecification>? tagSpecifications,
   }) async {
-    ArgumentError.checkNotNull(type, 'type');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -5626,7 +5395,6 @@ class EC2 {
     required String carrierGatewayId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(carrierGatewayId, 'carrierGatewayId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -5647,7 +5415,6 @@ class EC2 {
     required String clientVpnEndpointId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(clientVpnEndpointId, 'clientVpnEndpointId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -5679,8 +5446,6 @@ class EC2 {
     bool? dryRun,
     String? targetVpcSubnetId,
   }) async {
-    ArgumentError.checkNotNull(clientVpnEndpointId, 'clientVpnEndpointId');
-    ArgumentError.checkNotNull(destinationCidrBlock, 'destinationCidrBlock');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -5701,7 +5466,6 @@ class EC2 {
     required String customerGatewayId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(customerGatewayId, 'customerGatewayId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -5724,7 +5488,6 @@ class EC2 {
     required String dhcpOptionsId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(dhcpOptionsId, 'dhcpOptionsId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -5745,8 +5508,6 @@ class EC2 {
     required String egressOnlyInternetGatewayId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(
-        egressOnlyInternetGatewayId, 'egressOnlyInternetGatewayId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -5809,8 +5570,6 @@ class EC2 {
     required bool terminateInstances,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(fleetIds, 'fleetIds');
-    ArgumentError.checkNotNull(terminateInstances, 'terminateInstances');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -5832,7 +5591,6 @@ class EC2 {
     required List<String> flowLogIds,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(flowLogIds, 'flowLogIds');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -5852,7 +5610,6 @@ class EC2 {
     required String fpgaImageId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(fpgaImageId, 'fpgaImageId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -5873,7 +5630,6 @@ class EC2 {
     required String internetGatewayId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(internetGatewayId, 'internetGatewayId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -5924,12 +5680,6 @@ class EC2 {
     String? launchTemplateId,
     String? launchTemplateName,
   }) async {
-    _s.validateStringLength(
-      'launchTemplateName',
-      launchTemplateName,
-      3,
-      128,
-    );
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -5963,13 +5713,6 @@ class EC2 {
     String? launchTemplateId,
     String? launchTemplateName,
   }) async {
-    ArgumentError.checkNotNull(versions, 'versions');
-    _s.validateStringLength(
-      'launchTemplateName',
-      launchTemplateName,
-      3,
-      128,
-    );
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -5994,9 +5737,6 @@ class EC2 {
     required String localGatewayRouteTableId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(destinationCidrBlock, 'destinationCidrBlock');
-    ArgumentError.checkNotNull(
-        localGatewayRouteTableId, 'localGatewayRouteTableId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -6018,8 +5758,6 @@ class EC2 {
     required String localGatewayRouteTableVpcAssociationId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(localGatewayRouteTableVpcAssociationId,
-        'localGatewayRouteTableVpcAssociationId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -6040,7 +5778,6 @@ class EC2 {
     required String prefixListId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(prefixListId, 'prefixListId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -6063,7 +5800,6 @@ class EC2 {
     required String natGatewayId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(natGatewayId, 'natGatewayId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -6084,7 +5820,6 @@ class EC2 {
     required String networkAclId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(networkAclId, 'networkAclId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -6113,9 +5848,6 @@ class EC2 {
     required int ruleNumber,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(egress, 'egress');
-    ArgumentError.checkNotNull(networkAclId, 'networkAclId');
-    ArgumentError.checkNotNull(ruleNumber, 'ruleNumber');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -6135,8 +5867,6 @@ class EC2 {
     required String networkInsightsAnalysisId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(
-        networkInsightsAnalysisId, 'networkInsightsAnalysisId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -6156,7 +5886,6 @@ class EC2 {
     required String networkInsightsPathId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(networkInsightsPathId, 'networkInsightsPathId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -6177,7 +5906,6 @@ class EC2 {
     required String networkInterfaceId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(networkInterfaceId, 'networkInterfaceId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -6206,8 +5934,6 @@ class EC2 {
     bool? dryRun,
     bool? force,
   }) async {
-    ArgumentError.checkNotNull(
-        networkInterfacePermissionId, 'networkInterfacePermissionId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -6231,7 +5957,6 @@ class EC2 {
     required String groupName,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(groupName, 'groupName');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -6251,7 +5976,6 @@ class EC2 {
     required List<String> reservedInstancesIds,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(reservedInstancesIds, 'reservedInstancesIds');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -6285,7 +6009,6 @@ class EC2 {
     String? destinationPrefixListId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(routeTableId, 'routeTableId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -6307,7 +6030,6 @@ class EC2 {
     required String routeTableId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(routeTableId, 'routeTableId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -6373,7 +6095,6 @@ class EC2 {
     required String snapshotId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(snapshotId, 'snapshotId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -6409,7 +6130,6 @@ class EC2 {
     required String subnetId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(subnetId, 'subnetId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -6449,7 +6169,6 @@ class EC2 {
     bool? dryRun,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(resources, 'resources');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -6472,7 +6191,6 @@ class EC2 {
     required String trafficMirrorFilterId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(trafficMirrorFilterId, 'trafficMirrorFilterId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -6492,8 +6210,6 @@ class EC2 {
     required String trafficMirrorFilterRuleId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(
-        trafficMirrorFilterRuleId, 'trafficMirrorFilterRuleId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -6513,8 +6229,6 @@ class EC2 {
     required String trafficMirrorSessionId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(
-        trafficMirrorSessionId, 'trafficMirrorSessionId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -6537,7 +6251,6 @@ class EC2 {
     required String trafficMirrorTargetId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(trafficMirrorTargetId, 'trafficMirrorTargetId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -6557,7 +6270,6 @@ class EC2 {
     required String transitGatewayId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(transitGatewayId, 'transitGatewayId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -6578,8 +6290,6 @@ class EC2 {
     required String transitGatewayAttachmentId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(
-        transitGatewayAttachmentId, 'transitGatewayAttachmentId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -6600,8 +6310,6 @@ class EC2 {
     required String transitGatewayConnectPeerId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(
-        transitGatewayConnectPeerId, 'transitGatewayConnectPeerId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -6622,8 +6330,6 @@ class EC2 {
     required String transitGatewayMulticastDomainId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(
-        transitGatewayMulticastDomainId, 'transitGatewayMulticastDomainId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -6644,8 +6350,6 @@ class EC2 {
     required String transitGatewayAttachmentId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(
-        transitGatewayAttachmentId, 'transitGatewayAttachmentId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -6671,9 +6375,6 @@ class EC2 {
     required String transitGatewayRouteTableId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(prefixListId, 'prefixListId');
-    ArgumentError.checkNotNull(
-        transitGatewayRouteTableId, 'transitGatewayRouteTableId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -6699,9 +6400,6 @@ class EC2 {
     required String transitGatewayRouteTableId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(destinationCidrBlock, 'destinationCidrBlock');
-    ArgumentError.checkNotNull(
-        transitGatewayRouteTableId, 'transitGatewayRouteTableId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -6723,8 +6421,6 @@ class EC2 {
     required String transitGatewayRouteTableId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(
-        transitGatewayRouteTableId, 'transitGatewayRouteTableId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -6745,8 +6441,6 @@ class EC2 {
     required String transitGatewayAttachmentId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(
-        transitGatewayAttachmentId, 'transitGatewayAttachmentId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -6775,7 +6469,6 @@ class EC2 {
     required String volumeId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(volumeId, 'volumeId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -6800,7 +6493,6 @@ class EC2 {
     required String vpcId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(vpcId, 'vpcId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -6821,8 +6513,6 @@ class EC2 {
     required List<String> connectionNotificationIds,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(
-        connectionNotificationIds, 'connectionNotificationIds');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -6846,7 +6536,6 @@ class EC2 {
     required List<String> serviceIds,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(serviceIds, 'serviceIds');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -6871,7 +6560,6 @@ class EC2 {
     required List<String> vpcEndpointIds,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(vpcEndpointIds, 'vpcEndpointIds');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -6896,8 +6584,6 @@ class EC2 {
     required String vpcPeeringConnectionId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(
-        vpcPeeringConnectionId, 'vpcPeeringConnectionId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -6930,7 +6616,6 @@ class EC2 {
     required String vpnConnectionId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(vpnConnectionId, 'vpnConnectionId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -6949,8 +6634,6 @@ class EC2 {
     required String destinationCidrBlock,
     required String vpnConnectionId,
   }) async {
-    ArgumentError.checkNotNull(destinationCidrBlock, 'destinationCidrBlock');
-    ArgumentError.checkNotNull(vpnConnectionId, 'vpnConnectionId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -6973,7 +6656,6 @@ class EC2 {
     required String vpnGatewayId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(vpnGatewayId, 'vpnGatewayId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -7000,7 +6682,6 @@ class EC2 {
     required String cidr,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(cidr, 'cidr');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -7029,7 +6710,6 @@ class EC2 {
     required String imageId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(imageId, 'imageId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -7482,7 +7162,6 @@ class EC2 {
     bool? dryRun,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(maxResults, 'maxResults');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -7831,7 +7510,6 @@ class EC2 {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(clientVpnEndpointId, 'clientVpnEndpointId');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -7883,7 +7561,6 @@ class EC2 {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(clientVpnEndpointId, 'clientVpnEndpointId');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -7986,7 +7663,6 @@ class EC2 {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(clientVpnEndpointId, 'clientVpnEndpointId');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -8046,7 +7722,6 @@ class EC2 {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(clientVpnEndpointId, 'clientVpnEndpointId');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -8544,8 +8219,6 @@ class EC2 {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(fleetId, 'fleetId');
-    ArgumentError.checkNotNull(startTime, 'startTime');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -8585,7 +8258,6 @@ class EC2 {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(fleetId, 'fleetId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -8747,8 +8419,6 @@ class EC2 {
     required String fpgaImageId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(attribute, 'attribute');
-    ArgumentError.checkNotNull(fpgaImageId, 'fpgaImageId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -9186,7 +8856,6 @@ class EC2 {
     required String principalArn,
     String? resource,
   }) async {
-    ArgumentError.checkNotNull(principalArn, 'principalArn');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -9217,8 +8886,6 @@ class EC2 {
     required String imageId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(attribute, 'attribute');
-    ArgumentError.checkNotNull(imageId, 'imageId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -9497,8 +9164,6 @@ class EC2 {
     required String instanceId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(attribute, 'attribute');
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -10732,12 +10397,6 @@ class EC2 {
     String? nextToken,
     List<String>? versions,
   }) async {
-    _s.validateStringLength(
-      'launchTemplateName',
-      launchTemplateName,
-      3,
-      128,
-    );
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -11586,7 +11245,6 @@ class EC2 {
     NetworkInterfaceAttribute? attribute,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(networkInterfaceId, 'networkInterfaceId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -12753,9 +12411,6 @@ class EC2 {
     int? minSlotDurationInHours,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(
-        firstSlotStartTimeRange, 'firstSlotStartTimeRange');
-    ArgumentError.checkNotNull(recurrence, 'recurrence');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -12841,7 +12496,6 @@ class EC2 {
     required List<String> groupId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(groupId, 'groupId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -13040,8 +12694,6 @@ class EC2 {
     required String snapshotId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(attribute, 'attribute');
-    ArgumentError.checkNotNull(snapshotId, 'snapshotId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -13262,7 +12914,6 @@ class EC2 {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(spotFleetRequestId, 'spotFleetRequestId');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -13313,8 +12964,6 @@ class EC2 {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(spotFleetRequestId, 'spotFleetRequestId');
-    ArgumentError.checkNotNull(startTime, 'startTime');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -13696,18 +13345,11 @@ class EC2 {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(vpcId, 'vpcId');
     _s.validateNumRange(
       'maxResults',
       maxResults,
       5,
       255,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -14656,8 +14298,6 @@ class EC2 {
     required String volumeId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(attribute, 'attribute');
-    ArgumentError.checkNotNull(volumeId, 'volumeId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -15043,8 +14683,6 @@ class EC2 {
     required String vpcId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(attribute, 'attribute');
-    ArgumentError.checkNotNull(vpcId, 'vpcId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -15122,12 +14760,6 @@ class EC2 {
       maxResults,
       5,
       255,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
     );
 // TODO: implement ec2
     throw UnimplementedError();
@@ -15351,7 +14983,6 @@ class EC2 {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(serviceId, 'serviceId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -15878,8 +15509,6 @@ class EC2 {
     required String vpcId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    ArgumentError.checkNotNull(vpcId, 'vpcId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -15905,8 +15534,6 @@ class EC2 {
     required String vpcId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(internetGatewayId, 'internetGatewayId');
-    ArgumentError.checkNotNull(vpcId, 'vpcId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -15949,7 +15576,6 @@ class EC2 {
     bool? dryRun,
     bool? force,
   }) async {
-    ArgumentError.checkNotNull(attachmentId, 'attachmentId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -16003,7 +15629,6 @@ class EC2 {
     bool? force,
     String? instanceId,
   }) async {
-    ArgumentError.checkNotNull(volumeId, 'volumeId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -16035,8 +15660,6 @@ class EC2 {
     required String vpnGatewayId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(vpcId, 'vpcId');
-    ArgumentError.checkNotNull(vpnGatewayId, 'vpnGatewayId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -16087,8 +15710,6 @@ class EC2 {
     required List<String> sourceSnapshotIds,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(availabilityZones, 'availabilityZones');
-    ArgumentError.checkNotNull(sourceSnapshotIds, 'sourceSnapshotIds');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -16114,10 +15735,6 @@ class EC2 {
     required String transitGatewayRouteTableId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(
-        transitGatewayAttachmentId, 'transitGatewayAttachmentId');
-    ArgumentError.checkNotNull(
-        transitGatewayRouteTableId, 'transitGatewayRouteTableId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -16142,8 +15759,6 @@ class EC2 {
     required String routeTableId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(gatewayId, 'gatewayId');
-    ArgumentError.checkNotNull(routeTableId, 'routeTableId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -16164,7 +15779,6 @@ class EC2 {
     required String vpcId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(vpcId, 'vpcId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -16258,8 +15872,6 @@ class EC2 {
     required String clientVpnEndpointId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(associationId, 'associationId');
-    ArgumentError.checkNotNull(clientVpnEndpointId, 'clientVpnEndpointId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -16290,18 +15902,6 @@ class EC2 {
     bool? dryRun,
     String? roleArn,
   }) async {
-    _s.validateStringLength(
-      'certificateArn',
-      certificateArn,
-      1,
-      1283,
-    );
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      1,
-      1283,
-    );
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -16316,7 +15916,6 @@ class EC2 {
   Future<DisassociateIamInstanceProfileResult> disassociateIamInstanceProfile({
     required String associationId,
   }) async {
-    ArgumentError.checkNotNull(associationId, 'associationId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -16343,7 +15942,6 @@ class EC2 {
     required String associationId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(associationId, 'associationId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -16358,7 +15956,6 @@ class EC2 {
   Future<DisassociateSubnetCidrBlockResult> disassociateSubnetCidrBlock({
     required String associationId,
   }) async {
-    ArgumentError.checkNotNull(associationId, 'associationId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -16412,10 +16009,6 @@ class EC2 {
     required String transitGatewayRouteTableId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(
-        transitGatewayAttachmentId, 'transitGatewayAttachmentId');
-    ArgumentError.checkNotNull(
-        transitGatewayRouteTableId, 'transitGatewayRouteTableId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -16433,7 +16026,6 @@ class EC2 {
   Future<DisassociateVpcCidrBlockResult> disassociateVpcCidrBlock({
     required String associationId,
   }) async {
-    ArgumentError.checkNotNull(associationId, 'associationId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -16503,8 +16095,6 @@ class EC2 {
     required List<String> sourceSnapshotIds,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(availabilityZones, 'availabilityZones');
-    ArgumentError.checkNotNull(sourceSnapshotIds, 'sourceSnapshotIds');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -16530,10 +16120,6 @@ class EC2 {
     required String transitGatewayRouteTableId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(
-        transitGatewayAttachmentId, 'transitGatewayAttachmentId');
-    ArgumentError.checkNotNull(
-        transitGatewayRouteTableId, 'transitGatewayRouteTableId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -16561,8 +16147,6 @@ class EC2 {
     required String routeTableId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(gatewayId, 'gatewayId');
-    ArgumentError.checkNotNull(routeTableId, 'routeTableId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -16583,7 +16167,6 @@ class EC2 {
     required String volumeId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(volumeId, 'volumeId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -16611,7 +16194,6 @@ class EC2 {
     required String vpcId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(vpcId, 'vpcId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -16653,7 +16235,6 @@ class EC2 {
     required String clientVpnEndpointId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(clientVpnEndpointId, 'clientVpnEndpointId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -16677,7 +16258,6 @@ class EC2 {
     required String clientVpnEndpointId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(clientVpnEndpointId, 'clientVpnEndpointId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -16730,9 +16310,6 @@ class EC2 {
     String? roleName,
     List<TagSpecification>? tagSpecifications,
   }) async {
-    ArgumentError.checkNotNull(diskImageFormat, 'diskImageFormat');
-    ArgumentError.checkNotNull(imageId, 'imageId');
-    ArgumentError.checkNotNull(s3ExportLocation, 's3ExportLocation');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -16808,9 +16385,6 @@ class EC2 {
     bool? dryRun,
     List<Filter>? filters,
   }) async {
-    ArgumentError.checkNotNull(s3Bucket, 's3Bucket');
-    ArgumentError.checkNotNull(
-        transitGatewayRouteTableId, 'transitGatewayRouteTableId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -16837,12 +16411,6 @@ class EC2 {
     String? certificateArn,
     bool? dryRun,
   }) async {
-    _s.validateStringLength(
-      'certificateArn',
-      certificateArn,
-      1,
-      1283,
-    );
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -16873,7 +16441,6 @@ class EC2 {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(poolId, 'poolId');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -16917,7 +16484,6 @@ class EC2 {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(capacityReservationId, 'capacityReservationId');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -16978,7 +16544,6 @@ class EC2 {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(poolId, 'poolId');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -17028,7 +16593,6 @@ class EC2 {
     bool? dryRun,
     bool? latest,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -17056,7 +16620,6 @@ class EC2 {
     bool? dryRun,
     bool? wakeUp,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -17082,7 +16645,6 @@ class EC2 {
     required UnlimitedSupportedInstanceFamily instanceFamily,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(instanceFamily, 'instanceFamily');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -17157,7 +16719,6 @@ class EC2 {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(capacityReservationId, 'capacityReservationId');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -17185,8 +16746,6 @@ class EC2 {
     required List<String> hostIdSet,
     required String offeringId,
   }) async {
-    ArgumentError.checkNotNull(hostIdSet, 'hostIdSet');
-    ArgumentError.checkNotNull(offeringId, 'offeringId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -17214,7 +16773,6 @@ class EC2 {
     required String instanceId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -17246,7 +16804,6 @@ class EC2 {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(prefixListId, 'prefixListId');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -17287,7 +16844,6 @@ class EC2 {
     String? nextToken,
     int? targetVersion,
   }) async {
-    ArgumentError.checkNotNull(prefixListId, 'prefixListId');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -17336,7 +16892,6 @@ class EC2 {
     required String instanceId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -17366,7 +16921,6 @@ class EC2 {
     bool? dryRun,
     List<TargetConfigurationRequest>? targetConfigurations,
   }) async {
-    ArgumentError.checkNotNull(reservedInstanceIds, 'reservedInstanceIds');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -17409,8 +16963,6 @@ class EC2 {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(
-        transitGatewayAttachmentId, 'transitGatewayAttachmentId');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -17547,8 +17099,6 @@ class EC2 {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(
-        transitGatewayRouteTableId, 'transitGatewayRouteTableId');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -17604,8 +17154,6 @@ class EC2 {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(
-        transitGatewayRouteTableId, 'transitGatewayRouteTableId');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -17661,8 +17209,6 @@ class EC2 {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(
-        transitGatewayRouteTableId, 'transitGatewayRouteTableId');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -17702,9 +17248,6 @@ class EC2 {
     required String clientVpnEndpointId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(
-        certificateRevocationList, 'certificateRevocationList');
-    ArgumentError.checkNotNull(clientVpnEndpointId, 'clientVpnEndpointId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -17881,7 +17424,6 @@ class EC2 {
     bool? dryRun,
     ImportInstanceLaunchSpecification? launchSpecification,
   }) async {
-    ArgumentError.checkNotNull(platform, 'platform');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -17918,8 +17460,6 @@ class EC2 {
     bool? dryRun,
     List<TagSpecification>? tagSpecifications,
   }) async {
-    ArgumentError.checkNotNull(keyName, 'keyName');
-    ArgumentError.checkNotNull(publicKeyMaterial, 'publicKeyMaterial');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -18052,9 +17592,6 @@ class EC2 {
     String? description,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(availabilityZone, 'availabilityZone');
-    ArgumentError.checkNotNull(image, 'image');
-    ArgumentError.checkNotNull(volume, 'volume');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -18089,8 +17626,6 @@ class EC2 {
     required ModifyAvailabilityZoneOptInStatus optInStatus,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(groupName, 'groupName');
-    ArgumentError.checkNotNull(optInStatus, 'optInStatus');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -18153,7 +17688,6 @@ class EC2 {
     EndDateType? endDateType,
     int? instanceCount,
   }) async {
-    ArgumentError.checkNotNull(capacityReservationId, 'capacityReservationId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -18246,7 +17780,6 @@ class EC2 {
     String? vpcId,
     int? vpnPort,
   }) async {
-    ArgumentError.checkNotNull(clientVpnEndpointId, 'clientVpnEndpointId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -18291,8 +17824,6 @@ class EC2 {
     required UnlimitedSupportedInstanceFamily instanceFamily,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(cpuCredits, 'cpuCredits');
-    ArgumentError.checkNotNull(instanceFamily, 'instanceFamily');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -18354,7 +17885,6 @@ class EC2 {
     required String kmsKeyId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(kmsKeyId, 'kmsKeyId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -18421,7 +17951,6 @@ class EC2 {
     List<FleetLaunchTemplateConfigRequest>? launchTemplateConfigs,
     TargetCapacitySpecificationRequest? targetCapacitySpecification,
   }) async {
-    ArgumentError.checkNotNull(fleetId, 'fleetId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -18477,7 +18006,6 @@ class EC2 {
     List<String>? userGroups,
     List<String>? userIds,
   }) async {
-    ArgumentError.checkNotNull(fpgaImageId, 'fpgaImageId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -18532,7 +18060,6 @@ class EC2 {
     String? instanceFamily,
     String? instanceType,
   }) async {
-    ArgumentError.checkNotNull(hostIds, 'hostIds');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -18595,8 +18122,6 @@ class EC2 {
     required String resource,
     required bool useLongIds,
   }) async {
-    ArgumentError.checkNotNull(resource, 'resource');
-    ArgumentError.checkNotNull(useLongIds, 'useLongIds');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -18664,9 +18189,6 @@ class EC2 {
     required String resource,
     required bool useLongIds,
   }) async {
-    ArgumentError.checkNotNull(principalArn, 'principalArn');
-    ArgumentError.checkNotNull(resource, 'resource');
-    ArgumentError.checkNotNull(useLongIds, 'useLongIds');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -18736,7 +18258,6 @@ class EC2 {
     List<String>? userIds,
     String? value,
   }) async {
-    ArgumentError.checkNotNull(imageId, 'imageId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -18877,7 +18398,6 @@ class EC2 {
     BlobAttributeValue? userData,
     String? value,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -18905,9 +18425,6 @@ class EC2 {
     required String instanceId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(
-        capacityReservationSpecification, 'capacityReservationSpecification');
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -18943,8 +18460,6 @@ class EC2 {
     String? clientToken,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(
-        instanceCreditSpecifications, 'instanceCreditSpecifications');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -18972,9 +18487,6 @@ class EC2 {
     required DateTime notBefore,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(instanceEventId, 'instanceEventId');
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    ArgumentError.checkNotNull(notBefore, 'notBefore');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -19037,7 +18549,6 @@ class EC2 {
     int? httpPutResponseHopLimit,
     HttpTokensState? httpTokens,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -19112,7 +18623,6 @@ class EC2 {
     int? partitionNumber,
     HostTenancy? tenancy,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -19153,12 +18663,6 @@ class EC2 {
     String? launchTemplateId,
     String? launchTemplateName,
   }) async {
-    _s.validateStringLength(
-      'launchTemplateName',
-      launchTemplateName,
-      3,
-      128,
-    );
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -19201,7 +18705,6 @@ class EC2 {
     String? prefixListName,
     List<RemovePrefixListEntry>? removeEntries,
   }) async {
-    ArgumentError.checkNotNull(prefixListId, 'prefixListId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -19249,7 +18752,6 @@ class EC2 {
     List<String>? groups,
     AttributeBooleanValue? sourceDestCheck,
   }) async {
-    ArgumentError.checkNotNull(networkInterfaceId, 'networkInterfaceId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -19279,8 +18781,6 @@ class EC2 {
     required List<ReservedInstancesConfiguration> targetConfigurations,
     String? clientToken,
   }) async {
-    ArgumentError.checkNotNull(reservedInstancesIds, 'reservedInstancesIds');
-    ArgumentError.checkNotNull(targetConfigurations, 'targetConfigurations');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -19334,7 +18834,6 @@ class EC2 {
     OperationType? operationType,
     List<String>? userIds,
   }) async {
-    ArgumentError.checkNotNull(snapshotId, 'snapshotId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -19400,7 +18899,6 @@ class EC2 {
     int? onDemandTargetCapacity,
     int? targetCapacity,
   }) async {
-    ArgumentError.checkNotNull(spotFleetRequestId, 'spotFleetRequestId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -19445,7 +18943,6 @@ class EC2 {
     AttributeBooleanValue? mapCustomerOwnedIpOnLaunch,
     AttributeBooleanValue? mapPublicIpOnLaunch,
   }) async {
-    ArgumentError.checkNotNull(subnetId, 'subnetId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -19487,7 +18984,6 @@ class EC2 {
     bool? dryRun,
     List<TrafficMirrorNetworkService>? removeNetworkServices,
   }) async {
-    ArgumentError.checkNotNull(trafficMirrorFilterId, 'trafficMirrorFilterId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -19557,8 +19053,6 @@ class EC2 {
     TrafficMirrorPortRangeRequest? sourcePortRange,
     TrafficDirection? trafficDirection,
   }) async {
-    ArgumentError.checkNotNull(
-        trafficMirrorFilterRuleId, 'trafficMirrorFilterRuleId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -19618,8 +19112,6 @@ class EC2 {
     String? trafficMirrorTargetId,
     int? virtualNetworkId,
   }) async {
-    ArgumentError.checkNotNull(
-        trafficMirrorSessionId, 'trafficMirrorSessionId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -19649,7 +19141,6 @@ class EC2 {
     bool? dryRun,
     ModifyTransitGatewayOptions? options,
   }) async {
-    ArgumentError.checkNotNull(transitGatewayId, 'transitGatewayId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -19683,9 +19174,6 @@ class EC2 {
     bool? dryRun,
     String? transitGatewayAttachmentId,
   }) async {
-    ArgumentError.checkNotNull(prefixListId, 'prefixListId');
-    ArgumentError.checkNotNull(
-        transitGatewayRouteTableId, 'transitGatewayRouteTableId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -19722,8 +19210,6 @@ class EC2 {
     ModifyTransitGatewayVpcAttachmentRequestOptions? options,
     List<String>? removeSubnetIds,
   }) async {
-    ArgumentError.checkNotNull(
-        transitGatewayAttachmentId, 'transitGatewayAttachmentId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -19857,7 +19343,6 @@ class EC2 {
     int? throughput,
     VolumeType? volumeType,
   }) async {
-    ArgumentError.checkNotNull(volumeId, 'volumeId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -19891,7 +19376,6 @@ class EC2 {
     AttributeBooleanValue? autoEnableIO,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(volumeId, 'volumeId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -19923,7 +19407,6 @@ class EC2 {
     AttributeBooleanValue? enableDnsHostnames,
     AttributeBooleanValue? enableDnsSupport,
   }) async {
-    ArgumentError.checkNotNull(vpcId, 'vpcId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -19994,7 +19477,6 @@ class EC2 {
     List<String>? removeSubnetIds,
     bool? resetPolicy,
   }) async {
-    ArgumentError.checkNotNull(vpcEndpointId, 'vpcEndpointId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -20026,8 +19508,6 @@ class EC2 {
     String? connectionNotificationArn,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(
-        connectionNotificationId, 'connectionNotificationId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -20092,7 +19572,6 @@ class EC2 {
     List<String>? removeNetworkLoadBalancerArns,
     bool? removePrivateDnsName,
   }) async {
-    ArgumentError.checkNotNull(serviceId, 'serviceId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -20133,7 +19612,6 @@ class EC2 {
     bool? dryRun,
     List<String>? removeAllowedPrincipals,
   }) async {
-    ArgumentError.checkNotNull(serviceId, 'serviceId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -20190,8 +19668,6 @@ class EC2 {
     bool? dryRun,
     PeeringConnectionOptionsRequest? requesterPeeringConnectionOptions,
   }) async {
-    ArgumentError.checkNotNull(
-        vpcPeeringConnectionId, 'vpcPeeringConnectionId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -20227,8 +19703,6 @@ class EC2 {
     required String vpcId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(instanceTenancy, 'instanceTenancy');
-    ArgumentError.checkNotNull(vpcId, 'vpcId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -20309,7 +19783,6 @@ class EC2 {
     String? transitGatewayId,
     String? vpnGatewayId,
   }) async {
-    ArgumentError.checkNotNull(vpnConnectionId, 'vpnConnectionId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -20360,7 +19833,6 @@ class EC2 {
     String? remoteIpv4NetworkCidr,
     String? remoteIpv6NetworkCidr,
   }) async {
-    ArgumentError.checkNotNull(vpnConnectionId, 'vpnConnectionId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -20384,9 +19856,6 @@ class EC2 {
     required String vpnTunnelOutsideIpAddress,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(vpnConnectionId, 'vpnConnectionId');
-    ArgumentError.checkNotNull(
-        vpnTunnelOutsideIpAddress, 'vpnTunnelOutsideIpAddress');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -20420,10 +19889,6 @@ class EC2 {
     required String vpnTunnelOutsideIpAddress,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(tunnelOptions, 'tunnelOptions');
-    ArgumentError.checkNotNull(vpnConnectionId, 'vpnConnectionId');
-    ArgumentError.checkNotNull(
-        vpnTunnelOutsideIpAddress, 'vpnTunnelOutsideIpAddress');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -20449,7 +19914,6 @@ class EC2 {
     required List<String> instanceIds,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(instanceIds, 'instanceIds');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -20476,7 +19940,6 @@ class EC2 {
     required String publicIp,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(publicIp, 'publicIp');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -20538,7 +20001,6 @@ class EC2 {
     List<TagSpecification>? poolTagSpecifications,
     bool? publiclyAdvertisable,
   }) async {
-    ArgumentError.checkNotNull(cidr, 'cidr');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -20585,8 +20047,6 @@ class EC2 {
     String? limitPrice,
     List<TagSpecification>? tagSpecifications,
   }) async {
-    ArgumentError.checkNotNull(hostIdSet, 'hostIdSet');
-    ArgumentError.checkNotNull(offeringId, 'offeringId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -20639,9 +20099,6 @@ class EC2 {
     ReservedInstanceLimitPrice? limitPrice,
     DateTime? purchaseTime,
   }) async {
-    ArgumentError.checkNotNull(instanceCount, 'instanceCount');
-    ArgumentError.checkNotNull(
-        reservedInstancesOfferingId, 'reservedInstancesOfferingId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -20678,7 +20135,6 @@ class EC2 {
     String? clientToken,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(purchaseRequests, 'purchaseRequests');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -20709,7 +20165,6 @@ class EC2 {
     required List<String> instanceIds,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(instanceIds, 'instanceIds');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -20851,7 +20306,6 @@ class EC2 {
     String? sriovNetSupport,
     String? virtualizationType,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -21004,8 +20458,6 @@ class EC2 {
     required String transitGatewayAttachmentId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(
-        transitGatewayAttachmentId, 'transitGatewayAttachmentId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -21031,8 +20483,6 @@ class EC2 {
     required String transitGatewayAttachmentId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(
-        transitGatewayAttachmentId, 'transitGatewayAttachmentId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -21057,8 +20507,6 @@ class EC2 {
     required List<String> vpcEndpointIds,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(serviceId, 'serviceId');
-    ArgumentError.checkNotNull(vpcEndpointIds, 'vpcEndpointIds');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -21083,8 +20531,6 @@ class EC2 {
     required String vpcPeeringConnectionId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(
-        vpcPeeringConnectionId, 'vpcPeeringConnectionId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -21167,7 +20613,6 @@ class EC2 {
   Future<ReleaseHostsResult> releaseHosts({
     required List<String> hostIds,
   }) async {
-    ArgumentError.checkNotNull(hostIds, 'hostIds');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -21190,8 +20635,6 @@ class EC2 {
     required String associationId,
     required IamInstanceProfileSpecification iamInstanceProfile,
   }) async {
-    ArgumentError.checkNotNull(associationId, 'associationId');
-    ArgumentError.checkNotNull(iamInstanceProfile, 'iamInstanceProfile');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -21222,8 +20665,6 @@ class EC2 {
     required String networkAclId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(associationId, 'associationId');
-    ArgumentError.checkNotNull(networkAclId, 'networkAclId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -21289,11 +20730,6 @@ class EC2 {
     String? ipv6CidrBlock,
     PortRange? portRange,
   }) async {
-    ArgumentError.checkNotNull(egress, 'egress');
-    ArgumentError.checkNotNull(networkAclId, 'networkAclId');
-    ArgumentError.checkNotNull(protocol, 'protocol');
-    ArgumentError.checkNotNull(ruleAction, 'ruleAction');
-    ArgumentError.checkNotNull(ruleNumber, 'ruleNumber');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -21380,7 +20816,6 @@ class EC2 {
     String? vpcEndpointId,
     String? vpcPeeringConnectionId,
   }) async {
-    ArgumentError.checkNotNull(routeTableId, 'routeTableId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -21413,8 +20848,6 @@ class EC2 {
     required String routeTableId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(associationId, 'associationId');
-    ArgumentError.checkNotNull(routeTableId, 'routeTableId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -21447,9 +20880,6 @@ class EC2 {
     bool? dryRun,
     String? transitGatewayAttachmentId,
   }) async {
-    ArgumentError.checkNotNull(destinationCidrBlock, 'destinationCidrBlock');
-    ArgumentError.checkNotNull(
-        transitGatewayRouteTableId, 'transitGatewayRouteTableId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -21533,9 +20963,6 @@ class EC2 {
     DateTime? endTime,
     DateTime? startTime,
   }) async {
-    ArgumentError.checkNotNull(instances, 'instances');
-    ArgumentError.checkNotNull(reasonCodes, 'reasonCodes');
-    ArgumentError.checkNotNull(status, 'status');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -21584,8 +21011,6 @@ class EC2 {
     required SpotFleetRequestConfigData spotFleetRequestConfig,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(
-        spotFleetRequestConfig, 'spotFleetRequestConfig');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -21774,7 +21199,6 @@ class EC2 {
     ResetFpgaImageAttributeName? attribute,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(fpgaImageId, 'fpgaImageId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -21802,8 +21226,6 @@ class EC2 {
     required String imageId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(attribute, 'attribute');
-    ArgumentError.checkNotNull(imageId, 'imageId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -21843,8 +21265,6 @@ class EC2 {
     required String instanceId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(attribute, 'attribute');
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -21870,7 +21290,6 @@ class EC2 {
     bool? dryRun,
     String? sourceDestCheck,
   }) async {
-    ArgumentError.checkNotNull(networkInterfaceId, 'networkInterfaceId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -21899,8 +21318,6 @@ class EC2 {
     required String snapshotId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(attribute, 'attribute');
-    ArgumentError.checkNotNull(snapshotId, 'snapshotId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -21923,7 +21340,6 @@ class EC2 {
     required String publicIp,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(publicIp, 'publicIp');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -21953,9 +21369,6 @@ class EC2 {
     required int previousVersion,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(currentVersion, 'currentVersion');
-    ArgumentError.checkNotNull(prefixListId, 'prefixListId');
-    ArgumentError.checkNotNull(previousVersion, 'previousVersion');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -21989,8 +21402,6 @@ class EC2 {
     bool? dryRun,
     bool? revokeAllGroups,
   }) async {
-    ArgumentError.checkNotNull(clientVpnEndpointId, 'clientVpnEndpointId');
-    ArgumentError.checkNotNull(targetNetworkCidr, 'targetNetworkCidr');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -22062,7 +21473,6 @@ class EC2 {
     String? sourceSecurityGroupOwnerId,
     int? toPort,
   }) async {
-    ArgumentError.checkNotNull(groupId, 'groupId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -22558,8 +21968,6 @@ class EC2 {
     List<TagSpecification>? tagSpecifications,
     String? userData,
   }) async {
-    ArgumentError.checkNotNull(maxCount, 'maxCount');
-    ArgumentError.checkNotNull(minCount, 'minCount');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -22608,8 +22016,6 @@ class EC2 {
     bool? dryRun,
     int? instanceCount,
   }) async {
-    ArgumentError.checkNotNull(launchSpecification, 'launchSpecification');
-    ArgumentError.checkNotNull(scheduledInstanceId, 'scheduledInstanceId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -22643,9 +22049,6 @@ class EC2 {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(filters, 'filters');
-    ArgumentError.checkNotNull(
-        localGatewayRouteTableId, 'localGatewayRouteTableId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -22803,9 +22206,6 @@ class EC2 {
     bool? dryRun,
     int? maxResults,
   }) async {
-    ArgumentError.checkNotNull(filters, 'filters');
-    ArgumentError.checkNotNull(
-        transitGatewayRouteTableId, 'transitGatewayRouteTableId');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -22850,7 +22250,6 @@ class EC2 {
     required String instanceId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -22897,7 +22296,6 @@ class EC2 {
     String? additionalInfo,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(instanceIds, 'instanceIds');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -22934,7 +22332,6 @@ class EC2 {
     List<String>? filterInArns,
     List<TagSpecification>? tagSpecifications,
   }) async {
-    ArgumentError.checkNotNull(networkInsightsPathId, 'networkInsightsPathId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -22965,7 +22362,6 @@ class EC2 {
     required String serviceId,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(serviceId, 'serviceId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -23056,7 +22452,6 @@ class EC2 {
     bool? force,
     bool? hibernate,
   }) async {
-    ArgumentError.checkNotNull(instanceIds, 'instanceIds');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -23088,7 +22483,6 @@ class EC2 {
     bool? dryRun,
     String? username,
   }) async {
-    ArgumentError.checkNotNull(clientVpnEndpointId, 'clientVpnEndpointId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -23139,7 +22533,6 @@ class EC2 {
     required List<String> instanceIds,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(instanceIds, 'instanceIds');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -23155,8 +22548,6 @@ class EC2 {
     required List<String> ipv6Addresses,
     required String networkInterfaceId,
   }) async {
-    ArgumentError.checkNotNull(ipv6Addresses, 'ipv6Addresses');
-    ArgumentError.checkNotNull(networkInterfaceId, 'networkInterfaceId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -23175,8 +22566,6 @@ class EC2 {
     required String networkInterfaceId,
     required List<String> privateIpAddresses,
   }) async {
-    ArgumentError.checkNotNull(networkInterfaceId, 'networkInterfaceId');
-    ArgumentError.checkNotNull(privateIpAddresses, 'privateIpAddresses');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -23200,7 +22589,6 @@ class EC2 {
     required List<String> instanceIds,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(instanceIds, 'instanceIds');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -23238,7 +22626,6 @@ class EC2 {
     String? groupId,
     String? groupName,
   }) async {
-    ArgumentError.checkNotNull(ipPermissions, 'ipPermissions');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -23277,7 +22664,6 @@ class EC2 {
     String? groupId,
     String? groupName,
   }) async {
-    ArgumentError.checkNotNull(ipPermissions, 'ipPermissions');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -23303,7 +22689,6 @@ class EC2 {
     required String cidr,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(cidr, 'cidr');
 // TODO: implement ec2
     throw UnimplementedError();
   }

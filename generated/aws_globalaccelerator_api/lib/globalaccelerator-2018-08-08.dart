@@ -89,16 +89,6 @@ class GlobalAccelerator {
     required List<CustomRoutingEndpointConfiguration> endpointConfigurations,
     required String endpointGroupArn,
   }) async {
-    ArgumentError.checkNotNull(
-        endpointConfigurations, 'endpointConfigurations');
-    ArgumentError.checkNotNull(endpointGroupArn, 'endpointGroupArn');
-    _s.validateStringLength(
-      'endpointGroupArn',
-      endpointGroupArn,
-      0,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GlobalAccelerator_V20180706.AddCustomRoutingEndpoints'
@@ -144,14 +134,6 @@ class GlobalAccelerator {
   Future<AdvertiseByoipCidrResponse> advertiseByoipCidr({
     required String cidr,
   }) async {
-    ArgumentError.checkNotNull(cidr, 'cidr');
-    _s.validateStringLength(
-      'cidr',
-      cidr,
-      0,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GlobalAccelerator_V20180706.AdvertiseByoipCidr'
@@ -228,22 +210,6 @@ class GlobalAccelerator {
     List<String>? destinationAddresses,
     List<int>? destinationPorts,
   }) async {
-    ArgumentError.checkNotNull(endpointGroupArn, 'endpointGroupArn');
-    _s.validateStringLength(
-      'endpointGroupArn',
-      endpointGroupArn,
-      0,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(endpointId, 'endpointId');
-    _s.validateStringLength(
-      'endpointId',
-      endpointId,
-      0,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GlobalAccelerator_V20180706.AllowCustomRoutingTraffic'
@@ -333,20 +299,6 @@ class GlobalAccelerator {
     List<String>? ipAddresses,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      0,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'idempotencyToken',
-      idempotencyToken,
-      0,
-      255,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GlobalAccelerator_V20180706.CreateAccelerator'
@@ -421,20 +373,6 @@ class GlobalAccelerator {
     IpAddressType? ipAddressType,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      0,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'idempotencyToken',
-      idempotencyToken,
-      0,
-      255,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -494,30 +432,6 @@ class GlobalAccelerator {
     required String listenerArn,
     String? idempotencyToken,
   }) async {
-    ArgumentError.checkNotNull(
-        destinationConfigurations, 'destinationConfigurations');
-    ArgumentError.checkNotNull(endpointGroupRegion, 'endpointGroupRegion');
-    _s.validateStringLength(
-      'endpointGroupRegion',
-      endpointGroupRegion,
-      0,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(listenerArn, 'listenerArn');
-    _s.validateStringLength(
-      'listenerArn',
-      listenerArn,
-      0,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'idempotencyToken',
-      idempotencyToken,
-      0,
-      255,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -571,21 +485,6 @@ class GlobalAccelerator {
     required List<PortRange> portRanges,
     String? idempotencyToken,
   }) async {
-    ArgumentError.checkNotNull(acceleratorArn, 'acceleratorArn');
-    _s.validateStringLength(
-      'acceleratorArn',
-      acceleratorArn,
-      0,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(portRanges, 'portRanges');
-    _s.validateStringLength(
-      'idempotencyToken',
-      idempotencyToken,
-      0,
-      255,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GlobalAccelerator_V20180706.CreateCustomRoutingListener'
@@ -688,45 +587,17 @@ class GlobalAccelerator {
     int? thresholdCount,
     double? trafficDialPercentage,
   }) async {
-    ArgumentError.checkNotNull(endpointGroupRegion, 'endpointGroupRegion');
-    _s.validateStringLength(
-      'endpointGroupRegion',
-      endpointGroupRegion,
-      0,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(listenerArn, 'listenerArn');
-    _s.validateStringLength(
-      'listenerArn',
-      listenerArn,
-      0,
-      255,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'healthCheckIntervalSeconds',
       healthCheckIntervalSeconds,
       10,
       30,
     );
-    _s.validateStringLength(
-      'healthCheckPath',
-      healthCheckPath,
-      0,
-      255,
-    );
     _s.validateNumRange(
       'healthCheckPort',
       healthCheckPort,
       1,
       65535,
-    );
-    _s.validateStringLength(
-      'idempotencyToken',
-      idempotencyToken,
-      0,
-      255,
     );
     _s.validateNumRange(
       'thresholdCount',
@@ -825,22 +696,6 @@ class GlobalAccelerator {
     ClientAffinity? clientAffinity,
     String? idempotencyToken,
   }) async {
-    ArgumentError.checkNotNull(acceleratorArn, 'acceleratorArn');
-    _s.validateStringLength(
-      'acceleratorArn',
-      acceleratorArn,
-      0,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(portRanges, 'portRanges');
-    ArgumentError.checkNotNull(protocol, 'protocol');
-    _s.validateStringLength(
-      'idempotencyToken',
-      idempotencyToken,
-      0,
-      255,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GlobalAccelerator_V20180706.CreateListener'
@@ -897,14 +752,6 @@ class GlobalAccelerator {
   Future<void> deleteAccelerator({
     required String acceleratorArn,
   }) async {
-    ArgumentError.checkNotNull(acceleratorArn, 'acceleratorArn');
-    _s.validateStringLength(
-      'acceleratorArn',
-      acceleratorArn,
-      0,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GlobalAccelerator_V20180706.DeleteAccelerator'
@@ -954,14 +801,6 @@ class GlobalAccelerator {
   Future<void> deleteCustomRoutingAccelerator({
     required String acceleratorArn,
   }) async {
-    ArgumentError.checkNotNull(acceleratorArn, 'acceleratorArn');
-    _s.validateStringLength(
-      'acceleratorArn',
-      acceleratorArn,
-      0,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -990,14 +829,6 @@ class GlobalAccelerator {
   Future<void> deleteCustomRoutingEndpointGroup({
     required String endpointGroupArn,
   }) async {
-    ArgumentError.checkNotNull(endpointGroupArn, 'endpointGroupArn');
-    _s.validateStringLength(
-      'endpointGroupArn',
-      endpointGroupArn,
-      0,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -1027,14 +858,6 @@ class GlobalAccelerator {
   Future<void> deleteCustomRoutingListener({
     required String listenerArn,
   }) async {
-    ArgumentError.checkNotNull(listenerArn, 'listenerArn');
-    _s.validateStringLength(
-      'listenerArn',
-      listenerArn,
-      0,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GlobalAccelerator_V20180706.DeleteCustomRoutingListener'
@@ -1062,14 +885,6 @@ class GlobalAccelerator {
   Future<void> deleteEndpointGroup({
     required String endpointGroupArn,
   }) async {
-    ArgumentError.checkNotNull(endpointGroupArn, 'endpointGroupArn');
-    _s.validateStringLength(
-      'endpointGroupArn',
-      endpointGroupArn,
-      0,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GlobalAccelerator_V20180706.DeleteEndpointGroup'
@@ -1098,14 +913,6 @@ class GlobalAccelerator {
   Future<void> deleteListener({
     required String listenerArn,
   }) async {
-    ArgumentError.checkNotNull(listenerArn, 'listenerArn');
-    _s.validateStringLength(
-      'listenerArn',
-      listenerArn,
-      0,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GlobalAccelerator_V20180706.DeleteListener'
@@ -1175,22 +982,6 @@ class GlobalAccelerator {
     List<String>? destinationAddresses,
     List<int>? destinationPorts,
   }) async {
-    ArgumentError.checkNotNull(endpointGroupArn, 'endpointGroupArn');
-    _s.validateStringLength(
-      'endpointGroupArn',
-      endpointGroupArn,
-      0,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(endpointId, 'endpointId');
-    _s.validateStringLength(
-      'endpointId',
-      endpointId,
-      0,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GlobalAccelerator_V20180706.DenyCustomRoutingTraffic'
@@ -1240,14 +1031,6 @@ class GlobalAccelerator {
   Future<DeprovisionByoipCidrResponse> deprovisionByoipCidr({
     required String cidr,
   }) async {
-    ArgumentError.checkNotNull(cidr, 'cidr');
-    _s.validateStringLength(
-      'cidr',
-      cidr,
-      0,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GlobalAccelerator_V20180706.DeprovisionByoipCidr'
@@ -1277,14 +1060,6 @@ class GlobalAccelerator {
   Future<DescribeAcceleratorResponse> describeAccelerator({
     required String acceleratorArn,
   }) async {
-    ArgumentError.checkNotNull(acceleratorArn, 'acceleratorArn');
-    _s.validateStringLength(
-      'acceleratorArn',
-      acceleratorArn,
-      0,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GlobalAccelerator_V20180706.DescribeAccelerator'
@@ -1315,14 +1090,6 @@ class GlobalAccelerator {
   Future<DescribeAcceleratorAttributesResponse> describeAcceleratorAttributes({
     required String acceleratorArn,
   }) async {
-    ArgumentError.checkNotNull(acceleratorArn, 'acceleratorArn');
-    _s.validateStringLength(
-      'acceleratorArn',
-      acceleratorArn,
-      0,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -1354,14 +1121,6 @@ class GlobalAccelerator {
       describeCustomRoutingAccelerator({
     required String acceleratorArn,
   }) async {
-    ArgumentError.checkNotNull(acceleratorArn, 'acceleratorArn');
-    _s.validateStringLength(
-      'acceleratorArn',
-      acceleratorArn,
-      0,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -1394,14 +1153,6 @@ class GlobalAccelerator {
       describeCustomRoutingAcceleratorAttributes({
     required String acceleratorArn,
   }) async {
-    ArgumentError.checkNotNull(acceleratorArn, 'acceleratorArn');
-    _s.validateStringLength(
-      'acceleratorArn',
-      acceleratorArn,
-      0,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -1434,14 +1185,6 @@ class GlobalAccelerator {
       describeCustomRoutingEndpointGroup({
     required String endpointGroupArn,
   }) async {
-    ArgumentError.checkNotNull(endpointGroupArn, 'endpointGroupArn');
-    _s.validateStringLength(
-      'endpointGroupArn',
-      endpointGroupArn,
-      0,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -1473,14 +1216,6 @@ class GlobalAccelerator {
   Future<DescribeCustomRoutingListenerResponse> describeCustomRoutingListener({
     required String listenerArn,
   }) async {
-    ArgumentError.checkNotNull(listenerArn, 'listenerArn');
-    _s.validateStringLength(
-      'listenerArn',
-      listenerArn,
-      0,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -1511,14 +1246,6 @@ class GlobalAccelerator {
   Future<DescribeEndpointGroupResponse> describeEndpointGroup({
     required String endpointGroupArn,
   }) async {
-    ArgumentError.checkNotNull(endpointGroupArn, 'endpointGroupArn');
-    _s.validateStringLength(
-      'endpointGroupArn',
-      endpointGroupArn,
-      0,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GlobalAccelerator_V20180706.DescribeEndpointGroup'
@@ -1548,14 +1275,6 @@ class GlobalAccelerator {
   Future<DescribeListenerResponse> describeListener({
     required String listenerArn,
   }) async {
-    ArgumentError.checkNotNull(listenerArn, 'listenerArn');
-    _s.validateStringLength(
-      'listenerArn',
-      listenerArn,
-      0,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GlobalAccelerator_V20180706.DescribeListener'
@@ -1596,12 +1315,6 @@ class GlobalAccelerator {
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      255,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1648,12 +1361,6 @@ class GlobalAccelerator {
       1,
       100,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      255,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GlobalAccelerator_V20180706.ListByoipCidrs'
@@ -1695,12 +1402,6 @@ class GlobalAccelerator {
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      255,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1747,25 +1448,11 @@ class GlobalAccelerator {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(listenerArn, 'listenerArn');
-    _s.validateStringLength(
-      'listenerArn',
-      listenerArn,
-      0,
-      255,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      255,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1810,25 +1497,11 @@ class GlobalAccelerator {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(acceleratorArn, 'acceleratorArn');
-    _s.validateStringLength(
-      'acceleratorArn',
-      acceleratorArn,
-      0,
-      255,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      255,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1895,31 +1568,11 @@ class GlobalAccelerator {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(acceleratorArn, 'acceleratorArn');
-    _s.validateStringLength(
-      'acceleratorArn',
-      acceleratorArn,
-      0,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'endpointGroupArn',
-      endpointGroupArn,
-      0,
-      255,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       20000,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      255,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1976,33 +1629,11 @@ class GlobalAccelerator {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(destinationAddress, 'destinationAddress');
-    _s.validateStringLength(
-      'destinationAddress',
-      destinationAddress,
-      0,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(endpointId, 'endpointId');
-    _s.validateStringLength(
-      'endpointId',
-      endpointId,
-      0,
-      255,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       20000,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      255,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2049,25 +1680,11 @@ class GlobalAccelerator {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(listenerArn, 'listenerArn');
-    _s.validateStringLength(
-      'listenerArn',
-      listenerArn,
-      0,
-      255,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      255,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2112,25 +1729,11 @@ class GlobalAccelerator {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(acceleratorArn, 'acceleratorArn');
-    _s.validateStringLength(
-      'acceleratorArn',
-      acceleratorArn,
-      0,
-      255,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      255,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2169,14 +1772,6 @@ class GlobalAccelerator {
   Future<ListTagsForResourceResponse> listTagsForResource({
     required String resourceArn,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      1011,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GlobalAccelerator_V20180706.ListTagsForResource'
@@ -2225,16 +1820,6 @@ class GlobalAccelerator {
     required String cidr,
     required CidrAuthorizationContext cidrAuthorizationContext,
   }) async {
-    ArgumentError.checkNotNull(cidr, 'cidr');
-    _s.validateStringLength(
-      'cidr',
-      cidr,
-      0,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(
-        cidrAuthorizationContext, 'cidrAuthorizationContext');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GlobalAccelerator_V20180706.ProvisionByoipCidr'
@@ -2274,15 +1859,6 @@ class GlobalAccelerator {
     required String endpointGroupArn,
     required List<String> endpointIds,
   }) async {
-    ArgumentError.checkNotNull(endpointGroupArn, 'endpointGroupArn');
-    _s.validateStringLength(
-      'endpointGroupArn',
-      endpointGroupArn,
-      0,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(endpointIds, 'endpointIds');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GlobalAccelerator_V20180706.RemoveCustomRoutingEndpoints'
@@ -2322,15 +1898,6 @@ class GlobalAccelerator {
     required String resourceArn,
     required List<Tag> tags,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      1011,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GlobalAccelerator_V20180706.TagResource'
@@ -2372,15 +1939,6 @@ class GlobalAccelerator {
     required String resourceArn,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      1011,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GlobalAccelerator_V20180706.UntagResource'
@@ -2432,20 +1990,6 @@ class GlobalAccelerator {
     IpAddressType? ipAddressType,
     String? name,
   }) async {
-    ArgumentError.checkNotNull(acceleratorArn, 'acceleratorArn');
-    _s.validateStringLength(
-      'acceleratorArn',
-      acceleratorArn,
-      0,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      0,
-      255,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GlobalAccelerator_V20180706.UpdateAccelerator'
@@ -2509,26 +2053,6 @@ class GlobalAccelerator {
     String? flowLogsS3Bucket,
     String? flowLogsS3Prefix,
   }) async {
-    ArgumentError.checkNotNull(acceleratorArn, 'acceleratorArn');
-    _s.validateStringLength(
-      'acceleratorArn',
-      acceleratorArn,
-      0,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'flowLogsS3Bucket',
-      flowLogsS3Bucket,
-      0,
-      255,
-    );
-    _s.validateStringLength(
-      'flowLogsS3Prefix',
-      flowLogsS3Prefix,
-      0,
-      255,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GlobalAccelerator_V20180706.UpdateAcceleratorAttributes'
@@ -2580,20 +2104,6 @@ class GlobalAccelerator {
     IpAddressType? ipAddressType,
     String? name,
   }) async {
-    ArgumentError.checkNotNull(acceleratorArn, 'acceleratorArn');
-    _s.validateStringLength(
-      'acceleratorArn',
-      acceleratorArn,
-      0,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      0,
-      255,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -2660,26 +2170,6 @@ class GlobalAccelerator {
     String? flowLogsS3Bucket,
     String? flowLogsS3Prefix,
   }) async {
-    ArgumentError.checkNotNull(acceleratorArn, 'acceleratorArn');
-    _s.validateStringLength(
-      'acceleratorArn',
-      acceleratorArn,
-      0,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'flowLogsS3Bucket',
-      flowLogsS3Bucket,
-      0,
-      255,
-    );
-    _s.validateStringLength(
-      'flowLogsS3Prefix',
-      flowLogsS3Prefix,
-      0,
-      255,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -2727,15 +2217,6 @@ class GlobalAccelerator {
     required String listenerArn,
     required List<PortRange> portRanges,
   }) async {
-    ArgumentError.checkNotNull(listenerArn, 'listenerArn');
-    _s.validateStringLength(
-      'listenerArn',
-      listenerArn,
-      0,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(portRanges, 'portRanges');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GlobalAccelerator_V20180706.UpdateCustomRoutingListener'
@@ -2825,25 +2306,11 @@ class GlobalAccelerator {
     int? thresholdCount,
     double? trafficDialPercentage,
   }) async {
-    ArgumentError.checkNotNull(endpointGroupArn, 'endpointGroupArn');
-    _s.validateStringLength(
-      'endpointGroupArn',
-      endpointGroupArn,
-      0,
-      255,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'healthCheckIntervalSeconds',
       healthCheckIntervalSeconds,
       10,
       30,
-    );
-    _s.validateStringLength(
-      'healthCheckPath',
-      healthCheckPath,
-      0,
-      255,
     );
     _s.validateNumRange(
       'healthCheckPort',
@@ -2939,14 +2406,6 @@ class GlobalAccelerator {
     List<PortRange>? portRanges,
     Protocol? protocol,
   }) async {
-    ArgumentError.checkNotNull(listenerArn, 'listenerArn');
-    _s.validateStringLength(
-      'listenerArn',
-      listenerArn,
-      0,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GlobalAccelerator_V20180706.UpdateListener'
@@ -2991,14 +2450,6 @@ class GlobalAccelerator {
   Future<WithdrawByoipCidrResponse> withdrawByoipCidr({
     required String cidr,
   }) async {
-    ArgumentError.checkNotNull(cidr, 'cidr');
-    _s.validateStringLength(
-      'cidr',
-      cidr,
-      0,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'GlobalAccelerator_V20180706.WithdrawByoipCidr'

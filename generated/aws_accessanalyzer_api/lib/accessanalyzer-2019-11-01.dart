@@ -81,15 +81,6 @@ class AccessAnalyzer {
     required String ruleName,
     String? clientToken,
   }) async {
-    ArgumentError.checkNotNull(analyzerArn, 'analyzerArn');
-    ArgumentError.checkNotNull(ruleName, 'ruleName');
-    _s.validateStringLength(
-      'ruleName',
-      ruleName,
-      1,
-      255,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'analyzerArn': analyzerArn,
       'ruleName': ruleName,
@@ -136,15 +127,6 @@ class AccessAnalyzer {
     String? clientToken,
     Map<String, String>? tags,
   }) async {
-    ArgumentError.checkNotNull(analyzerName, 'analyzerName');
-    _s.validateStringLength(
-      'analyzerName',
-      analyzerName,
-      1,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(type, 'type');
     final $payload = <String, dynamic>{
       'analyzerName': analyzerName,
       'type': type.toValue(),
@@ -190,23 +172,6 @@ class AccessAnalyzer {
     required String ruleName,
     String? clientToken,
   }) async {
-    ArgumentError.checkNotNull(analyzerName, 'analyzerName');
-    _s.validateStringLength(
-      'analyzerName',
-      analyzerName,
-      1,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(filter, 'filter');
-    ArgumentError.checkNotNull(ruleName, 'ruleName');
-    _s.validateStringLength(
-      'ruleName',
-      ruleName,
-      1,
-      255,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'filter': filter,
       'ruleName': ruleName,
@@ -240,14 +205,6 @@ class AccessAnalyzer {
     required String analyzerName,
     String? clientToken,
   }) async {
-    ArgumentError.checkNotNull(analyzerName, 'analyzerName');
-    _s.validateStringLength(
-      'analyzerName',
-      analyzerName,
-      1,
-      255,
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       if (clientToken != null) 'clientToken': [clientToken],
     };
@@ -281,22 +238,6 @@ class AccessAnalyzer {
     required String ruleName,
     String? clientToken,
   }) async {
-    ArgumentError.checkNotNull(analyzerName, 'analyzerName');
-    _s.validateStringLength(
-      'analyzerName',
-      analyzerName,
-      1,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(ruleName, 'ruleName');
-    _s.validateStringLength(
-      'ruleName',
-      ruleName,
-      1,
-      255,
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       if (clientToken != null) 'clientToken': [clientToken],
     };
@@ -327,8 +268,6 @@ class AccessAnalyzer {
     required String analyzerArn,
     required String resourceArn,
   }) async {
-    ArgumentError.checkNotNull(analyzerArn, 'analyzerArn');
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final $query = <String, List<String>>{
       'analyzerArn': [analyzerArn],
       'resourceArn': [resourceArn],
@@ -356,14 +295,6 @@ class AccessAnalyzer {
   Future<GetAnalyzerResponse> getAnalyzer({
     required String analyzerName,
   }) async {
-    ArgumentError.checkNotNull(analyzerName, 'analyzerName');
-    _s.validateStringLength(
-      'analyzerName',
-      analyzerName,
-      1,
-      255,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -395,22 +326,6 @@ class AccessAnalyzer {
     required String analyzerName,
     required String ruleName,
   }) async {
-    ArgumentError.checkNotNull(analyzerName, 'analyzerName');
-    _s.validateStringLength(
-      'analyzerName',
-      analyzerName,
-      1,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(ruleName, 'ruleName');
-    _s.validateStringLength(
-      'ruleName',
-      ruleName,
-      1,
-      255,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -438,8 +353,6 @@ class AccessAnalyzer {
     required String analyzerArn,
     required String id,
   }) async {
-    ArgumentError.checkNotNull(analyzerArn, 'analyzerArn');
-    ArgumentError.checkNotNull(id, 'id');
     final $query = <String, List<String>>{
       'analyzerArn': [analyzerArn],
     };
@@ -479,7 +392,6 @@ class AccessAnalyzer {
     String? nextToken,
     ResourceType? resourceType,
   }) async {
-    ArgumentError.checkNotNull(analyzerArn, 'analyzerArn');
     final $payload = <String, dynamic>{
       'analyzerArn': analyzerArn,
       if (maxResults != null) 'maxResults': maxResults,
@@ -550,14 +462,6 @@ class AccessAnalyzer {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(analyzerName, 'analyzerName');
-    _s.validateStringLength(
-      'analyzerName',
-      analyzerName,
-      1,
-      255,
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
@@ -606,7 +510,6 @@ class AccessAnalyzer {
     String? nextToken,
     SortCriteria? sort,
   }) async {
-    ArgumentError.checkNotNull(analyzerArn, 'analyzerArn');
     final $payload = <String, dynamic>{
       'analyzerArn': analyzerArn,
       if (filter != null) 'filter': filter,
@@ -636,7 +539,6 @@ class AccessAnalyzer {
   Future<ListTagsForResourceResponse> listTagsForResource({
     required String resourceArn,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -665,8 +567,6 @@ class AccessAnalyzer {
     required String analyzerArn,
     required String resourceArn,
   }) async {
-    ArgumentError.checkNotNull(analyzerArn, 'analyzerArn');
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final $payload = <String, dynamic>{
       'analyzerArn': analyzerArn,
       'resourceArn': resourceArn,
@@ -696,8 +596,6 @@ class AccessAnalyzer {
     required String resourceArn,
     required Map<String, String> tags,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
       'tags': tags,
     };
@@ -726,8 +624,6 @@ class AccessAnalyzer {
     required String resourceArn,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
       'tagKeys': tagKeys,
     };
@@ -766,23 +662,6 @@ class AccessAnalyzer {
     required String ruleName,
     String? clientToken,
   }) async {
-    ArgumentError.checkNotNull(analyzerName, 'analyzerName');
-    _s.validateStringLength(
-      'analyzerName',
-      analyzerName,
-      1,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(filter, 'filter');
-    ArgumentError.checkNotNull(ruleName, 'ruleName');
-    _s.validateStringLength(
-      'ruleName',
-      ruleName,
-      1,
-      255,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'filter': filter,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
@@ -828,8 +707,6 @@ class AccessAnalyzer {
     List<String>? ids,
     String? resourceArn,
   }) async {
-    ArgumentError.checkNotNull(analyzerArn, 'analyzerArn');
-    ArgumentError.checkNotNull(status, 'status');
     final $payload = <String, dynamic>{
       'analyzerArn': analyzerArn,
       'status': status.toValue(),

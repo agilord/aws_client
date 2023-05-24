@@ -120,7 +120,6 @@ class Detective {
   Future<void> acceptInvitation({
     required String graphArn,
   }) async {
-    ArgumentError.checkNotNull(graphArn, 'graphArn');
     final $payload = <String, dynamic>{
       'GraphArn': graphArn,
     };
@@ -215,14 +214,6 @@ class Detective {
     required String graphArn,
     String? message,
   }) async {
-    ArgumentError.checkNotNull(accounts, 'accounts');
-    ArgumentError.checkNotNull(graphArn, 'graphArn');
-    _s.validateStringLength(
-      'message',
-      message,
-      1,
-      1000,
-    );
     final $payload = <String, dynamic>{
       'Accounts': accounts,
       'GraphArn': graphArn,
@@ -253,7 +244,6 @@ class Detective {
   Future<void> deleteGraph({
     required String graphArn,
   }) async {
-    ArgumentError.checkNotNull(graphArn, 'graphArn');
     final $payload = <String, dynamic>{
       'GraphArn': graphArn,
     };
@@ -286,8 +276,6 @@ class Detective {
     required List<String> accountIds,
     required String graphArn,
   }) async {
-    ArgumentError.checkNotNull(accountIds, 'accountIds');
-    ArgumentError.checkNotNull(graphArn, 'graphArn');
     final $payload = <String, dynamic>{
       'AccountIds': accountIds,
       'GraphArn': graphArn,
@@ -318,7 +306,6 @@ class Detective {
   Future<void> disassociateMembership({
     required String graphArn,
   }) async {
-    ArgumentError.checkNotNull(graphArn, 'graphArn');
     final $payload = <String, dynamic>{
       'GraphArn': graphArn,
     };
@@ -350,8 +337,6 @@ class Detective {
     required List<String> accountIds,
     required String graphArn,
   }) async {
-    ArgumentError.checkNotNull(accountIds, 'accountIds');
-    ArgumentError.checkNotNull(graphArn, 'graphArn');
     final $payload = <String, dynamic>{
       'AccountIds': accountIds,
       'GraphArn': graphArn,
@@ -392,12 +377,6 @@ class Detective {
       maxResults,
       1,
       200,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
     );
     final $payload = <String, dynamic>{
       if (maxResults != null) 'MaxResults': maxResults,
@@ -444,12 +423,6 @@ class Detective {
       1,
       200,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
-    );
     final $payload = <String, dynamic>{
       if (maxResults != null) 'MaxResults': maxResults,
       if (nextToken != null) 'NextToken': nextToken,
@@ -488,18 +461,11 @@ class Detective {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(graphArn, 'graphArn');
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       200,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1024,
     );
     final $payload = <String, dynamic>{
       'GraphArn': graphArn,
@@ -532,7 +498,6 @@ class Detective {
   Future<void> rejectInvitation({
     required String graphArn,
   }) async {
-    ArgumentError.checkNotNull(graphArn, 'graphArn');
     final $payload = <String, dynamic>{
       'GraphArn': graphArn,
     };
@@ -578,15 +543,6 @@ class Detective {
     required String accountId,
     required String graphArn,
   }) async {
-    ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringLength(
-      'accountId',
-      accountId,
-      12,
-      12,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(graphArn, 'graphArn');
     final $payload = <String, dynamic>{
       'AccountId': accountId,
       'GraphArn': graphArn,

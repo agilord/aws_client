@@ -70,7 +70,6 @@ class Comprehend {
   Future<BatchDetectDominantLanguageResponse> batchDetectDominantLanguage({
     required List<String> textList,
   }) async {
-    ArgumentError.checkNotNull(textList, 'textList');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.BatchDetectDominantLanguage'
@@ -112,8 +111,6 @@ class Comprehend {
     required LanguageCode languageCode,
     required List<String> textList,
   }) async {
-    ArgumentError.checkNotNull(languageCode, 'languageCode');
-    ArgumentError.checkNotNull(textList, 'textList');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.BatchDetectEntities'
@@ -154,8 +151,6 @@ class Comprehend {
     required LanguageCode languageCode,
     required List<String> textList,
   }) async {
-    ArgumentError.checkNotNull(languageCode, 'languageCode');
-    ArgumentError.checkNotNull(textList, 'textList');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.BatchDetectKeyPhrases'
@@ -198,8 +193,6 @@ class Comprehend {
     required LanguageCode languageCode,
     required List<String> textList,
   }) async {
-    ArgumentError.checkNotNull(languageCode, 'languageCode');
-    ArgumentError.checkNotNull(textList, 'textList');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.BatchDetectSentiment'
@@ -243,8 +236,6 @@ class Comprehend {
     required SyntaxLanguageCode languageCode,
     required List<String> textList,
   }) async {
-    ArgumentError.checkNotNull(languageCode, 'languageCode');
-    ArgumentError.checkNotNull(textList, 'textList');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.BatchDetectSyntax'
@@ -282,22 +273,6 @@ class Comprehend {
     required String endpointArn,
     required String text,
   }) async {
-    ArgumentError.checkNotNull(endpointArn, 'endpointArn');
-    _s.validateStringLength(
-      'endpointArn',
-      endpointArn,
-      0,
-      256,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(text, 'text');
-    _s.validateStringLength(
-      'text',
-      text,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.ClassifyDocument'
@@ -405,37 +380,6 @@ class Comprehend {
     String? volumeKmsKeyId,
     VpcConfig? vpcConfig,
   }) async {
-    ArgumentError.checkNotNull(dataAccessRoleArn, 'dataAccessRoleArn');
-    _s.validateStringLength(
-      'dataAccessRoleArn',
-      dataAccessRoleArn,
-      20,
-      2048,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(
-        documentClassifierName, 'documentClassifierName');
-    _s.validateStringLength(
-      'documentClassifierName',
-      documentClassifierName,
-      0,
-      63,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(inputDataConfig, 'inputDataConfig');
-    ArgumentError.checkNotNull(languageCode, 'languageCode');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'volumeKmsKeyId',
-      volumeKmsKeyId,
-      0,
-      2048,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.CreateDocumentClassifier'
@@ -507,35 +451,12 @@ class Comprehend {
     String? clientRequestToken,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(desiredInferenceUnits, 'desiredInferenceUnits');
     _s.validateNumRange(
       'desiredInferenceUnits',
       desiredInferenceUnits,
       1,
       1152921504606846976,
       isRequired: true,
-    );
-    ArgumentError.checkNotNull(endpointName, 'endpointName');
-    _s.validateStringLength(
-      'endpointName',
-      endpointName,
-      0,
-      40,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(modelArn, 'modelArn');
-    _s.validateStringLength(
-      'modelArn',
-      modelArn,
-      0,
-      256,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -636,36 +557,6 @@ class Comprehend {
     String? volumeKmsKeyId,
     VpcConfig? vpcConfig,
   }) async {
-    ArgumentError.checkNotNull(dataAccessRoleArn, 'dataAccessRoleArn');
-    _s.validateStringLength(
-      'dataAccessRoleArn',
-      dataAccessRoleArn,
-      20,
-      2048,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(inputDataConfig, 'inputDataConfig');
-    ArgumentError.checkNotNull(languageCode, 'languageCode');
-    ArgumentError.checkNotNull(recognizerName, 'recognizerName');
-    _s.validateStringLength(
-      'recognizerName',
-      recognizerName,
-      0,
-      63,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'volumeKmsKeyId',
-      volumeKmsKeyId,
-      0,
-      2048,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.CreateEntityRecognizer'
@@ -715,14 +606,6 @@ class Comprehend {
   Future<void> deleteDocumentClassifier({
     required String documentClassifierArn,
   }) async {
-    ArgumentError.checkNotNull(documentClassifierArn, 'documentClassifierArn');
-    _s.validateStringLength(
-      'documentClassifierArn',
-      documentClassifierArn,
-      0,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.DeleteDocumentClassifier'
@@ -753,14 +636,6 @@ class Comprehend {
   Future<void> deleteEndpoint({
     required String endpointArn,
   }) async {
-    ArgumentError.checkNotNull(endpointArn, 'endpointArn');
-    _s.validateStringLength(
-      'endpointArn',
-      endpointArn,
-      0,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.DeleteEndpoint'
@@ -800,14 +675,6 @@ class Comprehend {
   Future<void> deleteEntityRecognizer({
     required String entityRecognizerArn,
   }) async {
-    ArgumentError.checkNotNull(entityRecognizerArn, 'entityRecognizerArn');
-    _s.validateStringLength(
-      'entityRecognizerArn',
-      entityRecognizerArn,
-      0,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.DeleteEntityRecognizer'
@@ -839,14 +706,6 @@ class Comprehend {
       describeDocumentClassificationJob({
     required String jobId,
   }) async {
-    ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      1,
-      32,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.DescribeDocumentClassificationJob'
@@ -879,14 +738,6 @@ class Comprehend {
   Future<DescribeDocumentClassifierResponse> describeDocumentClassifier({
     required String documentClassifierArn,
   }) async {
-    ArgumentError.checkNotNull(documentClassifierArn, 'documentClassifierArn');
-    _s.validateStringLength(
-      'documentClassifierArn',
-      documentClassifierArn,
-      0,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.DescribeDocumentClassifier'
@@ -920,14 +771,6 @@ class Comprehend {
       describeDominantLanguageDetectionJob({
     required String jobId,
   }) async {
-    ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      1,
-      32,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.DescribeDominantLanguageDetectionJob'
@@ -960,14 +803,6 @@ class Comprehend {
   Future<DescribeEndpointResponse> describeEndpoint({
     required String endpointArn,
   }) async {
-    ArgumentError.checkNotNull(endpointArn, 'endpointArn');
-    _s.validateStringLength(
-      'endpointArn',
-      endpointArn,
-      0,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.DescribeEndpoint'
@@ -1000,14 +835,6 @@ class Comprehend {
   Future<DescribeEntitiesDetectionJobResponse> describeEntitiesDetectionJob({
     required String jobId,
   }) async {
-    ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      1,
-      32,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.DescribeEntitiesDetectionJob'
@@ -1039,14 +866,6 @@ class Comprehend {
   Future<DescribeEntityRecognizerResponse> describeEntityRecognizer({
     required String entityRecognizerArn,
   }) async {
-    ArgumentError.checkNotNull(entityRecognizerArn, 'entityRecognizerArn');
-    _s.validateStringLength(
-      'entityRecognizerArn',
-      entityRecognizerArn,
-      0,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.DescribeEntityRecognizer'
@@ -1077,14 +896,6 @@ class Comprehend {
   Future<DescribeEventsDetectionJobResponse> describeEventsDetectionJob({
     required String jobId,
   }) async {
-    ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      1,
-      32,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.DescribeEventsDetectionJob'
@@ -1118,14 +929,6 @@ class Comprehend {
       describeKeyPhrasesDetectionJob({
     required String jobId,
   }) async {
-    ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      1,
-      32,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.DescribeKeyPhrasesDetectionJob'
@@ -1159,14 +962,6 @@ class Comprehend {
       describePiiEntitiesDetectionJob({
     required String jobId,
   }) async {
-    ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      1,
-      32,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.DescribePiiEntitiesDetectionJob'
@@ -1199,14 +994,6 @@ class Comprehend {
   Future<DescribeSentimentDetectionJobResponse> describeSentimentDetectionJob({
     required String jobId,
   }) async {
-    ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      1,
-      32,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.DescribeSentimentDetectionJob'
@@ -1238,14 +1025,6 @@ class Comprehend {
   Future<DescribeTopicsDetectionJobResponse> describeTopicsDetectionJob({
     required String jobId,
   }) async {
-    ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      1,
-      32,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.DescribeTopicsDetectionJob'
@@ -1279,14 +1058,6 @@ class Comprehend {
   Future<DetectDominantLanguageResponse> detectDominantLanguage({
     required String text,
   }) async {
-    ArgumentError.checkNotNull(text, 'text');
-    _s.validateStringLength(
-      'text',
-      text,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.DetectDominantLanguage'
@@ -1341,20 +1112,6 @@ class Comprehend {
     String? endpointArn,
     LanguageCode? languageCode,
   }) async {
-    ArgumentError.checkNotNull(text, 'text');
-    _s.validateStringLength(
-      'text',
-      text,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'endpointArn',
-      endpointArn,
-      0,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.DetectEntities'
@@ -1394,15 +1151,6 @@ class Comprehend {
     required LanguageCode languageCode,
     required String text,
   }) async {
-    ArgumentError.checkNotNull(languageCode, 'languageCode');
-    ArgumentError.checkNotNull(text, 'text');
-    _s.validateStringLength(
-      'text',
-      text,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.DetectKeyPhrases'
@@ -1440,15 +1188,6 @@ class Comprehend {
     required LanguageCode languageCode,
     required String text,
   }) async {
-    ArgumentError.checkNotNull(languageCode, 'languageCode');
-    ArgumentError.checkNotNull(text, 'text');
-    _s.validateStringLength(
-      'text',
-      text,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.DetectPiiEntities'
@@ -1489,15 +1228,6 @@ class Comprehend {
     required LanguageCode languageCode,
     required String text,
   }) async {
-    ArgumentError.checkNotNull(languageCode, 'languageCode');
-    ArgumentError.checkNotNull(text, 'text');
-    _s.validateStringLength(
-      'text',
-      text,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.DetectSentiment'
@@ -1538,15 +1268,6 @@ class Comprehend {
     required SyntaxLanguageCode languageCode,
     required String text,
   }) async {
-    ArgumentError.checkNotNull(languageCode, 'languageCode');
-    ArgumentError.checkNotNull(text, 'text');
-    _s.validateStringLength(
-      'text',
-      text,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.DetectSyntax'
@@ -1596,12 +1317,6 @@ class Comprehend {
       1,
       500,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.ListDocumentClassificationJobs'
@@ -1649,12 +1364,6 @@ class Comprehend {
       maxResults,
       1,
       500,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1706,12 +1415,6 @@ class Comprehend {
       1,
       500,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.ListDominantLanguageDetectionJobs'
@@ -1760,12 +1463,6 @@ class Comprehend {
       1,
       500,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.ListEndpoints'
@@ -1813,12 +1510,6 @@ class Comprehend {
       maxResults,
       1,
       500,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1875,12 +1566,6 @@ class Comprehend {
       1,
       500,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.ListEntityRecognizers'
@@ -1928,12 +1613,6 @@ class Comprehend {
       maxResults,
       1,
       500,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1983,12 +1662,6 @@ class Comprehend {
       1,
       500,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.ListKeyPhrasesDetectionJobs'
@@ -2036,12 +1709,6 @@ class Comprehend {
       maxResults,
       1,
       500,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2091,12 +1758,6 @@ class Comprehend {
       1,
       500,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.ListSentimentDetectionJobs'
@@ -2129,14 +1790,6 @@ class Comprehend {
   Future<ListTagsForResourceResponse> listTagsForResource({
     required String resourceArn,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      0,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.ListTagsForResource'
@@ -2182,12 +1835,6 @@ class Comprehend {
       maxResults,
       1,
       500,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      1152921504606846976,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2273,42 +1920,6 @@ class Comprehend {
     String? volumeKmsKeyId,
     VpcConfig? vpcConfig,
   }) async {
-    ArgumentError.checkNotNull(dataAccessRoleArn, 'dataAccessRoleArn');
-    _s.validateStringLength(
-      'dataAccessRoleArn',
-      dataAccessRoleArn,
-      20,
-      2048,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(documentClassifierArn, 'documentClassifierArn');
-    _s.validateStringLength(
-      'documentClassifierArn',
-      documentClassifierArn,
-      0,
-      256,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(inputDataConfig, 'inputDataConfig');
-    ArgumentError.checkNotNull(outputDataConfig, 'outputDataConfig');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'jobName',
-      jobName,
-      1,
-      256,
-    );
-    _s.validateStringLength(
-      'volumeKmsKeyId',
-      volumeKmsKeyId,
-      0,
-      2048,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.StartDocumentClassificationJob'
@@ -2394,34 +2005,6 @@ class Comprehend {
     String? volumeKmsKeyId,
     VpcConfig? vpcConfig,
   }) async {
-    ArgumentError.checkNotNull(dataAccessRoleArn, 'dataAccessRoleArn');
-    _s.validateStringLength(
-      'dataAccessRoleArn',
-      dataAccessRoleArn,
-      20,
-      2048,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(inputDataConfig, 'inputDataConfig');
-    ArgumentError.checkNotNull(outputDataConfig, 'outputDataConfig');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'jobName',
-      jobName,
-      1,
-      256,
-    );
-    _s.validateStringLength(
-      'volumeKmsKeyId',
-      volumeKmsKeyId,
-      0,
-      2048,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.StartDominantLanguageDetectionJob'
@@ -2526,41 +2109,6 @@ class Comprehend {
     String? volumeKmsKeyId,
     VpcConfig? vpcConfig,
   }) async {
-    ArgumentError.checkNotNull(dataAccessRoleArn, 'dataAccessRoleArn');
-    _s.validateStringLength(
-      'dataAccessRoleArn',
-      dataAccessRoleArn,
-      20,
-      2048,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(inputDataConfig, 'inputDataConfig');
-    ArgumentError.checkNotNull(languageCode, 'languageCode');
-    ArgumentError.checkNotNull(outputDataConfig, 'outputDataConfig');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'entityRecognizerArn',
-      entityRecognizerArn,
-      0,
-      256,
-    );
-    _s.validateStringLength(
-      'jobName',
-      jobName,
-      1,
-      256,
-    );
-    _s.validateStringLength(
-      'volumeKmsKeyId',
-      volumeKmsKeyId,
-      0,
-      2048,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.StartEntitiesDetectionJob'
@@ -2627,30 +2175,6 @@ class Comprehend {
     String? clientRequestToken,
     String? jobName,
   }) async {
-    ArgumentError.checkNotNull(dataAccessRoleArn, 'dataAccessRoleArn');
-    _s.validateStringLength(
-      'dataAccessRoleArn',
-      dataAccessRoleArn,
-      20,
-      2048,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(inputDataConfig, 'inputDataConfig');
-    ArgumentError.checkNotNull(languageCode, 'languageCode');
-    ArgumentError.checkNotNull(outputDataConfig, 'outputDataConfig');
-    ArgumentError.checkNotNull(targetEventTypes, 'targetEventTypes');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'jobName',
-      jobName,
-      1,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.StartEventsDetectionJob'
@@ -2740,35 +2264,6 @@ class Comprehend {
     String? volumeKmsKeyId,
     VpcConfig? vpcConfig,
   }) async {
-    ArgumentError.checkNotNull(dataAccessRoleArn, 'dataAccessRoleArn');
-    _s.validateStringLength(
-      'dataAccessRoleArn',
-      dataAccessRoleArn,
-      20,
-      2048,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(inputDataConfig, 'inputDataConfig');
-    ArgumentError.checkNotNull(languageCode, 'languageCode');
-    ArgumentError.checkNotNull(outputDataConfig, 'outputDataConfig');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'jobName',
-      jobName,
-      1,
-      256,
-    );
-    _s.validateStringLength(
-      'volumeKmsKeyId',
-      volumeKmsKeyId,
-      0,
-      2048,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.StartKeyPhrasesDetectionJob'
@@ -2845,30 +2340,6 @@ class Comprehend {
     String? jobName,
     RedactionConfig? redactionConfig,
   }) async {
-    ArgumentError.checkNotNull(dataAccessRoleArn, 'dataAccessRoleArn');
-    _s.validateStringLength(
-      'dataAccessRoleArn',
-      dataAccessRoleArn,
-      20,
-      2048,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(inputDataConfig, 'inputDataConfig');
-    ArgumentError.checkNotNull(languageCode, 'languageCode');
-    ArgumentError.checkNotNull(mode, 'mode');
-    ArgumentError.checkNotNull(outputDataConfig, 'outputDataConfig');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'jobName',
-      jobName,
-      1,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.StartPiiEntitiesDetectionJob'
@@ -2959,35 +2430,6 @@ class Comprehend {
     String? volumeKmsKeyId,
     VpcConfig? vpcConfig,
   }) async {
-    ArgumentError.checkNotNull(dataAccessRoleArn, 'dataAccessRoleArn');
-    _s.validateStringLength(
-      'dataAccessRoleArn',
-      dataAccessRoleArn,
-      20,
-      2048,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(inputDataConfig, 'inputDataConfig');
-    ArgumentError.checkNotNull(languageCode, 'languageCode');
-    ArgumentError.checkNotNull(outputDataConfig, 'outputDataConfig');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'jobName',
-      jobName,
-      1,
-      256,
-    );
-    _s.validateStringLength(
-      'volumeKmsKeyId',
-      volumeKmsKeyId,
-      0,
-      2048,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.StartSentimentDetectionJob'
@@ -3080,39 +2522,11 @@ class Comprehend {
     String? volumeKmsKeyId,
     VpcConfig? vpcConfig,
   }) async {
-    ArgumentError.checkNotNull(dataAccessRoleArn, 'dataAccessRoleArn');
-    _s.validateStringLength(
-      'dataAccessRoleArn',
-      dataAccessRoleArn,
-      20,
-      2048,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(inputDataConfig, 'inputDataConfig');
-    ArgumentError.checkNotNull(outputDataConfig, 'outputDataConfig');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'jobName',
-      jobName,
-      1,
-      256,
-    );
     _s.validateNumRange(
       'numberOfTopics',
       numberOfTopics,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'volumeKmsKeyId',
-      volumeKmsKeyId,
-      0,
-      2048,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3165,14 +2579,6 @@ class Comprehend {
       stopDominantLanguageDetectionJob({
     required String jobId,
   }) async {
-    ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      1,
-      32,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.StopDominantLanguageDetectionJob'
@@ -3215,14 +2621,6 @@ class Comprehend {
   Future<StopEntitiesDetectionJobResponse> stopEntitiesDetectionJob({
     required String jobId,
   }) async {
-    ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      1,
-      32,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.StopEntitiesDetectionJob'
@@ -3252,14 +2650,6 @@ class Comprehend {
   Future<StopEventsDetectionJobResponse> stopEventsDetectionJob({
     required String jobId,
   }) async {
-    ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      1,
-      32,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.StopEventsDetectionJob'
@@ -3302,14 +2692,6 @@ class Comprehend {
   Future<StopKeyPhrasesDetectionJobResponse> stopKeyPhrasesDetectionJob({
     required String jobId,
   }) async {
-    ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      1,
-      32,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.StopKeyPhrasesDetectionJob'
@@ -3339,14 +2721,6 @@ class Comprehend {
   Future<StopPiiEntitiesDetectionJobResponse> stopPiiEntitiesDetectionJob({
     required String jobId,
   }) async {
-    ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      1,
-      32,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.StopPiiEntitiesDetectionJob'
@@ -3389,14 +2763,6 @@ class Comprehend {
   Future<StopSentimentDetectionJobResponse> stopSentimentDetectionJob({
     required String jobId,
   }) async {
-    ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      1,
-      32,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.StopSentimentDetectionJob'
@@ -3435,14 +2801,6 @@ class Comprehend {
   Future<void> stopTrainingDocumentClassifier({
     required String documentClassifierArn,
   }) async {
-    ArgumentError.checkNotNull(documentClassifierArn, 'documentClassifierArn');
-    _s.validateStringLength(
-      'documentClassifierArn',
-      documentClassifierArn,
-      0,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.StopTrainingDocumentClassifier'
@@ -3479,14 +2837,6 @@ class Comprehend {
   Future<void> stopTrainingEntityRecognizer({
     required String entityRecognizerArn,
   }) async {
-    ArgumentError.checkNotNull(entityRecognizerArn, 'entityRecognizerArn');
-    _s.validateStringLength(
-      'entityRecognizerArn',
-      entityRecognizerArn,
-      0,
-      256,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.StopTrainingEntityRecognizer'
@@ -3526,15 +2876,6 @@ class Comprehend {
     required String resourceArn,
     required List<Tag> tags,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      0,
-      256,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.TagResource'
@@ -3573,15 +2914,6 @@ class Comprehend {
     required String resourceArn,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      0,
-      256,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.UntagResource'
@@ -3620,20 +2952,11 @@ class Comprehend {
     required int desiredInferenceUnits,
     required String endpointArn,
   }) async {
-    ArgumentError.checkNotNull(desiredInferenceUnits, 'desiredInferenceUnits');
     _s.validateNumRange(
       'desiredInferenceUnits',
       desiredInferenceUnits,
       1,
       1152921504606846976,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(endpointArn, 'endpointArn');
-    _s.validateStringLength(
-      'endpointArn',
-      endpointArn,
-      0,
-      256,
       isRequired: true,
     );
     final headers = <String, String>{

@@ -75,7 +75,6 @@ class CostExplorer {
   Future<CreateAnomalyMonitorResponse> createAnomalyMonitor({
     required AnomalyMonitor anomalyMonitor,
   }) async {
-    ArgumentError.checkNotNull(anomalyMonitor, 'anomalyMonitor');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSInsightsIndexService.CreateAnomalyMonitor'
@@ -107,7 +106,6 @@ class CostExplorer {
   Future<CreateAnomalySubscriptionResponse> createAnomalySubscription({
     required AnomalySubscription anomalySubscription,
   }) async {
-    ArgumentError.checkNotNull(anomalySubscription, 'anomalySubscription');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSInsightsIndexService.CreateAnomalySubscription'
@@ -140,16 +138,6 @@ class CostExplorer {
     required CostCategoryRuleVersion ruleVersion,
     required List<CostCategoryRule> rules,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(ruleVersion, 'ruleVersion');
-    ArgumentError.checkNotNull(rules, 'rules');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSInsightsIndexService.CreateCostCategoryDefinition'
@@ -180,14 +168,6 @@ class CostExplorer {
   Future<void> deleteAnomalyMonitor({
     required String monitorArn,
   }) async {
-    ArgumentError.checkNotNull(monitorArn, 'monitorArn');
-    _s.validateStringLength(
-      'monitorArn',
-      monitorArn,
-      0,
-      1024,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSInsightsIndexService.DeleteAnomalyMonitor'
@@ -215,14 +195,6 @@ class CostExplorer {
   Future<void> deleteAnomalySubscription({
     required String subscriptionArn,
   }) async {
-    ArgumentError.checkNotNull(subscriptionArn, 'subscriptionArn');
-    _s.validateStringLength(
-      'subscriptionArn',
-      subscriptionArn,
-      0,
-      1024,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSInsightsIndexService.DeleteAnomalySubscription'
@@ -250,14 +222,6 @@ class CostExplorer {
   Future<DeleteCostCategoryDefinitionResponse> deleteCostCategoryDefinition({
     required String costCategoryArn,
   }) async {
-    ArgumentError.checkNotNull(costCategoryArn, 'costCategoryArn');
-    _s.validateStringLength(
-      'costCategoryArn',
-      costCategoryArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSInsightsIndexService.DeleteCostCategoryDefinition'
@@ -298,20 +262,6 @@ class CostExplorer {
     required String costCategoryArn,
     String? effectiveOn,
   }) async {
-    ArgumentError.checkNotNull(costCategoryArn, 'costCategoryArn');
-    _s.validateStringLength(
-      'costCategoryArn',
-      costCategoryArn,
-      20,
-      2048,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'effectiveOn',
-      effectiveOn,
-      20,
-      25,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSInsightsIndexService.DescribeCostCategoryDefinition'
@@ -369,19 +319,6 @@ class CostExplorer {
     String? nextPageToken,
     TotalImpactFilter? totalImpact,
   }) async {
-    ArgumentError.checkNotNull(dateInterval, 'dateInterval');
-    _s.validateStringLength(
-      'monitorArn',
-      monitorArn,
-      0,
-      1024,
-    );
-    _s.validateStringLength(
-      'nextPageToken',
-      nextPageToken,
-      0,
-      8192,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSInsightsIndexService.GetAnomalies'
@@ -427,12 +364,6 @@ class CostExplorer {
     List<String>? monitorArnList,
     String? nextPageToken,
   }) async {
-    _s.validateStringLength(
-      'nextPageToken',
-      nextPageToken,
-      0,
-      8192,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSInsightsIndexService.GetAnomalyMonitors'
@@ -479,18 +410,6 @@ class CostExplorer {
     String? nextPageToken,
     List<String>? subscriptionArnList,
   }) async {
-    _s.validateStringLength(
-      'monitorArn',
-      monitorArn,
-      0,
-      1024,
-    );
-    _s.validateStringLength(
-      'nextPageToken',
-      nextPageToken,
-      0,
-      8192,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSInsightsIndexService.GetAnomalySubscriptions'
@@ -603,14 +522,6 @@ class CostExplorer {
     List<GroupDefinition>? groupBy,
     String? nextPageToken,
   }) async {
-    ArgumentError.checkNotNull(metrics, 'metrics');
-    ArgumentError.checkNotNull(timePeriod, 'timePeriod');
-    _s.validateStringLength(
-      'nextPageToken',
-      nextPageToken,
-      0,
-      8192,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSInsightsIndexService.GetCostAndUsage'
@@ -726,14 +637,6 @@ class CostExplorer {
     List<String>? metrics,
     String? nextPageToken,
   }) async {
-    ArgumentError.checkNotNull(filter, 'filter');
-    ArgumentError.checkNotNull(timePeriod, 'timePeriod');
-    _s.validateStringLength(
-      'nextPageToken',
-      nextPageToken,
-      0,
-      8192,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSInsightsIndexService.GetCostAndUsageWithResources'
@@ -820,9 +723,6 @@ class CostExplorer {
     Expression? filter,
     int? predictionIntervalLevel,
   }) async {
-    ArgumentError.checkNotNull(granularity, 'granularity');
-    ArgumentError.checkNotNull(metric, 'metric');
-    ArgumentError.checkNotNull(timePeriod, 'timePeriod');
     _s.validateNumRange(
       'predictionIntervalLevel',
       predictionIntervalLevel,
@@ -1032,20 +932,6 @@ class CostExplorer {
     String? nextPageToken,
     String? searchString,
   }) async {
-    ArgumentError.checkNotNull(dimension, 'dimension');
-    ArgumentError.checkNotNull(timePeriod, 'timePeriod');
-    _s.validateStringLength(
-      'nextPageToken',
-      nextPageToken,
-      0,
-      8192,
-    );
-    _s.validateStringLength(
-      'searchString',
-      searchString,
-      0,
-      1024,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSInsightsIndexService.GetDimensionValues'
@@ -1250,13 +1136,6 @@ class CostExplorer {
     List<String>? metrics,
     String? nextPageToken,
   }) async {
-    ArgumentError.checkNotNull(timePeriod, 'timePeriod');
-    _s.validateStringLength(
-      'nextPageToken',
-      nextPageToken,
-      0,
-      8192,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSInsightsIndexService.GetReservationCoverage'
@@ -1351,26 +1230,6 @@ class CostExplorer {
     ServiceSpecification? serviceSpecification,
     TermInYears? termInYears,
   }) async {
-    ArgumentError.checkNotNull(service, 'service');
-    _s.validateStringLength(
-      'service',
-      service,
-      0,
-      1024,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'accountId',
-      accountId,
-      0,
-      1024,
-    );
-    _s.validateStringLength(
-      'nextPageToken',
-      nextPageToken,
-      0,
-      8192,
-    );
     _s.validateNumRange(
       'pageSize',
       pageSize,
@@ -1495,13 +1354,6 @@ class CostExplorer {
     List<GroupDefinition>? groupBy,
     String? nextPageToken,
   }) async {
-    ArgumentError.checkNotNull(timePeriod, 'timePeriod');
-    _s.validateStringLength(
-      'nextPageToken',
-      nextPageToken,
-      0,
-      8192,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSInsightsIndexService.GetReservationUtilization'
@@ -1563,20 +1415,6 @@ class CostExplorer {
     String? nextPageToken,
     int? pageSize,
   }) async {
-    ArgumentError.checkNotNull(service, 'service');
-    _s.validateStringLength(
-      'service',
-      service,
-      0,
-      1024,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'nextPageToken',
-      nextPageToken,
-      0,
-      8192,
-    );
     _s.validateNumRange(
       'pageSize',
       pageSize,
@@ -1698,18 +1536,11 @@ class CostExplorer {
     List<String>? metrics,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(timePeriod, 'timePeriod');
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       1152921504606846976,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1796,16 +1627,6 @@ class CostExplorer {
     String? nextPageToken,
     int? pageSize,
   }) async {
-    ArgumentError.checkNotNull(lookbackPeriodInDays, 'lookbackPeriodInDays');
-    ArgumentError.checkNotNull(paymentOption, 'paymentOption');
-    ArgumentError.checkNotNull(savingsPlansType, 'savingsPlansType');
-    ArgumentError.checkNotNull(termInYears, 'termInYears');
-    _s.validateStringLength(
-      'nextPageToken',
-      nextPageToken,
-      0,
-      8192,
-    );
     _s.validateNumRange(
       'pageSize',
       pageSize,
@@ -1898,7 +1719,6 @@ class CostExplorer {
     Expression? filter,
     Granularity? granularity,
   }) async {
-    ArgumentError.checkNotNull(timePeriod, 'timePeriod');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSInsightsIndexService.GetSavingsPlansUtilization'
@@ -1983,18 +1803,11 @@ class CostExplorer {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(timePeriod, 'timePeriod');
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       1152921504606846976,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2052,25 +1865,6 @@ class CostExplorer {
     String? searchString,
     String? tagKey,
   }) async {
-    ArgumentError.checkNotNull(timePeriod, 'timePeriod');
-    _s.validateStringLength(
-      'nextPageToken',
-      nextPageToken,
-      0,
-      8192,
-    );
-    _s.validateStringLength(
-      'searchString',
-      searchString,
-      0,
-      1024,
-    );
-    _s.validateStringLength(
-      'tagKey',
-      tagKey,
-      0,
-      1024,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSInsightsIndexService.GetTags'
@@ -2149,9 +1943,6 @@ class CostExplorer {
     Expression? filter,
     int? predictionIntervalLevel,
   }) async {
-    ArgumentError.checkNotNull(granularity, 'granularity');
-    ArgumentError.checkNotNull(metric, 'metric');
-    ArgumentError.checkNotNull(timePeriod, 'timePeriod');
     _s.validateNumRange(
       'predictionIntervalLevel',
       predictionIntervalLevel,
@@ -2208,23 +1999,11 @@ class CostExplorer {
     int? maxResults,
     String? nextToken,
   }) async {
-    _s.validateStringLength(
-      'effectiveOn',
-      effectiveOn,
-      20,
-      25,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      8192,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2260,15 +2039,6 @@ class CostExplorer {
     required String anomalyId,
     required AnomalyFeedbackType feedback,
   }) async {
-    ArgumentError.checkNotNull(anomalyId, 'anomalyId');
-    _s.validateStringLength(
-      'anomalyId',
-      anomalyId,
-      0,
-      1024,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(feedback, 'feedback');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSInsightsIndexService.ProvideAnomalyFeedback'
@@ -2303,20 +2073,6 @@ class CostExplorer {
     required String monitorArn,
     String? monitorName,
   }) async {
-    ArgumentError.checkNotNull(monitorArn, 'monitorArn');
-    _s.validateStringLength(
-      'monitorArn',
-      monitorArn,
-      0,
-      1024,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'monitorName',
-      monitorName,
-      0,
-      1024,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSInsightsIndexService.UpdateAnomalyMonitor'
@@ -2368,20 +2124,6 @@ class CostExplorer {
     String? subscriptionName,
     double? threshold,
   }) async {
-    ArgumentError.checkNotNull(subscriptionArn, 'subscriptionArn');
-    _s.validateStringLength(
-      'subscriptionArn',
-      subscriptionArn,
-      0,
-      1024,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'subscriptionName',
-      subscriptionName,
-      0,
-      1024,
-    );
     _s.validateNumRange(
       'threshold',
       threshold,
@@ -2432,16 +2174,6 @@ class CostExplorer {
     required CostCategoryRuleVersion ruleVersion,
     required List<CostCategoryRule> rules,
   }) async {
-    ArgumentError.checkNotNull(costCategoryArn, 'costCategoryArn');
-    _s.validateStringLength(
-      'costCategoryArn',
-      costCategoryArn,
-      20,
-      2048,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(ruleVersion, 'ruleVersion');
-    ArgumentError.checkNotNull(rules, 'rules');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSInsightsIndexService.UpdateCostCategoryDefinition'

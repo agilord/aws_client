@@ -92,22 +92,6 @@ class Connect {
     required String instanceId,
     required String origin,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(origin, 'origin');
-    _s.validateStringLength(
-      'origin',
-      origin,
-      0,
-      267,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'Origin': origin,
     };
@@ -154,16 +138,6 @@ class Connect {
     required InstanceStorageResourceType resourceType,
     required InstanceStorageConfig storageConfig,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(resourceType, 'resourceType');
-    ArgumentError.checkNotNull(storageConfig, 'storageConfig');
     final $payload = <String, dynamic>{
       'ResourceType': resourceType.toValue(),
       'StorageConfig': storageConfig,
@@ -201,22 +175,6 @@ class Connect {
     required String functionArn,
     required String instanceId,
   }) async {
-    ArgumentError.checkNotNull(functionArn, 'functionArn');
-    _s.validateStringLength(
-      'functionArn',
-      functionArn,
-      1,
-      140,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'FunctionArn': functionArn,
     };
@@ -252,15 +210,6 @@ class Connect {
     required String instanceId,
     required LexBot lexBot,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(lexBot, 'lexBot');
     final $payload = <String, dynamic>{
       'LexBot': lexBot,
     };
@@ -293,16 +242,6 @@ class Connect {
     required List<RoutingProfileQueueConfig> queueConfigs,
     required String routingProfileId,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(queueConfigs, 'queueConfigs');
-    ArgumentError.checkNotNull(routingProfileId, 'routingProfileId');
     final $payload = <String, dynamic>{
       'QueueConfigs': queueConfigs,
     };
@@ -337,22 +276,6 @@ class Connect {
     required String instanceId,
     required String key,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(key, 'key');
-    _s.validateStringLength(
-      'key',
-      key,
-      1,
-      1024,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'Key': key,
     };
@@ -408,24 +331,6 @@ class Connect {
     String? description,
     Map<String, String>? tags,
   }) async {
-    ArgumentError.checkNotNull(content, 'content');
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(type, 'type');
     final $payload = <String, dynamic>{
       'Content': content,
       'Name': name,
@@ -481,28 +386,6 @@ class Connect {
     String? directoryId,
     String? instanceAlias,
   }) async {
-    ArgumentError.checkNotNull(
-        identityManagementType, 'identityManagementType');
-    ArgumentError.checkNotNull(inboundCallsEnabled, 'inboundCallsEnabled');
-    ArgumentError.checkNotNull(outboundCallsEnabled, 'outboundCallsEnabled');
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      0,
-      500,
-    );
-    _s.validateStringLength(
-      'directoryId',
-      directoryId,
-      12,
-      12,
-    );
-    _s.validateStringLength(
-      'instanceAlias',
-      instanceAlias,
-      1,
-      62,
-    );
     final $payload = <String, dynamic>{
       'IdentityManagementType': identityManagementType.toValue(),
       'InboundCallsEnabled': inboundCallsEnabled,
@@ -556,33 +439,6 @@ class Connect {
     required String sourceApplicationUrl,
     required SourceType sourceType,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(integrationArn, 'integrationArn');
-    ArgumentError.checkNotNull(integrationType, 'integrationType');
-    ArgumentError.checkNotNull(sourceApplicationName, 'sourceApplicationName');
-    _s.validateStringLength(
-      'sourceApplicationName',
-      sourceApplicationName,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(sourceApplicationUrl, 'sourceApplicationUrl');
-    _s.validateStringLength(
-      'sourceApplicationUrl',
-      sourceApplicationUrl,
-      1,
-      2000,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(sourceType, 'sourceType');
     final $payload = <String, dynamic>{
       'IntegrationArn': integrationArn,
       'IntegrationType': integrationType.toValue(),
@@ -634,29 +490,6 @@ class Connect {
     String? description,
     Map<String, String>? tags,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      127,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(quickConnectConfig, 'quickConnectConfig');
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      250,
-    );
     final $payload = <String, dynamic>{
       'Name': name,
       'QuickConnectConfig': quickConnectConfig,
@@ -713,33 +546,6 @@ class Connect {
     List<RoutingProfileQueueConfig>? queueConfigs,
     Map<String, String>? tags,
   }) async {
-    ArgumentError.checkNotNull(
-        defaultOutboundQueueId, 'defaultOutboundQueueId');
-    ArgumentError.checkNotNull(description, 'description');
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      250,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(mediaConcurrencies, 'mediaConcurrencies');
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      127,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'DefaultOutboundQueueId': defaultOutboundQueueId,
       'Description': description,
@@ -782,24 +588,6 @@ class Connect {
     required String integrationAssociationId,
     required UseCaseType useCaseType,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(
-        integrationAssociationId, 'integrationAssociationId');
-    _s.validateStringLength(
-      'integrationAssociationId',
-      integrationAssociationId,
-      1,
-      200,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(useCaseType, 'useCaseType');
     final $payload = <String, dynamic>{
       'UseCaseType': useCaseType.toValue(),
     };
@@ -883,25 +671,6 @@ class Connect {
     String? password,
     Map<String, String>? tags,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(phoneConfig, 'phoneConfig');
-    ArgumentError.checkNotNull(routingProfileId, 'routingProfileId');
-    ArgumentError.checkNotNull(securityProfileIds, 'securityProfileIds');
-    ArgumentError.checkNotNull(username, 'username');
-    _s.validateStringLength(
-      'username',
-      username,
-      1,
-      100,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'PhoneConfig': phoneConfig,
       'RoutingProfileId': routingProfileId,
@@ -947,15 +716,6 @@ class Connect {
     required String name,
     String? parentGroupId,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(name, 'name');
     final $payload = <String, dynamic>{
       'Name': name,
       if (parentGroupId != null) 'ParentGroupId': parentGroupId,
@@ -983,14 +743,6 @@ class Connect {
   Future<void> deleteInstance({
     required String instanceId,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1019,23 +771,6 @@ class Connect {
     required String instanceId,
     required String integrationAssociationId,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(
-        integrationAssociationId, 'integrationAssociationId');
-    _s.validateStringLength(
-      'integrationAssociationId',
-      integrationAssociationId,
-      1,
-      200,
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1065,15 +800,6 @@ class Connect {
     required String instanceId,
     required String quickConnectId,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(quickConnectId, 'quickConnectId');
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1106,31 +832,6 @@ class Connect {
     required String integrationAssociationId,
     required String useCaseId,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(
-        integrationAssociationId, 'integrationAssociationId');
-    _s.validateStringLength(
-      'integrationAssociationId',
-      integrationAssociationId,
-      1,
-      200,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(useCaseId, 'useCaseId');
-    _s.validateStringLength(
-      'useCaseId',
-      useCaseId,
-      1,
-      200,
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1163,15 +864,6 @@ class Connect {
     required String instanceId,
     required String userId,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(userId, 'userId');
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1200,15 +892,6 @@ class Connect {
     required String hierarchyGroupId,
     required String instanceId,
   }) async {
-    ArgumentError.checkNotNull(hierarchyGroupId, 'hierarchyGroupId');
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1240,22 +923,6 @@ class Connect {
     required String contactFlowId,
     required String instanceId,
   }) async {
-    ArgumentError.checkNotNull(contactFlowId, 'contactFlowId');
-    _s.validateStringLength(
-      'contactFlowId',
-      contactFlowId,
-      0,
-      500,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1287,14 +954,6 @@ class Connect {
   Future<DescribeInstanceResponse> describeInstance({
     required String instanceId,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1324,15 +983,6 @@ class Connect {
     required InstanceAttributeType attributeType,
     required String instanceId,
   }) async {
-    ArgumentError.checkNotNull(attributeType, 'attributeType');
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1369,23 +1019,6 @@ class Connect {
     required String instanceId,
     required InstanceStorageResourceType resourceType,
   }) async {
-    ArgumentError.checkNotNull(associationId, 'associationId');
-    _s.validateStringLength(
-      'associationId',
-      associationId,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(resourceType, 'resourceType');
     final $query = <String, List<String>>{
       'resourceType': [resourceType.toValue()],
     };
@@ -1420,15 +1053,6 @@ class Connect {
     required String instanceId,
     required String quickConnectId,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(quickConnectId, 'quickConnectId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1456,15 +1080,6 @@ class Connect {
     required String instanceId,
     required String routingProfileId,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(routingProfileId, 'routingProfileId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1494,15 +1109,6 @@ class Connect {
     required String instanceId,
     required String userId,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(userId, 'userId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1530,15 +1136,6 @@ class Connect {
     required String hierarchyGroupId,
     required String instanceId,
   }) async {
-    ArgumentError.checkNotNull(hierarchyGroupId, 'hierarchyGroupId');
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1564,14 +1161,6 @@ class Connect {
       describeUserHierarchyStructure({
     required String instanceId,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1602,22 +1191,6 @@ class Connect {
     required String instanceId,
     required String origin,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(origin, 'origin');
-    _s.validateStringLength(
-      'origin',
-      origin,
-      0,
-      267,
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       'origin': [origin],
     };
@@ -1657,23 +1230,6 @@ class Connect {
     required String instanceId,
     required InstanceStorageResourceType resourceType,
   }) async {
-    ArgumentError.checkNotNull(associationId, 'associationId');
-    _s.validateStringLength(
-      'associationId',
-      associationId,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(resourceType, 'resourceType');
     final $query = <String, List<String>>{
       'resourceType': [resourceType.toValue()],
     };
@@ -1708,22 +1264,6 @@ class Connect {
     required String functionArn,
     required String instanceId,
   }) async {
-    ArgumentError.checkNotNull(functionArn, 'functionArn');
-    _s.validateStringLength(
-      'functionArn',
-      functionArn,
-      1,
-      140,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       'functionArn': [functionArn],
     };
@@ -1762,30 +1302,6 @@ class Connect {
     required String instanceId,
     required String lexRegion,
   }) async {
-    ArgumentError.checkNotNull(botName, 'botName');
-    _s.validateStringLength(
-      'botName',
-      botName,
-      0,
-      50,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(lexRegion, 'lexRegion');
-    _s.validateStringLength(
-      'lexRegion',
-      lexRegion,
-      0,
-      60,
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       'botName': [botName],
       'lexRegion': [lexRegion],
@@ -1820,16 +1336,6 @@ class Connect {
     required List<RoutingProfileQueueReference> queueReferences,
     required String routingProfileId,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(queueReferences, 'queueReferences');
-    ArgumentError.checkNotNull(routingProfileId, 'routingProfileId');
     final $payload = <String, dynamic>{
       'QueueReferences': queueReferences,
     };
@@ -1863,22 +1369,6 @@ class Connect {
     required String associationId,
     required String instanceId,
   }) async {
-    ArgumentError.checkNotNull(associationId, 'associationId');
-    _s.validateStringLength(
-      'associationId',
-      associationId,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1903,22 +1393,6 @@ class Connect {
     required String initialContactId,
     required String instanceId,
   }) async {
-    ArgumentError.checkNotNull(initialContactId, 'initialContactId');
-    _s.validateStringLength(
-      'initialContactId',
-      initialContactId,
-      1,
-      256,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -2064,16 +1538,6 @@ class Connect {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(currentMetrics, 'currentMetrics');
-    ArgumentError.checkNotNull(filters, 'filters');
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -2111,14 +1575,6 @@ class Connect {
   Future<GetFederationTokenResponse> getFederationToken({
     required String instanceId,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -2305,18 +1761,6 @@ class Connect {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(endTime, 'endTime');
-    ArgumentError.checkNotNull(filters, 'filters');
-    ArgumentError.checkNotNull(historicalMetrics, 'historicalMetrics');
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(startTime, 'startTime');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -2368,14 +1812,6 @@ class Connect {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -2432,14 +1868,6 @@ class Connect {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -2490,14 +1918,6 @@ class Connect {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -2544,14 +1964,6 @@ class Connect {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -2602,15 +2014,6 @@ class Connect {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(resourceType, 'resourceType');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -2699,14 +2102,6 @@ class Connect {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -2754,14 +2149,6 @@ class Connect {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -2809,14 +2196,6 @@ class Connect {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -2873,14 +2252,6 @@ class Connect {
     List<PhoneNumberCountryCode>? phoneNumberCountryCodes,
     List<PhoneNumberType>? phoneNumberTypes,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -2929,14 +2300,6 @@ class Connect {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -2988,14 +2351,6 @@ class Connect {
     String? nextToken,
     List<QueueType>? queueTypes,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -3050,14 +2405,6 @@ class Connect {
     String? nextToken,
     List<QuickConnectType>? quickConnectTypes,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -3106,15 +2453,6 @@ class Connect {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(routingProfileId, 'routingProfileId');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -3165,14 +2503,6 @@ class Connect {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -3220,14 +2550,6 @@ class Connect {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -3275,14 +2597,6 @@ class Connect {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -3322,7 +2636,6 @@ class Connect {
   Future<ListTagsForResourceResponse> listTagsForResource({
     required String resourceArn,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -3360,23 +2673,6 @@ class Connect {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(
-        integrationAssociationId, 'integrationAssociationId');
-    _s.validateStringLength(
-      'integrationAssociationId',
-      integrationAssociationId,
-      1,
-      200,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -3425,14 +2721,6 @@ class Connect {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -3477,14 +2765,6 @@ class Connect {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -3528,30 +2808,6 @@ class Connect {
     required String initialContactId,
     required String instanceId,
   }) async {
-    ArgumentError.checkNotNull(contactId, 'contactId');
-    _s.validateStringLength(
-      'contactId',
-      contactId,
-      1,
-      256,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(initialContactId, 'initialContactId');
-    _s.validateStringLength(
-      'initialContactId',
-      initialContactId,
-      1,
-      256,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'ContactId': contactId,
       'InitialContactId': initialContactId,
@@ -3639,29 +2895,6 @@ class Connect {
     String? clientToken,
     ChatMessage? initialMessage,
   }) async {
-    ArgumentError.checkNotNull(contactFlowId, 'contactFlowId');
-    _s.validateStringLength(
-      'contactFlowId',
-      contactFlowId,
-      0,
-      500,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(participantDetails, 'participantDetails');
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      0,
-      500,
-    );
     final $payload = <String, dynamic>{
       'ContactFlowId': contactFlowId,
       'InstanceId': instanceId,
@@ -3717,32 +2950,6 @@ class Connect {
     required String instanceId,
     required VoiceRecordingConfiguration voiceRecordingConfiguration,
   }) async {
-    ArgumentError.checkNotNull(contactId, 'contactId');
-    _s.validateStringLength(
-      'contactId',
-      contactId,
-      1,
-      256,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(initialContactId, 'initialContactId');
-    _s.validateStringLength(
-      'initialContactId',
-      initialContactId,
-      1,
-      256,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(
-        voiceRecordingConfiguration, 'voiceRecordingConfiguration');
     final $payload = <String, dynamic>{
       'ContactId': contactId,
       'InitialContactId': initialContactId,
@@ -3835,30 +3042,6 @@ class Connect {
     String? queueId,
     String? sourcePhoneNumber,
   }) async {
-    ArgumentError.checkNotNull(contactFlowId, 'contactFlowId');
-    _s.validateStringLength(
-      'contactFlowId',
-      contactFlowId,
-      0,
-      500,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(
-        destinationPhoneNumber, 'destinationPhoneNumber');
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      0,
-      500,
-    );
     final $payload = <String, dynamic>{
       'ContactFlowId': contactFlowId,
       'DestinationPhoneNumber': destinationPhoneNumber,
@@ -3936,48 +3119,6 @@ class Connect {
     String? previousContactId,
     Map<String, Reference>? references,
   }) async {
-    ArgumentError.checkNotNull(contactFlowId, 'contactFlowId');
-    _s.validateStringLength(
-      'contactFlowId',
-      contactFlowId,
-      0,
-      500,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      0,
-      512,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      0,
-      500,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      4096,
-    );
-    _s.validateStringLength(
-      'previousContactId',
-      previousContactId,
-      1,
-      256,
-    );
     final $payload = <String, dynamic>{
       'ContactFlowId': contactFlowId,
       'InstanceId': instanceId,
@@ -4014,22 +3155,6 @@ class Connect {
     required String contactId,
     required String instanceId,
   }) async {
-    ArgumentError.checkNotNull(contactId, 'contactId');
-    _s.validateStringLength(
-      'contactId',
-      contactId,
-      1,
-      256,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'ContactId': contactId,
       'InstanceId': instanceId,
@@ -4070,30 +3195,6 @@ class Connect {
     required String initialContactId,
     required String instanceId,
   }) async {
-    ArgumentError.checkNotNull(contactId, 'contactId');
-    _s.validateStringLength(
-      'contactId',
-      contactId,
-      1,
-      256,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(initialContactId, 'initialContactId');
-    _s.validateStringLength(
-      'initialContactId',
-      initialContactId,
-      1,
-      256,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'ContactId': contactId,
       'InitialContactId': initialContactId,
@@ -4135,30 +3236,6 @@ class Connect {
     required String initialContactId,
     required String instanceId,
   }) async {
-    ArgumentError.checkNotNull(contactId, 'contactId');
-    _s.validateStringLength(
-      'contactId',
-      contactId,
-      1,
-      256,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(initialContactId, 'initialContactId');
-    _s.validateStringLength(
-      'initialContactId',
-      initialContactId,
-      1,
-      256,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'ContactId': contactId,
       'InitialContactId': initialContactId,
@@ -4198,8 +3275,6 @@ class Connect {
     required String resourceArn,
     required Map<String, String> tags,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
       'tags': tags,
     };
@@ -4228,8 +3303,6 @@ class Connect {
     required String resourceArn,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
       'tagKeys': tagKeys,
     };
@@ -4289,23 +3362,6 @@ class Connect {
     required String initialContactId,
     required String instanceId,
   }) async {
-    ArgumentError.checkNotNull(attributes, 'attributes');
-    ArgumentError.checkNotNull(initialContactId, 'initialContactId');
-    _s.validateStringLength(
-      'initialContactId',
-      initialContactId,
-      1,
-      256,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'Attributes': attributes,
       'InitialContactId': initialContactId,
@@ -4349,23 +3405,6 @@ class Connect {
     required String content,
     required String instanceId,
   }) async {
-    ArgumentError.checkNotNull(contactFlowId, 'contactFlowId');
-    _s.validateStringLength(
-      'contactFlowId',
-      contactFlowId,
-      0,
-      500,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(content, 'content');
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'Content': content,
     };
@@ -4408,28 +3447,6 @@ class Connect {
     String? description,
     String? name,
   }) async {
-    ArgumentError.checkNotNull(contactFlowId, 'contactFlowId');
-    _s.validateStringLength(
-      'contactFlowId',
-      contactFlowId,
-      0,
-      500,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      1152921504606846976,
-    );
     final $payload = <String, dynamic>{
       if (description != null) 'Description': description,
       if (name != null) 'Name': name,
@@ -4467,23 +3484,6 @@ class Connect {
     required String instanceId,
     required String value,
   }) async {
-    ArgumentError.checkNotNull(attributeType, 'attributeType');
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(value, 'value');
-    _s.validateStringLength(
-      'value',
-      value,
-      1,
-      100,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'Value': value,
     };
@@ -4523,24 +3523,6 @@ class Connect {
     required InstanceStorageResourceType resourceType,
     required InstanceStorageConfig storageConfig,
   }) async {
-    ArgumentError.checkNotNull(associationId, 'associationId');
-    _s.validateStringLength(
-      'associationId',
-      associationId,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(resourceType, 'resourceType');
-    ArgumentError.checkNotNull(storageConfig, 'storageConfig');
     final $query = <String, List<String>>{
       'resourceType': [resourceType.toValue()],
     };
@@ -4581,16 +3563,6 @@ class Connect {
     required QuickConnectConfig quickConnectConfig,
     required String quickConnectId,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(quickConnectConfig, 'quickConnectConfig');
-    ArgumentError.checkNotNull(quickConnectId, 'quickConnectId');
     final $payload = <String, dynamic>{
       'QuickConnectConfig': quickConnectConfig,
     };
@@ -4633,27 +3605,6 @@ class Connect {
     String? description,
     String? name,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(quickConnectId, 'quickConnectId');
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      250,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      127,
-    );
     final $payload = <String, dynamic>{
       if (description != null) 'Description': description,
       if (name != null) 'Name': name,
@@ -4689,16 +3640,6 @@ class Connect {
     required List<MediaConcurrency> mediaConcurrencies,
     required String routingProfileId,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(mediaConcurrencies, 'mediaConcurrencies');
-    ArgumentError.checkNotNull(routingProfileId, 'routingProfileId');
     final $payload = <String, dynamic>{
       'MediaConcurrencies': mediaConcurrencies,
     };
@@ -4732,17 +3673,6 @@ class Connect {
     required String instanceId,
     required String routingProfileId,
   }) async {
-    ArgumentError.checkNotNull(
-        defaultOutboundQueueId, 'defaultOutboundQueueId');
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(routingProfileId, 'routingProfileId');
     final $payload = <String, dynamic>{
       'DefaultOutboundQueueId': defaultOutboundQueueId,
     };
@@ -4784,27 +3714,6 @@ class Connect {
     String? description,
     String? name,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(routingProfileId, 'routingProfileId');
-    _s.validateStringLength(
-      'description',
-      description,
-      1,
-      250,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      127,
-    );
     final $payload = <String, dynamic>{
       if (description != null) 'Description': description,
       if (name != null) 'Name': name,
@@ -4842,16 +3751,6 @@ class Connect {
     required List<RoutingProfileQueueConfig> queueConfigs,
     required String routingProfileId,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(queueConfigs, 'queueConfigs');
-    ArgumentError.checkNotNull(routingProfileId, 'routingProfileId');
     final $payload = <String, dynamic>{
       'QueueConfigs': queueConfigs,
     };
@@ -4885,15 +3784,6 @@ class Connect {
     required String userId,
     String? hierarchyGroupId,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(userId, 'userId');
     final $payload = <String, dynamic>{
       if (hierarchyGroupId != null) 'HierarchyGroupId': hierarchyGroupId,
     };
@@ -4928,16 +3818,6 @@ class Connect {
     required String instanceId,
     required String name,
   }) async {
-    ArgumentError.checkNotNull(hierarchyGroupId, 'hierarchyGroupId');
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(name, 'name');
     final $payload = <String, dynamic>{
       'Name': name,
     };
@@ -4969,15 +3849,6 @@ class Connect {
     required HierarchyStructureUpdate hierarchyStructure,
     required String instanceId,
   }) async {
-    ArgumentError.checkNotNull(hierarchyStructure, 'hierarchyStructure');
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'HierarchyStructure': hierarchyStructure,
     };
@@ -5023,16 +3894,6 @@ class Connect {
     required String instanceId,
     required String userId,
   }) async {
-    ArgumentError.checkNotNull(identityInfo, 'identityInfo');
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(userId, 'userId');
     final $payload = <String, dynamic>{
       'IdentityInfo': identityInfo,
     };
@@ -5066,16 +3927,6 @@ class Connect {
     required UserPhoneConfig phoneConfig,
     required String userId,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(phoneConfig, 'phoneConfig');
-    ArgumentError.checkNotNull(userId, 'userId');
     final $payload = <String, dynamic>{
       'PhoneConfig': phoneConfig,
     };
@@ -5109,16 +3960,6 @@ class Connect {
     required String routingProfileId,
     required String userId,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(routingProfileId, 'routingProfileId');
-    ArgumentError.checkNotNull(userId, 'userId');
     final $payload = <String, dynamic>{
       'RoutingProfileId': routingProfileId,
     };
@@ -5152,16 +3993,6 @@ class Connect {
     required List<String> securityProfileIds,
     required String userId,
   }) async {
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      1,
-      100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(securityProfileIds, 'securityProfileIds');
-    ArgumentError.checkNotNull(userId, 'userId');
     final $payload = <String, dynamic>{
       'SecurityProfileIds': securityProfileIds,
     };

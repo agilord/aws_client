@@ -64,7 +64,6 @@ class MediaPackage {
     EgressAccessLogs? egressAccessLogs,
     IngressAccessLogs? ingressAccessLogs,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
     final $payload = <String, dynamic>{
       if (egressAccessLogs != null) 'egressAccessLogs': egressAccessLogs,
       if (ingressAccessLogs != null) 'ingressAccessLogs': ingressAccessLogs,
@@ -98,7 +97,6 @@ class MediaPackage {
     String? description,
     Map<String, String>? tags,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
     final $payload = <String, dynamic>{
       'id': id,
       if (description != null) 'description': description,
@@ -142,11 +140,6 @@ class MediaPackage {
     required S3Destination s3Destination,
     required String startTime,
   }) async {
-    ArgumentError.checkNotNull(endTime, 'endTime');
-    ArgumentError.checkNotNull(id, 'id');
-    ArgumentError.checkNotNull(originEndpointId, 'originEndpointId');
-    ArgumentError.checkNotNull(s3Destination, 's3Destination');
-    ArgumentError.checkNotNull(startTime, 'startTime');
     final $payload = <String, dynamic>{
       'endTime': endTime,
       'id': id,
@@ -224,8 +217,6 @@ class MediaPackage {
     int? timeDelaySeconds,
     List<String>? whitelist,
   }) async {
-    ArgumentError.checkNotNull(channelId, 'channelId');
-    ArgumentError.checkNotNull(id, 'id');
     final $payload = <String, dynamic>{
       'channelId': channelId,
       'id': id,
@@ -266,7 +257,6 @@ class MediaPackage {
   Future<void> deleteChannel({
     required String id,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -289,7 +279,6 @@ class MediaPackage {
   Future<void> deleteOriginEndpoint({
     required String id,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -312,7 +301,6 @@ class MediaPackage {
   Future<DescribeChannelResponse> describeChannel({
     required String id,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -336,7 +324,6 @@ class MediaPackage {
   Future<DescribeHarvestJobResponse> describeHarvestJob({
     required String id,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -360,7 +347,6 @@ class MediaPackage {
   Future<DescribeOriginEndpointResponse> describeOriginEndpoint({
     required String id,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -505,7 +491,6 @@ class MediaPackage {
   Future<ListTagsForResourceResponse> listTagsForResource({
     required String resourceArn,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -532,7 +517,6 @@ class MediaPackage {
   Future<RotateChannelCredentialsResponse> rotateChannelCredentials({
     required String id,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
     final response = await _protocol.send(
       payload: null,
       method: 'PUT',
@@ -562,8 +546,6 @@ class MediaPackage {
     required String id,
     required String ingestEndpointId,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
-    ArgumentError.checkNotNull(ingestEndpointId, 'ingestEndpointId');
     final response = await _protocol.send(
       payload: null,
       method: 'PUT',
@@ -578,8 +560,6 @@ class MediaPackage {
     required String resourceArn,
     required Map<String, String> tags,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
       'tags': tags,
     };
@@ -598,8 +578,6 @@ class MediaPackage {
     required String resourceArn,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
       'tagKeys': tagKeys,
     };
@@ -630,7 +608,6 @@ class MediaPackage {
     required String id,
     String? description,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
     final $payload = <String, dynamic>{
       if (description != null) 'description': description,
     };
@@ -696,7 +673,6 @@ class MediaPackage {
     int? timeDelaySeconds,
     List<String>? whitelist,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
     final $payload = <String, dynamic>{
       if (authorization != null) 'authorization': authorization,
       if (cmafPackage != null) 'cmafPackage': cmafPackage,

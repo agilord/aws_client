@@ -94,7 +94,6 @@ class PinpointEmail {
     List<Tag>? tags,
     TrackingOptions? trackingOptions,
   }) async {
-    ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
     final $payload = <String, dynamic>{
       'ConfigurationSetName': configurationSetName,
       if (deliveryOptions != null) 'DeliveryOptions': deliveryOptions,
@@ -141,9 +140,6 @@ class PinpointEmail {
     required EventDestinationDefinition eventDestination,
     required String eventDestinationName,
   }) async {
-    ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
-    ArgumentError.checkNotNull(eventDestination, 'eventDestination');
-    ArgumentError.checkNotNull(eventDestinationName, 'eventDestinationName');
     final $payload = <String, dynamic>{
       'EventDestination': eventDestination,
       'EventDestinationName': eventDestinationName,
@@ -179,7 +175,6 @@ class PinpointEmail {
     required String poolName,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(poolName, 'poolName');
     final $payload = <String, dynamic>{
       'PoolName': poolName,
       if (tags != null) 'Tags': tags,
@@ -234,8 +229,6 @@ class PinpointEmail {
     String? reportName,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(content, 'content');
-    ArgumentError.checkNotNull(fromEmailAddress, 'fromEmailAddress');
     final $payload = <String, dynamic>{
       'Content': content,
       'FromEmailAddress': fromEmailAddress,
@@ -284,7 +277,6 @@ class PinpointEmail {
     required String emailIdentity,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(emailIdentity, 'emailIdentity');
     final $payload = <String, dynamic>{
       'EmailIdentity': emailIdentity,
       if (tags != null) 'Tags': tags,
@@ -316,7 +308,6 @@ class PinpointEmail {
   Future<void> deleteConfigurationSet({
     required String configurationSetName,
   }) async {
-    ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -349,8 +340,6 @@ class PinpointEmail {
     required String configurationSetName,
     required String eventDestinationName,
   }) async {
-    ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
-    ArgumentError.checkNotNull(eventDestinationName, 'eventDestinationName');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -372,7 +361,6 @@ class PinpointEmail {
   Future<void> deleteDedicatedIpPool({
     required String poolName,
   }) async {
-    ArgumentError.checkNotNull(poolName, 'poolName');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -396,7 +384,6 @@ class PinpointEmail {
   Future<void> deleteEmailIdentity({
     required String emailIdentity,
   }) async {
-    ArgumentError.checkNotNull(emailIdentity, 'emailIdentity');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -434,7 +421,6 @@ class PinpointEmail {
   Future<GetBlacklistReportsResponse> getBlacklistReports({
     required List<String> blacklistItemNames,
   }) async {
-    ArgumentError.checkNotNull(blacklistItemNames, 'blacklistItemNames');
     final $query = <String, List<String>>{
       'BlacklistItemNames': blacklistItemNames,
     };
@@ -468,7 +454,6 @@ class PinpointEmail {
   Future<GetConfigurationSetResponse> getConfigurationSet({
     required String configurationSetName,
   }) async {
-    ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -499,7 +484,6 @@ class PinpointEmail {
       getConfigurationSetEventDestinations({
     required String configurationSetName,
   }) async {
-    ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -525,7 +509,6 @@ class PinpointEmail {
   Future<GetDedicatedIpResponse> getDedicatedIp({
     required String ip,
   }) async {
-    ArgumentError.checkNotNull(ip, 'ip');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -613,7 +596,6 @@ class PinpointEmail {
   Future<GetDeliverabilityTestReportResponse> getDeliverabilityTestReport({
     required String reportId,
   }) async {
-    ArgumentError.checkNotNull(reportId, 'reportId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -643,7 +625,6 @@ class PinpointEmail {
       getDomainDeliverabilityCampaign({
     required String campaignId,
   }) async {
-    ArgumentError.checkNotNull(campaignId, 'campaignId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -677,9 +658,6 @@ class PinpointEmail {
     required DateTime endDate,
     required DateTime startDate,
   }) async {
-    ArgumentError.checkNotNull(domain, 'domain');
-    ArgumentError.checkNotNull(endDate, 'endDate');
-    ArgumentError.checkNotNull(startDate, 'startDate');
     final $query = <String, List<String>>{
       'EndDate': [_s.iso8601ToJson(endDate).toString()],
       'StartDate': [_s.iso8601ToJson(startDate).toString()],
@@ -708,7 +686,6 @@ class PinpointEmail {
   Future<GetEmailIdentityResponse> getEmailIdentity({
     required String emailIdentity,
   }) async {
-    ArgumentError.checkNotNull(emailIdentity, 'emailIdentity');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -873,9 +850,6 @@ class PinpointEmail {
     String? nextToken,
     int? pageSize,
   }) async {
-    ArgumentError.checkNotNull(endDate, 'endDate');
-    ArgumentError.checkNotNull(startDate, 'startDate');
-    ArgumentError.checkNotNull(subscribedDomain, 'subscribedDomain');
     final $query = <String, List<String>>{
       'EndDate': [_s.iso8601ToJson(endDate).toString()],
       'StartDate': [_s.iso8601ToJson(startDate).toString()],
@@ -948,7 +922,6 @@ class PinpointEmail {
   Future<ListTagsForResourceResponse> listTagsForResource({
     required String resourceArn,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final $query = <String, List<String>>{
       'ResourceArn': [resourceArn],
     };
@@ -1041,7 +1014,6 @@ class PinpointEmail {
     String? sendingPoolName,
     TlsPolicy? tlsPolicy,
   }) async {
-    ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
     final $payload = <String, dynamic>{
       if (sendingPoolName != null) 'SendingPoolName': sendingPoolName,
       if (tlsPolicy != null) 'TlsPolicy': tlsPolicy.toValue(),
@@ -1074,7 +1046,6 @@ class PinpointEmail {
     required String configurationSetName,
     bool? reputationMetricsEnabled,
   }) async {
-    ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
     final $payload = <String, dynamic>{
       if (reputationMetricsEnabled != null)
         'ReputationMetricsEnabled': reputationMetricsEnabled,
@@ -1107,7 +1078,6 @@ class PinpointEmail {
     required String configurationSetName,
     bool? sendingEnabled,
   }) async {
-    ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
     final $payload = <String, dynamic>{
       if (sendingEnabled != null) 'SendingEnabled': sendingEnabled,
     };
@@ -1137,7 +1107,6 @@ class PinpointEmail {
     required String configurationSetName,
     String? customRedirectDomain,
   }) async {
-    ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
     final $payload = <String, dynamic>{
       if (customRedirectDomain != null)
         'CustomRedirectDomain': customRedirectDomain,
@@ -1176,8 +1145,6 @@ class PinpointEmail {
     required String destinationPoolName,
     required String ip,
   }) async {
-    ArgumentError.checkNotNull(destinationPoolName, 'destinationPoolName');
-    ArgumentError.checkNotNull(ip, 'ip');
     final $payload = <String, dynamic>{
       'DestinationPoolName': destinationPoolName,
     };
@@ -1206,8 +1173,6 @@ class PinpointEmail {
     required String ip,
     required int warmupPercentage,
   }) async {
-    ArgumentError.checkNotNull(ip, 'ip');
-    ArgumentError.checkNotNull(warmupPercentage, 'warmupPercentage');
     final $payload = <String, dynamic>{
       'WarmupPercentage': warmupPercentage,
     };
@@ -1250,7 +1215,6 @@ class PinpointEmail {
     required bool dashboardEnabled,
     List<DomainDeliverabilityTrackingOption>? subscribedDomains,
   }) async {
-    ArgumentError.checkNotNull(dashboardEnabled, 'dashboardEnabled');
     final $payload = <String, dynamic>{
       'DashboardEnabled': dashboardEnabled,
       if (subscribedDomains != null) 'SubscribedDomains': subscribedDomains,
@@ -1283,7 +1247,6 @@ class PinpointEmail {
     required String emailIdentity,
     bool? signingEnabled,
   }) async {
-    ArgumentError.checkNotNull(emailIdentity, 'emailIdentity');
     final $payload = <String, dynamic>{
       if (signingEnabled != null) 'SigningEnabled': signingEnabled,
     };
@@ -1339,7 +1302,6 @@ class PinpointEmail {
     required String emailIdentity,
     bool? emailForwardingEnabled,
   }) async {
-    ArgumentError.checkNotNull(emailIdentity, 'emailIdentity');
     final $payload = <String, dynamic>{
       if (emailForwardingEnabled != null)
         'EmailForwardingEnabled': emailForwardingEnabled,
@@ -1398,7 +1360,6 @@ class PinpointEmail {
     BehaviorOnMxFailure? behaviorOnMxFailure,
     String? mailFromDomain,
   }) async {
-    ArgumentError.checkNotNull(emailIdentity, 'emailIdentity');
     final $payload = <String, dynamic>{
       if (behaviorOnMxFailure != null)
         'BehaviorOnMxFailure': behaviorOnMxFailure.toValue(),
@@ -1476,8 +1437,6 @@ class PinpointEmail {
     String? fromEmailAddress,
     List<String>? replyToAddresses,
   }) async {
-    ArgumentError.checkNotNull(content, 'content');
-    ArgumentError.checkNotNull(destination, 'destination');
     final $payload = <String, dynamic>{
       'Content': content,
       'Destination': destination,
@@ -1527,8 +1486,6 @@ class PinpointEmail {
     required String resourceArn,
     required List<Tag> tags,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
       'ResourceArn': resourceArn,
       'Tags': tags,
@@ -1565,8 +1522,6 @@ class PinpointEmail {
     required String resourceArn,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
       'ResourceArn': [resourceArn],
       'TagKeys': tagKeys,
@@ -1607,9 +1562,6 @@ class PinpointEmail {
     required EventDestinationDefinition eventDestination,
     required String eventDestinationName,
   }) async {
-    ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
-    ArgumentError.checkNotNull(eventDestination, 'eventDestination');
-    ArgumentError.checkNotNull(eventDestinationName, 'eventDestinationName');
     final $payload = <String, dynamic>{
       'EventDestination': eventDestination,
     };

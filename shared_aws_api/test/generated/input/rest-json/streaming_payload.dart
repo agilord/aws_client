@@ -52,7 +52,6 @@ class StreamingPayload {
     Uint8List? body,
     String? checksum,
   }) async {
-    ArgumentError.checkNotNull(vaultName, 'vaultName');
     final headers = <String, String>{
       if (checksum != null) 'x-amz-sha256-tree-hash': checksum.toString(),
     };

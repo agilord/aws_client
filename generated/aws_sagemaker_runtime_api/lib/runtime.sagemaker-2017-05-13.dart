@@ -151,51 +151,6 @@ class SageMakerRuntime {
     String? targetModel,
     String? targetVariant,
   }) async {
-    ArgumentError.checkNotNull(body, 'body');
-    ArgumentError.checkNotNull(endpointName, 'endpointName');
-    _s.validateStringLength(
-      'endpointName',
-      endpointName,
-      0,
-      63,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'accept',
-      accept,
-      0,
-      1024,
-    );
-    _s.validateStringLength(
-      'contentType',
-      contentType,
-      0,
-      1024,
-    );
-    _s.validateStringLength(
-      'customAttributes',
-      customAttributes,
-      0,
-      1024,
-    );
-    _s.validateStringLength(
-      'inferenceId',
-      inferenceId,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'targetModel',
-      targetModel,
-      1,
-      1024,
-    );
-    _s.validateStringLength(
-      'targetVariant',
-      targetVariant,
-      0,
-      63,
-    );
     final headers = <String, String>{
       if (accept != null) 'Accept': accept.toString(),
       if (contentType != null) 'Content-Type': contentType.toString(),

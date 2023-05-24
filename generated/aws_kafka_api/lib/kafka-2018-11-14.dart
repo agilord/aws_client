@@ -75,8 +75,6 @@ class Kafka {
     required String clusterArn,
     required List<String> secretArnList,
   }) async {
-    ArgumentError.checkNotNull(clusterArn, 'clusterArn');
-    ArgumentError.checkNotNull(secretArnList, 'secretArnList');
     final $payload = <String, dynamic>{
       'secretArnList': secretArnList,
     };
@@ -167,24 +165,6 @@ class Kafka {
     OpenMonitoringInfo? openMonitoring,
     Map<String, String>? tags,
   }) async {
-    ArgumentError.checkNotNull(brokerNodeGroupInfo, 'brokerNodeGroupInfo');
-    ArgumentError.checkNotNull(clusterName, 'clusterName');
-    _s.validateStringLength(
-      'clusterName',
-      clusterName,
-      1,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(kafkaVersion, 'kafkaVersion');
-    _s.validateStringLength(
-      'kafkaVersion',
-      kafkaVersion,
-      1,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(numberOfBrokerNodes, 'numberOfBrokerNodes');
     _s.validateNumRange(
       'numberOfBrokerNodes',
       numberOfBrokerNodes,
@@ -257,8 +237,6 @@ class Kafka {
     String? description,
     List<String>? kafkaVersions,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    ArgumentError.checkNotNull(serverProperties, 'serverProperties');
     final $payload = <String, dynamic>{
       'name': name,
       'serverProperties': base64Encode(serverProperties),
@@ -297,7 +275,6 @@ class Kafka {
     required String clusterArn,
     String? currentVersion,
   }) async {
-    ArgumentError.checkNotNull(clusterArn, 'clusterArn');
     final $query = <String, List<String>>{
       if (currentVersion != null) 'currentVersion': [currentVersion],
     };
@@ -328,7 +305,6 @@ class Kafka {
   Future<DeleteConfigurationResponse> deleteConfiguration({
     required String arn,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -356,7 +332,6 @@ class Kafka {
   Future<DescribeClusterResponse> describeCluster({
     required String clusterArn,
   }) async {
-    ArgumentError.checkNotNull(clusterArn, 'clusterArn');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -384,7 +359,6 @@ class Kafka {
   Future<DescribeClusterOperationResponse> describeClusterOperation({
     required String clusterOperationArn,
   }) async {
-    ArgumentError.checkNotNull(clusterOperationArn, 'clusterOperationArn');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -413,7 +387,6 @@ class Kafka {
   Future<DescribeConfigurationResponse> describeConfiguration({
     required String arn,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -448,8 +421,6 @@ class Kafka {
     required String arn,
     required int revision,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
-    ArgumentError.checkNotNull(revision, 'revision');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -485,8 +456,6 @@ class Kafka {
     required String clusterArn,
     required List<String> secretArnList,
   }) async {
-    ArgumentError.checkNotNull(clusterArn, 'clusterArn');
-    ArgumentError.checkNotNull(secretArnList, 'secretArnList');
     final $payload = <String, dynamic>{
       'secretArnList': secretArnList,
     };
@@ -517,7 +486,6 @@ class Kafka {
   Future<GetBootstrapBrokersResponse> getBootstrapBrokers({
     required String clusterArn,
   }) async {
-    ArgumentError.checkNotNull(clusterArn, 'clusterArn');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -592,7 +560,6 @@ class Kafka {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(clusterArn, 'clusterArn');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -700,7 +667,6 @@ class Kafka {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -841,7 +807,6 @@ class Kafka {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(clusterArn, 'clusterArn');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -893,7 +858,6 @@ class Kafka {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(clusterArn, 'clusterArn');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -931,7 +895,6 @@ class Kafka {
   Future<ListTagsForResourceResponse> listTagsForResource({
     required String resourceArn,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -965,8 +928,6 @@ class Kafka {
     required List<String> brokerIds,
     required String clusterArn,
   }) async {
-    ArgumentError.checkNotNull(brokerIds, 'brokerIds');
-    ArgumentError.checkNotNull(clusterArn, 'clusterArn');
     final $payload = <String, dynamic>{
       'brokerIds': brokerIds,
     };
@@ -1002,8 +963,6 @@ class Kafka {
     required String resourceArn,
     required Map<String, String> tags,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
       'tags': tags,
     };
@@ -1073,8 +1032,6 @@ class Kafka {
     required String resourceArn,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
       'tagKeys': tagKeys,
     };
@@ -1118,10 +1075,6 @@ class Kafka {
     required String currentVersion,
     required int targetNumberOfBrokerNodes,
   }) async {
-    ArgumentError.checkNotNull(clusterArn, 'clusterArn');
-    ArgumentError.checkNotNull(currentVersion, 'currentVersion');
-    ArgumentError.checkNotNull(
-        targetNumberOfBrokerNodes, 'targetNumberOfBrokerNodes');
     _s.validateNumRange(
       'targetNumberOfBrokerNodes',
       targetNumberOfBrokerNodes,
@@ -1173,10 +1126,6 @@ class Kafka {
     required String currentVersion,
     required List<BrokerEBSVolumeInfo> targetBrokerEBSVolumeInfo,
   }) async {
-    ArgumentError.checkNotNull(clusterArn, 'clusterArn');
-    ArgumentError.checkNotNull(currentVersion, 'currentVersion');
-    ArgumentError.checkNotNull(
-        targetBrokerEBSVolumeInfo, 'targetBrokerEBSVolumeInfo');
     final $payload = <String, dynamic>{
       'currentVersion': currentVersion,
       'targetBrokerEBSVolumeInfo': targetBrokerEBSVolumeInfo,
@@ -1224,8 +1173,6 @@ class Kafka {
     required Uint8List serverProperties,
     String? description,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
-    ArgumentError.checkNotNull(serverProperties, 'serverProperties');
     final $payload = <String, dynamic>{
       'serverProperties': base64Encode(serverProperties),
       if (description != null) 'description': description,
@@ -1271,9 +1218,6 @@ class Kafka {
     required ConfigurationInfo configurationInfo,
     required String currentVersion,
   }) async {
-    ArgumentError.checkNotNull(clusterArn, 'clusterArn');
-    ArgumentError.checkNotNull(configurationInfo, 'configurationInfo');
-    ArgumentError.checkNotNull(currentVersion, 'currentVersion');
     final $payload = <String, dynamic>{
       'configurationInfo': configurationInfo,
       'currentVersion': currentVersion,
@@ -1326,9 +1270,6 @@ class Kafka {
     required String targetKafkaVersion,
     ConfigurationInfo? configurationInfo,
   }) async {
-    ArgumentError.checkNotNull(clusterArn, 'clusterArn');
-    ArgumentError.checkNotNull(currentVersion, 'currentVersion');
-    ArgumentError.checkNotNull(targetKafkaVersion, 'targetKafkaVersion');
     final $payload = <String, dynamic>{
       'currentVersion': currentVersion,
       'targetKafkaVersion': targetKafkaVersion,
@@ -1385,8 +1326,6 @@ class Kafka {
     LoggingInfo? loggingInfo,
     OpenMonitoringInfo? openMonitoring,
   }) async {
-    ArgumentError.checkNotNull(clusterArn, 'clusterArn');
-    ArgumentError.checkNotNull(currentVersion, 'currentVersion');
     final $payload = <String, dynamic>{
       'currentVersion': currentVersion,
       if (enhancedMonitoring != null)

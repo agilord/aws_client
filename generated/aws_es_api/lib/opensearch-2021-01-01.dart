@@ -61,13 +61,6 @@ class OpenSearchService {
     required String connectionId,
   }) async {
     ArgumentError.checkNotNull(connectionId, 'connectionId');
-    _s.validateStringLength(
-      'connectionId',
-      connectionId,
-      10,
-      256,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'PUT',
@@ -99,13 +92,6 @@ class OpenSearchService {
     required List<Tag> tagList,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      20,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagList, 'tagList');
     final $payload = <String, dynamic>{
       'ARN': arn,
@@ -139,13 +125,6 @@ class OpenSearchService {
     required String packageID,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
-    _s.validateStringLength(
-      'domainName',
-      domainName,
-      3,
-      28,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(packageID, 'packageID');
     final response = await _protocol.send(
       payload: null,
@@ -174,13 +153,6 @@ class OpenSearchService {
     required String domainName,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
-    _s.validateStringLength(
-      'domainName',
-      domainName,
-      3,
-      28,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'DomainName': domainName,
     };
@@ -298,25 +270,6 @@ class OpenSearchService {
     VPCOptions? vPCOptions,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
-    _s.validateStringLength(
-      'domainName',
-      domainName,
-      3,
-      28,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'accessPolicies',
-      accessPolicies,
-      0,
-      102400,
-    );
-    _s.validateStringLength(
-      'engineVersion',
-      engineVersion,
-      14,
-      18,
-    );
     final $payload = <String, dynamic>{
       'DomainName': domainName,
       if (accessPolicies != null) 'AccessPolicies': accessPolicies,
@@ -375,13 +328,6 @@ class OpenSearchService {
     required DomainInformationContainer remoteDomainInfo,
   }) async {
     ArgumentError.checkNotNull(connectionAlias, 'connectionAlias');
-    _s.validateStringLength(
-      'connectionAlias',
-      connectionAlias,
-      2,
-      100,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(localDomainInfo, 'localDomainInfo');
     ArgumentError.checkNotNull(remoteDomainInfo, 'remoteDomainInfo');
     final $payload = <String, dynamic>{
@@ -426,21 +372,8 @@ class OpenSearchService {
     String? packageDescription,
   }) async {
     ArgumentError.checkNotNull(packageName, 'packageName');
-    _s.validateStringLength(
-      'packageName',
-      packageName,
-      3,
-      28,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(packageSource, 'packageSource');
     ArgumentError.checkNotNull(packageType, 'packageType');
-    _s.validateStringLength(
-      'packageDescription',
-      packageDescription,
-      0,
-      1024,
-    );
     final $payload = <String, dynamic>{
       'PackageName': packageName,
       'PackageSource': packageSource,
@@ -470,13 +403,6 @@ class OpenSearchService {
     required String domainName,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
-    _s.validateStringLength(
-      'domainName',
-      domainName,
-      3,
-      28,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -499,13 +425,6 @@ class OpenSearchService {
     required String connectionId,
   }) async {
     ArgumentError.checkNotNull(connectionId, 'connectionId');
-    _s.validateStringLength(
-      'connectionId',
-      connectionId,
-      10,
-      256,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -528,13 +447,6 @@ class OpenSearchService {
     required String connectionId,
   }) async {
     ArgumentError.checkNotNull(connectionId, 'connectionId');
-    _s.validateStringLength(
-      'connectionId',
-      connectionId,
-      10,
-      256,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -584,13 +496,6 @@ class OpenSearchService {
     required String domainName,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
-    _s.validateStringLength(
-      'domainName',
-      domainName,
-      3,
-      28,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -625,13 +530,6 @@ class OpenSearchService {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
-    _s.validateStringLength(
-      'domainName',
-      domainName,
-      3,
-      28,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -668,19 +566,6 @@ class OpenSearchService {
     String? changeId,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
-    _s.validateStringLength(
-      'domainName',
-      domainName,
-      3,
-      28,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'changeId',
-      changeId,
-      36,
-      36,
-    );
     final $query = <String, List<String>>{
       if (changeId != null) 'changeid': [changeId],
     };
@@ -710,13 +595,6 @@ class OpenSearchService {
     required String domainName,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
-    _s.validateStringLength(
-      'domainName',
-      domainName,
-      3,
-      28,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -829,20 +707,7 @@ class OpenSearchService {
     String? domainName,
   }) async {
     ArgumentError.checkNotNull(engineVersion, 'engineVersion');
-    _s.validateStringLength(
-      'engineVersion',
-      engineVersion,
-      14,
-      18,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(instanceType, 'instanceType');
-    _s.validateStringLength(
-      'domainName',
-      domainName,
-      3,
-      28,
-    );
     final $query = <String, List<String>>{
       if (domainName != null) 'domainName': [domainName],
     };
@@ -980,12 +845,6 @@ class OpenSearchService {
       0,
       100,
     );
-    _s.validateStringLength(
-      'reservedInstanceOfferingId',
-      reservedInstanceOfferingId,
-      36,
-      36,
-    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
@@ -1031,12 +890,6 @@ class OpenSearchService {
       0,
       100,
     );
-    _s.validateStringLength(
-      'reservedInstanceId',
-      reservedInstanceId,
-      36,
-      36,
-    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
@@ -1072,13 +925,6 @@ class OpenSearchService {
     required String packageID,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
-    _s.validateStringLength(
-      'domainName',
-      domainName,
-      3,
-      28,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(packageID, 'packageID');
     final response = await _protocol.send(
       payload: null,
@@ -1103,12 +949,6 @@ class OpenSearchService {
   Future<GetCompatibleVersionsResponse> getCompatibleVersions({
     String? domainName,
   }) async {
-    _s.validateStringLength(
-      'domainName',
-      domainName,
-      3,
-      28,
-    );
     final $query = <String, List<String>>{
       if (domainName != null) 'domainName': [domainName],
     };
@@ -1181,13 +1021,6 @@ class OpenSearchService {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
-    _s.validateStringLength(
-      'domainName',
-      domainName,
-      3,
-      28,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1221,13 +1054,6 @@ class OpenSearchService {
     required String domainName,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
-    _s.validateStringLength(
-      'domainName',
-      domainName,
-      3,
-      28,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1318,19 +1144,6 @@ class OpenSearchService {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(engineVersion, 'engineVersion');
-    _s.validateStringLength(
-      'engineVersion',
-      engineVersion,
-      14,
-      18,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'domainName',
-      domainName,
-      3,
-      28,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1376,13 +1189,6 @@ class OpenSearchService {
     String? nextToken,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
-    _s.validateStringLength(
-      'domainName',
-      domainName,
-      3,
-      28,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1418,13 +1224,6 @@ class OpenSearchService {
     required String arn,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      20,
-      2048,
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       'arn': [arn],
     };
@@ -1496,22 +1295,8 @@ class OpenSearchService {
     int? instanceCount,
   }) async {
     ArgumentError.checkNotNull(reservationName, 'reservationName');
-    _s.validateStringLength(
-      'reservationName',
-      reservationName,
-      5,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         reservedInstanceOfferingId, 'reservedInstanceOfferingId');
-    _s.validateStringLength(
-      'reservedInstanceOfferingId',
-      reservedInstanceOfferingId,
-      36,
-      36,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'instanceCount',
       instanceCount,
@@ -1544,13 +1329,6 @@ class OpenSearchService {
     required String connectionId,
   }) async {
     ArgumentError.checkNotNull(connectionId, 'connectionId');
-    _s.validateStringLength(
-      'connectionId',
-      connectionId,
-      10,
-      256,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'PUT',
@@ -1578,13 +1356,6 @@ class OpenSearchService {
     required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'arn',
-      arn,
-      20,
-      2048,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $payload = <String, dynamic>{
       'ARN': arn,
@@ -1613,13 +1384,6 @@ class OpenSearchService {
     required String domainName,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
-    _s.validateStringLength(
-      'domainName',
-      domainName,
-      3,
-      28,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'DomainName': domainName,
     };
@@ -1722,19 +1486,6 @@ class OpenSearchService {
     VPCOptions? vPCOptions,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
-    _s.validateStringLength(
-      'domainName',
-      domainName,
-      3,
-      28,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'accessPolicies',
-      accessPolicies,
-      0,
-      102400,
-    );
     final $payload = <String, dynamic>{
       if (accessPolicies != null) 'AccessPolicies': accessPolicies,
       if (advancedOptions != null) 'AdvancedOptions': advancedOptions,
@@ -1793,18 +1544,6 @@ class OpenSearchService {
   }) async {
     ArgumentError.checkNotNull(packageID, 'packageID');
     ArgumentError.checkNotNull(packageSource, 'packageSource');
-    _s.validateStringLength(
-      'commitMessage',
-      commitMessage,
-      0,
-      160,
-    );
-    _s.validateStringLength(
-      'packageDescription',
-      packageDescription,
-      0,
-      1024,
-    );
     final $payload = <String, dynamic>{
       'PackageID': packageID,
       'PackageSource': packageSource,
@@ -1843,21 +1582,7 @@ class OpenSearchService {
     bool? performCheckOnly,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
-    _s.validateStringLength(
-      'domainName',
-      domainName,
-      3,
-      28,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(targetVersion, 'targetVersion');
-    _s.validateStringLength(
-      'targetVersion',
-      targetVersion,
-      14,
-      18,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'DomainName': domainName,
       'TargetVersion': targetVersion,
@@ -1922,6 +1647,13 @@ class AcceptInboundConnectionResponse {
           : null,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final connection = this.connection;
+    return {
+      if (connection != null) 'Connection': connection,
+    };
+  }
 }
 
 /// The configured access rules for the domain's document and search endpoints,
@@ -1946,6 +1678,15 @@ class AccessPoliciesStatus {
       options: json['Options'] as String,
       status: OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final options = this.options;
+    final status = this.status;
+    return {
+      'Options': options,
+      'Status': status,
+    };
   }
 }
 
@@ -1982,6 +1723,15 @@ class AdditionalLimit {
           .toList(),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final limitName = this.limitName;
+    final limitValues = this.limitValues;
+    return {
+      if (limitName != null) 'LimitName': limitName,
+      if (limitValues != null) 'LimitValues': limitValues,
+    };
+  }
 }
 
 /// Status of the advanced options for the specified domain. Currently, the
@@ -2016,6 +1766,15 @@ class AdvancedOptionsStatus {
           .map((k, e) => MapEntry(k, e as String)),
       status: OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final options = this.options;
+    final status = this.status;
+    return {
+      'Options': options,
+      'Status': status,
+    };
   }
 }
 
@@ -2058,6 +1817,25 @@ class AdvancedSecurityOptions {
           : null,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final anonymousAuthDisableDate = this.anonymousAuthDisableDate;
+    final anonymousAuthEnabled = this.anonymousAuthEnabled;
+    final enabled = this.enabled;
+    final internalUserDatabaseEnabled = this.internalUserDatabaseEnabled;
+    final sAMLOptions = this.sAMLOptions;
+    return {
+      if (anonymousAuthDisableDate != null)
+        'AnonymousAuthDisableDate':
+            unixTimestampToJson(anonymousAuthDisableDate),
+      if (anonymousAuthEnabled != null)
+        'AnonymousAuthEnabled': anonymousAuthEnabled,
+      if (enabled != null) 'Enabled': enabled,
+      if (internalUserDatabaseEnabled != null)
+        'InternalUserDatabaseEnabled': internalUserDatabaseEnabled,
+      if (sAMLOptions != null) 'SAMLOptions': sAMLOptions,
+    };
+  }
 }
 
 /// The advanced security configuration: whether advanced security is enabled,
@@ -2088,6 +1866,7 @@ class AdvancedSecurityOptionsInput {
     this.masterUserOptions,
     this.sAMLOptions,
   });
+
   Map<String, dynamic> toJson() {
     final anonymousAuthEnabled = this.anonymousAuthEnabled;
     final enabled = this.enabled;
@@ -2125,6 +1904,15 @@ class AdvancedSecurityOptionsStatus {
       status: OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final options = this.options;
+    final status = this.status;
+    return {
+      'Options': options,
+      'Status': status,
+    };
+  }
 }
 
 /// Container for the response returned by <code> <a>AssociatePackage</a>
@@ -2143,6 +1931,14 @@ class AssociatePackageResponse {
               json['DomainPackageDetails'] as Map<String, dynamic>)
           : null,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domainPackageDetails = this.domainPackageDetails;
+    return {
+      if (domainPackageDetails != null)
+        'DomainPackageDetails': domainPackageDetails,
+    };
   }
 }
 
@@ -2170,6 +1966,15 @@ class AutoTune {
       autoTuneType: (json['AutoTuneType'] as String?)?.toAutoTuneType(),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final autoTuneDetails = this.autoTuneDetails;
+    final autoTuneType = this.autoTuneType;
+    return {
+      if (autoTuneDetails != null) 'AutoTuneDetails': autoTuneDetails,
+      if (autoTuneType != null) 'AutoTuneType': autoTuneType.toValue(),
+    };
+  }
 }
 
 /// The Auto-Tune desired state. Valid values are ENABLED and DISABLED.
@@ -2178,7 +1983,7 @@ enum AutoTuneDesiredState {
   disabled,
 }
 
-extension AutoTuneDesiredStateValue on AutoTuneDesiredState {
+extension AutoTuneDesiredStateValueExtension on AutoTuneDesiredState {
   String toValue() {
     switch (this) {
       case AutoTuneDesiredState.enabled:
@@ -2218,6 +2023,14 @@ class AutoTuneDetails {
               json['ScheduledAutoTuneDetails'] as Map<String, dynamic>)
           : null,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final scheduledAutoTuneDetails = this.scheduledAutoTuneDetails;
+    return {
+      if (scheduledAutoTuneDetails != null)
+        'ScheduledAutoTuneDetails': scheduledAutoTuneDetails,
+    };
   }
 }
 
@@ -2335,6 +2148,7 @@ class AutoTuneOptionsInput {
     this.desiredState,
     this.maintenanceSchedules,
   });
+
   Map<String, dynamic> toJson() {
     final desiredState = this.desiredState;
     final maintenanceSchedules = this.maintenanceSchedules;
@@ -2365,6 +2179,15 @@ class AutoTuneOptionsOutput {
       state: (json['State'] as String?)?.toAutoTuneState(),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final errorMessage = this.errorMessage;
+    final state = this.state;
+    return {
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
+      if (state != null) 'State': state.toValue(),
+    };
+  }
 }
 
 /// The Auto-Tune status for the domain.
@@ -2389,6 +2212,15 @@ class AutoTuneOptionsStatus {
           : null,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final options = this.options;
+    final status = this.status;
+    return {
+      if (options != null) 'Options': options,
+      if (status != null) 'Status': status,
+    };
+  }
 }
 
 /// The Auto-Tune state for the domain. For valid states see <a
@@ -2406,7 +2238,7 @@ enum AutoTuneState {
   error,
 }
 
-extension AutoTuneStateValue on AutoTuneState {
+extension AutoTuneStateValueExtension on AutoTuneState {
   String toValue() {
     switch (this) {
       case AutoTuneState.enabled:
@@ -2496,6 +2328,23 @@ class AutoTuneStatus {
       updateVersion: json['UpdateVersion'] as int?,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final creationDate = this.creationDate;
+    final state = this.state;
+    final updateDate = this.updateDate;
+    final errorMessage = this.errorMessage;
+    final pendingDeletion = this.pendingDeletion;
+    final updateVersion = this.updateVersion;
+    return {
+      'CreationDate': unixTimestampToJson(creationDate),
+      'State': state.toValue(),
+      'UpdateDate': unixTimestampToJson(updateDate),
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
+      if (pendingDeletion != null) 'PendingDeletion': pendingDeletion,
+      if (updateVersion != null) 'UpdateVersion': updateVersion,
+    };
+  }
 }
 
 /// Specifies the Auto-Tune type. Valid value is SCHEDULED_ACTION.
@@ -2503,7 +2352,7 @@ enum AutoTuneType {
   scheduledAction,
 }
 
-extension AutoTuneTypeValue on AutoTuneType {
+extension AutoTuneTypeValueExtension on AutoTuneType {
   String toValue() {
     switch (this) {
       case AutoTuneType.scheduledAction:
@@ -2540,6 +2389,14 @@ class CancelServiceSoftwareUpdateResponse {
           : null,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final serviceSoftwareOptions = this.serviceSoftwareOptions;
+    return {
+      if (serviceSoftwareOptions != null)
+        'ServiceSoftwareOptions': serviceSoftwareOptions,
+    };
+  }
 }
 
 /// Specifies change details of the domain configuration change.
@@ -2561,6 +2418,15 @@ class ChangeProgressDetails {
       changeId: json['ChangeId'] as String?,
       message: json['Message'] as String?,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final changeId = this.changeId;
+    final message = this.message;
+    return {
+      if (changeId != null) 'ChangeId': changeId,
+      if (message != null) 'Message': message,
+    };
   }
 }
 
@@ -2591,6 +2457,19 @@ class ChangeProgressStage {
       name: json['Name'] as String?,
       status: json['Status'] as String?,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final lastUpdated = this.lastUpdated;
+    final name = this.name;
+    final status = this.status;
+    return {
+      if (description != null) 'Description': description,
+      if (lastUpdated != null) 'LastUpdated': unixTimestampToJson(lastUpdated),
+      if (name != null) 'Name': name,
+      if (status != null) 'Status': status,
+    };
   }
 }
 
@@ -2651,6 +2530,28 @@ class ChangeProgressStatusDetails {
       status: (json['Status'] as String?)?.toOverallChangeStatus(),
       totalNumberOfStages: json['TotalNumberOfStages'] as int?,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final changeId = this.changeId;
+    final changeProgressStages = this.changeProgressStages;
+    final completedProperties = this.completedProperties;
+    final pendingProperties = this.pendingProperties;
+    final startTime = this.startTime;
+    final status = this.status;
+    final totalNumberOfStages = this.totalNumberOfStages;
+    return {
+      if (changeId != null) 'ChangeId': changeId,
+      if (changeProgressStages != null)
+        'ChangeProgressStages': changeProgressStages,
+      if (completedProperties != null)
+        'CompletedProperties': completedProperties,
+      if (pendingProperties != null) 'PendingProperties': pendingProperties,
+      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
+      if (status != null) 'Status': status.toValue(),
+      if (totalNumberOfStages != null)
+        'TotalNumberOfStages': totalNumberOfStages,
+    };
   }
 }
 
@@ -2789,6 +2690,15 @@ class ClusterConfigStatus {
       status: OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final options = this.options;
+    final status = this.status;
+    return {
+      'Options': options,
+      'Status': status,
+    };
+  }
 }
 
 /// Options to specify the Cognito user and identity pools for OpenSearch
@@ -2857,6 +2767,15 @@ class CognitoOptionsStatus {
       status: OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final options = this.options;
+    final status = this.status;
+    return {
+      'Options': options,
+      'Status': status,
+    };
+  }
 }
 
 /// Specifies the configuration for cold storage options such as enabled
@@ -2901,6 +2820,15 @@ class CompatibleVersionsMap {
           .toList(),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final sourceVersion = this.sourceVersion;
+    final targetVersions = this.targetVersions;
+    return {
+      if (sourceVersion != null) 'SourceVersion': sourceVersion,
+      if (targetVersions != null) 'TargetVersions': targetVersions,
+    };
+  }
 }
 
 /// The result of a <code>CreateDomain</code> operation. Contains the status of
@@ -2918,6 +2846,13 @@ class CreateDomainResponse {
           ? DomainStatus.fromJson(json['DomainStatus'] as Map<String, dynamic>)
           : null,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domainStatus = this.domainStatus;
+    return {
+      if (domainStatus != null) 'DomainStatus': domainStatus,
+    };
   }
 }
 
@@ -2968,6 +2903,21 @@ class CreateOutboundConnectionResponse {
           : null,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final connectionAlias = this.connectionAlias;
+    final connectionId = this.connectionId;
+    final connectionStatus = this.connectionStatus;
+    final localDomainInfo = this.localDomainInfo;
+    final remoteDomainInfo = this.remoteDomainInfo;
+    return {
+      if (connectionAlias != null) 'ConnectionAlias': connectionAlias,
+      if (connectionId != null) 'ConnectionId': connectionId,
+      if (connectionStatus != null) 'ConnectionStatus': connectionStatus,
+      if (localDomainInfo != null) 'LocalDomainInfo': localDomainInfo,
+      if (remoteDomainInfo != null) 'RemoteDomainInfo': remoteDomainInfo,
+    };
+  }
 }
 
 /// Container for the response returned by the <code> <a>CreatePackage</a>
@@ -2987,6 +2937,13 @@ class CreatePackageResponse {
           : null,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final packageDetails = this.packageDetails;
+    return {
+      if (packageDetails != null) 'PackageDetails': packageDetails,
+    };
+  }
 }
 
 /// The result of a <code>DeleteDomain</code> request. Contains the status of
@@ -3005,6 +2962,13 @@ class DeleteDomainResponse {
           ? DomainStatus.fromJson(json['DomainStatus'] as Map<String, dynamic>)
           : null,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domainStatus = this.domainStatus;
+    return {
+      if (domainStatus != null) 'DomainStatus': domainStatus,
+    };
   }
 }
 
@@ -3026,6 +2990,13 @@ class DeleteInboundConnectionResponse {
           : null,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final connection = this.connection;
+    return {
+      if (connection != null) 'Connection': connection,
+    };
+  }
 }
 
 /// The result of a <code> <a>DeleteOutboundConnection</a> </code> operation.
@@ -3046,6 +3017,13 @@ class DeleteOutboundConnectionResponse {
           : null,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final connection = this.connection;
+    return {
+      if (connection != null) 'Connection': connection,
+    };
+  }
 }
 
 /// Container for the response parameters to the <code> <a>DeletePackage</a>
@@ -3065,6 +3043,13 @@ class DeletePackageResponse {
           : null,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final packageDetails = this.packageDetails;
+    return {
+      if (packageDetails != null) 'PackageDetails': packageDetails,
+    };
+  }
 }
 
 enum DeploymentStatus {
@@ -3075,7 +3060,7 @@ enum DeploymentStatus {
   eligible,
 }
 
-extension DeploymentStatusValue on DeploymentStatus {
+extension DeploymentStatusValueExtension on DeploymentStatus {
   String toValue() {
     switch (this) {
       case DeploymentStatus.pendingUpdate:
@@ -3138,6 +3123,15 @@ class DescribeDomainAutoTunesResponse {
       nextToken: json['NextToken'] as String?,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final autoTunes = this.autoTunes;
+    final nextToken = this.nextToken;
+    return {
+      if (autoTunes != null) 'AutoTunes': autoTunes,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
 /// The result of a <code>DescribeDomainChangeProgress</code> request. Contains
@@ -3159,6 +3153,14 @@ class DescribeDomainChangeProgressResponse {
           : null,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final changeProgressStatus = this.changeProgressStatus;
+    return {
+      if (changeProgressStatus != null)
+        'ChangeProgressStatus': changeProgressStatus,
+    };
+  }
 }
 
 /// The result of a <code>DescribeDomainConfig</code> request. Contains the
@@ -3177,6 +3179,13 @@ class DescribeDomainConfigResponse {
           DomainConfig.fromJson(json['DomainConfig'] as Map<String, dynamic>),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final domainConfig = this.domainConfig;
+    return {
+      'DomainConfig': domainConfig,
+    };
+  }
 }
 
 /// The result of a <code>DescribeDomain</code> request. Contains the status of
@@ -3193,6 +3202,13 @@ class DescribeDomainResponse {
       domainStatus:
           DomainStatus.fromJson(json['DomainStatus'] as Map<String, dynamic>),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domainStatus = this.domainStatus;
+    return {
+      'DomainStatus': domainStatus,
+    };
   }
 }
 
@@ -3213,6 +3229,13 @@ class DescribeDomainsResponse {
           .map((e) => DomainStatus.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domainStatusList = this.domainStatusList;
+    return {
+      'DomainStatusList': domainStatusList,
+    };
   }
 }
 
@@ -3242,6 +3265,15 @@ class DescribeInboundConnectionsResponse {
       nextToken: json['NextToken'] as String?,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final connections = this.connections;
+    final nextToken = this.nextToken;
+    return {
+      if (connections != null) 'Connections': connections,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
 /// Container for the parameters received from the <code>
@@ -3258,6 +3290,13 @@ class DescribeInstanceTypeLimitsResponse {
       limitsByRole: (json['LimitsByRole'] as Map<String, dynamic>?)?.map(
           (k, e) => MapEntry(k, Limits.fromJson(e as Map<String, dynamic>))),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final limitsByRole = this.limitsByRole;
+    return {
+      if (limitsByRole != null) 'LimitsByRole': limitsByRole,
+    };
   }
 }
 
@@ -3287,6 +3326,15 @@ class DescribeOutboundConnectionsResponse {
       nextToken: json['NextToken'] as String?,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final connections = this.connections;
+    final nextToken = this.nextToken;
+    return {
+      if (connections != null) 'Connections': connections,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
 /// A filter to apply to the <code>DescribePackage</code> response.
@@ -3301,6 +3349,7 @@ class DescribePackagesFilter {
     this.name,
     this.value,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final value = this.value;
@@ -3317,7 +3366,8 @@ enum DescribePackagesFilterName {
   packageStatus,
 }
 
-extension DescribePackagesFilterNameValue on DescribePackagesFilterName {
+extension DescribePackagesFilterNameValueExtension
+    on DescribePackagesFilterName {
   String toValue() {
     switch (this) {
       case DescribePackagesFilterName.packageID:
@@ -3365,6 +3415,15 @@ class DescribePackagesResponse {
           .toList(),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final packageDetailsList = this.packageDetailsList;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (packageDetailsList != null) 'PackageDetailsList': packageDetailsList,
+    };
+  }
 }
 
 /// Container for results from <code>DescribeReservedInstanceOfferings</code>
@@ -3390,6 +3449,16 @@ class DescribeReservedInstanceOfferingsResponse {
           .toList(),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final reservedInstanceOfferings = this.reservedInstanceOfferings;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (reservedInstanceOfferings != null)
+        'ReservedInstanceOfferings': reservedInstanceOfferings,
+    };
+  }
 }
 
 /// Container for results from <code>DescribeReservedInstances</code>
@@ -3414,6 +3483,15 @@ class DescribeReservedInstancesResponse {
           .toList(),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final reservedInstances = this.reservedInstances;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (reservedInstances != null) 'ReservedInstances': reservedInstances,
+    };
+  }
 }
 
 /// Container for the response returned by <code> <a>DissociatePackage</a>
@@ -3432,6 +3510,14 @@ class DissociatePackageResponse {
               json['DomainPackageDetails'] as Map<String, dynamic>)
           : null,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domainPackageDetails = this.domainPackageDetails;
+    return {
+      if (domainPackageDetails != null)
+        'DomainPackageDetails': domainPackageDetails,
+    };
   }
 }
 
@@ -3574,6 +3660,47 @@ class DomainConfig {
           : null,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final accessPolicies = this.accessPolicies;
+    final advancedOptions = this.advancedOptions;
+    final advancedSecurityOptions = this.advancedSecurityOptions;
+    final autoTuneOptions = this.autoTuneOptions;
+    final changeProgressDetails = this.changeProgressDetails;
+    final clusterConfig = this.clusterConfig;
+    final cognitoOptions = this.cognitoOptions;
+    final domainEndpointOptions = this.domainEndpointOptions;
+    final eBSOptions = this.eBSOptions;
+    final encryptionAtRestOptions = this.encryptionAtRestOptions;
+    final engineVersion = this.engineVersion;
+    final logPublishingOptions = this.logPublishingOptions;
+    final nodeToNodeEncryptionOptions = this.nodeToNodeEncryptionOptions;
+    final snapshotOptions = this.snapshotOptions;
+    final vPCOptions = this.vPCOptions;
+    return {
+      if (accessPolicies != null) 'AccessPolicies': accessPolicies,
+      if (advancedOptions != null) 'AdvancedOptions': advancedOptions,
+      if (advancedSecurityOptions != null)
+        'AdvancedSecurityOptions': advancedSecurityOptions,
+      if (autoTuneOptions != null) 'AutoTuneOptions': autoTuneOptions,
+      if (changeProgressDetails != null)
+        'ChangeProgressDetails': changeProgressDetails,
+      if (clusterConfig != null) 'ClusterConfig': clusterConfig,
+      if (cognitoOptions != null) 'CognitoOptions': cognitoOptions,
+      if (domainEndpointOptions != null)
+        'DomainEndpointOptions': domainEndpointOptions,
+      if (eBSOptions != null) 'EBSOptions': eBSOptions,
+      if (encryptionAtRestOptions != null)
+        'EncryptionAtRestOptions': encryptionAtRestOptions,
+      if (engineVersion != null) 'EngineVersion': engineVersion,
+      if (logPublishingOptions != null)
+        'LogPublishingOptions': logPublishingOptions,
+      if (nodeToNodeEncryptionOptions != null)
+        'NodeToNodeEncryptionOptions': nodeToNodeEncryptionOptions,
+      if (snapshotOptions != null) 'SnapshotOptions': snapshotOptions,
+      if (vPCOptions != null) 'VPCOptions': vPCOptions,
+    };
+  }
 }
 
 /// Options to configure the endpoint for the domain.
@@ -3658,6 +3785,15 @@ class DomainEndpointOptionsStatus {
       status: OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final options = this.options;
+    final status = this.status;
+    return {
+      'Options': options,
+      'Status': status,
+    };
+  }
 }
 
 class DomainInfo {
@@ -3676,6 +3812,15 @@ class DomainInfo {
       domainName: json['DomainName'] as String?,
       engineType: (json['EngineType'] as String?)?.toEngineType(),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domainName = this.domainName;
+    final engineType = this.engineType;
+    return {
+      if (domainName != null) 'DomainName': domainName,
+      if (engineType != null) 'EngineType': engineType.toValue(),
+    };
   }
 }
 
@@ -3759,6 +3904,30 @@ class DomainPackageDetails {
       referencePath: json['ReferencePath'] as String?,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final domainName = this.domainName;
+    final domainPackageStatus = this.domainPackageStatus;
+    final errorDetails = this.errorDetails;
+    final lastUpdated = this.lastUpdated;
+    final packageID = this.packageID;
+    final packageName = this.packageName;
+    final packageType = this.packageType;
+    final packageVersion = this.packageVersion;
+    final referencePath = this.referencePath;
+    return {
+      if (domainName != null) 'DomainName': domainName,
+      if (domainPackageStatus != null)
+        'DomainPackageStatus': domainPackageStatus.toValue(),
+      if (errorDetails != null) 'ErrorDetails': errorDetails,
+      if (lastUpdated != null) 'LastUpdated': unixTimestampToJson(lastUpdated),
+      if (packageID != null) 'PackageID': packageID,
+      if (packageName != null) 'PackageName': packageName,
+      if (packageType != null) 'PackageType': packageType.toValue(),
+      if (packageVersion != null) 'PackageVersion': packageVersion,
+      if (referencePath != null) 'ReferencePath': referencePath,
+    };
+  }
 }
 
 enum DomainPackageStatus {
@@ -3769,7 +3938,7 @@ enum DomainPackageStatus {
   dissociationFailed,
 }
 
-extension DomainPackageStatusValue on DomainPackageStatus {
+extension DomainPackageStatusValueExtension on DomainPackageStatus {
   String toValue() {
     switch (this) {
       case DomainPackageStatus.associating:
@@ -3995,6 +4164,69 @@ class DomainStatus {
           : null,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final clusterConfig = this.clusterConfig;
+    final domainId = this.domainId;
+    final domainName = this.domainName;
+    final accessPolicies = this.accessPolicies;
+    final advancedOptions = this.advancedOptions;
+    final advancedSecurityOptions = this.advancedSecurityOptions;
+    final autoTuneOptions = this.autoTuneOptions;
+    final changeProgressDetails = this.changeProgressDetails;
+    final cognitoOptions = this.cognitoOptions;
+    final created = this.created;
+    final deleted = this.deleted;
+    final domainEndpointOptions = this.domainEndpointOptions;
+    final eBSOptions = this.eBSOptions;
+    final encryptionAtRestOptions = this.encryptionAtRestOptions;
+    final endpoint = this.endpoint;
+    final endpoints = this.endpoints;
+    final engineVersion = this.engineVersion;
+    final logPublishingOptions = this.logPublishingOptions;
+    final nodeToNodeEncryptionOptions = this.nodeToNodeEncryptionOptions;
+    final processing = this.processing;
+    final serviceSoftwareOptions = this.serviceSoftwareOptions;
+    final snapshotOptions = this.snapshotOptions;
+    final upgradeProcessing = this.upgradeProcessing;
+    final vPCOptions = this.vPCOptions;
+    return {
+      'ARN': arn,
+      'ClusterConfig': clusterConfig,
+      'DomainId': domainId,
+      'DomainName': domainName,
+      if (accessPolicies != null) 'AccessPolicies': accessPolicies,
+      if (advancedOptions != null) 'AdvancedOptions': advancedOptions,
+      if (advancedSecurityOptions != null)
+        'AdvancedSecurityOptions': advancedSecurityOptions,
+      if (autoTuneOptions != null) 'AutoTuneOptions': autoTuneOptions,
+      if (changeProgressDetails != null)
+        'ChangeProgressDetails': changeProgressDetails,
+      if (cognitoOptions != null) 'CognitoOptions': cognitoOptions,
+      if (created != null) 'Created': created,
+      if (deleted != null) 'Deleted': deleted,
+      if (domainEndpointOptions != null)
+        'DomainEndpointOptions': domainEndpointOptions,
+      if (eBSOptions != null) 'EBSOptions': eBSOptions,
+      if (encryptionAtRestOptions != null)
+        'EncryptionAtRestOptions': encryptionAtRestOptions,
+      if (endpoint != null) 'Endpoint': endpoint,
+      if (endpoints != null) 'Endpoints': endpoints,
+      if (engineVersion != null) 'EngineVersion': engineVersion,
+      if (logPublishingOptions != null)
+        'LogPublishingOptions':
+            logPublishingOptions.map((k, e) => MapEntry(k.toValue(), e)),
+      if (nodeToNodeEncryptionOptions != null)
+        'NodeToNodeEncryptionOptions': nodeToNodeEncryptionOptions,
+      if (processing != null) 'Processing': processing,
+      if (serviceSoftwareOptions != null)
+        'ServiceSoftwareOptions': serviceSoftwareOptions,
+      if (snapshotOptions != null) 'SnapshotOptions': snapshotOptions,
+      if (upgradeProcessing != null) 'UpgradeProcessing': upgradeProcessing,
+      if (vPCOptions != null) 'VPCOptions': vPCOptions,
+    };
+  }
 }
 
 class DryRunResults {
@@ -4018,6 +4250,15 @@ class DryRunResults {
       deploymentType: json['DeploymentType'] as String?,
       message: json['Message'] as String?,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deploymentType = this.deploymentType;
+    final message = this.message;
+    return {
+      if (deploymentType != null) 'DeploymentType': deploymentType,
+      if (message != null) 'Message': message,
+    };
   }
 }
 
@@ -4065,8 +4306,11 @@ class EBSOptions {
   /// Whether EBS-based storage is enabled.
   final bool? eBSEnabled;
 
-  /// The IOPD for a Provisioned IOPS EBS volume (SSD).
+  /// The IOPS for Provisioned IOPS And GP3 EBS volume (SSD).
   final int? iops;
+
+  /// The Throughput for GP3 EBS volume (SSD).
+  final int? throughput;
 
   /// Integer to specify the size of an EBS volume.
   final int? volumeSize;
@@ -4077,6 +4321,7 @@ class EBSOptions {
   EBSOptions({
     this.eBSEnabled,
     this.iops,
+    this.throughput,
     this.volumeSize,
     this.volumeType,
   });
@@ -4084,6 +4329,7 @@ class EBSOptions {
     return EBSOptions(
       eBSEnabled: json['EBSEnabled'] as bool?,
       iops: json['Iops'] as int?,
+      throughput: json['Throughput'] as int?,
       volumeSize: json['VolumeSize'] as int?,
       volumeType: (json['VolumeType'] as String?)?.toVolumeType(),
     );
@@ -4092,11 +4338,13 @@ class EBSOptions {
   Map<String, dynamic> toJson() {
     final eBSEnabled = this.eBSEnabled;
     final iops = this.iops;
+    final throughput = this.throughput;
     final volumeSize = this.volumeSize;
     final volumeType = this.volumeType;
     return {
       if (eBSEnabled != null) 'EBSEnabled': eBSEnabled,
       if (iops != null) 'Iops': iops,
+      if (throughput != null) 'Throughput': throughput,
       if (volumeSize != null) 'VolumeSize': volumeSize,
       if (volumeType != null) 'VolumeType': volumeType.toValue(),
     };
@@ -4120,6 +4368,15 @@ class EBSOptionsStatus {
       options: EBSOptions.fromJson(json['Options'] as Map<String, dynamic>),
       status: OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final options = this.options;
+    final status = this.status;
+    return {
+      'Options': options,
+      'Status': status,
+    };
   }
 }
 
@@ -4171,6 +4428,15 @@ class EncryptionAtRestOptionsStatus {
       status: OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final options = this.options;
+    final status = this.status;
+    return {
+      'Options': options,
+      'Status': status,
+    };
+  }
 }
 
 enum EngineType {
@@ -4178,7 +4444,7 @@ enum EngineType {
   elasticsearch,
 }
 
-extension EngineTypeValue on EngineType {
+extension EngineTypeValueExtension on EngineType {
   String toValue() {
     switch (this) {
       case EngineType.openSearch:
@@ -4215,6 +4481,15 @@ class ErrorDetails {
       errorType: json['ErrorType'] as String?,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final errorMessage = this.errorMessage;
+    final errorType = this.errorType;
+    return {
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
+      if (errorType != null) 'ErrorType': errorType,
+    };
+  }
 }
 
 /// A filter used to limit results when describing inbound or outbound
@@ -4232,6 +4507,7 @@ class Filter {
     this.name,
     this.values,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final values = this.values;
@@ -4260,6 +4536,13 @@ class GetCompatibleVersionsResponse {
           .toList(),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final compatibleVersions = this.compatibleVersions;
+    return {
+      if (compatibleVersions != null) 'CompatibleVersions': compatibleVersions,
+    };
+  }
 }
 
 /// Container for response returned by <code> <a>GetPackageVersionHistory</a>
@@ -4285,6 +4568,18 @@ class GetPackageVersionHistoryResponse {
           .map((e) => PackageVersionHistory.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final packageID = this.packageID;
+    final packageVersionHistoryList = this.packageVersionHistoryList;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (packageID != null) 'PackageID': packageID,
+      if (packageVersionHistoryList != null)
+        'PackageVersionHistoryList': packageVersionHistoryList,
+    };
   }
 }
 
@@ -4312,6 +4607,15 @@ class GetUpgradeHistoryResponse {
           .map((e) => UpgradeHistory.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final upgradeHistories = this.upgradeHistories;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (upgradeHistories != null) 'UpgradeHistories': upgradeHistories,
+    };
   }
 }
 
@@ -4351,6 +4655,17 @@ class GetUpgradeStatusResponse {
       upgradeName: json['UpgradeName'] as String?,
       upgradeStep: (json['UpgradeStep'] as String?)?.toUpgradeStep(),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final stepStatus = this.stepStatus;
+    final upgradeName = this.upgradeName;
+    final upgradeStep = this.upgradeStep;
+    return {
+      if (stepStatus != null) 'StepStatus': stepStatus.toValue(),
+      if (upgradeName != null) 'UpgradeName': upgradeName,
+      if (upgradeStep != null) 'UpgradeStep': upgradeStep.toValue(),
+    };
   }
 }
 
@@ -4394,6 +4709,19 @@ class InboundConnection {
           : null,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final connectionId = this.connectionId;
+    final connectionStatus = this.connectionStatus;
+    final localDomainInfo = this.localDomainInfo;
+    final remoteDomainInfo = this.remoteDomainInfo;
+    return {
+      if (connectionId != null) 'ConnectionId': connectionId,
+      if (connectionStatus != null) 'ConnectionStatus': connectionStatus,
+      if (localDomainInfo != null) 'LocalDomainInfo': localDomainInfo,
+      if (remoteDomainInfo != null) 'RemoteDomainInfo': remoteDomainInfo,
+    };
+  }
 }
 
 /// The connection status of an inbound cross-cluster connection.
@@ -4428,6 +4756,15 @@ class InboundConnectionStatus {
           (json['StatusCode'] as String?)?.toInboundConnectionStatusCode(),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final message = this.message;
+    final statusCode = this.statusCode;
+    return {
+      if (message != null) 'Message': message,
+      if (statusCode != null) 'StatusCode': statusCode.toValue(),
+    };
+  }
 }
 
 enum InboundConnectionStatusCode {
@@ -4441,7 +4778,8 @@ enum InboundConnectionStatusCode {
   deleted,
 }
 
-extension InboundConnectionStatusCodeValue on InboundConnectionStatusCode {
+extension InboundConnectionStatusCodeValueExtension
+    on InboundConnectionStatusCode {
   String toValue() {
     switch (this) {
       case InboundConnectionStatusCode.pendingAcceptance:
@@ -4504,6 +4842,17 @@ class InstanceCountLimits {
       minimumInstanceCount: json['MinimumInstanceCount'] as int?,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final maximumInstanceCount = this.maximumInstanceCount;
+    final minimumInstanceCount = this.minimumInstanceCount;
+    return {
+      if (maximumInstanceCount != null)
+        'MaximumInstanceCount': maximumInstanceCount,
+      if (minimumInstanceCount != null)
+        'MinimumInstanceCount': minimumInstanceCount,
+    };
+  }
 }
 
 /// InstanceLimits represents the list of instance-related attributes that are
@@ -4521,6 +4870,14 @@ class InstanceLimits {
               json['InstanceCountLimits'] as Map<String, dynamic>)
           : null,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instanceCountLimits = this.instanceCountLimits;
+    return {
+      if (instanceCountLimits != null)
+        'InstanceCountLimits': instanceCountLimits,
+    };
   }
 }
 
@@ -4556,6 +4913,26 @@ class InstanceTypeDetails {
           ?.toOpenSearchPartitionInstanceType(),
       warmEnabled: json['WarmEnabled'] as bool?,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final advancedSecurityEnabled = this.advancedSecurityEnabled;
+    final appLogsEnabled = this.appLogsEnabled;
+    final cognitoEnabled = this.cognitoEnabled;
+    final encryptionEnabled = this.encryptionEnabled;
+    final instanceRole = this.instanceRole;
+    final instanceType = this.instanceType;
+    final warmEnabled = this.warmEnabled;
+    return {
+      if (advancedSecurityEnabled != null)
+        'AdvancedSecurityEnabled': advancedSecurityEnabled,
+      if (appLogsEnabled != null) 'AppLogsEnabled': appLogsEnabled,
+      if (cognitoEnabled != null) 'CognitoEnabled': cognitoEnabled,
+      if (encryptionEnabled != null) 'EncryptionEnabled': encryptionEnabled,
+      if (instanceRole != null) 'InstanceRole': instanceRole,
+      if (instanceType != null) 'InstanceType': instanceType.toValue(),
+      if (warmEnabled != null) 'WarmEnabled': warmEnabled,
+    };
   }
 }
 
@@ -4593,6 +4970,17 @@ class Limits {
           .toList(),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final additionalLimits = this.additionalLimits;
+    final instanceLimits = this.instanceLimits;
+    final storageTypes = this.storageTypes;
+    return {
+      if (additionalLimits != null) 'AdditionalLimits': additionalLimits,
+      if (instanceLimits != null) 'InstanceLimits': instanceLimits,
+      if (storageTypes != null) 'StorageTypes': storageTypes,
+    };
+  }
 }
 
 /// The result of a <code>ListDomainNames</code> operation. Contains the names
@@ -4611,6 +4999,13 @@ class ListDomainNamesResponse {
           .map((e) => DomainInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domainNames = this.domainNames;
+    return {
+      if (domainNames != null) 'DomainNames': domainNames,
+    };
   }
 }
 
@@ -4634,6 +5029,16 @@ class ListDomainsForPackageResponse {
       nextToken: json['NextToken'] as String?,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final domainPackageDetailsList = this.domainPackageDetailsList;
+    final nextToken = this.nextToken;
+    return {
+      if (domainPackageDetailsList != null)
+        'DomainPackageDetailsList': domainPackageDetailsList,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
 class ListInstanceTypeDetailsResponse {
@@ -4652,6 +5057,16 @@ class ListInstanceTypeDetailsResponse {
           .toList(),
       nextToken: json['NextToken'] as String?,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instanceTypeDetails = this.instanceTypeDetails;
+    final nextToken = this.nextToken;
+    return {
+      if (instanceTypeDetails != null)
+        'InstanceTypeDetails': instanceTypeDetails,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
   }
 }
 
@@ -4677,6 +5092,16 @@ class ListPackagesForDomainResponse {
       nextToken: json['NextToken'] as String?,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final domainPackageDetailsList = this.domainPackageDetailsList;
+    final nextToken = this.nextToken;
+    return {
+      if (domainPackageDetailsList != null)
+        'DomainPackageDetailsList': domainPackageDetailsList,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
 /// The result of a <code>ListTags</code> operation. Contains tags for all
@@ -4695,6 +5120,13 @@ class ListTagsResponse {
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tagList = this.tagList;
+    return {
+      if (tagList != null) 'TagList': tagList,
+    };
   }
 }
 
@@ -4716,6 +5148,15 @@ class ListVersionsResponse {
           .map((e) => e as String)
           .toList(),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final versions = this.versions;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (versions != null) 'Versions': versions,
+    };
   }
 }
 
@@ -4779,6 +5220,16 @@ class LogPublishingOptionsStatus {
           : null,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final options = this.options;
+    final status = this.status;
+    return {
+      if (options != null)
+        'Options': options.map((k, e) => MapEntry(k.toValue(), e)),
+      if (status != null) 'Status': status,
+    };
+  }
 }
 
 /// Type of log file. Can be one of the following:
@@ -4800,7 +5251,7 @@ enum LogType {
   auditLogs,
 }
 
-extension LogTypeValue on LogType {
+extension LogTypeValueExtension on LogType {
   String toValue() {
     switch (this) {
       case LogType.indexSlowLogs:
@@ -4849,6 +5300,7 @@ class MasterUserOptions {
     this.masterUserName,
     this.masterUserPassword,
   });
+
   Map<String, dynamic> toJson() {
     final masterUserARN = this.masterUserARN;
     final masterUserName = this.masterUserName;
@@ -4902,6 +5354,15 @@ class NodeToNodeEncryptionOptionsStatus {
           json['Options'] as Map<String, dynamic>),
       status: OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final options = this.options;
+    final status = this.status;
+    return {
+      'Options': options,
+      'Status': status,
+    };
   }
 }
 
@@ -5003,7 +5464,7 @@ enum OpenSearchPartitionInstanceType {
   t4gMediumSearch,
 }
 
-extension OpenSearchPartitionInstanceTypeValue
+extension OpenSearchPartitionInstanceTypeValueExtension
     on OpenSearchPartitionInstanceType {
   String toValue() {
     switch (this) {
@@ -5406,7 +5867,7 @@ enum OpenSearchWarmPartitionInstanceType {
   ultrawarm1XlargeSearch,
 }
 
-extension OpenSearchWarmPartitionInstanceTypeValue
+extension OpenSearchWarmPartitionInstanceTypeValueExtension
     on OpenSearchWarmPartitionInstanceType {
   String toValue() {
     switch (this) {
@@ -5447,7 +5908,7 @@ enum OptionState {
   active,
 }
 
-extension OptionStateValue on OptionState {
+extension OptionStateValueExtension on OptionState {
   String toValue() {
     switch (this) {
       case OptionState.requiresIndexDocuments:
@@ -5508,6 +5969,21 @@ class OptionStatus {
       updateVersion: json['UpdateVersion'] as int?,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final creationDate = this.creationDate;
+    final state = this.state;
+    final updateDate = this.updateDate;
+    final pendingDeletion = this.pendingDeletion;
+    final updateVersion = this.updateVersion;
+    return {
+      'CreationDate': unixTimestampToJson(creationDate),
+      'State': state.toValue(),
+      'UpdateDate': unixTimestampToJson(updateDate),
+      if (pendingDeletion != null) 'PendingDeletion': pendingDeletion,
+      if (updateVersion != null) 'UpdateVersion': updateVersion,
+    };
+  }
 }
 
 /// Specifies details about an outbound connection.
@@ -5554,6 +6030,21 @@ class OutboundConnection {
           : null,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final connectionAlias = this.connectionAlias;
+    final connectionId = this.connectionId;
+    final connectionStatus = this.connectionStatus;
+    final localDomainInfo = this.localDomainInfo;
+    final remoteDomainInfo = this.remoteDomainInfo;
+    return {
+      if (connectionAlias != null) 'ConnectionAlias': connectionAlias,
+      if (connectionId != null) 'ConnectionId': connectionId,
+      if (connectionStatus != null) 'ConnectionStatus': connectionStatus,
+      if (localDomainInfo != null) 'LocalDomainInfo': localDomainInfo,
+      if (remoteDomainInfo != null) 'RemoteDomainInfo': remoteDomainInfo,
+    };
+  }
 }
 
 /// The connection status of an outbound cross-cluster connection.
@@ -5592,6 +6083,15 @@ class OutboundConnectionStatus {
           (json['StatusCode'] as String?)?.toOutboundConnectionStatusCode(),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final message = this.message;
+    final statusCode = this.statusCode;
+    return {
+      if (message != null) 'Message': message,
+      if (statusCode != null) 'StatusCode': statusCode.toValue(),
+    };
+  }
 }
 
 enum OutboundConnectionStatusCode {
@@ -5607,7 +6107,8 @@ enum OutboundConnectionStatusCode {
   deleted,
 }
 
-extension OutboundConnectionStatusCodeValue on OutboundConnectionStatusCode {
+extension OutboundConnectionStatusCodeValueExtension
+    on OutboundConnectionStatusCode {
   String toValue() {
     switch (this) {
       case OutboundConnectionStatusCode.validating:
@@ -5670,7 +6171,7 @@ enum OverallChangeStatus {
   failed,
 }
 
-extension OverallChangeStatusValue on OverallChangeStatus {
+extension OverallChangeStatusValueExtension on OverallChangeStatus {
   String toValue() {
     switch (this) {
       case OverallChangeStatus.pending:
@@ -5754,6 +6255,31 @@ class PackageDetails {
       packageType: (json['PackageType'] as String?)?.toPackageType(),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final availablePackageVersion = this.availablePackageVersion;
+    final createdAt = this.createdAt;
+    final errorDetails = this.errorDetails;
+    final lastUpdatedAt = this.lastUpdatedAt;
+    final packageDescription = this.packageDescription;
+    final packageID = this.packageID;
+    final packageName = this.packageName;
+    final packageStatus = this.packageStatus;
+    final packageType = this.packageType;
+    return {
+      if (availablePackageVersion != null)
+        'AvailablePackageVersion': availablePackageVersion,
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (errorDetails != null) 'ErrorDetails': errorDetails,
+      if (lastUpdatedAt != null)
+        'LastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
+      if (packageDescription != null) 'PackageDescription': packageDescription,
+      if (packageID != null) 'PackageID': packageID,
+      if (packageName != null) 'PackageName': packageName,
+      if (packageStatus != null) 'PackageStatus': packageStatus.toValue(),
+      if (packageType != null) 'PackageType': packageType.toValue(),
+    };
+  }
 }
 
 /// The Amazon S3 location for importing the package specified as
@@ -5769,6 +6295,7 @@ class PackageSource {
     this.s3BucketName,
     this.s3Key,
   });
+
   Map<String, dynamic> toJson() {
     final s3BucketName = this.s3BucketName;
     final s3Key = this.s3Key;
@@ -5790,7 +6317,7 @@ enum PackageStatus {
   deleteFailed,
 }
 
-extension PackageStatusValue on PackageStatus {
+extension PackageStatusValueExtension on PackageStatus {
   String toValue() {
     switch (this) {
       case PackageStatus.copying:
@@ -5841,7 +6368,7 @@ enum PackageType {
   txtDictionary,
 }
 
-extension PackageTypeValue on PackageType {
+extension PackageTypeValueExtension on PackageType {
   String toValue() {
     switch (this) {
       case PackageType.txtDictionary:
@@ -5883,6 +6410,17 @@ class PackageVersionHistory {
       packageVersion: json['PackageVersion'] as String?,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final commitMessage = this.commitMessage;
+    final createdAt = this.createdAt;
+    final packageVersion = this.packageVersion;
+    return {
+      if (commitMessage != null) 'CommitMessage': commitMessage,
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (packageVersion != null) 'PackageVersion': packageVersion,
+    };
+  }
 }
 
 /// Represents the output of a <code>PurchaseReservedInstanceOffering</code>
@@ -5904,6 +6442,15 @@ class PurchaseReservedInstanceOfferingResponse {
       reservationName: json['ReservationName'] as String?,
       reservedInstanceId: json['ReservedInstanceId'] as String?,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final reservationName = this.reservationName;
+    final reservedInstanceId = this.reservedInstanceId;
+    return {
+      if (reservationName != null) 'ReservationName': reservationName,
+      if (reservedInstanceId != null) 'ReservedInstanceId': reservedInstanceId,
+    };
   }
 }
 
@@ -5927,6 +6474,17 @@ class RecurringCharge {
       recurringChargeFrequency: json['RecurringChargeFrequency'] as String?,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final recurringChargeAmount = this.recurringChargeAmount;
+    final recurringChargeFrequency = this.recurringChargeFrequency;
+    return {
+      if (recurringChargeAmount != null)
+        'RecurringChargeAmount': recurringChargeAmount,
+      if (recurringChargeFrequency != null)
+        'RecurringChargeFrequency': recurringChargeFrequency,
+    };
+  }
 }
 
 /// The result of a <code> <a>RejectInboundConnection</a> </code> operation.
@@ -5946,6 +6504,13 @@ class RejectInboundConnectionResponse {
               json['Connection'] as Map<String, dynamic>)
           : null,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connection = this.connection;
+    return {
+      if (connection != null) 'Connection': connection,
+    };
   }
 }
 
@@ -6034,6 +6599,41 @@ class ReservedInstance {
       usagePrice: json['UsagePrice'] as double?,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final billingSubscriptionId = this.billingSubscriptionId;
+    final currencyCode = this.currencyCode;
+    final duration = this.duration;
+    final fixedPrice = this.fixedPrice;
+    final instanceCount = this.instanceCount;
+    final instanceType = this.instanceType;
+    final paymentOption = this.paymentOption;
+    final recurringCharges = this.recurringCharges;
+    final reservationName = this.reservationName;
+    final reservedInstanceId = this.reservedInstanceId;
+    final reservedInstanceOfferingId = this.reservedInstanceOfferingId;
+    final startTime = this.startTime;
+    final state = this.state;
+    final usagePrice = this.usagePrice;
+    return {
+      if (billingSubscriptionId != null)
+        'BillingSubscriptionId': billingSubscriptionId,
+      if (currencyCode != null) 'CurrencyCode': currencyCode,
+      if (duration != null) 'Duration': duration,
+      if (fixedPrice != null) 'FixedPrice': fixedPrice,
+      if (instanceCount != null) 'InstanceCount': instanceCount,
+      if (instanceType != null) 'InstanceType': instanceType.toValue(),
+      if (paymentOption != null) 'PaymentOption': paymentOption.toValue(),
+      if (recurringCharges != null) 'RecurringCharges': recurringCharges,
+      if (reservationName != null) 'ReservationName': reservationName,
+      if (reservedInstanceId != null) 'ReservedInstanceId': reservedInstanceId,
+      if (reservedInstanceOfferingId != null)
+        'ReservedInstanceOfferingId': reservedInstanceOfferingId,
+      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
+      if (state != null) 'State': state,
+      if (usagePrice != null) 'UsagePrice': usagePrice,
+    };
+  }
 }
 
 /// Details of a reserved OpenSearch instance offering.
@@ -6093,6 +6693,28 @@ class ReservedInstanceOffering {
       usagePrice: json['UsagePrice'] as double?,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final currencyCode = this.currencyCode;
+    final duration = this.duration;
+    final fixedPrice = this.fixedPrice;
+    final instanceType = this.instanceType;
+    final paymentOption = this.paymentOption;
+    final recurringCharges = this.recurringCharges;
+    final reservedInstanceOfferingId = this.reservedInstanceOfferingId;
+    final usagePrice = this.usagePrice;
+    return {
+      if (currencyCode != null) 'CurrencyCode': currencyCode,
+      if (duration != null) 'Duration': duration,
+      if (fixedPrice != null) 'FixedPrice': fixedPrice,
+      if (instanceType != null) 'InstanceType': instanceType.toValue(),
+      if (paymentOption != null) 'PaymentOption': paymentOption.toValue(),
+      if (recurringCharges != null) 'RecurringCharges': recurringCharges,
+      if (reservedInstanceOfferingId != null)
+        'ReservedInstanceOfferingId': reservedInstanceOfferingId,
+      if (usagePrice != null) 'UsagePrice': usagePrice,
+    };
+  }
 }
 
 enum ReservedInstancePaymentOption {
@@ -6101,7 +6723,8 @@ enum ReservedInstancePaymentOption {
   noUpfront,
 }
 
-extension ReservedInstancePaymentOptionValue on ReservedInstancePaymentOption {
+extension ReservedInstancePaymentOptionValueExtension
+    on ReservedInstancePaymentOption {
   String toValue() {
     switch (this) {
       case ReservedInstancePaymentOption.allUpfront:
@@ -6135,7 +6758,7 @@ enum RollbackOnDisable {
   defaultRollback,
 }
 
-extension RollbackOnDisableValue on RollbackOnDisable {
+extension RollbackOnDisableValueExtension on RollbackOnDisable {
   String toValue() {
     switch (this) {
       case RollbackOnDisable.noRollback:
@@ -6221,6 +6844,7 @@ class SAMLOptionsInput {
     this.sessionTimeoutMinutes,
     this.subjectKey,
   });
+
   Map<String, dynamic> toJson() {
     final enabled = this.enabled;
     final idp = this.idp;
@@ -6277,6 +6901,22 @@ class SAMLOptionsOutput {
       subjectKey: json['SubjectKey'] as String?,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final idp = this.idp;
+    final rolesKey = this.rolesKey;
+    final sessionTimeoutMinutes = this.sessionTimeoutMinutes;
+    final subjectKey = this.subjectKey;
+    return {
+      if (enabled != null) 'Enabled': enabled,
+      if (idp != null) 'Idp': idp,
+      if (rolesKey != null) 'RolesKey': rolesKey,
+      if (sessionTimeoutMinutes != null)
+        'SessionTimeoutMinutes': sessionTimeoutMinutes,
+      if (subjectKey != null) 'SubjectKey': subjectKey,
+    };
+  }
 }
 
 /// The Auto-Tune action type. Valid values are JVM_HEAP_SIZE_TUNING, and
@@ -6286,7 +6926,8 @@ enum ScheduledAutoTuneActionType {
   jvmYoungGenTuning,
 }
 
-extension ScheduledAutoTuneActionTypeValue on ScheduledAutoTuneActionType {
+extension ScheduledAutoTuneActionTypeValueExtension
+    on ScheduledAutoTuneActionType {
   String toValue() {
     switch (this) {
       case ScheduledAutoTuneActionType.jvmHeapSizeTuning:
@@ -6343,6 +6984,19 @@ class ScheduledAutoTuneDetails {
           (json['Severity'] as String?)?.toScheduledAutoTuneSeverityType(),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final actionType = this.actionType;
+    final date = this.date;
+    final severity = this.severity;
+    return {
+      if (action != null) 'Action': action,
+      if (actionType != null) 'ActionType': actionType.toValue(),
+      if (date != null) 'Date': unixTimestampToJson(date),
+      if (severity != null) 'Severity': severity.toValue(),
+    };
+  }
 }
 
 /// The Auto-Tune action severity. Valid values are LOW, MEDIUM, and HIGH.
@@ -6352,7 +7006,8 @@ enum ScheduledAutoTuneSeverityType {
   high,
 }
 
-extension ScheduledAutoTuneSeverityTypeValue on ScheduledAutoTuneSeverityType {
+extension ScheduledAutoTuneSeverityTypeValueExtension
+    on ScheduledAutoTuneSeverityType {
   String toValue() {
     switch (this) {
       case ScheduledAutoTuneSeverityType.low:
@@ -6436,6 +7091,28 @@ class ServiceSoftwareOptions {
       updateStatus: (json['UpdateStatus'] as String?)?.toDeploymentStatus(),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final automatedUpdateDate = this.automatedUpdateDate;
+    final cancellable = this.cancellable;
+    final currentVersion = this.currentVersion;
+    final description = this.description;
+    final newVersion = this.newVersion;
+    final optionalDeployment = this.optionalDeployment;
+    final updateAvailable = this.updateAvailable;
+    final updateStatus = this.updateStatus;
+    return {
+      if (automatedUpdateDate != null)
+        'AutomatedUpdateDate': unixTimestampToJson(automatedUpdateDate),
+      if (cancellable != null) 'Cancellable': cancellable,
+      if (currentVersion != null) 'CurrentVersion': currentVersion,
+      if (description != null) 'Description': description,
+      if (newVersion != null) 'NewVersion': newVersion,
+      if (optionalDeployment != null) 'OptionalDeployment': optionalDeployment,
+      if (updateAvailable != null) 'UpdateAvailable': updateAvailable,
+      if (updateStatus != null) 'UpdateStatus': updateStatus.toValue(),
+    };
+  }
 }
 
 /// The time, in UTC format, when the service takes a daily automated snapshot
@@ -6482,6 +7159,15 @@ class SnapshotOptionsStatus {
       status: OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final options = this.options;
+    final status = this.status;
+    return {
+      'Options': options,
+      'Status': status,
+    };
+  }
 }
 
 /// The result of a <code>StartServiceSoftwareUpdate</code> operation. Contains
@@ -6501,6 +7187,14 @@ class StartServiceSoftwareUpdateResponse {
               json['ServiceSoftwareOptions'] as Map<String, dynamic>)
           : null,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final serviceSoftwareOptions = this.serviceSoftwareOptions;
+    return {
+      if (serviceSoftwareOptions != null)
+        'ServiceSoftwareOptions': serviceSoftwareOptions,
+    };
   }
 }
 
@@ -6528,6 +7222,17 @@ class StorageType {
       storageTypeName: json['StorageTypeName'] as String?,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final storageSubTypeName = this.storageSubTypeName;
+    final storageTypeLimits = this.storageTypeLimits;
+    final storageTypeName = this.storageTypeName;
+    return {
+      if (storageSubTypeName != null) 'StorageSubTypeName': storageSubTypeName,
+      if (storageTypeLimits != null) 'StorageTypeLimits': storageTypeLimits,
+      if (storageTypeName != null) 'StorageTypeName': storageTypeName,
+    };
+  }
 }
 
 /// Limits that are applicable for the given storage type.
@@ -6542,7 +7247,11 @@ class StorageTypeLimit {
   /// <li>MaximumIops</li> Maximum amount of Iops that is applicable for given the
   /// storage type. Can be empty if not applicable.
   /// <li>MinimumIops</li> Minimum amount of Iops that is applicable for given the
-  /// storage type. Can be empty if not applicable. </ol>
+  /// storage type. Can be empty if not applicable.
+  /// <li>MaximumThroughput</li> Maximum amount of Throughput that is applicable
+  /// for given the storage type. Can be empty if not applicable.
+  /// <li>MinimumThroughput</li> Minimum amount of Throughput that is applicable
+  /// for given the storage type. Can be empty if not applicable. </ol>
   final String? limitName;
 
   /// Values for the <code> <a>StorageTypeLimit$LimitName</a> </code> .
@@ -6561,6 +7270,15 @@ class StorageTypeLimit {
           .toList(),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final limitName = this.limitName;
+    final limitValues = this.limitValues;
+    return {
+      if (limitName != null) 'LimitName': limitName,
+      if (limitValues != null) 'LimitValues': limitValues,
+    };
+  }
 }
 
 enum TLSSecurityPolicy {
@@ -6568,7 +7286,7 @@ enum TLSSecurityPolicy {
   policyMinTls_1_2_2019_07,
 }
 
-extension TLSSecurityPolicyValue on TLSSecurityPolicy {
+extension TLSSecurityPolicyValueExtension on TLSSecurityPolicy {
   String toValue() {
     switch (this) {
       case TLSSecurityPolicy.policyMinTls_1_0_2019_07:
@@ -6632,7 +7350,7 @@ enum TimeUnit {
   hours,
 }
 
-extension TimeUnitValue on TimeUnit {
+extension TimeUnitValueExtension on TimeUnit {
   String toValue() {
     switch (this) {
       case TimeUnit.hours:
@@ -6674,6 +7392,15 @@ class UpdateDomainConfigResponse {
           : null,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final domainConfig = this.domainConfig;
+    final dryRunResults = this.dryRunResults;
+    return {
+      'DomainConfig': domainConfig,
+      if (dryRunResults != null) 'DryRunResults': dryRunResults,
+    };
+  }
 }
 
 /// Container for the response returned by the <code> <a>UpdatePackage</a>
@@ -6692,6 +7419,13 @@ class UpdatePackageResponse {
               json['PackageDetails'] as Map<String, dynamic>)
           : null,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final packageDetails = this.packageDetails;
+    return {
+      if (packageDetails != null) 'PackageDetails': packageDetails,
+    };
   }
 }
 
@@ -6731,6 +7465,24 @@ class UpgradeDomainResponse {
       targetVersion: json['TargetVersion'] as String?,
       upgradeId: json['UpgradeId'] as String?,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final advancedOptions = this.advancedOptions;
+    final changeProgressDetails = this.changeProgressDetails;
+    final domainName = this.domainName;
+    final performCheckOnly = this.performCheckOnly;
+    final targetVersion = this.targetVersion;
+    final upgradeId = this.upgradeId;
+    return {
+      if (advancedOptions != null) 'AdvancedOptions': advancedOptions,
+      if (changeProgressDetails != null)
+        'ChangeProgressDetails': changeProgressDetails,
+      if (domainName != null) 'DomainName': domainName,
+      if (performCheckOnly != null) 'PerformCheckOnly': performCheckOnly,
+      if (targetVersion != null) 'TargetVersion': targetVersion,
+      if (upgradeId != null) 'UpgradeId': upgradeId,
+    };
   }
 }
 
@@ -6775,6 +7527,20 @@ class UpgradeHistory {
       upgradeStatus: (json['UpgradeStatus'] as String?)?.toUpgradeStatus(),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final startTimestamp = this.startTimestamp;
+    final stepsList = this.stepsList;
+    final upgradeName = this.upgradeName;
+    final upgradeStatus = this.upgradeStatus;
+    return {
+      if (startTimestamp != null)
+        'StartTimestamp': unixTimestampToJson(startTimestamp),
+      if (stepsList != null) 'StepsList': stepsList,
+      if (upgradeName != null) 'UpgradeName': upgradeName,
+      if (upgradeStatus != null) 'UpgradeStatus': upgradeStatus.toValue(),
+    };
+  }
 }
 
 enum UpgradeStatus {
@@ -6784,7 +7550,7 @@ enum UpgradeStatus {
   failed,
 }
 
-extension UpgradeStatusValue on UpgradeStatus {
+extension UpgradeStatusValueExtension on UpgradeStatus {
   String toValue() {
     switch (this) {
       case UpgradeStatus.inProgress:
@@ -6821,7 +7587,7 @@ enum UpgradeStep {
   upgrade,
 }
 
-extension UpgradeStepValue on UpgradeStep {
+extension UpgradeStepValueExtension on UpgradeStep {
   String toValue() {
     switch (this) {
       case UpgradeStep.preUpgradeCheck:
@@ -6895,6 +7661,20 @@ class UpgradeStepItem {
           (json['UpgradeStepStatus'] as String?)?.toUpgradeStatus(),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final issues = this.issues;
+    final progressPercent = this.progressPercent;
+    final upgradeStep = this.upgradeStep;
+    final upgradeStepStatus = this.upgradeStepStatus;
+    return {
+      if (issues != null) 'Issues': issues,
+      if (progressPercent != null) 'ProgressPercent': progressPercent,
+      if (upgradeStep != null) 'UpgradeStep': upgradeStep.toValue(),
+      if (upgradeStepStatus != null)
+        'UpgradeStepStatus': upgradeStepStatus.toValue(),
+    };
+  }
 }
 
 /// Options to specify the subnets and security groups for the VPC endpoint. For
@@ -6940,6 +7720,19 @@ class VPCDerivedInfo {
       vPCId: json['VPCId'] as String?,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final availabilityZones = this.availabilityZones;
+    final securityGroupIds = this.securityGroupIds;
+    final subnetIds = this.subnetIds;
+    final vPCId = this.vPCId;
+    return {
+      if (availabilityZones != null) 'AvailabilityZones': availabilityZones,
+      if (securityGroupIds != null) 'SecurityGroupIds': securityGroupIds,
+      if (subnetIds != null) 'SubnetIds': subnetIds,
+      if (vPCId != null) 'VPCId': vPCId,
+    };
+  }
 }
 
 /// Status of the VPC options for the specified domain.
@@ -6960,6 +7753,15 @@ class VPCDerivedInfoStatus {
       status: OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final options = this.options;
+    final status = this.status;
+    return {
+      'Options': options,
+      'Status': status,
+    };
+  }
 }
 
 /// Options to specify the subnets and security groups for the VPC endpoint. For
@@ -6978,6 +7780,7 @@ class VPCOptions {
     this.securityGroupIds,
     this.subnetIds,
   });
+
   Map<String, dynamic> toJson() {
     final securityGroupIds = this.securityGroupIds;
     final subnetIds = this.subnetIds;
@@ -7008,18 +7811,28 @@ class VersionStatus {
       status: OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final options = this.options;
+    final status = this.status;
+    return {
+      'Options': options,
+      'Status': status,
+    };
+  }
 }
 
-/// The type of EBS volume, standard, gp2, or io1. See <a
+/// The type of EBS volume, standard, gp2, gp3 or io1. See <a
 /// href="http://docs.aws.amazon.com/opensearch-service/latest/developerguide/opensearch-createupdatedomains.html#opensearch-createdomain-configure-ebs"
 /// target="_blank">Configuring EBS-based Storage</a> for more information.
 enum VolumeType {
   standard,
   gp2,
   io1,
+  gp3,
 }
 
-extension VolumeTypeValue on VolumeType {
+extension VolumeTypeValueExtension on VolumeType {
   String toValue() {
     switch (this) {
       case VolumeType.standard:
@@ -7028,6 +7841,8 @@ extension VolumeTypeValue on VolumeType {
         return 'gp2';
       case VolumeType.io1:
         return 'io1';
+      case VolumeType.gp3:
+        return 'gp3';
     }
   }
 }
@@ -7041,6 +7856,8 @@ extension VolumeTypeFromString on String {
         return VolumeType.gp2;
       case 'io1':
         return VolumeType.io1;
+      case 'gp3':
+        return VolumeType.gp3;
     }
     throw Exception('$this is not known in enum VolumeType');
   }

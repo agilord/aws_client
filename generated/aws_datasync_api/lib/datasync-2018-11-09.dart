@@ -69,14 +69,6 @@ class DataSync {
   Future<void> cancelTaskExecution({
     required String taskExecutionArn,
   }) async {
-    ArgumentError.checkNotNull(taskExecutionArn, 'taskExecutionArn');
-    _s.validateStringLength(
-      'taskExecutionArn',
-      taskExecutionArn,
-      0,
-      128,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'FmrsService.CancelTaskExecution'
@@ -175,20 +167,6 @@ class DataSync {
     List<TagListEntry>? tags,
     String? vpcEndpointId,
   }) async {
-    ArgumentError.checkNotNull(activationKey, 'activationKey');
-    _s.validateStringLength(
-      'activationKey',
-      activationKey,
-      0,
-      29,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'agentName',
-      agentName,
-      1,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'FmrsService.CreateAgent'
@@ -268,21 +246,6 @@ class DataSync {
     String? subdirectory,
     List<TagListEntry>? tags,
   }) async {
-    ArgumentError.checkNotNull(ec2Config, 'ec2Config');
-    ArgumentError.checkNotNull(efsFilesystemArn, 'efsFilesystemArn');
-    _s.validateStringLength(
-      'efsFilesystemArn',
-      efsFilesystemArn,
-      0,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'subdirectory',
-      subdirectory,
-      0,
-      4096,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'FmrsService.CreateLocationEfs'
@@ -346,43 +309,6 @@ class DataSync {
     String? subdirectory,
     List<TagListEntry>? tags,
   }) async {
-    ArgumentError.checkNotNull(fsxFilesystemArn, 'fsxFilesystemArn');
-    _s.validateStringLength(
-      'fsxFilesystemArn',
-      fsxFilesystemArn,
-      0,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(password, 'password');
-    _s.validateStringLength(
-      'password',
-      password,
-      0,
-      104,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(securityGroupArns, 'securityGroupArns');
-    ArgumentError.checkNotNull(user, 'user');
-    _s.validateStringLength(
-      'user',
-      user,
-      0,
-      104,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'domain',
-      domain,
-      0,
-      253,
-    );
-    _s.validateStringLength(
-      'subdirectory',
-      subdirectory,
-      0,
-      4096,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'FmrsService.CreateLocationFsxWindows'
@@ -476,23 +402,6 @@ class DataSync {
     NfsMountOptions? mountOptions,
     List<TagListEntry>? tags,
   }) async {
-    ArgumentError.checkNotNull(onPremConfig, 'onPremConfig');
-    ArgumentError.checkNotNull(serverHostname, 'serverHostname');
-    _s.validateStringLength(
-      'serverHostname',
-      serverHostname,
-      0,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(subdirectory, 'subdirectory');
-    _s.validateStringLength(
-      'subdirectory',
-      subdirectory,
-      0,
-      4096,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'FmrsService.CreateLocationNfs'
@@ -578,46 +487,11 @@ class DataSync {
     String? subdirectory,
     List<TagListEntry>? tags,
   }) async {
-    ArgumentError.checkNotNull(agentArns, 'agentArns');
-    ArgumentError.checkNotNull(bucketName, 'bucketName');
-    _s.validateStringLength(
-      'bucketName',
-      bucketName,
-      3,
-      63,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(serverHostname, 'serverHostname');
-    _s.validateStringLength(
-      'serverHostname',
-      serverHostname,
-      0,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'accessKey',
-      accessKey,
-      8,
-      200,
-    );
-    _s.validateStringLength(
-      'secretKey',
-      secretKey,
-      8,
-      200,
-    );
     _s.validateNumRange(
       'serverPort',
       serverPort,
       1,
       65536,
-    );
-    _s.validateStringLength(
-      'subdirectory',
-      subdirectory,
-      0,
-      4096,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -692,21 +566,6 @@ class DataSync {
     String? subdirectory,
     List<TagListEntry>? tags,
   }) async {
-    ArgumentError.checkNotNull(s3BucketArn, 's3BucketArn');
-    _s.validateStringLength(
-      's3BucketArn',
-      s3BucketArn,
-      0,
-      156,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(s3Config, 's3Config');
-    _s.validateStringLength(
-      'subdirectory',
-      subdirectory,
-      0,
-      4096,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'FmrsService.CreateLocationS3'
@@ -797,45 +656,6 @@ class DataSync {
     SmbMountOptions? mountOptions,
     List<TagListEntry>? tags,
   }) async {
-    ArgumentError.checkNotNull(agentArns, 'agentArns');
-    ArgumentError.checkNotNull(password, 'password');
-    _s.validateStringLength(
-      'password',
-      password,
-      0,
-      104,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(serverHostname, 'serverHostname');
-    _s.validateStringLength(
-      'serverHostname',
-      serverHostname,
-      0,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(subdirectory, 'subdirectory');
-    _s.validateStringLength(
-      'subdirectory',
-      subdirectory,
-      0,
-      4096,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(user, 'user');
-    _s.validateStringLength(
-      'user',
-      user,
-      0,
-      104,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'domain',
-      domain,
-      0,
-      253,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'FmrsService.CreateLocationSmb'
@@ -933,35 +753,6 @@ class DataSync {
     TaskSchedule? schedule,
     List<TagListEntry>? tags,
   }) async {
-    ArgumentError.checkNotNull(
-        destinationLocationArn, 'destinationLocationArn');
-    _s.validateStringLength(
-      'destinationLocationArn',
-      destinationLocationArn,
-      0,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(sourceLocationArn, 'sourceLocationArn');
-    _s.validateStringLength(
-      'sourceLocationArn',
-      sourceLocationArn,
-      0,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'cloudWatchLogGroupArn',
-      cloudWatchLogGroupArn,
-      0,
-      562,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'FmrsService.CreateTask'
@@ -1003,14 +794,6 @@ class DataSync {
   Future<void> deleteAgent({
     required String agentArn,
   }) async {
-    ArgumentError.checkNotNull(agentArn, 'agentArn');
-    _s.validateStringLength(
-      'agentArn',
-      agentArn,
-      0,
-      128,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'FmrsService.DeleteAgent'
@@ -1037,14 +820,6 @@ class DataSync {
   Future<void> deleteLocation({
     required String locationArn,
   }) async {
-    ArgumentError.checkNotNull(locationArn, 'locationArn');
-    _s.validateStringLength(
-      'locationArn',
-      locationArn,
-      0,
-      128,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'FmrsService.DeleteLocation'
@@ -1071,14 +846,6 @@ class DataSync {
   Future<void> deleteTask({
     required String taskArn,
   }) async {
-    ArgumentError.checkNotNull(taskArn, 'taskArn');
-    _s.validateStringLength(
-      'taskArn',
-      taskArn,
-      0,
-      128,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'FmrsService.DeleteTask'
@@ -1108,14 +875,6 @@ class DataSync {
   Future<DescribeAgentResponse> describeAgent({
     required String agentArn,
   }) async {
-    ArgumentError.checkNotNull(agentArn, 'agentArn');
-    _s.validateStringLength(
-      'agentArn',
-      agentArn,
-      0,
-      128,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'FmrsService.DescribeAgent'
@@ -1145,14 +904,6 @@ class DataSync {
   Future<DescribeLocationEfsResponse> describeLocationEfs({
     required String locationArn,
   }) async {
-    ArgumentError.checkNotNull(locationArn, 'locationArn');
-    _s.validateStringLength(
-      'locationArn',
-      locationArn,
-      0,
-      128,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'FmrsService.DescribeLocationEfs'
@@ -1183,14 +934,6 @@ class DataSync {
   Future<DescribeLocationFsxWindowsResponse> describeLocationFsxWindows({
     required String locationArn,
   }) async {
-    ArgumentError.checkNotNull(locationArn, 'locationArn');
-    _s.validateStringLength(
-      'locationArn',
-      locationArn,
-      0,
-      128,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'FmrsService.DescribeLocationFsxWindows'
@@ -1219,14 +962,6 @@ class DataSync {
   Future<DescribeLocationNfsResponse> describeLocationNfs({
     required String locationArn,
   }) async {
-    ArgumentError.checkNotNull(locationArn, 'locationArn');
-    _s.validateStringLength(
-      'locationArn',
-      locationArn,
-      0,
-      128,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'FmrsService.DescribeLocationNfs'
@@ -1258,14 +993,6 @@ class DataSync {
   Future<DescribeLocationObjectStorageResponse> describeLocationObjectStorage({
     required String locationArn,
   }) async {
-    ArgumentError.checkNotNull(locationArn, 'locationArn');
-    _s.validateStringLength(
-      'locationArn',
-      locationArn,
-      0,
-      128,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'FmrsService.DescribeLocationObjectStorage'
@@ -1295,14 +1022,6 @@ class DataSync {
   Future<DescribeLocationS3Response> describeLocationS3({
     required String locationArn,
   }) async {
-    ArgumentError.checkNotNull(locationArn, 'locationArn');
-    _s.validateStringLength(
-      'locationArn',
-      locationArn,
-      0,
-      128,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'FmrsService.DescribeLocationS3'
@@ -1332,14 +1051,6 @@ class DataSync {
   Future<DescribeLocationSmbResponse> describeLocationSmb({
     required String locationArn,
   }) async {
-    ArgumentError.checkNotNull(locationArn, 'locationArn');
-    _s.validateStringLength(
-      'locationArn',
-      locationArn,
-      0,
-      128,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'FmrsService.DescribeLocationSmb'
@@ -1368,14 +1079,6 @@ class DataSync {
   Future<DescribeTaskResponse> describeTask({
     required String taskArn,
   }) async {
-    ArgumentError.checkNotNull(taskArn, 'taskArn');
-    _s.validateStringLength(
-      'taskArn',
-      taskArn,
-      0,
-      128,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'FmrsService.DescribeTask'
@@ -1404,14 +1107,6 @@ class DataSync {
   Future<DescribeTaskExecutionResponse> describeTaskExecution({
     required String taskExecutionArn,
   }) async {
-    ArgumentError.checkNotNull(taskExecutionArn, 'taskExecutionArn');
-    _s.validateStringLength(
-      'taskExecutionArn',
-      taskExecutionArn,
-      0,
-      128,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'FmrsService.DescribeTaskExecution'
@@ -1461,12 +1156,6 @@ class DataSync {
       maxResults,
       0,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      65535,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1520,12 +1209,6 @@ class DataSync {
       0,
       100,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      65535,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'FmrsService.ListLocations'
@@ -1565,25 +1248,11 @@ class DataSync {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      0,
-      128,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       0,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      65535,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1629,18 +1298,6 @@ class DataSync {
       maxResults,
       0,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      65535,
-    );
-    _s.validateStringLength(
-      'taskArn',
-      taskArn,
-      0,
-      128,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1691,12 +1348,6 @@ class DataSync {
       0,
       100,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      65535,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'FmrsService.ListTasks'
@@ -1745,14 +1396,6 @@ class DataSync {
     List<FilterRule>? includes,
     Options? overrideOptions,
   }) async {
-    ArgumentError.checkNotNull(taskArn, 'taskArn');
-    _s.validateStringLength(
-      'taskArn',
-      taskArn,
-      0,
-      128,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'FmrsService.StartTaskExecution'
@@ -1787,15 +1430,6 @@ class DataSync {
     required String resourceArn,
     required List<TagListEntry> tags,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      0,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'FmrsService.TagResource'
@@ -1827,15 +1461,6 @@ class DataSync {
     required List<String> keys,
     required String resourceArn,
   }) async {
-    ArgumentError.checkNotNull(keys, 'keys');
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      0,
-      128,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'FmrsService.UntagResource'
@@ -1867,20 +1492,6 @@ class DataSync {
     required String agentArn,
     String? name,
   }) async {
-    ArgumentError.checkNotNull(agentArn, 'agentArn');
-    _s.validateStringLength(
-      'agentArn',
-      agentArn,
-      0,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'FmrsService.UpdateAgent'
@@ -1935,26 +1546,6 @@ class DataSync {
     Options? options,
     TaskSchedule? schedule,
   }) async {
-    ArgumentError.checkNotNull(taskArn, 'taskArn');
-    _s.validateStringLength(
-      'taskArn',
-      taskArn,
-      0,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'cloudWatchLogGroupArn',
-      cloudWatchLogGroupArn,
-      0,
-      562,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'FmrsService.UpdateTask'
@@ -2000,15 +1591,6 @@ class DataSync {
     required Options options,
     required String taskExecutionArn,
   }) async {
-    ArgumentError.checkNotNull(options, 'options');
-    ArgumentError.checkNotNull(taskExecutionArn, 'taskExecutionArn');
-    _s.validateStringLength(
-      'taskExecutionArn',
-      taskExecutionArn,
-      0,
-      128,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'FmrsService.UpdateTaskExecution'

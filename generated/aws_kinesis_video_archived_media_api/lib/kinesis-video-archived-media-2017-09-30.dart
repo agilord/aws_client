@@ -130,19 +130,6 @@ class KinesisVideoArchivedMedia {
     String? streamARN,
     String? streamName,
   }) async {
-    ArgumentError.checkNotNull(clipFragmentSelector, 'clipFragmentSelector');
-    _s.validateStringLength(
-      'streamARN',
-      streamARN,
-      1,
-      1024,
-    );
-    _s.validateStringLength(
-      'streamName',
-      streamName,
-      1,
-      256,
-    );
     final $payload = <String, dynamic>{
       'ClipFragmentSelector': clipFragmentSelector,
       if (streamARN != null) 'StreamARN': streamARN,
@@ -516,18 +503,6 @@ class KinesisVideoArchivedMedia {
       maxManifestFragmentResults,
       1,
       1000,
-    );
-    _s.validateStringLength(
-      'streamARN',
-      streamARN,
-      1,
-      1024,
-    );
-    _s.validateStringLength(
-      'streamName',
-      streamName,
-      1,
-      256,
     );
     final $payload = <String, dynamic>{
       if (dASHFragmentSelector != null)
@@ -981,18 +956,6 @@ class KinesisVideoArchivedMedia {
       1,
       1000,
     );
-    _s.validateStringLength(
-      'streamARN',
-      streamARN,
-      1,
-      1024,
-    );
-    _s.validateStringLength(
-      'streamName',
-      streamName,
-      1,
-      256,
-    );
     final $payload = <String, dynamic>{
       if (containerFormat != null) 'ContainerFormat': containerFormat.toValue(),
       if (discontinuityMode != null)
@@ -1081,15 +1044,6 @@ class KinesisVideoArchivedMedia {
     required List<String> fragments,
     required String streamName,
   }) async {
-    ArgumentError.checkNotNull(fragments, 'fragments');
-    ArgumentError.checkNotNull(streamName, 'streamName');
-    _s.validateStringLength(
-      'streamName',
-      streamName,
-      1,
-      256,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'Fragments': fragments,
       'StreamName': streamName,
@@ -1175,25 +1129,11 @@ class KinesisVideoArchivedMedia {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(streamName, 'streamName');
-    _s.validateStringLength(
-      'streamName',
-      streamName,
-      1,
-      256,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       1000,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      4096,
     );
     final $payload = <String, dynamic>{
       'StreamName': streamName,

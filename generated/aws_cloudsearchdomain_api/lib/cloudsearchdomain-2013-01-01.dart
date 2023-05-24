@@ -472,7 +472,6 @@ class CloudSearchDomain {
     int? start,
     String? stats,
   }) async {
-    ArgumentError.checkNotNull(query, 'query');
     final $query = <String, List<String>>{
       'q': [query],
       if (cursor != null) 'cursor': [cursor],
@@ -534,8 +533,6 @@ class CloudSearchDomain {
     required String suggester,
     int? size,
   }) async {
-    ArgumentError.checkNotNull(query, 'query');
-    ArgumentError.checkNotNull(suggester, 'suggester');
     final $query = <String, List<String>>{
       'q': [query],
       'suggester': [suggester],
@@ -595,8 +592,6 @@ class CloudSearchDomain {
     required ContentType contentType,
     required Uint8List documents,
   }) async {
-    ArgumentError.checkNotNull(contentType, 'contentType');
-    ArgumentError.checkNotNull(documents, 'documents');
     final headers = <String, String>{
       'Content-Type': contentType.toValue(),
     };

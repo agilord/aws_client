@@ -178,8 +178,6 @@ class Pricing {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(attributeName, 'attributeName');
-    ArgumentError.checkNotNull(serviceCode, 'serviceCode');
     _s.validateNumRange(
       'maxResults',
       maxResults,

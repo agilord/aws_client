@@ -105,8 +105,6 @@ class SimpleDB {
     required String domainName,
     required List<DeletableItem> items,
   }) async {
-    ArgumentError.checkNotNull(domainName, 'domainName');
-    ArgumentError.checkNotNull(items, 'items');
     final $request = <String, dynamic>{};
     $request['DomainName'] = domainName;
     $request['Items'] = items;
@@ -195,8 +193,6 @@ class SimpleDB {
     required String domainName,
     required List<ReplaceableItem> items,
   }) async {
-    ArgumentError.checkNotNull(domainName, 'domainName');
-    ArgumentError.checkNotNull(items, 'items');
     final $request = <String, dynamic>{};
     $request['DomainName'] = domainName;
     $request['Items'] = items;
@@ -235,7 +231,6 @@ class SimpleDB {
   Future<void> createDomain({
     required String domainName,
   }) async {
-    ArgumentError.checkNotNull(domainName, 'domainName');
     final $request = <String, dynamic>{};
     $request['DomainName'] = domainName;
     await _protocol.send(
@@ -292,8 +287,6 @@ class SimpleDB {
     List<DeletableAttribute>? attributes,
     UpdateCondition? expected,
   }) async {
-    ArgumentError.checkNotNull(domainName, 'domainName');
-    ArgumentError.checkNotNull(itemName, 'itemName');
     final $request = <String, dynamic>{};
     $request['DomainName'] = domainName;
     $request['ItemName'] = itemName;
@@ -326,7 +319,6 @@ class SimpleDB {
   Future<void> deleteDomain({
     required String domainName,
   }) async {
-    ArgumentError.checkNotNull(domainName, 'domainName');
     final $request = <String, dynamic>{};
     $request['DomainName'] = domainName;
     await _protocol.send(
@@ -353,7 +345,6 @@ class SimpleDB {
   Future<DomainMetadataResult> domainMetadata({
     required String domainName,
   }) async {
-    ArgumentError.checkNotNull(domainName, 'domainName');
     final $request = <String, dynamic>{};
     $request['DomainName'] = domainName;
     final $result = await _protocol.send(
@@ -405,8 +396,6 @@ class SimpleDB {
     List<String>? attributeNames,
     bool? consistentRead,
   }) async {
-    ArgumentError.checkNotNull(domainName, 'domainName');
-    ArgumentError.checkNotNull(itemName, 'itemName');
     final $request = <String, dynamic>{};
     $request['DomainName'] = domainName;
     $request['ItemName'] = itemName;
@@ -536,9 +525,6 @@ class SimpleDB {
     required String itemName,
     UpdateCondition? expected,
   }) async {
-    ArgumentError.checkNotNull(attributes, 'attributes');
-    ArgumentError.checkNotNull(domainName, 'domainName');
-    ArgumentError.checkNotNull(itemName, 'itemName');
     final $request = <String, dynamic>{};
     $request['Attributes'] = attributes;
     $request['DomainName'] = domainName;
@@ -598,7 +584,6 @@ class SimpleDB {
     bool? consistentRead,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(selectExpression, 'selectExpression');
     final $request = <String, dynamic>{};
     $request['SelectExpression'] = selectExpression;
     consistentRead?.also((arg) => $request['ConsistentRead'] = arg);

@@ -188,12 +188,6 @@ class PI {
     DimensionGroup? partitionBy,
     int? periodInSeconds,
   }) async {
-    ArgumentError.checkNotNull(endTime, 'endTime');
-    ArgumentError.checkNotNull(groupBy, 'groupBy');
-    ArgumentError.checkNotNull(identifier, 'identifier');
-    ArgumentError.checkNotNull(metric, 'metric');
-    ArgumentError.checkNotNull(serviceType, 'serviceType');
-    ArgumentError.checkNotNull(startTime, 'startTime');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -319,11 +313,6 @@ class PI {
     String? nextToken,
     int? periodInSeconds,
   }) async {
-    ArgumentError.checkNotNull(endTime, 'endTime');
-    ArgumentError.checkNotNull(identifier, 'identifier');
-    ArgumentError.checkNotNull(metricQueries, 'metricQueries');
-    ArgumentError.checkNotNull(serviceType, 'serviceType');
-    ArgumentError.checkNotNull(startTime, 'startTime');
     _s.validateNumRange(
       'maxResults',
       maxResults,

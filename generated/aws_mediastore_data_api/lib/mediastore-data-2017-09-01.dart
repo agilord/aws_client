@@ -63,14 +63,6 @@ class MediaStoreData {
   Future<void> deleteObject({
     required String path,
   }) async {
-    ArgumentError.checkNotNull(path, 'path');
-    _s.validateStringLength(
-      'path',
-      path,
-      1,
-      900,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -92,14 +84,6 @@ class MediaStoreData {
   Future<DescribeObjectResponse> describeObject({
     required String path,
   }) async {
-    ArgumentError.checkNotNull(path, 'path');
-    _s.validateStringLength(
-      'path',
-      path,
-      1,
-      900,
-      isRequired: true,
-    );
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'HEAD',
@@ -169,14 +153,6 @@ class MediaStoreData {
     required String path,
     String? range,
   }) async {
-    ArgumentError.checkNotNull(path, 'path');
-    _s.validateStringLength(
-      'path',
-      path,
-      1,
-      900,
-      isRequired: true,
-    );
     final headers = <String, String>{
       if (range != null) 'Range': range.toString(),
     };
@@ -245,12 +221,6 @@ class MediaStoreData {
       maxResults,
       1,
       1000,
-    );
-    _s.validateStringLength(
-      'path',
-      path,
-      0,
-      900,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'MaxResults': [maxResults.toString()],
@@ -341,15 +311,6 @@ class MediaStoreData {
     StorageClass? storageClass,
     UploadAvailability? uploadAvailability,
   }) async {
-    ArgumentError.checkNotNull(body, 'body');
-    ArgumentError.checkNotNull(path, 'path');
-    _s.validateStringLength(
-      'path',
-      path,
-      1,
-      900,
-      isRequired: true,
-    );
     final headers = <String, String>{
       if (cacheControl != null) 'Cache-Control': cacheControl.toString(),
       if (contentType != null) 'Content-Type': contentType.toString(),

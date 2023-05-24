@@ -130,10 +130,6 @@ class SSOOIDC {
     String? refreshToken,
     List<String>? scope,
   }) async {
-    ArgumentError.checkNotNull(clientId, 'clientId');
-    ArgumentError.checkNotNull(clientSecret, 'clientSecret');
-    ArgumentError.checkNotNull(deviceCode, 'deviceCode');
-    ArgumentError.checkNotNull(grantType, 'grantType');
     final $payload = <String, dynamic>{
       'clientId': clientId,
       'clientSecret': clientSecret,
@@ -178,8 +174,6 @@ class SSOOIDC {
     required String clientType,
     List<String>? scopes,
   }) async {
-    ArgumentError.checkNotNull(clientName, 'clientName');
-    ArgumentError.checkNotNull(clientType, 'clientType');
     final $payload = <String, dynamic>{
       'clientName': clientName,
       'clientType': clientType,
@@ -222,9 +216,6 @@ class SSOOIDC {
     required String clientSecret,
     required String startUrl,
   }) async {
-    ArgumentError.checkNotNull(clientId, 'clientId');
-    ArgumentError.checkNotNull(clientSecret, 'clientSecret');
-    ArgumentError.checkNotNull(startUrl, 'startUrl');
     final $payload = <String, dynamic>{
       'clientId': clientId,
       'clientSecret': clientSecret,

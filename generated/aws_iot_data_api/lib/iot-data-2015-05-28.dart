@@ -77,20 +77,6 @@ class IoTDataPlane {
     required String thingName,
     String? shadowName,
   }) async {
-    ArgumentError.checkNotNull(thingName, 'thingName');
-    _s.validateStringLength(
-      'thingName',
-      thingName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'shadowName',
-      shadowName,
-      1,
-      64,
-    );
     final $query = <String, List<String>>{
       if (shadowName != null) 'name': [shadowName],
     };
@@ -130,20 +116,6 @@ class IoTDataPlane {
     required String thingName,
     String? shadowName,
   }) async {
-    ArgumentError.checkNotNull(thingName, 'thingName');
-    _s.validateStringLength(
-      'thingName',
-      thingName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'shadowName',
-      shadowName,
-      1,
-      64,
-    );
     final $query = <String, List<String>>{
       if (shadowName != null) 'name': [shadowName],
     };
@@ -182,14 +154,6 @@ class IoTDataPlane {
     String? nextToken,
     int? pageSize,
   }) async {
-    ArgumentError.checkNotNull(thingName, 'thingName');
-    _s.validateStringLength(
-      'thingName',
-      thingName,
-      1,
-      128,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'pageSize',
       pageSize,
@@ -235,7 +199,6 @@ class IoTDataPlane {
     Uint8List? payload,
     int? qos,
   }) async {
-    ArgumentError.checkNotNull(topic, 'topic');
     _s.validateNumRange(
       'qos',
       qos,
@@ -283,21 +246,6 @@ class IoTDataPlane {
     required String thingName,
     String? shadowName,
   }) async {
-    ArgumentError.checkNotNull(payload, 'payload');
-    ArgumentError.checkNotNull(thingName, 'thingName');
-    _s.validateStringLength(
-      'thingName',
-      thingName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'shadowName',
-      shadowName,
-      1,
-      64,
-    );
     final $query = <String, List<String>>{
       if (shadowName != null) 'name': [shadowName],
     };

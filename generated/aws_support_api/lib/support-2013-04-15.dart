@@ -116,7 +116,6 @@ class Support {
     required List<Attachment> attachments,
     String? attachmentSetId,
   }) async {
-    ArgumentError.checkNotNull(attachments, 'attachments');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSSupport_20130415.AddAttachmentsToSet'
@@ -183,14 +182,6 @@ class Support {
     String? caseId,
     List<String>? ccEmailAddresses,
   }) async {
-    ArgumentError.checkNotNull(communicationBody, 'communicationBody');
-    _s.validateStringLength(
-      'communicationBody',
-      communicationBody,
-      1,
-      8000,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSSupport_20130415.AddCommunicationToCase'
@@ -328,15 +319,6 @@ class Support {
     String? serviceCode,
     String? severityCode,
   }) async {
-    ArgumentError.checkNotNull(communicationBody, 'communicationBody');
-    _s.validateStringLength(
-      'communicationBody',
-      communicationBody,
-      1,
-      8000,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(subject, 'subject');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSSupport_20130415.CreateCase'
@@ -394,7 +376,6 @@ class Support {
   Future<DescribeAttachmentResponse> describeAttachment({
     required String attachmentId,
   }) async {
-    ArgumentError.checkNotNull(attachmentId, 'attachmentId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSSupport_20130415.DescribeAttachment'
@@ -588,7 +569,6 @@ class Support {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(caseId, 'caseId');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -759,7 +739,6 @@ class Support {
       describeTrustedAdvisorCheckRefreshStatuses({
     required List<String> checkIds,
   }) async {
-    ArgumentError.checkNotNull(checkIds, 'checkIds');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -840,7 +819,6 @@ class Support {
     required String checkId,
     String? language,
   }) async {
-    ArgumentError.checkNotNull(checkId, 'checkId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSSupport_20130415.DescribeTrustedAdvisorCheckResult'
@@ -890,7 +868,6 @@ class Support {
       describeTrustedAdvisorCheckSummaries({
     required List<String> checkIds,
   }) async {
-    ArgumentError.checkNotNull(checkIds, 'checkIds');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSSupport_20130415.DescribeTrustedAdvisorCheckSummaries'
@@ -940,7 +917,6 @@ class Support {
   Future<DescribeTrustedAdvisorChecksResponse> describeTrustedAdvisorChecks({
     required String language,
   }) async {
-    ArgumentError.checkNotNull(language, 'language');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSSupport_20130415.DescribeTrustedAdvisorChecks'
@@ -992,7 +968,6 @@ class Support {
   Future<RefreshTrustedAdvisorCheckResponse> refreshTrustedAdvisorCheck({
     required String checkId,
   }) async {
-    ArgumentError.checkNotNull(checkId, 'checkId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSSupport_20130415.RefreshTrustedAdvisorCheck'

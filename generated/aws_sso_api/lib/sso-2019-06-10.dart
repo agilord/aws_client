@@ -91,9 +91,6 @@ class SSO {
     required String accountId,
     required String roleName,
   }) async {
-    ArgumentError.checkNotNull(accessToken, 'accessToken');
-    ArgumentError.checkNotNull(accountId, 'accountId');
-    ArgumentError.checkNotNull(roleName, 'roleName');
     final headers = <String, String>{
       'x-amz-sso_bearer_token': accessToken.toString(),
     };
@@ -141,8 +138,6 @@ class SSO {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(accessToken, 'accessToken');
-    ArgumentError.checkNotNull(accountId, 'accountId');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -197,7 +192,6 @@ class SSO {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(accessToken, 'accessToken');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -238,7 +232,6 @@ class SSO {
   Future<void> logout({
     required String accessToken,
   }) async {
-    ArgumentError.checkNotNull(accessToken, 'accessToken');
     final headers = <String, String>{
       'x-amz-sso_bearer_token': accessToken.toString(),
     };

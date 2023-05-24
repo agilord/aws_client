@@ -91,8 +91,6 @@ class ElastiCache {
     required String resourceName,
     required List<Tag> tags,
   }) async {
-    ArgumentError.checkNotNull(resourceName, 'resourceName');
-    ArgumentError.checkNotNull(tags, 'tags');
     final $request = <String, dynamic>{};
     $request['ResourceName'] = resourceName;
     $request['Tags'] = tags;
@@ -141,11 +139,6 @@ class ElastiCache {
     required String eC2SecurityGroupName,
     required String eC2SecurityGroupOwnerId,
   }) async {
-    ArgumentError.checkNotNull(
-        cacheSecurityGroupName, 'cacheSecurityGroupName');
-    ArgumentError.checkNotNull(eC2SecurityGroupName, 'eC2SecurityGroupName');
-    ArgumentError.checkNotNull(
-        eC2SecurityGroupOwnerId, 'eC2SecurityGroupOwnerId');
     final $request = <String, dynamic>{};
     $request['CacheSecurityGroupName'] = cacheSecurityGroupName;
     $request['EC2SecurityGroupName'] = eC2SecurityGroupName;
@@ -185,7 +178,6 @@ class ElastiCache {
     List<String>? cacheClusterIds,
     List<String>? replicationGroupIds,
   }) async {
-    ArgumentError.checkNotNull(serviceUpdateName, 'serviceUpdateName');
     final $request = <String, dynamic>{};
     $request['ServiceUpdateName'] = serviceUpdateName;
     cacheClusterIds?.also((arg) => $request['CacheClusterIds'] = arg);
@@ -225,7 +217,6 @@ class ElastiCache {
     List<String>? cacheClusterIds,
     List<String>? replicationGroupIds,
   }) async {
-    ArgumentError.checkNotNull(serviceUpdateName, 'serviceUpdateName');
     final $request = <String, dynamic>{};
     $request['ServiceUpdateName'] = serviceUpdateName;
     cacheClusterIds?.also((arg) => $request['CacheClusterIds'] = arg);
@@ -261,7 +252,6 @@ class ElastiCache {
     required String replicationGroupId,
     bool? force,
   }) async {
-    ArgumentError.checkNotNull(replicationGroupId, 'replicationGroupId');
     final $request = <String, dynamic>{};
     $request['ReplicationGroupId'] = replicationGroupId;
     force?.also((arg) => $request['Force'] = arg);
@@ -408,8 +398,6 @@ class ElastiCache {
     String? kmsKeyId,
     String? targetBucket,
   }) async {
-    ArgumentError.checkNotNull(sourceSnapshotName, 'sourceSnapshotName');
-    ArgumentError.checkNotNull(targetSnapshotName, 'targetSnapshotName');
     final $request = <String, dynamic>{};
     $request['SourceSnapshotName'] = sourceSnapshotName;
     $request['TargetSnapshotName'] = targetSnapshotName;
@@ -865,7 +853,6 @@ class ElastiCache {
     String? snapshotWindow,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(cacheClusterId, 'cacheClusterId');
     final $request = <String, dynamic>{};
     $request['CacheClusterId'] = cacheClusterId;
     aZMode?.also((arg) => $request['AZMode'] = arg.toValue());
@@ -962,11 +949,6 @@ class ElastiCache {
     required String cacheParameterGroupName,
     required String description,
   }) async {
-    ArgumentError.checkNotNull(
-        cacheParameterGroupFamily, 'cacheParameterGroupFamily');
-    ArgumentError.checkNotNull(
-        cacheParameterGroupName, 'cacheParameterGroupName');
-    ArgumentError.checkNotNull(description, 'description');
     final $request = <String, dynamic>{};
     $request['CacheParameterGroupFamily'] = cacheParameterGroupFamily;
     $request['CacheParameterGroupName'] = cacheParameterGroupName;
@@ -1014,9 +996,6 @@ class ElastiCache {
     required String cacheSecurityGroupName,
     required String description,
   }) async {
-    ArgumentError.checkNotNull(
-        cacheSecurityGroupName, 'cacheSecurityGroupName');
-    ArgumentError.checkNotNull(description, 'description');
     final $request = <String, dynamic>{};
     $request['CacheSecurityGroupName'] = cacheSecurityGroupName;
     $request['Description'] = description;
@@ -1064,10 +1043,6 @@ class ElastiCache {
     required String cacheSubnetGroupName,
     required List<String> subnetIds,
   }) async {
-    ArgumentError.checkNotNull(
-        cacheSubnetGroupDescription, 'cacheSubnetGroupDescription');
-    ArgumentError.checkNotNull(cacheSubnetGroupName, 'cacheSubnetGroupName');
-    ArgumentError.checkNotNull(subnetIds, 'subnetIds');
     final $request = <String, dynamic>{};
     $request['CacheSubnetGroupDescription'] = cacheSubnetGroupDescription;
     $request['CacheSubnetGroupName'] = cacheSubnetGroupName;
@@ -1137,10 +1112,6 @@ class ElastiCache {
     required String primaryReplicationGroupId,
     String? globalReplicationGroupDescription,
   }) async {
-    ArgumentError.checkNotNull(
-        globalReplicationGroupIdSuffix, 'globalReplicationGroupIdSuffix');
-    ArgumentError.checkNotNull(
-        primaryReplicationGroupId, 'primaryReplicationGroupId');
     final $request = <String, dynamic>{};
     $request['GlobalReplicationGroupIdSuffix'] = globalReplicationGroupIdSuffix;
     $request['PrimaryReplicationGroupId'] = primaryReplicationGroupId;
@@ -1708,9 +1679,6 @@ class ElastiCache {
     bool? transitEncryptionEnabled,
     List<String>? userGroupIds,
   }) async {
-    ArgumentError.checkNotNull(
-        replicationGroupDescription, 'replicationGroupDescription');
-    ArgumentError.checkNotNull(replicationGroupId, 'replicationGroupId');
     final $request = <String, dynamic>{};
     $request['ReplicationGroupDescription'] = replicationGroupDescription;
     $request['ReplicationGroupId'] = replicationGroupId;
@@ -1804,7 +1772,6 @@ class ElastiCache {
     String? kmsKeyId,
     String? replicationGroupId,
   }) async {
-    ArgumentError.checkNotNull(snapshotName, 'snapshotName');
     final $request = <String, dynamic>{};
     $request['SnapshotName'] = snapshotName;
     cacheClusterId?.also((arg) => $request['CacheClusterId'] = arg);
@@ -1861,24 +1828,6 @@ class ElastiCache {
     bool? noPasswordRequired,
     List<String>? passwords,
   }) async {
-    ArgumentError.checkNotNull(accessString, 'accessString');
-    ArgumentError.checkNotNull(engine, 'engine');
-    ArgumentError.checkNotNull(userId, 'userId');
-    _s.validateStringLength(
-      'userId',
-      userId,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(userName, 'userName');
-    _s.validateStringLength(
-      'userName',
-      userName,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['AccessString'] = accessString;
     $request['Engine'] = engine;
@@ -1925,8 +1874,6 @@ class ElastiCache {
     required String userGroupId,
     List<String>? userIds,
   }) async {
-    ArgumentError.checkNotNull(engine, 'engine');
-    ArgumentError.checkNotNull(userGroupId, 'userGroupId');
     final $request = <String, dynamic>{};
     $request['Engine'] = engine;
     $request['UserGroupId'] = userGroupId;
@@ -1984,10 +1931,6 @@ class ElastiCache {
     List<String>? globalNodeGroupsToRemove,
     List<String>? globalNodeGroupsToRetain,
   }) async {
-    ArgumentError.checkNotNull(applyImmediately, 'applyImmediately');
-    ArgumentError.checkNotNull(
-        globalReplicationGroupId, 'globalReplicationGroupId');
-    ArgumentError.checkNotNull(nodeGroupCount, 'nodeGroupCount');
     final $request = <String, dynamic>{};
     $request['ApplyImmediately'] = applyImmediately;
     $request['GlobalReplicationGroupId'] = globalReplicationGroupId;
@@ -2081,8 +2024,6 @@ class ElastiCache {
     List<ConfigureShard>? replicaConfiguration,
     List<String>? replicasToRemove,
   }) async {
-    ArgumentError.checkNotNull(applyImmediately, 'applyImmediately');
-    ArgumentError.checkNotNull(replicationGroupId, 'replicationGroupId');
     final $request = <String, dynamic>{};
     $request['ApplyImmediately'] = applyImmediately;
     $request['ReplicationGroupId'] = replicationGroupId;
@@ -2149,7 +2090,6 @@ class ElastiCache {
     required String cacheClusterId,
     String? finalSnapshotIdentifier,
   }) async {
-    ArgumentError.checkNotNull(cacheClusterId, 'cacheClusterId');
     final $request = <String, dynamic>{};
     $request['CacheClusterId'] = cacheClusterId;
     finalSnapshotIdentifier
@@ -2185,8 +2125,6 @@ class ElastiCache {
   Future<void> deleteCacheParameterGroup({
     required String cacheParameterGroupName,
   }) async {
-    ArgumentError.checkNotNull(
-        cacheParameterGroupName, 'cacheParameterGroupName');
     final $request = <String, dynamic>{};
     $request['CacheParameterGroupName'] = cacheParameterGroupName;
     await _protocol.send(
@@ -2220,8 +2158,6 @@ class ElastiCache {
   Future<void> deleteCacheSecurityGroup({
     required String cacheSecurityGroupName,
   }) async {
-    ArgumentError.checkNotNull(
-        cacheSecurityGroupName, 'cacheSecurityGroupName');
     final $request = <String, dynamic>{};
     $request['CacheSecurityGroupName'] = cacheSecurityGroupName;
     await _protocol.send(
@@ -2253,7 +2189,6 @@ class ElastiCache {
   Future<void> deleteCacheSubnetGroup({
     required String cacheSubnetGroupName,
   }) async {
-    ArgumentError.checkNotNull(cacheSubnetGroupName, 'cacheSubnetGroupName');
     final $request = <String, dynamic>{};
     $request['CacheSubnetGroupName'] = cacheSubnetGroupName;
     await _protocol.send(
@@ -2303,10 +2238,6 @@ class ElastiCache {
     required String globalReplicationGroupId,
     required bool retainPrimaryReplicationGroup,
   }) async {
-    ArgumentError.checkNotNull(
-        globalReplicationGroupId, 'globalReplicationGroupId');
-    ArgumentError.checkNotNull(
-        retainPrimaryReplicationGroup, 'retainPrimaryReplicationGroup');
     final $request = <String, dynamic>{};
     $request['GlobalReplicationGroupId'] = globalReplicationGroupId;
     $request['RetainPrimaryReplicationGroup'] = retainPrimaryReplicationGroup;
@@ -2363,7 +2294,6 @@ class ElastiCache {
     String? finalSnapshotIdentifier,
     bool? retainPrimaryCluster,
   }) async {
-    ArgumentError.checkNotNull(replicationGroupId, 'replicationGroupId');
     final $request = <String, dynamic>{};
     $request['ReplicationGroupId'] = replicationGroupId;
     finalSnapshotIdentifier
@@ -2400,7 +2330,6 @@ class ElastiCache {
   Future<DeleteSnapshotResult> deleteSnapshot({
     required String snapshotName,
   }) async {
-    ArgumentError.checkNotNull(snapshotName, 'snapshotName');
     final $request = <String, dynamic>{};
     $request['SnapshotName'] = snapshotName;
     final $result = await _protocol.send(
@@ -2433,14 +2362,6 @@ class ElastiCache {
   Future<User> deleteUser({
     required String userId,
   }) async {
-    ArgumentError.checkNotNull(userId, 'userId');
-    _s.validateStringLength(
-      'userId',
-      userId,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['UserId'] = userId;
     final $result = await _protocol.send(
@@ -2472,7 +2393,6 @@ class ElastiCache {
   Future<UserGroup> deleteUserGroup({
     required String userGroupId,
   }) async {
-    ArgumentError.checkNotNull(userGroupId, 'userGroupId');
     final $request = <String, dynamic>{};
     $request['UserGroupId'] = userGroupId;
     final $result = await _protocol.send(
@@ -2742,8 +2662,6 @@ class ElastiCache {
     int? maxRecords,
     String? source,
   }) async {
-    ArgumentError.checkNotNull(
-        cacheParameterGroupName, 'cacheParameterGroupName');
     final $request = <String, dynamic>{};
     $request['CacheParameterGroupName'] = cacheParameterGroupName;
     marker?.also((arg) => $request['Marker'] = arg);
@@ -2893,8 +2811,6 @@ class ElastiCache {
     String? marker,
     int? maxRecords,
   }) async {
-    ArgumentError.checkNotNull(
-        cacheParameterGroupFamily, 'cacheParameterGroupFamily');
     final $request = <String, dynamic>{};
     $request['CacheParameterGroupFamily'] = cacheParameterGroupFamily;
     marker?.also((arg) => $request['Marker'] = arg);
@@ -3790,12 +3706,6 @@ class ElastiCache {
     int? maxRecords,
     String? userId,
   }) async {
-    _s.validateStringLength(
-      'userId',
-      userId,
-      1,
-      1152921504606846976,
-    );
     final $request = <String, dynamic>{};
     engine?.also((arg) => $request['Engine'] = arg);
     filters?.also((arg) => $request['Filters'] = arg);
@@ -3842,11 +3752,6 @@ class ElastiCache {
     required String replicationGroupId,
     required String replicationGroupRegion,
   }) async {
-    ArgumentError.checkNotNull(
-        globalReplicationGroupId, 'globalReplicationGroupId');
-    ArgumentError.checkNotNull(replicationGroupId, 'replicationGroupId');
-    ArgumentError.checkNotNull(
-        replicationGroupRegion, 'replicationGroupRegion');
     final $request = <String, dynamic>{};
     $request['GlobalReplicationGroupId'] = globalReplicationGroupId;
     $request['ReplicationGroupId'] = replicationGroupId;
@@ -3887,11 +3792,6 @@ class ElastiCache {
     required String primaryRegion,
     required String primaryReplicationGroupId,
   }) async {
-    ArgumentError.checkNotNull(
-        globalReplicationGroupId, 'globalReplicationGroupId');
-    ArgumentError.checkNotNull(primaryRegion, 'primaryRegion');
-    ArgumentError.checkNotNull(
-        primaryReplicationGroupId, 'primaryReplicationGroupId');
     final $request = <String, dynamic>{};
     $request['GlobalReplicationGroupId'] = globalReplicationGroupId;
     $request['PrimaryRegion'] = primaryRegion;
@@ -3936,10 +3836,6 @@ class ElastiCache {
     required int nodeGroupCount,
     List<RegionalConfiguration>? regionalConfigurations,
   }) async {
-    ArgumentError.checkNotNull(applyImmediately, 'applyImmediately');
-    ArgumentError.checkNotNull(
-        globalReplicationGroupId, 'globalReplicationGroupId');
-    ArgumentError.checkNotNull(nodeGroupCount, 'nodeGroupCount');
     final $request = <String, dynamic>{};
     $request['ApplyImmediately'] = applyImmediately;
     $request['GlobalReplicationGroupId'] = globalReplicationGroupId;
@@ -4005,8 +3901,6 @@ class ElastiCache {
     int? newReplicaCount,
     List<ConfigureShard>? replicaConfiguration,
   }) async {
-    ArgumentError.checkNotNull(applyImmediately, 'applyImmediately');
-    ArgumentError.checkNotNull(replicationGroupId, 'replicationGroupId');
     final $request = <String, dynamic>{};
     $request['ApplyImmediately'] = applyImmediately;
     $request['ReplicationGroupId'] = replicationGroupId;
@@ -4108,7 +4002,6 @@ class ElastiCache {
   Future<TagListMessage> listTagsForResource({
     required String resourceName,
   }) async {
-    ArgumentError.checkNotNull(resourceName, 'resourceName');
     final $request = <String, dynamic>{};
     $request['ResourceName'] = resourceName;
     final $result = await _protocol.send(
@@ -4491,7 +4384,6 @@ class ElastiCache {
     int? snapshotRetentionLimit,
     String? snapshotWindow,
   }) async {
-    ArgumentError.checkNotNull(cacheClusterId, 'cacheClusterId');
     final $request = <String, dynamic>{};
     $request['CacheClusterId'] = cacheClusterId;
     aZMode?.also((arg) => $request['AZMode'] = arg.toValue());
@@ -4554,9 +4446,6 @@ class ElastiCache {
     required String cacheParameterGroupName,
     required List<ParameterNameValue> parameterNameValues,
   }) async {
-    ArgumentError.checkNotNull(
-        cacheParameterGroupName, 'cacheParameterGroupName');
-    ArgumentError.checkNotNull(parameterNameValues, 'parameterNameValues');
     final $request = <String, dynamic>{};
     $request['CacheParameterGroupName'] = cacheParameterGroupName;
     $request['ParameterNameValues'] = parameterNameValues;
@@ -4601,7 +4490,6 @@ class ElastiCache {
     String? cacheSubnetGroupDescription,
     List<String>? subnetIds,
   }) async {
-    ArgumentError.checkNotNull(cacheSubnetGroupName, 'cacheSubnetGroupName');
     final $request = <String, dynamic>{};
     $request['CacheSubnetGroupName'] = cacheSubnetGroupName;
     cacheSubnetGroupDescription
@@ -4657,9 +4545,6 @@ class ElastiCache {
     String? engineVersion,
     String? globalReplicationGroupDescription,
   }) async {
-    ArgumentError.checkNotNull(applyImmediately, 'applyImmediately');
-    ArgumentError.checkNotNull(
-        globalReplicationGroupId, 'globalReplicationGroupId');
     final $request = <String, dynamic>{};
     $request['ApplyImmediately'] = applyImmediately;
     $request['GlobalReplicationGroupId'] = globalReplicationGroupId;
@@ -4941,7 +4826,6 @@ class ElastiCache {
     List<String>? userGroupIdsToAdd,
     List<String>? userGroupIdsToRemove,
   }) async {
-    ArgumentError.checkNotNull(replicationGroupId, 'replicationGroupId');
     final $request = <String, dynamic>{};
     $request['ReplicationGroupId'] = replicationGroupId;
     applyImmediately?.also((arg) => $request['ApplyImmediately'] = arg);
@@ -5058,9 +4942,6 @@ class ElastiCache {
     List<String>? nodeGroupsToRetain,
     List<ReshardingConfiguration>? reshardingConfiguration,
   }) async {
-    ArgumentError.checkNotNull(applyImmediately, 'applyImmediately');
-    ArgumentError.checkNotNull(nodeGroupCount, 'nodeGroupCount');
-    ArgumentError.checkNotNull(replicationGroupId, 'replicationGroupId');
     final $request = <String, dynamic>{};
     $request['ApplyImmediately'] = applyImmediately;
     $request['NodeGroupCount'] = nodeGroupCount;
@@ -5111,14 +4992,6 @@ class ElastiCache {
     bool? noPasswordRequired,
     List<String>? passwords,
   }) async {
-    ArgumentError.checkNotNull(userId, 'userId');
-    _s.validateStringLength(
-      'userId',
-      userId,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['UserId'] = userId;
     accessString?.also((arg) => $request['AccessString'] = arg);
@@ -5162,7 +5035,6 @@ class ElastiCache {
     List<String>? userIdsToAdd,
     List<String>? userIdsToRemove,
   }) async {
-    ArgumentError.checkNotNull(userGroupId, 'userGroupId');
     final $request = <String, dynamic>{};
     $request['UserGroupId'] = userGroupId;
     userIdsToAdd?.also((arg) => $request['UserIdsToAdd'] = arg);
@@ -5213,8 +5085,6 @@ class ElastiCache {
     int? cacheNodeCount,
     String? reservedCacheNodeId,
   }) async {
-    ArgumentError.checkNotNull(
-        reservedCacheNodesOfferingId, 'reservedCacheNodesOfferingId');
     final $request = <String, dynamic>{};
     $request['ReservedCacheNodesOfferingId'] = reservedCacheNodesOfferingId;
     cacheNodeCount?.also((arg) => $request['CacheNodeCount'] = arg);
@@ -5250,9 +5120,6 @@ class ElastiCache {
     required bool applyImmediately,
     required String globalReplicationGroupId,
   }) async {
-    ArgumentError.checkNotNull(applyImmediately, 'applyImmediately');
-    ArgumentError.checkNotNull(
-        globalReplicationGroupId, 'globalReplicationGroupId');
     final $request = <String, dynamic>{};
     $request['ApplyImmediately'] = applyImmediately;
     $request['GlobalReplicationGroupId'] = globalReplicationGroupId;
@@ -5304,8 +5171,6 @@ class ElastiCache {
     required String cacheClusterId,
     required List<String> cacheNodeIdsToReboot,
   }) async {
-    ArgumentError.checkNotNull(cacheClusterId, 'cacheClusterId');
-    ArgumentError.checkNotNull(cacheNodeIdsToReboot, 'cacheNodeIdsToReboot');
     final $request = <String, dynamic>{};
     $request['CacheClusterId'] = cacheClusterId;
     $request['CacheNodeIdsToReboot'] = cacheNodeIdsToReboot;
@@ -5348,8 +5213,6 @@ class ElastiCache {
     required String resourceName,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(resourceName, 'resourceName');
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $request = <String, dynamic>{};
     $request['ResourceName'] = resourceName;
     $request['TagKeys'] = tagKeys;
@@ -5401,8 +5264,6 @@ class ElastiCache {
     List<ParameterNameValue>? parameterNameValues,
     bool? resetAllParameters,
   }) async {
-    ArgumentError.checkNotNull(
-        cacheParameterGroupName, 'cacheParameterGroupName');
     final $request = <String, dynamic>{};
     $request['CacheParameterGroupName'] = cacheParameterGroupName;
     parameterNameValues?.also((arg) => $request['ParameterNameValues'] = arg);
@@ -5447,11 +5308,6 @@ class ElastiCache {
     required String eC2SecurityGroupName,
     required String eC2SecurityGroupOwnerId,
   }) async {
-    ArgumentError.checkNotNull(
-        cacheSecurityGroupName, 'cacheSecurityGroupName');
-    ArgumentError.checkNotNull(eC2SecurityGroupName, 'eC2SecurityGroupName');
-    ArgumentError.checkNotNull(
-        eC2SecurityGroupOwnerId, 'eC2SecurityGroupOwnerId');
     final $request = <String, dynamic>{};
     $request['CacheSecurityGroupName'] = cacheSecurityGroupName;
     $request['EC2SecurityGroupName'] = eC2SecurityGroupName;
@@ -5487,9 +5343,6 @@ class ElastiCache {
     required List<CustomerNodeEndpoint> customerNodeEndpointList,
     required String replicationGroupId,
   }) async {
-    ArgumentError.checkNotNull(
-        customerNodeEndpointList, 'customerNodeEndpointList');
-    ArgumentError.checkNotNull(replicationGroupId, 'replicationGroupId');
     final $request = <String, dynamic>{};
     $request['CustomerNodeEndpointList'] = customerNodeEndpointList;
     $request['ReplicationGroupId'] = replicationGroupId;
@@ -5597,15 +5450,6 @@ class ElastiCache {
     required String nodeGroupId,
     required String replicationGroupId,
   }) async {
-    ArgumentError.checkNotNull(nodeGroupId, 'nodeGroupId');
-    _s.validateStringLength(
-      'nodeGroupId',
-      nodeGroupId,
-      1,
-      4,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(replicationGroupId, 'replicationGroupId');
     final $request = <String, dynamic>{};
     $request['NodeGroupId'] = nodeGroupId;
     $request['ReplicationGroupId'] = replicationGroupId;

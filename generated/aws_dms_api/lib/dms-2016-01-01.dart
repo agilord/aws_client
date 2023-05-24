@@ -76,8 +76,6 @@ class DatabaseMigrationService {
     required String resourceArn,
     required List<Tag> tags,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonDMSv20160101.AddTagsToResource'
@@ -131,10 +129,6 @@ class DatabaseMigrationService {
     required String optInType,
     required String replicationInstanceArn,
   }) async {
-    ArgumentError.checkNotNull(applyAction, 'applyAction');
-    ArgumentError.checkNotNull(optInType, 'optInType');
-    ArgumentError.checkNotNull(
-        replicationInstanceArn, 'replicationInstanceArn');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonDMSv20160101.ApplyPendingMaintenanceAction'
@@ -172,8 +166,6 @@ class DatabaseMigrationService {
       cancelReplicationTaskAssessmentRun({
     required String replicationTaskAssessmentRunArn,
   }) async {
-    ArgumentError.checkNotNull(
-        replicationTaskAssessmentRunArn, 'replicationTaskAssessmentRunArn');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonDMSv20160101.CancelReplicationTaskAssessmentRun'
@@ -453,9 +445,6 @@ class DatabaseMigrationService {
     List<Tag>? tags,
     String? username,
   }) async {
-    ArgumentError.checkNotNull(endpointIdentifier, 'endpointIdentifier');
-    ArgumentError.checkNotNull(endpointType, 'endpointType');
-    ArgumentError.checkNotNull(engineName, 'engineName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonDMSv20160101.CreateEndpoint'
@@ -595,8 +584,6 @@ class DatabaseMigrationService {
     String? sourceType,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(snsTopicArn, 'snsTopicArn');
-    ArgumentError.checkNotNull(subscriptionName, 'subscriptionName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonDMSv20160101.CreateEventSubscription'
@@ -778,10 +765,6 @@ class DatabaseMigrationService {
     List<Tag>? tags,
     List<String>? vpcSecurityGroupIds,
   }) async {
-    ArgumentError.checkNotNull(
-        replicationInstanceClass, 'replicationInstanceClass');
-    ArgumentError.checkNotNull(
-        replicationInstanceIdentifier, 'replicationInstanceIdentifier');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonDMSv20160101.CreateReplicationInstance'
@@ -853,11 +836,6 @@ class DatabaseMigrationService {
     required List<String> subnetIds,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(
-        replicationSubnetGroupDescription, 'replicationSubnetGroupDescription');
-    ArgumentError.checkNotNull(
-        replicationSubnetGroupIdentifier, 'replicationSubnetGroupIdentifier');
-    ArgumentError.checkNotNull(subnetIds, 'subnetIds');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonDMSv20160101.CreateReplicationSubnetGroup'
@@ -1011,14 +989,6 @@ class DatabaseMigrationService {
     List<Tag>? tags,
     String? taskData,
   }) async {
-    ArgumentError.checkNotNull(migrationType, 'migrationType');
-    ArgumentError.checkNotNull(
-        replicationInstanceArn, 'replicationInstanceArn');
-    ArgumentError.checkNotNull(
-        replicationTaskIdentifier, 'replicationTaskIdentifier');
-    ArgumentError.checkNotNull(sourceEndpointArn, 'sourceEndpointArn');
-    ArgumentError.checkNotNull(tableMappings, 'tableMappings');
-    ArgumentError.checkNotNull(targetEndpointArn, 'targetEndpointArn');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonDMSv20160101.CreateReplicationTask'
@@ -1062,7 +1032,6 @@ class DatabaseMigrationService {
   Future<DeleteCertificateResponse> deleteCertificate({
     required String certificateArn,
   }) async {
-    ArgumentError.checkNotNull(certificateArn, 'certificateArn');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonDMSv20160101.DeleteCertificate'
@@ -1097,9 +1066,6 @@ class DatabaseMigrationService {
     required String endpointArn,
     required String replicationInstanceArn,
   }) async {
-    ArgumentError.checkNotNull(endpointArn, 'endpointArn');
-    ArgumentError.checkNotNull(
-        replicationInstanceArn, 'replicationInstanceArn');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonDMSv20160101.DeleteConnection'
@@ -1134,7 +1100,6 @@ class DatabaseMigrationService {
   Future<DeleteEndpointResponse> deleteEndpoint({
     required String endpointArn,
   }) async {
-    ArgumentError.checkNotNull(endpointArn, 'endpointArn');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonDMSv20160101.DeleteEndpoint'
@@ -1163,7 +1128,6 @@ class DatabaseMigrationService {
   Future<DeleteEventSubscriptionResponse> deleteEventSubscription({
     required String subscriptionName,
   }) async {
-    ArgumentError.checkNotNull(subscriptionName, 'subscriptionName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonDMSv20160101.DeleteEventSubscription'
@@ -1196,8 +1160,6 @@ class DatabaseMigrationService {
   Future<DeleteReplicationInstanceResponse> deleteReplicationInstance({
     required String replicationInstanceArn,
   }) async {
-    ArgumentError.checkNotNull(
-        replicationInstanceArn, 'replicationInstanceArn');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonDMSv20160101.DeleteReplicationInstance'
@@ -1226,8 +1188,6 @@ class DatabaseMigrationService {
   Future<void> deleteReplicationSubnetGroup({
     required String replicationSubnetGroupIdentifier,
   }) async {
-    ArgumentError.checkNotNull(
-        replicationSubnetGroupIdentifier, 'replicationSubnetGroupIdentifier');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonDMSv20160101.DeleteReplicationSubnetGroup'
@@ -1254,7 +1214,6 @@ class DatabaseMigrationService {
   Future<DeleteReplicationTaskResponse> deleteReplicationTask({
     required String replicationTaskArn,
   }) async {
-    ArgumentError.checkNotNull(replicationTaskArn, 'replicationTaskArn');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonDMSv20160101.DeleteReplicationTask'
@@ -1290,8 +1249,6 @@ class DatabaseMigrationService {
       deleteReplicationTaskAssessmentRun({
     required String replicationTaskAssessmentRunArn,
   }) async {
-    ArgumentError.checkNotNull(
-        replicationTaskAssessmentRunArn, 'replicationTaskAssessmentRunArn');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonDMSv20160101.DeleteReplicationTaskAssessmentRun'
@@ -1906,7 +1863,6 @@ class DatabaseMigrationService {
   Future<DescribeRefreshSchemasStatusResponse> describeRefreshSchemasStatus({
     required String endpointArn,
   }) async {
-    ArgumentError.checkNotNull(endpointArn, 'endpointArn');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonDMSv20160101.DescribeRefreshSchemasStatus'
@@ -1953,8 +1909,6 @@ class DatabaseMigrationService {
     String? marker,
     int? maxRecords,
   }) async {
-    ArgumentError.checkNotNull(
-        replicationInstanceArn, 'replicationInstanceArn');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonDMSv20160101.DescribeReplicationInstanceTaskLogs'
@@ -2328,7 +2282,6 @@ class DatabaseMigrationService {
     String? marker,
     int? maxRecords,
   }) async {
-    ArgumentError.checkNotNull(endpointArn, 'endpointArn');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonDMSv20160101.DescribeSchemas'
@@ -2390,7 +2343,6 @@ class DatabaseMigrationService {
     String? marker,
     int? maxRecords,
   }) async {
-    ArgumentError.checkNotNull(replicationTaskArn, 'replicationTaskArn');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonDMSv20160101.DescribeTableStatistics'
@@ -2438,7 +2390,6 @@ class DatabaseMigrationService {
     Uint8List? certificateWallet,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(certificateIdentifier, 'certificateIdentifier');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonDMSv20160101.ImportCertificate'
@@ -2475,7 +2426,6 @@ class DatabaseMigrationService {
   Future<ListTagsForResourceResponse> listTagsForResource({
     required String resourceArn,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonDMSv20160101.ListTagsForResource'
@@ -2730,7 +2680,6 @@ class DatabaseMigrationService {
     SybaseSettings? sybaseSettings,
     String? username,
   }) async {
-    ArgumentError.checkNotNull(endpointArn, 'endpointArn');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonDMSv20160101.ModifyEndpoint'
@@ -2826,7 +2775,6 @@ class DatabaseMigrationService {
     String? snsTopicArn,
     String? sourceType,
   }) async {
-    ArgumentError.checkNotNull(subscriptionName, 'subscriptionName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonDMSv20160101.ModifyEventSubscription'
@@ -2964,8 +2912,6 @@ class DatabaseMigrationService {
     String? replicationInstanceIdentifier,
     List<String>? vpcSecurityGroupIds,
   }) async {
-    ArgumentError.checkNotNull(
-        replicationInstanceArn, 'replicationInstanceArn');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonDMSv20160101.ModifyReplicationInstance'
@@ -3022,9 +2968,6 @@ class DatabaseMigrationService {
     required List<String> subnetIds,
     String? replicationSubnetGroupDescription,
   }) async {
-    ArgumentError.checkNotNull(
-        replicationSubnetGroupIdentifier, 'replicationSubnetGroupIdentifier');
-    ArgumentError.checkNotNull(subnetIds, 'subnetIds');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonDMSv20160101.ModifyReplicationSubnetGroup'
@@ -3152,7 +3095,6 @@ class DatabaseMigrationService {
     String? tableMappings,
     String? taskData,
   }) async {
-    ArgumentError.checkNotNull(replicationTaskArn, 'replicationTaskArn');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonDMSv20160101.ModifyReplicationTask'
@@ -3200,9 +3142,6 @@ class DatabaseMigrationService {
     required String replicationTaskArn,
     required String targetReplicationInstanceArn,
   }) async {
-    ArgumentError.checkNotNull(replicationTaskArn, 'replicationTaskArn');
-    ArgumentError.checkNotNull(
-        targetReplicationInstanceArn, 'targetReplicationInstanceArn');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonDMSv20160101.MoveReplicationTask'
@@ -3239,8 +3178,6 @@ class DatabaseMigrationService {
     required String replicationInstanceArn,
     bool? forceFailover,
   }) async {
-    ArgumentError.checkNotNull(
-        replicationInstanceArn, 'replicationInstanceArn');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonDMSv20160101.RebootReplicationInstance'
@@ -3279,9 +3216,6 @@ class DatabaseMigrationService {
     required String endpointArn,
     required String replicationInstanceArn,
   }) async {
-    ArgumentError.checkNotNull(endpointArn, 'endpointArn');
-    ArgumentError.checkNotNull(
-        replicationInstanceArn, 'replicationInstanceArn');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonDMSv20160101.RefreshSchemas'
@@ -3326,8 +3260,6 @@ class DatabaseMigrationService {
     required List<TableToReload> tablesToReload,
     ReloadOptionValue? reloadOption,
   }) async {
-    ArgumentError.checkNotNull(replicationTaskArn, 'replicationTaskArn');
-    ArgumentError.checkNotNull(tablesToReload, 'tablesToReload');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonDMSv20160101.ReloadTables'
@@ -3366,8 +3298,6 @@ class DatabaseMigrationService {
     required String resourceArn,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonDMSv20160101.RemoveTagsFromResource'
@@ -3447,9 +3377,6 @@ class DatabaseMigrationService {
     DateTime? cdcStartTime,
     String? cdcStopPosition,
   }) async {
-    ArgumentError.checkNotNull(replicationTaskArn, 'replicationTaskArn');
-    ArgumentError.checkNotNull(
-        startReplicationTaskType, 'startReplicationTaskType');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonDMSv20160101.StartReplicationTask'
@@ -3485,7 +3412,6 @@ class DatabaseMigrationService {
       startReplicationTaskAssessment({
     required String replicationTaskArn,
   }) async {
-    ArgumentError.checkNotNull(replicationTaskArn, 'replicationTaskArn');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonDMSv20160101.StartReplicationTaskAssessment'
@@ -3608,10 +3534,6 @@ class DatabaseMigrationService {
     String? resultKmsKeyArn,
     String? resultLocationFolder,
   }) async {
-    ArgumentError.checkNotNull(assessmentRunName, 'assessmentRunName');
-    ArgumentError.checkNotNull(replicationTaskArn, 'replicationTaskArn');
-    ArgumentError.checkNotNull(resultLocationBucket, 'resultLocationBucket');
-    ArgumentError.checkNotNull(serviceAccessRoleArn, 'serviceAccessRoleArn');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonDMSv20160101.StartReplicationTaskAssessmentRun'
@@ -3651,7 +3573,6 @@ class DatabaseMigrationService {
   Future<StopReplicationTaskResponse> stopReplicationTask({
     required String replicationTaskArn,
   }) async {
-    ArgumentError.checkNotNull(replicationTaskArn, 'replicationTaskArn');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonDMSv20160101.StopReplicationTask'
@@ -3687,9 +3608,6 @@ class DatabaseMigrationService {
     required String endpointArn,
     required String replicationInstanceArn,
   }) async {
-    ArgumentError.checkNotNull(endpointArn, 'endpointArn');
-    ArgumentError.checkNotNull(
-        replicationInstanceArn, 'replicationInstanceArn');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonDMSv20160101.TestConnection'

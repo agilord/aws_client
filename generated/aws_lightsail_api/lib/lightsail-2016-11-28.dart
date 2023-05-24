@@ -81,7 +81,6 @@ class Lightsail {
   Future<AllocateStaticIpResult> allocateStaticIp({
     required String staticIpName,
   }) async {
-    ArgumentError.checkNotNull(staticIpName, 'staticIpName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.AllocateStaticIp'
@@ -149,8 +148,6 @@ class Lightsail {
     required String certificateName,
     required String distributionName,
   }) async {
-    ArgumentError.checkNotNull(certificateName, 'certificateName');
-    ArgumentError.checkNotNull(distributionName, 'distributionName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.AttachCertificateToDistribution'
@@ -201,9 +198,6 @@ class Lightsail {
     required String diskPath,
     required String instanceName,
   }) async {
-    ArgumentError.checkNotNull(diskName, 'diskName');
-    ArgumentError.checkNotNull(diskPath, 'diskPath');
-    ArgumentError.checkNotNull(instanceName, 'instanceName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.AttachDisk'
@@ -261,8 +255,6 @@ class Lightsail {
     required List<String> instanceNames,
     required String loadBalancerName,
   }) async {
-    ArgumentError.checkNotNull(instanceNames, 'instanceNames');
-    ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.AttachInstancesToLoadBalancer'
@@ -318,8 +310,6 @@ class Lightsail {
     required String certificateName,
     required String loadBalancerName,
   }) async {
-    ArgumentError.checkNotNull(certificateName, 'certificateName');
-    ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.AttachLoadBalancerTlsCertificate'
@@ -358,8 +348,6 @@ class Lightsail {
     required String instanceName,
     required String staticIpName,
   }) async {
-    ArgumentError.checkNotNull(instanceName, 'instanceName');
-    ArgumentError.checkNotNull(staticIpName, 'staticIpName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.AttachStaticIp'
@@ -404,8 +392,6 @@ class Lightsail {
     required String instanceName,
     required PortInfo portInfo,
   }) async {
-    ArgumentError.checkNotNull(instanceName, 'instanceName');
-    ArgumentError.checkNotNull(portInfo, 'portInfo');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.CloseInstancePublicPorts'
@@ -535,8 +521,6 @@ class Lightsail {
     String? sourceSnapshotName,
     bool? useLatestRestorableAutoSnapshot,
   }) async {
-    ArgumentError.checkNotNull(sourceRegion, 'sourceRegion');
-    ArgumentError.checkNotNull(targetSnapshotName, 'targetSnapshotName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.CopySnapshot'
@@ -611,8 +595,6 @@ class Lightsail {
     List<String>? subjectAlternativeNames,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(certificateName, 'certificateName');
-    ArgumentError.checkNotNull(domainName, 'domainName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.CreateCertificate'
@@ -663,7 +645,6 @@ class Lightsail {
   Future<CreateCloudFormationStackResult> createCloudFormationStack({
     required List<InstanceEntry> instances,
   }) async {
-    ArgumentError.checkNotNull(instances, 'instances');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.CreateCloudFormationStack'
@@ -750,15 +731,6 @@ class Lightsail {
     required String contactEndpoint,
     required ContactProtocol protocol,
   }) async {
-    ArgumentError.checkNotNull(contactEndpoint, 'contactEndpoint');
-    _s.validateStringLength(
-      'contactEndpoint',
-      contactEndpoint,
-      1,
-      256,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(protocol, 'protocol');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.CreateContactMethod'
@@ -888,21 +860,11 @@ class Lightsail {
     Map<String, List<String>>? publicDomainNames,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(power, 'power');
-    ArgumentError.checkNotNull(scale, 'scale');
     _s.validateNumRange(
       'scale',
       scale,
       1,
       20,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(serviceName, 'serviceName');
-    _s.validateStringLength(
-      'serviceName',
-      serviceName,
-      1,
-      63,
       isRequired: true,
     );
     final headers = <String, String>{
@@ -966,14 +928,6 @@ class Lightsail {
     Map<String, Container>? containers,
     EndpointRequest? publicEndpoint,
   }) async {
-    ArgumentError.checkNotNull(serviceName, 'serviceName');
-    _s.validateStringLength(
-      'serviceName',
-      serviceName,
-      1,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.CreateContainerServiceDeployment'
@@ -1087,9 +1041,6 @@ class Lightsail {
     List<AddOnRequest>? addOns,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(availabilityZone, 'availabilityZone');
-    ArgumentError.checkNotNull(diskName, 'diskName');
-    ArgumentError.checkNotNull(sizeInGb, 'sizeInGb');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.CreateDisk'
@@ -1244,9 +1195,6 @@ class Lightsail {
     List<Tag>? tags,
     bool? useLatestRestorableAutoSnapshot,
   }) async {
-    ArgumentError.checkNotNull(availabilityZone, 'availabilityZone');
-    ArgumentError.checkNotNull(diskName, 'diskName');
-    ArgumentError.checkNotNull(sizeInGb, 'sizeInGb');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.CreateDiskFromSnapshot'
@@ -1345,7 +1293,6 @@ class Lightsail {
     String? instanceName,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(diskSnapshotName, 'diskSnapshotName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.CreateDiskSnapshot'
@@ -1424,10 +1371,6 @@ class Lightsail {
     List<CacheBehaviorPerPath>? cacheBehaviors,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(bundleId, 'bundleId');
-    ArgumentError.checkNotNull(defaultCacheBehavior, 'defaultCacheBehavior');
-    ArgumentError.checkNotNull(distributionName, 'distributionName');
-    ArgumentError.checkNotNull(origin, 'origin');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.CreateDistribution'
@@ -1486,7 +1429,6 @@ class Lightsail {
     required String domainName,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(domainName, 'domainName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.CreateDomain'
@@ -1536,8 +1478,6 @@ class Lightsail {
     required DomainEntry domainEntry,
     required String domainName,
   }) async {
-    ArgumentError.checkNotNull(domainEntry, 'domainEntry');
-    ArgumentError.checkNotNull(domainName, 'domainName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.CreateDomainEntry'
@@ -1590,8 +1530,6 @@ class Lightsail {
     required String instanceSnapshotName,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(instanceName, 'instanceName');
-    ArgumentError.checkNotNull(instanceSnapshotName, 'instanceSnapshotName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.CreateInstanceSnapshot'
@@ -1701,10 +1639,6 @@ class Lightsail {
     List<Tag>? tags,
     String? userData,
   }) async {
-    ArgumentError.checkNotNull(availabilityZone, 'availabilityZone');
-    ArgumentError.checkNotNull(blueprintId, 'blueprintId');
-    ArgumentError.checkNotNull(bundleId, 'bundleId');
-    ArgumentError.checkNotNull(instanceNames, 'instanceNames');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.CreateInstances'
@@ -1887,9 +1821,6 @@ class Lightsail {
     bool? useLatestRestorableAutoSnapshot,
     String? userData,
   }) async {
-    ArgumentError.checkNotNull(availabilityZone, 'availabilityZone');
-    ArgumentError.checkNotNull(bundleId, 'bundleId');
-    ArgumentError.checkNotNull(instanceNames, 'instanceNames');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.CreateInstancesFromSnapshot'
@@ -1950,7 +1881,6 @@ class Lightsail {
     required String keyPairName,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(keyPairName, 'keyPairName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.CreateKeyPair'
@@ -2040,7 +1970,6 @@ class Lightsail {
     String? healthCheckPath,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(instancePort, 'instancePort');
     _s.validateNumRange(
       'instancePort',
       instancePort,
@@ -2048,7 +1977,6 @@ class Lightsail {
       65535,
       isRequired: true,
     );
-    ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.CreateLoadBalancer'
@@ -2129,9 +2057,6 @@ class Lightsail {
     List<String>? certificateAlternativeNames,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(certificateDomainName, 'certificateDomainName');
-    ArgumentError.checkNotNull(certificateName, 'certificateName');
-    ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.CreateLoadBalancerTlsCertificate'
@@ -2335,14 +2260,6 @@ class Lightsail {
     bool? publiclyAccessible,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(masterDatabaseName, 'masterDatabaseName');
-    ArgumentError.checkNotNull(masterUsername, 'masterUsername');
-    ArgumentError.checkNotNull(
-        relationalDatabaseBlueprintId, 'relationalDatabaseBlueprintId');
-    ArgumentError.checkNotNull(
-        relationalDatabaseBundleId, 'relationalDatabaseBundleId');
-    ArgumentError.checkNotNull(
-        relationalDatabaseName, 'relationalDatabaseName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.CreateRelationalDatabase'
@@ -2492,8 +2409,6 @@ class Lightsail {
     List<Tag>? tags,
     bool? useLatestRestorableTime,
   }) async {
-    ArgumentError.checkNotNull(
-        relationalDatabaseName, 'relationalDatabaseName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.CreateRelationalDatabaseFromSnapshot'
@@ -2573,10 +2488,6 @@ class Lightsail {
     required String relationalDatabaseSnapshotName,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(
-        relationalDatabaseName, 'relationalDatabaseName');
-    ArgumentError.checkNotNull(
-        relationalDatabaseSnapshotName, 'relationalDatabaseSnapshotName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.CreateRelationalDatabaseSnapshot'
@@ -2618,7 +2529,6 @@ class Lightsail {
   Future<DeleteAlarmResult> deleteAlarm({
     required String alarmName,
   }) async {
-    ArgumentError.checkNotNull(alarmName, 'alarmName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.DeleteAlarm'
@@ -2661,8 +2571,6 @@ class Lightsail {
     required String date,
     required String resourceName,
   }) async {
-    ArgumentError.checkNotNull(date, 'date');
-    ArgumentError.checkNotNull(resourceName, 'resourceName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.DeleteAutoSnapshot'
@@ -2703,7 +2611,6 @@ class Lightsail {
   Future<DeleteCertificateResult> deleteCertificate({
     required String certificateName,
   }) async {
-    ArgumentError.checkNotNull(certificateName, 'certificateName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.DeleteCertificate'
@@ -2750,7 +2657,6 @@ class Lightsail {
   Future<DeleteContactMethodResult> deleteContactMethod({
     required ContactProtocol protocol,
   }) async {
-    ArgumentError.checkNotNull(protocol, 'protocol');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.DeleteContactMethod'
@@ -2799,15 +2705,6 @@ class Lightsail {
     required String image,
     required String serviceName,
   }) async {
-    ArgumentError.checkNotNull(image, 'image');
-    ArgumentError.checkNotNull(serviceName, 'serviceName');
-    _s.validateStringLength(
-      'serviceName',
-      serviceName,
-      1,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.DeleteContainerImage'
@@ -2838,14 +2735,6 @@ class Lightsail {
   Future<void> deleteContainerService({
     required String serviceName,
   }) async {
-    ArgumentError.checkNotNull(serviceName, 'serviceName');
-    _s.validateStringLength(
-      'serviceName',
-      serviceName,
-      1,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.DeleteContainerService'
@@ -2893,7 +2782,6 @@ class Lightsail {
     required String diskName,
     bool? forceDeleteAddOns,
   }) async {
-    ArgumentError.checkNotNull(diskName, 'diskName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.DeleteDisk'
@@ -2942,7 +2830,6 @@ class Lightsail {
   Future<DeleteDiskSnapshotResult> deleteDiskSnapshot({
     required String diskSnapshotName,
   }) async {
-    ArgumentError.checkNotNull(diskSnapshotName, 'diskSnapshotName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.DeleteDiskSnapshot'
@@ -3017,7 +2904,6 @@ class Lightsail {
   Future<DeleteDomainResult> deleteDomain({
     required String domainName,
   }) async {
-    ArgumentError.checkNotNull(domainName, 'domainName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.DeleteDomain'
@@ -3062,8 +2948,6 @@ class Lightsail {
     required DomainEntry domainEntry,
     required String domainName,
   }) async {
-    ArgumentError.checkNotNull(domainEntry, 'domainEntry');
-    ArgumentError.checkNotNull(domainName, 'domainName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.DeleteDomainEntry'
@@ -3109,7 +2993,6 @@ class Lightsail {
     required String instanceName,
     bool? forceDeleteAddOns,
   }) async {
-    ArgumentError.checkNotNull(instanceName, 'instanceName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.DeleteInstance'
@@ -3151,7 +3034,6 @@ class Lightsail {
   Future<DeleteInstanceSnapshotResult> deleteInstanceSnapshot({
     required String instanceSnapshotName,
   }) async {
-    ArgumentError.checkNotNull(instanceSnapshotName, 'instanceSnapshotName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.DeleteInstanceSnapshot'
@@ -3191,7 +3073,6 @@ class Lightsail {
   Future<DeleteKeyPairResult> deleteKeyPair({
     required String keyPairName,
   }) async {
-    ArgumentError.checkNotNull(keyPairName, 'keyPairName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.DeleteKeyPair'
@@ -3237,7 +3118,6 @@ class Lightsail {
   Future<DeleteKnownHostKeysResult> deleteKnownHostKeys({
     required String instanceName,
   }) async {
-    ArgumentError.checkNotNull(instanceName, 'instanceName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.DeleteKnownHostKeys'
@@ -3280,7 +3160,6 @@ class Lightsail {
   Future<DeleteLoadBalancerResult> deleteLoadBalancer({
     required String loadBalancerName,
   }) async {
-    ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.DeleteLoadBalancer'
@@ -3335,8 +3214,6 @@ class Lightsail {
     required String loadBalancerName,
     bool? force,
   }) async {
-    ArgumentError.checkNotNull(certificateName, 'certificateName');
-    ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.DeleteLoadBalancerTlsCertificate'
@@ -3411,8 +3288,6 @@ class Lightsail {
     String? finalRelationalDatabaseSnapshotName,
     bool? skipFinalSnapshot,
   }) async {
-    ArgumentError.checkNotNull(
-        relationalDatabaseName, 'relationalDatabaseName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.DeleteRelationalDatabase'
@@ -3457,8 +3332,6 @@ class Lightsail {
       deleteRelationalDatabaseSnapshot({
     required String relationalDatabaseSnapshotName,
   }) async {
-    ArgumentError.checkNotNull(
-        relationalDatabaseSnapshotName, 'relationalDatabaseSnapshotName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.DeleteRelationalDatabaseSnapshot'
@@ -3499,7 +3372,6 @@ class Lightsail {
       detachCertificateFromDistribution({
     required String distributionName,
   }) async {
-    ArgumentError.checkNotNull(distributionName, 'distributionName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.DetachCertificateFromDistribution'
@@ -3542,7 +3414,6 @@ class Lightsail {
   Future<DetachDiskResult> detachDisk({
     required String diskName,
   }) async {
-    ArgumentError.checkNotNull(diskName, 'diskName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.DetachDisk'
@@ -3592,8 +3463,6 @@ class Lightsail {
     required List<String> instanceNames,
     required String loadBalancerName,
   }) async {
-    ArgumentError.checkNotNull(instanceNames, 'instanceNames');
-    ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.DetachInstancesFromLoadBalancer'
@@ -3629,7 +3498,6 @@ class Lightsail {
   Future<DetachStaticIpResult> detachStaticIp({
     required String staticIpName,
   }) async {
-    ArgumentError.checkNotNull(staticIpName, 'staticIpName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.DetachStaticIp'
@@ -3669,8 +3537,6 @@ class Lightsail {
     required AddOnType addOnType,
     required String resourceName,
   }) async {
-    ArgumentError.checkNotNull(addOnType, 'addOnType');
-    ArgumentError.checkNotNull(resourceName, 'resourceName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.DisableAddOn'
@@ -3736,8 +3602,6 @@ class Lightsail {
     required AddOnRequest addOnRequest,
     required String resourceName,
   }) async {
-    ArgumentError.checkNotNull(addOnRequest, 'addOnRequest');
-    ArgumentError.checkNotNull(resourceName, 'resourceName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.EnableAddOn'
@@ -3792,7 +3656,6 @@ class Lightsail {
   Future<ExportSnapshotResult> exportSnapshot({
     required String sourceSnapshotName,
   }) async {
-    ArgumentError.checkNotNull(sourceSnapshotName, 'sourceSnapshotName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.ExportSnapshot'
@@ -3928,7 +3791,6 @@ class Lightsail {
   Future<GetAutoSnapshotsResult> getAutoSnapshots({
     required String resourceName,
   }) async {
-    ArgumentError.checkNotNull(resourceName, 'resourceName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.GetAutoSnapshots'
@@ -4241,14 +4103,6 @@ class Lightsail {
   Future<GetContainerImagesResult> getContainerImages({
     required String serviceName,
   }) async {
-    ArgumentError.checkNotNull(serviceName, 'serviceName');
-    _s.validateStringLength(
-      'serviceName',
-      serviceName,
-      1,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.GetContainerImages'
@@ -4376,15 +4230,6 @@ class Lightsail {
     String? pageToken,
     DateTime? startTime,
   }) async {
-    ArgumentError.checkNotNull(containerName, 'containerName');
-    ArgumentError.checkNotNull(serviceName, 'serviceName');
-    _s.validateStringLength(
-      'serviceName',
-      serviceName,
-      1,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.GetContainerLog'
@@ -4433,14 +4278,6 @@ class Lightsail {
   Future<GetContainerServiceDeploymentsResult> getContainerServiceDeployments({
     required String serviceName,
   }) async {
-    ArgumentError.checkNotNull(serviceName, 'serviceName');
-    _s.validateStringLength(
-      'serviceName',
-      serviceName,
-      1,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.GetContainerServiceDeployments'
@@ -4561,9 +4398,6 @@ class Lightsail {
     required DateTime startTime,
     required List<MetricStatistic> statistics,
   }) async {
-    ArgumentError.checkNotNull(endTime, 'endTime');
-    ArgumentError.checkNotNull(metricName, 'metricName');
-    ArgumentError.checkNotNull(period, 'period');
     _s.validateNumRange(
       'period',
       period,
@@ -4571,16 +4405,6 @@ class Lightsail {
       86400,
       isRequired: true,
     );
-    ArgumentError.checkNotNull(serviceName, 'serviceName');
-    _s.validateStringLength(
-      'serviceName',
-      serviceName,
-      1,
-      63,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(startTime, 'startTime');
-    ArgumentError.checkNotNull(statistics, 'statistics');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.GetContainerServiceMetricData'
@@ -4648,12 +4472,6 @@ class Lightsail {
   Future<ContainerServicesListResult> getContainerServices({
     String? serviceName,
   }) async {
-    _s.validateStringLength(
-      'serviceName',
-      serviceName,
-      1,
-      63,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.GetContainerServices'
@@ -4687,7 +4505,6 @@ class Lightsail {
   Future<GetDiskResult> getDisk({
     required String diskName,
   }) async {
-    ArgumentError.checkNotNull(diskName, 'diskName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.GetDisk'
@@ -4721,7 +4538,6 @@ class Lightsail {
   Future<GetDiskSnapshotResult> getDiskSnapshot({
     required String diskSnapshotName,
   }) async {
-    ArgumentError.checkNotNull(diskSnapshotName, 'diskSnapshotName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.GetDiskSnapshot'
@@ -5065,10 +4881,6 @@ class Lightsail {
     required List<MetricStatistic> statistics,
     required MetricUnit unit,
   }) async {
-    ArgumentError.checkNotNull(distributionName, 'distributionName');
-    ArgumentError.checkNotNull(endTime, 'endTime');
-    ArgumentError.checkNotNull(metricName, 'metricName');
-    ArgumentError.checkNotNull(period, 'period');
     _s.validateNumRange(
       'period',
       period,
@@ -5076,9 +4888,6 @@ class Lightsail {
       86400,
       isRequired: true,
     );
-    ArgumentError.checkNotNull(startTime, 'startTime');
-    ArgumentError.checkNotNull(statistics, 'statistics');
-    ArgumentError.checkNotNull(unit, 'unit');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.GetDistributionMetricData'
@@ -5166,7 +4975,6 @@ class Lightsail {
   Future<GetDomainResult> getDomain({
     required String domainName,
   }) async {
-    ArgumentError.checkNotNull(domainName, 'domainName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.GetDomain'
@@ -5281,7 +5089,6 @@ class Lightsail {
   Future<GetInstanceResult> getInstance({
     required String instanceName,
   }) async {
-    ArgumentError.checkNotNull(instanceName, 'instanceName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.GetInstance'
@@ -5327,7 +5134,6 @@ class Lightsail {
     required String instanceName,
     InstanceAccessProtocol? protocol,
   }) async {
-    ArgumentError.checkNotNull(instanceName, 'instanceName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.GetInstanceAccessDetails'
@@ -5538,10 +5344,6 @@ class Lightsail {
     required List<MetricStatistic> statistics,
     required MetricUnit unit,
   }) async {
-    ArgumentError.checkNotNull(endTime, 'endTime');
-    ArgumentError.checkNotNull(instanceName, 'instanceName');
-    ArgumentError.checkNotNull(metricName, 'metricName');
-    ArgumentError.checkNotNull(period, 'period');
     _s.validateNumRange(
       'period',
       period,
@@ -5549,9 +5351,6 @@ class Lightsail {
       86400,
       isRequired: true,
     );
-    ArgumentError.checkNotNull(startTime, 'startTime');
-    ArgumentError.checkNotNull(statistics, 'statistics');
-    ArgumentError.checkNotNull(unit, 'unit');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.GetInstanceMetricData'
@@ -5593,7 +5392,6 @@ class Lightsail {
   Future<GetInstancePortStatesResult> getInstancePortStates({
     required String instanceName,
   }) async {
-    ArgumentError.checkNotNull(instanceName, 'instanceName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.GetInstancePortStates'
@@ -5627,7 +5425,6 @@ class Lightsail {
   Future<GetInstanceSnapshotResult> getInstanceSnapshot({
     required String instanceSnapshotName,
   }) async {
-    ArgumentError.checkNotNull(instanceSnapshotName, 'instanceSnapshotName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.GetInstanceSnapshot'
@@ -5698,7 +5495,6 @@ class Lightsail {
   Future<GetInstanceStateResult> getInstanceState({
     required String instanceName,
   }) async {
-    ArgumentError.checkNotNull(instanceName, 'instanceName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.GetInstanceState'
@@ -5770,7 +5566,6 @@ class Lightsail {
   Future<GetKeyPairResult> getKeyPair({
     required String keyPairName,
   }) async {
-    ArgumentError.checkNotNull(keyPairName, 'keyPairName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.GetKeyPair'
@@ -5841,7 +5636,6 @@ class Lightsail {
   Future<GetLoadBalancerResult> getLoadBalancer({
     required String loadBalancerName,
   }) async {
-    ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.GetLoadBalancer'
@@ -6072,10 +5866,6 @@ class Lightsail {
     required List<MetricStatistic> statistics,
     required MetricUnit unit,
   }) async {
-    ArgumentError.checkNotNull(endTime, 'endTime');
-    ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
-    ArgumentError.checkNotNull(metricName, 'metricName');
-    ArgumentError.checkNotNull(period, 'period');
     _s.validateNumRange(
       'period',
       period,
@@ -6083,9 +5873,6 @@ class Lightsail {
       86400,
       isRequired: true,
     );
-    ArgumentError.checkNotNull(startTime, 'startTime');
-    ArgumentError.checkNotNull(statistics, 'statistics');
-    ArgumentError.checkNotNull(unit, 'unit');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.GetLoadBalancerMetricData'
@@ -6132,7 +5919,6 @@ class Lightsail {
   Future<GetLoadBalancerTlsCertificatesResult> getLoadBalancerTlsCertificates({
     required String loadBalancerName,
   }) async {
-    ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.GetLoadBalancerTlsCertificates'
@@ -6205,7 +5991,6 @@ class Lightsail {
   Future<GetOperationResult> getOperation({
     required String operationId,
   }) async {
-    ArgumentError.checkNotNull(operationId, 'operationId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.GetOperation'
@@ -6291,7 +6076,6 @@ class Lightsail {
     required String resourceName,
     String? pageToken,
   }) async {
-    ArgumentError.checkNotNull(resourceName, 'resourceName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.GetOperationsForResource'
@@ -6373,8 +6157,6 @@ class Lightsail {
   Future<GetRelationalDatabaseResult> getRelationalDatabase({
     required String relationalDatabaseName,
   }) async {
-    ArgumentError.checkNotNull(
-        relationalDatabaseName, 'relationalDatabaseName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.GetRelationalDatabase'
@@ -6511,8 +6293,6 @@ class Lightsail {
     int? durationInMinutes,
     String? pageToken,
   }) async {
-    ArgumentError.checkNotNull(
-        relationalDatabaseName, 'relationalDatabaseName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.GetRelationalDatabaseEvents'
@@ -6613,9 +6393,6 @@ class Lightsail {
     bool? startFromHead,
     DateTime? startTime,
   }) async {
-    ArgumentError.checkNotNull(logStreamName, 'logStreamName');
-    ArgumentError.checkNotNull(
-        relationalDatabaseName, 'relationalDatabaseName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.GetRelationalDatabaseLogEvents'
@@ -6656,8 +6433,6 @@ class Lightsail {
       getRelationalDatabaseLogStreams({
     required String relationalDatabaseName,
   }) async {
-    ArgumentError.checkNotNull(
-        relationalDatabaseName, 'relationalDatabaseName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.GetRelationalDatabaseLogStreams'
@@ -6710,8 +6485,6 @@ class Lightsail {
     required String relationalDatabaseName,
     RelationalDatabasePasswordVersion? passwordVersion,
   }) async {
-    ArgumentError.checkNotNull(
-        relationalDatabaseName, 'relationalDatabaseName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -6905,9 +6678,6 @@ class Lightsail {
     required List<MetricStatistic> statistics,
     required MetricUnit unit,
   }) async {
-    ArgumentError.checkNotNull(endTime, 'endTime');
-    ArgumentError.checkNotNull(metricName, 'metricName');
-    ArgumentError.checkNotNull(period, 'period');
     _s.validateNumRange(
       'period',
       period,
@@ -6915,11 +6685,6 @@ class Lightsail {
       86400,
       isRequired: true,
     );
-    ArgumentError.checkNotNull(
-        relationalDatabaseName, 'relationalDatabaseName');
-    ArgumentError.checkNotNull(startTime, 'startTime');
-    ArgumentError.checkNotNull(statistics, 'statistics');
-    ArgumentError.checkNotNull(unit, 'unit');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.GetRelationalDatabaseMetricData'
@@ -6975,8 +6740,6 @@ class Lightsail {
     required String relationalDatabaseName,
     String? pageToken,
   }) async {
-    ArgumentError.checkNotNull(
-        relationalDatabaseName, 'relationalDatabaseName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.GetRelationalDatabaseParameters'
@@ -7012,8 +6775,6 @@ class Lightsail {
   Future<GetRelationalDatabaseSnapshotResult> getRelationalDatabaseSnapshot({
     required String relationalDatabaseSnapshotName,
   }) async {
-    ArgumentError.checkNotNull(
-        relationalDatabaseSnapshotName, 'relationalDatabaseSnapshotName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.GetRelationalDatabaseSnapshot'
@@ -7124,7 +6885,6 @@ class Lightsail {
   Future<GetStaticIpResult> getStaticIp({
     required String staticIpName,
   }) async {
-    ArgumentError.checkNotNull(staticIpName, 'staticIpName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.GetStaticIp'
@@ -7199,8 +6959,6 @@ class Lightsail {
     required String keyPairName,
     required String publicKeyBase64,
   }) async {
-    ArgumentError.checkNotNull(keyPairName, 'keyPairName');
-    ArgumentError.checkNotNull(publicKeyBase64, 'publicKeyBase64');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.ImportKeyPair'
@@ -7272,8 +7030,6 @@ class Lightsail {
     required String instanceName,
     required PortInfo portInfo,
   }) async {
-    ArgumentError.checkNotNull(instanceName, 'instanceName');
-    ArgumentError.checkNotNull(portInfo, 'portInfo');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.OpenInstancePublicPorts'
@@ -7515,12 +7271,6 @@ class Lightsail {
     List<AlarmState>? notificationTriggers,
     TreatMissingData? treatMissingData,
   }) async {
-    ArgumentError.checkNotNull(alarmName, 'alarmName');
-    ArgumentError.checkNotNull(comparisonOperator, 'comparisonOperator');
-    ArgumentError.checkNotNull(evaluationPeriods, 'evaluationPeriods');
-    ArgumentError.checkNotNull(metricName, 'metricName');
-    ArgumentError.checkNotNull(monitoredResourceName, 'monitoredResourceName');
-    ArgumentError.checkNotNull(threshold, 'threshold');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.PutAlarm'
@@ -7586,8 +7336,6 @@ class Lightsail {
     required String instanceName,
     required List<PortInfo> portInfos,
   }) async {
-    ArgumentError.checkNotNull(instanceName, 'instanceName');
-    ArgumentError.checkNotNull(portInfos, 'portInfos');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.PutInstancePublicPorts'
@@ -7628,7 +7376,6 @@ class Lightsail {
   Future<RebootInstanceResult> rebootInstance({
     required String instanceName,
   }) async {
-    ArgumentError.checkNotNull(instanceName, 'instanceName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.RebootInstance'
@@ -7668,8 +7415,6 @@ class Lightsail {
   Future<RebootRelationalDatabaseResult> rebootRelationalDatabase({
     required String relationalDatabaseName,
   }) async {
-    ArgumentError.checkNotNull(
-        relationalDatabaseName, 'relationalDatabaseName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.RebootRelationalDatabase'
@@ -7743,23 +7488,6 @@ class Lightsail {
     required String label,
     required String serviceName,
   }) async {
-    ArgumentError.checkNotNull(digest, 'digest');
-    ArgumentError.checkNotNull(label, 'label');
-    _s.validateStringLength(
-      'label',
-      label,
-      1,
-      53,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(serviceName, 'serviceName');
-    _s.validateStringLength(
-      'serviceName',
-      serviceName,
-      1,
-      63,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.RegisterContainerImage'
@@ -7795,7 +7523,6 @@ class Lightsail {
   Future<ReleaseStaticIpResult> releaseStaticIp({
     required String staticIpName,
   }) async {
-    ArgumentError.checkNotNull(staticIpName, 'staticIpName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.ReleaseStaticIp'
@@ -7885,7 +7612,6 @@ class Lightsail {
   Future<SendContactMethodVerificationResult> sendContactMethodVerification({
     required ContactMethodVerificationProtocol protocol,
   }) async {
-    ArgumentError.checkNotNull(protocol, 'protocol');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.SendContactMethodVerification'
@@ -7933,7 +7659,6 @@ class Lightsail {
   Future<StartInstanceResult> startInstance({
     required String instanceName,
   }) async {
-    ArgumentError.checkNotNull(instanceName, 'instanceName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.StartInstance'
@@ -7975,8 +7700,6 @@ class Lightsail {
   Future<StartRelationalDatabaseResult> startRelationalDatabase({
     required String relationalDatabaseName,
   }) async {
-    ArgumentError.checkNotNull(
-        relationalDatabaseName, 'relationalDatabaseName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.StartRelationalDatabase'
@@ -8033,7 +7756,6 @@ class Lightsail {
     required String instanceName,
     bool? force,
   }) async {
-    ArgumentError.checkNotNull(instanceName, 'instanceName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.StopInstance'
@@ -8079,8 +7801,6 @@ class Lightsail {
     required String relationalDatabaseName,
     String? relationalDatabaseSnapshotName,
   }) async {
-    ArgumentError.checkNotNull(
-        relationalDatabaseName, 'relationalDatabaseName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.StopRelationalDatabase'
@@ -8136,8 +7856,6 @@ class Lightsail {
     required List<Tag> tags,
     String? resourceArn,
   }) async {
-    ArgumentError.checkNotNull(resourceName, 'resourceName');
-    ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.TagResource'
@@ -8202,8 +7920,6 @@ class Lightsail {
     required String alarmName,
     required AlarmState state,
   }) async {
-    ArgumentError.checkNotNull(alarmName, 'alarmName');
-    ArgumentError.checkNotNull(state, 'state');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.TestAlarm'
@@ -8279,8 +7995,6 @@ class Lightsail {
     required List<String> tagKeys,
     String? resourceArn,
   }) async {
-    ArgumentError.checkNotNull(resourceName, 'resourceName');
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.UntagResource'
@@ -8364,14 +8078,6 @@ class Lightsail {
     Map<String, List<String>>? publicDomainNames,
     int? scale,
   }) async {
-    ArgumentError.checkNotNull(serviceName, 'serviceName');
-    _s.validateStringLength(
-      'serviceName',
-      serviceName,
-      1,
-      63,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'scale',
       scale,
@@ -8449,7 +8155,6 @@ class Lightsail {
     bool? isEnabled,
     InputOrigin? origin,
   }) async {
-    ArgumentError.checkNotNull(distributionName, 'distributionName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.UpdateDistribution'
@@ -8556,8 +8261,6 @@ class Lightsail {
     required DomainEntry domainEntry,
     required String domainName,
   }) async {
-    ArgumentError.checkNotNull(domainEntry, 'domainEntry');
-    ArgumentError.checkNotNull(domainName, 'domainName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.UpdateDomainEntry'
@@ -8609,16 +8312,6 @@ class Lightsail {
     required String attributeValue,
     required String loadBalancerName,
   }) async {
-    ArgumentError.checkNotNull(attributeName, 'attributeName');
-    ArgumentError.checkNotNull(attributeValue, 'attributeValue');
-    _s.validateStringLength(
-      'attributeValue',
-      attributeValue,
-      1,
-      256,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.UpdateLoadBalancerAttribute'
@@ -8772,8 +8465,6 @@ class Lightsail {
     bool? publiclyAccessible,
     bool? rotateMasterUserPassword,
   }) async {
-    ArgumentError.checkNotNull(
-        relationalDatabaseName, 'relationalDatabaseName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.UpdateRelationalDatabase'
@@ -8844,9 +8535,6 @@ class Lightsail {
     required List<RelationalDatabaseParameter> parameters,
     required String relationalDatabaseName,
   }) async {
-    ArgumentError.checkNotNull(parameters, 'parameters');
-    ArgumentError.checkNotNull(
-        relationalDatabaseName, 'relationalDatabaseName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Lightsail_20161128.UpdateRelationalDatabaseParameters'

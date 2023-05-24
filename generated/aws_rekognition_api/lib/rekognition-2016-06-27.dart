@@ -153,8 +153,6 @@ class Rekognition {
     QualityFilter? qualityFilter,
     double? similarityThreshold,
   }) async {
-    ArgumentError.checkNotNull(sourceImage, 'sourceImage');
-    ArgumentError.checkNotNull(targetImage, 'targetImage');
     _s.validateNumRange(
       'similarityThreshold',
       similarityThreshold,
@@ -212,14 +210,6 @@ class Rekognition {
   Future<CreateCollectionResponse> createCollection({
     required String collectionId,
   }) async {
-    ArgumentError.checkNotNull(collectionId, 'collectionId');
-    _s.validateStringLength(
-      'collectionId',
-      collectionId,
-      1,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'RekognitionService.CreateCollection'
@@ -258,14 +248,6 @@ class Rekognition {
   Future<CreateProjectResponse> createProject({
     required String projectName,
   }) async {
-    ArgumentError.checkNotNull(projectName, 'projectName');
-    _s.validateStringLength(
-      'projectName',
-      projectName,
-      1,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'RekognitionService.CreateProject'
@@ -334,25 +316,6 @@ class Rekognition {
     required TrainingData trainingData,
     required String versionName,
   }) async {
-    ArgumentError.checkNotNull(outputConfig, 'outputConfig');
-    ArgumentError.checkNotNull(projectArn, 'projectArn');
-    _s.validateStringLength(
-      'projectArn',
-      projectArn,
-      20,
-      2048,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(testingData, 'testingData');
-    ArgumentError.checkNotNull(trainingData, 'trainingData');
-    ArgumentError.checkNotNull(versionName, 'versionName');
-    _s.validateStringLength(
-      'versionName',
-      versionName,
-      1,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'RekognitionService.CreateProjectVersion'
@@ -433,18 +396,6 @@ class Rekognition {
     required String roleArn,
     required StreamProcessorSettings settings,
   }) async {
-    ArgumentError.checkNotNull(input, 'input');
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(output, 'output');
-    ArgumentError.checkNotNull(roleArn, 'roleArn');
-    ArgumentError.checkNotNull(settings, 'settings');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'RekognitionService.CreateStreamProcessor'
@@ -486,14 +437,6 @@ class Rekognition {
   Future<DeleteCollectionResponse> deleteCollection({
     required String collectionId,
   }) async {
-    ArgumentError.checkNotNull(collectionId, 'collectionId');
-    _s.validateStringLength(
-      'collectionId',
-      collectionId,
-      1,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'RekognitionService.DeleteCollection'
@@ -534,15 +477,6 @@ class Rekognition {
     required String collectionId,
     required List<String> faceIds,
   }) async {
-    ArgumentError.checkNotNull(collectionId, 'collectionId');
-    _s.validateStringLength(
-      'collectionId',
-      collectionId,
-      1,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(faceIds, 'faceIds');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'RekognitionService.DeleteFaces'
@@ -582,14 +516,6 @@ class Rekognition {
   Future<DeleteProjectResponse> deleteProject({
     required String projectArn,
   }) async {
-    ArgumentError.checkNotNull(projectArn, 'projectArn');
-    _s.validateStringLength(
-      'projectArn',
-      projectArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'RekognitionService.DeleteProject'
@@ -633,14 +559,6 @@ class Rekognition {
   Future<DeleteProjectVersionResponse> deleteProjectVersion({
     required String projectVersionArn,
   }) async {
-    ArgumentError.checkNotNull(projectVersionArn, 'projectVersionArn');
-    _s.validateStringLength(
-      'projectVersionArn',
-      projectVersionArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'RekognitionService.DeleteProjectVersion'
@@ -678,14 +596,6 @@ class Rekognition {
   Future<void> deleteStreamProcessor({
     required String name,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      128,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'RekognitionService.DeleteStreamProcessor'
@@ -722,14 +632,6 @@ class Rekognition {
   Future<DescribeCollectionResponse> describeCollection({
     required String collectionId,
   }) async {
-    ArgumentError.checkNotNull(collectionId, 'collectionId');
-    _s.validateStringLength(
-      'collectionId',
-      collectionId,
-      1,
-      255,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'RekognitionService.DescribeCollection'
@@ -793,25 +695,11 @@ class Rekognition {
     String? nextToken,
     List<String>? versionNames,
   }) async {
-    ArgumentError.checkNotNull(projectArn, 'projectArn');
-    _s.validateStringLength(
-      'projectArn',
-      projectArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      1024,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -867,12 +755,6 @@ class Rekognition {
       1,
       100,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      1024,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'RekognitionService.DescribeProjects'
@@ -909,14 +791,6 @@ class Rekognition {
   Future<DescribeStreamProcessorResponse> describeStreamProcessor({
     required String name,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      128,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'RekognitionService.DescribeStreamProcessor'
@@ -1004,15 +878,6 @@ class Rekognition {
     int? maxResults,
     double? minConfidence,
   }) async {
-    ArgumentError.checkNotNull(image, 'image');
-    ArgumentError.checkNotNull(projectVersionArn, 'projectVersionArn');
-    _s.validateStringLength(
-      'projectVersionArn',
-      projectVersionArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1106,7 +971,6 @@ class Rekognition {
     required Image image,
     List<Attribute>? attributes,
   }) async {
-    ArgumentError.checkNotNull(image, 'image');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'RekognitionService.DetectFaces'
@@ -1236,7 +1100,6 @@ class Rekognition {
     int? maxLabels,
     double? minConfidence,
   }) async {
-    ArgumentError.checkNotNull(image, 'image');
     _s.validateNumRange(
       'maxLabels',
       maxLabels,
@@ -1322,7 +1185,6 @@ class Rekognition {
     HumanLoopConfig? humanLoopConfig,
     double? minConfidence,
   }) async {
-    ArgumentError.checkNotNull(image, 'image');
     _s.validateNumRange(
       'minConfidence',
       minConfidence,
@@ -1419,7 +1281,6 @@ class Rekognition {
     required Image image,
     ProtectiveEquipmentSummarizationAttributes? summarizationAttributes,
   }) async {
-    ArgumentError.checkNotNull(image, 'image');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'RekognitionService.DetectProtectiveEquipment'
@@ -1504,7 +1365,6 @@ class Rekognition {
     required Image image,
     DetectTextFilters? filters,
   }) async {
-    ArgumentError.checkNotNull(image, 'image');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'RekognitionService.DetectText'
@@ -1549,7 +1409,6 @@ class Rekognition {
   Future<GetCelebrityInfoResponse> getCelebrityInfo({
     required String id,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'RekognitionService.GetCelebrityInfo'
@@ -1654,25 +1513,11 @@ class Rekognition {
     String? nextToken,
     CelebrityRecognitionSortBy? sortBy,
   }) async {
-    ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      1,
-      64,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       1152921504606846976,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      255,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1774,25 +1619,11 @@ class Rekognition {
     String? nextToken,
     ContentModerationSortBy? sortBy,
   }) async {
-    ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      1,
-      64,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       1152921504606846976,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      255,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1867,25 +1698,11 @@ class Rekognition {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      1,
-      64,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       1152921504606846976,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      255,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1977,25 +1794,11 @@ class Rekognition {
     String? nextToken,
     FaceSearchSortBy? sortBy,
   }) async {
-    ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      1,
-      64,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       1152921504606846976,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      255,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2089,25 +1892,11 @@ class Rekognition {
     String? nextToken,
     LabelDetectionSortBy? sortBy,
   }) async {
-    ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      1,
-      64,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       1152921504606846976,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      255,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2206,25 +1995,11 @@ class Rekognition {
     String? nextToken,
     PersonTrackingSortBy? sortBy,
   }) async {
-    ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      1,
-      64,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       1152921504606846976,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      255,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2313,25 +2088,11 @@ class Rekognition {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      1,
-      64,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       1152921504606846976,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      255,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2412,25 +2173,11 @@ class Rekognition {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      1,
-      64,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       1152921504606846976,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      255,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2655,21 +2402,6 @@ class Rekognition {
     int? maxFaces,
     QualityFilter? qualityFilter,
   }) async {
-    ArgumentError.checkNotNull(collectionId, 'collectionId');
-    _s.validateStringLength(
-      'collectionId',
-      collectionId,
-      1,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(image, 'image');
-    _s.validateStringLength(
-      'externalImageId',
-      externalImageId,
-      1,
-      255,
-    );
     _s.validateNumRange(
       'maxFaces',
       maxFaces,
@@ -2734,12 +2466,6 @@ class Rekognition {
       0,
       4096,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      255,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'RekognitionService.ListCollections'
@@ -2790,25 +2516,11 @@ class Rekognition {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(collectionId, 'collectionId');
-    _s.validateStringLength(
-      'collectionId',
-      collectionId,
-      1,
-      255,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       0,
       4096,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      255,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2858,12 +2570,6 @@ class Rekognition {
       maxResults,
       1,
       1152921504606846976,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      255,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2941,7 +2647,6 @@ class Rekognition {
   Future<RecognizeCelebritiesResponse> recognizeCelebrities({
     required Image image,
   }) async {
-    ArgumentError.checkNotNull(image, 'image');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'RekognitionService.RecognizeCelebrities'
@@ -3008,15 +2713,6 @@ class Rekognition {
     double? faceMatchThreshold,
     int? maxFaces,
   }) async {
-    ArgumentError.checkNotNull(collectionId, 'collectionId');
-    _s.validateStringLength(
-      'collectionId',
-      collectionId,
-      1,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(faceId, 'faceId');
     _s.validateNumRange(
       'faceMatchThreshold',
       faceMatchThreshold,
@@ -3149,15 +2845,6 @@ class Rekognition {
     int? maxFaces,
     QualityFilter? qualityFilter,
   }) async {
-    ArgumentError.checkNotNull(collectionId, 'collectionId');
-    _s.validateStringLength(
-      'collectionId',
-      collectionId,
-      1,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(image, 'image');
     _s.validateNumRange(
       'faceMatchThreshold',
       faceMatchThreshold,
@@ -3247,19 +2934,6 @@ class Rekognition {
     String? jobTag,
     NotificationChannel? notificationChannel,
   }) async {
-    ArgumentError.checkNotNull(video, 'video');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'jobTag',
-      jobTag,
-      1,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'RekognitionService.StartCelebrityRecognition'
@@ -3348,19 +3022,6 @@ class Rekognition {
     double? minConfidence,
     NotificationChannel? notificationChannel,
   }) async {
-    ArgumentError.checkNotNull(video, 'video');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'jobTag',
-      jobTag,
-      1,
-      256,
-    );
     _s.validateNumRange(
       'minConfidence',
       minConfidence,
@@ -3452,19 +3113,6 @@ class Rekognition {
     String? jobTag,
     NotificationChannel? notificationChannel,
   }) async {
-    ArgumentError.checkNotNull(video, 'video');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'jobTag',
-      jobTag,
-      1,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'RekognitionService.StartFaceDetection'
@@ -3551,32 +3199,11 @@ class Rekognition {
     String? jobTag,
     NotificationChannel? notificationChannel,
   }) async {
-    ArgumentError.checkNotNull(collectionId, 'collectionId');
-    _s.validateStringLength(
-      'collectionId',
-      collectionId,
-      1,
-      255,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(video, 'video');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-    );
     _s.validateNumRange(
       'faceMatchThreshold',
       faceMatchThreshold,
       0,
       100,
-    );
-    _s.validateStringLength(
-      'jobTag',
-      jobTag,
-      1,
-      256,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3674,19 +3301,6 @@ class Rekognition {
     double? minConfidence,
     NotificationChannel? notificationChannel,
   }) async {
-    ArgumentError.checkNotNull(video, 'video');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'jobTag',
-      jobTag,
-      1,
-      256,
-    );
     _s.validateNumRange(
       'minConfidence',
       minConfidence,
@@ -3768,19 +3382,6 @@ class Rekognition {
     String? jobTag,
     NotificationChannel? notificationChannel,
   }) async {
-    ArgumentError.checkNotNull(video, 'video');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'jobTag',
-      jobTag,
-      1,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'RekognitionService.StartPersonTracking'
@@ -3838,20 +3439,11 @@ class Rekognition {
     required int minInferenceUnits,
     required String projectVersionArn,
   }) async {
-    ArgumentError.checkNotNull(minInferenceUnits, 'minInferenceUnits');
     _s.validateNumRange(
       'minInferenceUnits',
       minInferenceUnits,
       1,
       1152921504606846976,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(projectVersionArn, 'projectVersionArn');
-    _s.validateStringLength(
-      'projectVersionArn',
-      projectVersionArn,
-      20,
-      2048,
       isRequired: true,
     );
     final headers = <String, String>{
@@ -3939,20 +3531,6 @@ class Rekognition {
     String? jobTag,
     NotificationChannel? notificationChannel,
   }) async {
-    ArgumentError.checkNotNull(segmentTypes, 'segmentTypes');
-    ArgumentError.checkNotNull(video, 'video');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'jobTag',
-      jobTag,
-      1,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'RekognitionService.StartSegmentDetection'
@@ -3997,14 +3575,6 @@ class Rekognition {
   Future<void> startStreamProcessor({
     required String name,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      128,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'RekognitionService.StartStreamProcessor'
@@ -4069,19 +3639,6 @@ class Rekognition {
     String? jobTag,
     NotificationChannel? notificationChannel,
   }) async {
-    ArgumentError.checkNotNull(video, 'video');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'jobTag',
-      jobTag,
-      1,
-      256,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'RekognitionService.StartTextDetection'
@@ -4126,14 +3683,6 @@ class Rekognition {
   Future<StopProjectVersionResponse> stopProjectVersion({
     required String projectVersionArn,
   }) async {
-    ArgumentError.checkNotNull(projectVersionArn, 'projectVersionArn');
-    _s.validateStringLength(
-      'projectVersionArn',
-      projectVersionArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'RekognitionService.StopProjectVersion'
@@ -4168,14 +3717,6 @@ class Rekognition {
   Future<void> stopStreamProcessor({
     required String name,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      128,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'RekognitionService.StopStreamProcessor'

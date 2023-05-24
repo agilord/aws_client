@@ -73,16 +73,6 @@ class MachineLearning {
     required TaggableResourceType resourceType,
     required List<Tag> tags,
   }) async {
-    ArgumentError.checkNotNull(resourceId, 'resourceId');
-    _s.validateStringLength(
-      'resourceId',
-      resourceId,
-      1,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(resourceType, 'resourceType');
-    ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonML_20141212.AddTags'
@@ -158,45 +148,6 @@ class MachineLearning {
     required String outputUri,
     String? batchPredictionName,
   }) async {
-    ArgumentError.checkNotNull(
-        batchPredictionDataSourceId, 'batchPredictionDataSourceId');
-    _s.validateStringLength(
-      'batchPredictionDataSourceId',
-      batchPredictionDataSourceId,
-      1,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(batchPredictionId, 'batchPredictionId');
-    _s.validateStringLength(
-      'batchPredictionId',
-      batchPredictionId,
-      1,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(mLModelId, 'mLModelId');
-    _s.validateStringLength(
-      'mLModelId',
-      mLModelId,
-      1,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(outputUri, 'outputUri');
-    _s.validateStringLength(
-      'outputUri',
-      outputUri,
-      0,
-      2048,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'batchPredictionName',
-      batchPredictionName,
-      0,
-      1024,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonML_20141212.CreateBatchPrediction'
@@ -336,29 +287,6 @@ class MachineLearning {
     bool? computeStatistics,
     String? dataSourceName,
   }) async {
-    ArgumentError.checkNotNull(dataSourceId, 'dataSourceId');
-    _s.validateStringLength(
-      'dataSourceId',
-      dataSourceId,
-      1,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(rDSData, 'rDSData');
-    ArgumentError.checkNotNull(roleARN, 'roleARN');
-    _s.validateStringLength(
-      'roleARN',
-      roleARN,
-      1,
-      110,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'dataSourceName',
-      dataSourceName,
-      0,
-      1024,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonML_20141212.CreateDataSourceFromRDS'
@@ -509,29 +437,6 @@ class MachineLearning {
     bool? computeStatistics,
     String? dataSourceName,
   }) async {
-    ArgumentError.checkNotNull(dataSourceId, 'dataSourceId');
-    _s.validateStringLength(
-      'dataSourceId',
-      dataSourceId,
-      1,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(dataSpec, 'dataSpec');
-    ArgumentError.checkNotNull(roleARN, 'roleARN');
-    _s.validateStringLength(
-      'roleARN',
-      roleARN,
-      1,
-      110,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'dataSourceName',
-      dataSourceName,
-      0,
-      1024,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonML_20141212.CreateDataSourceFromRedshift'
@@ -640,21 +545,6 @@ class MachineLearning {
     bool? computeStatistics,
     String? dataSourceName,
   }) async {
-    ArgumentError.checkNotNull(dataSourceId, 'dataSourceId');
-    _s.validateStringLength(
-      'dataSourceId',
-      dataSourceId,
-      1,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(dataSpec, 'dataSpec');
-    _s.validateStringLength(
-      'dataSourceName',
-      dataSourceName,
-      0,
-      1024,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonML_20141212.CreateDataSourceFromS3'
@@ -724,37 +614,6 @@ class MachineLearning {
     required String mLModelId,
     String? evaluationName,
   }) async {
-    ArgumentError.checkNotNull(
-        evaluationDataSourceId, 'evaluationDataSourceId');
-    _s.validateStringLength(
-      'evaluationDataSourceId',
-      evaluationDataSourceId,
-      1,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(evaluationId, 'evaluationId');
-    _s.validateStringLength(
-      'evaluationId',
-      evaluationId,
-      1,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(mLModelId, 'mLModelId');
-    _s.validateStringLength(
-      'mLModelId',
-      mLModelId,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'evaluationName',
-      evaluationName,
-      0,
-      1024,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonML_20141212.CreateEvaluation'
@@ -902,41 +761,6 @@ class MachineLearning {
     String? recipe,
     String? recipeUri,
   }) async {
-    ArgumentError.checkNotNull(mLModelId, 'mLModelId');
-    _s.validateStringLength(
-      'mLModelId',
-      mLModelId,
-      1,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(mLModelType, 'mLModelType');
-    ArgumentError.checkNotNull(trainingDataSourceId, 'trainingDataSourceId');
-    _s.validateStringLength(
-      'trainingDataSourceId',
-      trainingDataSourceId,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'mLModelName',
-      mLModelName,
-      0,
-      1024,
-    );
-    _s.validateStringLength(
-      'recipe',
-      recipe,
-      0,
-      131071,
-    );
-    _s.validateStringLength(
-      'recipeUri',
-      recipeUri,
-      0,
-      2048,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonML_20141212.CreateMLModel'
@@ -974,14 +798,6 @@ class MachineLearning {
   Future<CreateRealtimeEndpointOutput> createRealtimeEndpoint({
     required String mLModelId,
   }) async {
-    ArgumentError.checkNotNull(mLModelId, 'mLModelId');
-    _s.validateStringLength(
-      'mLModelId',
-      mLModelId,
-      1,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonML_20141212.CreateRealtimeEndpoint'
@@ -1020,14 +836,6 @@ class MachineLearning {
   Future<DeleteBatchPredictionOutput> deleteBatchPrediction({
     required String batchPredictionId,
   }) async {
-    ArgumentError.checkNotNull(batchPredictionId, 'batchPredictionId');
-    _s.validateStringLength(
-      'batchPredictionId',
-      batchPredictionId,
-      1,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonML_20141212.DeleteBatchPrediction'
@@ -1065,14 +873,6 @@ class MachineLearning {
   Future<DeleteDataSourceOutput> deleteDataSource({
     required String dataSourceId,
   }) async {
-    ArgumentError.checkNotNull(dataSourceId, 'dataSourceId');
-    _s.validateStringLength(
-      'dataSourceId',
-      dataSourceId,
-      1,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonML_20141212.DeleteDataSource'
@@ -1112,14 +912,6 @@ class MachineLearning {
   Future<DeleteEvaluationOutput> deleteEvaluation({
     required String evaluationId,
   }) async {
-    ArgumentError.checkNotNull(evaluationId, 'evaluationId');
-    _s.validateStringLength(
-      'evaluationId',
-      evaluationId,
-      1,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonML_20141212.DeleteEvaluation'
@@ -1157,14 +949,6 @@ class MachineLearning {
   Future<DeleteMLModelOutput> deleteMLModel({
     required String mLModelId,
   }) async {
-    ArgumentError.checkNotNull(mLModelId, 'mLModelId');
-    _s.validateStringLength(
-      'mLModelId',
-      mLModelId,
-      1,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonML_20141212.DeleteMLModel'
@@ -1194,14 +978,6 @@ class MachineLearning {
   Future<DeleteRealtimeEndpointOutput> deleteRealtimeEndpoint({
     required String mLModelId,
   }) async {
-    ArgumentError.checkNotNull(mLModelId, 'mLModelId');
-    _s.validateStringLength(
-      'mLModelId',
-      mLModelId,
-      1,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonML_20141212.DeleteRealtimeEndpoint'
@@ -1243,16 +1019,6 @@ class MachineLearning {
     required TaggableResourceType resourceType,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(resourceId, 'resourceId');
-    _s.validateStringLength(
-      'resourceId',
-      resourceId,
-      1,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(resourceType, 'resourceType');
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonML_20141212.DeleteTags'
@@ -1386,53 +1152,11 @@ class MachineLearning {
     String? prefix,
     SortOrder? sortOrder,
   }) async {
-    _s.validateStringLength(
-      'eq',
-      eq,
-      0,
-      1024,
-    );
-    _s.validateStringLength(
-      'ge',
-      ge,
-      0,
-      1024,
-    );
-    _s.validateStringLength(
-      'gt',
-      gt,
-      0,
-      1024,
-    );
-    _s.validateStringLength(
-      'le',
-      le,
-      0,
-      1024,
-    );
-    _s.validateStringLength(
-      'lt',
-      lt,
-      0,
-      1024,
-    );
     _s.validateNumRange(
       'limit',
       limit,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'ne',
-      ne,
-      0,
-      1024,
-    );
-    _s.validateStringLength(
-      'prefix',
-      prefix,
-      0,
-      1024,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1569,53 +1293,11 @@ class MachineLearning {
     String? prefix,
     SortOrder? sortOrder,
   }) async {
-    _s.validateStringLength(
-      'eq',
-      eq,
-      0,
-      1024,
-    );
-    _s.validateStringLength(
-      'ge',
-      ge,
-      0,
-      1024,
-    );
-    _s.validateStringLength(
-      'gt',
-      gt,
-      0,
-      1024,
-    );
-    _s.validateStringLength(
-      'le',
-      le,
-      0,
-      1024,
-    );
-    _s.validateStringLength(
-      'lt',
-      lt,
-      0,
-      1024,
-    );
     _s.validateNumRange(
       'limit',
       limit,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'ne',
-      ne,
-      0,
-      1024,
-    );
-    _s.validateStringLength(
-      'prefix',
-      prefix,
-      0,
-      1024,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1755,53 +1437,11 @@ class MachineLearning {
     String? prefix,
     SortOrder? sortOrder,
   }) async {
-    _s.validateStringLength(
-      'eq',
-      eq,
-      0,
-      1024,
-    );
-    _s.validateStringLength(
-      'ge',
-      ge,
-      0,
-      1024,
-    );
-    _s.validateStringLength(
-      'gt',
-      gt,
-      0,
-      1024,
-    );
-    _s.validateStringLength(
-      'le',
-      le,
-      0,
-      1024,
-    );
-    _s.validateStringLength(
-      'lt',
-      lt,
-      0,
-      1024,
-    );
     _s.validateNumRange(
       'limit',
       limit,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'ne',
-      ne,
-      0,
-      1024,
-    );
-    _s.validateStringLength(
-      'prefix',
-      prefix,
-      0,
-      1024,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1949,53 +1589,11 @@ class MachineLearning {
     String? prefix,
     SortOrder? sortOrder,
   }) async {
-    _s.validateStringLength(
-      'eq',
-      eq,
-      0,
-      1024,
-    );
-    _s.validateStringLength(
-      'ge',
-      ge,
-      0,
-      1024,
-    );
-    _s.validateStringLength(
-      'gt',
-      gt,
-      0,
-      1024,
-    );
-    _s.validateStringLength(
-      'le',
-      le,
-      0,
-      1024,
-    );
-    _s.validateStringLength(
-      'lt',
-      lt,
-      0,
-      1024,
-    );
     _s.validateNumRange(
       'limit',
       limit,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'ne',
-      ne,
-      0,
-      1024,
-    );
-    _s.validateStringLength(
-      'prefix',
-      prefix,
-      0,
-      1024,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2040,15 +1638,6 @@ class MachineLearning {
     required String resourceId,
     required TaggableResourceType resourceType,
   }) async {
-    ArgumentError.checkNotNull(resourceId, 'resourceId');
-    _s.validateStringLength(
-      'resourceId',
-      resourceId,
-      1,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(resourceType, 'resourceType');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonML_20141212.DescribeTags'
@@ -2081,14 +1670,6 @@ class MachineLearning {
   Future<GetBatchPredictionOutput> getBatchPrediction({
     required String batchPredictionId,
   }) async {
-    ArgumentError.checkNotNull(batchPredictionId, 'batchPredictionId');
-    _s.validateStringLength(
-      'batchPredictionId',
-      batchPredictionId,
-      1,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonML_20141212.GetBatchPrediction'
@@ -2132,14 +1713,6 @@ class MachineLearning {
     required String dataSourceId,
     bool? verbose,
   }) async {
-    ArgumentError.checkNotNull(dataSourceId, 'dataSourceId');
-    _s.validateStringLength(
-      'dataSourceId',
-      dataSourceId,
-      1,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonML_20141212.GetDataSource'
@@ -2173,14 +1746,6 @@ class MachineLearning {
   Future<GetEvaluationOutput> getEvaluation({
     required String evaluationId,
   }) async {
-    ArgumentError.checkNotNull(evaluationId, 'evaluationId');
-    _s.validateStringLength(
-      'evaluationId',
-      evaluationId,
-      1,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonML_20141212.GetEvaluation'
@@ -2222,14 +1787,6 @@ class MachineLearning {
     required String mLModelId,
     bool? verbose,
   }) async {
-    ArgumentError.checkNotNull(mLModelId, 'mLModelId');
-    _s.validateStringLength(
-      'mLModelId',
-      mLModelId,
-      1,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonML_20141212.GetMLModel'
@@ -2269,23 +1826,6 @@ class MachineLearning {
     required String predictEndpoint,
     required Map<String, String> record,
   }) async {
-    ArgumentError.checkNotNull(mLModelId, 'mLModelId');
-    _s.validateStringLength(
-      'mLModelId',
-      mLModelId,
-      1,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(predictEndpoint, 'predictEndpoint');
-    _s.validateStringLength(
-      'predictEndpoint',
-      predictEndpoint,
-      0,
-      2048,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(record, 'record');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonML_20141212.Predict'
@@ -2326,22 +1866,6 @@ class MachineLearning {
     required String batchPredictionId,
     required String batchPredictionName,
   }) async {
-    ArgumentError.checkNotNull(batchPredictionId, 'batchPredictionId');
-    _s.validateStringLength(
-      'batchPredictionId',
-      batchPredictionId,
-      1,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(batchPredictionName, 'batchPredictionName');
-    _s.validateStringLength(
-      'batchPredictionName',
-      batchPredictionName,
-      0,
-      1024,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonML_20141212.UpdateBatchPrediction'
@@ -2380,22 +1904,6 @@ class MachineLearning {
     required String dataSourceId,
     required String dataSourceName,
   }) async {
-    ArgumentError.checkNotNull(dataSourceId, 'dataSourceId');
-    _s.validateStringLength(
-      'dataSourceId',
-      dataSourceId,
-      1,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(dataSourceName, 'dataSourceName');
-    _s.validateStringLength(
-      'dataSourceName',
-      dataSourceName,
-      0,
-      1024,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonML_20141212.UpdateDataSource'
@@ -2434,22 +1942,6 @@ class MachineLearning {
     required String evaluationId,
     required String evaluationName,
   }) async {
-    ArgumentError.checkNotNull(evaluationId, 'evaluationId');
-    _s.validateStringLength(
-      'evaluationId',
-      evaluationId,
-      1,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(evaluationName, 'evaluationName');
-    _s.validateStringLength(
-      'evaluationName',
-      evaluationName,
-      0,
-      1024,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonML_20141212.UpdateEvaluation'
@@ -2500,20 +1992,6 @@ class MachineLearning {
     String? mLModelName,
     double? scoreThreshold,
   }) async {
-    ArgumentError.checkNotNull(mLModelId, 'mLModelId');
-    _s.validateStringLength(
-      'mLModelId',
-      mLModelId,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'mLModelName',
-      mLModelName,
-      0,
-      1024,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonML_20141212.UpdateMLModel'

@@ -51,7 +51,6 @@ class SerializeBlobsInBody {
     required String foo,
     Uint8List? bar,
   }) async {
-    ArgumentError.checkNotNull(foo, 'foo');
     final $payload = <String, dynamic>{
       if (bar != null) 'Bar': base64Encode(bar),
     };

@@ -110,7 +110,6 @@ class Mobile {
   Future<DeleteProjectResult> deleteProject({
     required String projectId,
   }) async {
-    ArgumentError.checkNotNull(projectId, 'projectId');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -134,7 +133,6 @@ class Mobile {
   Future<DescribeBundleResult> describeBundle({
     required String bundleId,
   }) async {
-    ArgumentError.checkNotNull(bundleId, 'bundleId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -164,7 +162,6 @@ class Mobile {
     required String projectId,
     bool? syncFromResources,
   }) async {
-    ArgumentError.checkNotNull(projectId, 'projectId');
     final $query = <String, List<String>>{
       'projectId': [projectId],
       if (syncFromResources != null)
@@ -204,7 +201,6 @@ class Mobile {
     Platform? platform,
     String? projectId,
   }) async {
-    ArgumentError.checkNotNull(bundleId, 'bundleId');
     final $query = <String, List<String>>{
       if (platform != null) 'platform': [platform.toValue()],
       if (projectId != null) 'projectId': [projectId],
@@ -236,7 +232,6 @@ class Mobile {
   Future<ExportProjectResult> exportProject({
     required String projectId,
   }) async {
-    ArgumentError.checkNotNull(projectId, 'projectId');
     final response = await _protocol.send(
       payload: null,
       method: 'POST',
@@ -334,7 +329,6 @@ class Mobile {
     required String projectId,
     Uint8List? contents,
   }) async {
-    ArgumentError.checkNotNull(projectId, 'projectId');
     final $query = <String, List<String>>{
       'projectId': [projectId],
     };

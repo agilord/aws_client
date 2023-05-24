@@ -215,14 +215,6 @@ class Firehose {
     SplunkDestinationConfiguration? splunkDestinationConfiguration,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(deliveryStreamName, 'deliveryStreamName');
-    _s.validateStringLength(
-      'deliveryStreamName',
-      deliveryStreamName,
-      1,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Firehose_20150804.CreateDeliveryStream'
@@ -302,14 +294,6 @@ class Firehose {
     required String deliveryStreamName,
     bool? allowForceDelete,
   }) async {
-    ArgumentError.checkNotNull(deliveryStreamName, 'deliveryStreamName');
-    _s.validateStringLength(
-      'deliveryStreamName',
-      deliveryStreamName,
-      1,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Firehose_20150804.DeleteDeliveryStream'
@@ -356,20 +340,6 @@ class Firehose {
     String? exclusiveStartDestinationId,
     int? limit,
   }) async {
-    ArgumentError.checkNotNull(deliveryStreamName, 'deliveryStreamName');
-    _s.validateStringLength(
-      'deliveryStreamName',
-      deliveryStreamName,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'exclusiveStartDestinationId',
-      exclusiveStartDestinationId,
-      1,
-      100,
-    );
     _s.validateNumRange(
       'limit',
       limit,
@@ -438,12 +408,6 @@ class Firehose {
     String? exclusiveStartDeliveryStreamName,
     int? limit,
   }) async {
-    _s.validateStringLength(
-      'exclusiveStartDeliveryStreamName',
-      exclusiveStartDeliveryStreamName,
-      1,
-      64,
-    );
     _s.validateNumRange(
       'limit',
       limit,
@@ -497,20 +461,6 @@ class Firehose {
     String? exclusiveStartTagKey,
     int? limit,
   }) async {
-    ArgumentError.checkNotNull(deliveryStreamName, 'deliveryStreamName');
-    _s.validateStringLength(
-      'deliveryStreamName',
-      deliveryStreamName,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'exclusiveStartTagKey',
-      exclusiveStartTagKey,
-      1,
-      128,
-    );
     _s.validateNumRange(
       'limit',
       limit,
@@ -597,15 +547,6 @@ class Firehose {
     required String deliveryStreamName,
     required Record record,
   }) async {
-    ArgumentError.checkNotNull(deliveryStreamName, 'deliveryStreamName');
-    _s.validateStringLength(
-      'deliveryStreamName',
-      deliveryStreamName,
-      1,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(record, 'record');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Firehose_20150804.PutRecord'
@@ -709,15 +650,6 @@ class Firehose {
     required String deliveryStreamName,
     required List<Record> records,
   }) async {
-    ArgumentError.checkNotNull(deliveryStreamName, 'deliveryStreamName');
-    _s.validateStringLength(
-      'deliveryStreamName',
-      deliveryStreamName,
-      1,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(records, 'records');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Firehose_20150804.PutRecordBatch'
@@ -805,14 +737,6 @@ class Firehose {
     DeliveryStreamEncryptionConfigurationInput?
         deliveryStreamEncryptionConfigurationInput,
   }) async {
-    ArgumentError.checkNotNull(deliveryStreamName, 'deliveryStreamName');
-    _s.validateStringLength(
-      'deliveryStreamName',
-      deliveryStreamName,
-      1,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Firehose_20150804.StartDeliveryStreamEncryption'
@@ -871,14 +795,6 @@ class Firehose {
   Future<void> stopDeliveryStreamEncryption({
     required String deliveryStreamName,
   }) async {
-    ArgumentError.checkNotNull(deliveryStreamName, 'deliveryStreamName');
-    _s.validateStringLength(
-      'deliveryStreamName',
-      deliveryStreamName,
-      1,
-      64,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Firehose_20150804.StopDeliveryStreamEncryption'
@@ -924,15 +840,6 @@ class Firehose {
     required String deliveryStreamName,
     required List<Tag> tags,
   }) async {
-    ArgumentError.checkNotNull(deliveryStreamName, 'deliveryStreamName');
-    _s.validateStringLength(
-      'deliveryStreamName',
-      deliveryStreamName,
-      1,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Firehose_20150804.TagDeliveryStream'
@@ -972,15 +879,6 @@ class Firehose {
     required String deliveryStreamName,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(deliveryStreamName, 'deliveryStreamName');
-    _s.validateStringLength(
-      'deliveryStreamName',
-      deliveryStreamName,
-      1,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Firehose_20150804.UntagDeliveryStream'
@@ -1081,31 +979,6 @@ class Firehose {
     S3DestinationUpdate? s3DestinationUpdate,
     SplunkDestinationUpdate? splunkDestinationUpdate,
   }) async {
-    ArgumentError.checkNotNull(
-        currentDeliveryStreamVersionId, 'currentDeliveryStreamVersionId');
-    _s.validateStringLength(
-      'currentDeliveryStreamVersionId',
-      currentDeliveryStreamVersionId,
-      1,
-      50,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(deliveryStreamName, 'deliveryStreamName');
-    _s.validateStringLength(
-      'deliveryStreamName',
-      deliveryStreamName,
-      1,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(destinationId, 'destinationId');
-    _s.validateStringLength(
-      'destinationId',
-      destinationId,
-      1,
-      100,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Firehose_20150804.UpdateDestination'

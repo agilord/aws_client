@@ -108,23 +108,6 @@ class Signer {
     String? profileVersion,
     String? revisionId,
   }) async {
-    ArgumentError.checkNotNull(action, 'action');
-    ArgumentError.checkNotNull(principal, 'principal');
-    ArgumentError.checkNotNull(profileName, 'profileName');
-    _s.validateStringLength(
-      'profileName',
-      profileName,
-      2,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(statementId, 'statementId');
-    _s.validateStringLength(
-      'profileVersion',
-      profileVersion,
-      10,
-      10,
-    );
     final $payload = <String, dynamic>{
       'action': action,
       'principal': principal,
@@ -157,14 +140,6 @@ class Signer {
   Future<void> cancelSigningProfile({
     required String profileName,
   }) async {
-    ArgumentError.checkNotNull(profileName, 'profileName');
-    _s.validateStringLength(
-      'profileName',
-      profileName,
-      2,
-      64,
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -187,7 +162,6 @@ class Signer {
   Future<DescribeSigningJobResponse> describeSigningJob({
     required String jobId,
   }) async {
-    ArgumentError.checkNotNull(jobId, 'jobId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -209,7 +183,6 @@ class Signer {
   Future<GetSigningPlatformResponse> getSigningPlatform({
     required String platformId,
   }) async {
-    ArgumentError.checkNotNull(platformId, 'platformId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -235,20 +208,6 @@ class Signer {
     required String profileName,
     String? profileOwner,
   }) async {
-    ArgumentError.checkNotNull(profileName, 'profileName');
-    _s.validateStringLength(
-      'profileName',
-      profileName,
-      2,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'profileOwner',
-      profileOwner,
-      12,
-      12,
-    );
     final $query = <String, List<String>>{
       if (profileOwner != null) 'profileOwner': [profileOwner],
     };
@@ -279,14 +238,6 @@ class Signer {
     required String profileName,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(profileName, 'profileName');
-    _s.validateStringLength(
-      'profileName',
-      profileName,
-      2,
-      64,
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       if (nextToken != null) 'nextToken': [nextToken],
     };
@@ -364,12 +315,6 @@ class Signer {
     DateTime? signatureExpiresBefore,
     SigningStatus? status,
   }) async {
-    _s.validateStringLength(
-      'jobInvoker',
-      jobInvoker,
-      12,
-      12,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -543,7 +488,6 @@ class Signer {
   Future<ListTagsForResourceResponse> listTagsForResource({
     required String resourceArn,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -599,15 +543,6 @@ class Signer {
     Map<String, String>? signingParameters,
     Map<String, String>? tags,
   }) async {
-    ArgumentError.checkNotNull(platformId, 'platformId');
-    ArgumentError.checkNotNull(profileName, 'profileName');
-    _s.validateStringLength(
-      'profileName',
-      profileName,
-      2,
-      64,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'platformId': platformId,
       if (overrides != null) 'overrides': overrides,
@@ -649,16 +584,6 @@ class Signer {
     required String revisionId,
     required String statementId,
   }) async {
-    ArgumentError.checkNotNull(profileName, 'profileName');
-    _s.validateStringLength(
-      'profileName',
-      profileName,
-      2,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(revisionId, 'revisionId');
-    ArgumentError.checkNotNull(statementId, 'statementId');
     final $query = <String, List<String>>{
       'revisionId': [revisionId],
     };
@@ -695,21 +620,6 @@ class Signer {
     required String reason,
     String? jobOwner,
   }) async {
-    ArgumentError.checkNotNull(jobId, 'jobId');
-    ArgumentError.checkNotNull(reason, 'reason');
-    _s.validateStringLength(
-      'reason',
-      reason,
-      1,
-      500,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'jobOwner',
-      jobOwner,
-      12,
-      12,
-    );
     final $payload = <String, dynamic>{
       'reason': reason,
       if (jobOwner != null) 'jobOwner': jobOwner,
@@ -751,31 +661,6 @@ class Signer {
     required String profileVersion,
     required String reason,
   }) async {
-    ArgumentError.checkNotNull(effectiveTime, 'effectiveTime');
-    ArgumentError.checkNotNull(profileName, 'profileName');
-    _s.validateStringLength(
-      'profileName',
-      profileName,
-      2,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(profileVersion, 'profileVersion');
-    _s.validateStringLength(
-      'profileVersion',
-      profileVersion,
-      10,
-      10,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(reason, 'reason');
-    _s.validateStringLength(
-      'reason',
-      reason,
-      1,
-      500,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'effectiveTime': unixTimestampToJson(effectiveTime),
       'profileVersion': profileVersion,
@@ -853,22 +738,6 @@ class Signer {
     String? clientRequestToken,
     String? profileOwner,
   }) async {
-    ArgumentError.checkNotNull(destination, 'destination');
-    ArgumentError.checkNotNull(profileName, 'profileName');
-    _s.validateStringLength(
-      'profileName',
-      profileName,
-      2,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(source, 'source');
-    _s.validateStringLength(
-      'profileOwner',
-      profileOwner,
-      12,
-      12,
-    );
     final $payload = <String, dynamic>{
       'destination': destination,
       'profileName': profileName,
@@ -904,8 +773,6 @@ class Signer {
     required String resourceArn,
     required Map<String, String> tags,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
       'tags': tags,
     };
@@ -934,8 +801,6 @@ class Signer {
     required String resourceArn,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
       'tagKeys': tagKeys,
     };

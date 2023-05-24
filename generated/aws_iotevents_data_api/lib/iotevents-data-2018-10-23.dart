@@ -70,7 +70,6 @@ class IoTEventsData {
   Future<BatchPutMessageResponse> batchPutMessage({
     required List<Message> messages,
   }) async {
-    ArgumentError.checkNotNull(messages, 'messages');
     final $payload = <String, dynamic>{
       'messages': messages,
     };
@@ -97,7 +96,6 @@ class IoTEventsData {
   Future<BatchUpdateDetectorResponse> batchUpdateDetector({
     required List<UpdateDetectorRequest> detectors,
   }) async {
-    ArgumentError.checkNotNull(detectors, 'detectors');
     final $payload = <String, dynamic>{
       'detectors': detectors,
     };
@@ -129,20 +127,6 @@ class IoTEventsData {
     required String detectorModelName,
     String? keyValue,
   }) async {
-    ArgumentError.checkNotNull(detectorModelName, 'detectorModelName');
-    _s.validateStringLength(
-      'detectorModelName',
-      detectorModelName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'keyValue',
-      keyValue,
-      1,
-      128,
-    );
     final $query = <String, List<String>>{
       if (keyValue != null) 'keyValue': [keyValue],
     };
@@ -183,25 +167,11 @@ class IoTEventsData {
     String? nextToken,
     String? stateName,
   }) async {
-    ArgumentError.checkNotNull(detectorModelName, 'detectorModelName');
-    _s.validateStringLength(
-      'detectorModelName',
-      detectorModelName,
-      1,
-      128,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       250,
-    );
-    _s.validateStringLength(
-      'stateName',
-      stateName,
-      1,
-      128,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],

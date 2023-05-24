@@ -78,7 +78,6 @@ class CloudTrail {
     required String resourceId,
     List<Tag>? tagsList,
   }) async {
-    ArgumentError.checkNotNull(resourceId, 'resourceId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -245,8 +244,6 @@ class CloudTrail {
     String? snsTopicName,
     List<Tag>? tagsList,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    ArgumentError.checkNotNull(s3BucketName, 's3BucketName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -303,7 +300,6 @@ class CloudTrail {
   Future<void> deleteTrail({
     required String name,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -442,7 +438,6 @@ class CloudTrail {
   Future<GetEventSelectorsResponse> getEventSelectors({
     required String trailName,
   }) async {
-    ArgumentError.checkNotNull(trailName, 'trailName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -510,7 +505,6 @@ class CloudTrail {
   Future<GetInsightSelectorsResponse> getInsightSelectors({
     required String trailName,
   }) async {
-    ArgumentError.checkNotNull(trailName, 'trailName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -543,7 +537,6 @@ class CloudTrail {
   Future<GetTrailResponse> getTrail({
     required String name,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -584,7 +577,6 @@ class CloudTrail {
   Future<GetTrailStatusResponse> getTrailStatus({
     required String name,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -679,7 +671,6 @@ class CloudTrail {
     required List<String> resourceIdList,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(resourceIdList, 'resourceIdList');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -978,7 +969,6 @@ class CloudTrail {
     List<AdvancedEventSelector>? advancedEventSelectors,
     List<EventSelector>? eventSelectors,
   }) async {
-    ArgumentError.checkNotNull(trailName, 'trailName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -1029,8 +1019,6 @@ class CloudTrail {
     required List<InsightSelector> insightSelectors,
     required String trailName,
   }) async {
-    ArgumentError.checkNotNull(insightSelectors, 'insightSelectors');
-    ArgumentError.checkNotNull(trailName, 'trailName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -1074,7 +1062,6 @@ class CloudTrail {
     required String resourceId,
     List<Tag>? tagsList,
   }) async {
-    ArgumentError.checkNotNull(resourceId, 'resourceId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -1115,7 +1102,6 @@ class CloudTrail {
   Future<void> startLogging({
     required String name,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -1158,7 +1144,6 @@ class CloudTrail {
   Future<void> stopLogging({
     required String name,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -1338,7 +1323,6 @@ class CloudTrail {
     String? s3KeyPrefix,
     String? snsTopicName,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':

@@ -83,8 +83,6 @@ class Batch {
     required String jobId,
     required String reason,
   }) async {
-    ArgumentError.checkNotNull(jobId, 'jobId');
-    ArgumentError.checkNotNull(reason, 'reason');
     final $payload = <String, dynamic>{
       'jobId': jobId,
       'reason': reason,
@@ -231,10 +229,6 @@ class Batch {
     CEState? state,
     Map<String, String>? tags,
   }) async {
-    ArgumentError.checkNotNull(
-        computeEnvironmentName, 'computeEnvironmentName');
-    ArgumentError.checkNotNull(serviceRole, 'serviceRole');
-    ArgumentError.checkNotNull(type, 'type');
     final $payload = <String, dynamic>{
       'computeEnvironmentName': computeEnvironmentName,
       'serviceRole': serviceRole,
@@ -315,10 +309,6 @@ class Batch {
     JQState? state,
     Map<String, String>? tags,
   }) async {
-    ArgumentError.checkNotNull(
-        computeEnvironmentOrder, 'computeEnvironmentOrder');
-    ArgumentError.checkNotNull(jobQueueName, 'jobQueueName');
-    ArgumentError.checkNotNull(priority, 'priority');
     final $payload = <String, dynamic>{
       'computeEnvironmentOrder': computeEnvironmentOrder,
       'jobQueueName': jobQueueName,
@@ -354,7 +344,6 @@ class Batch {
   Future<void> deleteComputeEnvironment({
     required String computeEnvironment,
   }) async {
-    ArgumentError.checkNotNull(computeEnvironment, 'computeEnvironment');
     final $payload = <String, dynamic>{
       'computeEnvironment': computeEnvironment,
     };
@@ -382,7 +371,6 @@ class Batch {
   Future<void> deleteJobQueue({
     required String jobQueue,
   }) async {
-    ArgumentError.checkNotNull(jobQueue, 'jobQueue');
     final $payload = <String, dynamic>{
       'jobQueue': jobQueue,
     };
@@ -406,7 +394,6 @@ class Batch {
   Future<void> deregisterJobDefinition({
     required String jobDefinition,
   }) async {
-    ArgumentError.checkNotNull(jobDefinition, 'jobDefinition');
     final $payload = <String, dynamic>{
       'jobDefinition': jobDefinition,
     };
@@ -599,7 +586,6 @@ class Batch {
   Future<DescribeJobsResponse> describeJobs({
     required List<String> jobs,
   }) async {
-    ArgumentError.checkNotNull(jobs, 'jobs');
     final $payload = <String, dynamic>{
       'jobs': jobs,
     };
@@ -714,7 +700,6 @@ class Batch {
   Future<ListTagsForResourceResponse> listTagsForResource({
     required String resourceArn,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -822,8 +807,6 @@ class Batch {
     Map<String, String>? tags,
     JobTimeout? timeout,
   }) async {
-    ArgumentError.checkNotNull(jobDefinitionName, 'jobDefinitionName');
-    ArgumentError.checkNotNull(type, 'type');
     final $payload = <String, dynamic>{
       'jobDefinitionName': jobDefinitionName,
       'type': type.toValue(),
@@ -963,9 +946,6 @@ class Batch {
     Map<String, String>? tags,
     JobTimeout? timeout,
   }) async {
-    ArgumentError.checkNotNull(jobDefinition, 'jobDefinition');
-    ArgumentError.checkNotNull(jobName, 'jobName');
-    ArgumentError.checkNotNull(jobQueue, 'jobQueue');
     final $payload = <String, dynamic>{
       'jobDefinition': jobDefinition,
       'jobName': jobName,
@@ -1016,8 +996,6 @@ class Batch {
     required String resourceArn,
     required Map<String, String> tags,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
       'tags': tags,
     };
@@ -1048,8 +1026,6 @@ class Batch {
     required String jobId,
     required String reason,
   }) async {
-    ArgumentError.checkNotNull(jobId, 'jobId');
-    ArgumentError.checkNotNull(reason, 'reason');
     final $payload = <String, dynamic>{
       'jobId': jobId,
       'reason': reason,
@@ -1079,8 +1055,6 @@ class Batch {
     required String resourceArn,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
       'tagKeys': tagKeys,
     };
@@ -1150,7 +1124,6 @@ class Batch {
     String? serviceRole,
     CEState? state,
   }) async {
-    ArgumentError.checkNotNull(computeEnvironment, 'computeEnvironment');
     final $payload = <String, dynamic>{
       'computeEnvironment': computeEnvironment,
       if (computeResources != null) 'computeResources': computeResources,
@@ -1211,7 +1184,6 @@ class Batch {
     int? priority,
     JQState? state,
   }) async {
-    ArgumentError.checkNotNull(jobQueue, 'jobQueue');
     final $payload = <String, dynamic>{
       'jobQueue': jobQueue,
       if (computeEnvironmentOrder != null)

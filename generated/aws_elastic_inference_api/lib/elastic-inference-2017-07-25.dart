@@ -69,7 +69,6 @@ class ElasticInference {
     required LocationType locationType,
     List<String>? acceleratorTypes,
   }) async {
-    ArgumentError.checkNotNull(locationType, 'locationType');
     final $payload = <String, dynamic>{
       'locationType': locationType.toValue(),
       if (acceleratorTypes != null) 'acceleratorTypes': acceleratorTypes,
@@ -135,12 +134,6 @@ class ElasticInference {
       0,
       100,
     );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      1,
-      2048,
-    );
     final $payload = <String, dynamic>{
       if (acceleratorIds != null) 'acceleratorIds': acceleratorIds,
       if (filters != null) 'filters': filters,
@@ -167,14 +160,6 @@ class ElasticInference {
   Future<ListTagsForResourceResult> listTagsForResource({
     required String resourceArn,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      1011,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -199,15 +184,6 @@ class ElasticInference {
     required String resourceArn,
     required Map<String, String> tags,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      1011,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
       'tags': tags,
     };
@@ -234,15 +210,6 @@ class ElasticInference {
     required String resourceArn,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      1011,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
       'tagKeys': tagKeys,
     };

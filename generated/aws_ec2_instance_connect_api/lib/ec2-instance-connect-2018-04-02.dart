@@ -78,38 +78,6 @@ class EC2InstanceConnect {
     required String instanceOSUser,
     required String sSHPublicKey,
   }) async {
-    ArgumentError.checkNotNull(availabilityZone, 'availabilityZone');
-    _s.validateStringLength(
-      'availabilityZone',
-      availabilityZone,
-      6,
-      32,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringLength(
-      'instanceId',
-      instanceId,
-      10,
-      32,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(instanceOSUser, 'instanceOSUser');
-    _s.validateStringLength(
-      'instanceOSUser',
-      instanceOSUser,
-      1,
-      32,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(sSHPublicKey, 'sSHPublicKey');
-    _s.validateStringLength(
-      'sSHPublicKey',
-      sSHPublicKey,
-      256,
-      4096,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSEC2InstanceConnectService.SendSSHPublicKey'

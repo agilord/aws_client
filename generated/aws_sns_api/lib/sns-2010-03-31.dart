@@ -90,10 +90,6 @@ class SNS {
     required String label,
     required String topicArn,
   }) async {
-    ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
-    ArgumentError.checkNotNull(actionName, 'actionName');
-    ArgumentError.checkNotNull(label, 'label');
-    ArgumentError.checkNotNull(topicArn, 'topicArn');
     final $request = <String, dynamic>{};
     $request['AWSAccountId'] = awsAccountId;
     $request['ActionName'] = actionName;
@@ -128,7 +124,6 @@ class SNS {
   Future<CheckIfPhoneNumberIsOptedOutResponse> checkIfPhoneNumberIsOptedOut({
     required String phoneNumber,
   }) async {
-    ArgumentError.checkNotNull(phoneNumber, 'phoneNumber');
     final $request = <String, dynamic>{};
     $request['phoneNumber'] = phoneNumber;
     final $result = await _protocol.send(
@@ -176,8 +171,6 @@ class SNS {
     required String topicArn,
     String? authenticateOnUnsubscribe,
   }) async {
-    ArgumentError.checkNotNull(token, 'token');
-    ArgumentError.checkNotNull(topicArn, 'topicArn');
     final $request = <String, dynamic>{};
     $request['Token'] = token;
     $request['TopicArn'] = topicArn;
@@ -262,9 +255,6 @@ class SNS {
     required String name,
     required String platform,
   }) async {
-    ArgumentError.checkNotNull(attributes, 'attributes');
-    ArgumentError.checkNotNull(name, 'name');
-    ArgumentError.checkNotNull(platform, 'platform');
     final $request = <String, dynamic>{};
     $request['Attributes'] = attributes;
     $request['Name'] = name;
@@ -333,9 +323,6 @@ class SNS {
     Map<String, String>? attributes,
     String? customUserData,
   }) async {
-    ArgumentError.checkNotNull(
-        platformApplicationArn, 'platformApplicationArn');
-    ArgumentError.checkNotNull(token, 'token');
     final $request = <String, dynamic>{};
     $request['PlatformApplicationArn'] = platformApplicationArn;
     $request['Token'] = token;
@@ -464,7 +451,6 @@ class SNS {
     Map<String, String>? attributes,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
     final $request = <String, dynamic>{};
     $request['Name'] = name;
     attributes?.also((arg) => $request['Attributes'] = arg);
@@ -500,7 +486,6 @@ class SNS {
   Future<void> deleteEndpoint({
     required String endpointArn,
   }) async {
-    ArgumentError.checkNotNull(endpointArn, 'endpointArn');
     final $request = <String, dynamic>{};
     $request['EndpointArn'] = endpointArn;
     await _protocol.send(
@@ -530,8 +515,6 @@ class SNS {
   Future<void> deletePlatformApplication({
     required String platformApplicationArn,
   }) async {
-    ArgumentError.checkNotNull(
-        platformApplicationArn, 'platformApplicationArn');
     final $request = <String, dynamic>{};
     $request['PlatformApplicationArn'] = platformApplicationArn;
     await _protocol.send(
@@ -564,7 +547,6 @@ class SNS {
   Future<void> deleteTopic({
     required String topicArn,
   }) async {
-    ArgumentError.checkNotNull(topicArn, 'topicArn');
     final $request = <String, dynamic>{};
     $request['TopicArn'] = topicArn;
     await _protocol.send(
@@ -595,7 +577,6 @@ class SNS {
   Future<GetEndpointAttributesResponse> getEndpointAttributes({
     required String endpointArn,
   }) async {
-    ArgumentError.checkNotNull(endpointArn, 'endpointArn');
     final $request = <String, dynamic>{};
     $request['EndpointArn'] = endpointArn;
     final $result = await _protocol.send(
@@ -629,8 +610,6 @@ class SNS {
       getPlatformApplicationAttributes({
     required String platformApplicationArn,
   }) async {
-    ArgumentError.checkNotNull(
-        platformApplicationArn, 'platformApplicationArn');
     final $request = <String, dynamic>{};
     $request['PlatformApplicationArn'] = platformApplicationArn;
     final $result = await _protocol.send(
@@ -695,7 +674,6 @@ class SNS {
   Future<GetSubscriptionAttributesResponse> getSubscriptionAttributes({
     required String subscriptionArn,
   }) async {
-    ArgumentError.checkNotNull(subscriptionArn, 'subscriptionArn');
     final $request = <String, dynamic>{};
     $request['SubscriptionArn'] = subscriptionArn;
     final $result = await _protocol.send(
@@ -726,7 +704,6 @@ class SNS {
   Future<GetTopicAttributesResponse> getTopicAttributes({
     required String topicArn,
   }) async {
-    ArgumentError.checkNotNull(topicArn, 'topicArn');
     final $request = <String, dynamic>{};
     $request['TopicArn'] = topicArn;
     final $result = await _protocol.send(
@@ -774,8 +751,6 @@ class SNS {
     required String platformApplicationArn,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(
-        platformApplicationArn, 'platformApplicationArn');
     final $request = <String, dynamic>{};
     $request['PlatformApplicationArn'] = platformApplicationArn;
     nextToken?.also((arg) => $request['NextToken'] = arg);
@@ -929,7 +904,6 @@ class SNS {
     required String topicArn,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(topicArn, 'topicArn');
     final $request = <String, dynamic>{};
     $request['TopicArn'] = topicArn;
     nextToken?.also((arg) => $request['NextToken'] = arg);
@@ -963,14 +937,6 @@ class SNS {
   Future<ListTagsForResourceResponse> listTagsForResource({
     required String resourceArn,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      1011,
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['ResourceArn'] = resourceArn;
     final $result = await _protocol.send(
@@ -1034,7 +1000,6 @@ class SNS {
   Future<void> optInPhoneNumber({
     required String phoneNumber,
   }) async {
-    ArgumentError.checkNotNull(phoneNumber, 'phoneNumber');
     final $request = <String, dynamic>{};
     $request['phoneNumber'] = phoneNumber;
     await _protocol.send(
@@ -1252,7 +1217,6 @@ class SNS {
     String? targetArn,
     String? topicArn,
   }) async {
-    ArgumentError.checkNotNull(message, 'message');
     final $request = <String, dynamic>{};
     $request['Message'] = message;
     messageAttributes?.also((arg) => $request['MessageAttributes'] = arg);
@@ -1294,8 +1258,6 @@ class SNS {
     required String label,
     required String topicArn,
   }) async {
-    ArgumentError.checkNotNull(label, 'label');
-    ArgumentError.checkNotNull(topicArn, 'topicArn');
     final $request = <String, dynamic>{};
     $request['Label'] = label;
     $request['TopicArn'] = topicArn;
@@ -1352,8 +1314,6 @@ class SNS {
     required Map<String, String> attributes,
     required String endpointArn,
   }) async {
-    ArgumentError.checkNotNull(attributes, 'attributes');
-    ArgumentError.checkNotNull(endpointArn, 'endpointArn');
     final $request = <String, dynamic>{};
     $request['Attributes'] = attributes;
     $request['EndpointArn'] = endpointArn;
@@ -1443,9 +1403,6 @@ class SNS {
     required Map<String, String> attributes,
     required String platformApplicationArn,
   }) async {
-    ArgumentError.checkNotNull(attributes, 'attributes');
-    ArgumentError.checkNotNull(
-        platformApplicationArn, 'platformApplicationArn');
     final $request = <String, dynamic>{};
     $request['Attributes'] = attributes;
     $request['PlatformApplicationArn'] = platformApplicationArn;
@@ -1573,7 +1530,6 @@ class SNS {
   Future<void> setSMSAttributes({
     required Map<String, String> attributes,
   }) async {
-    ArgumentError.checkNotNull(attributes, 'attributes');
     final $request = <String, dynamic>{};
     $request['attributes'] = attributes;
     await _protocol.send(
@@ -1640,8 +1596,6 @@ class SNS {
     required String subscriptionArn,
     String? attributeValue,
   }) async {
-    ArgumentError.checkNotNull(attributeName, 'attributeName');
-    ArgumentError.checkNotNull(subscriptionArn, 'subscriptionArn');
     final $request = <String, dynamic>{};
     $request['AttributeName'] = attributeName;
     $request['SubscriptionArn'] = subscriptionArn;
@@ -1740,8 +1694,6 @@ class SNS {
     required String topicArn,
     String? attributeValue,
   }) async {
-    ArgumentError.checkNotNull(attributeName, 'attributeName');
-    ArgumentError.checkNotNull(topicArn, 'topicArn');
     final $request = <String, dynamic>{};
     $request['AttributeName'] = attributeName;
     $request['TopicArn'] = topicArn;
@@ -1900,8 +1852,6 @@ class SNS {
     String? endpoint,
     bool? returnSubscriptionArn,
   }) async {
-    ArgumentError.checkNotNull(protocol, 'protocol');
-    ArgumentError.checkNotNull(topicArn, 'topicArn');
     final $request = <String, dynamic>{};
     $request['Protocol'] = protocol;
     $request['TopicArn'] = topicArn;
@@ -1970,15 +1920,6 @@ class SNS {
     required String resourceArn,
     required List<Tag> tags,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      1011,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(tags, 'tags');
     final $request = <String, dynamic>{};
     $request['ResourceArn'] = resourceArn;
     $request['Tags'] = tags;
@@ -2017,7 +1958,6 @@ class SNS {
   Future<void> unsubscribe({
     required String subscriptionArn,
   }) async {
-    ArgumentError.checkNotNull(subscriptionArn, 'subscriptionArn');
     final $request = <String, dynamic>{};
     $request['SubscriptionArn'] = subscriptionArn;
     await _protocol.send(
@@ -2053,15 +1993,6 @@ class SNS {
     required String resourceArn,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      1011,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $request = <String, dynamic>{};
     $request['ResourceArn'] = resourceArn;
     $request['TagKeys'] = tagKeys;

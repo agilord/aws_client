@@ -184,24 +184,6 @@ class CodeStarNotifications {
     NotificationRuleStatus? status,
     Map<String, String>? tags,
   }) async {
-    ArgumentError.checkNotNull(detailType, 'detailType');
-    ArgumentError.checkNotNull(eventTypeIds, 'eventTypeIds');
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(resource, 'resource');
-    ArgumentError.checkNotNull(targets, 'targets');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      256,
-    );
     final $payload = <String, dynamic>{
       'DetailType': detailType.toValue(),
       'EventTypeIds': eventTypeIds,
@@ -233,7 +215,6 @@ class CodeStarNotifications {
   Future<DeleteNotificationRuleResult> deleteNotificationRule({
     required String arn,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
     final $payload = <String, dynamic>{
       'Arn': arn,
     };
@@ -262,14 +243,6 @@ class CodeStarNotifications {
     required String targetAddress,
     bool? forceUnsubscribeAll,
   }) async {
-    ArgumentError.checkNotNull(targetAddress, 'targetAddress');
-    _s.validateStringLength(
-      'targetAddress',
-      targetAddress,
-      1,
-      320,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'TargetAddress': targetAddress,
       if (forceUnsubscribeAll != null)
@@ -293,7 +266,6 @@ class CodeStarNotifications {
   Future<DescribeNotificationRuleResult> describeNotificationRule({
     required String arn,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
     final $payload = <String, dynamic>{
       'Arn': arn,
     };
@@ -404,7 +376,6 @@ class CodeStarNotifications {
   Future<ListTagsForResourceResult> listTagsForResource({
     required String arn,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
     final $payload = <String, dynamic>{
       'Arn': arn,
     };
@@ -482,14 +453,6 @@ class CodeStarNotifications {
     required Target target,
     String? clientRequestToken,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
-    ArgumentError.checkNotNull(target, 'target');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      256,
-    );
     final $payload = <String, dynamic>{
       'Arn': arn,
       'Target': target,
@@ -520,8 +483,6 @@ class CodeStarNotifications {
     required String arn,
     required Map<String, String> tags,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
-    ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
       'Arn': arn,
       'Tags': tags,
@@ -550,15 +511,6 @@ class CodeStarNotifications {
     required String arn,
     required String targetAddress,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
-    ArgumentError.checkNotNull(targetAddress, 'targetAddress');
-    _s.validateStringLength(
-      'targetAddress',
-      targetAddress,
-      1,
-      320,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'Arn': arn,
       'TargetAddress': targetAddress,
@@ -589,8 +541,6 @@ class CodeStarNotifications {
     required String arn,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $payload = <String, dynamic>{
       'Arn': arn,
       'TagKeys': tagKeys,
@@ -645,13 +595,6 @@ class CodeStarNotifications {
     NotificationRuleStatus? status,
     List<Target>? targets,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      64,
-    );
     final $payload = <String, dynamic>{
       'Arn': arn,
       if (detailType != null) 'DetailType': detailType.toValue(),

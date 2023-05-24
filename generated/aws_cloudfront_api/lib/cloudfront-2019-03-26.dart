@@ -71,8 +71,6 @@ class CloudFront {
     required CloudFrontOriginAccessIdentityConfig
         cloudFrontOriginAccessIdentityConfig,
   }) async {
-    ArgumentError.checkNotNull(cloudFrontOriginAccessIdentityConfig,
-        'cloudFrontOriginAccessIdentityConfig');
     final $result = await _protocol.sendRaw(
       method: 'POST',
       requestUri: '/2019-03-26/origin-access-identity/cloudfront',
@@ -156,7 +154,6 @@ class CloudFront {
   Future<CreateDistributionResult> createDistribution2019_03_26({
     required DistributionConfig distributionConfig,
   }) async {
-    ArgumentError.checkNotNull(distributionConfig, 'distributionConfig');
     final $result = await _protocol.sendRaw(
       method: 'POST',
       requestUri: '/2019-03-26/distribution',
@@ -225,8 +222,6 @@ class CloudFront {
       createDistributionWithTags2019_03_26({
     required DistributionConfigWithTags distributionConfigWithTags,
   }) async {
-    ArgumentError.checkNotNull(
-        distributionConfigWithTags, 'distributionConfigWithTags');
     final $result = await _protocol.sendRaw(
       method: 'POST',
       requestUri: '/2019-03-26/distribution?WithTags',
@@ -258,8 +253,6 @@ class CloudFront {
       createFieldLevelEncryptionConfig2019_03_26({
     required FieldLevelEncryptionConfig fieldLevelEncryptionConfig,
   }) async {
-    ArgumentError.checkNotNull(
-        fieldLevelEncryptionConfig, 'fieldLevelEncryptionConfig');
     final $result = await _protocol.sendRaw(
       method: 'POST',
       requestUri: '/2019-03-26/field-level-encryption',
@@ -292,8 +285,6 @@ class CloudFront {
     required FieldLevelEncryptionProfileConfig
         fieldLevelEncryptionProfileConfig,
   }) async {
-    ArgumentError.checkNotNull(
-        fieldLevelEncryptionProfileConfig, 'fieldLevelEncryptionProfileConfig');
     final $result = await _protocol.sendRaw(
       method: 'POST',
       requestUri: '/2019-03-26/field-level-encryption-profile',
@@ -328,8 +319,6 @@ class CloudFront {
     required String distributionId,
     required InvalidationBatch invalidationBatch,
   }) async {
-    ArgumentError.checkNotNull(distributionId, 'distributionId');
-    ArgumentError.checkNotNull(invalidationBatch, 'invalidationBatch');
     final $result = await _protocol.sendRaw(
       method: 'POST',
       requestUri:
@@ -356,7 +345,6 @@ class CloudFront {
   Future<CreatePublicKeyResult> createPublicKey2019_03_26({
     required PublicKeyConfig publicKeyConfig,
   }) async {
-    ArgumentError.checkNotNull(publicKeyConfig, 'publicKeyConfig');
     final $result = await _protocol.sendRaw(
       method: 'POST',
       requestUri: '/2019-03-26/public-key',
@@ -423,8 +411,6 @@ class CloudFront {
       createStreamingDistribution2019_03_26({
     required StreamingDistributionConfig streamingDistributionConfig,
   }) async {
-    ArgumentError.checkNotNull(
-        streamingDistributionConfig, 'streamingDistributionConfig');
     final $result = await _protocol.sendRaw(
       method: 'POST',
       requestUri: '/2019-03-26/streaming-distribution',
@@ -462,8 +448,6 @@ class CloudFront {
     required StreamingDistributionConfigWithTags
         streamingDistributionConfigWithTags,
   }) async {
-    ArgumentError.checkNotNull(streamingDistributionConfigWithTags,
-        'streamingDistributionConfigWithTags');
     final $result = await _protocol.sendRaw(
       method: 'POST',
       requestUri: '/2019-03-26/streaming-distribution?WithTags',
@@ -498,7 +482,6 @@ class CloudFront {
     required String id,
     String? ifMatch,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
     final headers = <String, String>{
       if (ifMatch != null) 'If-Match': ifMatch.toString(),
     };
@@ -529,7 +512,6 @@ class CloudFront {
     required String id,
     String? ifMatch,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
     final headers = <String, String>{
       if (ifMatch != null) 'If-Match': ifMatch.toString(),
     };
@@ -560,7 +542,6 @@ class CloudFront {
     required String id,
     String? ifMatch,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
     final headers = <String, String>{
       if (ifMatch != null) 'If-Match': ifMatch.toString(),
     };
@@ -592,7 +573,6 @@ class CloudFront {
     required String id,
     String? ifMatch,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
     final headers = <String, String>{
       if (ifMatch != null) 'If-Match': ifMatch.toString(),
     };
@@ -624,7 +604,6 @@ class CloudFront {
     required String id,
     String? ifMatch,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
     final headers = <String, String>{
       if (ifMatch != null) 'If-Match': ifMatch.toString(),
     };
@@ -703,7 +682,6 @@ class CloudFront {
     required String id,
     String? ifMatch,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
     final headers = <String, String>{
       if (ifMatch != null) 'If-Match': ifMatch.toString(),
     };
@@ -727,7 +705,6 @@ class CloudFront {
       getCloudFrontOriginAccessIdentity2019_03_26({
     required String id,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
     final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri:
@@ -753,7 +730,6 @@ class CloudFront {
       getCloudFrontOriginAccessIdentityConfig2019_03_26({
     required String id,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
     final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri:
@@ -779,7 +755,6 @@ class CloudFront {
   Future<GetDistributionResult> getDistribution2019_03_26({
     required String id,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
     final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri: '/2019-03-26/distribution/${Uri.encodeComponent(id)}',
@@ -803,7 +778,6 @@ class CloudFront {
   Future<GetDistributionConfigResult> getDistributionConfig2019_03_26({
     required String id,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
     final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri: '/2019-03-26/distribution/${Uri.encodeComponent(id)}/config',
@@ -826,7 +800,6 @@ class CloudFront {
   Future<GetFieldLevelEncryptionResult> getFieldLevelEncryption2019_03_26({
     required String id,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
     final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri:
@@ -851,7 +824,6 @@ class CloudFront {
       getFieldLevelEncryptionConfig2019_03_26({
     required String id,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
     final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri:
@@ -876,7 +848,6 @@ class CloudFront {
       getFieldLevelEncryptionProfile2019_03_26({
     required String id,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
     final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri:
@@ -902,7 +873,6 @@ class CloudFront {
       getFieldLevelEncryptionProfileConfig2019_03_26({
     required String id,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
     final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri:
@@ -933,8 +903,6 @@ class CloudFront {
     required String distributionId,
     required String id,
   }) async {
-    ArgumentError.checkNotNull(distributionId, 'distributionId');
-    ArgumentError.checkNotNull(id, 'id');
     final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri:
@@ -957,7 +925,6 @@ class CloudFront {
   Future<GetPublicKeyResult> getPublicKey2019_03_26({
     required String id,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
     final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri: '/2019-03-26/public-key/${Uri.encodeComponent(id)}',
@@ -980,7 +947,6 @@ class CloudFront {
   Future<GetPublicKeyConfigResult> getPublicKeyConfig2019_03_26({
     required String id,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
     final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri: '/2019-03-26/public-key/${Uri.encodeComponent(id)}/config',
@@ -1004,7 +970,6 @@ class CloudFront {
   Future<GetStreamingDistributionResult> getStreamingDistribution2019_03_26({
     required String id,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
     final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri:
@@ -1029,7 +994,6 @@ class CloudFront {
       getStreamingDistributionConfig2019_03_26({
     required String id,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
     final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri:
@@ -1142,7 +1106,6 @@ class CloudFront {
     String? marker,
     String? maxItems,
   }) async {
-    ArgumentError.checkNotNull(webACLId, 'webACLId');
     final $query = <String, List<String>>{
       if (marker != null) 'Marker': [marker],
       if (maxItems != null) 'MaxItems': [maxItems],
@@ -1260,7 +1223,6 @@ class CloudFront {
     String? marker,
     String? maxItems,
   }) async {
-    ArgumentError.checkNotNull(distributionId, 'distributionId');
     final $query = <String, List<String>>{
       if (marker != null) 'Marker': [marker],
       if (maxItems != null) 'MaxItems': [maxItems],
@@ -1355,7 +1317,6 @@ class CloudFront {
   Future<ListTagsForResourceResult> listTagsForResource2019_03_26({
     required String resource,
   }) async {
-    ArgumentError.checkNotNull(resource, 'resource');
     final $query = <String, List<String>>{
       'Resource': [resource],
     };
@@ -1387,8 +1348,6 @@ class CloudFront {
     required String resource,
     required Tags tags,
   }) async {
-    ArgumentError.checkNotNull(resource, 'resource');
-    ArgumentError.checkNotNull(tags, 'tags');
     final $query = <String, List<String>>{
       'Resource': [resource],
     };
@@ -1417,8 +1376,6 @@ class CloudFront {
     required String resource,
     required TagKeys tagKeys,
   }) async {
-    ArgumentError.checkNotNull(resource, 'resource');
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
       'Resource': [resource],
     };
@@ -1459,9 +1416,6 @@ class CloudFront {
     required String id,
     String? ifMatch,
   }) async {
-    ArgumentError.checkNotNull(cloudFrontOriginAccessIdentityConfig,
-        'cloudFrontOriginAccessIdentityConfig');
-    ArgumentError.checkNotNull(id, 'id');
     final headers = <String, String>{
       if (ifMatch != null) 'If-Match': ifMatch.toString(),
     };
@@ -1631,8 +1585,6 @@ class CloudFront {
     required String id,
     String? ifMatch,
   }) async {
-    ArgumentError.checkNotNull(distributionConfig, 'distributionConfig');
-    ArgumentError.checkNotNull(id, 'id');
     final headers = <String, String>{
       if (ifMatch != null) 'If-Match': ifMatch.toString(),
     };
@@ -1680,9 +1632,6 @@ class CloudFront {
     required String id,
     String? ifMatch,
   }) async {
-    ArgumentError.checkNotNull(
-        fieldLevelEncryptionConfig, 'fieldLevelEncryptionConfig');
-    ArgumentError.checkNotNull(id, 'id');
     final headers = <String, String>{
       if (ifMatch != null) 'If-Match': ifMatch.toString(),
     };
@@ -1733,9 +1682,6 @@ class CloudFront {
     required String id,
     String? ifMatch,
   }) async {
-    ArgumentError.checkNotNull(
-        fieldLevelEncryptionProfileConfig, 'fieldLevelEncryptionProfileConfig');
-    ArgumentError.checkNotNull(id, 'id');
     final headers = <String, String>{
       if (ifMatch != null) 'If-Match': ifMatch.toString(),
     };
@@ -1781,8 +1727,6 @@ class CloudFront {
     required PublicKeyConfig publicKeyConfig,
     String? ifMatch,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
-    ArgumentError.checkNotNull(publicKeyConfig, 'publicKeyConfig');
     final headers = <String, String>{
       if (ifMatch != null) 'If-Match': ifMatch.toString(),
     };
@@ -1832,9 +1776,6 @@ class CloudFront {
     required StreamingDistributionConfig streamingDistributionConfig,
     String? ifMatch,
   }) async {
-    ArgumentError.checkNotNull(id, 'id');
-    ArgumentError.checkNotNull(
-        streamingDistributionConfig, 'streamingDistributionConfig');
     final headers = <String, String>{
       if (ifMatch != null) 'If-Match': ifMatch.toString(),
     };

@@ -68,8 +68,6 @@ class MediaConnect {
     required String flowArn,
     required List<AddOutputRequest> outputs,
   }) async {
-    ArgumentError.checkNotNull(flowArn, 'flowArn');
-    ArgumentError.checkNotNull(outputs, 'outputs');
     final $payload = <String, dynamic>{
       'outputs': outputs,
     };
@@ -100,8 +98,6 @@ class MediaConnect {
     required String flowArn,
     required List<SetSourceRequest> sources,
   }) async {
-    ArgumentError.checkNotNull(flowArn, 'flowArn');
-    ArgumentError.checkNotNull(sources, 'sources');
     final $payload = <String, dynamic>{
       'sources': sources,
     };
@@ -132,8 +128,6 @@ class MediaConnect {
     required String flowArn,
     required List<VpcInterfaceRequest> vpcInterfaces,
   }) async {
-    ArgumentError.checkNotNull(flowArn, 'flowArn');
-    ArgumentError.checkNotNull(vpcInterfaces, 'vpcInterfaces');
     final $payload = <String, dynamic>{
       'vpcInterfaces': vpcInterfaces,
     };
@@ -181,7 +175,6 @@ class MediaConnect {
     List<SetSourceRequest>? sources,
     List<VpcInterfaceRequest>? vpcInterfaces,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
     final $payload = <String, dynamic>{
       'name': name,
       if (availabilityZone != null) 'availabilityZone': availabilityZone,
@@ -216,7 +209,6 @@ class MediaConnect {
   Future<DeleteFlowResponse> deleteFlow({
     required String flowArn,
   }) async {
-    ArgumentError.checkNotNull(flowArn, 'flowArn');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -242,7 +234,6 @@ class MediaConnect {
   Future<DescribeFlowResponse> describeFlow({
     required String flowArn,
   }) async {
-    ArgumentError.checkNotNull(flowArn, 'flowArn');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -267,7 +258,6 @@ class MediaConnect {
   Future<DescribeOfferingResponse> describeOffering({
     required String offeringArn,
   }) async {
-    ArgumentError.checkNotNull(offeringArn, 'offeringArn');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -293,7 +283,6 @@ class MediaConnect {
   Future<DescribeReservationResponse> describeReservation({
     required String reservationArn,
   }) async {
-    ArgumentError.checkNotNull(reservationArn, 'reservationArn');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -322,8 +311,6 @@ class MediaConnect {
     required List<GrantEntitlementRequest> entitlements,
     required String flowArn,
   }) async {
-    ArgumentError.checkNotNull(entitlements, 'entitlements');
-    ArgumentError.checkNotNull(flowArn, 'flowArn');
     final $payload = <String, dynamic>{
       'entitlements': entitlements,
     };
@@ -539,7 +526,6 @@ class MediaConnect {
   Future<ListTagsForResourceResponse> listTagsForResource({
     required String resourceArn,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -577,9 +563,6 @@ class MediaConnect {
     required String reservationName,
     required String start,
   }) async {
-    ArgumentError.checkNotNull(offeringArn, 'offeringArn');
-    ArgumentError.checkNotNull(reservationName, 'reservationName');
-    ArgumentError.checkNotNull(start, 'start');
     final $payload = <String, dynamic>{
       'reservationName': reservationName,
       'start': start,
@@ -615,8 +598,6 @@ class MediaConnect {
     required String flowArn,
     required String outputArn,
   }) async {
-    ArgumentError.checkNotNull(flowArn, 'flowArn');
-    ArgumentError.checkNotNull(outputArn, 'outputArn');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -646,8 +627,6 @@ class MediaConnect {
     required String flowArn,
     required String sourceArn,
   }) async {
-    ArgumentError.checkNotNull(flowArn, 'flowArn');
-    ArgumentError.checkNotNull(sourceArn, 'sourceArn');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -680,8 +659,6 @@ class MediaConnect {
     required String flowArn,
     required String vpcInterfaceName,
   }) async {
-    ArgumentError.checkNotNull(flowArn, 'flowArn');
-    ArgumentError.checkNotNull(vpcInterfaceName, 'vpcInterfaceName');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -712,8 +689,6 @@ class MediaConnect {
     required String entitlementArn,
     required String flowArn,
   }) async {
-    ArgumentError.checkNotNull(entitlementArn, 'entitlementArn');
-    ArgumentError.checkNotNull(flowArn, 'flowArn');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -738,7 +713,6 @@ class MediaConnect {
   Future<StartFlowResponse> startFlow({
     required String flowArn,
   }) async {
-    ArgumentError.checkNotNull(flowArn, 'flowArn');
     final response = await _protocol.send(
       payload: null,
       method: 'POST',
@@ -762,7 +736,6 @@ class MediaConnect {
   Future<StopFlowResponse> stopFlow({
     required String flowArn,
   }) async {
-    ArgumentError.checkNotNull(flowArn, 'flowArn');
     final response = await _protocol.send(
       payload: null,
       method: 'POST',
@@ -793,8 +766,6 @@ class MediaConnect {
     required String resourceArn,
     required Map<String, String> tags,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
       'tags': tags,
     };
@@ -822,8 +793,6 @@ class MediaConnect {
     required String resourceArn,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
       'tagKeys': tagKeys,
     };
@@ -851,7 +820,6 @@ class MediaConnect {
     required String flowArn,
     UpdateFailoverConfig? sourceFailoverConfig,
   }) async {
-    ArgumentError.checkNotNull(flowArn, 'flowArn');
     final $payload = <String, dynamic>{
       if (sourceFailoverConfig != null)
         'sourceFailoverConfig': sourceFailoverConfig,
@@ -909,8 +877,6 @@ class MediaConnect {
     EntitlementStatus? entitlementStatus,
     List<String>? subscribers,
   }) async {
-    ArgumentError.checkNotNull(entitlementArn, 'entitlementArn');
-    ArgumentError.checkNotNull(flowArn, 'flowArn');
     final $payload = <String, dynamic>{
       if (description != null) 'description': description,
       if (encryption != null) 'encryption': encryption,
@@ -995,8 +961,6 @@ class MediaConnect {
     String? streamId,
     VpcInterfaceAttachment? vpcInterfaceAttachment,
   }) async {
-    ArgumentError.checkNotNull(flowArn, 'flowArn');
-    ArgumentError.checkNotNull(outputArn, 'outputArn');
     final $payload = <String, dynamic>{
       if (cidrAllowList != null) 'cidrAllowList': cidrAllowList,
       if (description != null) 'description': description,
@@ -1086,8 +1050,6 @@ class MediaConnect {
     String? vpcInterfaceName,
     String? whitelistCidr,
   }) async {
-    ArgumentError.checkNotNull(flowArn, 'flowArn');
-    ArgumentError.checkNotNull(sourceArn, 'sourceArn');
     final $payload = <String, dynamic>{
       if (decryption != null) 'decryption': decryption,
       if (description != null) 'description': description,

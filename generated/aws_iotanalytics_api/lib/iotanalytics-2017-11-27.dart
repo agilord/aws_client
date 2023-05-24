@@ -119,15 +119,6 @@ class IoTAnalytics {
     required String channelName,
     required List<Message> messages,
   }) async {
-    ArgumentError.checkNotNull(channelName, 'channelName');
-    _s.validateStringLength(
-      'channelName',
-      channelName,
-      1,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(messages, 'messages');
     final $payload = <String, dynamic>{
       'channelName': channelName,
       'messages': messages,
@@ -159,15 +150,6 @@ class IoTAnalytics {
     required String pipelineName,
     required String reprocessingId,
   }) async {
-    ArgumentError.checkNotNull(pipelineName, 'pipelineName');
-    _s.validateStringLength(
-      'pipelineName',
-      pipelineName,
-      1,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(reprocessingId, 'reprocessingId');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -209,14 +191,6 @@ class IoTAnalytics {
     RetentionPeriod? retentionPeriod,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(channelName, 'channelName');
-    _s.validateStringLength(
-      'channelName',
-      channelName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'channelName': channelName,
       if (channelStorage != null) 'channelStorage': channelStorage,
@@ -301,15 +275,6 @@ class IoTAnalytics {
     List<DatasetTrigger>? triggers,
     VersioningConfiguration? versioningConfiguration,
   }) async {
-    ArgumentError.checkNotNull(actions, 'actions');
-    ArgumentError.checkNotNull(datasetName, 'datasetName');
-    _s.validateStringLength(
-      'datasetName',
-      datasetName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'actions': actions,
       'datasetName': datasetName,
@@ -353,20 +318,6 @@ class IoTAnalytics {
     required String datasetName,
     String? versionId,
   }) async {
-    ArgumentError.checkNotNull(datasetName, 'datasetName');
-    _s.validateStringLength(
-      'datasetName',
-      datasetName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'versionId',
-      versionId,
-      7,
-      36,
-    );
     final $payload = <String, dynamic>{
       if (versionId != null) 'versionId': versionId,
     };
@@ -420,14 +371,6 @@ class IoTAnalytics {
     RetentionPeriod? retentionPeriod,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(datastoreName, 'datastoreName');
-    _s.validateStringLength(
-      'datastoreName',
-      datastoreName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'datastoreName': datastoreName,
       if (datastoreStorage != null) 'datastoreStorage': datastoreStorage,
@@ -482,15 +425,6 @@ class IoTAnalytics {
     required String pipelineName,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(pipelineActivities, 'pipelineActivities');
-    ArgumentError.checkNotNull(pipelineName, 'pipelineName');
-    _s.validateStringLength(
-      'pipelineName',
-      pipelineName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'pipelineActivities': pipelineActivities,
       'pipelineName': pipelineName,
@@ -518,14 +452,6 @@ class IoTAnalytics {
   Future<void> deleteChannel({
     required String channelName,
   }) async {
-    ArgumentError.checkNotNull(channelName, 'channelName');
-    _s.validateStringLength(
-      'channelName',
-      channelName,
-      1,
-      128,
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -550,14 +476,6 @@ class IoTAnalytics {
   Future<void> deleteDataset({
     required String datasetName,
   }) async {
-    ArgumentError.checkNotNull(datasetName, 'datasetName');
-    _s.validateStringLength(
-      'datasetName',
-      datasetName,
-      1,
-      128,
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -586,20 +504,6 @@ class IoTAnalytics {
     required String datasetName,
     String? versionId,
   }) async {
-    ArgumentError.checkNotNull(datasetName, 'datasetName');
-    _s.validateStringLength(
-      'datasetName',
-      datasetName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'versionId',
-      versionId,
-      7,
-      36,
-    );
     final $query = <String, List<String>>{
       if (versionId != null) 'versionId': [versionId],
     };
@@ -625,14 +529,6 @@ class IoTAnalytics {
   Future<void> deleteDatastore({
     required String datastoreName,
   }) async {
-    ArgumentError.checkNotNull(datastoreName, 'datastoreName');
-    _s.validateStringLength(
-      'datastoreName',
-      datastoreName,
-      1,
-      128,
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -654,14 +550,6 @@ class IoTAnalytics {
   Future<void> deletePipeline({
     required String pipelineName,
   }) async {
-    ArgumentError.checkNotNull(pipelineName, 'pipelineName');
-    _s.validateStringLength(
-      'pipelineName',
-      pipelineName,
-      1,
-      128,
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -689,14 +577,6 @@ class IoTAnalytics {
     required String channelName,
     bool? includeStatistics,
   }) async {
-    ArgumentError.checkNotNull(channelName, 'channelName');
-    _s.validateStringLength(
-      'channelName',
-      channelName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       if (includeStatistics != null)
         'includeStatistics': [includeStatistics.toString()],
@@ -724,14 +604,6 @@ class IoTAnalytics {
   Future<DescribeDatasetResponse> describeDataset({
     required String datasetName,
   }) async {
-    ArgumentError.checkNotNull(datasetName, 'datasetName');
-    _s.validateStringLength(
-      'datasetName',
-      datasetName,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -760,14 +632,6 @@ class IoTAnalytics {
     required String datastoreName,
     bool? includeStatistics,
   }) async {
-    ArgumentError.checkNotNull(datastoreName, 'datastoreName');
-    _s.validateStringLength(
-      'datastoreName',
-      datastoreName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       if (includeStatistics != null)
         'includeStatistics': [includeStatistics.toString()],
@@ -812,14 +676,6 @@ class IoTAnalytics {
   Future<DescribePipelineResponse> describePipeline({
     required String pipelineName,
   }) async {
-    ArgumentError.checkNotNull(pipelineName, 'pipelineName');
-    _s.validateStringLength(
-      'pipelineName',
-      pipelineName,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -849,20 +705,6 @@ class IoTAnalytics {
     required String datasetName,
     String? versionId,
   }) async {
-    ArgumentError.checkNotNull(datasetName, 'datasetName');
-    _s.validateStringLength(
-      'datasetName',
-      datasetName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'versionId',
-      versionId,
-      7,
-      36,
-    );
     final $query = <String, List<String>>{
       if (versionId != null) 'versionId': [versionId],
     };
@@ -949,14 +791,6 @@ class IoTAnalytics {
     DateTime? scheduledBefore,
     DateTime? scheduledOnOrAfter,
   }) async {
-    ArgumentError.checkNotNull(datasetName, 'datasetName');
-    _s.validateStringLength(
-      'datasetName',
-      datasetName,
-      1,
-      128,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1109,14 +943,6 @@ class IoTAnalytics {
   Future<ListTagsForResourceResponse> listTagsForResource({
     required String resourceArn,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       'resourceArn': [resourceArn],
     };
@@ -1148,7 +974,6 @@ class IoTAnalytics {
   Future<void> putLoggingOptions({
     required LoggingOptions loggingOptions,
   }) async {
-    ArgumentError.checkNotNull(loggingOptions, 'loggingOptions');
     final $payload = <String, dynamic>{
       'loggingOptions': loggingOptions,
     };
@@ -1181,8 +1006,6 @@ class IoTAnalytics {
     required List<Uint8List> payloads,
     required PipelineActivity pipelineActivity,
   }) async {
-    ArgumentError.checkNotNull(payloads, 'payloads');
-    ArgumentError.checkNotNull(pipelineActivity, 'pipelineActivity');
     final $payload = <String, dynamic>{
       'payloads': payloads.map(base64Encode).toList(),
       'pipelineActivity': pipelineActivity,
@@ -1223,14 +1046,6 @@ class IoTAnalytics {
     int? maxMessages,
     DateTime? startTime,
   }) async {
-    ArgumentError.checkNotNull(channelName, 'channelName');
-    _s.validateStringLength(
-      'channelName',
-      channelName,
-      1,
-      128,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxMessages',
       maxMessages,
@@ -1288,14 +1103,6 @@ class IoTAnalytics {
     DateTime? endTime,
     DateTime? startTime,
   }) async {
-    ArgumentError.checkNotNull(pipelineName, 'pipelineName');
-    _s.validateStringLength(
-      'pipelineName',
-      pipelineName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       if (channelMessages != null) 'channelMessages': channelMessages,
       if (endTime != null) 'endTime': unixTimestampToJson(endTime),
@@ -1330,15 +1137,6 @@ class IoTAnalytics {
     required String resourceArn,
     required List<Tag> tags,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      20,
-      2048,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(tags, 'tags');
     final $query = <String, List<String>>{
       'resourceArn': [resourceArn],
     };
@@ -1372,15 +1170,6 @@ class IoTAnalytics {
     required String resourceArn,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      20,
-      2048,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
       'resourceArn': [resourceArn],
       'tagKeys': tagKeys,
@@ -1419,14 +1208,6 @@ class IoTAnalytics {
     ChannelStorage? channelStorage,
     RetentionPeriod? retentionPeriod,
   }) async {
-    ArgumentError.checkNotNull(channelName, 'channelName');
-    _s.validateStringLength(
-      'channelName',
-      channelName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       if (channelStorage != null) 'channelStorage': channelStorage,
       if (retentionPeriod != null) 'retentionPeriod': retentionPeriod,
@@ -1488,15 +1269,6 @@ class IoTAnalytics {
     List<DatasetTrigger>? triggers,
     VersioningConfiguration? versioningConfiguration,
   }) async {
-    ArgumentError.checkNotNull(actions, 'actions');
-    ArgumentError.checkNotNull(datasetName, 'datasetName');
-    _s.validateStringLength(
-      'datasetName',
-      datasetName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'actions': actions,
       if (contentDeliveryRules != null)
@@ -1551,14 +1323,6 @@ class IoTAnalytics {
     FileFormatConfiguration? fileFormatConfiguration,
     RetentionPeriod? retentionPeriod,
   }) async {
-    ArgumentError.checkNotNull(datastoreName, 'datastoreName');
-    _s.validateStringLength(
-      'datastoreName',
-      datastoreName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       if (datastoreStorage != null) 'datastoreStorage': datastoreStorage,
       if (fileFormatConfiguration != null)
@@ -1605,15 +1369,6 @@ class IoTAnalytics {
     required List<PipelineActivity> pipelineActivities,
     required String pipelineName,
   }) async {
-    ArgumentError.checkNotNull(pipelineActivities, 'pipelineActivities');
-    ArgumentError.checkNotNull(pipelineName, 'pipelineName');
-    _s.validateStringLength(
-      'pipelineName',
-      pipelineName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'pipelineActivities': pipelineActivities,
     };

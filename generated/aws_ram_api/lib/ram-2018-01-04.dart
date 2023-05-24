@@ -79,8 +79,6 @@ class RAM {
     required String resourceShareInvitationArn,
     String? clientToken,
   }) async {
-    ArgumentError.checkNotNull(
-        resourceShareInvitationArn, 'resourceShareInvitationArn');
     final $payload = <String, dynamic>{
       'resourceShareInvitationArn': resourceShareInvitationArn,
       if (clientToken != null) 'clientToken': clientToken,
@@ -128,7 +126,6 @@ class RAM {
     List<String>? principals,
     List<String>? resourceArns,
   }) async {
-    ArgumentError.checkNotNull(resourceShareArn, 'resourceShareArn');
     final $payload = <String, dynamic>{
       'resourceShareArn': resourceShareArn,
       if (clientToken != null) 'clientToken': clientToken,
@@ -176,8 +173,6 @@ class RAM {
     String? clientToken,
     bool? replace,
   }) async {
-    ArgumentError.checkNotNull(permissionArn, 'permissionArn');
-    ArgumentError.checkNotNull(resourceShareArn, 'resourceShareArn');
     final $payload = <String, dynamic>{
       'permissionArn': permissionArn,
       'resourceShareArn': resourceShareArn,
@@ -243,7 +238,6 @@ class RAM {
     List<String>? resourceArns,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
     final $payload = <String, dynamic>{
       'name': name,
       if (allowExternalPrincipals != null)
@@ -285,7 +279,6 @@ class RAM {
     required String resourceShareArn,
     String? clientToken,
   }) async {
-    ArgumentError.checkNotNull(resourceShareArn, 'resourceShareArn');
     final $query = <String, List<String>>{
       'resourceShareArn': [resourceShareArn],
       if (clientToken != null) 'clientToken': [clientToken],
@@ -332,7 +325,6 @@ class RAM {
     List<String>? principals,
     List<String>? resourceArns,
   }) async {
-    ArgumentError.checkNotNull(resourceShareArn, 'resourceShareArn');
     final $payload = <String, dynamic>{
       'resourceShareArn': resourceShareArn,
       if (clientToken != null) 'clientToken': clientToken,
@@ -373,8 +365,6 @@ class RAM {
     required String resourceShareArn,
     String? clientToken,
   }) async {
-    ArgumentError.checkNotNull(permissionArn, 'permissionArn');
-    ArgumentError.checkNotNull(resourceShareArn, 'resourceShareArn');
     final $payload = <String, dynamic>{
       'permissionArn': permissionArn,
       'resourceShareArn': resourceShareArn,
@@ -425,7 +415,6 @@ class RAM {
     required String permissionArn,
     int? permissionVersion,
   }) async {
-    ArgumentError.checkNotNull(permissionArn, 'permissionArn');
     final $payload = <String, dynamic>{
       'permissionArn': permissionArn,
       if (permissionVersion != null) 'permissionVersion': permissionVersion,
@@ -468,7 +457,6 @@ class RAM {
     String? nextToken,
     String? principal,
   }) async {
-    ArgumentError.checkNotNull(resourceArns, 'resourceArns');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -536,7 +524,6 @@ class RAM {
     String? resourceArn,
     List<String>? resourceShareArns,
   }) async {
-    ArgumentError.checkNotNull(associationType, 'associationType');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -655,7 +642,6 @@ class RAM {
     ResourceShareStatus? resourceShareStatus,
     List<TagFilter>? tagFilters,
   }) async {
-    ArgumentError.checkNotNull(resourceOwner, 'resourceOwner');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -710,8 +696,6 @@ class RAM {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(
-        resourceShareInvitationArn, 'resourceShareInvitationArn');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -828,7 +812,6 @@ class RAM {
     List<String>? resourceShareArns,
     String? resourceType,
   }) async {
-    ArgumentError.checkNotNull(resourceOwner, 'resourceOwner');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -878,7 +861,6 @@ class RAM {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(resourceShareArn, 'resourceShareArn');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -988,7 +970,6 @@ class RAM {
     List<String>? resourceShareArns,
     String? resourceType,
   }) async {
-    ArgumentError.checkNotNull(resourceOwner, 'resourceOwner');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1043,7 +1024,6 @@ class RAM {
       promoteResourceShareCreatedFromPolicy({
     required String resourceShareArn,
   }) async {
-    ArgumentError.checkNotNull(resourceShareArn, 'resourceShareArn');
     final $query = <String, List<String>>{
       'resourceShareArn': [resourceShareArn],
     };
@@ -1080,8 +1060,6 @@ class RAM {
     required String resourceShareInvitationArn,
     String? clientToken,
   }) async {
-    ArgumentError.checkNotNull(
-        resourceShareInvitationArn, 'resourceShareInvitationArn');
     final $payload = <String, dynamic>{
       'resourceShareInvitationArn': resourceShareInvitationArn,
       if (clientToken != null) 'clientToken': clientToken,
@@ -1114,8 +1092,6 @@ class RAM {
     required String resourceShareArn,
     required List<Tag> tags,
   }) async {
-    ArgumentError.checkNotNull(resourceShareArn, 'resourceShareArn');
-    ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
       'resourceShareArn': resourceShareArn,
       'tags': tags,
@@ -1143,8 +1119,6 @@ class RAM {
     required String resourceShareArn,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(resourceShareArn, 'resourceShareArn');
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $payload = <String, dynamic>{
       'resourceShareArn': resourceShareArn,
       'tagKeys': tagKeys,
@@ -1188,7 +1162,6 @@ class RAM {
     String? clientToken,
     String? name,
   }) async {
-    ArgumentError.checkNotNull(resourceShareArn, 'resourceShareArn');
     final $payload = <String, dynamic>{
       'resourceShareArn': resourceShareArn,
       if (allowExternalPrincipals != null)

@@ -71,9 +71,6 @@ class ApplicationDiscoveryService {
     required String applicationConfigurationId,
     required List<String> configurationIds,
   }) async {
-    ArgumentError.checkNotNull(
-        applicationConfigurationId, 'applicationConfigurationId');
-    ArgumentError.checkNotNull(configurationIds, 'configurationIds');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -114,7 +111,6 @@ class ApplicationDiscoveryService {
   Future<BatchDeleteImportDataResponse> batchDeleteImportData({
     required List<String> importTaskIds,
   }) async {
-    ArgumentError.checkNotNull(importTaskIds, 'importTaskIds');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSPoseidonService_V2015_11_01.BatchDeleteImportData'
@@ -150,7 +146,6 @@ class ApplicationDiscoveryService {
     required String name,
     String? description,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSPoseidonService_V2015_11_01.CreateApplication'
@@ -194,8 +189,6 @@ class ApplicationDiscoveryService {
     required List<String> configurationIds,
     required List<Tag> tags,
   }) async {
-    ArgumentError.checkNotNull(configurationIds, 'configurationIds');
-    ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSPoseidonService_V2015_11_01.CreateTags'
@@ -227,7 +220,6 @@ class ApplicationDiscoveryService {
   Future<void> deleteApplications({
     required List<String> configurationIds,
   }) async {
-    ArgumentError.checkNotNull(configurationIds, 'configurationIds');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSPoseidonService_V2015_11_01.DeleteApplications'
@@ -267,7 +259,6 @@ class ApplicationDiscoveryService {
     required List<String> configurationIds,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(configurationIds, 'configurationIds');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSPoseidonService_V2015_11_01.DeleteTags'
@@ -384,7 +375,6 @@ class ApplicationDiscoveryService {
   Future<DescribeConfigurationsResponse> describeConfigurations({
     required List<String> configurationIds,
   }) async {
-    ArgumentError.checkNotNull(configurationIds, 'configurationIds');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSPoseidonService_V2015_11_01.DescribeConfigurations'
@@ -701,9 +691,6 @@ class ApplicationDiscoveryService {
     required String applicationConfigurationId,
     required List<String> configurationIds,
   }) async {
-    ArgumentError.checkNotNull(
-        applicationConfigurationId, 'applicationConfigurationId');
-    ArgumentError.checkNotNull(configurationIds, 'configurationIds');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -830,7 +817,6 @@ class ApplicationDiscoveryService {
     String? nextToken,
     List<OrderByElement>? orderBy,
   }) async {
-    ArgumentError.checkNotNull(configurationType, 'configurationType');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSPoseidonService_V2015_11_01.ListConfigurations'
@@ -889,7 +875,6 @@ class ApplicationDiscoveryService {
     String? nextToken,
     bool? portInformationNeeded,
   }) async {
-    ArgumentError.checkNotNull(configurationId, 'configurationId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSPoseidonService_V2015_11_01.ListServerNeighbors'
@@ -960,7 +945,6 @@ class ApplicationDiscoveryService {
   Future<StartDataCollectionByAgentIdsResponse> startDataCollectionByAgentIds({
     required List<String> agentIds,
   }) async {
-    ArgumentError.checkNotNull(agentIds, 'agentIds');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -1122,28 +1106,6 @@ class ApplicationDiscoveryService {
     required String name,
     String? clientRequestToken,
   }) async {
-    ArgumentError.checkNotNull(importUrl, 'importUrl');
-    _s.validateStringLength(
-      'importUrl',
-      importUrl,
-      1,
-      4000,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      100,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      100,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSPoseidonService_V2015_11_01.StartImportTask'
@@ -1181,7 +1143,6 @@ class ApplicationDiscoveryService {
   Future<StopContinuousExportResponse> stopContinuousExport({
     required String exportId,
   }) async {
-    ArgumentError.checkNotNull(exportId, 'exportId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSPoseidonService_V2015_11_01.StopContinuousExport'
@@ -1213,7 +1174,6 @@ class ApplicationDiscoveryService {
   Future<StopDataCollectionByAgentIdsResponse> stopDataCollectionByAgentIds({
     required List<String> agentIds,
   }) async {
-    ArgumentError.checkNotNull(agentIds, 'agentIds');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -1254,7 +1214,6 @@ class ApplicationDiscoveryService {
     String? description,
     String? name,
   }) async {
-    ArgumentError.checkNotNull(configurationId, 'configurationId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSPoseidonService_V2015_11_01.UpdateApplication'

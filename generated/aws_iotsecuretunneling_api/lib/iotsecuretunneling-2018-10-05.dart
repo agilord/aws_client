@@ -66,7 +66,6 @@ class IoTSecureTunneling {
     required String tunnelId,
     bool? delete,
   }) async {
-    ArgumentError.checkNotNull(tunnelId, 'tunnelId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'IoTSecuredTunneling.CloseTunnel'
@@ -93,7 +92,6 @@ class IoTSecureTunneling {
   Future<DescribeTunnelResponse> describeTunnel({
     required String tunnelId,
   }) async {
-    ArgumentError.checkNotNull(tunnelId, 'tunnelId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'IoTSecuredTunneling.DescribeTunnel'
@@ -121,14 +119,6 @@ class IoTSecureTunneling {
   Future<ListTagsForResourceResponse> listTagsForResource({
     required String resourceArn,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      1011,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'IoTSecuredTunneling.ListTagsForResource'
@@ -168,12 +158,6 @@ class IoTSecureTunneling {
       maxResults,
       1,
       100,
-    );
-    _s.validateStringLength(
-      'thingName',
-      thingName,
-      1,
-      128,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -251,15 +235,6 @@ class IoTSecureTunneling {
     required String resourceArn,
     required List<Tag> tags,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      1011,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'IoTSecuredTunneling.TagResource'
@@ -290,15 +265,6 @@ class IoTSecureTunneling {
     required String resourceArn,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringLength(
-      'resourceArn',
-      resourceArn,
-      1,
-      1011,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'IoTSecuredTunneling.UntagResource'

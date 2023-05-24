@@ -89,9 +89,6 @@ class CloudDirectory {
     required SchemaFacet schemaFacet,
     List<AttributeKeyAndValue>? objectAttributeList,
   }) async {
-    ArgumentError.checkNotNull(directoryArn, 'directoryArn');
-    ArgumentError.checkNotNull(objectReference, 'objectReference');
-    ArgumentError.checkNotNull(schemaFacet, 'schemaFacet');
     final headers = <String, String>{
       'x-amz-data-partition': directoryArn.toString(),
     };
@@ -136,8 +133,6 @@ class CloudDirectory {
     required String directoryArn,
     required String publishedSchemaArn,
   }) async {
-    ArgumentError.checkNotNull(directoryArn, 'directoryArn');
-    ArgumentError.checkNotNull(publishedSchemaArn, 'publishedSchemaArn');
     final headers = <String, String>{
       'x-amz-data-partition': directoryArn.toString(),
     };
@@ -195,17 +190,6 @@ class CloudDirectory {
     required String linkName,
     required ObjectReference parentReference,
   }) async {
-    ArgumentError.checkNotNull(childReference, 'childReference');
-    ArgumentError.checkNotNull(directoryArn, 'directoryArn');
-    ArgumentError.checkNotNull(linkName, 'linkName');
-    _s.validateStringLength(
-      'linkName',
-      linkName,
-      1,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(parentReference, 'parentReference');
     final headers = <String, String>{
       'x-amz-data-partition': directoryArn.toString(),
     };
@@ -253,9 +237,6 @@ class CloudDirectory {
     required ObjectReference objectReference,
     required ObjectReference policyReference,
   }) async {
-    ArgumentError.checkNotNull(directoryArn, 'directoryArn');
-    ArgumentError.checkNotNull(objectReference, 'objectReference');
-    ArgumentError.checkNotNull(policyReference, 'policyReference');
     final headers = <String, String>{
       'x-amz-data-partition': directoryArn.toString(),
     };
@@ -301,9 +282,6 @@ class CloudDirectory {
     required ObjectReference indexReference,
     required ObjectReference targetReference,
   }) async {
-    ArgumentError.checkNotNull(directoryArn, 'directoryArn');
-    ArgumentError.checkNotNull(indexReference, 'indexReference');
-    ArgumentError.checkNotNull(targetReference, 'targetReference');
     final headers = <String, String>{
       'x-amz-data-partition': directoryArn.toString(),
     };
@@ -360,11 +338,6 @@ class CloudDirectory {
     required ObjectReference targetObjectReference,
     required TypedLinkSchemaAndFacetName typedLinkFacet,
   }) async {
-    ArgumentError.checkNotNull(attributes, 'attributes');
-    ArgumentError.checkNotNull(directoryArn, 'directoryArn');
-    ArgumentError.checkNotNull(sourceObjectReference, 'sourceObjectReference');
-    ArgumentError.checkNotNull(targetObjectReference, 'targetObjectReference');
-    ArgumentError.checkNotNull(typedLinkFacet, 'typedLinkFacet');
     final headers = <String, String>{
       'x-amz-data-partition': directoryArn.toString(),
     };
@@ -410,8 +383,6 @@ class CloudDirectory {
     required List<BatchReadOperation> operations,
     ConsistencyLevel? consistencyLevel,
   }) async {
-    ArgumentError.checkNotNull(directoryArn, 'directoryArn');
-    ArgumentError.checkNotNull(operations, 'operations');
     final headers = <String, String>{
       'x-amz-data-partition': directoryArn.toString(),
       if (consistencyLevel != null)
@@ -452,8 +423,6 @@ class CloudDirectory {
     required String directoryArn,
     required List<BatchWriteOperation> operations,
   }) async {
-    ArgumentError.checkNotNull(directoryArn, 'directoryArn');
-    ArgumentError.checkNotNull(operations, 'operations');
     final headers = <String, String>{
       'x-amz-data-partition': directoryArn.toString(),
     };
@@ -498,15 +467,6 @@ class CloudDirectory {
     required String name,
     required String schemaArn,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(schemaArn, 'schemaArn');
     final headers = <String, String>{
       'x-amz-data-partition': schemaArn.toString(),
     };
@@ -586,15 +546,6 @@ class CloudDirectory {
     FacetStyle? facetStyle,
     ObjectType? objectType,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(schemaArn, 'schemaArn');
     final headers = <String, String>{
       'x-amz-data-partition': schemaArn.toString(),
     };
@@ -652,16 +603,6 @@ class CloudDirectory {
     String? linkName,
     ObjectReference? parentReference,
   }) async {
-    ArgumentError.checkNotNull(directoryArn, 'directoryArn');
-    ArgumentError.checkNotNull(isUnique, 'isUnique');
-    ArgumentError.checkNotNull(
-        orderedIndexedAttributeList, 'orderedIndexedAttributeList');
-    _s.validateStringLength(
-      'linkName',
-      linkName,
-      1,
-      64,
-    );
     final headers = <String, String>{
       'x-amz-data-partition': directoryArn.toString(),
     };
@@ -724,14 +665,6 @@ class CloudDirectory {
     List<AttributeKeyAndValue>? objectAttributeList,
     ObjectReference? parentReference,
   }) async {
-    ArgumentError.checkNotNull(directoryArn, 'directoryArn');
-    ArgumentError.checkNotNull(schemaFacets, 'schemaFacets');
-    _s.validateStringLength(
-      'linkName',
-      linkName,
-      1,
-      64,
-    );
     final headers = <String, String>{
       'x-amz-data-partition': directoryArn.toString(),
     };
@@ -788,14 +721,6 @@ class CloudDirectory {
   Future<CreateSchemaResponse> createSchema({
     required String name,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      32,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'Name': name,
     };
@@ -833,8 +758,6 @@ class CloudDirectory {
     required TypedLinkFacet facet,
     required String schemaArn,
   }) async {
-    ArgumentError.checkNotNull(facet, 'facet');
-    ArgumentError.checkNotNull(schemaArn, 'schemaArn');
     final headers = <String, String>{
       'x-amz-data-partition': schemaArn.toString(),
     };
@@ -869,7 +792,6 @@ class CloudDirectory {
   Future<DeleteDirectoryResponse> deleteDirectory({
     required String directoryArn,
   }) async {
-    ArgumentError.checkNotNull(directoryArn, 'directoryArn');
     final headers = <String, String>{
       'x-amz-data-partition': directoryArn.toString(),
     };
@@ -907,15 +829,6 @@ class CloudDirectory {
     required String name,
     required String schemaArn,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(schemaArn, 'schemaArn');
     final headers = <String, String>{
       'x-amz-data-partition': schemaArn.toString(),
     };
@@ -959,8 +872,6 @@ class CloudDirectory {
     required String directoryArn,
     required ObjectReference objectReference,
   }) async {
-    ArgumentError.checkNotNull(directoryArn, 'directoryArn');
-    ArgumentError.checkNotNull(objectReference, 'objectReference');
     final headers = <String, String>{
       'x-amz-data-partition': directoryArn.toString(),
     };
@@ -994,7 +905,6 @@ class CloudDirectory {
   Future<DeleteSchemaResponse> deleteSchema({
     required String schemaArn,
   }) async {
-    ArgumentError.checkNotNull(schemaArn, 'schemaArn');
     final headers = <String, String>{
       'x-amz-data-partition': schemaArn.toString(),
     };
@@ -1031,8 +941,6 @@ class CloudDirectory {
     required String name,
     required String schemaArn,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    ArgumentError.checkNotNull(schemaArn, 'schemaArn');
     final headers = <String, String>{
       'x-amz-data-partition': schemaArn.toString(),
     };
@@ -1075,9 +983,6 @@ class CloudDirectory {
     required ObjectReference indexReference,
     required ObjectReference targetReference,
   }) async {
-    ArgumentError.checkNotNull(directoryArn, 'directoryArn');
-    ArgumentError.checkNotNull(indexReference, 'indexReference');
-    ArgumentError.checkNotNull(targetReference, 'targetReference');
     final headers = <String, String>{
       'x-amz-data-partition': directoryArn.toString(),
     };
@@ -1124,16 +1029,6 @@ class CloudDirectory {
     required String linkName,
     required ObjectReference parentReference,
   }) async {
-    ArgumentError.checkNotNull(directoryArn, 'directoryArn');
-    ArgumentError.checkNotNull(linkName, 'linkName');
-    _s.validateStringLength(
-      'linkName',
-      linkName,
-      1,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(parentReference, 'parentReference');
     final headers = <String, String>{
       'x-amz-data-partition': directoryArn.toString(),
     };
@@ -1178,9 +1073,6 @@ class CloudDirectory {
     required ObjectReference objectReference,
     required ObjectReference policyReference,
   }) async {
-    ArgumentError.checkNotNull(directoryArn, 'directoryArn');
-    ArgumentError.checkNotNull(objectReference, 'objectReference');
-    ArgumentError.checkNotNull(policyReference, 'policyReference');
     final headers = <String, String>{
       'x-amz-data-partition': directoryArn.toString(),
     };
@@ -1222,8 +1114,6 @@ class CloudDirectory {
     required String directoryArn,
     required TypedLinkSpecifier typedLinkSpecifier,
   }) async {
-    ArgumentError.checkNotNull(directoryArn, 'directoryArn');
-    ArgumentError.checkNotNull(typedLinkSpecifier, 'typedLinkSpecifier');
     final headers = <String, String>{
       'x-amz-data-partition': directoryArn.toString(),
     };
@@ -1257,7 +1147,6 @@ class CloudDirectory {
   Future<DisableDirectoryResponse> disableDirectory({
     required String directoryArn,
   }) async {
-    ArgumentError.checkNotNull(directoryArn, 'directoryArn');
     final headers = <String, String>{
       'x-amz-data-partition': directoryArn.toString(),
     };
@@ -1288,7 +1177,6 @@ class CloudDirectory {
   Future<EnableDirectoryResponse> enableDirectory({
     required String directoryArn,
   }) async {
-    ArgumentError.checkNotNull(directoryArn, 'directoryArn');
     final headers = <String, String>{
       'x-amz-data-partition': directoryArn.toString(),
     };
@@ -1318,7 +1206,6 @@ class CloudDirectory {
   Future<GetAppliedSchemaVersionResponse> getAppliedSchemaVersion({
     required String schemaArn,
   }) async {
-    ArgumentError.checkNotNull(schemaArn, 'schemaArn');
     final $payload = <String, dynamic>{
       'SchemaArn': schemaArn,
     };
@@ -1345,7 +1232,6 @@ class CloudDirectory {
   Future<GetDirectoryResponse> getDirectory({
     required String directoryArn,
   }) async {
-    ArgumentError.checkNotNull(directoryArn, 'directoryArn');
     final headers = <String, String>{
       'x-amz-data-partition': directoryArn.toString(),
     };
@@ -1382,15 +1268,6 @@ class CloudDirectory {
     required String name,
     required String schemaArn,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(schemaArn, 'schemaArn');
     final headers = <String, String>{
       'x-amz-data-partition': schemaArn.toString(),
     };
@@ -1439,9 +1316,6 @@ class CloudDirectory {
     required TypedLinkSpecifier typedLinkSpecifier,
     ConsistencyLevel? consistencyLevel,
   }) async {
-    ArgumentError.checkNotNull(attributeNames, 'attributeNames');
-    ArgumentError.checkNotNull(directoryArn, 'directoryArn');
-    ArgumentError.checkNotNull(typedLinkSpecifier, 'typedLinkSpecifier');
     final headers = <String, String>{
       'x-amz-data-partition': directoryArn.toString(),
     };
@@ -1496,10 +1370,6 @@ class CloudDirectory {
     required SchemaFacet schemaFacet,
     ConsistencyLevel? consistencyLevel,
   }) async {
-    ArgumentError.checkNotNull(attributeNames, 'attributeNames');
-    ArgumentError.checkNotNull(directoryArn, 'directoryArn');
-    ArgumentError.checkNotNull(objectReference, 'objectReference');
-    ArgumentError.checkNotNull(schemaFacet, 'schemaFacet');
     final headers = <String, String>{
       'x-amz-data-partition': directoryArn.toString(),
       if (consistencyLevel != null)
@@ -1544,8 +1414,6 @@ class CloudDirectory {
     required ObjectReference objectReference,
     ConsistencyLevel? consistencyLevel,
   }) async {
-    ArgumentError.checkNotNull(directoryArn, 'directoryArn');
-    ArgumentError.checkNotNull(objectReference, 'objectReference');
     final headers = <String, String>{
       'x-amz-data-partition': directoryArn.toString(),
       if (consistencyLevel != null)
@@ -1582,7 +1450,6 @@ class CloudDirectory {
   Future<GetSchemaAsJsonResponse> getSchemaAsJson({
     required String schemaArn,
   }) async {
-    ArgumentError.checkNotNull(schemaArn, 'schemaArn');
     final headers = <String, String>{
       'x-amz-data-partition': schemaArn.toString(),
     };
@@ -1621,8 +1488,6 @@ class CloudDirectory {
     required String name,
     required String schemaArn,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    ArgumentError.checkNotNull(schemaArn, 'schemaArn');
     final headers = <String, String>{
       'x-amz-data-partition': schemaArn.toString(),
     };
@@ -1669,7 +1534,6 @@ class CloudDirectory {
     String? nextToken,
     String? schemaArn,
   }) async {
-    ArgumentError.checkNotNull(directoryArn, 'directoryArn');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1723,8 +1587,6 @@ class CloudDirectory {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(directoryArn, 'directoryArn');
-    ArgumentError.checkNotNull(targetReference, 'targetReference');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1864,15 +1726,6 @@ class CloudDirectory {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(schemaArn, 'schemaArn');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1921,7 +1774,6 @@ class CloudDirectory {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(schemaArn, 'schemaArn');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1996,8 +1848,6 @@ class CloudDirectory {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(directoryArn, 'directoryArn');
-    ArgumentError.checkNotNull(objectReference, 'objectReference');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -2069,8 +1919,6 @@ class CloudDirectory {
     String? nextToken,
     List<ObjectAttributeRange>? rangesOnIndexedValues,
   }) async {
-    ArgumentError.checkNotNull(directoryArn, 'directoryArn');
-    ArgumentError.checkNotNull(indexReference, 'indexReference');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -2188,8 +2036,6 @@ class CloudDirectory {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(directoryArn, 'directoryArn');
-    ArgumentError.checkNotNull(objectReference, 'objectReference');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -2258,8 +2104,6 @@ class CloudDirectory {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(directoryArn, 'directoryArn');
-    ArgumentError.checkNotNull(objectReference, 'objectReference');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -2328,8 +2172,6 @@ class CloudDirectory {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(directoryArn, 'directoryArn');
-    ArgumentError.checkNotNull(objectReference, 'objectReference');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -2401,8 +2243,6 @@ class CloudDirectory {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(directoryArn, 'directoryArn');
-    ArgumentError.checkNotNull(objectReference, 'objectReference');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -2469,8 +2309,6 @@ class CloudDirectory {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(directoryArn, 'directoryArn');
-    ArgumentError.checkNotNull(objectReference, 'objectReference');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -2548,8 +2386,6 @@ class CloudDirectory {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(directoryArn, 'directoryArn');
-    ArgumentError.checkNotNull(objectReference, 'objectReference');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -2619,8 +2455,6 @@ class CloudDirectory {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(directoryArn, 'directoryArn');
-    ArgumentError.checkNotNull(policyReference, 'policyReference');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -2724,7 +2558,6 @@ class CloudDirectory {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -2778,8 +2611,6 @@ class CloudDirectory {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    ArgumentError.checkNotNull(schemaArn, 'schemaArn');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -2832,7 +2663,6 @@ class CloudDirectory {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(schemaArn, 'schemaArn');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -2895,8 +2725,6 @@ class CloudDirectory {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(directoryArn, 'directoryArn');
-    ArgumentError.checkNotNull(objectReference, 'objectReference');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -2955,27 +2783,6 @@ class CloudDirectory {
     String? minorVersion,
     String? name,
   }) async {
-    ArgumentError.checkNotNull(developmentSchemaArn, 'developmentSchemaArn');
-    ArgumentError.checkNotNull(version, 'version');
-    _s.validateStringLength(
-      'version',
-      version,
-      1,
-      10,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'minorVersion',
-      minorVersion,
-      1,
-      10,
-    );
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      32,
-    );
     final headers = <String, String>{
       'x-amz-data-partition': developmentSchemaArn.toString(),
     };
@@ -3017,8 +2824,6 @@ class CloudDirectory {
     required String document,
     required String schemaArn,
   }) async {
-    ArgumentError.checkNotNull(document, 'document');
-    ArgumentError.checkNotNull(schemaArn, 'schemaArn');
     final headers = <String, String>{
       'x-amz-data-partition': schemaArn.toString(),
     };
@@ -3060,9 +2865,6 @@ class CloudDirectory {
     required ObjectReference objectReference,
     required SchemaFacet schemaFacet,
   }) async {
-    ArgumentError.checkNotNull(directoryArn, 'directoryArn');
-    ArgumentError.checkNotNull(objectReference, 'objectReference');
-    ArgumentError.checkNotNull(schemaFacet, 'schemaFacet');
     final headers = <String, String>{
       'x-amz-data-partition': directoryArn.toString(),
     };
@@ -3100,8 +2902,6 @@ class CloudDirectory {
     required String resourceArn,
     required List<Tag> tags,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
       'ResourceArn': resourceArn,
       'Tags': tags,
@@ -3135,8 +2935,6 @@ class CloudDirectory {
     required String resourceArn,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $payload = <String, dynamic>{
       'ResourceArn': resourceArn,
       'TagKeys': tagKeys,
@@ -3197,15 +2995,6 @@ class CloudDirectory {
     List<FacetAttributeUpdate>? attributeUpdates,
     ObjectType? objectType,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(schemaArn, 'schemaArn');
     final headers = <String, String>{
       'x-amz-data-partition': schemaArn.toString(),
     };
@@ -3254,9 +3043,6 @@ class CloudDirectory {
     required String directoryArn,
     required TypedLinkSpecifier typedLinkSpecifier,
   }) async {
-    ArgumentError.checkNotNull(attributeUpdates, 'attributeUpdates');
-    ArgumentError.checkNotNull(directoryArn, 'directoryArn');
-    ArgumentError.checkNotNull(typedLinkSpecifier, 'typedLinkSpecifier');
     final headers = <String, String>{
       'x-amz-data-partition': directoryArn.toString(),
     };
@@ -3302,9 +3088,6 @@ class CloudDirectory {
     required String directoryArn,
     required ObjectReference objectReference,
   }) async {
-    ArgumentError.checkNotNull(attributeUpdates, 'attributeUpdates');
-    ArgumentError.checkNotNull(directoryArn, 'directoryArn');
-    ArgumentError.checkNotNull(objectReference, 'objectReference');
     final headers = <String, String>{
       'x-amz-data-partition': directoryArn.toString(),
     };
@@ -3343,15 +3126,6 @@ class CloudDirectory {
     required String name,
     required String schemaArn,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      32,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(schemaArn, 'schemaArn');
     final headers = <String, String>{
       'x-amz-data-partition': schemaArn.toString(),
     };
@@ -3412,11 +3186,6 @@ class CloudDirectory {
     required String name,
     required String schemaArn,
   }) async {
-    ArgumentError.checkNotNull(attributeUpdates, 'attributeUpdates');
-    ArgumentError.checkNotNull(
-        identityAttributeOrder, 'identityAttributeOrder');
-    ArgumentError.checkNotNull(name, 'name');
-    ArgumentError.checkNotNull(schemaArn, 'schemaArn');
     final headers = <String, String>{
       'x-amz-data-partition': schemaArn.toString(),
     };
@@ -3468,8 +3237,6 @@ class CloudDirectory {
     required String publishedSchemaArn,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(directoryArn, 'directoryArn');
-    ArgumentError.checkNotNull(publishedSchemaArn, 'publishedSchemaArn');
     final $payload = <String, dynamic>{
       'DirectoryArn': directoryArn,
       'PublishedSchemaArn': publishedSchemaArn,
@@ -3518,16 +3285,6 @@ class CloudDirectory {
     required String publishedSchemaArn,
     bool? dryRun,
   }) async {
-    ArgumentError.checkNotNull(developmentSchemaArn, 'developmentSchemaArn');
-    ArgumentError.checkNotNull(minorVersion, 'minorVersion');
-    _s.validateStringLength(
-      'minorVersion',
-      minorVersion,
-      1,
-      10,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(publishedSchemaArn, 'publishedSchemaArn');
     final $payload = <String, dynamic>{
       'DevelopmentSchemaArn': developmentSchemaArn,
       'MinorVersion': minorVersion,

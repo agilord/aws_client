@@ -78,14 +78,6 @@ class IoT {
     required String certificateId,
     bool? setAsActive,
   }) async {
-    ArgumentError.checkNotNull(certificateId, 'certificateId');
-    _s.validateStringLength(
-      'certificateId',
-      certificateId,
-      64,
-      64,
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       if (setAsActive != null) 'setAsActive': [setAsActive.toString()],
     };
@@ -123,18 +115,6 @@ class IoT {
     String? thingArn,
     String? thingName,
   }) async {
-    _s.validateStringLength(
-      'billingGroupName',
-      billingGroupName,
-      1,
-      128,
-    );
-    _s.validateStringLength(
-      'thingName',
-      thingName,
-      1,
-      128,
-    );
     final $payload = <String, dynamic>{
       if (billingGroupArn != null) 'billingGroupArn': billingGroupArn,
       if (billingGroupName != null) 'billingGroupName': billingGroupName,
@@ -180,18 +160,6 @@ class IoT {
     String? thingGroupName,
     String? thingName,
   }) async {
-    _s.validateStringLength(
-      'thingGroupName',
-      thingGroupName,
-      1,
-      128,
-    );
-    _s.validateStringLength(
-      'thingName',
-      thingName,
-      1,
-      128,
-    );
     final $payload = <String, dynamic>{
       if (overrideDynamicGroups != null)
         'overrideDynamicGroups': overrideDynamicGroups,
@@ -257,27 +225,6 @@ class IoT {
     String? comment,
     String? namespaceId,
   }) async {
-    ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      1,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(targets, 'targets');
-    _s.validateStringLength(
-      'comment',
-      comment,
-      0,
-      2028,
-    );
-    _s.validateStringLength(
-      'namespaceId',
-      namespaceId,
-      1,
-      64,
-    );
     final $query = <String, List<String>>{
       if (namespaceId != null) 'namespaceId': [namespaceId],
     };
@@ -316,15 +263,6 @@ class IoT {
     required String policyName,
     required String target,
   }) async {
-    ArgumentError.checkNotNull(policyName, 'policyName');
-    _s.validateStringLength(
-      'policyName',
-      policyName,
-      1,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(target, 'target');
     final $payload = <String, dynamic>{
       'target': target,
     };
@@ -361,15 +299,6 @@ class IoT {
     required String policyName,
     required String principal,
   }) async {
-    ArgumentError.checkNotNull(policyName, 'policyName');
-    _s.validateStringLength(
-      'policyName',
-      policyName,
-      1,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(principal, 'principal');
     final headers = <String, String>{
       'x-amzn-iot-principal': principal.toString(),
     };
@@ -403,16 +332,6 @@ class IoT {
     required String securityProfileName,
     required String securityProfileTargetArn,
   }) async {
-    ArgumentError.checkNotNull(securityProfileName, 'securityProfileName');
-    _s.validateStringLength(
-      'securityProfileName',
-      securityProfileName,
-      1,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(
-        securityProfileTargetArn, 'securityProfileTargetArn');
     final $query = <String, List<String>>{
       'securityProfileTargetArn': [securityProfileTargetArn],
     };
@@ -447,15 +366,6 @@ class IoT {
     required String principal,
     required String thingName,
   }) async {
-    ArgumentError.checkNotNull(principal, 'principal');
-    ArgumentError.checkNotNull(thingName, 'thingName');
-    _s.validateStringLength(
-      'thingName',
-      thingName,
-      1,
-      128,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'x-amzn-principal': principal.toString(),
     };
@@ -481,14 +391,6 @@ class IoT {
   Future<void> cancelAuditMitigationActionsTask({
     required String taskId,
   }) async {
-    ArgumentError.checkNotNull(taskId, 'taskId');
-    _s.validateStringLength(
-      'taskId',
-      taskId,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'PUT',
@@ -513,14 +415,6 @@ class IoT {
   Future<void> cancelAuditTask({
     required String taskId,
   }) async {
-    ArgumentError.checkNotNull(taskId, 'taskId');
-    _s.validateStringLength(
-      'taskId',
-      taskId,
-      1,
-      40,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'PUT',
@@ -555,14 +449,6 @@ class IoT {
   Future<void> cancelCertificateTransfer({
     required String certificateId,
   }) async {
-    ArgumentError.checkNotNull(certificateId, 'certificateId');
-    _s.validateStringLength(
-      'certificateId',
-      certificateId,
-      64,
-      64,
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'PATCH',
@@ -584,14 +470,6 @@ class IoT {
   Future<void> cancelDetectMitigationActionsTask({
     required String taskId,
   }) async {
-    ArgumentError.checkNotNull(taskId, 'taskId');
-    _s.validateStringLength(
-      'taskId',
-      taskId,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'PUT',
@@ -632,26 +510,6 @@ class IoT {
     bool? force,
     String? reasonCode,
   }) async {
-    ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'comment',
-      comment,
-      0,
-      2028,
-    );
-    _s.validateStringLength(
-      'reasonCode',
-      reasonCode,
-      0,
-      128,
-    );
     final $query = <String, List<String>>{
       if (force != null) 'force': [force.toString()],
     };
@@ -716,22 +574,6 @@ class IoT {
     bool? force,
     Map<String, String>? statusDetails,
   }) async {
-    ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      1,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(thingName, 'thingName');
-    _s.validateStringLength(
-      'thingName',
-      thingName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       if (force != null) 'force': [force.toString()],
     };
@@ -784,14 +626,6 @@ class IoT {
   Future<void> confirmTopicRuleDestination({
     required String confirmationToken,
   }) async {
-    ArgumentError.checkNotNull(confirmationToken, 'confirmationToken');
-    _s.validateStringLength(
-      'confirmationToken',
-      confirmationToken,
-      1,
-      2048,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -828,20 +662,6 @@ class IoT {
     DateTime? expirationDate,
     bool? suppressIndefinitely,
   }) async {
-    ArgumentError.checkNotNull(checkName, 'checkName');
-    ArgumentError.checkNotNull(resourceIdentifier, 'resourceIdentifier');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1000,
-    );
     final $payload = <String, dynamic>{
       'checkName': checkName,
       'resourceIdentifier': resourceIdentifier,
@@ -910,28 +730,6 @@ class IoT {
     String? tokenKeyName,
     Map<String, String>? tokenSigningPublicKeys,
   }) async {
-    ArgumentError.checkNotNull(authorizerFunctionArn, 'authorizerFunctionArn');
-    _s.validateStringLength(
-      'authorizerFunctionArn',
-      authorizerFunctionArn,
-      0,
-      2048,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(authorizerName, 'authorizerName');
-    _s.validateStringLength(
-      'authorizerName',
-      authorizerName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'tokenKeyName',
-      tokenKeyName,
-      1,
-      128,
-    );
     final $payload = <String, dynamic>{
       'authorizerFunctionArn': authorizerFunctionArn,
       if (signingDisabled != null) 'signingDisabled': signingDisabled,
@@ -970,14 +768,6 @@ class IoT {
     BillingGroupProperties? billingGroupProperties,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(billingGroupName, 'billingGroupName');
-    _s.validateStringLength(
-      'billingGroupName',
-      billingGroupName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       if (billingGroupProperties != null)
         'billingGroupProperties': billingGroupProperties,
@@ -1053,15 +843,6 @@ class IoT {
     required String certificateSigningRequest,
     bool? setAsActive,
   }) async {
-    ArgumentError.checkNotNull(
-        certificateSigningRequest, 'certificateSigningRequest');
-    _s.validateStringLength(
-      'certificateSigningRequest',
-      certificateSigningRequest,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       if (setAsActive != null) 'setAsActive': [setAsActive.toString()],
     };
@@ -1117,27 +898,6 @@ class IoT {
     String? displayName,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(metricName, 'metricName');
-    _s.validateStringLength(
-      'metricName',
-      metricName,
-      1,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(metricType, 'metricType');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'displayName',
-      displayName,
-      0,
-      128,
-    );
     final $payload = <String, dynamic>{
       'metricType': metricType.toValue(),
       'clientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
@@ -1193,22 +953,6 @@ class IoT {
     String? clientRequestToken,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(stringValues, 'stringValues');
-    ArgumentError.checkNotNull(type, 'type');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-    );
     final $payload = <String, dynamic>{
       'stringValues': stringValues,
       'type': type.toValue(),
@@ -1285,27 +1029,6 @@ class IoT {
     List<Tag>? tags,
     String? validationCertificateArn,
   }) async {
-    ArgumentError.checkNotNull(
-        domainConfigurationName, 'domainConfigurationName');
-    _s.validateStringLength(
-      'domainConfigurationName',
-      domainConfigurationName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'domainName',
-      domainName,
-      1,
-      253,
-    );
-    _s.validateStringLength(
-      'validationCertificateArn',
-      validationCertificateArn,
-      1,
-      2048,
-    );
     final $payload = <String, dynamic>{
       if (authorizerConfig != null) 'authorizerConfig': authorizerConfig,
       if (domainName != null) 'domainName': domainName,
@@ -1372,28 +1095,6 @@ class IoT {
     List<Tag>? tags,
     ThingGroupProperties? thingGroupProperties,
   }) async {
-    ArgumentError.checkNotNull(queryString, 'queryString');
-    _s.validateStringLength(
-      'queryString',
-      queryString,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(thingGroupName, 'thingGroupName');
-    _s.validateStringLength(
-      'thingGroupName',
-      thingGroupName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'indexName',
-      indexName,
-      1,
-      128,
-    );
     final $payload = <String, dynamic>{
       'queryString': queryString,
       if (indexName != null) 'indexName': indexName,
@@ -1501,39 +1202,6 @@ class IoT {
     TargetSelection? targetSelection,
     TimeoutConfig? timeoutConfig,
   }) async {
-    ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      1,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(targets, 'targets');
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      2028,
-    );
-    _s.validateStringLength(
-      'document',
-      document,
-      0,
-      32768,
-    );
-    _s.validateStringLength(
-      'documentSource',
-      documentSource,
-      1,
-      1350,
-    );
-    _s.validateStringLength(
-      'namespaceId',
-      namespaceId,
-      1,
-      64,
-    );
     final $payload = <String, dynamic>{
       'targets': targets,
       if (abortConfig != null) 'abortConfig': abortConfig,
@@ -1620,23 +1288,6 @@ class IoT {
     required String roleArn,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(actionName, 'actionName');
-    _s.validateStringLength(
-      'actionName',
-      actionName,
-      0,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(actionParams, 'actionParams');
-    ArgumentError.checkNotNull(roleArn, 'roleArn');
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'actionParams': actionParams,
       'roleArn': roleArn,
@@ -1729,30 +1380,6 @@ class IoT {
     List<Tag>? tags,
     TargetSelection? targetSelection,
   }) async {
-    ArgumentError.checkNotNull(files, 'files');
-    ArgumentError.checkNotNull(otaUpdateId, 'otaUpdateId');
-    _s.validateStringLength(
-      'otaUpdateId',
-      otaUpdateId,
-      1,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(roleArn, 'roleArn');
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      20,
-      2048,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(targets, 'targets');
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      2028,
-    );
     final $payload = <String, dynamic>{
       'files': files,
       'roleArn': roleArn,
@@ -1819,15 +1446,6 @@ class IoT {
     required String policyName,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(policyDocument, 'policyDocument');
-    ArgumentError.checkNotNull(policyName, 'policyName');
-    _s.validateStringLength(
-      'policyName',
-      policyName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'policyDocument': policyDocument,
       if (tags != null) 'tags': tags,
@@ -1877,15 +1495,6 @@ class IoT {
     required String policyName,
     bool? setAsDefault,
   }) async {
-    ArgumentError.checkNotNull(policyDocument, 'policyDocument');
-    ArgumentError.checkNotNull(policyName, 'policyName');
-    _s.validateStringLength(
-      'policyName',
-      policyName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       if (setAsDefault != null) 'setAsDefault': [setAsDefault.toString()],
     };
@@ -1916,14 +1525,6 @@ class IoT {
   Future<CreateProvisioningClaimResponse> createProvisioningClaim({
     required String templateName,
   }) async {
-    ArgumentError.checkNotNull(templateName, 'templateName');
-    _s.validateStringLength(
-      'templateName',
-      templateName,
-      1,
-      36,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'POST',
@@ -1982,29 +1583,6 @@ class IoT {
     ProvisioningHook? preProvisioningHook,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(provisioningRoleArn, 'provisioningRoleArn');
-    _s.validateStringLength(
-      'provisioningRoleArn',
-      provisioningRoleArn,
-      20,
-      2048,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(templateBody, 'templateBody');
-    ArgumentError.checkNotNull(templateName, 'templateName');
-    _s.validateStringLength(
-      'templateName',
-      templateName,
-      1,
-      36,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      500,
-    );
     final $payload = <String, dynamic>{
       'provisioningRoleArn': provisioningRoleArn,
       'templateBody': templateBody,
@@ -2048,15 +1626,6 @@ class IoT {
     required String templateName,
     bool? setAsDefault,
   }) async {
-    ArgumentError.checkNotNull(templateBody, 'templateBody');
-    ArgumentError.checkNotNull(templateName, 'templateName');
-    _s.validateStringLength(
-      'templateName',
-      templateName,
-      1,
-      36,
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       if (setAsDefault != null) 'setAsDefault': [setAsDefault.toString()],
     };
@@ -2111,22 +1680,6 @@ class IoT {
     int? credentialDurationSeconds,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(roleAlias, 'roleAlias');
-    _s.validateStringLength(
-      'roleAlias',
-      roleAlias,
-      1,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(roleArn, 'roleArn');
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      20,
-      2048,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'credentialDurationSeconds',
       credentialDurationSeconds,
@@ -2196,16 +1749,6 @@ class IoT {
     DayOfWeek? dayOfWeek,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(frequency, 'frequency');
-    ArgumentError.checkNotNull(scheduledAuditName, 'scheduledAuditName');
-    _s.validateStringLength(
-      'scheduledAuditName',
-      scheduledAuditName,
-      1,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(targetCheckNames, 'targetCheckNames');
     final $payload = <String, dynamic>{
       'frequency': frequency.toValue(),
       'targetCheckNames': targetCheckNames,
@@ -2272,20 +1815,6 @@ class IoT {
     String? securityProfileDescription,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(securityProfileName, 'securityProfileName');
-    _s.validateStringLength(
-      'securityProfileName',
-      securityProfileName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'securityProfileDescription',
-      securityProfileDescription,
-      0,
-      1000,
-    );
     final $payload = <String, dynamic>{
       if (additionalMetricsToRetain != null)
         'additionalMetricsToRetain': additionalMetricsToRetain,
@@ -2344,29 +1873,6 @@ class IoT {
     String? description,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(files, 'files');
-    ArgumentError.checkNotNull(roleArn, 'roleArn');
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      20,
-      2048,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(streamId, 'streamId');
-    _s.validateStringLength(
-      'streamId',
-      streamId,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      2028,
-    );
     final $payload = <String, dynamic>{
       'files': files,
       'roleArn': roleArn,
@@ -2424,26 +1930,6 @@ class IoT {
     String? billingGroupName,
     String? thingTypeName,
   }) async {
-    ArgumentError.checkNotNull(thingName, 'thingName');
-    _s.validateStringLength(
-      'thingName',
-      thingName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'billingGroupName',
-      billingGroupName,
-      1,
-      128,
-    );
-    _s.validateStringLength(
-      'thingTypeName',
-      thingTypeName,
-      1,
-      128,
-    );
     final $payload = <String, dynamic>{
       if (attributePayload != null) 'attributePayload': attributePayload,
       if (billingGroupName != null) 'billingGroupName': billingGroupName,
@@ -2487,20 +1973,6 @@ class IoT {
     List<Tag>? tags,
     ThingGroupProperties? thingGroupProperties,
   }) async {
-    ArgumentError.checkNotNull(thingGroupName, 'thingGroupName');
-    _s.validateStringLength(
-      'thingGroupName',
-      thingGroupName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'parentGroupName',
-      parentGroupName,
-      1,
-      128,
-    );
     final $payload = <String, dynamic>{
       if (parentGroupName != null) 'parentGroupName': parentGroupName,
       if (tags != null) 'tags': tags,
@@ -2540,14 +2012,6 @@ class IoT {
     List<Tag>? tags,
     ThingTypeProperties? thingTypeProperties,
   }) async {
-    ArgumentError.checkNotNull(thingTypeName, 'thingTypeName');
-    _s.validateStringLength(
-      'thingTypeName',
-      thingTypeName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       if (tags != null) 'tags': tags,
       if (thingTypeProperties != null)
@@ -2595,15 +2059,6 @@ class IoT {
     required TopicRulePayload topicRulePayload,
     String? tags,
   }) async {
-    ArgumentError.checkNotNull(ruleName, 'ruleName');
-    _s.validateStringLength(
-      'ruleName',
-      ruleName,
-      1,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(topicRulePayload, 'topicRulePayload');
     final headers = <String, String>{
       if (tags != null) 'x-amz-tagging': tags.toString(),
     };
@@ -2630,8 +2085,6 @@ class IoT {
   Future<CreateTopicRuleDestinationResponse> createTopicRuleDestination({
     required TopicRuleDestinationConfiguration destinationConfiguration,
   }) async {
-    ArgumentError.checkNotNull(
-        destinationConfiguration, 'destinationConfiguration');
     final $payload = <String, dynamic>{
       'destinationConfiguration': destinationConfiguration,
     };
@@ -2680,8 +2133,6 @@ class IoT {
     required String checkName,
     required ResourceIdentifier resourceIdentifier,
   }) async {
-    ArgumentError.checkNotNull(checkName, 'checkName');
-    ArgumentError.checkNotNull(resourceIdentifier, 'resourceIdentifier');
     final $payload = <String, dynamic>{
       'checkName': checkName,
       'resourceIdentifier': resourceIdentifier,
@@ -2709,14 +2160,6 @@ class IoT {
   Future<void> deleteAuthorizer({
     required String authorizerName,
   }) async {
-    ArgumentError.checkNotNull(authorizerName, 'authorizerName');
-    _s.validateStringLength(
-      'authorizerName',
-      authorizerName,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -2744,14 +2187,6 @@ class IoT {
     required String billingGroupName,
     int? expectedVersion,
   }) async {
-    ArgumentError.checkNotNull(billingGroupName, 'billingGroupName');
-    _s.validateStringLength(
-      'billingGroupName',
-      billingGroupName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       if (expectedVersion != null)
         'expectedVersion': [expectedVersion.toString()],
@@ -2781,14 +2216,6 @@ class IoT {
   Future<void> deleteCACertificate({
     required String certificateId,
   }) async {
-    ArgumentError.checkNotNull(certificateId, 'certificateId');
-    _s.validateStringLength(
-      'certificateId',
-      certificateId,
-      64,
-      64,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -2825,14 +2252,6 @@ class IoT {
     required String certificateId,
     bool? forceDelete,
   }) async {
-    ArgumentError.checkNotNull(certificateId, 'certificateId');
-    _s.validateStringLength(
-      'certificateId',
-      certificateId,
-      64,
-      64,
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       if (forceDelete != null) 'forceDelete': [forceDelete.toString()],
     };
@@ -2863,14 +2282,6 @@ class IoT {
   Future<void> deleteCustomMetric({
     required String metricName,
   }) async {
-    ArgumentError.checkNotNull(metricName, 'metricName');
-    _s.validateStringLength(
-      'metricName',
-      metricName,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -2890,14 +2301,6 @@ class IoT {
   Future<void> deleteDimension({
     required String name,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -2924,15 +2327,6 @@ class IoT {
   Future<void> deleteDomainConfiguration({
     required String domainConfigurationName,
   }) async {
-    ArgumentError.checkNotNull(
-        domainConfigurationName, 'domainConfigurationName');
-    _s.validateStringLength(
-      'domainConfigurationName',
-      domainConfigurationName,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -2958,14 +2352,6 @@ class IoT {
     required String thingGroupName,
     int? expectedVersion,
   }) async {
-    ArgumentError.checkNotNull(thingGroupName, 'thingGroupName');
-    _s.validateStringLength(
-      'thingGroupName',
-      thingGroupName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       if (expectedVersion != null)
         'expectedVersion': [expectedVersion.toString()],
@@ -3033,20 +2419,6 @@ class IoT {
     bool? force,
     String? namespaceId,
   }) async {
-    ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'namespaceId',
-      namespaceId,
-      1,
-      64,
-    );
     final $query = <String, List<String>>{
       if (force != null) 'force': [force.toString()],
       if (namespaceId != null) 'namespaceId': [namespaceId],
@@ -3113,29 +2485,6 @@ class IoT {
     bool? force,
     String? namespaceId,
   }) async {
-    ArgumentError.checkNotNull(executionNumber, 'executionNumber');
-    ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      1,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(thingName, 'thingName');
-    _s.validateStringLength(
-      'thingName',
-      thingName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'namespaceId',
-      namespaceId,
-      1,
-      64,
-    );
     final $query = <String, List<String>>{
       if (force != null) 'force': [force.toString()],
       if (namespaceId != null) 'namespaceId': [namespaceId],
@@ -3161,14 +2510,6 @@ class IoT {
   Future<void> deleteMitigationAction({
     required String actionName,
   }) async {
-    ArgumentError.checkNotNull(actionName, 'actionName');
-    _s.validateStringLength(
-      'actionName',
-      actionName,
-      0,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -3203,14 +2544,6 @@ class IoT {
     bool? deleteStream,
     bool? forceDeleteAWSJob,
   }) async {
-    ArgumentError.checkNotNull(otaUpdateId, 'otaUpdateId');
-    _s.validateStringLength(
-      'otaUpdateId',
-      otaUpdateId,
-      1,
-      128,
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       if (deleteStream != null) 'deleteStream': [deleteStream.toString()],
       if (forceDeleteAWSJob != null)
@@ -3251,14 +2584,6 @@ class IoT {
   Future<void> deletePolicy({
     required String policyName,
   }) async {
-    ArgumentError.checkNotNull(policyName, 'policyName');
-    _s.validateStringLength(
-      'policyName',
-      policyName,
-      1,
-      128,
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -3289,15 +2614,6 @@ class IoT {
     required String policyName,
     required String policyVersionId,
   }) async {
-    ArgumentError.checkNotNull(policyName, 'policyName');
-    _s.validateStringLength(
-      'policyName',
-      policyName,
-      1,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(policyVersionId, 'policyVersionId');
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -3322,14 +2638,6 @@ class IoT {
   Future<void> deleteProvisioningTemplate({
     required String templateName,
   }) async {
-    ArgumentError.checkNotNull(templateName, 'templateName');
-    _s.validateStringLength(
-      'templateName',
-      templateName,
-      1,
-      36,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -3358,15 +2666,6 @@ class IoT {
     required String templateName,
     required int versionId,
   }) async {
-    ArgumentError.checkNotNull(templateName, 'templateName');
-    _s.validateStringLength(
-      'templateName',
-      templateName,
-      1,
-      36,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(versionId, 'versionId');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -3407,14 +2706,6 @@ class IoT {
   Future<void> deleteRoleAlias({
     required String roleAlias,
   }) async {
-    ArgumentError.checkNotNull(roleAlias, 'roleAlias');
-    _s.validateStringLength(
-      'roleAlias',
-      roleAlias,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -3435,14 +2726,6 @@ class IoT {
   Future<void> deleteScheduledAudit({
     required String scheduledAuditName,
   }) async {
-    ArgumentError.checkNotNull(scheduledAuditName, 'scheduledAuditName');
-    _s.validateStringLength(
-      'scheduledAuditName',
-      scheduledAuditName,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -3471,14 +2754,6 @@ class IoT {
     required String securityProfileName,
     int? expectedVersion,
   }) async {
-    ArgumentError.checkNotNull(securityProfileName, 'securityProfileName');
-    _s.validateStringLength(
-      'securityProfileName',
-      securityProfileName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       if (expectedVersion != null)
         'expectedVersion': [expectedVersion.toString()],
@@ -3508,14 +2783,6 @@ class IoT {
   Future<void> deleteStream({
     required String streamId,
   }) async {
-    ArgumentError.checkNotNull(streamId, 'streamId');
-    _s.validateStringLength(
-      'streamId',
-      streamId,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -3547,14 +2814,6 @@ class IoT {
     required String thingName,
     int? expectedVersion,
   }) async {
-    ArgumentError.checkNotNull(thingName, 'thingName');
-    _s.validateStringLength(
-      'thingName',
-      thingName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       if (expectedVersion != null)
         'expectedVersion': [expectedVersion.toString()],
@@ -3584,14 +2843,6 @@ class IoT {
     required String thingGroupName,
     int? expectedVersion,
   }) async {
-    ArgumentError.checkNotNull(thingGroupName, 'thingGroupName');
-    _s.validateStringLength(
-      'thingGroupName',
-      thingGroupName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       if (expectedVersion != null)
         'expectedVersion': [expectedVersion.toString()],
@@ -3624,14 +2875,6 @@ class IoT {
   Future<void> deleteThingType({
     required String thingTypeName,
   }) async {
-    ArgumentError.checkNotNull(thingTypeName, 'thingTypeName');
-    _s.validateStringLength(
-      'thingTypeName',
-      thingTypeName,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -3653,14 +2896,6 @@ class IoT {
   Future<void> deleteTopicRule({
     required String ruleName,
   }) async {
-    ArgumentError.checkNotNull(ruleName, 'ruleName');
-    _s.validateStringLength(
-      'ruleName',
-      ruleName,
-      1,
-      128,
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -3682,7 +2917,6 @@ class IoT {
   Future<void> deleteTopicRuleDestination({
     required String arn,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -3708,8 +2942,6 @@ class IoT {
     required String targetName,
     required LogTargetType targetType,
   }) async {
-    ArgumentError.checkNotNull(targetName, 'targetName');
-    ArgumentError.checkNotNull(targetType, 'targetType');
     final $query = <String, List<String>>{
       'targetName': [targetName],
       'targetType': [targetType.toValue()],
@@ -3743,14 +2975,6 @@ class IoT {
     required String thingTypeName,
     bool? undoDeprecate,
   }) async {
-    ArgumentError.checkNotNull(thingTypeName, 'thingTypeName');
-    _s.validateStringLength(
-      'thingTypeName',
-      thingTypeName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       if (undoDeprecate != null) 'undoDeprecate': undoDeprecate,
     };
@@ -3795,14 +3019,6 @@ class IoT {
   Future<DescribeAuditFindingResponse> describeAuditFinding({
     required String findingId,
   }) async {
-    ArgumentError.checkNotNull(findingId, 'findingId');
-    _s.validateStringLength(
-      'findingId',
-      findingId,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -3828,14 +3044,6 @@ class IoT {
       describeAuditMitigationActionsTask({
     required String taskId,
   }) async {
-    ArgumentError.checkNotNull(taskId, 'taskId');
-    _s.validateStringLength(
-      'taskId',
-      taskId,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -3856,8 +3064,6 @@ class IoT {
     required String checkName,
     required ResourceIdentifier resourceIdentifier,
   }) async {
-    ArgumentError.checkNotNull(checkName, 'checkName');
-    ArgumentError.checkNotNull(resourceIdentifier, 'resourceIdentifier');
     final $payload = <String, dynamic>{
       'checkName': checkName,
       'resourceIdentifier': resourceIdentifier,
@@ -3883,14 +3089,6 @@ class IoT {
   Future<DescribeAuditTaskResponse> describeAuditTask({
     required String taskId,
   }) async {
-    ArgumentError.checkNotNull(taskId, 'taskId');
-    _s.validateStringLength(
-      'taskId',
-      taskId,
-      1,
-      40,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -3914,14 +3112,6 @@ class IoT {
   Future<DescribeAuthorizerResponse> describeAuthorizer({
     required String authorizerName,
   }) async {
-    ArgumentError.checkNotNull(authorizerName, 'authorizerName');
-    _s.validateStringLength(
-      'authorizerName',
-      authorizerName,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -3943,14 +3133,6 @@ class IoT {
   Future<DescribeBillingGroupResponse> describeBillingGroup({
     required String billingGroupName,
   }) async {
-    ArgumentError.checkNotNull(billingGroupName, 'billingGroupName');
-    _s.validateStringLength(
-      'billingGroupName',
-      billingGroupName,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -3974,14 +3156,6 @@ class IoT {
   Future<DescribeCACertificateResponse> describeCACertificate({
     required String certificateId,
   }) async {
-    ArgumentError.checkNotNull(certificateId, 'certificateId');
-    _s.validateStringLength(
-      'certificateId',
-      certificateId,
-      64,
-      64,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4006,14 +3180,6 @@ class IoT {
   Future<DescribeCertificateResponse> describeCertificate({
     required String certificateId,
   }) async {
-    ArgumentError.checkNotNull(certificateId, 'certificateId');
-    _s.validateStringLength(
-      'certificateId',
-      certificateId,
-      64,
-      64,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4035,14 +3201,6 @@ class IoT {
   Future<DescribeCustomMetricResponse> describeCustomMetric({
     required String metricName,
   }) async {
-    ArgumentError.checkNotNull(metricName, 'metricName');
-    _s.validateStringLength(
-      'metricName',
-      metricName,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4083,14 +3241,6 @@ class IoT {
       describeDetectMitigationActionsTask({
     required String taskId,
   }) async {
-    ArgumentError.checkNotNull(taskId, 'taskId');
-    _s.validateStringLength(
-      'taskId',
-      taskId,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4113,14 +3263,6 @@ class IoT {
   Future<DescribeDimensionResponse> describeDimension({
     required String name,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4148,15 +3290,6 @@ class IoT {
   Future<DescribeDomainConfigurationResponse> describeDomainConfiguration({
     required String domainConfigurationName,
   }) async {
-    ArgumentError.checkNotNull(
-        domainConfigurationName, 'domainConfigurationName');
-    _s.validateStringLength(
-      'domainConfigurationName',
-      domainConfigurationName,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4205,12 +3338,6 @@ class IoT {
   Future<DescribeEndpointResponse> describeEndpoint({
     String? endpointType,
   }) async {
-    _s.validateStringLength(
-      'endpointType',
-      endpointType,
-      0,
-      128,
-    );
     final $query = <String, List<String>>{
       if (endpointType != null) 'endpointType': [endpointType],
     };
@@ -4253,14 +3380,6 @@ class IoT {
   Future<DescribeIndexResponse> describeIndex({
     required String indexName,
   }) async {
-    ArgumentError.checkNotNull(indexName, 'indexName');
-    _s.validateStringLength(
-      'indexName',
-      indexName,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4282,14 +3401,6 @@ class IoT {
   Future<DescribeJobResponse> describeJob({
     required String jobId,
   }) async {
-    ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      1,
-      64,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4320,22 +3431,6 @@ class IoT {
     required String thingName,
     int? executionNumber,
   }) async {
-    ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      1,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(thingName, 'thingName');
-    _s.validateStringLength(
-      'thingName',
-      thingName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       if (executionNumber != null)
         'executionNumber': [executionNumber.toString()],
@@ -4363,14 +3458,6 @@ class IoT {
   Future<DescribeMitigationActionResponse> describeMitigationAction({
     required String actionName,
   }) async {
-    ArgumentError.checkNotNull(actionName, 'actionName');
-    _s.validateStringLength(
-      'actionName',
-      actionName,
-      0,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4394,14 +3481,6 @@ class IoT {
   Future<DescribeProvisioningTemplateResponse> describeProvisioningTemplate({
     required String templateName,
   }) async {
-    ArgumentError.checkNotNull(templateName, 'templateName');
-    _s.validateStringLength(
-      'templateName',
-      templateName,
-      1,
-      36,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4430,15 +3509,6 @@ class IoT {
     required String templateName,
     required int versionId,
   }) async {
-    ArgumentError.checkNotNull(templateName, 'templateName');
-    _s.validateStringLength(
-      'templateName',
-      templateName,
-      1,
-      36,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(versionId, 'versionId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4463,14 +3533,6 @@ class IoT {
   Future<DescribeRoleAliasResponse> describeRoleAlias({
     required String roleAlias,
   }) async {
-    ArgumentError.checkNotNull(roleAlias, 'roleAlias');
-    _s.validateStringLength(
-      'roleAlias',
-      roleAlias,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4492,14 +3554,6 @@ class IoT {
   Future<DescribeScheduledAuditResponse> describeScheduledAudit({
     required String scheduledAuditName,
   }) async {
-    ArgumentError.checkNotNull(scheduledAuditName, 'scheduledAuditName');
-    _s.validateStringLength(
-      'scheduledAuditName',
-      scheduledAuditName,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4522,14 +3576,6 @@ class IoT {
   Future<DescribeSecurityProfileResponse> describeSecurityProfile({
     required String securityProfileName,
   }) async {
-    ArgumentError.checkNotNull(securityProfileName, 'securityProfileName');
-    _s.validateStringLength(
-      'securityProfileName',
-      securityProfileName,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4554,14 +3600,6 @@ class IoT {
   Future<DescribeStreamResponse> describeStream({
     required String streamId,
   }) async {
-    ArgumentError.checkNotNull(streamId, 'streamId');
-    _s.validateStringLength(
-      'streamId',
-      streamId,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4585,14 +3623,6 @@ class IoT {
   Future<DescribeThingResponse> describeThing({
     required String thingName,
   }) async {
-    ArgumentError.checkNotNull(thingName, 'thingName');
-    _s.validateStringLength(
-      'thingName',
-      thingName,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4614,14 +3644,6 @@ class IoT {
   Future<DescribeThingGroupResponse> describeThingGroup({
     required String thingGroupName,
   }) async {
-    ArgumentError.checkNotNull(thingGroupName, 'thingGroupName');
-    _s.validateStringLength(
-      'thingGroupName',
-      thingGroupName,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4644,14 +3666,6 @@ class IoT {
   Future<DescribeThingRegistrationTaskResponse> describeThingRegistrationTask({
     required String taskId,
   }) async {
-    ArgumentError.checkNotNull(taskId, 'taskId');
-    _s.validateStringLength(
-      'taskId',
-      taskId,
-      0,
-      40,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4675,14 +3689,6 @@ class IoT {
   Future<DescribeThingTypeResponse> describeThingType({
     required String thingTypeName,
   }) async {
-    ArgumentError.checkNotNull(thingTypeName, 'thingTypeName');
-    _s.validateStringLength(
-      'thingTypeName',
-      thingTypeName,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4710,15 +3716,6 @@ class IoT {
     required String policyName,
     required String target,
   }) async {
-    ArgumentError.checkNotNull(policyName, 'policyName');
-    _s.validateStringLength(
-      'policyName',
-      policyName,
-      1,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(target, 'target');
     final $payload = <String, dynamic>{
       'target': target,
     };
@@ -4758,15 +3755,6 @@ class IoT {
     required String policyName,
     required String principal,
   }) async {
-    ArgumentError.checkNotNull(policyName, 'policyName');
-    _s.validateStringLength(
-      'policyName',
-      policyName,
-      1,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(principal, 'principal');
     final headers = <String, String>{
       'x-amzn-iot-principal': principal.toString(),
     };
@@ -4796,16 +3784,6 @@ class IoT {
     required String securityProfileName,
     required String securityProfileTargetArn,
   }) async {
-    ArgumentError.checkNotNull(securityProfileName, 'securityProfileName');
-    _s.validateStringLength(
-      'securityProfileName',
-      securityProfileName,
-      1,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(
-        securityProfileTargetArn, 'securityProfileTargetArn');
     final $query = <String, List<String>>{
       'securityProfileTargetArn': [securityProfileTargetArn],
     };
@@ -4845,15 +3823,6 @@ class IoT {
     required String principal,
     required String thingName,
   }) async {
-    ArgumentError.checkNotNull(principal, 'principal');
-    ArgumentError.checkNotNull(thingName, 'thingName');
-    _s.validateStringLength(
-      'thingName',
-      thingName,
-      1,
-      128,
-      isRequired: true,
-    );
     final headers = <String, String>{
       'x-amzn-principal': principal.toString(),
     };
@@ -4879,14 +3848,6 @@ class IoT {
   Future<void> disableTopicRule({
     required String ruleName,
   }) async {
-    ArgumentError.checkNotNull(ruleName, 'ruleName');
-    _s.validateStringLength(
-      'ruleName',
-      ruleName,
-      1,
-      128,
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'POST',
@@ -4908,14 +3869,6 @@ class IoT {
   Future<void> enableTopicRule({
     required String ruleName,
   }) async {
-    ArgumentError.checkNotNull(ruleName, 'ruleName');
-    _s.validateStringLength(
-      'ruleName',
-      ruleName,
-      1,
-      128,
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'POST',
@@ -4951,12 +3904,6 @@ class IoT {
       maxResults,
       1,
       10,
-    );
-    _s.validateStringLength(
-      'securityProfileName',
-      securityProfileName,
-      1,
-      128,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
@@ -5003,26 +3950,6 @@ class IoT {
     String? indexName,
     String? queryVersion,
   }) async {
-    ArgumentError.checkNotNull(queryString, 'queryString');
-    _s.validateStringLength(
-      'queryString',
-      queryString,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'aggregationField',
-      aggregationField,
-      1,
-      1152921504606846976,
-    );
-    _s.validateStringLength(
-      'indexName',
-      indexName,
-      1,
-      128,
-    );
     final $payload = <String, dynamic>{
       'queryString': queryString,
       if (aggregationField != null) 'aggregationField': aggregationField,
@@ -5067,12 +3994,6 @@ class IoT {
     String? principal,
     String? thingName,
   }) async {
-    _s.validateStringLength(
-      'thingName',
-      thingName,
-      1,
-      128,
-    );
     final $query = <String, List<String>>{
       if (thingName != null) 'thingName': [thingName],
     };
@@ -5120,14 +4041,6 @@ class IoT {
   Future<GetJobDocumentResponse> getJobDocument({
     required String jobId,
   }) async {
-    ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      1,
-      64,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -5169,14 +4082,6 @@ class IoT {
   Future<GetOTAUpdateResponse> getOTAUpdate({
     required String otaUpdateId,
   }) async {
-    ArgumentError.checkNotNull(otaUpdateId, 'otaUpdateId');
-    _s.validateStringLength(
-      'otaUpdateId',
-      otaUpdateId,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -5229,26 +4134,6 @@ class IoT {
     List<double>? percents,
     String? queryVersion,
   }) async {
-    ArgumentError.checkNotNull(queryString, 'queryString');
-    _s.validateStringLength(
-      'queryString',
-      queryString,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'aggregationField',
-      aggregationField,
-      1,
-      1152921504606846976,
-    );
-    _s.validateStringLength(
-      'indexName',
-      indexName,
-      1,
-      128,
-    );
     final $payload = <String, dynamic>{
       'queryString': queryString,
       if (aggregationField != null) 'aggregationField': aggregationField,
@@ -5280,14 +4165,6 @@ class IoT {
   Future<GetPolicyResponse> getPolicy({
     required String policyName,
   }) async {
-    ArgumentError.checkNotNull(policyName, 'policyName');
-    _s.validateStringLength(
-      'policyName',
-      policyName,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -5315,15 +4192,6 @@ class IoT {
     required String policyName,
     required String policyVersionId,
   }) async {
-    ArgumentError.checkNotNull(policyName, 'policyName');
-    _s.validateStringLength(
-      'policyName',
-      policyName,
-      1,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(policyVersionId, 'policyVersionId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -5385,26 +4253,6 @@ class IoT {
     String? indexName,
     String? queryVersion,
   }) async {
-    ArgumentError.checkNotNull(queryString, 'queryString');
-    _s.validateStringLength(
-      'queryString',
-      queryString,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'aggregationField',
-      aggregationField,
-      1,
-      1152921504606846976,
-    );
-    _s.validateStringLength(
-      'indexName',
-      indexName,
-      1,
-      128,
-    );
     final $payload = <String, dynamic>{
       'queryString': queryString,
       if (aggregationField != null) 'aggregationField': aggregationField,
@@ -5432,14 +4280,6 @@ class IoT {
   Future<GetTopicRuleResponse> getTopicRule({
     required String ruleName,
   }) async {
-    ArgumentError.checkNotNull(ruleName, 'ruleName');
-    _s.validateStringLength(
-      'ruleName',
-      ruleName,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -5461,7 +4301,6 @@ class IoT {
   Future<GetTopicRuleDestinationResponse> getTopicRuleDestination({
     required String arn,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -5526,18 +4365,6 @@ class IoT {
       1,
       250,
     );
-    _s.validateStringLength(
-      'securityProfileName',
-      securityProfileName,
-      1,
-      128,
-    );
-    _s.validateStringLength(
-      'thingName',
-      thingName,
-      1,
-      128,
-    );
     final $query = <String, List<String>>{
       if (behaviorCriteriaType != null)
         'behaviorCriteriaType': [behaviorCriteriaType.toValue()],
@@ -5591,13 +4418,6 @@ class IoT {
     int? pageSize,
     bool? recursive,
   }) async {
-    ArgumentError.checkNotNull(target, 'target');
-    _s.validateStringLength(
-      'marker',
-      marker,
-      0,
-      1024,
-    );
     _s.validateNumRange(
       'pageSize',
       pageSize,
@@ -5671,12 +4491,6 @@ class IoT {
       1,
       250,
     );
-    _s.validateStringLength(
-      'taskId',
-      taskId,
-      1,
-      40,
-    );
     final $payload = <String, dynamic>{
       if (checkName != null) 'checkName': checkName,
       if (endTime != null) 'endTime': unixTimestampToJson(endTime),
@@ -5727,22 +4541,6 @@ class IoT {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(findingId, 'findingId');
-    _s.validateStringLength(
-      'findingId',
-      findingId,
-      1,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(taskId, 'taskId');
-    _s.validateStringLength(
-      'taskId',
-      taskId,
-      1,
-      128,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -5808,20 +4606,6 @@ class IoT {
     String? nextToken,
     AuditMitigationActionsTaskStatus? taskStatus,
   }) async {
-    ArgumentError.checkNotNull(endTime, 'endTime');
-    ArgumentError.checkNotNull(startTime, 'startTime');
-    _s.validateStringLength(
-      'auditTaskId',
-      auditTaskId,
-      1,
-      40,
-    );
-    _s.validateStringLength(
-      'findingId',
-      findingId,
-      1,
-      128,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -5928,8 +4712,6 @@ class IoT {
     AuditTaskStatus? taskStatus,
     AuditTaskType? taskType,
   }) async {
-    ArgumentError.checkNotNull(endTime, 'endTime');
-    ArgumentError.checkNotNull(startTime, 'startTime');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -5979,12 +4761,6 @@ class IoT {
     int? pageSize,
     AuthorizerStatus? status,
   }) async {
-    _s.validateStringLength(
-      'marker',
-      marker,
-      0,
-      1024,
-    );
     _s.validateNumRange(
       'pageSize',
       pageSize,
@@ -6036,12 +4812,6 @@ class IoT {
       1,
       250,
     );
-    _s.validateStringLength(
-      'namePrefixFilter',
-      namePrefixFilter,
-      1,
-      128,
-    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (namePrefixFilter != null) 'namePrefixFilter': [namePrefixFilter],
@@ -6081,12 +4851,6 @@ class IoT {
     String? marker,
     int? pageSize,
   }) async {
-    _s.validateStringLength(
-      'marker',
-      marker,
-      0,
-      1024,
-    );
     _s.validateNumRange(
       'pageSize',
       pageSize,
@@ -6134,12 +4898,6 @@ class IoT {
     String? marker,
     int? pageSize,
   }) async {
-    _s.validateStringLength(
-      'marker',
-      marker,
-      0,
-      1024,
-    );
     _s.validateNumRange(
       'pageSize',
       pageSize,
@@ -6189,20 +4947,6 @@ class IoT {
     String? marker,
     int? pageSize,
   }) async {
-    ArgumentError.checkNotNull(caCertificateId, 'caCertificateId');
-    _s.validateStringLength(
-      'caCertificateId',
-      caCertificateId,
-      64,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      0,
-      1024,
-    );
     _s.validateNumRange(
       'pageSize',
       pageSize,
@@ -6305,24 +5049,6 @@ class IoT {
       1,
       250,
     );
-    _s.validateStringLength(
-      'taskId',
-      taskId,
-      1,
-      128,
-    );
-    _s.validateStringLength(
-      'thingName',
-      thingName,
-      1,
-      128,
-    );
-    _s.validateStringLength(
-      'violationId',
-      violationId,
-      1,
-      128,
-    );
     final $query = <String, List<String>>{
       if (endTime != null) 'endTime': [_s.iso8601ToJson(endTime).toString()],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
@@ -6369,8 +5095,6 @@ class IoT {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(endTime, 'endTime');
-    ArgumentError.checkNotNull(startTime, 'startTime');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -6454,12 +5178,6 @@ class IoT {
     int? pageSize,
     ServiceType? serviceType,
   }) async {
-    _s.validateStringLength(
-      'marker',
-      marker,
-      0,
-      1024,
-    );
     _s.validateNumRange(
       'pageSize',
       pageSize,
@@ -6543,14 +5261,6 @@ class IoT {
     String? nextToken,
     JobExecutionStatus? status,
   }) async {
-    ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      1,
-      64,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -6610,25 +5320,11 @@ class IoT {
     String? nextToken,
     JobExecutionStatus? status,
   }) async {
-    ArgumentError.checkNotNull(thingName, 'thingName');
-    _s.validateStringLength(
-      'thingName',
-      thingName,
-      1,
-      128,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       250,
-    );
-    _s.validateStringLength(
-      'namespaceId',
-      namespaceId,
-      1,
-      64,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
@@ -6702,24 +5398,6 @@ class IoT {
       maxResults,
       1,
       250,
-    );
-    _s.validateStringLength(
-      'namespaceId',
-      namespaceId,
-      1,
-      64,
-    );
-    _s.validateStringLength(
-      'thingGroupId',
-      thingGroupId,
-      1,
-      128,
-    );
-    _s.validateStringLength(
-      'thingGroupName',
-      thingGroupName,
-      1,
-      128,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
@@ -6848,12 +5526,6 @@ class IoT {
     String? marker,
     int? pageSize,
   }) async {
-    _s.validateStringLength(
-      'marker',
-      marker,
-      0,
-      1024,
-    );
     _s.validateNumRange(
       'pageSize',
       pageSize,
@@ -6898,12 +5570,6 @@ class IoT {
     String? marker,
     int? pageSize,
   }) async {
-    _s.validateStringLength(
-      'marker',
-      marker,
-      0,
-      1024,
-    );
     _s.validateNumRange(
       'pageSize',
       pageSize,
@@ -6957,20 +5623,6 @@ class IoT {
     String? marker,
     int? pageSize,
   }) async {
-    ArgumentError.checkNotNull(policyName, 'policyName');
-    _s.validateStringLength(
-      'policyName',
-      policyName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      0,
-      1024,
-    );
     _s.validateNumRange(
       'pageSize',
       pageSize,
@@ -7012,14 +5664,6 @@ class IoT {
   Future<ListPolicyVersionsResponse> listPolicyVersions({
     required String policyName,
   }) async {
-    ArgumentError.checkNotNull(policyName, 'policyName');
-    _s.validateStringLength(
-      'policyName',
-      policyName,
-      1,
-      128,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -7067,13 +5711,6 @@ class IoT {
     String? marker,
     int? pageSize,
   }) async {
-    ArgumentError.checkNotNull(principal, 'principal');
-    _s.validateStringLength(
-      'marker',
-      marker,
-      0,
-      1024,
-    );
     _s.validateNumRange(
       'pageSize',
       pageSize,
@@ -7126,7 +5763,6 @@ class IoT {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(principal, 'principal');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -7173,14 +5809,6 @@ class IoT {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(templateName, 'templateName');
-    _s.validateStringLength(
-      'templateName',
-      templateName,
-      1,
-      36,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -7259,12 +5887,6 @@ class IoT {
     String? marker,
     int? pageSize,
   }) async {
-    _s.validateStringLength(
-      'marker',
-      marker,
-      0,
-      1024,
-    );
     _s.validateNumRange(
       'pageSize',
       pageSize,
@@ -7353,23 +5975,11 @@ class IoT {
     String? metricName,
     String? nextToken,
   }) async {
-    _s.validateStringLength(
-      'dimensionName',
-      dimensionName,
-      1,
-      128,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       250,
-    );
-    _s.validateStringLength(
-      'metricName',
-      metricName,
-      1,
-      128,
     );
     final $query = <String, List<String>>{
       if (dimensionName != null) 'dimensionName': [dimensionName],
@@ -7413,8 +6023,6 @@ class IoT {
     String? nextToken,
     bool? recursive,
   }) async {
-    ArgumentError.checkNotNull(
-        securityProfileTargetArn, 'securityProfileTargetArn');
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -7498,7 +6106,6 @@ class IoT {
     required String resourceArn,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final $query = <String, List<String>>{
       'resourceArn': [resourceArn],
       if (nextToken != null) 'nextToken': [nextToken],
@@ -7536,20 +6143,6 @@ class IoT {
     String? marker,
     int? pageSize,
   }) async {
-    ArgumentError.checkNotNull(policyName, 'policyName');
-    _s.validateStringLength(
-      'policyName',
-      policyName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'marker',
-      marker,
-      0,
-      1024,
-    );
     _s.validateNumRange(
       'pageSize',
       pageSize,
@@ -7591,14 +6184,6 @@ class IoT {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(securityProfileName, 'securityProfileName');
-    _s.validateStringLength(
-      'securityProfileName',
-      securityProfileName,
-      1,
-      128,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -7656,18 +6241,6 @@ class IoT {
       1,
       250,
     );
-    _s.validateStringLength(
-      'namePrefixFilter',
-      namePrefixFilter,
-      1,
-      128,
-    );
-    _s.validateStringLength(
-      'parentGroup',
-      parentGroup,
-      1,
-      128,
-    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (namePrefixFilter != null) 'namePrefixFilter': [namePrefixFilter],
@@ -7707,14 +6280,6 @@ class IoT {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(thingName, 'thingName');
-    _s.validateStringLength(
-      'thingName',
-      thingName,
-      1,
-      128,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -7761,14 +6326,6 @@ class IoT {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(thingName, 'thingName');
-    _s.validateStringLength(
-      'thingName',
-      thingName,
-      1,
-      128,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -7816,15 +6373,6 @@ class IoT {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(reportType, 'reportType');
-    ArgumentError.checkNotNull(taskId, 'taskId');
-    _s.validateStringLength(
-      'taskId',
-      taskId,
-      0,
-      40,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -7919,12 +6467,6 @@ class IoT {
       1,
       250,
     );
-    _s.validateStringLength(
-      'thingTypeName',
-      thingTypeName,
-      1,
-      128,
-    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
@@ -7981,29 +6523,11 @@ class IoT {
     String? nextToken,
     String? thingTypeName,
   }) async {
-    _s.validateStringLength(
-      'attributeName',
-      attributeName,
-      0,
-      128,
-    );
-    _s.validateStringLength(
-      'attributeValue',
-      attributeValue,
-      0,
-      800,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       250,
-    );
-    _s.validateStringLength(
-      'thingTypeName',
-      thingTypeName,
-      1,
-      128,
     );
     final $query = <String, List<String>>{
       if (attributeName != null) 'attributeName': [attributeName],
@@ -8044,14 +6568,6 @@ class IoT {
     int? maxResults,
     String? nextToken,
   }) async {
-    ArgumentError.checkNotNull(billingGroupName, 'billingGroupName');
-    _s.validateStringLength(
-      'billingGroupName',
-      billingGroupName,
-      1,
-      128,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -8100,14 +6616,6 @@ class IoT {
     String? nextToken,
     bool? recursive,
   }) async {
-    ArgumentError.checkNotNull(thingGroupName, 'thingGroupName');
-    _s.validateStringLength(
-      'thingGroupName',
-      thingGroupName,
-      1,
-      128,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -8301,25 +6809,11 @@ class IoT {
     String? securityProfileName,
     String? thingName,
   }) async {
-    ArgumentError.checkNotNull(endTime, 'endTime');
-    ArgumentError.checkNotNull(startTime, 'startTime');
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       250,
-    );
-    _s.validateStringLength(
-      'securityProfileName',
-      securityProfileName,
-      1,
-      128,
-    );
-    _s.validateStringLength(
-      'thingName',
-      thingName,
-      1,
-      128,
     );
     final $query = <String, List<String>>{
       'endTime': [_s.iso8601ToJson(endTime).toString()],
@@ -8397,23 +6891,6 @@ class IoT {
     bool? setAsActive,
     List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(caCertificate, 'caCertificate');
-    _s.validateStringLength(
-      'caCertificate',
-      caCertificate,
-      1,
-      65536,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(
-        verificationCertificate, 'verificationCertificate');
-    _s.validateStringLength(
-      'verificationCertificate',
-      verificationCertificate,
-      1,
-      65536,
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       if (allowAutoRegistration != null)
         'allowAutoRegistration': [allowAutoRegistration.toString()],
@@ -8466,20 +6943,6 @@ class IoT {
     bool? setAsActive,
     CertificateStatus? status,
   }) async {
-    ArgumentError.checkNotNull(certificatePem, 'certificatePem');
-    _s.validateStringLength(
-      'certificatePem',
-      certificatePem,
-      1,
-      65536,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'caCertificatePem',
-      caCertificatePem,
-      1,
-      65536,
-    );
     final $query = <String, List<String>>{
       if (setAsActive != null) 'setAsActive': [setAsActive.toString()],
     };
@@ -8518,14 +6981,6 @@ class IoT {
     required String certificatePem,
     CertificateStatus? status,
   }) async {
-    ArgumentError.checkNotNull(certificatePem, 'certificatePem');
-    _s.validateStringLength(
-      'certificatePem',
-      certificatePem,
-      1,
-      65536,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'certificatePem': certificatePem,
       if (status != null) 'status': status.toValue(),
@@ -8567,7 +7022,6 @@ class IoT {
     required String templateBody,
     Map<String, String>? parameters,
   }) async {
-    ArgumentError.checkNotNull(templateBody, 'templateBody');
     final $payload = <String, dynamic>{
       'templateBody': templateBody,
       if (parameters != null) 'parameters': parameters,
@@ -8610,20 +7064,6 @@ class IoT {
     required String certificateId,
     String? rejectReason,
   }) async {
-    ArgumentError.checkNotNull(certificateId, 'certificateId');
-    _s.validateStringLength(
-      'certificateId',
-      certificateId,
-      64,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'rejectReason',
-      rejectReason,
-      0,
-      128,
-    );
     final $payload = <String, dynamic>{
       if (rejectReason != null) 'rejectReason': rejectReason,
     };
@@ -8660,18 +7100,6 @@ class IoT {
     String? thingArn,
     String? thingName,
   }) async {
-    _s.validateStringLength(
-      'billingGroupName',
-      billingGroupName,
-      1,
-      128,
-    );
-    _s.validateStringLength(
-      'thingName',
-      thingName,
-      1,
-      128,
-    );
     final $payload = <String, dynamic>{
       if (billingGroupArn != null) 'billingGroupArn': billingGroupArn,
       if (billingGroupName != null) 'billingGroupName': billingGroupName,
@@ -8715,18 +7143,6 @@ class IoT {
     String? thingGroupName,
     String? thingName,
   }) async {
-    _s.validateStringLength(
-      'thingGroupName',
-      thingGroupName,
-      1,
-      128,
-    );
-    _s.validateStringLength(
-      'thingName',
-      thingName,
-      1,
-      128,
-    );
     final $payload = <String, dynamic>{
       if (thingArn != null) 'thingArn': thingArn,
       if (thingGroupArn != null) 'thingGroupArn': thingGroupArn,
@@ -8762,15 +7178,6 @@ class IoT {
     required String ruleName,
     required TopicRulePayload topicRulePayload,
   }) async {
-    ArgumentError.checkNotNull(ruleName, 'ruleName');
-    _s.validateStringLength(
-      'ruleName',
-      ruleName,
-      1,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(topicRulePayload, 'topicRulePayload');
     await _protocol.send(
       payload: topicRulePayload,
       method: 'PATCH',
@@ -8812,20 +7219,6 @@ class IoT {
     String? nextToken,
     String? queryVersion,
   }) async {
-    ArgumentError.checkNotNull(queryString, 'queryString');
-    _s.validateStringLength(
-      'queryString',
-      queryString,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'indexName',
-      indexName,
-      1,
-      128,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -8864,14 +7257,6 @@ class IoT {
   Future<SetDefaultAuthorizerResponse> setDefaultAuthorizer({
     required String authorizerName,
   }) async {
-    ArgumentError.checkNotNull(authorizerName, 'authorizerName');
-    _s.validateStringLength(
-      'authorizerName',
-      authorizerName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'authorizerName': authorizerName,
     };
@@ -8905,15 +7290,6 @@ class IoT {
     required String policyName,
     required String policyVersionId,
   }) async {
-    ArgumentError.checkNotNull(policyName, 'policyName');
-    _s.validateStringLength(
-      'policyName',
-      policyName,
-      1,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(policyVersionId, 'policyVersionId');
     await _protocol.send(
       payload: null,
       method: 'PATCH',
@@ -8937,7 +7313,6 @@ class IoT {
   Future<void> setLoggingOptions({
     required LoggingOptionsPayload loggingOptionsPayload,
   }) async {
-    ArgumentError.checkNotNull(loggingOptionsPayload, 'loggingOptionsPayload');
     await _protocol.send(
       payload: loggingOptionsPayload,
       method: 'POST',
@@ -8963,8 +7338,6 @@ class IoT {
     required LogLevel logLevel,
     required LogTarget logTarget,
   }) async {
-    ArgumentError.checkNotNull(logLevel, 'logLevel');
-    ArgumentError.checkNotNull(logTarget, 'logTarget');
     final $payload = <String, dynamic>{
       'logLevel': logLevel.toValue(),
       'logTarget': logTarget,
@@ -9043,23 +7416,6 @@ class IoT {
     required String taskId,
     String? clientRequestToken,
   }) async {
-    ArgumentError.checkNotNull(
-        auditCheckToActionsMapping, 'auditCheckToActionsMapping');
-    ArgumentError.checkNotNull(target, 'target');
-    ArgumentError.checkNotNull(taskId, 'taskId');
-    _s.validateStringLength(
-      'taskId',
-      taskId,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-    );
     final $payload = <String, dynamic>{
       'auditCheckToActionsMapping': auditCheckToActionsMapping,
       'target': target,
@@ -9117,22 +7473,6 @@ class IoT {
     bool? includeSuppressedAlerts,
     ViolationEventOccurrenceRange? violationEventOccurrenceRange,
   }) async {
-    ArgumentError.checkNotNull(actions, 'actions');
-    ArgumentError.checkNotNull(target, 'target');
-    ArgumentError.checkNotNull(taskId, 'taskId');
-    _s.validateStringLength(
-      'taskId',
-      taskId,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-    );
     final $payload = <String, dynamic>{
       'actions': actions,
       'target': target,
@@ -9171,7 +7511,6 @@ class IoT {
   Future<StartOnDemandAuditTaskResponse> startOnDemandAuditTask({
     required List<String> targetCheckNames,
   }) async {
-    ArgumentError.checkNotNull(targetCheckNames, 'targetCheckNames');
     final $payload = <String, dynamic>{
       'targetCheckNames': targetCheckNames,
     };
@@ -9210,31 +7549,6 @@ class IoT {
     required String roleArn,
     required String templateBody,
   }) async {
-    ArgumentError.checkNotNull(inputFileBucket, 'inputFileBucket');
-    _s.validateStringLength(
-      'inputFileBucket',
-      inputFileBucket,
-      3,
-      256,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(inputFileKey, 'inputFileKey');
-    _s.validateStringLength(
-      'inputFileKey',
-      inputFileKey,
-      1,
-      1024,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(roleArn, 'roleArn');
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      20,
-      2048,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(templateBody, 'templateBody');
     final $payload = <String, dynamic>{
       'inputFileBucket': inputFileBucket,
       'inputFileKey': inputFileKey,
@@ -9263,14 +7577,6 @@ class IoT {
   Future<void> stopThingRegistrationTask({
     required String taskId,
   }) async {
-    ArgumentError.checkNotNull(taskId, 'taskId');
-    _s.validateStringLength(
-      'taskId',
-      taskId,
-      0,
-      40,
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'PUT',
@@ -9298,8 +7604,6 @@ class IoT {
     required String resourceArn,
     required List<Tag> tags,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
       'resourceArn': resourceArn,
       'tags': tags,
@@ -9356,7 +7660,6 @@ class IoT {
     List<String>? policyNamesToSkip,
     String? principal,
   }) async {
-    ArgumentError.checkNotNull(authInfos, 'authInfos');
     final $query = <String, List<String>>{
       if (clientId != null) 'clientId': [clientId],
     };
@@ -9416,26 +7719,6 @@ class IoT {
     String? token,
     String? tokenSignature,
   }) async {
-    ArgumentError.checkNotNull(authorizerName, 'authorizerName');
-    _s.validateStringLength(
-      'authorizerName',
-      authorizerName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'token',
-      token,
-      1,
-      6144,
-    );
-    _s.validateStringLength(
-      'tokenSignature',
-      tokenSignature,
-      1,
-      2560,
-    );
     final $payload = <String, dynamic>{
       if (httpContext != null) 'httpContext': httpContext,
       if (mqttContext != null) 'mqttContext': mqttContext,
@@ -9488,28 +7771,6 @@ class IoT {
     required String targetAwsAccount,
     String? transferMessage,
   }) async {
-    ArgumentError.checkNotNull(certificateId, 'certificateId');
-    _s.validateStringLength(
-      'certificateId',
-      certificateId,
-      64,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(targetAwsAccount, 'targetAwsAccount');
-    _s.validateStringLength(
-      'targetAwsAccount',
-      targetAwsAccount,
-      12,
-      12,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'transferMessage',
-      transferMessage,
-      0,
-      128,
-    );
     final $query = <String, List<String>>{
       'targetAwsAccount': [targetAwsAccount],
     };
@@ -9542,8 +7803,6 @@ class IoT {
     required String resourceArn,
     required List<String> tagKeys,
   }) async {
-    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $payload = <String, dynamic>{
       'resourceArn': resourceArn,
       'tagKeys': tagKeys,
@@ -9593,12 +7852,6 @@ class IoT {
         auditNotificationTargetConfigurations,
     String? roleArn,
   }) async {
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      20,
-      2048,
-    );
     final $payload = <String, dynamic>{
       if (auditCheckConfigurations != null)
         'auditCheckConfigurations': auditCheckConfigurations,
@@ -9639,14 +7892,6 @@ class IoT {
     DateTime? expirationDate,
     bool? suppressIndefinitely,
   }) async {
-    ArgumentError.checkNotNull(checkName, 'checkName');
-    ArgumentError.checkNotNull(resourceIdentifier, 'resourceIdentifier');
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      1000,
-    );
     final $payload = <String, dynamic>{
       'checkName': checkName,
       'resourceIdentifier': resourceIdentifier,
@@ -9695,26 +7940,6 @@ class IoT {
     String? tokenKeyName,
     Map<String, String>? tokenSigningPublicKeys,
   }) async {
-    ArgumentError.checkNotNull(authorizerName, 'authorizerName');
-    _s.validateStringLength(
-      'authorizerName',
-      authorizerName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'authorizerFunctionArn',
-      authorizerFunctionArn,
-      0,
-      2048,
-    );
-    _s.validateStringLength(
-      'tokenKeyName',
-      tokenKeyName,
-      1,
-      128,
-    );
     final $payload = <String, dynamic>{
       if (authorizerFunctionArn != null)
         'authorizerFunctionArn': authorizerFunctionArn,
@@ -9756,16 +7981,6 @@ class IoT {
     required BillingGroupProperties billingGroupProperties,
     int? expectedVersion,
   }) async {
-    ArgumentError.checkNotNull(billingGroupName, 'billingGroupName');
-    _s.validateStringLength(
-      'billingGroupName',
-      billingGroupName,
-      1,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(
-        billingGroupProperties, 'billingGroupProperties');
     final $payload = <String, dynamic>{
       'billingGroupProperties': billingGroupProperties,
       if (expectedVersion != null) 'expectedVersion': expectedVersion,
@@ -9813,14 +8028,6 @@ class IoT {
     RegistrationConfig? registrationConfig,
     bool? removeAutoRegistration,
   }) async {
-    ArgumentError.checkNotNull(certificateId, 'certificateId');
-    _s.validateStringLength(
-      'certificateId',
-      certificateId,
-      64,
-      64,
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
       if (newAutoRegistrationStatus != null)
         'newAutoRegistrationStatus': [newAutoRegistrationStatus.toValue()],
@@ -9877,15 +8084,6 @@ class IoT {
     required String certificateId,
     required CertificateStatus newStatus,
   }) async {
-    ArgumentError.checkNotNull(certificateId, 'certificateId');
-    _s.validateStringLength(
-      'certificateId',
-      certificateId,
-      64,
-      64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(newStatus, 'newStatus');
     final $query = <String, List<String>>{
       'newStatus': [newStatus.toValue()],
     };
@@ -9916,22 +8114,6 @@ class IoT {
     required String displayName,
     required String metricName,
   }) async {
-    ArgumentError.checkNotNull(displayName, 'displayName');
-    _s.validateStringLength(
-      'displayName',
-      displayName,
-      0,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(metricName, 'metricName');
-    _s.validateStringLength(
-      'metricName',
-      metricName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'displayName': displayName,
     };
@@ -9964,15 +8146,6 @@ class IoT {
     required String name,
     required List<String> stringValues,
   }) async {
-    ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringLength(
-      'name',
-      name,
-      1,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(stringValues, 'stringValues');
     final $payload = <String, dynamic>{
       'stringValues': stringValues,
     };
@@ -10017,15 +8190,6 @@ class IoT {
     DomainConfigurationStatus? domainConfigurationStatus,
     bool? removeAuthorizerConfig,
   }) async {
-    ArgumentError.checkNotNull(
-        domainConfigurationName, 'domainConfigurationName');
-    _s.validateStringLength(
-      'domainConfigurationName',
-      domainConfigurationName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       if (authorizerConfig != null) 'authorizerConfig': authorizerConfig,
       if (domainConfigurationStatus != null)
@@ -10084,27 +8248,6 @@ class IoT {
     String? queryString,
     String? queryVersion,
   }) async {
-    ArgumentError.checkNotNull(thingGroupName, 'thingGroupName');
-    _s.validateStringLength(
-      'thingGroupName',
-      thingGroupName,
-      1,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(thingGroupProperties, 'thingGroupProperties');
-    _s.validateStringLength(
-      'indexName',
-      indexName,
-      1,
-      128,
-    );
-    _s.validateStringLength(
-      'queryString',
-      queryString,
-      1,
-      1152921504606846976,
-    );
     final $payload = <String, dynamic>{
       'thingGroupProperties': thingGroupProperties,
       if (expectedVersion != null) 'expectedVersion': expectedVersion,
@@ -10226,26 +8369,6 @@ class IoT {
     PresignedUrlConfig? presignedUrlConfig,
     TimeoutConfig? timeoutConfig,
   }) async {
-    ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringLength(
-      'jobId',
-      jobId,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      2028,
-    );
-    _s.validateStringLength(
-      'namespaceId',
-      namespaceId,
-      1,
-      64,
-    );
     final $query = <String, List<String>>{
       if (namespaceId != null) 'namespaceId': [namespaceId],
     };
@@ -10288,20 +8411,6 @@ class IoT {
     MitigationActionParams? actionParams,
     String? roleArn,
   }) async {
-    ArgumentError.checkNotNull(actionName, 'actionName');
-    _s.validateStringLength(
-      'actionName',
-      actionName,
-      0,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      20,
-      2048,
-    );
     final $payload = <String, dynamic>{
       if (actionParams != null) 'actionParams': actionParams,
       if (roleArn != null) 'roleArn': roleArn,
@@ -10354,26 +8463,6 @@ class IoT {
     String? provisioningRoleArn,
     bool? removePreProvisioningHook,
   }) async {
-    ArgumentError.checkNotNull(templateName, 'templateName');
-    _s.validateStringLength(
-      'templateName',
-      templateName,
-      1,
-      36,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      500,
-    );
-    _s.validateStringLength(
-      'provisioningRoleArn',
-      provisioningRoleArn,
-      20,
-      2048,
-    );
     final $payload = <String, dynamic>{
       if (defaultVersionId != null) 'defaultVersionId': defaultVersionId,
       if (description != null) 'description': description,
@@ -10416,25 +8505,11 @@ class IoT {
     int? credentialDurationSeconds,
     String? roleArn,
   }) async {
-    ArgumentError.checkNotNull(roleAlias, 'roleAlias');
-    _s.validateStringLength(
-      'roleAlias',
-      roleAlias,
-      1,
-      128,
-      isRequired: true,
-    );
     _s.validateNumRange(
       'credentialDurationSeconds',
       credentialDurationSeconds,
       900,
       3600,
-    );
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      20,
-      2048,
     );
     final $payload = <String, dynamic>{
       if (credentialDurationSeconds != null)
@@ -10494,14 +8569,6 @@ class IoT {
     AuditFrequency? frequency,
     List<String>? targetCheckNames,
   }) async {
-    ArgumentError.checkNotNull(scheduledAuditName, 'scheduledAuditName');
-    _s.validateStringLength(
-      'scheduledAuditName',
-      scheduledAuditName,
-      1,
-      128,
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       if (dayOfMonth != null) 'dayOfMonth': dayOfMonth,
       if (dayOfWeek != null) 'dayOfWeek': dayOfWeek.toValue(),
@@ -10587,20 +8654,6 @@ class IoT {
     int? expectedVersion,
     String? securityProfileDescription,
   }) async {
-    ArgumentError.checkNotNull(securityProfileName, 'securityProfileName');
-    _s.validateStringLength(
-      'securityProfileName',
-      securityProfileName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'securityProfileDescription',
-      securityProfileDescription,
-      0,
-      1000,
-    );
     final $query = <String, List<String>>{
       if (expectedVersion != null)
         'expectedVersion': [expectedVersion.toString()],
@@ -10658,26 +8711,6 @@ class IoT {
     List<StreamFile>? files,
     String? roleArn,
   }) async {
-    ArgumentError.checkNotNull(streamId, 'streamId');
-    _s.validateStringLength(
-      'streamId',
-      streamId,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'description',
-      description,
-      0,
-      2028,
-    );
-    _s.validateStringLength(
-      'roleArn',
-      roleArn,
-      20,
-      2048,
-    );
     final $payload = <String, dynamic>{
       if (description != null) 'description': description,
       if (files != null) 'files': files,
@@ -10735,20 +8768,6 @@ class IoT {
     bool? removeThingType,
     String? thingTypeName,
   }) async {
-    ArgumentError.checkNotNull(thingName, 'thingName');
-    _s.validateStringLength(
-      'thingName',
-      thingName,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'thingTypeName',
-      thingTypeName,
-      1,
-      128,
-    );
     final $payload = <String, dynamic>{
       if (attributePayload != null) 'attributePayload': attributePayload,
       if (expectedVersion != null) 'expectedVersion': expectedVersion,
@@ -10785,15 +8804,6 @@ class IoT {
     required ThingGroupProperties thingGroupProperties,
     int? expectedVersion,
   }) async {
-    ArgumentError.checkNotNull(thingGroupName, 'thingGroupName');
-    _s.validateStringLength(
-      'thingGroupName',
-      thingGroupName,
-      1,
-      128,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(thingGroupProperties, 'thingGroupProperties');
     final $payload = <String, dynamic>{
       'thingGroupProperties': thingGroupProperties,
       if (expectedVersion != null) 'expectedVersion': expectedVersion,
@@ -10834,12 +8844,6 @@ class IoT {
     List<String>? thingGroupsToRemove,
     String? thingName,
   }) async {
-    _s.validateStringLength(
-      'thingName',
-      thingName,
-      1,
-      128,
-    );
     final $payload = <String, dynamic>{
       if (overrideDynamicGroups != null)
         'overrideDynamicGroups': overrideDynamicGroups,
@@ -10896,8 +8900,6 @@ class IoT {
     required String arn,
     required TopicRuleDestinationStatus status,
   }) async {
-    ArgumentError.checkNotNull(arn, 'arn');
-    ArgumentError.checkNotNull(status, 'status');
     final $payload = <String, dynamic>{
       'arn': arn,
       'status': status.toValue(),
@@ -10923,7 +8925,6 @@ class IoT {
       validateSecurityProfileBehaviors({
     required List<Behavior> behaviors,
   }) async {
-    ArgumentError.checkNotNull(behaviors, 'behaviors');
     final $payload = <String, dynamic>{
       'behaviors': behaviors,
     };

@@ -131,9 +131,6 @@ class Glacier {
     required String uploadId,
     required String vaultName,
   }) async {
-    ArgumentError.checkNotNull(accountId, 'accountId');
-    ArgumentError.checkNotNull(uploadId, 'uploadId');
-    ArgumentError.checkNotNull(vaultName, 'vaultName');
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -183,8 +180,6 @@ class Glacier {
     required String accountId,
     required String vaultName,
   }) async {
-    ArgumentError.checkNotNull(accountId, 'accountId');
-    ArgumentError.checkNotNull(vaultName, 'vaultName');
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -227,8 +222,6 @@ class Glacier {
     required String vaultName,
     Map<String, String>? tags,
   }) async {
-    ArgumentError.checkNotNull(accountId, 'accountId');
-    ArgumentError.checkNotNull(vaultName, 'vaultName');
     final $payload = <String, dynamic>{
       if (tags != null) 'Tags': tags,
     };
@@ -325,9 +318,6 @@ class Glacier {
     String? archiveSize,
     String? checksum,
   }) async {
-    ArgumentError.checkNotNull(accountId, 'accountId');
-    ArgumentError.checkNotNull(uploadId, 'uploadId');
-    ArgumentError.checkNotNull(vaultName, 'vaultName');
     final headers = <String, String>{
       if (archiveSize != null) 'x-amz-archive-size': archiveSize.toString(),
       if (checksum != null) 'x-amz-sha256-tree-hash': checksum.toString(),
@@ -394,9 +384,6 @@ class Glacier {
     required String lockId,
     required String vaultName,
   }) async {
-    ArgumentError.checkNotNull(accountId, 'accountId');
-    ArgumentError.checkNotNull(lockId, 'lockId');
-    ArgumentError.checkNotNull(vaultName, 'vaultName');
     await _protocol.send(
       payload: null,
       method: 'POST',
@@ -456,8 +443,6 @@ class Glacier {
     required String accountId,
     required String vaultName,
   }) async {
-    ArgumentError.checkNotNull(accountId, 'accountId');
-    ArgumentError.checkNotNull(vaultName, 'vaultName');
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'PUT',
@@ -526,9 +511,6 @@ class Glacier {
     required String archiveId,
     required String vaultName,
   }) async {
-    ArgumentError.checkNotNull(accountId, 'accountId');
-    ArgumentError.checkNotNull(archiveId, 'archiveId');
-    ArgumentError.checkNotNull(vaultName, 'vaultName');
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -584,8 +566,6 @@ class Glacier {
     required String accountId,
     required String vaultName,
   }) async {
-    ArgumentError.checkNotNull(accountId, 'accountId');
-    ArgumentError.checkNotNull(vaultName, 'vaultName');
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -625,8 +605,6 @@ class Glacier {
     required String accountId,
     required String vaultName,
   }) async {
-    ArgumentError.checkNotNull(accountId, 'accountId');
-    ArgumentError.checkNotNull(vaultName, 'vaultName');
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -674,8 +652,6 @@ class Glacier {
     required String accountId,
     required String vaultName,
   }) async {
-    ArgumentError.checkNotNull(accountId, 'accountId');
-    ArgumentError.checkNotNull(vaultName, 'vaultName');
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -733,9 +709,6 @@ class Glacier {
     required String jobId,
     required String vaultName,
   }) async {
-    ArgumentError.checkNotNull(accountId, 'accountId');
-    ArgumentError.checkNotNull(jobId, 'jobId');
-    ArgumentError.checkNotNull(vaultName, 'vaultName');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -789,8 +762,6 @@ class Glacier {
     required String accountId,
     required String vaultName,
   }) async {
-    ArgumentError.checkNotNull(accountId, 'accountId');
-    ArgumentError.checkNotNull(vaultName, 'vaultName');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -821,7 +792,6 @@ class Glacier {
   Future<GetDataRetrievalPolicyOutput> getDataRetrievalPolicy({
     required String accountId,
   }) async {
-    ArgumentError.checkNotNull(accountId, 'accountId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -942,9 +912,6 @@ class Glacier {
     required String vaultName,
     String? range,
   }) async {
-    ArgumentError.checkNotNull(accountId, 'accountId');
-    ArgumentError.checkNotNull(jobId, 'jobId');
-    ArgumentError.checkNotNull(vaultName, 'vaultName');
     final headers = <String, String>{
       if (range != null) 'Range': range.toString(),
     };
@@ -999,8 +966,6 @@ class Glacier {
     required String accountId,
     required String vaultName,
   }) async {
-    ArgumentError.checkNotNull(accountId, 'accountId');
-    ArgumentError.checkNotNull(vaultName, 'vaultName');
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
@@ -1066,8 +1031,6 @@ class Glacier {
     required String accountId,
     required String vaultName,
   }) async {
-    ArgumentError.checkNotNull(accountId, 'accountId');
-    ArgumentError.checkNotNull(vaultName, 'vaultName');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1120,8 +1083,6 @@ class Glacier {
     required String accountId,
     required String vaultName,
   }) async {
-    ArgumentError.checkNotNull(accountId, 'accountId');
-    ArgumentError.checkNotNull(vaultName, 'vaultName');
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
@@ -1166,8 +1127,6 @@ class Glacier {
     required String vaultName,
     JobParameters? jobParameters,
   }) async {
-    ArgumentError.checkNotNull(accountId, 'accountId');
-    ArgumentError.checkNotNull(vaultName, 'vaultName');
     final response = await _protocol.sendRaw(
       payload: jobParameters,
       method: 'POST',
@@ -1255,8 +1214,6 @@ class Glacier {
     String? archiveDescription,
     String? partSize,
   }) async {
-    ArgumentError.checkNotNull(accountId, 'accountId');
-    ArgumentError.checkNotNull(vaultName, 'vaultName');
     final headers = <String, String>{
       if (archiveDescription != null)
         'x-amz-archive-description': archiveDescription.toString(),
@@ -1342,8 +1299,6 @@ class Glacier {
     required String vaultName,
     VaultLockPolicy? policy,
   }) async {
-    ArgumentError.checkNotNull(accountId, 'accountId');
-    ArgumentError.checkNotNull(vaultName, 'vaultName');
     final response = await _protocol.sendRaw(
       payload: policy,
       method: 'POST',
@@ -1441,8 +1396,6 @@ class Glacier {
     String? marker,
     String? statuscode,
   }) async {
-    ArgumentError.checkNotNull(accountId, 'accountId');
-    ArgumentError.checkNotNull(vaultName, 'vaultName');
     final $query = <String, List<String>>{
       if (completed != null) 'completed': [completed],
       if (limit != null) 'limit': [limit],
@@ -1527,8 +1480,6 @@ class Glacier {
     String? limit,
     String? marker,
   }) async {
-    ArgumentError.checkNotNull(accountId, 'accountId');
-    ArgumentError.checkNotNull(vaultName, 'vaultName');
     final $query = <String, List<String>>{
       if (limit != null) 'limit': [limit],
       if (marker != null) 'marker': [marker],
@@ -1610,9 +1561,6 @@ class Glacier {
     String? limit,
     String? marker,
   }) async {
-    ArgumentError.checkNotNull(accountId, 'accountId');
-    ArgumentError.checkNotNull(uploadId, 'uploadId');
-    ArgumentError.checkNotNull(vaultName, 'vaultName');
     final $query = <String, List<String>>{
       if (limit != null) 'limit': [limit],
       if (marker != null) 'marker': [marker],
@@ -1644,7 +1592,6 @@ class Glacier {
   Future<ListProvisionedCapacityOutput> listProvisionedCapacity({
     required String accountId,
   }) async {
-    ArgumentError.checkNotNull(accountId, 'accountId');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1678,8 +1625,6 @@ class Glacier {
     required String accountId,
     required String vaultName,
   }) async {
-    ArgumentError.checkNotNull(accountId, 'accountId');
-    ArgumentError.checkNotNull(vaultName, 'vaultName');
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1742,7 +1687,6 @@ class Glacier {
     String? limit,
     String? marker,
   }) async {
-    ArgumentError.checkNotNull(accountId, 'accountId');
     final $query = <String, List<String>>{
       if (limit != null) 'limit': [limit],
       if (marker != null) 'marker': [marker],
@@ -1773,7 +1717,6 @@ class Glacier {
   Future<PurchaseProvisionedCapacityOutput> purchaseProvisionedCapacity({
     required String accountId,
   }) async {
-    ArgumentError.checkNotNull(accountId, 'accountId');
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'POST',
@@ -1816,8 +1759,6 @@ class Glacier {
     required String vaultName,
     List<String>? tagKeys,
   }) async {
-    ArgumentError.checkNotNull(accountId, 'accountId');
-    ArgumentError.checkNotNull(vaultName, 'vaultName');
     final $payload = <String, dynamic>{
       if (tagKeys != null) 'TagKeys': tagKeys,
     };
@@ -1859,7 +1800,6 @@ class Glacier {
     required String accountId,
     DataRetrievalPolicy? policy,
   }) async {
-    ArgumentError.checkNotNull(accountId, 'accountId');
     final $payload = <String, dynamic>{
       if (policy != null) 'Policy': policy,
     };
@@ -1902,8 +1842,6 @@ class Glacier {
     required String vaultName,
     VaultAccessPolicy? policy,
   }) async {
-    ArgumentError.checkNotNull(accountId, 'accountId');
-    ArgumentError.checkNotNull(vaultName, 'vaultName');
     await _protocol.send(
       payload: policy,
       method: 'PUT',
@@ -1978,8 +1916,6 @@ class Glacier {
     required String vaultName,
     VaultNotificationConfig? vaultNotificationConfig,
   }) async {
-    ArgumentError.checkNotNull(accountId, 'accountId');
-    ArgumentError.checkNotNull(vaultName, 'vaultName');
     await _protocol.send(
       payload: vaultNotificationConfig,
       method: 'PUT',
@@ -2063,8 +1999,6 @@ class Glacier {
     Uint8List? body,
     String? checksum,
   }) async {
-    ArgumentError.checkNotNull(accountId, 'accountId');
-    ArgumentError.checkNotNull(vaultName, 'vaultName');
     final headers = <String, String>{
       if (archiveDescription != null)
         'x-amz-archive-description': archiveDescription.toString(),
@@ -2181,9 +2115,6 @@ class Glacier {
     String? checksum,
     String? range,
   }) async {
-    ArgumentError.checkNotNull(accountId, 'accountId');
-    ArgumentError.checkNotNull(uploadId, 'uploadId');
-    ArgumentError.checkNotNull(vaultName, 'vaultName');
     final headers = <String, String>{
       if (checksum != null) 'x-amz-sha256-tree-hash': checksum.toString(),
       if (range != null) 'Content-Range': range.toString(),
