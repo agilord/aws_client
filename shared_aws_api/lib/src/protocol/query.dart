@@ -90,9 +90,9 @@ class QueryProtocol {
 
     if (elem.name.local == 'ErrorResponse') {
       final error = elem.findElements('Error').first;
-      final type = error.findElements('Type').first.text;
-      final code = error.findElements('Code').first.text;
-      final message = error.findElements('Message').first.text;
+      final type = error.findElements('Type').first.innerText;
+      final code = error.findElements('Code').first.innerText;
+      final message = error.findElements('Message').first.innerText;
       final fn = exceptionFnMap[code];
       final exception = fn != null
           ? fn(type, message)

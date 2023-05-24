@@ -7,7 +7,7 @@ part 'operation.g.dart';
 
 @JsonSerializable(createToJson: false, disallowUnrecognizedKeys: true)
 class Operation {
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   late Api api;
   final String name;
   final Http http;
