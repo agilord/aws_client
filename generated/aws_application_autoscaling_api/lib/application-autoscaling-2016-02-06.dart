@@ -3255,10 +3255,10 @@ extension ScalableDimensionValueExtension on ScalableDimension {
       case ScalableDimension.customResourceResourceTypeProperty:
         return 'custom-resource:ResourceType:Property';
       case ScalableDimension
-          .comprehendDocumentClassifierEndpointDesiredInferenceUnits:
+            .comprehendDocumentClassifierEndpointDesiredInferenceUnits:
         return 'comprehend:document-classifier-endpoint:DesiredInferenceUnits';
       case ScalableDimension
-          .comprehendEntityRecognizerEndpointDesiredInferenceUnits:
+            .comprehendEntityRecognizerEndpointDesiredInferenceUnits:
         return 'comprehend:entity-recognizer-endpoint:DesiredInferenceUnits';
       case ScalableDimension.lambdaFunctionProvisionedConcurrency:
         return 'lambda:function:ProvisionedConcurrency';

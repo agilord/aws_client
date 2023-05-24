@@ -18803,7 +18803,7 @@ extension AwsManagedHumanLoopRequestSourceValueExtension
   String toValue() {
     switch (this) {
       case AwsManagedHumanLoopRequestSource
-          .awsRekognitionDetectModerationLabelsImageV3:
+            .awsRekognitionDetectModerationLabelsImageV3:
         return 'AWS/Rekognition/DetectModerationLabels/Image/V3';
       case AwsManagedHumanLoopRequestSource.awsTextractAnalyzeDocumentFormsV1:
         return 'AWS/Textract/AnalyzeDocument/Forms/V1';

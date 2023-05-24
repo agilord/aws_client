@@ -1,4 +1,4 @@
-import 'package:aws_client.generator/model/region_config.dart';
+import '../model/region_config.dart';
 
 String buildEndpointConfig(RegionConfigData regionConfigData) {
   final code = StringBuffer()..writeln('''

@@ -16970,7 +16970,7 @@ extension LoadBalancerTlsCertificateFailureReasonValueExtension
       case LoadBalancerTlsCertificateFailureReason.noAvailableContacts:
         return 'NO_AVAILABLE_CONTACTS';
       case LoadBalancerTlsCertificateFailureReason
-          .additionalVerificationRequired:
+            .additionalVerificationRequired:
         return 'ADDITIONAL_VERIFICATION_REQUIRED';
       case LoadBalancerTlsCertificateFailureReason.domainNotAllowed:
         return 'DOMAIN_NOT_ALLOWED';

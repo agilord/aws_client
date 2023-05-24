@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:http/http.dart';
-import 'package:shared_aws_api/src/protocol/_sign.dart';
 
 import '../credentials.dart';
+import '../protocol/_sign.dart';
 import 'endpoint.dart';
 import 'shared.dart';
 

@@ -5710,18 +5710,18 @@ extension ContinueAsNewWorkflowExecutionFailedCauseValueExtension
       case ContinueAsNewWorkflowExecutionFailedCause.workflowTypeDoesNotExist:
         return 'WORKFLOW_TYPE_DOES_NOT_EXIST';
       case ContinueAsNewWorkflowExecutionFailedCause
-          .defaultExecutionStartToCloseTimeoutUndefined:
+            .defaultExecutionStartToCloseTimeoutUndefined:
         return 'DEFAULT_EXECUTION_START_TO_CLOSE_TIMEOUT_UNDEFINED';
       case ContinueAsNewWorkflowExecutionFailedCause
-          .defaultTaskStartToCloseTimeoutUndefined:
+            .defaultTaskStartToCloseTimeoutUndefined:
         return 'DEFAULT_TASK_START_TO_CLOSE_TIMEOUT_UNDEFINED';
       case ContinueAsNewWorkflowExecutionFailedCause.defaultTaskListUndefined:
         return 'DEFAULT_TASK_LIST_UNDEFINED';
       case ContinueAsNewWorkflowExecutionFailedCause
-          .defaultChildPolicyUndefined:
+            .defaultChildPolicyUndefined:
         return 'DEFAULT_CHILD_POLICY_UNDEFINED';
       case ContinueAsNewWorkflowExecutionFailedCause
-          .continueAsNewWorkflowExecutionRateExceeded:
+            .continueAsNewWorkflowExecutionRateExceeded:
         return 'CONTINUE_AS_NEW_WORKFLOW_EXECUTION_RATE_EXCEEDED';
       case ContinueAsNewWorkflowExecutionFailedCause.operationNotPermitted:
         return 'OPERATION_NOT_PERMITTED';
@@ -8616,13 +8616,13 @@ extension RequestCancelExternalWorkflowExecutionFailedCauseValueExtension
   String toValue() {
     switch (this) {
       case RequestCancelExternalWorkflowExecutionFailedCause
-          .unknownExternalWorkflowExecution:
+            .unknownExternalWorkflowExecution:
         return 'UNKNOWN_EXTERNAL_WORKFLOW_EXECUTION';
       case RequestCancelExternalWorkflowExecutionFailedCause
-          .requestCancelExternalWorkflowExecutionRateExceeded:
+            .requestCancelExternalWorkflowExecutionRateExceeded:
         return 'REQUEST_CANCEL_EXTERNAL_WORKFLOW_EXECUTION_RATE_EXCEEDED';
       case RequestCancelExternalWorkflowExecutionFailedCause
-          .operationNotPermitted:
+            .operationNotPermitted:
         return 'OPERATION_NOT_PERMITTED';
     }
   }
@@ -9012,12 +9012,12 @@ extension ScheduleActivityTaskFailedCauseValueExtension
       case ScheduleActivityTaskFailedCause.activityCreationRateExceeded:
         return 'ACTIVITY_CREATION_RATE_EXCEEDED';
       case ScheduleActivityTaskFailedCause
-          .defaultScheduleToCloseTimeoutUndefined:
+            .defaultScheduleToCloseTimeoutUndefined:
         return 'DEFAULT_SCHEDULE_TO_CLOSE_TIMEOUT_UNDEFINED';
       case ScheduleActivityTaskFailedCause.defaultTaskListUndefined:
         return 'DEFAULT_TASK_LIST_UNDEFINED';
       case ScheduleActivityTaskFailedCause
-          .defaultScheduleToStartTimeoutUndefined:
+            .defaultScheduleToStartTimeoutUndefined:
         return 'DEFAULT_SCHEDULE_TO_START_TIMEOUT_UNDEFINED';
       case ScheduleActivityTaskFailedCause.defaultStartToCloseTimeoutUndefined:
         return 'DEFAULT_START_TO_CLOSE_TIMEOUT_UNDEFINED';
@@ -9326,10 +9326,10 @@ extension SignalExternalWorkflowExecutionFailedCauseValueExtension
   String toValue() {
     switch (this) {
       case SignalExternalWorkflowExecutionFailedCause
-          .unknownExternalWorkflowExecution:
+            .unknownExternalWorkflowExecution:
         return 'UNKNOWN_EXTERNAL_WORKFLOW_EXECUTION';
       case SignalExternalWorkflowExecutionFailedCause
-          .signalExternalWorkflowExecutionRateExceeded:
+            .signalExternalWorkflowExecutionRateExceeded:
         return 'SIGNAL_EXTERNAL_WORKFLOW_EXECUTION_RATE_EXCEEDED';
       case SignalExternalWorkflowExecutionFailedCause.operationNotPermitted:
         return 'OPERATION_NOT_PERMITTED';
@@ -9703,12 +9703,12 @@ extension StartChildWorkflowExecutionFailedCauseValueExtension
       case StartChildWorkflowExecutionFailedCause.workflowAlreadyRunning:
         return 'WORKFLOW_ALREADY_RUNNING';
       case StartChildWorkflowExecutionFailedCause
-          .defaultExecutionStartToCloseTimeoutUndefined:
+            .defaultExecutionStartToCloseTimeoutUndefined:
         return 'DEFAULT_EXECUTION_START_TO_CLOSE_TIMEOUT_UNDEFINED';
       case StartChildWorkflowExecutionFailedCause.defaultTaskListUndefined:
         return 'DEFAULT_TASK_LIST_UNDEFINED';
       case StartChildWorkflowExecutionFailedCause
-          .defaultTaskStartToCloseTimeoutUndefined:
+            .defaultTaskStartToCloseTimeoutUndefined:
         return 'DEFAULT_TASK_START_TO_CLOSE_TIMEOUT_UNDEFINED';
       case StartChildWorkflowExecutionFailedCause.defaultChildPolicyUndefined:
         return 'DEFAULT_CHILD_POLICY_UNDEFINED';

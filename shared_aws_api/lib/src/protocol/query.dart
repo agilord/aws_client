@@ -3,10 +3,10 @@ import 'dart:typed_data';
 
 import 'package:http/http.dart';
 import 'package:meta/meta.dart';
-import 'package:shared_aws_api/src/model/shape.dart';
 import 'package:xml/xml.dart';
 
 import '../credentials.dart';
+import '../model/shape.dart';
 import '../utils/query_string.dart';
 import '_sign.dart';
 import 'endpoint.dart';

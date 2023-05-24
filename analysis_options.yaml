@@ -9,13 +9,14 @@ analyzer:
     unused_local_variable: error
     dead_code: error
     deprecated_member_use_from_same_package: ignore
-  strong-mode:
-    implicit-casts: false
+  language:
+    strict-casts: true
 
 # Lint rules and documentation, see http://dart-lang.github.io/linter/lints
 linter:
   rules:
     - annotate_overrides
+    - avoid_relative_lib_imports
     - avoid_unused_constructor_parameters
     - await_only_futures
     - camel_case_types

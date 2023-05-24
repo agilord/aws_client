@@ -1,5 +1,5 @@
-import 'package:aws_credential_providers/aws_credential_providers.dart';
 import 'package:shared_aws_api/shared.dart';
+import '../../aws_credential_providers.dart';
 
 const _defaultChain = [
   fromEnvironment,
