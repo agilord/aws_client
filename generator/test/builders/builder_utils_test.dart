@@ -1,6 +1,6 @@
 import 'dart:convert';
-import 'package:aws_client.generator/builders/builder_utils.dart';
-import 'package:aws_client.generator/model/api.dart';
+import 'package:aws_client_generator/builders/builder_utils.dart';
+import 'package:aws_client_generator/model/api.dart';
 import 'package:test/test.dart';
 
 void main() {

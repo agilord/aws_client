@@ -1,19 +1,18 @@
 import 'dart:math';
-import 'package:aws_client.generator/builders/builder_utils.dart';
-import 'package:aws_client.generator/builders/protocols/ec2_builder.dart';
-import 'package:aws_client.generator/builders/protocols/json_builder.dart';
-import 'package:aws_client.generator/builders/protocols/query_builder.dart';
-import 'package:aws_client.generator/builders/protocols/rest_json_builder.dart';
-import 'package:aws_client.generator/builders/protocols/rest_xml_builder.dart';
-import 'package:aws_client.generator/builders/protocols/service_builder.dart';
-import 'package:aws_client.generator/model/api.dart';
-import 'package:aws_client.generator/model/dart_type.dart';
-import 'package:aws_client.generator/model/operation.dart';
-import 'package:aws_client.generator/model/shape.dart';
-import 'package:aws_client.generator/model/xml_namespace.dart';
-import 'package:aws_client.generator/utils/string_utils.dart';
-
+import '../model/api.dart';
+import '../model/dart_type.dart';
+import '../model/operation.dart';
+import '../model/shape.dart';
+import '../model/xml_namespace.dart';
 import '../utils/documentation_utils.dart';
+import '../utils/string_utils.dart';
+import 'builder_utils.dart';
+import 'protocols/ec2_builder.dart';
+import 'protocols/json_builder.dart';
+import 'protocols/query_builder.dart';
+import 'protocols/rest_json_builder.dart';
+import 'protocols/rest_xml_builder.dart';
+import 'protocols/service_builder.dart';
 
 String buildService(Api api) {
   api.initReferences();
@@ -84,7 +83,9 @@ ${builder.constructor()}
     ''');
     }
 
-    api.operations.values.forEach((op) => putOperation(api, op, builder));
+    for (var op in api.operations.values) {
+      putOperation(api, op, builder);
+    }
 
     writeln('}');
   }
@@ -179,8 +180,11 @@ ${builder.constructor()}
     writeln('  }');
   }
 
-  void putShapes(Api api) =>
-      api.shapes.keys.forEach((key) => putShape(api.shapes[key]!));
+  void putShapes(Api api) {
+    for (var key in api.shapes.keys) {
+      putShape(api.shapes[key]!);
+    }
+  }
 
   void putShape(Shape shape) {
     final name = shape.className;

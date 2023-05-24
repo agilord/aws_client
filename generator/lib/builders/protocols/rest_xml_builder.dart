@@ -1,11 +1,10 @@
-import 'package:aws_client.generator/builders/builder_utils.dart';
-import 'package:aws_client.generator/builders/protocols/service_builder.dart';
-import 'package:aws_client.generator/model/api.dart';
-import 'package:aws_client.generator/model/dart_type.dart';
-import 'package:aws_client.generator/model/operation.dart';
-import 'package:aws_client.generator/model/shape.dart';
-
+import '../../model/api.dart';
+import '../../model/dart_type.dart';
+import '../../model/operation.dart';
+import '../../model/shape.dart';
+import '../builder_utils.dart';
 import '../library_builder.dart';
+import 'service_builder.dart';
 
 class RestXmlServiceBuilder extends ServiceBuilder {
   final Api api;
@@ -44,11 +43,13 @@ class RestXmlServiceBuilder extends ServiceBuilder {
     final input = operation.input;
     final shapeClass = operation.input?.shapeClass;
 
-    shapeClass?.members.forEach((m) {
-      if (m.idempotencyToken) {
-        buf.writeln('${m.fieldName} ??= _s.generateIdempotencyToken();');
+    if (shapeClass != null) {
+      for (var m in shapeClass.members) {
+        if (m.idempotencyToken) {
+          buf.writeln('${m.fieldName} ??= _s.generateIdempotencyToken();');
+        }
       }
-    });
+    }
 
     buildRequestHeaders(operation, buf);
     buildRequestQueryParams(operation, buf);

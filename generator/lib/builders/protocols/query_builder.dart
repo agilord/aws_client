@@ -1,8 +1,8 @@
-import 'package:aws_client.generator/builders/protocols/service_builder.dart';
-import 'package:aws_client.generator/model/api.dart';
-import 'package:aws_client.generator/model/descriptor.dart';
-import 'package:aws_client.generator/model/operation.dart';
-import 'package:aws_client.generator/model/shape.dart';
+import '../../model/api.dart';
+import '../../model/descriptor.dart';
+import '../../model/operation.dart';
+import '../../model/shape.dart';
+import 'service_builder.dart';
 
 class QueryServiceBuilder extends ServiceBuilder {
   final Api api;
@@ -43,7 +43,7 @@ class QueryServiceBuilder extends ServiceBuilder {
 
     final buf = StringBuffer();
     buf.writeln('    final \$request = <String, dynamic>{};');
-    parameterShape?.members.forEach((member) {
+    for (var member in parameterShape?.members ?? <Member>[]) {
       member.shapeClass!.markUsed(true);
       final idempotency =
           member.idempotencyToken ? '?? _s.generateIdempotencyToken()' : '';
@@ -58,7 +58,7 @@ class QueryServiceBuilder extends ServiceBuilder {
         buf.writeln(
             "${member.fieldName}?.also((arg) => \$request['${member.name}'] = $code);");
       }
-    });
+    }
     final params = StringBuffer([
       '\$request, ',
       "action: '${operation.name}',",

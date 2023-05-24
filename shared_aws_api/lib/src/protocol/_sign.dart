@@ -49,9 +49,9 @@ void signAws4HmacSha256({
     service.signingName ?? service.endpointPrefix,
     'aws4_request',
   ];
-  const _aws4HmacSha256 = 'AWS4-HMAC-SHA256';
+  const aws4HmacSha256 = 'AWS4-HMAC-SHA256';
   final toSign = [
-    _aws4HmacSha256,
+    aws4HmacSha256,
     date,
     credentialList.join('/'),
     canonicalHash,
@@ -65,7 +65,7 @@ void signAws4HmacSha256({
   final signature =
       Hmac(sha256, signingKey).convert(utf8.encode(toSign)).toString();
 
-  final auth = '$_aws4HmacSha256 '
+  final auth = '$aws4HmacSha256 '
       'Credential=${credentials.accessKey}/${credentialList.join('/')}, '
       'SignedHeaders=${headerKeys.join(';')}, '
       'Signature=$signature';

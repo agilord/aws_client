@@ -84,9 +84,11 @@ class Config {
 
   List<List<String?>>? items(String name) {
     final s = _getSection(name);
-    return s != null
-        ? s.keys.map((String key) => [key, s[key]]).toList()
-        : null;
+    if (s != null) {
+      return s.keys.map((String key) => [key, s[key]]).toList();
+    } else {
+      return null;
+    }
   }
 
   void set(String name, String option, String value) {

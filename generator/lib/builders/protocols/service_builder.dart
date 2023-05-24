@@ -1,7 +1,6 @@
-import 'package:aws_client.generator/model/api.dart';
-import 'package:aws_client.generator/model/operation.dart';
-import 'package:aws_client.generator/model/shape.dart';
-
+import '../../model/api.dart';
+import '../../model/operation.dart';
+import '../../model/shape.dart';
 import 'query_builder.dart';
 
 abstract class ServiceBuilder {
@@ -61,7 +60,7 @@ abstract class ServiceBuilder {
                 '{${m.locationName ?? m.name}+'
               ])
           .toSet();
-      sc.uriMembers.forEach((m) {
+      for (var m in sc.uriMembers) {
         final fieldCode = _encodePath(m.shapeClass!, m.fieldName);
         uri = uri
             .split('/')
@@ -78,7 +77,7 @@ abstract class ServiceBuilder {
                 '\${Uri.encodeComponent($fieldCode)}')
             .replaceAll('{${m.locationName ?? m.name}+}',
                 "\${$fieldCode.split('/').map(Uri.encodeComponent).join('/')}");
-      });
+      }
     }
     return uri;
   }

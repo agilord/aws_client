@@ -1,4 +1,4 @@
-import 'package:aws_client.generator/model/api.dart';
+import '../model/api.dart';
 
 String buildExampleReadme(Api api) => '''
 ```dart
