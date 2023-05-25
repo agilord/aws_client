@@ -236,6 +236,7 @@ class Event {
     this.properties,
     this.recommendationId,
   });
+
   Map<String, dynamic> toJson() {
     final eventType = this.eventType;
     final sentAt = this.sentAt;
@@ -283,6 +284,7 @@ class Item {
     required this.itemId,
     this.properties,
   });
+
   Map<String, dynamic> toJson() {
     final itemId = this.itemId;
     final properties = this.properties;
@@ -304,6 +306,7 @@ class MetricAttribution {
   MetricAttribution({
     required this.eventAttributionSource,
   });
+
   Map<String, dynamic> toJson() {
     final eventAttributionSource = this.eventAttributionSource;
     return {
@@ -336,6 +339,7 @@ class User {
     required this.userId,
     this.properties,
   });
+
   Map<String, dynamic> toJson() {
     final userId = this.userId;
     final properties = this.properties;

@@ -10423,6 +10423,7 @@ class AddOnRequest {
     this.autoSnapshotAddOnRequest,
     this.stopInstanceOnIdleRequest,
   });
+
   Map<String, dynamic> toJson() {
     final addOnType = this.addOnType;
     final autoSnapshotAddOnRequest = this.autoSnapshotAddOnRequest;
@@ -10970,6 +10971,7 @@ class AutoSnapshotAddOnRequest {
   AutoSnapshotAddOnRequest({
     this.snapshotTimeOfDay,
   });
+
   Map<String, dynamic> toJson() {
     final snapshotTimeOfDay = this.snapshotTimeOfDay;
     return {
@@ -13019,6 +13021,7 @@ class ContainerServiceDeploymentRequest {
     this.containers,
     this.publicEndpoint,
   });
+
   Map<String, dynamic> toJson() {
     final containers = this.containers;
     final publicEndpoint = this.publicEndpoint;
@@ -13123,6 +13126,7 @@ class ContainerServiceECRImagePullerRoleRequest {
   ContainerServiceECRImagePullerRoleRequest({
     this.isActive,
   });
+
   Map<String, dynamic> toJson() {
     final isActive = this.isActive;
     return {
@@ -15016,6 +15020,7 @@ class DiskMap {
     this.newDiskName,
     this.originalDiskPath,
   });
+
   Map<String, dynamic> toJson() {
     final newDiskName = this.newDiskName;
     final originalDiskPath = this.originalDiskPath;
@@ -15686,6 +15691,7 @@ class EndpointRequest {
     required this.containerPort,
     this.healthCheck,
   });
+
   Map<String, dynamic> toJson() {
     final containerName = this.containerName;
     final containerPort = this.containerPort;
@@ -17852,6 +17858,7 @@ class InputOrigin {
     this.protocolPolicy,
     this.regionName,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final protocolPolicy = this.protocolPolicy;
@@ -18206,6 +18213,7 @@ class InstanceEntry {
     required this.sourceName,
     this.userData,
   });
+
   Map<String, dynamic> toJson() {
     final availabilityZone = this.availabilityZone;
     final instanceType = this.instanceType;
@@ -22178,6 +22186,7 @@ class PortInfo {
     this.protocol,
     this.toPort,
   });
+
   Map<String, dynamic> toJson() {
     final cidrListAliases = this.cidrListAliases;
     final cidrs = this.cidrs;
@@ -22351,6 +22360,7 @@ class PrivateRegistryAccessRequest {
   PrivateRegistryAccessRequest({
     this.ecrImagePullerRole,
   });
+
   Map<String, dynamic> toJson() {
     final ecrImagePullerRole = this.ecrImagePullerRole;
     return {
@@ -24222,6 +24232,7 @@ class StopInstanceOnIdleRequest {
     this.duration,
     this.threshold,
   });
+
   Map<String, dynamic> toJson() {
     final duration = this.duration;
     final threshold = this.threshold;

@@ -9967,6 +9967,7 @@ class AnswerMachineDetectionConfig {
     this.awaitAnswerMachinePrompt,
     this.enableAnswerMachineDetection,
   });
+
   Map<String, dynamic> toJson() {
     final awaitAnswerMachinePrompt = this.awaitAnswerMachinePrompt;
     final enableAnswerMachineDetection = this.enableAnswerMachineDetection;
@@ -10209,6 +10210,7 @@ class ChatMessage {
     required this.content,
     required this.contentType,
   });
+
   Map<String, dynamic> toJson() {
     final content = this.content;
     final contentType = this.contentType;
@@ -10228,6 +10230,7 @@ class ChatParticipantRoleConfig {
   ChatParticipantRoleConfig({
     required this.participantTimerConfigList,
   });
+
   Map<String, dynamic> toJson() {
     final participantTimerConfigList = this.participantTimerConfigList;
     return {
@@ -10246,6 +10249,7 @@ class ChatStreamingConfiguration {
   ChatStreamingConfiguration({
     required this.streamingEndpointArn,
   });
+
   Map<String, dynamic> toJson() {
     final streamingEndpointArn = this.streamingEndpointArn;
     return {
@@ -10520,6 +10524,7 @@ class ContactFilter {
   ContactFilter({
     this.contactStates,
   });
+
   Map<String, dynamic> toJson() {
     final contactStates = this.contactStates;
     return {
@@ -11009,6 +11014,7 @@ class ControlPlaneTagFilter {
     this.orConditions,
     this.tagCondition,
   });
+
   Map<String, dynamic> toJson() {
     final andConditions = this.andConditions;
     final orConditions = this.orConditions;
@@ -11674,6 +11680,7 @@ class CurrentMetricSortCriteria {
     this.sortByMetric,
     this.sortOrder,
   });
+
   Map<String, dynamic> toJson() {
     final sortByMetric = this.sortByMetric;
     final sortOrder = this.sortOrder;
@@ -12515,6 +12522,7 @@ class EvaluationAnswerInput {
   EvaluationAnswerInput({
     this.value,
   });
+
   Map<String, dynamic> toJson() {
     final value = this.value;
     return {
@@ -13765,6 +13773,7 @@ class FilterV2 {
     this.filterKey,
     this.filterValues,
   });
+
   Map<String, dynamic> toJson() {
     final filterKey = this.filterKey;
     final filterValues = this.filterValues;
@@ -13794,6 +13803,7 @@ class Filters {
     this.queues,
     this.routingProfiles,
   });
+
   Map<String, dynamic> toJson() {
     final channels = this.channels;
     final queues = this.queues;
@@ -14210,6 +14220,7 @@ class HierarchyGroupCondition {
     this.hierarchyGroupMatchType,
     this.value,
   });
+
   Map<String, dynamic> toJson() {
     final hierarchyGroupMatchType = this.hierarchyGroupMatchType;
     final value = this.value;
@@ -14330,6 +14341,7 @@ class HierarchyLevelUpdate {
   HierarchyLevelUpdate({
     required this.name,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     return {
@@ -14510,6 +14522,7 @@ class HierarchyStructureUpdate {
     this.levelThree,
     this.levelTwo,
   });
+
   Map<String, dynamic> toJson() {
     final levelFive = this.levelFive;
     final levelFour = this.levelFour;
@@ -17089,6 +17102,7 @@ class ParticipantDetails {
   ParticipantDetails({
     required this.displayName,
   });
+
   Map<String, dynamic> toJson() {
     final displayName = this.displayName;
     return {
@@ -17109,6 +17123,7 @@ class ParticipantDetailsToAdd {
     this.displayName,
     this.participantRole,
   });
+
   Map<String, dynamic> toJson() {
     final displayName = this.displayName;
     final participantRole = this.participantRole;
@@ -17206,6 +17221,7 @@ class ParticipantTimerConfiguration {
     required this.timerType,
     required this.timerValue,
   });
+
   Map<String, dynamic> toJson() {
     final participantRole = this.participantRole;
     final timerType = this.timerType;
@@ -17265,6 +17281,7 @@ class ParticipantTimerValue {
     this.participantTimerAction,
     this.participantTimerDurationInMinutes,
   });
+
   Map<String, dynamic> toJson() {
     final participantTimerAction = this.participantTimerAction;
     final participantTimerDurationInMinutes =
@@ -17335,6 +17352,7 @@ class PersistentChat {
     this.rehydrationType,
     this.sourceContactId,
   });
+
   Map<String, dynamic> toJson() {
     final rehydrationType = this.rehydrationType;
     final sourceContactId = this.sourceContactId;
@@ -18982,6 +19000,7 @@ class QueueSearchCriteria {
     this.queueTypeCondition,
     this.stringCondition,
   });
+
   Map<String, dynamic> toJson() {
     final andConditions = this.andConditions;
     final orConditions = this.orConditions;
@@ -19004,6 +19023,7 @@ class QueueSearchFilter {
   QueueSearchFilter({
     this.tagFilter,
   });
+
   Map<String, dynamic> toJson() {
     final tagFilter = this.tagFilter;
     return {
@@ -19643,6 +19663,7 @@ class RoutingProfileQueueConfig {
     required this.priority,
     required this.queueReference,
   });
+
   Map<String, dynamic> toJson() {
     final delay = this.delay;
     final priority = this.priority;
@@ -19715,6 +19736,7 @@ class RoutingProfileQueueReference {
     required this.channel,
     required this.queueId,
   });
+
   Map<String, dynamic> toJson() {
     final channel = this.channel;
     final queueId = this.queueId;
@@ -19766,6 +19788,7 @@ class RoutingProfileSearchCriteria {
     this.orConditions,
     this.stringCondition,
   });
+
   Map<String, dynamic> toJson() {
     final andConditions = this.andConditions;
     final orConditions = this.orConditions;
@@ -19785,6 +19808,7 @@ class RoutingProfileSearchFilter {
   RoutingProfileSearchFilter({
     this.tagFilter,
   });
+
   Map<String, dynamic> toJson() {
     final tagFilter = this.tagFilter;
     return {
@@ -20417,6 +20441,7 @@ class SecurityProfileSearchCriteria {
     this.orConditions,
     this.stringCondition,
   });
+
   Map<String, dynamic> toJson() {
     final andConditions = this.andConditions;
     final orConditions = this.orConditions;
@@ -20505,6 +20530,7 @@ class SecurityProfilesSearchFilter {
   SecurityProfilesSearchFilter({
     this.tagFilter,
   });
+
   Map<String, dynamic> toJson() {
     final tagFilter = this.tagFilter;
     return {
@@ -20959,6 +20985,7 @@ class StringCondition {
     this.fieldName,
     this.value,
   });
+
   Map<String, dynamic> toJson() {
     final comparisonType = this.comparisonType;
     final fieldName = this.fieldName;
@@ -21034,6 +21061,7 @@ class TagCondition {
     this.tagKey,
     this.tagValue,
   });
+
   Map<String, dynamic> toJson() {
     final tagKey = this.tagKey;
     final tagValue = this.tagValue;
@@ -21949,6 +21977,7 @@ class UpdateParticipantRoleConfigChannelInfo {
   UpdateParticipantRoleConfigChannelInfo({
     this.chat,
   });
+
   Map<String, dynamic> toJson() {
     final chat = this.chat;
     return {
@@ -22356,6 +22385,7 @@ class UserDataFilters {
     this.routingProfiles,
     this.userHierarchyGroups,
   });
+
   Map<String, dynamic> toJson() {
     final agents = this.agents;
     final contactFilter = this.contactFilter;
@@ -22583,6 +22613,7 @@ class UserSearchCriteria {
     this.orConditions,
     this.stringCondition,
   });
+
   Map<String, dynamic> toJson() {
     final andConditions = this.andConditions;
     final hierarchyGroupCondition = this.hierarchyGroupCondition;
@@ -22605,6 +22636,7 @@ class UserSearchFilter {
   UserSearchFilter({
     this.tagFilter,
   });
+
   Map<String, dynamic> toJson() {
     final tagFilter = this.tagFilter;
     return {
@@ -23006,6 +23038,7 @@ class VoiceRecordingConfiguration {
   VoiceRecordingConfiguration({
     this.voiceRecordingTrack,
   });
+
   Map<String, dynamic> toJson() {
     final voiceRecordingTrack = this.voiceRecordingTrack;
     return {

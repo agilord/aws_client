@@ -1134,6 +1134,7 @@ class AmazonOpenSearchServerlessDestinationConfiguration {
     this.s3BackupMode,
     this.vpcConfiguration,
   });
+
   Map<String, dynamic> toJson() {
     final indexName = this.indexName;
     final roleARN = this.roleARN;
@@ -1274,6 +1275,7 @@ class AmazonOpenSearchServerlessDestinationUpdate {
     this.roleARN,
     this.s3Update,
   });
+
   Map<String, dynamic> toJson() {
     final bufferingHints = this.bufferingHints;
     final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
@@ -1464,6 +1466,7 @@ class AmazonopensearchserviceDestinationConfiguration {
     this.typeName,
     this.vpcConfiguration,
   });
+
   Map<String, dynamic> toJson() {
     final indexName = this.indexName;
     final roleARN = this.roleARN;
@@ -1651,6 +1654,7 @@ class AmazonopensearchserviceDestinationUpdate {
     this.s3Update,
     this.typeName,
   });
+
   Map<String, dynamic> toJson() {
     final bufferingHints = this.bufferingHints;
     final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
@@ -2310,6 +2314,7 @@ class DeliveryStreamEncryptionConfigurationInput {
     required this.keyType,
     this.keyARN,
   });
+
   Map<String, dynamic> toJson() {
     final keyType = this.keyType;
     final keyARN = this.keyARN;
@@ -2863,6 +2868,7 @@ class ElasticsearchDestinationConfiguration {
     this.typeName,
     this.vpcConfiguration,
   });
+
   Map<String, dynamic> toJson() {
     final indexName = this.indexName;
     final roleARN = this.roleARN;
@@ -3084,6 +3090,7 @@ class ElasticsearchDestinationUpdate {
     this.s3Update,
     this.typeName,
   });
+
   Map<String, dynamic> toJson() {
     final bufferingHints = this.bufferingHints;
     final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
@@ -3329,6 +3336,7 @@ class ExtendedS3DestinationConfiguration {
     this.s3BackupConfiguration,
     this.s3BackupMode,
   });
+
   Map<String, dynamic> toJson() {
     final bucketARN = this.bucketARN;
     final roleARN = this.roleARN;
@@ -3562,6 +3570,7 @@ class ExtendedS3DestinationUpdate {
     this.s3BackupMode,
     this.s3BackupUpdate,
   });
+
   Map<String, dynamic> toJson() {
     final bucketARN = this.bucketARN;
     final bufferingHints = this.bufferingHints;
@@ -3789,6 +3798,7 @@ class HttpEndpointConfiguration {
     this.accessKey,
     this.name,
   });
+
   Map<String, dynamic> toJson() {
     final url = this.url;
     final accessKey = this.accessKey;
@@ -3870,6 +3880,7 @@ class HttpEndpointDestinationConfiguration {
     this.roleARN,
     this.s3BackupMode,
   });
+
   Map<String, dynamic> toJson() {
     final endpointConfiguration = this.endpointConfiguration;
     final s3Configuration = this.s3Configuration;
@@ -4032,6 +4043,7 @@ class HttpEndpointDestinationUpdate {
     this.s3BackupMode,
     this.s3Update,
   });
+
   Map<String, dynamic> toJson() {
     final bufferingHints = this.bufferingHints;
     final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
@@ -4259,6 +4271,7 @@ class KinesisStreamSourceConfiguration {
     required this.kinesisStreamARN,
     required this.roleARN,
   });
+
   Map<String, dynamic> toJson() {
     final kinesisStreamARN = this.kinesisStreamARN;
     final roleARN = this.roleARN;
@@ -5077,6 +5090,7 @@ class Record {
   Record({
     required this.data,
   });
+
   Map<String, dynamic> toJson() {
     final data = this.data;
     return {
@@ -5146,6 +5160,7 @@ class RedshiftDestinationConfiguration {
     this.s3BackupConfiguration,
     this.s3BackupMode,
   });
+
   Map<String, dynamic> toJson() {
     final clusterJDBCURL = this.clusterJDBCURL;
     final copyCommand = this.copyCommand;
@@ -5315,6 +5330,7 @@ class RedshiftDestinationUpdate {
     this.s3Update,
     this.username,
   });
+
   Map<String, dynamic> toJson() {
     final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
     final clusterJDBCURL = this.clusterJDBCURL;
@@ -5510,6 +5526,7 @@ class S3DestinationConfiguration {
     this.errorOutputPrefix,
     this.prefix,
   });
+
   Map<String, dynamic> toJson() {
     final bucketARN = this.bucketARN;
     final roleARN = this.roleARN;
@@ -5663,6 +5680,7 @@ class S3DestinationUpdate {
     this.prefix,
     this.roleARN,
   });
+
   Map<String, dynamic> toJson() {
     final bucketARN = this.bucketARN;
     final bufferingHints = this.bufferingHints;
@@ -5895,6 +5913,7 @@ class SplunkDestinationConfiguration {
     this.retryOptions,
     this.s3BackupMode,
   });
+
   Map<String, dynamic> toJson() {
     final hECEndpoint = this.hECEndpoint;
     final hECEndpointType = this.hECEndpointType;
@@ -6059,6 +6078,7 @@ class SplunkDestinationUpdate {
     this.s3BackupMode,
     this.s3Update,
   });
+
   Map<String, dynamic> toJson() {
     final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
     final hECAcknowledgmentTimeoutInSeconds =
@@ -6292,6 +6312,7 @@ class VpcConfiguration {
     required this.securityGroupIds,
     required this.subnetIds,
   });
+
   Map<String, dynamic> toJson() {
     final roleARN = this.roleARN;
     final securityGroupIds = this.securityGroupIds;

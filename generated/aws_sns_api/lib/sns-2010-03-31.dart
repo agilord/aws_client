@@ -3657,6 +3657,7 @@ class MessageAttributeValue {
     this.binaryValue,
     this.stringValue,
   });
+
   Map<String, dynamic> toJson() {
     final dataType = this.dataType;
     final binaryValue = this.binaryValue;
@@ -3925,6 +3926,7 @@ class PublishBatchRequestEntry {
     this.messageStructure,
     this.subject,
   });
+
   Map<String, dynamic> toJson() {
     final id = this.id;
     final message = this.message;

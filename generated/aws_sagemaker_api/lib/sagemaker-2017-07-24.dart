@@ -26956,6 +26956,7 @@ class DeploymentStage {
     required this.stageName,
     this.deploymentConfig,
   });
+
   Map<String, dynamic> toJson() {
     final deviceSelectionConfig = this.deviceSelectionConfig;
     final stageName = this.stageName;
@@ -32527,6 +32528,7 @@ class DesiredWeightAndCapacity {
     this.desiredWeight,
     this.serverlessUpdateConfig,
   });
+
   Map<String, dynamic> toJson() {
     final variantName = this.variantName;
     final desiredInstanceCount = this.desiredInstanceCount;
@@ -32636,6 +32638,7 @@ class Device {
     this.description,
     this.iotThingName,
   });
+
   Map<String, dynamic> toJson() {
     final deviceName = this.deviceName;
     final description = this.description;
@@ -33174,6 +33177,7 @@ class DomainSettingsForUpdate {
     this.rStudioServerProDomainSettingsForUpdate,
     this.securityGroupIds,
   });
+
   Map<String, dynamic> toJson() {
     final executionRoleIdentityConfig = this.executionRoleIdentityConfig;
     final rStudioServerProDomainSettingsForUpdate =
@@ -35875,6 +35879,7 @@ class Filter {
     this.operator,
     this.value,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final operator = this.operator;
@@ -36326,6 +36331,7 @@ class GitConfigForUpdate {
   GitConfigForUpdate({
     this.secretArn,
   });
+
   Map<String, dynamic> toJson() {
     final secretArn = this.secretArn;
     return {
@@ -46516,6 +46522,7 @@ class ModelMetadataFilter {
     required this.name,
     required this.value,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final value = this.value;
@@ -46574,6 +46581,7 @@ class ModelMetadataSearchExpression {
   ModelMetadataSearchExpression({
     this.filters,
   });
+
   Map<String, dynamic> toJson() {
     final filters = this.filters;
     return {
@@ -47857,6 +47865,7 @@ class ModelVariantConfig {
     required this.modelName,
     required this.variantName,
   });
+
   Map<String, dynamic> toJson() {
     final infrastructureConfig = this.infrastructureConfig;
     final modelName = this.modelName;
@@ -49397,6 +49406,7 @@ class NestedFilters {
     required this.filters,
     required this.nestedPropertyName,
   });
+
   Map<String, dynamic> toJson() {
     final filters = this.filters;
     final nestedPropertyName = this.nestedPropertyName;
@@ -50128,6 +50138,7 @@ class OidcConfig {
     required this.tokenEndpoint,
     required this.userInfoEndpoint,
   });
+
   Map<String, dynamic> toJson() {
     final authorizationEndpoint = this.authorizationEndpoint;
     final clientId = this.clientId;
@@ -51394,6 +51405,7 @@ class PipelineDefinitionS3Location {
     required this.objectKey,
     this.versionId,
   });
+
   Map<String, dynamic> toJson() {
     final bucket = this.bucket;
     final objectKey = this.objectKey;
@@ -54147,6 +54159,7 @@ class ProductionVariantServerlessUpdateConfig {
     this.maxConcurrency,
     this.provisionedConcurrency,
   });
+
   Map<String, dynamic> toJson() {
     final maxConcurrency = this.maxConcurrency;
     final provisionedConcurrency = this.provisionedConcurrency;
@@ -54380,6 +54393,7 @@ class ProfilerConfigForUpdate {
     this.profilingParameters,
     this.s3OutputPath,
   });
+
   Map<String, dynamic> toJson() {
     final disableProfiler = this.disableProfiler;
     final profilingIntervalInMilliseconds =
@@ -54794,6 +54808,7 @@ class PropertyNameQuery {
   PropertyNameQuery({
     required this.propertyNameHint,
   });
+
   Map<String, dynamic> toJson() {
     final propertyNameHint = this.propertyNameHint;
     return {
@@ -55323,6 +55338,7 @@ class QueryFilters {
     this.properties,
     this.types,
   });
+
   Map<String, dynamic> toJson() {
     final createdAfter = this.createdAfter;
     final createdBefore = this.createdBefore;
@@ -55552,6 +55568,7 @@ class RStudioServerProDomainSettingsForUpdate {
     this.rStudioConnectUrl,
     this.rStudioPackageManagerUrl,
   });
+
   Map<String, dynamic> toJson() {
     final domainExecutionRoleArn = this.domainExecutionRoleArn;
     final defaultResourceSpec = this.defaultResourceSpec;
@@ -55665,6 +55682,7 @@ class RecommendationJobCompiledOutputConfig {
   RecommendationJobCompiledOutputConfig({
     this.s3OutputUri,
   });
+
   Map<String, dynamic> toJson() {
     final s3OutputUri = this.s3OutputUri;
     return {
@@ -56023,6 +56041,7 @@ class RecommendationJobOutputConfig {
     this.compiledOutputConfig,
     this.kmsKeyId,
   });
+
   Map<String, dynamic> toJson() {
     final compiledOutputConfig = this.compiledOutputConfig;
     final kmsKeyId = this.kmsKeyId;
@@ -56591,6 +56610,7 @@ class RenderableTask {
   RenderableTask({
     required this.input,
   });
+
   Map<String, dynamic> toJson() {
     final input = this.input;
     return {
@@ -56875,6 +56895,7 @@ class ResourceConfigForUpdate {
   ResourceConfigForUpdate({
     required this.keepAlivePeriodInSeconds,
   });
+
   Map<String, dynamic> toJson() {
     final keepAlivePeriodInSeconds = this.keepAlivePeriodInSeconds;
     return {
@@ -57084,6 +57105,7 @@ class RetentionPolicy {
   RetentionPolicy({
     this.homeEfsFileSystem,
   });
+
   Map<String, dynamic> toJson() {
     final homeEfsFileSystem = this.homeEfsFileSystem;
     return {
@@ -57692,6 +57714,7 @@ class SearchExpression {
     this.operator,
     this.subExpressions,
   });
+
   Map<String, dynamic> toJson() {
     final filters = this.filters;
     final nestedFilters = this.nestedFilters;
@@ -58276,6 +58299,7 @@ class ServiceCatalogProvisioningUpdateDetails {
     this.provisioningArtifactId,
     this.provisioningParameters,
   });
+
   Map<String, dynamic> toJson() {
     final provisioningArtifactId = this.provisioningArtifactId;
     final provisioningParameters = this.provisioningParameters;
@@ -59514,6 +59538,7 @@ class SuggestionQuery {
   SuggestionQuery({
     this.propertyNameQuery,
   });
+
   Map<String, dynamic> toJson() {
     final propertyNameQuery = this.propertyNameQuery;
     return {
@@ -63328,6 +63353,7 @@ class UiTemplate {
   UiTemplate({
     required this.content,
   });
+
   Map<String, dynamic> toJson() {
     final content = this.content;
     return {
@@ -64123,6 +64149,7 @@ class VariantProperty {
   VariantProperty({
     required this.variantPropertyType,
   });
+
   Map<String, dynamic> toJson() {
     final variantPropertyType = this.variantPropertyType;
     return {
@@ -64565,6 +64592,7 @@ class WorkforceVpcConfigRequest {
     this.subnets,
     this.vpcId,
   });
+
   Map<String, dynamic> toJson() {
     final securityGroupIds = this.securityGroupIds;
     final subnets = this.subnets;

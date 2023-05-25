@@ -5292,6 +5292,7 @@ class AggregateConformancePackComplianceFilters {
     this.complianceType,
     this.conformancePackName,
   });
+
   Map<String, dynamic> toJson() {
     final accountId = this.accountId;
     final awsRegion = this.awsRegion;
@@ -5345,6 +5346,7 @@ class AggregateConformancePackComplianceSummaryFilters {
     this.accountId,
     this.awsRegion,
   });
+
   Map<String, dynamic> toJson() {
     final accountId = this.accountId;
     final awsRegion = this.awsRegion;
@@ -6324,6 +6326,7 @@ class ConfigRuleComplianceFilters {
     this.complianceType,
     this.configRuleName,
   });
+
   Map<String, dynamic> toJson() {
     final accountId = this.accountId;
     final awsRegion = this.awsRegion;
@@ -6350,6 +6353,7 @@ class ConfigRuleComplianceSummaryFilters {
     this.accountId,
     this.awsRegion,
   });
+
   Map<String, dynamic> toJson() {
     final accountId = this.accountId;
     final awsRegion = this.awsRegion;
@@ -7027,6 +7031,7 @@ class ConformancePackComplianceFilters {
     this.complianceType,
     this.configRuleNames,
   });
+
   Map<String, dynamic> toJson() {
     final complianceType = this.complianceType;
     final configRuleNames = this.configRuleNames;
@@ -7083,6 +7088,7 @@ class ConformancePackComplianceScoresFilters {
   ConformancePackComplianceScoresFilters({
     required this.conformancePackNames,
   });
+
   Map<String, dynamic> toJson() {
     final conformancePackNames = this.conformancePackNames;
     return {
@@ -7253,6 +7259,7 @@ class ConformancePackEvaluationFilters {
     this.resourceIds,
     this.resourceType,
   });
+
   Map<String, dynamic> toJson() {
     final complianceType = this.complianceType;
     final configRuleNames = this.configRuleNames;
@@ -7945,6 +7952,7 @@ class DescribeConfigRulesFilters {
   DescribeConfigRulesFilters({
     this.evaluationMode,
   });
+
   Map<String, dynamic> toJson() {
     final evaluationMode = this.evaluationMode;
     return {
@@ -8797,6 +8805,7 @@ class ExternalEvaluation {
     required this.orderingTimestamp,
     this.annotation,
   });
+
   Map<String, dynamic> toJson() {
     final complianceResourceId = this.complianceResourceId;
     final complianceResourceType = this.complianceResourceType;
@@ -10478,6 +10487,7 @@ class OrganizationCustomPolicyRuleMetadata {
     this.tagKeyScope,
     this.tagValueScope,
   });
+
   Map<String, dynamic> toJson() {
     final policyRuntime = this.policyRuntime;
     final policyText = this.policyText;
@@ -10962,6 +10972,7 @@ class OrganizationResourceDetailedStatusFilters {
     this.accountId,
     this.status,
   });
+
   Map<String, dynamic> toJson() {
     final accountId = this.accountId;
     final status = this.status;
@@ -12009,6 +12020,7 @@ class ResourceCountFilters {
     this.region,
     this.resourceType,
   });
+
   Map<String, dynamic> toJson() {
     final accountId = this.accountId;
     final region = this.region;
@@ -12164,6 +12176,7 @@ class ResourceEvaluationFilters {
     this.evaluationMode,
     this.timeWindow,
   });
+
   Map<String, dynamic> toJson() {
     final evaluationContextIdentifier = this.evaluationContextIdentifier;
     final evaluationMode = this.evaluationMode;
@@ -12231,6 +12244,7 @@ class ResourceFilters {
     this.resourceId,
     this.resourceName,
   });
+
   Map<String, dynamic> toJson() {
     final accountId = this.accountId;
     final region = this.region;
@@ -14402,6 +14416,7 @@ class StatusDetailFilters {
     this.accountId,
     this.memberAccountRuleStatus,
   });
+
   Map<String, dynamic> toJson() {
     final accountId = this.accountId;
     final memberAccountRuleStatus = this.memberAccountRuleStatus;
@@ -14596,6 +14611,7 @@ class TimeWindow {
     this.endTime,
     this.startTime,
   });
+
   Map<String, dynamic> toJson() {
     final endTime = this.endTime;
     final startTime = this.startTime;

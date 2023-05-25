@@ -661,6 +661,7 @@ class DeletableAttribute {
     required this.name,
     this.value,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final value = this.value;
@@ -679,6 +680,7 @@ class DeletableItem {
     required this.name,
     this.attributes,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final attributes = this.attributes;
@@ -1014,6 +1016,7 @@ class ReplaceableAttribute {
     required this.value,
     this.replace,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final value = this.value;
@@ -1038,6 +1041,7 @@ class ReplaceableItem {
     required this.attributes,
     required this.name,
   });
+
   Map<String, dynamic> toJson() {
     final attributes = this.attributes;
     final name = this.name;
@@ -1122,6 +1126,7 @@ class UpdateCondition {
     this.name,
     this.value,
   });
+
   Map<String, dynamic> toJson() {
     final exists = this.exists;
     final name = this.name;

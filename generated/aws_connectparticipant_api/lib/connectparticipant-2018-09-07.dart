@@ -1173,6 +1173,7 @@ class StartPosition {
     this.id,
     this.mostRecent,
   });
+
   Map<String, dynamic> toJson() {
     final absoluteTime = this.absoluteTime;
     final id = this.id;

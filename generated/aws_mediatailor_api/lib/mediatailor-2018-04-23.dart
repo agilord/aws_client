@@ -2586,6 +2586,7 @@ class DashConfigurationForPut {
     this.mpdLocation,
     this.originManifestType,
   });
+
   Map<String, dynamic> toJson() {
     final mpdLocation = this.mpdLocation;
     final originManifestType = this.originManifestType;
@@ -4576,6 +4577,7 @@ class RequestOutputItem {
     this.dashPlaylistSettings,
     this.hlsPlaylistSettings,
   });
+
   Map<String, dynamic> toJson() {
     final manifestName = this.manifestName;
     final sourceGroup = this.sourceGroup;
@@ -4681,6 +4683,7 @@ class ScheduleConfiguration {
     required this.transition,
     this.clipRange,
   });
+
   Map<String, dynamic> toJson() {
     final transition = this.transition;
     final clipRange = this.clipRange;
@@ -5271,6 +5274,7 @@ class Transition {
     this.relativeProgram,
     this.scheduledStartTimeMillis,
   });
+
   Map<String, dynamic> toJson() {
     final relativePosition = this.relativePosition;
     final type = this.type;
@@ -5531,6 +5535,7 @@ class UpdateProgramScheduleConfiguration {
     this.clipRange,
     this.transition,
   });
+
   Map<String, dynamic> toJson() {
     final clipRange = this.clipRange;
     final transition = this.transition;
@@ -5554,6 +5559,7 @@ class UpdateProgramTransition {
     this.durationMillis,
     this.scheduledStartTimeMillis,
   });
+
   Map<String, dynamic> toJson() {
     final durationMillis = this.durationMillis;
     final scheduledStartTimeMillis = this.scheduledStartTimeMillis;

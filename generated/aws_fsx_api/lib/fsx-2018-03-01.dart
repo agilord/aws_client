@@ -4235,6 +4235,7 @@ class CreateFileCacheLustreConfiguration {
     required this.perUnitStorageThroughput,
     this.weeklyMaintenanceStartTime,
   });
+
   Map<String, dynamic> toJson() {
     final deploymentType = this.deploymentType;
     final metadataConfiguration = this.metadataConfiguration;
@@ -4541,6 +4542,7 @@ class CreateFileSystemLustreConfiguration {
     this.rootSquashConfiguration,
     this.weeklyMaintenanceStartTime,
   });
+
   Map<String, dynamic> toJson() {
     final autoImportPolicy = this.autoImportPolicy;
     final automaticBackupRetentionDays = this.automaticBackupRetentionDays;
@@ -4654,6 +4656,7 @@ class CreateFileSystemOntapConfiguration {
     this.routeTableIds,
     this.weeklyMaintenanceStartTime,
   });
+
   Map<String, dynamic> toJson() {
     final deploymentType = this.deploymentType;
     final throughputCapacity = this.throughputCapacity;
@@ -4768,6 +4771,7 @@ class CreateFileSystemOpenZFSConfiguration {
     this.rootVolumeConfiguration,
     this.weeklyMaintenanceStartTime,
   });
+
   Map<String, dynamic> toJson() {
     final deploymentType = this.deploymentType;
     final throughputCapacity = this.throughputCapacity;
@@ -4942,6 +4946,7 @@ class CreateFileSystemWindowsConfiguration {
     this.selfManagedActiveDirectoryConfiguration,
     this.weeklyMaintenanceStartTime,
   });
+
   Map<String, dynamic> toJson() {
     final throughputCapacity = this.throughputCapacity;
     final activeDirectoryId = this.activeDirectoryId;
@@ -5091,6 +5096,7 @@ class CreateOntapVolumeConfiguration {
     this.storageEfficiencyEnabled,
     this.tieringPolicy,
   });
+
   Map<String, dynamic> toJson() {
     final sizeInMegabytes = this.sizeInMegabytes;
     final storageVirtualMachineId = this.storageVirtualMachineId;
@@ -5140,6 +5146,7 @@ class CreateOpenZFSOriginSnapshotConfiguration {
     required this.copyStrategy,
     required this.snapshotARN,
   });
+
   Map<String, dynamic> toJson() {
     final copyStrategy = this.copyStrategy;
     final snapshotARN = this.snapshotARN;
@@ -5254,6 +5261,7 @@ class CreateOpenZFSVolumeConfiguration {
     this.storageCapacityReservationGiB,
     this.userAndGroupQuotas,
   });
+
   Map<String, dynamic> toJson() {
     final parentVolumeId = this.parentVolumeId;
     final copyTagsToSnapshots = this.copyTagsToSnapshots;
@@ -5335,6 +5343,7 @@ class CreateSvmActiveDirectoryConfiguration {
     required this.netBiosName,
     this.selfManagedActiveDirectoryConfiguration,
   });
+
   Map<String, dynamic> toJson() {
     final netBiosName = this.netBiosName;
     final selfManagedActiveDirectoryConfiguration =
@@ -6029,6 +6038,7 @@ class DataRepositoryTaskFilter {
     this.name,
     this.values,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final values = this.values;
@@ -6306,6 +6316,7 @@ class DeleteFileSystemLustreConfiguration {
     this.finalBackupTags,
     this.skipFinalBackup,
   });
+
   Map<String, dynamic> toJson() {
     final finalBackupTags = this.finalBackupTags;
     final skipFinalBackup = this.skipFinalBackup;
@@ -6365,6 +6376,7 @@ class DeleteFileSystemOpenZFSConfiguration {
     this.options,
     this.skipFinalBackup,
   });
+
   Map<String, dynamic> toJson() {
     final finalBackupTags = this.finalBackupTags;
     final options = this.options;
@@ -6483,6 +6495,7 @@ class DeleteFileSystemWindowsConfiguration {
     this.finalBackupTags,
     this.skipFinalBackup,
   });
+
   Map<String, dynamic> toJson() {
     final finalBackupTags = this.finalBackupTags;
     final skipFinalBackup = this.skipFinalBackup;
@@ -6596,6 +6609,7 @@ class DeleteVolumeOntapConfiguration {
     this.finalBackupTags,
     this.skipFinalBackup,
   });
+
   Map<String, dynamic> toJson() {
     final finalBackupTags = this.finalBackupTags;
     final skipFinalBackup = this.skipFinalBackup;
@@ -6637,6 +6651,7 @@ class DeleteVolumeOpenZFSConfiguration {
   DeleteVolumeOpenZFSConfiguration({
     this.options,
   });
+
   Map<String, dynamic> toJson() {
     final options = this.options;
     return {
@@ -7378,6 +7393,7 @@ class FileCacheDataRepositoryAssociation {
     this.dataRepositorySubdirectories,
     this.nfs,
   });
+
   Map<String, dynamic> toJson() {
     final dataRepositoryPath = this.dataRepositoryPath;
     final fileCachePath = this.fileCachePath;
@@ -7574,6 +7590,7 @@ class FileCacheNFSConfiguration {
     required this.version,
     this.dnsIps,
   });
+
   Map<String, dynamic> toJson() {
     final version = this.version;
     final dnsIps = this.dnsIps;
@@ -8041,6 +8058,7 @@ class Filter {
     this.name,
     this.values,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final values = this.values;
@@ -8541,6 +8559,7 @@ class LustreLogCreateConfiguration {
     required this.level,
     this.destination,
   });
+
   Map<String, dynamic> toJson() {
     final level = this.level;
     final destination = this.destination;
@@ -9134,6 +9153,7 @@ class OpenZFSCreateRootVolumeConfiguration {
     this.recordSizeKiB,
     this.userAndGroupQuotas,
   });
+
   Map<String, dynamic> toJson() {
     final copyTagsToSnapshots = this.copyTagsToSnapshots;
     final dataCompressionType = this.dataCompressionType;
@@ -9885,6 +9905,7 @@ class SelfManagedActiveDirectoryConfiguration {
     this.fileSystemAdministratorsGroup,
     this.organizationalUnitDistinguishedName,
   });
+
   Map<String, dynamic> toJson() {
     final dnsIps = this.dnsIps;
     final domainName = this.domainName;
@@ -9929,6 +9950,7 @@ class SelfManagedActiveDirectoryConfigurationUpdates {
     this.password,
     this.userName,
   });
+
   Map<String, dynamic> toJson() {
     final dnsIps = this.dnsIps;
     final password = this.password;
@@ -10031,6 +10053,7 @@ class SnapshotFilter {
     this.name,
     this.values,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final values = this.values;
@@ -10301,6 +10324,7 @@ class StorageVirtualMachineFilter {
     this.name,
     this.values,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final values = this.values;
@@ -10760,6 +10784,7 @@ class UpdateFileCacheLustreConfiguration {
   UpdateFileCacheLustreConfiguration({
     this.weeklyMaintenanceStartTime,
   });
+
   Map<String, dynamic> toJson() {
     final weeklyMaintenanceStartTime = this.weeklyMaintenanceStartTime;
     return {
@@ -10870,6 +10895,7 @@ class UpdateFileSystemLustreConfiguration {
     this.rootSquashConfiguration,
     this.weeklyMaintenanceStartTime,
   });
+
   Map<String, dynamic> toJson() {
     final autoImportPolicy = this.autoImportPolicy;
     final automaticBackupRetentionDays = this.automaticBackupRetentionDays;
@@ -10938,6 +10964,7 @@ class UpdateFileSystemOntapConfiguration {
     this.throughputCapacity,
     this.weeklyMaintenanceStartTime,
   });
+
   Map<String, dynamic> toJson() {
     final addRouteTableIds = this.addRouteTableIds;
     final automaticBackupRetentionDays = this.automaticBackupRetentionDays;
@@ -11016,6 +11043,7 @@ class UpdateFileSystemOpenZFSConfiguration {
     this.throughputCapacity,
     this.weeklyMaintenanceStartTime,
   });
+
   Map<String, dynamic> toJson() {
     final automaticBackupRetentionDays = this.automaticBackupRetentionDays;
     final copyTagsToBackups = this.copyTagsToBackups;
@@ -11107,6 +11135,7 @@ class UpdateFileSystemWindowsConfiguration {
     this.throughputCapacity,
     this.weeklyMaintenanceStartTime,
   });
+
   Map<String, dynamic> toJson() {
     final auditLogConfiguration = this.auditLogConfiguration;
     final automaticBackupRetentionDays = this.automaticBackupRetentionDays;
@@ -11200,6 +11229,7 @@ class UpdateOntapVolumeConfiguration {
     this.storageEfficiencyEnabled,
     this.tieringPolicy,
   });
+
   Map<String, dynamic> toJson() {
     final copyTagsToBackups = this.copyTagsToBackups;
     final junctionPath = this.junctionPath;
@@ -11287,6 +11317,7 @@ class UpdateOpenZFSVolumeConfiguration {
     this.storageCapacityReservationGiB,
     this.userAndGroupQuotas,
   });
+
   Map<String, dynamic> toJson() {
     final dataCompressionType = this.dataCompressionType;
     final nfsExports = this.nfsExports;
@@ -11356,6 +11387,7 @@ class UpdateSvmActiveDirectoryConfiguration {
   UpdateSvmActiveDirectoryConfiguration({
     this.selfManagedActiveDirectoryConfiguration,
   });
+
   Map<String, dynamic> toJson() {
     final selfManagedActiveDirectoryConfiguration =
         this.selfManagedActiveDirectoryConfiguration;
@@ -11503,6 +11535,7 @@ class VolumeFilter {
     this.name,
     this.values,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final values = this.values;
@@ -11829,6 +11862,7 @@ class WindowsAuditLogCreateConfiguration {
     required this.fileShareAccessAuditLogLevel,
     this.auditLogDestination,
   });
+
   Map<String, dynamic> toJson() {
     final fileAccessAuditLogLevel = this.fileAccessAuditLogLevel;
     final fileShareAccessAuditLogLevel = this.fileShareAccessAuditLogLevel;

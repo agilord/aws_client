@@ -2456,6 +2456,7 @@ class EBSFilter {
     this.name,
     this.values,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final values = this.values;
@@ -3046,6 +3047,7 @@ class ECSServiceRecommendationFilter {
     this.name,
     this.values,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final values = this.values;
@@ -3431,6 +3433,7 @@ class EnrollmentFilter {
     this.name,
     this.values,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final values = this.values;
@@ -5205,6 +5208,7 @@ class Filter {
     this.name,
     this.values,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final values = this.values;
@@ -6672,6 +6676,7 @@ class JobFilter {
     this.name,
     this.values,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final values = this.values;
@@ -7169,6 +7174,7 @@ class LambdaFunctionRecommendationFilter {
     this.name,
     this.values,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final values = this.values;
@@ -7794,6 +7800,7 @@ class RecommendationPreferences {
   RecommendationPreferences({
     this.cpuVendorArchitectures,
   });
+
   Map<String, dynamic> toJson() {
     final cpuVendorArchitectures = this.cpuVendorArchitectures;
     return {
@@ -8158,6 +8165,7 @@ class S3DestinationConfig {
     this.bucket,
     this.keyPrefix,
   });
+
   Map<String, dynamic> toJson() {
     final bucket = this.bucket;
     final keyPrefix = this.keyPrefix;

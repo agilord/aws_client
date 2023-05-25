@@ -3108,6 +3108,7 @@ class ConnectorConfigRequest {
     required this.provider,
     required this.roleArn,
   });
+
   Map<String, dynamic> toJson() {
     final provider = this.provider;
     final roleArn = this.roleArn;
@@ -3169,6 +3170,7 @@ class ControlPlanePlacementRequest {
   ControlPlanePlacementRequest({
     this.groupName,
   });
+
   Map<String, dynamic> toJson() {
     final groupName = this.groupName;
     return {
@@ -4144,6 +4146,7 @@ class KubernetesNetworkConfigRequest {
     this.ipFamily,
     this.serviceIpv4Cidr,
   });
+
   Map<String, dynamic> toJson() {
     final ipFamily = this.ipFamily;
     final serviceIpv4Cidr = this.serviceIpv4Cidr;
@@ -5241,6 +5244,7 @@ class OidcIdentityProviderConfigRequest {
     this.usernameClaim,
     this.usernamePrefix,
   });
+
   Map<String, dynamic> toJson() {
     final clientId = this.clientId;
     final identityProviderConfigName = this.identityProviderConfigName;
@@ -5299,6 +5303,7 @@ class OutpostConfigRequest {
     required this.outpostArns,
     this.controlPlanePlacement,
   });
+
   Map<String, dynamic> toJson() {
     final controlPlaneInstanceType = this.controlPlaneInstanceType;
     final outpostArns = this.outpostArns;
@@ -5677,6 +5682,7 @@ class UpdateLabelsPayload {
     this.addOrUpdateLabels,
     this.removeLabels,
   });
+
   Map<String, dynamic> toJson() {
     final addOrUpdateLabels = this.addOrUpdateLabels;
     final removeLabels = this.removeLabels;
@@ -5926,6 +5932,7 @@ class UpdateTaintsPayload {
     this.addOrUpdateTaints,
     this.removeTaints,
   });
+
   Map<String, dynamic> toJson() {
     final addOrUpdateTaints = this.addOrUpdateTaints;
     final removeTaints = this.removeTaints;
@@ -6056,6 +6063,7 @@ class VpcConfigRequest {
     this.securityGroupIds,
     this.subnetIds,
   });
+
   Map<String, dynamic> toJson() {
     final endpointPrivateAccess = this.endpointPrivateAccess;
     final endpointPublicAccess = this.endpointPublicAccess;

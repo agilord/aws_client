@@ -5380,6 +5380,7 @@ class LookupAttribute {
     required this.attributeKey,
     required this.attributeValue,
   });
+
   Map<String, dynamic> toJson() {
     final attributeKey = this.attributeKey;
     final attributeValue = this.attributeValue;

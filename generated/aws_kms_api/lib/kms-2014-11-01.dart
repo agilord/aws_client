@@ -8742,7 +8742,7 @@ class CustomKeyStoresListEntry {
   }
 }
 
-@Deprecated('Deprecated')
+@Deprecated('This enum has been deprecated. Instead, use the KeySpec enum.')
 enum CustomerMasterKeySpec {
   rsa_2048,
   rsa_3072,
@@ -10706,6 +10706,7 @@ class RecipientInfo {
     this.attestationDocument,
     this.keyEncryptionAlgorithm,
   });
+
   Map<String, dynamic> toJson() {
     final attestationDocument = this.attestationDocument;
     final keyEncryptionAlgorithm = this.keyEncryptionAlgorithm;
@@ -11100,6 +11101,7 @@ class XksProxyAuthenticationCredentialType {
     required this.accessKeyId,
     required this.rawSecretAccessKey,
   });
+
   Map<String, dynamic> toJson() {
     final accessKeyId = this.accessKeyId;
     final rawSecretAccessKey = this.rawSecretAccessKey;

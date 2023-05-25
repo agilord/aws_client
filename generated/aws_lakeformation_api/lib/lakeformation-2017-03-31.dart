@@ -2139,6 +2139,7 @@ class AddObjectInput {
     required this.uri,
     this.partitionValues,
   });
+
   Map<String, dynamic> toJson() {
     final eTag = this.eTag;
     final size = this.size;
@@ -2209,6 +2210,7 @@ class AuditContext {
   AuditContext({
     this.additionalAuditContext,
   });
+
   Map<String, dynamic> toJson() {
     final additionalAuditContext = this.additionalAuditContext;
     return {
@@ -2992,6 +2994,7 @@ class DeleteObjectInput {
     this.eTag,
     this.partitionValues,
   });
+
   Map<String, dynamic> toJson() {
     final uri = this.uri;
     final eTag = this.eTag;
@@ -3185,6 +3188,7 @@ class FilterCondition {
     this.field,
     this.stringValueList,
   });
+
   Map<String, dynamic> toJson() {
     final comparisonOperator = this.comparisonOperator;
     final field = this.field;
@@ -3938,6 +3942,7 @@ class PartitionValueList {
   PartitionValueList({
     required this.values,
   });
+
   Map<String, dynamic> toJson() {
     final values = this.values;
     return {
@@ -4212,6 +4217,7 @@ class QueryPlanningContext {
     this.queryParameters,
     this.transactionId,
   });
+
   Map<String, dynamic> toJson() {
     final databaseName = this.databaseName;
     final catalogId = this.catalogId;
@@ -5090,6 +5096,7 @@ class VirtualObject {
     required this.uri,
     this.eTag,
   });
+
   Map<String, dynamic> toJson() {
     final uri = this.uri;
     final eTag = this.eTag;
@@ -5139,6 +5146,7 @@ class WriteOperation {
     this.addObject,
     this.deleteObject,
   });
+
   Map<String, dynamic> toJson() {
     final addObject = this.addObject;
     final deleteObject = this.deleteObject;

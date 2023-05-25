@@ -1385,6 +1385,7 @@ class AssociateClientDeviceWithCoreDeviceEntry {
   AssociateClientDeviceWithCoreDeviceEntry({
     required this.thingName,
   });
+
   Map<String, dynamic> toJson() {
     final thingName = this.thingName;
     return {
@@ -1678,6 +1679,7 @@ class ComponentCandidate {
     this.componentVersion,
     this.versionRequirements,
   });
+
   Map<String, dynamic> toJson() {
     final componentName = this.componentName;
     final componentVersion = this.componentVersion;
@@ -1770,6 +1772,7 @@ class ComponentDependencyRequirement {
     this.dependencyType,
     this.versionRequirement,
   });
+
   Map<String, dynamic> toJson() {
     final dependencyType = this.dependencyType;
     final versionRequirement = this.versionRequirement;
@@ -2737,6 +2740,7 @@ class DisassociateClientDeviceFromCoreDeviceEntry {
   DisassociateClientDeviceFromCoreDeviceEntry({
     required this.thingName,
   });
+
   Map<String, dynamic> toJson() {
     final thingName = this.thingName;
     return {
@@ -3761,6 +3765,7 @@ class LambdaContainerParams {
     this.mountROSysfs,
     this.volumes,
   });
+
   Map<String, dynamic> toJson() {
     final devices = this.devices;
     final memorySizeInKB = this.memorySizeInKB;
@@ -3797,6 +3802,7 @@ class LambdaDeviceMount {
     this.addGroupOwner,
     this.permission,
   });
+
   Map<String, dynamic> toJson() {
     final path = this.path;
     final addGroupOwner = this.addGroupOwner;
@@ -3836,6 +3842,7 @@ class LambdaEventSource {
     required this.topic,
     required this.type,
   });
+
   Map<String, dynamic> toJson() {
     final topic = this.topic;
     final type = this.type;
@@ -3948,6 +3955,7 @@ class LambdaExecutionParameters {
     this.statusTimeoutInSeconds,
     this.timeoutInSeconds,
   });
+
   Map<String, dynamic> toJson() {
     final environmentVariables = this.environmentVariables;
     final eventSources = this.eventSources;
@@ -4048,6 +4056,7 @@ class LambdaFunctionRecipeSource {
     this.componentPlatforms,
     this.componentVersion,
   });
+
   Map<String, dynamic> toJson() {
     final lambdaArn = this.lambdaArn;
     final componentDependencies = this.componentDependencies;
@@ -4142,6 +4151,7 @@ class LambdaLinuxProcessParams {
     this.containerParams,
     this.isolationMode,
   });
+
   Map<String, dynamic> toJson() {
     final containerParams = this.containerParams;
     final isolationMode = this.isolationMode;
@@ -4180,6 +4190,7 @@ class LambdaVolumeMount {
     this.addGroupOwner,
     this.permission,
   });
+
   Map<String, dynamic> toJson() {
     final destinationPath = this.destinationPath;
     final sourcePath = this.sourcePath;

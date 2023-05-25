@@ -5607,6 +5607,7 @@ class HandshakeFilter {
     this.actionType,
     this.parentHandshakeId,
   });
+
   Map<String, dynamic> toJson() {
     final actionType = this.actionType;
     final parentHandshakeId = this.parentHandshakeId;

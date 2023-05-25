@@ -4945,6 +4945,7 @@ class ADMChannelRequest {
     required this.clientSecret,
     this.enabled,
   });
+
   Map<String, dynamic> toJson() {
     final clientId = this.clientId;
     final clientSecret = this.clientSecret;
@@ -5126,6 +5127,7 @@ class ADMMessage {
     this.title,
     this.url,
   });
+
   Map<String, dynamic> toJson() {
     final action = this.action;
     final body = this.body;
@@ -5207,6 +5209,7 @@ class APNSChannelRequest {
     this.tokenKey,
     this.tokenKeyId,
   });
+
   Map<String, dynamic> toJson() {
     final bundleId = this.bundleId;
     final certificate = this.certificate;
@@ -5518,6 +5521,7 @@ class APNSMessage {
     this.title,
     this.url,
   });
+
   Map<String, dynamic> toJson() {
     final aPNSPushType = this.aPNSPushType;
     final action = this.action;
@@ -5701,6 +5705,7 @@ class APNSSandboxChannelRequest {
     this.tokenKey,
     this.tokenKeyId,
   });
+
   Map<String, dynamic> toJson() {
     final bundleId = this.bundleId;
     final certificate = this.certificate;
@@ -5846,6 +5851,7 @@ class APNSVoipChannelRequest {
     this.tokenKey,
     this.tokenKeyId,
   });
+
   Map<String, dynamic> toJson() {
     final bundleId = this.bundleId;
     final certificate = this.certificate;
@@ -5995,6 +6001,7 @@ class APNSVoipSandboxChannelRequest {
     this.tokenKey,
     this.tokenKeyId,
   });
+
   Map<String, dynamic> toJson() {
     final bundleId = this.bundleId;
     final certificate = this.certificate;
@@ -6423,6 +6430,7 @@ class AddressConfiguration {
     this.substitutions,
     this.titleOverride,
   });
+
   Map<String, dynamic> toJson() {
     final bodyOverride = this.bodyOverride;
     final channelType = this.channelType;
@@ -6942,6 +6950,7 @@ class BaiduChannelRequest {
     required this.secretKey,
     this.enabled,
   });
+
   Map<String, dynamic> toJson() {
     final apiKey = this.apiKey;
     final secretKey = this.secretKey;
@@ -7118,6 +7127,7 @@ class BaiduMessage {
     this.title,
     this.url,
   });
+
   Map<String, dynamic> toJson() {
     final action = this.action;
     final body = this.body;
@@ -8193,6 +8203,7 @@ class CreateApplicationRequest {
     required this.name,
     this.tags,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final tags = this.tags;
@@ -8374,6 +8385,7 @@ class CreateRecommenderConfiguration {
     this.recommendationsDisplayName,
     this.recommendationsPerMessage,
   });
+
   Map<String, dynamic> toJson() {
     final recommendationProviderRoleArn = this.recommendationProviderRoleArn;
     final recommendationProviderUri = this.recommendationProviderUri;
@@ -8677,6 +8689,7 @@ class DefaultMessage {
     this.body,
     this.substitutions,
   });
+
   Map<String, dynamic> toJson() {
     final body = this.body;
     final substitutions = this.substitutions;
@@ -8746,6 +8759,7 @@ class DefaultPushNotificationMessage {
     this.title,
     this.url,
   });
+
   Map<String, dynamic> toJson() {
     final action = this.action;
     final body = this.body;
@@ -9166,6 +9180,7 @@ class DirectMessageConfiguration {
     this.sMSMessage,
     this.voiceMessage,
   });
+
   Map<String, dynamic> toJson() {
     final aDMMessage = this.aDMMessage;
     final aPNSMessage = this.aPNSMessage;
@@ -9261,6 +9276,7 @@ class EmailChannelRequest {
     this.enabled,
     this.roleArn,
   });
+
   Map<String, dynamic> toJson() {
     final fromAddress = this.fromAddress;
     final identity = this.identity;
@@ -9412,6 +9428,7 @@ class EmailMessage {
     this.simpleEmail,
     this.substitutions,
   });
+
   Map<String, dynamic> toJson() {
     final body = this.body;
     final feedbackForwardingAddress = this.feedbackForwardingAddress;
@@ -9557,6 +9574,7 @@ class EmailTemplateRequest {
     this.textPart,
     this.tags,
   });
+
   Map<String, dynamic> toJson() {
     final defaultSubstitutions = this.defaultSubstitutions;
     final htmlPart = this.htmlPart;
@@ -9755,6 +9773,7 @@ class EndpointBatchItem {
     this.requestId,
     this.user,
   });
+
   Map<String, dynamic> toJson() {
     final address = this.address;
     final attributes = this.attributes;
@@ -9796,6 +9815,7 @@ class EndpointBatchRequest {
   EndpointBatchRequest({
     required this.item,
   });
+
   Map<String, dynamic> toJson() {
     final item = this.item;
     return {
@@ -10123,6 +10143,7 @@ class EndpointRequest {
     this.requestId,
     this.user,
   });
+
   Map<String, dynamic> toJson() {
     final address = this.address;
     final attributes = this.attributes;
@@ -10314,6 +10335,7 @@ class EndpointSendConfiguration {
     this.substitutions,
     this.titleOverride,
   });
+
   Map<String, dynamic> toJson() {
     final bodyOverride = this.bodyOverride;
     final context = this.context;
@@ -10439,6 +10461,7 @@ class Event {
     this.sdkName,
     this.session,
   });
+
   Map<String, dynamic> toJson() {
     final eventType = this.eventType;
     final timestamp = this.timestamp;
@@ -10709,6 +10732,7 @@ class EventsBatch {
     required this.endpoint,
     required this.events,
   });
+
   Map<String, dynamic> toJson() {
     final endpoint = this.endpoint;
     final events = this.events;
@@ -10728,6 +10752,7 @@ class EventsRequest {
   EventsRequest({
     required this.batchItem,
   });
+
   Map<String, dynamic> toJson() {
     final batchItem = this.batchItem;
     return {
@@ -10788,6 +10813,7 @@ class ExportJobRequest {
     this.segmentId,
     this.segmentVersion,
   });
+
   Map<String, dynamic> toJson() {
     final roleArn = this.roleArn;
     final s3UrlPrefix = this.s3UrlPrefix;
@@ -11091,6 +11117,7 @@ class GCMChannelRequest {
     required this.apiKey,
     this.enabled,
   });
+
   Map<String, dynamic> toJson() {
     final apiKey = this.apiKey;
     final enabled = this.enabled;
@@ -11306,6 +11333,7 @@ class GCMMessage {
     this.title,
     this.url,
   });
+
   Map<String, dynamic> toJson() {
     final action = this.action;
     final body = this.body;
@@ -11901,6 +11929,7 @@ class ImportJobRequest {
     this.segmentId,
     this.segmentName,
   });
+
   Map<String, dynamic> toJson() {
     final format = this.format;
     final roleArn = this.roleArn;
@@ -12505,6 +12534,7 @@ class InAppTemplateRequest {
     this.templateDescription,
     this.tags,
   });
+
   Map<String, dynamic> toJson() {
     final content = this.content;
     final customConfig = this.customConfig;
@@ -13622,6 +13652,7 @@ class JourneyStateRequest {
   JourneyStateRequest({
     this.state,
   });
+
   Map<String, dynamic> toJson() {
     final state = this.state;
     return {
@@ -14082,6 +14113,7 @@ class MessageRequest {
     this.templateConfiguration,
     this.traceId,
   });
+
   Map<String, dynamic> toJson() {
     final messageConfiguration = this.messageConfiguration;
     final addresses = this.addresses;
@@ -14409,6 +14441,7 @@ class NumberValidateRequest {
     this.isoCountryCode,
     this.phoneNumber,
   });
+
   Map<String, dynamic> toJson() {
     final isoCountryCode = this.isoCountryCode;
     final phoneNumber = this.phoneNumber;
@@ -14647,6 +14680,7 @@ class PublicEndpoint {
     this.requestId,
     this.user,
   });
+
   Map<String, dynamic> toJson() {
     final address = this.address;
     final attributes = this.attributes;
@@ -14809,6 +14843,7 @@ class PushNotificationTemplateRequest {
     this.templateDescription,
     this.tags,
   });
+
   Map<String, dynamic> toJson() {
     final adm = this.adm;
     final apns = this.apns;
@@ -15085,6 +15120,7 @@ class RawEmail {
   RawEmail({
     this.data,
   });
+
   Map<String, dynamic> toJson() {
     final data = this.data;
     return {
@@ -15366,6 +15402,7 @@ class SMSChannelRequest {
     this.senderId,
     this.shortCode,
   });
+
   Map<String, dynamic> toJson() {
     final enabled = this.enabled;
     final senderId = this.senderId;
@@ -15521,6 +15558,7 @@ class SMSMessage {
     this.substitutions,
     this.templateId,
   });
+
   Map<String, dynamic> toJson() {
     final body = this.body;
     final entityId = this.entityId;
@@ -15655,6 +15693,7 @@ class SMSTemplateRequest {
     this.templateDescription,
     this.tags,
   });
+
   Map<String, dynamic> toJson() {
     final body = this.body;
     final defaultSubstitutions = this.defaultSubstitutions;
@@ -16479,6 +16518,7 @@ class SendOTPMessageRequestParameters {
     this.templateId,
     this.validityPeriod,
   });
+
   Map<String, dynamic> toJson() {
     final brandName = this.brandName;
     final channel = this.channel;
@@ -16550,6 +16590,7 @@ class SendUsersMessageRequest {
     this.templateConfiguration,
     this.traceId,
   });
+
   Map<String, dynamic> toJson() {
     final messageConfiguration = this.messageConfiguration;
     final users = this.users;
@@ -16627,6 +16668,7 @@ class Session {
     this.duration,
     this.stopTimestamp,
   });
+
   Map<String, dynamic> toJson() {
     final id = this.id;
     final startTimestamp = this.startTimestamp;
@@ -16745,6 +16787,7 @@ class SimpleEmail {
     this.subject,
     this.textPart,
   });
+
   Map<String, dynamic> toJson() {
     final htmlPart = this.htmlPart;
     final subject = this.subject;
@@ -16770,6 +16813,7 @@ class SimpleEmailPart {
     this.charset,
     this.data,
   });
+
   Map<String, dynamic> toJson() {
     final charset = this.charset;
     final data = this.data;
@@ -16996,6 +17040,7 @@ class TemplateActiveVersionRequest {
   TemplateActiveVersionRequest({
     this.version,
   });
+
   Map<String, dynamic> toJson() {
     final version = this.version;
     return {
@@ -17491,6 +17536,7 @@ class UpdateAttributesRequest {
   UpdateAttributesRequest({
     this.blacklist,
   });
+
   Map<String, dynamic> toJson() {
     final blacklist = this.blacklist;
     return {
@@ -17702,6 +17748,7 @@ class UpdateRecommenderConfiguration {
     this.recommendationsDisplayName,
     this.recommendationsPerMessage,
   });
+
   Map<String, dynamic> toJson() {
     final recommendationProviderRoleArn = this.recommendationProviderRoleArn;
     final recommendationProviderUri = this.recommendationProviderUri;
@@ -17818,6 +17865,7 @@ class VerifyOTPMessageRequestParameters {
     required this.otp,
     required this.referenceId,
   });
+
   Map<String, dynamic> toJson() {
     final destinationIdentity = this.destinationIdentity;
     final otp = this.otp;
@@ -17846,6 +17894,7 @@ class VoiceChannelRequest {
   VoiceChannelRequest({
     this.enabled,
   });
+
   Map<String, dynamic> toJson() {
     final enabled = this.enabled;
     return {
@@ -17955,6 +18004,7 @@ class VoiceMessage {
     this.substitutions,
     this.voiceId,
   });
+
   Map<String, dynamic> toJson() {
     final body = this.body;
     final languageCode = this.languageCode;
@@ -18026,6 +18076,7 @@ class VoiceTemplateRequest {
     this.voiceId,
     this.tags,
   });
+
   Map<String, dynamic> toJson() {
     final body = this.body;
     final defaultSubstitutions = this.defaultSubstitutions;
@@ -18270,6 +18321,7 @@ class WriteApplicationSettingsRequest {
     this.limits,
     this.quietTime,
   });
+
   Map<String, dynamic> toJson() {
     final campaignHook = this.campaignHook;
     final cloudWatchMetricsEnabled = this.cloudWatchMetricsEnabled;
@@ -18384,6 +18436,7 @@ class WriteCampaignRequest {
     this.treatmentName,
     this.tags,
   });
+
   Map<String, dynamic> toJson() {
     final additionalTreatments = this.additionalTreatments;
     final customDeliveryConfiguration = this.customDeliveryConfiguration;
@@ -18454,6 +18507,7 @@ class WriteEventStream {
     required this.destinationStreamArn,
     required this.roleArn,
   });
+
   Map<String, dynamic> toJson() {
     final destinationStreamArn = this.destinationStreamArn;
     final roleArn = this.roleArn;
@@ -18592,6 +18646,7 @@ class WriteJourneyRequest {
     this.state,
     this.waitForQuietTime,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final activities = this.activities;
@@ -18673,6 +18728,7 @@ class WriteSegmentRequest {
     this.segmentGroups,
     this.tags,
   });
+
   Map<String, dynamic> toJson() {
     final dimensions = this.dimensions;
     final name = this.name;
@@ -18723,6 +18779,7 @@ class WriteTreatmentResource {
     this.treatmentDescription,
     this.treatmentName,
   });
+
   Map<String, dynamic> toJson() {
     final sizePercent = this.sizePercent;
     final customDeliveryConfiguration = this.customDeliveryConfiguration;

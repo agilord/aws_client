@@ -81,7 +81,7 @@ class GenerateSinglePackageCommand extends Command {
             percentage, 'Generating API ${api.metadata.serviceFullName}');
 
         readmeDescriptions.add(
-            '${api.metadata.serviceFullName} (`package:aws_client/${api.directoryName}/`)');
+            '${api.metadata.serviceFullName} (`package:aws_client/${api.directoryName}`)');
 
         // create directories
         final baseDir = '$generatedDir/${api.directoryName}';

@@ -4788,6 +4788,7 @@ class Domain {
     this.domainName,
     this.hostedZoneId,
   });
+
   Map<String, dynamic> toJson() {
     final domainName = this.domainName;
     final hostedZoneId = this.hostedZoneId;
@@ -4848,6 +4849,7 @@ class EwsAvailabilityProvider {
     required this.ewsPassword,
     required this.ewsUsername,
   });
+
   Map<String, dynamic> toJson() {
     final ewsEndpoint = this.ewsEndpoint;
     final ewsPassword = this.ewsPassword;

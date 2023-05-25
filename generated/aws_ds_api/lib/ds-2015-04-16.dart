@@ -4331,6 +4331,7 @@ class DirectoryConnectSettings {
     required this.subnetIds,
     required this.vpcId,
   });
+
   Map<String, dynamic> toJson() {
     final customerDnsIps = this.customerDnsIps;
     final customerUserName = this.customerUserName;
@@ -5159,6 +5160,7 @@ class IpRoute {
     this.cidrIp,
     this.description,
   });
+
   Map<String, dynamic> toJson() {
     final cidrIp = this.cidrIp;
     final description = this.description;
@@ -6129,6 +6131,7 @@ class Setting {
     required this.name,
     required this.value,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final value = this.value;
@@ -6341,6 +6344,7 @@ class ShareTarget {
     required this.id,
     required this.type,
   });
+
   Map<String, dynamic> toJson() {
     final id = this.id;
     final type = this.type;
@@ -6890,6 +6894,7 @@ class UnshareTarget {
     required this.id,
     required this.type,
   });
+
   Map<String, dynamic> toJson() {
     final id = this.id;
     final type = this.type;

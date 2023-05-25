@@ -3529,6 +3529,7 @@ class Credentials {
     required this.password,
     required this.username,
   });
+
   Map<String, dynamic> toJson() {
     final password = this.password;
     final username = this.username;
@@ -5546,6 +5547,7 @@ class LocationFilter {
     required this.operator,
     required this.values,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final operator = this.operator;
@@ -7595,6 +7597,7 @@ class TaskFilter {
     required this.operator,
     required this.values,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final operator = this.operator;

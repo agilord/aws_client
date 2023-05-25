@@ -84,6 +84,7 @@ class StructType {
     this.a,
     this.b,
   });
+
   Map<String, dynamic> toJson() {
     final a = this.a;
     final b = this.b;

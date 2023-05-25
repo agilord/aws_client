@@ -3492,6 +3492,7 @@ class Condition {
     required this.type,
     required this.value,
   });
+
   Map<String, dynamic> toJson() {
     final key = this.key;
     final type = this.type;
@@ -4061,6 +4062,7 @@ class CreateConnectionApiKeyAuthRequestParameters {
     required this.apiKeyName,
     required this.apiKeyValue,
   });
+
   Map<String, dynamic> toJson() {
     final apiKeyName = this.apiKeyName;
     final apiKeyValue = this.apiKeyValue;
@@ -4098,6 +4100,7 @@ class CreateConnectionAuthRequestParameters {
     this.invocationHttpParameters,
     this.oAuthParameters,
   });
+
   Map<String, dynamic> toJson() {
     final apiKeyAuthParameters = this.apiKeyAuthParameters;
     final basicAuthParameters = this.basicAuthParameters;
@@ -4127,6 +4130,7 @@ class CreateConnectionBasicAuthRequestParameters {
     required this.password,
     required this.username,
   });
+
   Map<String, dynamic> toJson() {
     final password = this.password;
     final username = this.username;
@@ -4150,6 +4154,7 @@ class CreateConnectionOAuthClientRequestParameters {
     required this.clientID,
     required this.clientSecret,
   });
+
   Map<String, dynamic> toJson() {
     final clientID = this.clientID;
     final clientSecret = this.clientSecret;
@@ -4183,6 +4188,7 @@ class CreateConnectionOAuthRequestParameters {
     required this.httpMethod,
     this.oAuthHttpParameters,
   });
+
   Map<String, dynamic> toJson() {
     final authorizationEndpoint = this.authorizationEndpoint;
     final clientParameters = this.clientParameters;
@@ -6317,6 +6323,7 @@ class PutEventsRequestEntry {
     this.time,
     this.traceHeader,
   });
+
   Map<String, dynamic> toJson() {
     final detail = this.detail;
     final detailType = this.detailType;
@@ -6423,6 +6430,7 @@ class PutPartnerEventsRequestEntry {
     this.source,
     this.time,
   });
+
   Map<String, dynamic> toJson() {
     final detail = this.detail;
     final detailType = this.detailType;
@@ -7598,6 +7606,7 @@ class UpdateConnectionApiKeyAuthRequestParameters {
     this.apiKeyName,
     this.apiKeyValue,
   });
+
   Map<String, dynamic> toJson() {
     final apiKeyName = this.apiKeyName;
     final apiKeyValue = this.apiKeyValue;
@@ -7632,6 +7641,7 @@ class UpdateConnectionAuthRequestParameters {
     this.invocationHttpParameters,
     this.oAuthParameters,
   });
+
   Map<String, dynamic> toJson() {
     final apiKeyAuthParameters = this.apiKeyAuthParameters;
     final basicAuthParameters = this.basicAuthParameters;
@@ -7661,6 +7671,7 @@ class UpdateConnectionBasicAuthRequestParameters {
     this.password,
     this.username,
   });
+
   Map<String, dynamic> toJson() {
     final password = this.password;
     final username = this.username;
@@ -7684,6 +7695,7 @@ class UpdateConnectionOAuthClientRequestParameters {
     this.clientID,
     this.clientSecret,
   });
+
   Map<String, dynamic> toJson() {
     final clientID = this.clientID;
     final clientSecret = this.clientSecret;
@@ -7717,6 +7729,7 @@ class UpdateConnectionOAuthRequestParameters {
     this.httpMethod,
     this.oAuthHttpParameters,
   });
+
   Map<String, dynamic> toJson() {
     final authorizationEndpoint = this.authorizationEndpoint;
     final clientParameters = this.clientParameters;

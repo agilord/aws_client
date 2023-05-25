@@ -2321,6 +2321,7 @@ class ActionExecutionFilter {
   ActionExecutionFilter({
     this.pipelineExecutionId,
   });
+
   Map<String, dynamic> toJson() {
     final pipelineExecutionId = this.pipelineExecutionId;
     return {
@@ -3196,6 +3197,7 @@ class ApprovalResult {
     required this.status,
     required this.summary,
   });
+
   Map<String, dynamic> toJson() {
     final status = this.status;
     final summary = this.summary;
@@ -3616,6 +3618,7 @@ class CurrentRevision {
     this.created,
     this.revisionSummary,
   });
+
   Map<String, dynamic> toJson() {
     final changeIdentifier = this.changeIdentifier;
     final revision = this.revision;
@@ -3748,6 +3751,7 @@ class ExecutionDetails {
     this.percentComplete,
     this.summary,
   });
+
   Map<String, dynamic> toJson() {
     final externalExecutionId = this.externalExecutionId;
     final percentComplete = this.percentComplete;
@@ -3870,6 +3874,7 @@ class FailureDetails {
     required this.type,
     this.externalExecutionId,
   });
+
   Map<String, dynamic> toJson() {
     final message = this.message;
     final type = this.type;

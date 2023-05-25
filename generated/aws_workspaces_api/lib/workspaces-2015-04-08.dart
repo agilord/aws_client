@@ -4093,6 +4093,7 @@ class DefaultImportClientBrandingAttributes {
     this.supportEmail,
     this.supportLink,
   });
+
   Map<String, dynamic> toJson() {
     final forgotPasswordLink = this.forgotPasswordLink;
     final loginMessage = this.loginMessage;
@@ -5139,6 +5140,7 @@ class IosImportClientBrandingAttributes {
     this.supportEmail,
     this.supportLink,
   });
+
   Map<String, dynamic> toJson() {
     final forgotPasswordLink = this.forgotPasswordLink;
     final loginMessage = this.loginMessage;
@@ -5540,6 +5542,7 @@ class RebootRequest {
   RebootRequest({
     required this.workspaceId,
   });
+
   Map<String, dynamic> toJson() {
     final workspaceId = this.workspaceId;
     return {
@@ -5575,6 +5578,7 @@ class RebuildRequest {
   RebuildRequest({
     required this.workspaceId,
   });
+
   Map<String, dynamic> toJson() {
     final workspaceId = this.workspaceId;
     return {
@@ -6015,6 +6019,7 @@ class StartRequest {
   StartRequest({
     this.workspaceId,
   });
+
   Map<String, dynamic> toJson() {
     final workspaceId = this.workspaceId;
     return {
@@ -6050,6 +6055,7 @@ class StopRequest {
   StopRequest({
     this.workspaceId,
   });
+
   Map<String, dynamic> toJson() {
     final workspaceId = this.workspaceId;
     return {
@@ -6171,6 +6177,7 @@ class TerminateRequest {
   TerminateRequest({
     required this.workspaceId,
   });
+
   Map<String, dynamic> toJson() {
     final workspaceId = this.workspaceId;
     return {
@@ -6712,6 +6719,7 @@ class WorkspaceCreationProperties {
     this.enableWorkDocs,
     this.userEnabledAsLocalAdministrator,
   });
+
   Map<String, dynamic> toJson() {
     final customSecurityGroupId = this.customSecurityGroupId;
     final defaultOu = this.defaultOu;

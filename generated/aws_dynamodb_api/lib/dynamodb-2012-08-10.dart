@@ -5627,6 +5627,7 @@ class AttributeValueUpdate {
     this.action,
     this.value,
   });
+
   Map<String, dynamic> toJson() {
     final action = this.action;
     final value = this.value;
@@ -5677,6 +5678,7 @@ class AutoScalingPolicyUpdate {
     required this.targetTrackingScalingPolicyConfiguration,
     this.policyName,
   });
+
   Map<String, dynamic> toJson() {
     final targetTrackingScalingPolicyConfiguration =
         this.targetTrackingScalingPolicyConfiguration;
@@ -5760,6 +5762,7 @@ class AutoScalingSettingsUpdate {
     this.minimumUnits,
     this.scalingPolicyUpdate,
   });
+
   Map<String, dynamic> toJson() {
     final autoScalingDisabled = this.autoScalingDisabled;
     final autoScalingRoleArn = this.autoScalingRoleArn;
@@ -5863,6 +5866,7 @@ class AutoScalingTargetTrackingScalingPolicyConfigurationUpdate {
     this.scaleInCooldown,
     this.scaleOutCooldown,
   });
+
   Map<String, dynamic> toJson() {
     final targetValue = this.targetValue;
     final disableScaleIn = this.disableScaleIn;
@@ -6384,6 +6388,7 @@ class BatchStatementRequest {
     this.consistentRead,
     this.parameters,
   });
+
   Map<String, dynamic> toJson() {
     final statement = this.statement;
     final consistentRead = this.consistentRead;
@@ -6943,6 +6948,7 @@ class Condition {
     required this.comparisonOperator,
     this.attributeValueList,
   });
+
   Map<String, dynamic> toJson() {
     final comparisonOperator = this.comparisonOperator;
     final attributeValueList = this.attributeValueList;
@@ -6996,6 +7002,7 @@ class ConditionCheck {
     this.expressionAttributeValues,
     this.returnValuesOnConditionCheckFailure,
   });
+
   Map<String, dynamic> toJson() {
     final conditionExpression = this.conditionExpression;
     final key = this.key;
@@ -7308,6 +7315,7 @@ class CreateGlobalSecondaryIndexAction {
     required this.projection,
     this.provisionedThroughput,
   });
+
   Map<String, dynamic> toJson() {
     final indexName = this.indexName;
     final keySchema = this.keySchema;
@@ -7349,6 +7357,7 @@ class CreateReplicaAction {
   CreateReplicaAction({
     required this.regionName,
   });
+
   Map<String, dynamic> toJson() {
     final regionName = this.regionName;
     return {
@@ -7386,6 +7395,7 @@ class CreateReplicationGroupMemberAction {
     this.provisionedThroughputOverride,
     this.tableClassOverride,
   });
+
   Map<String, dynamic> toJson() {
     final regionName = this.regionName;
     final globalSecondaryIndexes = this.globalSecondaryIndexes;
@@ -7494,6 +7504,7 @@ class Delete {
     this.expressionAttributeValues,
     this.returnValuesOnConditionCheckFailure,
   });
+
   Map<String, dynamic> toJson() {
     final key = this.key;
     final tableName = this.tableName;
@@ -7544,6 +7555,7 @@ class DeleteGlobalSecondaryIndexAction {
   DeleteGlobalSecondaryIndexAction({
     required this.indexName,
   });
+
   Map<String, dynamic> toJson() {
     final indexName = this.indexName;
     return {
@@ -7628,6 +7640,7 @@ class DeleteReplicaAction {
   DeleteReplicaAction({
     required this.regionName,
   });
+
   Map<String, dynamic> toJson() {
     final regionName = this.regionName;
     return {
@@ -7644,6 +7657,7 @@ class DeleteReplicationGroupMemberAction {
   DeleteReplicationGroupMemberAction({
     required this.regionName,
   });
+
   Map<String, dynamic> toJson() {
     final regionName = this.regionName;
     return {
@@ -8433,6 +8447,7 @@ class ExpectedAttributeValue {
     this.exists,
     this.value,
   });
+
   Map<String, dynamic> toJson() {
     final attributeValueList = this.attributeValueList;
     final comparisonOperator = this.comparisonOperator;
@@ -8720,6 +8735,7 @@ class Get {
     this.expressionAttributeNames,
     this.projectionExpression,
   });
+
   Map<String, dynamic> toJson() {
     final key = this.key;
     final tableName = this.tableName;
@@ -8860,6 +8876,7 @@ class GlobalSecondaryIndexAutoScalingUpdate {
     this.indexName,
     this.provisionedWriteCapacityAutoScalingUpdate,
   });
+
   Map<String, dynamic> toJson() {
     final indexName = this.indexName;
     final provisionedWriteCapacityAutoScalingUpdate =
@@ -9111,6 +9128,7 @@ class GlobalSecondaryIndexUpdate {
     this.delete,
     this.update,
   });
+
   Map<String, dynamic> toJson() {
     final create = this.create;
     final delete = this.delete;
@@ -9223,6 +9241,7 @@ class GlobalTableGlobalSecondaryIndexSettingsUpdate {
     this.provisionedWriteCapacityAutoScalingSettingsUpdate,
     this.provisionedWriteCapacityUnits,
   });
+
   Map<String, dynamic> toJson() {
     final indexName = this.indexName;
     final provisionedWriteCapacityAutoScalingSettingsUpdate =
@@ -10221,6 +10240,7 @@ class LocalSecondaryIndex {
     required this.keySchema,
     required this.projection,
   });
+
   Map<String, dynamic> toJson() {
     final indexName = this.indexName;
     final keySchema = this.keySchema;
@@ -10371,6 +10391,7 @@ class ParameterizedStatement {
     required this.statement,
     this.parameters,
   });
+
   Map<String, dynamic> toJson() {
     final statement = this.statement;
     final parameters = this.parameters;
@@ -10430,6 +10451,7 @@ class PointInTimeRecoverySpecification {
   PointInTimeRecoverySpecification({
     required this.pointInTimeRecoveryEnabled,
   });
+
   Map<String, dynamic> toJson() {
     final pointInTimeRecoveryEnabled = this.pointInTimeRecoveryEnabled;
     return {
@@ -10719,6 +10741,7 @@ class Put {
     this.expressionAttributeValues,
     this.returnValuesOnConditionCheckFailure,
   });
+
   Map<String, dynamic> toJson() {
     final item = this.item;
     final tableName = this.tableName;
@@ -11023,6 +11046,7 @@ class ReplicaAutoScalingUpdate {
     this.replicaGlobalSecondaryIndexUpdates,
     this.replicaProvisionedReadCapacityAutoScalingUpdate,
   });
+
   Map<String, dynamic> toJson() {
     final regionName = this.regionName;
     final replicaGlobalSecondaryIndexUpdates =
@@ -11157,6 +11181,7 @@ class ReplicaGlobalSecondaryIndex {
     required this.indexName,
     this.provisionedThroughputOverride,
   });
+
   Map<String, dynamic> toJson() {
     final indexName = this.indexName;
     final provisionedThroughputOverride = this.provisionedThroughputOverride;
@@ -11236,6 +11261,7 @@ class ReplicaGlobalSecondaryIndexAutoScalingUpdate {
     this.indexName,
     this.provisionedReadCapacityAutoScalingUpdate,
   });
+
   Map<String, dynamic> toJson() {
     final indexName = this.indexName;
     final provisionedReadCapacityAutoScalingUpdate =
@@ -11372,6 +11398,7 @@ class ReplicaGlobalSecondaryIndexSettingsUpdate {
     this.provisionedReadCapacityAutoScalingSettingsUpdate,
     this.provisionedReadCapacityUnits,
   });
+
   Map<String, dynamic> toJson() {
     final indexName = this.indexName;
     final provisionedReadCapacityAutoScalingSettingsUpdate =
@@ -11528,6 +11555,7 @@ class ReplicaSettingsUpdate {
     this.replicaProvisionedReadCapacityUnits,
     this.replicaTableClass,
   });
+
   Map<String, dynamic> toJson() {
     final regionName = this.regionName;
     final replicaGlobalSecondaryIndexSettingsUpdate =
@@ -11631,6 +11659,7 @@ class ReplicaUpdate {
     this.create,
     this.delete,
   });
+
   Map<String, dynamic> toJson() {
     final create = this.create;
     final delete = this.delete;
@@ -11678,6 +11707,7 @@ class ReplicationGroupUpdate {
     this.delete,
     this.update,
   });
+
   Map<String, dynamic> toJson() {
     final create = this.create;
     final delete = this.delete;
@@ -13329,6 +13359,7 @@ class TransactGetItem {
   TransactGetItem({
     required this.get,
   });
+
   Map<String, dynamic> toJson() {
     final get = this.get;
     return {
@@ -13398,6 +13429,7 @@ class TransactWriteItem {
     this.put,
     this.update,
   });
+
   Map<String, dynamic> toJson() {
     final conditionCheck = this.conditionCheck;
     final delete = this.delete;
@@ -13487,6 +13519,7 @@ class Update {
     this.expressionAttributeValues,
     this.returnValuesOnConditionCheckFailure,
   });
+
   Map<String, dynamic> toJson() {
     final key = this.key;
     final tableName = this.tableName;
@@ -13576,6 +13609,7 @@ class UpdateGlobalSecondaryIndexAction {
     required this.indexName,
     required this.provisionedThroughput,
   });
+
   Map<String, dynamic> toJson() {
     final indexName = this.indexName;
     final provisionedThroughput = this.provisionedThroughput;
@@ -13727,6 +13761,7 @@ class UpdateReplicationGroupMemberAction {
     this.provisionedThroughputOverride,
     this.tableClassOverride,
   });
+
   Map<String, dynamic> toJson() {
     final regionName = this.regionName;
     final globalSecondaryIndexes = this.globalSecondaryIndexes;

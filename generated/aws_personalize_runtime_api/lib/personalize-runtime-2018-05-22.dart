@@ -363,6 +363,7 @@ class Promotion {
     this.name,
     this.percentPromotedItems,
   });
+
   Map<String, dynamic> toJson() {
     final filterArn = this.filterArn;
     final filterValues = this.filterValues;

@@ -2911,6 +2911,7 @@ class OperationStatusFilter {
   OperationStatusFilter({
     this.status,
   });
+
   Map<String, dynamic> toJson() {
     final status = this.status;
     return {

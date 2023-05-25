@@ -1266,6 +1266,7 @@ class Document {
     required this.content,
     required this.contentType,
   });
+
   Map<String, dynamic> toJson() {
     final content = this.content;
     final contentType = this.contentType;
@@ -2305,6 +2306,7 @@ class TerminologyData {
     required this.format,
     this.directionality,
   });
+
   Map<String, dynamic> toJson() {
     final file = this.file;
     final format = this.format;
@@ -2509,6 +2511,7 @@ class TextTranslationJobFilter {
     this.submittedAfterTime,
     this.submittedBeforeTime,
   });
+
   Map<String, dynamic> toJson() {
     final jobName = this.jobName;
     final jobStatus = this.jobStatus;

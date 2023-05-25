@@ -7386,6 +7386,7 @@ class Filter {
     required this.name,
     required this.values,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final values = this.values;
@@ -13092,6 +13093,7 @@ class StartRecommendationsRequestEntry {
     required this.databaseId,
     required this.settings,
   });
+
   Map<String, dynamic> toJson() {
     final databaseId = this.databaseId;
     final settings = this.settings;
@@ -13580,6 +13582,7 @@ class TableToReload {
     required this.schemaName,
     required this.tableName,
   });
+
   Map<String, dynamic> toJson() {
     final schemaName = this.schemaName;
     final tableName = this.tableName;

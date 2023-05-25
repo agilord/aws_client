@@ -292,7 +292,8 @@ class RDSDataService {
   ///
   /// Parameter [schema] :
   /// The name of the database schema.
-  @Deprecated('Deprecated')
+  @Deprecated(
+      'The ExecuteSql API is deprecated, please use the ExecuteStatement API.')
   Future<ExecuteSqlResponse> executeSql({
     required String awsSecretStoreArn,
     required String dbClusterOrInstanceArn,
@@ -1012,6 +1013,7 @@ class ResultSetOptions {
     this.decimalReturnType,
     this.longReturnType,
   });
+
   Map<String, dynamic> toJson() {
     final decimalReturnType = this.decimalReturnType;
     final longReturnType = this.longReturnType;
@@ -1087,6 +1089,7 @@ class SqlParameter {
     this.typeHint,
     this.value,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final typeHint = this.typeHint;

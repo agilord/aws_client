@@ -2025,7 +2025,7 @@ class Captions {
 
 /// Settings for one clip in a composition. All jobs in a playlist must have the
 /// same clip settings.
-@deprecated
+@Deprecated('Deprecated')
 class Clip {
   /// Settings that determine when a clip begins and how long it lasts.
   final TimeSpan? timeSpan;
@@ -2227,6 +2227,7 @@ class CreateJobOutput {
     this.thumbnailPattern,
     this.watermarks,
   });
+
   Map<String, dynamic> toJson() {
     final albumArt = this.albumArt;
     final captions = this.captions;
@@ -2339,6 +2340,7 @@ class CreateJobPlaylist {
     this.outputKeys,
     this.playReadyDrm,
   });
+
   Map<String, dynamic> toJson() {
     final format = this.format;
     final hlsContentProtection = this.hlsContentProtection;
@@ -4723,7 +4725,7 @@ class ReadPresetResponse {
 }
 
 /// The <code>TestRoleResponse</code> structure.
-@deprecated
+@Deprecated('Deprecated')
 class TestRoleResponse {
   /// If the <code>Success</code> element contains <code>false</code>, this value
   /// is an array of one or more error messages that were generated during the

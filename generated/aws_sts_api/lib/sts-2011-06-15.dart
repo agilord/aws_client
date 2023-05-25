@@ -2194,6 +2194,7 @@ class PolicyDescriptorType {
   PolicyDescriptorType({
     this.arn,
   });
+
   Map<String, dynamic> toJson() {
     final arn = this.arn;
     return {
@@ -2228,6 +2229,7 @@ class Tag {
     required this.key,
     required this.value,
   });
+
   Map<String, dynamic> toJson() {
     final key = this.key;
     final value = this.value;

@@ -173,7 +173,8 @@ class SecurityHub {
   /// Parameter [masterId] :
   /// The account ID of the Security Hub administrator account that sent the
   /// invitation.
-  @Deprecated('Deprecated')
+  @Deprecated(
+      'This API has been deprecated, use AcceptAdministratorInvitation API instead.')
   Future<void> acceptInvitation({
     required String invitationId,
     required String masterId,
@@ -1377,7 +1378,8 @@ class SecurityHub {
   /// May throw [InvalidAccessException].
   /// May throw [LimitExceededException].
   /// May throw [ResourceNotFoundException].
-  @Deprecated('Deprecated')
+  @Deprecated(
+      'This API has been deprecated, use DisassociateFromAdministratorAccount API instead.')
   Future<void> disassociateFromMasterAccount() async {
     final response = await _protocol.send(
       payload: null,
@@ -1917,7 +1919,8 @@ class SecurityHub {
   /// May throw [InvalidAccessException].
   /// May throw [LimitExceededException].
   /// May throw [ResourceNotFoundException].
-  @Deprecated('Deprecated')
+  @Deprecated(
+      'This API has been deprecated, use GetAdministratorAccount API instead.')
   Future<GetMasterAccountResponse> getMasterAccount() async {
     final response = await _protocol.send(
       payload: null,
@@ -2751,6 +2754,7 @@ class AccountDetails {
     required this.accountId,
     this.email,
   });
+
   Map<String, dynamic> toJson() {
     final accountId = this.accountId;
     final email = this.email;
@@ -35240,6 +35244,7 @@ class NoteUpdate {
     required this.text,
     required this.updatedBy,
   });
+
   Map<String, dynamic> toJson() {
     final text = this.text;
     final updatedBy = this.updatedBy;
@@ -38519,6 +38524,7 @@ class SeverityUpdate {
     this.normalized,
     this.product,
   });
+
   Map<String, dynamic> toJson() {
     final label = this.label;
     final normalized = this.normalized;
@@ -38638,6 +38644,7 @@ class SortCriterion {
     this.field,
     this.sortOrder,
   });
+
   Map<String, dynamic> toJson() {
     final field = this.field;
     final sortOrder = this.sortOrder;
@@ -39196,6 +39203,7 @@ class StandardsSubscriptionRequest {
     required this.standardsArn,
     this.standardsInput,
   });
+
   Map<String, dynamic> toJson() {
     final standardsArn = this.standardsArn;
     final standardsInput = this.standardsInput;
@@ -40493,7 +40501,8 @@ class Workflow {
   }
 }
 
-@Deprecated('Deprecated')
+@Deprecated(
+    'This filter is deprecated. Instead, use SeverityLabel or FindingProviderFieldsSeverityLabel.')
 enum WorkflowState {
   $new,
   assigned,
@@ -40621,6 +40630,7 @@ class WorkflowUpdate {
   WorkflowUpdate({
     this.status,
   });
+
   Map<String, dynamic> toJson() {
     final status = this.status;
     return {

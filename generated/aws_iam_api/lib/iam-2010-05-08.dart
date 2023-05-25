@@ -11026,6 +11026,7 @@ class ContextEntry {
     this.contextKeyType,
     this.contextKeyValues,
   });
+
   Map<String, dynamic> toJson() {
     final contextKeyName = this.contextKeyName;
     final contextKeyType = this.contextKeyType;

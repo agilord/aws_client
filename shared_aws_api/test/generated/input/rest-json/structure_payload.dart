@@ -76,6 +76,7 @@ class FooShape {
   FooShape({
     this.baz,
   });
+
   Map<String, dynamic> toJson() {
     final baz = this.baz;
     return {

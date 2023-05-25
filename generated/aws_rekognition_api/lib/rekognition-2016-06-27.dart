@@ -5745,6 +5745,7 @@ class BlackFrame {
     this.maxPixelThreshold,
     this.minCoveragePercentage,
   });
+
   Map<String, dynamic> toJson() {
     final maxPixelThreshold = this.maxPixelThreshold;
     final minCoveragePercentage = this.minCoveragePercentage;
@@ -6278,6 +6279,7 @@ class ConnectedHomeSettingsForUpdate {
     this.labels,
     this.minConfidence,
   });
+
   Map<String, dynamic> toJson() {
     final labels = this.labels;
     final minConfidence = this.minConfidence;
@@ -6521,6 +6523,7 @@ class CreateFaceLivenessSessionRequestSettings {
     this.auditImagesLimit,
     this.outputConfig,
   });
+
   Map<String, dynamic> toJson() {
     final auditImagesLimit = this.auditImagesLimit;
     final outputConfig = this.outputConfig;
@@ -6647,6 +6650,7 @@ class DatasetChanges {
   DatasetChanges({
     required this.groundTruth,
   });
+
   Map<String, dynamic> toJson() {
     final groundTruth = this.groundTruth;
     return {
@@ -6820,6 +6824,7 @@ class DatasetSource {
     this.datasetArn,
     this.groundTruthManifest,
   });
+
   Map<String, dynamic> toJson() {
     final datasetArn = this.datasetArn;
     final groundTruthManifest = this.groundTruthManifest;
@@ -7484,6 +7489,7 @@ class DetectLabelsImagePropertiesSettings {
   DetectLabelsImagePropertiesSettings({
     this.maxDominantColors,
   });
+
   Map<String, dynamic> toJson() {
     final maxDominantColors = this.maxDominantColors;
     return {
@@ -7585,6 +7591,7 @@ class DetectLabelsSettings {
     this.generalLabels,
     this.imageProperties,
   });
+
   Map<String, dynamic> toJson() {
     final generalLabels = this.generalLabels;
     final imageProperties = this.imageProperties;
@@ -7680,6 +7687,7 @@ class DetectTextFilters {
     this.regionsOfInterest,
     this.wordFilter,
   });
+
   Map<String, dynamic> toJson() {
     final regionsOfInterest = this.regionsOfInterest;
     final wordFilter = this.wordFilter;
@@ -7736,6 +7744,7 @@ class DetectionFilter {
     this.minBoundingBoxWidth,
     this.minConfidence,
   });
+
   Map<String, dynamic> toJson() {
     final minBoundingBoxHeight = this.minBoundingBoxHeight;
     final minBoundingBoxWidth = this.minBoundingBoxWidth;
@@ -7759,6 +7768,7 @@ class DistributeDataset {
   DistributeDataset({
     required this.arn,
   });
+
   Map<String, dynamic> toJson() {
     final arn = this.arn;
     return {
@@ -8567,6 +8577,7 @@ class GeneralLabelsSettings {
     this.labelExclusionFilters,
     this.labelInclusionFilters,
   });
+
   Map<String, dynamic> toJson() {
     final labelCategoryExclusionFilters = this.labelCategoryExclusionFilters;
     final labelCategoryInclusionFilters = this.labelCategoryInclusionFilters;
@@ -9419,6 +9430,7 @@ class HumanLoopConfig {
     required this.humanLoopName,
     this.dataAttributes,
   });
+
   Map<String, dynamic> toJson() {
     final flowDefinitionArn = this.flowDefinitionArn;
     final humanLoopName = this.humanLoopName;
@@ -9440,6 +9452,7 @@ class HumanLoopDataAttributes {
   HumanLoopDataAttributes({
     this.contentClassifiers,
   });
+
   Map<String, dynamic> toJson() {
     final contentClassifiers = this.contentClassifiers;
     return {
@@ -9489,6 +9502,7 @@ class Image {
     this.bytes,
     this.s3Object,
   });
+
   Map<String, dynamic> toJson() {
     final bytes = this.bytes;
     final s3Object = this.s3Object;
@@ -9698,6 +9712,7 @@ class KinesisVideoStreamStartSelector {
     this.fragmentNumber,
     this.producerTimestamp,
   });
+
   Map<String, dynamic> toJson() {
     final fragmentNumber = this.fragmentNumber;
     final producerTimestamp = this.producerTimestamp;
@@ -9958,6 +9973,7 @@ class LabelDetectionSettings {
   LabelDetectionSettings({
     this.generalLabels,
   });
+
   Map<String, dynamic> toJson() {
     final generalLabels = this.generalLabels;
     return {
@@ -10397,6 +10413,7 @@ class LivenessOutputConfig {
     required this.s3Bucket,
     this.s3KeyPrefix,
   });
+
   Map<String, dynamic> toJson() {
     final s3Bucket = this.s3Bucket;
     final s3KeyPrefix = this.s3KeyPrefix;
@@ -10552,6 +10569,7 @@ class NotificationChannel {
     required this.roleArn,
     required this.sNSTopicArn,
   });
+
   Map<String, dynamic> toJson() {
     final roleArn = this.roleArn;
     final sNSTopicArn = this.sNSTopicArn;
@@ -11252,6 +11270,7 @@ class ProtectiveEquipmentSummarizationAttributes {
     required this.minConfidence,
     required this.requiredEquipmentTypes,
   });
+
   Map<String, dynamic> toJson() {
     final minConfidence = this.minConfidence;
     final requiredEquipmentTypes = this.requiredEquipmentTypes;
@@ -12029,6 +12048,7 @@ class StartSegmentDetectionFilters {
     this.shotFilter,
     this.technicalCueFilter,
   });
+
   Map<String, dynamic> toJson() {
     final shotFilter = this.shotFilter;
     final technicalCueFilter = this.technicalCueFilter;
@@ -12073,6 +12093,7 @@ class StartShotDetectionFilter {
   StartShotDetectionFilter({
     this.minSegmentConfidence,
   });
+
   Map<String, dynamic> toJson() {
     final minSegmentConfidence = this.minSegmentConfidence;
     return {
@@ -12122,6 +12143,7 @@ class StartTechnicalCueDetectionFilter {
     this.blackFrame,
     this.minSegmentConfidence,
   });
+
   Map<String, dynamic> toJson() {
     final blackFrame = this.blackFrame;
     final minSegmentConfidence = this.minSegmentConfidence;
@@ -12149,6 +12171,7 @@ class StartTextDetectionFilters {
     this.regionsOfInterest,
     this.wordFilter,
   });
+
   Map<String, dynamic> toJson() {
     final regionsOfInterest = this.regionsOfInterest;
     final wordFilter = this.wordFilter;
@@ -12208,6 +12231,7 @@ class StreamProcessingStartSelector {
   StreamProcessingStartSelector({
     this.kVSStreamStartSelector,
   });
+
   Map<String, dynamic> toJson() {
     final kVSStreamStartSelector = this.kVSStreamStartSelector;
     return {
@@ -12228,6 +12252,7 @@ class StreamProcessingStopSelector {
   StreamProcessingStopSelector({
     this.maxDurationInSeconds,
   });
+
   Map<String, dynamic> toJson() {
     final maxDurationInSeconds = this.maxDurationInSeconds;
     return {
@@ -12472,6 +12497,7 @@ class StreamProcessorSettingsForUpdate {
   StreamProcessorSettingsForUpdate({
     this.connectedHomeForUpdate,
   });
+
   Map<String, dynamic> toJson() {
     final connectedHomeForUpdate = this.connectedHomeForUpdate;
     return {

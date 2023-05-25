@@ -5842,6 +5842,7 @@ class ConflictResolution {
     this.replaceContents,
     this.setFileModes,
   });
+
   Map<String, dynamic> toJson() {
     final deleteFiles = this.deleteFiles;
     final replaceContents = this.replaceContents;
@@ -6089,6 +6090,7 @@ class DeleteFileEntry {
   DeleteFileEntry({
     required this.filePath,
   });
+
   Map<String, dynamic> toJson() {
     final filePath = this.filePath;
     return {
@@ -8278,6 +8280,7 @@ class PutFileEntry {
     this.fileMode,
     this.sourceFile,
   });
+
   Map<String, dynamic> toJson() {
     final filePath = this.filePath;
     final fileContent = this.fileContent;
@@ -8450,6 +8453,7 @@ class ReplaceContentEntry {
     this.content,
     this.fileMode,
   });
+
   Map<String, dynamic> toJson() {
     final filePath = this.filePath;
     final replacementType = this.replacementType;
@@ -8725,6 +8729,7 @@ class SetFileModeEntry {
     required this.fileMode,
     required this.filePath,
   });
+
   Map<String, dynamic> toJson() {
     final fileMode = this.fileMode;
     final filePath = this.filePath;
@@ -8775,6 +8780,7 @@ class SourceFileSpecifier {
     required this.filePath,
     this.isMove,
   });
+
   Map<String, dynamic> toJson() {
     final filePath = this.filePath;
     final isMove = this.isMove;
@@ -8864,6 +8870,7 @@ class Target {
     required this.sourceReference,
     this.destinationReference,
   });
+
   Map<String, dynamic> toJson() {
     final repositoryName = this.repositoryName;
     final sourceReference = this.sourceReference;

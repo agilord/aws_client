@@ -1473,6 +1473,7 @@ class ChannelNameCondition {
     this.comparisonOperator,
     this.comparisonValue,
   });
+
   Map<String, dynamic> toJson() {
     final comparisonOperator = this.comparisonOperator;
     final comparisonValue = this.comparisonValue;
@@ -2688,6 +2689,7 @@ class SingleMasterChannelEndpointConfiguration {
     this.protocols,
     this.role,
   });
+
   Map<String, dynamic> toJson() {
     final protocols = this.protocols;
     final role = this.role;
@@ -2918,6 +2920,7 @@ class StreamNameCondition {
     this.comparisonOperator,
     this.comparisonValue,
   });
+
   Map<String, dynamic> toJson() {
     final comparisonOperator = this.comparisonOperator;
     final comparisonValue = this.comparisonValue;
@@ -2991,6 +2994,7 @@ class Tag {
     required this.key,
     required this.value,
   });
+
   Map<String, dynamic> toJson() {
     final key = this.key;
     final value = this.value;

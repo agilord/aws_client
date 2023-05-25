@@ -4123,6 +4123,7 @@ class ApplicationSettings {
     required this.enabled,
     this.settingsGroup,
   });
+
   Map<String, dynamic> toJson() {
     final enabled = this.enabled;
     final settingsGroup = this.settingsGroup;
@@ -4358,6 +4359,7 @@ class ComputeCapacity {
   ComputeCapacity({
     required this.desiredInstances,
   });
+
   Map<String, dynamic> toJson() {
     final desiredInstances = this.desiredInstances;
     return {

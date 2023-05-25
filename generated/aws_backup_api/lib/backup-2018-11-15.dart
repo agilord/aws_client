@@ -3552,6 +3552,7 @@ class BackupPlanInput {
     required this.rules,
     this.advancedBackupSettings,
   });
+
   Map<String, dynamic> toJson() {
     final backupPlanName = this.backupPlanName;
     final rules = this.rules;
@@ -3845,6 +3846,7 @@ class BackupRuleInput {
     this.scheduleExpression,
     this.startWindowMinutes,
   });
+
   Map<String, dynamic> toJson() {
     final ruleName = this.ruleName;
     final targetBackupVaultName = this.targetBackupVaultName;

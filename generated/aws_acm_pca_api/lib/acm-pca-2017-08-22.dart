@@ -2251,6 +2251,7 @@ class ApiPassthrough {
     this.extensions,
     this.subject,
   });
+
   Map<String, dynamic> toJson() {
     final extensions = this.extensions;
     final subject = this.subject;
@@ -2959,6 +2960,7 @@ class CustomExtension {
     required this.value,
     this.critical,
   });
+
   Map<String, dynamic> toJson() {
     final objectIdentifier = this.objectIdentifier;
     final value = this.value;
@@ -3073,6 +3075,7 @@ class ExtendedKeyUsage {
     this.extendedKeyUsageObjectIdentifier,
     this.extendedKeyUsageType,
   });
+
   Map<String, dynamic> toJson() {
     final extendedKeyUsageObjectIdentifier =
         this.extendedKeyUsageObjectIdentifier;
@@ -3187,6 +3190,7 @@ class Extensions {
     this.keyUsage,
     this.subjectAlternativeNames,
   });
+
   Map<String, dynamic> toJson() {
     final certificatePolicies = this.certificatePolicies;
     final customExtensions = this.customExtensions;
@@ -3796,6 +3800,7 @@ class PolicyInformation {
     required this.certPolicyId,
     this.policyQualifiers,
   });
+
   Map<String, dynamic> toJson() {
     final certPolicyId = this.certPolicyId;
     final policyQualifiers = this.policyQualifiers;
@@ -3844,6 +3849,7 @@ class PolicyQualifierInfo {
     required this.policyQualifierId,
     required this.qualifier,
   });
+
   Map<String, dynamic> toJson() {
     final policyQualifierId = this.policyQualifierId;
     final qualifier = this.qualifier;
@@ -3866,6 +3872,7 @@ class Qualifier {
   Qualifier({
     required this.cpsUri,
   });
+
   Map<String, dynamic> toJson() {
     final cpsUri = this.cpsUri;
     return {
@@ -4199,6 +4206,7 @@ class Validity {
     required this.type,
     required this.value,
   });
+
   Map<String, dynamic> toJson() {
     final type = this.type;
     final value = this.value;

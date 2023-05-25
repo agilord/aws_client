@@ -493,6 +493,7 @@ class Filter {
     required this.type,
     required this.value,
   });
+
   Map<String, dynamic> toJson() {
     final field = this.field;
     final type = this.type;

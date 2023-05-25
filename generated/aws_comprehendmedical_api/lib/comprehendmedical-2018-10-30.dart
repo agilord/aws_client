@@ -232,7 +232,7 @@ class ComprehendMedical {
   /// Parameter [text] :
   /// A UTF-8 text string containing the clinical content being examined for
   /// entities. Each string must contain fewer than 20,000 bytes of characters.
-  @Deprecated('Deprecated')
+  @Deprecated('This operation is deprecated, use DetectEntitiesV2 instead.')
   Future<DetectEntitiesResponse> detectEntities({
     required String text,
   }) async {
@@ -1351,6 +1351,7 @@ class ComprehendMedicalAsyncJobFilter {
     this.submitTimeAfter,
     this.submitTimeBefore,
   });
+
   Map<String, dynamic> toJson() {
     final jobName = this.jobName;
     final jobStatus = this.jobStatus;

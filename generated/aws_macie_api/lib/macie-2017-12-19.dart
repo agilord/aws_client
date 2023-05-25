@@ -405,6 +405,7 @@ class ClassificationTypeUpdate {
     this.continuous,
     this.oneTime,
   });
+
   Map<String, dynamic> toJson() {
     final continuous = this.continuous;
     final oneTime = this.oneTime;
@@ -691,6 +692,7 @@ class S3ResourceClassificationUpdate {
     required this.classificationTypeUpdate,
     this.prefix,
   });
+
   Map<String, dynamic> toJson() {
     final bucketName = this.bucketName;
     final classificationTypeUpdate = this.classificationTypeUpdate;

@@ -8314,6 +8314,7 @@ class Filter {
     required this.key,
     required this.value,
   });
+
   Map<String, dynamic> toJson() {
     final condition = this.condition;
     final key = this.key;
@@ -9223,6 +9224,7 @@ class MonitorConfig {
   MonitorConfig({
     required this.monitorName,
   });
+
   Map<String, dynamic> toJson() {
     final monitorName = this.monitorName;
     return {

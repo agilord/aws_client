@@ -2969,6 +2969,7 @@ class ConversationLogsRequest {
     required this.iamRoleArn,
     required this.logSettings,
   });
+
   Map<String, dynamic> toJson() {
     final iamRoleArn = this.iamRoleArn;
     final logSettings = this.logSettings;
@@ -4976,6 +4977,7 @@ class LogSettingsRequest {
     required this.resourceArn,
     this.kmsKeyArn,
   });
+
   Map<String, dynamic> toJson() {
     final destination = this.destination;
     final logType = this.logType;

@@ -1288,6 +1288,7 @@ class ClipFragmentSelector {
     required this.fragmentSelectorType,
     required this.timestampRange,
   });
+
   Map<String, dynamic> toJson() {
     final fragmentSelectorType = this.fragmentSelectorType;
     final timestampRange = this.timestampRange;
@@ -1357,6 +1358,7 @@ class ClipTimestampRange {
     required this.endTimestamp,
     required this.startTimestamp,
   });
+
   Map<String, dynamic> toJson() {
     final endTimestamp = this.endTimestamp;
     final startTimestamp = this.startTimestamp;
@@ -1499,6 +1501,7 @@ class DASHFragmentSelector {
     this.fragmentSelectorType,
     this.timestampRange,
   });
+
   Map<String, dynamic> toJson() {
     final fragmentSelectorType = this.fragmentSelectorType;
     final timestampRange = this.timestampRange;
@@ -1618,6 +1621,7 @@ class DASHTimestampRange {
     this.endTimestamp,
     this.startTimestamp,
   });
+
   Map<String, dynamic> toJson() {
     final endTimestamp = this.endTimestamp;
     final startTimestamp = this.startTimestamp;
@@ -1754,6 +1758,7 @@ class FragmentSelector {
     required this.fragmentSelectorType,
     required this.timestampRange,
   });
+
   Map<String, dynamic> toJson() {
     final fragmentSelectorType = this.fragmentSelectorType;
     final timestampRange = this.timestampRange;
@@ -2022,6 +2027,7 @@ class HLSFragmentSelector {
     this.fragmentSelectorType,
     this.timestampRange,
   });
+
   Map<String, dynamic> toJson() {
     final fragmentSelectorType = this.fragmentSelectorType;
     final timestampRange = this.timestampRange;
@@ -2136,6 +2142,7 @@ class HLSTimestampRange {
     this.endTimestamp,
     this.startTimestamp,
   });
+
   Map<String, dynamic> toJson() {
     final endTimestamp = this.endTimestamp;
     final startTimestamp = this.startTimestamp;
@@ -2286,6 +2293,7 @@ class TimestampRange {
     required this.endTimestamp,
     required this.startTimestamp,
   });
+
   Map<String, dynamic> toJson() {
     final endTimestamp = this.endTimestamp;
     final startTimestamp = this.startTimestamp;

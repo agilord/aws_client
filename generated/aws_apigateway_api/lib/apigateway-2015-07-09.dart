@@ -5699,6 +5699,7 @@ class DeploymentCanarySettings {
     this.stageVariableOverrides,
     this.useStageCache,
   });
+
   Map<String, dynamic> toJson() {
     final percentTraffic = this.percentTraffic;
     final stageVariableOverrides = this.stageVariableOverrides;
@@ -7267,6 +7268,7 @@ class MutualTlsAuthenticationInput {
     this.truststoreUri,
     this.truststoreVersion,
   });
+
   Map<String, dynamic> toJson() {
     final truststoreUri = this.truststoreUri;
     final truststoreVersion = this.truststoreVersion;
@@ -7366,6 +7368,7 @@ class PatchOperation {
     this.path,
     this.value,
   });
+
   Map<String, dynamic> toJson() {
     final from = this.from;
     final op = this.op;
@@ -7999,6 +8002,7 @@ class StageKey {
     this.restApiId,
     this.stageName,
   });
+
   Map<String, dynamic> toJson() {
     final restApiId = this.restApiId;
     final stageName = this.stageName;

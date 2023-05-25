@@ -302,6 +302,7 @@ class StartSelector {
     this.continuationToken,
     this.startTimestamp,
   });
+
   Map<String, dynamic> toJson() {
     final startSelectorType = this.startSelectorType;
     final afterFragmentNumber = this.afterFragmentNumber;

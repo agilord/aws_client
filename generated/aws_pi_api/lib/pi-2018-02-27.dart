@@ -1067,6 +1067,7 @@ class DimensionGroup {
     this.dimensions,
     this.limit,
   });
+
   Map<String, dynamic> toJson() {
     final group = this.group;
     final dimensions = this.dimensions;
@@ -1559,6 +1560,7 @@ class MetricQuery {
     this.filter,
     this.groupBy,
   });
+
   Map<String, dynamic> toJson() {
     final metric = this.metric;
     final filter = this.filter;

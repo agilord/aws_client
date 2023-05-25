@@ -3157,6 +3157,7 @@ class InventoryRetrievalJobInput {
     this.marker,
     this.startDate,
   });
+
   Map<String, dynamic> toJson() {
     final endDate = this.endDate;
     final limit = this.limit;
@@ -3242,6 +3243,7 @@ class JobParameters {
     this.tier,
     this.type,
   });
+
   Map<String, dynamic> toJson() {
     final archiveId = this.archiveId;
     final description = this.description;
@@ -3933,6 +3935,7 @@ class VaultLockPolicy {
   VaultLockPolicy({
     this.policy,
   });
+
   Map<String, dynamic> toJson() {
     final policy = this.policy;
     return {

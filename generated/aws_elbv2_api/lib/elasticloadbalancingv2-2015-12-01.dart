@@ -4474,6 +4474,7 @@ class RulePriorityPair {
     this.priority,
     this.ruleArn,
   });
+
   Map<String, dynamic> toJson() {
     final priority = this.priority;
     final ruleArn = this.ruleArn;
@@ -4646,6 +4647,7 @@ class SubnetMapping {
     this.privateIPv4Address,
     this.subnetId,
   });
+
   Map<String, dynamic> toJson() {
     final allocationId = this.allocationId;
     final iPv6Address = this.iPv6Address;

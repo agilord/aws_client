@@ -814,6 +814,7 @@ class SavingsPlanFilter {
     this.name,
     this.values,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final values = this.values;
@@ -940,6 +941,7 @@ class SavingsPlanOfferingFilterElement {
     this.name,
     this.values,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final values = this.values;
@@ -1072,6 +1074,7 @@ class SavingsPlanOfferingRateFilterElement {
     this.name,
     this.values,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final values = this.values;
@@ -1242,6 +1245,7 @@ class SavingsPlanRateFilter {
     this.name,
     this.values,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final values = this.values;

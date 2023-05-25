@@ -4241,6 +4241,7 @@ class CloudwatchLogsExportConfiguration {
     this.disableLogTypes,
     this.enableLogTypes,
   });
+
   Map<String, dynamic> toJson() {
     final disableLogTypes = this.disableLogTypes;
     final enableLogTypes = this.enableLogTypes;
@@ -5848,6 +5849,7 @@ class Filter {
     required this.name,
     required this.values,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final values = this.values;

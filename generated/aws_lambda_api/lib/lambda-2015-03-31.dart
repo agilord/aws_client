@@ -5653,6 +5653,7 @@ class Environment {
   Environment({
     this.variables,
   });
+
   Map<String, dynamic> toJson() {
     final variables = this.variables;
     return {
@@ -6155,6 +6156,7 @@ class FunctionCode {
     this.s3ObjectVersion,
     this.zipFile,
   });
+
   Map<String, dynamic> toJson() {
     final imageUri = this.imageUri;
     final s3Bucket = this.s3Bucket;
@@ -7213,7 +7215,7 @@ extension InvocationTypeFromString on String {
 
 /// A success response (<code>202 Accepted</code>) indicates that the request is
 /// queued for invocation.
-@deprecated
+@Deprecated('Deprecated')
 class InvokeAsyncResponse {
   /// The status code.
   final int? status;
@@ -7568,6 +7570,7 @@ class LayerVersionContentInput {
     this.s3ObjectVersion,
     this.zipFile,
   });
+
   Map<String, dynamic> toJson() {
     final s3Bucket = this.s3Bucket;
     final s3Key = this.s3Key;
@@ -8705,6 +8708,7 @@ class SnapStart {
   SnapStart({
     this.applyOn,
   });
+
   Map<String, dynamic> toJson() {
     final applyOn = this.applyOn;
     return {
@@ -9126,6 +9130,7 @@ class TracingConfig {
   TracingConfig({
     this.mode,
   });
+
   Map<String, dynamic> toJson() {
     final mode = this.mode;
     return {
@@ -9316,6 +9321,7 @@ class VpcConfig {
     this.securityGroupIds,
     this.subnetIds,
   });
+
   Map<String, dynamic> toJson() {
     final securityGroupIds = this.securityGroupIds;
     final subnetIds = this.subnetIds;

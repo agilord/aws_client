@@ -5612,6 +5612,7 @@ class DatasetAugmentedManifestsListItem {
     this.documentType,
     this.sourceDocumentsS3Uri,
   });
+
   Map<String, dynamic> toJson() {
     final attributeNames = this.attributeNames;
     final s3Uri = this.s3Uri;
@@ -5692,6 +5693,7 @@ class DatasetDocumentClassifierInputDataConfig {
     required this.s3Uri,
     this.labelDelimiter,
   });
+
   Map<String, dynamic> toJson() {
     final s3Uri = this.s3Uri;
     final labelDelimiter = this.labelDelimiter;
@@ -5712,6 +5714,7 @@ class DatasetEntityRecognizerAnnotations {
   DatasetEntityRecognizerAnnotations({
     required this.s3Uri,
   });
+
   Map<String, dynamic> toJson() {
     final s3Uri = this.s3Uri;
     return {
@@ -5740,6 +5743,7 @@ class DatasetEntityRecognizerDocuments {
     required this.s3Uri,
     this.inputFormat,
   });
+
   Map<String, dynamic> toJson() {
     final s3Uri = this.s3Uri;
     final inputFormat = this.inputFormat;
@@ -5762,6 +5766,7 @@ class DatasetEntityRecognizerEntityList {
   DatasetEntityRecognizerEntityList({
     required this.s3Uri,
   });
+
   Map<String, dynamic> toJson() {
     final s3Uri = this.s3Uri;
     return {
@@ -5790,6 +5795,7 @@ class DatasetEntityRecognizerInputDataConfig {
     this.annotations,
     this.entityList,
   });
+
   Map<String, dynamic> toJson() {
     final documents = this.documents;
     final annotations = this.annotations;
@@ -5822,6 +5828,7 @@ class DatasetFilter {
     this.datasetType,
     this.status,
   });
+
   Map<String, dynamic> toJson() {
     final creationTimeAfter = this.creationTimeAfter;
     final creationTimeBefore = this.creationTimeBefore;
@@ -5868,6 +5875,7 @@ class DatasetInputDataConfig {
     this.documentClassifierInputDataConfig,
     this.entityRecognizerInputDataConfig,
   });
+
   Map<String, dynamic> toJson() {
     final augmentedManifests = this.augmentedManifests;
     final dataFormat = this.dataFormat;
@@ -6682,6 +6690,7 @@ class DocumentClassificationJobFilter {
     this.submitTimeAfter,
     this.submitTimeBefore,
   });
+
   Map<String, dynamic> toJson() {
     final jobName = this.jobName;
     final jobStatus = this.jobStatus;
@@ -6940,6 +6949,7 @@ class DocumentClassifierFilter {
     this.submitTimeAfter,
     this.submitTimeBefore,
   });
+
   Map<String, dynamic> toJson() {
     final documentClassifierName = this.documentClassifierName;
     final status = this.status;
@@ -7778,6 +7788,7 @@ class DominantLanguageDetectionJobFilter {
     this.submitTimeAfter,
     this.submitTimeBefore,
   });
+
   Map<String, dynamic> toJson() {
     final jobName = this.jobName;
     final jobStatus = this.jobStatus;
@@ -7932,6 +7943,7 @@ class EndpointFilter {
     this.modelArn,
     this.status,
   });
+
   Map<String, dynamic> toJson() {
     final creationTimeAfter = this.creationTimeAfter;
     final creationTimeBefore = this.creationTimeBefore;
@@ -8101,6 +8113,7 @@ class EntitiesDetectionJobFilter {
     this.submitTimeAfter,
     this.submitTimeBefore,
   });
+
   Map<String, dynamic> toJson() {
     final jobName = this.jobName;
     final jobStatus = this.jobStatus;
@@ -8544,6 +8557,7 @@ class EntityRecognizerFilter {
     this.submitTimeAfter,
     this.submitTimeBefore,
   });
+
   Map<String, dynamic> toJson() {
     final recognizerName = this.recognizerName;
     final status = this.status;
@@ -9157,6 +9171,7 @@ class EventsDetectionJobFilter {
     this.submitTimeAfter,
     this.submitTimeBefore,
   });
+
   Map<String, dynamic> toJson() {
     final jobName = this.jobName;
     final jobStatus = this.jobStatus;
@@ -9302,6 +9317,7 @@ class FlywheelFilter {
     this.creationTimeBefore,
     this.status,
   });
+
   Map<String, dynamic> toJson() {
     final creationTimeAfter = this.creationTimeAfter;
     final creationTimeBefore = this.creationTimeBefore;
@@ -9330,6 +9346,7 @@ class FlywheelIterationFilter {
     this.creationTimeAfter,
     this.creationTimeBefore,
   });
+
   Map<String, dynamic> toJson() {
     final creationTimeAfter = this.creationTimeAfter;
     final creationTimeBefore = this.creationTimeBefore;
@@ -9912,6 +9929,7 @@ class KeyPhrasesDetectionJobFilter {
     this.submitTimeAfter,
     this.submitTimeBefore,
   });
+
   Map<String, dynamic> toJson() {
     final jobName = this.jobName;
     final jobStatus = this.jobStatus;
@@ -10993,6 +11011,7 @@ class PiiEntitiesDetectionJobFilter {
     this.submitTimeAfter,
     this.submitTimeBefore,
   });
+
   Map<String, dynamic> toJson() {
     final jobName = this.jobName;
     final jobStatus = this.jobStatus;
@@ -11595,6 +11614,7 @@ class SentimentDetectionJobFilter {
     this.submitTimeAfter,
     this.submitTimeBefore,
   });
+
   Map<String, dynamic> toJson() {
     final jobName = this.jobName;
     final jobStatus = this.jobStatus;
@@ -12645,6 +12665,7 @@ class TargetedSentimentDetectionJobFilter {
     this.submitTimeAfter,
     this.submitTimeBefore,
   });
+
   Map<String, dynamic> toJson() {
     final jobName = this.jobName;
     final jobStatus = this.jobStatus;
@@ -13035,6 +13056,7 @@ class TopicsDetectionJobFilter {
     this.submitTimeAfter,
     this.submitTimeBefore,
   });
+
   Map<String, dynamic> toJson() {
     final jobName = this.jobName;
     final jobStatus = this.jobStatus;
@@ -13200,6 +13222,7 @@ class UpdateDataSecurityConfig {
     this.volumeKmsKeyId,
     this.vpcConfig,
   });
+
   Map<String, dynamic> toJson() {
     final modelKmsKeyId = this.modelKmsKeyId;
     final volumeKmsKeyId = this.volumeKmsKeyId;

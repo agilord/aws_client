@@ -109,7 +109,8 @@ class RoboMaker {
   ///
   /// Parameter [job] :
   /// The deployment job ARN to cancel.
-  @Deprecated('Deprecated')
+  @Deprecated(
+      'Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.')
   Future<void> cancelDeploymentJob({
     required String job,
   }) async {
@@ -256,7 +257,8 @@ class RoboMaker {
   /// Parameter [tags] :
   /// A map that contains tag keys and tag values that are attached to the
   /// deployment job.
-  @Deprecated('Deprecated')
+  @Deprecated(
+      'AWS RoboMaker is unable to process this request as the support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.')
   Future<CreateDeploymentJobResponse> createDeploymentJob({
     required List<DeploymentApplicationConfig> deploymentApplicationConfigs,
     required String fleet,
@@ -297,7 +299,8 @@ class RoboMaker {
   /// Parameter [tags] :
   /// A map that contains tag keys and tag values that are attached to the
   /// fleet.
-  @Deprecated('Deprecated')
+  @Deprecated(
+      'AWS RoboMaker is unable to process this request as the support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.')
   Future<CreateFleetResponse> createFleet({
     required String name,
     Map<String, String>? tags,
@@ -338,7 +341,8 @@ class RoboMaker {
   /// Parameter [tags] :
   /// A map that contains tag keys and tag values that are attached to the
   /// robot.
-  @Deprecated('Deprecated')
+  @Deprecated(
+      'AWS RoboMaker is unable to process this request as the support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.')
   Future<CreateRobotResponse> createRobot({
     required Architecture architecture,
     required String greengrassGroupId,
@@ -822,7 +826,8 @@ class RoboMaker {
   ///
   /// Parameter [fleet] :
   /// The Amazon Resource Name (ARN) of the fleet.
-  @Deprecated('Deprecated')
+  @Deprecated(
+      'Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.')
   Future<void> deleteFleet({
     required String fleet,
   }) async {
@@ -849,7 +854,8 @@ class RoboMaker {
   ///
   /// Parameter [robot] :
   /// The Amazon Resource Name (ARN) of the robot.
-  @Deprecated('Deprecated')
+  @Deprecated(
+      'Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.')
   Future<void> deleteRobot({
     required String robot,
   }) async {
@@ -957,7 +963,8 @@ class RoboMaker {
   ///
   /// Parameter [robot] :
   /// The Amazon Resource Name (ARN) of the robot.
-  @Deprecated('Deprecated')
+  @Deprecated(
+      'Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.')
   Future<DeregisterRobotResponse> deregisterRobot({
     required String fleet,
     required String robot,
@@ -988,7 +995,8 @@ class RoboMaker {
   ///
   /// Parameter [job] :
   /// The Amazon Resource Name (ARN) of the deployment job.
-  @Deprecated('Deprecated')
+  @Deprecated(
+      'Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.')
   Future<DescribeDeploymentJobResponse> describeDeploymentJob({
     required String job,
   }) async {
@@ -1017,7 +1025,8 @@ class RoboMaker {
   ///
   /// Parameter [fleet] :
   /// The Amazon Resource Name (ARN) of the fleet.
-  @Deprecated('Deprecated')
+  @Deprecated(
+      'Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.')
   Future<DescribeFleetResponse> describeFleet({
     required String fleet,
   }) async {
@@ -1046,7 +1055,8 @@ class RoboMaker {
   ///
   /// Parameter [robot] :
   /// The Amazon Resource Name (ARN) of the robot to be described.
-  @Deprecated('Deprecated')
+  @Deprecated(
+      'Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.')
   Future<DescribeRobotResponse> describeRobot({
     required String robot,
   }) async {
@@ -1331,7 +1341,8 @@ class RoboMaker {
   /// object's <code>nextToken</code> parameter. If there are no remaining
   /// results, the previous response object's NextToken parameter is set to
   /// null.
-  @Deprecated('Deprecated')
+  @Deprecated(
+      'Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.')
   Future<ListDeploymentJobsResponse> listDeploymentJobs({
     List<Filter>? filters,
     int? maxResults,
@@ -1392,7 +1403,8 @@ class RoboMaker {
   /// This token should be treated as an opaque identifier that is only used to
   /// retrieve the next items in a list and not for other programmatic purposes.
   /// </note>
-  @Deprecated('Deprecated')
+  @Deprecated(
+      'Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.')
   Future<ListFleetsResponse> listFleets({
     List<Filter>? filters,
     int? maxResults,
@@ -1507,7 +1519,8 @@ class RoboMaker {
   /// object's <code>nextToken</code> parameter. If there are no remaining
   /// results, the previous response object's NextToken parameter is set to
   /// null.
-  @Deprecated('Deprecated')
+  @Deprecated(
+      'Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.')
   Future<ListRobotsResponse> listRobots({
     List<Filter>? filters,
     int? maxResults,
@@ -1901,7 +1914,8 @@ class RoboMaker {
   ///
   /// Parameter [robot] :
   /// The Amazon Resource Name (ARN) of the robot.
-  @Deprecated('Deprecated')
+  @Deprecated(
+      'AWS RoboMaker is unable to process this request as the support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.')
   Future<RegisterRobotResponse> registerRobot({
     required String fleet,
     required String robot,
@@ -2007,7 +2021,8 @@ class RoboMaker {
   /// Parameter [clientRequestToken] :
   /// Unique, case-sensitive identifier that you provide to ensure the
   /// idempotency of the request.
-  @Deprecated('Deprecated')
+  @Deprecated(
+      'Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.')
   Future<SyncDeploymentJobResponse> syncDeploymentJob({
     required String fleet,
     String? clientRequestToken,
@@ -2360,7 +2375,8 @@ class BatchPolicy {
   }
 }
 
-@deprecated
+@Deprecated(
+    'Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.')
 class CancelDeploymentJobResponse {
   CancelDeploymentJobResponse();
 
@@ -2501,7 +2517,8 @@ extension ComputeTypeFromString on String {
   }
 }
 
-@deprecated
+@Deprecated(
+    'AWS RoboMaker is unable to process this request as the support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.')
 class CreateDeploymentJobResponse {
   /// The Amazon Resource Name (ARN) of the deployment job.
   final String? arn;
@@ -2601,7 +2618,8 @@ class CreateDeploymentJobResponse {
   }
 }
 
-@deprecated
+@Deprecated(
+    'AWS RoboMaker is unable to process this request as the support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.')
 class CreateFleetResponse {
   /// The Amazon Resource Name (ARN) of the fleet.
   final String? arn;
@@ -2760,7 +2778,8 @@ class CreateRobotApplicationVersionResponse {
   }
 }
 
-@deprecated
+@Deprecated(
+    'AWS RoboMaker is unable to process this request as the support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.')
 class CreateRobotResponse {
   /// The target architecture of the robot.
   final Architecture? architecture;
@@ -3502,7 +3521,8 @@ extension DataSourceTypeFromString on String {
   }
 }
 
-@deprecated
+@Deprecated(
+    'Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.')
 class DeleteFleetResponse {
   DeleteFleetResponse();
 
@@ -3519,7 +3539,8 @@ class DeleteRobotApplicationResponse {
   }
 }
 
-@deprecated
+@Deprecated(
+    'Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.')
 class DeleteRobotResponse {
   DeleteRobotResponse();
 
@@ -3940,7 +3961,8 @@ extension DeploymentStatusFromString on String {
   }
 }
 
-@deprecated
+@Deprecated(
+    'Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.')
 class DeregisterRobotResponse {
   /// The Amazon Resource Name (ARN) of the fleet.
   final String? fleet;
@@ -3961,7 +3983,8 @@ class DeregisterRobotResponse {
   }
 }
 
-@deprecated
+@Deprecated(
+    'Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.')
 class DescribeDeploymentJobResponse {
   /// The Amazon Resource Name (ARN) of the deployment job.
   final String? arn;
@@ -4035,7 +4058,8 @@ class DescribeDeploymentJobResponse {
   }
 }
 
-@deprecated
+@Deprecated(
+    'Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.')
 class DescribeFleetResponse {
   /// The Amazon Resource Name (ARN) of the fleet.
   final String? arn;
@@ -4163,7 +4187,8 @@ class DescribeRobotApplicationResponse {
   }
 }
 
-@deprecated
+@Deprecated(
+    'Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.')
 class DescribeRobotResponse {
   /// The target architecture of the robot application.
   final Architecture? architecture;
@@ -5063,6 +5088,7 @@ class Filter {
     this.name,
     this.values,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final values = this.values;
@@ -5240,7 +5266,8 @@ class LaunchConfig {
   }
 }
 
-@deprecated
+@Deprecated(
+    'Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.')
 class ListDeploymentJobsResponse {
   /// A list of deployment jobs that meet the criteria of the request.
   final List<DeploymentJob>? deploymentJobs;
@@ -5269,7 +5296,8 @@ class ListDeploymentJobsResponse {
   }
 }
 
-@deprecated
+@Deprecated(
+    'Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.')
 class ListFleetsResponse {
   /// A list of fleet details meeting the request criteria.
   final List<Fleet>? fleetDetails;
@@ -5327,7 +5355,8 @@ class ListRobotApplicationsResponse {
   }
 }
 
-@deprecated
+@Deprecated(
+    'Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.')
 class ListRobotsResponse {
   /// If the previous paginated request did not return all of the remaining
   /// results, the response object's <code>nextToken</code> parameter value is set
@@ -5773,7 +5802,8 @@ class ProgressDetail {
   }
 }
 
-@deprecated
+@Deprecated(
+    'AWS RoboMaker is unable to process this request as the support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.')
 class RegisterRobotResponse {
   /// The Amazon Resource Name (ARN) of the fleet that the robot will join.
   final String? fleet;
@@ -7370,6 +7400,7 @@ class SourceConfig {
     this.s3Bucket,
     this.s3Key,
   });
+
   Map<String, dynamic> toJson() {
     final architecture = this.architecture;
     final s3Bucket = this.s3Bucket;
@@ -7497,7 +7528,8 @@ class StartSimulationJobBatchResponse {
   }
 }
 
-@deprecated
+@Deprecated(
+    'Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.')
 class SyncDeploymentJobResponse {
   /// The Amazon Resource Name (ARN) of the synchronization request.
   final String? arn;
@@ -7607,6 +7639,7 @@ class TemplateLocation {
     required this.s3Bucket,
     required this.s3Key,
   });
+
   Map<String, dynamic> toJson() {
     final s3Bucket = this.s3Bucket;
     final s3Key = this.s3Key;

@@ -3118,6 +3118,7 @@ class CidrAuthorizationContext {
     required this.message,
     required this.signature,
   });
+
   Map<String, dynamic> toJson() {
     final message = this.message;
     final signature = this.signature;
@@ -3444,6 +3445,7 @@ class CustomRoutingDestinationConfiguration {
     required this.protocols,
     required this.toPort,
   });
+
   Map<String, dynamic> toJson() {
     final fromPort = this.fromPort;
     final protocols = this.protocols;
@@ -3532,6 +3534,7 @@ class CustomRoutingEndpointConfiguration {
   CustomRoutingEndpointConfiguration({
     this.endpointId,
   });
+
   Map<String, dynamic> toJson() {
     final endpointId = this.endpointId;
     return {
@@ -3932,6 +3935,7 @@ class EndpointConfiguration {
     this.endpointId,
     this.weight,
   });
+
   Map<String, dynamic> toJson() {
     final clientIPPreservationEnabled = this.clientIPPreservationEnabled;
     final endpointId = this.endpointId;
@@ -4125,6 +4129,7 @@ class EndpointIdentifier {
     required this.endpointId,
     this.clientIPPreservationEnabled,
   });
+
   Map<String, dynamic> toJson() {
     final endpointId = this.endpointId;
     final clientIPPreservationEnabled = this.clientIPPreservationEnabled;

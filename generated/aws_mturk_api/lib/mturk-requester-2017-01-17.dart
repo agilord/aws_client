@@ -3014,6 +3014,7 @@ class HITLayoutParameter {
     required this.name,
     required this.value,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final value = this.value;
@@ -3483,6 +3484,7 @@ class NotificationSpecification {
     required this.transport,
     required this.version,
   });
+
   Map<String, dynamic> toJson() {
     final destination = this.destination;
     final eventTypes = this.eventTypes;

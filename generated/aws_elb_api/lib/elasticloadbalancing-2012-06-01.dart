@@ -2510,6 +2510,7 @@ class PolicyAttribute {
     this.attributeName,
     this.attributeValue,
   });
+
   Map<String, dynamic> toJson() {
     final attributeName = this.attributeName;
     final attributeValue = this.attributeValue;
@@ -2805,6 +2806,7 @@ class TagKeyOnly {
   TagKeyOnly({
     this.key,
   });
+
   Map<String, dynamic> toJson() {
     final key = this.key;
     return {

@@ -4969,6 +4969,7 @@ class TagFilter {
     this.tagKey,
     this.tagValues,
   });
+
   Map<String, dynamic> toJson() {
     final tagKey = this.tagKey;
     final tagValues = this.tagValues;

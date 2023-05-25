@@ -1600,6 +1600,7 @@ class AgentFilter {
     required this.agentHealthCodes,
     required this.agentHealths,
   });
+
   Map<String, dynamic> toJson() {
     final agentHealthCodes = this.agentHealthCodes;
     final agentHealths = this.agentHealths;
@@ -1957,6 +1958,7 @@ class AssessmentRunFilter {
     this.stateChangeTimeRange,
     this.states,
   });
+
   Map<String, dynamic> toJson() {
     final completionTimeRange = this.completionTimeRange;
     final durationRange = this.durationRange;
@@ -2218,6 +2220,7 @@ class AssessmentTargetFilter {
   AssessmentTargetFilter({
     this.assessmentTargetNamePattern,
   });
+
   Map<String, dynamic> toJson() {
     final assessmentTargetNamePattern = this.assessmentTargetNamePattern;
     return {
@@ -2322,6 +2325,7 @@ class AssessmentTemplateFilter {
     this.namePattern,
     this.rulesPackageArns,
   });
+
   Map<String, dynamic> toJson() {
     final durationRange = this.durationRange;
     final namePattern = this.namePattern;
@@ -2731,6 +2735,7 @@ class DurationRange {
     this.maxSeconds,
     this.minSeconds,
   });
+
   Map<String, dynamic> toJson() {
     final maxSeconds = this.maxSeconds;
     final minSeconds = this.minSeconds;
@@ -3090,6 +3095,7 @@ class FindingFilter {
     this.severities,
     this.userAttributes,
   });
+
   Map<String, dynamic> toJson() {
     final agentIds = this.agentIds;
     final attributes = this.attributes;
@@ -4127,6 +4133,7 @@ class TimestampRange {
     this.beginDate,
     this.endDate,
   });
+
   Map<String, dynamic> toJson() {
     final beginDate = this.beginDate;
     final endDate = this.endDate;

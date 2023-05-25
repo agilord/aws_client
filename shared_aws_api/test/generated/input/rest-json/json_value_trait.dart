@@ -122,6 +122,7 @@ class BodyStructure {
     this.bodyField,
     this.bodyListField,
   });
+
   Map<String, dynamic> toJson() {
     final bodyField = this.bodyField;
     final bodyListField = this.bodyListField;

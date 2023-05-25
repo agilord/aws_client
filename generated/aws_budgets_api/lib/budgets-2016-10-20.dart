@@ -2922,6 +2922,7 @@ class NotificationWithSubscribers {
     required this.notification,
     required this.subscribers,
   });
+
   Map<String, dynamic> toJson() {
     final notification = this.notification;
     final subscribers = this.subscribers;

@@ -4311,6 +4311,7 @@ class BatchScheduleActionCreateRequest {
   BatchScheduleActionCreateRequest({
     required this.scheduleActions,
   });
+
   Map<String, dynamic> toJson() {
     final scheduleActions = this.scheduleActions;
     return {
@@ -4346,6 +4347,7 @@ class BatchScheduleActionDeleteRequest {
   BatchScheduleActionDeleteRequest({
     required this.actionNames,
   });
+
   Map<String, dynamic> toJson() {
     final actionNames = this.actionNames;
     return {
@@ -14728,6 +14730,7 @@ class InputDestinationRequest {
   InputDestinationRequest({
     this.streamName,
   });
+
   Map<String, dynamic> toJson() {
     final streamName = this.streamName;
     return {
@@ -14806,6 +14809,7 @@ class InputDeviceConfigurableSettings {
     this.latencyMs,
     this.maxBitrate,
   });
+
   Map<String, dynamic> toJson() {
     final configuredInput = this.configuredInput;
     final latencyMs = this.latencyMs;
@@ -15025,6 +15029,7 @@ class InputDeviceRequest {
   InputDeviceRequest({
     this.id,
   });
+
   Map<String, dynamic> toJson() {
     final id = this.id;
     return {
@@ -16084,6 +16089,7 @@ class InputSourceRequest {
     this.url,
     this.username,
   });
+
   Map<String, dynamic> toJson() {
     final passwordParam = this.passwordParam;
     final url = this.url;
@@ -16382,6 +16388,7 @@ class InputVpcRequest {
     required this.subnetIds,
     this.securityGroupIds,
   });
+
   Map<String, dynamic> toJson() {
     final subnetIds = this.subnetIds;
     final securityGroupIds = this.securityGroupIds;
@@ -16416,6 +16423,7 @@ class InputWhitelistRuleCidr {
   InputWhitelistRuleCidr({
     this.cidr,
   });
+
   Map<String, dynamic> toJson() {
     final cidr = this.cidr;
     return {
@@ -18096,6 +18104,7 @@ class MaintenanceCreateSettings {
     this.maintenanceDay,
     this.maintenanceStartTime,
   });
+
   Map<String, dynamic> toJson() {
     final maintenanceDay = this.maintenanceDay;
     final maintenanceStartTime = this.maintenanceStartTime;
@@ -18212,6 +18221,7 @@ class MaintenanceUpdateSettings {
     this.maintenanceScheduledDate,
     this.maintenanceStartTime,
   });
+
   Map<String, dynamic> toJson() {
     final maintenanceDay = this.maintenanceDay;
     final maintenanceScheduledDate = this.maintenanceScheduledDate;
@@ -18250,6 +18260,7 @@ class MediaConnectFlowRequest {
   MediaConnectFlowRequest({
     this.flowArn,
   });
+
   Map<String, dynamic> toJson() {
     final flowArn = this.flowArn;
     return {
@@ -25670,6 +25681,7 @@ class VpcOutputSettings {
     this.publicAddressAllocationIds,
     this.securityGroupIds,
   });
+
   Map<String, dynamic> toJson() {
     final subnetIds = this.subnetIds;
     final publicAddressAllocationIds = this.publicAddressAllocationIds;

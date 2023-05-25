@@ -312,7 +312,8 @@ class CodeDeploy {
   /// Parameter [instanceIds] :
   /// The unique IDs of instances used in the deployment. The maximum number of
   /// instance IDs you can specify is 25.
-  @Deprecated('Deprecated')
+  @Deprecated(
+      'This operation is deprecated, use BatchGetDeploymentTargets instead.')
   Future<BatchGetDeploymentInstancesOutput> batchGetDeploymentInstances({
     required String deploymentId,
     required List<String> instanceIds,
@@ -1400,7 +1401,7 @@ class CodeDeploy {
   ///
   /// Parameter [instanceId] :
   /// The unique ID of an instance in the deployment group.
-  @Deprecated('Deprecated')
+  @Deprecated('This operation is deprecated, use GetDeploymentTarget instead.')
   Future<GetDeploymentInstanceOutput> getDeploymentInstance({
     required String deploymentId,
     required String instanceId,
@@ -1763,7 +1764,8 @@ class CodeDeploy {
   /// Parameter [nextToken] :
   /// An identifier returned from the previous list deployment instances call.
   /// It can be used to return the next set of deployment instances in the list.
-  @Deprecated('Deprecated')
+  @Deprecated(
+      'This operation is deprecated, use ListDeploymentTargets instead.')
   Future<ListDeploymentInstancesOutput> listDeploymentInstances({
     required String deploymentId,
     List<InstanceStatus>? instanceStatusFilter,
@@ -2290,7 +2292,8 @@ class CodeDeploy {
   /// Parameter [deploymentId] :
   /// The unique ID of a blue/green deployment for which you want to skip the
   /// instance termination wait time.
-  @Deprecated('Deprecated')
+  @Deprecated(
+      'This operation is deprecated, use ContinueDeployment with DeploymentWaitType instead.')
   Future<void> skipWaitTimeForInstanceTermination({
     String? deploymentId,
   }) async {
@@ -5504,7 +5507,7 @@ class InstanceInfo {
   }
 }
 
-@Deprecated('Deprecated')
+@Deprecated('InstanceStatus is deprecated, use TargetStatus instead.')
 enum InstanceStatus {
   pending,
   inProgress,
@@ -5559,7 +5562,7 @@ extension InstanceStatusFromString on String {
 }
 
 /// Information about an instance in a deployment.
-@deprecated
+@Deprecated('InstanceSummary is deprecated, use DeploymentTarget instead.')
 class InstanceSummary {
   /// The unique ID of a deployment.
   final String? deploymentId;
@@ -6533,7 +6536,8 @@ class PutLifecycleEventHookExecutionStatusOutput {
 /// A revision for an Lambda deployment that is a YAML-formatted or
 /// JSON-formatted string. For Lambda deployments, the revision is the same as
 /// the AppSpec file.
-@deprecated
+@Deprecated(
+    'RawString and String revision type are deprecated, use AppSpecContent type instead.')
 class RawString {
   /// The YAML-formatted or JSON-formatted revision string. It includes
   /// information about which Lambda function to update and optional Lambda
@@ -7406,6 +7410,7 @@ class TimeRange {
     this.end,
     this.start,
   });
+
   Map<String, dynamic> toJson() {
     final end = this.end;
     final start = this.start;

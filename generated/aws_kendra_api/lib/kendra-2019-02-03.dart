@@ -4617,6 +4617,7 @@ class AttributeFilter {
     this.notFilter,
     this.orAllFilters,
   });
+
   Map<String, dynamic> toJson() {
     final andAllFilters = this.andAllFilters;
     final containsAll = this.containsAll;
@@ -4710,6 +4711,7 @@ class AttributeSuggestionsGetConfig {
     this.suggestionAttributes,
     this.userContext,
   });
+
   Map<String, dynamic> toJson() {
     final additionalResponseAttributes = this.additionalResponseAttributes;
     final attributeFilter = this.attributeFilter;
@@ -4787,6 +4789,7 @@ class AttributeSuggestionsUpdateConfig {
     this.attributeSuggestionsMode,
     this.suggestableConfigList,
   });
+
   Map<String, dynamic> toJson() {
     final attributeSuggestionsMode = this.attributeSuggestionsMode;
     final suggestableConfigList = this.suggestableConfigList;
@@ -5363,6 +5366,7 @@ class ClickFeedback {
     required this.clickTime,
     required this.resultId,
   });
+
   Map<String, dynamic> toJson() {
     final clickTime = this.clickTime;
     final resultId = this.resultId;
@@ -7054,6 +7058,7 @@ class DataSourceGroup {
     required this.dataSourceId,
     required this.groupId,
   });
+
   Map<String, dynamic> toJson() {
     final dataSourceId = this.dataSourceId;
     final groupId = this.groupId;
@@ -7244,6 +7249,7 @@ class DataSourceSyncJobMetricTarget {
     required this.dataSourceId,
     this.dataSourceSyncJobId,
   });
+
   Map<String, dynamic> toJson() {
     final dataSourceId = this.dataSourceId;
     final dataSourceSyncJobId = this.dataSourceSyncJobId;
@@ -8654,6 +8660,7 @@ class Document {
     this.s3Path,
     this.title,
   });
+
   Map<String, dynamic> toJson() {
     final id = this.id;
     final accessControlConfigurationId = this.accessControlConfigurationId;
@@ -9031,6 +9038,7 @@ class DocumentInfo {
     required this.documentId,
     this.attributes,
   });
+
   Map<String, dynamic> toJson() {
     final documentId = this.documentId;
     final attributes = this.attributes;
@@ -9105,6 +9113,7 @@ class DocumentRelevanceConfiguration {
     required this.name,
     required this.relevance,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final relevance = this.relevance;
@@ -9229,6 +9238,7 @@ class EntityConfiguration {
     required this.entityId,
     required this.entityType,
   });
+
   Map<String, dynamic> toJson() {
     final entityId = this.entityId;
     final entityType = this.entityType;
@@ -9296,6 +9306,7 @@ class EntityPersonaConfiguration {
     required this.entityId,
     required this.persona,
   });
+
   Map<String, dynamic> toJson() {
     final entityId = this.entityId;
     final persona = this.persona;
@@ -9585,6 +9596,7 @@ class Facet {
     this.facets,
     this.maxResults,
   });
+
   Map<String, dynamic> toJson() {
     final documentAttributeKey = this.documentAttributeKey;
     final facets = this.facets;
@@ -10941,6 +10953,7 @@ class GroupMembers {
     this.memberUsers,
     this.s3PathforGroupMembers,
   });
+
   Map<String, dynamic> toJson() {
     final memberGroups = this.memberGroups;
     final memberUsers = this.memberUsers;
@@ -12160,6 +12173,7 @@ class MemberGroup {
     required this.groupId,
     this.dataSourceId,
   });
+
   Map<String, dynamic> toJson() {
     final groupId = this.groupId;
     final dataSourceId = this.dataSourceId;
@@ -12178,6 +12192,7 @@ class MemberUser {
   MemberUser({
     required this.userId,
   });
+
   Map<String, dynamic> toJson() {
     final userId = this.userId;
     return {
@@ -13429,6 +13444,7 @@ class RelevanceFeedback {
     required this.relevanceValue,
     required this.resultId,
   });
+
   Map<String, dynamic> toJson() {
     final relevanceValue = this.relevanceValue;
     final resultId = this.resultId;
@@ -15485,6 +15501,7 @@ class SortingConfiguration {
     required this.documentAttributeKey,
     required this.sortOrder,
   });
+
   Map<String, dynamic> toJson() {
     final documentAttributeKey = this.documentAttributeKey;
     final sortOrder = this.sortOrder;
@@ -15572,6 +15589,7 @@ class SpellCorrectionConfiguration {
   SpellCorrectionConfiguration({
     required this.includeQuerySpellCheckSuggestions,
   });
+
   Map<String, dynamic> toJson() {
     final includeQuerySpellCheckSuggestions =
         this.includeQuerySpellCheckSuggestions;
@@ -16335,6 +16353,7 @@ class UserContext {
     this.token,
     this.userId,
   });
+
   Map<String, dynamic> toJson() {
     final dataSourceGroups = this.dataSourceGroups;
     final groups = this.groups;

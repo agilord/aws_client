@@ -2079,6 +2079,7 @@ class AdvancedSecurityOptionsInput {
     this.masterUserOptions,
     this.sAMLOptions,
   });
+
   Map<String, dynamic> toJson() {
     final anonymousAuthEnabled = this.anonymousAuthEnabled;
     final enabled = this.enabled;
@@ -2372,6 +2373,7 @@ class AutoTuneOptionsInput {
     this.desiredState,
     this.maintenanceSchedules,
   });
+
   Map<String, dynamic> toJson() {
     final desiredState = this.desiredState;
     final maintenanceSchedules = this.maintenanceSchedules;
@@ -3293,6 +3295,7 @@ class DescribePackagesFilter {
     this.name,
     this.value,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final value = this.value;
@@ -4805,6 +4808,7 @@ class Filter {
     this.name,
     this.values,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final values = this.values;
@@ -5494,6 +5498,7 @@ class MasterUserOptions {
     this.masterUserName,
     this.masterUserPassword,
   });
+
   Map<String, dynamic> toJson() {
     final masterUserARN = this.masterUserARN;
     final masterUserName = this.masterUserName;
@@ -5890,6 +5895,7 @@ class PackageSource {
     this.s3BucketName,
     this.s3Key,
   });
+
   Map<String, dynamic> toJson() {
     final s3BucketName = this.s3BucketName;
     final s3Key = this.s3Key;
@@ -6400,6 +6406,7 @@ class SAMLOptionsInput {
     this.sessionTimeoutMinutes,
     this.subjectKey,
   });
+
   Map<String, dynamic> toJson() {
     final enabled = this.enabled;
     final idp = this.idp;
@@ -7194,6 +7201,7 @@ class VPCOptions {
     this.securityGroupIds,
     this.subnetIds,
   });
+
   Map<String, dynamic> toJson() {
     final securityGroupIds = this.securityGroupIds;
     final subnetIds = this.subnetIds;

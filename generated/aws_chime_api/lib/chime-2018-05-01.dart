@@ -9508,6 +9508,7 @@ class CreateAttendeeRequestItem {
     required this.externalUserId,
     this.tags,
   });
+
   Map<String, dynamic> toJson() {
     final externalUserId = this.externalUserId;
     final tags = this.tags;
@@ -9917,6 +9918,7 @@ class Credential {
     this.password,
     this.username,
   });
+
   Map<String, dynamic> toJson() {
     final password = this.password;
     final username = this.username;
@@ -10297,6 +10299,7 @@ class EngineTranscribeMedicalSettings {
     this.region,
     this.vocabularyName,
   });
+
   Map<String, dynamic> toJson() {
     final languageCode = this.languageCode;
     final specialty = this.specialty;
@@ -10516,6 +10519,7 @@ class EngineTranscribeSettings {
     this.vocabularyName,
     this.vocabularyNames,
   });
+
   Map<String, dynamic> toJson() {
     final contentIdentificationType = this.contentIdentificationType;
     final contentRedactionType = this.contentRedactionType;
@@ -12508,6 +12512,7 @@ class MeetingNotificationConfiguration {
     this.snsTopicArn,
     this.sqsQueueArn,
   });
+
   Map<String, dynamic> toJson() {
     final snsTopicArn = this.snsTopicArn;
     final sqsQueueArn = this.sqsQueueArn;
@@ -12625,6 +12630,7 @@ class MembershipItem {
     this.memberId,
     this.role,
   });
+
   Map<String, dynamic> toJson() {
     final memberId = this.memberId;
     final role = this.role;
@@ -15170,6 +15176,7 @@ class TranscriptionConfiguration {
     this.engineTranscribeMedicalSettings,
     this.engineTranscribeSettings,
   });
+
   Map<String, dynamic> toJson() {
     final engineTranscribeMedicalSettings =
         this.engineTranscribeMedicalSettings;
@@ -15322,6 +15329,7 @@ class UpdatePhoneNumberRequestItem {
     this.callingName,
     this.productType,
   });
+
   Map<String, dynamic> toJson() {
     final phoneNumberId = this.phoneNumberId;
     final callingName = this.callingName;
@@ -15479,6 +15487,7 @@ class UpdateUserRequestItem {
     this.licenseType,
     this.userType,
   });
+
   Map<String, dynamic> toJson() {
     final userId = this.userId;
     final alexaForBusinessMetadata = this.alexaForBusinessMetadata;

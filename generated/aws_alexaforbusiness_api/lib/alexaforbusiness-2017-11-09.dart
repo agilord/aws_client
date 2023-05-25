@@ -3945,6 +3945,7 @@ class Audio {
     required this.locale,
     required this.location,
   });
+
   Map<String, dynamic> toJson() {
     final locale = this.locale;
     final location = this.location;
@@ -4607,6 +4608,7 @@ class Content {
     this.ssmlList,
     this.textList,
   });
+
   Map<String, dynamic> toJson() {
     final audioList = this.audioList;
     final ssmlList = this.ssmlList;
@@ -4698,6 +4700,7 @@ class CreateEndOfMeetingReminder {
     required this.reminderAtMinutes,
     required this.reminderType,
   });
+
   Map<String, dynamic> toJson() {
     final enabled = this.enabled;
     final reminderAtMinutes = this.reminderAtMinutes;
@@ -4740,6 +4743,7 @@ class CreateInstantBooking {
     required this.durationInMinutes,
     required this.enabled,
   });
+
   Map<String, dynamic> toJson() {
     final durationInMinutes = this.durationInMinutes;
     final enabled = this.enabled;
@@ -4773,6 +4777,7 @@ class CreateMeetingRoomConfiguration {
     this.requireCheckIn,
     this.roomUtilizationMetricsEnabled,
   });
+
   Map<String, dynamic> toJson() {
     final endOfMeetingReminder = this.endOfMeetingReminder;
     final instantBooking = this.instantBooking;
@@ -4834,6 +4839,7 @@ class CreateRequireCheckIn {
     required this.enabled,
     required this.releaseAfterMinutes,
   });
+
   Map<String, dynamic> toJson() {
     final enabled = this.enabled;
     final releaseAfterMinutes = this.releaseAfterMinutes;
@@ -5794,6 +5800,7 @@ class Filter {
     required this.key,
     required this.values,
   });
+
   Map<String, dynamic> toJson() {
     final key = this.key;
     final values = this.values;
@@ -7902,6 +7909,7 @@ class Sort {
     required this.key,
     required this.value,
   });
+
   Map<String, dynamic> toJson() {
     final key = this.key;
     final value = this.value;
@@ -7955,6 +7963,7 @@ class Ssml {
     required this.locale,
     required this.value,
   });
+
   Map<String, dynamic> toJson() {
     final locale = this.locale;
     final value = this.value;
@@ -8060,6 +8069,7 @@ class Text {
     required this.locale,
     required this.value,
   });
+
   Map<String, dynamic> toJson() {
     final locale = this.locale;
     final value = this.value;
@@ -8139,6 +8149,7 @@ class UpdateEndOfMeetingReminder {
     this.reminderAtMinutes,
     this.reminderType,
   });
+
   Map<String, dynamic> toJson() {
     final enabled = this.enabled;
     final reminderAtMinutes = this.reminderAtMinutes;
@@ -8182,6 +8193,7 @@ class UpdateInstantBooking {
     this.durationInMinutes,
     this.enabled,
   });
+
   Map<String, dynamic> toJson() {
     final durationInMinutes = this.durationInMinutes;
     final enabled = this.enabled;
@@ -8218,6 +8230,7 @@ class UpdateMeetingRoomConfiguration {
     this.requireCheckIn,
     this.roomUtilizationMetricsEnabled,
   });
+
   Map<String, dynamic> toJson() {
     final endOfMeetingReminder = this.endOfMeetingReminder;
     final instantBooking = this.instantBooking;
@@ -8265,6 +8278,7 @@ class UpdateRequireCheckIn {
     this.enabled,
     this.releaseAfterMinutes,
   });
+
   Map<String, dynamic> toJson() {
     final enabled = this.enabled;
     final releaseAfterMinutes = this.releaseAfterMinutes;

@@ -1604,6 +1604,7 @@ class ChannelMessages {
   ChannelMessages({
     this.s3Paths,
   });
+
   Map<String, dynamic> toJson() {
     final s3Paths = this.s3Paths;
     return {
@@ -4116,6 +4117,7 @@ class Message {
     required this.messageId,
     required this.payload,
   });
+
   Map<String, dynamic> toJson() {
     final messageId = this.messageId;
     final payload = this.payload;

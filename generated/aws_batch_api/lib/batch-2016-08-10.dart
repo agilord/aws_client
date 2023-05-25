@@ -1667,6 +1667,7 @@ class ArrayProperties {
   ArrayProperties({
     this.size,
   });
+
   Map<String, dynamic> toJson() {
     final size = this.size;
     return {
@@ -2998,6 +2999,7 @@ class ComputeResourceUpdate {
     this.type,
     this.updateToLatestImageVersion,
   });
+
   Map<String, dynamic> toJson() {
     final allocationStrategy = this.allocationStrategy;
     final bidPercentage = this.bidPercentage;
@@ -3411,6 +3413,7 @@ class ContainerOverrides {
     this.resourceRequirements,
     this.vcpus,
   });
+
   Map<String, dynamic> toJson() {
     final command = this.command;
     final environment = this.environment;
@@ -4913,6 +4916,7 @@ class EksContainerOverride {
     this.image,
     this.resources,
   });
+
   Map<String, dynamic> toJson() {
     final args = this.args;
     final command = this.command;
@@ -5461,6 +5465,7 @@ class EksPodPropertiesOverride {
     this.containers,
     this.metadata,
   });
+
   Map<String, dynamic> toJson() {
     final containers = this.containers;
     final metadata = this.metadata;
@@ -5525,6 +5530,7 @@ class EksPropertiesOverride {
   EksPropertiesOverride({
     this.podProperties,
   });
+
   Map<String, dynamic> toJson() {
     final podProperties = this.podProperties;
     return {
@@ -6655,6 +6661,7 @@ class KeyValuesPair {
     this.name,
     this.values,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final values = this.values;
@@ -7278,6 +7285,7 @@ class NodeOverrides {
     this.nodePropertyOverrides,
     this.numNodes,
   });
+
   Map<String, dynamic> toJson() {
     final nodePropertyOverrides = this.nodePropertyOverrides;
     final numNodes = this.numNodes;
@@ -7382,6 +7390,7 @@ class NodePropertyOverride {
     required this.targetNodes,
     this.containerOverrides,
   });
+
   Map<String, dynamic> toJson() {
     final targetNodes = this.targetNodes;
     final containerOverrides = this.containerOverrides;

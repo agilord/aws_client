@@ -301,6 +301,7 @@ class CallInstructionsMessageType {
   CallInstructionsMessageType({
     this.text,
   });
+
   Map<String, dynamic> toJson() {
     final text = this.text;
     return {
@@ -452,6 +453,7 @@ class EventDestinationDefinition {
     this.matchingEventTypes,
     this.snsDestination,
   });
+
   Map<String, dynamic> toJson() {
     final cloudWatchLogsDestination = this.cloudWatchLogsDestination;
     final enabled = this.enabled;
@@ -623,6 +625,7 @@ class PlainTextMessageType {
     this.text,
     this.voiceId,
   });
+
   Map<String, dynamic> toJson() {
     final languageCode = this.languageCode;
     final text = this.text;
@@ -653,6 +656,7 @@ class SSMLMessageType {
     this.text,
     this.voiceId,
   });
+
   Map<String, dynamic> toJson() {
     final languageCode = this.languageCode;
     final text = this.text;
@@ -730,6 +734,7 @@ class VoiceMessageContent {
     this.plainTextMessage,
     this.sSMLMessage,
   });
+
   Map<String, dynamic> toJson() {
     final callInstructionsMessage = this.callInstructionsMessage;
     final plainTextMessage = this.plainTextMessage;

@@ -5647,6 +5647,7 @@ class AttachmentStateChange {
     required this.attachmentArn,
     required this.status,
   });
+
   Map<String, dynamic> toJson() {
     final attachmentArn = this.attachmentArn;
     final status = this.status;
@@ -5802,6 +5803,7 @@ class AutoScalingGroupProviderUpdate {
     this.managedScaling,
     this.managedTerminationProtection,
   });
+
   Map<String, dynamic> toJson() {
     final managedScaling = this.managedScaling;
     final managedTerminationProtection = this.managedTerminationProtection;
@@ -6571,6 +6573,7 @@ class ClusterServiceConnectDefaultsRequest {
   ClusterServiceConnectDefaultsRequest({
     required this.namespace,
   });
+
   Map<String, dynamic> toJson() {
     final namespace = this.namespace;
     return {
@@ -8457,6 +8460,7 @@ class ContainerStateChange {
     this.runtimeId,
     this.status,
   });
+
   Map<String, dynamic> toJson() {
     final containerName = this.containerName;
     final exitCode = this.exitCode;
@@ -11851,6 +11855,7 @@ class ManagedAgentStateChange {
     required this.status,
     this.reason,
   });
+
   Map<String, dynamic> toJson() {
     final containerName = this.containerName;
     final managedAgentName = this.managedAgentName;
@@ -12534,6 +12539,7 @@ class PlatformDevice {
     required this.id,
     required this.type,
   });
+
   Map<String, dynamic> toJson() {
     final id = this.id;
     final type = this.type;

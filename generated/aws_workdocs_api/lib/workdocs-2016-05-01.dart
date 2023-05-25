@@ -3120,6 +3120,7 @@ class DateRangeType {
     this.endValue,
     this.startValue,
   });
+
   Map<String, dynamic> toJson() {
     final endValue = this.endValue;
     final startValue = this.startValue;
@@ -3669,6 +3670,7 @@ class Filters {
     this.sizeRange,
     this.textLocales,
   });
+
   Map<String, dynamic> toJson() {
     final ancestorIds = this.ancestorIds;
     final contentCategories = this.contentCategories;
@@ -4261,6 +4263,7 @@ class LongRangeType {
     this.endValue,
     this.startValue,
   });
+
   Map<String, dynamic> toJson() {
     final endValue = this.endValue;
     final startValue = this.startValue;
@@ -4284,6 +4287,7 @@ class NotificationOptions {
     this.emailMessage,
     this.sendEmail,
   });
+
   Map<String, dynamic> toJson() {
     final emailMessage = this.emailMessage;
     final sendEmail = this.sendEmail;
@@ -4927,6 +4931,7 @@ class SearchPrincipalType {
     required this.id,
     this.roles,
   });
+
   Map<String, dynamic> toJson() {
     final id = this.id;
     final roles = this.roles;
@@ -5040,6 +5045,7 @@ class SearchSortResult {
     this.field,
     this.order,
   });
+
   Map<String, dynamic> toJson() {
     final field = this.field;
     final order = this.order;
@@ -5066,6 +5072,7 @@ class SharePrincipal {
     required this.role,
     required this.type,
   });
+
   Map<String, dynamic> toJson() {
     final id = this.id;
     final role = this.role;

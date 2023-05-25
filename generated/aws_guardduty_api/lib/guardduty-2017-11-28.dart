@@ -120,7 +120,8 @@ class GuardDuty {
   /// Parameter [masterId] :
   /// The account ID of the GuardDuty administrator account whose invitation
   /// you're accepting.
-  @Deprecated('Deprecated')
+  @Deprecated(
+      'This operation is deprecated, use AcceptAdministratorInvitation instead')
   Future<void> acceptInvitation({
     required String detectorId,
     required String invitationId,
@@ -1100,7 +1101,8 @@ class GuardDuty {
   ///
   /// Parameter [detectorId] :
   /// The unique ID of the detector of the GuardDuty member account.
-  @Deprecated('Deprecated')
+  @Deprecated(
+      'This operation is deprecated, use DisassociateFromAdministratorAccount instead')
   Future<void> disassociateFromMasterAccount({
     required String detectorId,
   }) async {
@@ -1416,7 +1418,8 @@ class GuardDuty {
   ///
   /// Parameter [detectorId] :
   /// The unique ID of the detector of the GuardDuty member account.
-  @Deprecated('Deprecated')
+  @Deprecated(
+      'This operation is deprecated, use GetAdministratorAccount instead')
   Future<GetMasterAccountResponse> getMasterAccount({
     required String detectorId,
   }) async {
@@ -2889,7 +2892,8 @@ class AcceptAdministratorInvitationResponse {
   }
 }
 
-@deprecated
+@Deprecated(
+    'This output is deprecated, use AcceptAdministratorInvitationResponse instead')
 class AcceptInvitationResponse {
   AcceptInvitationResponse();
 
@@ -2964,6 +2968,7 @@ class AccountDetail {
     required this.accountId,
     required this.email,
   });
+
   Map<String, dynamic> toJson() {
     final accountId = this.accountId;
     final email = this.email;
@@ -3686,6 +3691,7 @@ class CoverageFilterCondition {
     this.equals,
     this.notEquals,
   });
+
   Map<String, dynamic> toJson() {
     final equals = this.equals;
     final notEquals = this.notEquals;
@@ -3705,6 +3711,7 @@ class CoverageFilterCriteria {
   CoverageFilterCriteria({
     this.filterCriterion,
   });
+
   Map<String, dynamic> toJson() {
     final filterCriterion = this.filterCriterion;
     return {
@@ -3726,6 +3733,7 @@ class CoverageFilterCriterion {
     this.criterionKey,
     this.filterCondition,
   });
+
   Map<String, dynamic> toJson() {
     final criterionKey = this.criterionKey;
     final filterCondition = this.filterCondition;
@@ -3868,6 +3876,7 @@ class CoverageSortCriteria {
     this.attributeName,
     this.orderBy,
   });
+
   Map<String, dynamic> toJson() {
     final attributeName = this.attributeName;
     final orderBy = this.orderBy;
@@ -4254,6 +4263,7 @@ class DataSourceConfigurations {
     this.malwareProtection,
     this.s3Logs,
   });
+
   Map<String, dynamic> toJson() {
     final kubernetes = this.kubernetes;
     final malwareProtection = this.malwareProtection;
@@ -4789,6 +4799,7 @@ class DetectorAdditionalConfiguration {
     this.name,
     this.status,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final status = this.status;
@@ -4891,6 +4902,7 @@ class DetectorFeatureConfiguration {
     this.name,
     this.status,
   });
+
   Map<String, dynamic> toJson() {
     final additionalConfiguration = this.additionalConfiguration;
     final name = this.name;
@@ -5049,7 +5061,8 @@ class DisassociateFromAdministratorAccountResponse {
   }
 }
 
-@deprecated
+@Deprecated(
+    'This output is deprecated, use DisassociateFromAdministratorAccountResponse instead')
 class DisassociateFromMasterAccountResponse {
   DisassociateFromMasterAccountResponse();
 
@@ -5578,6 +5591,7 @@ class FilterCondition {
     this.greaterThan,
     this.lessThan,
   });
+
   Map<String, dynamic> toJson() {
     final equalsValue = this.equalsValue;
     final greaterThan = this.greaterThan;
@@ -5600,6 +5614,7 @@ class FilterCriteria {
   FilterCriteria({
     this.filterCriterion,
   });
+
   Map<String, dynamic> toJson() {
     final filterCriterion = this.filterCriterion;
     return {
@@ -5624,6 +5639,7 @@ class FilterCriterion {
     this.criterionKey,
     this.filterCondition,
   });
+
   Map<String, dynamic> toJson() {
     final criterionKey = this.criterionKey;
     final filterCondition = this.filterCondition;
@@ -6188,7 +6204,8 @@ class GetMalwareScanSettingsResponse {
   }
 }
 
-@deprecated
+@Deprecated(
+    'This output is deprecated, use GetAdministratorAccountResponse instead')
 class GetMasterAccountResponse {
   /// The administrator account details.
   final Master master;
@@ -6718,6 +6735,7 @@ class KubernetesAuditLogsConfiguration {
   KubernetesAuditLogsConfiguration({
     required this.enable,
   });
+
   Map<String, dynamic> toJson() {
     final enable = this.enable;
     return {
@@ -6752,6 +6770,7 @@ class KubernetesConfiguration {
   KubernetesConfiguration({
     required this.auditLogs,
   });
+
   Map<String, dynamic> toJson() {
     final auditLogs = this.auditLogs;
     return {
@@ -7368,6 +7387,7 @@ class MalwareProtectionConfiguration {
   MalwareProtectionConfiguration({
     this.scanEc2InstanceWithFindings,
   });
+
   Map<String, dynamic> toJson() {
     final scanEc2InstanceWithFindings = this.scanEc2InstanceWithFindings;
     return {
@@ -7521,6 +7541,7 @@ class MemberAdditionalConfiguration {
     this.name,
     this.status,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     final status = this.status;
@@ -7611,6 +7632,7 @@ class MemberFeaturesConfiguration {
     this.name,
     this.status,
   });
+
   Map<String, dynamic> toJson() {
     final additionalConfiguration = this.additionalConfiguration;
     final name = this.name;
@@ -7968,6 +7990,7 @@ class OrganizationAdditionalConfiguration {
     this.autoEnable,
     this.name,
   });
+
   Map<String, dynamic> toJson() {
     final autoEnable = this.autoEnable;
     final name = this.name;
@@ -8029,6 +8052,7 @@ class OrganizationDataSourceConfigurations {
     this.malwareProtection,
     this.s3Logs,
   });
+
   Map<String, dynamic> toJson() {
     final kubernetes = this.kubernetes;
     final malwareProtection = this.malwareProtection;
@@ -8086,6 +8110,7 @@ class OrganizationEbsVolumes {
   OrganizationEbsVolumes({
     this.autoEnable,
   });
+
   Map<String, dynamic> toJson() {
     final autoEnable = this.autoEnable;
     return {
@@ -8128,6 +8153,7 @@ class OrganizationFeatureConfiguration {
     this.autoEnable,
     this.name,
   });
+
   Map<String, dynamic> toJson() {
     final additionalConfiguration = this.additionalConfiguration;
     final autoEnable = this.autoEnable;
@@ -8191,6 +8217,7 @@ class OrganizationKubernetesAuditLogsConfiguration {
   OrganizationKubernetesAuditLogsConfiguration({
     required this.autoEnable,
   });
+
   Map<String, dynamic> toJson() {
     final autoEnable = this.autoEnable;
     return {
@@ -8227,6 +8254,7 @@ class OrganizationKubernetesConfiguration {
   OrganizationKubernetesConfiguration({
     required this.auditLogs,
   });
+
   Map<String, dynamic> toJson() {
     final auditLogs = this.auditLogs;
     return {
@@ -8264,6 +8292,7 @@ class OrganizationMalwareProtectionConfiguration {
   OrganizationMalwareProtectionConfiguration({
     this.scanEc2InstanceWithFindings,
   });
+
   Map<String, dynamic> toJson() {
     final scanEc2InstanceWithFindings = this.scanEc2InstanceWithFindings;
     return {
@@ -8306,6 +8335,7 @@ class OrganizationS3LogsConfiguration {
   OrganizationS3LogsConfiguration({
     required this.autoEnable,
   });
+
   Map<String, dynamic> toJson() {
     final autoEnable = this.autoEnable;
     return {
@@ -8342,6 +8372,7 @@ class OrganizationScanEc2InstanceWithFindings {
   OrganizationScanEc2InstanceWithFindings({
     this.ebsVolumes,
   });
+
   Map<String, dynamic> toJson() {
     final ebsVolumes = this.ebsVolumes;
     return {
@@ -9237,6 +9268,7 @@ class S3LogsConfiguration {
   S3LogsConfiguration({
     required this.enable,
   });
+
   Map<String, dynamic> toJson() {
     final enable = this.enable;
     return {
@@ -9498,6 +9530,7 @@ class ScanEc2InstanceWithFindings {
   ScanEc2InstanceWithFindings({
     this.ebsVolumes,
   });
+
   Map<String, dynamic> toJson() {
     final ebsVolumes = this.ebsVolumes;
     return {
@@ -9938,6 +9971,7 @@ class SortCriteria {
     this.attributeName,
     this.orderBy,
   });
+
   Map<String, dynamic> toJson() {
     final attributeName = this.attributeName;
     final orderBy = this.orderBy;
@@ -10445,6 +10479,7 @@ class UsageCriteria {
     this.features,
     this.resources,
   });
+
   Map<String, dynamic> toJson() {
     final accountIds = this.accountIds;
     final dataSources = this.dataSources;

@@ -978,6 +978,7 @@ class CodeCommitRepository {
   CodeCommitRepository({
     required this.name,
   });
+
   Map<String, dynamic> toJson() {
     final name = this.name;
     return {
@@ -1252,6 +1253,7 @@ class CodeReviewType {
     required this.repositoryAnalysis,
     this.analysisTypes,
   });
+
   Map<String, dynamic> toJson() {
     final repositoryAnalysis = this.repositoryAnalysis;
     final analysisTypes = this.analysisTypes;
@@ -2164,6 +2166,7 @@ class Repository {
     this.gitHubEnterpriseServer,
     this.s3Bucket,
   });
+
   Map<String, dynamic> toJson() {
     final bitbucket = this.bitbucket;
     final codeCommit = this.codeCommit;
@@ -2194,6 +2197,7 @@ class RepositoryAnalysis {
     this.repositoryHead,
     this.sourceCodeType,
   });
+
   Map<String, dynamic> toJson() {
     final repositoryHead = this.repositoryHead;
     final sourceCodeType = this.sourceCodeType;
@@ -2681,6 +2685,7 @@ class S3Repository {
     required this.bucketName,
     required this.name,
   });
+
   Map<String, dynamic> toJson() {
     final bucketName = this.bucketName;
     final name = this.name;
@@ -2884,6 +2889,7 @@ class ThirdPartySourceRepository {
     required this.name,
     required this.owner,
   });
+
   Map<String, dynamic> toJson() {
     final connectionArn = this.connectionArn;
     final name = this.name;
