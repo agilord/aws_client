@@ -8,7 +8,7 @@ import 'xml_namespace.dart';
 
 part 'shape.g.dart';
 
-@JsonSerializable(createToJson: false, disallowUnrecognizedKeys: true)
+@JsonSerializable(createToJson: false)
 class Shape {
   @JsonKey(includeFromJson: false, includeToJson: false)
   late Api api;
@@ -199,7 +199,7 @@ class Shape {
   }
 }
 
-@JsonSerializable(createToJson: false, disallowUnrecognizedKeys: true)
+@JsonSerializable(createToJson: false)
 class Member {
   @JsonKey(includeFromJson: false, includeToJson: false)
   late Api api;
@@ -325,6 +325,7 @@ extension NameStuff on String? {
         'continue',
         'default',
         'do',
+        'else',
         'enum',
         'false',
         'for',
@@ -334,13 +335,16 @@ extension NameStuff on String? {
         'new',
         'null',
         'return',
+        'this',
         'true',
+        'var',
       }.contains(this);
 
   bool get isEnumReserved =>
       isReserved ||
       <String>{
         'index',
+        'values',
       }.contains(this);
 
   bool get isFieldReserved =>

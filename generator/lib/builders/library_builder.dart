@@ -261,9 +261,9 @@ ${builder.constructor()}
       }
 
       if (shape.generateFromJson) {
-        final members = shape.members.where((m) => m.isBody).toList();
+        final members = shape.members.toList();
         writeln(
-            '\n  factory $name.fromJson(Map<String, dynamic> ${members.isEmpty ? '_' : 'json'}) {');
+            '\n\n  factory $name.fromJson(Map<String, dynamic> ${members.isEmpty ? '_' : 'json'}) {');
         writeln('return $name(');
         for (var member in members) {
           final decoder = extractJsonCode(member.shapeClass!,

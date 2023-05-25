@@ -8,7 +8,7 @@ import 'shape.dart';
 
 part 'api.g.dart';
 
-@JsonSerializable(createToJson: false, disallowUnrecognizedKeys: true)
+@JsonSerializable(createToJson: false)
 class Api {
   final String? version;
   final Metadata metadata;

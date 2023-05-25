@@ -6,35 +6,21 @@ part of 'api.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Api _$ApiFromJson(Map<String, dynamic> json) {
-  $checkKeys(
-    json,
-    allowedKeys: const [
-      'version',
-      'metadata',
-      'operations',
-      'shapes',
-      'documentation',
-      'examples',
-      'authorizers'
-    ],
-  );
-  return Api(
-    Metadata.fromJson(json['metadata'] as Map<String, dynamic>),
-    (json['operations'] as Map<String, dynamic>).map(
-      (k, e) => MapEntry(k, Operation.fromJson(e as Map<String, dynamic>)),
-    ),
-    (json['shapes'] as Map<String, dynamic>).map(
-      (k, e) => MapEntry(k, Shape.fromJson(e as Map<String, dynamic>)),
-    ),
-    json['version'] as String?,
-    json['documentation'] as String?,
-    json['examples'] as Map<String, dynamic>?,
-    (json['authorizers'] as Map<String, dynamic>?)?.map(
-      (k, e) => MapEntry(k, Authorizer.fromJson(e as Map<String, dynamic>)),
-    ),
-  );
-}
+Api _$ApiFromJson(Map<String, dynamic> json) => Api(
+      Metadata.fromJson(json['metadata'] as Map<String, dynamic>),
+      (json['operations'] as Map<String, dynamic>).map(
+        (k, e) => MapEntry(k, Operation.fromJson(e as Map<String, dynamic>)),
+      ),
+      (json['shapes'] as Map<String, dynamic>).map(
+        (k, e) => MapEntry(k, Shape.fromJson(e as Map<String, dynamic>)),
+      ),
+      json['version'] as String?,
+      json['documentation'] as String?,
+      json['examples'] as Map<String, dynamic>?,
+      (json['authorizers'] as Map<String, dynamic>?)?.map(
+        (k, e) => MapEntry(k, Authorizer.fromJson(e as Map<String, dynamic>)),
+      ),
+    );
 
 Metadata _$MetadataFromJson(Map<String, dynamic> json) {
   $checkKeys(

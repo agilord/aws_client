@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'region_config.g.dart';
 
-@JsonSerializable(createToJson: false, disallowUnrecognizedKeys: true)
+@JsonSerializable(createToJson: false)
 class RegionConfigData {
   final Map<String, Object> rules;
   final Map<String, RegionConfig> patterns;
@@ -13,7 +13,7 @@ class RegionConfigData {
       _$RegionConfigDataFromJson(json);
 }
 
-@JsonSerializable(createToJson: false, disallowUnrecognizedKeys: true)
+@JsonSerializable(createToJson: false)
 class RegionConfig {
   final String endpoint;
   final bool? globalEndpoint;
